@@ -28,17 +28,16 @@ module APIDocs
              to: :operation
 
     def responses
-      operation.responses.map { |code, response| Response.new(code, response) }
+      operation.responses.to_h.transform_values { |response_definition| Response.new(response_definition) }
     end
   end
 
   class Response
-    attr_reader :code, :response
+    attr_reader :response
 
     delegate :description, to: :response
 
-    def initialize(code, response)
-      @code = code
+    def initialize(response)
       @response = response
     end
 

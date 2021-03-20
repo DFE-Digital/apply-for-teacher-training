@@ -68,11 +68,11 @@
 <% if operation.responses.any? %>
   <h4 class="govuk-heading-s">Possible reponses</h4>
 
-  <% operation.responses.each do |response| %>
+  <% operation.responses.each do |code, response| %>
     <details class="govuk-details" data-module="govuk-details">
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
-          HTTP <%= response.code %> - <%= response.description %>
+          HTTP <%= code %> - <%= response.description %>
         </span>
       </summary>
       <div class="govuk-details__text">

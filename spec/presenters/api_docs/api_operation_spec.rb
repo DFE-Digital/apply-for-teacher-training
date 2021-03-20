@@ -71,12 +71,9 @@ RSpec.describe APIDocs::APIOperation do
   end
 
   describe '#responses' do
-    it 'returns all the responses' do
-      expect(api_operation.responses.first.code).to eq '200'
-      expect(api_operation.responses.first.example).to eq('my_string' => 'I AM A STRING FROM THE API')
-
-      expect(api_operation.responses.second.code).to eq '422'
-      expect(api_operation.responses.second.example).to eq('error_messages' => ['Bad word', 'Misspelled'])
+    it 'returns all the responses in a hash' do
+      expect(api_operation.responses['200'].example).to eq('my_string' => 'I AM A STRING FROM THE API')
+      expect(api_operation.responses['422'].example).to eq('error_messages' => ['Bad word', 'Misspelled'])
     end
   end
 end
