@@ -44,7 +44,7 @@ module APIDocs
     def example
       return unless response.content['application/json']
 
-      response.content['application/json']['example'] || SchemaExample.new(schema).as_json
+      SchemaExample.new(schema).as_json
     end
 
     def schema
@@ -76,8 +76,7 @@ module APIDocs
     end
 
     def example
-      request_body.content['application/json']['example'] ||
-        SchemaExample.new(request_body.content['application/json'].schema).as_json
+      SchemaExample.new(request_body.content['application/json'].schema).as_json
     end
   end
 end
