@@ -22,7 +22,7 @@ module APIDocs
 
     def schemas
       document.components.schemas.values.map do |schema|
-        APISchema.new(schema)
+        APIDocs::APISchema.new(schema)
       end
     end
 

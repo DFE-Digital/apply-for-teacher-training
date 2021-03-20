@@ -40,7 +40,7 @@ module APIDocs
     end
 
     def schema
-      APISchema.new(definition.content['application/json'].schema)
+      APIDocs::APISchema.new(definition.content['application/json'].schema)
     end
   end
 end
