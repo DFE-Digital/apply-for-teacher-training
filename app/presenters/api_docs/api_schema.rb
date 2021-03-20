@@ -3,8 +3,7 @@ module APIDocs
     attr_reader :schema
     delegate :description, :required, to: :schema
 
-    def initialize(name:, schema:)
-      @name = name
+    def initialize(schema)
       @schema = schema
     end
 
@@ -35,12 +34,10 @@ module APIDocs
     end
 
     def name
-      @name || begin
-        referenced_schema_regex = /#\/components\/schemas\//
-        location = schema.node_context.source_location.to_s
-        if location.match(referenced_schema_regex)
-          location.gsub(referenced_schema_regex, '')
-        end
+      referenced_schema_regex = /#\/components\/schemas\//
+      location = schema.node_context.source_location.to_s
+      if location.match(referenced_schema_regex)
+        location.gsub(referenced_schema_regex, '')
       end
     end
 
