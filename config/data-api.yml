@@ -14,11 +14,38 @@ servers:
 - description: Production
   url: https://www.apply-for-teacher-training.service.gov.uk/data-api
 paths:
+  "/tad-data-exports":
+    get:
+      summary: Get a list of TAD data exports
+      description: This endpoint returns a list of data exports
+      responses:
+        '200':
+          description: A list of TAD data exports
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TADDataExportList"
+  "/tad-data-exports/{data_export_id}":
+    get:
+      summary: Get a single TAD data export
+      parameters:
+        - in: path
+          name: data_export_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the export to get
+      responses:
+        '200':
+          description: The CSV of the requested export
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/TADCSVSchema"
   "/tad-data-exports/latest":
     get:
       summary: Get the latest TAD data export
-      description: |
-        This endpoint returns a CSV consisting of the latest TAD data. Reports are generated daily
+      description: This endpoint returns a CSV consisting of the latest TAD data. Reports are generated daily
       responses:
         '200':
           description: The CSV of the latest report
@@ -31,6 +58,34 @@ components:
     TADCSVSchema:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
+    TADDataExportList:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/DataExportRecord"
+    DataExportRecord:
+      type: object
+      required:
+        - export_date
+        - url
+        - description
+      properties:
+        export_date:
+          type: string
+          format: date-time
+          description: When the export was generated
+        url:
+          type: string
+          description: Where the export can be downloaded
+          example: https://www.apply-for-teacher-training.service.gov.uk/data-api/tad-data-exports/123
+        description:
+          type: string
+          description: A human-readable description of the export
+          example: Daily export of applications for TAD
   securitySchemes:
     tokenAuth:
       type: http

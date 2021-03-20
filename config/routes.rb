@@ -772,6 +772,8 @@ Rails.application.routes.draw do
 
   namespace :data_api, path: '/data-api' do
     get '/tad-data-exports/latest' => 'tad_data_exports#latest'
+    get '/tad-data-exports' => 'tad_data_exports#index'
+    get '/tad-data-exports/:id' => 'tad_data_exports#show', as: :tad_export
   end
 
   namespace :support_interface, path: '/support' do

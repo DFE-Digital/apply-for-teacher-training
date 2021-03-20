@@ -10,6 +10,14 @@ module DataAPISpecHelper
   end
 
   def tad_api_token
-    @tad_api_token ||= DataAPIUser.tad_user.create_magic_link_token!
+    @tad_api_token ||= ServiceAPIUser.tad_user.create_magic_link_token!
+  end
+
+  def parsed_response
+    JSON.parse(response.body)
+  end
+
+  def be_valid_against_openapi_schema(expected)
+    ValidAgainstOpenAPISchemaMatcher.new(expected, DataAPISpecification.as_hash)
   end
 end
