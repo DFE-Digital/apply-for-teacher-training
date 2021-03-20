@@ -42,14 +42,10 @@ module APIDocs
     end
 
     def example
-      return unless response.content['application/json']
-
       SchemaExample.new(schema).as_json
     end
 
     def schema
-      return unless response.content['application/json']
-
       response.content['application/json'].schema
     end
 
