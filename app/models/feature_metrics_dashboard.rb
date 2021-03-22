@@ -20,6 +20,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_apply_again_success_rate
     load_apply_again_change_rate
     load_apply_again_application_rate
+    load_carry_over_counts
   end
 
   def last_updated_at
@@ -50,6 +51,10 @@ private
 
   def apply_again_statistics
     ApplyAgainFeatureMetrics.new
+  end
+
+  def carry_over_statistics
+    CarryOverFeatureMetrics.new
   end
 
   def load_avg_time_to_get_references
@@ -251,6 +256,28 @@ private
     write_metric(
       :apply_again_application_rate_upto_this_month,
       apply_again_statistics.formatted_application_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+  end
+
+  def load_carry_over_counts
+    write_metric(
+      :carry_over_count,
+      carry_over_statistics.carry_over_count(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :carry_over_count_this_month,
+      carry_over_statistics.carry_over_count(
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :carry_over_count_last_month,
+      carry_over_statistics.carry_over_count(
         EndOfCycleTimetable.apply_reopens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),

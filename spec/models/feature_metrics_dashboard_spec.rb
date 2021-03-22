@@ -102,6 +102,9 @@ RSpec.describe FeatureMetricsDashboard do
         'apply_again_application_rate' => '18.7%',
         'apply_again_application_rate_this_month' => '18.7%',
         'apply_again_application_rate_upto_this_month' => '18.7%',
+        'carry_over_count' => 0,
+        'carry_over_count_this_month' => 0,
+        'carry_over_count_last_month' => 0,
       })
     end
   end
