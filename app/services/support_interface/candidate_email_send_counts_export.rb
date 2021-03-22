@@ -3,10 +3,10 @@ module SupportInterface
     def data_for_export
       emails_with_total_send_counts.map do |send_count_record|
         {
-          'Email' => send_count_record.mail_template,
-          'Send count' => send_count_record.send_count,
-          'Last sent at' => send_count_record.last_sent_at,
-          'Unique recipients' => send_count_record.unique_recipients,
+          email_template: send_count_record.mail_template,
+          send_count: send_count_record.send_count,
+          last_sent_at: send_count_record.last_sent_at,
+          unique_recipients: send_count_record.unique_recipients,
         }
       end
     end

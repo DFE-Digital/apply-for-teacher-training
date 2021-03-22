@@ -1,0 +1,19 @@
+custom_columns:
+  email_template:
+    type: string
+    description: The name of the email template
+    example: application_submitted_with_safeguarding_issues
+
+  send_count:
+    type: integer
+    description: The number of times this email has been sent
+
+  last_sent_at:
+    type: string
+    format: date-time
+    description: The last time this email was sent
+    example: 2020-11-01T00:00:00+00:00
+
+  unique_recipients:
+    type: integer
+    description: The number of unique recipients of this email
