@@ -21,22 +21,49 @@ class TestApplications
     end
   end
 
-  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false, candidate: nil, decline_by_default_at: 3.days.from_now)
+  def create_application(
+    recruitment_cycle_year:,
+    states:,
+    courses_to_apply_to:,
+    apply_again: false,
+    carry_over: false,
+    course_full: false,
+    candidate: nil,
+    decline_by_default_at: 3.days.from_now
+  )
     initialize_time(recruitment_cycle_year)
 
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
 
-      create_application(recruitment_cycle_year: recruitment_cycle_year, states: [:rejected], courses_to_apply_to: courses_to_apply_to)
+      create_application(
+        recruitment_cycle_year: recruitment_cycle_year,
+        states: [:rejected],
+        courses_to_apply_to: courses_to_apply_to,
+      )
 
       candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
+      previous_application_form = candidate.current_application
+    elsif carry_over
+      create_application(
+        recruitment_cycle_year: recruitment_cycle_year - 1,
+        states: %i[rejected declined],
+        courses_to_apply_to: courses_to_apply_to,
+      )
+
+      initialize_time(recruitment_cycle_year)
+      candidate = candidate.presence || Candidate.last
+      first_name = candidate.current_application.first_name
+      last_name = candidate.current_application.last_name
+      previous_application_form = candidate.current_application
     else
       raise ZeroCoursesPerApplicationError, 'You cannot have zero courses per application' unless states.any?
 
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
+      previous_application_form = nil
       candidate = candidate.presence || FactoryBot.create(
         :candidate,
         email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
@@ -75,6 +102,7 @@ class TestApplications
         *traits,
         :with_degree,
         :with_gcses,
+        :with_a_levels,
         application_choices_count: 0,
         full_work_history: true,
         volunteering_experiences_count: 1,
@@ -87,6 +115,7 @@ class TestApplications
         recruitment_cycle_year: recruitment_cycle_year,
         phase: apply_again ? 'apply_2' : 'apply_1',
         work_history_completed: false,
+        previous_application_form: previous_application_form,
       )
 
       @application_form.application_work_experiences.each { |experience| experience.update!(created_at: time) }

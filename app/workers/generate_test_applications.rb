@@ -28,9 +28,12 @@ class GenerateTestApplications
     create recruitment_cycle_year: 2021, states: %i[interviewing awaiting_provider_decision offer]
     create recruitment_cycle_year: 2021, states: %i[interviewing interviewing]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision], apply_again: true
+    create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision], carry_over: true
     create recruitment_cycle_year: 2021, states: %i[offer offer]
     create recruitment_cycle_year: 2021, states: %i[offer_changed]
     create recruitment_cycle_year: 2021, states: %i[offer rejected]
+    create recruitment_cycle_year: 2021, states: %i[offer rejected], carry_over: true
+    create recruitment_cycle_year: 2021, states: %i[offer], apply_again: true
     create recruitment_cycle_year: 2021, states: %i[rejected rejected]
     create recruitment_cycle_year: 2021, states: %i[offer_withdrawn]
     create recruitment_cycle_year: 2021, states: %i[offer_deferred]
@@ -49,12 +52,13 @@ class GenerateTestApplications
 
 private
 
-  def create(recruitment_cycle_year:, states:, apply_again: false, course_full: false)
+  def create(recruitment_cycle_year:, states:, apply_again: false, carry_over: false, course_full: false)
     TestApplications.new.create_application(
       states: states,
       recruitment_cycle_year: recruitment_cycle_year,
       courses_to_apply_to: courses_to_apply_to(recruitment_cycle_year),
       apply_again: apply_again,
+      carry_over: carry_over,
       course_full: course_full,
     )
   end

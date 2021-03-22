@@ -31,6 +31,12 @@ RSpec.describe GenerateTestApplications do
     # there is at least one unsubmitted application to a full course
     expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
 
+    # there is at least one successful carried over application
+    expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_1').where.not(previous_application_form_id: nil)).not_to be_empty
+
+    # there is at least one successful apply again application
+    expect(ApplicationForm.joins(:application_choices).where('application_choices.status': 'offer', phase: 'apply_2').where.not(previous_application_form_id: nil)).not_to be_empty
+
     expect(ApplicationChoice.cancelled.first.application_form.application_references.feedback_requested).to be_empty
   end
 end

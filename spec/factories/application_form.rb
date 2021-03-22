@@ -68,13 +68,29 @@ FactoryBot.define do
     end
 
     trait :with_degree do
-      application_qualifications { [association(:degree_qualification, application_form: instance)] }
+      after(:create) do |application_form, _|
+        create(:degree_qualification, application_form: application_form)
+      end
     end
 
     trait :with_gcses do
-      application_qualifications do
-        %i[maths english science].map do |subject|
-          association(:gcse_qualification, application_form: instance, subject: subject)
+      after(:create) do |application_form, _|
+        %i[maths english science].each do |subject|
+          create(:gcse_qualification, application_form: application_form, subject: subject)
+        end
+      end
+    end
+
+    trait :with_a_levels do
+      after(:create) do |application_form, _|
+        %i[Physics Chemistry Biology].sample([1, 2, 3].sample).each do |subject|
+          create(
+            :other_qualification,
+            qualification_type: 'A level',
+            application_form: application_form,
+            subject: subject,
+            grade: %w[A B C D E].sample,
+          )
         end
       end
     end
