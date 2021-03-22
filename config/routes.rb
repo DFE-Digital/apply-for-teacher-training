@@ -930,9 +930,9 @@ Rails.application.routes.draw do
     end
 
     scope '/docs' do
-      get '/', to: 'docs#index', as: :docs
-      get '/provider-flow', to: 'docs#provider_flow', as: :docs_provider_flow
+      get '/', to: redirect('/support/docs/candidate-flow'), status: 302, as: :docs
       get '/candidate-flow', to: 'docs#candidate_flow', as: :docs_candidate_flow
+      get '/provider-flow', to: 'docs#provider_flow', as: :docs_provider_flow
       get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :docs_when_emails_are_sent
       get '/qualifications', to: 'docs#qualifications', as: :docs_qualifications
       get '/mailers' => 'docs#mailer_previews', as: :docs_mailer_previews
