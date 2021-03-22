@@ -1,0 +1,24 @@
+custom_columns:
+  field:
+    type: string
+    description: The autofill field (either an autocomplete or autosuggest)
+    enum:
+      - Degree grade
+      - Degree institution
+      - Degree subject
+      - Degree type
+      - Other grade
+      - Other type
+
+  value_entered:
+    type: string
+    description: The value entered
+    example: First class honours
+
+  frequency:
+    type: integer
+    description: The number of times this value was entered in 'apply 1' phase applications in the current recruitment cycle
+
+  free_text?:
+    type: boolean
+    description: Can the user enter any value they want?
