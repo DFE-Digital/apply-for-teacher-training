@@ -1,0 +1,19 @@
+common_columns:
+  - full_name
+
+custom_columns:
+  explanation:
+    type: boolean
+    description: Was the candidate happy to share a reason for withdrawing?
+
+  contact_details:
+    type: string
+    description: Candidate’s contact details
+
+  reason_for_withdrawing:
+    type: string
+    description: The candidate’s explanation for withdrawing a course choice
+
+  consent_to_be_contacted:
+    type: boolean
+    description: Has the candidate given consent to be contacted about this feedback?

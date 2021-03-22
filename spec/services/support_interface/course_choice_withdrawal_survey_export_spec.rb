@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CourseChoiceWithdrawalSurveyExport do
+  describe 'documentation' do
+    before { create(:application_choice, :withdrawn_with_survey_completed) }
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#call' do
     it 'returns a hash of candidates course choice withdrawal survey answers' do
       application_choice1 = create(:application_choice, :withdrawn_with_survey_completed)
@@ -22,7 +28,6 @@ private
       contact_details: survey['Contact details'],
       reason_for_withdrawing: 'yes',
       consent_to_be_contacted: 'yes',
-
     }
   end
 end
