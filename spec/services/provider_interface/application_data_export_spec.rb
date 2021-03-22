@@ -8,20 +8,36 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
   end
 
   describe '#call' do
-    it 'returns no rows if there are no applications passed in' do
-      exported_data = CSV.parse(described_class.call(application_choices: []), headers: true)
-      expect(exported_data.first).to be_nil
+    let(:data_export) { CSV.parse(described_class.call(application_choices: application_choices), headers: true) }
+
+    context 'when there are no application choices' do
+      let(:application_choices) { [] }
+
+      it 'returns no rows' do
+        expect(data_export).to be_empty
+      end
     end
 
-    it 'returns data for application_choices with a completed form and a degree' do
-      application_form_with_degree = create(:completed_application_form, :with_degree)
-      offered_course_option = create(:course_option)
-      choice = create(:application_choice, application_form: application_form_with_degree, offered_course_option: offered_course_option)
+    context 'when there are application choices with a completed form and a degree' do
+      let(:application_form) { create(:completed_application_form, :with_degree) }
+      let(:application_choices) { create_list(:application_choice, 1, :with_modified_offer, application_form: application_form) }
 
-      exported_data = CSV.parse(described_class.call(application_choices: choice), headers: true)
-      row = exported_data.first
+      it 'returns the correct data' do
+        row = data_export.first
 
-      expect_row_to_match_application_choice(row, choice)
+        expect_row_to_match_application_choice(row, application_choices.first)
+      end
+    end
+
+    context 'when there are application choices without a degree' do
+      let(:application_form) { create(:completed_application_form, degrees_completed: false) }
+      let(:application_choices) { create_list(:application_choice, 1, :with_modified_offer, application_form: application_form) }
+
+      it 'returns the correct data' do
+        row = data_export.first
+
+        expect_row_to_match_application_choice(row, application_choices.first)
+      end
     end
 
     def expect_row_to_match_application_choice(row, application_choice)
