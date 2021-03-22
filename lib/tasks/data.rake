@@ -1,6 +1,5 @@
 DATA_MIGRATION_SERVICES = [
   # do not edit this line - services added below by generator
-  'DataMigrations::RevertApplicationChoiceUpdatedAtTimestamps',
 ].freeze
 
 def data_migrations
