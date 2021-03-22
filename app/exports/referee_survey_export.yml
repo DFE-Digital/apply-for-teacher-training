@@ -1,0 +1,55 @@
+common_columns:
+  - recruitment_cycle_year
+
+custom_columns:
+  reference_name:
+    type: string
+    description: Reference’s full name
+
+  reference_provided_at:
+    type: string
+    format: date-time
+    description: Date reference was provided
+    example: 2020-11-01T00:00:00+00:00
+
+  reference_email_address:
+    type: string
+    description: Reference’s email address
+    maxLength: 100
+    example: boris.brown@example.com
+
+  guidance_rating:
+    type: string
+    description: Reference’s feedback about how useful the guidance was
+    enum:
+      - very_good
+      - good
+      - ok
+      - poor
+      - very_poor
+
+  guidance_explanation:
+    type: string
+    description: Reference’s explanation about their guidance rating
+
+  experience_rating:
+    type: string
+    description: Reference’s feedback about their experience of giving a reference
+    enum:
+      - very_good
+      - good
+      - ok
+      - poor
+      - very_poor
+
+  experience_explanation:
+    type: string
+    description: Reference’s explanation about their experience rating
+
+  consent_to_be_contacted:
+    type: boolean
+    description: Has the reference given consent to be contacted about this feedback?
+
+  contact_details:
+    type: string
+    description: Reference’s contact details

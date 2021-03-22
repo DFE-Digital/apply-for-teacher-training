@@ -9,16 +9,16 @@ module SupportInterface
       output = []
       references_with_feedback.each do |reference|
         hash = {
-          'Name' => reference.name,
-          'Reference provided at' => reference.feedback_provided_at&.strftime('%d/%m/%y'),
-          'Recruitment cycle year' => reference.application_form.recruitment_cycle_year,
-          'Email_address' => reference.email_address,
-          'Guidance rating' => extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
-          'Guidance explanation' => extract_explanation(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
-          'Experience rating' => extract_rating(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
-          'Experience explanation' => extract_explanation(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
-          'Consent to be contacted' => extract_rating(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
-          'Contact details' => extract_explanation(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
+          reference_name: reference.name,
+          reference_provided_at: reference.feedback_provided_at&.strftime('%d/%m/%y'),
+          recruitment_cycle_year: reference.application_form.recruitment_cycle_year,
+          reference_email_address: reference.email_address,
+          guidance_rating: extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
+          guidance_explanation: extract_explanation(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
+          experience_rating: extract_rating(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
+          experience_explanation: extract_explanation(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
+          consent_to_be_contacted: extract_rating(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
+          contact_details: extract_explanation(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
         }
 
         output << hash

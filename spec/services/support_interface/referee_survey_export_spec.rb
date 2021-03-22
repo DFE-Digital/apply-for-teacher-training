@@ -1,6 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::RefereeSurveyExport do
+  describe 'documentation' do
+    let(:questionnaire) do
+      {
+        RefereeQuestionnaire::GUIDANCE_QUESTION => 'very_poor | I could not read it.',
+        RefereeQuestionnaire::EXPERIENCE_QUESTION => 'very_good | I could read it.',
+        RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes | 02113131',
+
+        # Legacy question that is no longer asked.
+        'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => 'yes | ',
+      }
+    end
+
+    before do
+      create(:reference, questionnaire: questionnaire, application_form: create(:application_form, recruitment_cycle_year: 2021))
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#call' do
     let(:questionnaire1) do
       {
@@ -37,28 +56,28 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
 
       expect(described_class.new.call).to match_array([
         {
-          'Name' => 'A',
-          'Reference provided at' => '01/01/21',
-          'Recruitment cycle year' => 2021,
-          'Email_address' => 'a@example.com',
-          'Guidance rating' => 'very_poor',
-          'Guidance explanation' => 'I could not read it.',
-          'Experience rating' => 'very_good',
-          'Experience explanation' => 'I could read it.',
-          'Consent to be contacted' => 'yes',
-          'Contact details' => '02113131',
+          reference_name: 'A',
+          reference_provided_at: '01/01/21',
+          recruitment_cycle_year: 2021,
+          reference_email_address: 'a@example.com',
+          guidance_rating: 'very_poor',
+          guidance_explanation: 'I could not read it.',
+          experience_rating: 'very_good',
+          experience_explanation: 'I could read it.',
+          consent_to_be_contacted: 'yes',
+          contact_details: '02113131',
         },
         {
-          'Name' => 'B',
-          'Reference provided at' => '01/02/21',
-          'Recruitment cycle year' => 2021,
-          'Email_address' => 'b@example.com',
-          'Guidance rating' => 'good',
-          'Guidance explanation' => nil,
-          'Experience rating' => 'poor',
-          'Experience explanation' => nil,
-          'Consent to be contacted' => nil,
-          'Contact details' => nil,
+          reference_name: 'B',
+          reference_provided_at: '01/02/21',
+          recruitment_cycle_year: 2021,
+          reference_email_address: 'b@example.com',
+          guidance_rating: 'good',
+          guidance_explanation: nil,
+          experience_rating: 'poor',
+          experience_explanation: nil,
+          consent_to_be_contacted: nil,
+          contact_details: nil,
         },
       ])
     end
