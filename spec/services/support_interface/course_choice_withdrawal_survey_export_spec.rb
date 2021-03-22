@@ -17,11 +17,12 @@ private
   def return_expected_hash(application_choice)
     survey = application_choice.withdrawal_feedback
     {
-      'Name' => application_choice.application_form.full_name,
-      CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',
-      'Explanation' => survey['Explanation'],
-      CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes',
-      'Contact details' => survey['Contact details'],
+      full_name: application_choice.application_form.full_name,
+      explanation: survey['Explanation'],
+      contact_details: survey['Contact details'],
+      reason_for_withdrawing: 'yes',
+      consent_to_be_contacted: 'yes',
+
     }
   end
 end
