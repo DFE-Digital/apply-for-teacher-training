@@ -36,6 +36,10 @@ module SupportInterface
         @course_options = sorted_course_options
       end
 
+      def unavailable_courses
+        courses.select { |course| course.course_options.all?(&:no_vacancies?) }
+      end
+
       def save
         return false unless valid?(:save)
 
