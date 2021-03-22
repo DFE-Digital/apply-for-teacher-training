@@ -17,7 +17,7 @@ module SupportInterface
     end
 
     def view_history
-      @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_type].humanize).order(id: :desc).page(params[:page] || 1).per(30)
+      @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_type].humanize).order(created_at: :desc).page(params[:page] || 1).per(30)
     end
 
     def create
