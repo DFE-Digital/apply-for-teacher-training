@@ -578,6 +578,10 @@ Rails.application.routes.draw do
     get '/ping', to: 'ping#ping'
   end
 
+  namespace :register_api, path: 'register-api' do
+    get '/applications' => 'applications#index'
+  end
+
   namespace :provider_interface, path: '/provider' do
     get '/' => 'start_page#show'
 
