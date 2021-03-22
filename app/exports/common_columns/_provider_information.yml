@@ -1,0 +1,62 @@
+provider_code:
+  type: string
+  description: The provider’s code
+  example: 2FR
+  maxLength: 3
+
+provider_id:
+  type: string
+  description: The provider’s ID in Apply
+  example: 98765
+  maxLength: 10
+
+provider_name:
+  type: string
+  description: The provider’s name
+  example: "Hogwarts School of Witchcraft and Wizardry"
+  maxLength: 255
+
+accrediting_provider_code:
+  type: string
+  description: The accrediting provider’s code
+  example: 2FR
+  maxLength: 3
+
+accrediting_provider_id:
+  type: string
+  description: The accrediting provider’s ID in Apply
+  example: 98765
+  maxLength: 10
+
+accrediting_provider_name:
+  type: string
+  description: The accrediting provider’s name
+  example: "Hogwarts School of Witchcraft and Wizardry"
+  maxLength: 255
+
+course_level:
+  type: string
+
+program_type:
+  type: string
+  description: Not provided yet
+
+programme_outcome:
+  type: string
+  description: The description of the course
+
+course_name:
+  type: string
+  description: The course’s name
+  example: "Maths"
+  maxLength: 255
+
+course_code:
+  type: string
+  description: The course’s code
+  example: 3CVK
+  maxLength: 4
+
+nctl_subject:
+  type: array
+  maxLength: 255

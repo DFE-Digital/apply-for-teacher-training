@@ -1,0 +1,91 @@
+extract_date:
+  type: string
+  format: date-time
+  description: Time when the report ran
+  example: 2020-11-01T00:00:00+00:00
+
+candidate_id:
+  type: string
+  description: The candidate’s ID in the Apply system
+  maxLength: 10
+  example: 5432
+
+application_form_id:
+  type: string
+  description: The application form's ID in the Apply system
+  maxLength: 10
+  example: 4566
+
+application_choice_id:
+  type: string
+  description: The application choice's ID in the Apply system
+  maxLength: 10
+  example: 89876
+
+phase:
+  type: string
+  description: |
+    The phase of this application. In the first phase, "Apply 1", the
+    candidate can choose up to 3 courses. If all of those choices are rejected,
+    declined, or withdrawn, the user can go into "Apply 2". This means
+    they can choose 1 course at a time.
+  enum:
+  - apply_1
+  - apply_2
+  example: apply_1
+
+recruitment_cycle_year:
+  type: integer
+  description: Recruitment cycle year
+  example: 2021
+
+submitted_at:
+  type: string
+  format: date-time
+  description: When the candidate submitted their application
+  example: 2020-11-01T00:00:00+00:00
+
+application_state:
+  type: string
+  description: The application’s state
+  enum:
+    - never_signed_in
+    - unsubmitted_not_started_form
+    - unsubmitted_in_progress
+    - awaiting_provider_decisions
+    - awaiting_candidate_response
+    - recruited
+    - pending_conditions
+    - offer_deferred
+    - ended_without_success
+    - unknown_state
+
+choice_status:
+  type: string
+  description: Course choice status
+  enum:
+    - unsubmitted
+    - cancelled
+    - awaiting_provider_decision
+    - interviewing
+    - offer
+    - pending_conditions
+    - recruited
+    - rejected
+    - application_not_sent
+    - offer_withdrawn
+    - declined
+    - withdrawn
+    - conditions_not_met
+    - offer_deferred
+    - awaiting_references
+
+support_reference:
+  type: string
+  description: Support reference
+  example: KR6526
+
+rejection_reason:
+  type: string
+  description: The reason the provider gave for rejecting the candidate
+  example: Absence of English GCSE

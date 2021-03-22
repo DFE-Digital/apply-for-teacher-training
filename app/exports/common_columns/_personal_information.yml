@@ -1,0 +1,120 @@
+first_name:
+  type: string
+  description: The candidate’s first name
+  maxLength: 60
+  example: Boris
+
+last_name:
+  type: string
+  description: The candidate’s last name
+  example: Brown
+  maxLength: 60
+
+full_name:
+  type: string
+  description: The candidate’s full name
+  example: Boris Brown
+
+date_of_birth:
+  type: string
+  format: date
+  description: The candidate’s date of birth
+  example: 1985-02-02
+
+email:
+  type: string
+  description: The candidate’s email address
+  maxLength: 100
+  example: boris.brown@example.com
+
+phone_number:
+  type: string
+  description: Candidate’s phone number
+  example: 07123456789
+
+postcode:
+  type: string
+  description: The candidate’s postcode
+  maxLength: 8
+  example: SK2 6AA
+  nullable: true
+
+country:
+  type: string
+  maxLength: 2
+  description: The candidate’s country - ISO 3166-2 country code
+  pattern: "^[A-Z]{2}$"
+  example: GB
+
+nationality:
+  type: array
+  items:
+    type: string
+    pattern: "^[A-Z]{2}$"
+    example: NL
+  maxItems: 5
+  description: One or more ISO 3166-2 country codes
+  example:
+    - GB
+    - NL
+sex:
+  type: string
+  nullable: true
+  description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
+  example: "1"
+  enum:
+  - "1"
+  - "2"
+  - "3"
+
+disability:
+  nullable: true
+  type: array
+  items:
+    type: string
+  description: The candidate's disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+  example:
+    - "00"
+    - "51"
+  enum:
+  - "00"
+  - "08"
+  - "51"
+  - "53"
+  - "54"
+  - "55"
+  - "56"
+  - "57"
+  - "58"
+  - "96"
+
+ethnicity:
+  type: string
+  nullable: true
+  description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
+  example: "10"
+  enum:
+  - "10"
+  - "15"
+  - "21"
+  - "22"
+  - "29"
+  - "31"
+  - "32"
+  - "33"
+  - "34"
+  - "39"
+  - "41"
+  - "42"
+  - "43"
+  - "49"
+  - "50"
+  - "80"
+  - "90"
+  - "98"
+
+degree_classification:
+  type: string
+
+degree_classification_hesa_code:
+  type: string
