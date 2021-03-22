@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.decisions.offer'), @respond_to_offer.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -12,19 +12,21 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @application_choice.course.provider_and_name_code %></span>
         <%= t('page_titles.decisions.offer') %>
       </h1>
 
       <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
-      <p class="govuk-body">Remember:</p>
+      <p class="govuk-body">Before you accept:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>you can only accept one offer, across both Apply for teacher training and UCAS teacher training</li>
-        <li>if you fail to respond, or you decline all your offers, you can still apply to other courses this year through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %></li>
+        <li>if you accept this offer, you cannot also accept another offer through UCAS teacher training</li>
+        <% if @offer_count > 1 %>
+          <li>if you accept this offer, your other <%= 'offer'.pluralize(@offer_count - 1) %> will be automatically declined</li>
+        <% end %>
+        <li>if you decline all of your offers, or do not respond in time, you can still apply for courses that start this academic year</li>
       </ul>
-
-      <p class="govuk-body">If you need help, you can speak to a <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_get_an_advisor') %> adviser. They’re all experienced teachers who can give you advice on applying for teacher training.</p>
 
       <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
         <%= f.govuk_radio_button :response, 'accept', label: { text: t('decisions.response.accept.label') }, link_errors: true %>

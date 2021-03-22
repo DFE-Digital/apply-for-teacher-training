@@ -8,6 +8,7 @@ module CandidateInterface
 
     def offer
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new
+      @offer_count = @application_choice.self_and_siblings.offer.count
     end
 
     def respond_to_offer

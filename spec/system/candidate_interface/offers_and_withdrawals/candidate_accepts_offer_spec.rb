@@ -11,6 +11,7 @@ RSpec.feature 'Candidate accepts an offer' do
     when_i_visit_the_application_dashboard
     and_i_click_on_view_and_respond_to_offer_link
     then_i_see_the_offer
+    and_i_am_told_my_other_offer_will_be_automatically_declined
 
     when_i_accept_one_offer
     and_i_confirm_the_acceptance
@@ -80,6 +81,10 @@ RSpec.feature 'Candidate accepts an offer' do
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
     expect(page).to have_content(t('page_titles.decisions.offer'))
+  end
+
+  def and_i_am_told_my_other_offer_will_be_automatically_declined
+    expect(page).to have_content('if you accept this offer, your other offer will be automatically declined')
   end
 
   def when_i_accept_one_offer
