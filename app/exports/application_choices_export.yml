@@ -8,6 +8,7 @@ common_columns:
   - choice_status
   - support_reference
   - phase
+  - rejection_reason
 
 custom_columns:
   sent_to_provider_at:
@@ -60,11 +61,6 @@ custom_columns:
     format: date-time
     description: Date the candidate was recruited
     example: 2020-11-01T00:00:00+00:00
-
-  rejection_reason:
-    type: string
-    description: The reason the provider gave for rejecting the candidate
-    example: Absence of English GCSE
 
   structured_rejection_reasons:
     type: string

@@ -256,3 +256,8 @@ support_reference:
   type: string
   description: Support reference
   example: KR6526
+
+rejection_reason:
+  type: string
+  description: The reason the provider gave for rejecting the candidate
+  example: Absence of English GCSE
