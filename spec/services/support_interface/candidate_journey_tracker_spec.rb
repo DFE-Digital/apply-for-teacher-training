@@ -47,14 +47,14 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_form = create(:application_form, submitted_at: submitted_at)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
-      expect(described_class.new(application_choice).submitted).to eq submitted_at
+      expect(described_class.new(application_choice).submitted_at).to eq submitted_at
     end
 
     it 'returns nil if the application form has not been submitted' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
-      expect(described_class.new(application_choice).submitted).to be_nil
+      expect(described_class.new(application_choice).submitted_at).to be_nil
     end
   end
 
@@ -299,21 +299,6 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       end
 
       expect(described_class.new(application_choice).application_rbd).to eq(now + 1.day)
-    end
-  end
-
-  describe '#pending_conditions' do
-    it 'returns nil if the status has never been set' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-
-      expect(described_class.new(application_choice).pending_conditions).to be_nil
-    end
-
-    it 'returns time when application moved to pending_conditions status' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-      application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
     end
   end
 

@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
+  describe 'documentation' do
+    before do
+      create(:completed_application_form, application_choices_count: 2)
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#application_choices' do
     it 'returns submitted application choices with timings' do
       unsubmitted_form = create(:application_form)
@@ -17,7 +25,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           support_reference: submitted_form.support_reference,
           phase: submitted_form.phase,
           submitted_at: submitted_form.submitted_at,
-          choice_id: submitted_form.application_choices[0].id,
+          application_choice_id: submitted_form.application_choices[0].id,
           choice_status: submitted_form.application_choices[0].status,
           provider_code: submitted_form.application_choices[0].course.provider.code,
           course_code: submitted_form.application_choices[0].course.code,
@@ -38,7 +46,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           support_reference: submitted_form.support_reference,
           phase: submitted_form.phase,
           submitted_at: submitted_form.submitted_at,
-          choice_id: submitted_form.application_choices[1].id,
+          application_choice_id: submitted_form.application_choices[1].id,
           choice_status: submitted_form.application_choices[1].status,
           provider_code: submitted_form.application_choices[1].course.provider.code,
           course_code: submitted_form.application_choices[1].course.code,

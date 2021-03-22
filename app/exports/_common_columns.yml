@@ -2,7 +2,7 @@ extract_date:
   type: string
   format: date-time
   description: Time when the report ran
-  example: 2019-06-13T10:44:31Z
+  example: 2020-11-01T00:00:00+00:00
 
 candidate_id:
   type: string
@@ -34,6 +34,12 @@ phase:
   - apply_2
   example: apply_1
 
+submitted_at:
+  type: string
+  format: date-time
+  description: When the candidate submitted their application
+  example: 2020-11-01T00:00:00+00:00
+
 # # Personal information
 first_name:
   type: string
@@ -47,6 +53,11 @@ last_name:
   example: Brown
   maxLength: 60
 
+full_name:
+  type: string
+  description: The candidate’s full name
+  example: Boris Brown
+
 date_of_birth:
   type: string
   format: date
@@ -58,6 +69,11 @@ email:
   description: The candidate’s email address
   maxLength: 100
   example: boris.brown@example.com
+
+phone_number:
+  type: string
+  description: Candidate’s phone number
+  example: 07123456789
 
 postcode:
   type: string
@@ -210,3 +226,33 @@ course_code:
 nctl_subject:
   type: array
   maxLength: 255
+
+recruitment_cycle_year:
+  type: integer
+  description: Recruitment cycle year
+  example: 2021
+
+choice_status:
+  type: string
+  description: Course choice status
+  enum:
+    - unsubmitted
+    - cancelled
+    - awaiting_provider_decision
+    - interviewing
+    - offer
+    - pending_conditions
+    - recruited
+    - rejected
+    - application_not_sent
+    - offer_withdrawn
+    - declined
+    - withdrawn
+    - conditions_not_met
+    - offer_deferred
+    - awaiting_references
+
+support_reference:
+  type: string
+  description: Support reference
+  example: KR6526

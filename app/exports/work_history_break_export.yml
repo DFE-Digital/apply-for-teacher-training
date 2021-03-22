@@ -1,0 +1,90 @@
+common_columns:
+  - candidate_id
+  - application_form_id
+  - submitted_at
+
+custom_columns:
+  course_choice_statuses:
+    type: array
+    description: An array of course choice statuses
+    enum:
+      - unsubmitted
+      - cancelled
+      - awaiting_provider_decision
+      - interviewing
+      - offer
+      - pending_conditions
+      - recruited
+      - rejected
+      - application_not_sent
+      - offer_withdrawn
+      - declined
+      - withdrawn
+      - conditions_not_met
+      - offer_deferred
+      - awaiting_references
+    example:
+      - offer
+      - rejected
+
+  start_of_working_life:
+    type: string
+    format: date-time
+    description: 18 years after the candidate’s date of birth
+    example: 2020-11-01T00:00:00+00:00
+
+  total_time_in_employment:
+    type: integer
+    description: Months spent in work
+
+  total_time_of_explained_breaks:
+    type: integer
+    description: Months of explained breaks
+
+  total_time_volunteering_during_explained_breaks:
+    type: integer
+    description: Months volunteering during explained breaks
+
+  number_of_explained_breaks:
+    type: integer
+    description: Number of explained breaks
+
+  number_of_explained_breaks_in_last_five_years:
+    type: integer
+    description: Explained breaks in the last five years
+
+  number_of_explained_breaks_that_coincide_with_a_volunteering_experience:
+    type: integer
+    description: Explained breaks that coincide with a volunteering experience
+
+  number_of_explained_breaks_that_were_over_fifty_percent_volunteering:
+    type: integer
+    description: Explained breaks that were over 50% volunteering
+
+  total_time_of_unexplained_breaks:
+    type: integer
+    description: Months of unexplained breaks
+
+  total_time_volunteering_during_unexplained_breaks:
+    type: integer
+    description: Months volunteering during unexplained breaks
+
+  number_of_unexplained_breaks:
+    type: integer
+    description: Number of unexplained breaks
+
+  number_of_unexplained_breaks_in_last_five_years:
+    type: integer
+    description: Unexplained breaks in the last five years
+
+  number_of_unexplained_breaks_that_coincide_with_studying_for_a_degree:
+    type: integer
+    description: Unexplained breaks that coincide with studying for a degree
+
+  number_of_unexplained_breaks_that_coincide_with_a_volunteering_experience:
+    type: integer
+    description: Unexplained breaks that coincide with a volunteering experience
+
+  number_of_unexplained_breaks_that_were_over_fifty_percent_volunteering:
+    type: integer
+    description: Unexplained breaks that were over 50% volunteering

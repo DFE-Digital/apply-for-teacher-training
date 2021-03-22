@@ -3,15 +3,15 @@ module SupportInterface
     def data_for_export
       application_feedback.map do |feedback|
         {
-          'Name' => feedback.application_form.full_name,
-          'Recruitment cycle year' => feedback.application_form.recruitment_cycle_year,
-          'Email_address' => feedback.application_form.candidate.email_address,
-          'Phone number' => feedback.application_form.phone_number,
-          'Submitted at' => feedback.created_at.iso8601,
-          'Path' => feedback.path,
-          'Page title' => feedback.page_title,
-          'Feedback' => feedback.feedback,
-          'Consent to be contacted' => feedback.consent_to_be_contacted,
+          full_name: feedback.application_form.full_name,
+          recruitment_cycle_year: feedback.application_form.recruitment_cycle_year,
+          email: feedback.application_form.candidate.email_address,
+          phone_number: feedback.application_form.phone_number,
+          submitted_at: feedback.created_at.iso8601,
+          path: feedback.path,
+          page_title: feedback.page_title,
+          feedback: feedback.feedback,
+          consent_to_be_contacted: feedback.consent_to_be_contacted,
         }
       end
     end

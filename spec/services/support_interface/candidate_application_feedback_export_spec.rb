@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateApplicationFeedbackExport do
+  describe 'documentation' do
+    before do
+      application_form = create(:application_form)
+      create(:application_feedback, application_form: application_form)
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#data_for_export' do
     it 'returns a hash of candidates satisfaction survey answers' do
       application_form1 = create(:application_form, first_name: 'Theo')
@@ -21,15 +30,15 @@ private
 
   def expected_hash(application_feedback)
     {
-      'Name' => application_feedback.application_form.full_name,
-      'Recruitment cycle year' => application_feedback.application_form.recruitment_cycle_year,
-      'Email_address' => application_feedback.application_form.candidate.email_address,
-      'Phone number' => application_feedback.application_form.phone_number,
-      'Submitted at' => application_feedback.created_at.iso8601,
-      'Path' => application_feedback.path,
-      'Page title' => application_feedback.page_title,
-      'Feedback' => application_feedback.feedback,
-      'Consent to be contacted' => application_feedback.consent_to_be_contacted,
+      full_name: application_feedback.application_form.full_name,
+      recruitment_cycle_year: application_feedback.application_form.recruitment_cycle_year,
+      email: application_feedback.application_form.candidate.email_address,
+      phone_number: application_feedback.application_form.phone_number,
+      submitted_at: application_feedback.created_at.iso8601,
+      path: application_feedback.path,
+      page_title: application_feedback.page_title,
+      feedback: application_feedback.feedback,
+      consent_to_be_contacted: application_feedback.consent_to_be_contacted,
     }
   end
 end

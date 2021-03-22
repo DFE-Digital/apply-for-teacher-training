@@ -7,7 +7,7 @@ module SupportInterface
     DATA_POINTS = %i[
       form_not_started
       form_started_and_not_submitted
-      submitted
+      submitted_at
       completed_reference_1_requested_at
       completed_reference_1_received_at
       completed_reference_2_requested_at
@@ -25,7 +25,6 @@ module SupportInterface
       candidate_decision
       offer_declined
       offer_accepted
-      pending_conditions
       conditions_outcome
       conditions_met
       conditions_not_met
@@ -43,7 +42,7 @@ module SupportInterface
       ].compact.min
     end
 
-    def submitted
+    def submitted_at
       @application_choice.application_form.submitted_at
     end
 
@@ -86,10 +85,6 @@ module SupportInterface
 
     def application_rbd
       @application_choice.rejected_by_default ? @application_choice.rejected_at : nil
-    end
-
-    def pending_conditions
-      @application_choice.accepted_at
     end
 
     def provider_decision

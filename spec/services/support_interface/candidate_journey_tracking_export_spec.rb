@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: true do
+  it_behaves_like 'a data export'
+
   describe '#data_for_export' do
     around do |example|
       Timecop.freeze(Time.zone.local(2020, 6, 30, 12, 0, 0)) { example.run }
