@@ -5,6 +5,18 @@ en:
         title: Make a decision
         select:  Select decision
     offer:
+      providers:
+        new:
+          title: Select provider
+      courses:
+        new:
+          title: Select course
+      locations:
+        new:
+          title: Select location
+      study_modes:
+        new:
+          title: Select full time or part time
       conditions:
         new:
           title: Conditions of offer
@@ -21,6 +33,7 @@ en:
       provider_interface_offer_wizard:
         decision_options:
           make_offer: Make an offer
+          change_offer: Change course details and make an offer
           rejection: Reject application
         further_condition_1: 'Condition 1'
         further_condition_2: 'Condition 2'
@@ -43,3 +56,11 @@ en:
           attributes:
             decision:
               blank: Select if you want to make an offer or reject the application
+            course_option_id:
+              blank: Select location
+            study_mode:
+              blank: Select full time or part time
+            course_id:
+              blank: Select course
+            provider_id:
+              blank: Select provider

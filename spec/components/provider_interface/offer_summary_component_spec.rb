@@ -3,10 +3,18 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::OfferSummaryComponent do
   let(:application_choice) { build_stubbed(:application_choice) }
   let(:course_option) { build_stubbed(:course_option) }
+  let(:providers) { [] }
+  let(:course) { build_stubbed(:course) }
+  let(:courses) { [] }
+  let(:course_options) { [] }
   let(:render) do
     render_inline(described_class.new(application_choice: application_choice,
                                       course_option: course_option,
-                                      conditions: ['condition 1', 'condition 2']))
+                                      conditions: ['condition 1', 'condition 2'],
+                                      available_providers: providers,
+                                      available_courses: courses,
+                                      available_course_options: course_options,
+                                      course: course))
   end
 
   def row_text_selector(row_name, render)
@@ -18,6 +26,78 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
+  end
+
+  def row_link_selector(row_number)
+    render.css('.govuk-summary-list__row')[row_number].css('a')&.first&.attr('href')
+  end
+
+  context 'when multiple provider options' do
+    let(:providers) { build_stubbed_list(:provider, 2) }
+
+    it 'renders a change link' do
+      provider_change_link = Rails.application.routes.url_helpers.new_provider_interface_application_choice_offer_providers_path(application_choice)
+      expect(row_link_selector(0)).to eq(provider_change_link)
+    end
+  end
+
+  context 'when only one provider option' do
+    let(:providers) { [build_stubbed(:provider)] }
+
+    it 'renders no change link' do
+      expect(row_link_selector(0)).to eq(nil)
+    end
+  end
+
+  context 'when multiple courses' do
+    let(:courses) { build_stubbed_list(:course, 2) }
+
+    it 'renders a change link' do
+      course_change_link = Rails.application.routes.url_helpers.new_provider_interface_application_choice_offer_courses_path(application_choice)
+      expect(row_link_selector(1)).to eq(course_change_link)
+    end
+  end
+
+  context 'when only one course' do
+    let(:courses) { [build_stubbed(:course)] }
+
+    it 'renders no change link' do
+      expect(row_link_selector(1)).to eq(nil)
+    end
+  end
+
+  context 'when multiple course options' do
+    let(:course_options) { build_stubbed_list(:course_option, 2) }
+
+    it 'renders a change link' do
+      course_options_change_link = Rails.application.routes.url_helpers.new_provider_interface_application_choice_offer_locations_path(application_choice)
+      expect(row_link_selector(2)).to eq(course_options_change_link)
+    end
+  end
+
+  context 'when only one course option' do
+    let(:course_options) { [build_stubbed(:course_option)] }
+
+    it 'renders no change link' do
+      expect(row_link_selector(2)).to eq(nil)
+    end
+  end
+
+  context 'when multiple study modes' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time_or_part_time) }
+
+    it 'renders a change link' do
+      study_mode_change_link = Rails.application.routes.url_helpers.new_provider_interface_application_choice_offer_study_modes_path(application_choice)
+      expect(row_link_selector(3)).to eq(study_mode_change_link)
+    end
+  end
+
+  context 'when only one study mode' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time) }
+
+    it 'renders no change link' do
+      expect(row_link_selector(3)).to eq(nil)
+    end
   end
 
   it 'renders the new course option details' do

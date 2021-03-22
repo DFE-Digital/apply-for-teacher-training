@@ -11,7 +11,7 @@ module ProviderInterface
 
     def create
       @wizard = OfferWizard.new(offer_store)
-      if @wizard.valid?
+      if @wizard.valid?(:save)
         MakeOffer.new(actor: current_provider_user,
                       application_choice: @application_choice,
                       course_option: @wizard.course_option,
@@ -39,6 +39,23 @@ module ProviderInterface
       return if ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym)
 
       redirect_to(provider_interface_application_choice_path(@application_choice))
+    end
+
+    def action
+      'back' if !!params[:back]
+    end
+
+    def available_providers
+      current_provider_user.providers
+    end
+
+    def available_courses(provider_id)
+      Course.where(provider_id: provider_id)
+    end
+
+    def available_course_options(course_id, study_mode)
+      CourseOption.where(course_id: course_id, study_mode: study_mode)
+                  .includes(:site).order('sites.name')
     end
   end
 end

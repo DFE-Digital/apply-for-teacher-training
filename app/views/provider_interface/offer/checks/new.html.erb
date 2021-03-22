@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_offer_path(@application_choice.id)) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, back: true)) %>
 
 <%= form_with model: @wizard, url: provider_interface_application_choice_offers_path(@application_choice), method: :post do |f| %>
   <h1 class="govuk-heading-l">
@@ -12,7 +12,11 @@
       <%= f.govuk_error_summary %>
       <%= render ProviderInterface::OfferSummaryComponent.new(application_choice: @application_choice,
                                                               course_option: @wizard.course_option,
-                                                              conditions: @wizard.conditions) %>
+                                                              conditions: @wizard.conditions,
+                                                              course: @wizard.course_option.course,
+                                                              available_providers: @providers,
+                                                              available_courses: @courses,
+                                                              available_course_options: @course_options) %>
 
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

@@ -33,7 +33,10 @@ RSpec.describe ProviderInterface::OfferWizard do
   before { allow(store).to receive(:read) }
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:decision) }
+    it { is_expected.to validate_presence_of(:decision).on(:select_option) }
+    it { is_expected.to validate_presence_of(:course_option_id).on(:locations).on(:save) }
+    it { is_expected.to validate_presence_of(:study_mode).on(:study_modes).on(:save) }
+    it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
     it { is_expected.to validate_length_of(:further_condition_1).is_at_most(255) }
     it { is_expected.to validate_length_of(:further_condition_2).is_at_most(255) }
     it { is_expected.to validate_length_of(:further_condition_3).is_at_most(255) }
@@ -41,11 +44,150 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#next_step' do
-    context 'make offer decision' do
+    context 'when making an offer' do
       let(:decision) { :make_offer }
 
       context 'when current_step is :select_option' do
         let(:current_step) { :select_option }
+
+        it 'returns :conditions' do
+          expect(wizard.next_step).to eq(:conditions)
+        end
+      end
+
+      context 'when current_step is :conditions' do
+        let(:current_step) { :conditions }
+
+        it 'returns :check' do
+          expect(wizard.next_step).to eq(:check)
+        end
+      end
+    end
+
+    context 'when changing an offer' do
+      let(:decision) { :change_offer }
+
+      context 'when current_step is :select_option' do
+        let(:current_step) { :select_option }
+
+        context 'when there are multiple available providers' do
+          before do
+            provider_user = instance_double(ProviderUser, providers: build_stubbed_list(:provider, 2))
+            allow(ProviderUser).to receive(:find).and_return(provider_user)
+          end
+
+          it 'returns :providers' do
+            expect(wizard.next_step).to eq(:providers)
+          end
+        end
+
+        context 'when there is only one available provider' do
+          before do
+            courses = build_stubbed_list(:course, 2)
+            provider = instance_double(Provider, id: :stub_id, courses: courses)
+            provider_user = instance_double(ProviderUser, providers: [provider])
+            allow(ProviderUser).to receive(:find).and_return(provider_user)
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :courses' do
+            expect(wizard.next_step).to eq(:courses)
+          end
+        end
+      end
+
+      context 'when current_step is :providers' do
+        let(:current_step) { :providers }
+
+        context 'when there are multiple available courses' do
+          before do
+            allow(Course).to receive(:where).and_return(class_double(Course, one?: false))
+          end
+
+          it 'returns :courses' do
+            expect(wizard.next_step).to eq(:courses)
+          end
+        end
+
+        context 'when there is only one available course' do
+          before do
+            course = instance_double(Course, id: :stub_id)
+
+            allow(course).to receive(:available_study_modes_from_options).and_return(%i[full_time part_time])
+            allow(Course).to receive(:where).and_return([course])
+            allow(Course).to receive(:find).and_return(course)
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :study_modes' do
+            expect(wizard.next_step).to eq(:study_modes)
+          end
+        end
+      end
+
+      context 'when current_step is :courses' do
+        let(:current_step) { :courses }
+
+        context 'when there are multiple available study modes' do
+          before do
+            course = instance_double(Course)
+            allow(course).to receive(:available_study_modes_from_options).and_return(%i[full_time part_time])
+            allow(Course).to receive(:find).and_return(course)
+          end
+
+          it 'returns :study_modes' do
+            expect(wizard.next_step).to eq(:study_modes)
+          end
+        end
+
+        context 'when there is only one study mode' do
+          before do
+            course = instance_double(Course)
+            course_option = class_double(CourseOption, one?: false)
+
+            allow(course).to receive(:available_study_modes_from_options).and_return([:full_time])
+            allow(Course).to receive(:find).and_return(course)
+            allow(CourseOption).to receive(:where).and_return(course_option)
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :study_modes' do
+            expect(wizard.next_step).to eq(:locations)
+          end
+        end
+      end
+
+      context 'when current_step is :study_modes' do
+        let(:current_step) { :study_modes }
+
+        context 'when there are multiple locations available' do
+          before do
+            course_option = class_double(CourseOption, one?: false)
+
+            allow(CourseOption).to receive(:where).and_return(course_option)
+          end
+
+          it 'returns :locations' do
+            expect(wizard.next_step).to eq(:locations)
+          end
+        end
+
+        context 'when there is only one available location' do
+          before do
+            course_option = instance_double(CourseOption, id: :stub_id)
+
+            allow(CourseOption).to receive(:where).and_return([course_option])
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :conditions' do
+            expect(wizard.next_step).to eq(:conditions)
+          end
+        end
+      end
+
+      context 'when current_step is :locations' do
+        let(:current_step) { :locations }
 
         it 'returns :conditions' do
           expect(wizard.next_step).to eq(:conditions)
@@ -60,6 +202,10 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
     end
+  end
+
+  describe '#previous_step' do
+    it { is_expected.to delegate_method(:previous_step).to(:wizard_path_history) }
   end
 
   describe '#conditions' do
