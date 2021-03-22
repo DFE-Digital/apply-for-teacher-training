@@ -5,10 +5,10 @@ module SupportInterface
     def sites
       relevant_sites.map do |site|
         {
-          'id' => site.id,
-          'code' => site.code,
-          'provider code' => site.provider.code,
-          'distance from provider' => format_distance(site, site.provider, with_units: false),
+          site_id: site.id,
+          site_code: site.code,
+          provider_code: site.provider.code,
+          distance_from_provider: format_distance(site, site.provider, with_units: false),
         }
       end
     end
