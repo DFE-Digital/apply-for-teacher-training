@@ -947,8 +947,8 @@ Rails.application.routes.draw do
 
       resources :provider_users, only: %i[show index new create edit update], path: :provider do
         get '/audits' => 'provider_users#audits'
-        patch '/toggle-notifications' => 'provider_users#toggle_notifications', as: :toggle_notifications
-        put '/update-notifications' => 'provider_users#update_notifications', as: :update_notifications
+        patch '/toggle-notifications' => 'provider_user_notification_preferences#toggle_notifications', as: :toggle_notifications
+        put '/update-notifications' => 'provider_user_notification_preferences#update_notifications', as: :update_notifications
         post '/impersonate' => 'provider_users#impersonate', as: :impersonate
       end
     end
