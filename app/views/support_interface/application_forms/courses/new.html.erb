@@ -8,7 +8,7 @@
         <%= f.govuk_error_summary %>
         <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
           <% @pick_course.course_options.each_with_index do |co, i| %>
-            <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.course_name} (#{co.course_code}) - #{co.site_name}" }, link_errors: i.zero? %>
+            <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) - #{co.course_name} (#{co.course_code}) - #{co.site_name} - #{co.study_mode} " }, link_errors: i.zero? %>
           <% end %>
         <% end %>
         <%= f.govuk_submit 'Add course to application' %>
