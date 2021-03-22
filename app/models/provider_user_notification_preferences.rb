@@ -12,7 +12,9 @@ class ProviderUserNotificationPreferences < ApplicationRecord
   ].freeze
 
   def update_all_preferences(value)
-    NOTIFICATION_PREFERENCES.each { |n| update(n => value) }
+    NOTIFICATION_PREFERENCES.each { |notification| assign_attributes(notification => value) }
+
+    save!
   end
 
   def self.notification_preference_exists?(notification_name)
