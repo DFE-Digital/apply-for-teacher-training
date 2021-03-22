@@ -22,7 +22,7 @@ module SupportInterface
         disabilities = application_form.equality_and_diversity['disabilities'].to_a
 
         disabilities.map.with_index(1) do |disability, index|
-          output["disability_#{index}".to_sym] = disability
+          output[:"disability_#{index}"] = disability
         end
 
         output
