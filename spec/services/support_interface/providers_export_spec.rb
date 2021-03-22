@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
+  describe 'documentation' do
+    before do
+      provider = create(:provider, sync_courses: true, name: 'B', latitude: 51.498161, longitude: 0.129900)
+      create(:site, latitude: 51.482578, longitude: -0.007659, provider: provider)
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#providers' do
     it 'returns synced providers and the date they signed the data sharing agreement' do
       create(:provider, sync_courses: false)
@@ -23,16 +32,16 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
 
       expect(providers).to contain_exactly(
         {
-          'name' => provider_with_signed_dsa.name,
-          'code' => provider_with_signed_dsa.code,
-          'agreement_accepted_at' => Time.zone.local(2019, 10, 1, 12, 0, 0),
-          'Average distance to site' => '',
+          provider_name: provider_with_signed_dsa.name,
+          provider_code: provider_with_signed_dsa.code,
+          agreement_accepted_at: Time.zone.local(2019, 10, 1, 12, 0, 0),
+          average_distance_to_site: '',
         },
         {
-          'name' => provider_without_signed_dsa.name,
-          'code' => provider_without_signed_dsa.code,
-          'agreement_accepted_at' => nil,
-          'Average distance to site' => '31.7',
+          provider_name: provider_without_signed_dsa.name,
+          provider_code: provider_without_signed_dsa.code,
+          agreement_accepted_at: nil,
+          average_distance_to_site: '31.7',
         },
       )
     end

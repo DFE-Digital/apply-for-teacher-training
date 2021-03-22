@@ -1,0 +1,16 @@
+common_columns:
+  - provider_name
+  - provider_code
+
+custom_columns:
+  agreement_accepted_at:
+    type: string
+    format: date-time
+    description: Date the agreement was accepted
+    example: 2020-11-01T00:00:00+00:00
+
+  average_distance_to_site:
+    type: number
+    format: float
+    description: The average distance to a provider site (in miles)
+    example: 11.5
