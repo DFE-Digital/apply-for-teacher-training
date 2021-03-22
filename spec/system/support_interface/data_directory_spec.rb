@@ -50,7 +50,7 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def and_i_click_on_view_export_information
-    first(:link, 'View export information').click
+    click_link 'Active provider user permissions'
   end
 
   def then_i_see_the_export_documentation
@@ -91,11 +91,13 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def and_i_click_on_the_export_history
-    click_link 'View history'
+    click_link 'History'
   end
 
   def then_i_see_a_record_of_my_completed_export
-    expect(page).to have_content 'Active provider user permissions history'
+    expect(page).to have_content 'Status'
+    expect(page).to have_content 'Name'
+    expect(page).to have_content 'Initiated by'
     expect(page).to have_content 'completed'
   end
 end
