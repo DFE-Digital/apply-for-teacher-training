@@ -1,19 +1,4 @@
-<% content_for :title, "#{params[:data_export_type].humanize} history" %>
-
-<% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [{
-    text: 'Performance',
-    path: support_interface_performance_path,
-  }, {
-    text: 'Data directory',
-    path: support_interface_data_directory_path,
-  }, {
-    text: params[:data_export_type].humanize,
-    path: support_interface_view_export_information_path,
-  }, {
-    text: "#{params[:data_export_type].humanize} history",
-  }]) %>
-<% end %>
+<%= render 'data_export_navigation', title: 'History' %>
 
 <% if @data_exports.empty? %>
   <p class="govuk-body">No exports have been generated</p>

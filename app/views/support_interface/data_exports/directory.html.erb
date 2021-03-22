@@ -1,17 +1,27 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Data directory' %>
 
-<h3 class="govuk-heading-m"> User Guidance </h3>
-<%= render 'shared/support_user_gdpr_guidance' %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% @export_types.each do |id, export| %>
+      <%# TODO: If first section, don’t add `app-section--with-top-border` class %>
 
-<% @export_types.each do |id, export| %>
-  <section class="app-section app-section--with-top-border">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-m"><%= export.fetch(:name) %></h2>
-        <p class="govuk-body"><%= export.fetch(:description) %></p>
+      <section class="app-section app-section--with-top-border">
+        <h3 class="govuk-heading-m govuk-!-margin-bottom-2"><%= govuk_link_to export.fetch(:name), support_interface_view_export_information_path(data_export_type: id) %></h3>
+        <p class="govuk-body govuk-!-margin-bottom-2"><%= export.fetch(:description) %></p>
+      </section>
+    <% end %>
+  </div>
 
-        <p class="govuk-body"><%= govuk_link_to 'View export information', support_interface_view_export_information_path(data_export_type: id) %></p>
-      </div>
-    </div>
-  </section>
-<% end %>
+  <div class="govuk-grid-column-one-third">
+    <aside class="app-card" role="complementary">
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Remember</h3>
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+        <li>only access the data you need to</li>
+        <li>think about whether there is a reason to view what you’re accessing</li>
+        <li>do not copy data and store in other locations</li>
+        <li>do not share data outside the team</li>
+        <li>do not copy or share personal data onto Slack, use URLs or support reference numbers instead</li>
+      </ul>
+    </aside>
+  </div>
+</div>
