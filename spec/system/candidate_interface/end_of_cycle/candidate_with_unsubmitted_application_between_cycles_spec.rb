@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate attempts to submit the application after the end-of-cycle cutoff', skip: true do
+RSpec.feature 'Candidate attempts to submit the application after the end-of-cycle cutoff' do
   include CandidateHelper
 
   around do |example|
