@@ -1,0 +1,118 @@
+common_columns:
+  - candidate_id
+  - support_reference
+  - phase
+  - recruitment_cycle_year
+  - choice_status
+  - rejection_reason
+  - course_code
+  - provider_code
+
+custom_columns:
+  gcse_maths_grade:
+    type: string
+    description: GCSE maths grade
+
+  gcse_science_single_grade:
+    type: string
+    description: GCSE science single award grade
+
+  gcse_science_double_grade:
+    type: string
+    description: GCSE science double award grade
+
+  gcse_science_triple_grade:
+    type: string
+    description: GCSE science triple award grade
+
+  gcse_english_unstructured_grade:
+    type: string
+    description: GCSE English unstructured grade
+
+  gcse_english_single_grade:
+    type: string
+    description: GCSE English single award grade
+
+  gcse_english_double_grade:
+    type: string
+    description: GCSE English double award grade
+
+  gcse_english_language_grade:
+    type: string
+    description: GCSE English language grade
+
+  gcse_english_literature_grade:
+    type: string
+    description: GCSE English literature grade
+
+  gcse_english_studies_single_grade:
+    type: string
+    description: GCSE English studies single award grade
+
+  gcse_english_studies_double_grade:
+    type: string
+    description: GCSE English studies double award grade
+
+  gcse_english_other_grade:
+    type: string
+    description: GCSE English other grade
+
+  a_level_1_subject:
+    type: string
+    description: A-level 1 subject
+
+  a_level_1_grade:
+    type: string
+    description: A-level 1 grade
+
+  a_level_2_subject:
+    type: string
+    description: A-level 2 subject
+
+  a_level_2_grade:
+    type: string
+    description: A-level 2 grade
+
+  a_level_3_subject:
+    type: string
+    description: A-level 3 subject
+
+  a_level_3_grade:
+    type: string
+    description: A-level 3 grade
+
+  a_level_4_subject:
+    type: string
+    description: A-level 4 subject
+
+  a_level_4_grade:
+    type: string
+    description: A-level 4 grade
+
+  a_level_5_subject:
+    type: string
+    description: A-level 5 subject
+
+  a_level_5_grade:
+    type: string
+    description: A-level 5 grade
+
+  degree_1_type:
+    type: string
+    description: Degree 1 type
+
+  degree_1_grade:
+    type: string
+    description: Degree 1 grade
+
+  degree_2_type:
+    type: string
+    description: Degree 2 type
+
+  degree_2_grade:
+    type: string
+    description: Degree 2 grade
+
+  number_of_other_qualifications_provided:
+    type: string
+    description: Number of other qualifications provided
