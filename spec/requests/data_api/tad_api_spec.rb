@@ -8,7 +8,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/latest', type: :request, sidekiq:
   end
 
   it 'only allows access to the API for TAD, and not other data users' do
-    api_token = DataAPIUser.test_data_user.create_magic_link_token!
+    api_token = APIUser.test_data_user.create_magic_link_token!
 
     headers = { 'Authorization' => "Bearer #{api_token}" }
 
@@ -23,7 +23,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/latest', type: :request, sidekiq:
     data_export = DataExport.create!(name: 'Daily export of applications for TAD')
     DataExporter.perform_async(DataAPI::TADExport, data_export.id)
 
-    api_token = DataAPIUser.tad_user.create_magic_link_token!
+    api_token = APIUser.tad_user.create_magic_link_token!
 
     headers = { 'Authorization' => "Bearer #{api_token}" }
 
