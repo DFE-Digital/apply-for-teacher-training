@@ -124,8 +124,11 @@ private
 
   def applications_eligible_for_apply_again_not_applied(start_time, end_time)
     applications_eligible_for_apply_again(start_time, end_time)
-      .joins('LEFT OUTER JOIN application_forms AS subsequent_application_form ON application_forms.id = subsequent_application_form.previous_application_form_id')
-      .where(subsequent_application_form: { id: nil })
+      .where.not(
+        'application_forms.id': ApplicationForm.where.not(
+          previous_application_form_id: nil,
+        ).pluck(:previous_application_form_id),
+      )
       .distinct
       .pluck(:id)
       .count
