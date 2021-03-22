@@ -1,7 +1,7 @@
-import {candidateAutosuggestInputs} from "./candidate-autosuggest-inputs";
+import { candidateAutosuggestInputs } from './candidate-autosuggest-inputs'
 
-describe("candidateAutosuggestInputs", () => {
-  it("should return candidateAutosuggestInputs", () => {
-    expect(candidateAutosuggestInputs).toMatchSnapshot();
-  });
-});
+describe('candidateAutosuggestInputs', () => {
+  it('should return candidateAutosuggestInputs', () => {
+    expect(candidateAutosuggestInputs).toMatchSnapshot()
+  })
+})

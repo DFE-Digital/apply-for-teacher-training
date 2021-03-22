@@ -1,9 +1,9 @@
-import {initAutocomplete} from "./init-autocomplete";
+import { initAutocomplete } from './init-autocomplete'
 
-describe("initAutocomplete", () => {
-  let autocompleteInputs = {
+describe('initAutocomplete', () => {
+  const autocompleteInputs = {
     inputIds: ['form-field-id'],
-    autocompleteId: 'an-autocomplete',
+    autocompleteId: 'an-autocomplete'
   }
 
   beforeEach(() => {
@@ -17,12 +17,12 @@ describe("initAutocomplete", () => {
             <option value="C">C</option>
           </select>
         </div>
-      `;
+      `
 
-    initAutocomplete(autocompleteInputs);
-  });
+    initAutocomplete(autocompleteInputs)
+  })
 
-  it("should instantiate an autocomplete", () => {
-    expect(document.querySelector("#outer-container")).toMatchSnapshot();
-  });
-});
+  it('should instantiate an autocomplete', () => {
+    expect(document.querySelector('#outer-container')).toMatchSnapshot()
+  })
+})
