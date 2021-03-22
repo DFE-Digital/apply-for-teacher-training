@@ -4,6 +4,8 @@ require 'rails_helper'
 # logic in the presenter. For anything that is passed straight from the database
 # to the API, make sure that spec/system/vendor_api/vendor_receives_application_spec.rb is updated.
 RSpec.describe VendorAPI::SingleApplicationPresenter do
+  include VendorAPISpecHelpers
+
   describe 'attributes.withdrawal' do
     it 'returns a withdrawal object' do
       withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
