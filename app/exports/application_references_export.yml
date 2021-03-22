@@ -1,0 +1,136 @@
+common_columns:
+  - recruitment_cycle_year
+  - support_reference
+  - phase
+
+custom_columns:
+  application_state:
+    type: string
+    description: The application’s state
+    enum:
+      - never_signed_in
+      - unsubmitted_not_started_form
+      - unsubmitted_in_progress
+      - awaiting_provider_decisions
+      - awaiting_candidate_response
+      - recruited
+      - pending_conditions
+      - offer_deferred
+      - ended_without_success
+      - unknown_state
+
+  ref_1_type:
+    type: string
+    description: Referee type for reference 1
+
+  ref_1_state:
+    type: string
+    description: Reference 1 feedback status
+    enum:
+      - cancelled
+      - cancelled_at_end_of_cycle
+      - not_requested_yet
+      - feedback_requested
+      - feedback_provided
+      - feedback_refused
+      - email_bounced
+      - feedback_overdue
+
+  ref_1_requested_at:
+    type: string
+    format: date-time
+    description: Date reference 1 was requested
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_1_received_at:
+    type: string
+    format: date-time
+    description: Date reference 1 was received
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_2_type:
+    type: string
+    description: Referee type for reference 2
+
+  ref_2_state:
+    type: string
+    description: Reference 2 feedback status
+    enum:
+      - cancelled
+      - cancelled_at_end_of_cycle
+      - not_requested_yet
+      - feedback_requested
+      - feedback_provided
+      - feedback_refused
+      - email_bounced
+      - feedback_overdue
+
+  ref_2_requested_at:
+    type: string
+    format: date-time
+    description: Date reference 2 was requested
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_2_received_at:
+    type: string
+    format: date-time
+    description: Date reference 2 was received
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_3_type:
+    type: string
+    description: Referee type for reference 3
+
+  ref_3_state:
+    type: string
+    description: Reference 3 feedback status
+    enum:
+      - cancelled
+      - cancelled_at_end_of_cycle
+      - not_requested_yet
+      - feedback_requested
+      - feedback_provided
+      - feedback_refused
+      - email_bounced
+      - feedback_overdue
+
+  ref_3_requested_at:
+    type: string
+    format: date-time
+    description: Date reference 3 was requested
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_3_received_at:
+    type: string
+    format: date-time
+    description: Date reference 3 was received
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_4_type:
+    type: string
+    description: Referee type for reference 4
+
+  ref_4_state:
+    type: string
+    description: Reference 4 feedback status
+    enum:
+      - cancelled
+      - cancelled_at_end_of_cycle
+      - not_requested_yet
+      - feedback_requested
+      - feedback_provided
+      - feedback_refused
+      - email_bounced
+      - feedback_overdue
+
+  ref_4_requested_at:
+    type: string
+    format: date-time
+    description: Date reference 4 was requested
+    example: 2020-11-01T00:00:00+00:00
+
+  ref_4_received_at:
+    type: string
+    format: date-time
+    description: Date reference 4 was received
+    example: 2020-11-01T00:00:00+00:00
