@@ -85,8 +85,8 @@ RSpec.describe ChangeOffer do
         service.save!
       }.to raise_error(
         ProviderAuthorisation::NotAuthorisedError,
-        'You are not permitted to view this application. The specified course is not associated with any of your organisations. You do not have the required user level permissions to make decisions on applications for this provider.',
-      )
+        'You do not have the required user level permissions to make decisions on applications for this provider.',
+        )
     end
   end
 
@@ -95,59 +95,52 @@ RSpec.describe ChangeOffer do
       application_choice.update(offer: { 'conditions' => ['DBS check'] })
       change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, conditions: ['DBS check'])
 
-      # already covered by ChangeAnOffer as an error
-      skip
+      expect {
+        change.save!
+      }.to raise_error(
+        ChangeOffer::IdenticalOffer,
+        'The new offer is identical to the current offer',
+        )
     end
 
     it 'do not error if the change offer conditions' do
       application_choice.update(offer: { 'conditions' => ['Different things'] })
       change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, conditions: ['DBS check'])
-
-      skip
+      expect { change.save! }.not_to raise_error
     end
 
     it 'do not error when if they change offered course details' do
       application_choice.update(offer: { 'conditions' => ['DBS check'] })
       change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option, conditions: ['DBS check'])
-
-      skip
+      expect { change.save! }.not_to raise_error
     end
   end
 
   describe 'course option validation' do
-    it 'throws exception if course option is absent' do
-      change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: nil)
-
-      # covered by controller
-
-      # TODO service call with invalid course_option_id
-      expect {
-        service.save!
-      }.to raise_error(
-        Offer::CourseValidationError,
-        'Course option id does not match a valid course option',
-      )
-    end
-
     it 'throws exception unless course is open on apply' do
-      # covered by ChangeAnOffer as an error
-
       new_course_option = create(:course_option, course: create(:course, provider: provider, open_on_apply: false))
       change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
 
-      skip
+      expect {
+        change.save!
+      }.to raise_error(
+               ChangeOffer::CourseValidationError,
+               'is not open for applications via the Apply service',
+               )
     end
 
     it 'throws exception if new course option changes the ratifying provider' do
-      # this check needs to be added to wrapper service
-      skip
+      new_course_option = create(:course_option, course: create(:course, :with_accredited_provider, provider: provider))
+      change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
+
+      expect {
+        change.save!
+      }.to raise_error(
+               ChangeOffer::RatifyingProviderChange,
+               'The new offer has a different ratifying provider to the current offer',
+               )
     end
   end
-
-  # .save!
-  #   ProviderAuthorisation::NotAuthorisedError,
-  #   Offer::CourseValidationError,
-  #   Offer::ConditionsValidationError,
 
   describe 'conditions validation' do
     it 'throws exception if number of conditions exceeds 20' do
