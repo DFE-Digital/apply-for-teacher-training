@@ -54,6 +54,18 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     end
   end
 
+  describe '#unavailable_courses' do
+    it 'returns courses with no vacacncies' do
+      course1 = create(:course, :open_on_apply, code: 'ABC')
+      course2 = create(:course, :open_on_apply, code: 'ABC')
+      create(:course_option, course: course1)
+      create(:course_option, :no_vacancies, course: course1)
+      create(:course_option, :no_vacancies, course: course2)
+
+      expect(described_class.new(course_code: 'ABC').unavailable_courses).to eq [course2]
+    end
+  end
+
   describe '#save' do
     it 'returns false if not valid' do
       expect(described_class.new.save).to be false
