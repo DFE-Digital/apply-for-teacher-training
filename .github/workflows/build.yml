@@ -34,13 +34,13 @@ jobs:
             ${{ runner.os }}-buildx-
       
       - name: Set Environment Variable
-        run:  echo "DOCKER_IMAGE=dfedigital/apply-teacher-training:paas-${{ github.sha }}" >> $GITHUB_ENV
+        run:  echo "DOCKER_IMAGE=ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Build Docker Image
         uses: docker/build-push-action@v2
         with:
           tags: ${{ env.DOCKER_IMAGE}}
-          push: false
+          push: true
           builder: ${{ steps.buildx.outputs.name }}
           cache-to:   type=local,dest=/tmp/.buildx-cache
           cache-from: type=local,src=/tmp/.buildx-cache
