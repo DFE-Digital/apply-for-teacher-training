@@ -76,7 +76,7 @@
           </h2>
 
           <p class="govuk-body">
-            You did not respond to the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
+            You did not make a decision about the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
           </p>
 
           <% if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd) %>
