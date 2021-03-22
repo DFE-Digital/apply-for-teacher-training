@@ -3,9 +3,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <% @export_types.each do |id, export| %>
-      <%# TODO: If first section, don’t add `app-section--with-top-border` class %>
 
-      <section class="app-section app-section--with-top-border">
+      <% if @export_types.first.second[:name] == export[:name] %>
+        <section>
+      <% else %>
+        <section class="app-section app-section--with-top-border">
+      <% end %>
         <h3 class="govuk-heading-m govuk-!-margin-bottom-2"><%= govuk_link_to export.fetch(:name), support_interface_view_export_information_path(data_export_type: id) %></h3>
         <p class="govuk-body govuk-!-margin-bottom-2"><%= export.fetch(:description) %></p>
       </section>
