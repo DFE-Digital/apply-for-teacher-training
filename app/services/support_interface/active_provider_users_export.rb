@@ -5,8 +5,8 @@ module SupportInterface
 
       active_provider_users.map do |provider_user|
         {
-          name: provider_user.full_name,
-          email_address: provider_user.email_address,
+          provider_full_name: provider_user.full_name,
+          provider_email_address: provider_user.email_address,
           providers: provider_user.providers.map(&:name).join(', '),
           last_signed_in_at: provider_user.last_signed_in_at,
         }

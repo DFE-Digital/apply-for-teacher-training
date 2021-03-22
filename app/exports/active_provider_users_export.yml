@@ -1,0 +1,21 @@
+custom_columns:
+  provider_full_name:
+    type: string
+    description: Provider's full name
+
+  provider_email_address:
+    type: string
+    description: Provider's email address
+    maxLength: 100
+    example: boris.brown@example.com
+
+  providers:
+    type: string
+    description: A comma separated list of providers
+    example: Fox Primary School, Durham SCITT, Cornwall Teaching School, University of Brighton
+
+  last_signed_in_at:
+    type: string
+    format: date-time
+    example: 2020-11-01T00:00:00+00:00
+    description: Last time user signed in
