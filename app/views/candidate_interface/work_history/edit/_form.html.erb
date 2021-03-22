@@ -22,7 +22,7 @@
 
 <%= f.govuk_text_area :details, label: { text: t('application_form.work_history.details.label'), size: 'm' }, hint: { text: t('application_form.work_history.details.hint_text') }, max_words: 150 %>
 
-<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.work_history.working_with_children.label'), size: 'm' }, inline: true do %>
+<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.work_history.working_with_children.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :working_with_children, true, label: { text: t('application_form.work_history.working_with_children.yes.label') }, link_errors: true %>
   <%= f.govuk_radio_button :working_with_children, false, label: { text: t('application_form.work_history.working_with_children.no.label') } %>
 <% end %>
