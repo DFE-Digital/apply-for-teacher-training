@@ -1,4 +1,4 @@
-export const degreeGradeAutosuggestInputs = {
+const degreeGradeAutosuggestInputs = {
   inputIds: [
     "candidate-interface-degree-grade-form-other-grade-field",
     "candidate-interface-degree-grade-form-other-grade-field-error"
@@ -6,7 +6,7 @@ export const degreeGradeAutosuggestInputs = {
   containerId: "degree-grade-autosuggest"
 };
 
-export const degreeInstitutionAutosuggestInputs = {
+const degreeInstitutionAutosuggestInputs = {
   inputIds: [
     "candidate-interface-degree-institution-form-institution-name-field",
     "candidate-interface-degree-institution-form-institution-name-field-error",
@@ -14,7 +14,7 @@ export const degreeInstitutionAutosuggestInputs = {
   containerId: 'degree-institution-autosuggest'
 }
 
-export const degreeSubjectAutosuggestInputs = {
+const degreeSubjectAutosuggestInputs = {
   inputIds: [
     "candidate-interface-degree-subject-form-subject-field",
     "candidate-interface-degree-subject-form-subject-field-error",
@@ -22,7 +22,7 @@ export const degreeSubjectAutosuggestInputs = {
   containerId: "degree-subject-autosuggest"
 }
 
-export const degreeTypeAutosuggestInputs = {
+const degreeTypeAutosuggestInputs = {
   inputIds: [
     "candidate-interface-degree-type-form-type-description-field",
     "candidate-interface-degree-type-form-type-description-field-error"
@@ -42,7 +42,7 @@ export const degreeTypeAutosuggestInputs = {
   }
 }
 
-export const otherQualificationsSubjectAutosuggestInputs = {
+const otherQualificationsSubjectAutosuggestInputs = {
   inputIds: [
     "candidate-interface-other-qualification-details-form-subject-field",
     "candidate-interface-other-qualification-details-form-subject-field-error",
@@ -50,7 +50,7 @@ export const otherQualificationsSubjectAutosuggestInputs = {
   containerId: "subject-autosuggest-data"
 }
 
-export const otherQualificationsGradeAutosuggestInputs = {
+const otherQualificationsGradeAutosuggestInputs = {
   inputIds: [
     "candidate-interface-other-qualification-details-form-grade-field",
     "candidate-interface-other-qualification-details-form-grade-field-error",
@@ -62,10 +62,20 @@ export const otherQualificationsGradeAutosuggestInputs = {
   }
 }
 
-export const otherQualificationsTypeAutosuggestInputs = {
+const otherQualificationsTypeAutosuggestInputs = {
   inputIds: [
     "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field",
     "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field-error",
   ],
   containerId: "other-uk-qualifications-autosuggest",
 }
+
+export const candidateAutosuggestInputs = [
+  degreeGradeAutosuggestInputs,
+  degreeInstitutionAutosuggestInputs,
+  degreeTypeAutosuggestInputs,
+  degreeSubjectAutosuggestInputs,
+  otherQualificationsSubjectAutosuggestInputs,
+  otherQualificationsGradeAutosuggestInputs,
+  otherQualificationsTypeAutosuggestInputs
+]

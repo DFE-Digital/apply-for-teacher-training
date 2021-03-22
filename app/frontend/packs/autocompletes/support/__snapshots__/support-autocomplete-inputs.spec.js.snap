@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`supportAutocompleteInputs should return supportAutocompleteInputs 1`] = `
+Array [
+  Object {
+    "autocompleteId": "api-token-autocomplete",
+    "inputIds": Array [
+      "#vendor-api-token-provider-id-field.govuk-select",
+    ],
+  },
+  Object {
+    "autocompleteId": "country-autocomplete",
+    "inputIds": Array [
+      "#support-interface-application-forms-edit-address-details-form-country-field",
+      "#support-interface-application-forms-edit-address-details-form-country-field-error",
+    ],
+  },
+]
+`;
