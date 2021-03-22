@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TimeLimitCalculator, skip: true do
+RSpec.describe TimeLimitCalculator do
   around do |example|
     Timecop.freeze(Time.zone.local(2019, 6, 1)) do
       example.run
