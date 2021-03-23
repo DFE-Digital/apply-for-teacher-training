@@ -1,6 +1,9 @@
 class ChangeOffer
   attr_reader :actor, :application_choice, :course_option, :conditions
 
+  MAX_CONDITIONS_COUNT = 20
+  MAX_CONDITION_LENGTH = 255
+
   def initialize(actor:,
                  application_choice:,
                  course_option:,
@@ -12,9 +15,8 @@ class ChangeOffer
   end
 
   def save!
-    if offer_changes_ratifying_provider?
-      raise RatifyingProviderChange, 'The new offer has a different ratifying provider to the current offer'
-    end
+    check_ratifying_provider_is_preserved!
+    check_conditions!
 
     change_an_offer = ChangeAnOffer.new(actor: actor,
                                         application_choice: application_choice,
@@ -33,11 +35,22 @@ class ChangeOffer
   class IdenticalOffer < StandardError; end
   class CourseValidationError < StandardError; end
   class RatifyingProviderChange < StandardError; end
+  class ConditionsValidationError < StandardError; end
 private
 
-  def offer_changes_ratifying_provider?
+  def check_ratifying_provider_is_preserved!
     previous_ratifying_provider = application_choice.offered_course.accredited_provider || application_choice.offered_course.provider
-    new_ratfiying_provider = course_option.course.accredited_provider || course_option.course.provider
-    previous_ratifying_provider != new_ratfiying_provider
+    new_ratifiying_provider = course_option.course.accredited_provider || course_option.course.provider
+    if previous_ratifying_provider != new_ratifiying_provider
+      raise RatifyingProviderChange, 'The new offer has a different ratifying provider to the current offer'
+    end
+  end
+
+  def check_conditions!
+    if conditions&.count > MAX_CONDITIONS_COUNT
+      raise ConditionsValidationError, 'Too many conditions specified (20 or fewer required)'
+    elsif conditions.any? { |c| c.length > MAX_CONDITION_LENGTH }
+      raise ConditionsValidationError, 'Condition exceeds length limit (255 characters or fewer required)'
+    end
   end
 end
