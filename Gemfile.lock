@@ -183,6 +183,9 @@ GEM
     geocoder (1.6.6)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    govuk-components (1.1.4)
+      rails (>= 6.0)
+      view_component (~> 2.20)
     govuk_design_system_formbuilder (2.2.0)
       actionview (>= 5.2)
       activemodel (>= 5.2)
@@ -288,7 +291,7 @@ GEM
     multipart-post (2.1.1)
     nenv (0.3.0)
     netrc (0.11.0)
-    nio4r (2.5.5)
+    nio4r (2.5.7)
     nokogiri (1.11.2)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
@@ -595,6 +598,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   geocoder
+  govuk-components
   govuk_design_system_formbuilder (~> 2.2.0)
   govuk_markdown
   guard-rspec
