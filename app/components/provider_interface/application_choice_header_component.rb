@@ -31,8 +31,14 @@ module ProviderInterface
       end
 
       if offer_present?
+        path = if FeatureFlag.active?(:updated_offer_flow)
+                 provider_interface_application_choice_offers_path(application_choice)
+               else
+                 provider_interface_application_choice_offer_path(application_choice)
+               end
+
         sub_navigation_items.push(
-          { name: 'Offer', url: provider_interface_application_choice_offer_path(application_choice) },
+          { name: 'Offer', url: path },
         )
       end
 
