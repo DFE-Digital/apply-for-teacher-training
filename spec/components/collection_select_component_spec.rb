@@ -21,6 +21,7 @@ RSpec.describe CollectionSelectComponent do
                                       hint_method: nil,
                                       form_object: form_object,
                                       form_path: '',
+                                      form_method: :put,
                                       page_title: 'Select provider',
                                       caption: 'Jane Doe'))
   end
