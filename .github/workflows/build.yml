@@ -89,7 +89,7 @@ jobs:
         working-directory: /app
     container: 
       image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
-      options: -t
+      options: -a STDOUT -a STDERR -t
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
