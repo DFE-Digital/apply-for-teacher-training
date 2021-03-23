@@ -7,12 +7,10 @@ RSpec.describe ChangeOffer do
   let(:original_course_option) { course_option_for_provider(provider: provider) }
   let(:new_course_option) { course_option_for_provider(provider: provider) }
   let(:application_choice) do
-    choice = create(:application_choice, :with_modified_offer, course_option: original_course_option)
-    SetDeclineByDefault.new(application_form: choice.application_form).call
-    choice.reload
+    create(:application_choice, :with_modified_offer, course_option: original_course_option)
   end
 
-  def service
+  let(:service) do
     described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
   end
 
@@ -86,7 +84,7 @@ RSpec.describe ChangeOffer do
       }.to raise_error(
         ProviderAuthorisation::NotAuthorisedError,
         'You do not have the required user level permissions to make decisions on applications for this provider.',
-        )
+      )
     end
   end
 
@@ -100,7 +98,7 @@ RSpec.describe ChangeOffer do
       }.to raise_error(
         ChangeOffer::IdenticalOffer,
         'The new offer is identical to the current offer',
-        )
+      )
     end
 
     it 'do not error if the change offer conditions' do
@@ -124,9 +122,9 @@ RSpec.describe ChangeOffer do
       expect {
         change.save!
       }.to raise_error(
-               ChangeOffer::CourseValidationError,
-               'is not open for applications via the Apply service',
-               )
+        ChangeOffer::CourseValidationError,
+        'is not open for applications via the Apply service',
+      )
     end
 
     it 'throws exception if new course option changes the ratifying provider' do
@@ -136,9 +134,9 @@ RSpec.describe ChangeOffer do
       expect {
         change.save!
       }.to raise_error(
-               ChangeOffer::RatifyingProviderChange,
-               'The new offer has a different ratifying provider to the current offer',
-               )
+        ChangeOffer::RatifyingProviderChange,
+        'The new offer has a different ratifying provider to the current offer',
+      )
     end
   end
 
