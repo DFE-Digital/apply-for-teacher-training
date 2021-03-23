@@ -84,11 +84,14 @@ jobs:
     name: lint
     needs: [build]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /app
     container: 
       image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
     steps:
-    - run:  bundle exec rubocop --format clang --parallel
+    - run: pwd && bundle exec rubocop --format clang --parallel
       name: Rubocop
