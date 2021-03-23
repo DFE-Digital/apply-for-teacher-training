@@ -81,7 +81,7 @@ jobs:
             BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
 
   lint:
-    name: lint
+    name: Lint
     needs: [build]
     runs-on: ubuntu-latest
     defaults:
@@ -96,3 +96,9 @@ jobs:
     steps:
     - run:  bundle exec rubocop --format clang --parallel
       name: Rubocop
+
+    - run:  bundle exec rake erblint
+      name: ERB Linter
+    
+    - run:  bundle exec rake brakeman
+      name: Brakeman
