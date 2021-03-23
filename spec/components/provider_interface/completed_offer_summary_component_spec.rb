@@ -67,34 +67,34 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     end
   end
 
-  context 'when multiple course options' do
-    let(:course_options) { build_stubbed_list(:course_option, 2) }
+  context 'when multiple study modes' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time_or_part_time) }
 
     it 'renders a change link' do
-      course_options_change_link = Rails.application.routes.url_helpers.edit_provider_interface_application_choice_offer_locations_path(application_choice)
-      expect(row_link_selector(2)).to eq(course_options_change_link)
+      study_mode_change_link = Rails.application.routes.url_helpers.edit_provider_interface_application_choice_offer_study_modes_path(application_choice)
+      expect(row_link_selector(2)).to eq(study_mode_change_link)
     end
   end
 
-  context 'when only one course option' do
-    let(:course_options) { [build_stubbed(:course_option)] }
+  context 'when only one study mode' do
+    let(:course) { build_stubbed(:course, study_mode: :full_time) }
 
     it 'renders no change link' do
       expect(row_link_selector(2)).to eq(nil)
     end
   end
 
-  context 'when multiple study modes' do
-    let(:course) { build_stubbed(:course, study_mode: :full_time_or_part_time) }
+  context 'when multiple course options' do
+    let(:course_options) { build_stubbed_list(:course_option, 2) }
 
     it 'renders a change link' do
-      study_mode_change_link = Rails.application.routes.url_helpers.edit_provider_interface_application_choice_offer_study_modes_path(application_choice)
-      expect(row_link_selector(3)).to eq(study_mode_change_link)
+      course_options_change_link = Rails.application.routes.url_helpers.edit_provider_interface_application_choice_offer_locations_path(application_choice)
+      expect(row_link_selector(3)).to eq(course_options_change_link)
     end
   end
 
-  context 'when only one study mode' do
-    let(:course) { build_stubbed(:course, study_mode: :full_time) }
+  context 'when only one course option' do
+    let(:course_options) { [build_stubbed(:course_option)] }
 
     it 'renders no change link' do
       expect(row_link_selector(3)).to eq(nil)
