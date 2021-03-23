@@ -10,9 +10,7 @@ module ProviderInterface
     end
   end
 
-  class ProviderInterfaceController < ActionController::Base
-    include LogQueryParams
-
+  class ProviderInterfaceController < ApplicationController
     before_action :authenticate_provider_user!
     before_action :add_identity_to_log
     before_action :redirect_if_setup_required

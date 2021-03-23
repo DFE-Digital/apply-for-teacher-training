@@ -1,7 +1,5 @@
 module SupportInterface
-  class SupportInterfaceController < ActionController::Base
-    include LogQueryParams
-
+  class SupportInterfaceController < ApplicationController
     layout 'support_layout'
     before_action :authenticate_support_user!
     before_action :add_identity_to_log

@@ -1,6 +1,5 @@
 module CandidateInterface
-  class CandidateInterfaceController < ActionController::Base
-    include LogQueryParams
+  class CandidateInterfaceController < ApplicationController
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :add_identity_to_log
