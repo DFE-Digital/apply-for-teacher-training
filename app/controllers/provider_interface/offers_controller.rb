@@ -35,7 +35,7 @@ module ProviderInterface
       @wizard = OfferWizard.new(offer_store,
                                 offer_context_params(@application_choice.offered_course_option,
                                                      @application_choice.offer['conditions'],
-                                                     :change_offer))
+                                                     :change_offer).merge!(current_step: :offer))
       @wizard.save_state!
 
       @providers = available_providers
