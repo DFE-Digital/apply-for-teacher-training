@@ -7,4 +7,3 @@ Sidekiq.configure_server do |config|
 end
 
 require 'sidekiq/web'
-Sidekiq::Web.set :sessions, false
