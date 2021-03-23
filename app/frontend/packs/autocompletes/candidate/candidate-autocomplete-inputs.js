@@ -30,14 +30,16 @@ const nationalityAutocompleteInputs = {
 
 const providerAutocompleteInputs = {
   inputIds: [
-    "#pick-provider-form .govuk-select"
+    "candidate-interface-pick-provider-form-provider-id-field",
+    "candidate-interface-pick-provider-form-provider-id-field-error",
   ],
   autocompleteId: 'provider-autocomplete'
 }
 
 const courseAutocompleteInputs = {
   inputIds: [
-    "#pick-course-form .govuk-select"
+    "candidate-interface-pick-course-form-course-id-field",
+    "candidate-interface-pick-course-form-course-id-field-error"
   ],
   autocompleteId: 'course-autocomplete'
 }
