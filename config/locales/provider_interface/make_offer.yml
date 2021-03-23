@@ -28,6 +28,8 @@ en:
       conditions:
         new:
           title: Conditions of offer
+        edit:
+          title: Conditions of offer
       checks:
         new:
           title: Check and send offer

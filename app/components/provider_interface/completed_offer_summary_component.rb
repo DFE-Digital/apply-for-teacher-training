@@ -41,5 +41,9 @@ module ProviderInterface
     def change_location_path
       available_course_options.many? ? edit_provider_interface_application_choice_offer_locations_path(application_choice) : nil
     end
+
+    def mode
+      :edit
+    end
   end
 end

@@ -5,7 +5,7 @@
   <h2 class="govuk-heading-m">Conditions of offer</h2>
 
   <div class='govuk-body'>
-    <%= govuk_link_to 'Add or change conditions', [:new, :provider_interface, @application_choice, :offer, :conditions] %>
+    <%= govuk_link_to 'Add or change conditions', [mode, :provider_interface, @application_choice, :offer, :conditions] %>
   </div>
 
   <% if conditions.any? %>

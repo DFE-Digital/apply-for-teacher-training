@@ -50,5 +50,9 @@ module ProviderInterface
     def change_study_mode_path
       course.full_time_or_part_time? ? new_provider_interface_application_choice_offer_study_modes_path(application_choice) : nil
     end
+
+    def mode
+      :new
+    end
   end
 end
