@@ -42,7 +42,20 @@ jobs:
             ${{ runner.os }}-buildx-
       
       - name: Set Environment Variable
-        run:  echo "DOCKER_IMAGE=ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}" >> $GITHUB_ENV
+        run:  |
+          echo "DOCKER_IMAGE=ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}" >> $GITHUB_ENV
+          echo "GEMS_NODE_MODULES_IMAGE=ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:paas-${{ github.sha }}" >> $GITHUB_ENV
+
+      - name: Build gems-node-modules Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          target: apply-for-teacher-training-gems-node-modules
+          tags: ${{ env.DOCKER_IMAGE}}
+          push: true
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-to: type=local,dest=/tmp/.buildx-gem-node-modules-cache
+          cache-from: type=local,src=/tmp/.buildx-gem-node-modules-cache
+          build-args: VERSION=${{ github.sha }}
 
       - name: Build Docker Image
         uses: docker/build-push-action@v2
@@ -50,13 +63,11 @@ jobs:
           tags: ${{ env.DOCKER_IMAGE}}
           push: true
           builder: ${{ steps.buildx.outputs.name }}
-          cache-to: | 
-            type=local,dest=/tmp/.buildx-cache
-            type=local,dest=/tmp/.buildx-gem-node-modules-cache
-          cache-from: |
-            type=local,src=/tmp/.buildx-cache
-            type=local,src=/tmp/.buildx-gem-node-modules-cache
-          build-args: VERSION=${{ github.sha }}
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
+          build-args: | 
+            VERSION=${{ github.sha }} 
+            BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
 
   lint:
     name: lint
