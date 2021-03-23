@@ -10,7 +10,11 @@
 
 <% elsif has_offers_awaiting_decisions? %>
 
-  <p class="govuk-body"><%= number_of_offers_in_words %> of your training providers has made a decision on your application.</p>
+  <% if has_multiple_offers? %>
+    <p class="govuk-body"><%= number_of_offers_in_words %> of your training providers have made a decision on your application.</p>
+  <% else %>
+    <p class="govuk-body">One of your training providers has made a decision on your application.</p>
+  <% end %>
 
   <p class="govuk-body">Our <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training advisers</a> can help you prepare for any interviews.</p>
 

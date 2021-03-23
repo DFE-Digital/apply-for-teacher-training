@@ -4,6 +4,12 @@ module CandidateInterface
 
     attr_reader :application_form
 
+    NUMBER_IN_WORDS = {
+      1 => 'One',
+      2 => 'Two',
+      3 => 'Three',
+    }
+
     def initialize(application_form:)
       @application_form = application_form
     end
@@ -17,23 +23,33 @@ module CandidateInterface
     end
 
     def has_offers_awaiting_decisions?
+      offered? && awaiting_decisions?
     end
 
     def offer_accepted?
+      statuses.include?('pending_conditions')
     end
 
     def offer_deferred?
+      statuses.include?('offer_deferred')
     end
 
     def conditions_met?
+      statuses.include?('recruited')
+    end
+
+    def has_multiple_offers?
+      multiple_choices_with_status?('offer')
     end
 
     def number_of_offers_in_words 
-      'One'
+      count = statuses.select { |s| s == 'offer' }.count
+      NUMBER_IN_WORDS[count] || count.to_s
     end
 
     def accepted_offer_provider_name 
-      ''
+      accepted_application_choice = application_form.application_choices.select { |application_choice| %w[pending_conditions recruited].include?(application_choice.status) }.first
+      accepted_application_choice.provider.name
     end
 
   private
@@ -48,6 +64,10 @@ module CandidateInterface
 
     def successful?
       application_form.successful?
+    end
+
+    def offered?
+      statuses.include?('offer')
     end
 
     def statuses
