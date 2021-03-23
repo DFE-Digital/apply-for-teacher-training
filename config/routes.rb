@@ -638,7 +638,7 @@ Rails.application.routes.draw do
       resource :offers, only: %i[create show], as: :application_choice_offers
 
       namespace :offer, as: :application_choice_offer do
-        resource :providers, only: %i[new create]
+        resource :providers, only: %i[new create edit update]
         resource :courses, only: %i[new create]
         resource :locations, only: %i[new create]
         resource :study_modes, only: %i[new create], path: 'study-modes'
