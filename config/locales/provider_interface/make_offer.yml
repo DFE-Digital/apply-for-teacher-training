@@ -13,6 +13,8 @@ en:
       courses:
         new:
           title: Select course
+        edit:
+          title: Select course
       locations:
         new:
           title: Select location

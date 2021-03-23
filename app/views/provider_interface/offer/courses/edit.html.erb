@@ -1,0 +1,17 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, back: true)) %>
+
+<%= render CollectionSelectComponent.new(attribute: :course_id,
+                                         collection: @courses,
+                                         value_method: :id,
+                                         text_method: :name_and_code,
+                                         hint_method: :description,
+                                         form_object: @wizard,
+                                         form_path: provider_interface_application_choice_offer_courses_path,
+                                         form_method: :put,
+                                         page_title: t('.title'),
+                                         caption: @application_choice.application_form.full_name) do %>
+  <p class="govuk-body">
+    <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %>
+  </p>
+<% end %>

@@ -31,7 +31,7 @@ module ProviderInterface
     end
 
     def change_course_path
-      available_courses.many? ? new_provider_interface_application_choice_offer_courses_path(application_choice) : nil
+      available_courses.many? ? edit_provider_interface_application_choice_offer_courses_path(application_choice) : nil
     end
 
     def change_location_path
