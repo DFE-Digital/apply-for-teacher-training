@@ -1,6 +1,5 @@
-<% content_for :before_content do %>
-  <%= govuk_back_link_to 'Back', previous_page %>
-<% end %>
+<% content_for :browser_title, title_with_error_prefix('Set up permissions', @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(previous_page) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
