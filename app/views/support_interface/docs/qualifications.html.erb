@@ -1,0 +1,56 @@
+<%= render 'docs_navigation', title: 'Qualifications' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <p class="govuk-body govuk-!-margin-top-4">
+      These lists are a reference for the values used throughout the service.
+    </p>
+    <p class="govuk-body govuk-!-margin-top-4">
+      They are used to populate the autocomplete fields and the form validation.
+    </p>
+  </div>
+
+  <div class="govuk-grid-column-three-quarters">
+    <%= render GovukComponent::Accordion.new do |component| %>
+      <% component.slot(:section, title: 'GCSE subjects') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: GCSE_SUBJECTS) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'GCSE single grades') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: SINGLE_GCSE_GRADES) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'GCSE double grades') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: DOUBLE_GCSE_GRADES) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'A level subjects') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: A_AND_AS_LEVEL_SUBJECTS) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'A level grades') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: A_LEVEL_GRADES) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'AS level grades') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: AS_LEVEL_GRADES) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'Degree types') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: HESA_DEGREE_TYPES.map(&:third)) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'Degree grades (with HESA codes)') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: HESA_DEGREE_GRADES.map { |hesa_grade| "#{hesa_grade.first} – #{hesa_grade.second}" }) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'Other UK qualification names') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: OTHER_UK_QUALIFICATIONS) %>
+      <% end %>
+
+      <% component.slot(:section, title: 'Other UK qualification grades') do %>
+        <%= render SupportInterface::QualificationDocumentationComponent.new(list: OTHER_UK_QUALIFICATION_GRADES) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
