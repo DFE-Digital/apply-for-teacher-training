@@ -41,8 +41,8 @@ private
 
   def check_ratifying_provider_is_preserved!
     previous_ratifying_provider = application_choice.offered_course.accredited_provider || application_choice.offered_course.provider
-    new_ratifiying_provider = course_option.course.accredited_provider || course_option.course.provider
-    if previous_ratifying_provider != new_ratifiying_provider
+    new_ratifying_provider = course_option.course.accredited_provider || course_option.course.provider
+    if previous_ratifying_provider != new_ratifying_provider
       raise RatifyingProviderChangeError, 'The offer has a different ratifying provider to the application choice'
     end
   end

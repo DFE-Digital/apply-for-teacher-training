@@ -115,7 +115,7 @@ RSpec.describe ChangeOffer do
       expect { change.save! }.not_to raise_error
     end
 
-    it 'do not error when if they change offered course details' do
+    it 'do not error if they change offered course details' do
       application_choice.update(offer: { 'conditions' => ['DBS check'] })
       change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option, conditions: ['DBS check'])
       expect { change.save! }.not_to raise_error
