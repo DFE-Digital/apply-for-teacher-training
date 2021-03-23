@@ -28,7 +28,7 @@ RSpec.describe QualificationsFeatureMetrics, with_audited: true do
         expect(feature_metrics.formatted_a_level_percentage(1, 1.month.ago)).to eq('0%')
       end
 
-      it 'returns 50% when there one of two applications has A levels' do
+      it 'returns the right percentages for different minimum numbers of A levels' do
         create_application
         create_application(1)
         create_application(3)
