@@ -1,9 +1,13 @@
-.git/
-.github/
+.git
+.github
+.gitignore
 node_modules
 coverage
 log
 tmp
 docs
+adr
 *.gem
 *.rdb
+.env*
+
