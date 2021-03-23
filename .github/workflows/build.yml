@@ -45,3 +45,12 @@ jobs:
           cache-to:   type=local,dest=/tmp/.buildx-cache
           cache-from: type=local,src=/tmp/.buildx-cache
           build-args: VERSION=${{ github.sha }}
+
+  lint:
+    name: lint
+    needs: [build]
+    runs-on: ubuntu-latest
+    container: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
+    steps:
+    - run:  bundle exec rubocop --format clang --parallel
+      name: Rubocop
