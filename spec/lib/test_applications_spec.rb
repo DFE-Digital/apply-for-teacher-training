@@ -149,4 +149,14 @@ RSpec.describe TestApplications do
       expect(application_choice.interviews.count).to eq(1)
     end
   end
+
+  it 'marks any submitted application choices as just updated', with_audited: true do
+    create(:course_option, course: create(:course, :open_on_apply))
+
+    choices = TestApplications.new.create_application(recruitment_cycle_year: 2020, courses_to_apply_to: Course.all, states: %i[awaiting_provider_decision])
+
+    expect(choices.count).to eq(1)
+    expect(choices.first.reload.updated_at).to be_within(1.second).of(Time.zone.now)
+    expect(choices.first.audits.last.comment).to eq('This application was automatically generated')
+  end
 end

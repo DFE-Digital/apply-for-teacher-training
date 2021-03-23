@@ -240,6 +240,8 @@ private
         FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
       end
 
+      @application_form.application_choices.update(updated_at: Time.zone.now, audit_comment: 'This application was automatically generated')
+
       application_choices
     end
   end
