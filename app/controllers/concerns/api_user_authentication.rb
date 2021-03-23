@@ -1,4 +1,5 @@
 module APIUserAuthentication
+  include ActionController::HttpAuthentication::Token::ControllerMethods
   extend ActiveSupport::Concern
 
   included do

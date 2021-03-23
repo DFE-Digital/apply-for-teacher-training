@@ -1,6 +1,5 @@
 module DataAPI
   class TADDataExportsController < ActionController::API
-    include ActionController::HttpAuthentication::Token::ControllerMethods
     include APIUserAuthentication
 
     def latest
