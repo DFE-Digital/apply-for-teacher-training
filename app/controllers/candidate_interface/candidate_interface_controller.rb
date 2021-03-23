@@ -7,6 +7,7 @@ module CandidateInterface
     before_action :check_cookie_preferences
     layout 'application'
     alias_method :audit_user, :current_candidate
+    alias_method :current_user, :current_candidate
 
     def add_identity_to_log(candidate_id = current_candidate&.id)
       RequestLocals.store[:identity] = { candidate_id: candidate_id }

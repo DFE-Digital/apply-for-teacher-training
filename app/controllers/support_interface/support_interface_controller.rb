@@ -17,6 +17,7 @@ module SupportInterface
     end
 
     alias_method :audit_user, :current_support_user
+    alias_method :current_user, :current_support_user
 
   private
 

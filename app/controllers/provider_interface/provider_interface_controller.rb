@@ -32,6 +32,8 @@ module ProviderInterface
       !@current_provider_user.nil? ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
     end
 
+    alias_method :current_user, :current_provider_user
+
     def check_cookie_preferences
       if cookies['consented-to-manage-cookies'].eql?('yes')
         @provider_type = current_provider_user.primary_provider_type if current_provider_user
