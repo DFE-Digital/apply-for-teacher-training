@@ -1,12 +1,17 @@
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: true) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Offer</div>
+    <p class="govuk-body govuk-!-margin-bottom-7">
+      <%= govuk_link_to 'Withdraw offer', provider_interface_application_choice_withdraw_offer_path(@application_choice) %>
+    </p>
     <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
                                                                      course_option: @application_choice.offered_course_option,
                                                                      conditions: @application_choice.offer['conditions'],
                                                                      course: @application_choice.offered_course,
                                                                      available_providers: @providers,
                                                                      available_courses: @courses,
-                                                                     available_course_options: @course_options) %>
+                                                                     available_course_options: @course_options,
+                                                                     border: false) %>
   </div>
 </div>
