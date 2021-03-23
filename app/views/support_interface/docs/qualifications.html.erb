@@ -11,7 +11,7 @@
   </div>
 
   <div class="govuk-grid-column-three-quarters">
-    <%= render GovukComponent::Accordion.new do |component| %>
+    <%= render GovukComponent::Accordion.new(id: 'qualifications') do |component| %>
       <% component.slot(:section, title: 'GCSE subjects') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: GCSE_SUBJECTS) %>
       <% end %>
