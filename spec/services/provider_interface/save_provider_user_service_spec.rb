@@ -16,7 +16,7 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
   end
 
   def setup_actor
-    actor = create :provider_user
+    actor = create :provider_user, create_notification_preference: false
     @providers.each do |provider|
       actor.provider_permissions.create(provider: provider, manage_users: true)
     end
@@ -36,6 +36,13 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
     expect(first_permission.make_decisions).to be false
     expect(second_permission.manage_users).to be false
     expect(second_permission.make_decisions).to be true
+  end
+
+  it 'adds the notification preferences record to a ProviderUser' do
+    wizard = setup_wizard_double
+    actor = setup_actor
+
+    expect { described_class.new(actor: actor, wizard: wizard).call! }.to change(ProviderUserNotificationPreferences, :count).by(1)
   end
 
   it 'invokes a service to persist the current state for an existing user' do
