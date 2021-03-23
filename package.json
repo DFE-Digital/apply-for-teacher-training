@@ -14,14 +14,22 @@
   },
   "devDependencies": {
     "jest": "^26.6.3",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "standard": "^16.0.3"
   },
   "scripts": {
+    "lint": "standard 'app/frontend/packs'",
     "test": "jest"
   },
   "jest": {
     "roots": [
       "app"
     ]
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "globals": ["$", "history"]
   }
 }

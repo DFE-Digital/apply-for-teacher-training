@@ -1,4 +1,4 @@
-import accessibleAutocomplete from "accessible-autocomplete";
+import accessibleAutocomplete from 'accessible-autocomplete'
 
 /**
  * Replace an input with an accessible autocomplete that has its own data source
@@ -8,7 +8,7 @@ import accessibleAutocomplete from "accessible-autocomplete";
  * @param {object} autosuggestOptions Options for accessibleAutocomplete
  */
 export const accessibleAutosuggestFromSource = (input, autosuggestContainer, autosuggestOptions = {}) => {
-  const source = JSON.parse(autosuggestContainer.dataset.source);
+  const source = JSON.parse(autosuggestContainer.dataset.source)
 
   // Move autocomplete to the form group containing the input to be replaced
   const inputFormGroup = autosuggestContainer.previousElementSibling
@@ -24,7 +24,7 @@ export const accessibleAutosuggestFromSource = (input, autosuggestContainer, aut
     showNoOptionsFound: false,
     defaultValue: input.value,
     ...autosuggestOptions
-  });
+  })
 
-  input.remove();
+  input.remove()
 }

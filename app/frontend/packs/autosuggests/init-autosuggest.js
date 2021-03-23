@@ -1,13 +1,13 @@
-import {accessibleAutosuggestFromSource} from "./helpers";
+import { accessibleAutosuggestFromSource } from './helpers'
 
-export const initAutosuggest = ({inputIds, containerId, templates = {}, styles = () => {}}) => {
+export const initAutosuggest = ({ inputIds, containerId, templates = {}, styles = () => {} }) => {
   try {
     inputIds.forEach(inputId => {
-      const input = document.getElementById(inputId);
-      if (!input) return;
+      const input = document.getElementById(inputId)
+      if (!input) return
 
-      const container = document.getElementById(containerId);
-      if (!container) return;
+      const container = document.getElementById(containerId)
+      if (!container) return
 
       accessibleAutosuggestFromSource(
         input,
@@ -15,14 +15,14 @@ export const initAutosuggest = ({inputIds, containerId, templates = {}, styles =
         {
           templates: {
             inputValue: templates.inputTemplate,
-            suggestion: templates.suggestionTemplate,
+            suggestion: templates.suggestionTemplate
           }
         }
-      );
+      )
 
-      styles(containerId);
-    });
+      styles(containerId)
+    })
   } catch (err) {
-    console.error(`Could not enhance ${containerId}:`, err);
+    console.error(`Could not enhance ${containerId}:`, err)
   }
-};
+}

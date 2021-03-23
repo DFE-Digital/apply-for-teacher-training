@@ -1,7 +1,7 @@
-import {supportAutocompleteInputs} from "./support-autocomplete-inputs";
+import { supportAutocompleteInputs } from './support-autocomplete-inputs'
 
-describe("supportAutocompleteInputs", () => {
-  it("should return supportAutocompleteInputs", () => {
-    expect(supportAutocompleteInputs).toMatchSnapshot();
-  });
-});
+describe('supportAutocompleteInputs', () => {
+  it('should return supportAutocompleteInputs', () => {
+    expect(supportAutocompleteInputs).toMatchSnapshot()
+  })
+})

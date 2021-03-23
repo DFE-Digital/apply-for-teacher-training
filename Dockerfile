@@ -57,7 +57,8 @@ FROM ${BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES} AS assets-precompile
 WORKDIR /app
 COPY . .
 
-RUN yarn jest && \
+RUN yarn run lint && \
+    yarn run test && \
     bundle exec rake assets:precompile && \
     apk del nodejs yarn && \
     rm -rf yarn.lock && \
