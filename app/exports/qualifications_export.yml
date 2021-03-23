@@ -11,108 +11,108 @@ common_columns:
 custom_columns:
   gcse_maths_grade:
     type: string
-    description: GCSE maths grade
+    description: GCSE maths grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_science_single_grade:
     type: string
-    description: GCSE science single award grade
+    description: GCSE science single award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_science_double_grade:
     type: string
-    description: GCSE science double award grade
+    description: GCSE science double award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_science_triple_grade:
     type: string
-    description: GCSE science triple award grade
+    description: GCSE science triple award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_unstructured_grade:
     type: string
-    description: GCSE English unstructured grade
+    description: GCSE English unstructured grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_single_grade:
     type: string
-    description: GCSE English single award grade
+    description: GCSE English single award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_double_grade:
     type: string
-    description: GCSE English double award grade
+    description: GCSE English double award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_language_grade:
     type: string
-    description: GCSE English language grade
+    description: GCSE English language grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_literature_grade:
     type: string
-    description: GCSE English literature grade
+    description: GCSE English literature grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_studies_single_grade:
     type: string
-    description: GCSE English studies single award grade
+    description: GCSE English studies single award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_studies_double_grade:
     type: string
-    description: GCSE English studies double award grade
+    description: GCSE English studies double award grade. [See list of GCSE grades](/support/docs/qualifications)
 
   gcse_english_other_grade:
     type: string
-    description: GCSE English other grade
+    description: GCSE English other grade. [See list of GCSE grades](/support/docs/qualifications)
 
   a_level_1_subject:
     type: string
-    description: A-level 1 subject
+    description: A-level 1 subject. [See list of A level subjects](/support/docs/qualifications)
 
   a_level_1_grade:
     type: string
-    description: A-level 1 grade
+    description: A-level 1 grade. [See list of A level grades](/support/docs/qualifications)
 
   a_level_2_subject:
     type: string
-    description: A-level 2 subject
+    description: A-level 2 subject. [See list of A level subjects](/support/docs/qualifications)
 
   a_level_2_grade:
     type: string
-    description: A-level 2 grade
+    description: A-level 2 grade. [See list of A level grades](/support/docs/qualifications)
 
   a_level_3_subject:
     type: string
-    description: A-level 3 subject
+    description: A-level 3 subject. [See list of A level subjects](/support/docs/qualifications)
 
   a_level_3_grade:
     type: string
-    description: A-level 3 grade
+    description: A-level 3 grade. [See list of A level grades](/support/docs/qualifications)
 
   a_level_4_subject:
     type: string
-    description: A-level 4 subject
+    description: A-level 4 subject. [See list of A level subjects](/support/docs/qualifications)
 
   a_level_4_grade:
     type: string
-    description: A-level 4 grade
+    description: A-level 4 grade. [See list of A level grades](/support/docs/qualifications)
 
   a_level_5_subject:
     type: string
-    description: A-level 5 subject
+    description: A-level 5 subject. [See list of A level subjects](/support/docs/qualifications)
 
   a_level_5_grade:
     type: string
-    description: A-level 5 grade
+    description: A-level 5 grade. [See list of A level grades](/support/docs/qualifications)
 
   degree_1_type:
     type: string
-    description: Degree 1 type
+    description: Degree 1 type. [See list of degree types](/support/docs/qualifications)
 
   degree_1_grade:
     type: string
-    description: Degree 1 grade
+    description: Degree 1 grade. [See list of degree grades](/support/docs/qualifications)
 
   degree_2_type:
     type: string
-    description: Degree 2 type
+    description: Degree 2 type. [See list of degree types](/support/docs/qualifications)
 
   degree_2_grade:
     type: string
-    description: Degree 2 grade
+    description: Degree 2 grade. [See list of degree grades](/support/docs/qualifications)
 
   number_of_other_qualifications_provided:
     type: string
-    description: Number of other qualifications provided
+    description: Number of other qualifications provided. [See list of other UK qualifications](/support/docs/qualifications)
