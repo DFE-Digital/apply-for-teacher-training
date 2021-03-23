@@ -353,12 +353,6 @@ components:
         application/json:
           schema:
             "$ref": "#/components/schemas/UnprocessableEntityResponse"
-    TestDataGenerated:
-      description: Returned following successful generation of test data
-      content:
-        application/json:
-          schema:
-            "$ref": "#/components/schemas/TestDataGeneratedResponse"
   schemas:
     MultipleApplicationsResponse:
       type: object
@@ -1298,21 +1292,6 @@ components:
             message:
               type: string
               example: OK
-    TestDataGeneratedResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          required:
-          - ids
-          properties:
-            ids:
-              type: array
-              description: An array of IDs corresponding to the generated applications
-              minItems: 1
-              items:
-                type: string
-                maxLength: 10
     ListResponse:
       type: object
       required:

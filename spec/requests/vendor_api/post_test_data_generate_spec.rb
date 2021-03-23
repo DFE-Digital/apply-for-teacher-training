@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
+RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request, sidekiq: true do
   include VendorAPISpecHelpers
 
   it 'generates test data' do
@@ -39,7 +39,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
 
     post_api_request '/api/v1/test-data/generate?count=1'
 
-    expect(parsed_response).to be_valid_against_openapi_schema('TestDataGeneratedResponse')
+    expect(parsed_response).to be_valid_against_openapi_schema('OkResponse')
   end
 
   it 'returns error responses on invalid input' do

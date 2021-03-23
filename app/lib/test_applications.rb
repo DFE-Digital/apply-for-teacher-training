@@ -18,23 +18,6 @@ class TestApplications
 
   attr_reader :time
 
-  def generate_for_provider(provider:, courses_per_application:, count:, for_ratified_courses: false)
-    courses_to_apply_to = if for_ratified_courses
-                            GetCoursesRatifiedByProvider.call(provider: provider)
-                          else
-                            Course.current_cycle.includes(:course_options)
-                              .joins(:course_options).distinct.open_on_apply
-                              .where(provider: provider)
-                          end
-    1.upto(count).flat_map do
-      create_application(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        states: [:awaiting_provider_decision] * courses_per_application,
-        courses_to_apply_to: courses_to_apply_to,
-      )
-    end
-  end
-
   def create_application(
     recruitment_cycle_year:,
     states:,
@@ -58,6 +41,8 @@ class TestApplications
       candidate: candidate,
     )
   end
+
+private
 
   def courses_to_apply_to(
     states:,

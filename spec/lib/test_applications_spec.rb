@@ -149,27 +149,4 @@ RSpec.describe TestApplications do
       expect(application_choice.interviews.count).to eq(1)
     end
   end
-
-  describe 'generate_for_provider' do
-    it 'can generate applications only for courses the provider ratifies' do
-      provider = create(:provider)
-      create(:course_option)
-      create(:course_option, course: create(:course, provider: provider))
-      # rubocop:disable FactoryBot/CreateList
-      3.times do
-        create(:course_option, course: create(:course, accredited_provider: provider))
-      end
-      # rubocop:enable FactoryBot/CreateList
-
-      choices = TestApplications.new.generate_for_provider(
-        provider: provider,
-        courses_per_application: 3,
-        count: 2,
-        for_ratified_courses: true,
-      )
-
-      expect(choices.map(&:application_form).uniq.count).to eq(2)
-      expect(choices.map(&:course).map(&:accredited_provider).uniq).to eq([provider])
-    end
-  end
 end
