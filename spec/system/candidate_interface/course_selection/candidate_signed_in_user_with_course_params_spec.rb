@@ -167,7 +167,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
   end
 
   def and_i_should_be_informed_i_already_have_3_courses
-    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', course_name_and_code: @course_with_multiple_sites.name_and_code)
+    expect(page).to have_content I18n.t('errors.messages.too_many_course_choices', course_name_and_code: @course.name_and_code)
   end
 
   def when_i_sign_out
