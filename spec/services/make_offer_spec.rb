@@ -102,9 +102,9 @@ RSpec.describe MakeOffer do
       expect {
         offer.save!
       }.to raise_error(
-               MakeOffer::NoTransitionAllowedError,
-               MakeAnOffer::STATE_TRANSITION_ERROR,
-               )
+        MakeOffer::NoTransitionAllowedError,
+        MakeAnOffer::STATE_TRANSITION_ERROR,
+      )
     end
   end
 

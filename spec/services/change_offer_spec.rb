@@ -151,30 +151,30 @@ RSpec.describe ChangeOffer do
   describe 'conditions validation' do
     it 'throws exception if number of conditions exceeds 20' do
       too_many = described_class.new(
-          actor: provider_user,
-          application_choice: application_choice,
-          course_option: original_course_option,
-          conditions: Array.new(21) { 'a condition' },
-          )
+        actor: provider_user,
+        application_choice: application_choice,
+        course_option: original_course_option,
+        conditions: Array.new(21) { 'a condition' },
+      )
 
       expect { too_many.save! }.to raise_error(
-                                       ChangeOffer::ConditionsValidationError,
-                                       'Too many conditions specified (20 or fewer required)',
-                                       )
+        ChangeOffer::ConditionsValidationError,
+        'Too many conditions specified (20 or fewer required)',
+      )
     end
 
     it 'throws exception if any conditions are longer than 255 characters' do
       too_long = described_class.new(
-          actor: provider_user,
-          application_choice: application_choice,
-          course_option: original_course_option,
-          conditions: ['a' * 256],
-          )
+        actor: provider_user,
+        application_choice: application_choice,
+        course_option: original_course_option,
+        conditions: ['a' * 256],
+      )
 
       expect { too_long.save! }.to raise_error(
-                                       ChangeOffer::ConditionsValidationError,
-                                       'Condition exceeds length limit (255 characters or fewer required)',
-                                       )
+        ChangeOffer::ConditionsValidationError,
+        'Condition exceeds length limit (255 characters or fewer required)',
+      )
     end
   end
 end

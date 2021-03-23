@@ -48,7 +48,7 @@ private
   end
 
   def check_conditions!
-    if conditions&.count > MAX_CONDITIONS_COUNT
+    if conditions && conditions.count > MAX_CONDITIONS_COUNT
       raise ConditionsValidationError, 'Too many conditions specified (20 or fewer required)'
     elsif conditions.any? { |c| c.length > MAX_CONDITION_LENGTH }
       raise ConditionsValidationError, 'Condition exceeds length limit (255 characters or fewer required)'
