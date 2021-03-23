@@ -31,8 +31,6 @@ module ProviderInterface
 
     def edit; end
 
-    def update; end
-
     def show
       @wizard = OfferWizard.new(offer_store,
                                 offer_context_params(@application_choice.offered_course_option,
@@ -43,6 +41,24 @@ module ProviderInterface
       @providers = available_providers
       @courses = available_courses(@application_choice.offered_course.provider_id)
       @course_options = available_course_options(@application_choice.offered_course.id, @application_choice.offered_course_option.study_mode)
+    end
+
+    def update
+      @wizard = OfferWizard.new(offer_store)
+      if @wizard.valid?(:save)
+        ChangeAnOffer.new(actor: current_provider_user,
+                          application_choice: @application_choice,
+                          course_option: @wizard.course_option,
+                          offer_conditions: @wizard.conditions).save
+        @wizard.clear_state!
+
+        flash[:success] = t('.success')
+      else
+        @wizard.clear_state!
+
+        flash[:warning] = t('.failure')
+      end
+      redirect_to provider_interface_application_choice_offer_path(@application_choice)
     end
 
   private

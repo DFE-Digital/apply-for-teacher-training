@@ -109,7 +109,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def then_the_review_page_is_loaded
-    expect(page).to have_content('Check and send offer')
+    expect(page).to have_content('Check and send new offer')
   end
 
   def and_i_can_confirm_my_answers
@@ -175,7 +175,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def when_i_send_the_offer
-    click_on 'Send offer'
+    click_on 'Send new offer'
   end
 
   def then_i_see_that_the_offer_was_successfully_updated

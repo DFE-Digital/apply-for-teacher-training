@@ -34,10 +34,15 @@ en:
         new:
           title: Check and send offer
           submit: Send offer
+        edit:
+          title: Check and send new offer
+          submit: Send new offer
     offers:
       failure: Sorry, there is a problem with the service.
       create:
         success: Offer sent
+      update:
+        success: New offer sent
   helpers:
     label:
       provider_interface_offer_wizard:

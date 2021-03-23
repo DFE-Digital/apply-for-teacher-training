@@ -635,7 +635,7 @@ Rails.application.routes.draw do
       resource :decision, only: %i[new create], as: :application_choice_decision
 
       resource :offers, only: %i[new], as: :application_choice_offer
-      resource :offers, only: %i[create show], as: :application_choice_offers
+      resource :offers, only: %i[create show update], as: :application_choice_offers
 
       namespace :offer, as: :application_choice_offer do
         resource :providers, only: %i[new create edit update]
@@ -643,7 +643,7 @@ Rails.application.routes.draw do
         resource :study_modes, only: %i[new create edit update], path: 'study-modes'
         resource :locations, only: %i[new create edit update]
         resource :conditions, only: %i[new create edit update]
-        resource :check, only: %i[new]
+        resource :check, only: %i[new edit]
       end
 
       get '/rbd-feedback' => 'feedback#new', as: :application_choice_new_rbd_feedback
