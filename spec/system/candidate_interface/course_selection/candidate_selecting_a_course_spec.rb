@@ -29,9 +29,8 @@ RSpec.feature 'Selecting a course' do
     and_i_choose_a_provider
     and_i_choose_a_course
     then_i_see_a_message_that_ive_already_chosen_the_course
-
     when_i_visit_the_site_page_for_a_course_i_have_already_selected
-    then_i_see_a_message_that_ive_already_chosen_the_course
+    then_i_can_change_the_site_for_that_course_choice
 
     given_that_i_am_on_the_course_choices_review_page
     when_i_click_on_add_another_course
@@ -257,5 +256,15 @@ RSpec.feature 'Selecting a course' do
       course_id: @multi_site_course.id,
       study_mode: @multi_site_course.study_mode,
     )
+  end
+
+  def then_i_can_change_the_site_for_that_course_choice
+    choose 'Harehills Primary School'
+    click_button 'Continue'
+
+    expect(page).to have_current_path candidate_interface_course_choices_review_path
+    within_summary_row('Location') do
+      expect(page).to have_content 'Harehills Primary School'
+    end
   end
 end

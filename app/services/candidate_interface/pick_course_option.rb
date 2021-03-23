@@ -21,10 +21,31 @@ module CandidateInterface
     )
 
     def call
-      id_of_course_choice_to_replace ? add_replacement : add
+      if id_of_course_choice_to_replace
+        add_replacement and return
+      end
+
+      if existing_choice_with_matching_course
+        @id_of_course_choice_to_replace = existing_choice_with_matching_course.id
+        add_replacement and return
+      end
+
+      add
     end
 
   private
+
+    def course
+      @course ||= Provider.find(provider_id).courses.find(course_id)
+    end
+
+    def application_choices
+      @application_choices ||= application_form.application_choices.includes(:course)
+    end
+
+    def existing_choice_with_matching_course
+      application_choices.find { |choice| choice.course == course }
+    end
 
     def add
       pick_site_form = PickSiteForm.new(
