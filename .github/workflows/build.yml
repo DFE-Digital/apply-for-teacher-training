@@ -89,9 +89,10 @@ jobs:
         working-directory: /app
     container: 
       image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
+      options: -t
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
     steps:
-    - run: pwd && bundle exec rubocop --format clang --parallel
+    - run:  bundle exec rubocop --format clang --parallel
       name: Rubocop
