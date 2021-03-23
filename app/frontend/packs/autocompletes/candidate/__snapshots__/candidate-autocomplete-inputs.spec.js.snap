@@ -33,13 +33,15 @@ Array [
   Object {
     "autocompleteId": "provider-autocomplete",
     "inputIds": Array [
-      "#pick-provider-form .govuk-select",
+      "candidate-interface-pick-provider-form-provider-id-field",
+      "candidate-interface-pick-provider-form-provider-id-field-error",
     ],
   },
   Object {
     "autocompleteId": "course-autocomplete",
     "inputIds": Array [
-      "#pick-course-form .govuk-select",
+      "candidate-interface-pick-course-form-course-id-field",
+      "candidate-interface-pick-course-form-course-id-field-error",
     ],
   },
 ]
