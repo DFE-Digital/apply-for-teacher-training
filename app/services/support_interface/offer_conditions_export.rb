@@ -5,7 +5,7 @@ module SupportInterface
         {
           support_reference: choice.application_form.support_reference,
           phase: choice.application_form.phase,
-          recruitment_cycle: choice.recruitment_cycle,
+          recruitment_cycle_year: choice.recruitment_cycle,
           qualification_type: qualification_type(choice.application_form),
           qualification_subject: qualification_subject(choice.application_form),
           qualification_grade: qualification_grade(choice.application_form),
@@ -24,8 +24,8 @@ module SupportInterface
           offered_course_location: choice.offered_site.name,
           offered_course_study_mode: choice.offered_option.study_mode,
           offer_changed: choice.offered_option != choice.course_option,
-          offer_made_at: choice.offered_at.to_s(:govuk_date),
-          application_status: choice.status,
+          offer_made_at: choice.offered_at.iso8601,
+          choice_status: choice.status,
           conditions: conditions(choice),
         }
       end

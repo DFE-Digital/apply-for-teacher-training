@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::OfferConditionsExport do
+  describe 'documentation' do
+    before do
+      create(:application_choice, :with_offer)
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#offers' do
     it 'returns all application choices that have had an offer' do
       # excluded
@@ -119,7 +127,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
       choice = create(:application_choice, :with_modified_offer)
 
       offers = described_class.new.offers
-      expect(offers.first[:offer_made_at]).to eq(choice.offered_at.to_s(:govuk_date))
+      expect(offers.first[:offer_made_at]).to eq(choice.offered_at.iso8601)
     end
 
     it 'includes offer conditions' do
