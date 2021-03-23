@@ -37,7 +37,7 @@ module CandidateInterface
 
         render :new and return unless @pick_site.valid?
 
-        PickCourseOption
+        AddOrUpdateCourseChoice
           .new(
             course_id,
             course_option_id,

@@ -31,7 +31,7 @@ module CandidateInterface
         render :new and return unless @pick_study_mode.valid?
 
         if @pick_study_mode.single_site_course?
-          PickCourseOption.new(
+          AddOrUpdateCourseChoice.new(
             @pick_study_mode.course_id,
             @pick_study_mode.first_site_id,
             current_application,

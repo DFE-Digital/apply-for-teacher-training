@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PickCourseOption
+  class AddOrUpdateCourseChoice
     attr_reader :course_id, :course_option_id, :application_form, :provider_id, :controller, :id_of_course_choice_to_replace
 
     def initialize(course_id, course_option_id, application_form, provider_id, controller, id_of_course_choice_to_replace: nil)
