@@ -18,6 +18,8 @@ en:
       locations:
         new:
           title: Select location
+        edit:
+          title: Select location
       study_modes:
         new:
           title: Select full time or part time

@@ -641,7 +641,7 @@ Rails.application.routes.draw do
         resource :providers, only: %i[new create edit update]
         resource :courses, only: %i[new create edit update]
         resource :study_modes, only: %i[new create edit update], path: 'study-modes'
-        resource :locations, only: %i[new create]
+        resource :locations, only: %i[new create edit update]
         resource :conditions, only: %i[new create]
         resource :check, only: %i[new]
       end

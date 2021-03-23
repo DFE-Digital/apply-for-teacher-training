@@ -1,13 +1,13 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, back: true)) %>
 
-<%= render CollectionSelectComponent.new(attribute: :course_id,
-                                         collection: @courses,
+<%= render CollectionSelectComponent.new(attribute: :course_option_id,
+                                         collection: @course_options,
                                          value_method: :id,
-                                         text_method: :name_and_code,
-                                         hint_method: :description,
+                                         text_method: :site_name,
+                                         hint_method: :site_full_address,
                                          form_object: @wizard,
-                                         form_path: provider_interface_application_choice_offer_courses_path,
+                                         form_path: provider_interface_application_choice_offer_locations_path,
                                          form_method: :put,
                                          page_title: t('.title'),
                                          caption: @application_choice.application_form.full_name) do %>
