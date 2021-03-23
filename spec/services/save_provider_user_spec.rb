@@ -4,7 +4,7 @@ RSpec.describe SaveProviderUser do
   let(:provider) { create(:provider) }
   let(:another_provider) { create(:provider) }
   let(:new_provider) { create(:provider) }
-  let(:provider_user) { create(:provider_user, providers: [provider, another_provider]) }
+  let(:provider_user) { create(:provider_user, create_notification_preference: false, providers: [provider, another_provider]) }
   let(:provider_ids) { { selected: [another_provider.id], deselected: [provider.id] } }
   let(:deselected_provider_permissions) { provider_user.provider_permissions.where(provider: provider) }
   let(:provider_permissions) do
@@ -62,6 +62,10 @@ RSpec.describe SaveProviderUser do
       result = service.call!
 
       expect(result.authorisation.providers_that_actor_can_manage_users_for).to eq([another_provider])
+    end
+
+    it 'adds the notification preferences record to a ProviderUser' do
+      expect { service.call! }.to change(ProviderUserNotificationPreferences, :count).by(1)
     end
   end
 end

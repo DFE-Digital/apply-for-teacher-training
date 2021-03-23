@@ -40,7 +40,7 @@ module ProviderInterface
         first_name: wizard.first_name,
         last_name: wizard.last_name,
       )
-      update_provider_permissions(existing_user)
+      update_provider_permissions!(existing_user)
     end
 
     def create_user
@@ -49,11 +49,18 @@ module ProviderInterface
         first_name: wizard.first_name,
         last_name: wizard.last_name,
       )
-      create_provider_permissions(user)
+      create_notification_preferences!(user)
+      create_provider_permissions!(user)
       user
     end
 
-    def create_provider_permissions(user)
+    def create_notification_preferences!(user)
+      SaveProviderUserNotificationPreferences
+        .new(provider_user: user)
+        .backfill_notification_preferences!(send_notifications: user.send_notifications)
+    end
+
+    def create_provider_permissions!(user)
       wizard.provider_permissions.each do |provider_id, permission|
         provider_permission = ProviderPermissions.new(
           provider_id: provider_id,
@@ -66,7 +73,7 @@ module ProviderInterface
       end
     end
 
-    def update_provider_permissions(user)
+    def update_provider_permissions!(user)
       wizard.provider_permissions.each do |provider_id, permission|
         provider_permission = ProviderPermissions.find_or_initialize_by(
           provider_id: provider_id,

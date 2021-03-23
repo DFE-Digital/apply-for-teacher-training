@@ -7,11 +7,18 @@ class SaveProviderUser
 
   def call!
     @provider_user.save!
+    save_provider_user_notification_preferences!
     update_provider_permissions!
     @provider_user.reload
   end
 
 private
+
+  def save_provider_user_notification_preferences!
+    SaveProviderUserNotificationPreferences
+      .new(provider_user: @provider_user)
+      .backfill_notification_preferences!(send_notifications: @provider_user.send_notifications)
+  end
 
   def update_provider_permissions!
     ActiveRecord::Base.transaction do
