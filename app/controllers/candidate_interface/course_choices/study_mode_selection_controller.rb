@@ -37,7 +37,7 @@ module CandidateInterface
             current_application,
             params.fetch(:provider_id),
             self,
-            old_course_option_id: params[:course_choice_id],
+            id_of_course_choice_to_replace: params[:course_choice_id],
           ).call
         else
           redirect_to candidate_interface_course_choices_site_path(

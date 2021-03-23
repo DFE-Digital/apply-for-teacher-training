@@ -1,14 +1,14 @@
 module CandidateInterface
   class PickCourseOption
-    attr_reader :course_id, :course_option_id, :application_form, :provider_id, :controller, :old_course_option_id
+    attr_reader :course_id, :course_option_id, :application_form, :provider_id, :controller, :id_of_course_choice_to_replace
 
-    def initialize(course_id, course_option_id, application_form, provider_id, controller, old_course_option_id: nil)
+    def initialize(course_id, course_option_id, application_form, provider_id, controller, id_of_course_choice_to_replace: nil)
       @course_id = course_id
       @course_option_id = course_option_id
       @application_form = application_form
       @provider_id = provider_id
       @controller = controller
-      @old_course_option_id = old_course_option_id
+      @id_of_course_choice_to_replace = id_of_course_choice_to_replace
     end
 
     delegate(
@@ -21,7 +21,7 @@ module CandidateInterface
     )
 
     def call
-      old_course_option_id ? add_replacement : add
+      id_of_course_choice_to_replace ? add_replacement : add
     end
 
   private
@@ -51,7 +51,7 @@ module CandidateInterface
     end
 
     def add_replacement
-      old_application_choice = application_form.application_choices.find(old_course_option_id)
+      old_application_choice = application_form.application_choices.find(id_of_course_choice_to_replace)
 
       pick_site_form = PickSiteForm.new(
         application_form: application_form,

@@ -42,7 +42,7 @@ module CandidateInterface
         candidate_is_updating_a_choice = params[:course_choice_id]
         if candidate_is_updating_a_choice
           PickCourseOption
-            .new(course_id, course_option_id, current_application, params.fetch(:provider_id), self, old_course_option_id: params[:course_choice_id])
+            .new(course_id, course_option_id, current_application, params.fetch(:provider_id), self, id_of_course_choice_to_replace: params[:course_choice_id])
             .call
         elsif candidate_has_already_chosen_this_course
           redirect_to candidate_interface_course_choices_index_path
