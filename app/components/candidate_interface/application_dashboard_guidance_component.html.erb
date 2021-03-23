@@ -1,0 +1,32 @@
+<% if no_offers_awaiting_decisions? %>
+
+  <% if awaiting_multiple_decisions? %>
+    <p class="govuk-body">Your applications have been submitted and are with the training providers.</p>
+  <% else %>
+    <p class="govuk-body">Your application has been submitted and is with the training provider.</p>
+  <% end %>
+
+  <p class="govuk-body">Our <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training advisers</a> can help you prepare for any interviews.</p>
+
+<% elsif has_offers_awaiting_decisions? %>
+
+  <p class="govuk-body"><%= number_of_offers_in_words %> of your training providers has made a decision on your application.</p>
+
+  <p class="govuk-body">Our <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training advisers</a> can help you prepare for any interviews.</p>
+
+<% elsif offer_accepted? %>
+
+  <p class="govuk-body">You’ve accepted the offer from <%= accepted_offer_provider_name %></p>
+
+  <p class="govuk-body">Before your offer is confirmed, there are some final conditions to meet.</p>
+
+<% elsif offer_deferred? %>
+
+  <p class="govuk-body">You’ve chosen to defer your course.</p>
+  <p class="govuk-body">Before your offer is confirmed, there are some final conditions to meet.</p>
+
+<% elsif conditions_met? %>
+
+  <p class="govuk-body">Congratulations on joining your teacher training course.</p>
+
+<% end %>

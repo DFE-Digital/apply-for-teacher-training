@@ -1,33 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationDashboardComponent do
-  it 'renders the correct title for an application with a single application choice' do
-    application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
+  describe '#title' do
+    it 'renders the correct title for an application with a single application choice' do
+      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
 
-    render_result = render_inline(described_class.new(application_form: application_form))
+      render_result = render_inline(described_class.new(application_form: application_form))
 
-    expect(render_result.text).to include('Your application')
+      expect(render_result.text).to include('Your application')
+    end
+
+    it 'renders the correct title for an application with multiple application choices' do
+      application_form = create_application_form_with_course_choices(
+        statuses: %w[awaiting_provider_decision rejected],
+      )
+
+      render_result = render_inline(described_class.new(application_form: application_form))
+
+      expect(render_result.text).to include('Your applications')
+    end
+
+    it 'renders the correct title for an apply again application' do
+      application_form = create_application_form_with_course_choices(
+        statuses: %w[awaiting_provider_decision rejected],
+        apply_again: true,
+      )
+
+      render_result = render_inline(described_class.new(application_form: application_form))
+
+      expect(render_result.text).to include('Your applications')
+    end
   end
 
-  it 'renders the correct title for an application with multiple application choices' do
-    application_form = create_application_form_with_course_choices(
-      statuses: %w[awaiting_provider_decision rejected],
-    )
-
-    render_result = render_inline(described_class.new(application_form: application_form))
-
-    expect(render_result.text).to include('Your applications')
-  end
-
-  it 'renders the correct title for an apply again application' do
-    application_form = create_application_form_with_course_choices(
-      statuses: %w[awaiting_provider_decision rejected],
-      apply_again: true,
-    )
-
-    render_result = render_inline(described_class.new(application_form: application_form))
-
-    expect(render_result.text).to include('Your applications')
+  describe 'subtitle' do
+    it 'does not render the submitted on message' do
+      expect(render_result.text).not_to include('Application submitted on')
+    end
   end
 
   def create_application_form_with_course_choices(statuses:, apply_again: false)
