@@ -60,6 +60,12 @@ module ProviderInterface
 
     delegate :previous_step, to: :wizard_path_history
 
+    def configure_additional_conditions(conditions)
+      conditions.each_with_index do |condition, index|
+        instance_variable_set "@further_condition_#{index + 1}", condition
+      end
+    end
+
   private
 
     def save_and_go_to_next_step(step)

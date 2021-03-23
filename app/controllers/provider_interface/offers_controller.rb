@@ -36,6 +36,7 @@ module ProviderInterface
                                 offer_context_params(@application_choice.offered_course_option,
                                                      @application_choice.offer['conditions'],
                                                      :change_offer).merge!(current_step: :offer))
+      @wizard.configure_additional_conditions(@application_choice.offer['conditions'] - MakeAnOffer::STANDARD_CONDITIONS)
       @wizard.save_state!
 
       @providers = available_providers
