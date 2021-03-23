@@ -21,7 +21,9 @@
         { key: 'Reasons for withdrawal', value: @withdraw_offer.offer_withdrawal_reason },
       ]) %>
 
-      <%= render WarningTextComponent.new(text: 'We’ll tell the candidate you withdrew your offer, and share your reasons.') %>
+      <%= render GovukComponent::Warning.new(
+        text: 'We’ll tell the candidate you withdrew your offer, and share your reasons.',
+      ) %>
 
       <%= f.hidden_field :offer_withdrawal_reason %>
       <%= f.govuk_submit 'Withdraw offer', warning: true %>
