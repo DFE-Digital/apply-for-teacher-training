@@ -1,5 +1,6 @@
 DATA_MIGRATION_SERVICES = [
-  # do not edit this line - services added below by generator
+  # do not delete or edit this line - services added below by generator
+  'DataMigrations::UpdateAuthenticationTokenTypes',
 ].freeze
 
 def data_migrations
