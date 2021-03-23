@@ -44,7 +44,7 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @course.sites.each do |site| %>
+          <% @course.sites.uniq.each do |site| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><span class='govuk-!-font-weight-bold'><%= site.name %></span>
                 <br>
