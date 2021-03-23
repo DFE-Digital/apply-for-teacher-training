@@ -7,7 +7,7 @@ module SupportInterface
         {
           date: row[0],
           user_id: row[1],
-          user_making_change: row[2],
+          user_name: row[2],
           provider_code: row[3],
           provider_name: row[4],
           user_whose_permissions_have_changed: row[5],

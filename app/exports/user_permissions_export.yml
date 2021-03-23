@@ -1,0 +1,37 @@
+common_columns:
+  - provider_code
+  - provider_name
+
+custom_columns:
+  date:
+    type: string
+    format: date-time
+    description: Date the permission changes were made
+    example: 2020-11-01T00:00:00+00:00
+
+  user_id:
+    type: string
+    description: The ID for the user that made the change
+    maxLength: 10
+    example: 5432
+
+  user_name:
+    type: string
+    description: The full name for the user that made the change
+    example: Boris Brown
+
+  user_whose_permissions_have_changed:
+    type: string
+    description: The user whose permissions have changed
+    example: 2FR
+    maxLength: 3
+
+  permissions_added:
+    type: string
+    description: A comma separated list of permissions that have been added
+    example: make_decisions, view_safeguarding_information
+
+  permissions_removed:
+    type: string
+    description: A comma separated list of permissions that have been removed
+    example: make_decisions, view_safeguarding_information
