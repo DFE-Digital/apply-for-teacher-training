@@ -8,6 +8,8 @@ en:
       providers:
         new:
           title: Select provider
+        edit:
+          title: Select training provider
       courses:
         new:
           title: Select course
