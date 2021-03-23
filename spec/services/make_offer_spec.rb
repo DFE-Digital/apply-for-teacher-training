@@ -82,11 +82,11 @@ RSpec.describe MakeOffer do
 
   describe 'repeat offers' do
     it 'throw an exception if an offer is already in place' do
-      application_choice.update(offer: { 'conditions' => ['DBS check'] })
-      change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, conditions: ['DBS check'])
+      application_choice.update(status: :offer)
+      offer = described_class.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, conditions: ['DBS check'])
 
       expect {
-        change.save!
+        offer.save!
       }.to raise_error(
         MakeOffer::AlreadyOfferedError,
         'An offer already exists, use ChangeOffer service to modify',
@@ -94,13 +94,27 @@ RSpec.describe MakeOffer do
     end
   end
 
+  describe 'unable to transition to an offer state' do
+    it 'throw an exception if the state is withdrawn' do
+      application_choice.update(status: :withdrawn)
+      offer = described_class.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, conditions: ['DBS check'])
+
+      expect {
+        offer.save!
+      }.to raise_error(
+               MakeOffer::NoTransitionAllowedError,
+               MakeAnOffer::STATE_TRANSITION_ERROR,
+               )
+    end
+  end
+
   describe 'course option validation' do
     it 'throws exception unless course is open on apply' do
       new_course_option = create(:course_option, course: create(:course, provider: provider, open_on_apply: false))
-      change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
+      offer = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
 
       expect {
-        change.save!
+        offer.save!
       }.to raise_error(
         MakeOffer::CourseValidationError,
         'is not open for applications via the Apply service',
@@ -109,13 +123,13 @@ RSpec.describe MakeOffer do
 
     it 'throws exception if new course option changes the ratifying provider' do
       new_course_option = create(:course_option, course: create(:course, :with_accredited_provider, provider: provider))
-      change = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
+      offer = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
 
       expect {
-        change.save!
+        offer.save!
       }.to raise_error(
         MakeOffer::RatifyingProviderChangeError,
-        'The new offer has a different ratifying provider to the current offer',
+        'The offer has a different ratifying provider to the application choice',
       )
     end
   end

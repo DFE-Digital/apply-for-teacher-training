@@ -104,7 +104,7 @@ RSpec.describe ChangeOffer do
       expect {
         change.save!
       }.to raise_error(
-        ChangeOffer::IdenticalOffer,
+        ChangeOffer::IdenticalOfferError,
         'The new offer is identical to the current offer',
       )
     end
@@ -142,7 +142,7 @@ RSpec.describe ChangeOffer do
       expect {
         change.save!
       }.to raise_error(
-        ChangeOffer::RatifyingProviderChange,
+        ChangeOffer::RatifyingProviderChangeError,
         'The new offer has a different ratifying provider to the current offer',
       )
     end
