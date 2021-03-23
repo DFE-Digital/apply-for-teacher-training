@@ -1,0 +1,12 @@
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: true) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
+                                                                     course_option: @application_choice.offered_course_option,
+                                                                     conditions: @application_choice.offer['conditions'],
+                                                                     course: @application_choice.offered_course,
+                                                                     available_providers: @providers,
+                                                                     available_courses: @courses,
+                                                                     available_course_options: @course_options) %>
+  </div>
+</div>
