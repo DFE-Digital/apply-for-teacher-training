@@ -4,7 +4,6 @@ module CandidateInterface
 
     attr_accessor :course_id, :provider_id, :application_form
     validates :course_id, presence: true
-    validate :user_cant_apply_to_same_course_twice
 
     delegate :open_on_apply?, to: :course
 
@@ -65,26 +64,10 @@ module CandidateInterface
       @course ||= provider.courses.find(course_id)
     end
 
-    def already_picked_this_one?
-      application_form.application_choices.includes([:course]).any? { |application_choice| application_choice.course == course }
-    end
-
-    def already_added_error
-      I18n.t!('errors.application_choices.already_added', course_name_and_code: course.name_and_code)
-    end
-
   private
 
     def provider
       @provider ||= Provider.find(provider_id)
-    end
-
-    def user_cant_apply_to_same_course_twice
-      return if course_id.blank?
-
-      if already_picked_this_one?
-        errors[:base] << already_added_error
-      end
     end
   end
 end
