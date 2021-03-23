@@ -55,8 +55,7 @@ jobs:
         with:
           target: apply-for-teacher-training-gems-node-modules
           tags: ${{ env.GEMS_NODE_MODULES_IMAGE }}
-          push: false
-          load: true
+          push: true
           builder: ${{ steps.buildx-gem-node-modules.outputs.name }}
           cache-to: type=local,dest=/tmp/.buildx-gem-node-modules-cache
           cache-from: type=local,src=/tmp/.buildx-gem-node-modules-cache
