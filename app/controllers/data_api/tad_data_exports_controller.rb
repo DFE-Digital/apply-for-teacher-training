@@ -1,6 +1,6 @@
 module DataAPI
   class TADDataExportsController < ActionController::API
-    include APIUserAuthentication
+    include ServiceAPIUserAuthentication
 
     def latest
       data_export = DataAPI::TADExport.latest

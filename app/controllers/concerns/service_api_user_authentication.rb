@@ -1,4 +1,4 @@
-module APIUserAuthentication
+module ServiceAPIUserAuthentication
   include ActionController::HttpAuthentication::Token::ControllerMethods
   extend ActiveSupport::Concern
 
@@ -18,8 +18,8 @@ module APIUserAuthentication
 
   def authorized?
     authenticate_with_http_token do |token|
-      @authenticating_token = AuthenticationToken.find_by_hashed_token(user_type: 'APIUser', raw_token: token)
-      @authenticating_token.user_id == APIUser.find_by(api_type: self.class.name.deconstantize).id
+      @authenticating_token = AuthenticationToken.find_by_hashed_token(user_type: 'ServiceAPIUser', raw_token: token)
+      @authenticating_token.user_id == ServiceAPIUser.find_by(authorized_api: self.class.name.deconstantize).id
     end
   end
 

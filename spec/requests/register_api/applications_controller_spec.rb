@@ -8,7 +8,7 @@ RSpec.describe 'GET /register-api/applications', type: :request, sidekiq: true d
   end
 
   it 'does not allow access to the API from other data users' do
-    api_token = APIUser.test_data_user.create_magic_link_token!
+    api_token = ServiceAPIUser.test_data_user.create_magic_link_token!
 
     headers = { 'Authorization' => "Bearer #{api_token}" }
 
@@ -18,7 +18,7 @@ RSpec.describe 'GET /register-api/applications', type: :request, sidekiq: true d
   end
 
   it 'allows access to the API for Register users' do
-    api_token = APIUser.register_user.create_magic_link_token!
+    api_token = ServiceAPIUser.register_user.create_magic_link_token!
 
     headers = { 'Authorization' => "Bearer #{api_token}" }
 

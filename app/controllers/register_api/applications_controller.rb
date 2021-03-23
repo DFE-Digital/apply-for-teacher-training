@@ -1,6 +1,6 @@
 module RegisterAPI
   class ApplicationsController < ActionController::API
-    include APIUserAuthentication
+    include ServiceAPIUserAuthentication
 
     def index; end
   end

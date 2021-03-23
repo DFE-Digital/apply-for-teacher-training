@@ -4,15 +4,15 @@
 #
 # To obtain an API token for a user, run this in the console:
 #
-#   APIUser.tad_user.create_magic_link_token!
-class APIUser < ActiveHash::Base
+#   ServiceAPIUser.tad_user.create_magic_link_token!
+class ServiceAPIUser < ActiveHash::Base
   include ActiveHash::Associations
   include AuthenticatedUsingMagicLinks
 
   self.data = [
-    { id: 1, name: 'User for testing, not used in production', api_type: 'TestAPI' },
-    { id: 2, name: 'DfE TAD', api_type: 'DataAPI' },
-    { id: 3, name: 'DfE Register', api_type: 'RegisterAPI' },
+    { id: 1, name: 'User for testing, not used in production', authorized_api: 'TestAPI' },
+    { id: 2, name: 'DfE TAD', authorized_api: 'DataAPI' },
+    { id: 3, name: 'DfE Register', authorized_api: 'RegisterAPI' },
   ]
 
   def self.test_data_user
@@ -28,8 +28,8 @@ class APIUser < ActiveHash::Base
   end
 
   # Fix a bug in ActiveHash that causes the user_type in a AuthenticationToken to
-  # be set to `ActiveHash::Base` instead of `APIUser`.
+  # be set to `ActiveHash::Base` instead of `ServiceAPIUser`.
   def self.polymorphic_name
-    'APIUser'
+    'ServiceAPIUser'
   end
 end
