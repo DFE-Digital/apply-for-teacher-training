@@ -6,8 +6,14 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     send_notifications { Faker::Boolean.boolean(true_ratio: 0.5) }
 
-    after(:create) do |user, _evaluator|
-      user.send_notifications ? create(:provider_user_notification_preferences, provider_user: user) : create(:provider_user_notification_preferences, :all_off, provider_user: user)
+    transient do
+      create_notification_preference { true }
+    end
+
+    after(:create) do |user, evaluator|
+      if evaluator.create_notification_preference
+        user.send_notifications ? create(:provider_user_notification_preferences, provider_user: user) : create(:provider_user_notification_preferences, :all_off, provider_user: user)
+      end
     end
 
     trait :with_provider do
