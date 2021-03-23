@@ -8,6 +8,10 @@
 
       <h1 class="govuk-heading-l">Add support user</h1>
 
+      <%= render GovukComponent::Warning.new(
+        text: 'Only give access to approved users.',
+      ) %>
+
       <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
       <%= f.govuk_text_field :dfe_sign_in_uid, label: { text: 'DfE Sign-in UID', size: 'm' } %>
 
