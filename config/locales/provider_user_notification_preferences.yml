@@ -1,0 +1,12 @@
+en:
+  provider_user_notification_preferences:
+    application_received:
+      legend: Application received
+    application_withdrawn:
+      legend: Application withdrawn by candidate
+    application_rejected_by_default:
+      legend: Application automatically rejected
+    offer_accepted:
+      legend: Offer accepted
+    offer_declined:
+      legend: Offer declined

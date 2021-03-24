@@ -8,15 +8,19 @@ class SaveProviderUserNotificationPreferences
   def backfill_notification_preferences!(send_notifications:)
     return false if send_notifications.nil?
 
-    update_provider_user!(send_notifications)
-    provider_user_notification_preferences.update_all_preferences(send_notifications)
+    ActiveRecord::Base.transaction do
+      provider_user_notification_preferences.update_all_preferences(send_notifications)
+      update_provider_user!(send_notifications)
+    end
   end
 
   def update_all_notification_preferences!(notification_preferences_params: {})
     return false if notification_preferences_params.empty?
 
-    provider_user_notification_preferences.update!(notification_preferences_params)
-    update_provider_user!(send_notifications_from_notificaion_prefernces)
+    ActiveRecord::Base.transaction do
+      update_provider_user!(send_notifications_from_notificaion_prefernces(notification_preferences_params))
+      provider_user_notification_preferences.update!(notification_preferences_params)
+    end
   end
 
 private
@@ -32,12 +36,10 @@ private
       ProviderUserNotificationPreferences.create!(provider_user: provider_user)
   end
 
-  def send_notifications_from_notificaion_prefernces
+  def send_notifications_from_notificaion_prefernces(notification_preferences_params)
     values =
-      provider_user_notification_preferences
-        .attributes
-        .with_indifferent_access
-        .values_at(*ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES)
+      notification_preferences_params
+        .values
         .uniq
 
     return true if values.count > 1
