@@ -32,16 +32,6 @@
     <%= t('application_complete.dashboard.application_not_sent', count: choice_count) %>
   </h2>
 <% elsif all_provider_decisions_made? %>
-  <h2 class="govuk-heading-m govuk-!-font-size-27">
-    <%= t('application_complete.dashboard.all_provider_decisions_made', count: choice_count) %>
-  </h2>
-
-  <% if any_offers? %>
-    <p class="govuk-body">
-      You have <%= decline_by_default_remaining_days %> days (until <%= decline_by_default_date %>) to respond to any offers. If you
-      do not respond, your applications will be automatically withdrawn.
-    </p>
-  <% end %>
 <% elsif any_offers? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.some_provider_decisions_made') %>

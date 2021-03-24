@@ -35,26 +35,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
   end
 
   context 'when the application has all decisions from providers' do
-    it 'renders with all providers have made a decision content if all offers' do
-      stub_application_dates_with_form
-      application_form = create_application_form_with_course_choices(statuses: %w[offer offer])
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 2))
-      expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
-    end
-
-    it 'renders with all providers have made a decision content if an offer and rejected' do
-      stub_application_dates_with_form
-      application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 2))
-      expect(render_result.text).to include(t('application_complete.dashboard.candidate_respond_by', remaining_days: '14', date: '5 November 2019'))
-    end
-
     it 'renders when all offers have been withdrawn' do
       application_form = build_stubbed(:application_form, application_choices: [
         build_stubbed(:application_choice, application_form: application_form, status: :withdrawn),
@@ -63,31 +43,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
       render_result = render_inline(described_class.new(application_form: application_form))
 
       expect(render_result.text).to include(t('application_complete.dashboard.all_withdrawn', count: 1))
-    end
-
-    it 'renders when one offer has been withdrawn and one offered' do
-      application_form = build_stubbed(:application_form, application_choices: [
-        build_stubbed(:application_choice, application_form: application_form, status: :withdrawn),
-        build_stubbed(:application_choice, application_form: application_form, status: :offer, decline_by_default_at: 1.day.from_now),
-      ])
-
-      allow(ApplicationDates).to receive(:new).with(application_form).and_return(
-        instance_double(ApplicationDates, decline_by_default_at: 1.day.from_now),
-      )
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 2))
-    end
-
-    it 'renders when the only offer has been rejected' do
-      application_form = build_stubbed(:application_form, application_choices: [
-        build_stubbed(:application_choice, application_form: application_form, status: :rejected),
-      ])
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).to include(t('application_complete.dashboard.all_provider_decisions_made', count: 1))
     end
   end
 

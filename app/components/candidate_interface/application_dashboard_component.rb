@@ -24,5 +24,10 @@ module CandidateInterface
       @application_form.previous_application_form.present? ||
         @application_form.subsequent_application_form.present?
     end
+    
+    def offers_received_and_all_providers_responded?
+      @application_form.application_choices.any?(&:offer?) &&
+        @application_form.provider_decision_made?
+    end
   end
 end
