@@ -8,7 +8,10 @@ class DataSetDocumentation
       return false
     end
 
-    common_columns = YAML.load_file(Rails.root.join('app/exports/_common_columns.yml'))
+    common_columns = Dir[Rails.root.join('app/exports/common_columns/*')]
+                         .map { |file| YAML.load_file(file) }
+                         .reduce({}, :merge)
+
     used_common_columns = common_columns.slice(*spec['common_columns'])
     used_common_columns.merge(spec['custom_columns'] || {})
   end
@@ -22,7 +25,10 @@ class DataSetDocumentation
       return false
     end
 
-    common_columns = YAML.load_file(Rails.root.join('app/exports/_common_columns.yml')).keys.map(&:to_sym)
+    common_columns = Dir[Rails.root.join('app/exports/common_columns/*')]
+                         .map { |file| YAML.load_file(file) }
+                         .reduce({}, :merge).keys.map(&:to_sym)
+
     custom_columns = spec['custom_columns'].keys.map(&:to_sym)
 
     custom_columns & common_columns
