@@ -100,7 +100,6 @@ module ProviderInterface
                 :safeguarding_concerns_other_details,
                 :other_advice_or_feedback_y_n,
                 :other_advice_or_feedback_details,
-                :interested_in_future_applications_y_n,
                 :why_are_you_rejecting_this_application,
                 honesty_and_professionalism_concerns: [],
                 safeguarding_concerns: [],

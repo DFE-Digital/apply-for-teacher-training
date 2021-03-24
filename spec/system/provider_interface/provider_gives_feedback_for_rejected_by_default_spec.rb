@@ -143,8 +143,6 @@ RSpec.feature 'Provider gives feedback for application rejected by default', wit
     choose 'reasons-for-rejection-other-advice-or-feedback-y-n-yes-field'
     fill_in 'reasons-for-rejection-other-advice-or-feedback-details-field', with: 'While impressive, your parkour skills are not relevant'
 
-    choose 'reasons-for-rejection-interested-in-future-applications-y-n-yes-field'
-
     click_on t('continue')
   end
 
@@ -157,8 +155,7 @@ RSpec.feature 'Provider gives feedback for application rejected by default', wit
     expect(page).to have_content('Additional advice')
     expect(page).to have_content('While impressive, your parkour skills are not relevant')
 
-    expect(page).to have_content('Future applications')
-    expect(page).to have_content("#{@application_choice.provider.name} would be interested in future applications from you.")
+    expect(page).not_to have_content('Future applications')
   end
 
   def and_i_choose_to_revert_my_changes

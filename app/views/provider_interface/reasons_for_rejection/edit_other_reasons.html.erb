@@ -22,11 +22,6 @@
         <%= f.govuk_radio_button :other_advice_or_feedback_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:interested_in_future_applications_y_n, legend: { text: "Would you be interested in future applications from #{@application_choice.application_form.full_name}", size: 'm' }) do %>
-        <%= f.govuk_radio_button :interested_in_future_applications_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true %>
-        <%= f.govuk_radio_button :interested_in_future_applications_y_n, 'No', label: { text: 'No' } %>
-      <% end %>
-
       <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>

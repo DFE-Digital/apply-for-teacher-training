@@ -197,7 +197,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates top level questions' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys.sort).to eq(%i[interested_in_future_applications_y_n other_advice_or_feedback_y_n])
+        expect(wizard.errors.keys.sort).to eq(%i[other_advice_or_feedback_y_n])
       end
     end
 
@@ -205,7 +205,6 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       let(:wizard_params) do
         {
           current_step: 'other_reasons',
-          interested_in_future_applications_y_n: 'Yes',
           other_advice_or_feedback_y_n: 'Yes',
         }
       end
@@ -434,7 +433,6 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       expect(wizard.why_are_you_rejecting_this_application).to be nil
       expect(wizard.other_advice_or_feedback_y_n).to be nil
       expect(wizard.other_advice_or_feedback_details).to be nil
-      expect(wizard.interested_in_future_applications_y_n).to be nil
     end
   end
 end

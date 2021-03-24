@@ -146,8 +146,6 @@ module ProviderInterface
     attr_accessor :other_advice_or_feedback_y_n
     attr_accessor :other_advice_or_feedback_details
 
-    attr_accessor :interested_in_future_applications_y_n
-
     attr_accessor :why_are_you_rejecting_this_application
 
     with_options(on: :initial_questions) do
@@ -184,10 +182,6 @@ module ProviderInterface
       validates :other_advice_or_feedback_details,
                 presence: true,
                 if: -> { other_advice_or_feedback_y_n == 'Yes' }
-
-      validates :interested_in_future_applications_y_n,
-                presence: true,
-                inclusion: { in: %w[Yes No] }
 
       validates :why_are_you_rejecting_this_application,
                 presence: true,
@@ -255,7 +249,6 @@ module ProviderInterface
 
     def unset_answers_for_other_reasons(attrs)
       attrs[:why_are_you_rejecting_this_application] = nil
-      attrs[:interested_in_future_applications_y_n] = nil
       attrs[:other_advice_or_feedback_y_n] = nil
       attrs[:other_advice_or_feedback_details] = nil
     end
@@ -277,7 +270,7 @@ module ProviderInterface
       saved_state = @state_store.read
 
       if saved_state
-        JSON.parse(saved_state)
+        JSON.parse(saved_state).except('interested_in_future_applications_y_n')
       else
         {}
       end
