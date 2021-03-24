@@ -21,8 +21,8 @@ module APIDocs
     end
 
     def schemas
-      document.components.schemas.map do |name, schema|
-        APISchema.new(name: name, schema: schema)
+      document.components.schemas.values.map do |schema|
+        APIDocs::APISchema.new(schema)
       end
     end
 

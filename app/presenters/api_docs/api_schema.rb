@@ -1,10 +1,9 @@
 module APIDocs
   class APISchema
-    attr_reader :name, :schema
+    attr_reader :schema
     delegate :description, :required, to: :schema
 
-    def initialize(name:, schema:)
-      @name = name
+    def initialize(schema)
       @schema = schema
     end
 
@@ -28,6 +27,18 @@ module APIDocs
 
     def anchor
       "#{name.parameterize}-object"
+    end
+
+    def example
+      SchemaExample.new(schema).as_json
+    end
+
+    def name
+      referenced_schema_regex = /#\/components\/schemas\//
+      location = schema.node_context.source_location.to_s
+      if location.match(referenced_schema_regex)
+        location.gsub(referenced_schema_regex, '')
+      end
     end
 
     class Property
