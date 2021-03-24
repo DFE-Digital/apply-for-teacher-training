@@ -57,11 +57,31 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
     expect(result.css('.govuk-summary-list__value').text).to include(course_option.site.name)
   end
 
-  it 'renders component with correct values for the conditions' do
-    result = render_inline(described_class.new(course_choice: application_choice))
+  context 'when there are conditions' do
+    it 'renders component with correct values for the conditions' do
+      result = render_inline(described_class.new(course_choice: application_choice))
 
-    expect(result.css('.govuk-summary-list__key').text).to include('Conditions')
-    expect(result.css('.govuk-summary-list__value').text).to include('Fitness to train to teach')
-    expect(result.css('.govuk-summary-list__value').text).to include('Be cool')
+      expect(result.css('.govuk-summary-list__key').text).to include('Conditions')
+      expect(result.css('.govuk-summary-list__value').text).to include('Fitness to train to teach')
+      expect(result.css('.govuk-summary-list__value').text).to include('Be cool')
+    end
+  end
+
+  context 'when there are no conditions' do
+    let(:application_choice) do
+      create(
+        :application_choice,
+        status: 'offer',
+        offer: { 'conditions' => [] },
+        course_option: course_option,
+        application_form: application_form,
+      )
+    end
+
+    it 'does not render a conditions row' do
+      result = render_inline(described_class.new(course_choice: application_choice))
+
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Conditions')
+    end
   end
 end

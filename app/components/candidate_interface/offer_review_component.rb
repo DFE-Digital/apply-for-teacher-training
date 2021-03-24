@@ -5,12 +5,13 @@ module CandidateInterface
     end
 
     def rows
-      [
+      rows = [
         provider_row,
         course_row,
         location_row,
-        conditions_row,
       ]
+      rows << conditions_row if @course_choice.offer&.dig('conditions')&.present?
+      rows
     end
 
   private
@@ -34,7 +35,7 @@ module CandidateInterface
     def location_row
       {
         key: 'Location',
-        value: @course_choice.offered_option.site.name_and_address,
+        value: @course_choice.offered_option.site.name,
       }
     end
 

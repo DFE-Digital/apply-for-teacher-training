@@ -12,7 +12,6 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl"><%= @application_choice.course.provider_and_name_code %></span>
         <%= t('page_titles.decisions.offer') %>
       </h1>
 
@@ -28,8 +27,14 @@
         <li>if you decline all of your offers, or do not respond in time, you can still apply for courses that start this academic year</li>
       </ul>
 
+      <p class="govuk-body">If you need help, you can speak to our <%= govuk_link_to 'teacher training advisers', t('get_into_teaching.url_get_an_advisor') %>.</p>
+
       <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
-        <%= f.govuk_radio_button :response, 'accept', label: { text: t('decisions.response.accept.label') }, link_errors: true %>
+        <% if @application_choice.offer&.dig('conditions')&.present? %>
+          <%= f.govuk_radio_button :response, 'accept', label: { text: t('decisions.response.accept.label') }, link_errors: true %>
+        <% else %>
+          <%= f.govuk_radio_button :response, 'accept', label: { text: t('decisions.response.accept_no_conditions.label') }, link_errors: true %>
+        <% end %>
         <%= f.govuk_radio_button :response, 'decline', label: { text: t('decisions.response.decline.label') } %>
       <% end %>
 

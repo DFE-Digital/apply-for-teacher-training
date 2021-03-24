@@ -4,6 +4,8 @@ en:
       legend: How do you want to respond to this offer?
       accept:
         label: Accept offer and conditions
+      accept_no_conditions:
+        label: Accept offer
       decline:
         label: Decline offer
     accept_offer:
@@ -32,4 +34,3 @@ en:
         label: Please let us know when you’re available and give a phone number.
       success:
         flash: Thank you for your feedback.
-
