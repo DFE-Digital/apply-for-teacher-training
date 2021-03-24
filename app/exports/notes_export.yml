@@ -1,0 +1,28 @@
+common_columns:
+- candidate_id
+- provider_code
+- provider_name
+- provider_user_id
+
+custom_columns:
+  note_subject:
+    type: string
+    description: Subject of the note
+    example: Important
+  note_message:
+    type: string
+    description: Body of the note
+    example: This application was withdrawn because reasons.
+  note_created_at:
+    type: string
+    format: datetime
+    description: The date and time when the note was created
+    example: 2020-11-01T00:00:00+00:00
+  number_of_training_provider_relationships:
+    type: int
+    description: The count of all relationships for the course training provider.
+    example: 2
+  total_number_of_provider_relationships:
+    type: int
+    description: The total number of provider relationships for the course provider.
+    example: 5
