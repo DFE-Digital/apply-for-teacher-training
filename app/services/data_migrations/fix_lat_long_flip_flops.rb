@@ -15,23 +15,28 @@ module DataMigrations
       total_audits = audits.count
 
       Provider.find_each do |p|
-        Rails.logger.info("FixLatLongFlipFlops: cleaning up provider #{p.id} (#{p.name_and_code})")
+        log("Cleaning up provider #{p.id} (#{p.name_and_code})")
 
         audits_for_provider = audits.where(auditable_id: p.id)
         audits_for_provider_count_before_cleanup = audits.where(auditable_id: p.id).count
 
         # if we already had lat/lng when we made the first spurious update, delete every audit
         if audits_for_provider.first.audited_changes['latitude'].last.nil?
-          delete_audits(audits_for_provider)
+          delete_audits(
+            'lat/long-only audits for this provider (all of them) becase lat/long was set beforehand',
+            audits_for_provider,
+          )
 
         # otherwise, delete all the audits except the one that set it for the first time
         else
 
           delete_audits(
+            'audits which set the lat/long to nil',
             audits_for_provider.where("audited_changes#>>'{longitude, 1}' is null"),
           )
 
           delete_audits(
+            'audits which repeatedly set the lat/long to the same value',
             audits_for_provider.where("audited_changes#>>'{longitude, 0}' is null").offset(1),
           )
         end
@@ -39,13 +44,27 @@ module DataMigrations
         deleted_audit_count += (audits_for_provider_count_before_cleanup - audits_for_provider.count)
       end
 
-      Rails.logger.info("Deleted #{deleted_audit_count} lat/long audits out of #{total_audits}")
+      log("Deleted #{deleted_audit_count} lat/long audits out of #{total_audits}") unless dry_run?
     end
 
   private
 
-    def delete_audits(audits)
-      audits.destroy_all
+    def delete_audits(description, audits)
+      log("Deleting #{audits.count} #{description}")
+      audits.destroy_all unless dry_run?
+    end
+
+    def dry_run?
+      ENV.fetch('FIX_LAT_LONG_DRY_RUN', 'true') == 'true'
+    end
+
+    def log(message)
+      log_string = %w[FixLatLongFlipFlops]
+      log_string << '(dry run)' if dry_run?
+      log_string << '-'
+      log_string << message
+
+      Rails.logger.info log_string.join(' ')
     end
   end
 end
