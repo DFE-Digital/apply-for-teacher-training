@@ -54,6 +54,8 @@ class FlatReasonsForRejectionPresenter
   end
 
   def self.y_n_to_boolean(string)
+    return nil unless %w[Yes No].include?(string)
+
     string == 'Yes'
   end
 

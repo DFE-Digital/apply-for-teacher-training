@@ -51,8 +51,8 @@ RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
           'Information revealed by our vetting process makes the candidate unsuitable to work with children' => false,
           'Information revealed by our vetting process makes the candidate unsuitable to work with children - details' => nil,
           'Safeguarding issues other reason - details' => 'We need to run further checks',
-          'Additional advice' => false,
-          'Future applications' => false,
+          'Additional advice' => nil,
+          'Future applications' => nil,
           'why are you rejecting this application details' => nil,
         },
       )
