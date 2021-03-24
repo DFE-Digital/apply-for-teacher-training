@@ -5,10 +5,10 @@ module SupportInterface
     def providers
       relevant_providers.map do |provider|
         {
-          'name' => provider.name,
-          'code' => provider.code,
-          'agreement_accepted_at' => provider.provider_agreements.where.not(accepted_at: nil).first&.accepted_at,
-          'Average distance to site' => average_distance_to_site(provider),
+          provider_name: provider.name,
+          provider_code: provider.code,
+          agreement_accepted_at: provider.provider_agreements.where.not(accepted_at: nil).first&.accepted_at,
+          average_distance_to_site: average_distance_to_site(provider),
         }
       end
     end

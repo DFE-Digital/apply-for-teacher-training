@@ -69,10 +69,10 @@ module SupportInterface
       counts_for(level: level, attribute: attribute)
         .map do |value, count|
         {
-          'Field' => field_name,
-          'Value entered' => value,
-          'Frequency' => count,
-          'Free text?' => !set_to_check.include?(value),
+          field: field_name,
+          value_entered: value,
+          frequency: count,
+          free_text?: !set_to_check.include?(value),
         }
       end
     end

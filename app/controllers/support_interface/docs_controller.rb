@@ -8,6 +8,8 @@ module SupportInterface
 
     def when_emails_are_sent; end
 
+    def qualifications; end
+
     def mailer_previews
       @previews = ActionMailer::Preview.all
       @page_title = 'Mailer Previews'

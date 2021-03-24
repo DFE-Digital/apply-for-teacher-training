@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateAutofillUsageExport do
+  describe 'documentation' do
+    before do
+      application_form = create(:application_form, :minimum_info)
+      create(:degree_qualification, application_form: application_form)
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#data_for_export' do
     context 'degree qualifications' do
       it 'returns a hash of candidates autofill usage' do
@@ -82,40 +91,40 @@ private
   def expected_hash(degree_qualification:, other_qualification:, free_text:)
     [
       {
-        'Field' => 'Degree grade',
-        'Value entered' => degree_qualification.grade,
-        'Frequency' => 1,
-        'Free text?' => free_text,
+        field: 'Degree grade',
+        value_entered: degree_qualification.grade,
+        frequency: 1,
+        free_text?: free_text,
       },
       {
-        'Field' => 'Degree institution',
-        'Value entered' => degree_qualification.institution_name,
-        'Frequency' => 1,
-        'Free text?' => free_text,
+        field: 'Degree institution',
+        value_entered: degree_qualification.institution_name,
+        frequency: 1,
+        free_text?: free_text,
       },
       {
-        'Field' => 'Degree subject',
-        'Value entered' => degree_qualification.subject,
-        'Frequency' => 1,
-        'Free text?' => free_text,
+        field: 'Degree subject',
+        value_entered: degree_qualification.subject,
+        frequency: 1,
+        free_text?: free_text,
       },
       {
-        'Field' => 'Degree type',
-        'Value entered' => degree_qualification.qualification_type,
-        'Frequency' => 1,
-        'Free text?' => free_text,
+        field: 'Degree type',
+        value_entered: degree_qualification.qualification_type,
+        frequency: 1,
+        free_text?: free_text,
       },
       {
-        'Field' => 'Other grade',
-        'Value entered' => other_qualification.grade,
-        'Frequency' => 1,
-        'Free text?' => free_text,
+        field: 'Other grade',
+        value_entered: other_qualification.grade,
+        frequency: 1,
+        free_text?: free_text,
       },
       {
-        'Field' => 'Other type',
-        'Value entered' => other_qualification.qualification_type,
-        'Frequency' => 1,
-        'Free text?' => free_text,
+        field: 'Other type',
+        value_entered: other_qualification.qualification_type,
+        frequency: 1,
+        free_text?: free_text,
       },
     ]
   end

@@ -1,0 +1,182 @@
+common_columns:
+  - candidate_id
+  - support_reference
+  - recruitment_cycle_year
+  - phase
+  - application_state
+  - submitted_at
+
+custom_columns:
+  signed_up_at:
+    type: string
+    format: date-time
+    description: Date candidate signed up
+    example: 2020-11-01T00:00:00+00:00
+
+  first_signed_in_at:
+    type: string
+    format: date-time
+    description: Date candidate first signed in
+    example: 2020-11-01T00:00:00+00:00
+
+  form_updated_at:
+    type: string
+    format: date-time
+    description: Date application was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  courses_last_updated_at:
+    type: string
+    format: date-time
+    description: Date courses were last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  qualifications_last_updated_at:
+    type: string
+    format: date-time
+    description: Date qualifications were last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  work_history_last_updated_at:
+    type: string
+    format: date-time
+    description: Date work history was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  references_last_updated_at:
+    type: string
+    format: date-time
+    description: Date references were last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  address_line1_last_updated_at:
+    type: string
+    format: date-time
+    description: Date address line 1 was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  becoming_a_teacher_last_updated_at:
+    type: string
+    format: date-time
+    description: Date becoming a teacher was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  country_last_updated_at:
+    type: string
+    format: date-time
+    description: Date country was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  course_choices_completed_last_updated_at:
+    type: string
+    format: date-time
+    description: Date course choices completed were last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  date_of_birth_last_updated_at:
+    type: string
+    format: date-time
+    description: Date the date of birth was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  degrees_completed_last_updated_at:
+    type: string
+    format: date-time
+    description: Date degrees completed was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  disclose_disability_last_updated_at:
+    type: string
+    format: date-time
+    description: Date disclose disability was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  english_main_language_last_updated_at:
+    type: string
+    format: date-time
+    description: Date english main language was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  first_name_last_updated_at:
+    type: string
+    format: date-time
+    description: Date first name was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  first_nationality_last_updated_at:
+    type: string
+    format: date-time
+    description: Date first nationality was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  further_information_last_updated_at:
+    type: string
+    format: date-time
+    description: Date further information was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  interview_preferences_last_updated_at:
+    type: string
+    format: date-time
+    description: Date interview preferences were last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  last_name_last_updated_at:
+    type: string
+    format: date-time
+    description: Date last name was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  other_qualifications_completed_last_updated_at:
+    type: string
+    format: date-time
+    description: Date other qualifications completed was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  phone_number_last_updated_at:
+    type: string
+    format: date-time
+    description: Date phone number was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  postcode_last_updated_at:
+    type: string
+    format: date-time
+    description: Date postcode was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  second_nationality_last_updated_at:
+    type: string
+    format: date-time
+    description: Date second nationality was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  subject_knowledge_last_updated_at:
+    type: string
+    format: date-time
+    description: Date subject knowledge was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  volunteering_completed_last_updated_at:
+    type: string
+    format: date-time
+    description: Date volunteering completed was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  volunteering_experience_last_updated_at:
+    type: string
+    format: date-time
+    description: Date volunteering experience was last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  work_history_breaks_last_updated_at:
+    type: string
+    format: date-time
+    description: Date work history breaks were last updated
+    example: 2020-11-01T00:00:00+00:00
+
+  work_history_completed_last_updated_at:
+    type: string
+    format: date-time
+    description: Date work history completed was last updated
+    example: 2020-11-01T00:00:00+00:00

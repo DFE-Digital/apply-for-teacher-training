@@ -1,0 +1,19 @@
+common_columns:
+  - provider_code
+
+custom_columns:
+  site_id:
+    type: string
+    description: The site’s ID
+    example: 5432
+
+  site_code:
+    type: string
+    description: The site’s code
+    example: F
+
+  distance_from_provider:
+    type: number
+    format: float
+    description: The distance of a site from a provider site (in miles)
+    example: 11.5
