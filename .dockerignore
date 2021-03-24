@@ -9,5 +9,4 @@ docs
 adr
 *.gem
 *.rdb
-.env*
-
+.env
