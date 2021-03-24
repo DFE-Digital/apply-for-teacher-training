@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe DataMigrations::FixLatLongFlipFlops do
-  it 'deletes audits that set lat/long to nil', with_audited: true do
+RSpec.describe DataMigrations::FixLatLongFlipFlops, with_audited: true do
+  it 'deletes audits that set lat/long to nil' do
     provider = create(:provider)
     expect(provider.audits.count).to eq 1
 
@@ -17,7 +17,7 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops do
     expect(provider.audits.last.audited_changes).to eq({ 'latitude' => [nil, 1.0], 'longitude' => [nil, 1.0] })
   end
 
-  it 'deletes duplicated audits that set lat/long', with_audited: true do
+  it 'deletes duplicated audits that set lat/long' do
     provider = FactoryBot.create(:provider)
     expect(provider.audits.count).to eq 1
 
@@ -36,7 +36,7 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops do
     expect(provider.audits.last.audited_changes).to eq({ 'latitude' => [nil, 1.0], 'longitude' => [nil, 1.0] })
   end
 
-  it 'does not retain an extra audit when lat/long was set at creation time', with_audited: true do
+  it 'does not retain an extra audit when lat/long was set at creation time' do
     provider = create(:provider, latitude: 1, longitude: 1)
     expect(provider.audits.count).to eq 1
 
@@ -51,7 +51,7 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops do
     expect(provider.audits.count).to eq 1
   end
 
-  it 'can handle two providers with different orderings of changes', with_audited: true do
+  it 'can handle two providers with different orderings of changes' do
     p1 = create(:provider)
     p2 = create(:provider, latitude: 1, longitude: 1)
 
@@ -69,15 +69,16 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops do
     expect(p2.audits.count).to eq(1)
   end
 
-  it 'logs the result', with_audited: true do
+  it 'logs the result' do
     provider = create(:provider)
     provider.update(latitude: 1, longitude: 1)
     provider.update(latitude: nil, longitude: nil)
+    provider.update(latitude: 1, longitude: 1)
 
     allow(Rails.logger).to receive(:info).and_call_original
 
     described_class.new.change
 
-    expect(Rails.logger).to have_received(:info).with('Deleted 1 lat/long audits out of 2')
+    expect(Rails.logger).to have_received(:info).with('Deleted 2 lat/long audits out of 3')
   end
 end
