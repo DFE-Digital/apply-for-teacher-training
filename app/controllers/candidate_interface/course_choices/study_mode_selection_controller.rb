@@ -32,9 +32,9 @@ module CandidateInterface
 
         if @pick_study_mode.single_site_course?
           AddOrUpdateCourseChoice.new(
-            @pick_study_mode.first_site_id,
-            current_application,
-            self,
+            course_option_id: @pick_study_mode.first_site_id,
+            application_form: current_application,
+            controller: self,
             id_of_course_choice_to_replace: params[:course_choice_id],
           ).call
         else
