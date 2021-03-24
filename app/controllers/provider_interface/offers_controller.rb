@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :confirm_application_is_in_decision_pending_state, except: %i[edit update show]
     before_action :confirm_application_is_in_offered_state, only: %i[edit update show]
-    before_action :requires_make_decisions_permission
+    before_action :requires_make_decisions_permission, except: %i[show]
 
     def new
       flash[:warning] = t('.failure')
@@ -38,6 +38,8 @@ module ProviderInterface
                                                      :change_offer).merge!(current_step: :offer))
       @wizard.configure_additional_conditions(@application_choice.offer['conditions'] - MakeAnOffer::STANDARD_CONDITIONS)
       @wizard.save_state!
+
+      return unless provider_user_can_make_decisions
 
       @providers = available_providers
       @courses = available_courses(@application_choice.offered_course.provider_id)
@@ -109,6 +111,15 @@ module ProviderInterface
         decision: decision,
         standard_conditions: conditions,
       }
+    end
+
+    helper_method :provider_user_can_make_decisions
+
+    def provider_user_can_make_decisions
+      @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.offered_option.id,
+      )
     end
   end
 end

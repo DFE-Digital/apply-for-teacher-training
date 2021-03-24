@@ -1,19 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::OfferSummaryComponent do
+  include Rails.application.routes.url_helpers
+
   let(:application_choice) { build_stubbed(:application_choice) }
   let(:course_option) { build_stubbed(:course_option) }
   let(:providers) { [] }
   let(:course) { build_stubbed(:course) }
   let(:courses) { [] }
   let(:course_options) { [] }
+  let(:editable) { true }
   let(:render) do
     render_inline(described_class.new(application_choice: application_choice, course_option: course_option,
                                       conditions: ['condition 1'],
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,
-                                      course: course))
+                                      course: course,
+                                      editable: editable))
   end
 
   def row_text_selector(row_name, render)
@@ -131,6 +135,24 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       it 'renders conditions as met' do
         expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Pending')
         expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
+  end
+
+  describe '#editable' do
+    context 'when true' do
+      let(:editable) { true }
+
+      it 'displays the conditions change link' do
+        expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(new_provider_interface_application_choice_offer_conditions_path(application_choice))
+      end
+    end
+
+    context 'when false' do
+      let(:editable) { false }
+
+      it 'does not display the conditions change link' do
+        expect(render.css('.govuk-body').css('a').first).to eq(nil)
       end
     end
   end

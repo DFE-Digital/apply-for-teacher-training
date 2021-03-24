@@ -1,23 +1,38 @@
-<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: true) %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: provider_user_can_make_decisions) %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Offer</div>
-    <p class="govuk-body govuk-!-margin-bottom-7">
-      <% if %i[pending_conditions recruited].include?(@application_choice.status.to_sym) %>
-        <%= govuk_link_to 'Defer offer', provider_interface_application_choice_new_defer_offer_path(@application_choice) %>
-      <% end %>
+    <% if provider_user_can_make_decisions %>
+      <p class="govuk-body govuk-!-margin-bottom-7">
+        <% if %i[pending_conditions recruited].include?(@application_choice.status.to_sym) %>
+          <%= govuk_link_to 'Defer offer', provider_interface_application_choice_new_defer_offer_path(@application_choice) %>
+        <% end %>
 
-      <% if @application_choice.offer? %>
-        <%= govuk_link_to 'Withdraw offer', provider_interface_application_choice_withdraw_offer_path(@application_choice) %>
-      <% end %>
-    </p>
-    <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
-                                                                     course_option: @application_choice.offered_course_option,
-                                                                     conditions: @application_choice.offer['conditions'],
-                                                                     course: @application_choice.offered_course,
-                                                                     available_providers: @providers,
-                                                                     available_courses: @courses,
-                                                                     available_course_options: @course_options,
-                                                                     border: false) %>
+        <% if @application_choice.offer? %>
+          <%= govuk_link_to 'Withdraw offer', provider_interface_application_choice_withdraw_offer_path(@application_choice) %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <% if provider_user_can_make_decisions %>
+      <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
+                                                                       course_option: @application_choice.offered_course_option,
+                                                                       conditions: @application_choice.offer['conditions'],
+                                                                       course: @application_choice.offered_course,
+                                                                       available_providers: @providers,
+                                                                       available_courses: @courses,
+                                                                       available_course_options: @course_options,
+                                                                       border: false) %>
+    <% else %>
+      <%= render ProviderInterface::ReadOnlyCompletedOfferSummaryComponent.new(application_choice: @application_choice,
+                                                                               course_option: @application_choice.offered_course_option,
+                                                                               conditions: @application_choice.offer['conditions'],
+                                                                               course: @application_choice.offered_course,
+                                                                               available_providers: [],
+                                                                               available_courses: [],
+                                                                               available_course_options: [],
+                                                                               border: false,
+                                                                               editable: false) %>
+    <% end %>
   </div>
 </div>
