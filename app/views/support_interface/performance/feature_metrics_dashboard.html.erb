@@ -325,4 +325,60 @@
       </div>
     </div>
   </div>
+
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Qualifications</h3>
+  <div id="qualifications_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+    <div class="govuk-grid-column-one-half">
+      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+        <%= render SupportInterface::TileComponent.new(
+          count: @dashboard.read_metric(:pct_applications_with_one_a_level),
+          label: 'candidates added 1 or more AS or A level',
+          colour: :blue,
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:pct_applications_with_one_a_level_this_month),
+            label: 'this month',
+            size: :reduced,
+          ) %>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:pct_applications_with_one_a_level_last_month),
+            label: 'last month',
+            size: :reduced,
+          ) %>
+        </div>
+      </div>
+    </div>
+    <div class="govuk-grid-column-one-half">
+      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+        <%= render SupportInterface::TileComponent.new(
+          count: @dashboard.read_metric(:pct_applications_with_three_a_levels),
+          label: 'candidates added 3 or more AS or A level',
+          colour: :blue,
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:pct_applications_with_three_a_levels_this_month),
+            label: 'this month',
+            size: :reduced,
+          ) %>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:pct_applications_with_three_a_levels_last_month),
+            label: 'last month',
+            size: :reduced,
+          ) %>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>

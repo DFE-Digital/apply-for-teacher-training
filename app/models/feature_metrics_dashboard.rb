@@ -21,6 +21,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_apply_again_change_rate
     load_apply_again_application_rate
     load_carry_over_counts
+    load_qualifications
   end
 
   def last_updated_at
@@ -55,6 +56,10 @@ private
 
   def carry_over_statistics
     CarryOverFeatureMetrics.new
+  end
+
+  def qualifications_statistics
+    QualificationsFeatureMetrics.new
   end
 
   def load_avg_time_to_get_references
@@ -279,6 +284,53 @@ private
       :carry_over_count_last_month,
       carry_over_statistics.carry_over_count(
         EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+  end
+
+  def load_qualifications
+    write_metric(
+      :pct_applications_with_one_a_level,
+      qualifications_statistics.formatted_a_level_percentage(
+        1,
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :pct_applications_with_one_a_level_this_month,
+      qualifications_statistics.formatted_a_level_percentage(
+        1,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :pct_applications_with_one_a_level_last_month,
+      qualifications_statistics.formatted_a_level_percentage(
+        1,
+        Time.zone.now.beginning_of_month - 1.month,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :pct_applications_with_three_a_levels,
+      qualifications_statistics.formatted_a_level_percentage(
+        3,
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :pct_applications_with_three_a_levels_this_month,
+      qualifications_statistics.formatted_a_level_percentage(
+        3,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :pct_applications_with_three_a_levels_last_month,
+      qualifications_statistics.formatted_a_level_percentage(
+        3,
+        Time.zone.now.beginning_of_month - 1.month,
         Time.zone.now.beginning_of_month,
       ),
     )
