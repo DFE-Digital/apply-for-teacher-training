@@ -15,7 +15,7 @@ module ViewHelper
   end
 
   def govuk_back_link_to(url = :back, body = 'Back')
-    classes = 'app-back-link'
+    classes = 'govuk-!-display-none-print'
 
     if url == :back
       url = controller.request.env['HTTP_REFERER'] || 'javascript:history.back()'
@@ -30,7 +30,7 @@ module ViewHelper
       body = 'Back to application'
     end
 
-    link_to(body, url, class: classes)
+    render GovukComponent::BackLink.new(text: body, href: url, classes: classes)
   end
 
   def govuk_button_link_to(body = nil, url = nil, html_options = nil, &block)
