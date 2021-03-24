@@ -16,10 +16,13 @@ class MakeOffer
                                     application_choice: application_choice,
                                     course_option: course_option,
                                     offer_conditions: conditions)
-    make_an_offer.save
 
-    if make_an_offer.errors[:base].include?(MakeAnOffer::STATE_TRANSITION_ERROR)
-      ApplicationStateChange.new(application_choice).make_offer!
+    unless make_an_offer.save
+      if make_an_offer.errors[:base].include?(MakeAnOffer::STATE_TRANSITION_ERROR)
+        ApplicationStateChange.new(application_choice).make_offer!
+      else
+        raise 'Unable to complete save on make_an_offer'
+      end
     end
   end
 end
