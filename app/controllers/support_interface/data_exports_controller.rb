@@ -4,10 +4,6 @@ module SupportInterface
       @export_types = DataExport::EXPORT_TYPES
     end
 
-    def index
-      @data_exports = DataExport.includes(:initiator).order(id: :desc).page(params[:page] || 1).per(30)
-    end
-
     def directory
       @export_types = DataExport::EXPORT_TYPES
     end
