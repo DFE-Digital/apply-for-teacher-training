@@ -1,19 +1,11 @@
 <% content_for :title, 'Search validation errors' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path,
-    },
-    {
-      text: 'Validation errors',
-      path: support_interface_validation_errors_path,
-    },
-    {
-      text: 'Search validation errors',
-    },
-  ]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Validation errors': support_interface_validation_errors_path,
+    'Search validation errors': nil,
+  }) %>
 <% end %>
 
 <p class="govuk-body">

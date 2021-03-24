@@ -2,19 +2,11 @@
 <% content_for :title, @support_user.display_name %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Settings',
-      path: support_interface_feature_flags_path,
-    },
-    {
-      text: 'Support users',
-      path: support_interface_support_users_path,
-    },
-    {
-      text: @support_user.display_name,
-    },
-  ]) %>
+  <%= breadcrumbs({
+    'Settings': support_interface_feature_flags_path,
+    'Support users': support_interface_support_users_path,
+    @support_user.display_name => nil,
+  }) %>
 <% end %>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @support_user) %>

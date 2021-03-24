@@ -1,24 +1,12 @@
 <% content_for :title, @course.name_and_code %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Providers',
-      path: support_interface_providers_path,
-    },
-    {
-      text: @course.provider.name,
-      path: support_interface_provider_path(@course.provider),
-    },
-    {
-      text: 'Courses',
-      path: support_interface_provider_courses_path(@course.provider),
-    },
-    {
-      text: @course.name,
-      href: support_interface_course_path(@course),
-    },
-  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+  <%= breadcrumbs({
+    'Providers': support_interface_providers_path,
+    @course.provider.name => support_interface_provider_path(@course.provider),
+    'Courses': support_interface_provider_courses_path(@course.provider),
+    @course.name => support_interface_course_path(@course),
+  }.merge(title != 'Details' ? { title: nil } : {})) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [

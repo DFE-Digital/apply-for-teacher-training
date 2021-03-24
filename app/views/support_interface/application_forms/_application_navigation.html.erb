@@ -1,18 +1,9 @@
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Candidates',
-      path: support_interface_applications_path,
-    },
-    {
-      text: @application_form.candidate.email_address,
-      path: support_interface_candidate_path(@application_form.candidate),
-    },
-    {
-      text: @application_form.support_reference,
-      path: support_interface_application_form_path(@application_form),
-    },
-  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+  <%= breadcrumbs({
+    'Candidates': support_interface_applications_path,
+    @application_form.candidate.email_address => support_interface_candidate_path(@application_form.candidate),
+    @application_form.support_reference => support_interface_application_form_path(@application_form),
+  }.merge(title != 'Details' ? { title: nil } : {})) %>
 <% end %>
 
 <div class="govuk-grid-row">

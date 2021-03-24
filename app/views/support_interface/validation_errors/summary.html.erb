@@ -1,19 +1,11 @@
 <% content_for :title, 'Validation error summary' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path,
-    },
-    {
-      text: 'Validation errors',
-      path: support_interface_validation_errors_path,
-    },
-    {
-      text: 'Validation error summary',
-    },
-  ]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Validation errors': support_interface_validation_errors_path,
+    'Validation error summary': nil,
+  }) %>
 <% end %>
 
 <div class="validation-results-header">

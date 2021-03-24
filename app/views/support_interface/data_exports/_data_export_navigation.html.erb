@@ -2,20 +2,11 @@
 <% content_for :title, params[:data_export_type].humanize.to_s %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path,
-    },
-    {
-      text: 'Data directory',
-      path: support_interface_data_directory_path,
-    },
-    {
-      text: params[:data_export_type].humanize,
-      path: support_interface_view_export_information_path,
-    },
-  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Data directory': support_interface_data_directory_path,
+    params[:data_export_type].humanize => support_interface_view_export_information_path,
+  }.merge(title != 'Details' ? { title: nil } : {})) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [

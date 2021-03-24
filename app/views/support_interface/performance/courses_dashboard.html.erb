@@ -1,12 +1,10 @@
 <% content_for :title, 'Course statistics' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [{
-    text: 'Performance',
-    path: support_interface_performance_path,
-  }, {
-    text: 'Course statistics',
-  }]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Course statistics': nil,
+  }) %>
 <% end %>
 
 <% RecruitmentCycle.years_visible_in_support.each do |year| %>

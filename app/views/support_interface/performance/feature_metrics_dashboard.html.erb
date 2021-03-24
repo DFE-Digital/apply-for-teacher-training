@@ -1,12 +1,10 @@
 <% content_for :title, 'Feature metrics' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [{
-    text: 'Performance',
-    path: support_interface_performance_path,
-  }, {
-    text: 'Feature metrics',
-  }]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Feature metrics': nil,
+  }) %>
 <% end %>
 
 <% if @dashboard.nil? %>

@@ -1,15 +1,11 @@
 <%= content_for :title, t('page_titles.provider.export_hesa_data', timeframe: '') %>
+
 <% if FeatureFlag.active?(:export_application_data) %>
   <% content_for :before_content do %>
-    <%= render BreadcrumbComponent.new(items: [
-      {
-        text: t('page_titles.provider.export_application_data'),
-        path: provider_interface_new_application_data_export_path,
-      },
-      {
-        text: t('page_titles.provider.export_hesa_data', timeframe: ''),
-      },
-    ]) %>
+    <%= breadcrumbs({
+      t('page_titles.provider.export_application_data') => provider_interface_new_application_data_export_path,
+      t('page_titles.provider.export_hesa_data', timeframe: '') => nil,
+    }) %>
   <% end %>
 <% end %>
 

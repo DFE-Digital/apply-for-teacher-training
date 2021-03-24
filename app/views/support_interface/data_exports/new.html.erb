@@ -1,15 +1,11 @@
 <% content_for :title, 'New data export' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [{
-    text: 'Performance',
-    path: support_interface_performance_path,
-  }, {
-    text: 'Export data',
-    path: support_interface_data_exports_path,
-  }, {
-    text: 'New data export',
-  }]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Export data': support_interface_data_exports_path,
+    'New data export': nil,
+  }) %>
 <% end %>
 
 <% @export_types.each do |id, export| %>

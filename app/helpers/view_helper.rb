@@ -30,7 +30,18 @@ module ViewHelper
       body = 'Back to application'
     end
 
-    govuk_back_link(text: body, href: url, classes: classes)
+    render GovukComponent::BackLink.new(
+      text: body,
+      href: url,
+      classes: classes,
+    )
+  end
+
+  def breadcrumbs(breadcrumbs)
+    render GovukComponent::Breadcrumbs.new(
+      breadcrumbs: breadcrumbs,
+      hide_in_print: true,
+    )
   end
 
   def govuk_button_link_to(body = nil, url = nil, html_options = nil, &block)
