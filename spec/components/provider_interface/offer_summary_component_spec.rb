@@ -8,9 +8,8 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
   let(:courses) { [] }
   let(:course_options) { [] }
   let(:render) do
-    render_inline(described_class.new(application_choice: application_choice,
-                                      course_option: course_option,
-                                      conditions: ['condition 1', 'condition 2'],
+    render_inline(described_class.new(application_choice: application_choice, course_option: course_option,
+                                      conditions: ['condition 1'],
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,
@@ -107,8 +106,32 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
   end
 
-  it 'renders conditions' do
-    expect(render.css('.conditions').text).to include('condition 1')
-    expect(render.css('.conditions').text).to include('condition 2')
+  context 'when conditions are set' do
+    context 'when application is recruited' do
+      let(:application_choice) { build_stubbed(:application_choice, :with_recruited) }
+
+      it 'renders conditions as met' do
+        expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Met')
+        expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
+
+    context 'when application is on conditions_not_met' do
+      let(:application_choice) { build_stubbed(:application_choice, :with_conditions_not_met) }
+
+      it 'renders conditions as met' do
+        expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Not met')
+        expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
+
+    context 'when application is on offer state' do
+      let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+
+      it 'renders conditions as met' do
+        expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Pending')
+        expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
   end
 end
