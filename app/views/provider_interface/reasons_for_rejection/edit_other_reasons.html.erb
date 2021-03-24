@@ -2,27 +2,32 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-    <h1 class="govuk-heading-l">Other reasons for rejection</h1>
-    <p class="govuk-body">The candidate will see this feedback.</p>
-  </div>
-  <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_update_other_reasons_path do |f| %>
 
       <%= f.govuk_error_summary %>
 
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+
       <% if @wizard.reason_not_captured_by_initial_questions? %>
+        <h1 class="govuk-heading-l">Other reasons for rejecting this application</h1>
+        <p class="govuk-body">This feedback will be sent to the candidate.</p>
+
         <%= f.govuk_text_area :why_are_you_rejecting_this_application, label: { text: 'Why are you rejecting this application?', size: 'm' }, max_words: 200 %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:other_advice_or_feedback_y_n, legend: { text: "Is there any other advice or feedback you’d like to give #{@application_choice.application_form.full_name}?", size: 'm' }) do %>
+      <% legend_size = @wizard.reason_not_captured_by_initial_questions? ? 'm' : 'l' %>
+      <% legend_tag = @wizard.reason_not_captured_by_initial_questions? ? nil : 'h1' %>
+
+      <%= f.govuk_radio_buttons_fieldset(:other_advice_or_feedback_y_n, legend: { text: "Is there any other advice or feedback you’d like to give #{@application_choice.application_form.full_name}?", size: legend_size, tag: legend_tag }) do %>
         <%= f.govuk_radio_button :other_advice_or_feedback_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_text_area :other_advice_or_feedback_details, label: { text: 'Please give details' }, max_words: 100 %>
+          <%= f.govuk_text_area :other_advice_or_feedback_details, label: { text: 'Give details' }, max_words: 100 %>
         <% end %>
         <%= f.govuk_radio_button :other_advice_or_feedback_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
     <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %></p>
   </div>
 </div>

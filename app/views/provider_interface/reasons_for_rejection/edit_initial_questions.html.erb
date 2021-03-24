@@ -6,14 +6,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-    <h1 class="govuk-heading-l">Reasons for rejection</h1>
-    <p class="govuk-body">The candidate will see this feedback.</p>
-  </div>
-  <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_update_initial_questions_path do |f| %>
 
       <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">Reasons for rejecting this application</h1>
+      <p class="govuk-body">The candidate will see this feedback.</p>
 
       <%= f.govuk_radio_buttons_fieldset(:candidate_behaviour_y_n, legend: { text: 'Was it related to candidate behaviour?', size: 'm' }) do %>
         <%= f.govuk_radio_button :candidate_behaviour_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
@@ -187,5 +186,7 @@
       <% end %>
       <%= f.govuk_submit t('continue') %>
     <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %></p>
   </div>
 </div>
