@@ -1,3 +1,13 @@
+## 22nd March
+
+The following experimental/sandbox endpoint has been updated:
+
+`/test-data/generate` is now asynchronous:
+- A POST request to this endpoint will queue a job to generate the specified test applications.
+- The list of created application IDs will no longer be returned.
+- The new applications will become available as soon as they have been generated.
+- Applications generated in this way will now have their `updated_at` set to the current time, so they can be retrieved using the `GET /applications` endpoint with the `since` parameter.
+
 ## 19th March
 
 Fix a bug where HESA ITT data was not being returned for applications with accepted offers.

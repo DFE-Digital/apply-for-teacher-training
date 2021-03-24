@@ -150,26 +150,13 @@ RSpec.describe TestApplications do
     end
   end
 
-  describe 'generate_for_provider' do
-    it 'can generate applications only for courses the provider ratifies' do
-      provider = create(:provider)
-      create(:course_option)
-      create(:course_option, course: create(:course, provider: provider))
-      # rubocop:disable FactoryBot/CreateList
-      3.times do
-        create(:course_option, course: create(:course, accredited_provider: provider))
-      end
-      # rubocop:enable FactoryBot/CreateList
+  it 'marks any submitted application choices as just updated', with_audited: true do
+    create(:course_option, course: create(:course, :open_on_apply))
 
-      choices = TestApplications.new.generate_for_provider(
-        provider: provider,
-        courses_per_application: 3,
-        count: 2,
-        for_ratified_courses: true,
-      )
+    choices = TestApplications.new.create_application(recruitment_cycle_year: 2020, courses_to_apply_to: Course.all, states: %i[awaiting_provider_decision])
 
-      expect(choices.map(&:application_form).uniq.count).to eq(2)
-      expect(choices.map(&:course).map(&:accredited_provider).uniq).to eq([provider])
-    end
+    expect(choices.count).to eq(1)
+    expect(choices.first.reload.updated_at).to be_within(1.second).of(Time.zone.now)
+    expect(choices.first.audits.last.comment).to eq('This application was automatically generated')
   end
 end

@@ -4,9 +4,9 @@ paths:
       tags:
       - Testing
       summary: Generate test data
-      description: 'Generates n new applications, defaulting to 100 applications with
-        one course choice per application. Does not change existing data. Only available
-        on the Sandbox. EXPERIMENTAL — this endpoint may change or disappear.
+      description: 'Submits a request to generate n new applications, defaulting to 100 applications with
+        one course choice per application. The applications are generated asynchronously, and will appear once they have been generated.
+        Does not change existing data. Only available on the Sandbox. EXPERIMENTAL — this endpoint may change or disappear.
 
         '
       parameters:
@@ -31,8 +31,8 @@ paths:
         schema:
           type: string
       responses:
-        '201':
-          "$ref": "#/components/responses/TestDataGenerated"
+        '200':
+          "$ref": "#/components/responses/OK"
         '401':
           "$ref": "#/components/responses/Unauthorized"
   "/test-data/clear":

@@ -13,17 +13,15 @@ module VendorAPI
     end
 
     def generate
-      application_choices = TestApplications.new.generate_for_provider(
+      GenerateTestApplicationsForProvider.new.call(
         provider: current_provider,
         courses_per_application: courses_per_application_param,
         count: count_param,
         for_ratified_courses: for_ratified_courses_param,
       )
 
-      render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }
-    rescue TestApplications::NotEnoughCoursesError => e
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
-    rescue TestApplications::ZeroCoursesPerApplicationError => e
+      render json: { data: { message: 'Request submitted. Applications will appear once they have been generated' } }
+    rescue ParameterInvalid => e
       render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
     end
 

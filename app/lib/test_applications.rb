@@ -1,25 +1,22 @@
 class TestApplications
   class NotEnoughCoursesError < RuntimeError; end
-  class ZeroCoursesPerApplicationError < RuntimeError; end
-
-  attr_reader :time
-
-  def generate_for_provider(provider:, courses_per_application:, count:, for_ratified_courses: false)
-    courses_to_apply_to = if for_ratified_courses
-                            GetCoursesRatifiedByProvider.call(provider: provider)
-                          else
-                            Course.current_cycle.includes(:course_options)
-                              .joins(:course_options).distinct.open_on_apply
-                              .where(provider: provider)
-                          end
-    1.upto(count).flat_map do
-      create_application(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        states: [:awaiting_provider_decision] * courses_per_application,
-        courses_to_apply_to: courses_to_apply_to,
-      )
+  class ZeroCoursesPerApplicationError < RuntimeError
+    def message
+      'You cannot have zero courses per application'
     end
   end
+  class CourseAndStateNumbersDoNotMatchError < RuntimeError
+    def message
+      'The number of states and courses must be equal'
+    end
+  end
+  class OnlyOneCourseWhenApplyingAgainError < RuntimeError
+    def message
+      'You can only apply to one course when applying again'
+    end
+  end
+
+  attr_reader :time
 
   def create_application(
     recruitment_cycle_year:,
@@ -28,18 +25,72 @@ class TestApplications
     apply_again: false,
     carry_over: false,
     course_full: false,
-    candidate: nil,
-    decline_by_default_at: 3.days.from_now
+    candidate: nil
   )
+    courses = courses_to_apply_to(
+      states: states,
+      courses_to_choose_from: courses_to_apply_to,
+      course_full: course_full,
+    )
+    create_application_to_courses(
+      recruitment_cycle_year: recruitment_cycle_year,
+      states: states,
+      courses: courses,
+      apply_again: apply_again,
+      carry_over: carry_over,
+      candidate: candidate,
+    )
+  end
+
+private
+
+  def courses_to_apply_to(
+    states:,
+    courses_to_choose_from:,
+    course_full: false
+  )
+    raise ZeroCoursesPerApplicationError unless states.any?
+
+    selected_courses =
+      if course_full
+        # Always use the first n courses, so that we can reliably generate
+        # application choices to full courses without randomly affecting the
+        # vacancy status of the entire set of available courses.
+        fill_vacancies(courses_to_choose_from.first(states.count))
+      else
+        courses_to_choose_from.sample(states.count)
+      end
+
+    # it does not make sense to apply to the same course multiple times
+    # in the course of the same application, and it's forbidden in the UI.
+    # Throw an exception if we try to do that here.
+    if selected_courses.count < states.count
+      raise NotEnoughCoursesError, "Not enough distinct courses to generate a #{states.count}-course application"
+    end
+
+    selected_courses
+  end
+
+  def create_application_to_courses(
+    recruitment_cycle_year:,
+    states:,
+    courses:,
+    apply_again: false,
+    carry_over: false,
+    candidate: nil
+  )
+    raise CourseAndStateNumbersDoNotMatchError unless courses.count == states.count
+
     initialize_time(recruitment_cycle_year)
 
     if apply_again
-      raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
+      raise OnlyOneCourseWhenApplyingAgainError unless states.one?
 
-      create_application(
+      create_application_to_courses(
         recruitment_cycle_year: recruitment_cycle_year,
+        courses: courses,
         states: [:rejected],
-        courses_to_apply_to: courses_to_apply_to,
+        candidate: candidate,
       )
 
       candidate = candidate.presence || Candidate.last
@@ -47,10 +98,11 @@ class TestApplications
       last_name = candidate.current_application.last_name
       previous_application_form = candidate.current_application
     elsif carry_over
-      create_application(
+      create_application_to_courses(
         recruitment_cycle_year: recruitment_cycle_year - 1,
-        states: %i[rejected declined],
-        courses_to_apply_to: courses_to_apply_to,
+        courses: courses,
+        states: courses.count.times.map { %i[declined rejected].sample },
+        candidate: candidate,
       )
 
       initialize_time(recruitment_cycle_year)
@@ -59,8 +111,6 @@ class TestApplications
       last_name = candidate.current_application.last_name
       previous_application_form = candidate.current_application
     else
-      raise ZeroCoursesPerApplicationError, 'You cannot have zero courses per application' unless states.any?
-
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
       previous_application_form = nil
@@ -70,23 +120,6 @@ class TestApplications
         created_at: time,
         last_signed_in_at: time,
       )
-    end
-
-    courses_to_apply_to =
-      if course_full
-        # Always use the first n courses, so that we can reliably generate
-        # application choices to full courses without randomly affecting the
-        # vacancy status of the entire set of available courses.
-        fill_vacancies(courses_to_apply_to.first(states.size))
-      else
-        courses_to_apply_to.sample(states.count)
-      end
-
-    # it does not make sense to apply to the same course multiple times
-    # in the course of the same application, and it's forbidden in the UI.
-    # Throw an exception if we try to do that here.
-    if courses_to_apply_to.count < states.count
-      raise NotEnoughCoursesError, "Not enough distinct courses to generate a #{states.count}-course application"
     end
 
     Audited.audit_class.as_user(candidate) do
@@ -134,13 +167,12 @@ class TestApplications
 
       fast_forward
 
-      application_choices = courses_to_apply_to.map do |course|
+      application_choices = courses.map do |course|
         FactoryBot.create(
           :application_choice,
           status: 'unsubmitted',
           course_option: course.course_options.first,
           application_form: @application_form,
-          decline_by_default_at: decline_by_default_at,
           created_at: time,
           updated_at: time,
         )
@@ -207,6 +239,8 @@ class TestApplications
 
         FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
       end
+
+      @application_form.application_choices.update(updated_at: Time.zone.now, audit_comment: 'This application was automatically generated')
 
       application_choices
     end
