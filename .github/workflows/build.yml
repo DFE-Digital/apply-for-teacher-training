@@ -66,7 +66,9 @@ jobs:
           push: true
           builder: ${{ steps.buildx-gem-node-modules.outputs.name }}
           cache-to: type=local,dest=/tmp/.buildx-gem-node-modules-cache
-          cache-from: type=local,src=/tmp/.buildx-gem-node-modules-cache
+          cache-from: |
+            type=local,src=/tmp/.buildx-gem-node-modules-cache
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
           build-args: VERSION=${{ github.sha }}
 
       - name: Build Docker Image
@@ -77,8 +79,11 @@ jobs:
           pull: true
           builder: ${{ steps.buildx.outputs.name }}
           cache-to: type=local,dest=/tmp/.buildx-cache
-          cache-from: type=local,src=/tmp/.buildx-cache
-          build-args: | 
+          cache-from: |
+            type=local,src=/tmp/.buildx-cache
+            type=local,src=/tmp/.buildx-gem-node-modules-cache
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
+          build-args: |
             VERSION=${{ github.sha }} 
             BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
 
