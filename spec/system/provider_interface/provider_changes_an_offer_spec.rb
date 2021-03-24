@@ -5,6 +5,10 @@ RSpec.feature 'Provider changes an offer' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
+  before do
+    FeatureFlag.deactivate(:updated_offer_flow)
+  end
+
   scenario 'Provider changes an offer' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_two_providers
@@ -49,7 +53,7 @@ RSpec.feature 'Provider changes an offer' do
   def and_an_offered_application_choice_exists_for_one_of_my_providers
     # Course @course_option_one belongs to is exclusively full time
     @course_option_one = course_option_for_provider(provider: @provider, study_mode: 'full_time')
-    @application_offered = create(:application_choice, :with_offer, course_option: @course_option_one)
+    @application_offered = create(:application_choice, :with_offer, course_option: @course_option_one, offered_course_option: @course_option_one)
   end
 
   def and_other_full_time_and_part_time_courses_exist_for_this_provider
