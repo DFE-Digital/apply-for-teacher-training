@@ -2,7 +2,7 @@ module ProviderInterface
   class OffersController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :confirm_application_is_in_decision_pending_state, except: %i[edit update show]
-    before_action :confirm_application_is_in_offer_state, only: %i[edit update show]
+    before_action :confirm_application_is_in_offered_state, only: %i[edit update show]
     before_action :requires_make_decisions_permission
 
     def new
@@ -75,8 +75,8 @@ module ProviderInterface
       redirect_to(provider_interface_application_choice_path(@application_choice))
     end
 
-    def confirm_application_is_in_offer_state
-      return if %i[offer].include?(@application_choice.status.to_sym)
+    def confirm_application_is_in_offered_state
+      return if ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
 
       redirect_to(provider_interface_application_choice_path(@application_choice))
     end

@@ -45,7 +45,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
   end
 
-  describe 'if application choice is not in an offer state' do
+  describe 'if application choice is not in an offered state' do
     let!(:application_choice) do
       create(:application_choice, :awaiting_provider_decision,
              application_form: application_form,
