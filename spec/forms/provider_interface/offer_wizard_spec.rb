@@ -41,6 +41,18 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_length_of(:further_condition_2).is_at_most(255) }
     it { is_expected.to validate_length_of(:further_condition_3).is_at_most(255) }
     it { is_expected.to validate_length_of(:further_condition_4).is_at_most(255) }
+
+    context 'if the course option is in an invalid state' do
+      let(:course_option) { create(:course_option) }
+      let(:course_option_id) { course_option.id }
+      let(:course_id) { course_option.course.id }
+      let(:provider_id) { create(:provider).id }
+      let(:study_mode) { course_option.study_mode }
+
+      it 'throws an error' do
+        expect(wizard.valid?(:save)).to eq(false)
+      end
+    end
   end
 
   describe '#next_step' do

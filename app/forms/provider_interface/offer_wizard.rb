@@ -15,6 +15,7 @@ module ProviderInterface
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validates :further_condition_1, :further_condition_2, :further_condition_3, :further_condition_4, length: { maximum: 255 }
+    validate :course_option_details, if: :course_option_id, on: :save
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -61,6 +62,15 @@ module ProviderInterface
     delegate :previous_step, to: :wizard_path_history
 
   private
+
+    def course_option_details
+      OfferedCourseOptionDetailsCheck.new(provider_id: provider_id,
+                                          course_id: course_id,
+                                          course_option_id: course_option_id,
+                                          study_mode: study_mode).validate!
+    rescue OfferedCourseOptionDetailsCheck::InvalidStateError => e
+      errors.add(:base, e.message)
+    end
 
     def save_and_go_to_next_step(step)
       attrs = { provider_id: available_providers.first.id } if step.eql?(:providers)
