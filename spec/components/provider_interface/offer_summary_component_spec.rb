@@ -143,15 +143,27 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     context 'when true' do
       let(:editable) { true }
 
-      it 'displays the conditions change link' do
-        expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(new_provider_interface_application_choice_offer_conditions_path(application_choice))
+      context 'when application is in offer state' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+
+        it 'displays the conditions change link' do
+          expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(new_provider_interface_application_choice_offer_conditions_path(application_choice))
+        end
+      end
+
+      context 'when application is in condititions_pending state' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
+
+        it 'displays the update condition link' do
+          expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(provider_interface_application_choice_edit_conditions_path(application_choice))
+        end
       end
     end
 
     context 'when false' do
       let(:editable) { false }
 
-      it 'does not display the conditions change link' do
+      it 'does not display any change links' do
         expect(render.css('.govuk-body').css('a').first).to eq(nil)
       end
     end

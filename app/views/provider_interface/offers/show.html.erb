@@ -14,7 +14,7 @@
       </p>
     <% end %>
 
-    <% if provider_user_can_make_decisions %>
+    <% if provider_user_can_make_decisions && @application_choice.offer? %>
       <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
                                                                        course_option: @application_choice.offered_course_option,
                                                                        conditions: @application_choice.offer['conditions'],
@@ -32,7 +32,7 @@
                                                                                available_courses: [],
                                                                                available_course_options: [],
                                                                                border: false,
-                                                                               editable: false) %>
+                                                                               editable: provider_user_can_make_decisions) %>
     <% end %>
   </div>
 </div>

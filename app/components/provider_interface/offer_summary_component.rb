@@ -2,9 +2,9 @@ module ProviderInterface
   class OfferSummaryComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :editable
+    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :editable, :show_conditions_link
 
-    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, editable: true)
+    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, editable: true, show_conditions_link: false)
       @application_choice = application_choice
       @course_option = course_option
       @conditions = conditions
@@ -14,6 +14,7 @@ module ProviderInterface
       @course = course
       @border = border
       @editable = editable
+      @show_conditions_link = show_conditions_link
     end
 
     def rows

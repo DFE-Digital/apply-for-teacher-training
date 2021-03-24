@@ -5,13 +5,17 @@
   <h2 class="govuk-heading-m">Conditions of offer</h2>
 
   <% if editable %>
-    <div class='govuk-body'>
-      <% if @application_choice.pending_conditions? %>
+    <% if @application_choice.pending_conditions? %>
+      <div class='govuk-body'>
         <%= govuk_link_to 'Update status of conditions', provider_interface_application_choice_edit_conditions_path(@application_choice) %>
-      <% else %>
+      </div>
+    <% end %>
+
+    <% if @application_choice.offer? || show_conditions_link %>
+      <div class='govuk-body'>
         <%= govuk_link_to 'Add or change conditions', [mode, :provider_interface, @application_choice, :offer, :conditions] %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 
   <% if conditions.any? %>
