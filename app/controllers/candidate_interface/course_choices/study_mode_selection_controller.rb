@@ -32,10 +32,8 @@ module CandidateInterface
 
         if @pick_study_mode.single_site_course?
           AddOrUpdateCourseChoice.new(
-            @pick_study_mode.course_id,
             @pick_study_mode.first_site_id,
             current_application,
-            params.fetch(:provider_id),
             self,
             id_of_course_choice_to_replace: params[:course_choice_id],
           ).call

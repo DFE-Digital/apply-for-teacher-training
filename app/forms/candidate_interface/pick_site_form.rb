@@ -2,15 +2,15 @@ module CandidateInterface
   class PickSiteForm
     include ActiveModel::Model
 
-    attr_accessor :application_form, :provider_id, :course_id, :study_mode, :course_option_id
+    attr_accessor :application_form, :course_option_id
     validates :course_option_id, presence: true
     validate :number_of_choices, on: :save
 
-    def available_sites
+    def self.available_sites(course_id, study_mode)
       CourseOption
         .available
         .includes(:site)
-        .where(course_id: course.id)
+        .where(course_id: course_id)
         .where(study_mode: study_mode)
         .sort_by { |course_option| course_option.site.name }
     end
@@ -32,15 +32,7 @@ module CandidateInterface
   private
 
     def course_option
-      CourseOption.find(course_option_id)
-    end
-
-    def course
-      @course ||= provider.courses.find(course_id)
-    end
-
-    def provider
-      @provider ||= Provider.find(provider_id)
+      @course_option ||= CourseOption.find(course_option_id)
     end
 
     def number_of_choices

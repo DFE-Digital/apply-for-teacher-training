@@ -12,7 +12,7 @@
             <%= f.govuk_error_summary %>
 
             <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: t('page_titles.which_location'), size: 'xl', tag: 'h1' } do %>
-              <% @pick_site.available_sites.each_with_index do |option, i| %>
+              <% @available_sites.each_with_index do |option, i| %>
                 <%= f.govuk_radio_button :course_option_id, option.id, label: { text: option.site.name }, hint: { text: option.site.full_address }, link_errors: i.zero? %>
               <% end %>
             <% end %>
