@@ -3,6 +3,10 @@
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Offer</div>
     <p class="govuk-body govuk-!-margin-bottom-7">
+      <% if %i[pending_conditions recruited].include?(@application_choice.status.to_sym)  %>
+        <%= govuk_link_to 'Defer offer', provider_interface_application_choice_new_defer_offer_path(@application_choice) %>
+      <% end %>
+
       <%= govuk_link_to 'Withdraw offer', provider_interface_application_choice_withdraw_offer_path(@application_choice) %>
     </p>
     <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,

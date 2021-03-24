@@ -17,7 +17,7 @@ RSpec.feature 'Provider defers an offer' do
     then_i_am_asked_to_confirm_deferral_of_the_offer
 
     when_i_confirm_deferral_of_the_offer
-    then_i_am_back_to_the_application_page
+    then_i_am_back_at_the_offer_page
     and_i_can_see_the_application_offer_is_deferred
   end
 
@@ -27,7 +27,10 @@ RSpec.feature 'Provider defers an offer' do
 
   def and_an_offered_application_choice_exists_for_my_provider
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_offered = create(:application_choice, status: 'pending_conditions', accepted_at: 1.day.ago, course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
+    @application_offered = create(:application_choice,
+                                  :with_completed_application_form,
+                                  :with_accepted_offer,
+                                  offered_course_option: course_option)
   end
 
   def and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
@@ -62,14 +65,13 @@ RSpec.feature 'Provider defers an offer' do
     click_on 'Confirm offer deferral'
   end
 
-  def then_i_am_back_to_the_application_page
-    expect(page).to have_current_path(
-      provider_interface_application_choice_offer_path(
-        @application_offered.id,
-      ),
-    )
-    expect(page).to have_content @application_offered.application_form.first_name
-    expect(page).to have_content @application_offered.application_form.last_name
+  def then_i_am_back_at_the_offer_page
+    within '.govuk-heading-xl' do
+      expect(page).to have_content @application_offered.application_form.first_name
+      expect(page).to have_content @application_offered.application_form.last_name
+    end
+
+    expect(page).to have_content 'Offer'
   end
 
   def and_i_can_see_the_application_offer_is_deferred
