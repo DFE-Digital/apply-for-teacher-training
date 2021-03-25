@@ -1,42 +1,49 @@
 module SupportInterface
   class TADProviderStatsExport
     def call
-      Course
-        .includes(:provider)
-        .map { |c| course_to_row(c) }
-        .sort_by { |r| r[:provider_code] }
+      data_for_export = courses.map do |course|
+        choice_statuses = choice_statuses(course)
+
+        {
+          provider_id: nil,
+          provider_code: course.provider.code,
+          provider_name: course.provider.name,
+          provider_type: nil,
+          urn: nil,
+          lead_school: nil,
+          course_code: course.code,
+          subject: course.name,
+          applications: choice_statuses.count,
+          offers: count_offers(choice_statuses),
+          acceptances: count_acceptances(choice_statuses),
+        }
+      end
+
+      data_for_export.sort_by { |row| row[:provider_code] }
     end
 
     alias_method :data_for_export, :call
 
   private
 
-    def course_to_row(course)
-      statuses = ApplicationChoice
-                   .joins(:course)
-                   .where(courses: { id: course.id })
-                   .where('status IN (?)', ApplicationStateChange.states_visible_to_provider_without_deferred)
-                   .pluck(:status)
+    def courses
+      Course.includes(:provider)
+    end
 
-      row_template = {
-        provider_id: nil,
-        provider_code: course.provider.code,
-        provider: course.provider.name,
-        provider_type: nil,
-        urn: nil,
-        lead_school: nil,
-        course_code: course.code,
-        subject: course.name,
-        applications: statuses.count,
-        offers: 0,
-        acceptances: 0,
-      }
+    def choice_statuses(course)
+      ApplicationChoice
+          .joins(:course)
+          .where(courses: { id: course.id })
+          .where('status IN (?)', ApplicationStateChange.states_visible_to_provider_without_deferred)
+          .pluck(:status)
+    end
 
-      statuses.reduce(row_template) do |row, status|
-        row[:offers] += 1 if ApplicationStateChange::OFFERED_STATES.include?(status.to_sym)
-        row[:acceptances] += 1 if ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym)
-        row
-      end
+    def count_offers(choice_statuses)
+      choice_statuses.count { |status| ApplicationStateChange::OFFERED_STATES.include?(status.to_sym) }
+    end
+
+    def count_acceptances(choice_statuses)
+      choice_statuses.count { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym) }
     end
   end
 end

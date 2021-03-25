@@ -50,12 +50,12 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
       expect(exported_rows.count).to eq(4)
 
       # rows are correctly divided between providers
-      expect(exported_rows.map { |r| r[:provider] }.tally['Tehanu']).to eq(2)
-      expect(exported_rows.map { |r| r[:provider] }.tally['Anarres']).to eq(2)
+      expect(exported_rows.map { |r| r[:provider_name] }.tally['Tehanu']).to eq(2)
+      expect(exported_rows.map { |r| r[:provider_name] }.tally['Anarres']).to eq(2)
 
       # rows contain metadata
       example_row = exported_rows.find { |r| r[:subject] == 'History' }
-      expect(example_row[:provider]).to eq('Tehanu')
+      expect(example_row[:provider_name]).to eq('Tehanu')
       expect(example_row[:provider_code]).to eq('ABC1')
       expect(example_row[:course_code]).to eq('XYZ')
     end
