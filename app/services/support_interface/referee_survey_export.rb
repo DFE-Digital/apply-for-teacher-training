@@ -1,7 +1,10 @@
 module SupportInterface
   class RefereeSurveyExport
     def call
-      non_duplicate_references = ApplicationReference.includes(:application_form).where.not(questionnaire: nil, duplicate: true)
+      non_duplicate_references = ApplicationReference
+                                  .includes(:application_form)
+                                  .where.not(questionnaire: nil)
+                                  .where.not(duplicate: true)
       references_with_feedback = non_duplicate_references.reject do |reference|
         reference.questionnaire.values.all? { |response| response == ' | ' }
       end
