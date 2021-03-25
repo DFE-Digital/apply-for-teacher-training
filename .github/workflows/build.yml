@@ -82,3 +82,59 @@ jobs:
     
     - run:  bundle exec rake brakeman
       name: Brakeman
+
+  test:
+    name: Tests
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [unit, integration]
+        feature-flags: [on, off]
+        include:
+          - tests: unit
+            include-pattern: spec/**/**/*_spec.rb
+            exclude-pattern: spec/{system,requests}/**/*_spec.rb
+          - tests: integration
+            include-pattern: spec/{system,requests}/**/*_spec.rb            
+            exclude-pattern: spec/**/**/*_spec.rb
+    services:
+      redis: 
+        image: redis:alpine
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres:11.10
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    defaults:
+      run:
+        working-directory: /app
+    container: 
+      image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
+      env:
+        RAILS_ENV: test
+        DB_HOSTNAME: postgres
+        DB_USERNAME: postgres
+        DB_PASSWORD: postgres
+        REDIS_URL: redis://redis:6379/0
+        DB_PORT: 5432
+    steps:
+      - name: Setup Database
+        run: bundle exec rake db:setup
+
+      - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
+        run: bundle exec --verbose rspec --exclude-pattern ${EXCLUDE_PATTERN} --pattern ${INCLUDE_PATTERN} --format documentation
+        env:
+          INCLUDE_PATTERN: ${{ matrix.include-pattern }}
+          EXCLUDE_PATTERN: ${{ matrix.exclude-pattern }}
+          DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
