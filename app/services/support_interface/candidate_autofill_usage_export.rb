@@ -110,6 +110,8 @@ module SupportInterface
         )
         .where.not(
           qualification_type: 'non_uk',
+        )
+        .where.not(
           application_forms: {
             submitted_at: nil,
           },
