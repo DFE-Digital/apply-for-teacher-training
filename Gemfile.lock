@@ -8,17 +8,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (6.0.3.5)
-      actionpack (= 6.0.3.5)
-      nio4r (~> 2.0)
-      websocket-driver (>= 0.6.1)
-    actionmailbox (6.0.3.5)
-      actionpack (= 6.0.3.5)
-      activejob (= 6.0.3.5)
-      activerecord (= 6.0.3.5)
-      activestorage (= 6.0.3.5)
-      activesupport (= 6.0.3.5)
-      mail (>= 2.7.1)
     actionmailer (6.0.3.5)
       actionpack (= 6.0.3.5)
       actionview (= 6.0.3.5)
@@ -32,12 +21,6 @@ GEM
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actiontext (6.0.3.5)
-      actionpack (= 6.0.3.5)
-      activerecord (= 6.0.3.5)
-      activestorage (= 6.0.3.5)
-      activesupport (= 6.0.3.5)
-      nokogiri (>= 1.8.5)
     actionview (6.0.3.5)
       activesupport (= 6.0.3.5)
       builder (~> 3.1)
@@ -56,11 +39,6 @@ GEM
       activesupport (= 6.0.3.5)
     activerecord-cte (0.1.1)
       activerecord
-    activestorage (6.0.3.5)
-      actionpack (= 6.0.3.5)
-      activejob (= 6.0.3.5)
-      activerecord (= 6.0.3.5)
-      marcel (~> 0.3.1)
     activesupport (6.0.3.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
@@ -183,8 +161,9 @@ GEM
     geocoder (1.6.6)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk-components (1.1.4)
-      rails (>= 6.0)
+    govuk-components (1.1.5)
+      activemodel (>= 6.0)
+      railties (>= 6.0)
       view_component (~> 2.20)
     govuk_design_system_formbuilder (2.2.0)
       actionview (>= 5.2)
@@ -278,13 +257,10 @@ GEM
       activesupport (>= 5.2.4.3)
       notifications-ruby-client (~> 5.1)
       rack (>= 2.1.4)
-    marcel (0.3.3)
-      mimemagic (~> 0.3.2)
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.0512)
-    mimemagic (0.3.6)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
@@ -358,21 +334,6 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rails (6.0.3.5)
-      actioncable (= 6.0.3.5)
-      actionmailbox (= 6.0.3.5)
-      actionmailer (= 6.0.3.5)
-      actionpack (= 6.0.3.5)
-      actiontext (= 6.0.3.5)
-      actionview (= 6.0.3.5)
-      activejob (= 6.0.3.5)
-      activemodel (= 6.0.3.5)
-      activerecord (= 6.0.3.5)
-      activestorage (= 6.0.3.5)
-      activesupport (= 6.0.3.5)
-      bundler (>= 1.3.0)
-      railties (= 6.0.3.5)
-      sprockets-rails (>= 2.0.0)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -561,9 +522,6 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
-    websocket-driver (0.7.3)
-      websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.5)
     wkhtmltopdf-binary (0.12.6.3)
     workflow (2.0.2)
     xpath (3.2.0)
@@ -574,8 +532,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionmailer (~> 6.0)
+  actionpack (~> 6.0)
+  actionview (~> 6.0)
   active_hash
+  activemodel (~> 6.0)
+  activerecord (~> 6.0)
   activerecord-cte
+  activesupport (~> 6.0)
   ar-sequence
   archive-zip
   audited!
@@ -626,8 +590,8 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (~> 5.2)
-  rails (~> 6.0)
   rails-erd
+  railties (~> 6.0)
   request_store-sidekiq
   request_store_rails
   rouge
@@ -643,6 +607,7 @@ DEPENDENCIES
   simplecov
   simplecov-cobertura
   skylight
+  sprockets-rails
   strip_attributes
   super_diff
   timecop
