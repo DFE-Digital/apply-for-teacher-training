@@ -11,27 +11,27 @@ common_columns:
 custom_columns:
   qualification_type:
     type: string
-    description: A comma separated list of the types of qualifications the candidate has
+    description: A comma-separated list of the types of qualifications the candidate has
     example: gcse,gcse,gcse,degree
 
   qualification_subject:
     type: string
-    description: A comma separated list of the qualification subjects
+    description: A comma-separated list of the qualification subjects
     example: maths,english,science,Aquaculture
 
   qualification_grade:
     type: string
-    description: A comma separated list of the qualification grades
+    description: A comma-separated list of the qualification grades
     example: C,A,A,Upper second-class honours (2:1)
 
   start_year:
     type: string
-    description: A comma separated list of the qualification start years
+    description: A comma-separated list of the qualification start years
     example: 2006,2006,2008,2010
 
   award_year:
     type: string
-    description: A comma separated list of the qualification award years
+    description: A comma-separated list of the qualification award years
     example: 2006,2006,2008,2010
 
   course_location:
@@ -93,5 +93,5 @@ custom_columns:
 
   conditions:
     type: string
-    description: A comma separated list of the offer conditions
+    description: A comma-separated list of the offer conditions
     example: Completion of subject knowledge enhancement,Completion of professional skills test

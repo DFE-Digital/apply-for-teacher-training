@@ -36,23 +36,23 @@ module SupportInterface
   private
 
     def qualification_type(form)
-      qualifications(form).map(&:level).join(',')
+      qualifications(form).map(&:level).join(', ')
     end
 
     def qualification_subject(form)
-      qualifications(form).map(&:subject).join(',')
+      qualifications(form).map(&:subject).join(', ')
     end
 
     def qualification_grade(form)
-      qualifications(form).map(&:grade).join(',')
+      qualifications(form).map(&:grade).join(', ')
     end
 
     def start_year(form)
-      qualifications(form).map(&:start_year).join(',')
+      qualifications(form).map(&:start_year).join(', ')
     end
 
     def award_year(form)
-      qualifications(form).map(&:award_year).join(',')
+      qualifications(form).map(&:award_year).join(', ')
     end
 
     def qualifications(form)
@@ -60,7 +60,7 @@ module SupportInterface
     end
 
     def conditions(choice)
-      choice.offer['conditions'].join(',')
+      choice.offer['conditions'].join(', ')
     end
 
     def relevant_choices

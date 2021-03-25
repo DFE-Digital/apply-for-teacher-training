@@ -11,7 +11,7 @@ custom_columns:
 
   providers:
     type: string
-    description: A comma separated list of providers
+    description: A comma-separated list of providers
     example: Fox Primary School, Durham SCITT, Cornwall Teaching School, University of Brighton
 
   last_signed_in_at:
