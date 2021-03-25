@@ -43,32 +43,6 @@ RSpec.describe MakeAnOffer, sidekiq: true do
     end
   end
 
-  describe '#offer_conditions' do
-    context 'when there are no offer conditions' do
-      it 'returns an empty array' do
-        decision = MakeAnOffer.new(
-          actor: user,
-          application_choice: application_choice,
-          course_option: valid_course_option,
-          offer_conditions: [],
-          )
-        expect(decision.offer_conditions).to eq([])
-      end
-    end
-
-    context 'when no offer conditions are specified' do
-      it 'returns a combination of standard and further conditions' do
-        decision = MakeAnOffer.new(
-          actor: user,
-          application_choice: application_choice,
-          course_option: valid_course_option,
-          further_conditions: []
-          )
-        expect(decision.offer_conditions).to eq(MakeAnOffer::STANDARD_CONDITIONS)
-      end
-    end
-  end
-
   describe '#save' do
     it 'sets the offered_at date' do
       offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
