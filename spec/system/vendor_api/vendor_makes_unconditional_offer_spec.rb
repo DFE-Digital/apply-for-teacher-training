@@ -48,7 +48,7 @@ RSpec.feature 'Vendor makes unconditional offer' do
   def when_the_candidate_accepts_the_unconditional_offer
     visit candidate_interface_offer_path(@application_choice)
 
-    choose 'Accept offer and conditions'
+    choose 'Accept offer'
     click_button 'Continue'
 
     click_button 'Accept offer'
