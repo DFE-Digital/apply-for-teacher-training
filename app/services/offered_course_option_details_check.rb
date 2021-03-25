@@ -19,9 +19,9 @@ class OfferedCourseOptionDetailsCheck
     course_option_id:,
     study_mode:
   )
-    @provider_id = provider_id
-    @course_id = course_id
-    @course_option_id = course_option_id
+    @provider_id = provider_id.to_i
+    @course_id = course_id.to_i
+    @course_option_id = course_option_id.to_i
     @study_mode = study_mode
   end
 
