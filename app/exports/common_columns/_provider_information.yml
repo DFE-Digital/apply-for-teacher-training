@@ -39,7 +39,13 @@ course_level:
 
 program_type:
   type: string
-  description: Not provided yet
+  description: The program type
+  enum:
+    - scitt_programme
+    - school_direct_training_programme
+    - higher_education_programme
+    - school_direct_salaried_training_programme
+    - pg_teaching_apprenticeship
 
 programme_outcome:
   type: string
@@ -60,3 +66,15 @@ course_code:
 nctl_subject:
   type: array
   maxLength: 255
+
+provider_type:
+  type: string
+  description: The provider type
+  enum:
+    - scitt
+    - lead_school
+    - university
+    - hei
+    - ratified_by_scitt
+    - ratified_by_university
+    - ratified_by_hei

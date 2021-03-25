@@ -89,3 +89,8 @@ rejection_reason:
   type: string
   description: The reason the provider gave for rejecting the candidate
   example: Absence of English GCSE
+
+structured_rejection_reasons:
+  type: string
+  description: A comma-separated list of structured reasons for rejection
+  example: Qualifications, Performance at interview

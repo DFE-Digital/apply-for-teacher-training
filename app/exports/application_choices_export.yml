@@ -9,6 +9,7 @@ common_columns:
   - support_reference
   - phase
   - rejection_reason
+  - structured_rejection_reasons
 
 custom_columns:
   sent_to_provider_at:
@@ -61,9 +62,3 @@ custom_columns:
     format: date-time
     description: Date the candidate was recruited
     example: 2020-11-01T00:00:00+00:00
-
-  structured_rejection_reasons:
-    type: string
-    description: Structured reasons for rejection
-    example: { "qualifications_y_n": "Yes", "quality_of_application_y_n": "Yes", "performance_at_interview_y_n": "Yes", "qualifications_other_details": "Cycling proficiency badge", "qualifications_which_qualifications": [ "no_maths_gcse", "no_degree", "other" ], "quality_of_application_other_details": "Too many emojis", "performance_at_interview_what_to_improve": "We felt that pyjamas were a little too casual", "quality_of_application_which_parts_needed_improvement": [ "subject_knowledge", "other" ] }
-
