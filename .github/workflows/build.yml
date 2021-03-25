@@ -1,0 +1,84 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment Variable
+        run:  |
+          GEM_NODE_MODULES_HASH=${{ hashFiles('Dockerfile', 'Gemfile', 'Gemfile.lock', 'package.json', 'yarn.lock') }}
+          echo "GEM_NODE_MODULES_HASH=${GEM_NODE_MODULES_HASH}" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}" >> $GITHUB_ENV
+          echo "GEMS_NODE_MODULES_IMAGE=ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:paas-${GEM_NODE_MODULES_HASH}" >> $GITHUB_ENV
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Build gems-node-modules Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          target: apply-for-teacher-training-gems-node-modules
+          tags: ${{ env.GEMS_NODE_MODULES_IMAGE }}
+          push: true
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-to: type=inline
+          cache-from: type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
+          build-args: VERSION=${{ github.sha }}
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          tags: ${{ env.DOCKER_IMAGE}}
+          push: true
+          pull: true
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-to: type=inline
+          cache-from: |
+            type=registry,ref=${{ env.DOCKER_IMAGE }}
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
+          build-args: |
+            VERSION=${{ github.sha }}
+            BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
+
+  lint:
+    name: Lint
+    needs: [build]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /app
+    container: 
+      image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
+      options: -a STDOUT -a STDERR -t
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
+    steps:
+    - run:  bundle exec rubocop --format clang --parallel
+      name: Rubocop
+
+    - run:  bundle exec rake erblint
+      name: ERB Linter
+    
+    - run:  bundle exec rake brakeman
+      name: Brakeman
