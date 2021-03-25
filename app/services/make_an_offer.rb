@@ -62,6 +62,7 @@ class MakeAnOffer
   end
 
   def offer_conditions
+
     @offer_conditions ||= [
       standard_conditions,
       further_conditions,
