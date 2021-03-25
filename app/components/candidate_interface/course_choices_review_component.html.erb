@@ -1,4 +1,4 @@
-<% @application_choices.each do |application_choice| %>
+<% application_choices.each do |application_choice| %>
   <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
   <% if CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_choice.application_form) && @editable %>
     <% if application_choice.course_not_available? %>

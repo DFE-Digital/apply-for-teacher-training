@@ -1,0 +1,27 @@
+<table class="govuk-table govuk-!-margin-top-6">
+  <caption class="govuk-table__caption govuk-table__caption--m">Your previous applications</caption>
+  <thead class="govuk-table__head">
+  <tr class="govuk-table__row">
+    <th scope="col" class="govuk-table__header">Course</th>
+    <th scope="col" class="govuk-table__header">Status</th>
+  </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% application_choices.each do |application_choice| %>
+    <tr class="govuk-table__row" data-qa="application-choice-<%= application_choice.id %>">
+      <td class="govuk-table__cell">
+        <span class="app-course-choice__provider-name">
+          <%= provider_name_for(application_choice) %>
+        </span>
+        <span class="app-course-choice__course-name">
+          <%= course_name_and_code_for(application_choice) %>
+        </span>
+        <%= view_application_url_for(application_choice) %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= render CandidateInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
