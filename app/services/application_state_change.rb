@@ -4,6 +4,8 @@ class ApplicationStateChange
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
   STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision interviewing offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred].freeze
 
+  STATES_VISIBLE_TO_REGISTER = %i[recruited withdrawn offer_deferred].freeze
+
   INTERVIEWABLE_STATES = %i[awaiting_provider_decision interviewing].freeze
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze

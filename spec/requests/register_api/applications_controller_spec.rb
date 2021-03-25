@@ -12,7 +12,7 @@ RSpec.describe 'GET /register-api/applications', type: :request, sidekiq: true d
 
     headers = { 'Authorization' => "Bearer #{api_token}" }
 
-    get '/register-api/applications', headers: headers
+    get "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}", headers: headers
 
     expect(response).to have_http_status(:unauthorized)
   end
@@ -22,7 +22,7 @@ RSpec.describe 'GET /register-api/applications', type: :request, sidekiq: true d
 
     headers = { 'Authorization' => "Bearer #{api_token}" }
 
-    get '/register-api/applications', headers: headers
+    get "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}", headers: headers
 
     expect(response).to have_http_status(:success)
   end
