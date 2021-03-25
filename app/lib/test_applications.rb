@@ -116,7 +116,7 @@ private
       previous_application_form = nil
       candidate = candidate.presence || FactoryBot.create(
         :candidate,
-        email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
+        email_address: "#{first_name.downcase}.#{last_name.downcase}#{rand(10000)}@example.com",
         created_at: time,
         last_signed_in_at: time,
       )
