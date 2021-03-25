@@ -6,7 +6,7 @@ RSpec.describe WithdrawOffer do
       application_choice = create(:application_choice, status: :offer)
 
       withdrawal_reason = 'We are so sorry...'
-      WithdrawOffer.new(
+      described_class.new(
         actor: create(:support_user),
         application_choice: application_choice,
         offer_withdrawal_reason: withdrawal_reason,
@@ -18,7 +18,7 @@ RSpec.describe WithdrawOffer do
     it 'does not change the state of the application_choice to "rejected" without a valid reason' do
       application_choice = create(:application_choice, status: :offer)
 
-      service = WithdrawOffer.new(
+      service = described_class.new(
         actor: create(:support_user),
         application_choice: application_choice,
       )
@@ -33,7 +33,7 @@ RSpec.describe WithdrawOffer do
       provider_user = create(:provider_user)
       provider_user.providers << application_choice.offered_course.provider
 
-      service = WithdrawOffer.new(
+      service = described_class.new(
         actor: provider_user,
         application_choice: application_choice,
         offer_withdrawal_reason: 'We are so sorry...',
@@ -49,13 +49,29 @@ RSpec.describe WithdrawOffer do
       allow(SetDeclineByDefault).to receive(:new).and_call_original
 
       withdrawal_reason = 'We are so sorry...'
-      WithdrawOffer.new(
+      described_class.new(
         actor: create(:support_user),
         application_choice: application_choice,
         offer_withdrawal_reason: withdrawal_reason,
       ).save
 
       expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
+    end
+
+    it 'sends an email to the candidate', sidekiq: true do
+      application_choice = create(:application_choice, status: :offer)
+      withdrawal_reason = 'We messed up big time'
+
+      expect {
+        described_class.new(
+          actor: create(:support_user),
+          application_choice: application_choice,
+          offer_withdrawal_reason: withdrawal_reason,
+        ).save
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
+      expect(ActionMailer::Base.deliveries.first.subject).to match(/Offer withdrawn by/)
     end
   end
 end
