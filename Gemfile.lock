@@ -574,8 +574,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionmailer (~> 6.0)
+  actionpack (~> 6.0)
+  actionview (~> 6.0)
   active_hash
+  activemodel (~> 6.0)
+  activerecord (~> 6.0)
   activerecord-cte
+  activesupport (~> 6.0)
   ar-sequence
   archive-zip
   audited!
@@ -626,8 +632,8 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (~> 5.2)
-  rails (~> 6.0)
   rails-erd
+  railties (~> 6.0)
   request_store-sidekiq
   request_store_rails
   rouge
@@ -643,6 +649,7 @@ DEPENDENCIES
   simplecov
   simplecov-cobertura
   skylight
+  sprockets-rails
   strip_attributes
   super_diff
   timecop
