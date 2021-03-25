@@ -1,4 +1,4 @@
-<% if interviews.many? %>
+<% if interviews.kept.many? %>
   <ul class='govuk-list govuk-list--number'>
     <% interviews.each do |interview| %>
       <li>
@@ -9,11 +9,13 @@
       </li>
     <% end %>
   </ul>
-<% else %>
+<% elsif interviews.kept.any? %>
   <% interviews.first.tap do |interview| %>
     <p class='govuk-body'><%= formatted_time(interview) %></p>
     <p class='govuk-body govuk-!-margin-bottom-0'><%= provider_name(interview) %></p>
     <%= location(interview) %>
     <%= additional_details(interview) %>
   <% end %>
+<% elsif @application_choice.awaiting_provider_decision? %>
+  <p class='govuk-body'>The provider will be in touch if they want to invite you to an interview.</p>
 <% end %>

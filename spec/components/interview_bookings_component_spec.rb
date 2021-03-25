@@ -105,4 +105,20 @@ RSpec.describe InterviewBookingsComponent, type: :component do
       expect(result.text).to include 'This is interview 2'
     end
   end
+
+  context 'when no interviews are scheduled' do
+    it 'renders nothing if the application is not awaiting a provider decision' do
+      application_choice = create(:application_choice, status: 'rejected')
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to be_blank
+    end
+
+    it 'renders a message if the application is awaiting a provider decision' do
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision')
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to include('The provider will be in touch if they want to invite you to an interview')
+    end
+  end
 end
