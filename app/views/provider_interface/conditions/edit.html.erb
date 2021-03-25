@@ -26,7 +26,7 @@
         Conditions
       </h2>
 
-      <%= render ProviderInterface::ConditionsComponent.new(application_choice: @application_choice, show_header: false) %>
+      <%= render ProviderInterface::ConditionsComponent.new(application_choice: @application_choice) %>
 
       <%= f.govuk_radio_buttons_fieldset :conditions_met, legend: { text: 'Has the candidate met all of the conditions?', size: 'm' } do %>
         <%= f.govuk_radio_button :conditions_met, 'yes', label: { text: 'Yes, they’ve met all of the conditions' }, link_errors: true %>
