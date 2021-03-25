@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_19_163050) do
+ActiveRecord::Schema.define(version: 2021_03_22_215908) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(version: 2021_03_19_163050) do
     t.bigint "initiator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "export_type"
     t.index ["initiator_type", "initiator_id"], name: "index_data_exports_on_initiator_type_and_initiator_id"
   end
 
