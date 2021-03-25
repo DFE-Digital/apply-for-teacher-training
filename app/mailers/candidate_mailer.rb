@@ -309,6 +309,18 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def offer_withdrawn(application_choice)
+    @course_name_and_code = application_choice.offered_option.course.name_and_code
+    @provider_name = application_choice.offered_option.provider.name
+    @withdrawal_reason = application_choice.offer_withdrawal_reason
+    @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.offer_withdrawn.subject', provider_name: @provider_name),
+    )
+  end
+
   def offer_accepted(application_choice)
     @course_name_and_code = application_choice.offered_option.course.name_and_code
     @provider_name = application_choice.offered_option.provider.name

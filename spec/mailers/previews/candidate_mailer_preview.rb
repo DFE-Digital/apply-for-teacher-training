@@ -401,6 +401,16 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.reference_received(reference)
   end
 
+  def offer_withdrawn
+    candidate = FactoryBot.build_stubbed(:candidate)
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      offer_withdrawal_reason: Faker::Lorem.sentence,
+      application_form: FactoryBot.build_stubbed(:application_form, first_name: 'Geoff', candidate: candidate),
+    )
+    CandidateMailer.offer_withdrawn(application_choice)
+  end
+
   def offer_accepted
     application_choice = FactoryBot.build_stubbed(:application_choice)
     CandidateMailer.offer_accepted(application_choice)

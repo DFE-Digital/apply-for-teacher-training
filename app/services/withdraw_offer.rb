@@ -27,6 +27,9 @@ class WithdrawOffer
         )
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       end
+
+      CandidateMailer.offer_withdrawn(@application_choice).deliver_later
+
       true
     end
   rescue Workflow::NoTransitionAllowed
