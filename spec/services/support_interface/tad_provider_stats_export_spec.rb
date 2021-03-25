@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe SupportInterface::TADProviderStatsExport do
   include CourseOptionHelpers
 
+  describe 'documentation' do
+    before do
+      provider = create(:provider)
+      course_option_for_provider(provider: provider, course: create(:course, :open_on_apply, provider: provider))
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   subject(:exported_rows) { Bullet.profile { SupportInterface::TADProviderStatsExport.new.call } }
 
   describe 'calculating offers and acceptances' do
