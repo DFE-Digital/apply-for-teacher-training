@@ -13,9 +13,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
       expect(result.css('.govuk-summary-list__key').text).to include('Course')
       expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
-      expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
-      expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.to_s(:month_and_year))
       expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
     end
 
@@ -93,14 +90,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    it 'renders component with correct values for a location' do
-      application_choice = application_form.application_choices.first
-      result = render_inline(described_class.new(application_form: application_form))
-
-      expect(result.css('.govuk-summary-list__key').text).to include('Location')
-      expect(result.css('.govuk-summary-list__value').text).to include("#{application_choice.site.name}\n#{application_choice.site.full_address}")
-    end
-
     it 'renders component along with a delete link for each course' do
       application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
 
@@ -123,20 +112,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__actions').text).not_to include('Change')
-      end
-    end
-
-    context 'when there are multiple site options for course' do
-      before do
-        create(:course_option, course: application_form.application_choices.first.course)
-      end
-
-      it 'renders the correct text for "Change" location links' do
-        application_choice = application_form.application_choices.first
-        result = render_inline(described_class.new(application_form: application_form))
-        change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
-
-        expect(change_location_link).to eq("Change location for #{application_choice.course.name_and_code}")
       end
     end
 

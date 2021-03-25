@@ -28,10 +28,6 @@ module CandidateInterface
       [
         course_row(application_choice),
         study_mode_row(application_choice),
-        location_row(application_choice),
-        type_row(application_choice),
-        course_length_row(application_choice),
-        start_date_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
@@ -112,15 +108,6 @@ module CandidateInterface
       end
     end
 
-    def location_row(application_choice)
-      {
-        key: 'Location',
-        value: "#{application_choice.offered_site.name}\n#{application_choice.offered_site.full_address}",
-        action: "location for #{application_choice.offered_course.name_and_code}",
-        change_path: site_change_path(application_choice),
-      }
-    end
-
     def study_mode_row(application_choice)
       return unless application_choice.offered_course.full_time_or_part_time?
 
@@ -136,29 +123,6 @@ module CandidateInterface
         action: "study mode for #{application_choice.offered_course.name_and_code}",
         change_path: change_path,
       }
-    end
-
-    def type_row(application_choice)
-      {
-        key: 'Type',
-        value: application_choice.offered_course.description,
-      }
-    end
-
-    def course_length_row(application_choice)
-      {
-        key: 'Course length',
-        value: DisplayCourseLength.call(course_length: application_choice.offered_course.course_length),
-      }
-    end
-
-    def start_date_row(application_choice)
-      unless application_choice.offer_deferred?
-        {
-          key: 'Date course starts',
-          value: application_choice.offered_course.start_date.to_s(:month_and_year),
-        }
-      end
     end
 
     def interview_row(application_choice)

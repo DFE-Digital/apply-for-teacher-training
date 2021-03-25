@@ -196,10 +196,17 @@ RSpec.feature 'Candidate submits the application' do
     expect(current_email).to have_content 'Application submitted'
   end
 
+<<<<<<< HEAD
   def and_i_am_redirected_to_the_application_dashboard
     this_day = Time.zone.now.to_s(:govuk_date)
+=======
+  def when_i_click_on_track_your_application
+    click_link 'To view your application, return to your application dashboard'
+  end
+
+  def then_i_can_see_my_application_dashboard
+>>>>>>> ff1223445 (Remove unwanted rows from course review component)
     expect(page).to have_content t('page_titles.application_dashboard')
-    expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
   end
 
