@@ -1,13 +1,13 @@
 const countryAutocompleteInputs = {
   inputIds: [
-    '#candidate-interface-contact-details-form-country-field',
-    '#candidate-interface-contact-details-form-country-field-error',
-    '#candidate-interface-degree-institution-form-institution-country-field',
-    '#candidate-interface-degree-institution-form-institution-country-field-error',
-    '#candidate-interface-gcse-institution-country-form-institution-country-field',
-    '#candidate-interface-gcse-institution-country-form-institution-country-field-error',
-    '#candidate-interface-other-qualification-details-form-institution-country-field',
-    '#candidate-interface-other-qualification-form-institution-country-field-error'
+    'candidate-interface-contact-details-form-country-field',
+    'candidate-interface-contact-details-form-country-field-error',
+    'candidate-interface-degree-institution-form-institution-country-field',
+    'candidate-interface-degree-institution-form-institution-country-field-error',
+    'candidate-interface-gcse-institution-country-form-institution-country-field',
+    'candidate-interface-gcse-institution-country-form-institution-country-field-error',
+    'candidate-interface-other-qualification-details-form-institution-country-field',
+    'candidate-interface-other-qualification-form-institution-country-field-error'
   ],
   autocompleteId: 'country-autocomplete'
 }

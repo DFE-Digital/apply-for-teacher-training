@@ -5,14 +5,14 @@ Array [
   Object {
     "autocompleteId": "api-token-autocomplete",
     "inputIds": Array [
-      "#vendor-api-token-provider-id-field.govuk-select",
+      "vendor-api-token-provider-id-field",
     ],
   },
   Object {
     "autocompleteId": "country-autocomplete",
     "inputIds": Array [
-      "#support-interface-application-forms-edit-address-details-form-country-field",
-      "#support-interface-application-forms-edit-address-details-form-country-field-error",
+      "support-interface-application-forms-edit-address-details-form-country-field",
+      "support-interface-application-forms-edit-address-details-form-country-field-error",
     ],
   },
 ]
