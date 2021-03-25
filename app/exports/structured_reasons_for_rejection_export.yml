@@ -1,0 +1,190 @@
+common_columns:
+  - candidate_id
+  - application_choice_id
+  - recruitment_cycle_year
+  - phase
+  - provider_code
+  - course_code
+
+custom_columns:
+  rejected_at:
+    type: string
+    format: date-time
+    description: The date when the application choice was rejected
+    example: 2020-11-01T00:00:00+00:00
+
+  something_you_did:
+    type: boolean
+    description: Was the reason for rejection related to candidate behaviour?
+
+  didn_t_reply_to_our_interview_offer:
+    type: Was it because they didn't reply to an interview offer?
+    description: QQ
+
+  didn_t_attend_interview:
+    type: boolean
+    description: Was it because they didn't attend an interview?
+
+  something_you_did_other_reason_details:
+    type: string
+    description: If it was for some other reason, what was it?
+    example: The attended the interview in their pyjamas
+
+  candidate_behaviour_what_to_improve:
+    type: string
+    description: What could the candidate do to improve?
+    example: Dress appropriately for interviews
+
+  quality_of_application:
+    type: boolean
+    description: Was the reason for rejection related to the quality of their application?
+
+  personal_statement:
+    type: boolean
+    description: Was the reason for rejection related to the quality of their personal statement?
+
+  personal_statement_what_to_improve:
+    type: string
+    description: What could the candidate do to improve their personal statement?
+    example: Dont use pour spelling and grammer.
+
+  subject_knowledge:
+    type: boolean
+    description: Was the reason for rejection related to the quality of their subject knowledge?
+
+  subject_knowledge_what_to_improve:
+    type: string
+    description: What could the candidate do to improve their subject knowledge?
+    example: Keep up to date with the latest curriculum content.
+
+  quality_of_application_other_reason_details:
+    type: string
+    description: Was the reason for rejection related to the quality of some other aspect?
+    example: They lacked enthusiasm
+
+  quality_of_application_what_to_improve:
+    type: string
+    description: What could the candidate do to improve this other aspect?
+    example: Be more enthusiastic!
+
+  qualifications:
+    type: boolean
+    description: Was the reason for rejection related to their qualifications?
+
+  no_maths_gcse_grade_4_c_or_above_or_valid_equivalent:
+    type: boolean
+    description: Was it because they didn't have a maths GCSE grade 4(c) or above, or valid equivalent?
+
+  no_english_gcse_grade_4_c_or_above_or_valid_equivalent:
+    type: boolean
+    description: Was it because they didn't have an English GCSE grade 4(c) or above, or valid equivalent?
+
+  no_science_gcse_grade_4_c_or_above_or_valid_equivalent_for_primary_applicants:
+    type: boolean
+    description: Was it because they didn't have a Science GCSE grade 4(c) or above, or valid equivalent?
+
+  no_degree:
+    type: boolean
+    description: Was it because they didn't have a degree?
+
+  qualifications_other_reason_details:
+    type: string
+    description: Details about other reasons related to their qualifications
+    example: They still require their cycling proficiency badge
+
+  performance_at_interview:
+    type: boolean
+    description: Was the reason for rejection related to their qualifications?
+
+  performance_at_interview_what_to_improve:
+    type: string
+    description: What could the candidate do to improve their performance at interview?
+    example: Try to focus on the question at hand
+
+  course_full:
+    type: boolean
+    description: Was the reason for rejection because the course was full?
+
+  they_offered_you_a_place_on_another_course:
+    type: boolean
+    description: Did you reject the candidate because you offered them a place on another course?
+
+  offered_on_another_course_details:
+    type: string
+    description: Details about the other course you offered
+    example: We offered them primary with maths because we thought that would be a better fit
+
+  honesty_and_professionalism:
+    type: boolean
+    description: Was the reason for rejection related to their honesty and professionalism?
+
+  information_given_on_application_form_false_or_inaccurate:
+    type: boolean
+    description: Was the information given on their application form false or inaccurate?
+
+  information_given_on_application_form_false_or_inaccurate_details:
+    type: string
+    description: Details about false or inaccurate information
+    example: They misled us about some work experience
+
+  evidence_of_plagiarism_in_personal_statement_or_elsewhere:
+    type: boolean
+    description: Was there evidence of plagiarism in their personal statement or elsewhere?
+
+  evidence_of_plagiarism_in_personal_statement_or_elsewhere_details:
+    type: string
+    description: Details of plagiarism
+    example: The copied someone else’s personal statement
+
+  references_didn_t_support_application:
+    type: boolean
+    description: Was the reason for rejection because the references didn’t support the application?
+
+  references_didn_t_support_application_details:
+    type: string
+    description: Details about the references
+    example: One reference said that they had a short temper and wouldn’t be the best fit for teaching
+
+  honesty_and_professionalism_other_reason_details:
+    type: string
+    description: Was the reason for rejection related to some other aspect relating to honesty and professionalism?
+    example: They lied in their interview
+
+  safeguarding_issues:
+    type: boolean
+    description: Was the reason for rejection related to safeguarding issues?
+
+  information_disclosed_by_candidate_makes_them_unsuitable_to_work_with_children:
+    type: boolean
+    description: Was there information disclosed by the candidate that makes them unsuitable to work with children?
+
+  information_disclosed_by_candidate_makes_them_unsuitable_to_work_with_children_details:
+    type: string
+    description: Details about the information
+    example: They are not allowed to work with children
+
+  information_revealed_by_our_vetting_process_makes_the_candidate_unsuitable_to_work_with_children:
+    type: boolean
+    description: Was there information revealed by the vetting process that makes them unsuitable to work with children?
+
+  information_revealed_by_our_vetting_process_makes_the_candidate_unsuitable_to_work_with_children_details:
+    type: string
+    description: Details about the information
+    example: The vetting process showed that they do not have the proper clearance to work with children
+
+  safeguarding_issues_other_reason_details:
+    type: string
+    description: Was the reason for rejection related to other safeguarding issues?
+    example: We heard from a previous school that this person should not work with children
+
+  additional_advice:
+    type: boolean
+    description: Did the provider give additional advice or feedback to the candidate?
+
+  future_applications:
+    type: boolean
+    description: Is the provider interested in future applications from the candidate?
+
+  why_are_you_rejecting_this_application_details:
+    type: string
+    description: Details about why the candidate was rejected
