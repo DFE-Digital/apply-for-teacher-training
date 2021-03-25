@@ -1,0 +1,97 @@
+common_columns:
+  - support_reference
+  - phase
+  - recruitment_cycle_year
+  - provider_code
+  - provider_name
+  - course_code
+  - course_name
+  - choice_status
+
+custom_columns:
+  qualification_type:
+    type: string
+    description: A comma separated list of the types of qualifications the candidate has
+    example: gcse,gcse,gcse,degree
+
+  qualification_subject:
+    type: string
+    description: A comma separated list of the qualification subjects
+    example: maths,english,science,Aquaculture
+
+  qualification_grade:
+    type: string
+    description: A comma separated list of the qualification grades
+    example: C,A,A,Upper second-class honours (2:1)
+
+  start_year:
+    type: string
+    description: A comma separated list of the qualification start years
+    example: 2006,2006,2008,2010
+
+  award_year:
+    type: string
+    description: A comma separated list of the qualification award years
+    example: 2006,2006,2008,2010
+
+  course_location:
+    type: string
+    description: The course location
+    example: The National School of Education and Teaching, Coventry University - Main Campus
+
+  course_study_mode:
+    type: string
+    description: The course study mode
+    enum:
+      - full_time
+      - part_time
+
+  offered_provider_name:
+    type: string
+    description: The provider name for the offered course
+    example: North Dorset Teaching School Alliance
+
+  offered_provider_code:
+    type: string
+    description: The provider code for the offered course
+    example: 2FR
+    maxLength: 3
+
+  offered_course_code:
+    type: string
+    description: The course code for the offered course
+    example: 3CVK
+    maxLength: 4
+
+  offered_course_name:
+    type: string
+    description: The course name for the offered course
+    example: "Maths"
+    maxLength: 255
+
+  offered_course_location:
+    type: string
+    description: The course location for the offered course
+    example: The National School of Education and Teaching, Coventry University - Main Campus
+
+  offered_course_study_mode:
+    type: string
+    description: The study mode for the offered course
+    enum:
+      - full_time
+      - part_time
+
+  offer_changed:
+    type: boolean
+    description: Was the offered option different to the original course option?
+
+  offer_made_at:
+    type: string
+    format: date-time
+    description: The date the offer was made
+    example: 2020-11-01T00:00:00+00:00
+
+  conditions:
+    type: string
+    description: A comma separated list of the offer conditions
+    example: Completion of subject knowledge enhancement,Completion of professional skills test

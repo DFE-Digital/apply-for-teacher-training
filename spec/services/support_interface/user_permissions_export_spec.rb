@@ -16,6 +16,14 @@ RSpec.describe SupportInterface::UserPermissionsExport do
     }
   end
 
+  describe 'documentation' do
+    before do
+      audit_entry
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#data_for_export' do
     it 'exports permissions changes' do
       audit_user_provider = create(:provider)

@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
+  describe 'documentation' do
+    before { create(:email) }
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#data_for_export' do
     it 'returns a hash of email counts from the emails table' do
       Timecop.freeze(Time.zone.now.round) do
@@ -16,16 +22,16 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
 
         expect(described_class.new.data_for_export).to match_array([
           {
-            'Email' => 'application_submitted',
-            'Send count' => 3,
-            'Last sent at' => yesterday.utc,
-            'Unique recipients' => 2,
+            email_template: 'application_submitted',
+            send_count: 3,
+            last_sent_at: yesterday.utc,
+            unique_recipients: 2,
           },
           {
-            'Email' => 'conditions_met',
-            'Send count' => 1,
-            'Last sent at' => two_days_ago.utc,
-            'Unique recipients' => 1,
+            email_template: 'conditions_met',
+            send_count: 1,
+            last_sent_at: two_days_ago.utc,
+            unique_recipients: 1,
           },
         ])
       end
