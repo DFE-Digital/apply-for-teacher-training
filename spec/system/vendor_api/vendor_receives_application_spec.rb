@@ -48,7 +48,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           email: @current_candidate.email_address,
         },
         course: {
-          recruitment_cycle_year: 2020,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
           provider_code: '1N1',
           site_code: '-',
           course_code: '2XT2',

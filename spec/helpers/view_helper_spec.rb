@@ -126,13 +126,13 @@ RSpec.describe ViewHelper, type: :helper do
   describe '#date_and_time_today_or_tomorrow' do
     it 'returns the time tomorrow for a time tomorrow' do
       time = Time.zone.tomorrow.midnight + 3.hours
-      expect(helper.date_and_time_today_or_tomorrow(time)).to eq 'tomorrow (2 November 2021 at 3am)'
+      expect(helper.date_and_time_today_or_tomorrow(time)).to eq "tomorrow (#{time.to_s(:govuk_date_and_time)})"
     end
 
     it 'returns the bare time for a time today' do
       Timecop.freeze(Time.zone.now.midnight) do
         time = Time.zone.now + 6.hours
-        expect(helper.date_and_time_today_or_tomorrow(time)).to eq 'today (1 November 2021 at 6am)'
+        expect(helper.date_and_time_today_or_tomorrow(time)).to eq "today (#{time.to_s(:govuk_date_and_time)})"
       end
     end
 
