@@ -7,7 +7,7 @@ const countryAutocompleteInputs = {
     'candidate-interface-gcse-institution-country-form-institution-country-field',
     'candidate-interface-gcse-institution-country-form-institution-country-field-error',
     'candidate-interface-other-qualification-details-form-institution-country-field',
-    'candidate-interface-other-qualification-form-institution-country-field-error'
+    'candidate-interface-other-qualification-details-form-institution-country-field-error'
   ],
   autocompleteId: 'country-autocomplete'
 }
