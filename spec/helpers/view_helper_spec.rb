@@ -29,22 +29,22 @@ RSpec.describe ViewHelper, type: :helper do
   end
 
   describe '#govuk_back_link_to' do
-    it 'returns an anchor tag with the app-back-link class and defaults to "Back"' do
+    it 'returns an anchor tag with the govuk-back-link class and defaults to "Back"' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/snek/ssss')
 
-      expect(anchor_tag).to eq('<a class="app-back-link" href="https://localhost:0103/snek/ssss">Back</a>')
+      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"https://localhost:0103/snek/ssss\">Back</a>\n")
     end
 
-    it 'returns an anchor tag with the app-back-link class and with the body if given' do
+    it 'returns an anchor tag with the govuk-back-link class and with the body if given' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/lion/roar', 'Back to application')
 
-      expect(anchor_tag).to eq('<a class="app-back-link" href="https://localhost:0103/lion/roar">Back to application</a>')
+      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"https://localhost:0103/lion/roar\">Back to application</a>\n")
     end
 
     it 'returns an anchor tag with the app-back-link--no-js class if given :back as an argument' do
       anchor_tag = helper.govuk_back_link_to(:back)
 
-      expect(anchor_tag).to eq('<a class="app-back-link app-back-link--fallback app-back-link--no-js" href="javascript:history.back()">Back</a>')
+      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print app-back-link--fallback app-back-link--no-js\" href=\"javascript:history.back()\">Back</a>\n")
     end
   end
 
