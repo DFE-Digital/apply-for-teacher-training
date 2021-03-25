@@ -20,6 +20,8 @@ en:
       subject: "%{referee_name} has not responded yet"
     chase_reference_again:
       subject: "%{referee_name} has not responded yet"
+    offer_withdrawn:
+      subject: "Offer withdrawn by %{provider_name}"
     offer_accepted:
       subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     unconditional_offer_accepted:

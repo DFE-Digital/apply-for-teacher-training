@@ -150,6 +150,8 @@ en:
         The provider has made an offer but withdrew it later.
 
         This is called `rejected` in the API.
+      emails:
+        - candidate_mailer-offer_withdrawn
 
     withdrawn:
       name: Withdrawn

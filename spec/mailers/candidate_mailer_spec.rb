@@ -211,6 +211,37 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
+  describe '.offer_withdrawn' do
+    let(:email) { described_class.offer_withdrawn(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        status: 'offer_withdrawn',
+        offer_withdrawal_reason: 'You lied to us about secretly being Spiderman',
+        course_option: build_stubbed(
+          :course_option,
+          course: build_stubbed(
+            :course,
+            name: 'Mathematics',
+            code: 'M101',
+            provider: build_stubbed(
+              :provider,
+              name: 'Arachnid College',
+            ),
+          ),
+        ),
+      )]
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Offer withdrawn by Arachnid College',
+      'greeting' => 'Dear Fred,',
+      'offer details' => 'Arachnid College has withdrawn their offer for you to study Mathematics (M101)',
+      'withdrawal reason' => 'You lied to us about secretly being Spiderman',
+    )
+  end
+
   describe '.offer_accepted' do
     let(:email) { described_class.offer_accepted(application_form.application_choices.first) }
     let(:application_choices) do

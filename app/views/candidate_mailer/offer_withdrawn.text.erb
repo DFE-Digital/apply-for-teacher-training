@@ -1,0 +1,14 @@
+Dear <%= @application_form.first_name %>,
+
+# Offer withdrawn
+
+<%= @provider_name %> has withdrawn their offer for you to study <%= @course_name_and_code %>. They’ve given feedback to explain this decision.
+
+^ # Why the offer was withdrawn
+^ <%= @withdrawal_reason %>
+
+Contact <%= @provider_name %> directly if you have questions about why they’ve withdrawn the offer.
+
+# You can apply again
+
+<%= render 'still_interested_content' %>
