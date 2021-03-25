@@ -6,8 +6,8 @@ module SupportInterface
       providers.map do |provider|
         access_controls = ProviderAccessControlsStats.new(provider)
         {
-          name: provider.name,
-          code: provider.code,
+          provider_name: provider.name,
+          provider_code: provider.code,
           dsa_signer: access_controls.dsa_signer_email,
           last_user_permissions_change_at: access_controls.user_permissions_last_changed_at,
           total_user_permissions_changes: access_controls.total_user_permissions_changes,

@@ -1,0 +1,97 @@
+common_columns:
+  - provider_name
+  - provider_code
+
+custom_columns:
+  dsa_signer:
+    type: string
+    description: The email address for the person that signed the data sharing agreement
+    example: boris.brown@example.com
+
+  last_user_permissions_change_at:
+    type: string
+    format: date-time
+    description: The date the user permissions were last changed
+    example: 2020-11-01T00:00:00+00:00
+
+  total_user_permissions_changes:
+    type: integer
+    description: The total number of user permissions changes
+
+  user_permissions_changed_by:
+    type: string
+    description: An array of email addresses for the users that changed the user permissions
+    example: ["adam.abbott@example.com", "boris.brown@example.com"]
+
+  total_user_permissions_changes_made_by_support:
+    type: integer
+    description: The total number of user permissions changes made by support
+
+  total_manage_users_users:
+    type: integer
+    description: The total number of users that have permissions to manage users
+
+  total_manage_orgs_users:
+    type: integer
+    description: The total number of users that have permissions to manage organisations
+
+  total_users:
+    type: integer
+    description: The total number of users for this provider
+
+  org_permissions_changes_made_by_this_provider_affecting_this_provider_last_made_at:
+    type: string
+    format: date-time
+    description: The date of the last organisation permissions changes made by this provider affecting this provider
+    example: 2020-11-01T00:00:00+00:00
+
+  total_org_permissions_changes_made_by_this_provider_affecting_this_provider:
+    type: integer
+    description: The total number of organisation permissions changes made by this provider affecting this provider
+
+  org_permissions_changes_made_by_this_provider_affecting_this_provider_made_by:
+    type: string
+    description: An array of email addresses for the users that made organisation permissions changes for this provider affecting this provider
+    example: ["adam.abbott@example.com", "boris.brown@example.com"]
+
+  org_permissions_changes_made_by_this_provider_affecting_another_provider_last_made_at:
+    type: string
+    format: date-time
+    description: The date of the last organisation permissions changes made by this provider affecting another provider
+    example: 2020-11-01T00:00:00+00:00
+
+  total_org_permissions_changes_made_by_this_provider_affecting_another_provider:
+    type: integer
+    description: The total number of organisation permissions changes made by this provider affecting another provider
+
+  org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by:
+    type: string
+    description: An array of email addresses for the users that made organisation permissions changes for this provider affecting another provider
+    example: ["adam.abbott@example.com", "boris.brown@example.com"]
+
+  org_permissions_changes_affecting_this_provider_last_made_at:
+    type: string
+    format: date-time
+    description: The date of the last organisation permissions changes affecting this provider
+    example: 2020-11-01T00:00:00+00:00
+
+  total_org_permissions_changes_affecting_this_provider:
+    type: integer
+    description: The total number of organisation permissions changes affecting this provider
+
+  total_org_permissions_changes_made_by_support:
+    type: integer
+    description: The total number of organisation permissions changes made by support
+
+  org_permissions_changes_affecting_this_provider_made_by:
+    type: string
+    description: An array of email addresses for the users that made organisation permissions changes affecting this provider
+    example: ["adam.abbott@example.com", "boris.brown@example.com"]
+
+  total_org_relationships_as_trainer:
+    type: integer
+    description: The total number of organisation relationships as a training provider
+
+  total_org_relationships:
+    type: integer
+    description: The total number of organisation relationships either as a training provider or a ratifying provider
