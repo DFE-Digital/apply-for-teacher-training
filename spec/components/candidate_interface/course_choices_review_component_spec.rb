@@ -11,8 +11,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
-      expect(result.css('.govuk-summary-list__key').text).to include('Course')
-      expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
+      expect(result.css('.app-course-choice__course-name').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
       expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
     end
 
@@ -22,25 +21,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
           application_choice = application_form.application_choices.first
           result = render_inline(described_class.new(application_form: application_form))
 
-          expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
+          expect(result.css('.app-course-choice__course-name').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
           expect(result.css('a').to_html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
         end
-      end
-    end
-
-    context 'When multiple courses available at a provider' do
-      let(:application_choice) { application_form.application_choices.first }
-
-      before do
-        provider = application_form.application_choices.first.provider
-        create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
-      end
-
-      it 'renders the course row with change link' do
-        result = render_inline(described_class.new(application_form: application_form))
-        change_location_link = result.css('.govuk-summary-list__actions')[0].text.strip
-
-        expect(change_location_link).to eq("Change course choice for #{application_choice.course.name_and_code}")
       end
     end
 
@@ -68,7 +51,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
 
       it 'renders the study mode change link' do
-        change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
+        change_location_link = result.css('.govuk-summary-list__actions')[0].text.strip
 
         expect(change_location_link).to eq("Change study mode for #{application_choice.course.name_and_code}")
       end

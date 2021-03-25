@@ -26,7 +26,6 @@ module CandidateInterface
 
     def course_choice_rows(application_choice)
       [
-        course_row(application_choice),
         study_mode_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
@@ -90,23 +89,6 @@ module CandidateInterface
   private
 
     attr_reader :application_form
-
-    def course_row(application_choice)
-      {
-        key: 'Course',
-        value: course_row_value(application_choice),
-        action: "course choice for #{application_choice.offered_course.name_and_code}",
-        change_path: course_change_path(application_choice),
-      }
-    end
-
-    def course_row_value(application_choice)
-      if EndOfCycleTimetable.find_down?
-        "#{application_choice.offered_course.name} (#{application_choice.offered_course.code})"
-      else
-        govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})", application_choice.offered_course.find_url, target: '_blank', rel: 'noopener')
-      end
-    end
 
     def study_mode_row(application_choice)
       return unless application_choice.offered_course.full_time_or_part_time?

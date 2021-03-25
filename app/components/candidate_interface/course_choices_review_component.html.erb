@@ -81,7 +81,10 @@
   <% end %>
 
   <%= render(SummaryCardComponent.new(rows: course_choice_rows(application_choice), editable: @editable)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: application_choice.offered_course.provider.name, heading_level: @heading_level)) do %>
+    <%= render(SummaryCardHeaderComponent.new(
+      title: title_for(application_choice),
+      heading_level: @heading_level,
+    )) do %>
       <div class="app-summary-card__actions">
         <% if application_choice.offer? %>
           <%= govuk_link_to candidate_interface_offer_path(application_choice.id), data: { action: :respond } do %>
