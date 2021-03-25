@@ -1,0 +1,88 @@
+common_columns:
+  - candidate_id
+  - support_reference
+  - program_type
+  - rejection_reason
+  - structured_rejection_reasons
+  - application_state
+  - course_code
+  - provider_code
+  - nationality
+  - provider_type
+
+custom_columns:
+  age:
+    type: integer
+    description: The candidate’s age
+
+  candidate_postcode:
+    type: string
+    description: The candidate’s postcode
+    example: SW1P 3BT
+
+  provider_postcode:
+    type: string
+    description: The candidate’s postcode
+    example: SW1P 3BT
+
+  site_postcode:
+    type: string
+    description: The site’s postcode
+    example: SW1P 3BT
+
+  site_region:
+    type: string
+    description: The site’s region
+    enum:
+      - east_midlands
+      - eastern
+      - london
+      - no_region
+      - north_east
+      - north_west
+      - scotland
+      - south_east
+      - south_west
+      - wales
+      - west_midlands
+      - yorkshire_and_the_humber
+
+  accrediting_provider_type:
+    type: string
+    description: The accrediting provider type
+    enum:
+      - scitt
+      - university
+      - hei
+
+  degree_award_year:
+    type: integer
+    description: The award year for the candidate’s most recent degree
+    example: 2019
+
+  degree_type:
+    type: string
+    description: The candidate’s most recent degree type. [See list of degree types](/support/docs/qualifications)
+
+  distance_from_site_to_candidate:
+    type: number
+    format: float
+    description: The distance from a site to a candidate (in miles)
+    example: 11.5
+
+  average_distance_from_all_sites:
+    type: number
+    format: float
+    description: The average distance to a candidate from all sites (in miles)
+    example: 11.5
+
+  rejected_by_default_at:
+    type: string
+    format: date-time
+    description: The date the application choice was rejected by default
+    example: 2020-11-01T00:00:00+00:00
+
+  link_to_application:
+    type: string
+    description: A link to the application within the Support interface
+    example: "https://www.apply-for-teacher-training.service.gov.uk/support/applications/4566"

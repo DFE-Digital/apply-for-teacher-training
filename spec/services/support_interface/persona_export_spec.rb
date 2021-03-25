@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::PersonaExport do
+  describe 'documentation' do
+    before { create(:application_choice, application_form: create(:application_form)) }
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#data_for_export' do
     around do |example|
       Timecop.freeze(Date.new(2020, 1, 2)) do
@@ -47,28 +53,28 @@ private
     application_form = application_choice.application_form
 
     {
-      'Candidate id' => application_form.candidate.id,
-      'Support reference' => application_form.support_reference,
-      'Age' => 20,
-      'Candidate postcode' => application_form.postcode,
-      'Provider postcode' => application_choice.provider.postcode,
-      'Site postcode' => application_choice.site.postcode,
-      'Site region' => application_choice.site.region,
-      'Provider type' => 'lead_school',
-      'Accrediting provider type' => 'scitt',
-      'Program type' => 'scitt_programme',
-      'Degree completed' => '2020',
-      'Degree type' => 'Bachelor of Theology',
-      'Distance from site to candidate' => '2.2',
-      'Average distance from all sites to candidate' => '2.2',
-      'Rejection reason' => nil,
-      'Structured rejection reasons' => "Something you did\nHonesty and professionalism",
-      'Application status' => 'Ended without success',
-      'Course code' => application_choice.course.code,
-      'Provider code' => application_choice.provider.code,
-      'Nationality' => 'GB',
-      'Rejected by default at' => application_choice.reject_by_default_at,
-      'Link to application' => "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}",
+      candidate_id: application_form.candidate.id,
+      support_reference: application_form.support_reference,
+      age: 20,
+      candidate_postcode: application_form.postcode,
+      provider_postcode: application_choice.provider.postcode,
+      site_postcode: application_choice.site.postcode,
+      site_region: application_choice.site.region,
+      provider_type: 'lead_school',
+      accrediting_provider_type: 'scitt',
+      program_type: 'scitt_programme',
+      degree_award_year: '2020',
+      degree_type: 'Bachelor of Theology',
+      distance_from_site_to_candidate: '2.2',
+      average_distance_from_all_sites: '2.2',
+      rejection_reason: nil,
+      structured_rejection_reasons: 'Something you did, Honesty and professionalism',
+      application_state: 'Ended without success',
+      course_code: application_choice.course.code,
+      provider_code: application_choice.provider.code,
+      nationality: 'GB',
+      rejected_by_default_at: application_choice.reject_by_default_at,
+      link_to_application: "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}",
     }
   end
 end
