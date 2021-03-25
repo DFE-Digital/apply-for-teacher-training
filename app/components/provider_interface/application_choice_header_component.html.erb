@@ -45,7 +45,7 @@
 
           <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice) %>
 
-        <% elsif provider_cannot_respond? -%>
+        <% elsif awaiting_decision_but_cannot_respond? -%>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
               This application will be automatically rejected at <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %>.

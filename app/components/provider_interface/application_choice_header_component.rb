@@ -26,7 +26,7 @@ module ProviderInterface
       respond_to_application? ||
         deferred_offer_wizard_applicable? ||
         rejection_reason_required? ||
-        provider_cannot_respond? ||
+        awaiting_decision_but_cannot_respond? ||
         waiting_for_interview?
     end
 
@@ -53,7 +53,7 @@ module ProviderInterface
         application_choice.no_feedback?
     end
 
-    def provider_cannot_respond?
+    def awaiting_decision_but_cannot_respond?
       !provider_can_respond && application_choice.awaiting_provider_decision?
     end
 
