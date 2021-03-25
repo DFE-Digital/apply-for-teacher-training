@@ -1,12 +1,10 @@
 module CandidateInterface
-  class PickCourseOption
-    attr_reader :course_id, :course_option_id, :application_form, :provider_id, :controller, :id_of_course_choice_to_replace
+  class AddOrUpdateCourseChoice
+    attr_reader :course_option_id, :application_form, :controller, :id_of_course_choice_to_replace
 
-    def initialize(course_id, course_option_id, application_form, provider_id, controller, id_of_course_choice_to_replace: nil)
-      @course_id = course_id
+    def initialize(course_option_id:, application_form:, controller:, id_of_course_choice_to_replace: nil)
       @course_option_id = course_option_id
       @application_form = application_form
-      @provider_id = provider_id
       @controller = controller
       @id_of_course_choice_to_replace = id_of_course_choice_to_replace
     end
@@ -35,8 +33,12 @@ module CandidateInterface
 
   private
 
+    def course_option
+      @course_option ||= CourseOption.find(course_option_id)
+    end
+
     def course
-      @course ||= Provider.find(provider_id).courses.find(course_id)
+      @course ||= course_option.course
     end
 
     def application_choices
@@ -50,8 +52,6 @@ module CandidateInterface
     def add
       pick_site_form = PickSiteForm.new(
         application_form: application_form,
-        provider_id: provider_id,
-        course_id: course_id,
         course_option_id: course_option_id,
       )
 
@@ -67,7 +67,7 @@ module CandidateInterface
         end
       else
         flash[:warning] = pick_site_form.errors.full_messages.first
-        redirect_to candidate_interface_application_form_path
+        redirect_to candidate_interface_course_choices_index_path
       end
     end
 
@@ -76,8 +76,6 @@ module CandidateInterface
 
       pick_site_form = PickSiteForm.new(
         application_form: application_form,
-        provider_id: provider_id,
-        course_id: course_id,
         course_option_id: course_option_id,
       )
 

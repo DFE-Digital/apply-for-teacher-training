@@ -49,12 +49,10 @@ module CandidateInterface
           )
         elsif @pick_course.single_site?
           course_option = CourseOption.where(course_id: @pick_course.course.id).first
-          PickCourseOption.new(
-            course_id,
-            course_option.id,
-            current_application,
-            params.fetch(:provider_id),
-            self,
+          AddOrUpdateCourseChoice.new(
+            course_option_id: course_option.id,
+            application_form: current_application,
+            controller: self,
             id_of_course_choice_to_replace: params[:course_choice_id],
           ).call
         else
