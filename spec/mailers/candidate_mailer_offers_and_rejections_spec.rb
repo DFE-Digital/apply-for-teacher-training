@@ -98,6 +98,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'rejection emails' do
+    let(:future_applications) { 'Yes' }
     let(:rejection_reasons) do
       {
         quality_of_application_y_n: 'Yes',
@@ -107,6 +108,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         qualifications_y_n: 'Yes',
         qualifications_other_details: 'Bad qualifications',
         qualifications_which_qualifications: %w[no_english_gcse other],
+        interested_in_future_applications_y_n: future_applications,
       }
     end
 
@@ -128,6 +130,19 @@ RSpec.describe CandidateMailer, type: :mailer do
         'qualifications rejection content' => 'Bad qualifications',
         'link to course on find' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/course/X100/E0FO#section-entry',
       )
+
+      it 'includes future applications section' do
+        expect(email.body).to include('Future applications')
+        expect(email.body).to include('would be interested in future applications from you.')
+      end
+
+      context 'when future applications question has not been given' do
+        let(:future_applications) { nil }
+
+        it 'does not include future applications section' do
+          expect(email.body).not_to include('Future applications')
+        end
+      end
     end
 
     describe '.application_rejected_one_offer_one_awaiting_decision' do

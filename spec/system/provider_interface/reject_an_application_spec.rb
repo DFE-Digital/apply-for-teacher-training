@@ -18,6 +18,7 @@ RSpec.describe 'Reject an application' do
     then_i_give_reasons_why_i_am_rejecting_the_application
     and_i_check_the_reasons_for_rejection
     and_i_choose_to_change_some_reasons_for_rejection
+    and_i_go_back_to_explain_the_reason_with_a_radio_button
     and_i_answer_additional_reasons
     and_i_check_the_amended_reasons_for_rejection
     and_i_choose_to_revert_my_changes
@@ -61,21 +62,15 @@ RSpec.describe 'Reject an application' do
   def then_i_give_reasons_why_i_am_rejecting_the_application
     expect(page).to have_link('Back', href: provider_interface_application_choice_respond_path(@application_choice))
 
-    choose 'reasons-for-rejection-candidate-behaviour-y-n-yes-field'
-    check 'reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
-    fill_in 'reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
-    fill_in 'reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
+    choose 'reasons-for-rejection-candidate-behaviour-y-n-no-field'
 
-    choose 'reasons-for-rejection-quality-of-application-y-n-yes-field'
-    check 'reasons-for-rejection-quality-of-application-which-parts-needed-improvement-personal-statement-field'
-    fill_in 'reasons-for-rejection-quality-of-application-personal-statement-what-to-improve-field', with: 'Telling people you are a stable genius might be a bit loaded'
+    choose 'reasons-for-rejection-quality-of-application-y-n-no-field'
 
     choose 'reasons-for-rejection-qualifications-y-n-yes-field'
     check 'reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
     check 'reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
 
-    choose 'reasons-for-rejection-performance-at-interview-y-n-yes-field'
-    fill_in 'reasons-for-rejection-performance-at-interview-what-to-improve-field', with: "Don't sing 'Run to the Hills' at the start of the interview"
+    choose 'reasons-for-rejection-performance-at-interview-y-n-no-field'
 
     choose 'reasons-for-rejection-course-full-y-n-no-field'
 
@@ -97,18 +92,15 @@ RSpec.describe 'Reject an application' do
   def and_i_check_the_reasons_for_rejection
     expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
 
-    expect(page).to have_content('Something you did')
-    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nLeave the singing out next time")
+    expect(page).not_to have_content('Something you did')
 
-    expect(page).to have_content('Quality of application')
-    expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
+    expect(page).not_to have_content('Quality of application')
 
     expect(page).to have_content('Qualifications')
     expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent')
     expect(page).to have_content('No degree')
 
-    expect(page).to have_content('Performance at interview')
-    expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
+    expect(page).not_to have_content('Performance at interview')
 
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We doubt claims about your golf handicap')
@@ -121,22 +113,46 @@ RSpec.describe 'Reject an application' do
   def and_i_choose_to_change_some_reasons_for_rejection
     click_on 'Change', match: :first
 
+    expect(page).to have_checked_field 'reasons-for-rejection-qualifications-y-n-yes-field'
     expect(page).to have_checked_field 'reasons-for-rejection-safeguarding-y-n-yes-field'
     expect(page).to have_checked_field 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
 
+    choose 'reasons-for-rejection-qualifications-y-n-no-field'
     choose 'reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
     choose 'reasons-for-rejection-safeguarding-y-n-no-field'
 
     click_on t('continue')
   end
 
+  def and_i_go_back_to_explain_the_reason_with_a_radio_button
+    expect(page).to have_selector('h1', text: 'Other reasons for rejecting this application')
+    click_on 'Back'
+
+    choose 'reasons-for-rejection-candidate-behaviour-y-n-yes-field'
+    check 'reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
+    fill_in 'reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
+    fill_in 'reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
+
+    choose 'reasons-for-rejection-quality-of-application-y-n-yes-field'
+    check 'reasons-for-rejection-quality-of-application-which-parts-needed-improvement-personal-statement-field'
+    fill_in 'reasons-for-rejection-quality-of-application-personal-statement-what-to-improve-field', with: 'Telling people you are a stable genius might be a bit loaded'
+
+    choose 'reasons-for-rejection-qualifications-y-n-yes-field'
+    check 'reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
+    check 'reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
+
+    choose 'reasons-for-rejection-performance-at-interview-y-n-yes-field'
+    fill_in 'reasons-for-rejection-performance-at-interview-what-to-improve-field', with: "Don't sing 'Run to the Hills' at the start of the interview"
+
+    click_on t('continue')
+  end
+
   def and_i_answer_additional_reasons
     expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
+    expect(page).to have_selector('h1', text: 'Is there any other advice or feedback you’d like to give')
 
     choose 'reasons-for-rejection-other-advice-or-feedback-y-n-yes-field'
     fill_in 'reasons-for-rejection-other-advice-or-feedback-details-field', with: 'While impressive, your parkour skills are not relevant'
-
-    choose 'reasons-for-rejection-interested-in-future-applications-y-n-yes-field'
 
     click_on t('continue')
   end
@@ -150,8 +166,7 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content('Additional advice')
     expect(page).to have_content('While impressive, your parkour skills are not relevant')
 
-    expect(page).to have_content('Future applications')
-    expect(page).to have_content("#{@application_choice.provider.name} would be interested in future applications from you.")
+    expect(page).not_to have_content('Future applications')
   end
 
   def and_i_choose_to_revert_my_changes

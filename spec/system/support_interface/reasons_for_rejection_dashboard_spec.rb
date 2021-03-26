@@ -67,7 +67,6 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     then_i_should_see_reasons_for_rejection_course_full
     and_i_should_see_reasons_for_rejection_candidate_behaviour
     and_i_should_see_reasons_for_rejection_honesty_and_professionalism
-    and_i_should_see_reasons_for_rejection_interested_in_future_applications
     and_i_should_see_reasons_for_rejection_offered_on_another_course
     and_i_should_see_reasons_for_rejection_other_advice_or_feedback
     and_i_should_see_reasons_for_rejection_performance_at_interview
@@ -223,15 +222,6 @@ private
       expect(page).to have_content('2 of 5 application choices')
       expect(page).to have_content('2 total')
       expect(page).to have_content('1 this month')
-    end
-  end
-
-  def and_i_should_see_reasons_for_rejection_interested_in_future_applications
-    within '#interested-in-future-applications' do
-      expect(page).to have_content('0%')
-      expect(page).to have_content('0 of 5 application choices')
-      expect(page).to have_content('0 total')
-      expect(page).to have_content('0 this month')
     end
   end
 

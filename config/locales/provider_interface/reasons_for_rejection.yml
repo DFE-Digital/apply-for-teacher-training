@@ -152,5 +152,3 @@ en:
             other_advice_or_feedback_details:
               blank: Enter any other advice or feedback
               too_long: The other advice or feedback must be 200 words or fewer
-            interested_in_future_applications_y_n:
-              blank: Select yes if you’d be interested in future applications from this candidate

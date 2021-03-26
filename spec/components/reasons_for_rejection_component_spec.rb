@@ -5,6 +5,7 @@ RSpec.describe ReasonsForRejectionComponent do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:course) { build_stubbed(:course, provider: provider) }
     let(:application_choice) { build_stubbed(:application_choice) }
+    let(:future_applications) { 'Yes' }
     let(:reasons_for_rejection_attrs) do
       {
         candidate_behaviour_y_n: 'Yes',
@@ -26,7 +27,7 @@ RSpec.describe ReasonsForRejectionComponent do
         safeguarding_y_n: 'No',
         other_advice_or_feedback_y_n: 'Yes',
         other_advice_or_feedback_details: 'That zoom background...',
-        interested_in_future_applications_y_n: 'Yes',
+        interested_in_future_applications_y_n: future_applications,
       }
     end
 
@@ -94,6 +95,16 @@ RSpec.describe ReasonsForRejectionComponent do
       expect(result.css('h2.govuk-heading-s').text).to include('Performance at interview')
       expect(result.css('h2.govuk-heading-s').text).to include('Additional advice')
       expect(result.css('h2.govuk-heading-s').text).to include('Future applications')
+    end
+
+    context 'when future applications question is not given' do
+      let(:future_applications) { nil }
+
+      it 'does not render the answer' do
+        result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection))
+
+        expect(result.css('h3.govuk-heading-s').text).not_to include('Future applications')
+      end
     end
   end
 end
