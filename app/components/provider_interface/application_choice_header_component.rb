@@ -27,7 +27,8 @@ module ProviderInterface
         deferred_offer_wizard_applicable? ||
         rejection_reason_required? ||
         awaiting_decision_but_cannot_respond? ||
-        waiting_for_interview?
+        waiting_for_interview? ||
+        offer_will_be_declined_by_default?
     end
 
     def respond_to_application?
@@ -59,6 +60,21 @@ module ProviderInterface
 
     def waiting_for_interview?
       provider_can_respond && application_choice.interviewing?
+    end
+
+    def offer_will_be_declined_by_default?
+      application_choice.offer? && application_choice.decline_by_default_at.present?
+    end
+
+    def decline_by_default_text
+      return unless offer_will_be_declined_by_default?
+
+      if time_is_today_or_tomorrow?(application_choice.decline_by_default_at)
+        "at the end of #{date_and_time_today_or_tomorrow(application_choice.decline_by_default_at)}"
+      else
+        days_remaining = days_until(application_choice.decline_by_default_at.to_date)
+        "in #{days_remaining} (#{application_choice.decline_by_default_at.to_s(:govuk_date_and_time)})"
+      end
     end
 
   private

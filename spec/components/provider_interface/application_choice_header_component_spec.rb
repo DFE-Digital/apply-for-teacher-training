@@ -44,6 +44,26 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       end
     end
 
+    context 'when the application has had an offer' do
+      let(:dbd_date) { nil }
+      let(:application_choice) { build_stubbed(:application_choice, status: 'offer', decline_by_default_at: dbd_date) }
+
+      context 'if the decline by default has not been set yet' do
+        it 'does not render any header' do
+          expect(result.css('.govuk-inset-text').count).to eq(0)
+        end
+      end
+
+      context 'if the decline by default is set' do
+        let(:dbd_date) { 3.days.from_now.end_of_day }
+
+        it 'renders the header with decline by default information' do
+          expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
+          expect(result.css('.govuk-inset-text > p').text).to include('Your offer will be automatically declined in 3 days (4 November 2021 at 11:59pm) if the candidate does not respond.')
+        end
+      end
+    end
+
     context 'when the application is awaiting provider decision, reject by default is tomorrow and user cannot make decisions' do
       let(:provider_can_respond) { false }
       let(:reject_by_default_at) { 1.day.from_now }
@@ -176,6 +196,49 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
 
       expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
+    end
+  end
+
+  describe '#decline_by_default_text' do
+    it 'returns nil if the application is not in the offer state' do
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision')
+
+      expect(described_class.new(application_choice: application_choice).decline_by_default_text).to be_nil
+    end
+
+    describe 'returns the correct text when' do
+      it 'the dbd is today' do
+        application_choice = build_stubbed(
+          :application_choice,
+          status: 'offer',
+          decline_by_default_at: Time.zone.now.end_of_day,
+        )
+
+        expected_text = 'at the end of today (1 November 2021 at 11:59pm)'
+        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+      end
+
+      it 'the dbd is tomorrow' do
+        application_choice = build_stubbed(
+          :application_choice,
+          status: 'offer',
+          decline_by_default_at: 1.day.from_now.end_of_day,
+        )
+
+        expected_text = 'at the end of tomorrow (2 November 2021 at 11:59pm)'
+        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+      end
+
+      it 'the dbd is after tomorrow' do
+        application_choice = build_stubbed(
+          :application_choice,
+          status: 'offer',
+          decline_by_default_at: 3.days.from_now.end_of_day,
+        )
+
+        expected_text = 'in 3 days (4 November 2021 at 11:59pm)'
+        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+      end
     end
   end
 end

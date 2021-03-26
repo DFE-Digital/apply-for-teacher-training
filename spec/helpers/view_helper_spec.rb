@@ -179,6 +179,25 @@ RSpec.describe ViewHelper, type: :helper do
     end
   end
 
+  describe '#date_and_time_today_or_tomorrow' do
+    it 'returns the time tomorrow for a time tomorrow' do
+      time = Time.zone.tomorrow.midnight + 3.hours
+      expect(helper.date_and_time_today_or_tomorrow(time)).to eq 'tomorrow (2 November 2021 at 3am)'
+    end
+
+    it 'returns the bare time for a time today' do
+      Timecop.freeze(Time.zone.now.midnight) do
+        time = Time.zone.now + 6.hours
+        expect(helper.date_and_time_today_or_tomorrow(time)).to eq 'today (1 November 2021 at 6am)'
+      end
+    end
+
+    it 'throws an exception when the time is not today or tomorrow' do
+      time = Time.zone.now + 2.days
+      expect { helper.date_and_time_today_or_tomorrow(time) }.to raise_error(/was expected to be today or tomorrow/)
+    end
+  end
+
   describe '#formatted_percentage' do
     it 'returns the correct value for a whole number percentage' do
       expect(helper.formatted_percentage(5, 10)).to eq '50%'
