@@ -1,5 +1,6 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
+  'DataMigrations::BackfillExportType',
 ].freeze
 
 def data_migrations
