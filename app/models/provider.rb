@@ -12,7 +12,6 @@ class Provider < ApplicationRecord
   has_many :provider_agreements
 
   enum region_code: {
-    east_midlands: 'east_midlands',
     eastern: 'eastern',
     london: 'london',
     no_region: 'no_region',
