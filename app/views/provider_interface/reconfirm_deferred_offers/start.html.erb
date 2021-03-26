@@ -18,16 +18,12 @@
           The details of the course you offered previously are not available in the current cycle.
         </p>
        <% end %>
-      <details class="govuk-details govuk-!-margin-bottom-0 app-details--no-boder" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Details of deferred offer
-          </span>
-        </summary>
-        <div class="govuk-details__text govuk-!-padding-bottom-0">
-          <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
-        </div>
-      </details>
+      <%= render GovukComponent::Details.new(
+        summary: 'Details of deferred offer',
+        classes: 'govuk-!-margin-bottom-0 app-details--no-boder',
+      ) do %>
+        <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
+      <% end %>
 
       <% unless @wizard.applicable? %>
         <p class="govuk-body-m govuk-!-margin-top-5">

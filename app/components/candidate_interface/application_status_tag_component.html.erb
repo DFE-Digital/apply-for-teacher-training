@@ -9,31 +9,28 @@
     Your training will now start in <%= (@application_choice.course_option.course.start_date + 1.year).to_s(:month_and_year) %>.
   </p>
 <% elsif @application_choice.pending_conditions? || @application_choice.recruited? || @application_choice.offer? %>
-    <details class="govuk-details govuk-!-margin-bottom-0 govuk-!-margin-top-2" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          What to do if you’re unable to start training in <%= @application_choice.course_option.course.start_date.to_s(:month_and_year) %>
-        </span>
-      </summary>
-      <div class="govuk-details__text govuk-!-padding-bottom-0">
-        <p>
-          Some providers allow you to defer your offer. This means that you could start your course a year later.
-        </p>
 
-        <p>
-          Every provider is different, so it may or may not be possible to do this.
-          Find out by contacting <%= @application_choice.course_option.course.provider.name %>.
-        </p>
+    <%= render GovukComponent::Details.new(
+      summary: "What to do if you’re unable to start training in #{@application_choice.course_option.course.start_date.to_s(:month_and_year)}",
+      classes: 'govuk-!-margin-bottom-0 govuk-!-margin-top-2',
+    ) do %>
+      <p>
+        Some providers allow you to defer your offer. This means that you could start your course a year later.
+      </p>
 
-        <p>
-          Asking if it’s possible to defer will not affect your existing offer.
-        </p>
+      <p>
+        Every provider is different, so it may or may not be possible to do this.
+        Find out by contacting <%= @application_choice.course_option.course.provider.name %>.
+      </p>
 
-        <% if @application_choice.offer? %>
-          <p>
-            If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.
-          </p>
-        <% end %>
-      </div>
-    </details>
+      <p>
+        Asking if it’s possible to defer will not affect your existing offer.
+      </p>
+
+      <% if @application_choice.offer? %>
+        <p>
+          If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.
+        </p>
+      <% end %>
+    <% end %>
 <% end %>
