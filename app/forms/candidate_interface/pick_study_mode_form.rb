@@ -6,7 +6,7 @@ module CandidateInterface
     validates :study_mode, presence: true
 
     def available_sites
-      CourseOption.where(course_id: course_id, study_mode: study_mode)
+      CourseOption.available.where(course_id: course_id, study_mode: study_mode)
     end
 
     def single_site_course?
