@@ -9,7 +9,6 @@ en:
       withdraw: Withdraw
       complete:
         completed_checkbox: I have completed this section
-      view_and_respond_to_offer: View and respond to offer
     confirm_selection:
       heading: You selected a course
       question: Do you want to apply to this course?

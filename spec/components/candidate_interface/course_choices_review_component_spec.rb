@@ -252,8 +252,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     it 'renders component with a withdraw link' do
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
-      expect(result.css('.app-summary-card__actions a[data-action=withdraw]')).to be_present
+      expect(result.css('.govuk-summary-list__value').text).to include('Withdraw this application')
     end
   end
 
@@ -267,14 +266,32 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer received')
     end
 
-    it 'renders component with view and respond to offer link' do
-      application_form = create_application_form_with_course_choices(statuses: %w[offer])
+    it 'renders component with the respond to offer link and message about waiting for providers to respond' do
+      application_form = create_application_form_with_course_choices(statuses: %w[offer awaiting_provider_decision])
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.withdraw'))
-      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.view_and_respond_to_offer'))
-      expect(result.css('.app-summary-card__actions a[data-action=respond]')).to be_present
+      expect(result.css('.govuk-summary-list__value').text).to include('Respond to application')
+      expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_offer_path(application_choice.id),
+      )
+      expect(result.css('.govuk-summary-list__value').text).to include(
+        'You can wait to hear back from everyone before you respond.'
+      )
+    end
+
+    it 'renders component with the respond to offer link and deadline message' do
+      application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
+
+      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+
+      expect(result.css('.govuk-summary-list__value').text).not_to include('Respond to application')
+      expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_offer_path(application_choice.id),
+      )
+      expect(result.css('.govuk-summary-list__value').text).to include(
+        "You have 5 days (until #{5.days.from_now.to_s(govuk_date)}) to respond.",
+      )
     end
   end
 
@@ -310,8 +327,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
-      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+      expect(result.css('.govuk-summary-list__value').text).to include('Withdraw this application')
+      expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
       )
     end
@@ -371,6 +388,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         :application_choice,
         application_form: application_form,
         status: status,
+        decline_by_default_at: status.to_sym == :offer ? 5.days.from_now : nil,
       )
     end
 

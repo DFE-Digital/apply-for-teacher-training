@@ -31,6 +31,8 @@ module CandidateInterface
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
+        withdraw_row(application_choice),
+        respond_to_offer_row(application_choice),
       ].compact
     end
 
@@ -121,6 +123,30 @@ module CandidateInterface
           value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
         }
       end
+    end
+
+    def withdraw_row(application_choice)
+      return nil unless withdrawable?(application_choice)
+
+      {
+        key: ' ',
+        value: render(CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
+          action: :withdraw,
+          application_choice: application_choice,
+        )),
+      }
+    end
+
+    def respond_to_offer_row(application_choice)
+      return unless application_choice.offer?
+
+      {
+        key: ' ',
+        value: render(CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
+          action: :respond_to_offer,
+          application_choice: application_choice,
+        )),
+      }
     end
 
     def offer_withdrawal_reason_row(application_choice)
