@@ -11,6 +11,10 @@ class InterviewBookingsItemComponent < ViewComponent::Base
     interview.date_and_time.to_s(:govuk_date_and_time).squish
   end
 
+  def formatted_date(interview)
+    interview.date_and_time.to_s(:govuk_date).squish
+  end
+
   def provider_name(interview)
     interview.provider.name
   end
@@ -21,6 +25,10 @@ class InterviewBookingsItemComponent < ViewComponent::Base
 
   def additional_details(interview)
     safely_format_with_hyperlinks(interview.additional_details)
+  end
+
+  def in_the_past?
+    interview.date_and_time + 1.hour < Time.zone.now
   end
 
 private

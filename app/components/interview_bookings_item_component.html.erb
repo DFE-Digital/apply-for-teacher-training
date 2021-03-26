@@ -1,4 +1,11 @@
-<p class='govuk-body'><%= formatted_time(interview) %></p>
-<p class='govuk-body govuk-!-margin-bottom-0'><%= provider_name(interview) %></p>
-<%= location(interview) %>
-<%= additional_details(interview) %>
+<% if in_the_past? %>
+  <p class='govuk-body'>You had an interview on <%= formatted_date(interview) %></p>
+<% else %>
+  <p class='govuk-body'>You have an interview scheduled for <%= formatted_time(interview) %></p>
+  <p class="govuk-body govuk-!-margin-bottom-0">Information from provider:</p>
+  <div class="govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-1">
+    <%= location(interview) %>
+    <%= additional_details(interview) %>
+  </div>
+  <p class='govuk-body'>The provider will send more details about the interview by email.</p>
+<% end %>

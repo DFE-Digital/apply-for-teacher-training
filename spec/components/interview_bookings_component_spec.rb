@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe InterviewBookingsComponent, type: :component do
+  around do |example|
+    Timecop.freeze(2020, 6, 1, 12) do
+      example.run
+    end
+  end
+
   let(:interview) do
     create(
       :interview,
@@ -11,11 +17,6 @@ RSpec.describe InterviewBookingsComponent, type: :component do
   it 'renders the interview time' do
     result = render_inline(described_class.new(interview.application_choice))
     expect(result.text).to include('6 June 2020 at 6:30pm')
-  end
-
-  it 'renders the provider name' do
-    result = render_inline(described_class.new(interview.application_choice))
-    expect(result.text).to include(interview.provider.name)
   end
 
   it 'renders the location, with breaks and hyperlinks' do
@@ -103,6 +104,15 @@ RSpec.describe InterviewBookingsComponent, type: :component do
       expect(result.to_html).to include '<ul class="govuk-list govuk-list--number">'
       expect(result.text).to include 'This is interview 1'
       expect(result.text).to include 'This is interview 2'
+    end
+  end
+
+  context 'when the interview is in the past' do
+    it 'renders a simple message with the date' do
+      Timecop.freeze(2020, 6, 7, 12) do
+        result = render_inline(described_class.new(interview.application_choice))
+        expect(result.text).to include('You had an interview on 6 June 2020')
+      end
     end
   end
 
