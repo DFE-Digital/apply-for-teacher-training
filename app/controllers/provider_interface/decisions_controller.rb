@@ -84,7 +84,7 @@ module ProviderInterface
         actor: current_provider_user,
         application_choice: @application_choice,
         course_option: course_option,
-        offer_conditions: params.dig(:offer_conditions),
+        offer_conditions: params.fetch(:offer_conditions, []),
       )
 
       if @application_offer.save
