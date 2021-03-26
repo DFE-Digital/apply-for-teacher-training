@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
+RSpec.describe SupportInterface::FlatReasonsForRejectionPresenter, type: :presenter do
   let(:application_choice) do
     create(
       :application_choice,
@@ -10,7 +10,7 @@ RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
 
   describe '.build_from_structured_rejection_reasons.new' do
     it 'creates an object based on the provided rejected ApplicationChoice' do
-      flat_rejection_reasons = FlatReasonsForRejectionPresenter.build_from_structured_rejection_reasons(ReasonsForRejection.new(application_choice.structured_rejection_reasons))
+      flat_rejection_reasons = described_class.build_from_structured_rejection_reasons(ReasonsForRejection.new(application_choice.structured_rejection_reasons))
 
       expect(flat_rejection_reasons).to eq(
         {
@@ -61,7 +61,7 @@ RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
 
   describe '.build_top_level_reasons' do
     it 'creates a string containing the rejection reasons' do
-      rejection_export_line = FlatReasonsForRejectionPresenter.build_top_level_reasons(application_choice.structured_rejection_reasons)
+      rejection_export_line = described_class.build_top_level_reasons(application_choice.structured_rejection_reasons)
 
       expect(rejection_export_line).to eq(
         "Something you did\nHonesty and professionalism\nPerformance at interview\nQualifications\nQuality of application\nSafeguarding issues",
