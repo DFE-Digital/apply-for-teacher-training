@@ -27,3 +27,12 @@ provider "azurerm" {
   client_secret              = local.azure_credentials.clientSecret
   tenant_id                  = local.azure_credentials.tenantId
 }
+
+module "paas" {
+  source = "./modules/paas"
+
+  cf_api_url       = local.cf_api_url
+  cf_user          = local.infra_secrets.CF_USER
+  cf_user_password = local.infra_secrets.CF_PASSWORD
+  cf_sso_passcode  = var.paas_sso_code
+}
