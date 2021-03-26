@@ -85,7 +85,7 @@ class Course < ApplicationRecord
   end
 
   def currently_has_both_study_modes_available?
-    available_study_modes_from_options.count == 2
+    available_study_modes_with_vacancies.count == 2
   end
 
   def supports_study_mode?(mode)
@@ -94,6 +94,10 @@ class Course < ApplicationRecord
 
   def available_study_modes_from_options
     course_options.select(&:site_still_valid).pluck(:study_mode).uniq
+  end
+
+  def available_study_modes_with_vacancies
+    course_options.available.pluck(:study_mode).uniq
   end
 
   def full?
