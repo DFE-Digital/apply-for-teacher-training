@@ -4,13 +4,21 @@ module SupportInterface
       @export_types = DataExport::EXPORT_TYPES
     end
 
-    def index
-      @data_exports = DataExport.includes(:initiator).order(id: :desc).page(params[:page] || 1).per(30)
+    def directory
+      @export_types = DataExport::EXPORT_TYPES
+    end
+
+    def view_export_information
+      @data_export = DataExport::EXPORT_TYPES[params[:data_export_type].to_sym]
+    end
+
+    def view_history
+      @data_exports = DataExport.includes(:initiator).send(params[:data_export_type]).order(created_at: :desc).page(params[:page] || 1).per(30)
     end
 
     def create
       export_type = DataExport::EXPORT_TYPES.fetch(params.fetch(:export_type_id).to_sym)
-      data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user)
+      data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user, export_type: export_type.fetch(:export_type))
       DataExporter.perform_async(export_type.fetch(:class), data_export.id)
 
       redirect_to support_interface_data_export_path(data_export)

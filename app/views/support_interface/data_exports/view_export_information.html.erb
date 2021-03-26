@@ -1,0 +1,20 @@
+<%= render 'data_export_navigation', title: 'Details' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <p class="govuk-body"><%= @data_export.fetch(:description) %></p>
+
+    <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
+  </div>
+
+  <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Columns in this export</h3>
+      <dl class="govuk-summary-list">
+        <% DataSetDocumentation.for(@data_export.fetch(:class)).each do |column_name, column| %>
+          <%= render DataSetAttributeComponent.new(column_name: column_name, column: column) %>
+        <% end %>
+      </dl>
+    </div>
+  <% end %>
+</div>

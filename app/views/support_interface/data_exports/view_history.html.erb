@@ -1,8 +1,8 @@
-<%= render 'support_interface/performance/performance_navigation', title: 'Export performance data' %>
+<%= render 'data_export_navigation', title: 'History' %>
 
-<%= govuk_button_link_to 'New export', new_support_interface_data_export_path %>
-
-<% if !@data_exports.empty? %>
+<% if @data_exports.empty? %>
+  <p class="govuk-body">No exports have been generated</p>
+<% else %>
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">

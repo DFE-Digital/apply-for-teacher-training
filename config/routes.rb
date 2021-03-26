@@ -895,6 +895,9 @@ Rails.application.routes.draw do
       get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
+      get '/data-directory' => 'data_exports#directory', as: :data_directory
+      get '/data-directory/export/:data_export_type' => 'data_exports#view_export_information', as: :view_export_information
+      get '/data-directory/export/:data_export_type/history' => 'data_exports#view_history', as: :view_history
 
       resources :data_exports, path: '/data-exports' do
         member do
@@ -926,9 +929,9 @@ Rails.application.routes.draw do
     end
 
     scope '/docs' do
-      get '/', to: 'docs#index', as: :docs
-      get '/provider-flow', to: 'docs#provider_flow', as: :docs_provider_flow
+      get '/', to: redirect('/support/docs/candidate-flow'), status: 302, as: :docs
       get '/candidate-flow', to: 'docs#candidate_flow', as: :docs_candidate_flow
+      get '/provider-flow', to: 'docs#provider_flow', as: :docs_provider_flow
       get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :docs_when_emails_are_sent
       get '/qualifications', to: 'docs#qualifications', as: :docs_qualifications
       get '/mailers' => 'docs#mailer_previews', as: :docs_mailer_previews

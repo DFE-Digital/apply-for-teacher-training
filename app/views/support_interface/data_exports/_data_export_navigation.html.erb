@@ -1,0 +1,26 @@
+<% content_for :browser_title, "#{title} - #{params[:data_export_type].humanize}" %>
+<% content_for :title, params[:data_export_type].humanize.to_s %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path,
+    },
+    {
+      text: 'Data directory',
+      path: support_interface_data_directory_path,
+    },
+    {
+      text: params[:data_export_type].humanize,
+      path: support_interface_view_export_information_path,
+    },
+  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+<% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: 'Details', url: support_interface_view_export_information_path },
+  { name: 'History', url: support_interface_view_history_path(data_export_type: params[:data_export_type]) },
+]) %>
+
+<h2 class="govuk-visually-hidden"><%= title %></h2>
