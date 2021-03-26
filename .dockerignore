@@ -2,6 +2,7 @@
 .github
 .gitignore
 node_modules
+terraform
 coverage
 log
 tmp
