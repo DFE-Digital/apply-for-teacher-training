@@ -45,7 +45,7 @@ module CandidateInterface
     end
 
     def single_site?
-      CourseOption.where(course_id: course.id).one?
+      Course.find(course_id).course_options.available.one?
     end
 
     def courses_for_current_cycle
