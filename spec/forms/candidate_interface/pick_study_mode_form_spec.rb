@@ -1,22 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::PickStudyModeForm, type: :model do
-  let!(:course) { create(:course) }
+  let(:course) { build(:course) }
 
   describe '#available_sites' do
-    it 'returns all sites available for the selected course and study mode' do
-      pt_course_one = create(:course_option, course: course, study_mode: :part_time)
-      pt_course_two = create(:course_option, course: course, study_mode: :part_time)
-      create(:course_option, course: course, study_mode: :full_time)
+    before do
+      create_list(:course_option, 2, :no_vacancies, course: course, study_mode: :part_time)
+    end
 
-      form = described_class.new(course_id: course.id, study_mode: :part_time)
+    context 'when there are multiple course sites with no available vacancies for a study mode' do
+      it 'returns no results' do
+        form = described_class.new(course_id: course.id, study_mode: :part_time)
 
-      expect(form.available_sites).to match_array(
-        [
-          pt_course_one,
-          pt_course_two,
-        ],
-      )
+        expect(form.available_sites).to be_empty
+      end
+    end
+
+    context 'when there multiple course sites with available vacancies for a study mode' do
+      let!(:course_options) { create_list(:course_option, 2, :part_time, course: course) }
+
+      before do
+        create_list(:course_option, 2, :full_time, course: course)
+      end
+
+      it 'returns all available sites' do
+        form = described_class.new(course_id: course.id, study_mode: :part_time)
+
+        expect(form.available_sites).to match_array(course_options)
+      end
     end
   end
 

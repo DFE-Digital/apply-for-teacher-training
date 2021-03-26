@@ -9,22 +9,20 @@ RSpec.describe Course, type: :model do
   end
 
   describe '#currently_has_both_study_modes_available?' do
+    let(:course) { build(:course) }
+
     it 'is true when a course has full time and part time course options' do
-      course_option1 = build_stubbed(:course_option, :full_time)
-      course_option2 = build_stubbed(:course_option, :part_time)
-      course = build_stubbed(:course, course_options: [course_option1, course_option2])
+      create(:course_option, :full_time, course: course)
+      create(:course_option, :part_time, course: course)
 
       expect(course.currently_has_both_study_modes_available?).to be true
     end
 
-    it 'is false when a course only has full time or part time course options' do
-      course_option1 = build_stubbed(:course_option, :full_time)
-      course_option2 = build_stubbed(:course_option, :part_time)
-      course1 = build_stubbed(:course, course_options: [course_option1])
-      course2 = build_stubbed(:course, course_options: [course_option2])
+    it 'is false when a course only has availability on one study mode' do
+      create(:course_option, :full_time, course: course)
+      create(:course_option, :part_time, :no_vacancies, course: course)
 
-      expect(course1.currently_has_both_study_modes_available?).to be false
-      expect(course2.currently_has_both_study_modes_available?).to be false
+      expect(course.currently_has_both_study_modes_available?).to be false
     end
   end
 
@@ -44,6 +42,24 @@ RSpec.describe Course, type: :model do
       course = build_stubbed(:course, course_options: [valid_course_option, invalid_course_option])
 
       expect(course.available_study_modes_from_options).to eq [valid_course_option.study_mode]
+    end
+  end
+
+  describe '#available_study_modes_with_vacancies' do
+    let(:course) { build(:course) }
+
+    it 'returns an array of unique study modes for course options with available vacancies' do
+      create_list(:course_option, 2, :no_vacancies, :full_time, course: course)
+      create(:course_option, :part_time, course: course)
+
+      expect(course.available_study_modes_with_vacancies).to eq %w[part_time]
+    end
+
+    it 'returns an array of unique study modes for course options with valid sites' do
+      create(:course_option, :full_time, course: course)
+      create(:course_option, :part_time, course: course, site_still_valid: false)
+
+      expect(course.available_study_modes_from_options).to eq %w[full_time]
     end
   end
 

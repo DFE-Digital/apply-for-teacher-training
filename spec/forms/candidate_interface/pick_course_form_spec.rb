@@ -135,21 +135,41 @@ RSpec.describe CandidateInterface::PickCourseForm do
 
   describe '#single_site?' do
     let(:provider) { create(:provider, name: 'Royal Academy of Dance', code: 'R55') }
-    let(:course) { create(:course, provider: provider, exposed_in_find: true, open_on_apply: true) }
-    let(:site) { create(:site, provider: provider) }
+    let(:course) { create(:course, :open_on_apply, provider: provider) }
     let(:pick_course_form) { described_class.new(provider_id: provider.id, course_id: course.id) }
+    let(:site) { build(:site, provider: provider) }
 
-    before { create(:course_option, site: site, course: course) }
+    context 'when the is one site for a course' do
+      before do
+        create(:course_option, site: site, course: course)
+      end
 
-    it 'returns true when there is one site for a course' do
-      expect(pick_course_form).to be_single_site
+      it 'returns true' do
+        expect(pick_course_form).to be_single_site
+      end
     end
 
-    it 'returns false when there are more than one site for a course' do
-      another_site = create(:site, provider: provider)
-      create(:course_option, site: another_site, course: course)
+    context 'when the is one site at a course option with no available vacancies' do
+      before do
+        create(:course_option, :no_vacancies, site: site, course: course)
+      end
 
-      expect(pick_course_form).not_to be_single_site
+      it 'returns false' do
+        expect(pick_course_form).not_to be_single_site
+      end
+    end
+
+    context 'when there are multiple sites' do
+      let(:other_site) { build(:site, provider: provider) }
+
+      before do
+        create(:course_option, site: site, course: course)
+        create(:course_option, site: other_site, course: course)
+      end
+
+      it 'returns false' do
+        expect(pick_course_form).not_to be_single_site
+      end
     end
   end
 end
