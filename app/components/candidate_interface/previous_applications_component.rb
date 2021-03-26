@@ -27,10 +27,6 @@ module CandidateInterface
       application_choice.course.name_and_code
     end
 
-    def view_application_url_for(application_choice)
-      govuk_link_to('View application', candidate_interface_review_previous_application_path(application_choice.application_form.id))
-    end
-
   private
 
     def eligible_current_application_choices

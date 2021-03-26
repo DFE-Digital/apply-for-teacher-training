@@ -16,7 +16,9 @@
         <span class="app-course-choice__course-name">
           <%= course_name_and_code_for(application_choice) %>
         </span>
-        <%= view_application_url_for(application_choice) %>
+        <%= govuk_link_to candidate_interface_review_previous_application_path(application_choice.application_form.id) do %>
+          View application <span class="govuk-visually-hidden"> for <%= application_choice.course.name %> at <%= application_choice.course.provider.name %></span>
+        <% end %>
       </td>
       <td class="govuk-table__cell">
         <%= render CandidateInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
