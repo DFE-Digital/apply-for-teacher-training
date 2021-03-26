@@ -1,6 +1,8 @@
 # PaaS
 paas_app_environment   = "qa"
 paas_cf_space          = "bat-qa"
+paas_web_app_memory    = 512
+paas_web_app_instances = 1
 
 # KeyVault
 key_vault_resource_group    = "s121d01-shared-rg"

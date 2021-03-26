@@ -31,8 +31,15 @@ provider "azurerm" {
 module "paas" {
   source = "./modules/paas"
 
-  cf_api_url       = local.cf_api_url
-  cf_user          = local.infra_secrets.CF_USER
-  cf_user_password = local.infra_secrets.CF_PASSWORD
-  cf_sso_passcode  = var.paas_sso_code
+  cf_api_url                = local.cf_api_url
+  cf_user                   = local.infra_secrets.CF_USER
+  cf_user_password          = local.infra_secrets.CF_PASSWORD
+  cf_sso_passcode           = var.paas_sso_code
+  cf_space                  = var.paas_cf_space
+  docker_credentials        = local.docker_credentials
+  web_app_instances         = var.paas_web_app_instances
+  web_app_memory            = var.paas_web_app_memory
+  app_docker_image          = var.paas_docker_image
+  app_environment           = var.paas_app_environment
+  app_environment_variables = local.paas_app_environment_variables
 }
