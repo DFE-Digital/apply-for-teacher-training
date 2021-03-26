@@ -14,6 +14,16 @@ terraform {
       version = "1.0.1"
     }
   }
-  backend azurerm {
+  backend "azurerm" {
   }
+}
+
+provider "azurerm" {
+  features {}
+
+  skip_provider_registration = true
+  subscription_id            = local.azure_credentials.subscriptionId
+  client_id                  = local.azure_credentials.clientId
+  client_secret              = local.azure_credentials.clientSecret
+  tenant_id                  = local.azure_credentials.tenantId
 }
