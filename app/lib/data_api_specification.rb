@@ -12,7 +12,7 @@ class DataAPISpecification
 
     dataset = DataSetDocumentation.for(DataAPI::TADExport)
 
-    openapi['components']['schemas']['TADCSVSchema']['properties'] = dataset
+    openapi['components']['schemas']['TADExport']['properties'] = dataset
 
     openapi
   end

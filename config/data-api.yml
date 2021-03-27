@@ -41,7 +41,7 @@ paths:
           content:
             text/csv:
               schema:
-                "$ref": "#/components/schemas/TADCSVSchema"
+                "$ref": "#/components/schemas/TADExport"
   "/tad-data-exports/latest":
     get:
       summary: Get the latest TAD data export
@@ -52,10 +52,10 @@ paths:
           content:
             text/csv:
               schema:
-                "$ref": "#/components/schemas/TADCSVSchema"
+                "$ref": "#/components/schemas/TADExport"
 components:
   schemas:
-    TADCSVSchema:
+    TADExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     TADDataExportList:
