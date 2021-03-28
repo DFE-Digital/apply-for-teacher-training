@@ -14,7 +14,7 @@ module DataMigrations
       deleted_audit_count = 0
       total_audits = audits.count
 
-      Provider.find_each do |p|
+      providers.find_each do |p|
         log("Cleaning up provider #{p.id} (#{p.name_and_code})")
 
         audits_for_provider = audits.where(auditable_id: p.id)
@@ -48,6 +48,14 @@ module DataMigrations
     end
 
   private
+
+    def providers
+      if dry_run?
+        Provider.where(sync_courses: true).limit(50)
+      else
+        Provider.all
+      end
+    end
 
     def delete_audits(description, audits)
       log("Deleting #{audits.count} #{description}")
