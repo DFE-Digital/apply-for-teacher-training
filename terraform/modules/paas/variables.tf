@@ -24,12 +24,22 @@ variable "postgres_service_plan" {}
 
 variable "redis_service_plan" {}
 
+variable "clock_app_memory" {}
+
+variable "worker_app_memory" {}
+
+variable "clock_app_instances" {}
+
+variable "worker_app_instances" {}
+
 locals {
   web_app_name          = "apply-${var.app_environment}"
+  clock_app_name        = "apply-clock-${var.app_environment}"
+  worker_app_name       = "apply-worker-${var.app_environment}"
   postgres_service_name = "apply-postgres-${var.app_environment}"
   redis_service_name    = "apply-redis-${var.app_environment}"
   postgres_params = {
-    enable_extensions = ["pgcrypto"]
+    enable_extensions = ["pg_buffercache", "pg_stat_statements", "pgcrypto"]
   }
   app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis]
   service_gov_uk_host_names = {
@@ -38,5 +48,8 @@ locals {
     sandbox = "sandbox"
     prod    = "www"
   }
-  web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route]
+  web_app_routes           = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route]
+  web_app_env_variables    = merge(var.app_environment_variables, { SERVICE_TYPE = "web" })
+  clock_app_env_variables  = merge(var.app_environment_variables, { SERVICE_TYPE = "clock" })
+  worker_app_env_variables = merge(var.app_environment_variables, { SERVICE_TYPE = "worker" })
 }

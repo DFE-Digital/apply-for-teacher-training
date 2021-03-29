@@ -15,6 +15,14 @@ variable "paas_postgres_service_plan" {}
 
 variable "paas_redis_service_plan" {}
 
+variable "paas_clock_app_memory" { default = 512 }
+
+variable "paas_worker_app_memory" { default = 512 }
+
+variable "paas_clock_app_instances" { default = 1 }
+
+variable "paas_worker_app_instances" { default = 1 }
+
 # Key Vault variables
 variable "azure_credentials" {}
 
