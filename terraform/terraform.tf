@@ -42,4 +42,6 @@ module "paas" {
   app_docker_image          = var.paas_docker_image
   app_environment           = var.paas_app_environment
   app_environment_variables = local.paas_app_environment_variables
+  postgres_service_plan     = var.paas_postgres_service_plan
+  redis_service_plan        = var.paas_redis_service_plan
 }
