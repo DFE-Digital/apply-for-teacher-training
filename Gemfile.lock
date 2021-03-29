@@ -161,7 +161,7 @@ GEM
     geocoder (1.6.6)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk-components (1.1.5)
+    govuk-components (1.1.6)
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.20)
