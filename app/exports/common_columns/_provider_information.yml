@@ -36,6 +36,8 @@ accrediting_provider_name:
 
 course_level:
   type: string
+  description: secondary, primary, or further_education
+  example: 'secondary'
 
 program_type:
   type: string
@@ -66,6 +68,8 @@ course_code:
 nctl_subject:
   type: array
   maxLength: 255
+  description: "The course’s two-digit subject codes, concatenated with a |"
+  example: '00|03'
   items:
     type: string
 
