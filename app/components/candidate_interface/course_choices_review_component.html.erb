@@ -101,3 +101,8 @@
 <% if show_missing_banner? %>
   <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
 <% end %>
+
+<h2 class="govuk-heading-m">Updating your contact information</h2>
+<p class="govuk-body">
+  To update your contact information, email us at <a href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>.
+</p>
