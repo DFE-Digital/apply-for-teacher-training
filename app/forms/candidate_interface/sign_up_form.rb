@@ -38,7 +38,7 @@ module CandidateInterface
     end
 
     def candidate_email_address_is_valid
-      if candidate && candidate.invalid?
+      if candidate&.invalid?
         candidate.errors[:email_address].each do |error|
           errors.add(:email_address, error)
         end

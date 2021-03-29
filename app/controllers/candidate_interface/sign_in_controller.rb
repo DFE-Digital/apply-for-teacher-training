@@ -44,7 +44,7 @@ module CandidateInterface
 
       redirect_to(action: :new) and return if authentication_token.nil?
 
-      if authentication_token && authentication_token.still_valid?
+      if authentication_token&.still_valid?
         candidate = authentication_token.user
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)

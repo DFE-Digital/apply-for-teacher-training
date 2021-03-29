@@ -91,6 +91,6 @@ private
   end
 
   def target_path_is_support_path
-    @target_path && @target_path.match(/^#{support_interface_path}/)
+    @target_path&.match(/^#{support_interface_path}/)
   end
 end

@@ -54,7 +54,7 @@ module ProviderInterface
     end
 
     def applicable?
-      course_option_in_new_cycle && course_option_in_new_cycle.course.open_on_apply
+      course_option_in_new_cycle&.course&.open_on_apply
     end
 
     def conditions_met?

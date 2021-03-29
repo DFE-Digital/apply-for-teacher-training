@@ -10,11 +10,9 @@ module APIDocs
     def properties
       props = []
 
-      if schema['allOf']
-        schema['allOf'].each do |schema_nested|
-          schema_nested.properties.each do |property|
-            props << property
-          end
+      schema['allOf']&.each do |schema_nested|
+        schema_nested.properties.each do |property|
+          props << property
         end
       end
 
