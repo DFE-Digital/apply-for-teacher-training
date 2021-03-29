@@ -49,10 +49,10 @@ module ProviderInterface
     def update
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?(:save)
-        ChangeAnOffer.new(actor: current_provider_user,
+        ::ChangeOffer.new(actor: current_provider_user,
                           application_choice: @application_choice,
                           course_option: @wizard.course_option,
-                          offer_conditions: @wizard.conditions).save
+                          conditions: @wizard.conditions).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
