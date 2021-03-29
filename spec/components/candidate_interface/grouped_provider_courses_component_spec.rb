@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
   before do
     @courses_by_provider_and_region = {
       'north_west' => [
-        CandidateInterface::ContentController::RegionProviderCourses.new('north_west', course.provider, [course]),
+        CandidateInterface::ContentController::RegionProviderCourses.new('north_west', course.provider.name, [course]),
         CandidateInterface::ContentController::RegionProviderCourses.new('north_west', 'Westerly Sixth Form', []),
       ],
       'south_east' => [

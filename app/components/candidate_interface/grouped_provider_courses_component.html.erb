@@ -2,28 +2,19 @@
 
 <% courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
   <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= label_for(region_code) %></h2>
-  <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+  <%= render GovukComponent::Accordion.new(id: region_code) do |component| %>
     <% courses_by_provider.each_with_index do |provider, index| %>
-      <section class="govuk-accordion__section">
-        <header class="govuk-accordion__section-header">
-          <h2 class="govuk-accordion__section-heading">
-            <span class="govuk-accordion__section-button" id="accordion-default-heading-<%= index %>"><%= provider.provider_name %></span>
-          </h2>
-        </header>
-        <div class="govuk-accordion__section-content" id="accordion-default-content-<%= index %>" aria-labelledby="accordion-default-heading-<%= index %>">
-          <ul class="govuk-list govuk-list--bullet">
+      <% component.slot(:section, title: provider.provider_name) do %>
+        <ul class="govuk-list govuk-list--bullet">
+          <% provider.courses.sort_by(&:name).each do |course| %>
             <% if find_down %>
-             <% provider.courses.sort_by(&:name).each do |course| %>
-               <li><%= course.name_and_code %></li>
-             <% end %>
-           <% else %>
-             <% provider.courses.sort_by(&:name).each do |course| %>
-               <li><%= govuk_link_to course.name_and_code, course.find_url %></li>
-             <% end %>
-           <% end %>
-          </ul>
-        </div>
-      </section>
+              <li><%= course.name_and_code %></li>
+            <% else %>
+              <li><%= govuk_link_to course.name_and_code, course.find_url %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
-  </div>
+  <% end %>
 <% end %>
