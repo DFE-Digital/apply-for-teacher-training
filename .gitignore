@@ -62,3 +62,7 @@ jmeter.log
 
 # RubyMine files
 .idea
+
+# Terraform files
+*.tfstate
+.terraform
