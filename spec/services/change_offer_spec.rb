@@ -11,7 +11,7 @@ RSpec.describe ChangeOffer do
   end
 
   describe '#save!' do
-    let(:application_choice) { create(:application_choice) }
+    let(:application_choice) { create(:application_choice, :with_offer) }
     let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
     let(:provider_user) { create(:provider_user, providers: [build(:provider)]) }
     let(:conditions) { [Faker::Lorem.sentence] }
@@ -28,7 +28,6 @@ RSpec.describe ChangeOffer do
     end
 
     describe 'if the new offer is identical to the current offer' do
-      let(:application_choice) { create(:application_choice) }
       let(:provider_user) do
         create(:provider_user,
                :with_make_decisions,
