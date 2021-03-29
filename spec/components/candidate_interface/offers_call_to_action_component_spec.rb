@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::OffersCallToActionComponent do
       example.run
     end
   end
-  
+
   it 'renders nothing if the application has no offers' do
     application_form = create_application_form_with_course_choices(
       statuses: %w[awaiting_provider_decision withdrawn rejected],
@@ -35,14 +35,14 @@ RSpec.describe CandidateInterface::OffersCallToActionComponent do
 
   def create_application_form_with_course_choices(statuses:, apply_again: false)
     previous_application_form = apply_again ? create_application_form_with_course_choices(statuses: %w[rejected]) : nil
- 
+
     application_form = create(
       :completed_application_form,
       submitted_at: 2.days.ago,
       previous_application_form: previous_application_form,
       phase: apply_again ? :apply_2 : :apply_1,
     )
-    application_choices = statuses.map do |status|
+    statuses.map do |status|
       create(
         :application_choice,
         application_form: application_form,

@@ -271,12 +271,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
-      expect(result.css('.govuk-summary-list__value').text).to include('Respond to application')
+      expect(result.css('.govuk-summary-list__value').text).to include('Respond to offer')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_offer_path(application_choice.id),
+        Rails.application.routes.url_helpers.candidate_interface_offer_path(
+          application_form.application_choices.offer.first,
+        ),
       )
       expect(result.css('.govuk-summary-list__value').text).to include(
-        'You can wait to hear back from everyone before you respond.'
+        'You can wait to hear back from everyone before you respond.',
       )
     end
 
@@ -287,10 +289,12 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       expect(result.css('.govuk-summary-list__value').text).not_to include('Respond to application')
       expect(result.css('.govuk-summary-list__value a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_offer_path(application_choice.id),
+        Rails.application.routes.url_helpers.candidate_interface_offer_path(
+          application_form.application_choices.offer.first.id,
+        ),
       )
       expect(result.css('.govuk-summary-list__value').text).to include(
-        "You have 5 days (until #{5.days.from_now.to_s(govuk_date)}) to respond.",
+        "You have 5 days (until #{5.days.from_now.to_s(:govuk_date)}) to respond.",
       )
     end
   end
@@ -356,9 +360,10 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
-  context 'when an interview has been cancelled' do
+  context 'when an interview has been cancelled and the status is withdrawn' do
     it 'renders the component without interview details' do
       application_choice = build(:application_choice, :with_completed_application_form, :with_cancelled_interview)
+      application_choice.withdrawn!
       application_form = application_choice.application_form
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))

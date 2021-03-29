@@ -110,6 +110,9 @@ module CandidateInterface
     end
 
     def interview_row(application_choice)
+      return unless application_choice.interviews.kept.any? ||
+        application_choice.awaiting_provider_decision?
+
       {
         key: 'Interview'.pluralize(application_choice.interviews.size),
         value: render(InterviewBookingsComponent.new(application_choice)),
@@ -130,10 +133,12 @@ module CandidateInterface
 
       {
         key: ' ',
-        value: render(CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
-          action: :withdraw,
-          application_choice: application_choice,
-        )),
+        value: render(
+          CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
+            action: :withdraw,
+            application_choice: application_choice,
+          ),
+        ),
       }
     end
 
@@ -142,10 +147,12 @@ module CandidateInterface
 
       {
         key: ' ',
-        value: render(CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
-          action: :respond_to_offer,
-          application_choice: application_choice,
-        )),
+        value: render(
+          CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
+            action: :respond_to_offer,
+            application_choice: application_choice,
+          ),
+        ),
       }
     end
 

@@ -145,6 +145,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_should_see_a_change_course_link
+    save_and_open_page
     expect(page).to have_content("Change course choice for #{@provider.courses.third.name}")
   end
 

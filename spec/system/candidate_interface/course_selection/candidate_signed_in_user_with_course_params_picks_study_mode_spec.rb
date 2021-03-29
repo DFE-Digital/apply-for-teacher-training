@@ -94,7 +94,6 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
   def then_i_should_see_it_on_my_review_page
     expect(page).to have_content "#{@course.name} (#{@course.code})"
     expect(page).to have_content 'Part time'
-    expect(page).to have_content @site.name
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
 end

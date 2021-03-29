@@ -10,7 +10,6 @@ RSpec.feature 'Candidate with unsuccessful application' do
     when_i_have_an_unsuccessful_application
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
-    and_i_click_on_start_now
     then_i_see_the_before_you_start_page
     and_i_am_told_my_new_application_is_ready_to_edit
 
@@ -30,7 +29,6 @@ RSpec.feature 'Candidate with unsuccessful application' do
     then_my_application_is_submitted_and_sent_to_the_provider
     and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
-    and_i_cannot_apply_again_yet
   end
 
   def given_the_pilot_is_open
@@ -59,11 +57,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def and_i_click_on_apply_again
-    click_on 'Do you want to apply again?'
-  end
-
-  def and_i_click_on_start_now
-    click_on 'Start now'
+    click_on 'Apply again'
   end
 
   def and_i_click_go_to_my_application_form
@@ -147,11 +141,5 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def and_i_do_not_see_referee_related_guidance
     expect(page).not_to have_content 'References'
-  end
-
-  def and_i_cannot_apply_again_yet
-    visit candidate_interface_start_apply_again_path
-    and_i_click_on_start_now
-    expect(page).to have_current_path candidate_interface_application_complete_path
   end
 end

@@ -8,7 +8,7 @@ module CandidateInterface
       1 => 'One',
       2 => 'Two',
       3 => 'Three',
-    }
+    }.freeze
 
     def initialize(application_form:)
       @application_form = application_form
@@ -42,13 +42,13 @@ module CandidateInterface
       multiple_choices_with_status?('offer')
     end
 
-    def number_of_offers_in_words 
+    def number_of_offers_in_words
       count = statuses.select { |s| s == 'offer' }.count
       NUMBER_IN_WORDS[count] || count.to_s
     end
 
-    def accepted_offer_provider_name 
-      accepted_application_choice = application_form.application_choices.select { |application_choice| %w[pending_conditions recruited].include?(application_choice.status) }.first
+    def accepted_offer_provider_name
+      accepted_application_choice = application_form.application_choices.includes(%i[course provider]).select { |application_choice| %w[pending_conditions recruited].include?(application_choice.status) }.first
       accepted_application_choice.provider.name
     end
 

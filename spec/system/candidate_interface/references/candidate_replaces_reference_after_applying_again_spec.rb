@@ -10,7 +10,6 @@ RSpec.feature 'Candidate applying again' do
     when_i_have_an_unsuccessful_application_with_references
     and_i_visit_the_application_dashboard
     and_i_click_on_apply_again
-    and_i_click_on_start_now
     and_i_am_told_my_new_application_is_ready_to_edit
 
     when_i_click_go_to_my_application_form
@@ -53,11 +52,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def and_i_click_on_apply_again
-    click_on 'Do you want to apply again?'
-  end
-
-  def and_i_click_on_start_now
-    click_on 'Start now'
+    click_on 'Apply again'
   end
 
   def and_i_am_told_my_new_application_is_ready_to_edit

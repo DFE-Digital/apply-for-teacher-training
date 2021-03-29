@@ -9,11 +9,11 @@ module CandidateInterface
 
     def title
       if offers_declined?
-        "You’ve declined #{ multiple_offers_declined? ? 'all of your offers' : 'your offer' }."
+        "You’ve declined #{multiple_offers_declined? ? 'all of your offers' : 'your offer'}."
       elsif applications_withdrawn?
-        "You’ve withdrawn your #{ multiple_offers_withdrawn? ? 'applications' : 'application' }"
+        "You’ve withdrawn your #{multiple_offers_withdrawn? ? 'applications' : 'application'}"
       else
-        "Your #{ multiple_applications? ? 'applications were' : 'application was' } unsuccessful"
+        "Your #{multiple_applications? ? 'applications were' : 'application was'} unsuccessful"
       end
     end
 
