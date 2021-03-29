@@ -42,6 +42,19 @@ RSpec.describe MakeOffer do
       end
     end
 
+    describe 'if the .save returns false for any reason' do
+      it 'throws an exception' do
+        make_an_offer = instance_double(MakeAnOffer)
+        allow(MakeAnOffer).to receive(:new).and_return(make_an_offer)
+        allow(make_an_offer).to receive(:save).and_return(false)
+        allow(make_an_offer).to receive(:errors).and_return({ base: [] })
+
+        expect {
+          make_offer.save!
+        }.to raise_error('Unable to complete save on make_an_offer')
+      end
+    end
+
     describe 'if the provided details are correct' do
       let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision) }
       let(:provider_user) do
@@ -54,11 +67,11 @@ RSpec.describe MakeOffer do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
         allow(SetDeclineByDefault)
-          .to receive(:new).with(application_form: application_choice.application_form)
-          .and_return(set_declined_by_default)
+            .to receive(:new).with(application_form: application_choice.application_form)
+                    .and_return(set_declined_by_default)
         allow(SendNewOfferEmailToCandidate)
-          .to receive(:new).with(application_choice: application_choice)
-          .and_return(send_new_offer_email_to_candidate)
+            .to receive(:new).with(application_choice: application_choice)
+                    .and_return(send_new_offer_email_to_candidate)
 
         make_offer.save!
 
