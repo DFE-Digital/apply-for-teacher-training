@@ -34,16 +34,16 @@ module RegisterAPI
             english_language_qualifications: application_form.english_language_qualification_details,
             other_languages: application_form.other_language_details,
             disability_disclosure: application_form.disability_disclosure, # do we need this?
-            gender: application_form.equality_and_diversity.try(:[], 'sex'),
-            disabilities: application_form.equality_and_diversity.try(:[], 'disabilities'),
-            ethnic_group: application_form.equality_and_diversity.try(:[], 'ethnic_group'),
-            ethnic_background: application_form.equality_and_diversity.try(:[], 'ethnic_background'),
+            gender: equality_and_diversity_data['sex'],
+            disabilities: equality_and_diversity_data['disabilities'].presence || [],
+            ethnic_group: equality_and_diversity_data['ethnic_group'],
+            ethnic_background: equality_and_diversity_data['ethnic_background'],
           },
           contact_details: contact_details,
           course: course_info_for(application_choice.offered_option),
           provider: provider_info_for(application_choice.offered_option.course.provider),
           qualifications: qualifications,
-          hesa_itt_data: hesa_itt_data,
+          hesa_itt_data: hesa_itt_data.presence || {},
         },
       }
     end
@@ -97,7 +97,7 @@ module RegisterAPI
         subject_codes: course_option.course.subject_codes,
         program_type: course_option.course.program_type,
         start_date: course_option.course.start_date.strftime('%Y-%m'),
-        # Register would like end_date but we can't calculate it becuase
+        # Register would like end_date but we can't calculate it because
         # course_length is a string. Typical values are 'OneYear', 'Two years'
         # and some free text inputs
         course_length: course_option.course.course_length,
@@ -231,15 +231,17 @@ module RegisterAPI
     end
 
     def hesa_itt_data
-      equality_and_diversity_data = application_form&.equality_and_diversity
-
-      if equality_and_diversity_data
+      if equality_and_diversity_data.present?
         {
           sex: equality_and_diversity_data['hesa_sex'],
           disability: equality_and_diversity_data['hesa_disabilities'],
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
         }
       end
+    end
+
+    def equality_and_diversity_data
+      application_form.equality_and_diversity || {}
     end
   end
 end
