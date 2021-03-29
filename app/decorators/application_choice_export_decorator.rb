@@ -13,7 +13,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
   def missing_gcses_explanation(separator_string: ',')
     application_form
       .application_qualifications
-      .gcses
+      .select { |qualification| qualification.level == 'gcse' }
       .select(&:missing_qualification?)
       .map { |gcse| "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.missing_explanation}" }
       .join(separator_string)
