@@ -3,7 +3,6 @@ module CandidateInterface
     class SiteSelectionController < BaseController
       def new
         candidate_is_updating_a_choice = params[:course_choice_id]
-        @available_sites = PickSiteForm.available_sites(params.fetch(:course_id), params.fetch(:study_mode))
 
         if candidate_is_updating_a_choice
           @course_choice_id = params[:course_choice_id]
@@ -36,6 +35,13 @@ module CandidateInterface
           )
           .call
       end
+
+    private
+
+      def available_sites
+        PickSiteForm.available_sites(params.fetch(:course_id), params.fetch(:study_mode))
+      end
+      helper_method :available_sites
     end
   end
 end
