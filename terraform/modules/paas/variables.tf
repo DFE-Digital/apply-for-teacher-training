@@ -1,6 +1,6 @@
 variable "cf_api_url" {}
 
-variable "cf_user" { default = null}
+variable "cf_user" { default = null }
 
 variable "cf_user_password" { default = null }
 
@@ -20,8 +20,18 @@ variable "app_environment" {}
 
 variable "app_environment_variables" {}
 
+variable "postgres_service_plan" {}
+
+variable "redis_service_plan" {}
+
 locals {
-  web_app_name = "apply-${var.app_environment}"
+  web_app_name          = "apply-${var.app_environment}"
+  postgres_service_name = "apply-postgres-${var.app_environment}"
+  redis_service_name    = "apply-redis-${var.app_environment}"
+  postgres_params = {
+    enable_extensions = ["pgcrypto"]
+  }
+  app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis]
   service_gov_uk_host_names = {
     qa      = "qa"
     staging = "staging"

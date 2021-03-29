@@ -14,3 +14,11 @@ data "cloudfoundry_domain" "london_cloudapps_digital" {
 data "cloudfoundry_domain" "apply_service_gov_uk" {
   name = "apply-for-teacher-training.service.gov.uk"
 }
+
+data "cloudfoundry_service" "postgres" {
+  name = "postgres"
+}
+
+data "cloudfoundry_service" "redis" {
+  name = "redis"
+}

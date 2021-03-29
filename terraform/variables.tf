@@ -11,6 +11,10 @@ variable "paas_web_app_memory" {}
 
 variable "paas_web_app_instances" {}
 
+variable "paas_postgres_service_plan" {}
+
+variable "paas_redis_service_plan" {}
+
 # Key Vault variables
 variable "azure_credentials" {}
 

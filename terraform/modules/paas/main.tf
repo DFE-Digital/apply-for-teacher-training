@@ -25,13 +25,19 @@ resource "cloudfoundry_app" "web_app" {
   strategy                   = "blue-green-v2"
   timeout                    = 180
   environment                = var.app_environment_variables
+  docker_credentials         = var.docker_credentials
   dynamic "routes" {
     for_each = local.web_app_routes
     content {
       route = routes.value.id
     }
   }
-  docker_credentials = var.docker_credentials
+  dynamic "service_binding" {
+    for_each = local.app_service_bindings
+    content {
+      service_instance = service_binding.value.id
+    }
+  }
 }
 
 resource "cloudfoundry_route" "web_app_cloudapps_digital_route" {
@@ -44,4 +50,17 @@ resource "cloudfoundry_route" "web_app_service_gov_uk_route" {
   domain   = data.cloudfoundry_domain.apply_service_gov_uk.id
   space    = data.cloudfoundry_space.space.id
   hostname = local.service_gov_uk_host_names[var.app_environment]
+}
+
+resource "cloudfoundry_service_instance" "postgres" {
+  name         = local.postgres_service_name
+  space        = data.cloudfoundry_space.space.id
+  service_plan = data.cloudfoundry_service.postgres.service_plans[var.postgres_service_plan]
+  json_params  = jsonencode(local.postgres_params)
+}
+
+resource "cloudfoundry_service_instance" "redis" {
+  name         = local.redis_service_name
+  space        = data.cloudfoundry_space.space.id
+  service_plan = data.cloudfoundry_service.redis.service_plans[var.redis_service_plan]
 }
