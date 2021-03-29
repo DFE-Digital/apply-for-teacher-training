@@ -7,6 +7,7 @@ class DetectInvariants
     detect_outstanding_references_on_submitted_applications
     detect_unauthorised_application_form_edits
     detect_applications_with_course_choices_in_previous_cycle
+    detect_submitted_applications_with_more_than_three_course_choices
   end
 
   def detect_application_choices_in_old_states
@@ -93,10 +94,32 @@ class DetectInvariants
     end
   end
 
+  def detect_submitted_applications_with_more_than_three_course_choices
+    applications_with_too_many_choices = ApplicationForm
+      .joins(:application_choices)
+      .where.not(application_choices: { status: 'unsubmitted' })
+      .group('application_forms.id')
+      .having('count(application_choices) > 3')
+      .sort
+
+    if applications_with_too_many_choices.any?
+      urls = applications_with_too_many_choices.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
+
+      message = <<~MSG
+        The following application forms have been submitted with more than three course choices
+
+        #{urls.join("\n")}
+      MSG
+
+      Raven.capture_exception(SubmittedApplicationHasMoreThanThreeChoices.new(message))
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
+  class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
 
 private
 
