@@ -27,13 +27,9 @@ You can apply for another course at this stage if you do not get an offer or if 
 
 ### Making changes to your application
 
-Contact us at <%= bat_contact_mail_to %> if you need to make changes. We only have 5 working days to make changes for you.
+Once you submit your application it is automatically sent to the training provider. To change your application after you’ve submitted it, contact us as soon as possible at <%= bat_contact_mail_to %>.
 
-Once we’ve processed your request, we will not be able to make any more changes.
-
-You can add more courses (if you have not reached your limit of 3) or change the courses you have chosen.
-
-You can ask us to amend your name or contact details at any point until you are enrolled on a course.
+You can ask us to add courses (if you have not reached your limit of 3) and change your name and contact details too.
 
 If you have heard back from your training provider, for example if they have turned down your application, we will not be able to change your choice of course.
 
@@ -47,7 +43,13 @@ You can withdraw your application at any point, even after you have accepted an 
 
 The Department of Education does not decide on your application. The course provider does.
 
-There are deadlines that you and the course provider will need to meet. We’ll tell you what they are when you apply. If you, or the course provider, do not respond in time your application might be deleted.
+If a course provider does not make a decision within 40 working days your application will automatically be turned down.
+
+You have 10 working days to accept or decline an offer from a training provider.
+
+The 10 days starts once you’ve heard back from all of the course providers you have applied to.
+
+If you’re applying through both UCAS and Apply for teacher training, be aware that the 10 days might start at different times.
 
 ## How we check your suitability for working with children
 
