@@ -47,7 +47,7 @@ en:
     offer: Offer received
     offer_withdrawn: Offer withdrawn
     pending_conditions: Offer accepted
-    recruited: Conditions met
+    recruited: Offer confirmed
     rejected: Unsuccessful
     application_not_sent: Application not sent
     unsubmitted: Not submitted yet
