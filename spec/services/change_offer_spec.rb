@@ -7,33 +7,38 @@ RSpec.describe ChangeOffer do
     ChangeOffer.new(actor: provider_user,
                     application_choice: application_choice,
                     course_option: course_option,
-                    conditions: conditions)
+                    conditions: new_conditions)
   end
 
   describe '#save!' do
-    let(:application_choice) { create(:application_choice, :with_offer) }
+    let(:provider_user) do
+      create(:provider_user,
+             :with_make_decisions,
+             providers: [application_choice.offered_option.provider])
+    end
     let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
-    let(:provider_user) { create(:provider_user, providers: [build(:provider)]) }
-    let(:conditions) { [Faker::Lorem.sentence] }
+    let(:new_conditions) { [Faker::Lorem.sentence] }
+    let(:application_choice) do
+      create(:application_choice, :with_offer, offer: { 'conditions' => ['DBS check'] })
+    end
 
     describe 'if the actor is not authorised to perform this action' do
+      let(:provider_user) do
+        create(:provider_user,
+               providers: [application_choice.offered_option.provider])
+      end
+
       it 'throws an exception' do
         expect {
           change_offer.save!
         }.to raise_error(
           ProviderAuthorisation::NotAuthorisedError,
-          'You are not permitted to view this application. The specified course is not associated with any of your organisations. You do not have the required user level permissions to make decisions on applications for this provider.',
+          'You do not have the required user level permissions to make decisions on applications for this provider.',
         )
       end
     end
 
     describe 'if the new offer is identical to the current offer' do
-      let(:provider_user) do
-        create(:provider_user,
-               :with_make_decisions,
-               providers: [application_choice.offered_option.provider])
-      end
-
       let(:change_offer) do
         ChangeOffer.new(actor: provider_user,
                         application_choice: application_choice,
@@ -42,8 +47,6 @@ RSpec.describe ChangeOffer do
       end
 
       it 'raises an IdenticalOfferError' do
-        application_choice.update(offer: { 'conditions' => ['DBS check'] })
-
         expect {
           change_offer.save!
         }.to raise_error(
@@ -59,12 +62,6 @@ RSpec.describe ChangeOffer do
           provider: application_choice.course_option.provider,
           course: create(:course, provider: application_choice.course_option.provider, open_on_apply: false),
         )
-      end
-
-      let(:provider_user) do
-        create(:provider_user,
-               :with_make_decisions,
-               providers: [application_choice.course_option.provider])
       end
 
       it 'raises a Course Validation Error' do
