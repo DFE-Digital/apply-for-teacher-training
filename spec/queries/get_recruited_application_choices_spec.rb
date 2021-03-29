@@ -65,4 +65,30 @@ RSpec.describe GetRecruitedApplicationChoices do
     application_choices = described_class.call(recruitment_cycle_year: '2022')
     expect(application_choices).to be_empty
   end
+
+  context 'when changed_since is set' do
+    it 'returns the applications with updated_at timestamps after the since timestamp' do
+      deferred_application = create(
+        :application_choice,
+        :with_deferred_offer_previously_recruited,
+        application_form: build(:application_form, recruitment_cycle_year: '2021'),
+        updated_at: Time.zone.now + 1.day,
+      )
+
+      application_choices = described_class.call(recruitment_cycle_year: '2021', changed_since: Time.zone.now)
+      expect(application_choices).to contain_exactly(deferred_application)
+    end
+
+    it 'does not return the applications with updated_at timestamps before the since timestamp' do
+      create(
+        :application_choice,
+        :with_deferred_offer_previously_recruited,
+        application_form: build(:application_form, recruitment_cycle_year: '2021'),
+        updated_at: Time.zone.now - 1.day,
+      )
+
+      application_choices = described_class.call(recruitment_cycle_year: '2021', changed_since: Time.zone.now)
+      expect(application_choices).to be_empty
+    end
+  end
 end
