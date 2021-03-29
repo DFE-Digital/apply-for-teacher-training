@@ -4,7 +4,7 @@
   <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= label_for(region_code) %></h2>
   <%= render GovukComponent::Accordion.new(id: region_code) do |component| %>
     <% courses_by_provider.each_with_index do |provider, index| %>
-      <% component.slot(:section, title: "#{provider.provider_name}") do %>
+      <% component.slot(:section, title: provider.provider_name) do %>
         <ul class="govuk-list govuk-list--bullet">
           <% provider.courses.sort_by(&:name).each do |course| %>
             <% if find_down %>
