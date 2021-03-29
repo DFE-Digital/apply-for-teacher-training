@@ -5,7 +5,7 @@ module ProviderInterface
         @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'locations', action: action })
         @wizard.save_state!
 
-        @course_options = available_course_options(@wizard.course_id, @wizard.study_mode)
+        @course_options = available_course_options(@wizard.course_id, @wizard.study_mode).includes([:site])
       end
 
       def create

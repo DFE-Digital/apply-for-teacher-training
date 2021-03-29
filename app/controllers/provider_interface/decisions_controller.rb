@@ -6,7 +6,7 @@ module ProviderInterface
 
     def new
       @wizard = OfferWizard.new(offer_store,
-                                offer_context_params(@application_choice.course_option).merge!(current_step: 'select_option', action: action))
+                                offer_context_params.merge!(current_step: 'select_option', action: action))
       @wizard.save_state!
     end
 
@@ -154,9 +154,12 @@ module ProviderInterface
       params.require(:make_an_offer)
     end
 
-    def offer_context_params(course_option)
+    def offer_context_params
+      course_option = @application_choice.course_option
+
       {
         provider_user_id: current_provider_user.id,
+        application_choice_id: @application_choice.id,
         course_id: course_option.course.id,
         course_option_id: course_option.id,
         provider_id: course_option.provider.id,

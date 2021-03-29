@@ -39,7 +39,7 @@ module ProviderInterface
     end
 
     def change_provider_path
-      available_providers.many? ? new_provider_interface_application_choice_offer_providers_path(application_choice) : nil
+      available_providers.length > 1 ? new_provider_interface_application_choice_offer_providers_path(application_choice) : nil
     end
 
     def change_course_path

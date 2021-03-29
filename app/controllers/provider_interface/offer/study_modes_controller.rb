@@ -56,9 +56,10 @@ module ProviderInterface
       end
 
       def available_study_modes(course)
-        course.available_study_modes_from_options.map do |study_mode|
-          Struct.new(:id, :value).new(study_mode, study_mode.humanize)
-        end
+        GetChangeOfferOptions.new(
+          user: current_provider_user,
+          current_course: @application_choice.offered_course,
+        ).available_study_modes(course: course)
       end
     end
   end

@@ -33,16 +33,14 @@ module ProviderInterface
 
     def show
       @wizard = OfferWizard.new(offer_store,
-                                offer_context_params(@application_choice.offered_course_option,
-                                                     @application_choice.offer['conditions'],
-                                                     :change_offer).merge!(current_step: :offer))
+                                offer_context_params(:change_offer).merge!(current_step: :offer))
       @wizard.configure_additional_conditions(@application_choice.offer['conditions'] - MakeAnOffer::STANDARD_CONDITIONS)
       @wizard.save_state!
 
       return unless provider_user_can_make_decisions
 
       @providers = available_providers
-      @courses = available_courses(@application_choice.offered_course.provider_id)
+      @courses = available_courses(@application_choice.offered_course.provider.id)
       @course_options = available_course_options(@application_choice.offered_course.id, @application_choice.offered_course_option.study_mode)
     end
 
@@ -87,22 +85,32 @@ module ProviderInterface
       'back' if !!params[:back]
     end
 
+    def query_service
+      @query_service ||= GetChangeOfferOptions.new(
+        user: current_provider_user,
+        current_course: @application_choice.offered_course,
+      )
+    end
+
     def available_providers
-      current_provider_user.providers
+      query_service.available_providers
     end
 
     def available_courses(provider_id)
-      Course.where(provider_id: provider_id)
+      query_service.available_courses(provider: Provider.find(provider_id))
     end
 
     def available_course_options(course_id, study_mode)
-      CourseOption.where(course_id: course_id, study_mode: study_mode)
-                  .includes(:site).order('sites.name')
+      query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
     end
 
-    def offer_context_params(course_option, conditions = MakeAnOffer::STANDARD_CONDITIONS, decision = :default)
+    def offer_context_params(decision = :default)
+      course_option = @application_choice.offered_option
+      conditions = @application_choice.offer['conditions'] || MakeAnOffer::STANDARD_CONDITIONS
+
       {
         provider_user_id: current_provider_user.id,
+        application_choice_id: @application_choice.id,
         course_id: course_option.course.id,
         course_option_id: course_option.id,
         provider_id: course_option.provider.id,

@@ -8,7 +8,8 @@ module ProviderInterface
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
                   :further_condition_3, :further_condition_4, :current_step, :decision,
-                  :path_history, :action, :provider_user_id, :wizard_path_history
+                  :action, :path_history, :wizard_path_history,
+                  :provider_user_id, :application_choice_id
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -90,21 +91,27 @@ module ProviderInterface
       next_step(step)
     end
 
+    def query_service
+      @query_service ||= GetChangeOfferOptions.new(
+        user: ProviderUser.find(provider_user_id),
+        current_course: ApplicationChoice.find(application_choice_id).offered_course,
+      )
+    end
+
     def available_study_modes
-      Course.find(course_id).available_study_modes_from_options
+      query_service.available_study_modes(course: Course.find(course_id))
     end
 
     def available_course_options
-      CourseOption.where(course_id: course_id, study_mode: study_mode)
+      query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
     end
 
     def available_courses
-      Course.where(provider_id: provider_id)
+      query_service.available_courses(provider: Provider.find(provider_id))
     end
 
     def available_providers
-      provider_user = ProviderUser.find(provider_user_id)
-      provider_user.providers
+      query_service.available_providers
     end
 
     def last_saved_state
@@ -113,7 +120,9 @@ module ProviderInterface
     end
 
     def state
-      as_json(except: %w[state_store errors validation_context course_option wizard_path_history]).to_json
+      as_json(
+        except: %w[state_store errors validation_context query_service course_option wizard_path_history],
+      ).to_json
     end
 
     def update_path_history(attrs)
