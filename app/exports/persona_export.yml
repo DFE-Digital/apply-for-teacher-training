@@ -53,7 +53,6 @@ custom_columns:
     enum:
       - scitt
       - university
-      - hei
 
   degree_award_year:
     type: integer
