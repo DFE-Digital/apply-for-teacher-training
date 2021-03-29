@@ -52,7 +52,7 @@ RSpec.feature 'Confirm conditions not met' do
     @application_choice = create(
       :application_choice,
       :with_accepted_offer,
-      course_option: @course_option,
+      offered_course_option: @course_option,
       application_form: @application_form,
     )
     visit provider_interface_application_choice_path(@application_choice.id)
@@ -62,7 +62,7 @@ RSpec.feature 'Confirm conditions not met' do
     conditions_met = create(
       :application_choice,
       :with_recruited,
-      course_option: course_option_for_provider_code(provider_code: @provider.code),
+      offered_course_option: course_option_for_provider_code(provider_code: @provider.code),
     )
     visit provider_interface_application_choice_path(conditions_met.id)
   end

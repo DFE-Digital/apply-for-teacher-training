@@ -1,20 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::OfferSummaryComponent do
+  include Rails.application.routes.url_helpers
+
   let(:application_choice) { build_stubbed(:application_choice) }
   let(:course_option) { build_stubbed(:course_option) }
   let(:providers) { [] }
   let(:course) { build_stubbed(:course) }
   let(:courses) { [] }
   let(:course_options) { [] }
+  let(:editable) { true }
   let(:render) do
-    render_inline(described_class.new(application_choice: application_choice,
-                                      course_option: course_option,
-                                      conditions: ['condition 1', 'condition 2'],
+    render_inline(described_class.new(application_choice: application_choice, course_option: course_option,
+                                      conditions: ['condition 1'],
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,
-                                      course: course))
+                                      course: course,
+                                      editable: editable))
   end
 
   def row_text_selector(row_name, render)
@@ -107,8 +110,62 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
   end
 
-  it 'renders conditions' do
-    expect(render.css('.conditions').text).to include('condition 1')
-    expect(render.css('.conditions').text).to include('condition 2')
+  context 'when conditions are set' do
+    context 'when application is recruited' do
+      let(:application_choice) { build_stubbed(:application_choice, :with_recruited) }
+
+      it 'renders conditions as met' do
+        expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Met')
+        expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
+
+    context 'when application is on conditions_not_met' do
+      let(:application_choice) { build_stubbed(:application_choice, :with_conditions_not_met) }
+
+      it 'renders conditions as met' do
+        expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Not met')
+        expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
+
+    context 'when application is on offer state' do
+      let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+
+      it 'renders conditions as met' do
+        expect(render.css('.conditions-row .govuk-tag')[0].text).to eq('Pending')
+        expect(render.css('.conditions-row .govuk-table__cell')[0].text).to eq('condition 1')
+      end
+    end
+  end
+
+  describe '#editable' do
+    context 'when true' do
+      let(:editable) { true }
+
+      context 'when application is in offer state' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+
+        it 'displays the conditions change link' do
+          expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(new_provider_interface_application_choice_offer_conditions_path(application_choice))
+        end
+      end
+
+      context 'when application is in condititions_pending state' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
+
+        it 'displays the update condition link' do
+          expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(provider_interface_application_choice_edit_conditions_path(application_choice))
+        end
+      end
+    end
+
+    context 'when false' do
+      let(:editable) { false }
+
+      it 'does not display any change links' do
+        expect(render.css('.govuk-body').css('a').first).to eq(nil)
+      end
+    end
   end
 end

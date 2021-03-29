@@ -19,9 +19,33 @@ module ProviderInterface
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
           @course = Course.find(@wizard.course_id)
-          @study_modes = avalable_study_modes(@course)
+          @study_modes = available_study_modes(@course)
 
           render :new
+        end
+      end
+
+      def edit
+        @wizard = OfferWizard.new(offer_store, { current_step: 'study_modes', action: action })
+        @wizard.save_state!
+
+        @course = Course.find(@wizard.course_id)
+        @study_modes = available_study_modes(@course)
+      end
+
+      def update
+        @wizard = OfferWizard.new(offer_store, study_mode_params.to_h)
+        @wizard.course_option_id = nil if @wizard.course_option_id && @wizard.course_option.study_mode != @wizard.study_mode
+
+        if @wizard.valid_for_current_step?
+          @wizard.save_state!
+
+          redirect_to [:edit, :provider_interface, @application_choice, :offer, @wizard.next_step]
+        else
+          @course = Course.find(@wizard.course_id)
+          @study_modes = available_study_modes(@course)
+
+          render :edit
         end
       end
 

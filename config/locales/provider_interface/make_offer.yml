@@ -8,26 +8,41 @@ en:
       providers:
         new:
           title: Select provider
+        edit:
+          title: Select training provider
       courses:
         new:
+          title: Select course
+        edit:
           title: Select course
       locations:
         new:
           title: Select location
+        edit:
+          title: Select location
       study_modes:
         new:
           title: Select full time or part time
+        edit:
+          title: Select full time or part time
       conditions:
         new:
+          title: Conditions of offer
+        edit:
           title: Conditions of offer
       checks:
         new:
           title: Check and send offer
           submit: Send offer
+        edit:
+          title: Check and send new offer
+          submit: Send new offer
     offers:
       failure: Sorry, there is a problem with the service.
       create:
         success: Offer sent
+      update:
+        success: New offer sent
   helpers:
     label:
       provider_interface_offer_wizard:

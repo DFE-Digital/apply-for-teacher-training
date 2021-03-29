@@ -2,9 +2,9 @@ module ProviderInterface
   class OfferSummaryComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options
+    attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :editable, :show_conditions_link
 
-    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [])
+    def initialize(application_choice:, course:, course_option:, conditions:, available_providers: [], available_courses: [], available_course_options: [], border: true, editable: true, show_conditions_link: false)
       @application_choice = application_choice
       @course_option = course_option
       @conditions = conditions
@@ -12,6 +12,9 @@ module ProviderInterface
       @available_courses = available_courses
       @available_course_options = available_course_options
       @course = course
+      @border = border
+      @editable = editable
+      @show_conditions_link = show_conditions_link
     end
 
     def rows
@@ -49,6 +52,28 @@ module ProviderInterface
 
     def change_study_mode_path
       course.full_time_or_part_time? ? new_provider_interface_application_choice_offer_study_modes_path(application_choice) : nil
+    end
+
+    def conditions_met?
+      return application_choice.status_before_deferral == 'recruited' if application_choice.status == 'offer_deferred'
+
+      application_state.current_state == :recruited
+    end
+
+    delegate :conditions_not_met?, to: :application_state
+
+  private
+
+    def application_state
+      @application_state ||= ApplicationStateChange.new(application_choice)
+    end
+
+    def border_class
+      'no-border' unless border
+    end
+
+    def mode
+      :new
     end
   end
 end

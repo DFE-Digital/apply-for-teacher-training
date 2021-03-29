@@ -1,12 +1,22 @@
-<div class="app-offer-panel app-banner app-banner--details">
+<div class="app-offer-panel app-banner app-banner--details <%= border_class %>">
   <h2 class="govuk-heading-m">Course details</h2>
   <%= render SummaryCardComponent.new(rows: rows, border: false) %>
 
   <h2 class="govuk-heading-m">Conditions of offer</h2>
 
-  <div class='govuk-body'>
-    <%= govuk_link_to 'Add or change conditions', [:new, :provider_interface, @application_choice, :offer, :conditions] %>
-  </div>
+  <% if editable %>
+    <% if @application_choice.pending_conditions? %>
+      <div class='govuk-body'>
+        <%= govuk_link_to 'Update status of conditions', provider_interface_application_choice_edit_conditions_path(@application_choice) %>
+      </div>
+    <% end %>
+
+    <% if @application_choice.offer? || show_conditions_link %>
+      <div class='govuk-body'>
+        <%= govuk_link_to 'Add or change conditions', [mode, :provider_interface, @application_choice, :offer, :conditions] %>
+      </div>
+    <% end %>
+  <% end %>
 
   <% if conditions.any? %>
     <table class="govuk-table govuk-!-margin-bottom-2 conditions">
@@ -15,7 +25,13 @@
           <tr class="govuk-table__row conditions-row">
             <td class="govuk-table__cell"><%= condition %></td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
+              <% if conditions_met? %>
+                <strong class="govuk-tag govuk-tag--green app-tag">Met</strong>
+              <% elsif conditions_not_met? %>
+                <strong class="govuk-tag govuk-tag--red app-tag">Not met</strong>
+              <% else %>
+                <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
+              <% end %>
             </td>
           </tr>
         <% end %>

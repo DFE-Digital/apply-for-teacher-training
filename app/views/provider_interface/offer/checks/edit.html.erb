@@ -1,0 +1,36 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :edit, back: true)) %>
+
+<%= form_with model: @wizard, url: provider_interface_application_choice_offers_path(@application_choice), method: :put do |f| %>
+  <h1 class="govuk-heading-l">
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    <%= t('.title') %>
+  </h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+      <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
+                                                                       course_option: @wizard.course_option,
+                                                                       conditions: @wizard.conditions,
+                                                                       course: @wizard.course_option.course,
+                                                                       available_providers: @providers,
+                                                                       available_courses: @courses,
+                                                                       available_course_options: @course_options) %>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive"></span>
+          When you send this offer, you guarantee a place on this course as long as the candidate meets the conditions.
+        </strong>
+      </div>
+
+      <%= f.govuk_submit t('.submit') %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>

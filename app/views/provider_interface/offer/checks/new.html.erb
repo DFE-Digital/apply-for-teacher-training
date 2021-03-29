@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, back: true)) %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :new, back: true)) %>
 
 <%= form_with model: @wizard, url: provider_interface_application_choice_offers_path(@application_choice), method: :post do |f| %>
   <h1 class="govuk-heading-l">
@@ -16,7 +16,8 @@
                                                               course: @wizard.course_option.course,
                                                               available_providers: @providers,
                                                               available_courses: @courses,
-                                                              available_course_options: @course_options) %>
+                                                              available_course_options: @course_options,
+                                                              show_conditions_link: true) %>
 
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

@@ -1,6 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: form_object, url: form_path, method: :post do |f| %>
+    <%= form_with model: form_object, url: form_path, method: form_method do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_collection_radio_buttons attribute,

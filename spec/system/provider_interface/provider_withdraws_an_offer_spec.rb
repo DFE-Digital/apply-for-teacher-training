@@ -33,7 +33,7 @@ RSpec.feature 'Provider withdraws an offer' do
 
   def and_an_offered_application_choice_exists_for_my_provider
     course_option = course_option_for_provider_code(provider_code: 'ABC')
-    @application_offered = create(:application_choice, status: 'offer', offered_at: Time.zone.now, course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
+    @application_offered = create(:application_choice, :with_offer, offered_course_option: course_option)
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider

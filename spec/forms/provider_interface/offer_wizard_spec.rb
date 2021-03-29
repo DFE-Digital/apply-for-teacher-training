@@ -231,4 +231,13 @@ RSpec.describe ProviderInterface::OfferWizard do
                                        further_condition_3])
     end
   end
+
+  describe '#configure_additional_conditions' do
+    it 'sets further conditions when any defined' do
+      wizard.configure_additional_conditions(['Swimming diploma', 'GCSE A Level in Languages'])
+
+      expect(wizard.further_condition_1).to eq('Swimming diploma')
+      expect(wizard.further_condition_2).to eq('GCSE A Level in Languages')
+    end
+  end
 end
