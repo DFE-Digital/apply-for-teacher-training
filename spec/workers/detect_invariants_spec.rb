@@ -107,5 +107,23 @@ RSpec.describe DetectInvariants do
         ),
       )
     end
+
+    it 'detects submitted applications with more than three course choices' do
+      create(:completed_application_form, submitted_application_choices_count: 3)
+      bad_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).once
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::SubmittedApplicationHasMoreThanThreeChoices.new(
+          <<~MSG,
+            The following application forms have been submitted with more than three course choices
+
+            http://localhost:3000/support/applications/#{bad_application_form.id}
+          MSG
+        ),
+      )
+    end
   end
 end
