@@ -201,7 +201,7 @@ module CandidateInterface
     end
 
     def has_multiple_sites?(application_choice)
-      CourseOption.where(course_id: application_choice.offered_course.id, study_mode: application_choice.offered_option.study_mode).many?
+      CourseOption.available.where(course_id: application_choice.offered_course.id, study_mode: application_choice.offered_option.study_mode).many?
     end
 
     def has_multiple_courses?(application_choice)

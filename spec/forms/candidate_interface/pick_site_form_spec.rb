@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::PickSiteForm, type: :model do
+  describe '.available_sites' do
+    it 'returns available course options for the provided course/study mode combo' do
+      available = create(:course_option, :full_time)
+      create(:course_option, :no_vacancies, course: available.course, study_mode: available.study_mode)
+      create(:course_option, site_still_valid: false, course: available.course, study_mode: available.study_mode)
+
+      expect(described_class.available_sites(available.course, available.study_mode))
+        .to eq [available]
+    end
+  end
+
   describe '#valid?' do
     it 'checks if the user has no more than 3 choices' do
       application_form = create(:application_form)
