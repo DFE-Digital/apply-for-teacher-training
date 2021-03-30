@@ -75,6 +75,12 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops, with_audited: true do
     expect(p2.audits.count).to eq(1)
   end
 
+  it 'can handle providers without any audits' do
+    create(:provider)
+
+    expect { described_class.new.change }.not_to raise_error
+  end
+
   it 'logs the result' do
     provider = create(:provider)
     provider.update(latitude: 1, longitude: 1)

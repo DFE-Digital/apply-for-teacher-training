@@ -20,6 +20,11 @@ module DataMigrations
         audits_for_provider = audits.where(auditable_id: p.id)
         audits_for_provider_count_before_cleanup = audits.where(auditable_id: p.id).count
 
+        if audits_for_provider.empty?
+          log("No audits to clean up for provider #{p.id}")
+          next
+        end
+
         # if we already had lat/lng when we made the first spurious update, delete every audit
         if audits_for_provider.first.audited_changes['latitude'].last.nil?
           delete_audits(
