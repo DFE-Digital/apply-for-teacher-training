@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
         expect(result.css('.govuk-table__caption--m').text).to include('Your previous applications')
         expect(result.css('.app-course-choice__provider-name').text).to include(rejected_application_choice.course.provider.name)
         expect(result.css('.app-course-choice__course-name').text).to include(rejected_application_choice.course.name_and_code)
-        expect(result.css('.app-tag').text).to include('Unsuccessful')
+        expect(result.css('.govuk-tag').text).to include('Unsuccessful')
         expect(result.css('.govuk-link').text).to include('View application')
       end
     end
@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::PreviousApplicationsComponent do
       expect(result.css('.govuk-table__caption--m').text).to include('Your previous applications')
       expect(result.css('.app-course-choice__provider-name').text).to include(unsuccessful_application_choice.course.provider.name)
       expect(result.css('.app-course-choice__course-name').text).to include(unsuccessful_application_choice.course.name_and_code)
-      expect(result.css('.app-tag').text).to include('Unsuccessful')
+      expect(result.css('.govuk-tag').text).to include('Unsuccessful')
       expect(result.css('.govuk-link').text).to include('View application')
     end
   end
