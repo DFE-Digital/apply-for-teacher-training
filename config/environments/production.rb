@@ -112,10 +112,15 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   # Whitelist the production domains for HostAuthorization
+  config.logger.info('Authorised Hosts are:')
   HostingEnvironment.authorised_hosts.each do |host|
+    config.logger.info(host)
     config.hosts << host
   end
 
+  # Configure Redis
+  Redis.current = Redis.new(url: ApplyRedisConnection.url)
+  
   class FixAzureXForwardedForMiddleware
     def initialize(app)
       @app = app
