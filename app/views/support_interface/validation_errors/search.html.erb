@@ -46,7 +46,7 @@
               </td>
               <td class="govuk-table__cell">
                 <% if details['value'].blank? %>
-                  <%= render TagComponent.new(text: 'Empty', type: 'grey') %>
+                  <%= govuk_tag(text: 'Empty', colour: 'grey') %>
                 <% else %>
                   <code><%= details['value'].inspect %></code>
                 <% end %>

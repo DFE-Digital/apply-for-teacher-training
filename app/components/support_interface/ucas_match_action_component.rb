@@ -58,7 +58,7 @@ module SupportInterface
   private
 
     def type_of_action
-      "<strong class='govuk-tag govuk-tag--yellow app-tag'>Action needed</strong> #{ACTIONS[@match.next_action][:description]}".html_safe
+      "#{govuk_tag(text: 'Action needed', colour: 'yellow')} #{ACTIONS[@match.next_action][:description]}".html_safe
     end
 
     def required_action_details

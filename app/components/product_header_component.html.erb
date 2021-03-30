@@ -15,9 +15,7 @@
           <%= product_name %>
         </span>
         <% if phase_tag %>
-          <strong class="govuk-tag <%= phase_tag_class %>">
-            <%= HostingEnvironment.phase %>
-          </strong>
+          <%= govuk_tag(text: HostingEnvironment.phase, classes: phase_tag_class) %>
         <% end %>
       <% end %>
     </div>

@@ -2,12 +2,8 @@
   <div class="govuk-width-container">
     <div class="govuk-phase-banner govuk-!-display-none-print">
       <p class="govuk-phase-banner__content">
-        <strong class="govuk-tag govuk-phase-banner__content__tag <%= phase_tag_class %>">
-          <%= HostingEnvironment.phase %>
-        </strong>
-        <span class="govuk-phase-banner__text">
-          <%= text %>
-        </span>
+        <%= govuk_tag(text: HostingEnvironment.phase, classes: "govuk-phase-banner__content__tag #{phase_tag_class}") %>
+        <span class="govuk-phase-banner__text"><%= text %></span>
       </p>
     </div>
   </div>

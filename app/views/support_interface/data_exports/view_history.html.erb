@@ -16,9 +16,9 @@
       <% @data_exports.each do |data_export| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <%= render TagComponent.new(
-              text: data_export.completed_at ? 'completed' : 'in progress',
-              type: data_export.completed_at ? 'green' : 'blue',
+            <%= govuk_tag(
+              text: data_export.completed_at ? 'Completed' : 'In progress',
+              colour: data_export.completed_at ? 'green' : 'blue',
             ) %>
           </td>
           <td class="govuk-table__cell">

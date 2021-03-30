@@ -55,6 +55,5 @@ You have to call e.g. `Rails.application.routes.url_helpers.candidate_interface_
 
 ## Examples of components
 
-- `TagComponent`: [tag_component.rb](../app/components/tag_component.rb), [tag_component.html.erb](../app/components/tag_component.html.erb)
 - `HeaderComponent`: [header_component.rb](../app/components/header_component.rb), [header_component.html.erb](../app/components/header_component.html.erb), [header_component_spec.rb](../spec/components/header_component_spec.rb)
 - `DfESignInButtonComponent`: [dfe_sign_in_button_component.rb](../app/components/dfe_sign_in_button_component.rb), [dfe_sign_in_button_component.html.erb](../app/components/dfe_sign_in_button_component.html.erb), [dfe_sign_in_button_component_spec.rb](../spec/components/dfe_sign_in_button_component_spec.rb)

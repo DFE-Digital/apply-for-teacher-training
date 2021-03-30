@@ -26,11 +26,11 @@
             <td class="govuk-table__cell"><%= condition %></td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
               <% if conditions_met? %>
-                <strong class="govuk-tag govuk-tag--green app-tag">Met</strong>
+                <%= govuk_tag(text: 'Met', colour: 'green') %>
               <% elsif conditions_not_met? %>
-                <strong class="govuk-tag govuk-tag--red app-tag">Not met</strong>
+                <%= govuk_tag(text: 'Not met', colour: 'red') %>
               <% else %>
-                <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
+                <%= govuk_tag(text: 'Pending', colour: 'grey') %>
               <% end %>
             </td>
           </tr>

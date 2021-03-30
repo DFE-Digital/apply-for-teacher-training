@@ -15,14 +15,14 @@ RSpec.describe ProviderInterface::ConditionsComponent do
       application_with_conditions_met = build(:application_choice, status: 'recruited', offer: { 'conditions' => conditions })
       result = render_inline(described_class.new(application_choice: application_with_conditions_met))
 
-      expect(result.css('.app-tag').text).to eq('Met')
+      expect(result.css('.govuk-tag').text).to eq('Met')
     end
 
     it 'indicates whether conditions are pending' do
       application_with_pending_conditions = build(:application_choice, status: 'awaiting_provider_decision', offer: { 'conditions' => conditions })
       result = render_inline(described_class.new(application_choice: application_with_pending_conditions))
 
-      expect(result.css('.app-tag').text).to eq('Pending')
+      expect(result.css('.govuk-tag').text).to eq('Pending')
     end
 
     it 'indicates whether conditions are met for deferred offers' do
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
 
       result = render_inline(described_class.new(application_choice: application_with_conditions_met))
 
-      expect(result.css('.app-tag').text).to eq('Met')
+      expect(result.css('.govuk-tag').text).to eq('Met')
     end
 
     it 'indicates whether conditions are pending for deferred offers' do
@@ -44,7 +44,7 @@ RSpec.describe ProviderInterface::ConditionsComponent do
 
       result = render_inline(described_class.new(application_choice: application_with_pending_conditions))
 
-      expect(result.css('.app-tag').text).to eq('Pending')
+      expect(result.css('.govuk-tag').text).to eq('Pending')
     end
   end
 end

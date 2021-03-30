@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     status_table.each do |row|
       result = render_inline(described_class.new(references: [row.reference]))
 
-      expect(result.css(".govuk-tag.govuk-tag--#{row.colour}.app-tag").text).to(
+      expect(result.css(".govuk-tag.govuk-tag--#{row.colour}").text).to(
         include(t("candidate_reference_status.#{row.status_identifier}")),
       )
       next if row.info_identifier.blank?

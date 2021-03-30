@@ -26,18 +26,24 @@ module SupportInterface
   private
 
     def status_tag
-      colour_tag = {
-        not_tracked: 'govuk-tag--grey',
-        pending: 'govuk-tag--yellow',
-        unknown: 'govuk-tag--grey',
-        delivered: 'govuk-tag--green',
-        notify_error: 'govuk-tag--red',
-        permanent_failure: 'govuk-tag--red',
-        temporary_failure: 'govuk-tag--pink',
-        technical_failure: 'govuk-tag--orange',
+      colour = {
+        not_tracked: 'grey',
+        pending: 'yellow',
+        unknown: 'grey',
+        delivered: 'green',
+        notify_error: 'red',
+        permanent_failure: 'red',
+        temporary_failure: 'pink',
+        technical_failure: 'orange',
       }[email.delivery_status.to_sym]
 
-      tag.span(email.delivery_status.humanize, class: "govuk-tag #{colour_tag}", title: "Notify reference: `#{email.notify_reference}`")
+      govuk_tag(
+        text: email.delivery_status.humanize,
+        colour: colour,
+        html_attributes: {
+          title: "Notify reference: `#{email.notify_reference}`",
+        },
+      )
     end
 
     def application_link

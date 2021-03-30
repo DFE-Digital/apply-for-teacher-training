@@ -72,13 +72,13 @@ module SupportInterface
         },
         {
           key: 'Find status',
-          value: render(course.exposed_in_find? ? TagComponent.new(text: 'Shown on Find', type: 'green') : TagComponent.new(text: 'Hidden on Find', type: 'grey')),
+          value: course.exposed_in_find? ? govuk_tag(text: 'Shown on Find', colour: 'green') : govuk_tag(text: 'Hidden on Find', colour: 'grey'),
           action: 'Course page on Find',
           action_path: course.find_url,
         },
         {
           key: 'Apply status',
-          value: render(course.open_on_apply? ? TagComponent.new(text: 'Open on Apply & UCAS', type: 'green') : TagComponent.new(text: 'Open on UCAS only', type: 'blue')),
+          value: course.open_on_apply? ? govuk_tag(text: 'Open on Apply & UCAS', colour: 'green') : govuk_tag(text: 'Open on UCAS only', colour: 'blue'),
           action: 'Start page on Apply',
           action_path: candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code),
         },

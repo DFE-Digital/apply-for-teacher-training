@@ -34,11 +34,11 @@ module SupportInterface
 
     def status_tag(course)
       if course.open_on_apply?
-        render TagComponent.new(text: 'Open on Apply & UCAS', type: :green)
+        govuk_tag(text: 'Open on Apply & UCAS', colour: 'green')
       elsif course.exposed_in_find?
-        render TagComponent.new(text: 'Open on UCAS only', type: :blue)
+        govuk_tag(text: 'Open on UCAS only', colour: 'blue')
       else
-        render TagComponent.new(text: 'Hidden in Find', type: :grey)
+        govuk_tag(text: 'Hidden in Find', colour: 'grey')
       end
     end
 
