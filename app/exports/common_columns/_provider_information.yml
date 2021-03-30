@@ -74,7 +74,4 @@ provider_type:
     - scitt
     - lead_school
     - university
-    - hei
-    - ratified_by_scitt
-    - ratified_by_university
-    - ratified_by_hei
+    - unknown
