@@ -6,27 +6,26 @@ module ProviderInterface
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
-                  :standard_conditions, :further_condition_1, :further_condition_2,
-                  :further_condition_3, :further_condition_4, :current_step, :decision,
+                  :standard_conditions, :further_conditions, :current_step, :decision,
                   :path_history, :action, :provider_user_id, :wizard_path_history
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
-    validates :further_condition_1, :further_condition_2, :further_condition_3, :further_condition_4, length: { maximum: 255 }
+    validate :further_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
+      setup_further_conditions(attrs)
       super(last_saved_state.deep_merge(attrs))
       update_path_history(attrs)
     end
 
     def conditions
-      @conditions = (standard_conditions + [further_condition_1, further_condition_2,
-                                            further_condition_3, further_condition_4]).reject!(&:blank?)
+      @conditions = (standard_conditions + further_conditions.values).reject!(&:blank?)
     end
 
     def course_option
@@ -78,6 +77,14 @@ module ProviderInterface
       errors.add(:base, e.message)
     end
 
+    def further_conditions_length
+      further_conditions.each do |index, condition|
+        if condition.length > 255
+          errors.add(:"further_conditions[#{index}]", :too_long, attribute: "Condition #{index.to_i + 1}" , count: 255)
+        end
+      end
+    end
+
     def save_and_go_to_next_step(step)
       attrs = { provider_id: available_providers.first.id } if step.eql?(:providers)
       attrs = { course_id: available_courses.first.id } if step.eql?(:courses)
@@ -114,6 +121,19 @@ module ProviderInterface
 
     def state
       as_json(except: %w[state_store errors validation_context course_option wizard_path_history]).to_json
+    end
+
+    def setup_further_conditions(attrs)
+      return unless attrs['further_conditions']
+
+      attrs['further_conditions'].each do |index, value|
+        singleton_class.class_eval do
+          attr_accessor "further_conditions_#{index}"
+          alias :"further_conditions[#{index}]" :"further_conditions_#{index}"
+          alias :"further_conditions[#{index}]=" :"further_conditions_#{index}="
+        end
+        send("further_conditions[#{index}]=", value)
+      end
     end
 
     def update_path_history(attrs)

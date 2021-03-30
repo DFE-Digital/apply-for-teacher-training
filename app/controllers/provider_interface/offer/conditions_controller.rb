@@ -38,9 +38,7 @@ module ProviderInterface
     private
 
       def conditions_params
-        params.require(:provider_interface_offer_wizard).permit(:further_condition_1, :further_condition_2,
-                                                                :further_condition_3, :further_condition_4,
-                                                                standard_conditions: [])
+        params.require(:provider_interface_offer_wizard).permit(standard_conditions: [], further_conditions: {})
       end
     end
   end
