@@ -28,8 +28,8 @@ module CandidateInterface
         course_row(application_choice),
         study_mode_row(application_choice),
         location_row(application_choice),
-        type_row(application_choice.course),
-        course_length_row(application_choice.course),
+        type_row(application_choice),
+        course_length_row(application_choice),
         start_date_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
@@ -65,7 +65,7 @@ module CandidateInterface
       if has_multiple_sites?(application_choice)
         candidate_interface_course_choices_site_path(
           application_choice.provider.id,
-          application_choice.course.id,
+          application_choice.offered_course.id,
           application_choice.offered_option.study_mode,
           course_choice_id: application_choice.id,
         )
@@ -88,7 +88,7 @@ module CandidateInterface
       {
         key: 'Course',
         value: course_row_value(application_choice),
-        action: "course choice for #{application_choice.course.name_and_code}",
+        action: "course choice for #{application_choice.offered_course.name_and_code}",
         change_path: course_change_path(application_choice),
       }
     end
@@ -105,39 +105,39 @@ module CandidateInterface
       {
         key: 'Location',
         value: "#{application_choice.offered_site.name}\n#{application_choice.offered_site.full_address}",
-        action: "location for #{application_choice.course.name_and_code}",
+        action: "location for #{application_choice.offered_course.name_and_code}",
         change_path: site_change_path(application_choice),
       }
     end
 
     def study_mode_row(application_choice)
-      return unless application_choice.course.full_time_or_part_time?
+      return unless application_choice.offered_course.full_time_or_part_time?
 
       change_path = candidate_interface_course_choices_study_mode_path(
         application_choice.provider.id,
-        application_choice.course.id,
+        application_choice.offered_course.id,
         course_choice_id: application_choice.id,
       )
 
       {
         key: 'Full time or part time',
         value: application_choice.offered_option.study_mode.humanize,
-        action: "study mode for #{application_choice.course.name_and_code}",
+        action: "study mode for #{application_choice.offered_course.name_and_code}",
         change_path: change_path,
       }
     end
 
-    def type_row(course)
+    def type_row(application_choice)
       {
         key: 'Type',
-        value: course.description,
+        value: application_choice.offered_course.description,
       }
     end
 
-    def course_length_row(course)
+    def course_length_row(application_choice)
       {
         key: 'Course length',
-        value: DisplayCourseLength.call(course_length: course.course_length),
+        value: DisplayCourseLength.call(course_length: application_choice.offered_course.course_length),
       }
     end
 
@@ -145,7 +145,7 @@ module CandidateInterface
       unless application_choice.offer_deferred?
         {
           key: 'Date course starts',
-          value: application_choice.course.start_date.to_s(:month_and_year),
+          value: application_choice.offered_course.start_date.to_s(:month_and_year),
         }
       end
     end
@@ -201,7 +201,7 @@ module CandidateInterface
     end
 
     def has_multiple_sites?(application_choice)
-      CourseOption.where(course_id: application_choice.course.id, study_mode: application_choice.offered_option.study_mode).many?
+      CourseOption.where(course_id: application_choice.offered_course.id, study_mode: application_choice.offered_option.study_mode).many?
     end
 
     def has_multiple_courses?(application_choice)

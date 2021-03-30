@@ -142,7 +142,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
     context 'when other site option is a different study mode for course' do
       before do
-        create(:course_option, course: application_form.application_choices.first.course, study_mode: 'part_time')
+        build(:course_option, course: application_form.application_choices.first.course, study_mode: 'part_time')
       end
 
       it 'renders without the "Change" location links' do
@@ -154,11 +154,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
     context 'when course is unavailable' do
       it 'renders with the unavailable course text' do
-        application_form = create(:application_form)
+        application_form = build(:application_form)
         create(
           :submitted_application_choice,
           application_form: application_form,
-          course_option: create(:course_option, :no_vacancies),
+          course_option: build(:course_option, :no_vacancies),
         )
 
         result = render_inline(described_class.new(application_form: application_form, editable: true))
@@ -183,7 +183,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       before do
         provider = application_form.application_choices.first.provider
-        create(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
+        build(:course, provider: provider, exposed_in_find: true, open_on_apply: true, study_mode: :full_time)
       end
 
       it 'renders without the course choice change link' do
@@ -197,7 +197,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
 
       before do
-        create(:course_option, course: application_form.application_choices.first.course)
+        build(:course_option, course: application_form.application_choices.first.course)
       end
 
       it 'renders without a "Change" location links' do
@@ -228,11 +228,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
     context 'when course is unavailable' do
       it 'renders without the unavailable course text' do
-        application_form = create(:application_form)
+        application_form = build(:application_form)
         create(
           :submitted_application_choice,
           application_form: application_form,
-          course_option: create(:course_option, :no_vacancies),
+          course_option: build(:course_option, :no_vacancies),
         )
 
         result = render_inline(described_class.new(application_form: application_form, editable: false))
@@ -244,7 +244,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
   context 'when a course choice is rejected' do
     it 'renders component with the status as rejected and displays the reason' do
-      application_form = create(:application_form)
+      application_form = build(:application_form)
       create(
         :application_choice,
         application_form: application_form,
@@ -263,7 +263,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
   context 'when a course choice is withdrawn by provider' do
     it 'renders component with the status as Offer withdrawn and displays the reason' do
-      application_form = create(:application_form)
+      application_form = build(:application_form)
       create(
         :application_choice,
         application_form: application_form,
@@ -320,6 +320,23 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  context 'when an offer has been made for a different course' do
+    let(:application_choice) do
+      create(:application_choice,
+             status: 'offer',
+             course_option: create(:course_option, :full_time),
+             offered_course_option: create(:course_option, :part_time, course: create(:course, description: 'PGCE with QTS part time')))
+    end
+    let(:application_form) { create(:application_form, application_choices: [application_choice]) }
+
+    it 'renders component with the status as offer and offered course details' do
+      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Type')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE with QTS part time')
+    end
+  end
+
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
 
@@ -366,7 +383,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
   context 'when an interview has been cancelled' do
     it 'renders the component without interview details' do
-      application_choice = create(:application_choice, :with_completed_application_form, :with_cancelled_interview)
+      application_choice = build(:application_choice, :with_completed_application_form, :with_cancelled_interview)
       application_form = application_choice.application_form
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
@@ -376,7 +393,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
   end
 
   def create_application_form_with_course_choices(statuses:)
-    application_form = create(:application_form)
+    application_form = build(:application_form)
 
     statuses.each do |status|
       create(
