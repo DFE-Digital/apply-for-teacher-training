@@ -7,28 +7,28 @@ module SupportInterface
         application_form = application_choice.application_form
 
         {
-          'Candidate id' => application_form.candidate_id,
-          'Support reference' => application_form.support_reference,
-          'Age' => return_age(application_form),
-          'Candidate postcode' => application_form.postcode,
-          'Provider postcode' => application_choice.provider.postcode,
-          'Site postcode' => application_choice.site.postcode,
-          'Site region' => application_choice.site.region,
-          'Provider type' => application_choice.provider.provider_type,
-          'Accrediting provider type' => application_choice.course.accredited_provider&.provider_type,
-          'Program type' => application_choice.course.program_type,
-          'Degree completed' => return_lastest_degree_award_year(application_form),
-          'Degree type' => return_lastest_degree_type(application_form),
-          'Distance from site to candidate' => distance(application_choice),
-          'Average distance from all sites to candidate' => average_distance(application_form),
-          'Rejection reason' => application_choice.rejection_reason,
-          'Structured rejection reasons' => FlatReasonsForRejectionPresenter.build_top_level_reasons(application_choice.structured_rejection_reasons),
-          'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
-          'Course code' => application_choice.course.code,
-          'Provider code' => application_choice.provider.code,
-          'Nationality' => nationality(application_choice),
-          'Rejected by default at' => application_choice.reject_by_default_at,
-          'Link to application' => application_url(application_form),
+          candidate_id: application_form.candidate_id,
+          support_reference: application_form.support_reference,
+          age: return_age(application_form),
+          candidate_postcode: application_form.postcode,
+          provider_postcode: application_choice.provider.postcode,
+          site_postcode: application_choice.site.postcode,
+          site_region: application_choice.site.region,
+          provider_type: application_choice.provider.provider_type,
+          accrediting_provider_type: application_choice.course.accredited_provider&.provider_type,
+          program_type: application_choice.course.program_type,
+          degree_award_year: return_latest_degree_award_year(application_form),
+          degree_type: return_latest_degree_type(application_form),
+          distance_from_site_to_candidate: distance(application_choice),
+          average_distance_from_all_sites: average_distance(application_form),
+          rejection_reason: application_choice.rejection_reason,
+          structured_rejection_reasons: FlatReasonsForRejectionPresenter.build_top_level_reasons(application_choice.structured_rejection_reasons),
+          application_state: I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          course_code: application_choice.course.code,
+          provider_code: application_choice.provider.code,
+          nationality: nationality(application_choice),
+          rejected_by_default_at: application_choice.reject_by_default_at,
+          link_to_application: application_url(application_form),
         }
       end
     end
@@ -46,11 +46,11 @@ module SupportInterface
       ((Time.zone.now.to_date - application_form.date_of_birth) / 365).floor if application_form.date_of_birth.present?
     end
 
-    def return_lastest_degree_type(application_form)
+    def return_latest_degree_type(application_form)
       latest_degree(application_form)&.qualification_type
     end
 
-    def return_lastest_degree_award_year(application_form)
+    def return_latest_degree_award_year(application_form)
       latest_degree(application_form)&.award_year
     end
 

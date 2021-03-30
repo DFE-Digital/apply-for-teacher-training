@@ -9,10 +9,4 @@ RSpec.shared_examples 'a data export' do
 
     expect(exported_columns).to match_array(documented_columns)
   end
-
-  it 'doesn’t shadow any common columns' do
-    shadowed_columns = DataSetDocumentation.shadowed_common_columns(described_class)
-
-    expect(shadowed_columns.count).to eq(0)
-  end
 end

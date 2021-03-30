@@ -112,7 +112,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           application_choice_1_unstructured_rejection_reasons: nil,
           application_choice_2_unstructured_rejection_reasons: nil,
           application_choice_3_unstructured_rejection_reasons: nil,
-          application_choice_1_structured_rejection_reasons: "Something you did\nHonesty and professionalism",
+          application_choice_1_structured_rejection_reasons: 'Something you did, Honesty and professionalism',
           application_choice_2_structured_rejection_reasons: nil,
           application_choice_3_structured_rejection_reasons: nil,
           disability_1: application_form_two.equality_and_diversity['disabilities'].first,

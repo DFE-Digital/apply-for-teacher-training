@@ -28,10 +28,10 @@ custom_columns:
 
   permissions_added:
     type: string
-    description: A comma separated list of permissions that have been added
+    description: A comma-separated list of permissions that have been added
     example: make_decisions, view_safeguarding_information
 
   permissions_removed:
     type: string
-    description: A comma separated list of permissions that have been removed
+    description: A comma-separated list of permissions that have been removed
     example: make_decisions, view_safeguarding_information

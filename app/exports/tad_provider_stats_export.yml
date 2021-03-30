@@ -1,0 +1,33 @@
+common_columns:
+  - provider_id
+  - provider_code
+  - provider_name
+  - provider_type
+  - course_code
+
+custom_columns:
+  urn:
+    type: string
+    description: The school’s unique reference number
+
+  lead_school:
+    type: string
+    description: The lead school
+    example: F
+
+  subject:
+    type: string
+    description: The course subject
+    example: Criminology
+
+  applications:
+    type: integer
+    description: The number of applications for this course
+
+  offers:
+    type: integer
+    description: The number of applications that have received offers for this course
+
+  acceptances:
+    type: integer
+    description: The number of applications that have accepted offers for this course

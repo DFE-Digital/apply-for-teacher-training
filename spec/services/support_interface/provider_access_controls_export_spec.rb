@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: true do
+  describe 'documentation' do
+    before { create(:provider, sync_courses: true) }
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#data_for_export' do
     it 'returns access control data for synced providers' do
       Timecop.freeze(2020, 5, 1, 12, 0, 0) do
@@ -57,8 +63,8 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
 
         expect(described_class.new.data_for_export).to match_array([
           {
-            name: training_provider.name,
-            code: training_provider.code,
+            provider_name: training_provider.name,
+            provider_code: training_provider.code,
             dsa_signer: provider_user1.email_address,
             last_user_permissions_change_at: 1.day.ago,
             total_user_permissions_changes: 1,
@@ -81,8 +87,8 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
             total_org_relationships: 1,
           },
           {
-            name: ratifying_provider.name,
-            code: ratifying_provider.code,
+            provider_name: ratifying_provider.name,
+            provider_code: ratifying_provider.code,
             dsa_signer: provider_user3.email_address,
             last_user_permissions_change_at: 2.days.ago,
             total_user_permissions_changes: 2,

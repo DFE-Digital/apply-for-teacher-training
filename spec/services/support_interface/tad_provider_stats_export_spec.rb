@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe SupportInterface::TADProviderStatsExport do
   include CourseOptionHelpers
 
+  describe 'documentation' do
+    before do
+      provider = create(:provider)
+      course_option_for_provider(provider: provider, course: create(:course, :open_on_apply, provider: provider))
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   subject(:exported_rows) { Bullet.profile { SupportInterface::TADProviderStatsExport.new.call } }
 
   describe 'calculating offers and acceptances' do
@@ -50,12 +59,12 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
       expect(exported_rows.count).to eq(4)
 
       # rows are correctly divided between providers
-      expect(exported_rows.map { |r| r[:provider] }.tally['Tehanu']).to eq(2)
-      expect(exported_rows.map { |r| r[:provider] }.tally['Anarres']).to eq(2)
+      expect(exported_rows.map { |r| r[:provider_name] }.tally['Tehanu']).to eq(2)
+      expect(exported_rows.map { |r| r[:provider_name] }.tally['Anarres']).to eq(2)
 
       # rows contain metadata
       example_row = exported_rows.find { |r| r[:subject] == 'History' }
-      expect(example_row[:provider]).to eq('Tehanu')
+      expect(example_row[:provider_name]).to eq('Tehanu')
       expect(example_row[:provider_code]).to eq('ABC1')
       expect(example_row[:course_code]).to eq('XYZ')
     end

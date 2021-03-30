@@ -41,7 +41,7 @@ module SupportInterface
         label_for_subreason_detail('safeguarding_y_n', 'other_details') => reasons_for_rejection.safeguarding_concerns_other_details,
         title_for_top_level_reason('other_advice_or_feedback_y_n') => y_n_to_boolean(reasons_for_rejection.other_advice_or_feedback_y_n),
         title_for_top_level_reason('interested_in_future_applications_y_n') => y_n_to_boolean(reasons_for_rejection.interested_in_future_applications_y_n),
-        'why are you rejecting this application details' => reasons_for_rejection.why_are_you_rejecting_this_application,
+        why_are_you_rejecting_this_application_details: reasons_for_rejection.why_are_you_rejecting_this_application,
       }
     end
 
@@ -49,14 +49,12 @@ module SupportInterface
       return nil if structured_rejection_reasons.blank?
 
       structured_rejection_reasons.select { |reason, value| ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason.to_sym) && value == 'Yes' }
-      .keys
-      .map { |reason| title_for_top_level_reason(reason) }
-      .join("\n")
+          .keys
+          .map { |reason| humanized_title_for_top_level_reason(reason) }
+          .join(', ')
     end
 
     def self.y_n_to_boolean(string)
-      return nil unless %w[Yes No].include?(string)
-
       string == 'Yes'
     end
 
@@ -64,12 +62,16 @@ module SupportInterface
       reason.include?(subreason)
     end
 
-    def self.title_for_top_level_reason(reason)
+    def self.humanized_title_for_top_level_reason(reason)
       I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.title")
     end
 
+    def self.title_for_top_level_reason(reason)
+      I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.title").parameterize.underscore.to_sym
+    end
+
     def self.label_for_subreason(reason, subreason)
-      I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{subreason}").gsub('’', "'")
+      I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{subreason}").gsub('’', "'").parameterize.underscore.to_sym
     end
 
     singleton_class.send(:alias_method, :label_for_subreason_detail, :label_for_subreason)
