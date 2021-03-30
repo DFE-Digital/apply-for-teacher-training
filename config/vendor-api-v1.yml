@@ -863,7 +863,6 @@ components:
           type: string
           description: 'Details about the qualification awarding body. DEPRECATED: this field will always be null as Apply does not collect this information.'
           deprecated: true
-          example: University of Amsterdam
           maxLength: 256
           nullable: true
         hesa_degtype:
@@ -991,7 +990,6 @@ components:
           maxLength: 10240
           nullable: true
           deprecated: true
-          example: Candidate is unwell
         date:
           type: string
           format: date-time
