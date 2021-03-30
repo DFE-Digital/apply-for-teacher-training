@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
         form.save
 
         expect(form.degree.subject).to eq 'Metallurgy'
-        expect(form.degree.subject_hesa_code).to eq 100033
+        expect(form.degree.subject_hesa_code).to eq '100033'
       end
     end
 
