@@ -10,4 +10,13 @@ module APIDocsHelper
       end
     end
   end
+
+  def csv_sample(example)
+    header_row ||= example.keys
+    tag.pre class: 'app-json-code-sample' do
+      tag.code do
+        SafeCSV.generate([example.values], header_row)
+      end
+    end
+  end
 end

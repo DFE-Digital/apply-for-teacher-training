@@ -771,8 +771,9 @@ Rails.application.routes.draw do
   end
 
   namespace :data_api, path: '/data-api' do
-    get '/docs/tad-data-exports' => 'tad_docs#docs'
     get '/tad-data-exports/latest' => 'tad_data_exports#latest'
+    get '/tad-data-exports' => 'tad_data_exports#index'
+    get '/tad-data-exports/:id' => 'tad_data_exports#show', as: :tad_export
   end
 
   namespace :support_interface, path: '/support' do
@@ -991,6 +992,11 @@ Rails.application.routes.draw do
       get '/when-emails-are-sent' => 'pages#when_emails_are_sent'
       get '/help' => 'pages#help', as: :help
       get '/spec.yml' => 'openapi#spec', as: :spec
+    end
+
+    namespace :data_api_docs, path: '/data-api' do
+      get '/' => 'reference#reference', as: :home
+      get '/spec.yml' => 'open_api#spec', as: :spec
     end
   end
 

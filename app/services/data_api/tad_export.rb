@@ -7,11 +7,14 @@ module DataAPI
       DataExporter.perform_async(DataAPI::TADExport, data_export.id)
     end
 
-    def self.latest
+    def self.all
       DataExport
         .where(name: EXPORT_NAME)
         .where('completed_at IS NOT NULL')
-        .last
+    end
+
+    def self.latest
+      all.last
     end
 
     def data_for_export
