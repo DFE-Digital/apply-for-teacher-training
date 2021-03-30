@@ -45,7 +45,7 @@
 
           <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice) %>
 
-        <% elsif provider_cannot_respond? -%>
+        <% elsif awaiting_decision_but_cannot_respond? -%>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
               This application will be automatically rejected at <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
@@ -54,12 +54,19 @@
               This application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
             <% end -%>
           </p>
+        <% elsif offer_will_be_declined_by_default? -%>
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+            Waiting for candidate’s response
+          </h2>
+          <p class="govuk-body">
+            Your offer will be automatically declined <%= decline_by_default_text %> if the candidate does not respond.
+          </p>
         <% elsif deferred_offer_wizard_applicable? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Review and confirm the deferred offer
           </h2>
 
-          <% if deferred_offer_equivalent_course_option_available %>
+          <% if deferred_offer_equivalent_course_option_available? %>
             <p class="govuk-body">
               The course offered to the candidate in the previous cycle is available in the current cycle.
             </p>

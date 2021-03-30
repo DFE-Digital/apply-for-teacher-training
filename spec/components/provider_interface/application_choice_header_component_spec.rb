@@ -44,6 +44,26 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       end
     end
 
+    context 'when the application has had an offer' do
+      let(:dbd_date) { nil }
+      let(:application_choice) { build_stubbed(:application_choice, status: 'offer', decline_by_default_at: dbd_date) }
+
+      context 'if the decline by default has not been set yet' do
+        it 'does not render any header' do
+          expect(result.css('.govuk-inset-text').count).to eq(0)
+        end
+      end
+
+      context 'if the decline by default is set' do
+        let(:dbd_date) { 3.days.from_now.end_of_day }
+
+        it 'renders the header with decline by default information' do
+          expect(result.css('.govuk-inset-text > h2').text).to include('Waiting for candidate’s response')
+          expect(result.css('.govuk-inset-text > p').text).to include('Your offer will be automatically declined in 3 days (4 November 2021 at 11:59pm) if the candidate does not respond.')
+        end
+      end
+    end
+
     context 'when the application is awaiting provider decision, reject by default is tomorrow and user cannot make decisions' do
       let(:provider_can_respond) { false }
       let(:reject_by_default_at) { 1.day.from_now }
@@ -85,26 +105,33 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     end
   end
 
-  describe '#deferred_offer_wizard_applicable' do
+  describe '#deferred_offer_wizard_applicable?' do
     it 'is true for a deferred offer belonging to the previous recruitment cycle' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
       allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_wizard_applicable).to be true
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).deferred_offer_wizard_applicable?).to be true
+    end
+
+    it 'is false if the provider cannot respond to the application' do
+      application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
+      allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
+
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: false).deferred_offer_wizard_applicable?).to be false
     end
 
     it 'is false when the application status is not deferred' do
       application_choice = instance_double(ApplicationChoice, status: 'withdrawn')
       allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_wizard_applicable).to be false
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).deferred_offer_wizard_applicable?).to be false
     end
 
     it 'is false when the application recruitment cycle is current' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
       allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.current_year)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_wizard_applicable).to be false
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).deferred_offer_wizard_applicable?).to be false
     end
   end
 
@@ -115,7 +142,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       allow(course_option).to receive(:in_next_cycle).and_return(course_option)
       allow(application_choice).to receive(:offered_option).and_return(course_option)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available).to be true
+      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be true
     end
 
     it 'is false for a deferred offer without an offered option' do
@@ -124,7 +151,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       allow(course_option).to receive(:in_next_cycle).and_return(false)
       allow(application_choice).to receive(:offered_option).and_return(course_option)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available).to be false
+      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be false
     end
 
     it 'is false for a deferred offer without an offered option open on apply' do
@@ -133,7 +160,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       allow(course_option).to receive(:in_next_cycle).and_return(course_option)
       allow(application_choice).to receive(:offered_option).and_return(course_option)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available).to be false
+      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be false
     end
   end
 
@@ -142,26 +169,76 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: nil, structured_rejection_reasons: nil)
       allow(application_choice).to receive(:no_feedback?).and_return(true)
 
-      expect(described_class.new(application_choice: application_choice).rejection_reason_required).to be true
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be true
+    end
+
+    it 'is false if the provider cannot respond to the application' do
+      application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: nil, structured_rejection_reasons: nil)
+      allow(application_choice).to receive(:no_feedback?).and_return(true)
+
+      expect(described_class.new(application_choice: application_choice).rejection_reason_required?).to be false
     end
 
     it 'is false for a rejected by default application with a rejection reason' do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: 'NO!')
       allow(application_choice).to receive(:no_feedback?).and_return(false)
 
-      expect(described_class.new(application_choice: application_choice).rejection_reason_required).to be false
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
     end
 
     it 'is false for a rejected application not rejected by default' do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: false, rejection_reason: nil)
 
-      expect(described_class.new(application_choice: application_choice).rejection_reason_required).to be false
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
     end
 
     it 'is false for a non-rejected application' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
 
-      expect(described_class.new(application_choice: application_choice).rejection_reason_required).to be false
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: true).rejection_reason_required?).to be false
+    end
+  end
+
+  describe '#decline_by_default_text' do
+    it 'returns nil if the application is not in the offer state' do
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision')
+
+      expect(described_class.new(application_choice: application_choice).decline_by_default_text).to be_nil
+    end
+
+    describe 'returns the correct text when' do
+      it 'the dbd is today' do
+        application_choice = build_stubbed(
+          :application_choice,
+          status: 'offer',
+          decline_by_default_at: Time.zone.now.end_of_day,
+        )
+
+        expected_text = 'at the end of today (1 November 2021 at 11:59pm)'
+        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+      end
+
+      it 'the dbd is tomorrow' do
+        application_choice = build_stubbed(
+          :application_choice,
+          status: 'offer',
+          decline_by_default_at: 1.day.from_now.end_of_day,
+        )
+
+        expected_text = 'at the end of tomorrow (2 November 2021 at 11:59pm)'
+        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+      end
+
+      it 'the dbd is after tomorrow' do
+        application_choice = build_stubbed(
+          :application_choice,
+          status: 'offer',
+          decline_by_default_at: 3.days.from_now.end_of_day,
+        )
+
+        expected_text = 'in 3 days (4 November 2021 at 11:59pm)'
+        expect(described_class.new(application_choice: application_choice).decline_by_default_text).to eq(expected_text)
+      end
     end
   end
 end

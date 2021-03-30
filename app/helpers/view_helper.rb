@@ -122,6 +122,17 @@ module ViewHelper
     end
   end
 
+  def date_and_time_today_or_tomorrow(time)
+    unless time_is_today_or_tomorrow?(time)
+      raise "#{time} was expected to be today or tomorrow, but is not"
+    end
+
+    date_and_time = time.to_s(:govuk_date_and_time)
+    today_or_tomorrow = time.to_date == Date.tomorrow ? 'tomorrow' : 'today'
+
+    "#{today_or_tomorrow} (#{date_and_time})"
+  end
+
   def days_until(date)
     days = (date - Date.current).to_i
     if days.zero?
