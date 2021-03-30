@@ -77,11 +77,16 @@ module DataMigrations
 
     def log(message)
       log_string = %w[FixLatLongFlipFlops]
+      log_string << ["(#{run_name})"]
       log_string << '(dry run)' if dry_run?
       log_string << '-'
       log_string << message
 
       Rails.logger.info log_string.join(' ')
+    end
+
+    def run_name
+      @run_name ||= Faker::Creature::Animal.name
     end
 
     def audits_table_size
