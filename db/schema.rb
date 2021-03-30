@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_215908) do
+ActiveRecord::Schema.define(version: 2021_03_30_105355) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -42,13 +42,13 @@ ActiveRecord::Schema.define(version: 2021_03_22_215908) do
   create_sequence "other_efl_qualifications_id_seq"
   create_sequence "provider_agreements_id_seq"
   create_sequence "provider_relationship_permissions_id_seq"
+  create_sequence "providers_id_seq"
   create_sequence "provider_user_notifications_id_seq"
   create_sequence "provider_users_id_seq"
   create_sequence "provider_users_providers_id_seq"
-  create_sequence "providers_id_seq"
   create_sequence "qualifications_public_id_seq", start: 120000
-  create_sequence "reference_tokens_id_seq"
   create_sequence "references_id_seq"
+  create_sequence "reference_tokens_id_seq"
   create_sequence "site_settings_id_seq"
   create_sequence "sites_id_seq"
   create_sequence "support_users_id_seq"
@@ -217,10 +217,10 @@ ActiveRecord::Schema.define(version: 2021_03_22_215908) do
     t.string "other_uk_qualification_type", limit: 100
     t.text "missing_explanation"
     t.string "start_year"
-    t.bigint "qualification_type_hesa_code"
-    t.bigint "subject_hesa_code"
-    t.bigint "institution_hesa_code"
-    t.bigint "grade_hesa_code"
+    t.string "qualification_type_hesa_code"
+    t.string "subject_hesa_code"
+    t.string "institution_hesa_code"
+    t.string "grade_hesa_code"
     t.boolean "international", default: false, null: false
     t.string "comparable_uk_degree"
     t.string "non_uk_qualification_type"
