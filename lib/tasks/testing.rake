@@ -54,5 +54,10 @@ task :compile_assets do
   sh 'RAILS_ENV=test rails webpacker:compile'
 end
 
+desc 'Run rspec in parallel without performance'
+task :parallel_rspec_without_performance do
+  sh "bundle exec parallel_rspec --exclude-pattern=#{performance_test_pattern} spec"
+end
+
 desc 'Run all the tests'
-task run_tests: %i[compile_assets linting spec_without_performance brakeman jest]
+task run_tests: %i[compile_assets linting parallel_rspec_without_performance brakeman jest]
