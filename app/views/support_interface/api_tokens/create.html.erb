@@ -1,12 +1,10 @@
 <% content_for :browser_title, 'New API token generated' %>
 
-<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-  <h1 class="govuk-panel__title">
-    New API token generated
-  </h1>
-  <div class="govuk-panel__body">
-    Your token is<br><code><%= @unhashed_token %></code>
-  </div>
-</div>
+<%= govuk_panel(
+  title: 'New API token generated',
+  body: "Your token is<br><code>#{@unhashed_token}</code>".html_safe,
+) %>
 
-<p class="govuk-body"><%= govuk_link_to 'Return to list of API tokens', support_interface_api_tokens_path %></p>
+<p class="govuk-body">
+  <%= govuk_link_to 'Return to list of API tokens', support_interface_api_tokens_path %>
+</p>

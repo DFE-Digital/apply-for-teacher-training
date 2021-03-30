@@ -6,15 +6,10 @@
 ) do |f| %>
   <%= f.govuk_error_summary %>
 
-  <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-    <h1 class="govuk-panel__title">
-      <%= t('page_titles.decisions.withdrawal_feedback') %>
-    </h1>
-
-    <div class="govuk-panel__body">
-      We will let <%= @provider.name %> know that you have withdrawn your application for <%= @course.name_and_code %>
-    </div>
-  </div>
+  <%= govuk_panel(
+    title: t('page_titles.decisions.withdrawal_feedback'),
+    body: "We will let #{@provider.name} know that you have withdrawn your application for #{@course.name_and_code}",
+  ) %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

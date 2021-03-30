@@ -1,10 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-panel govuk-panel--confirmation">
-      <h1 class="govuk-panel__title">
-        Organisational permissions set
-      </h1>
-    </div>
+    <%= govuk_panel(title: 'Organisational permissions set', body: nil) %>
 
     <p class="govuk-body govuk-!-margin-bottom-4">
       You can now <%= govuk_link_to 'view applications', provider_interface_applications_path %><% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %> or <%= govuk_link_to 'invite users', provider_interface_provider_users_path %><% end %>.
