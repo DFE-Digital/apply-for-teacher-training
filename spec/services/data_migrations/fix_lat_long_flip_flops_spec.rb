@@ -81,6 +81,15 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops, with_audited: true do
     expect { described_class.new.change }.not_to raise_error
   end
 
+  it 'logs the table size before and after' do
+    allow(Rails.logger).to receive(:info).and_call_original
+
+    described_class.new.change
+
+    expect(Rails.logger).to have_received(:info).with('FixLatLongFlipFlops - Before: audits table size is 128 kB')
+    expect(Rails.logger).to have_received(:info).with('FixLatLongFlipFlops - After: audits table size is 128 kB')
+  end
+
   it 'logs the result' do
     provider = create(:provider)
     provider.update(latitude: 1, longitude: 1)

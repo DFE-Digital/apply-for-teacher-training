@@ -14,6 +14,8 @@ module DataMigrations
       deleted_audit_count = 0
       total_audits = audits.count
 
+      log("Before: audits table size is #{audits_table_size}")
+
       providers.find_each do |p|
         log("Cleaning up provider #{p.id} (#{p.name_and_code})")
 
@@ -50,6 +52,8 @@ module DataMigrations
       end
 
       log("Deleted #{deleted_audit_count} lat/long audits out of #{total_audits}") unless dry_run?
+
+      log("After: audits table size is #{audits_table_size}")
     end
 
   private
@@ -78,6 +82,11 @@ module DataMigrations
       log_string << message
 
       Rails.logger.info log_string.join(' ')
+    end
+
+    def audits_table_size
+      query = "SELECT pg_size_pretty(pg_total_relation_size('audits'));"
+      ActiveRecord::Base.connection.execute(query).first['pg_size_pretty']
     end
   end
 end
