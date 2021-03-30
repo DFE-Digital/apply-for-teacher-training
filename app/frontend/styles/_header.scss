@@ -1,7 +1,3 @@
-.govuk-header .govuk-tag {
-  vertical-align: middle;
-}
-
 .app-header--production.app-header--full-border {
   border-bottom-color: govuk-colour("blue");
 }
@@ -30,15 +26,17 @@
   border-bottom-color: govuk-colour("dark-grey");
 }
 
-.app-header__logo--provider {
-  @include govuk-media-query($from: tablet) {
-    width: 60%;
+.app-header--wide-logo {
+  .govuk-header__logo {
+    @include govuk-media-query($from: tablet) {
+      width: 60%;
+    }
   }
-}
 
-.app-header__content--provider {
-  @include govuk-media-query($from: tablet) {
-    width: 40%;
+  .govuk-header__content {
+    @include govuk-media-query($from: tablet) {
+      width: 40%;
+    }
   }
 }
 
