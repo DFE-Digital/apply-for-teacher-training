@@ -37,17 +37,23 @@ RSpec.describe Candidate, type: :model do
   end
 
   describe '#current_application' do
+    let(:candidate) { create(:candidate) }
+
     it 'returns an existing application_form' do
-      candidate = create(:candidate)
       application_form = create(:application_form, candidate: candidate)
 
       expect(candidate.current_application).to eq(application_form)
     end
 
     it 'creates an application_form if there are none' do
-      candidate = create(:candidate)
-
       expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
+    end
+
+    it 'returns the most recent application' do
+      first_application = create(:application_form, candidate: candidate, created_at: 3.days.ago)
+      create(:application_form, candidate: candidate, created_at: 10.days.ago)
+
+      expect(candidate.current_application.created_at).to eq(first_application.created_at)
     end
   end
 
