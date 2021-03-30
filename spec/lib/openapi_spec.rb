@@ -32,7 +32,7 @@ RSpec.describe 'OpenAPI spec' do
         end
 
         it "requires example for #{schema_name}.#{property_name}" do
-          expect(property.example).not_to be_nil
+          expect(property.example).not_to be_nil unless property.deprecated? && property.nullable?
         end
       end
     end

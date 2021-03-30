@@ -274,7 +274,7 @@ module VendorAPI
         grade = "#{constituent_grades['biology']['grade']}#{constituent_grades['chemistry']['grade']}#{constituent_grades['physics']['grade']}"
       end
 
-      grade
+      grade || 'Not entered'
     end
 
     def institution_details(qualification)

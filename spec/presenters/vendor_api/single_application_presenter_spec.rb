@@ -699,6 +699,22 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(qualification[:non_uk_qualification_type]).to eq 'High School Diploma'
     end
 
+    it 'renders missing grades as "Not Entered"' do
+      create(
+        :gcse_qualification,
+        grade: nil,
+        application_form: application_choice.application_form,
+      )
+
+      qualification = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :gcses,
+      ).first
+
+      expect(qualification[:grade]).to eq 'Not entered'
+    end
+
     it 'adds GCSE science triple award information' do
       science_triple_awards = {
         biology: { grade: 'A' },

@@ -33,7 +33,7 @@ paths:
           and time. Times should be in ISO 8601 format.
         in: query
         required: true
-        example: 2019-12-06T12:00:00Z
+        example: 2019-12-13T12:00:00Z
         schema:
           type: string
           format: date-time
@@ -569,7 +569,7 @@ components:
           type: string
           format: date
           description: The candidate’s date of birth
-          example: 1985-02-02
+          example: "1985-02-13"
         nationality:
           type: array
           items:
@@ -863,7 +863,6 @@ components:
           type: string
           description: 'Details about the qualification awarding body. DEPRECATED: this field will always be null as Apply does not collect this information.'
           deprecated: true
-          example: University of Amsterdam
           maxLength: 256
           nullable: true
         hesa_degtype:
@@ -899,13 +898,14 @@ components:
         hesa_degstdt:
           type: string
           description: Degree start date in ISO8601 format
-          example: '2000-01-01'
-          maxLength: 10
+          format: date-time
+          example: 2019-09-18T15:33:49.216Z
           nullable: true
         hesa_degenddt:
           type: string
           description: Degree end date in ISO8601 format
-          example: '2004-01-01'
+          format: date-time
+          example: 2019-09-18T15:33:49.216Z
           maxLength: 10
           nullable: true
     Reference:
@@ -990,7 +990,6 @@ components:
           maxLength: 10240
           nullable: true
           deprecated: true
-          example: Candidate is unwell
         date:
           type: string
           format: date-time
@@ -1077,13 +1076,13 @@ components:
           type: string
           format: date
           description: The date the position began
-          example: 2020-09-10
+          example: "2020-09-01"
         end_date:
           type: string
           format: date
           nullable: true
           description: The date the position finished, if applicable
-          example: 2019-04-01
+          example: "2019-04-01"
         role:
           type: string
           description: The position held by the candidate
@@ -1207,7 +1206,7 @@ components:
           type: string
           description: The time this update was made
           format: date-time
-          example: 2019-03-01T15:33:49.216Z
+          example: 2019-06-13T23:59:59Z
     Error:
       type: object
       additionalProperties: false
