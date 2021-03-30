@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Reference history on review page' do
   include CandidateHelper
 
-  scenario 'candidate views reference history', with_audited: true, recruitment_cycle: 2020 do
+  scenario 'candidate views reference history', with_audited: true do
     given_i_am_signed_in
     and_i_add_a_reference
     and_i_send_it
