@@ -1,3 +1,7 @@
+## 31st March
+
+`Qualification.grade` now has a value of `Not entered` when the candidate did not provide a value. This used to be `null`, though we promised a string.
+
 ## 22nd March
 
 The following experimental/sandbox endpoint has been updated:
