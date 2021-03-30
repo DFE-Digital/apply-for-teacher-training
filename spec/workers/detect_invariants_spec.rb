@@ -125,5 +125,27 @@ RSpec.describe DetectInvariants do
         ),
       )
     end
+
+    it 'detects applications submitted with the same course' do
+      course = create(:course)
+      course_option1 = create(:course_option, course: course)
+      course_option2 = create(:course_option, course: course)
+      application_form = create(:completed_application_form)
+
+      create(:submitted_application_choice, application_form: application_form, course_option: course_option1)
+      create(:submitted_application_choice, application_form: application_form, course_option: course_option2)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::ApplicationSubmittedWithTheSameCourse.new(
+          <<~MSG,
+            The following applications have been submitted containing the same course choice multiple times
+
+            http://localhost:3000/support/applications/#{application_form.id}
+          MSG
+        ),
+      )
+    end
   end
 end
