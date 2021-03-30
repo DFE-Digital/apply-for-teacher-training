@@ -9,13 +9,18 @@
 
     <p class="govuk-body-l">Search for courses near you on Find postgraduate teacher&nbsp;training.</p>
 
-    <%= govuk_button_link_to 'https://www.find-postgraduate-teacher-training.service.gov.uk', class: 'govuk-!-margin-top-4 govuk-!-margin-bottom-2 govuk-button--start', target: '_blank', rel: 'noopener', 'aria-describedby': 'find-new-window' do %>
-      <%= t('application_form.begin_button') %>
-      <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
-        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-      </svg>
-    <% end %>
-    <p class="govuk-body-s govuk-!-margin-bottom-8" id="find-new-window" aria-hidden="true">Opens in a new window</p>
+    <%= govuk_start_now_button(
+      text: t('application_form.begin_button'),
+      href: 'https://www.find-postgraduate-teacher-training.service.gov.uk',
+      classes: 'govuk-!-margin-bottom-2',
+      html_attributes: {
+        target: '_blank',
+        rel: 'noopener',
+        'aria-describedby': 'find-new-window',
+      },
+    ) %>
+
+    <p class="govuk-body-s govuk-!-margin-bottom-6" id="find-new-window" aria-hidden="true">Opens in a new window</p>
     <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
   </div>
 </div>
