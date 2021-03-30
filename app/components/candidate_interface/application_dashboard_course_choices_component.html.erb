@@ -86,6 +86,7 @@
       heading_level: @heading_level,
     )) do %>
       <div class="app-summary-card__actions">
+        <%= govuk_link_to 'View application', candidate_interface_application_review_submitted_path %>
         <% if !application_choice.offer? && !withdrawable?(application_choice) && @editable %>
           <%= govuk_link_to candidate_interface_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
             <%= t('application_form.courses.delete') %>
