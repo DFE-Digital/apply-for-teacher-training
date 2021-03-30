@@ -48,8 +48,10 @@ locals {
     sandbox = "sandbox"
     prod    = "www"
   }
-  web_app_routes           = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route]
-  web_app_env_variables    = merge(var.app_environment_variables, { SERVICE_TYPE = "web" })
-  clock_app_env_variables  = merge(var.app_environment_variables, { SERVICE_TYPE = "clock" })
-  worker_app_env_variables = merge(var.app_environment_variables, { SERVICE_TYPE = "worker" })
+  web_app_routes               = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route]
+  postgres_readonly_connection = cloudfoundry_service_key.postgres-readonly-key.credentials.uri
+  app_environment_variables    = merge(var.app_environment_variables, { BLAZER_DATABASE_URL = local.postgres_readonly_connection })
+  web_app_env_variables        = merge(local.app_environment_variables, { SERVICE_TYPE = "web" })
+  clock_app_env_variables      = merge(local.app_environment_variables, { SERVICE_TYPE = "clock" })
+  worker_app_env_variables     = merge(local.app_environment_variables, { SERVICE_TYPE = "worker" })
 }
