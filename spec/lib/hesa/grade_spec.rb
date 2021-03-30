@@ -6,8 +6,8 @@ RSpec.describe Hesa::Grade do
       grades = described_class.all
 
       expect(grades.size).to eq 15
-      pass = grades.find { |s| s.hesa_code == 14 }
-      expect(pass.hesa_code).to eq 14
+      pass = grades.find { |s| s.hesa_code == '14' }
+      expect(pass.hesa_code).to eq '14'
       expect(pass.description).to eq 'Pass'
     end
   end
@@ -18,7 +18,7 @@ RSpec.describe Hesa::Grade do
 
       expect(main_grades.size).to eq 9
       first = main_grades.first
-      merit = main_grades.find { |g| g.hesa_code == 13 }
+      merit = main_grades.find { |g| g.hesa_code == '13' }
       expect(first.description).to eq 'First class honours'
       expect(merit.description).to eq 'Merit'
       expect(first.visual_grouping).to eq :main_undergrad
@@ -32,7 +32,7 @@ RSpec.describe Hesa::Grade do
 
       expect(main_grades.size).to eq 5
       first = main_grades.first
-      merit = main_grades.find { |g| g.hesa_code == 13 }
+      merit = main_grades.find { |g| g.hesa_code == '13' }
       expect(first.description).to eq 'First class honours'
       expect(merit).to be_nil
     end
@@ -51,7 +51,7 @@ RSpec.describe Hesa::Grade do
 
   describe '.grouping_for(degree_type_code:)' do
     context 'given a valid HESA degree type code for a bachelors degree' do
-      let(:grouping) { described_class.grouping_for(degree_type_code: 51) }
+      let(:grouping) { described_class.grouping_for(degree_type_code: '51') }
 
       it 'returns the undergrad grouping only' do
         expect(grouping.size).to eq 5

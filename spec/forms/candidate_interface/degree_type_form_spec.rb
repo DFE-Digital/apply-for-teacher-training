@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         expect(form.application_form.application_qualifications.degree.size).to eq 1
         degree = form.application_form.application_qualifications.degree.first
         expect(degree.qualification_type).to eq 'Doctor of Divinity'
-        expect(degree.qualification_type_hesa_code).to eq 300
+        expect(degree.qualification_type_hesa_code).to eq '300'
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         form.update
 
         expect(degree.qualification_type).to eq 'Doctor of Divinity'
-        expect(degree.qualification_type_hesa_code).to eq 300
+        expect(degree.qualification_type_hesa_code).to eq '300'
       end
     end
 

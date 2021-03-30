@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
         form.save
 
         expect(form.degree.institution_name).to eq 'Harper Adams University'
-        expect(form.degree.institution_hesa_code).to eq 18
+        expect(form.degree.institution_hesa_code).to eq '18'
       end
     end
 

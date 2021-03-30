@@ -6,8 +6,8 @@ RSpec.describe Hesa::Subject do
       subjects = described_class.all
 
       expect(subjects.size).to eq 1092
-      fashion_design = subjects.find { |s| s.hesa_code == 100055 }
-      expect(fashion_design.hesa_code).to eq 100055
+      fashion_design = subjects.find { |s| s.hesa_code == '100055' }
+      expect(fashion_design.hesa_code).to eq '100055'
       expect(fashion_design.name).to eq 'Fashion design'
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe Hesa::Subject do
         result = described_class.find_by_name('Salman Rushdie studies')
 
         expect(result.name).to eq 'Salman Rushdie studies'
-        expect(result.hesa_code).to eq 101496
+        expect(result.hesa_code).to eq '101496'
       end
     end
 
