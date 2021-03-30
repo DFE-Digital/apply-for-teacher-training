@@ -378,21 +378,12 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def feedback_received_for_application_rejected_by_default
     application_choice =
-      if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd)
-        FactoryBot.build_stubbed(
-          :application_choice,
-          :with_structured_rejection_reasons,
-          application_form: application_form,
-          course_option: course_option,
-        )
-      else
-        FactoryBot.build_stubbed(
-          :application_choice,
-          :with_rejection_by_default_and_feedback,
-          application_form: application_form,
-          course_option: course_option,
-        )
-      end
+      FactoryBot.build_stubbed(
+        :application_choice,
+        :with_structured_rejection_reasons,
+        application_form: application_form,
+        course_option: course_option,
+      )
 
     CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice)
   end
