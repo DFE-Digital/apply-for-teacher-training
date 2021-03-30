@@ -24,7 +24,7 @@ resource "cloudfoundry_app" "web_app" {
   space                      = data.cloudfoundry_space.space.id
   strategy                   = "blue-green-v2"
   timeout                    = 180
-  environment                = var.app_environment_variables
+  environment                = local.web_app_env_variables
   docker_credentials         = var.docker_credentials
   dynamic "routes" {
     for_each = local.web_app_routes
@@ -32,6 +32,46 @@ resource "cloudfoundry_app" "web_app" {
       route = routes.value.id
     }
   }
+  dynamic "service_binding" {
+    for_each = local.app_service_bindings
+    content {
+      service_instance = service_binding.value.id
+    }
+  }
+}
+
+resource "cloudfoundry_app" "clock" {
+  name               = local.clock_app_name
+  docker_image       = var.app_docker_image
+  health_check_type  = "process"
+  command            = "bundle exec clockwork config/clock.rb"
+  instances          = var.clock_app_instances
+  memory             = var.clock_app_memory
+  space              = data.cloudfoundry_space.space.id
+  strategy           = "blue-green-v2"
+  timeout            = 180
+  environment        = local.clock_app_env_variables
+  docker_credentials = var.docker_credentials
+  dynamic "service_binding" {
+    for_each = local.app_service_bindings
+    content {
+      service_instance = service_binding.value.id
+    }
+  }
+}
+
+resource "cloudfoundry_app" "worker" {
+  name               = local.worker_app_name
+  docker_image       = var.app_docker_image
+  health_check_type  = "process"
+  command            = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
+  instances          = var.worker_app_instances
+  memory             = var.worker_app_memory
+  space              = data.cloudfoundry_space.space.id
+  strategy           = "blue-green-v2"
+  timeout            = 180
+  environment        = local.worker_app_env_variables
+  docker_credentials = var.docker_credentials
   dynamic "service_binding" {
     for_each = local.app_service_bindings
     content {
