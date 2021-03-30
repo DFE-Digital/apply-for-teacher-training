@@ -1,4 +1,4 @@
-<% application_choices.each do |application_choice| %>
+<% @application_choices.each do |application_choice| %>
   <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
   <% if CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_choice.application_form) && @editable %>
     <% if application_choice.course_not_available? %>
@@ -81,19 +81,12 @@
   <% end %>
 
   <%= render(SummaryCardComponent.new(rows: course_choice_rows(application_choice), editable: @editable)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: application_choice.offered_course.provider.name, heading_level: @heading_level)) do %>
+    <%= render(SummaryCardHeaderComponent.new(
+      title: title_for(application_choice),
+      heading_level: @heading_level,
+    )) do %>
       <div class="app-summary-card__actions">
-        <% if application_choice.offer? %>
-          <%= govuk_link_to candidate_interface_offer_path(application_choice.id), data: { action: :respond } do %>
-            <%= t('application_form.courses.view_and_respond_to_offer') %>
-            <span class="govuk-visually-hidden"> <%= application_choice.offered_course.name_and_code %></span>
-          <% end %>
-        <% elsif withdrawable?(application_choice) %>
-          <%= govuk_link_to candidate_interface_withdraw_path(application_choice.id), data: { action: :withdraw } do %>
-            <%= t('application_form.courses.withdraw') %>
-            <span class="govuk-visually-hidden"> <%= application_choice.offered_course.name_and_code %></span>
-          <% end %>
-        <% elsif @editable %>
+        <% if !application_choice.offer? && !withdrawable?(application_choice) && @editable %>
           <%= govuk_link_to candidate_interface_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
             <%= t('application_form.courses.delete') %>
             <span class="govuk-visually-hidden"> <%= application_choice.offered_course.name_and_code %></span>
@@ -108,3 +101,8 @@
 <% if show_missing_banner? %>
   <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
 <% end %>
+
+<h2 class="govuk-heading-m">Updating your contact information</h2>
+<p class="govuk-body">
+  To update your contact information, email us at <a href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>.
+</p>

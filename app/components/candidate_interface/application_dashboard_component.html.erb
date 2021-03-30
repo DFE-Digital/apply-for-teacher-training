@@ -14,7 +14,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
-    <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
+    <%= render(CandidateInterface::ApplicationDashboardCourseChoicesComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
     <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @candidate)) %>
   </div>
 

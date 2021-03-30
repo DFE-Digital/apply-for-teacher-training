@@ -1,5 +1,5 @@
 module CandidateInterface
-  class CourseChoicesReviewComponent < ViewComponent::Base
+  class ApplicationDashboardCourseChoicesComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(
@@ -26,16 +26,13 @@ module CandidateInterface
 
     def course_choice_rows(application_choice)
       [
-        course_row(application_choice),
         study_mode_row(application_choice),
-        location_row(application_choice),
-        type_row(application_choice),
-        course_length_row(application_choice),
-        start_date_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
+        withdraw_row(application_choice),
+        respond_to_offer_row(application_choice),
       ].compact
     end
 
@@ -44,7 +41,7 @@ module CandidateInterface
     end
 
     def any_withdrawable?
-      application_choices.any? do |application_choice|
+      @application_form.application_choices.any? do |application_choice|
         withdrawable?(application_choice)
       end
     end
@@ -66,7 +63,7 @@ module CandidateInterface
       if has_multiple_sites?(application_choice)
         candidate_interface_course_choices_site_path(
           application_choice.provider.id,
-          application_choice.offered_course.id,
+          application_choice.course.id,
           application_choice.offered_option.study_mode,
           course_choice_id: application_choice.id,
         )
@@ -91,83 +88,40 @@ module CandidateInterface
                                end
     end
 
+    def title_for(application_choice)
+      "<span class=\"app-course-choice__provider-name\">#{application_choice.offered_course.provider.name}</span>
+      <span class=\"app-course-choice__course-name\">#{application_choice.offered_course.name_and_code}</span>".html_safe
+    end
+
   private
 
     attr_reader :application_form
 
-    def course_row(application_choice)
-      {
-        key: 'Course',
-        value: course_row_value(application_choice),
-        action: "course choice for #{application_choice.offered_course.name_and_code}",
-        change_path: course_change_path(application_choice),
-      }
-    end
-
-    def course_row_value(application_choice)
-      if EndOfCycleTimetable.find_down?
-        "#{application_choice.offered_course.name} (#{application_choice.offered_course.code})"
-      else
-        govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})", application_choice.offered_course.find_url, target: '_blank', rel: 'noopener')
-      end
-    end
-
-    def location_row(application_choice)
-      {
-        key: 'Location',
-        value: "#{application_choice.offered_site.name}\n#{application_choice.offered_site.full_address}",
-        action: "location for #{application_choice.offered_course.name_and_code}",
-        change_path: site_change_path(application_choice),
-      }
-    end
-
     def study_mode_row(application_choice)
-      return unless application_choice.offered_course.full_time_or_part_time?
+      return unless application_choice.course.full_time_or_part_time?
 
       change_path = candidate_interface_course_choices_study_mode_path(
         application_choice.provider.id,
-        application_choice.offered_course.id,
+        application_choice.course.id,
         course_choice_id: application_choice.id,
       )
 
       {
         key: 'Full time or part time',
         value: application_choice.offered_option.study_mode.humanize,
-        action: "study mode for #{application_choice.offered_course.name_and_code}",
+        action: "study mode for #{application_choice.course.name_and_code}",
         change_path: change_path,
       }
     end
 
-    def type_row(application_choice)
-      {
-        key: 'Type',
-        value: application_choice.offered_course.description,
-      }
-    end
-
-    def course_length_row(application_choice)
-      {
-        key: 'Course length',
-        value: DisplayCourseLength.call(course_length: application_choice.offered_course.course_length),
-      }
-    end
-
-    def start_date_row(application_choice)
-      unless application_choice.offer_deferred?
-        {
-          key: 'Date course starts',
-          value: application_choice.offered_course.start_date.to_s(:month_and_year),
-        }
-      end
-    end
-
     def interview_row(application_choice)
-      if application_choice.interviews.kept.any?
-        {
-          key: 'Interview'.pluralize(application_choice.interviews.size),
-          value: render(InterviewBookingsComponent.new(application_choice)),
-        }
-      end
+      return unless application_choice.interviews.kept.any? ||
+        application_choice.awaiting_provider_decision?
+
+      {
+        key: 'Interview'.pluralize(application_choice.interviews.size),
+        value: render(InterviewBookingsComponent.new(application_choice)),
+      }
     end
 
     def status_row(application_choice)
@@ -177,6 +131,34 @@ module CandidateInterface
           value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
         }
       end
+    end
+
+    def withdraw_row(application_choice)
+      return nil unless withdrawable?(application_choice)
+
+      {
+        key: ' ',
+        value: render(
+          CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
+            action: :withdraw,
+            application_choice: application_choice,
+          ),
+        ),
+      }
+    end
+
+    def respond_to_offer_row(application_choice)
+      return unless application_choice.offer?
+
+      {
+        key: ' ',
+        value: render(
+          CandidateInterface::CourseChoicesSummaryCardActionComponent.new(
+            action: :respond_to_offer,
+            application_choice: application_choice,
+          ),
+        ),
+      }
     end
 
     def offer_withdrawal_reason_row(application_choice)
@@ -212,30 +194,11 @@ module CandidateInterface
     end
 
     def has_multiple_sites?(application_choice)
-      CourseOption.available.where(course_id: application_choice.offered_course.id, study_mode: application_choice.offered_option.study_mode).many?
+      CourseOption.where(course_id: application_choice.course.id, study_mode: application_choice.offered_option.study_mode).many?
     end
 
     def has_multiple_courses?(application_choice)
       Course.current_cycle.where(provider: application_choice.provider).many?
-    end
-
-    def application_choices_with_accepted_states
-      @application_form
-        .application_choices
-        .includes(:course, :site, :provider, :offered_course_option, :interviews)
-        .order(id: :asc)
-        .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
-    end
-
-    def all_application_choices
-      @application_form
-        .application_choices
-        .includes(:course, :site, :provider, :offered_course_option, :interviews)
-        .order(id: :asc)
-    end
-
-    def application_choice_with_accepted_state_present?
-      @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
     end
   end
 end
