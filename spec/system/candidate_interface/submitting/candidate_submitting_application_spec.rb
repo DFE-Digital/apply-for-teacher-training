@@ -33,11 +33,8 @@ RSpec.feature 'Candidate submits the application' do
     when_i_fill_in_further_information
     and_i_submit_the_application
     then_i_can_see_my_application_has_been_successfully_submitted
-    and_i_can_see_my_support_ref
+    and_i_am_redirected_to_the_application_dashboard
     and_i_receive_an_email_with_my_support_ref
-
-    when_i_click_on_track_your_application
-    then_i_can_see_my_application_dashboard
 
     when_i_click_view_application
     then_i_can_see_my_submitted_application
@@ -187,12 +184,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application successfully submitted'
-    expect(page).to have_content 'Your training provider will be in touch with you if they want to arrange an interview.'
-  end
-
-  def and_i_can_see_my_support_ref
-    support_ref = page.find('span#application-ref').text
-    expect(support_ref).not_to be_empty
+    # expect(page).to have_content 'You will get an email when something changes.'
   end
 
   def and_i_receive_an_email_with_my_support_ref
@@ -200,11 +192,7 @@ RSpec.feature 'Candidate submits the application' do
     expect(current_email).to have_content 'Application submitted'
   end
 
-  def when_i_click_on_track_your_application
-    click_link 'To view your application, return to your application dashboard'
-  end
-
-  def then_i_can_see_my_application_dashboard
+  def and_i_am_redirected_to_the_application_dashboard
     this_day = Time.zone.now.to_s(:govuk_date)
     expect(page).to have_content t('page_titles.application_dashboard')
     expect(page).to have_content "Application submitted on #{this_day}"

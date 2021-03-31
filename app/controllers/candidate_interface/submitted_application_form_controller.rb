@@ -10,13 +10,6 @@ module CandidateInterface
       @application_form = current_application
     end
 
-    def submit_success
-      @application_form = current_application
-      @support_reference = current_application.support_reference
-      provider_count = current_application.unique_provider_list.size
-      @pluralized_provider_string = 'provider'.pluralize(provider_count)
-    end
-
     def apply_again
       if ApplyAgain.new(current_application).call
         flash[:success] = 'Your new application is ready for editing'
