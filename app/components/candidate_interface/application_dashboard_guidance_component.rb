@@ -18,8 +18,8 @@ module CandidateInterface
       !successful? && awaiting_decisions?
     end
 
-    def awaiting_multiple_decisions?
-      multiple_choices_with_status?('awaiting_provider_decision')
+    def has_multiple_applications?
+      statuses.count > 1
     end
 
     def has_offers_awaiting_decisions?

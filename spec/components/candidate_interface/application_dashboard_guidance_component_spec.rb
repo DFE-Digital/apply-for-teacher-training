@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardGuidanceComponent do
 
   it 'displays correct message when a single application choice is `awaiting_provider_decision`' do
     application_form = create_application_form_with_course_choices(
-      statuses: %w[awaiting_provider_decision rejected],
+      statuses: %w[awaiting_provider_decision],
     )
     result = render_inline(described_class.new(application_form: application_form))
     expect(result.text).to include('Your application has been submitted and is with the training provider')
