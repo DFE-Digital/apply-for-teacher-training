@@ -108,10 +108,18 @@ RSpec.describe InterviewBookingsComponent, type: :component do
   end
 
   context 'when the interview is in the past' do
-    it 'renders a simple message with the date' do
-      Timecop.freeze(2020, 6, 7, 12) do
+    it 'renders interview details including date and time on the same day as the interview' do
+      Timecop.freeze(2020, 6, 6, 23, 0, 0) do
+        result = render_inline(described_class.new(interview.application_choice))
+        expect(result.text).to include('6 June 2020 at 6:30pm')
+      end
+    end
+
+    it 'renders a simple message with the date after the day of the interview' do
+      Timecop.freeze(2020, 6, 7, 12, 0, 0) do
         result = render_inline(described_class.new(interview.application_choice))
         expect(result.text).to include('You had an interview on 6 June 2020')
+        expect(result.text).not_to include('6 June 2020 at 6:30pm')
       end
     end
   end

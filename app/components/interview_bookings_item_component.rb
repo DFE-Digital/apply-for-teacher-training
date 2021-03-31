@@ -28,7 +28,7 @@ class InterviewBookingsItemComponent < ViewComponent::Base
   end
 
   def in_the_past?
-    interview.date_and_time + 1.hour < Time.zone.now
+    interview.date_and_time.to_date < Time.zone.today
   end
 
 private
