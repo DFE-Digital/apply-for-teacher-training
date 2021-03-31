@@ -1,7 +1,7 @@
 <% if in_the_past? %>
-  <p class='govuk-body'>You had an interview on <%= formatted_date(interview) %></p>
+  <p class="govuk-body">You had an interview on <%= formatted_date(interview) %></p>
 <% else %>
-  <p class='govuk-body'>You have an interview scheduled for <%= formatted_time(interview) %></p>
+  <p class="govuk-body">You have an interview scheduled for <%= formatted_time(interview) %></p>
   <p class="govuk-body govuk-!-margin-bottom-0">Information from provider:</p>
   <div class="govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-1">
     <%= location(interview) %>
