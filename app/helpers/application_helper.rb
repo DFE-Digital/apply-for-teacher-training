@@ -41,6 +41,8 @@ module ApplicationHelper
       'api_docs'
     elsif section == 'data-api'
       'data_api_docs'
+    elsif section == 'register-api'
+      'register_api_docs'
     else
       "#{section}_interface"
     end
