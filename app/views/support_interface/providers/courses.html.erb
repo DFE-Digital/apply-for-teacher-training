@@ -11,7 +11,7 @@
       <% end %>
 
       <% unless @provider.all_associated_accredited_providers_onboarded? %>
-        <%= render GovukComponent::Warning.new(
+        <%= govuk_warning(
           text: 'Some of this provider’s courses are ratified by an accredited body which does not yet participate in the beta. The accredited body might expect to manage applications to those courses. Check before clicking this button.',
         ) %>
       <% end %>
