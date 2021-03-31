@@ -114,6 +114,7 @@ GEM
     db-query-matchers (0.10.0)
       activesupport (>= 4.0, < 7)
       rspec (~> 3.0)
+    deep_merge (1.2.1)
     deepsort (0.4.5)
     devise (4.7.3)
       bcrypt (~> 3.0)
@@ -165,10 +166,11 @@ GEM
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.20)
-    govuk_design_system_formbuilder (2.2.0)
+    govuk_design_system_formbuilder (2.3.0)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
+      deep_merge (~> 1.2.1)
     govuk_markdown (0.4.0)
       activesupport
       redcarpet
@@ -202,7 +204,7 @@ GEM
     http-parser (1.2.1)
       ffi-compiler (>= 1.0, < 2.0)
     httpclient (2.8.3)
-    i18n (1.8.9)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
     json-jwt (1.13.0)
@@ -563,7 +565,7 @@ DEPENDENCIES
   faker
   geocoder
   govuk-components
-  govuk_design_system_formbuilder (~> 2.2.0)
+  govuk_design_system_formbuilder (~> 2.3.0)
   govuk_markdown
   guard-rspec
   holidays
