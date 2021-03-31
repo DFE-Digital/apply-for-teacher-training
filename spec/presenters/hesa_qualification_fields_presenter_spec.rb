@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::HesaQualificationFieldsPresenter do
+RSpec.describe HesaQualificationFieldsPresenter do
   describe '#to_hash' do
     let(:qualification) { create(:degree_qualification) }
-    let(:presenter) { VendorAPI::HesaQualificationFieldsPresenter.new(qualification) }
+    let(:presenter) { described_class.new(qualification) }
 
     direct_mappings = {
       hesa_degtype: { attr: :qualification_type_hesa_code, zeropad: 3 },
@@ -32,7 +32,7 @@ RSpec.describe VendorAPI::HesaQualificationFieldsPresenter do
 
     it 'returns nil values for non-degree qualifications' do
       non_degree = create(:gcse_qualification)
-      presenter = VendorAPI::HesaQualificationFieldsPresenter.new(non_degree)
+      presenter = described_class.new(non_degree)
       expected = {
         hesa_degtype: nil,
         hesa_degsbj: nil,
