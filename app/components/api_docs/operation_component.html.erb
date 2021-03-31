@@ -53,29 +53,20 @@
 
   <%= render APIDocs::PropertyListComponent.new(operation.request_body.schema.properties) %>
 
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Example request body
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= json_code_sample(operation.request_body.schema.example) %>
-    </div>
-  </details>
+  <%= render GovukComponent::Details.new(
+    summary: 'Example request body',
+  ) do %>
+    <%= json_code_sample(operation.request_body.schema.example) %>
+  <% end %>
 <% end %>
 
 <% if operation.responses.any? %>
   <h4 class="govuk-heading-s">Possible reponses</h4>
 
   <% operation.responses.each do |code, response| %>
-    <details class="govuk-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          HTTP <%= code %> - <%= response.description %>
-        </span>
-      </summary>
-      <div class="govuk-details__text">
+    <%= render GovukComponent::Details.new(
+      summary: "HTTP #{code} - #{response.description}",
+    ) do %>
         <% if response.schema.name %>
           This request will return a <%= govuk_link_to response.schema.name, "##{response.schema.name.parameterize}-object" %> object.
         <% end %>
@@ -87,7 +78,6 @@
             <%= csv_sample(response.schema.example) %>
           <% end %>
         <% end %>
-      </div>
-    </details>
+      <% end %>
   <% end %>
 <% end %>

@@ -1,8 +1,5 @@
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">See this application choice as it appears over the API</span>
-  </summary>
-  <div class="govuk-details__text">
-    <%= json_code_sample(application_json) %>
-  </div>
-</details>
+<%= render GovukComponent::Details.new(
+  summary: 'See this application choice as it appears over the API',
+) do %>
+  <%= json_code_sample(application_json) %>
+<% end %>

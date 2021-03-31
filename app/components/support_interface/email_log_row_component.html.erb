@@ -5,15 +5,10 @@
   <td class="govuk-table__cell govuk-!-padding-top-0">
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
 
-    <details class="govuk-details app-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Email body
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        <%= tag.pre(email.body) %>
-      </div>
-    </details>
+    <%= render GovukComponent::Details.new(
+      summary: 'Email body',
+    ) do %>
+      <%= tag.pre(email.body) %>
+    <% end %>
   </td>
 </tr>

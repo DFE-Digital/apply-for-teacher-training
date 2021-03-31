@@ -1,13 +1,8 @@
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View diagram of application flow
-      <span class="govuk-visually-hidden">(accessible example presented after diagram)</span>
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <div class="app-diagram">
-      <%= StateDiagram.svg(only_from_state: nil, machine: @machine) %>
-    </div>
+<%= render GovukComponent::Details.new(
+  summary: 'View diagram of application flow',
+) do %>
+  <span class="govuk-visually-hidden">(accessible example presented after diagram)</span>
+  <div class="app-diagram">
+    <%= StateDiagram.svg(only_from_state: nil, machine: @machine) %>
   </div>
-</details>
+<% end %>

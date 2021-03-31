@@ -6,16 +6,13 @@
   <% if message %><p class="govuk-body"><%= message %></p><% end %>
 
   <% if display_safeguarding_issues_details? %>
-    <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          View information disclosed by the candidate
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        <%= details %>
-      </div>
-    </details>
+    <%= render GovukComponent::Details.new(
+      summary: 'View information disclosed by the candidate',
+      classes: 'govuk-!-margin-bottom-2',
+    ) do %>
+      <%= details %>
+    <% end %>
+
   <% elsif safeguarding_issues_declared? %>
     <% if @analysis.provider_relationship_allows_access? %>
       <p class="govuk-body">
