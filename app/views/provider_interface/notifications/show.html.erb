@@ -16,7 +16,11 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l govuk-!-margin-bottom-2">
       <%= t('page_titles.provider.notifications') %>
-      <span class="govuk-caption-m govuk-!-margin-top-1">These are sent when an application is submitted, withdrawn, automatically rejected, accepted or declined.</span>
+      <% if FeatureFlag.active?(:configurable_provider_notifications) %>
+        <span class="govuk-caption-m govuk-!-margin-top-1">Choose which email notifications you want to receive.</span>
+      <% else %>
+        <span class="govuk-caption-m govuk-!-margin-top-1">These are sent when an application is submitted, withdrawn, automatically rejected, accepted or declined.</span>
+      <% end %>
     </h1>
     <% if FeatureFlag.active?(:configurable_provider_notifications) %>
       <%= render ProviderUserNotificationPreferencesComponent.new(current_provider_user.notification_preferences, form_path: provider_interface_notifications_path) %>
