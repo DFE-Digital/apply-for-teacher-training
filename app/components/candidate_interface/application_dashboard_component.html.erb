@@ -2,7 +2,7 @@
   <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-2"><%= title %></h1>
+<h1 class="govuk-heading-xl"><%= title %></h1>
 
 <%= render(CandidateInterface::ApplicationDashboardGuidanceComponent.new(application_form: @application_form)) %>
 <% if @application_form.ended_without_success? %>
