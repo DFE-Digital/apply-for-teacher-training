@@ -6,12 +6,7 @@ module RegisterAPI
     rescue_from ParameterInvalid, with: :parameter_invalid
 
     def index
-      application_choices = GetRecruitedApplicationChoices.call(
-        recruitment_cycle_year: recruitment_cycle_year_param,
-        changed_since: changed_since,
-      )
-
-      render json: { data: MultipleApplicationsPresenter.new(application_choices, api: RegisterAPI).as_json }
+      render json: { data: serialized_application_choices }
     end
 
     def parameter_missing(e)
@@ -23,6 +18,19 @@ module RegisterAPI
     end
 
   private
+
+    def serialized_application_choices
+      recruited_application_choices.find_each(batch_size: 100).map do |application_choice|
+        SingleApplicationPresenter.new(application_choice).as_json
+      end
+    end
+
+    def recruited_application_choices
+      GetRecruitedApplicationChoices.call(
+        recruitment_cycle_year: recruitment_cycle_year_param,
+        changed_since: changed_since,
+      )
+    end
 
     def recruitment_cycle_year_param
       year = params.fetch(:recruitment_cycle_year)

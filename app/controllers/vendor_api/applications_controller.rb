@@ -1,11 +1,7 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
     def index
-      application_choices = get_application_choices_for_provider_since(
-        since: since_param,
-      )
-
-      render json: { data: MultipleApplicationsPresenter.new(application_choices, api: VendorAPI).as_json }
+      render json: { data: serialized_application_choices }
     end
 
     def show
@@ -15,6 +11,12 @@ module VendorAPI
     end
 
   private
+
+    def serialized_application_choices
+      get_application_choices_for_provider_since(since: since_param).map do |application_choice|
+        SingleApplicationPresenter.new(application_choice).as_json
+      end
+    end
 
     def application_choices_visible_to_provider
       GetApplicationChoicesForProviders
