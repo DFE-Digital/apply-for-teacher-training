@@ -6,17 +6,17 @@
     <p class="govuk-body">Your application has been submitted and is with the training provider.</p>
   <% end %>
 
-  <p class="govuk-body">Our <%= govuk_link_to("teacher training advisers", "https://beta-adviser-getintoteaching.education.gov.uk/") %> can help you prepare for any interviews.</p>
+  <p class="govuk-body">Our <%= govuk_link_to('teacher training advisers', 'https://beta-adviser-getintoteaching.education.gov.uk/') %> can help you prepare for any interviews.</p>
 
 <% elsif has_multiple_offers_but_awaiting_decisions? %>
 
   <p class="govuk-body"><%= number_of_offers_in_words %> of your training providers have made a decision on your application.</p>
-  <p class="govuk-body">Our <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training advisers</a> can help you prepare for any interviews.</p>
+  <p class="govuk-body">Our <%= govuk_link_to('teacher training advisers', 'https://beta-adviser-getintoteaching.education.gov.uk/') %> can help you prepare for any interviews.</p>
 
 <% elsif has_single_offer_but_awaiting_decisions? %>
 
   <p class="govuk-body">One of your training providers has made a decision on your application.</p>
-  <p class="govuk-body">Our <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training advisers</a> can help you prepare for any interviews.</p>
+  <p class="govuk-body">Our <%= govuk_link_to('teacher training advisers', 'https://beta-adviser-getintoteaching.education.gov.uk/') %> can help you prepare for any interviews.</p>
 
 <% elsif offer_accepted? %>
 

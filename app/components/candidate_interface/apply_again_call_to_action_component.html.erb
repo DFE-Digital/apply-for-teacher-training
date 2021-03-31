@@ -3,7 +3,10 @@
 
   <p class="govuk-body">If now’s the right time, you can still apply for courses that start this academic year.</p>
 
-  <p class="govuk-body">To talk about your options, get in touch with a <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training adviser</a>.</p>
+  <p class="govuk-body">
+    To talk about your options, get in touch with a
+    <%= govuk_link_to('teacher training adviser', 'https://beta-adviser-getintoteaching.education.gov.uk/') %>">.
+  </p>
 
   <%= govuk_button_to(
     'Apply again',
