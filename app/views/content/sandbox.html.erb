@@ -50,10 +50,10 @@
 
     <p class="govuk-body">In the Apply sandbox, applications are sent immediately, if the references are complete.</p>
 
-    <%= render(GovUkStartButtonComponent.new(
-      title: 'Continue as a candidate',
+    <%= govuk_start_now_button(
+      text: 'Continue as a candidate',
       href: candidate_interface_account_path,
-    )) %>
+    ) %>
 
     <h2 class="govuk-heading-l">Get started as a training provider</h2>
 
@@ -65,10 +65,10 @@
 
     <p class="govuk-body">From the provider interface in the sandbox, you’ll be able to sign in as a specific candidate. This is useful if you have generated test applications via the API.</p>
 
-    <%= render(GovUkStartButtonComponent.new(
-      title: 'Continue as a training provider',
+    <%= govuk_start_now_button(
+      text: 'Continue as a training provider',
       href: provider_interface_path,
-    )) %>
+    ) %>
 
     <h2 class="govuk-heading-l">Get started with the API</h2>
 
@@ -76,10 +76,10 @@
 
     <p class="govuk-body">In the sandbox, you’ll be able to test your integration. You’ll also be able to generate dummy applications to process as a training provider.</p>
 
-    <%= render(GovUkStartButtonComponent.new(
-      title: 'Review our API documentation',
+    <%= govuk_start_now_button(
+      text: 'Review our API documentation',
       href: 'https://www.apply-for-teacher-training.service.gov.uk/api-docs',
-    )) %>
+    ) %>
 
     <h2 class="govuk-heading-l">Help and support</h2>
 
