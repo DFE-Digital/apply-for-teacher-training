@@ -6,7 +6,7 @@
     <p class="govuk-body">Your application has been submitted and is with the training provider.</p>
   <% end %>
 
-  <p class="govuk-body">Our <a href="https://beta-adviser-getintoteaching.education.gov.uk/">teacher training advisers</a> can help you prepare for any interviews.</p>
+  <p class="govuk-body">Our <%= govuk_link_to("teacher training advisers", "https://beta-adviser-getintoteaching.education.gov.uk/") %> can help you prepare for any interviews.</p>
 
 <% elsif has_offers_awaiting_decisions? %>
 
