@@ -89,13 +89,6 @@
       <ol class="app-task-list">
         <li class="app-task-list__item">
           <%= render(TaskListItemComponent.new(
-            text: t('page_titles.degree'),
-            completed: @application_form_presenter.degrees_completed?,
-            path: @application_form_presenter.degrees_path,
-          )) %>
-        </li>
-        <li class="app-task-list__item">
-          <%= render(TaskListItemComponent.new(
             text: t('page_titles.english_gcse'),
             completed: @application_form_presenter.english_gcse_completed?,
             path: @application_form_presenter.english_gcse_added? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english),
@@ -131,6 +124,13 @@
             text: other_qualifications_title(@application_form),
             completed: @application_form_presenter.other_qualifications_completed?,
             path: @application_form_presenter.other_qualification_path, show_incomplete: false
+          )) %>
+        </li>
+        <li class="app-task-list__item">
+          <%= render(TaskListItemComponent.new(
+            text: t('page_titles.degree'),
+            completed: @application_form_presenter.degrees_completed?,
+            path: @application_form_presenter.degrees_path,
           )) %>
         </li>
       </ol>

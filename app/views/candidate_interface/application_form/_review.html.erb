@@ -52,8 +52,6 @@
 
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.qualifications') %></h2>
-  <h3 class="govuk-heading-m"><%= t('page_titles.degree') %></h3>
-  <%= render(CandidateInterface::DegreesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: true, missing_error: missing_error)) %>
   <h3 class="govuk-heading-m"><%= t('page_titles.english_gcse') %></h3>
   <%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.english_gcse, subject: 'english', editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 
@@ -76,6 +74,9 @@
 
   <h3 class="govuk-heading-m"><%= other_qualifications_title(@application_form) %></h3>
   <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
+
+  <h3 class="govuk-heading-m"><%= t('page_titles.degree') %></h3>
+  <%= render(CandidateInterface::DegreesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: true, missing_error: missing_error)) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
