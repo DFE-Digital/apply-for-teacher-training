@@ -14,11 +14,7 @@
 <% else %>
   <% content_for :title, t('page_titles.referee.confirmation', full_name: @reference.application_form.full_name) %>
 
-  <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-    <h1 class="govuk-panel__title">
-      <%= t('page_titles.referee.confirmation', full_name: @reference.application_form.full_name) %>
-    </h1>
-  </div>
+  <%= govuk_panel(title: t('page_titles.referee.confirmation', full_name: @reference.application_form.full_name), body: nil) %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
