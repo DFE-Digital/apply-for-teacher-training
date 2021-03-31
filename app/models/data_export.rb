@@ -72,6 +72,12 @@ class DataExport < ApplicationRecord
       description: 'A list of changes made to interviews for analysis of the Interviews feature',
       class: SupportInterface::InterviewChangesExport,
     },
+    notes_export: {
+      name: 'Notes',
+      export_type: 'notes_export',
+      description: 'Data related to notes made on applications by providers.',
+      class: SupportInterface::NotesExport,
+    },
     notifications_export: {
       name: 'Notifications',
       export_type: 'notifications_export',
@@ -197,6 +203,7 @@ class DataExport < ApplicationRecord
     equality_and_diversity: 'equality_and_diversity',
     interviews_export: 'interview_export',
     notifications_export: 'notifications_export',
+    notes_export: 'notes_export',
     offer_conditions: 'offer_conditions',
     organisation_permissions: 'organisation_permissions',
     provider_access_controls: 'provider_access_controls',

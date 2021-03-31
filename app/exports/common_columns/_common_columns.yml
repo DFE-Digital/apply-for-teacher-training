@@ -34,6 +34,11 @@ phase:
   - apply_2
   example: apply_1
 
+provider_user_id:
+    type: int
+    description: The ID of the provider user associated to the exported record.
+    example: 22
+
 recruitment_cycle_year:
   type: integer
   description: Recruitment cycle year
