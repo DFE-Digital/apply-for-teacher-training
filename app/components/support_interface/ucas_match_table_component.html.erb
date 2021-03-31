@@ -17,7 +17,7 @@
         <td class="govuk-table__cell">
           <%= table_row[:course_details] %>
           <% if table_row[:course_provider_contacts].any? %>
-            <%= render GovukComponent::Details.new(
+            <%= govuk_details(
               summary: 'Contact details',
               classes: 'govuk-!-padding-bottom-0',
             ) do %>

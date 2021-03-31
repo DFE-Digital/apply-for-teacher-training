@@ -5,7 +5,7 @@
   <td class="govuk-table__cell govuk-!-padding-top-0">
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
 
-    <%= render GovukComponent::Details.new(
+    <%= govuk_details(
       summary: 'Email body',
     ) do %>
       <%= tag.pre(email.body) %>

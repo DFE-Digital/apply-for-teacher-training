@@ -53,7 +53,7 @@
 
   <%= render APIDocs::PropertyListComponent.new(operation.request_body.schema.properties) %>
 
-  <%= render GovukComponent::Details.new(
+  <%= govuk_details(
     summary: 'Example request body',
   ) do %>
     <%= json_code_sample(operation.request_body.schema.example) %>
@@ -64,7 +64,7 @@
   <h4 class="govuk-heading-s">Possible reponses</h4>
 
   <% operation.responses.each do |code, response| %>
-    <%= render GovukComponent::Details.new(
+    <%= govuk_details(
       summary: "HTTP #{code} - #{response.description}",
     ) do %>
         <% if response.schema.name %>

@@ -10,7 +10,7 @@
   </p>
 <% elsif @application_choice.pending_conditions? || @application_choice.recruited? || @application_choice.offer? %>
 
-    <%= render GovukComponent::Details.new(
+    <%= govuk_details(
       summary: "What to do if you’re unable to start training in #{@application_choice.course_option.course.start_date.to_s(:month_and_year)}",
       classes: 'govuk-!-margin-bottom-0 govuk-!-margin-top-2',
     ) do %>
