@@ -74,7 +74,7 @@
     <%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.science_gcse, subject: 'science', editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
   <% end %>
 
-  <h3 class="govuk-heading-m"><%= t('page_titles.other_qualification') %></h3>
+  <h3 class="govuk-heading-m"><%= other_qualifications_title(@application_form) %></h3>
   <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 </section>
 

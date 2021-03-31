@@ -121,8 +121,8 @@ en:
     which_study_mode: Full time or part time?
     edit_degree: Edit degree
     edit_degree_type: Edit degree type
-    other_qualification: Academic and other relevant qualifications
-    add_other_qualification: Academic and other relevant qualifications
+    other_qualifications: A levels and other qualifications
+    other_qualifications_international: Other qualifications
     qualification_details: Qualification details
     edit_other_qualification: Edit qualification
     destroy_other_qualification: Are you sure you want to delete this qualification?

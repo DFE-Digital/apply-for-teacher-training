@@ -38,7 +38,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualification')
+    click_link t('page_titles.other_qualifications')
   end
 
   def then_i_see_the_select_qualification_type_page
