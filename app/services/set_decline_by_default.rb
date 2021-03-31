@@ -23,7 +23,7 @@ class SetDeclineByDefault
 
     dbd_time_limit = TimeLimitCalculator.new(
       rule: :decline_by_default,
-      effective_date: final_decision_date,
+      effective_date: final_decision_date.in_time_zone,
     ).call
 
     dbd_days = dbd_time_limit[:days]
