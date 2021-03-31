@@ -22,7 +22,15 @@ module CandidateInterface
       statuses.count > 1
     end
 
-    def has_offers_awaiting_decisions?
+    def has_multiple_offers_but_awaiting_decisions?
+      has_offers_but_awaiting_decisions? && has_multiple_offers?
+    end
+
+    def has_single_offer_but_awaiting_decisions?
+      has_offers_but_awaiting_decisions? && !has_multiple_offers?
+    end
+
+    def has_offers_but_awaiting_decisions?
       offered? && awaiting_decisions?
     end
 
