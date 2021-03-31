@@ -6,8 +6,4 @@ Your application for <%= @course.name_and_code %> was automatically rejected on 
 
 This was because <%= @course.provider.name %> did not respond in time. They’ve now given you the following feedback:
 
-<% if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd) %>
-  <%= render 'reasons_for_rejection' %>
-<% else %>
-  ^<%= @application_choice.rejection_reason&.gsub(/\n/,"\n^") %>
-<% end %>
+<%= render 'reasons_for_rejection' %>

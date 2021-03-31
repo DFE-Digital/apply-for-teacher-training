@@ -2,7 +2,6 @@ module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :redirect_if_application_rejected_and_feedback_provided
-    before_action :ensure_structured_reasons_for_rejection_on_rbd_feature_is_active
 
     def edit_initial_questions
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'initial_questions')
@@ -123,10 +122,6 @@ module ProviderInterface
 
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       end
-    end
-
-    def ensure_structured_reasons_for_rejection_on_rbd_feature_is_active
-      render_404 if rbd_application_with_no_feedback? && !FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd)
     end
 
   private

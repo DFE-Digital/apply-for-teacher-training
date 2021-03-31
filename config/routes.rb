@@ -650,9 +650,6 @@ Rails.application.routes.draw do
         resource :check, only: %i[new edit]
       end
 
-      get '/rbd-feedback' => 'feedback#new', as: :application_choice_new_rbd_feedback
-      post '/feedback/check' => 'feedback#check', as: :application_choice_check_feedback
-      post '/rbd-feedback' => 'feedback#create', as: :application_choice_rbd_feedback
       get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions
       post '/rejection-reasons' => 'reasons_for_rejection#update_initial_questions', as: :reasons_for_rejection_update_initial_questions
       get '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#edit_other_reasons', as: :reasons_for_rejection_other_reasons
