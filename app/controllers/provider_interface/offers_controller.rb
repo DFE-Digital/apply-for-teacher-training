@@ -85,13 +85,6 @@ module ProviderInterface
       'back' if !!params[:back]
     end
 
-    def query_service
-      @query_service ||= GetChangeOfferOptions.new(
-        user: current_provider_user,
-        current_course: @application_choice.offered_course,
-      )
-    end
-
     def available_providers
       query_service.available_providers
     end
@@ -102,6 +95,13 @@ module ProviderInterface
 
     def available_course_options(course_id, study_mode)
       query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
+    end
+
+    def query_service
+      @query_service ||= GetChangeOfferOptions.new(
+        user: current_provider_user,
+        current_course: @application_choice.offered_course,
+      )
     end
 
     def offer_context_params(decision = :default)

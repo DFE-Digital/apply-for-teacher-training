@@ -7,6 +7,7 @@ RSpec.describe ProviderInterface::OfferWizard do
                         course_option_id: course_option_id,
                         study_mode: study_mode,
                         location_id: location_id,
+                        application_choice_id: application_choice_id,
                         standard_conditions: standard_conditions,
                         further_condition_1: further_condition_1,
                         further_condition_2: further_condition_2,
@@ -22,6 +23,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
   let(:location_id) { nil }
+  let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { MakeAnOffer::STANDARD_CONDITIONS }
   let(:further_condition_1) { nil }
   let(:further_condition_2) { nil }
@@ -78,14 +80,25 @@ RSpec.describe ProviderInterface::OfferWizard do
 
     context 'when changing an offer' do
       let(:decision) { :change_offer }
+      let(:query_service) { instance_double(GetChangeOfferOptions) }
+      let(:provider_user) { instance_double(ProviderUser) }
+      let(:provider_id) { create(:provider).id }
+      let(:course_id) { create(:course).id }
+      let(:course_option_id) { create(:course_option).id }
+
+      before do
+        allow(ProviderUser).to receive(:find).and_return(provider_user)
+        allow(provider_user).to receive(:id).and_return(1)
+        allow(GetChangeOfferOptions).to receive(:new).and_return(query_service)
+        allow(store).to receive(:write)
+      end
 
       context 'when current_step is :select_option' do
         let(:current_step) { :select_option }
 
         context 'when there are multiple available providers' do
           before do
-            provider_user = instance_double(ProviderUser, providers: build_stubbed_list(:provider, 2))
-            allow(ProviderUser).to receive(:find).and_return(provider_user)
+            allow(query_service).to receive(:available_providers).and_return(create_list(:provider, 2))
           end
 
           it 'returns :providers' do
@@ -95,11 +108,8 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there is only one available provider' do
           before do
-            courses = build_stubbed_list(:course, 2)
-            provider = instance_double(Provider, id: :stub_id, courses: courses)
-            provider_user = instance_double(ProviderUser, providers: [provider])
-            allow(ProviderUser).to receive(:find).and_return(provider_user)
-            allow(store).to receive(:write)
+            allow(query_service).to receive(:available_providers).and_return([create(:provider)])
+            allow(query_service).to receive(:available_courses).and_return(create_list(:course, 2))
           end
 
           it 'returns :courses' do
@@ -113,7 +123,7 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there are multiple available courses' do
           before do
-            allow(Course).to receive(:where).and_return(class_double(Course, one?: false))
+            allow(query_service).to receive(:available_courses).and_return(create_list(:course, 2))
           end
 
           it 'returns :courses' do
@@ -123,12 +133,8 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there is only one available course' do
           before do
-            course = instance_double(Course, id: :stub_id)
-
-            allow(course).to receive(:available_study_modes_from_options).and_return(%i[full_time part_time])
-            allow(Course).to receive(:where).and_return([course])
-            allow(Course).to receive(:find).and_return(course)
-            allow(store).to receive(:write)
+            allow(query_service).to receive(:available_courses).and_return([create(:course)])
+            allow(query_service).to receive(:available_study_modes).and_return(%w[full_time part_time])
           end
 
           it 'returns :study_modes' do
@@ -142,9 +148,7 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there are multiple available study modes' do
           before do
-            course = instance_double(Course)
-            allow(course).to receive(:available_study_modes_from_options).and_return(%i[full_time part_time])
-            allow(Course).to receive(:find).and_return(course)
+            allow(query_service).to receive(:available_study_modes).and_return(%w[full_time part_time])
           end
 
           it 'returns :study_modes' do
@@ -154,13 +158,8 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there is only one study mode' do
           before do
-            course = instance_double(Course)
-            course_option = class_double(CourseOption, one?: false)
-
-            allow(course).to receive(:available_study_modes_from_options).and_return([:full_time])
-            allow(Course).to receive(:find).and_return(course)
-            allow(CourseOption).to receive(:where).and_return(course_option)
-            allow(store).to receive(:write)
+            allow(query_service).to receive(:available_study_modes).and_return(%w[part_time])
+            allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
           end
 
           it 'returns :study_modes' do
@@ -174,9 +173,7 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there are multiple locations available' do
           before do
-            course_option = class_double(CourseOption, one?: false)
-
-            allow(CourseOption).to receive(:where).and_return(course_option)
+            allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
           end
 
           it 'returns :locations' do
@@ -186,10 +183,7 @@ RSpec.describe ProviderInterface::OfferWizard do
 
         context 'when there is only one available location' do
           before do
-            course_option = instance_double(CourseOption, id: :stub_id)
-
-            allow(CourseOption).to receive(:where).and_return([course_option])
-            allow(store).to receive(:write)
+            allow(query_service).to receive(:available_course_options).and_return([create(:course_option)])
           end
 
           it 'returns :conditions' do

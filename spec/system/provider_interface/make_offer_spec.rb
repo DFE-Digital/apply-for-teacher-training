@@ -210,6 +210,20 @@ RSpec.feature 'Provider makes an offer' do
                       create(:course_option, :full_time, course: @selected_provider_available_course),
                       create(:course_option, :part_time, course: @selected_provider_available_course)]
 
+    create(
+      :provider_relationship_permissions,
+      training_provider: provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+    )
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: @available_provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+    )
+
     @selected_provider_available_course_option = course_options.sample
   end
 

@@ -31,7 +31,7 @@ module ProviderInterface
     end
 
     def course_option
-      @course_option = CourseOption.find(course_option_id)
+      CourseOption.find(course_option_id)
     end
 
     def save_state!
@@ -93,25 +93,41 @@ module ProviderInterface
 
     def query_service
       @query_service ||= GetChangeOfferOptions.new(
-        user: ProviderUser.find(provider_user_id),
-        current_course: ApplicationChoice.find(application_choice_id).offered_course,
+        user: provider_user,
+        current_course: application_choice.offered_course,
       )
     end
 
-    def available_study_modes
-      query_service.available_study_modes(course: Course.find(course_id))
+    def provider
+      Provider.find(provider_id)
     end
 
-    def available_course_options
-      query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
+    def course
+      Course.find(course_id)
     end
 
-    def available_courses
-      query_service.available_courses(provider: Provider.find(provider_id))
+    def provider_user
+      ProviderUser.find(provider_user_id)
+    end
+
+    def application_choice
+      ApplicationChoice.find(application_choice_id)
     end
 
     def available_providers
       query_service.available_providers
+    end
+
+    def available_courses
+      query_service.available_courses(provider: provider)
+    end
+
+    def available_study_modes
+      query_service.available_study_modes(course: course)
+    end
+
+    def available_course_options
+      query_service.available_course_options(course: course, study_mode: study_mode)
     end
 
     def last_saved_state
@@ -121,7 +137,7 @@ module ProviderInterface
 
     def state
       as_json(
-        except: %w[state_store errors validation_context query_service course_option wizard_path_history],
+        except: %w[state_store errors validation_context query_service wizard_path_history],
       ).to_json
     end
 
