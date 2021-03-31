@@ -1,3 +1,4 @@
-<% content_for :title, t('page_titles.application_dashboard') %>
+<% dashboard = CandidateInterface::ApplicationDashboardComponent.new(application_form: @application_form) %>
+<% content_for :title, dashboard.title %>
 
-<%= render CandidateInterface::ApplicationDashboardComponent.new(application_form: @application_form) %>
+<%= render dashboard %>
