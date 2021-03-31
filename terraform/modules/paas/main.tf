@@ -108,5 +108,9 @@ resource "cloudfoundry_service_instance" "redis" {
 resource "cloudfoundry_service_key" "postgres-readonly-key" {
   name             = "${local.postgres_service_name}-readonly-key"
   service_instance = cloudfoundry_service_instance.postgres.id
-  params_json      = jsonencode({ read_only = true })
+}
+
+resource "cloudfoundry_service_key" "redis-key" {
+  name             = "${local.redis_service_name}-key"
+  service_instance = cloudfoundry_service_instance.redis.id
 }
