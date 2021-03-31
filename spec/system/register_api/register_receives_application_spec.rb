@@ -84,24 +84,9 @@ RSpec.feature 'Register receives an application data', recruitment_cycle: 2020 d
         course: {
           recruitment_cycle_year: 2020,
           course_code: '2XT2',
-          course_name: 'Primary',
-          level: 'primary',
-          subject_codes: @application.application_choices.first.course_option.course.subject_codes,
-          program_type: nil,
-          start_date: '2020-09',
-          course_length: 'OneYear',
-          age_range: '4 to 8',
-          study_mode: 'full_time',
+          training_provider_code: '1N1',
           site_code: '-',
-        },
-        provider: {
-          provider_name: 'Gorse SCITT',
-          provider_code: '1N1',
-          region_code: nil,
-          postcode: nil,
-          provider_type: nil,
-          latitude: nil,
-          longitude: nil,
+          study_mode: 'full_time',
         },
         qualifications: {
           gcses: [

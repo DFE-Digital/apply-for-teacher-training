@@ -33,7 +33,7 @@ module RegisterAPI
             english_main_language: application_form.english_main_language,
             english_language_qualifications: application_form.english_language_qualification_details,
             other_languages: application_form.other_language_details,
-            disability_disclosure: application_form.disability_disclosure, # do we need this?
+            disability_disclosure: application_form.disability_disclosure,
             gender: equality_and_diversity_data['sex'],
             disabilities: equality_and_diversity_data['disabilities'].presence || [],
             ethnic_group: equality_and_diversity_data['ethnic_group'],
@@ -41,7 +41,6 @@ module RegisterAPI
           },
           contact_details: contact_details,
           course: course_info_for(application_choice.offered_option),
-          provider: provider_info_for(application_choice.offered_option.course.provider),
           qualifications: qualifications,
           hesa_itt_data: hesa_itt_data.presence || {},
         },
@@ -92,30 +91,9 @@ module RegisterAPI
       {
         recruitment_cycle_year: course_option.course.recruitment_cycle_year,
         course_code: course_option.course.code,
-        course_name: course_option.course.name,
-        level: course_option.course.level,
-        subject_codes: course_option.course.subject_codes,
-        program_type: course_option.course.program_type,
-        start_date: course_option.course.start_date.strftime('%Y-%m'),
-        # Register would like end_date but we can't calculate it because
-        # course_length is a string. Typical values are 'OneYear', 'Two years'
-        # and some free text inputs
-        course_length: course_option.course.course_length,
-        age_range: course_option.course.age_range,
-        study_mode: course_option.study_mode,
+        training_provider_code: course_option.course.provider.code,
         site_code: course_option.site.code,
-      }
-    end
-
-    def provider_info_for(provider)
-      {
-        provider_name: provider.name,
-        provider_code: provider.code,
-        region_code: provider.region_code,
-        postcode: provider.postcode,
-        provider_type: provider.provider_type,
-        latitude: provider.latitude,
-        longitude: provider.longitude,
+        study_mode: course_option.study_mode,
       }
     end
 
