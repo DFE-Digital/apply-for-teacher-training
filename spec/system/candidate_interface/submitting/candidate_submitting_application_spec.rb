@@ -51,7 +51,6 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content(t('application_form.courses.intro'))
     visit candidate_interface_application_complete_path
     expect(page).to have_content(t('application_form.courses.intro'))
-    visit candidate_interface_application_submit_success_path
   end
 
   def when_i_have_completed_my_application
@@ -184,7 +183,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     expect(page).to have_content 'Application successfully submitted'
-    # expect(page).to have_content 'You will get an email when something changes.'
+    expect(page).to have_content 'You will get an email when something changes.'
   end
 
   def and_i_receive_an_email_with_my_support_ref

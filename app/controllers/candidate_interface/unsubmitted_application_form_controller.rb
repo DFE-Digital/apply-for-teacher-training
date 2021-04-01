@@ -38,6 +38,7 @@ module CandidateInterface
         SubmitApplication.new(current_application).call
 
         flash[:success] = 'Application successfully submitted'
+        flash[:secondary_success] = 'You will get an email when something changes.'
         redirect_to candidate_interface_application_complete_path
       else
         track_validation_error(@further_information_form)

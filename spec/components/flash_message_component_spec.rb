@@ -23,4 +23,13 @@ RSpec.describe FlashMessageComponent do
       expect(component.css('.govuk-notification-banner__heading').text).to include('Your application has been updated')
     end
   end
+
+  context 'when a secondary message is provided' do
+    let(:flash) { { success: 'Message', secondary_success: 'Some more details...' } }
+
+    it 'the component is rendered with the correct content' do
+      expect(component.text).to include('Message')
+      expect(component.text).to include('Some more details...')
+    end
+  end
 end
