@@ -14,11 +14,18 @@ module DataMigrations
       deleted_audit_count = 0
       total_audits = audits.count
 
+      log("Before: audits table size is #{audits_table_size}")
+
       providers.find_each do |p|
         log("Cleaning up provider #{p.id} (#{p.name_and_code})")
 
         audits_for_provider = audits.where(auditable_id: p.id)
         audits_for_provider_count_before_cleanup = audits.where(auditable_id: p.id).count
+
+        if audits_for_provider.empty?
+          log("No audits to clean up for provider #{p.id}")
+          next
+        end
 
         # if we already had lat/lng when we made the first spurious update, delete every audit
         if audits_for_provider.first.audited_changes['latitude'].last.nil?
@@ -45,6 +52,8 @@ module DataMigrations
       end
 
       log("Deleted #{deleted_audit_count} lat/long audits out of #{total_audits}") unless dry_run?
+
+      log("After: audits table size is #{audits_table_size}")
     end
 
   private
@@ -68,11 +77,21 @@ module DataMigrations
 
     def log(message)
       log_string = %w[FixLatLongFlipFlops]
+      log_string << ["(#{run_name})"]
       log_string << '(dry run)' if dry_run?
       log_string << '-'
       log_string << message
 
       Rails.logger.info log_string.join(' ')
+    end
+
+    def run_name
+      @run_name ||= Faker::Creature::Animal.name
+    end
+
+    def audits_table_size
+      query = "SELECT pg_size_pretty(pg_total_relation_size('audits'));"
+      ActiveRecord::Base.connection.execute(query).first['pg_size_pretty']
     end
   end
 end
