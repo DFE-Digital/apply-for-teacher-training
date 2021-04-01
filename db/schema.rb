@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
   create_sequence "reference_tokens_id_seq"
   create_sequence "site_settings_id_seq"
   create_sequence "sites_id_seq"
+  create_sequence "subjects_id_seq"
   create_sequence "support_users_id_seq"
   create_sequence "toefl_qualifications_id_seq"
   create_sequence "ucas_matches_id_seq"
@@ -655,6 +656,14 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
     t.string "region"
     t.index ["code", "provider_id"], name: "index_sites_on_code_and_provider_id", unique: true
     t.index ["provider_id"], name: "index_sites_on_provider_id"
+  end
+
+  create_table "subjects", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_subjects_on_code", unique: true
   end
 
   create_table "support_users", force: :cascade do |t|
