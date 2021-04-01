@@ -6,7 +6,7 @@
   <% if message %><p class="govuk-body"><%= message %></p><% end %>
 
   <% if display_safeguarding_issues_details? %>
-    <%= render GovukComponent::Details.new(
+    <%= govuk_details(
       summary: 'View information disclosed by the candidate',
       classes: 'govuk-!-margin-bottom-2',
     ) do %>

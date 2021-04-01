@@ -1,4 +1,4 @@
-<%= render GovukComponent::Details.new(
+<%= govuk_details(
   summary: 'See this application choice as it appears over the API',
 ) do %>
   <%= json_code_sample(application_json) %>

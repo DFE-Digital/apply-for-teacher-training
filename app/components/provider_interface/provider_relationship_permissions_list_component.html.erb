@@ -15,7 +15,7 @@
             <% end %>
           </ul>
           <% if row[:permission_slug] == 'view-applications' %>
-            <%= render GovukComponent::Details.new(
+            <%= govuk_details(
               summary: 'Why can’t this be changed?',
             ) do %>
               All users at both organisations can view applications – you do not need to set permissions for this.

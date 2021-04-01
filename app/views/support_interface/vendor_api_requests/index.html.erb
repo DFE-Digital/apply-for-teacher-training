@@ -16,7 +16,7 @@
           </td>
           <td class="govuk-table__cell govuk-!-padding-top-0">
             <%= render SupportInterface::VendorAPIRequestDetailsComponent.new(vendor_api_request) %>
-            <%= render GovukComponent::Details.new(
+            <%= govuk_details(
               summary: 'Details',
             ) do %>
               <h3 class="govuk-!-margin-top-0">Headers</h3>

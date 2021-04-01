@@ -18,7 +18,7 @@
           The details of the course you offered previously are not available in the current cycle.
         </p>
        <% end %>
-      <%= render GovukComponent::Details.new(
+      <%= govuk_details(
         summary: 'Details of deferred offer',
         classes: 'govuk-!-margin-bottom-0 app-details--no-boder',
       ) do %>
