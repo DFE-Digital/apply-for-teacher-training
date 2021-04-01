@@ -104,7 +104,9 @@ class ApplicationStateChange
   end
 
   def self.valid_states
-    workflow_spec.states.keys
+    return workflow_spec.states.keys if FeatureFlag.active?(:interviews)
+
+    workflow_spec.states.keys - [:interviewing]
   end
 
   def self.states_visible_to_provider
