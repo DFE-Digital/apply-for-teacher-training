@@ -104,3 +104,13 @@ resource "cloudfoundry_service_instance" "redis" {
   space        = data.cloudfoundry_space.space.id
   service_plan = data.cloudfoundry_service.redis.service_plans[var.redis_service_plan]
 }
+
+resource "cloudfoundry_service_key" "postgres-readonly-key" {
+  name             = "${local.postgres_service_name}-readonly-key"
+  service_instance = cloudfoundry_service_instance.postgres.id
+}
+
+resource "cloudfoundry_service_key" "redis-key" {
+  name             = "${local.redis_service_name}-key"
+  service_instance = cloudfoundry_service_instance.redis.id
+}
