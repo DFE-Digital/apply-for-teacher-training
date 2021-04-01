@@ -5,13 +5,7 @@ RSpec.describe SetDeclineByDefault do
     let(:application_form) { create(:completed_application_form, application_choices_count: 3) }
     let(:choices) { application_form.application_choices }
     let(:now) { Time.zone.local(2019, 11, 26, 12, 0, 0) }
-    let(:time_limit_calculator) do
-      instance_double('TimeLimitCalculator',
-                      call: { days: 10, time_in_future: 9.business_days.after(now).end_of_day })
-    end
     let(:call_service) { SetDeclineByDefault.new(application_form: application_form).call }
-
-    before { allow(TimeLimitCalculator).to receive(:new).and_return(time_limit_calculator) }
 
     around do |example|
       Timecop.freeze(now) do
@@ -127,6 +121,22 @@ RSpec.describe SetDeclineByDefault do
         expected_dbd_date = 10.business_days.after(withdrawal_date).end_of_day
 
         expect_timestamps_to_match_excluding_milliseconds(dbd_for_offered_choice, expected_dbd_date)
+      end
+    end
+
+    context 'when the application choice decline by default period spans a BST offset adjustment' do
+      let(:now) { Time.zone.local(2021, 3, 27, 12, 10, 10) }
+
+      it 'the DBD is set to the correct date and time allowing for offset' do
+        choices[0].update(status: :offer, offered_at: 4.business_days.before(now))
+        choices[1].update(status: :offer, offered_at: 4.business_days.before(now))
+        choices[2].update(status: :offer, offered_at: 4.business_days.before(now))
+
+        expected_dbd_date = 5.business_days.after(now).end_of_day
+
+        call_service
+
+        expect_all_relevant_decline_by_default_at_values_to_be expected_dbd_date
       end
     end
 
