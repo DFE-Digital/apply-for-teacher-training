@@ -1271,10 +1271,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@ministryofjustice/frontend@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.1.tgz#21f623a208dc7098dda99c000a9bdba76fa70b17"
-  integrity sha512-mne8tfX1+wWHlZCUAEOmTO0uLT/Q6GrHhGMQDlIl7vJH200RWXXdABEemiH3ng+YwHCuh1QvuZpjyuIvIxxzjA==
+"@ministryofjustice/frontend@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.2.tgz#5aab0b0689032daccc51936910852e0371a565d2"
+  integrity sha512-//715oBYT9A3a8T6gC60qe1rgfwtP1J1ZWeDcCAP7KUwzOMEGB4lOgHlrOt32GC7bk0ir9S7elqSrbHPuMThIQ==
   dependencies:
     moment "^2.27.0"
 
