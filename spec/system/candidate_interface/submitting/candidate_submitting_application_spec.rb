@@ -32,6 +32,7 @@ RSpec.feature 'Candidate submits the application' do
 
     when_i_fill_in_further_information
     and_i_submit_the_application
+    and_i_skip_feedback
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_redirected_to_the_application_dashboard
     and_i_receive_an_email_with_my_support_ref
@@ -179,6 +180,10 @@ RSpec.feature 'Candidate submits the application' do
 
   def and_i_submit_the_application
     click_button 'Send application'
+  end
+
+  def and_i_skip_feedback
+    click_button 'Continue'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted

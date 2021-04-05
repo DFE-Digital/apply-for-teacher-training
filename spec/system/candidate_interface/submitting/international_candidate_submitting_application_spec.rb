@@ -26,6 +26,7 @@ RSpec.feature 'International candidate submits the application' do
     when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     when_i_choose_not_to_provide_further_information
     and_i_submit_the_application
+    and_i_skip_feedback
 
     then_i_can_see_my_application_has_been_successfully_submitted
   end
@@ -173,6 +174,10 @@ RSpec.feature 'International candidate submits the application' do
 
   def and_i_submit_the_application
     click_button 'Send application'
+  end
+
+  def and_i_skip_feedback
+    click_button 'Continue'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted

@@ -18,6 +18,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     and_my_application_has_been_filled_in
 
     when_i_click_submit_and_continue_and_send
+    and_i_skip_feedback
     then_my_application_is_submitted_successfully
   end
 
@@ -76,6 +77,10 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     click_on t('continue')
     choose 'No'
     click_button t('application_form.submit_application.submit_button')
+  end
+
+  def and_i_skip_feedback
+    click_button 'Continue'
   end
 
   def then_my_application_is_submitted_successfully

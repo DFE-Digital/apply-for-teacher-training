@@ -26,6 +26,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
     and_i_can_indeed_only_select_one_course
 
     when_i_complete_my_application
+    and_i_skip_feedback
     then_my_application_is_submitted_and_sent_to_the_provider
     and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
@@ -127,6 +128,10 @@ RSpec.feature 'Candidate with unsuccessful application' do
     check t('application_form.courses.complete.completed_checkbox')
     click_button t('continue')
     candidate_submits_application
+  end
+
+  def and_i_skip_feedback
+    click_button 'Continue'
   end
 
   def then_my_application_is_submitted_and_sent_to_the_provider
