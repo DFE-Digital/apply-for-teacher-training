@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
 
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
+    post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
 
     get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
     post '/account', to: 'start_page#create_account_or_sign_in_handler'
@@ -592,6 +593,7 @@ Rails.application.routes.draw do
     get '/covid-19-guidance', to: redirect('/')
 
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
+    post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
 
     get '/getting-ready-for-next-cycle', to: redirect('/provider/guidance-for-the-new-cycle')
     get '/guidance-for-the-new-cycle', to: 'content#guidance_for_the_new_cycle', as: :guidance_for_the_new_cycle
