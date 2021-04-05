@@ -4,12 +4,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  around do |example|
-    Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
-      example.run
-    end
-  end
-
   scenario 'adds a note' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_my_organisation_has_received_an_application

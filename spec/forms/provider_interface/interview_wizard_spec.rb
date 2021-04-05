@@ -252,7 +252,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
       expect(wizard.send('date(1i)')).to eq(interview.date_and_time.year.to_s)
       expect(wizard.location).to eq(interview.location)
       expect(wizard.provider_id).to eq(interview.provider_id)
-      expect(wizard.time).to eq(interview.date_and_time.strftime('%l:%M%P').gsub(' ', ''))
+      expect(wizard.time).to eq(interview.date_and_time.strftime('%-l:%M%P'))
       expect(wizard.current_step).to eq('some_step')
     end
   end

@@ -9,7 +9,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
+    Timecop.freeze(Time.zone.now.midday) do
       example.run
     end
   end
@@ -30,10 +30,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_fill_out_the_interview_form(days_in_future: 1, time: '12pm')
     and_i_click_send_interview_details
     then_i_see_a_success_message
-    and_an_interview_has_been_created('2 March 2020')
+    and_an_interview_has_been_created(1.day.from_now.to_s(:govuk_date))
 
     when_i_set_up_another_interview(days_in_future: 2)
-    then_another_interview_has_been_created('3 March 2020')
+    then_another_interview_has_been_created(2.days.from_now.to_s(:govuk_date))
 
     when_i_change_the_interview_details
     and_i_confirm_the_interview_details
@@ -55,11 +55,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_the_interview_tab_is_not_available
 
     when_i_set_up_another_interview(days_in_future: 4)
-    then_another_interview_has_been_created('5 March 2020')
+    then_another_interview_has_been_created(4.days.from_now.to_s(:govuk_date))
 
     when_i_click_make_decision
     and_i_make_an_offer
-    then_i_should_see_the_interview_on_the_interview_tab('5 March 2020')
+    then_i_should_see_the_interview_on_the_interview_tab(4.days.from_now.to_s(:govuk_date))
     but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
   end
 
@@ -110,7 +110,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def i_can_set_up_an_interview
-    visit new_provider_interface_application_choice_interview_path(application_choice, date_and_time: '2021-2-4')
+    visit new_provider_interface_application_choice_interview_path(application_choice, date_and_time: 1.month.from_now)
     expect(page).to have_content('Interview successfully created')
   end
 
@@ -154,14 +154,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def when_i_change_the_interview_details
     click_on 'Change details', match: :first
 
-    expect(page).to have_field('Day', with: '2')
-    expect(page).to have_field('Month', with: '3')
-    expect(page).to have_field('Year', with: '2020')
+    expect(page).to have_field('Day', with: 1.day.from_now.day)
+    expect(page).to have_field('Month', with: 1.day.from_now.month)
+    expect(page).to have_field('Year', with: 1.day.from_now.year)
     expect(page).to have_field('Time', with: '12:00pm')
     expect(page).to have_field('Address or online meeting details', with: 'N/A')
     expect(page).to have_field('Additional details (optional)', with: '')
 
-    fill_in 'Day', with: '4'
+    fill_in 'Day', with: 2.days.from_now.day
     fill_in 'Time', with: '10am'
     fill_in 'Address or online meeting details', with: 'Zoom meeting'
     fill_in 'Additional details (optional)', with: 'Business casual'
@@ -171,7 +171,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
-    expect(page).to have_content("Date\n4 March 2020")
+    expect(page).to have_content("Date\n#{2.days.from_now.to_s(:govuk_date)}")
     expect(page).to have_content("Time\n10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
@@ -189,7 +189,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def then_i_can_see_the_interview_was_updated
     expect(page).to have_content('Interview changed')
-    expect(page).to have_content('4 March 2020 at 10am')
+    expect(page).to have_content("#{2.days.from_now.to_s(:govuk_date)} at 10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end

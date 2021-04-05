@@ -24,7 +24,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2021, 1, 17)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'reject by default days' => 'within 123 working days',
-                    'submission date' => '12 January 2021')
+                    'submission date' => 5.days.ago.to_s(:govuk_date))
   end
 
   describe 'Send provider decision chaser email' do
@@ -80,8 +80,8 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'time to respond' => 'Only 20 working days left to respond',
-                    'submission date' => '12 January 2021',
-                    'reject by default at' => '15 February 2021',
+                    'submission date' => 5.days.ago.to_s(:govuk_date),
+                    'reject by default at' => 20.business_days.from_now.to_s(:govuk_date),
                     'link to the application' => 'http://localhost:3000/provider/applications/')
   end
 
@@ -180,7 +180,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'Duplicate application identified',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
-                    'withdraw by date' => 'February 2021')
+                    'withdraw by date' => 10.business_days.from_now.to_s(:govuk_date))
   end
 
   describe '.ucas_match_resolved_on_ucas_email' do
