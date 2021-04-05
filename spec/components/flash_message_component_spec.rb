@@ -25,7 +25,7 @@ RSpec.describe FlashMessageComponent do
   end
 
   context 'when a secondary message is provided' do
-    let(:flash) { { success: 'Message', secondary_success: 'Some more details...' } }
+    let(:flash) { { success: ['Message', 'Some more details...'] } }
 
     it 'the component is rendered with the correct content' do
       expect(component.text).to include('Message')
