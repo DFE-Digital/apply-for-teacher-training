@@ -1,140 +1,138 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Cookies</h1>
-
-    <h2 class="govuk-heading-l" id="cookies-that-measure-website-use">Cookies that measure website use</h2>
-
-    <p class="govuk-body">
-    We use Google Analytics software to collect information about how you use ‘<%= service_name %>’. We do this to help make sure the site is meeting the needs of its users and to help us make improvements.
+    <h1 class="govuk-heading-l">Cookies</h1>
+    <p class='govuk-body'>
+      Cookies are small files saved on your phone, tablet or computer when you visit a website.
     </p>
-
-    <p class="govuk-body">
-      Google Analytics stores information about:
+    <p class='govuk-body'>
+      We use cookies to make this site work and collect information about how you use our service.
     </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>Whether you’ve visited before
-        <li>the pages you visit on ‘<%= service_name %>’</li>
-        <li>how long you spend on each page </li>
-        <li>how you got to the site </li>
-        <li>what you click on while you’re visiting the site </li>
-    </ul>
-    <p class="govuk-body">
-    We don’t allow Google to use or share our analytics data.
-    </p>
-
-    <p id="preferences" class="govuk-body">
-    <%= form_with model: @cookie_preferences, url: @cookie_settings_path, method: :post do |f| %>
-    <%= f.govuk_collection_radio_buttons :consent,
-      [['yes', 'Yes, opt-in to Google Analytics cookies'], ['no', 'No, do not track my website usage']],
-      :first,
-      :last,
-      legend: { text: 'Do you accept Google Analytics cookies?' } %>
-    <%= f.govuk_submit 'Save preferences' %>
-    <% end %>
-    </p>
-
-    <h2 class="govuk-heading-l" id="how-we-use-cookies">How we use cookies</h2>
 
     <h3 class="govuk-heading-m" id="essential-cookies">Essential cookies</h3>
 
     <p class="govuk-body">
-    Essential ‘<%= service_name %>’ cookies include:
+      Essential ‘<%= service_name %>’ cookies keep your information secure while you use this service. We do not need to ask permission to use them.
     </p>
 
     <table class="govuk-table">
       <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">
-            Name
-          </th>
-          <th scope="col" class="govuk-table__header">
-            Purpose
-          </th>
-          <th scope="col" class="govuk-table__header">
-            Expires
-          </th>
-        </tr>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          Name
+        </th>
+        <th scope="col" class="govuk-table__header">
+          Purpose
+        </th>
+        <th scope="col" class="govuk-table__header">
+          Expires
+        </th>
+      </tr>
       </thead>
       <tbody class="govuk-table__body govuk-!-font-size-14">
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            _apply_for_postgraduate_teacher_training_session
-          </td>
-          <td class="govuk-table__cell">
-            Stores encrypted session data
-          </td>
-          <td class="govuk-table__cell">
-            When you close your browser
-          </td>
-        </tr>
-        <tr>
-          <td class="govuk-table__cell">
-            <%= "consented-to-#{@application}-cookies" %>
-          </td>
-          <td class="govuk-table__cell">
-            Saves your cookie consent settings
-          </td>
-          <td class="govuk-table__cell">
-            6 months
-          </td>
-        </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          _apply_for_postgraduate_teacher_training_session
+        </td>
+        <td class="govuk-table__cell">
+          Stores encrypted session data
+        </td>
+        <td class="govuk-table__cell">
+          When you close your browser
+        </td>
+      </tr>
+      <tr>
+        <td class="govuk-table__cell">
+          <%= "consented-to-#{@application}-cookies" %>
+        </td>
+        <td class="govuk-table__cell">
+          Saves your cookie consent settings
+        </td>
+        <td class="govuk-table__cell">
+          6 months
+        </td>
+      </tr>
       </tbody>
     </table>
 
-    <h3 class="govuk-heading-m" id="measuring-website-usage">Measuring website usage (Google Analytics)</h3>
+    <h3 class="govuk-heading-m" id="measuring-website-usage">Analytics cookies (optional)</h3>
 
     <p class="govuk-body">
-    Google Analytics sets the following cookies:
+      With your permission, we use Google Analytics to collect data about how you use ‘<%= service_name %>’. This information helps us improve our service.
     </p>
+    <p class="govuk-body">
+      Google is not allowed to use or share our analytics data with anyone.
+    </p>
+    <p class="govuk-body">
+      Google Analytics stores anonymised information about:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>how you got to ‘<%= service_name %>’</li>
+      <li>the pages you visit on this site and how long you spend on them</li>
+      <li>what you click on while you're visiting the site</li>
+    </ul>
+
     <table class="govuk-table">
       <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">
-            Name
-          </th>
-          <th scope="col" class="govuk-table__header">
-            Purpose
-          </th>
-          <th scope="col" class="govuk-table__header">
-            Expires
-          </th>
-        </tr>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          Name
+        </th>
+        <th scope="col" class="govuk-table__header">
+          Purpose
+        </th>
+        <th scope="col" class="govuk-table__header">
+          Expires
+        </th>
+      </tr>
       </thead>
       <tbody class="govuk-table__body govuk-!-font-size-14">
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            _ga
-          </td>
-          <td class="govuk-table__cell">
-            Used to distinguish anonymous users
-          </td>
-          <td class="govuk-table__cell">
-            2 years
-          </td>
-        </tr>
-        <tr>
-          <td class="govuk-table__cell">
-            _gid
-          </td>
-          <td class="govuk-table__cell">
-            Used to distinguish anonymous users
-          </td>
-          <td class="govuk-table__cell">
-            24 hours
-          </td>
-        </tr>
-        <tr>
-          <td class="govuk-table__cell">
-            _gat_gtag_<%= @cookie_ga_code %>
-          </td>
-          <td class="govuk-table__cell">
-            Throttle requests
-          </td>
-          <td class="govuk-table__cell">
-            10 minutes
-          </td>
-        </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          _ga
+        </td>
+        <td class="govuk-table__cell">
+          Used to distinguish anonymous users
+        </td>
+        <td class="govuk-table__cell">
+          2 years
+        </td>
+      </tr>
+      <tr>
+        <td class="govuk-table__cell">
+          _gid
+        </td>
+        <td class="govuk-table__cell">
+          Used to distinguish anonymous users
+        </td>
+        <td class="govuk-table__cell">
+          24 hours
+        </td>
+      </tr>
+      <tr>
+        <td class="govuk-table__cell">
+          _gat_gtag_<%= @cookie_ga_code %>
+        </td>
+        <td class="govuk-table__cell">
+          Throttle requests
+        </td>
+        <td class="govuk-table__cell">
+          10 minutes
+        </td>
+      </tr>
       </tbody>
     </table>
+
+    <p id="preferences" class="govuk-body">
+    <%= form_with model: @cookie_preferences, url: @cookie_settings_path, method: :post do |f| %>
+      <%= f.govuk_collection_radio_buttons :consent,
+        [%w[yes Yes], %w[no No]],
+        :first,
+        :last,
+        inline: true,
+        legend: { text: 'Do you want to accept Google Analytics cookies?', size: 's' } %>
+      <%= f.govuk_submit 'Save cookie settings' %>
+      <% end %>
+    </p>
   </div>
 </div>
