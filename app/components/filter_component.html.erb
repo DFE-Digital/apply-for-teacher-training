@@ -60,6 +60,34 @@
                         </div>
                       </div>
                     <% end %>
+                  <% elsif filter[:type] == :checkbox_filter %>
+                    <div id="<%= filter[:name] %>" class="app-checkbox-filter govuk-!-margin-bottom-7 app-checkbox-filter--enhanced">
+                      <% if active_filters&.find { |f| f[:name] == filter[:name] } %>
+                        <div class="app-checkbox-filter__selected">
+                          <ul class="moj-filter-tags">
+                            <% active_filters.find { |f| f[:name] == filter[:name] }[:options].select { |o| o[:checked] == true }.each do |f| %>
+                              <li>
+                                <a class="moj-filter__tag" href="/remove-subject-filter/<%= f[:label]%>">
+                                  <span class="govuk-visually-hidden">Remove this filter</span> <%= f[:label] %>
+                                </a>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      <% end %>
+                      <div class="app-checkbox-filter__container">
+                        <div class="govuk-checkboxes govuk-checkboxes--small app-checkbox-filter__container-inner">
+                          <% filter[:options].each do |option| %>
+                            <div class="govuk-checkboxes__item">
+                              <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= 'checked' if option[:checked] %> value="<%= option[:value] %>">
+                              <label class="govuk-label govuk-checkboxes__label" for="<%= filter[:name] %>-<%= option[:value] %>">
+                                <%= option[:label] %>
+                              </label>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
                   <% end %>
                 </fieldset>
               </div>

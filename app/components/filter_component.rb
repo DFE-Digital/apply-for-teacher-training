@@ -12,7 +12,7 @@ class FilterComponent < ViewComponent::Base
     case filter[:type]
     when :search
       [{ title: filter[:value], remove_link: remove_search_tag_link(filter[:name]) }]
-    when :checkboxes
+    when :checkboxes, :checkbox_filter
       filter[:options].each_with_object([]) do |option, arr|
         if option[:checked]
           arr << { title: option[:label], remove_link: remove_checkbox_tag_link(filter[:name], option[:value]) }
@@ -59,6 +59,8 @@ class FilterComponent < ViewComponent::Base
       filter[:primary] != true && filter[:value].present?
     when :checkboxes
       filter[:options].any? { |o| o[:checked] }
+    when :checkbox_filter
+      filter[:options].any? { |o| o[:checked] }
     end
   end
 
@@ -68,6 +70,8 @@ class FilterComponent < ViewComponent::Base
       when :search
         hash[filter[:name]] = filter[:value]
       when :checkboxes
+        hash[filter[:name]] = filter[:options].select { |o| o[:checked] }.map { |o| o[:value] }
+      when :checkbox_filter
         hash[filter[:name]] = filter[:options].select { |o| o[:checked] }.map { |o| o[:value] }
       end
     end

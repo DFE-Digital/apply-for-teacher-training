@@ -18,7 +18,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -41,7 +41,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: []).to_h
     end
 
     def save_filter_state!
@@ -159,6 +159,62 @@ module ProviderInterface
           end,
         }
       end
+    end
+
+    def subject_filter
+      {
+        type: :checkbox_filter,
+        heading: 'Search for subject',
+        name: 'subject',
+        options: [
+          OpenStruct.new(id: 1, name: 'Art & Design'),
+          OpenStruct.new(id: 2, name: 'Biology'),
+          OpenStruct.new(id: 3, name: 'Business studies'),
+          OpenStruct.new(id: 4, name: 'Chemistry'),
+          OpenStruct.new(id: 5, name: 'Citizenship'),
+          OpenStruct.new(id: 6, name: 'Classics'),
+          OpenStruct.new(id: 7, name: 'Communications and media studies'),
+          OpenStruct.new(id: 8, name: 'Computer science'),
+          OpenStruct.new(id: 9, name: 'Dance'),
+          OpenStruct.new(id: 10, name: 'Design and technology'),
+          OpenStruct.new(id: 11, name: 'Drama'),
+          OpenStruct.new(id: 12, name: 'Economics'),
+          OpenStruct.new(id: 13, name: 'English'),
+          OpenStruct.new(id: 14, name: 'English as a second or other language'),
+          OpenStruct.new(id: 15, name: 'French'),
+          OpenStruct.new(id: 16, name: 'Geography'),
+          OpenStruct.new(id: 17, name: 'German'),
+          OpenStruct.new(id: 18, name: 'Health and social care'),
+          OpenStruct.new(id: 19, name: 'History'),
+          OpenStruct.new(id: 20, name: 'Italian'),
+          OpenStruct.new(id: 21, name: 'Japanese'),
+          OpenStruct.new(id: 22, name: 'Mandarin'),
+          OpenStruct.new(id: 23, name: 'Mathematics'),
+          OpenStruct.new(id: 24, name: 'Modern languages (other)'),
+          OpenStruct.new(id: 25, name: 'Music'),
+          OpenStruct.new(id: 26, name: 'Physical education'),
+          OpenStruct.new(id: 27, name: 'Physics'),
+          OpenStruct.new(id: 28, name: 'Primary'),
+          OpenStruct.new(id: 29, name: 'Primary with English'),
+          OpenStruct.new(id: 30, name: 'Primary with geography and history'),
+          OpenStruct.new(id: 31, name: 'Primary with mathematics'),
+          OpenStruct.new(id: 32, name: 'Primary with modern languages'),
+          OpenStruct.new(id: 33, name: 'Primary with physical education'),
+          OpenStruct.new(id: 34, name: 'Primary with science'),
+          OpenStruct.new(id: 35, name: 'Psychology'),
+          OpenStruct.new(id: 36, name: 'Religious education'),
+          OpenStruct.new(id: 37, name: 'Russian'),
+          OpenStruct.new(id: 38, name: 'Science'),
+          OpenStruct.new(id: 38, name: 'Social sciences'),
+          OpenStruct.new(id: 38, name: 'Spanish'),
+        ].map do |s|
+          {
+            value: s.id,
+            label: s.name,
+            checked: applied_filters[:subject]&.include?(s.id.to_s),
+          }
+        end,
+      }
     end
   end
 end
