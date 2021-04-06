@@ -3,8 +3,8 @@
 
 <%= render CollectionSelectComponent.new(attribute: :study_mode,
                                          collection: @study_modes,
-                                         value_method: :id,
-                                         text_method: :value,
+                                         value_method: :to_s,
+                                         text_method: :humanize,
                                          hint_method: nil,
                                          form_object: @wizard,
                                          form_path: provider_interface_application_choice_offer_study_modes_path,

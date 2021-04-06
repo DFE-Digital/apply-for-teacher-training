@@ -6,13 +6,16 @@ RSpec.feature 'Provider changes an existing offer' do
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
   let(:provider) { provider_user.providers.first }
+  let(:ratifying_provider) { create(:provider) }
   let(:application_form) { build(:application_form, :minimum_info) }
   let!(:application_choice) do
     create(:application_choice, :with_offer,
            application_form: application_form,
            offered_course_option: course_option)
   end
-  let(:course) { build(:course, :open_on_apply, :full_time, provider: provider) }
+  let(:course) do
+    build(:course, :open_on_apply, :full_time, provider: provider, accredited_provider: ratifying_provider)
+  end
   let(:course_option) { build(:course_option, course: course) }
 
   before do
@@ -145,14 +148,28 @@ RSpec.feature 'Provider changes an existing offer' do
   def given_the_provider_user_can_offer_multiple_provider_courses
     @selected_provider = create(:provider, :with_signed_agreement)
     create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true)
-    courses = [create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider),
-               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider)]
+    courses = [create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
+               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
     @selected_course = courses.sample
 
     course_options = [create(:course_option, :part_time, course: @selected_course),
                       create(:course_option, :full_time, course: @selected_course),
                       create(:course_option, :full_time, course: @selected_course),
                       create(:course_option, :part_time, course: @selected_course)]
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+    )
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: @selected_provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+    )
 
     @selected_course_option = course_options.sample
   end

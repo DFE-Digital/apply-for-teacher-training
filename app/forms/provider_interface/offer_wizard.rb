@@ -8,7 +8,8 @@ module ProviderInterface
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
                   :further_condition_3, :further_condition_4, :current_step, :decision,
-                  :path_history, :action, :provider_user_id, :wizard_path_history
+                  :action, :path_history, :wizard_path_history,
+                  :provider_user_id, :application_choice_id
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -30,7 +31,7 @@ module ProviderInterface
     end
 
     def course_option
-      @course_option = CourseOption.find(course_option_id)
+      CourseOption.find(course_option_id)
     end
 
     def save_state!
@@ -51,10 +52,10 @@ module ProviderInterface
 
       next_step = STEPS[decision.to_sym][index + 1]
 
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.one?
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.one?
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.one?
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.one?
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.length == 1
 
       next_step
     end
@@ -90,21 +91,43 @@ module ProviderInterface
       next_step(step)
     end
 
-    def available_study_modes
-      Course.find(course_id).available_study_modes_from_options
+    def query_service
+      @query_service ||= GetChangeOfferOptions.new(
+        user: provider_user,
+        current_course: application_choice.offered_course,
+      )
     end
 
-    def available_course_options
-      CourseOption.where(course_id: course_id, study_mode: study_mode)
+    def provider
+      Provider.find(provider_id)
     end
 
-    def available_courses
-      Course.where(provider_id: provider_id)
+    def course
+      Course.find(course_id)
+    end
+
+    def provider_user
+      ProviderUser.find(provider_user_id)
+    end
+
+    def application_choice
+      ApplicationChoice.find(application_choice_id)
     end
 
     def available_providers
-      provider_user = ProviderUser.find(provider_user_id)
-      provider_user.providers
+      query_service.available_providers
+    end
+
+    def available_courses
+      query_service.available_courses(provider: provider)
+    end
+
+    def available_study_modes
+      query_service.available_study_modes(course: course)
+    end
+
+    def available_course_options
+      query_service.available_course_options(course: course, study_mode: study_mode)
     end
 
     def last_saved_state
@@ -113,7 +136,9 @@ module ProviderInterface
     end
 
     def state
-      as_json(except: %w[state_store errors validation_context course_option wizard_path_history]).to_json
+      as_json(
+        except: %w[state_store errors validation_context query_service wizard_path_history],
+      ).to_json
     end
 
     def update_path_history(attrs)

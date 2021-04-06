@@ -27,11 +27,11 @@ module ProviderInterface
     end
 
     def change_provider_path
-      available_providers.many? ? edit_provider_interface_application_choice_offer_providers_path(application_choice) : nil
+      available_providers.length > 1 ? edit_provider_interface_application_choice_offer_providers_path(application_choice) : nil
     end
 
     def change_course_path
-      available_courses.many? ? edit_provider_interface_application_choice_offer_courses_path(application_choice) : nil
+      available_courses.length > 1 ? edit_provider_interface_application_choice_offer_courses_path(application_choice) : nil
     end
 
     def change_study_mode_path
@@ -39,7 +39,7 @@ module ProviderInterface
     end
 
     def change_location_path
-      available_course_options.many? ? edit_provider_interface_application_choice_offer_locations_path(application_choice) : nil
+      available_course_options.length > 1 ? edit_provider_interface_application_choice_offer_locations_path(application_choice) : nil
     end
 
     def mode
