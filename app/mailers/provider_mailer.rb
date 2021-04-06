@@ -187,7 +187,7 @@ private
       :support_reference,
     ).new(
       application_choice.application_form.full_name,
-      application_choice.offered_course.name_and_code,
+      application_choice.current_course_option.course.name_and_code,
       application_choice.application_form.submitted_at.to_s(:govuk_date).strip,
       application_choice.id,
       application_choice,

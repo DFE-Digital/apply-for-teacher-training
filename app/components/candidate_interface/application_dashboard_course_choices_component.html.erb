@@ -90,7 +90,7 @@
         <% if !application_choice.offer? && !withdrawable?(application_choice) && @editable %>
           <%= govuk_link_to candidate_interface_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
             <%= t('application_form.courses.delete') %>
-            <span class="govuk-visually-hidden"> <%= application_choice.offered_course.name_and_code %></span>
+            <span class="govuk-visually-hidden"> <%= application_choice.current_course.name_and_code %></span>
           <% end %>
         <% end %>
       </div>

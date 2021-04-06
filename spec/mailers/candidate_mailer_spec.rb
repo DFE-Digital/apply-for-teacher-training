@@ -14,6 +14,21 @@ RSpec.describe CandidateMailer, type: :mailer do
   let(:candidate) { build_stubbed(:candidate) }
   let(:application_choices) { [build_stubbed(:application_choice)] }
   let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
+  let(:course_option) do
+    build_stubbed(
+      :course_option,
+      course: build_stubbed(
+        :course,
+        name: 'Mathematics',
+        code: 'M101',
+        start_date: Time.zone.local(2021, 9, 6),
+        provider: build_stubbed(
+          :provider,
+          name: 'Arithmetic College',
+        ),
+      ),
+    )
+  end
 
   before do
     magic_link_stubbing(candidate)
@@ -213,23 +228,27 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.offer_withdrawn' do
     let(:email) { described_class.offer_withdrawn(application_form.application_choices.first) }
+    let(:course_option) do
+      build_stubbed(
+        :course_option,
+        course: build_stubbed(
+          :course,
+          name: 'Mathematics',
+          code: 'M101',
+          provider: build_stubbed(
+            :provider,
+            name: 'Arachnid College',
+          ),
+        ),
+      )
+    end
     let(:application_choices) do
       [build_stubbed(
         :application_choice,
         status: 'offer_withdrawn',
         offer_withdrawal_reason: 'You lied to us about secretly being Spiderman',
-        course_option: build_stubbed(
-          :course_option,
-          course: build_stubbed(
-            :course,
-            name: 'Mathematics',
-            code: 'M101',
-            provider: build_stubbed(
-              :provider,
-              name: 'Arachnid College',
-            ),
-          ),
-        ),
+        course_option: course_option,
+        current_course_option: course_option,
       )]
     end
 
@@ -248,19 +267,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       [build_stubbed(
         :application_choice,
         status: 'pending_conditions',
-        course_option: build_stubbed(
-          :course_option,
-          course: build_stubbed(
-            :course,
-            name: 'Mathematics',
-            code: 'M101',
-            start_date: Time.zone.local(2021, 9, 6),
-            provider: build_stubbed(
-              :provider,
-              name: 'Arithmetic College',
-            ),
-          ),
-        ),
+        course_option: course_option,
+        current_course_option: course_option,
       )]
     end
 
@@ -279,19 +287,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       [build_stubbed(
         :application_choice,
         status: 'pending_conditions',
-        course_option: build_stubbed(
-          :course_option,
-          course: build_stubbed(
-            :course,
-            name: 'Mathematics',
-            code: 'M101',
-            start_date: Time.zone.local(2021, 9, 6),
-            provider: build_stubbed(
-              :provider,
-              name: 'Arithmetic College',
-            ),
-          ),
-        ),
+        course_option: course_option,
+        current_course_option: course_option,
       )]
     end
 

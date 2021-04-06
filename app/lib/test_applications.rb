@@ -371,8 +371,8 @@ private
   def change_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward
-      year = choice.offered_course.recruitment_cycle_year
-      new_course = choice.offered_course.provider.courses
+      year = choice.current_course.recruitment_cycle_year
+      new_course = choice.current_course.provider.courses
                          .in_cycle(year).with_course_options.sample
       ChangeAnOffer.new(
         actor: actor,

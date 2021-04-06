@@ -5,12 +5,12 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
   let(:site) { build_stubbed(:site, provider: provider) }
-  let(:offered_course_option) { nil }
   let(:course) { build_stubbed(:course, provider: provider, name: 'Computer Science', code: '6IND') }
   let(:course_option) { build_stubbed(:course_option, course: course, site: site) }
+  let(:current_course_option) { course_option }
   let(:application_choice) do
     build_stubbed(:submitted_application_choice, course_option: course_option,
-                                                 offered_course_option: offered_course_option,
+                                                 current_course_option: current_course_option,
                                                  reject_by_default_at: 40.days.from_now,
                                                  reject_by_default_days: 123)
   end
@@ -68,7 +68,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { ProviderMailer.chase_provider_decision(provider_user, application_choice) }
     let(:application_choice) do
       build_stubbed(:submitted_application_choice, course_option: course_option,
-                                                   offered_course_option: offered_course_option,
+                                                   current_course_option: current_course_option,
                                                    reject_by_default_at: 20.business_days.from_now,
                                                    reject_by_default_days: 123)
     end
@@ -95,7 +95,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     context 'with an alternative course offer' do
       let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
+      let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
                       'Harry Potter (123A) has accepted your offer',
@@ -114,7 +114,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     context 'with an alternative course offer' do
       let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
+      let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
                       'Harry Potter (123A) has accepted your offer',
@@ -134,7 +134,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     context 'with an alternative course offer' do
       let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
+      let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
                       'Harry Potter’s (123A) application withdrawn automatically',
@@ -154,7 +154,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     context 'with an alternative course offer' do
       let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
+      let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
                       'Harry Potter (123A) withdrew their application',

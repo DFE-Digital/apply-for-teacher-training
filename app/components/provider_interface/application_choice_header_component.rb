@@ -43,8 +43,8 @@ module ProviderInterface
 
     def deferred_offer_equivalent_course_option_available?
       application_choice.status == 'offer_deferred' &&
-        application_choice.offered_option.in_next_cycle &&
-        application_choice.offered_option.in_next_cycle.course.open_on_apply
+        application_choice.current_course_option.in_next_cycle &&
+        application_choice.current_course_option.in_next_cycle.course.open_on_apply
     end
 
     def rejection_reason_required?

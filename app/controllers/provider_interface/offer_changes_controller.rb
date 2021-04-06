@@ -8,10 +8,10 @@ module ProviderInterface
         if change_offer_params.empty?
           ProviderInterface::ChangeOfferForm.new(
             application_choice: @application_choice,
-            provider_id: @application_choice.offered_option.provider.id,
-            course_id: @application_choice.offered_course.id,
-            study_mode: @application_choice.offered_option.study_mode,
-            course_option_id: @application_choice.offered_option.id,
+            provider_id: @application_choice.current_course_option.provider.id,
+            course_id: @application_choice.current_course.id,
+            study_mode: @application_choice.current_course_option.study_mode,
+            course_option_id: @application_choice.current_course_option.id,
             step: params[:step]&.to_sym,
           )
         else

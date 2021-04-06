@@ -18,19 +18,13 @@ module CandidateInterface
     def save
       return unless valid?(:save)
 
-      application_form.application_choices.create!(
-        course_option: course_option,
-        current_course_option_id: course_option.id,
-      )
+      application_form.application_choices.new.set_initial_course_choice!(course_option)
     end
 
     def update(application_choice)
       return unless valid?
 
-      application_choice.update!(
-        course_option: course_option,
-        current_course_option_id: course_option.id,
-      )
+      application_choice.set_initial_course_choice!(course_option)
     end
 
   private

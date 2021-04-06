@@ -3,6 +3,6 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 # Offer declined by default
 
-<%= @application_choice.application_form.full_name %> had 10 working days to respond to your offer to study <%= @application_choice.offered_course.name_and_code %>. They have not replied, so the offer has been automatically declined.
+<%= @application_choice.application_form.full_name %> had 10 working days to respond to your offer to study <%= @application_choice.current_course_option.course.name_and_code %>. They have not replied, so the offer has been automatically declined.
 
 <%= provider_interface_application_choice_url(@application_choice) %>

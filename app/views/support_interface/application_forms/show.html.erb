@@ -16,7 +16,7 @@
 
 <% if @application_form.application_choices.any? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course choices</h2>
-  <% @application_form.application_choices.includes(:course, :provider, :site, :offered_course_option).each do |application_choice| %>
+  <% @application_form.application_choices.includes(:course, :provider, :site, :current_course_option).each do |application_choice| %>
     <%= render SupportInterface::ApplicationChoiceComponent.new(application_choice) %>
   <% end %>
 <% end %>

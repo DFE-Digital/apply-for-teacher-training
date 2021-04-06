@@ -88,14 +88,6 @@ RSpec.describe MakeAnOffer, sidekiq: true do
       expect(CandidateMailer.deliveries.count).to be 1
     end
 
-    it 'sets the offered_course_option_id to the offered_course_option’s id' do
-      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
-
-      offer.save
-
-      expect(application_choice.offered_course_option_id).to eq valid_course_option.id
-    end
-
     it 'sets current_course_option_id' do
       offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
 
@@ -161,13 +153,13 @@ RSpec.describe MakeAnOffer, sidekiq: true do
   end
 
   describe 'audits', with_audited: true do
-    it 'generates an audit event combining status change with offered_course_option_id' do
+    it 'generates an audit event combining status change with current_course_option_id' do
       offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
 
       offer.save
 
       audit_with_status_change = application_choice.reload.audits.find_by('jsonb_exists(audited_changes, ?)', 'status')
-      expect(audit_with_status_change.audited_changes).to have_key('offered_course_option_id')
+      expect(audit_with_status_change.audited_changes).to have_key('current_course_option_id')
     end
   end
 end

@@ -8,7 +8,7 @@ class ConfirmOfferConditions
   end
 
   def save
-    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
+    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.current_course_option.id)
 
     audit(@auth.actor) do
       ApplicationStateChange.new(@application_choice).confirm_conditions_met!

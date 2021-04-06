@@ -23,7 +23,7 @@ module ProviderInterface
             key: 'Conditions met',
             value: application_choice.recruited_at.to_s(:govuk_date),
           },
-        ] + course_rows(course_option: application_choice.offered_option)
+        ] + course_rows(course_option: application_choice.current_course_option)
       end
     end
   end

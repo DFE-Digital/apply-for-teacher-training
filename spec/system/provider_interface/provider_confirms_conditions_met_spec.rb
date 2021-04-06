@@ -48,7 +48,7 @@ RSpec.feature 'Confirm conditions met' do
     @application_choice = create(
       :application_choice,
       :with_accepted_offer,
-      offered_course_option: course_option,
+      current_course_option: course_option,
       application_form: @application_form,
     )
     visit provider_interface_application_choice_path(@application_choice.id)

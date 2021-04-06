@@ -22,7 +22,7 @@ module ProviderInterface
       end
 
       def rows
-        add_change_links_to(course_rows(course_option: application_choice.offered_option))
+        add_change_links_to(course_rows(course_option: application_choice.current_course_option))
       end
 
       def add_change_links_to(rows)

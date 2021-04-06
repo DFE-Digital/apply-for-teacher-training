@@ -22,7 +22,7 @@ class ReinstatePendingConditions
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
           @application_choice.update(
-            offered_course_option_id: course_option.id,
+            current_course_option_id: course_option.id,
             recruited_at: nil,
           )
           CandidateMailer.reinstated_offer(application_choice).deliver_later

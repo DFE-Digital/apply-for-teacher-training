@@ -51,19 +51,19 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
   end
 
   def and_i_should_not_see_a_link_to_the_course_on_find
-    course_name = @application_choice_with_feedback.offered_course.name_and_code
+    course_name = @application_choice_with_feedback.current_course.name_and_code
     expect(page).to have_content(course_name)
     expect(page).not_to have_link(course_name)
   end
 
   def and_i_should_see_application_with_unstructured_feedback
-    course_name = @application_choice_with_unstructured_feedback.offered_course.name_and_code
+    course_name = @application_choice_with_unstructured_feedback.current_course.name_and_code
     expect(page).to have_content(course_name)
     expect(page).to have_content(@application_choice_with_unstructured_feedback.rejection_reason)
   end
 
   def and_i_should_not_see_application_without_feedback
-    course_name = @application_choice_without_feedback.offered_course.name_and_code
+    course_name = @application_choice_without_feedback.current_course.name_and_code
     expect(page).not_to have_content(course_name)
   end
 end

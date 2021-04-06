@@ -64,9 +64,9 @@ RSpec.feature 'See activity log' do
   end
 
   def then_i_should_see_events_for_all_applications_belonging_to_my_providers
-    expect(page).to have_content @choice3.offered_course.provider.name
-    expect(page).to have_content @choice2.offered_course.provider.name
-    expect(page).to have_content @choice1.offered_course.provider.name
-    expect(page).not_to have_content @choice4.offered_course.provider.name
+    expect(page).to have_content @choice3.current_course.provider.name
+    expect(page).to have_content @choice2.current_course.provider.name
+    expect(page).to have_content @choice1.current_course.provider.name
+    expect(page).not_to have_content @choice4.current_course.provider.name
   end
 end

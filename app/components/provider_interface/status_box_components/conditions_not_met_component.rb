@@ -17,7 +17,7 @@ module ProviderInterface
       end
 
       def rows
-        course_rows(course_option: application_choice.offered_option)
+        course_rows(course_option: application_choice.current_course_option)
       end
     end
   end

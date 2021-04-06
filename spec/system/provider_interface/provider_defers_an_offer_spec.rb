@@ -30,7 +30,7 @@ RSpec.feature 'Provider defers an offer' do
     @application_offered = create(:application_choice,
                                   :with_completed_application_form,
                                   :with_accepted_offer,
-                                  offered_course_option: course_option)
+                                  current_course_option: course_option)
   end
 
   def and_i_am_permitted_to_make_decisions_on_applications_for_my_provider

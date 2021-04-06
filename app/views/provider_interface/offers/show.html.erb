@@ -16,18 +16,18 @@
 
     <% if provider_user_can_make_decisions && @application_choice.offer? %>
       <%= render ProviderInterface::CompletedOfferSummaryComponent.new(application_choice: @application_choice,
-                                                                       course_option: @application_choice.offered_course_option,
+                                                                       course_option: @application_choice.current_course_option,
                                                                        conditions: @application_choice.offer['conditions'],
-                                                                       course: @application_choice.offered_course,
+                                                                       course: @application_choice.current_course,
                                                                        available_providers: @providers,
                                                                        available_courses: @courses,
                                                                        available_course_options: @course_options,
                                                                        border: false) %>
     <% else %>
       <%= render ProviderInterface::ReadOnlyCompletedOfferSummaryComponent.new(application_choice: @application_choice,
-                                                                               course_option: @application_choice.offered_course_option,
+                                                                               course_option: @application_choice.current_course_option,
                                                                                conditions: @application_choice.offer['conditions'],
-                                                                               course: @application_choice.offered_course,
+                                                                               course: @application_choice.current_course,
                                                                                available_providers: [],
                                                                                available_courses: [],
                                                                                available_course_options: [],

@@ -3,7 +3,7 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 # Offer accepted
 
-<%= @application_choice.application_form.full_name %> has accepted your offer to study <%= @application_choice.offered_course.name_and_code %>.
+<%= @application_choice.application_form.full_name %> has accepted your offer to study <%= @application_choice.current_course_option.course.name_and_code %>.
 
 # Tell us when the candidate has met their conditions
 

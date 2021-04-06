@@ -12,7 +12,7 @@ module ProviderInterface
       )
       @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
-        course_option_id: @application_choice.offered_option.id,
+        course_option_id: @application_choice.current_course_option.id,
       )
       @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_can_make_decisions
 

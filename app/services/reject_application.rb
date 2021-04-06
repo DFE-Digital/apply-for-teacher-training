@@ -18,7 +18,7 @@ class RejectApplication
   def save
     return false unless valid?
 
-    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
+    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.current_course_option.id)
 
     audit(@auth.actor) do
       ActiveRecord::Base.transaction do

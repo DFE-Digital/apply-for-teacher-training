@@ -66,8 +66,8 @@ module CandidateInterface
       if has_multiple_sites?(application_choice)
         candidate_interface_course_choices_site_path(
           application_choice.provider.id,
-          application_choice.offered_course.id,
-          application_choice.offered_option.study_mode,
+          application_choice.current_course.id,
+          application_choice.current_course_option.study_mode,
           course_choice_id: application_choice.id,
         )
       end
@@ -95,45 +95,51 @@ module CandidateInterface
 
     attr_reader :application_form
 
+    def application_choices_with_includes
+      @application_form.application_choices.includes(
+        %i[course site provider current_course current_course_option current_site interviews],
+      )
+    end
+
     def course_row(application_choice)
       {
         key: 'Course',
         value: course_row_value(application_choice),
-        action: "course choice for #{application_choice.offered_course.name_and_code}",
+        action: "course choice for #{application_choice.current_course.name_and_code}",
         change_path: course_change_path(application_choice),
       }
     end
 
     def course_row_value(application_choice)
       if EndOfCycleTimetable.find_down?
-        "#{application_choice.offered_course.name} (#{application_choice.offered_course.code})"
+        "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
       else
-        govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})", application_choice.offered_course.find_url, target: '_blank', rel: 'noopener')
+        govuk_link_to("#{application_choice.current_course.name} (#{application_choice.current_course.code})", application_choice.current_course.find_url, target: '_blank', rel: 'noopener')
       end
     end
 
     def location_row(application_choice)
       {
         key: 'Location',
-        value: "#{application_choice.offered_site.name}\n#{application_choice.offered_site.full_address}",
-        action: "location for #{application_choice.offered_course.name_and_code}",
+        value: "#{application_choice.current_site.name}\n#{application_choice.current_site.full_address}",
+        action: "location for #{application_choice.current_course.name_and_code}",
         change_path: site_change_path(application_choice),
       }
     end
 
     def study_mode_row(application_choice)
-      return unless application_choice.offered_course.full_time_or_part_time?
+      return unless application_choice.current_course.full_time_or_part_time?
 
       change_path = candidate_interface_course_choices_study_mode_path(
         application_choice.provider.id,
-        application_choice.offered_course.id,
+        application_choice.current_course.id,
         course_choice_id: application_choice.id,
       )
 
       {
         key: 'Full time or part time',
-        value: application_choice.offered_option.study_mode.humanize,
-        action: "study mode for #{application_choice.offered_course.name_and_code}",
+        value: application_choice.current_course_option.study_mode.humanize,
+        action: "study mode for #{application_choice.current_course.name_and_code}",
         change_path: change_path,
       }
     end
@@ -141,14 +147,14 @@ module CandidateInterface
     def type_row(application_choice)
       {
         key: 'Type',
-        value: application_choice.offered_course.description,
+        value: application_choice.current_course.description,
       }
     end
 
     def course_length_row(application_choice)
       {
         key: 'Course length',
-        value: DisplayCourseLength.call(course_length: application_choice.offered_course.course_length),
+        value: DisplayCourseLength.call(course_length: application_choice.current_course.course_length),
       }
     end
 
@@ -156,7 +162,7 @@ module CandidateInterface
       unless application_choice.offer_deferred?
         {
           key: 'Date course starts',
-          value: application_choice.offered_course.start_date.to_s(:month_and_year),
+          value: application_choice.current_course.start_date.to_s(:month_and_year),
         }
       end
     end
@@ -212,7 +218,7 @@ module CandidateInterface
     end
 
     def has_multiple_sites?(application_choice)
-      CourseOption.available.where(course_id: application_choice.offered_course.id, study_mode: application_choice.offered_option.study_mode).many?
+      CourseOption.available.where(course_id: application_choice.current_course.id, study_mode: application_choice.current_course_option.study_mode).many?
     end
 
     def has_multiple_courses?(application_choice)
@@ -220,18 +226,13 @@ module CandidateInterface
     end
 
     def application_choices_with_accepted_states
-      @application_form
-        .application_choices
-        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+      application_choices_with_includes.order(id: :asc)
         .order(id: :asc)
         .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
     end
 
     def all_application_choices
-      @application_form
-        .application_choices
-        .includes(:course, :site, :provider, :offered_course_option, :interviews)
-        .order(id: :asc)
+      application_choices_with_includes.order(id: :asc)
     end
 
     def application_choice_with_accepted_state_present?

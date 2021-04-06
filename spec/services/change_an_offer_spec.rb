@@ -16,10 +16,6 @@ RSpec.describe ChangeAnOffer do
     ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
   end
 
-  it 'changes offered_course_option_id for the application choice' do
-    expect { service.save }.to change(application_choice, :offered_course_option_id)
-  end
-
   it 'changes current_course_option_id' do
     expect { service.save }.to change(application_choice, :current_course_option_id)
   end
@@ -39,7 +35,7 @@ RSpec.describe ChangeAnOffer do
 
     audit_with_option_id =
       application_choice.audits
-      .where('jsonb_exists(audited_changes, :key)', key: 'offered_course_option_id')
+      .where('jsonb_exists(audited_changes, :key)', key: 'current_course_option_id')
       .last
 
     expect(audit_with_option_id.audited_changes).to have_key('offer_changed_at')
@@ -92,7 +88,7 @@ RSpec.describe ChangeAnOffer do
 
     it 'checks the course option and conditions are different from the current option' do
       application_choice.update(offer: { 'conditions' => ['DBS check'] })
-      change = ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, offer_conditions: ['DBS check'])
+      change = ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.current_course_option, offer_conditions: ['DBS check'])
 
       expect(change).not_to be_valid
 
@@ -112,14 +108,14 @@ RSpec.describe ChangeAnOffer do
   describe '#is_identical_to_existing_offer?' do
     it 'returns true when offer and conditions match' do
       application_choice.update(offer: { 'conditions' => ['DBS check'] })
-      change = ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, offer_conditions: ['DBS check'])
+      change = ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.current_course_option, offer_conditions: ['DBS check'])
 
       expect(change).to be_identical_to_existing_offer
     end
 
     it 'returns false when offer matches, but not conditions' do
       application_choice.update(offer: { 'conditions' => ['Different things'] })
-      change = ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, offer_conditions: ['DBS check'])
+      change = ChangeAnOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.current_course_option, offer_conditions: ['DBS check'])
 
       expect(change).not_to be_identical_to_existing_offer
     end

@@ -1,7 +1,7 @@
 class GetRecruitedApplicationChoices
   INCLUDES = [
     application_form: %i[candidate english_proficiency application_qualifications],
-    offered_course_option: [{ course: %i[provider] }, :site],
+    current_course_option: [{ course: %i[provider] }, :site],
   ].freeze
 
   def self.call(recruitment_cycle_year:, changed_since: nil)

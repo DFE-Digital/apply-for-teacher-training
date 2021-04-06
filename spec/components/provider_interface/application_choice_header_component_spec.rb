@@ -88,7 +88,9 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     end
 
     describe '#sub_navigation_items' do
-      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: reject_by_default_at) }
+      let(:application_choice) do
+        create(:application_choice, reject_by_default_at: reject_by_default_at)
+      end
 
       before do
         allow(application_choice).to receive(:interviews).and_return(interviews)
@@ -152,7 +154,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: true))
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
       allow(course_option).to receive(:in_next_cycle).and_return(course_option)
-      allow(application_choice).to receive(:offered_option).and_return(course_option)
+      allow(application_choice).to receive(:current_course_option).and_return(course_option)
 
       expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be true
     end
@@ -161,7 +163,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       course_option = instance_double(CourseOption)
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
       allow(course_option).to receive(:in_next_cycle).and_return(false)
-      allow(application_choice).to receive(:offered_option).and_return(course_option)
+      allow(application_choice).to receive(:current_course_option).and_return(course_option)
 
       expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be false
     end
@@ -170,7 +172,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: false))
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
       allow(course_option).to receive(:in_next_cycle).and_return(course_option)
-      allow(application_choice).to receive(:offered_option).and_return(course_option)
+      allow(application_choice).to receive(:current_course_option).and_return(course_option)
 
       expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be false
     end

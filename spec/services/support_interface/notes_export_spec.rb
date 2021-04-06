@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::NotesExport do
       ratifying_provider = create(:provider)
       course = create(:course, provider: training_provider, accredited_provider: ratifying_provider)
       application_choice1 = create(:application_choice, candidate: candidate, course_option: create(:course_option, course: course))
-      application_choice2 = create(:application_choice, candidate: candidate, offered_course_option: create(:course_option, course: course))
+      application_choice2 = create(:application_choice, candidate: candidate, current_course_option: create(:course_option, course: course))
       provider_user1 = create(:provider_user, providers: [training_provider, ratifying_provider])
       provider_user2 = create(:provider_user, providers: [ratifying_provider])
       create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
@@ -65,9 +65,9 @@ RSpec.describe SupportInterface::NotesExport do
       ratifying_provider = create(:provider)
 
       course = create(:course, provider: training_provider1, accredited_provider: ratifying_provider)
-      offered_course = create(:course, provider: training_provider2, accredited_provider: ratifying_provider)
+      current_course = create(:course, provider: training_provider2, accredited_provider: ratifying_provider)
 
-      application_choice = create(:application_choice, candidate: candidate, course_option: create(:course_option, course: course), offered_course_option: create(:course_option, course: offered_course))
+      application_choice = create(:application_choice, candidate: candidate, course_option: create(:course_option, course: course), current_course_option: create(:course_option, course: current_course))
 
       provider_user1 = create(:provider_user, providers: [training_provider1])
       provider_user2 = create(:provider_user, providers: [training_provider2])

@@ -29,10 +29,10 @@ module CandidateInterface
 
     def course_details_row_value(application_choice)
       if EndOfCycleTimetable.find_down?
-        tag.p(application_choice.offered_course.name_and_code, class: 'govuk-!-margin-bottom-0') + tag.p(application_choice.course.description, class: 'govuk-body')
+        tag.p(application_choice.current_course.name_and_code, class: 'govuk-!-margin-bottom-0') + tag.p(application_choice.course.description, class: 'govuk-body')
       else
-        govuk_link_to(application_choice.offered_course.name_and_code,
-                      application_choice.offered_course.find_url, target: '_blank', rel: 'noopener') +
+        govuk_link_to(application_choice.current_course.name_and_code,
+                      application_choice.current_course.find_url, target: '_blank', rel: 'noopener') +
           tag.p(application_choice.course.description, class: 'govuk-body')
       end
     end
@@ -67,7 +67,7 @@ module CandidateInterface
 
     def rejected_application_choices
       @rejected_application_choices ||= begin
-        rejected_applications = @application_form.application_choices.includes(:course, :provider, [:offered_course_option]).rejected
+        rejected_applications = @application_form.application_choices.includes(:course, :provider, :current_course_option, :current_course).rejected
         rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL')
         rejected_applications
       end

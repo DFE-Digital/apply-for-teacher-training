@@ -23,7 +23,7 @@ module ProviderInterface
 
     def check
       @wizard = wizard_for_step
-      @wizard.course_option_id = @application_choice.offered_option.in_next_cycle&.id
+      @wizard.course_option_id = @application_choice.current_course_option.in_next_cycle&.id
     end
 
     def commit

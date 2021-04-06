@@ -43,8 +43,8 @@ FactoryBot.define do
           scheme = evaluator.scheme.pop || 'B'
           data = {
             'Scheme' => scheme,
-            'Course code' => application_choice.offered_option.course.code.to_s,
-            'Provider code' => application_choice.offered_option.course.provider.code.to_s,
+            'Course code' => application_choice.current_course_option.course.code.to_s,
+            'Provider code' => application_choice.current_course.provider.code.to_s,
           }.merge!(shared_data)
 
           if scheme == 'B'

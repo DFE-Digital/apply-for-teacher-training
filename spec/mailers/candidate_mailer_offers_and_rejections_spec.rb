@@ -9,9 +9,9 @@ RSpec.describe CandidateMailer, type: :mailer do
   let!(:application_form) { build_stubbed(:application_form, first_name: 'Bob', candidate: candidate, application_choices: application_choices) }
   let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
   let(:course) { build_stubbed(:course, name: 'Applied Science (Psychology)', code: '3TT5', provider: provider) }
-  let(:offered_course) { build_stubbed(:course, name: 'Primary', code: '33WA', provider: other_provider) }
+  let(:current_course) { build_stubbed(:course, name: 'Primary', code: '33WA', provider: other_provider) }
   let(:course_option) { build_stubbed(:course_option, course: course) }
-  let(:offered_option) { build_stubbed(:course_option, course: offered_course) }
+  let(:current_course_option) { build_stubbed(:course_option, course: current_course) }
 
   let(:other_provider) { build_stubbed(:provider, name: 'Falconholt Technical College', code: 'X100') }
   let(:other_course) { build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: other_provider) }
@@ -19,8 +19,8 @@ RSpec.describe CandidateMailer, type: :mailer do
   let(:other_option) { build_stubbed(:course_option, course: other_course, site: site) }
 
   let(:offer) { build_stubbed(:application_choice, :with_offer, course_option: course_option) }
-  let(:awaiting_decision) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: other_option, offered_course_option: other_option) }
-  let(:interviewing) { build_stubbed(:application_choice, :awaiting_provider_decision, status: :interviewing, course_option: other_option, offered_course_option: other_option) }
+  let(:awaiting_decision) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: other_option, current_course_option: other_option) }
+  let(:interviewing) { build_stubbed(:application_choice, :awaiting_provider_decision, status: :interviewing, course_option: other_option, current_course_option: other_option) }
 
   let(:application_choices) { [] }
 
@@ -39,7 +39,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choices) { [offer] }
 
     before do
-      allow(CourseOption).to receive(:find_by).with(id: offer.offered_course_option_id).and_return(offer.offered_course_option)
+      allow(CourseOption).to receive(:find_by).with(id: offer.current_course_option_id).and_return(offer.current_course_option)
     end
 
     it_behaves_like(
@@ -52,9 +52,9 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
 
     context 'when the provider offers the candidate a different course option' do
-      let(:other_offered_course) { build_stubbed(:course, name: 'Computer Science', code: 'X0FO', provider: other_provider) }
-      let(:other_offered_option) { build_stubbed(:course_option, course: other_offered_course) }
-      let(:offer) { build_stubbed(:application_choice, :with_offer, offered_course_option_id: other_offered_option.id, course_option: course_option, offered_course_option: other_offered_option) }
+      let(:other_course) { build_stubbed(:course, name: 'Computer Science', code: 'X0FO', provider: other_provider) }
+      let(:other_option) { build_stubbed(:course_option, course: other_course) }
+      let(:offer) { build_stubbed(:application_choice, :with_offer, current_course_option_id: other_option.id, course_option: course_option, current_course_option: other_option) }
 
       it_behaves_like(
         'a mail with subject and content',
@@ -113,7 +113,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       }
     end
 
-    let(:rejected) { build_stubbed(:application_choice, status: :rejected, course_option: other_option, offered_course_option: other_option, structured_rejection_reasons: rejection_reasons) }
+    let(:rejected) { build_stubbed(:application_choice, status: :rejected, course_option: other_option, current_course_option: other_option, structured_rejection_reasons: rejection_reasons) }
 
     describe '.application_rejected_all_applications_rejected' do
       let(:email) { mailer.application_rejected_all_applications_rejected(application_choices.first) }
@@ -221,7 +221,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe 'feedback_received_for_application_rejected_by_default' do
     let(:email) { mailer.feedback_received_for_application_rejected_by_default(application_choices.first) }
-    let(:application_choices) { [build_stubbed(:application_choice, :with_rejection_by_default_and_feedback, course_option: course_option, rejection_reason: 'I\'m so happy')] }
+    let(:application_choices) { [build_stubbed(:application_choice, :with_rejection_by_default_and_feedback, course_option: course_option, current_course_option: course_option, rejection_reason: 'I\'m so happy')] }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -254,7 +254,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe '.reinstated_offer' do
     let(:email) { mailer.reinstated_offer(application_choices.first) }
     let(:application_choices) { [application_choice] }
-    let(:application_choice) { build_stubbed(:application_choice, :with_deferred_offer, course_option: other_option, offer_deferred_at: Time.zone.local(2019, 10, 3)) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_deferred_offer, course_option: other_option, current_course_option: other_option, offer_deferred_at: Time.zone.local(2019, 10, 3)) }
     let(:other_course) do
       build_stubbed :course, name: 'Forensic Science',
                              code: 'E0FO',
@@ -292,7 +292,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.changed_offer' do
     let(:email) { mailer.changed_offer(application_choices.first) }
-    let(:application_choice) { build_stubbed(:submitted_application_choice, course_option: course_option, offered_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+    let(:application_choice) { build_stubbed(:submitted_application_choice, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
     it_behaves_like(
@@ -309,7 +309,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe 'Deferred offer reminder email' do
     let(:email) { mailer.deferred_offer_reminder(application_choices.first) }
-    let(:application_choice) { build_stubbed(:application_choice, :with_deferred_offer, course_option: other_option, offer_deferred_at: Time.zone.local(2020, 4, 15)) }
+    let(:application_choice) { build_stubbed(:application_choice, :with_deferred_offer, course_option: other_option, current_course_option: other_option, offer_deferred_at: Time.zone.local(2020, 4, 15)) }
     let(:application_choices) { [application_choice] }
 
     it_behaves_like(

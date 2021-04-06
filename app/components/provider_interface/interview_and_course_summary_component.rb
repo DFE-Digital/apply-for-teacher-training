@@ -13,11 +13,11 @@ module ProviderInterface
       [
         {
           key: 'Course',
-          value: interview.offered_course.name_and_code,
+          value: interview.current_course.name_and_code,
         },
         {
           key: 'Funding type',
-          value: Course.human_attribute_name("funding_type.#{interview.offered_course.funding_type}"),
+          value: Course.human_attribute_name("funding_type.#{interview.current_course.funding_type}"),
         },
         {
           key: 'Interview preferences',

@@ -16,8 +16,8 @@ RSpec.describe ReinstateConditionsMet do
     expect { service.save }.to change(application_choice, :status).to('recruited')
   end
 
-  it 'changes offered_course_option_id for the application choice' do
-    expect { service.save }.to change(application_choice, :offered_course_option_id)
+  it 'changes current_course_option_id for the application choice' do
+    expect { service.save }.to change(application_choice, :current_course_option_id)
   end
 
   it 'sets the application\'s recruited_at date if conditions had not been met before' do

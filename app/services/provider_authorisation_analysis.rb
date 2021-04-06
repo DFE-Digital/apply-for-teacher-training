@@ -8,10 +8,10 @@ class ProviderAuthorisationAnalysis
     @auth = auth
     @application_choice = application_choice
     @course_option_id = course_option_id
-    @course_option_id ||= @application_choice.offered_option.id
+    @course_option_id ||= @application_choice.current_course_option.id
 
-    @training_provider = application_choice.offered_course.provider
-    @ratifying_provider = application_choice.offered_course.accredited_provider
+    @training_provider = application_choice.current_provider
+    @ratifying_provider = application_choice.current_accredited_provider
 
     @relationship = ProviderRelationshipPermissions.find_by(
       training_provider: @training_provider,
@@ -32,7 +32,7 @@ class ProviderAuthorisationAnalysis
   end
 
   def provider_user_associated_with_training_provider?
-    @_is_training_provider_user ||= provider_user.providers.include?(application_choice.offered_course.provider)
+    @_is_training_provider_user ||= provider_user.providers.include?(application_choice.current_provider)
   end
 
   def provider_relationship_has_been_set_up?

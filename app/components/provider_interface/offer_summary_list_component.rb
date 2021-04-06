@@ -7,7 +7,7 @@ module ProviderInterface
 
     def initialize(application_choice:, header: 'Your offer', options: {})
       @application_choice = application_choice
-      @course_option = application_choice.offered_option
+      @course_option = application_choice.current_course_option
       @header = header
       @change_provider_path = options[:change_provider_path]
       @change_course_path = options[:change_course_path]
@@ -21,7 +21,7 @@ module ProviderInterface
           key: 'Candidate name',
           value: application_choice.application_form.full_name,
         },
-      ] + add_change_links_to(course_rows(course_option: application_choice.offered_option))
+      ] + add_change_links_to(course_rows(course_option: application_choice.current_course_option))
     end
 
   private

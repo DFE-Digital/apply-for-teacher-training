@@ -4,6 +4,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   let(:training_provider) { create(:provider) }
   let(:ratifying_provider) { create(:provider) }
   let(:course) { create(:course, provider: training_provider, accredited_provider: ratifying_provider) }
+  let(:course_option) { create(:course_option, course: course) }
 
   def one_sided_permissions(side_with_access:, setup_at: nil)
     @relationship = if side_with_access == :ratifying_provider
@@ -56,7 +57,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
     application_choice = create(
       :application_choice,
       application_form: application_form,
-      course: course,
+      course_option: course_option,
     )
     render_inline(described_class.new(application_choice: application_choice, current_provider_user: user))
   end

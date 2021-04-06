@@ -58,7 +58,7 @@ module ProviderInterface
       def available_study_modes(course)
         GetChangeOfferOptions.new(
           user: current_provider_user,
-          current_course: @application_choice.offered_course,
+          current_course: @application_choice.current_course,
         ).available_study_modes(course: course)
       end
     end

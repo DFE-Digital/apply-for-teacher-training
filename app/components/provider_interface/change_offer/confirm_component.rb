@@ -18,7 +18,7 @@ module ProviderInterface
       def future_application_choice
         if change_offer_form.course_option_id
           future_application_choice = application_choice.dup
-          future_application_choice.offered_course_option_id = change_offer_form.course_option_id
+          future_application_choice.current_course_option_id = change_offer_form.course_option_id
           future_application_choice
         else
           application_choice

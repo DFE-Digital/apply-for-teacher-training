@@ -115,15 +115,15 @@ module CandidateInterface
       [
         {
           key: 'Provider',
-          value: @application_choice.offered_course.provider.name,
+          value: @application_choice.current_course.provider.name,
         },
         {
           key: 'Course',
-          value: @application_choice.offered_course.name_and_code,
+          value: @application_choice.current_course.name_and_code,
         },
         {
           key: 'Location',
-          value: @application_choice.offered_option.site.name,
+          value: @application_choice.current_course_option.site.name,
         },
       ]
     end

@@ -27,7 +27,7 @@ module ProviderInterface
     end
 
     def self.build_from_application_choice(state_store, application_choice, options = {})
-      course_option = application_choice.offered_option
+      course_option = application_choice.current_course_option
 
       attrs = {
         application_choice_id: application_choice.id,
@@ -130,7 +130,7 @@ module ProviderInterface
     def query_service
       @query_service ||= GetChangeOfferOptions.new(
         user: provider_user,
-        current_course: application_choice.offered_course,
+        current_course: application_choice.current_course,
       )
     end
 

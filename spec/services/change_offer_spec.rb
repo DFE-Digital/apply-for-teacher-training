@@ -14,7 +14,7 @@ RSpec.describe ChangeOffer do
     let(:provider_user) do
       create(:provider_user,
              :with_make_decisions,
-             providers: [application_choice.offered_option.provider])
+             providers: [application_choice.current_course_option.provider])
     end
     let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
     let(:new_conditions) { [Faker::Lorem.sentence] }
@@ -25,7 +25,7 @@ RSpec.describe ChangeOffer do
     describe 'if the actor is not authorised to perform this action' do
       let(:provider_user) do
         create(:provider_user,
-               providers: [application_choice.offered_option.provider])
+               providers: [application_choice.current_course_option.provider])
       end
 
       it 'throws an exception' do
@@ -42,7 +42,7 @@ RSpec.describe ChangeOffer do
       let(:change_offer) do
         ChangeOffer.new(actor: provider_user,
                         application_choice: application_choice,
-                        course_option: application_choice.offered_option,
+                        course_option: application_choice.current_course_option,
                         conditions: ['DBS check'])
       end
 

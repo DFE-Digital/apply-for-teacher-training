@@ -56,7 +56,7 @@ RSpec.feature 'Provider cannot respond to application' do
   end
 
   def and_my_provider_relationship_permissions_have_been_set_up
-    course = application_awaiting_provider_decision.offered_course
+    course = application_awaiting_provider_decision.current_course
     ratifying_provider = course.accredited_provider
 
     @provider_relationship = create(

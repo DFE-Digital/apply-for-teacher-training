@@ -163,6 +163,6 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
     expect(page).to have_content @course_option_three.course.name_and_code
     expect(page).to have_content @course_option_three.site.name_and_address
-    expect(@application.reload.offered_option).to eq(@course_option_three)
+    expect(@application.reload.current_course_option).to eq(@course_option_three)
   end
 end
