@@ -42,7 +42,7 @@ module RegisterAPI
           contact_details: contact_details,
           course: course_info_for(application_choice.offered_option),
           qualifications: qualifications,
-          hesa_itt_data: hesa_itt_data.presence || {},
+          hesa_itt_data: hesa_itt_data.presence,
         },
       }
     end

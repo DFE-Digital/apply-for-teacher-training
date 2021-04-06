@@ -89,13 +89,6 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Application"
-    SingleApplicationResponse:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          "$ref": "#/components/schemas/Application"
     Application:
       type: object
       additionalProperties: false
@@ -539,21 +532,21 @@ components:
           type: array
           items:
             type: string
+            enum:
+            - "00"
+            - "08"
+            - "51"
+            - "53"
+            - "54"
+            - "55"
+            - "56"
+            - "57"
+            - "58"
+            - "96"
           description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
           example:
             - "00"
             - "51"
-          enum:
-          - "00"
-          - "08"
-          - "51"
-          - "53"
-          - "54"
-          - "55"
-          - "56"
-          - "57"
-          - "58"
-          - "96"
         ethnicity:
           type: string
           nullable: true
