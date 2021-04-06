@@ -1,22 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle' do
+  include CycleTimetableHelper
+
   around do |example|
-    Timecop.freeze(Date.new(2020, 8, 1)) do
+    Timecop.freeze(mid_cycle) do
       example.run
     end
   end
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
     given_i_am_signed_in
-    and_i_am_in_the_2020_recruitment_cycle
     and_i_have_an_application_with_a_rejection
 
-    when_the_2020_recruitment_cycle_ends
+    when_the_current_recruitment_cycle_ends
     and_i_visit_my_application_complete_page
     then_i_cannot_apply_again
 
-    when_the_2021_recruitment_cycle_begins
+    when_the_next_recruitment_cycle_begins
     and_i_visit_my_application_complete_page
     and_i_click_on_apply_again
     and_i_click_on_start_now
@@ -34,19 +35,14 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     login_as(@candidate)
   end
 
-  def and_i_am_in_the_2020_recruitment_cycle
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
-  end
-
   def and_i_have_an_application_with_a_rejection
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
     create(:application_choice, :with_rejection, application_form: @application_form)
   end
 
-  def when_the_2020_recruitment_cycle_ends
+  def when_the_current_recruitment_cycle_ends
     Timecop.safe_mode = false
-    Timecop.travel(Time.zone.local(2020, 9, 20, 12, 0, 0))
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
+    Timecop.travel(after_apply_2_deadline)
   ensure
     Timecop.safe_mode = true
   end
@@ -55,10 +51,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).not_to have_link 'Do you want to apply again?'
   end
 
-  def when_the_2021_recruitment_cycle_begins
+  def when_the_next_recruitment_cycle_begins
     Timecop.safe_mode = false
-    Timecop.travel(Time.zone.local(2020, 10, 15, 12, 0, 0))
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
+    Timecop.travel(after_apply_reopens)
   ensure
     Timecop.safe_mode = true
   end
@@ -75,7 +70,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_on_start_now
-    expect(page).to have_content 'Carry on with your application for courses starting in the 2021 to 2022 academic year.'
+    expect(page).to have_content "Carry on with your application for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year."
     expect(page).to have_content 'Your courses have been removed. You can add them again now.'
     click_button 'Apply again'
   end

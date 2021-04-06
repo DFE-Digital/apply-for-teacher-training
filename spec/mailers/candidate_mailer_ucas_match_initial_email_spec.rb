@@ -4,7 +4,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2021, 1, 17)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -18,11 +18,11 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Withdraw your duplicate application by 1 February 2021',
+      "Withdraw your duplicate application by #{10.business_days.from_now.to_s(:govuk_date)}",
       'heading' => 'Dear Jane',
       'course' => 'Physics (3PH5)',
       'provider' => 'Coventry University',
-      'withdraw by date' => '1 February 2021',
+      'withdraw by date' => 10.business_days.from_now.to_s(:govuk_date),
     )
   end
 
@@ -33,9 +33,9 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Withdraw from one of your offers by 1 February 2021',
+      "Withdraw from one of your offers by #{10.business_days.from_now.to_s(:govuk_date)}",
       'heading' => 'Dear Jane',
-      'withdrawal day' => '1 February 2021',
+      'withdrawal day' => 10.business_days.from_now.to_s(:govuk_date),
     )
   end
 end

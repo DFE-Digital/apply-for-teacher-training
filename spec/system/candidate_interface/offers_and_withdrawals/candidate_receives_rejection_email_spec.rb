@@ -4,8 +4,7 @@ RSpec.feature 'Receives rejection email' do
   include CandidateHelper
 
   around do |example|
-    date_that_avoids_clocks_changing_by_ten_days = Time.zone.local(2020, 1, 13)
-    Timecop.freeze(date_that_avoids_clocks_changing_by_ten_days) do
+    Timecop.freeze do
       example.run
     end
   end

@@ -72,7 +72,7 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial
-    expect(page).to have_content 'Carry on with your application for courses starting in the 2021 to 2022 academic year.'
+    expect(page).to have_content "Carry on with your application for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year."
     expect(page).to have_content 'Your courses have been removed. You can add them again now.'
     click_button 'Apply again'
   end

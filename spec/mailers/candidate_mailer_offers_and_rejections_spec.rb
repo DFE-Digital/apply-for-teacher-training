@@ -29,7 +29,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2020, 2, 18)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -46,7 +46,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
-      'decline by default date' => 'Make a decision by 25 February 2020',
+      'decline by default date' => "Make a decision by #{7.days.from_now.to_s(:govuk_date)}",
       'first_condition' => 'Be cool',
       'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
     )
@@ -61,7 +61,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Make a decision: successful application for Falconholt Technical College',
         'heading' => 'Dear Bob',
         'course and provider' => 'offer from Falconholt Technical College to study Computer Science (X0FO)',
-        'decline by default date' => 'Make a decision by 25 February 2020',
+        'decline by default date' => "Make a decision by #{7.days.from_now.to_s(:govuk_date)}",
         'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
       )
     end
@@ -76,7 +76,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
-      'decline by default date' => 'Make a decision by 25 February 2020',
+      'decline by default date' => "Make a decision by #{7.days.from_now.to_s(:govuk_date)}",
       'first_condition' => 'Be cool',
       'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
       'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College',
@@ -163,7 +163,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'other application details' => 'You have an offer and are waiting for a decision about another course',
           'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
           'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
-          'decision day' => 'has until 22 June 2020 to make a decision',
+          'decision day' => "has until #{40.business_days.from_now.to_s(:govuk_date)} to make a decision",
         )
       end
 
@@ -181,7 +181,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'other application details' => 'You have an offer and are waiting for a decision about another course',
           'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
           'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
-          'decision day' => 'has until 22 June 2020 to make a decision',
+          'decision day' => "has until #{40.business_days.from_now.to_s(:govuk_date)} to make a decision",
         )
       end
     end
@@ -198,7 +198,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'rejection reasons' => 'Bad qualifications',
         'other application details' => "You're waiting for decisions",
         'first application' => 'Falconholt Technical College to study Forensic Science',
-        'decision day' => 'They should make their decisions by 22 June 2020',
+        'decision day' => "They should make their decisions by #{40.business_days.from_now.to_s(:govuk_date)}",
       )
     end
 
@@ -208,13 +208,13 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: '25 February 2020'),
+        I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: 7.days.from_now.to_s(:govuk_date)),
         'heading' => 'Dear Bob',
         'course name and code' => 'Forensic Science (E0FO)',
         'rejection reasons' => 'Do not refer to yourself in the third person',
         'other application details' => 'You’re not waiting for any other decisions.',
         'first application details' => 'Brighthurst Technical College to study Applied Science (Psychology)',
-        'respond by date' => 'The offers will automatically be withdrawn if you do not respond by 25 February 2020',
+        'respond by date' => "The offers will automatically be withdrawn if you do not respond by #{7.days.from_now.to_s(:govuk_date)}",
       )
     end
   end
@@ -247,7 +247,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'heading' => 'Dear Bob',
       'name and code for course' => 'Applied Science (Psychology) (3TT5)',
       'name of provider' => 'Brighthurst Technical College',
-      'year of new course' => 'until the next academic year (2021 to 2022)',
+      'year of new course' => "until the next academic year (#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1})",
     )
   end
 

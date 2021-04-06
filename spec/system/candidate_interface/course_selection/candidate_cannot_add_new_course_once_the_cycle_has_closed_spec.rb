@@ -2,22 +2,22 @@ require 'rails_helper'
 
 RSpec.describe 'Candidate vists their application form after the cycle has ended' do
   include CandidateHelper
+  include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(EndOfCycleTimetable.apply_1_deadline) do
+    Timecop.freeze(mid_cycle) do
       example.run
     end
   end
 
   scenario 'The candidate cannot add new courses to their application form' do
     given_i_am_signed_in
-    and_my_application_forms_phase_is_apply_1
-    and_it_is_the_day_before_the_apply_1_deadline
-
     when_i_visit_the_site
     then_there_is_a_link_to_the_course_choices_section
 
-    given_it_is_the_day_after_the_apply1_deadline
+    given_it_is_after_the_apply1_deadline
+    and_i_logout
+    and_i_am_signed_in
 
     when_i_visit_the_site
     then_i_see_that_i_can_add_new_course_choices_in_october
@@ -34,7 +34,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     and_i_am_signed_in
 
     given_my_application_forms_phase_is_apply_2
-    and_it_is_the_day_before_the_apply_2_deadline
+    and_it_is_before_the_apply_2_deadline
 
     when_i_visit_the_site
     then_there_is_a_link_to_the_apply_again_course_choices_section
@@ -43,10 +43,6 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
-
-  def and_my_application_forms_phase_is_apply_1; end
-
-  def and_it_is_the_day_before_the_apply_1_deadline; end
 
   def when_i_visit_the_site
     visit candidate_interface_application_form_path
@@ -60,12 +56,12 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     expect(page).to have_link('Choose your course')
   end
 
-  def given_it_is_the_day_after_the_apply1_deadline
-    Timecop.travel(EndOfCycleTimetable.apply_1_deadline + 1.day)
+  def given_it_is_after_the_apply1_deadline
+    Timecop.travel(after_apply_1_deadline)
   end
 
   def then_i_see_that_i_can_add_new_course_choices_in_october
-    expect(page).to have_content 'You’ll be able to find courses in 42 days (6 October 2020). You can keep making changes to the rest of your application until then.'
+    expect(page).to have_content "You’ll be able to find courses in #{(EndOfCycleTimetable.find_reopens - Time.zone.today).to_i} days (#{EndOfCycleTimetable.find_reopens.to_s(:govuk_date)}). You can keep making changes to the rest of your application until then."
   end
 
   def and_there_is_not_a_link_to_the_course_choices_section
@@ -85,7 +81,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def given_the_new_cycle_is_open
-    Timecop.travel(EndOfCycleTimetable.apply_reopens + 1.day)
+    Timecop.travel(after_apply_reopens)
   end
 
   def and_i_logout
@@ -104,7 +100,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     current_candidate.current_application.apply_2!
   end
 
-  def and_it_is_the_day_before_the_apply_2_deadline
-    Timecop.travel(EndOfCycleTimetable.apply_2_deadline)
+  def and_it_is_before_the_apply_2_deadline
+    Timecop.travel(after_apply_1_deadline)
   end
 end
