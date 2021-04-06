@@ -149,11 +149,9 @@ module CandidateInterface
     end
 
     def feedback_status_label(reference)
-      render(
-        TagComponent.new(
-          text: feedback_status_text(reference),
-          type: feedback_status_colour(reference),
-        ),
+      govuk_tag(
+        text: feedback_status_text(reference),
+        colour: feedback_status_colour(reference),
       )
     end
 

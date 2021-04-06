@@ -98,6 +98,6 @@ RSpec.feature 'Data export', sidekiq: false do
     expect(page).to have_content 'Status'
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Initiated by'
-    expect(page).to have_content 'completed'
+    expect(page).to have_content 'Completed'
   end
 end

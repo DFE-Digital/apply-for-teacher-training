@@ -8,11 +8,9 @@
     },
     {
       key: 'Status',
-      value: render(
-        TagComponent.new(
-          text: FeatureFlag.active?(feature_name) ? 'Active' : 'Inactive',
-          type: FeatureFlag.active?(feature_name) ? 'green' : 'grey',
-        ),
+      value: govuk_tag(
+        text: FeatureFlag.active?(feature_name) ? 'Active' : 'Inactive',
+        colour: FeatureFlag.active?(feature_name) ? 'green' : 'grey',
       ),
     },
     {

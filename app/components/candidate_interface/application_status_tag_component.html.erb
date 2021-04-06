@@ -1,4 +1,4 @@
-<%= render TagComponent.new(text: text, type: type) %>
+<%= govuk_tag(text: text, colour: colour) %>
 
 <% if @application_choice.application_not_sent? %>
   <p class="govuk-body govuk-body govuk-!-margin-top-2">

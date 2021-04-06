@@ -8,20 +8,20 @@ module SupportInterface
       I18n.t!("application_states.#{@status}.name")
     end
 
-    def type
+    def colour
       case @status.to_s
       when 'unsubmitted'
-        :grey
+        'grey'
       when 'awaiting_provider_decision', 'interviewing', 'offer_deferred'
-        :yellow
+        'yellow'
       when 'offer'
-        :turquoise
+        'turquoise'
       when 'pending_conditions'
-        :blue
+        'blue'
       when 'recruited'
-        :green
+        'green'
       when 'conditions_not_met', 'declined', 'rejected', 'offer_withdrawn', 'withdrawn', 'cancelled', 'application_not_sent'
-        :red
+        'red'
       else
         raise "You need to define a colour for the #{@status} state"
       end

@@ -13,18 +13,18 @@
         <td class='govuk-table__cell'><%= course_option.id %></td>
         <td class='govuk-table__cell'>
           <% unless course_option.site_still_valid? %>
-            <%= render TagComponent.new(text: 'Course no longer offered at this site', type: 'red') %>
+            <%= govuk_tag(text: 'Course no longer offered at this site', colour: 'red') %>
           <% end %>
 
           <%= govuk_link_to(course_option.course.name_and_code, support_interface_course_path(course_option.course)) %> - <%= course_option.study_mode.humanize %> at <%= course_option.site.name %>
         </td>
         <td class='govuk-table__cell'>
           <% if course_option.vacancies? %>
-            <%= render TagComponent.new(text: 'Vacancies', type: 'green') %>
+            <%= govuk_tag(text: 'Vacancies', colour: 'green') %>
           <% elsif course_option.no_vacancies? %>
-            <%= render TagComponent.new(text: 'No vacancies', type: 'red') %>
+            <%= govuk_tag(text: 'No vacancies', colour: 'red') %>
           <% else %>
-            <%= render TagComponent.new(text: '(unknown)', type: 'grey') %>
+            <%= govuk_tag(text: '(Unknown)', colour: 'grey') %>
           <% end %>
         </td>
       </tr>

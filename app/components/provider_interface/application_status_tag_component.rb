@@ -10,26 +10,26 @@ module ProviderInterface
       I18n.t!("provider_application_states.#{status}")
     end
 
-    def type
+    def colour
       case status
       when 'unsubmitted', 'cancelled', 'application_not_sent'
         # will never be visible to the provider
       when 'awaiting_provider_decision'
-        :purple
+        'purple'
       when 'interviewing'
-        :yellow
+        'yellow'
       when 'offer'
-        :turquoise
+        'turquoise'
       when 'pending_conditions'
-        :blue
+        'blue'
       when 'recruited'
-        :green
+        'green'
       when 'rejected', 'conditions_not_met', 'offer_withdrawn'
-        :orange
+        'orange'
       when 'declined', 'withdrawn'
-        :red
+        'red'
       when 'offer_deferred'
-        :yellow
+        'yellow'
       else
         raise "You need to define a colour for the #{status} state"
       end

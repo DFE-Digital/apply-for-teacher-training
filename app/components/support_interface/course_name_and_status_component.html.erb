@@ -4,13 +4,13 @@
 ) %>
 
 <% if course_option.course_not_available? %>
-  <%= render TagComponent.new(text: 'Course removed from Find', type: 'yellow') %>
+  <%= govuk_tag(text: 'Course removed from Find', colour: 'yellow') %>
 <% end %>
 
 <% if course_option.course_closed_on_apply? %>
-  <%= render TagComponent.new(text: 'Course closed on Apply', type: 'yellow') %>
+  <%= govuk_tag(text: 'Course closed on Apply', colour: 'yellow') %>
 <% end %>
 
 <% if course_option.course_full? %>
-  <%= render TagComponent.new(text: 'Course is full', type: 'yellow') %>
+  <%= govuk_tag(text: 'Course is full', colour: 'yellow') %>
 <% end %>

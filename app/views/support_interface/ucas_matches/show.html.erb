@@ -5,11 +5,11 @@
 <%= render SupportInterface::UCASMatchActionComponent.new(@match) %>
 
 <% application = @match.candidate.application_forms.first %>
-<% status = [render(TagComponent.new(text: @match.action_taken&.humanize || 'New match', type: @match.resolved? ? :green : :purple))] %>
+<% status = [govuk_tag(text: @match.action_taken&.humanize || 'New match', colour: @match.resolved? ? 'green' : 'purple')] %>
 <% if @match.invalid_matching_data? %>
-  <% status << render(TagComponent.new(text: 'Invalid data', type: :red)) %>
+  <% status << govuk_tag(text: 'Invalid data', colour: 'red') %>
 <% elsif @match.action_needed? %>
-  <% status << render(TagComponent.new(text: 'Action needed', type: :yellow)) %>
+  <% status << govuk_tag(text: 'Action needed', colour: 'yellow') %>
 <% end %>
 
 <%= render SummaryListComponent.new(rows: {

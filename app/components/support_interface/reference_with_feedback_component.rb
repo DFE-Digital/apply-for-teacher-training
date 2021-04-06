@@ -39,7 +39,7 @@ module SupportInterface
     def status_row
       {
         key: 'Reference status',
-        value: render(TagComponent.new(text: t("support_interface.reference_status.#{feedback_status}"), type: feedback_status_colour(reference))),
+        value: govuk_tag(text: t("support_interface.reference_status.#{feedback_status}"), colour: feedback_status_colour(reference)),
       }
     end
 
@@ -223,17 +223,17 @@ module SupportInterface
     def feedback_status_colour(reference)
       case reference.feedback_status
       when 'not_requested_yet'
-        :grey
+        'grey'
       when 'feedback_requested'
-        reference.feedback_overdue? ? :yellow : :purple
+        reference.feedback_overdue? ? 'yellow' : 'purple'
       when 'feedback_provided'
-        :green
+        'green'
       when 'feedback_overdue'
-        :yellow
+        'yellow'
       when 'cancelled', 'cancelled_at_end_of_cycle'
-        :orange
+        'orange'
       when 'feedback_refused', 'email_bounced'
-        :red
+        'red'
       end
     end
 

@@ -11,7 +11,7 @@ module SupportInterface
     def table_rows
       matches.map do |match|
         {
-          status: render(TagComponent.new(text: match.action_taken&.humanize || 'No action taken', type: match.resolved? ? :green : :purple)),
+          status: govuk_tag(text: match.action_taken&.humanize || 'No action taken', colour: match.resolved? ? 'green' : 'purple'),
           action_needed: action_needed(match),
           match_link: govuk_link_to(match.candidate.email_address, support_interface_ucas_match_path(match)),
           last_update: match.updated_at.to_s(:govuk_date),
@@ -23,9 +23,9 @@ module SupportInterface
 
     def action_needed(match)
       if match.invalid_matching_data?
-        render(TagComponent.new(text: 'Invalid data', type: :red))
+        govuk_tag(text: 'Invalid data', colour: 'red')
       elsif match.action_needed?
-        render(TagComponent.new(text: 'Action needed', type: :yellow))
+        govuk_tag(text: 'Action needed', colour: 'yellow')
       end
     end
   end
