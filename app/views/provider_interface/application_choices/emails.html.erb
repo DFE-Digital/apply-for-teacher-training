@@ -1,19 +1,11 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Email log" %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Applications',
-      path: provider_interface_applications_path,
-    },
-    {
-      text: @application_choice.application_form.full_name,
-      path: provider_interface_application_choice_path(@application_choice),
-    },
-    {
-      text: 'Timeline',
-    },
-  ]) %>
+  <%= breadcrumbs({
+    'Applications': provider_interface_applications_path,
+    @application_choice.application_form.full_name => provider_interface_application_choice_path(@application_choice),
+    'Timeline': nil,
+  }) %>
 <% end %>
 
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>

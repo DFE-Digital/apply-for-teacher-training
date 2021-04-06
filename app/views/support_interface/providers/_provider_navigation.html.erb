@@ -1,16 +1,10 @@
 <% content_for :title, @provider.name_and_code %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Providers',
-      path: support_interface_providers_path(onboarding_stages: %w[synced dsa_signed]),
-    },
-    {
-      text: @provider.name,
-      path: support_interface_provider_path(@provider),
-    },
-  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+  <%= breadcrumbs({
+    'Providers': support_interface_providers_path(onboarding_stages: %w[synced dsa_signed]),
+    @provider.name => support_interface_provider_path(@provider),
+  }.merge(title != 'Details' ? { title: nil } : {})) %>
 <% end %>
 
 <%= render 'no_admin_users_warning' %>

@@ -1,14 +1,10 @@
 <%= content_for :browser_title, t('page_titles.provider.profile') %>
+
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: t('page_titles.provider.account'),
-      path: provider_interface_account_path,
-    },
-    {
-      text: t('page_titles.provider.profile'),
-    },
-  ]) %>
+  <%= breadcrumbs({
+    t('page_titles.provider.account') => provider_interface_account_path,
+    t('page_titles.provider.profile') => nil,
+  }) %>
 <% end %>
 
 <div class="govuk-grid-row">

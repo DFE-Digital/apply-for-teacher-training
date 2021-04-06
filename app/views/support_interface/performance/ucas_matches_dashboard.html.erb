@@ -1,14 +1,10 @@
 <% content_for :title, 'UCAS matches' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path,
-    }, {
-      text: 'UCAS matches',
-    }
-  ]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'UCAS matches': nil,
+  }) %>
 <% end %>
 
 <% year_choices = RecruitmentCycle::CYCLES.map do |year, label| %>

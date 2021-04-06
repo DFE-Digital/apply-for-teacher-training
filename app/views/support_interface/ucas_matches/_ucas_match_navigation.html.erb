@@ -2,20 +2,11 @@
 <% content_for :title, @match.candidate.email_address %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Candidates',
-      path: support_interface_candidates_path,
-    },
-    {
-      text: 'UCAS matches',
-      path: support_interface_ucas_matches_path,
-    },
-    {
-      text: @match.candidate.email_address,
-      path: support_interface_ucas_match_path(@match),
-    },
-  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+  <%= breadcrumbs({
+    'Candidates': support_interface_candidates_path,
+    'UCAS matches': support_interface_ucas_matches_path,
+    @match.candidate.email_address => support_interface_ucas_match_path(@match),
+  }.merge(title != 'Details' ? { title: nil } : {})) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [

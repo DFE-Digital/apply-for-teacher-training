@@ -1,15 +1,10 @@
 <% content_for :title, 'Applications with unavailable choices' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path,
-    },
-    {
-      text: 'Applications with unavailable choices',
-    },
-  ]) %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Applications with unavailable choices': nil,
+  }) %>
 <% end %>
 
 <h2 class="govuk-heading-m">Applications to courses that no longer are available on Apply</h2>
