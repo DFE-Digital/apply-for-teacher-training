@@ -81,6 +81,13 @@ class ApplicationChoice < ApplicationRecord
     end
   end
 
+  def days_until_decline_by_default
+    if status == 'offer'
+      dbd = decline_by_default_at
+      ((dbd - Time.zone.now) / 1.day).floor if dbd && dbd > Time.zone.now
+    end
+  end
+
   delegate :course_not_available?, to: :course_option
   delegate :withdrawn?, to: :course, prefix: true
 
