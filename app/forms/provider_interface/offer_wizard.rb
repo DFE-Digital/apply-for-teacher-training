@@ -52,10 +52,10 @@ module ProviderInterface
 
       next_step = STEPS[decision.to_sym][index + 1]
 
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.one?
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.one?
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.one?
-      return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.one?
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.length == 1
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.length == 1
 
       next_step
     end
