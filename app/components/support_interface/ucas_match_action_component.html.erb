@@ -5,9 +5,7 @@
         <%= inset_text_header %>
       </h2>
       <% if action_details.present? %>
-        <p class="govuk-body">
-          <%= action_details %>
-        </p>
+        <%= action_details %>
       <% end %>
       <% if @match.action_needed? && @match.requires_manual_action? %>
         <%= form_with url: button[:path], method: :post do |f| %>

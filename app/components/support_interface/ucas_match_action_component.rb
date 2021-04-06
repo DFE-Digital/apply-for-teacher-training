@@ -58,19 +58,23 @@ module SupportInterface
   private
 
     def type_of_action
-      "#{govuk_tag(text: 'Action needed', colour: 'yellow')} #{ACTIONS[@match.next_action][:description]}".html_safe
+      capture do
+        concat govuk_tag(text: 'Action needed', colour: 'yellow')
+        concat ' '
+        concat ACTIONS[@match.next_action][:description]
+      end
     end
 
     def required_action_details
-      (
-        ACTIONS[@match.next_action][:instructions] +
-        %(<br><br>Please refer to <a class="govuk-link" href="https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4">Dual-running user support manual</a> for more information about the current process.)
-      ).html_safe
+      capture do
+        concat tag.p(ACTIONS[@match.next_action][:instructions])
+        concat tag.p("Please refer to #{govuk_link_to('Dual-running user support manual', 'https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4')} for more information about the current process.".html_safe)
+      end
     end
 
     def last_action_details
       last_action = @match.last_action
-      "We #{ACTIONS[last_action][:past_tense_description]} on the #{@match.candidate_last_contacted_at.to_s(:govuk_date_and_time)}"
+      tag.p("We #{ACTIONS[last_action][:past_tense_description]} on the #{@match.candidate_last_contacted_at.to_s(:govuk_date_and_time)}")
     end
   end
 end
