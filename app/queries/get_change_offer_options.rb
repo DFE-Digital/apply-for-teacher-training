@@ -44,11 +44,9 @@ class GetChangeOfferOptions
 
   def offerable_courses
     make_decisions_courses
-      .where(
-        open_on_apply: true,
-        recruitment_cycle_year: recruitment_cycle_year,
-      )
-      .where(ratifying_provider_is_preserved)
+    .open_on_apply
+    .where(recruitment_cycle_year: recruitment_cycle_year)
+    .where(ratifying_provider_is_preserved)
   end
 
   def make_decisions_courses
