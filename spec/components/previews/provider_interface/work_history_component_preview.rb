@@ -1,5 +1,7 @@
 module ProviderInterface
   class WorkHistoryComponentPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     def application
       render_component_for application_form: application_form
     end

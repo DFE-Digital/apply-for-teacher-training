@@ -1,5 +1,7 @@
 module ProviderInterface
   class InterviewFormComponentPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     class FormModel
       include ActiveModel::Model
       attr_accessor :time, :date, :location, :additional_details, :provider_id
