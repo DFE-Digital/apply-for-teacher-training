@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" class="govuk-template">
-  <head>
-    <meta charset="utf-8">
-    <title><%= try(:browser_title) %></title>
-    <%= stylesheet_pack_tag 'application-provider', media: 'all' %>
-  </head>
+<% content_for :before_content do %>
+  <%= stylesheet_pack_tag 'application-provider', media: 'all' %>
+<% end %>
 
-  <body class="govuk-template__body">
-    <div class="govuk-!-margin-top-5">
-      <%= content_for?(:body) ? yield(:body) : yield %>
-    </div>
-
-    <%= javascript_pack_tag 'application' %>
-  </body>
-</html>
+<%= render template: 'layouts/application' %>
