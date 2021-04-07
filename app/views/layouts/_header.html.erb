@@ -43,7 +43,7 @@
       items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
     )) %>
   <% end %>
-<% when 'api_docs' %>
+<% when 'vendor_api_docs' %>
   <%= render(ProductHeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
     product_name: service_name,
