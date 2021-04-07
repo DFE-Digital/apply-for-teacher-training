@@ -32,6 +32,9 @@ RSpec.feature 'Managing provider users' do
     then_i_should_see_the_list_of_provider_users
     when_i_filter_the_list_of_provider_users
     and_i_should_see_the_user_i_created
+
+    when_i_filter_the_list_of_provider_users_by_id
+    and_i_should_see_the_user_i_created
     and_the_user_should_be_sent_a_welcome_email
 
     and_i_click_on_that_user
@@ -161,6 +164,12 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_should_see_the_user_i_created
     expect(page).to have_content('harrison@example.com')
+  end
+
+  def when_i_filter_the_list_of_provider_users_by_id
+    @new_user = ProviderUser.find_by_email_address('harrison@example.com')
+    fill_in :q, with: @new_user.id
+    click_on 'Apply filters'
   end
 
   def and_the_user_should_be_sent_a_welcome_email
