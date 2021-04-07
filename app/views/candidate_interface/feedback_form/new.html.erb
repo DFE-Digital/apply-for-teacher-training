@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.your_feedback'), @feedback_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_submit_success_path) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_submit_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -8,13 +8,13 @@
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.your_feedback') %>
       </h1>
-      <%= f.govuk_radio_buttons_fieldset :satisfaction_level, legend: { text: 'How satisfied are you with this service?' } do %>
+      <%= f.govuk_radio_buttons_fieldset :satisfaction_level, legend: { text: 'How satisfied are you with this service? (optional)' } do %>
         <% ApplicationForm.feedback_satisfaction_levels.values.each_with_index do |value, i| %>
           <%= f.govuk_radio_button :satisfaction_level, value, label: { text: t("satisfaction_levels.#{value}") }, link_errors: i.zero? %>
         <% end %>
       <% end %>
-      <%= f.govuk_text_area :suggestions, label: { text: 'How could we improve this service?', size: 'm' }, rows: 8, max_words: 400 %>
-      <%= f.govuk_submit 'Send feedback' %>
+      <%= f.govuk_text_area :suggestions, label: { text: 'How could we improve this service? (optional)', size: 'm' }, rows: 8, max_words: 1200 %>
+      <%= f.govuk_submit 'Continue' %>
     <% end %>
   </div>
 </div>

@@ -1,1 +1,6 @@
-<%= render NotificationMessageComponent.new(message_key, message: flash[message_key], message_link: flash[:link]) %>
+<%= render NotificationMessageComponent.new(
+  message_key,
+  message: message,
+  secondary_message: secondary_message,
+  message_link: flash[:link],
+) %>

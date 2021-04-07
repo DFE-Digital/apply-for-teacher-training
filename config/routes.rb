@@ -72,7 +72,6 @@ Rails.application.routes.draw do
       get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
       post '/submit' => 'unsubmitted_application_form#submit', as: :application_submit
 
-      get '/submit-success' => 'submitted_application_form#submit_success', as: :application_submit_success
       get '/complete' => 'submitted_application_form#complete', as: :application_complete
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 

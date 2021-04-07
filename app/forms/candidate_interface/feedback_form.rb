@@ -4,8 +4,6 @@ module CandidateInterface
 
     attr_accessor :satisfaction_level, :suggestions
 
-    validates :satisfaction_level, presence: true
-
     def save(application_form)
       return false unless valid?
 

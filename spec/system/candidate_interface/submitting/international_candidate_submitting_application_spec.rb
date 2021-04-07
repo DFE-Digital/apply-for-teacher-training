@@ -26,6 +26,7 @@ RSpec.feature 'International candidate submits the application' do
     when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     when_i_choose_not_to_provide_further_information
     and_i_submit_the_application
+    and_i_skip_feedback
 
     then_i_can_see_my_application_has_been_successfully_submitted
   end
@@ -175,8 +176,13 @@ RSpec.feature 'International candidate submits the application' do
     click_button 'Send application'
   end
 
+  def and_i_skip_feedback
+    click_button 'Continue'
+  end
+
   def then_i_can_see_my_application_has_been_successfully_submitted
+    expect(page).to have_current_path candidate_interface_application_complete_path
     expect(page).to have_content 'Application successfully submitted'
-    expect(page).to have_content 'Your training provider will be in touch with you if they want to arrange an interview.'
+    expect(page).to have_content 'You will get an email when something changes.'
   end
 end
