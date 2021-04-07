@@ -128,7 +128,7 @@ RSpec.feature 'Entering their other qualifications' do
   def and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
     suggested_subjects = find('#subject-autosuggest-data')['data-source']
 
-    expect(JSON[suggested_subjects]).to eq A_AND_AS_LEVEL_SUBJECTS
+    expect(JSON[suggested_subjects]).to eq(A_AND_AS_LEVEL_SUBJECTS)
   end
 
   def when_i_submit_in_some_of_my_qualification_but_omit_some_required_details
