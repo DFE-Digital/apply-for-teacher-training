@@ -97,7 +97,7 @@ RSpec.feature 'International candidate submits the application' do
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
 
-    click_link 'Academic and other relevant qualifications'
+    click_link 'Other qualifications'
     candidate_fills_in_their_other_qualifications
 
     click_link 'Why do you want to teach'

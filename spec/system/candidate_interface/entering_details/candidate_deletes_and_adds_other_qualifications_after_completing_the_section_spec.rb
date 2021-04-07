@@ -43,11 +43,11 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def then_the_other_qualificaitons_section_should_be_marked_as_complete
-    expect(page.text).to include 'Academic and other relevant qualifications Completed'
+    expect(page.text).to include 'A levels and other qualifications Completed'
   end
 
   def when_i_click_the_other_qualifications_link
-    click_link 'Academic and other relevant qualifications'
+    click_link 'A levels and other qualifications'
   end
 
   def and_visit_my_application_page
@@ -74,7 +74,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def then_the_other_qualifications_section_should_not_be_marked_as_complete
-    expect(page.text).not_to include 'Academic and other relevant qualifications Complete'
+    expect(page.text).not_to include 'A levels and other qualifications Complete'
   end
 
   def and_i_click_on_delete_degree
