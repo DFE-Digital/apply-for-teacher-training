@@ -34,9 +34,7 @@ module ViewHelper
   end
 
   def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
-    html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
-
-    mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
+    govuk_mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
   def submitted_at_date
@@ -127,16 +125,6 @@ module ViewHelper
       yield
     else
       govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: request.fullpath)
-    end
-  end
-
-private
-
-  def prepend_css_class(css_class, current_class)
-    if current_class
-      current_class.prepend("#{css_class} ")
-    else
-      css_class
     end
   end
 end
