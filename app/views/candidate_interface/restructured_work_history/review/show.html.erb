@@ -10,9 +10,9 @@
   </div>
 
   <% if @application_form.application_work_experiences.blank? %>
-    <%= govuk_button_link_to 'Add a job', candidate_interface_new_restructured_work_history_path %>
+    <%= govuk_link_to 'Add a job', candidate_interface_new_restructured_work_history_path, button: true %>
   <% else %>
-    <%= govuk_button_link_to candidate_interface_new_restructured_work_history_path, class: 'govuk-button--secondary' do %>
+    <%= govuk_link_to candidate_interface_new_restructured_work_history_path, button: true, class: 'govuk-button--secondary' do %>
       <%= @application_form.application_work_experiences.any? ? t('application_form.work_history.another.button') : t('application_form.work_history.add.button') %>
     <% end %>
   <% end %>

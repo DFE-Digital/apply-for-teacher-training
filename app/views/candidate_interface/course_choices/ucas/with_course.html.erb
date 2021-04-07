@@ -34,9 +34,7 @@
       </h2>
     </div>
 
-    <p class="govuk-body govuk-!-margin-bottom-0">
-      <%= govuk_button_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url %>
-    </p>
+    <p class="govuk-body govuk-!-margin-bottom-0"><%= govuk_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url, button: true %></p>
     <p class="govuk-body">or</p>
     <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
   </div>

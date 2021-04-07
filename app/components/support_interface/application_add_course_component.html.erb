@@ -1,11 +1,11 @@
 <% if !application_form.submitted? %>
-  <p class='govuk-body'>
+  <p class="govuk-body">
     This candidate can add <%= application_form.maximum_number_of_course_choices %> course choices to this application.
   </p>
 <% elsif application_form.support_cannot_add_course_choice? %>
-  <p class='govuk-body'>
+  <p class="govuk-body">
     This application already has the maximum number of active course choices (<%= application_form.maximum_number_of_course_choices %>), so we can't add any more until the candidate withdraws one or more course choices.
   </p>
 <% else %>
-  <%= govuk_button_link_to 'Add a course', support_interface_application_form_search_course_new_path(application_form_id: application_form.id), form_class: 'govuk-!-display-inline-block' %>
+  <%= govuk_link_to 'Add a course', support_interface_application_form_search_course_new_path(application_form_id: application_form.id), button: true %>
 <% end %>

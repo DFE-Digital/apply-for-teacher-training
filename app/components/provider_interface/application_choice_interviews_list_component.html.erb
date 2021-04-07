@@ -1,6 +1,6 @@
 <div class="app-interviews">
   <% if user_can_create_or_change_interviews %>
-    <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-button--secondary' %>
+    <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-button--secondary' %>
   <% end %>
 
   <% if upcoming_interviews.any? %>

@@ -9,10 +9,7 @@
 
 <h1 class="govuk-heading-xl"><%= t('page_titles.provider.users') %></h1>
 
-<%= govuk_button_link_to(
-  'Invite user',
-  provider_interface_edit_invitation_basic_details_path,
-) %>
+<%= govuk_link_to 'Invite user', provider_interface_edit_invitation_basic_details_path, button: true %>
 
 <div class="govuk-body">
 <% @provider_users_with_providers.each do |provider_user, providers| %>

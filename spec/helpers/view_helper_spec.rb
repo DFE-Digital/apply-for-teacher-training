@@ -41,35 +41,6 @@ RSpec.describe ViewHelper, type: :helper do
     end
   end
 
-  describe '#govuk_button_link_to' do
-    it 'returns an anchor tag with the govuk-button class, button role and data-module="govuk-button"' do
-      anchor_tag = helper.govuk_button_link_to('Hoot', 'https://localhost:0103/owl/hoot')
-
-      expect(anchor_tag).to eq('<a class="govuk-button" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/owl/hoot">Hoot</a>')
-    end
-
-    it 'returns an anchor tag with additional HTML options' do
-      anchor_tag = helper.govuk_button_link_to('Cluck', 'https://localhost:0103/chicken/cluck', class: 'govuk-button--start')
-
-      expect(anchor_tag).to eq('<a class="govuk-button govuk-button--start" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/chicken/cluck">Cluck</a>')
-    end
-
-    it 'accepts a block' do
-      anchor_tag = helper.govuk_button_link_to('https://localhost:0103/bee/buzz') do
-        'Buzz'
-      end
-      expect(anchor_tag).to eq('<a class="govuk-button" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/bee/buzz">Buzz</a>')
-    end
-  end
-
-  describe '#govuk_button_to' do
-    it 'returns a form and button using the govuk-button class and data module' do
-      button_to_result = helper.govuk_button_to('Hoot', 'https://localhost:0103/owl/hoot')
-
-      expect(button_to_result).to eq('<form class="button_to" method="post" action="https://localhost:0103/owl/hoot"><input class="govuk-button" role="button" data-module="govuk-button" draggable="false" type="submit" value="Hoot" /></form>')
-    end
-  end
-
   describe 'application date helpers' do
     before do
       @application_dates = instance_double(
