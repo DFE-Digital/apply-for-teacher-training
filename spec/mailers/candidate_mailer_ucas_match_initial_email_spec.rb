@@ -9,13 +9,12 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  let(:application_form) { build_stubbed(:application_form, first_name: 'Jane', application_choices: [application_choice]) }
-  let(:provider) { build_stubbed(:provider, name: 'Coventry University') }
-  let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, name: 'Physics', code: '3PH5', provider: provider)) }
-  let(:application_choice) { build_stubbed(:application_choice, course_option: course_option) }
-
   describe '.ucas_match_initial_email_duplicate_applications' do
     let(:email) { mailer.ucas_match_initial_email_duplicate_applications(application_form.application_choices.first) }
+    let(:application_form) { build_stubbed(:application_form, first_name: 'Jane', application_choices: [application_choice]) }
+    let(:provider) { build_stubbed(:provider, name: 'Coventry University') }
+    let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, name: 'Physics', code: '3PH5', provider: provider)) }
+    let(:application_choice) { build_stubbed(:application_choice, course_option: course_option) }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -29,7 +28,8 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.ucas_match_initial_email_multiple_acceptances' do
     let(:email) { mailer.ucas_match_initial_email_multiple_acceptances(candidate) }
-    let(:candidate) { build_stubbed(:candidate, application_forms: [application_form]) }
+    let(:candidate) { create(:candidate, application_forms: [application_form]) }
+    let(:application_form) { create(:application_form, :minimum_info, first_name: 'Jane') }
 
     it_behaves_like(
       'a mail with subject and content',

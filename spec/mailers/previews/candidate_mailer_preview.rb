@@ -579,7 +579,8 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def ucas_match_initial_email_multiple_acceptances
-    candidate = FactoryBot.build_stubbed(:candidate, application_forms: [application_form])
+    application_form = FactoryBot.create(:application_form, :minimum_info, first_name: 'Gemma')
+    candidate = FactoryBot.create(:candidate, application_forms: [application_form])
 
     CandidateMailer.ucas_match_initial_email_multiple_acceptances(candidate)
   end
