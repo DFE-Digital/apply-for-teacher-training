@@ -54,6 +54,17 @@
   <%= render(PrimaryNavigationComponent.new(
     items: NavigationItems.for_vendor_api_docs(controller),
   )) %>
+<% when 'register_api_docs' %>
+  <%= render(ProductHeaderComponent.new(
+    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+    product_name: service_name,
+    service_url: service_link,
+    phase_tag: true,
+    navigation_items: [],
+  )) %>
+  <%= render(PrimaryNavigationComponent.new(
+    items: NavigationItems.for_register_api_docs(controller),
+  )) %>
 <% else %>
   <% components_url = '/rails/view_components' if request.path.match(/^\/rails\/view_components/) %>
   <% components_name = 'ViewComponent Previews' if request.path.match(/^\/rails\/view_components/) %>

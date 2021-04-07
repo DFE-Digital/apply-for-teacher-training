@@ -999,6 +999,7 @@ Rails.application.routes.draw do
     namespace :register_api_docs, path: '/register-api' do
       get '/' => 'reference#reference', as: :home
       get '/spec.yml' => 'open_api#spec', as: :spec
+      get '/release-notes' => 'pages#release_notes', as: :release_notes
     end
   end
 
