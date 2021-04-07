@@ -295,7 +295,7 @@ RSpec.feature 'Entering their other qualifications' do
   def and_the_suggested_subject_data_matches_the_gcse_subjects_data
     suggested_subjects = find('#subject-autosuggest-data')['data-source']
 
-    expect(JSON[suggested_subjects]).to eq GCSE_SUBJECTS
+    expect(JSON[suggested_subjects]).to eq(GCSE_SUBJECTS)
   end
 
   def when_i_change_my_qualification
