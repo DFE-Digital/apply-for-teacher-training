@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/DFE-Digital/audited
-  revision: 9b3c366573712801ae43b04e80f827c78397192e
+  revision: 512883ec786e98e0ec149c3ac2c0fd9085e25ec9
   specs:
-    audited (4.9.0)
-      activerecord (>= 4.2, < 6.1)
+    audited (4.10.0)
+      activerecord (>= 4.2, < 6.2)
 
 GEM
   remote: https://rubygems.org/
