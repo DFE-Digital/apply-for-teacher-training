@@ -70,6 +70,7 @@ module CandidateInterface
         )
 
       application_qualification.assign_attributes(attributes_for_persistence)
+      @current_application.update!(no_other_qualifications: false)
       application_qualification.save
     end
 

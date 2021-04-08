@@ -8,7 +8,7 @@ module CandidateInterface
       @form = OtherQualificationTypeForm.new(
         current_application,
         intermediate_data_service,
-        current_step: :type,
+        { current_step: :type }.merge!(qualification_type: current_application.no_other_qualifications ? 'no_other_qualifications' : nil),
       )
     end
 
@@ -19,7 +19,9 @@ module CandidateInterface
         other_qualification_type_params.merge(current_step: :type),
       )
 
-      if @form.save_intermediate
+      if @form.no_other_qualification? && @form.save_no_other_qualifications
+        redirect_to candidate_interface_review_other_qualifications_path
+      elsif @form.save_intermediate
         redirect_to candidate_interface_other_qualification_details_path
       else
         track_validation_error(@form)
@@ -80,7 +82,7 @@ module CandidateInterface
     def other_qualification_type_params
       strip_whitespace params
         .fetch(:candidate_interface_other_qualification_type_form, {})
-        .permit(:qualification_type, :other_uk_qualification_type, :non_uk_qualification_type)
+        .permit(:qualification_type, :other_uk_qualification_type, :non_uk_qualification_type, :no_other_qualification)
     end
   end
 end
