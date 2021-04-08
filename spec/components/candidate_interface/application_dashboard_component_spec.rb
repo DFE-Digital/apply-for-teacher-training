@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardComponent do
 
     it 'renders the correct title for an apply again application' do
       application_form = create_application_form_with_course_choices(
-        statuses: %w[awaiting_provider_decision rejected],
+        statuses: %w[awaiting_provider_decision],
         apply_again: true,
       )
 
