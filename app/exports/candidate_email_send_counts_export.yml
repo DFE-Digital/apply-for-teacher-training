@@ -17,3 +17,13 @@ custom_columns:
   unique_recipients:
     type: integer
     description: The number of unique recipients of this email
+
+  mailer:
+    type: string
+    description: The Rails mailer which sent the email
+    enum:
+      - Authentication mailer
+      - Candidate mailer
+      - Provider mailer
+      - Referee mailer
+      - Support mailer
