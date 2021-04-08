@@ -241,7 +241,12 @@ module VendorAPI
       constituent_grades = gcse[:constituent_grades]
       constituent_grades.reduce([]) do |array, (subject, hash)|
         array << qualification_to_hash(gcse)
-                     .merge(subject: subject.humanize, grade: hash['grade'], id: hash['public_id'])
+                     .merge(
+                       subject: subject.humanize,
+                       subject_code: subject_code_for_gcse(subject),
+                       grade: hash['grade'],
+                       id: hash['public_id'],
+                     )
       end
     end
 
@@ -251,6 +256,7 @@ module VendorAPI
         qualification_type: qualification.qualification_type,
         non_uk_qualification_type: qualification.non_uk_qualification_type,
         subject: qualification.subject,
+        subject_code: subject_code(qualification),
         grade: grade_details(qualification),
         start_year: qualification.start_year,
         award_year: qualification.award_year,
@@ -258,6 +264,26 @@ module VendorAPI
         awarding_body: nil, # included for backwards compatibility. This column is always blank
         equivalency_details: qualification.composite_equivalency_details,
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
+    end
+
+    def subject_code(qualification)
+      if qualification.gcse?
+        subject_code_for_gcse(qualification.subject)
+      elsif qualification.other?
+        subject_code_for_other_qualification(qualification)
+      end
+    end
+
+    def subject_code_for_gcse(subject)
+      GCSE_SUBJECTS_TO_CODES[subject]
+    end
+
+    def subject_code_for_other_qualification(qualification)
+      if qualification.qualification_type == 'GCSE'
+        subject_code_for_gcse(qualification.subject)
+      elsif ['A level', 'AS level'].include? qualification.qualification_type
+        A_AND_AS_LEVEL_SUBJECTS_TO_CODES[qualification.subject]
+      end
     end
 
     def grade_details(qualification)

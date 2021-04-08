@@ -1,4 +1,4 @@
-GCSE_SUBJECTS_TO_CODES = {
+AUTOCOMPLETE_GCSE_SUBJECTS_TO_CODES = {
   'Accounting' => '100105',
   'Additional Applied Science' => '100390',
   'Additional Mathematics' => '100405',
@@ -340,4 +340,19 @@ GCSE_SUBJECTS_TO_CODES = {
   'Welsh Literature' => '100335',
 }.freeze
 
-GCSE_SUBJECTS = GCSE_SUBJECTS_TO_CODES.keys
+GCSE_SUBJECTS = AUTOCOMPLETE_GCSE_SUBJECTS_TO_CODES.keys
+
+GCSE_SUBJECTS_TO_CODES = {
+  'maths' => '100403',
+  'science' => '100390',
+  'science single award' => '100390',
+  'science double award' => '100390',
+  'science triple award' => '100390',
+  'english' => '100320',
+  'english_single_award' => '100320',
+  'english_double_award' => '100320',
+  'english_studies_single_award' => '100320',
+  'english_studies_double_award' => '100320',
+  'english_language' => '100318',
+  'english_literature' => '100319',
+}.merge(AUTOCOMPLETE_GCSE_SUBJECTS_TO_CODES).freeze
