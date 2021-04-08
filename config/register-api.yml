@@ -365,7 +365,7 @@ components:
           type: string
           description: The candidate’s phone number
           maxLength: 50
-          example: "07944386555"
+          example: "07700 900000"
     Course:
       type: object
       additionalProperties: false
