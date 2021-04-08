@@ -36,6 +36,10 @@ class Candidate < ApplicationRecord
     Encryptor.encrypt(id)
   end
 
+  def public_id
+    "C#{id}"
+  end
+
 private
 
   def downcase_email

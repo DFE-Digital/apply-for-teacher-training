@@ -27,7 +27,7 @@ module VendorAPI
           reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
           recruited_at: application_choice.recruited_at,
           candidate: {
-            id: "C#{application_form.candidate.id}",
+            id: application_form.candidate.public_id,
             first_name: application_form.first_name,
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
