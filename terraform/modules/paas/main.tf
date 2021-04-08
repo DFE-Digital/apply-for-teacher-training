@@ -17,7 +17,7 @@ provider "cloudfoundry" {
 resource "cloudfoundry_app" "web_app" {
   name                       = local.web_app_name
   docker_image               = var.app_docker_image
-  health_check_type          = "http"
+  health_check_type          = "process"
   health_check_http_endpoint = "/check"
   instances                  = var.web_app_instances
   memory                     = var.web_app_memory
