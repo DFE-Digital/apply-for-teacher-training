@@ -24,7 +24,7 @@ module DataMigrations
       when 'Candidate survey', 'Daily export of applications for TAD', 'Daily export of notifications breakdown', 'RejectedCandidatesExport'
         nil
       else
-        export.name.parameterize.underscore
+        DataExport::EXPORT_TYPES.select { |_key, value| value[:name] == export.name }.values[0][:export_type]
       end
     end
   end
