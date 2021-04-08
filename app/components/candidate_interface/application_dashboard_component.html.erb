@@ -15,18 +15,11 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
     <%= render(CandidateInterface::ApplicationDashboardCourseChoicesComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
-    <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @candidate)) %>
-  </div>
+    <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @application_form.candidate)) %>
 
-  <div class="govuk-grid-column-one-third">
-    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form.support_reference } %>
-
-    <aside class="app-related" role="complementary">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Updating your contact details</h2>
-
-      <p class="govuk-body-s">
-        You can update your contact details at any point during the application process. To do this, email us at <%= bat_contact_mail_to %>.
-      </p>
-    </aside>
+    <h2 class="govuk-heading-m">Updating your contact information</h2>
+    <p class="govuk-body-s">
+      To update your contact information, email us at <a href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>.
+    </p>
   </div>
 </div>

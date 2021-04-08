@@ -200,5 +200,24 @@ module CandidateInterface
     def has_multiple_courses?(application_choice)
       Course.current_cycle.where(provider: application_choice.provider).many?
     end
+
+    def application_choices_with_accepted_states
+      @application_form
+        .application_choices
+        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+        .order(id: :asc)
+        .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
+    end
+
+    def all_application_choices
+      @application_form
+        .application_choices
+        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+        .order(id: :asc)
+    end
+
+    def application_choice_with_accepted_state_present?
+      @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+    end
   end
 end

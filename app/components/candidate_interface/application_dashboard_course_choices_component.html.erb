@@ -1,4 +1,4 @@
-<% @application_choices.each do |application_choice| %>
+<% application_choices.each do |application_choice| %>
   <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
   <% if CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_choice.application_form) && @editable %>
     <% if application_choice.course_not_available? %>
@@ -102,8 +102,3 @@
 <% if show_missing_banner? %>
   <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
 <% end %>
-
-<h2 class="govuk-heading-m">Updating your contact information</h2>
-<p class="govuk-body">
-  To update your contact information, email us at <a href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a>.
-</p>
