@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
   around do |example|
-    Timecop.freeze(2020, 5, 1, 12, 0, 0) do
+    Timecop.freeze do
       example.run
     end
   end

@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::InterviewChangesExport do
     end
 
     around do |example|
-      Timecop.freeze(2021, 11, 5, 15) { example.run }
+      Timecop.freeze { example.run }
     end
 
     it_behaves_like 'a data export'

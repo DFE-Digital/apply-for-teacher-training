@@ -6,7 +6,7 @@ RSpec.feature 'See application history', with_audited: true do
   include CourseOptionHelpers
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -38,7 +38,7 @@ RSpec.feature 'See application history', with_audited: true do
         last_name: 'Wunder',
         candidate: candidate,
       )
-      Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 1)) do
+      Timecop.travel(1.second.from_now) do
         @application_choice = create(
           :application_choice,
           :awaiting_provider_decision,
@@ -53,7 +53,7 @@ RSpec.feature 'See application history', with_audited: true do
     vendor_api_user = create :vendor_api_user, email_address: 'bob@example.com'
     vendor_api_user.vendor_api_token.update(provider_id: @provider.id)
 
-    Timecop.freeze(Time.zone.local(2019, 10, 2, 12, 0, 0)) do
+    Timecop.travel(1.day.from_now) do
       Audited.audit_class.as_user(vendor_api_user) do
         RejectApplication.new(actor: vendor_api_user, application_choice: @application_choice, rejection_reason: 'BAD BAD BAD!').save
       end
@@ -64,7 +64,7 @@ RSpec.feature 'See application history', with_audited: true do
     provider_user = create :provider_user, email_address: 'derek@example.com', dfe_sign_in_uid: '123', providers: [@provider]
     permit_make_decisions!(dfe_sign_in_uid: '123')
 
-    Timecop.freeze(Time.zone.local(2019, 10, 3, 9, 0, 0)) do
+    Timecop.travel(2.days.from_now) do
       Audited.audit_class.as_user(provider_user) do
         MakeAnOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option).save
       end
