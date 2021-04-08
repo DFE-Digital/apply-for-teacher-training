@@ -20,6 +20,7 @@ class GetChangeOfferOptions
 
   def available_study_modes(course:)
     CourseOption
+      .selectable
       .where(course: offerable_courses.find(course.id))
       .group('study_mode')
       .pluck(:study_mode)
@@ -27,6 +28,7 @@ class GetChangeOfferOptions
 
   def available_course_options(course:, study_mode:)
     CourseOption
+      .selectable
       .where(
         course: offerable_courses.find(course.id),
         study_mode: study_mode,
