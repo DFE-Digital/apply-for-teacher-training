@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
   around do |example|
-    Timecop.freeze do
+    Timecop.freeze(Time.zone.now.change(usec: 0)) do
       example.run
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           name: @provider_user_with_permissions.full_name,
           email_address: @provider_user_with_permissions.email_address,
           provider: @provider1.name,
-          last_signed_in_at: 5.days.ago,
+          last_signed_in_at: @provider_user_with_permissions.last_signed_in_at,
           has_make_decisions: true,
           has_view_safeguarding: true,
           has_view_diversity: true,
@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           name: @provider_user2.full_name,
           email_address: @provider_user2.email_address,
           provider: @provider2.name,
-          last_signed_in_at: 5.days.ago,
+          last_signed_in_at: @provider_user2.last_signed_in_at,
           has_make_decisions: false,
           has_view_safeguarding: false,
           has_view_diversity: false,
@@ -56,7 +56,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           name: @provider_user3.full_name,
           email_address: @provider_user3.email_address,
           provider: @provider1.name,
-          last_signed_in_at: 3.days.ago,
+          last_signed_in_at: @provider_user3.last_signed_in_at,
           has_make_decisions: false,
           has_view_safeguarding: false,
           has_view_diversity: false,
@@ -67,7 +67,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           name: @provider_user3.full_name,
           email_address: @provider_user3.email_address,
           provider: @provider2.name,
-          last_signed_in_at: 3.days.ago,
+          last_signed_in_at: @provider_user3.last_signed_in_at,
           has_make_decisions: false,
           has_view_safeguarding: false,
           has_view_diversity: false,
