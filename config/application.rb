@@ -52,7 +52,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
 
     config.i18n.exception_handler = Proc.new { |exception| raise exception.to_exception }
-    config.action_view.raise_on_missing_translations = true
+    config.i18n.raise_on_missing_translations = true
     config.action_view.form_with_generates_remote_forms = false
 
     config.active_job.queue_adapter = :sidekiq
