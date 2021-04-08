@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa]
+        environment: [qa, staging]
     environment:
       name: ${{ matrix.environment }}
     steps:
