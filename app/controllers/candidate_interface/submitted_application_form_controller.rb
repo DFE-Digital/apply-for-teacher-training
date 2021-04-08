@@ -7,6 +7,7 @@ module CandidateInterface
     end
 
     def complete
+      @candidate = current_candidate
       @application_form = current_application
     end
 

@@ -204,7 +204,9 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_click_view_application
-    click_link 'View application'
+    within '.govuk-hint' do
+      click_link 'View application'
+    end
   end
 
   def then_i_can_see_my_submitted_application

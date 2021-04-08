@@ -10,10 +10,10 @@ module CandidateInterface
       show_incomplete: false,
       missing_error: false,
       application_choice_error: false,
-      render_link_to_find_when_rejected_on_qualifications: false
+      render_link_to_find_when_rejected_on_qualifications: false,
+      display_accepted_application_choices: false
     )
       @application_form = application_form
-      @application_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option, :interviews).order(id: :asc)
       @editable = editable
       @heading_level = heading_level
       @show_status = show_status
@@ -21,6 +21,7 @@ module CandidateInterface
       @missing_error = missing_error
       @application_choice_error = application_choice_error
       @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
+      @display_accepted_application_choices = display_accepted_application_choices
     end
 
     def course_choice_rows(application_choice)
@@ -43,7 +44,7 @@ module CandidateInterface
     end
 
     def any_withdrawable?
-      @application_form.application_choices.any? do |application_choice|
+      application_choices.any? do |application_choice|
         withdrawable?(application_choice)
       end
     end
@@ -78,6 +79,16 @@ module CandidateInterface
       if application_choice.course_option_availability_error?
         "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'}"
       end
+    end
+
+    def application_choices
+      @application_choices ||= if @display_accepted_application_choices && application_choice_with_accepted_state_present?
+                                 # Reject all applications that do not have an ACCEPTED_STATE
+                                 # These will appear in the CandidateInterface::PreviousApplications component
+                                 application_choices_with_accepted_states
+                               else
+                                 all_application_choices
+                               end
     end
 
   private
@@ -206,6 +217,25 @@ module CandidateInterface
 
     def has_multiple_courses?(application_choice)
       Course.current_cycle.where(provider: application_choice.provider).many?
+    end
+
+    def application_choices_with_accepted_states
+      @application_form
+        .application_choices
+        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+        .order(id: :asc)
+        .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
+    end
+
+    def all_application_choices
+      @application_form
+        .application_choices
+        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+        .order(id: :asc)
+    end
+
+    def application_choice_with_accepted_state_present?
+      @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
     end
   end
 end
