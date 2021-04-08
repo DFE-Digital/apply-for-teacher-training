@@ -9,10 +9,13 @@ class DfESignInController < ActionController::Base
 
     if @local_user
       DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
+      first_sign_in = @local_user.last_signed_in_at.nil?
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       if @local_user.is_a?(SupportUser)
-        send_support_sign_in_confirmation_email
+        send_support_sign_in_confirmation_email unless first_sign_in
+      elsif @local_user.is_a?(ProviderUser)
+        send_provider_sign_in_confirmation_email unless first_sign_in
       end
 
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
@@ -54,6 +57,25 @@ private
     }
 
     SupportMailer.confirm_sign_in(
+      @local_user,
+      device: {
+        user_agent: request.user_agent,
+        ip_address: request.remote_ip,
+      },
+    ).deliver_later
+  end
+
+  def send_provider_sign_in_confirmation_email
+    return if cookies.signed[:sign_in_confirmation] == @local_user.id
+
+    cookies.signed[:sign_in_confirmation] = {
+      value: @local_user.id,
+      expires: 20.years.from_now,
+      httponly: true,
+      secure: Rails.env.production?,
+    }
+
+    ProviderMailer.confirm_sign_in(
       @local_user,
       device: {
         user_agent: request.user_agent,

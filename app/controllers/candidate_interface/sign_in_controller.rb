@@ -23,6 +23,7 @@ module CandidateInterface
 
       if @authentication_token&.still_valid?
         render 'confirm_authentication'
+
       elsif @authentication_token
         # If the token is expired, redirect the user to a page
         # with their token as a param where they can request
@@ -46,10 +47,14 @@ module CandidateInterface
 
       if authentication_token&.still_valid?
         candidate = authentication_token.user
-        flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
+        first_sign_in = candidate.last_signed_in_at.nil?
+        flash[:success] = t('apply_from_find.account_created_message') if first_sign_in
         sign_in(candidate, scope: :candidate)
         add_identity_to_log(candidate.id)
         authentication_token.use!
+
+        @local_user = get_local_user
+        send_candidate_sign_in_confirmation_email unless first_sign_in
 
         redirect_to candidate_interface_interstitial_path(path: params[:path])
       else
@@ -95,6 +100,29 @@ module CandidateInterface
 
     def candidate_params
       params.require(:candidate).permit(:email_address)
+    end
+
+    def send_candidate_sign_in_confirmation_email
+      return if cookies.signed[:sign_in_confirmation] == @local_user.id
+
+      cookies.signed[:sign_in_confirmation] = {
+        value: @local_user.id,
+        expires: 20.years.from_now,
+        httponly: true,
+        secure: Rails.env.production?,
+      }
+
+      CandidateMailer.confirm_sign_in(
+        @local_user,
+        device: {
+          user_agent: request.user_agent,
+          ip_address: request.remote_ip,
+        },
+      ).deliver_later
+    end
+
+    def get_local_user
+      !@local_user.nil? ? @local_user : @local_user = (current_candidate || false)
     end
   end
 end

@@ -1,6 +1,17 @@
 class CandidateMailer < ApplicationMailer
   layout 'candidate_email_with_support_footer'
 
+  def confirm_sign_in(candidate_user, device:)
+    @candidate_user = candidate_user
+    @device = device
+
+    notify_email(
+      to: candidate_user.email_address,
+      subject: 'New sign in to your Apply for teacher training account',
+    )
+  end
+
+
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
