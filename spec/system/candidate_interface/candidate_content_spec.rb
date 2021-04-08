@@ -38,7 +38,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def and_i_can_see_the_cookie_banner
-    expect(page).to have_content('We use cookies to collect information about how you use ‘Apply for teacher training’')
+    expect(page).to have_content('Cookies on Apply for teacher training')
   end
 
   def when_i_click_on_the_cookies_page
@@ -46,7 +46,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def and_i_can_no_longer_see_the_cookie_banner
-    expect(page).not_to have_content('We use cookies to collect information about how you use ‘Apply for teacher training’')
+    expect(page).not_to have_content('We use cookies to collect information about how you use Apply for teacher training')
   end
 
   def then_i_can_see_the_cookies_page
@@ -55,8 +55,8 @@ RSpec.feature 'Candidate content' do
   end
 
   def and_i_can_opt_in_to_tracking_website_usage
-    choose 'Yes, opt-in to Google Analytics cookies'
-    click_on 'Save preferences'
+    choose 'Yes'
+    click_on 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
   end
 

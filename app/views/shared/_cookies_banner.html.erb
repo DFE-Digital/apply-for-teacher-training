@@ -1,15 +1,35 @@
-<div class="govuk-width-container">
-  <div class="govuk-!-width-two-thirds govuk-!-padding-top-4">
-    <h1 class="govuk-heading-m govuk-!-margin-bottom-4">
-      Tell us whether you accept cookies
-    </h1>
-    <p class="govuk-body">
-      We use <%= govuk_link_to 'cookies to collect information', cookies_path %> about how you use ‘<%= service_name %>’. We use this information to make the website work as well as possible and improve government services.
-    </p>
-    <%= form_with model: CookiePreferencesForm.new(consent: 'yes'), url: cookie_preferences_path, method: :post do |f| %>
-      <%= f.govuk_submit('Accept all cookies', classes: 'app-button--cookies') do %>
-        <%= govuk_button_link_to 'Set cookie preferences', cookies_path, class: 'app-button--cookies' %>
-      <% end %>
-    <% end %>
-  </div>
-</div>
+<%= govuk_cookie_banner(
+  title: "Cookies on #{service_name}",
+  classes: ['app-button-group--align-center'],
+  html_attributes: {
+    aria: {
+      label: "Cookies on #{service_name}",
+    },
+  },
+) do |cookie_banner| %>
+<%= cookie_banner.with(:body) do %>
+  <p class="govuk-body">We use some essential cookies to make this service work.</p>
+  <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+<% end %>
+<%= cookie_banner.with(:actions) do %>
+  <%= govuk_button_to(
+    'Accept analytics cookies',
+    if current_namespace == 'candidate_interface'
+      candidate_interface_cookie_preferences_path(consent: 'yes')
+    else
+      provider_interface_cookie_preferences_path(consent: 'yes')
+    end,
+    method: :post,
+  ) %>
+<%= govuk_button_to(
+  'Reject analytics cookies',
+  if current_namespace == 'candidate_interface'
+    candidate_interface_cookie_preferences_path(consent: 'no')
+  else
+    provider_interface_cookie_preferences_path(consent: 'no')
+  end,
+  method: :post,
+) %>
+    <%= govuk_link_to('View cookies', cookies_path) %>
+  <% end %>
+<% end %>
