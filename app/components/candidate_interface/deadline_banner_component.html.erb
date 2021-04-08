@@ -1,3 +1,4 @@
-<%= render NotificationMessageComponent.new(:info,
-                                            message: "The deadline for applying to courses starting this academic year is #{deadline}",
-                                            secondary_message: 'Courses may fill up before then. Check course availability with your provider.') %>
+<%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+  <%= notification_banner.slot(:heading, text: "The deadline for applying to courses starting this academic year is #{deadline}") %>
+  <p class="govuk-body">Courses may fill up before then. Check course availability with your provider.</p>
+<% end %>

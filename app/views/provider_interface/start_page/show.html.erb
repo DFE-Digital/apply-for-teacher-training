@@ -27,9 +27,10 @@
 <% if FeatureFlag.active?('provider_information_banner') %>
   <div class="govuk-width-container">
     <div class="govuk-width-container govuk-!-margin-top-4">
-      <%= render NotificationMessageComponent.new(:info,
-                                                  message: '2 April to 16 April 2021 do not count as working days',
-                                                  secondary_message: 'This period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.') %>
+      <%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+        <%= notification_banner.slot(:heading, text: '2 April to 16 April 2021 do not count as working days') %>
+        <p class="govuk-body">This period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.</p>
+      <% end %>
     </div>
   </div>
 <% end %>

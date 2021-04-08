@@ -1,3 +1,4 @@
-<%= render NotificationMessageComponent.new(:info,
-                                            message: "#{all_withdrawn_copy} #{govuk_link_to('Do you want to apply again?', start_path, class: 'govuk-notification-banner__link')}",
-                                            secondary_message: deadline_copy) %>
+<%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+  <%= notification_banner.slot(:heading, text: heading) %>
+  <%= body %>
+<% end %>
