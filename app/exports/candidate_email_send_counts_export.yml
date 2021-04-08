@@ -20,7 +20,7 @@ custom_columns:
 
   mailer:
     type: string
-    description: The number of unique recipients of this email
+    description: The Rails mailer which sent the email
     enum:
       - Authentication mailer
       - Candidate mailer
