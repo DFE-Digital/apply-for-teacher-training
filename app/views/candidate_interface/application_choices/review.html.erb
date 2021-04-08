@@ -14,7 +14,7 @@
     <% if @application_choices.present? && @application_form.can_add_more_choices? %>
       <div class="govuk-inset-text">
         <p class="govuk-body">You can choose <%= pluralize(current_application.choices_left_to_make, 'more course') %>.</p>
-        <%= govuk_button_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, class: 'govuk-button--secondary' %>
+        <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
       </div>
     <% end %>
   </div>

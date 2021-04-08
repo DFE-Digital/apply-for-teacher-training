@@ -2,6 +2,6 @@
 
 <%= render 'application_navigation', title: 'History' %>
 
-<%= govuk_button_link_to 'Add comment', support_interface_application_form_new_comment_path %>
+<%= govuk_link_to 'Add comment', support_interface_application_form_new_comment_path, button: true %>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @application_form) %>

@@ -1,33 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ViewHelper, type: :helper do
-  describe '#govuk_link_to' do
-    it 'returns an anchor tag with the govuk-link class' do
-      anchor_tag = helper.govuk_link_to('Woof', 'https://localhost:0103/dog/woof')
-
-      expect(anchor_tag).to eq('<a class="govuk-link" href="https://localhost:0103/dog/woof">Woof</a>')
-    end
-
-    it 'returns an anchor tag with the govuk-link class and target="_blank"' do
-      anchor_tag = helper.govuk_link_to('Meow', 'https://localhost:0103/cat/meow', target: :_blank)
-
-      expect(anchor_tag).to eq('<a target="_blank" class="govuk-link" href="https://localhost:0103/cat/meow">Meow</a>')
-    end
-
-    it 'returns an anchor tag with additional HTML options' do
-      anchor_tag = helper.govuk_link_to('Baaa', 'https://localhost:0103/sheep/baaa', class: 'govuk-link--no-visited-state', target: :_blank)
-
-      expect(anchor_tag).to eq('<a class="govuk-link govuk-link--no-visited-state" target="_blank" href="https://localhost:0103/sheep/baaa">Baaa</a>')
-    end
-
-    it 'accepts a block' do
-      anchor_tag = helper.govuk_link_to('https://localhost:0103/bee/buzz') do
-        'Buzz'
-      end
-      expect(anchor_tag).to eq('<a class="govuk-link" href="https://localhost:0103/bee/buzz">Buzz</a>')
-    end
-  end
-
   describe '#govuk_back_link_to' do
     it 'returns an anchor tag with the govuk-back-link class and defaults to "Back"' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/snek/ssss')
@@ -65,35 +38,6 @@ RSpec.describe ViewHelper, type: :helper do
       anchor_tag = helper.bat_contact_mail_to(html_options: { subject: 'Support and guidance', class: 'govuk-link--no-visited-state' })
 
       expect(anchor_tag).to eq('<a class="govuk-link govuk-link--no-visited-state" href="mailto:becomingateacher@digital.education.gov.uk?subject=Support%20and%20guidance">becomingateacher<wbr>@digital.education.gov.uk</a>')
-    end
-  end
-
-  describe '#govuk_button_link_to' do
-    it 'returns an anchor tag with the govuk-button class, button role and data-module="govuk-button"' do
-      anchor_tag = helper.govuk_button_link_to('Hoot', 'https://localhost:0103/owl/hoot')
-
-      expect(anchor_tag).to eq('<a class="govuk-button" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/owl/hoot">Hoot</a>')
-    end
-
-    it 'returns an anchor tag with additional HTML options' do
-      anchor_tag = helper.govuk_button_link_to('Cluck', 'https://localhost:0103/chicken/cluck', class: 'govuk-button--start')
-
-      expect(anchor_tag).to eq('<a class="govuk-button govuk-button--start" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/chicken/cluck">Cluck</a>')
-    end
-
-    it 'accepts a block' do
-      anchor_tag = helper.govuk_button_link_to('https://localhost:0103/bee/buzz') do
-        'Buzz'
-      end
-      expect(anchor_tag).to eq('<a class="govuk-button" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/bee/buzz">Buzz</a>')
-    end
-  end
-
-  describe '#govuk_button_to' do
-    it 'returns a form and button using the govuk-button class and data module' do
-      button_to_result = helper.govuk_button_to('Hoot', 'https://localhost:0103/owl/hoot')
-
-      expect(button_to_result).to eq('<form class="button_to" method="post" action="https://localhost:0103/owl/hoot"><input class="govuk-button" role="button" data-module="govuk-button" draggable="false" type="submit" value="Hoot" /></form>')
     end
   end
 

@@ -12,7 +12,7 @@
       </p>
 
       <p class="govuk-body">
-        <%= govuk_button_link_to 'Set up permissions', provider_interface_provider_relationship_permissions_organisations_path %>
+        <%= govuk_link_to 'Set up permissions', provider_interface_provider_relationship_permissions_organisations_path, button: true %>
       </p>
     <% else %>
       <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
@@ -34,7 +34,7 @@
       </p>
 
       <p class="govuk-body">
-        <%= govuk_button_link_to t('continue'), provider_interface_applications_path %>
+        <%= govuk_link_to t('continue'), provider_interface_applications_path, button: true %>
       </p>
     <% end %>
   </div>

@@ -54,19 +54,13 @@
           This is because organisational permissions have not been set up. Contact
           <% if others.one? %>
             <% user = others.first %>
-            <%= user.full_name %> at
-            <a class="govuk-link" href="mailto:<%= user.email_address %>">
-              <%= user.email_address %>
-            </a>.
+            <%= user.full_name %> at <%= govuk_mail_to user.email_address, user.email_address %>.
           <% else %>
             one of the following people:
             <ul class="govuk-list govuk-list--bullet">
             <% others.each do |user| %>
               <li>
-                <%= user.full_name %> at
-                <a class="govuk-link" href="mailto:<%= user.email_address %>">
-                  <%= user.email_address %>
-                </a>
+                <%= user.full_name %> at <%= govuk_mail_to user.email_address, user.email_address %>
               </li>
             <% end %>
             </ul>

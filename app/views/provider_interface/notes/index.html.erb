@@ -2,7 +2,7 @@
 
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
 
-<%= govuk_button_link_to 'Add note', new_provider_interface_application_choice_note_path(@application_choice), class: 'govuk-button--secondary' %>
+<%= govuk_link_to 'Add note', new_provider_interface_application_choice_note_path(@application_choice), button: true, class: 'govuk-button--secondary' %>
 
 <% unless @notes.empty? %>
   <div class="govuk-grid-row">
