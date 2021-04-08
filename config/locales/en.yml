@@ -185,6 +185,8 @@ en:
         release_notes: Release notes
         lifecycle: Lifecycle
         alpha_release_notes: Alpha release notes
+      register_api_docs:
+        reference: Apply for teacher training - Register API
     provider:
       confirm_offer: Check and confirm offer
       confirm_reject: Check feedback and reject application
