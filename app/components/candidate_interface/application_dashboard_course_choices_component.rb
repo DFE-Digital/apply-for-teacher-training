@@ -26,7 +26,6 @@ module CandidateInterface
 
     def course_choice_rows(application_choice)
       [
-        study_mode_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
@@ -96,23 +95,6 @@ module CandidateInterface
   private
 
     attr_reader :application_form
-
-    def study_mode_row(application_choice)
-      return unless application_choice.course.full_time_or_part_time?
-
-      change_path = candidate_interface_course_choices_study_mode_path(
-        application_choice.provider.id,
-        application_choice.course.id,
-        course_choice_id: application_choice.id,
-      )
-
-      {
-        key: 'Full time or part time',
-        value: application_choice.offered_option.study_mode.humanize,
-        action: "study mode for #{application_choice.course.name_and_code}",
-        change_path: change_path,
-      }
-    end
 
     def interview_row(application_choice)
       return unless application_choice.interviews.kept.any? ||

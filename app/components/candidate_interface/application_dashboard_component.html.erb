@@ -14,11 +14,12 @@
     <% end %>
     <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
     <%= render(CandidateInterface::ApplicationDashboardCourseChoicesComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
-    <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @application_form.candidate)) %>
 
     <h2 class="govuk-heading-m">Updating your contact information</h2>
     <p class="govuk-body">
       To update your contact information, email us at <%= bat_contact_mail_to %>.
     </p>
+
+    <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @application_form.candidate)) %>
   </div>
 </div>
