@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
   create_sequence "candidates_id_seq"
   create_sequence "chasers_sent_id_seq"
   create_sequence "course_options_id_seq"
+  create_sequence "course_subjects_id_seq"
   create_sequence "courses_id_seq"
   create_sequence "data_exports_id_seq"
   create_sequence "data_migrations_id_seq"
@@ -373,6 +374,16 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
     t.index ["site_id", "course_id", "study_mode"], name: "index_course_options_on_site_id_and_course_id_and_study_mode", unique: true
     t.index ["site_id"], name: "index_course_options_on_site_id"
     t.index ["vacancy_status", "site_still_valid"], name: "index_course_options_on_vacancy_status_and_site_still_valid"
+  end
+
+  create_table "course_subjects", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id", "subject_id"], name: "index_course_subjects_on_course_id_and_subject_id", unique: true
+    t.index ["course_id"], name: "index_course_subjects_on_course_id"
+    t.index ["subject_id"], name: "index_course_subjects_on_subject_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -754,6 +765,8 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
   add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
+  add_foreign_key "course_subjects", "courses"
+  add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade
