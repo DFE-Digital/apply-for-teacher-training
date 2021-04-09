@@ -1,6 +1,11 @@
-<tr class="govuk-table__row">
+<tr class="govuk-table__row" id="email-<%= email.id %>">
   <td class="govuk-table__cell">
     <%= email.created_at.to_s(:govuk_date_and_time) %>
+    <p class="govuk-body">
+      <%= govuk_link_to url_for(anchor: "email-#{email.id}") do %>
+        Link to this <span class="govuk-visually-hidden">email to <%= email.to %> of type <%= email.humanised_email_type %> on <%= email.created_at.to_s(:govuk_date_and_time) %></span>
+      <% end %>
+    </p>
   </td>
   <td class="govuk-table__cell govuk-!-padding-top-0">
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
