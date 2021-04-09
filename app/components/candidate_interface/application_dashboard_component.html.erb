@@ -12,7 +12,6 @@
     <% elsif offers_received_and_all_providers_responded? %>
       <%= render CandidateInterface::OffersCallToActionComponent.new(application_form: @application_form) %>
     <% end %>
-    <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
     <%= render(CandidateInterface::ApplicationDashboardCourseChoicesComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
 
     <h2 class="govuk-heading-m">Updating your contact information</h2>
