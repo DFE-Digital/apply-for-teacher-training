@@ -77,6 +77,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     AUTHORISED_HOSTS=127.0.0.1 \
     SECRET_KEY_BASE=TestKey \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
+    TERM=xterm-256color \
     SHA=${VERSION}
 
 RUN apk -U upgrade && \
