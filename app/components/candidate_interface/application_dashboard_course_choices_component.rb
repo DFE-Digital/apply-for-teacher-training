@@ -30,6 +30,7 @@ module CandidateInterface
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
+        conditions_row(application_choice),
         withdraw_row(application_choice),
         respond_to_offer_row(application_choice),
       ].compact
@@ -103,6 +104,21 @@ module CandidateInterface
       {
         key: 'Interview'.pluralize(application_choice.interviews.size),
         value: render(InterviewBookingsComponent.new(application_choice)),
+      }
+    end
+
+    def conditions_row(application_choice)
+      return unless (application_choice.pending_conditions? || application_choice.offer?) &&
+        (application_choice.offer.present? && !application_choice.offer['conditions'].count.zero?)
+
+      {
+        key: 'Condition'.pluralize(application_choice.offer['conditions'].count),
+        value: render(
+          OfferConditionsReviewComponent.new(
+            conditions: application_choice.offer['conditions'],
+            provider: application_choice.offered_course.provider.name,
+          ),
+        ),
       }
     end
 

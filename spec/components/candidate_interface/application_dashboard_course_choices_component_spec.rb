@@ -56,9 +56,9 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
       application_choice.course.update!(study_mode: 'full_time_or_part_time')
     end
 
-    it 'renders study mode values' do
-      expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-      expect(result.css('.govuk-summary-list__value').text).to include(application_choice.offered_option.study_mode.humanize.to_s)
+    it 'does not render study mode values' do
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Full time or part time')
+      expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.offered_option.study_mode.humanize.to_s)
     end
 
     it 'renders without the change link' do
@@ -140,11 +140,16 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
   context 'when an offer has been made to a course choice' do
     it 'renders component with the status as offer when an offer has been made' do
       application_form = create_application_form_with_course_choices(statuses: %w[offer])
+      application_choice = application_form.application_choices.first
+      application_choice.update!(offer: { conditions: ['DBS check', 'Get a haircut'] })
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer received')
+      expect(result.css('.govuk-summary-list__key').text).to include('Condition')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('DBS check')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Get a haircut')
     end
 
     it 'renders component with the respond to offer link and message about waiting for providers to respond' do
