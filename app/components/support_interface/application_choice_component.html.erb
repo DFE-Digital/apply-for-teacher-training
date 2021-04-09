@@ -1,3 +1,3 @@
 <%= render SummaryCardComponent.new(rows: rows) do %>
-  <%= render SummaryCardHeaderComponent.new(title: "Application choice ##{application_choice.id}", heading_level: 3) %>
+  <%= render SummaryCardHeaderComponent.new(title: title, heading_level: 3, anchor: anchor) %>
 <% end %>
