@@ -1,15 +1,9 @@
 <% content_for :title, other_qualifications_title(@application_form) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= other_qualifications_title(@application_form) %>
-    </h1>
-
-    <%= govuk_link_to t('application_form.other_qualification.another.button'), candidate_interface_other_qualification_type_path, button: true, class: 'govuk-button--secondary' %>
-  </div>
-</div>
+<h1 class="govuk-heading-xl">
+  <%= other_qualifications_title(@application_form) %>
+</h1>
 
 <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form)) %>
 

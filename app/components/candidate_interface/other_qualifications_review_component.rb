@@ -31,8 +31,12 @@ module CandidateInterface
       end
     end
 
-    def show_missing_banner?
-      @submitting_application && @application_form.application_qualifications.other.any?(&:incomplete_other_qualification?)
+    def no_qualification_row
+      [{
+        key: 'Do you want to add any A levels and other qualifications',
+        value: 'No',
+        change_path: candidate_interface_other_qualification_type_path,
+      }]
     end
 
   private
