@@ -10,6 +10,14 @@ on:
       staging:
         description: Deploy to staging?
         default: 'false'
+        required: true
+      production:
+        description: Deploy to production?
+        default: 'false'
+        required: true
+      sandbox:
+        description: Deploy to sandbox?
+        default: 'false'
         required: true        
       sha:
         description: Commit sha to be deployed
