@@ -25,7 +25,7 @@ module SupportInterface
         {
           note_subject: note.subject,
           note_message: note.message,
-          note_created_at: note.created_at,
+          note_created_at: note.created_at.iso8601,
           candidate_id: note.application_choice.application_form.candidate.id,
           provider_code: provider&.code,
           provider_name: provider&.name,
