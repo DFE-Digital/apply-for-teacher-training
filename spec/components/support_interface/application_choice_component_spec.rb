@@ -94,4 +94,29 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
     expect(result.text).to include('Course offered by provider')
   end
+
+  it 'offers the Vendor and Register API representations if appropriate' do
+    application_choice = create(
+      :application_choice,
+      :with_completed_application_form,
+      :awaiting_provider_decision,
+    )
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).to include('See this application as it appears over the Vendor API')
+    expect(result.text).to include('the application isn’t available over the Register API')
+  end
+
+  it 'offers the Register API representation if appropriate' do
+    application_choice = create(
+      :application_choice,
+      :with_completed_application_form,
+      :with_recruited,
+    )
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).to include('See this application as it appears over the Register API')
+  end
 end

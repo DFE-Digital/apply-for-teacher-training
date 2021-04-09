@@ -6,4 +6,5 @@
 # reuse.
 module AllowedCrossNamespaceUsage
   VendorAPISingleApplicationPresenter = VendorAPI::SingleApplicationPresenter
+  RegisterAPISingleApplicationPresenter = RegisterAPI::SingleApplicationPresenter
 end

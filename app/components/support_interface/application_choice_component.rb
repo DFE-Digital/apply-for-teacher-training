@@ -45,12 +45,24 @@ module SupportInterface
         application_json = AllowedCrossNamespaceUsage::VendorAPISingleApplicationPresenter.new(application_choice).as_json
         rows << {
           key: 'Vendor API',
-          value: govuk_details(summary: 'See this application choice as it appears over the Vendor API') do
+          value: govuk_details(summary: 'See this application as it appears over the Vendor API') do
             json_code_sample(application_json)
           end,
         }
       else
         rows << { key: 'Vendor API', value: 'This application hasn’t been sent to the provider yet, so it isn’t available over the Vendor API' }
+      end
+
+      if visible_over_register_api?
+        application_json = AllowedCrossNamespaceUsage::RegisterAPISingleApplicationPresenter.new(application_choice).as_json
+        rows << {
+          key: 'Register API',
+          value: govuk_details(summary: 'See this application as it appears over the Register API') do
+            json_code_sample(application_json)
+          end,
+        }
+      else
+        rows << { key: 'Register API', value: 'This candidate hasn’t been recruited, so the application isn’t available over the Register API' }
       end
 
       if application_choice.interviews.present?
@@ -84,6 +96,12 @@ module SupportInterface
 
     def visible_over_vendor_api?
       ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
+    end
+
+    def visible_over_register_api?
+      GetRecruitedApplicationChoices.call(
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+      ).find_by(id: application_choice.id).present?
     end
   end
 end
