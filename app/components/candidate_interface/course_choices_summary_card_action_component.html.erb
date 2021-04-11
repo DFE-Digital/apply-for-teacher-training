@@ -1,0 +1,12 @@
+<% if action == :withdraw %>
+  <p class="govuk-body">
+    <%= govuk_link_to 'Withdraw this application', candidate_interface_withdraw_path(application_choice.id) %>
+  </p>
+<% elsif action == :respond_to_offer %>
+  <p class="govuk-body">
+    <%= govuk_link_to 'Respond to offer', candidate_interface_offer_path(application_choice.id) %>
+  </p>
+  <p class="govuk-body">
+    <%= respond_to_offer_detail %>
+  </p>
+<% end %>

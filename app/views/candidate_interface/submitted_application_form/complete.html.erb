@@ -1,29 +1,4 @@
-<% content_for :title, t('page_titles.application_dashboard') %>
+<% dashboard = CandidateInterface::ApplicationDashboardComponent.new(application_form: @application_form) %>
+<% content_for :title, dashboard.title %>
 
-<% if @application_form.ended_without_success? %>
-  <%= render CandidateInterface::ApplyAgainBannerComponent.new(application_form: @application_form) %>
-  <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
-<% end %>
-
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-2"><%= t('page_titles.application_dashboard') %></h1>
-<p class="govuk-hint govuk-!-margin-bottom-8">Application submitted on <%= submitted_at_date %>. <%= govuk_link_to 'View application', candidate_interface_application_review_submitted_path %></p>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
-    <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>
-    <%= render(CandidateInterface::PreviousApplicationsComponent.new(candidate: @candidate)) %>
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form.support_reference } %>
-
-    <aside class="app-related" role="complementary">
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Updating your contact details</h2>
-
-      <p class="govuk-body-s">
-        You can update your contact details at any point during the application process. To do this, email us at <%= bat_contact_mail_to %>.
-      </p>
-    </aside>
-  </div>
-</div>
+<%= render dashboard %>

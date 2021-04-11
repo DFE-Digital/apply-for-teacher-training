@@ -38,8 +38,7 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
   end
 
   def when_i_apply_again
-    click_on 'Do you want to apply again?'
-    click_on 'Start now'
+    click_on 'Apply again'
     click_on 'Go to your application form'
   end
 

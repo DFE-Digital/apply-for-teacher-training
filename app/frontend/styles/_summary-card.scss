@@ -10,14 +10,12 @@
   }
 
   .app-summary-card__header {
-    align-items: center;
     background-color: govuk-colour("light-grey");
     padding: govuk-spacing(3);
 
     @include govuk-media-query($from: desktop) {
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
 
     @include govuk-media-query($media-type: print) {

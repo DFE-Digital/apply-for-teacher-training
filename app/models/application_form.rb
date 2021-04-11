@@ -234,6 +234,11 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
 
+  def provider_decision_made?
+    application_choices.present? &&
+      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_END_STATES).include?(status) }
+  end
+
   def too_many_complete_references?
     application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
   end

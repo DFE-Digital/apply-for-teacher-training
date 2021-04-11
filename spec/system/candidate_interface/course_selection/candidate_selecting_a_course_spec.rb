@@ -163,8 +163,6 @@ RSpec.feature 'Selecting a course' do
   def then_i_see_my_completed_course_choice
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Primary (2XT2)')
-    expect(page).to have_content('Main site')
-    expect(page).to have_content('Gorse SCITT, C/O The Bruntcliffe Academy, Bruntcliffe Lane, MORLEY, lEEDS, LS27 0LZ')
   end
 
   def when_i_click_on_add_another_course
@@ -192,8 +190,6 @@ RSpec.feature 'Selecting a course' do
   def then_i_review_my_second_course_choice
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).to have_content('Dance (W5X1)')
-    expect(page).to have_content('Main site')
-    expect(page).to have_content('Royal Academy of Dance, 36 Battersea Square, London, SW11 3RA')
   end
 
   def when_i_mark_this_section_as_completed
@@ -263,8 +259,5 @@ RSpec.feature 'Selecting a course' do
     click_button 'Continue'
 
     expect(page).to have_current_path candidate_interface_course_choices_review_path
-    within_summary_row('Location') do
-      expect(page).to have_content 'Harehills Primary School'
-    end
   end
 end

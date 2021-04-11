@@ -19,7 +19,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
-    and_i_should_see_the_site
     and_my_course_from_find_id_should_be_set_to_nil
     when_i_sign_out
     when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
@@ -130,15 +129,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_should_see_the_course_name_and_code
     expect(page).to have_content "#{@course.name} (#{@course.code})"
-  end
-
-  def and_i_should_see_the_site
-    expect(page).to have_content @site.name
-    expect(page).to have_content @site.address_line1
-    expect(page).to have_content @site.address_line2
-    expect(page).to have_content @site.address_line3
-    expect(page).to have_content @site.address_line4
-    expect(page).to have_content @site.postcode
   end
 
   def and_i_see_the_form_to_pick_a_location

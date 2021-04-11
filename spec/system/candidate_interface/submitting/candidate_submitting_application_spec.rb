@@ -197,14 +197,12 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_am_redirected_to_the_application_dashboard
-    this_day = Time.zone.now.to_s(:govuk_date)
     expect(page).to have_content t('page_titles.application_dashboard')
-    expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
   end
 
   def when_i_click_view_application
-    within '.govuk-hint' do
+    within '.app-summary-card__actions' do
       click_link 'View application'
     end
   end
