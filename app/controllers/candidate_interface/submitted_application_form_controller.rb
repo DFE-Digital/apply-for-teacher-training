@@ -13,9 +13,7 @@ module CandidateInterface
 
     def apply_again
       if ApplyAgain.new(current_application).call
-        flash[:success] = 'Your new application is ready for editing'
-        redirect_to candidate_interface_before_you_start_path
-      else
+        flash[:success] = 'We’ve copied your application. Please review all sections.'
         redirect_to candidate_interface_application_complete_path
       end
     end
