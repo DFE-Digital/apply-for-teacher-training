@@ -318,6 +318,7 @@ stages:
       sandbox: '$(sandbox)'
       skylightAuthToken: '$(skylightAuthToken)'
       skylightEnable: '$(skylightEnable)'
+      googleAnalyticsManage: '$(googleAnalyticsManage)'
 
 
 - stage: deploy_devops
