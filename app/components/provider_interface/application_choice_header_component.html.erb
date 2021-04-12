@@ -6,7 +6,7 @@
 <% if show_inset_text? -%>
   <div class="govuk-grid-row govuk-!-display-none-print">
     <div class="govuk-grid-column-two-thirds-from-desktop">
-      <div class="govuk-inset-text govuk-!-margin-top-0">
+      <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
         <% if respond_to_application? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             <% if FeatureFlag.active?(:interviews) %>
@@ -87,7 +87,7 @@
           </p>
           <%= govuk_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice), button: true %>
         <% end -%>
-      </div>
+      <% end %>
     </div>
   </div>
 <% end -%>

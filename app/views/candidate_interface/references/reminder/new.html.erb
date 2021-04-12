@@ -13,9 +13,7 @@
         <%= t('page_titles.references_send_reminder') %>
       </h1>
 
-      <p class="govuk-inset-text">
-        You can only send one reminder to this referee.
-      </p>
+      <%= govuk_inset_text(text: 'You can only send one reminder to this referee.') %>
 
       <% if @reference.next_automated_chase_at.present? %>
         <p class="govuk-body">
