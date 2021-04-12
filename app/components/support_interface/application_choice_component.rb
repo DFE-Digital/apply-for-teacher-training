@@ -57,6 +57,17 @@ module SupportInterface
       rows
     end
 
+    def title
+      link_text = "<span class='govuk-visually-hidden'>Application choice ID</span> ##{application_choice.id}".html_safe
+      href = support_interface_application_form_path(application_choice.application_form_id, anchor: anchor)
+
+      "Application choice #{govuk_link_to(link_text, href)}".html_safe
+    end
+
+    def anchor
+      "application-choice-#{application_choice.id}"
+    end
+
   private
 
     def rejection_reasons_text
