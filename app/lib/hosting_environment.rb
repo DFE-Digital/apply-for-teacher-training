@@ -29,19 +29,19 @@ module HostingEnvironment
   end
 
   def self.phase_colour
-    return :purple if HostingEnvironment.sandbox_mode?
+    return 'purple' if HostingEnvironment.sandbox_mode?
 
     case HostingEnvironment.environment_name
     when 'qa'
-      :orange
+      'orange'
     when 'staging'
-      :red
+      'red'
     when 'development'
-      :grey
+      'grey'
     when 'review'
-      :purple
+      'purple'
     when 'unknown-environment'
-      :yellow
+      'yellow'
     end
   end
 

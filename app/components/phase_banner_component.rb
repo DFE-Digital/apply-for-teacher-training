@@ -1,19 +1,19 @@
 class PhaseBannerComponent < ViewComponent::Base
   DEFAULT_FEEDBACK_LINK = 'mailto:becomingateacher@digital.education.gov.uk?subject=Feedback%20about%20Apply%20for%20teacher%20training'.freeze
 
-  def initialize(no_border: false, feedback_link: nil)
+  def initialize(no_border: false, feedback_link: DEFAULT_FEEDBACK_LINK)
     @no_border = no_border
     @feedback_link = feedback_link
   end
 
   def text
     if HostingEnvironment.sandbox_mode?
-      return 'This is a <a href="/" class="govuk-link">test version of Apply</a> for providers and software vendors'.html_safe
+      return "This is a #{govuk_link_to('test version of Apply', '/', class: 'govuk-link--no-visited-state')} for providers and software vendors".html_safe
     end
 
     case HostingEnvironment.environment_name
     when 'production'
-      "This is a new service – <a href='#{@feedback_link || DEFAULT_FEEDBACK_LINK}' class='govuk-link govuk-link--no-visited-state'>give feedback or report a problem</a>".html_safe
+      "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, class: 'govuk-link--no-visited-state')}".html_safe
     when 'qa'
       'This is the QA version of the Apply service'
     when 'staging'
@@ -25,11 +25,5 @@ class PhaseBannerComponent < ViewComponent::Base
     when 'unknown-environment'
       'This is a unknown version of the Apply service'
     end
-  end
-
-  def phase_tag_class
-    return '' if HostingEnvironment.production?
-
-    "govuk-tag--#{HostingEnvironment.phase_colour}"
   end
 end
