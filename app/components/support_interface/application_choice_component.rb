@@ -1,6 +1,7 @@
 module SupportInterface
   class ApplicationChoiceComponent < ViewComponent::Base
     include ViewHelper
+    include APIDocsHelper
 
     attr_reader :application_choice
 
@@ -40,10 +41,28 @@ module SupportInterface
       rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at && application_choice.awaiting_provider_decision?
       rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at && application_choice.offer?
 
-      if ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
-        rows << { key: 'API', value: render(SupportInterface::ApplicationAPIRepresentationComponent.new(application_choice: application_choice)) }
+      if visible_over_vendor_api?
+        application_json = AllowedCrossNamespaceUsage::VendorAPISingleApplicationPresenter.new(application_choice).as_json
+        rows << {
+          key: 'Vendor API',
+          value: govuk_details(summary: 'See this application as it appears over the Vendor API') do
+            json_code_sample(application_json)
+          end,
+        }
       else
-        rows << { key: 'API', value: 'This application hasn’t been sent to the provider yet, so it isn’t available over the API' }
+        rows << { key: 'Vendor API', value: 'This application hasn’t been sent to the provider yet, so it isn’t available over the Vendor API' }
+      end
+
+      if visible_over_register_api?
+        application_json = AllowedCrossNamespaceUsage::RegisterAPISingleApplicationPresenter.new(application_choice).as_json
+        rows << {
+          key: 'Register API',
+          value: govuk_details(summary: 'See this application as it appears over the Register API') do
+            json_code_sample(application_json)
+          end,
+        }
+      else
+        rows << { key: 'Register API', value: 'This candidate hasn’t been recruited, so the application isn’t available over the Register API' }
       end
 
       if application_choice.interviews.present?
@@ -84,6 +103,16 @@ module SupportInterface
           application_choice.rejection_reason
         end
       end
+    end
+
+    def visible_over_vendor_api?
+      ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
+    end
+
+    def visible_over_register_api?
+      GetRecruitedApplicationChoices.call(
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+      ).find_by(id: application_choice.id).present?
     end
   end
 end
