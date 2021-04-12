@@ -16,7 +16,7 @@ RSpec.describe ProviderRelationshipPermissions do
 
     it 'ensures at least one permission in each pair is active' do
       expect(permissions.valid?).to be false
-      expect(permissions.errors.keys).to eq(%i[make_decisions])
+      expect(permissions.errors.attribute_names).to eq(%i[make_decisions])
     end
 
     context 'when permissions have not been set up' do

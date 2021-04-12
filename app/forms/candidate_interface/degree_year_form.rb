@@ -6,8 +6,8 @@ module CandidateInterface
 
     validates :start_year, year: true, presence: true
     validates :award_year, year: true, presence: true
-    validate :start_year_is_before_the_award_year, unless: ->(c) { c.errors.keys.include?(:start_year) }
-    validate :award_year_is_before_the_end_of_next_year, unless: ->(c) { c.errors.keys.include?(:award_year) }
+    validate :start_year_is_before_the_award_year, unless: ->(c) { c.errors.attribute_names.include?(:start_year) }
+    validate :award_year_is_before_the_end_of_next_year, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
 
     def save
       return false unless valid?

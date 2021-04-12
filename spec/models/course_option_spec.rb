@@ -15,7 +15,7 @@ RSpec.describe CourseOption, type: :model do
 
       it 'is not valid' do
         expect(course_option).not_to be_valid
-        expect(course_option.errors.keys).to include(:site)
+        expect(course_option.errors.attribute_names).to include(:site)
       end
     end
   end

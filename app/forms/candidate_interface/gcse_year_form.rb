@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :award_year, :qualification_type
 
     validates :award_year, presence: true, year: { future: true }
-    validate :o_level_award_year_is_a_valid_date, unless: ->(c) { c.errors.keys.include?(:award_year) }
+    validate :o_level_award_year_is_a_valid_date, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
 
     def self.build_from_qualification(qualification)
       new(
