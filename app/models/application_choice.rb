@@ -82,9 +82,9 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def days_until_decline_by_default
-    if status == 'offer'
-      dbd = decline_by_default_at
-      ((dbd - Time.zone.now) / 1.day).floor if dbd && dbd > Time.zone.now
+    dbd = decline_by_default_at
+    if offer? && dbd && dbd > Time.zone.now
+      ((dbd - Time.zone.now) / 1.day).floor
     end
   end
 

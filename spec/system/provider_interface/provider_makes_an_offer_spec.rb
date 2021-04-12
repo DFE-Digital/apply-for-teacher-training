@@ -58,7 +58,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_should_see_a_prompt_to_respond_to_the_application
-    expect(page).to have_content(/You have \d+ days to make a decision/)
+    expect(page).to have_content(/This application will be automatically rejected in \d+ days/)
   end
 
   def when_i_click_to_respond_to_the_application
