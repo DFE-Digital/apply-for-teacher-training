@@ -19,6 +19,7 @@ private
     @provider.courses
       .current_cycle
       .exposed_in_find
+      .includes(:provider)
   end
 
   def ratified_courses
