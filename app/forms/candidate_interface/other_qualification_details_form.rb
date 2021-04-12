@@ -46,6 +46,7 @@ module CandidateInterface
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
       options = @intermediate_data_service.read.merge(options) if @intermediate_data_service
+      self.choice = 'no'
 
       self.id ||= options[:id] || options['id']
 
