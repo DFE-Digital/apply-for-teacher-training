@@ -143,7 +143,16 @@ module SupportInterface
     end
 
     def received_references
-      @received_references ||= all_references.select(&:feedback_provided?)
+      @received_references ||=
+        begin
+          references = all_references.unscoped.feedback_provided
+
+          if references.any? { |ref| ref.feedback_provided_at.blank? } # an error state caused by bad data
+            [] # show nothing about references in the export so that the application can be easily ignored/filtered out
+          else
+            references.order(feedback_provided_at: :asc)
+          end
+        end
     end
 
     def earliest_update_audit_for(model, attributes)
