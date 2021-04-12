@@ -130,6 +130,15 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         expect(described_class.new(application_choice).completed_reference_2_received_at).to eq(nil)
       end
     end
+
+    describe '#received_references' do
+      it 'returns only references related to the application choice' do
+        create(:reference, :feedback_provided, requested_at: 4.days.ago, feedback_provided_at: 3.days.ago)
+        application_form.application_references = [reference_1, reference_2, reference_3]
+
+        expect(described_class.new(application_choice).received_references).to eq([reference_3, reference_2, reference_1])
+      end
+    end
   end
 
   describe '#reference_reminder_email_sent' do
