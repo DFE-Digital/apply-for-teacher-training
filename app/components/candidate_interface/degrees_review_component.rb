@@ -161,6 +161,8 @@ module CandidateInterface
     end
 
     def formatted_completion_status(degree)
+      return if degree.predicted_grade.nil?
+
       degree.completed? ? 'Yes' : 'No'
     end
 

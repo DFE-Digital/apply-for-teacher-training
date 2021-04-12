@@ -189,6 +189,33 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
   end
 
+  context 'when the degree has been saved without setting the value of predicted_grade' do
+    let(:degree1) do
+      build_stubbed(
+        :degree_qualification,
+        qualification_type: 'Bachelor of Arts in Architecture',
+        subject: 'Woof',
+        institution_name: 'University of Doge',
+        grade: 'Upper second',
+        predicted_grade: nil,
+        start_year: '2005',
+        award_year: '2008',
+      )
+    end
+
+    it 'renders component with correct values for the completion status row' do
+      allow(application_form).to receive(:application_qualifications).and_return(
+        ActiveRecordRelationStub.new(ApplicationQualification, [degree1], scopes: [:degrees]),
+      )
+
+      result = render_inline(described_class.new(application_form: application_form))
+      completed_degree_summary = result.css('.app-summary-card').first
+      completion_status_row = completed_degree_summary.css('.govuk-summary-list__row').find { |e| e.text.include?('Have you completed this degree?') }
+
+      expect(completion_status_row.css('.govuk-summary-list__value').text).to be_blank
+    end
+  end
+
   context 'when degrees are editable and first degree is international' do
     let(:degree1) do
       build_stubbed(
