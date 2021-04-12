@@ -68,6 +68,8 @@ parameters:
   skylightEnable: 'false'
   googleAnalyticsApply:
   googleAnalyticsManage:
+  googleTagManagerApply:
+  googleTagManagerManage:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -192,7 +194,9 @@ jobs:
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
                 -sandbox "${{parameters.sandbox}}"
                 -googleAnalyticsApply "${{parameters.googleAnalyticsApply}}"
-                -googleAnalyticsManage "${{parameters.googleAnalyticsManage}}"'
+                -googleAnalyticsManage "${{parameters.googleAnalyticsManage}}"
+                -googleTagManagerApply "${{parameters.googleTagManagerApply}}"
+                -googleTagManagerManage "${{parameters.googleTagManagerManage}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzureCLI@2
