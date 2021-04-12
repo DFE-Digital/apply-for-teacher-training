@@ -14,7 +14,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
 
   def given_there_is_an_existing_provider_and_course_in_apply
     @existing_provider = create :provider, code: 'ABC', sync_courses: true
-    create :course, code: 'ABC1', provider: @existing_provider, subject_codes: %w[]
+    create :course, code: 'ABC1', provider: @existing_provider, subjects: %w[]
   end
 
   def and_there_is_a_provider_with_a_course_in_find

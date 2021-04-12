@@ -47,7 +47,8 @@ RSpec.describe ProviderInterface::HesaDataExport do
     end
 
     before do
-      @course = create(:course, study_mode: 'full_time', subject_codes: %w[F3 X9], provider: training_provider, accredited_provider: accredited_provider)
+      subjects = [create(:subject, code: 'F3'), create(:subject, code: 'X9')]
+      @course = create(:course, study_mode: 'full_time', subjects: subjects, provider: training_provider, accredited_provider: accredited_provider)
       application_qualification = create(
         :application_qualification,
         level: 'degree',
