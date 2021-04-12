@@ -44,6 +44,10 @@ RSpec.describe ProviderInterface::PersonalDetailsComponent do
     expect(result.css('.govuk-summary-list__value').text).to include(application_form.candidate.email_address)
   end
 
+  it 'renders the candidate’s public ID' do
+    expect(result.css('.govuk-summary-list__value').text).to include("C#{application_form.candidate.id}")
+  end
+
   it 'does not render right to work fields if nationality is British or Irish' do
     expect(result.text).not_to include('Has the right to work or study in the UK?')
     expect(result.text).not_to include('Residency details')

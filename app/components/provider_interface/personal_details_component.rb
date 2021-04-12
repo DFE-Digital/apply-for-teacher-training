@@ -32,6 +32,7 @@ module ProviderInterface
         phone_number_row,
         email_row,
         address_row,
+        candidate_id_row,
       ].compact
     end
 
@@ -101,6 +102,13 @@ module ProviderInterface
       {
         key: 'Address',
         value: application_form.full_address,
+      }
+    end
+
+    def candidate_id_row
+      {
+        key: 'Candidate ID',
+        value: candidate.public_id,
       }
     end
 
