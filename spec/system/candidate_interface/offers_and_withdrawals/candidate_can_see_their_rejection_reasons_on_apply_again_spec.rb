@@ -7,7 +7,6 @@ RSpec.describe 'Candidate can see their rejection reasons on apply again' do
 
     when_i_visit_my_application_complete_page
     and_i_click_on_apply_again
-    and_i_click_go_to_my_application_form
 
     then_i_can_see_my_previous_rejection_reasons
   end
@@ -28,10 +27,6 @@ RSpec.describe 'Candidate can see their rejection reasons on apply again' do
 
   def and_i_click_on_apply_again
     click_on 'Apply again'
-  end
-
-  def and_i_click_go_to_my_application_form
-    click_link 'Go to your application form'
   end
 
   def then_i_can_see_my_previous_rejection_reasons

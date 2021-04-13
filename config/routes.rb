@@ -77,8 +77,6 @@ Rails.application.routes.draw do
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
-
-      get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
 
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
