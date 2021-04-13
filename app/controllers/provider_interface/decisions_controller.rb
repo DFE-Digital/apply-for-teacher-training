@@ -5,8 +5,14 @@ module ProviderInterface
     before_action :requires_make_decisions_permission
 
     def new
-      @wizard = OfferWizard.new(offer_store,
-                                offer_context_params.merge!(current_step: 'select_option', action: action))
+      @wizard = OfferWizard.build_from_application_choice(
+        offer_store,
+        @application_choice,
+        provider_user_id: current_provider_user.id,
+        current_step: 'select_option',
+        decision: :default,
+        action: action,
+      )
       @wizard.save_state!
     end
 
@@ -152,22 +158,6 @@ module ProviderInterface
 
     def make_an_offer_params
       params.require(:make_an_offer)
-    end
-
-    def offer_context_params
-      course_option = @application_choice.course_option
-
-      {
-        provider_user_id: current_provider_user.id,
-        application_choice_id: @application_choice.id,
-        course_id: course_option.course.id,
-        course_option_id: course_option.id,
-        provider_id: course_option.provider.id,
-        study_mode: course_option.study_mode,
-        location_id: course_option.site.id,
-        decision: :default,
-        standard_conditions: MakeAnOffer::STANDARD_CONDITIONS,
-      }
     end
 
     def confirm_application_is_in_decision_pending_state
