@@ -13,7 +13,9 @@ module CandidateInterface
     end
 
     def assign_form_values(degree)
-      self.degree_completed = degree.predicted_grade? ? 'no' : 'yes'
+      unless degree.predicted_grade.nil?
+        self.degree_completed = degree.predicted_grade? ? 'no' : 'yes'
+      end
       self
     end
 
