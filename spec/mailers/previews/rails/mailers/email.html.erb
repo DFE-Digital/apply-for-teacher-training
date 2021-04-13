@@ -108,7 +108,7 @@
   </p>
 <% end %>
 
-<script>
+<script nonce="<%= request.content_security_policy_nonce %>">
   function refreshBody(reload) {
     var part_select = document.querySelector('select#part');
     var locale_select = document.querySelector('select#locale');
