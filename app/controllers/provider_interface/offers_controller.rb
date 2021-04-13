@@ -32,9 +32,13 @@ module ProviderInterface
     def edit; end
 
     def show
-      @wizard = OfferWizard.new(offer_store,
-                                offer_context_params(:change_offer).merge!(current_step: :offer))
-      @wizard.configure_additional_conditions(@application_choice.offer['conditions'] - MakeAnOffer::STANDARD_CONDITIONS)
+      @wizard = OfferWizard.build_from_application_choice(
+        offer_store,
+        @application_choice,
+        provider_user_id: current_provider_user.id,
+        current_step: :offer,
+        decision: :change_offer,
+      )
       @wizard.save_state!
 
       return unless provider_user_can_make_decisions
@@ -102,23 +106,6 @@ module ProviderInterface
         user: current_provider_user,
         current_course: @application_choice.offered_course,
       )
-    end
-
-    def offer_context_params(decision = :default)
-      course_option = @application_choice.offered_option
-      conditions = @application_choice.offer['conditions'] || MakeAnOffer::STANDARD_CONDITIONS
-
-      {
-        provider_user_id: current_provider_user.id,
-        application_choice_id: @application_choice.id,
-        course_id: course_option.course.id,
-        course_option_id: course_option.id,
-        provider_id: course_option.provider.id,
-        study_mode: course_option.study_mode,
-        location_id: course_option.site.id,
-        decision: decision,
-        standard_conditions: conditions,
-      }
     end
 
     helper_method :provider_user_can_make_decisions

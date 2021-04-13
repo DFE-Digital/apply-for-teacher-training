@@ -10,6 +10,7 @@ RSpec.feature 'Provider changes an existing offer' do
   let(:application_form) { build(:application_form, :minimum_info) }
   let!(:application_choice) do
     create(:application_choice, :with_offer,
+           offer: { conditions: ['Fitness to train to teach check', 'Be cool'] },
            application_form: application_form,
            offered_course_option: course_option)
   end
@@ -50,6 +51,9 @@ RSpec.feature 'Provider changes an existing offer' do
     and_i_click_continue
 
     then_the_conditions_page_is_loaded
+    and_the_conditions_of_the_original_offer_are_filled_in
+
+    when_i_add_further_conditions
     and_i_click_continue
 
     then_the_review_page_is_loaded
@@ -69,6 +73,34 @@ RSpec.feature 'Provider changes an existing offer' do
 
   def and_i_sign_in_to_the_provider_interface
     provider_signs_in_using_dfe_sign_in
+  end
+
+  def given_the_provider_user_can_offer_multiple_provider_courses
+    @selected_provider = create(:provider, :with_signed_agreement)
+    create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true)
+    courses = create_list(:course, 2, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)
+    @selected_course = courses.sample
+
+    course_options = [create(:course_option, :part_time, course: @selected_course),
+                      create(:course_option, :full_time, course: @selected_course),
+                      create(:course_option, :full_time, course: @selected_course),
+                      create(:course_option, :part_time, course: @selected_course)]
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+    )
+
+    create(
+      :provider_relationship_permissions,
+      training_provider: @selected_provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+    )
+
+    @selected_course_option = course_options.sample
   end
 
   def when_i_visit_the_provider_interface
@@ -94,86 +126,6 @@ RSpec.feature 'Provider changes an existing offer' do
     end
   end
 
-  def then_the_conditions_page_is_loaded
-    expect(page).to have_content('Conditions of offer')
-  end
-
-  def and_the_default_conditions_are_checked
-    expect(find("input[value='Fitness to train to teach check']")).to be_checked
-    expect(find("input[value='Disclosure and Barring Service (DBS) check']")).to be_checked
-  end
-
-  def when_i_add_further_conditions
-    fill_in('provider_interface_offer_wizard[further_condition_1]', with: 'A* on Maths A Level')
-  end
-
-  def and_i_click_continue
-    click_on t('continue')
-  end
-
-  def then_the_review_page_is_loaded
-    expect(page).to have_content('Check and send new offer')
-  end
-
-  def and_i_can_confirm_my_answers
-    within('.app-offer-panel') do
-      expect(page).to have_content('A* on Maths A Level')
-    end
-  end
-
-  def then_i_am_taken_to_the_change_location_page
-    expect(page).to have_content('Select location')
-  end
-
-  def when_i_select_a_new_location
-    choose @selected_course_option.site_name
-  end
-
-  def then_i_am_taken_to_the_change_study_mode_page
-    expect(page).to have_content('Select study mode')
-  end
-
-  def when_i_select_a_different_study_mode
-    choose @selected_course_option.study_mode.humanize
-  end
-
-  def when_i_select_a_different_course
-    choose @selected_course.name_and_code
-  end
-
-  def then_i_am_taken_to_the_change_course_page
-    expect(page).to have_content('Select course')
-  end
-
-  def given_the_provider_user_can_offer_multiple_provider_courses
-    @selected_provider = create(:provider, :with_signed_agreement)
-    create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true)
-    courses = [create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider),
-               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider, accredited_provider: ratifying_provider)]
-    @selected_course = courses.sample
-
-    course_options = [create(:course_option, :part_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :part_time, course: @selected_course)]
-
-    create(
-      :provider_relationship_permissions,
-      training_provider: provider,
-      ratifying_provider: ratifying_provider,
-      ratifying_provider_can_make_decisions: true,
-    )
-
-    create(
-      :provider_relationship_permissions,
-      training_provider: @selected_provider,
-      ratifying_provider: ratifying_provider,
-      ratifying_provider_can_make_decisions: true,
-    )
-
-    @selected_course_option = course_options.sample
-  end
-
   def then_i_am_taken_to_the_change_provider_page
     expect(page).to have_content('Select training provider')
   end
@@ -182,12 +134,48 @@ RSpec.feature 'Provider changes an existing offer' do
     choose @selected_provider.name_and_code
   end
 
+  def and_i_click_continue
+    click_on t('continue')
+  end
+
+  def when_i_select_a_different_course
+    choose @selected_course.name_and_code
+  end
+
+  def when_i_select_a_different_study_mode
+    choose @selected_course_option.study_mode.humanize
+  end
+
+  def when_i_select_a_new_location
+    choose @selected_course_option.site_name
+  end
+
+  def then_the_conditions_page_is_loaded
+    expect(page).to have_content('Conditions of offer')
+  end
+
+  def and_the_conditions_of_the_original_offer_are_filled_in
+    expect(find("input[value='Fitness to train to teach check']")).to be_checked
+    expect(page).to have_field('Condition 1', with: 'Be cool')
+  end
+
+  def when_i_add_further_conditions
+    fill_in('provider_interface_offer_wizard[further_conditions][1][text]', with: 'A* on Maths A Level')
+  end
+
+  def then_the_review_page_is_loaded
+    expect(page).to have_content('Check and send new offer')
+  end
+
   def and_i_can_confirm_the_changed_offer_details
-    within('.app-summary-card__body') do
+    within('.app-offer-panel') do
       expect(page).to have_content(@selected_provider.name_and_code)
       expect(page).to have_content(@selected_course.name_and_code)
       expect(page).to have_content(@selected_course_option.study_mode.humanize)
       expect(page).to have_content(@selected_course_option.site.name_and_address)
+      expect(page).to have_content('Fitness to train to teach check')
+      expect(page).to have_content('Be cool')
+      expect(page).to have_content('A* on Maths A Level')
     end
   end
 
