@@ -58,10 +58,9 @@ RSpec.describe SupportInterface::InterviewChangesExport do
           audit_type: 'create',
           interview_id: interview.id,
           candidate_id: interview.application_choice.candidate.id,
-          application_form_id: interview.application_choice.application_form.id,
+          application_choice_id: interview.application_choice.id,
           provider_code: interview.application_choice.provider.code,
           provider_user: create_interview_audit.user.email_address,
-          interview_status: 'upcoming',
           interview_preferences: interview.application_choice.application_form.interview_preferences,
           application_submitted_at: interview.application_choice.application_form.submitted_at,
           course_code: interview.application_choice.course.code,
@@ -79,10 +78,9 @@ RSpec.describe SupportInterface::InterviewChangesExport do
           audit_type: 'update',
           interview_id: interview.id,
           candidate_id: interview.application_choice.candidate.id,
-          application_form_id: interview.application_choice.application_form.id,
+          application_choice_id: interview.application_choice.id,
           provider_code: interview.application_choice.provider.code,
           provider_user: edit_interview_audit.user.email_address,
-          interview_status: 'upcoming',
           interview_preferences: interview.application_choice.application_form.interview_preferences,
           application_submitted_at: interview.application_choice.application_form.submitted_at,
           course_code: interview.application_choice.course.code,
@@ -156,10 +154,6 @@ RSpec.describe SupportInterface::InterviewChangesExport do
         expect(row[:audit_type]).to eq('update')
       end
 
-      it 'sets the interview status to upcoming' do
-        expect(row[:interview_status]).to eq('upcoming')
-      end
-
       it 'sets correct interview attributes' do
         expect(row[:provider_id]).to be_blank
         expect(row[:date_and_time]).to eq(2.days.from_now.to_s)
@@ -207,16 +201,12 @@ RSpec.describe SupportInterface::InterviewChangesExport do
         expect(row[:location]).to eq('New Zoom link')
         expect(row[:additional_details]).to be_blank
       end
-
-      it 'sets the interview status to past' do
-        expect(row[:interview_status]).to eq('past')
-      end
     end
 
     describe 'application related columns' do
       it 'returns columns relating to the application' do
         expect(row[:candidate_id]).to eq(interview.application_choice.candidate.id)
-        expect(row[:application_form_id]).to eq(interview.application_choice.application_form_id)
+        expect(row[:application_choice_id]).to eq(interview.application_choice_id)
         expect(row[:provider_code]).to eq(interview.application_choice.provider.code)
         expect(row[:interview_preferences]).to eq(interview.application_choice.application_form.interview_preferences)
         expect(row[:application_submitted_at]).to eq(interview.application_choice.application_form.submitted_at)
