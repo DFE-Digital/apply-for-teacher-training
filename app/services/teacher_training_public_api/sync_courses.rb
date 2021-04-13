@@ -60,7 +60,6 @@ module TeacherTrainingPublicAPI
         subject = ::Subject.find_or_initialize_by(code: code)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
       end
-      course.subject_codes = course_from_api.subject_codes
     end
 
     def study_mode(course_from_api)

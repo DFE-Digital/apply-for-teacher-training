@@ -403,7 +403,6 @@ ActiveRecord::Schema.define(version: 2021_04_15_141658) do
     t.string "course_length"
     t.string "description"
     t.integer "accredited_provider_id"
-    t.jsonb "subject_codes"
     t.string "funding_type"
     t.string "age_range"
     t.jsonb "qualifications"

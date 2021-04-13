@@ -8,7 +8,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
     and_there_is_a_provider_with_a_course_in_find
 
     when_the_sync_runs
-    then_it_updates_the_course_subject_codes
+    then_it_updates_the_course_subjects
     and_it_sets_the_last_synced_timestamp
   end
 
@@ -42,10 +42,10 @@ RSpec.describe 'Syncing providers', sidekiq: true do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 
-  def then_it_updates_the_course_subject_codes
+  def then_it_updates_the_course_subjects
     course = Course.find_by(code: 'ABC1')
 
-    expect(course.subject_codes).to eq(%w[08])
+    expect(course.subjects.map(&:code)).to eq(%w[08])
   end
 
   def and_it_sets_the_last_synced_timestamp
