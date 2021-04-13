@@ -123,7 +123,7 @@
           <%= render(TaskListItemComponent.new(
             text: other_qualifications_title(@application_form),
             completed: @application_form_presenter.other_qualifications_completed?,
-            path: @application_form_presenter.other_qualification_path, show_incomplete: false
+            path: @application_form_presenter.other_qualification_path,
           )) %>
         </li>
         <li class="app-task-list__item">
