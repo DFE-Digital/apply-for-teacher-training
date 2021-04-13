@@ -143,10 +143,9 @@ jobs:
     name: Trigger Deployment
     needs: [build, test]
     runs-on: ubuntu-latest
-    if: github.ref == 'ref/heads/master'
+    if: success() && github.ref == 'refs/heads/master'
     steps:
       - name: Trigger Deployment to QA and Staging
-        if: success()
         uses: benc-uk/workflow-dispatch@v1.1
         with:
           workflow: Deploy
