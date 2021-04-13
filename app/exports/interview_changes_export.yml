@@ -2,7 +2,7 @@ common_columns:
 - provider_code
 - course_code
 - candidate_id
-- application_form_id
+- application_choice_id
 - provider_id
 
 custom_columns:
@@ -24,12 +24,6 @@ custom_columns:
   provider_user:
     type: string
     description: Email address of the user who made the change, or 'Support' if done by support
-  interview_status:
-    type: string
-    description: Whether the interview was upcoming or past when the change was made
-    enum:
-      - upcoming
-      - past
   date_and_time:
     type: datetime
     description: |
