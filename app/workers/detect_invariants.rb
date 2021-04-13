@@ -13,7 +13,9 @@ class DetectInvariants
 
   def detect_application_choices_in_old_states
     choices_in_wrong_state = begin
-      ApplicationChoice.where(status: %w[awaiting_references application_complete]).map(&:id).sort
+      ApplicationChoice
+        .where("status IN ('awaiting_references', 'application_complete')")
+        .map(&:id).sort
     end
 
     if choices_in_wrong_state.any?

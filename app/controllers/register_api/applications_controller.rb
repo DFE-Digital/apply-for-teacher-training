@@ -10,7 +10,8 @@ module RegisterAPI
     end
 
     def parameter_missing(e)
-      render json: { errors: [{ error: 'ParameterMissing', message: e }] }, status: :unprocessable_entity
+      error_message = e.message.split("\n").first
+      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
     end
 
     def parameter_invalid(e)

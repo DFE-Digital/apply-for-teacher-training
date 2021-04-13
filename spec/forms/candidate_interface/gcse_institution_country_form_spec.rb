@@ -15,8 +15,8 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       )
       valid_country.validate
       invalid_country.validate
-      expect(valid_country.errors.keys).not_to include :institution_country
-      expect(invalid_country.errors.keys).to include :institution_country
+      expect(valid_country.errors.attribute_names).not_to include :institution_country
+      expect(invalid_country.errors.attribute_names).to include :institution_country
     end
   end
 

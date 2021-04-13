@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     it 'validates top level questions' do
       wizard.valid_for_current_step?
 
-      expect(wizard.errors.keys.sort).to eq(
+      expect(wizard.errors.attribute_names.sort).to eq(
         %i[
           candidate_behaviour_y_n
           course_full_y_n
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates second level options' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys.sort).to eq(
+        expect(wizard.errors.attribute_names.sort).to eq(
           %i[
             candidate_behaviour_what_did_the_candidate_do
             honesty_and_professionalism_concerns
@@ -85,7 +85,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates details and advice fields' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys.sort).to eq(
+        expect(wizard.errors.attribute_names.sort).to eq(
           %i[
             candidate_behaviour_other
             candidate_behaviour_what_to_improve
@@ -123,7 +123,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
 
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys.sort).to eq(
+        expect(wizard.errors.attribute_names.sort).to eq(
           %i[
             candidate_behaviour_other
             candidate_behaviour_what_to_improve
@@ -164,7 +164,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'skips validation on other fields' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys.sort).to be_empty
+        expect(wizard.errors.attribute_names.sort).to be_empty
       end
     end
 
@@ -187,7 +187,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates the selected reasons' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys).to eq(%i[honesty_and_professionalism_concerns_information_false_or_inaccurate_details])
+        expect(wizard.errors.attribute_names).to eq(%i[honesty_and_professionalism_concerns_information_false_or_inaccurate_details])
       end
     end
 
@@ -197,7 +197,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates top level questions' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys.sort).to eq(%i[other_advice_or_feedback_y_n])
+        expect(wizard.errors.attribute_names.sort).to eq(%i[other_advice_or_feedback_y_n])
       end
     end
 
@@ -212,7 +212,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates second level reasons fields' do
         wizard.valid_for_current_step?
 
-        expect(wizard.errors.keys).to eq(%i[other_advice_or_feedback_details])
+        expect(wizard.errors.attribute_names).to eq(%i[other_advice_or_feedback_details])
       end
     end
   end

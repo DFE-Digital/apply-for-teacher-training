@@ -50,8 +50,8 @@ module ProviderInterface
     def permission_form_is_valid
       return if permissions_form.valid?
 
-      permissions_form.errors.map do |key, message|
-        errors.add("provider_permissions[#{permissions_form.id}][#{key}]", message)
+      permissions_form.errors.map do |error|
+        errors.add("provider_permissions[#{permissions_form.id}][#{error.attribute}]", error.message)
       end
     end
 
