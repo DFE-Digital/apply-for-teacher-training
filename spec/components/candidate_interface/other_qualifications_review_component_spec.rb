@@ -187,27 +187,39 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
     end
   end
 
-  describe '#show_missing_banner?' do
-    let(:application_form) { create(:application_form) }
+  context 'when the candidate selects not to provide other qualifications' do
+    it 'is submitted and the section is completed' do
+      application_form = create(:application_form, other_qualifications_completed: true)
+      result = render_inline(described_class.new(application_form: application_form, submitting_application: true))
 
-    context 'when they have not added an other qualification and are submitting the application' do
-      it 'returns false' do
-        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq false
-      end
+      expect(page).not_to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
+      expect(result.css('.govuk-summary-list__key').text).to include('Do you want to add any A levels and other qualifications')
+      expect(result.css('.govuk-summary-list__value').text).to include('No')
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
+      )
     end
 
-    context 'when they have fully completed their other qualifications and are submitting their application' do
-      it 'returns false' do
-        create(:other_qualification, application_form: application_form)
-        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq false
-      end
+    it 'is submitted and the section is not completed' do
+      application_form = create(:application_form, other_qualifications_completed: false)
+      result = render_inline(described_class.new(application_form: application_form, submitting_application: true))
+
+      expect(page).to have_content('A levels and other qualifications not marked as complete')
+      expect(result.css('.govuk-inset-text a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
+      )
     end
 
-    context 'when they have an incomplete qualification and are submitting their application' do
-      it 'returns true' do
-        create(:other_qualification, application_form: application_form, award_year: nil)
-        expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq true
-      end
+    it 'is not being submitted' do
+      application_form = create(:application_form)
+      result = render_inline(described_class.new(application_form: application_form, submitting_application: false))
+
+      expect(page).to have_content('Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.')
+      expect(result.css('.govuk-summary-list__key').text).to include('Do you want to add any A levels and other qualifications')
+      expect(result.css('.govuk-summary-list__value').text).to include('No')
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path,
+      )
     end
   end
 end
