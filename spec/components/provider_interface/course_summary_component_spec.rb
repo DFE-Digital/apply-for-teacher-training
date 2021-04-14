@@ -52,7 +52,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
   it 'renders the provider name' do
     render_text = row_text_selector(:provider, render)
 
-    expect(render_text).to include('Provider')
+    expect(render_text).to include('Training provider')
     expect(render_text).to include('Best Training')
   end
 

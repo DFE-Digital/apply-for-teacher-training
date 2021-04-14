@@ -14,7 +14,7 @@ module ProviderInterface
     def rows
       rows = [
         {
-          key: 'Provider',
+          key: 'Training provider',
           value: provider_name,
         },
         {
