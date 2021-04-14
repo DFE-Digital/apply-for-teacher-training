@@ -27,14 +27,14 @@ module ProviderInterface
           value: course_option.course.name_and_code,
           action: 'Change',
           change_path: change_course_path },
-        { key: 'Location',
-          value: course_option.site.name_and_address,
-          action: 'Change',
-          change_path: change_location_path },
         { key: 'Full time or part time',
           value: course_option.study_mode.humanize,
           action: 'Change',
           change_path: change_study_mode_path },
+        { key: 'Location',
+          value: course_option.site.name_and_address,
+          action: 'Change',
+          change_path: change_location_path },
       ]
       return rows if course_option.course.accredited_provider.blank?
 
