@@ -66,34 +66,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course_option.vacancy_status).to eq 'vacancies'
       end
 
-      context 'mapping subjects to a course' do
-        before do
-          stub_teacher_training_api_courses(provider_code: 'ABC',
-                                            specified_attributes: [{ code: 'ABC1', accredited_body_code: nil }])
-
-          stub_teacher_training_api_sites(provider_code: 'ABC', course_code: 'ABC1',
-                                          specified_attributes: [{}])
-        end
-
-        it 'when there is no entry for the subject it creates a new one' do
-          expect {
-            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
-          }.to change(Subject, :count).by(1)
-
-          expect(Subject.exists?(code: '00')).to be true
-        end
-
-        it 'when the subject exists it associates the existing entry' do
-          subject = create(:subject, code: '00')
-          expect {
-            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
-          }.to change(Subject, :count).by(0)
-
-          course = Course.last
-          expect(course.subjects).to contain_exactly(subject)
-        end
-      end
-
       it 'correctly handles missing address info' do
         stub_teacher_training_api_courses(
           provider_code: 'ABC',
