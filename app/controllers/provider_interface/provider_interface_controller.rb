@@ -34,6 +34,7 @@ module ProviderInterface
 
     def check_cookie_preferences
       @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_MANAGE', '') if cookies['consented-to-manage-cookies'].eql?('yes')
+      @provider_type = current_provider_user && current_provider_user.primary_provider_type
     end
 
     alias_method :audit_user, :current_provider_user

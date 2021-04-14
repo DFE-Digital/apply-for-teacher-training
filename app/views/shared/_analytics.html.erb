@@ -5,4 +5,8 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', '<%= @google_analytics_id %>');
+  <% if @provider_type.present? %>
+    gtag('config', '<%= @google_analytics_id %>', { 'custom_map': { 'dimension2': 'Provider type' });
+    gtag('event', 'provider_type_dimension', { 'Provider type': '<%= @provider_type %>' });
+  <% end %>
 </script>
