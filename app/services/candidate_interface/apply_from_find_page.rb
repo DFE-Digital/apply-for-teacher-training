@@ -65,7 +65,7 @@ module CandidateInterface
     def fetch_course_from_api
       Rails.cache.fetch ['course-public-api-request', @provider_code, @course_code], expires_in: 5.minutes do
         course = TeacherTrainingPublicAPI::Course.fetch(@provider_code, @course_code)
-        course.sites if course # cache subsequent calls to #sites too (this method is memoized)
+        course&.sites # cache subsequent calls to #sites too (this method is memoized)
         course
       end
     end

@@ -72,6 +72,6 @@ private
 
   def refuse_feedback_url
     matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\/refuse-feedback\?token=[\w-]{20})/)
-    matches.captures.first unless matches.nil?
+    matches&.captures&.first
   end
 end

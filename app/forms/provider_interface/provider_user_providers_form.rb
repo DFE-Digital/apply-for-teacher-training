@@ -32,7 +32,7 @@ module ProviderInterface
 
       not_selected_providers.each do |provider|
         permission = ProviderPermissions.find_by(provider: provider, provider_user: provider_user)
-        permission.destroy! if permission
+        permission&.destroy!
       end
 
       true

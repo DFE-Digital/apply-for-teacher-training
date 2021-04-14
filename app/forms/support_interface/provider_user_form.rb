@@ -32,7 +32,7 @@ module SupportInterface
     end
 
     def persisted?
-      @provider_user && @provider_user.persisted?
+      @provider_user&.persisted?
     end
 
     def self.from_provider_user(provider_user)

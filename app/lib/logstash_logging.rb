@@ -65,10 +65,10 @@ class LogstashLogging
 
   def self.add_debugging_fields(event)
     identity_hash = RequestLocals.fetch(:identity) {} # block is required
-    identity_hash.each { |key, val| event[key] = val } if identity_hash
+    identity_hash&.each { |key, val| event[key] = val }
 
     debugging_info = RequestLocals.fetch(:debugging_info) {} # block is required
-    debugging_info.each { |key, val| event[key] = val } if debugging_info
+    debugging_info&.each { |key, val| event[key] = val }
   end
 
   def self.add_sidekiq_fields(event)
