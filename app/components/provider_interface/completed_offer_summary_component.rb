@@ -3,7 +3,7 @@ module ProviderInterface
     include ViewHelper
 
     def rows
-      [
+      rows = [
         { key: 'Training provider',
           value: course_option.provider.name_and_code,
           action: 'Change',
@@ -20,10 +20,10 @@ module ProviderInterface
           value: course_option.site.name_and_address,
           action: 'Change',
           change_path: change_location_path },
-        { key: 'Accredited body',
-          value: course_option.course&.accredited_provider&.name_and_code || course_option.provider.name_and_code,
-          change_path: nil },
       ]
+      return rows if course_option.course.accredited_provider.blank?
+
+      rows << accredited_body_details(course_option)
     end
 
     def change_provider_path

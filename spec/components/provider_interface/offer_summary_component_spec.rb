@@ -26,6 +26,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       course: 1,
       location: 2,
       full_or_part_time: 3,
+      accredited_provider: 4,
     }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
@@ -108,6 +109,15 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     expect(row_text_selector(:course, render)).to include(course_option.course.name_and_code)
     expect(row_text_selector(:location, render)).to include(course_option.site.name_and_address)
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
+  end
+
+  context 'when the accredited provider is not the same as the training provider' do
+    let(:course) { build_stubbed(:course, :with_accredited_provider) }
+    let(:course_option) { build_stubbed(:course_option, course: course) }
+
+    it 'renders an extra row with the accredited provider details' do
+      expect(row_text_selector(:accredited_provider, render)).to include(course.accredited_provider.name_and_code)
+    end
   end
 
   context 'when conditions are set' do
