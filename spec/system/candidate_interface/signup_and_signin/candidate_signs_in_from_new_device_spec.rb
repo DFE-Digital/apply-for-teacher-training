@@ -41,8 +41,11 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_sign_in_from_a_new_device
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return('192.168.0.1')
     allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_return('Firefox')
+    # rubocop:enable RSpec/AnyInstance
+
     visit candidate_interface_sign_in_path
     fill_in 'Enter your email address', with: current_candidate.email_address
     click_button t('continue')

@@ -9,13 +9,12 @@ class DfESignInController < ActionController::Base
 
     if @local_user
       DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
-      first_sign_in = @local_user.last_signed_in_at.nil?
       @local_user.update!(last_signed_in_at: Time.zone.now)
 
       if @local_user.is_a?(SupportUser)
-        send_support_sign_in_confirmation_email unless first_sign_in
+        send_support_sign_in_confirmation_email
       elsif @local_user.is_a?(ProviderUser)
-        send_provider_sign_in_confirmation_email unless first_sign_in
+        send_provider_sign_in_confirmation_email
       end
 
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path

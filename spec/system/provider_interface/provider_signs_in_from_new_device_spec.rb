@@ -33,7 +33,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
   end
 
   def when_i_visit_the_provider_interface_applications_path
-    visit provider_interface_applications_path(some_key: 'some_value')
+    visit provider_interface_applications_path
   end
 
   def then_i_am_redirected_to_the_provider_sign_in_path
@@ -45,7 +45,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
   end
 
   def then_i_am_redirected_to_the_provider_interface_applications_path
-    expect(page).to have_current_path(provider_interface_applications_path(some_key: 'some_value'))
+    expect(page).to have_current_path(provider_interface_applications_path)
   end
 
   def when_i_click_sign_out
@@ -55,9 +55,13 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
   def and_sign_in_from_a_different_device
     browser = Capybara.current_session.driver.browser
     browser.clear_cookies
+
+    # rubocop:disable RSpec/AnyInstance
     allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return('192.168.0.1')
     allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_return('Firefox')
-    visit provider_interface_applications_path(some_key: 'another_value')
+    # rubocop:enable RSpec/AnyInstance
+
+    visit provider_interface_applications_path
 
     click_button 'Sign in using DfE Sign-in'
   end

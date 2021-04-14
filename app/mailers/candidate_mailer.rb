@@ -11,7 +11,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
 

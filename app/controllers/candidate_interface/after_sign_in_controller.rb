@@ -5,7 +5,7 @@ module CandidateInterface
 
     def interstitial
       course = course_from_find
-      
+
       current_candidate.update!(course_from_find_id: nil)
 
       if current_application.submitted?
