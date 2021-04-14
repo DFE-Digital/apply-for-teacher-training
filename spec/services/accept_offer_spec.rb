@@ -8,7 +8,7 @@ RSpec.describe AcceptOffer do
 
     Timecop.freeze do
       expect {
-        AcceptOffer.new(application_choice: application_choice).save!
+        described_class.new(application_choice: application_choice).save!
       }.to change { application_choice.accepted_at }.to(Time.zone.now)
     end
   end
@@ -22,6 +22,30 @@ RSpec.describe AcceptOffer do
     described_class.new(application_choice: application_choice).save!
 
     expect(AcceptUnconditionalOffer).to have_received(:new).with(application_choice: application_choice)
+  end
+
+  describe 'other choices in the application' do
+    it 'with offers are declined' do
+      application_choice = create(:application_choice, :with_offer)
+      application_form = application_choice.application_form
+      other_choice_with_offer = create(:application_choice, :with_offer, application_form: application_form)
+
+      described_class.new(application_choice: application_choice).save!
+
+      expect(other_choice_with_offer.reload.status).to eq('declined')
+    end
+
+    it 'that are pending provider decisions are withdrawn' do
+      application_choice = create(:application_choice, :with_offer)
+      application_form = application_choice.application_form
+      other_choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+      other_choice_interviewing = create(:application_choice, :with_scheduled_interview, application_form: application_form)
+
+      described_class.new(application_choice: application_choice).save!
+
+      expect(other_choice_awaiting_decision.reload.status).to eq('withdrawn')
+      expect(other_choice_interviewing.reload.status).to eq('withdrawn')
+    end
   end
 
   describe 'emails' do
