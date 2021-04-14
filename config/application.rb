@@ -69,5 +69,9 @@ module ApplyForPostgraduateTeacherTraining
     config.after_initialize do |app|
       app.routes.append { get '*path', to: 'errors#not_found' }
     end
+
+    config.action_dispatch.default_headers = {
+      'Feature-Policy' => "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'",
+    }
   end
 end
