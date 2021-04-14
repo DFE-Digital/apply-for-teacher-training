@@ -41,8 +41,8 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
     rows = {
       provider: 0,
       course: 1,
-      location: 2,
-      full_or_part_time: 3,
+      full_or_part_time: 2,
+      location: 3,
       accredited_body: 4,
     }
 
