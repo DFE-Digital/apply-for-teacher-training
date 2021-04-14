@@ -46,8 +46,8 @@ module SupportInterface
     def all_relationships_valid?
       @relationships.each do |relationship|
         relationship.valid?
-        relationship.errors.map do |key, message|
-          errors.add("relationships[#{relationship.id}][#{key}]", message)
+        relationship.errors.each do |error|
+          errors.add("relationships[#{relationship.id}][#{error.attribute}]", error.message)
         end
       end
     end
