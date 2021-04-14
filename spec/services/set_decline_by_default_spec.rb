@@ -69,6 +69,18 @@ RSpec.describe SetDeclineByDefault do
       end
     end
 
+    context 'when one offer was made, and the rest are in the interviewing state' do
+      it 'the DBD is not set for any of the application_choices' do
+        choices[0].update(status: :offer, offered_at: 1.business_days.before(now))
+        choices[1].update(status: :interviewing)
+        choices[2].update(status: :interviewing)
+
+        call_service
+
+        expect_all_relevant_decline_by_default_at_values_to_be nil
+      end
+    end
+
     context 'when one offer was made, and two decisions are rejected' do
       it 'the DBD is set to 10 business days from the date of the most recent decision' do
         choices[0].update(status: :offer, offered_at: 1.business_days.before(now))
