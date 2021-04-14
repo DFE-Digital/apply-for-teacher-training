@@ -13,7 +13,9 @@ module TeacherTrainingPublicAPI
         year: recruitment_cycle_year,
         provider_code: @provider.code,
       ).paginate(per_page: 500).each do |course_from_api|
-        create_or_update_course(course_from_api, recruitment_cycle_year)
+        ActiveRecord::Base.transaction do
+          create_or_update_course(course_from_api, recruitment_cycle_year)
+        end
       end
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
@@ -54,6 +56,10 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.withdrawn = course_from_api.state == 'withdrawn'
       course.qualifications = course_from_api.qualifications
+      course_from_api.subject_codes.each do |code|
+        subject = ::Subject.find_or_initialize_by(code: code)
+        course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
+      end
       course.subject_codes = course_from_api.subject_codes
     end
 

@@ -89,6 +89,9 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_i_click_the_sync_button
+    sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
+    allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
+
     stub_teacher_training_api_providers(
       specified_attributes: [
         {

@@ -5,8 +5,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
   describe '.call' do
     context 'ingesting an existing provider configured to sync courses, sites and course_options' do
-      before do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: true, provider_type: 'scitt', region_code: 'south_west', postcode: 'SK2 6AA'
+      let(:existing_provider) do
+        create(:provider, code: 'ABC', sync_courses: true, provider_type: 'scitt', region_code: 'south_west', postcode: 'SK2 6AA')
       end
 
       it 'correctly creates all the entities' do
@@ -41,7 +41,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
           vacancy_status: 'full_time_vacancies',
         )
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
         expect(course_option.course.provider.code).to eq 'ABC'
@@ -64,6 +64,34 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course_option.site.latitude).to eq 53.745587
         expect(course_option.site.longitude).to eq(-1.620208)
         expect(course_option.vacancy_status).to eq 'vacancies'
+      end
+
+      context 'mapping subjects to a course' do
+        before do
+          stub_teacher_training_api_courses(provider_code: 'ABC',
+                                            specified_attributes: [{ code: 'ABC1', accredited_body_code: nil }])
+
+          stub_teacher_training_api_sites(provider_code: 'ABC', course_code: 'ABC1',
+                                          specified_attributes: [{}])
+        end
+
+        it 'when there is no entry for the subject it creates a new one' do
+          expect {
+            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
+          }.to change(Subject, :count).by(1)
+
+          expect(Subject.exists?(code: '00')).to be true
+        end
+
+        it 'when the subject exists it associates the existing entry' do
+          subject = create(:subject, code: '00')
+          expect {
+            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
+          }.to change(Subject, :count).by(0)
+
+          course = Course.last
+          expect(course.subjects).to contain_exactly(subject)
+        end
       end
 
       it 'correctly handles missing address info' do
@@ -89,7 +117,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
           }],
         )
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
         expect(course_option.site.address_line2).to be_nil
@@ -102,11 +130,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         CourseOption.first.update!(vacancy_status: 'no_vacancies')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         expect(CourseOption.first.vacancy_status).to eq 'vacancies'
       end
@@ -117,11 +145,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    course_attributes: [{ study_mode: 'full_time', accredited_body_code: nil, state: 'withdrawn' }],
                                                    site_code: 'A')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         Course.first.update!(withdrawn: false)
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(Course.first.withdrawn).to eq true
       end
 
@@ -134,7 +162,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         course_option = CourseOption.first
         expect(course_option.course.accredited_provider.code).to eq 'DEF'
         expect(course_option.course.accredited_provider.name).to eq 'Foobar College'
@@ -146,7 +174,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    course_attributes: [{ accredited_body_code: 'ABC' }],
                                                    site_code: 'A')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(Course.find_by(code: 'ABC1').accredited_provider).to be_nil
       end
 
@@ -158,7 +186,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    course_attributes: [{ accredited_body_code: nil }],
                                                    site_code: 'A')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(course.reload.accredited_provider).to be_nil
       end
 
@@ -170,7 +198,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A')
 
         expect {
-          described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         }.to change(ProviderRelationshipPermissions, :count).by(1)
 
         permissions = ProviderRelationshipPermissions.last
@@ -187,7 +215,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A')
 
         expect {
-          described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         }.not_to change(ProviderRelationshipPermissions, :count)
       end
 
@@ -198,7 +226,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A')
 
         expect {
-          described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         }.not_to change(ProviderRelationshipPermissions, :count)
       end
 
@@ -208,7 +236,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    course_attributes: [{ accredited_body_code: 'ABC', study_mode: 'both' }],
                                                    site_code: 'A')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(Course.find_by(code: 'ABC1').study_mode).to eq 'full_time_or_part_time'
       end
 
@@ -232,7 +260,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                  }],
         )
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
 
         provider = Provider.find_by(code: 'ABC')
         course_options = Course.find_by(code: 'ABC1').course_options
@@ -250,7 +278,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(Course.count).to eq 1
         expect(CourseOption.count).to eq 1
 
@@ -267,7 +295,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         create(:application_choice, course_option: invalid_course_option_two)
         create(:application_choice, course_option: valid_course_option, offered_course_option: invalid_course_option_three)
 
-        described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
         expect(invalid_course_option_two.reload).not_to be_site_still_valid
         expect(invalid_course_option_three.reload).not_to be_site_still_valid
@@ -276,8 +304,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
     end
 
     context 'ingesting a provider when it existed in the previous recruitment cycle' do
+      let(:existing_provider) { create(:provider, code: 'ABC', sync_courses: true) }
+
       before do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: true
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                    course_code: 'ABC1',
                                                    recruitment_cycle_year: 2020,
@@ -285,7 +314,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
-        described_class.new.perform(@existing_provider.id, 2020)
+        described_class.new.perform(existing_provider.id, 2020)
       end
 
       it 'creates separate courses for the courses in this cycle' do
@@ -298,7 +327,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
-        described_class.new.perform(@existing_provider.id, 2021)
+        described_class.new.perform(existing_provider.id, 2021)
         expect(Course.count).to eq 2
       end
 
@@ -313,14 +342,14 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
-        described_class.new.perform(@existing_provider.id, 2021)
+        described_class.new.perform(existing_provider.id, 2021)
 
         new_course = Course.find_by(recruitment_cycle_year: 2021)
         expect(new_course).to be_open_on_apply
 
         new_course.update(open_on_apply: false)
 
-        described_class.new.perform(@existing_provider.id, 2021)
+        described_class.new.perform(existing_provider.id, 2021)
 
         expect(new_course.reload).not_to be_open_on_apply
       end

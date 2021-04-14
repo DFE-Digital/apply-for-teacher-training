@@ -36,6 +36,9 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def when_the_sync_runs
+    sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
+    allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
+
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 

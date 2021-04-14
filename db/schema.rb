@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
   create_sequence "candidates_id_seq"
   create_sequence "chasers_sent_id_seq"
   create_sequence "course_options_id_seq"
+  create_sequence "course_subjects_id_seq"
   create_sequence "courses_id_seq"
   create_sequence "data_exports_id_seq"
   create_sequence "data_migrations_id_seq"
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
   create_sequence "reference_tokens_id_seq"
   create_sequence "site_settings_id_seq"
   create_sequence "sites_id_seq"
+  create_sequence "subjects_id_seq"
   create_sequence "support_users_id_seq"
   create_sequence "toefl_qualifications_id_seq"
   create_sequence "ucas_matches_id_seq"
@@ -374,6 +376,16 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
     t.index ["vacancy_status", "site_still_valid"], name: "index_course_options_on_vacancy_status_and_site_still_valid"
   end
 
+  create_table "course_subjects", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id", "subject_id"], name: "index_course_subjects_on_course_id_and_subject_id", unique: true
+    t.index ["course_id"], name: "index_course_subjects_on_course_id"
+    t.index ["subject_id"], name: "index_course_subjects_on_subject_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.string "name"
@@ -657,6 +669,14 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
     t.index ["provider_id"], name: "index_sites_on_provider_id"
   end
 
+  create_table "subjects", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_subjects_on_code", unique: true
+  end
+
   create_table "support_users", force: :cascade do |t|
     t.string "dfe_sign_in_uid", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -745,6 +765,8 @@ ActiveRecord::Schema.define(version: 2021_04_12_130927) do
   add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
+  add_foreign_key "course_subjects", "courses"
+  add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade

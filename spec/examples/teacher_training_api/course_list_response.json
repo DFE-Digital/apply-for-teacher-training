@@ -58,10 +58,7 @@
         "state": "published",
         "study_mode": "both",
         "summary": "PGCE with QTS full time",
-        "subject_codes": [
-          {
-          }
-        ]
+        "subject_codes": ["00"]
       },
       "relationships": {
         "recruitment_cycle": {
