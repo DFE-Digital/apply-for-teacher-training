@@ -104,7 +104,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def awaiting_provider_decisions?
-    application_choices.where(status: :awaiting_provider_decision).any?
+    application_choices.where(status: ApplicationStateChange::DECISION_PENDING_STATUSES).any?
   end
 
   def first_not_declined_application_choice
