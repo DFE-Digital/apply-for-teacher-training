@@ -19,7 +19,7 @@ module ProviderInterface
 
     def rows
       [
-        { key: 'Provider',
+        { key: 'Training provider',
           value: course_option.provider.name_and_code,
           action: 'Change',
           change_path: change_provider_path },

@@ -4,7 +4,7 @@ module ProviderInterface
 
     def rows
       [
-        { key: 'Training Provider',
+        { key: 'Training provider',
           value: course_option.provider.name_and_code },
         { key: 'Course',
           value: course_option.course.name_and_code },
