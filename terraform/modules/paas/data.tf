@@ -15,6 +15,10 @@ data "cloudfoundry_domain" "apply_service_gov_uk" {
   name = "apply-for-teacher-training.service.gov.uk"
 }
 
+data "cloudfoundry_domain" "apply_education_gov_uk" {
+  name = "apply-for-teacher-training.education.gov.uk"
+}
+
 data "cloudfoundry_service" "postgres" {
   name = "postgres"
 }
