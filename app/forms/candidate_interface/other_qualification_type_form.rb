@@ -24,8 +24,8 @@ module CandidateInterface
     attr_accessor :other_uk_qualification_type
     attr_accessor :non_uk_qualification_type
 
-    validates :qualification_type, presence: true, unless: :no_other_qualification?
-    validates :qualification_type, inclusion: { in: ALL_VALID_TYPES, allow_blank: false }, unless: :no_other_qualification?
+    validates :qualification_type, presence: true
+    validates :qualification_type, inclusion: { in: ALL_VALID_TYPES + %w[no_other_qualifications], allow_blank: false }
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_TYPE }
     validates :other_uk_qualification_type, length: { maximum: 100 }
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_TYPE }

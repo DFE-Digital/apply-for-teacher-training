@@ -19,8 +19,13 @@ module CandidateInterface
         other_qualification_type_params.merge(current_step: :type),
       )
 
-      if @form.no_other_qualification? && @form.save_no_other_qualifications
-        redirect_to candidate_interface_review_other_qualifications_path
+      if @form.no_other_qualification?
+        if @form.save_no_other_qualifications
+          redirect_to candidate_interface_review_other_qualifications_path
+        else
+          track_validation_error(@form)
+          render :new
+        end
       elsif @form.save_intermediate
         redirect_to candidate_interface_other_qualification_details_path
       else
