@@ -99,7 +99,7 @@ module CandidateInterface
 
     def interview_row(application_choice)
       return unless application_choice.interviews.kept.any? ||
-        application_choice.awaiting_provider_decision?
+        application_choice.decision_pending?
 
       {
         key: 'Interview'.pluralize(application_choice.interviews.size),

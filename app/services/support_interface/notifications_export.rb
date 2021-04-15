@@ -35,9 +35,7 @@ module SupportInterface
     end
 
     def awaiting_decisions_count(applications)
-      applications.count do |application|
-        ApplicationStateChange::DECISION_PENDING_STATUSES.include?(application.status.to_sym)
-      end
+      applications.count(&:decision_pending?)
     end
 
     def receiving_decisions_count(applications)

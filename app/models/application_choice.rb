@@ -39,6 +39,12 @@ class ApplicationChoice < ApplicationRecord
     offer_deferred: 'offer_deferred',
   }
 
+  scope :decision_pending, -> { where(status: ApplicationStateChange::DECISION_PENDING_STATUSES) }
+
+  def decision_pending?
+    ApplicationStateChange::DECISION_PENDING_STATUSES.include? status.to_sym
+  end
+
   def different_offer?
     offered_course_option_id && offered_course_option_id != course_option_id
   end
@@ -69,7 +75,7 @@ class ApplicationChoice < ApplicationRecord
       return pg_days_left_to_respond
     end
 
-    if status == 'awaiting_provider_decision'
+    if decision_pending?
       rbd = reject_by_default_at
       ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
     end

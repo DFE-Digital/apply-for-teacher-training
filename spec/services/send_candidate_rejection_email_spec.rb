@@ -6,6 +6,7 @@ RSpec.describe SendCandidateRejectionEmail do
     let(:application_choice) { create(:application_choice, status: :rejected, application_form: application_form) }
     let(:application_choice_with_offer) { create(:application_choice, :with_offer, application_form: application_form) }
     let(:application_choice_awaiting_decision) { create(:application_choice, status: :awaiting_provider_decision, application_form: application_form) }
+    let(:application_choice_with_interview) { create(:application_choice, status: :interviewing, application_form: application_form) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
     context 'when an application choice is rejected' do
@@ -24,6 +25,20 @@ RSpec.describe SendCandidateRejectionEmail do
         before do
           application_choice_with_offer
           application_choice_awaiting_decision
+
+          allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
+          described_class.new(application_choice: application_choice).call
+        end
+
+        it 'the application_rejected_one_offer_one_awaiting_decision email is sent to the candidate' do
+          expect(CandidateMailer).to have_received(:application_rejected_one_offer_one_awaiting_decision).with(application_choice)
+        end
+      end
+
+      describe 'when there are applications both with offer and interviews' do
+        before do
+          application_choice_with_offer
+          application_choice_with_interview
 
           allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
           described_class.new(application_choice: application_choice).call

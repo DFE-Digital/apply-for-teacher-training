@@ -42,7 +42,7 @@ private
   def application_choices_awaiting_provider_decision
     @application_choice
       .self_and_siblings
-      .where(status: ApplicationStateChange::DECISION_PENDING_STATUSES)
+      .decision_pending
   end
 
   def unconditional_offer?
