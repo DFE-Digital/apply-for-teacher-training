@@ -12,9 +12,9 @@ module ProviderInterface
     end
 
     def rows
-      [
+      rows = [
         {
-          key: 'Provider',
+          key: 'Training provider',
           value: provider_name,
         },
         {
@@ -30,6 +30,17 @@ module ProviderInterface
           value: study_mode,
         },
       ]
+      return rows if course_option.course.accredited_provider.blank?
+
+      rows << accredited_body_details(course_option)
+    end
+
+  private
+
+    def accredited_body_details(course_option)
+      { key: 'Accredited body',
+        value: course_option.course.accredited_provider.name_and_code,
+        change_path: nil }
     end
   end
 end

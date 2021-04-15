@@ -43,6 +43,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
       course: 1,
       location: 2,
       full_or_part_time: 3,
+      accredited_body: 4,
     }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
@@ -51,7 +52,7 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
   it 'renders the provider name' do
     render_text = row_text_selector(:provider, render)
 
-    expect(render_text).to include('Provider')
+    expect(render_text).to include('Training provider')
     expect(render_text).to include('Best Training')
   end
 
@@ -74,5 +75,16 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
 
     expect(render_text).to include('Full time or part time')
     expect(render_text).to include('Full time')
+  end
+
+  context 'renders the accredited body' do
+    let(:course) { build(:course, :with_accredited_provider) }
+
+    it 'when one is set' do
+      render_text = row_text_selector(:accredited_body, render)
+
+      expect(render_text).to include('Accredited body')
+      expect(render_text).to include(course.accredited_provider.name_and_code)
+    end
   end
 end

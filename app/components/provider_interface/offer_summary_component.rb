@@ -18,8 +18,8 @@ module ProviderInterface
     end
 
     def rows
-      [
-        { key: 'Provider',
+      rows = [
+        { key: 'Training provider',
           value: course_option.provider.name_and_code,
           action: 'Change',
           change_path: change_provider_path },
@@ -36,6 +36,9 @@ module ProviderInterface
           action: 'Change',
           change_path: change_study_mode_path },
       ]
+      return rows if course_option.course.accredited_provider.blank?
+
+      rows << accredited_body_details(course_option)
     end
 
     def change_provider_path
@@ -63,6 +66,12 @@ module ProviderInterface
     delegate :conditions_not_met?, to: :application_state
 
   private
+
+    def accredited_body_details(course_option)
+      { key: 'Accredited body',
+        value: course_option.course.accredited_provider.name_and_code,
+        change_path: nil }
+    end
 
     def application_state
       @application_state ||= ApplicationStateChange.new(application_choice)
