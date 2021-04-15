@@ -1,8 +1,6 @@
 <div class="app-task-list__content">
   <%= govuk_link_to text, path, class: 'app-task-list__task-name', 'aria-describedby': tag_id %>
-  <% if submitted %>
-    <%= govuk_tag(text: 'Submitted', colour: 'grey', html_attributes: { id: tag_id }) %>
-  <% elsif custom_status %>
+  <% if custom_status %>
     <%= govuk_tag(text: custom_status, colour: 'purple', html_attributes: { id: tag_id }) %>
   <% elsif completed %>
     <%= govuk_tag(text: 'Completed', html_attributes: { id: tag_id }) %>
