@@ -56,6 +56,10 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.withdrawn = course_from_api.state == 'withdrawn'
       course.qualifications = course_from_api.qualifications
+      course_from_api.subject_codes.each do |code|
+        subject = ::Subject.find_or_initialize_by(code: code)
+        course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
+      end
       course.subject_codes = course_from_api.subject_codes
     end
 
