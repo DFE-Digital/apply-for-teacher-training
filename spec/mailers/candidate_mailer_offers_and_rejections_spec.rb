@@ -20,6 +20,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   let(:offer) { build_stubbed(:application_choice, :with_offer, course_option: course_option) }
   let(:awaiting_decision) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: other_option, offered_course_option: other_option) }
+  let(:interviewing) { build_stubbed(:application_choice, :awaiting_provider_decision, status: :interviewing, course_option: other_option, offered_course_option: other_option) }
 
   let(:application_choices) { [] }
 
@@ -147,26 +148,47 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     describe '.application_rejected_one_offer_one_awaiting_decision' do
       let(:email) { mailer.application_rejected_one_offer_one_awaiting_decision(application_choices.first) }
-      let(:application_choices) { [rejected, offer, awaiting_decision] }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
-                provider_name: 'Brighthurst Technical College'),
-        'heading' => 'Dear Bob',
-        'course name and code' => 'Applied Science (Psychology)',
-        'qualifications rejection heading' => 'Qualifications',
-        'qualifications rejection content' => 'Bad qualifications',
-        'other application details' => 'You have an offer and are waiting for a decision about another course',
-        'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
-        'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
-        'decision day' => 'has until 22 June 2020 to make a decision',
-      )
+      context 'with an awaiting decision application' do
+        let(:application_choices) { [rejected, offer, awaiting_decision] }
+
+        it_behaves_like(
+          'a mail with subject and content',
+          I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
+                  provider_name: 'Brighthurst Technical College'),
+          'heading' => 'Dear Bob',
+          'course name and code' => 'Applied Science (Psychology)',
+          'qualifications rejection heading' => 'Qualifications',
+          'qualifications rejection content' => 'Bad qualifications',
+          'other application details' => 'You have an offer and are waiting for a decision about another course',
+          'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
+          'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
+          'decision day' => 'has until 22 June 2020 to make a decision',
+        )
+      end
+
+      context 'with an interviewing application' do
+        let(:application_choices) { [rejected, offer, interviewing] }
+
+        it_behaves_like(
+          'a mail with subject and content',
+          I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
+                  provider_name: 'Brighthurst Technical College'),
+          'heading' => 'Dear Bob',
+          'course name and code' => 'Applied Science (Psychology)',
+          'qualifications rejection heading' => 'Qualifications',
+          'qualifications rejection content' => 'Bad qualifications',
+          'other application details' => 'You have an offer and are waiting for a decision about another course',
+          'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
+          'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
+          'decision day' => 'has until 22 June 2020 to make a decision',
+        )
+      end
     end
 
     describe '.application_rejected_awaiting_decision_only' do
       let(:email) { mailer.application_rejected_awaiting_decision_only(application_choices.first) }
-      let(:application_choices) { [rejected, awaiting_decision, awaiting_decision] }
+      let(:application_choices) { [rejected, awaiting_decision, interviewing] }
 
       it_behaves_like(
         'a mail with subject and content',

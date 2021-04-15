@@ -43,7 +43,7 @@ module SupportInterface
         :rejected_by_default
       elsif choice.rejected_at.present?
         :rejected
-      elsif choice.awaiting_provider_decision?
+      elsif choice.decision_pending?
         :awaiting_provider
       end
     end

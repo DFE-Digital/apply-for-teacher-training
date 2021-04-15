@@ -42,6 +42,18 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       it 'presents content without a heading or button' do
         expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
       end
+
+      context 'when the interviews FeatureFlag is enabled' do
+        let(:status) { 'interviewing' }
+
+        before do
+          FeatureFlag.activate(:interviews)
+        end
+
+        it 'presents content without a heading or button' do
+          expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
+        end
+      end
     end
 
     context 'when the application has had an offer' do

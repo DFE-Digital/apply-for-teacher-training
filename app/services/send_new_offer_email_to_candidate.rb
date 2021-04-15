@@ -16,7 +16,7 @@ private
 
   def mail_type(application_choice)
     candidate_application_choices = application_choice.self_and_siblings
-    number_of_pending_decisions = candidate_application_choices.select(&:awaiting_provider_decision?).count
+    number_of_pending_decisions = candidate_application_choices.decision_pending.count
     number_of_offers = candidate_application_choices.select(&:offer?).count
 
     if number_of_pending_decisions.positive?

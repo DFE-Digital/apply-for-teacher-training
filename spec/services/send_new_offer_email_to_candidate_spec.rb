@@ -35,7 +35,7 @@ RSpec.describe SendNewOfferEmailToCandidate do
         allow(CandidateMailer).to receive(:new_offer_multiple_offers).and_return(mail)
         setup_application
         other_course_option = create(:course_option)
-        @other_application_choice = @application_form.application_choices.create(
+        @application_form.application_choices.create(
           application_form: @application_form,
           course_option: other_course_option,
           status: :offer,
@@ -48,16 +48,35 @@ RSpec.describe SendNewOfferEmailToCandidate do
       end
     end
 
-    context 'when there are decisions pending' do
+    context 'when there are other choices in the awaiting_provider_decision state' do
       before do
         mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
         allow(CandidateMailer).to receive(:new_offer_decisions_pending).and_return(mail)
         setup_application
         other_course_option = create(:course_option)
-        @other_application_choice = @application_form.application_choices.create(
+        @application_form.application_choices.create(
           application_form: @application_form,
           course_option: other_course_option,
           status: :awaiting_provider_decision,
+        )
+      end
+
+      it 'sends new offer email for pending decision case' do
+        described_class.new(application_choice: @application_choice).call
+        expect(CandidateMailer).to have_received(:new_offer_decisions_pending).with(@application_choice)
+      end
+    end
+
+    context 'when there are other choices in the interviewing state' do
+      before do
+        mail = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+        allow(CandidateMailer).to receive(:new_offer_decisions_pending).and_return(mail)
+        setup_application
+        other_course_option = create(:course_option)
+        @application_form.application_choices.create(
+          application_form: @application_form,
+          course_option: other_course_option,
+          status: :interviewing,
         )
       end
 
