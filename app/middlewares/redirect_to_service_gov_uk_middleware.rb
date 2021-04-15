@@ -5,6 +5,7 @@ class RedirectToServiceGovUkMiddleware
 
   def call(env)
     req = Rack::Request.new(env)
+    Rails.logger.info "Hostname is #{req.host}"
     if req_host_is_education_gov_uk(req)
       [301, { 'Location' => "#{req.scheme}://#{service_gov_uk_host(req)}#{req.fullpath}" }, self]
     else
