@@ -1,26 +1,33 @@
-<% if !@submitting_application && !@qualifications.empty? %>
-  <%= govuk_link_to t('application_form.other_qualification.another.button'),
-    candidate_interface_other_qualification_type_path,
-    button: true,
-    class: 'govuk-button--secondary'
-  %>
-<% end %>
+<% if @qualifications.present? %>
+  <% if @submitting_application && !@application_form.other_qualifications_completed %>
+    <%= render CandidateInterface::IncompleteSectionComponent.new(
+      section: application_form.international? ? :other_qualifications_international : :other_qualifications,
+      section_path: candidate_interface_review_other_qualifications_path,
+      error: @missing_error,
+    ) %>
+  <% end %>
 
-<% @qualifications.each do |qualification| %>
-  <%= render(SummaryCardComponent.new(rows: other_qualifications_rows(qualification), editable: @editable)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: qualification.title, heading_level: @heading_level)) do %>
-      <% if @editable %>
-        <div class="app-summary-card__actions">
-          <%= govuk_link_to candidate_interface_confirm_destroy_other_qualification_path(qualification.id) do %>
-            <%= t('application_form.other_qualification.delete') %><span class="govuk-visually-hidden"><%= generate_action(qualification: qualification) %></span>
-          <% end %>
-        </div>
+  <% if !@submitting_application %>
+    <%= govuk_link_to t('application_form.other_qualification.another.button'),
+      candidate_interface_other_qualification_type_path,
+      button: true,
+      class: 'govuk-button--secondary' %>
+  <% end %>
+
+  <% @qualifications.each do |qualification| %>
+    <%= render(SummaryCardComponent.new(rows: other_qualifications_rows(qualification), editable: @editable)) do %>
+      <%= render(SummaryCardHeaderComponent.new(title: qualification.title, heading_level: @heading_level)) do %>
+        <% if @editable %>
+          <div class="app-summary-card__actions">
+            <%= govuk_link_to candidate_interface_confirm_destroy_other_qualification_path(qualification.id) do %>
+              <%= t('application_form.other_qualification.delete') %><span class="govuk-visually-hidden"><%= generate_action(qualification: qualification) %></span>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
-<% end %>
-
-<% if @qualifications.empty? %>
+<% else %>
   <% if @submitting_application && !application_form.other_qualifications_completed %>
     <%= render CandidateInterface::IncompleteSectionComponent.new(
       section: application_form.international? ? :other_qualifications_international : :other_qualifications,
@@ -37,8 +44,7 @@
       <%= govuk_link_to t('application_form.other_qualification.first.button'),
         candidate_interface_other_qualification_type_path,
         button: true,
-        class: 'govuk-button--secondary govuk-!-margin-bottom-0'
-      %>
+        class: 'govuk-button--secondary govuk-!-margin-bottom-0' %>
     </div>
 
     <%= render(SummaryCardComponent.new(rows: no_qualification_row, editable: @editable)) %>
