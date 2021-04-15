@@ -33,7 +33,10 @@ module ProviderInterface
     end
 
     def check_cookie_preferences
-      @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_MANAGE', '') if cookies['consented-to-manage-cookies'].eql?('yes')
+      if cookies['consented-to-manage-cookies'].eql?('yes')
+        @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_MANAGE', '')
+        @google_tag_manager_id = ENV.fetch('GOOGLE_TAG_MANAGER_MANAGE', '')
+      end
     end
 
     alias_method :audit_user, :current_provider_user
