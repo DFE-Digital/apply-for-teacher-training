@@ -5,18 +5,17 @@
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
 Rails.application.config.content_security_policy do |policy|
-  connect_src = ['wss://widget-mediator.zopim.com']
-  connect_src << 'http://localhost:3035' << 'ws://localhost:3035' if Rails.env.development?
-
+  # Include sources for Google Analytics and ZenDesk integration
   policy.default_src :self, :https, 'www.googletagmanager.com', 'static.zdassets.com'
   policy.font_src    :self, :https, :data
   policy.img_src     :self, :https, :data
   policy.object_src  :none
   policy.script_src  :self, :https, 'www.googletagmanager.com', 'static.zdassets.com', :unsafe_inline, :unsafe_eval
   policy.style_src   :self, :https, :unsafe_inline
-  # If you are using webpack-dev-server then specify webpack-dev-server host
 
-  policy.connect_src :self, :https, *connect_src
+  # For ZenDesk chat
+  policy.connect_src :self, :https, 'wss://widget-mediator.zopim.com'
+
   # Specify URI for violation reports
   # policy.report_uri "/csp-violation-report-endpoint"
 end
