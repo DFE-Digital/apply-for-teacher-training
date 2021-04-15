@@ -1,3 +1,5 @@
+require_relative '../../app/middlewares/apply/content_security_policy_middleware'
+
 # Be sure to restart your server when you modify this file.
 
 # Define an application-wide content security policy
@@ -30,3 +32,10 @@ Rails.application.config.content_security_policy_nonce_directives = %w[script-sr
 # For further information see the following documentation:
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only
 # Rails.application.config.content_security_policy_report_only = true
+
+# Subclass the built-in CSP middleware so that we can feature flag it.
+# Delete this when retiring the :content_security_policy feature flag.
+Rails.application.configure do
+  config.middleware.insert_after ActionDispatch::ContentSecurityPolicy::Middleware, Apply::ContentSecurityPolicyMiddleware
+  config.middleware.delete ActionDispatch::ContentSecurityPolicy::Middleware
+end
