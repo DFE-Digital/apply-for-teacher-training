@@ -116,6 +116,10 @@ Rails.application.configure do
     config.hosts << host
   end
 
+  Socket.ip_address_list.each do |ip|
+    config.hosts << ip.ip_address
+  end
+
   class FixAzureXForwardedForMiddleware
     def initialize(app)
       @app = app
