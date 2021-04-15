@@ -9,6 +9,7 @@ class DetectInvariants
     detect_applications_with_course_choices_in_previous_cycle
     detect_submitted_applications_with_more_than_three_course_choices
     detect_applications_submitted_with_the_same_course
+    detect_course_sync_not_succeeded_for_an_hour
   end
 
   def detect_application_choices_in_old_states
@@ -139,12 +140,23 @@ class DetectInvariants
     end
   end
 
+  def detect_course_sync_not_succeeded_for_an_hour
+    unless TeacherTrainingPublicAPI::SyncCheck.check
+      Raven.capture_exception(
+        CourseSyncNotSucceededForAnHour.new(
+          'The course sync via the Teacher training public API has not succeeded for an hour',
+        ),
+      )
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
   class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
   class ApplicationSubmittedWithTheSameCourse < StandardError; end
+  class CourseSyncNotSucceededForAnHour < StandardError; end
 
 private
 
