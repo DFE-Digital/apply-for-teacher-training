@@ -43,8 +43,9 @@ RSpec.feature 'Provider changes an existing offer' do
 
     when_i_select_a_different_course
     and_i_click_continue
+    then_no_study_mode_is_pre_selected
 
-    when_i_select_a_different_study_mode
+    when_i_select_a_study_mode
     and_i_click_continue
 
     when_i_select_a_new_location
@@ -142,7 +143,12 @@ RSpec.feature 'Provider changes an existing offer' do
     choose @selected_course.name_and_code
   end
 
-  def when_i_select_a_different_study_mode
+  def then_no_study_mode_is_pre_selected
+    expect(find_field('Full time')).not_to be_checked
+    expect(find_field('Part time')).not_to be_checked
+  end
+
+  def when_i_select_a_study_mode
     choose @selected_course_option.study_mode.humanize
   end
 
