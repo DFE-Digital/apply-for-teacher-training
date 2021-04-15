@@ -137,4 +137,8 @@ class Course < ApplicationRecord
       .where(application_choices: { course_options: { course: self } })
       .distinct
   end
+
+  def subject_codes
+    @subject_codes ||= subjects.includes(:course_subjects).map(&:code)
+  end
 end

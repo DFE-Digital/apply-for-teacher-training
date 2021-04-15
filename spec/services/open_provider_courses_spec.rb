@@ -42,7 +42,7 @@ RSpec.describe OpenProviderCourses do
     course = create(:course, exposed_in_find: true, provider: provider)
 
     expect { described_class.new(provider: provider).call }
-      .to(change { course.audits.count }.from(1).to(2))
+      .to(change { course.audits.count }.from(2).to(3))
 
     expect(course.audits.last.audited_changes.keys).to include('open_on_apply')
   end
