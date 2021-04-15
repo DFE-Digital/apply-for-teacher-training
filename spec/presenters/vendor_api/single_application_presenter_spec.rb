@@ -48,6 +48,20 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.rejection with a rejected application with no feedback' do
+    it 'returns a rejection object' do
+      rejected_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
+      application_form = create(:application_form,
+                                :minimum_info)
+      application_choice = create(:application_choice, :with_rejection_by_default, application_form: application_form, rejected_at: rejected_at)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Not entered', date: rejected_at.iso8601)
+    end
+  end
+
   describe 'attributes.hesa_itt_data' do
     context 'when an application choice has had an accepted offer' do
       let(:application_choice) do

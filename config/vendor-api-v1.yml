@@ -969,7 +969,7 @@ components:
       properties:
         reason:
           type: string
-          description: The reason for rejection or offer withdrawal
+          description: The reason for rejection or offer withdrawal. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           maxLength: 65535
           example: Does not meet minimum GCSE requirements
         date:

@@ -95,6 +95,11 @@ module VendorAPI
           reason: application_choice.offer_withdrawal_reason,
           date: application_choice.offer_withdrawn_at.iso8601,
         }
+      elsif application_choice.rejected_by_default?
+        {
+          reason: 'Not entered',
+          date: application_choice.rejected_at.iso8601,
+        }
       end
     end
 
