@@ -2,21 +2,18 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::RestructuredWorkHistory::ReviewComponent do
   around do |example|
-    Timecop.freeze(Time.zone.local(2019, 10, 1)) do
+    Timecop.freeze(Time.zone.now) do
       example.run
     end
   end
-
-  let(:february2019) { Time.zone.local(2019, 2, 1) }
-  let(:april2019) { Time.zone.local(2019, 4, 1) }
 
   let(:application_form_with_no_breaks) do
     build_stubbed(
       :application_form,
       application_work_experiences: [
-        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Vararu Schools', start_date: Time.zone.local(2019, 1, 1), end_date: Time.zone.local(2019, 6, 1)),
-        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Theo Schools', start_date: Time.zone.local(2019, 6, 1), end_date: Time.zone.local(2019, 8, 1)),
-        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Vararu Schools', start_date: Time.zone.local(2019, 8, 1), end_date: Time.zone.local(2019, 10, 1)),
+        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Vararu Schools', start_date: 9.months.ago, end_date: 4.months.ago),
+        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Theo Schools', start_date: 4.months.ago, end_date: 2.months.ago),
+        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Vararu Schools', start_date: 2.months.ago, end_date: Time.zone.now),
       ],
     )
   end
@@ -27,14 +24,14 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::ReviewComponent do
       application_work_history_breaks: [
         build_stubbed(
           :application_work_history_break,
-          start_date: february2019,
-          end_date: april2019,
+          start_date: 8.months.ago,
+          end_date: 6.months.ago,
           reason: 'WE WERE ON A BREAK!',
         ),
       ],
       application_work_experiences: [
-        build_stubbed(:application_work_experience, start_date: Time.zone.local(2014, 10, 1), end_date: Time.zone.local(2014, 11, 1)),
-        build_stubbed(:application_work_experience, start_date: Time.zone.local(2019, 8, 1), end_date: Time.zone.local(2019, 9, 1)),
+        build_stubbed(:application_work_experience, start_date: 5.years.ago, end_date: 59.months.ago),
+        build_stubbed(:application_work_experience, start_date: 2.months.ago, end_date: 1.month.ago),
       ],
     )
   end
@@ -50,8 +47,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::ReviewComponent do
     build_stubbed(
       :application_form,
       application_work_experiences: [
-        build_stubbed(:application_work_experience, start_date: Time.zone.local(2014, 10, 1), end_date: Time.zone.local(2014, 11, 1)),
-        build_stubbed(:application_work_experience, start_date: Time.zone.local(2019, 8, 1), end_date: Time.zone.local(2019, 9, 1)),
+        build_stubbed(:application_work_experience, start_date: 5.years.ago, end_date: 59.months.ago),
+        build_stubbed(:application_work_experience, start_date: 2.months.ago, end_date: 1.month.ago),
       ],
     )
   end
@@ -76,8 +73,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::ReviewComponent do
         result = render_inline(described_class.new(application_form: application_form_with_break))
 
         expect(result.text).to include('WE WERE ON A BREAK!')
-        expect(result.text).to include('Delete entry for break between Feb 2019 and Apr 2019')
-        expect(result.text).to include('Change entry for break between Feb 2019 and Apr 2019')
+        expect(result.text).to include("Delete entry for break between #{8.months.ago.to_s(:short_month_and_year)} and #{6.months.ago.to_s(:short_month_and_year)}")
+        expect(result.text).to include("Change entry for break between #{8.months.ago.to_s(:short_month_and_year)} and #{6.months.ago.to_s(:short_month_and_year)}")
       end
     end
 

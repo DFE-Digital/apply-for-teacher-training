@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GetApplicationFormsReadyToDeclineByDefault do
   around do |example|
-    Timecop.freeze(Time.zone.local(2019, 12, 4, 12, 0, 0)) do
+    Timecop.freeze do
       example.run
     end
   end

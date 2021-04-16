@@ -5,6 +5,12 @@ RSpec.describe ProviderInterface::ApplicationChoiceInterviewsListComponent do
   let(:user_can_create_or_change_interviews) { true }
   let(:render) { render_inline(described_class.new(application_choice: interview.application_choice, user_can_create_or_change_interviews: user_can_create_or_change_interviews)) }
 
+  around do |example|
+    Timecop.freeze(Time.zone.now.midday) do
+      example.run
+    end
+  end
+
   describe 'the set up interview button' do
     context 'user_can_create_or_change_interviews is true' do
       it 'is displayed' do

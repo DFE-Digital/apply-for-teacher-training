@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
-  let(:now) { Time.zone.local(2020, 6, 6, 12, 30, 24) }
+  let!(:now) { Time.zone.now.change(usec: 0) }
 
   around do |example|
     Timecop.freeze(now) { example.run }
@@ -18,23 +18,23 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
   describe '#form_started_but_unsubmitted' do
     it 'returns the time when the application choice was created if the audit trail is empty' do
-      application_form = create(:application_form, created_at: Time.zone.local(2020, 6, 1))
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: Time.zone.local(2020, 6, 2))
+      application_form = create(:application_form, created_at: 5.days.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
     end
 
     it 'returns the time when the application form was first updated if this is recorded in the audit trail', audited: true do
-      application_form = create(:application_form, created_at: Time.zone.local(2020, 6, 1))
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: Time.zone.local(2020, 6, 7))
+      application_form = create(:application_form, created_at: 5.days.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       application_form.update(phone_number: '01234 567890')
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq now
     end
 
     it 'returns the time when the application choice was created if this is earlier than any audit trail updated entries', audited: true do
-      application_form = create(:application_form, created_at: Time.zone.local(2020, 6, 1))
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: Time.zone.local(2020, 6, 5))
+      application_form = create(:application_form, created_at: 5.days.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: 1.day.ago)
       application_form.update(phone_number: '01234 567890')
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
@@ -43,7 +43,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
   describe '#submitted' do
     it 'returns the time when the application form was submitted' do
-      submitted_at = Time.zone.local(2020, 6, 2, 12, 10, 0)
+      submitted_at = 5.days.ago
       application_form = create(:application_form, submitted_at: submitted_at)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 

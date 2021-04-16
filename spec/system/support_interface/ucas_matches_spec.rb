@@ -4,7 +4,7 @@ RSpec.feature 'See UCAS matches' do
   include DfESignInHelpers
 
   around do |example|
-    Timecop.freeze(Date.new(2020, 11, 2)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -207,14 +207,14 @@ RSpec.feature 'See UCAS matches' do
 
   def given_five_working_days_passed
     Timecop.safe_mode = false
-    Timecop.travel(Time.zone.local(2020, 11, 9, 12, 0, 0))
+    Timecop.travel(5.business_days.from_now)
   ensure
     Timecop.safe_mode = true
   end
 
   def given_five_more_working_days_passed
     Timecop.safe_mode = false
-    Timecop.travel(Time.zone.local(2020, 11, 16, 12, 0, 0))
+    Timecop.travel(10.business_days.from_now)
   ensure
     Timecop.safe_mode = true
   end

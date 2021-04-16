@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.feature 'Manually carry over unsubmitted applications' do
   include CandidateHelper
+  include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(Date.new(2020, 8, 1)) do
+    Timecop.freeze(mid_cycle) do
       example.run
     end
   end
 
   scenario 'Carry over application and remove all application choices when new cycle opens' do
     given_i_am_signed_in_as_a_candidate
-    and_i_am_in_the_2020_recruitment_cycle
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
     and_the_cancel_unsubmitted_applications_worker_runs
@@ -33,10 +33,6 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
-  end
-
-  def and_i_am_in_the_2020_recruitment_cycle
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
   end
 
   def when_i_have_an_unsubmitted_application
@@ -65,7 +61,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
 
   def and_the_recruitment_cycle_ends
     Timecop.safe_mode = false
-    Timecop.travel(Time.zone.local(2020, 9, 19, 12, 0, 0))
+    Timecop.travel(after_apply_2_deadline)
   ensure
     Timecop.safe_mode = true
   end
@@ -109,7 +105,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   end
 
   def then_i_can_see_that_i_need_to_select_courses_when_apply_reopens
-    expect(page).to have_content 'You’ll be able to find courses in 17 days (6 October 2020). You can keep making changes to the rest of your application until then.'
+    expect(page).to have_content "You’ll be able to find courses in #{(EndOfCycleTimetable.find_reopens - Time.zone.today).to_i} days (#{EndOfCycleTimetable.find_reopens.to_s(:govuk_date)}). You can keep making changes to the rest of your application until then."
     expect(page).not_to have_link 'Choose your courses'
   end
 end

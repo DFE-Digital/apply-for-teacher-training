@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::UCASMatchesTableComponent do
-  let(:today) { Time.zone.local(2020, 1, 7, 12, 0, 0) }
   let(:ucas_match) { create(:ucas_match) }
 
   around do |example|
-    Timecop.freeze(today) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -19,7 +18,7 @@ RSpec.describe SupportInterface::UCASMatchesTableComponent do
   end
 
   it 'renders last update' do
-    expect(render_result.text).to include('7 January 2020')
+    expect(render_result.text).to include(Date.current.to_s(:govuk_date))
   end
 
   def render_result

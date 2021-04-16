@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::FindChangedApplyAgainApplications do
   around do |example|
-    Timecop.freeze(Time.zone.local(2021, 3, 1)) do
+    Timecop.freeze do
       example.run
     end
   end

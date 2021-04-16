@@ -31,7 +31,7 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
   end
 
   describe '#providers' do
-    it 'returns de-duplicated list of only the providers that the user can access', skip: true do
+    it 'returns de-duplicated list of only the providers that the user can access' do
       expect(described_class.new(@provider_user).providers).to match_array([
         @providers[0],
         @providers[1],

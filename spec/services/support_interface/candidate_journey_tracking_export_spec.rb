@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: t
 
   describe '#data_for_export' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 6, 30, 12, 0, 0)) { example.run }
+      Timecop.freeze { example.run }
     end
 
     it 'returns application choices with timings' do
@@ -16,7 +16,7 @@ RSpec.describe SupportInterface::CandidateJourneyTrackingExport, with_audited: t
       choices = Bullet.profile { described_class.new.data_for_export }
       expect(choices.size).to eq(3)
 
-      expect(choices[0][:form_not_started]).to eq('2020-06-30T12:00:00+01:00')
+      expect(choices[0][:form_not_started]).to eq(Time.zone.now.iso8601)
     end
   end
 end

@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::InterviewChangesExport do
+  let!(:now) { Time.zone.now.change(usec: 0) }
   let(:interview) { create(:interview, date_and_time: 1.day.from_now) }
+
+  around do |example|
+    Timecop.freeze(now) { example.run }
+  end
 
   describe '#data_for_export' do
     let!(:create_interview_audit) do
@@ -42,10 +47,6 @@ RSpec.describe SupportInterface::InterviewChangesExport do
         action: 'create',
         created_at: 2.days.ago,
       )
-    end
-
-    around do |example|
-      Timecop.freeze(2021, 11, 5, 15) { example.run }
     end
 
     it_behaves_like 'a data export'

@@ -52,27 +52,27 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
 
   describe '#example_date' do
     around do |example|
-      Timecop.freeze(2021, 11, 1) { example.run }
+      Timecop.freeze { example.run }
     end
 
     context 'reject by default is today' do
-      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 11, 1)) }
+      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 1.hour.from_now) }
 
       it 'returns today’s date' do
-        expect(component.example_date).to eq('1 11 2021')
+        expect(component.example_date).to eq(1.hour.from_now.strftime('%-d %-m %Y'))
       end
     end
 
     context 'reject by default is at least one day in the future' do
-      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 11, 5)) }
+      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 1.day.from_now) }
 
       it 'returns tomorrow’s date' do
-        expect(component.example_date).to eq('2 11 2021')
+        expect(component.example_date).to eq(1.day.from_now.strftime('%-d %-m %Y'))
       end
     end
 
     it 'renders the hint text correctly' do
-      expect(render.css('.govuk-hint').first.text).to eq('For example, 2 11 2021')
+      expect(render.css('.govuk-hint').first.text).to eq("For example, #{1.day.from_now.strftime('%-d %-m %Y')}")
     end
   end
 
