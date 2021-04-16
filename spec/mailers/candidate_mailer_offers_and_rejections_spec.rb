@@ -46,7 +46,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
-      'decline by default date' => "Make a decision by #{7.days.from_now.to_s(:govuk_date)}",
+      'decline by default date' => "Make a decision by #{10.business_days.from_now.to_s(:govuk_date)}",
       'first_condition' => 'Be cool',
       'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
     )
@@ -61,7 +61,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Make a decision: successful application for Falconholt Technical College',
         'heading' => 'Dear Bob',
         'course and provider' => 'offer from Falconholt Technical College to study Computer Science (X0FO)',
-        'decline by default date' => "Make a decision by #{7.days.from_now.to_s(:govuk_date)}",
+        'decline by default date' => "Make a decision by #{10.business_days.from_now.to_s(:govuk_date)}",
         'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
       )
     end
@@ -76,7 +76,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
-      'decline by default date' => "Make a decision by #{7.days.from_now.to_s(:govuk_date)}",
+      'decline by default date' => "Make a decision by #{10.business_days.from_now.to_s(:govuk_date)}",
       'first_condition' => 'Be cool',
       'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
       'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College',
@@ -208,13 +208,13 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: 7.days.from_now.to_s(:govuk_date)),
+        I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: 10.business_days.from_now.to_s(:govuk_date)),
         'heading' => 'Dear Bob',
         'course name and code' => 'Forensic Science (E0FO)',
         'rejection reasons' => 'Do not refer to yourself in the third person',
         'other application details' => 'You’re not waiting for any other decisions.',
         'first application details' => 'Brighthurst Technical College to study Applied Science (Psychology)',
-        'respond by date' => "The offers will automatically be withdrawn if you do not respond by #{7.days.from_now.to_s(:govuk_date)}",
+        'respond by date' => "The offers will automatically be withdrawn if you do not respond by #{10.business_days.from_now.to_s(:govuk_date)}",
       )
     end
   end
