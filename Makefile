@@ -66,3 +66,37 @@ ci.integration-tests: ## Run the tests with results formatted for CI
 	$(call copy_to_host,$(RSPEC_RESULTS_PATH))
 	$(call copy_to_host,$(COVERAGE_RESULT_PATH))
 	docker-compose rm -f -v web
+
+.PHONY: install-fetch-config
+install-fetch-config: ## Install the fetch-config script, for viewing/editing secrets in Azure Key Vault
+	[ ! -f bin/fetch_config.rb ] \
+		&& curl -s https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/scripts/fetch_config/fetch_config.rb -o bin/fetch_config.rb \
+		&& chmod +x bin/fetch_config.rb \
+		|| true
+
+qa:
+	$(eval APP_ENV=qa)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
+
+staging:
+	$(eval APP_ENV=staging)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
+
+sandbox:
+	$(eval APP_ENV=sandbox)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+
+production:
+  $(eval APP_ENV=production)
+  $(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+
+azure-login:
+	az account set -s $(AZURE_SUBSCRIPTION)
+
+.PHONY: view-app-secrets
+view-app-secrets: install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
+	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml
+
+.PHONY: edit-app-secrets
+edit-app-secrets: install-fetch-config azure-login ## Edit App Secrets, eg: make qa edit-app-secrets
+	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml -e -d azure-key-vault-secret -c
