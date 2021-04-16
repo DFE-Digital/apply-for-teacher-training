@@ -127,7 +127,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       create(
         :application_choice,
         :awaiting_provider_decision,
-        updated_at: Time.zone.parse('2020-06-01T09:05:00+01:00'),
       )
     end
 
@@ -156,19 +155,63 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     context 'when less than a day is left to respond' do
       let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
 
-      it { is_expected.to eq('Less than 1 day to respond') }
+      it { is_expected.to eq('Last day to make decision') }
     end
 
     context 'when 1 day is left to respond' do
       let(:rbd) { Time.zone.parse('2020-06-03T09:05:00+01:00') }
 
-      it { is_expected.to eq('1 day to respond') }
+      it { is_expected.to eq('1 day to make decision') }
     end
 
     context 'when 2 days are left to respond' do
       let(:rbd) { Time.zone.parse('2020-06-04T09:05:00+01:00') }
 
-      it { is_expected.to eq('2 days to respond') }
+      it { is_expected.to eq('2 days to make decision') }
+    end
+  end
+
+  describe '#decision_by_date_text' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
+    end
+
+    let(:application_choice) do
+      create(
+        :application_choice,
+        :with_offer,
+        decline_by_default_at: dbd,
+      )
+    end
+
+    before { application_choice.decline_by_default_at = dbd }
+
+    subject(:candidate_days_to_respond_text) do
+      described_class.new(application_choice: application_choice).candidate_days_to_respond_text
+    end
+
+    context 'when decision_by_date is in the past' do
+      let(:dbd) { Time.zone.parse('2020-05-02T09:05:00+01:00') }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when less than a day is left to respond' do
+      let(:dbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
+
+      it { is_expected.to eq('Last day for candidate to respond') }
+    end
+
+    context 'when 1 day is left to respond' do
+      let(:dbd) { Time.zone.parse('2020-06-03T09:05:00+01:00') }
+
+      it { is_expected.to eq('1 day for candidate to respond') }
+    end
+
+    context 'when 2 days are left to respond' do
+      let(:dbd) { Time.zone.parse('2020-06-04T09:05:00+01:00') }
+
+      it { is_expected.to eq('2 days for candidate to respond') }
     end
   end
 

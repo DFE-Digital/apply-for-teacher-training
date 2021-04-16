@@ -17,9 +17,9 @@
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              You have until <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %> to respond to this application. Otherwise it will be automatically rejected.
+              This application will be automatically rejected at the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %> if you do not make a decision.
             <% else -%>
-              You have <%= days_until(application_choice.reject_by_default_at.to_date) %> to make a decision - this application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+              This application will be automatically rejected in <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>) if you do not make a decision.
             <% end -%>
           </p>
 
@@ -37,9 +37,9 @@
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              You have until <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %> to respond to this application. Otherwise it will be automatically rejected.
+              This application will be automatically rejected at the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %> if you do not make a decision.
             <% else -%>
-              You have <%= days_until(application_choice.reject_by_default_at.to_date) %> to make a decision - this application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+              This application will be automatically rejected in <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>) if you do not make a decision.
             <% end -%>
           </p>
 

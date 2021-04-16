@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
           expect(result.css('.govuk-button').first.text).to eq('Set up interview')
           expect(result.css('.govuk-button').last.text).to eq('Make decision')
           expect(result.css('.govuk-inset-text').text).to include(
-            'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+            'This application will be automatically rejected at the end of tomorrow (2 November 2021 at 12pm (midday)) if you do not make a decision.',
           )
         end
       end
@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         it 'the Make decision button is available and RDB info is presented ' do
           expect(result.css('.govuk-button').last.text).to eq('Make decision')
           expect(result.css('.govuk-inset-text').text).to include(
-            'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+            'This application will be automatically rejected at the end of tomorrow (2 November 2021 at 12pm (midday)) if you do not make a decision.',
           )
         end
       end
