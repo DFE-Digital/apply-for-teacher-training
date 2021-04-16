@@ -111,11 +111,6 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  # Whitelist the production domains for HostAuthorization
-  HostingEnvironment.authorised_hosts.each do |host|
-    config.hosts << host
-  end
-
   class FixAzureXForwardedForMiddleware
     def initialize(app)
       @app = app
