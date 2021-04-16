@@ -1,6 +1,4 @@
 <p class="govuk-body">
   The offer was withdrawn on <%= application_choice.offer_withdrawn_at.to_s(:govuk_date) %>. The following feedback was sent to the candidate.
 </p>
-<div class="govuk-inset-text">
-  <%= application_choice.offer_withdrawal_reason %>
-</div>
+<%= govuk_inset_text(text: application_choice.offer_withdrawal_reason) %>

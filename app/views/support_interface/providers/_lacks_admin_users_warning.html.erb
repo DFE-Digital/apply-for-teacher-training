@@ -1,6 +1,6 @@
-<% if @provider.sync_courses? && @provider.no_admin_users? %>
-  <div class="govuk-inset-text govuk-!-margin-bottom-4">
+<% if @provider.lacks_admin_users? %>
+  <%= govuk_inset_text do %>
     <h2 class="govuk-heading-m">No admin user</h2>
     <p class="govuk-body">This provider has no users with the ability to manage organisations and users.</p>
-  </div>
+  <% end %>
 <% end %>

@@ -1,4 +1,4 @@
-<div class="govuk-inset-text">
+<%= govuk_inset_text do %>
   <% if no_viable_references? %>
     <p class="govuk-body">You need 2 references before you can submit your application.</p>
     <%= govuk_link_to 'Add a referee', candidate_interface_references_start_path, button: true %>
@@ -10,4 +10,4 @@
     <p class="govuk-body">We’ll cancel any remaining requests when you’ve received 2 references.</p>
     <%= govuk_link_to 'Add another referee', candidate_interface_references_start_path, button: true, class: 'govuk-button--secondary' %>
   <% end %>
-</div>
+<% end %>

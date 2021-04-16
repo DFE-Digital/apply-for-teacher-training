@@ -1,17 +1,14 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    <div class="govuk-inset-text govuk-!-margin-top-0">
-      <h2 class="govuk-heading-s">
-        <%= inset_text_header %>
-      </h2>
-      <% if action_details.present? %>
-        <%= action_details %>
-      <% end %>
-      <% if @match.action_needed? && @match.requires_manual_action? %>
-        <%= form_with url: button[:path], method: :post do |f| %>
-          <%= f.govuk_submit button[:text] %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-</div>
+
+<%= govuk_inset_text(classes: 'govuk-!-margin-top-0 govuk-!-width-two-thirds') do %>
+  <h2 class="govuk-heading-s">
+    <%= inset_text_header %>
+  </h2>
+  <% if action_details.present? %>
+    <%= action_details %>
+  <% end %>
+  <% if @match.action_needed? && @match.requires_manual_action? %>
+    <%= form_with url: button[:path], method: :post do |f| %>
+      <%= f.govuk_submit button[:text] %>
+    <% end %>
+  <% end %>
+<% end %>

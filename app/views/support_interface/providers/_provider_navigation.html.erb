@@ -7,7 +7,7 @@
   }.merge(title != 'Details' ? { title => nil } : {})) %>
 <% end %>
 
-<%= render 'no_admin_users_warning' %>
+<%= render 'lacks_admin_users_warning' %>
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_provider_path },
