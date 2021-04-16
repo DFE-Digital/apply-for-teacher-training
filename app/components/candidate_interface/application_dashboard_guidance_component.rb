@@ -4,12 +4,6 @@ module CandidateInterface
 
     attr_reader :application_form
 
-    NUMBER_IN_WORDS = {
-      1 => 'One',
-      2 => 'Two',
-      3 => 'Three',
-    }.freeze
-
     def initialize(application_form:)
       @application_form = application_form
     end
@@ -48,11 +42,6 @@ module CandidateInterface
 
     def has_multiple_offers?
       multiple_choices_with_status?('offer')
-    end
-
-    def number_of_offers_in_words
-      count = statuses.select { |s| s == 'offer' }.count
-      NUMBER_IN_WORDS[count] || count.to_s
     end
 
     def accepted_offer_provider_name

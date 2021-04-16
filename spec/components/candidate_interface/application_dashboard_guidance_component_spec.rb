@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardGuidanceComponent do
       statuses: %w[offer offer awaiting_provider_decision],
     )
     result = render_inline(described_class.new(application_form: application_form))
-    expect(result.text).to include('Two of your training providers have made a decision on your application')
+    expect(result.text).to include('2 of your training providers have made a decision on your application')
   end
 
   it 'displays correct message when an offer has been accepted' do
