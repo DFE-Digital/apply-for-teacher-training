@@ -30,14 +30,8 @@ class FlashMessageComponent < ViewComponent::Base
   end
 
   def body
-    capture do
-      if messages.is_a?(Array) && messages.count >= 2
-        concat tag.p(messages[1], class: 'govuk-body')
-      end
-
-      if link.present?
-        concat tag.p(govuk_link_to(link['text'], link['url'], class: 'govuk-notification-banner__link'), class: 'govuk-body')
-      end
+    if messages.is_a?(Array) && messages.count >= 2
+      tag.p(messages[1], class: 'govuk-body')
     end
   end
 
@@ -49,10 +43,6 @@ private
 
   def messages
     flash[message_key]
-  end
-
-  def link
-    flash[:link]
   end
 
   attr_reader :flash

@@ -13,7 +13,6 @@ RSpec.feature 'Candidate content' do
     then_i_can_see_the_cookies_page
     and_i_can_no_longer_see_the_cookie_banner
     and_i_can_opt_in_to_tracking_website_usage
-    and_i_can_go_back_to_the_page_i_was_looking_at_before
 
     when_i_click_on_complaints
     then_i_can_see_the_complaints_page
@@ -58,10 +57,6 @@ RSpec.feature 'Candidate content' do
     choose 'Yes'
     click_on 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
-  end
-
-  def and_i_can_go_back_to_the_page_i_was_looking_at_before
-    expect(page).to have_link('Go back to the page you were looking at', href: /#{candidate_interface_accessibility_path}/)
   end
 
   def when_i_click_on_complaints
