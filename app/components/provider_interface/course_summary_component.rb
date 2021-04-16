@@ -22,12 +22,12 @@ module ProviderInterface
           value: course_name_and_code,
         },
         {
-          key: 'Location',
-          value: location_name_and_address,
-        },
-        {
           key: 'Full time or part time',
           value: study_mode,
+        },
+        {
+          key: 'Location',
+          value: location_name_and_address,
         },
       ]
       return rows if course_option.course.accredited_provider.blank?
