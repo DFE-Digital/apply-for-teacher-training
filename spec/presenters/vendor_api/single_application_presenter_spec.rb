@@ -729,6 +729,134 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(qualification[:grade]).to eq 'Not entered'
     end
 
+    describe 'subject_code' do
+      it 'maps gcse level science qualifications correctly' do
+        science_triple_awards = {
+          biology: { grade: 'A' },
+          chemistry: { grade: 'B' },
+          physics: { grade: 'C' },
+        }
+
+        create(
+          :gcse_qualification,
+          grade: nil,
+          subject: 'science triple award',
+          constituent_grades: science_triple_awards,
+          application_form: application_choice.application_form,
+        )
+
+        qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :gcses,
+        ).find { |q| q[:subject] == 'science triple award' }
+
+        expect(qualification[:subject_code]).to eq '100390'
+      end
+
+      it 'maps gcse level english qualifications correctly' do
+        create(
+          :gcse_qualification,
+          grade: nil,
+          subject: 'english',
+          constituent_grades: {
+            english_language: { grade: 'E', public_id: 1 },
+            english_literature: { grade: 'E', public_id: 2 },
+          },
+          application_form: application_choice.application_form,
+        )
+
+        language_qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :gcses,
+        ).find { |q| q[:subject] == 'English language' }
+
+        expect(language_qualification[:subject_code]).to eq '100318'
+
+        language_qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :gcses,
+        ).find { |q| q[:subject] == 'English literature' }
+
+        expect(language_qualification[:subject_code]).to eq '100319'
+      end
+
+      it 'maps gcse level maths qualifications correctly' do
+        create(
+          :gcse_qualification,
+          grade: 'A',
+          subject: 'maths',
+          application_form: application_choice.application_form,
+        )
+
+        qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :gcses,
+        ).find { |q| q[:subject] == 'maths' }
+
+        expect(qualification[:subject_code]).to eq '100403'
+      end
+
+      it 'maps other GCSE qualifications correctly from the autocomplete list' do
+        gcse_subject = GCSE_SUBJECTS.sample
+        create(
+          :other_qualification,
+          grade: 'B',
+          subject: gcse_subject,
+          qualification_type: 'GCSE',
+          application_form: application_choice.application_form,
+        )
+
+        qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :other_qualifications,
+        ).find { |q| q[:subject] == gcse_subject }
+
+        expect(qualification[:subject_code]).to eq(GCSE_SUBJECTS_TO_CODES[gcse_subject])
+      end
+
+      it 'maps other A level qualifications correctly from the autocomplete list' do
+        a_level_subject = A_AND_AS_LEVEL_SUBJECTS.sample
+        create(
+          :other_qualification,
+          grade: 'C',
+          subject: a_level_subject,
+          qualification_type: 'A level',
+          application_form: application_choice.application_form,
+        )
+
+        qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :other_qualifications,
+        ).find { |q| q[:subject] == a_level_subject }
+
+        expect(qualification[:subject_code]).to eq(A_AND_AS_LEVEL_SUBJECTS_TO_CODES[a_level_subject])
+      end
+
+      it 'leaves the subject code blank when the subject is not recognised' do
+        create(
+          :other_qualification,
+          grade: 'C',
+          subject: 'Harry potter books and films',
+          qualification_type: 'A level',
+          application_form: application_choice.application_form,
+        )
+
+        qualification = presenter.as_json.dig(
+          :attributes,
+          :qualifications,
+          :other_qualifications,
+        ).find { |q| q[:subject] == 'Harry potter books and films' }
+
+        expect(qualification[:subject_code]).to be_nil
+      end
+    end
+
     it 'adds GCSE science triple award information' do
       science_triple_awards = {
         biology: { grade: 'A' },

@@ -1,3 +1,7 @@
+## 16th April
+
+`Qualification` now includes an optional `subject_code` field. This contains the HECoS code for the subject if it is available
+
 ## 15th April
 
 Changes to existing attributes:
