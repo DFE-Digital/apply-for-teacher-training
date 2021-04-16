@@ -37,7 +37,7 @@
   <% elsif @submitting_application && application_form.other_qualifications_completed %>
     <%= render(SummaryCardComponent.new(rows: no_qualification_row, editable: @editable)) %>
   <% else %>
-    <div class="govuk-inset-text govuk-!-width-two-thirds govuk-!-margin-top-0">
+    <%= govuk_inset_text(classes: 'govuk-!-width-two-thirds govuk-!-margin-top-0') do %>
       <p class="govuk-body">Adding A levels and other qualifications makes your application stronger. They demonstrate subject knowledge not covered in your degree or work experience.</p>
       <p class="govuk-body">Training providers usually ask you for them later in the process.</p>
 
@@ -45,7 +45,7 @@
         candidate_interface_other_qualification_type_path,
         button: true,
         class: 'govuk-button--secondary govuk-!-margin-bottom-0' %>
-    </div>
+    <% end %>
 
     <%= render(SummaryCardComponent.new(rows: no_qualification_row, editable: @editable)) %>
   <% end %>
