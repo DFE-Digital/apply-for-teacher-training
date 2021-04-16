@@ -66,3 +66,6 @@ jmeter.log
 # Terraform files
 *.tfstate
 .terraform
+
+# Key Vault secrets management script used in Makefile
+bin/fetch_config.rb
