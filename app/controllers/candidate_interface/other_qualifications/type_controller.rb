@@ -8,7 +8,7 @@ module CandidateInterface
       @form = OtherQualificationTypeForm.new(
         current_application,
         intermediate_data_service,
-        current_step: :type,
+        { current_step: :type }.merge!(qualification_type: params[:change] == 'true' ? 'no_other_qualifications' : nil),
       )
     end
 

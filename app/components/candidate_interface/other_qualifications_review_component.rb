@@ -35,7 +35,7 @@ module CandidateInterface
       [{
         key: 'Do you want to add any A levels and other qualifications',
         value: 'No',
-        change_path: candidate_interface_other_qualification_type_path,
+        change_path: candidate_interface_other_qualification_type_path(change: true),
       }]
     end
 

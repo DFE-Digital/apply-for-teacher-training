@@ -16,7 +16,7 @@
   <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::NON_UK_TYPE, label: { text: 'Non-UK qualification' } do %>
     <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name', size: 's' }, hint: { text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') } %>
   <% end %>
-  <% if current_application.application_qualifications.other.blank? && !current_application.no_other_qualifications %>
+  <% if (current_application.application_qualifications.other.blank? && params[:change] == 'true') || (current_application.application_qualifications.other.blank? && !current_application.no_other_qualifications) %>
     <%= f.govuk_radio_divider %>
     <%= f.govuk_radio_button :qualification_type,
       'no_other_qualifications',
