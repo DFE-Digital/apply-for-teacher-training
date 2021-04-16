@@ -62,7 +62,7 @@ RSpec.feature 'Candidate account' do
 
   def then_i_should_receive_a_notification_email
     open_email(current_candidate.email_address)
-    expect(current_email).to have_content('We detected you signed into Apply for Teacher Training on a new device.')
+    expect(current_email).to have_content('We detected you have signed in to Apply for teacher training from a new device.')
     expect(current_email).to have_content('192.168.0.1')
     expect(current_email).to have_content('Firefox')
   end
