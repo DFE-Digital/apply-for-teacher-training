@@ -4,9 +4,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <%= render NotificationMessageComponent.new(:info,
-                                                message: 'Temporary login',
-                                                secondary_message: 'DfE Sign In is experiencing problems. You need to sign in using your email address.') %>
+    <%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+      <%= notification_banner.slot(:heading, text: 'Temporary login') %>
+      <p class="govuk-body">DfE Sign In is experiencing problems. You need to sign in using your email address.</p>
+    <% end %>
 
     <p class="govuk-body-l">You must sign in to your account to use the support console.</p>
 
