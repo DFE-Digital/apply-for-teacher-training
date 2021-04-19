@@ -26,7 +26,11 @@ class WorkHistoryItemComponent < ViewComponent::Base
   end
 
   def working_with_children?
-    item.respond_to?(:working_with_children?) && item.working_with_children?
+    item.try(:working_with_children?)
+  end
+
+  def relevant_skills?
+    item.try(:relevant_skills?)
   end
 
   def organisation
