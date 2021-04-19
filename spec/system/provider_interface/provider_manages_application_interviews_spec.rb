@@ -16,7 +16,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   before do
     FeatureFlag.activate(:interviews)
-    FeatureFlag.deactivate(:updated_offer_flow)
   end
 
   scenario 'can view, create and cancel interviews' do
