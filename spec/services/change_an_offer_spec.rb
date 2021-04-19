@@ -20,6 +20,10 @@ RSpec.describe ChangeAnOffer do
     expect { service.save }.to change(application_choice, :offered_course_option_id)
   end
 
+  it 'changes current_course_option_id' do
+    expect { service.save }.to change(application_choice, :current_course_option_id)
+  end
+
   it 'does not change offered_at' do
     expect { service.save }.not_to change(application_choice, :offered_at)
   end

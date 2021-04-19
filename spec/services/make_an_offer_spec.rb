@@ -96,6 +96,14 @@ RSpec.describe MakeAnOffer, sidekiq: true do
       expect(application_choice.offered_course_option_id).to eq valid_course_option.id
     end
 
+    it 'sets current_course_option_id' do
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
+
+      offer.save
+
+      expect(application_choice.current_course_option_id).to eq valid_course_option.id
+    end
+
     it 'sets the decline_by_default_at date' do
       MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option).save
       application_choice.reload

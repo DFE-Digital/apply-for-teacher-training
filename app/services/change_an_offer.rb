@@ -28,6 +28,7 @@ class ChangeAnOffer
         now = Time.zone.now
         attributes = {
           offered_course_option: @course_option,
+          current_course_option_id: @course_option.id,
           offer_changed_at: now,
         }
         attributes[:offer] = { 'conditions' => @offer_conditions } if @offer_conditions
