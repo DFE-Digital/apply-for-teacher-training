@@ -1,0 +1,60 @@
+<%= govuk_cookie_banner(
+  title: "Cookies on #{service_name}",
+  html_attributes: {
+    hidden: false,
+    aria: {
+      label: "Cookies on #{service_name}",
+    },
+    data: {
+      module: 'govuk-fallback-cookie-banner',
+      qa: 'fallback-cookie-banner',
+    },
+  },
+) do |cookie_banner| %>
+  <%= cookie_banner.with(:body) do %>
+    <p class="govuk-body">We use cookies to make this service work and collect analytics information. To accept or reject cookies, turn on JavaScript in your browser settings or reload this page.</p>
+  <% end %>
+<% end %>
+
+<%= govuk_cookie_banner(
+  title: "Cookies on #{service_name}",
+  html_attributes: {
+    hidden: true,
+    data: {
+      module: 'govuk-cookie-banner',
+      service: service_name_short,
+    },
+    aria: {
+      label: "Cookies on #{service_name}",
+    },
+  },
+) do |cookie_banner| %>
+  <%= cookie_banner.with(:body) do %>
+    <p class="govuk-body">We use some essential cookies to make this service work.</p>
+    <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+  <% end %>
+  <%= cookie_banner.with(:actions) do %>
+    <button type="button" class="govuk-button" data-accept-cookie="true">Accept analytics cookies</button>
+    <button type="button" class="govuk-button" data-accept-cookie="false">Reject analytics cookies</button>
+    <%= govuk_link_to('View cookies', namespace_cookies_path) %>
+  <% end %>
+<% end %>
+
+<%= govuk_cookie_banner(
+  html_attributes: {
+    hidden: true,
+    data: {
+      module: 'govuk-cookie-confirmation-banner',
+    },
+    aria: {
+      label: "Cookies on #{service_name}",
+    },
+  },
+) do |cookie_banner| %>
+  <%= cookie_banner.with(:body) do %>
+    <p>You’ve <span id="user-answer"></span> analytics cookies. You can <%= govuk_link_to('change your cookie settings', namespace_cookies_path) %> at any time.</p>
+  <% end %>
+  <%= cookie_banner.with(:actions) do %>
+    <button type="button" class="govuk-button">Hide this message</button>
+  <% end %>
+<% end %>

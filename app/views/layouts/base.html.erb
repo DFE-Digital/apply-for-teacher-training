@@ -42,27 +42,7 @@
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
-<% unless current_page?(candidate_interface_cookies_path) || current_page?(provider_interface_cookies_path) %>
-  <% if try(:current_namespace).eql?('candidate_interface') && cookies['consented-to-apply-cookies'].blank? %>
-    <%= render 'shared/cookies_banner',
-      cookies_path: candidate_interface_cookies_path,
-      service_name: 'Apply for teacher training',
-      current_namespace: 'candidate_interface' %>
-  <% elsif try(:current_namespace).eql?('provider_interface') && cookies['consented-to-manage-cookies'].blank? %>
-    <%= render 'shared/cookies_banner',
-      cookies_path: provider_interface_cookies_path,
-      service_name: 'Manage teacher training applications',
-      current_namespace: 'provider_interface' %>
-  <% elsif try(:current_namespace).eql?('candidate_interface') && session[:display_cookie_consent_confirmation] %>
-    <%= render 'shared/cookies_confirmation_banner',
-      consented: cookies['consented-to-apply-cookies'],
-      current_namespace: 'candidate_interface' %>
-  <% elsif try(:current_namespace).eql?('provider_interface') && session[:display_cookie_consent_confirmation] %>
-    <%= render 'shared/cookies_confirmation_banner',
-      consented: cookies['consented-to-manage-cookies'],
-      current_namespace: 'provider_interface' %>
-  <% end %>
-<% end %>
+    <%= render CookieBannersComponent.new(current_namespace: try(:current_namespace), request_path: request.path) %>
 
     <%= govuk_skip_link %>
 
