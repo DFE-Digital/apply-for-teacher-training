@@ -69,7 +69,7 @@ private
 
     cookies.signed[:sign_in_confirmation] = {
       value: @local_user.id,
-      expires: 20.years.from_now,
+      expires: 6.months.from_now,
       httponly: true,
       secure: Rails.env.production?,
     }

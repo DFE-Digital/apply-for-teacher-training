@@ -8,10 +8,15 @@ RSpec.feature 'Candidate account' do
     given_the_pilot_is_open
     and_i_am_an_existing_candidate
 
-    when_i_sign_in_and_out
+    when_i_sign_in
+    and_i_sign_out
+    then_i_should_not_receive_a_new_notification_email
 
     when_i_sign_in_from_a_new_device
     then_i_should_receive_a_notification_email
+
+    when_i_sign_in
+    then_i_should_not_receive_a_new_notification_email
   end
 
   def given_the_pilot_is_open
@@ -22,7 +27,7 @@ RSpec.feature 'Candidate account' do
     current_candidate
   end
 
-  def when_i_sign_in_and_out
+  def when_i_sign_in
     visit candidate_interface_sign_in_path
     fill_in 'Enter your email address', with: current_candidate.email_address
     click_button t('continue')
@@ -35,7 +40,9 @@ RSpec.feature 'Candidate account' do
     within 'header' do
       expect(page).to have_content current_candidate.email_address
     end
+  end
 
+  def and_i_sign_out
     click_link 'Sign out'
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
@@ -65,5 +72,10 @@ RSpec.feature 'Candidate account' do
     expect(current_email).to have_content('We detected you have signed in to Apply for teacher training from a new device.')
     expect(current_email).to have_content('192.168.0.1')
     expect(current_email).to have_content('Firefox')
+  end
+
+  def then_i_should_not_receive_a_new_notification_email
+    open_email(current_candidate.email_address)
+    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
   end
 end

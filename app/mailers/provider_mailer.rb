@@ -16,7 +16,7 @@ class ProviderMailer < ApplicationMailer
 
     notify_email(
       to: provider_user.email_address,
-      subject: 'New sign in to your Apply for teacher training account',
+      subject: I18n.t!('provider_mailer.confirm_sign_in.subject'),
     )
   end
 

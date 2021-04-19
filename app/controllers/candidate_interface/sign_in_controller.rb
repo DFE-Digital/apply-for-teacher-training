@@ -53,7 +53,6 @@ module CandidateInterface
         add_identity_to_log(candidate.id)
         authentication_token.use!
 
-        @local_user = get_local_user
         send_candidate_sign_in_confirmation_email unless first_sign_in
 
         redirect_to candidate_interface_interstitial_path(path: params[:path])
@@ -103,26 +102,24 @@ module CandidateInterface
     end
 
     def send_candidate_sign_in_confirmation_email
-      return if cookies.signed[:sign_in_confirmation] == @local_user.id
+      raise 'Tried to send a confirmation email to a nonexistent candidate' unless current_candidate
+
+      return if cookies.signed[:sign_in_confirmation] == current_candidate.id
 
       cookies.signed[:sign_in_confirmation] = {
-        value: @local_user.id,
-        expires: 20.years.from_now,
+        value: current_candidate.id,
+        expires: 6.months.from_now,
         httponly: true,
         secure: Rails.env.production?,
       }
 
       CandidateMailer.confirm_sign_in(
-        @local_user,
+        current_candidate,
         device: {
           user_agent: request.user_agent,
           ip_address: request.remote_ip,
         },
       ).deliver_later
-    end
-
-    def get_local_user
-      !@local_user.nil? ? @local_user : @local_user = (current_candidate || false)
     end
   end
 end

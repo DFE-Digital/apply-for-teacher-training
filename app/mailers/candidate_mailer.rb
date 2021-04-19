@@ -1,13 +1,13 @@
 class CandidateMailer < ApplicationMailer
   layout 'candidate_email_with_support_footer'
 
-  def confirm_sign_in(candidate_user, device:)
-    @candidate_user = candidate_user
+  def confirm_sign_in(candidate, device:)
+    @candidate = candidate
     @device = device
 
     notify_email(
-      to: candidate_user.email_address,
-      subject: 'New sign in to your Apply for teacher training account',
+      to: candidate.email_address,
+      subject: I18n.t!('candidate_mailer.confirm_sign_in.subject'),
     )
   end
 
