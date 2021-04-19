@@ -42,8 +42,11 @@ en:
       missing: Science GCSE not complete
       enter_missing: Enter all values for Science GCSE or equivalent
     other_qualifications:
-      incomplete: The academic and other relevant qualifications section has an incomplete qualification
-      complete_section: Complete your academic and other relevant qualifications
+      incomplete: A levels and other qualifications not marked as complete
+      complete_section: Complete your other qualifications
+    other_qualifications_international:
+      incomplete: The other qualifications section is not marked as complete
+      complete_section: Complete your other qualifications
     efl:
       incomplete: English as a foreign language not marked as complete
       complete_section: Have you done an English as a foreign language assessment?
