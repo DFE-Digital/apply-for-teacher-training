@@ -191,4 +191,53 @@ RSpec.describe WorkHistoryComponent do
       expect(rendered.text).to include 'Pig herder - Part time'
     end
   end
+
+  context 'with work experiences with approximate start and end dates' do
+    it 'renders work experience details, explained break and approximate dates' do
+      application_form = instance_double(ApplicationForm, submitted_at: Time.zone.local(2020, 2, 1))
+      breaks = [
+        build(
+          :application_work_history_break,
+          start_date: Date.new(2018, 2, 1),
+          end_date: Date.new(2019, 12, 1),
+          reason: 'I found sheep farming very stressful and needed to take time off work',
+        ),
+      ]
+      experiences = [
+        build(
+          :application_work_experience,
+          start_date: Date.new(2014, 10, 1),
+          end_date: Date.new(2018, 2, 1),
+          start_date_unknown: true,
+          end_date_unknown: true,
+          role: 'Sheep herder',
+          commitment: 'full_time',
+          working_pattern: '',
+          organisation: 'Bobs Farm',
+          details: 'Livestock management',
+        ),
+        build(
+          :application_work_experience,
+          start_date: Date.new(2020, 1, 1),
+          end_date: nil,
+          start_date_unknown: true,
+          role: 'Pig herder',
+          commitment: 'part_time',
+          working_pattern: '',
+          organisation: 'Alices Farm',
+          details: 'Livestock management',
+        ),
+      ]
+      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
+      allow(application_form).to receive(:application_work_history_breaks).and_return(breaks)
+
+      rendered = render_inline(described_class.new(application_form: application_form))
+      expect(rendered.text).to include 'October 2014 (approximate) - February 2018 (approximate)'
+      expect(rendered.text).to include 'Sheep herder - Full time'
+      expect(rendered.text).to include 'Break (1 year and 10 months)'
+      expect(rendered.text).to include 'I found sheep farming very stressful and needed to take time off work'
+      expect(rendered.text).to include 'January 2020 (approximate) - Present'
+      expect(rendered.text).to include 'Pig herder - Part time'
+    end
+  end
 end

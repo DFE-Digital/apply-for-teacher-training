@@ -42,11 +42,19 @@ private
   attr_accessor :item
 
   def formatted_start_date
+    if item.is_a?(ApplicationWorkExperience) && item.start_date_unknown
+      return "#{item.start_date.to_s(:month_and_year)} (approximate)"
+    end
+
     item.start_date.to_s(:month_and_year)
   end
 
   def formatted_end_date
     return 'Present' if item.end_date.nil?
+
+    if item.is_a?(ApplicationWorkExperience) && item.end_date_unknown
+      return "#{item.end_date.to_s(:month_and_year)} (approximate)"
+    end
 
     item.end_date.to_s(:month_and_year)
   end
