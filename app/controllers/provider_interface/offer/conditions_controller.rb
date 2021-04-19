@@ -7,7 +7,7 @@ module ProviderInterface
       end
 
       def create
-        @wizard = OfferWizard.new(offer_store, conditions_attributes_for_wizard)
+        @wizard = OfferWizard.new(offer_store, conditions_attributes_for_wizard.merge!(current_step: 'conditions'))
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
@@ -24,7 +24,7 @@ module ProviderInterface
       end
 
       def update
-        @wizard = OfferWizard.new(offer_store, conditions_attributes_for_wizard)
+        @wizard = OfferWizard.new(offer_store, conditions_attributes_for_wizard.merge!(current_step: 'conditions'))
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!

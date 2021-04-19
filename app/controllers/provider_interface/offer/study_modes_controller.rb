@@ -10,7 +10,7 @@ module ProviderInterface
       end
 
       def create
-        @wizard = OfferWizard.new(offer_store, study_mode_params.to_h)
+        @wizard = OfferWizard.new(offer_store, study_mode_params.to_h.merge!(decision: 'change_offer', current_step: 'study_modes'))
         @wizard.course_option_id = nil if @wizard.course_option_id && @wizard.course_option.study_mode != @wizard.study_mode
 
         if @wizard.valid_for_current_step?
@@ -34,7 +34,7 @@ module ProviderInterface
       end
 
       def update
-        @wizard = OfferWizard.new(offer_store, study_mode_params.to_h)
+        @wizard = OfferWizard.new(offer_store, study_mode_params.to_h.merge!(current_step: 'study_modes'))
         @wizard.course_option_id = nil if @wizard.course_option_id && @wizard.course_option.study_mode != @wizard.study_mode
 
         if @wizard.valid_for_current_step?

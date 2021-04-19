@@ -17,7 +17,7 @@ module ProviderInterface
     end
 
     def create
-      @wizard = OfferWizard.new(offer_store, { decision: selected_decision })
+      @wizard = OfferWizard.new(offer_store, { decision: selected_decision, current_step: 'select_option' })
 
       if @wizard.valid_for_current_step?
 
