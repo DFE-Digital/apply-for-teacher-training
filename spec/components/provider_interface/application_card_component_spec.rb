@@ -157,13 +157,13 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     context 'when 1 day is left to respond' do
-      let(:rbd) { 2.days.from_now.midday }
+      let(:rbd) { 1.day.from_now.end_of_day }
 
       it { is_expected.to eq('1 day to make decision') }
     end
 
     context 'when 2 days are left to respond' do
-      let(:rbd) { 3.days.from_now.midday }
+      let(:rbd) { 2.days.from_now.end_of_day }
 
       it { is_expected.to eq('2 days to make decision') }
     end
