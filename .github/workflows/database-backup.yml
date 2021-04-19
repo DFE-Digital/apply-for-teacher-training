@@ -1,0 +1,38 @@
+name: Backup Database to Azure Storage
+
+on:
+  workflow_dispatch:
+  schedule: # 01:00 UTC
+    - cron: '0 1 * * *'
+
+jobs:
+  backup:
+    name: Backup PaaS Database (production)
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+    - name: Setup cf cli
+      uses: DFE-Digital/github-actions/setup-cf-cli@master
+      with:
+        CF_USERNAME:   ${{ secrets.CF_USERNAME }}
+        CF_PASSWORD:   ${{ secrets.CF_PASSWORD }}
+        CF_SPACE_NAME: ${{ secrets.CF_SPACE }}
+        INSTALL_CONDUIT: true
+
+    - name: Setup postgres client
+      uses: DFE-Digital/github-actions/install-postgres-client@master
+
+    - name: Set environment variable
+      run: echo "BACKUP_FILE_NAME=apply_prod_$(date +"%F-%H-%M-%S")" >> $GITHUB_ENV
+
+    - name: Backup Prod DB
+      run: |
+        cf conduit apply-postgres-prod -- pg_dump -E utf8 --clean --if-exists --no-owner --verbose --no-password -f ${BACKUP_FILE_NAME}.sql
+        tar -cvzf ${BACKUP_FILE_NAME}.tar.gz ${BACKUP_FILE_NAME}.sql
+
+    - name: Upload Backup to Azure Storage
+      run: |
+        az storage blob upload --container-name prod-db-backup \
+        --file ${BACKUP_FILE_NAME}.tar.gz --name ${BACKUP_FILE_NAME}.tar.gz \
+        --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
