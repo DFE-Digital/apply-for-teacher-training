@@ -114,6 +114,9 @@ module SupportInterface
         .where.not(
           qualification_type: 'non_uk',
         )
+        .where.not(
+          international: true,
+        )
         .all
     end
 
