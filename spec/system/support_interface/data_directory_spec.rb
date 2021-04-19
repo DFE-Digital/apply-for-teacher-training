@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Data export', sidekiq: false do
   include DfESignInHelpers
 
+  around do |example|
+    Timecop.freeze { example.run }
+  end
+
   scenario 'Support user navigates the data directory' do
     given_i_am_a_support_user
     and_there_are_provider_users_in_the_system
@@ -21,6 +25,10 @@ RSpec.feature 'Data export', sidekiq: false do
     when_i_go_back_to_the_export_page
     and_i_click_on_the_export_history
     then_i_see_a_record_of_my_completed_export
+
+    when_i_go_back_to_the_data_directory_page
+    and_i_click_on_the_full_export_history
+    then_i_see_a_list_of_all_exports
   end
 
   def given_i_am_a_support_user
@@ -48,6 +56,7 @@ RSpec.feature 'Data export', sidekiq: false do
   def when_i_visit_the_data_directory_page
     visit support_interface_data_directory_path
   end
+  alias_method :when_i_go_back_to_the_data_directory_page, :when_i_visit_the_data_directory_page
 
   def and_i_click_on_view_export_information
     click_link 'Active provider user permissions'
@@ -96,8 +105,18 @@ RSpec.feature 'Data export', sidekiq: false do
 
   def then_i_see_a_record_of_my_completed_export
     expect(page).to have_content 'Status'
-    expect(page).to have_content 'Name'
     expect(page).to have_content 'Initiated by'
     expect(page).to have_content 'Completed'
+  end
+
+  def and_i_click_on_the_full_export_history
+    click_link 'History'
+  end
+
+  def then_i_see_a_list_of_all_exports
+    expect(page).to have_content 'Completed'
+    expect(page).to have_content Time.zone.now.to_s(:govuk_date_and_time)
+    expect(page).to have_link 'Active provider user permissions'
+    expect(page).to have_content 'user@apply-support.com'
   end
 end
