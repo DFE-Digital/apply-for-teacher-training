@@ -6,15 +6,15 @@ class TaskListItemComponent < ViewComponent::Base
     path:,
     text:,
     show_incomplete: true,
-    submitted: false,
-    custom_status: nil
+    custom_status: nil,
+    custom_color: nil
   )
     @completed = completed
     @path = path
     @text = text
     @show_incomplete = show_incomplete
-    @submitted = submitted
     @custom_status = custom_status
+    @custom_color = custom_color
   end
 
   def tag_id
@@ -23,5 +23,5 @@ class TaskListItemComponent < ViewComponent::Base
 
 private
 
-  attr_reader :completed, :path, :text, :show_incomplete, :submitted, :custom_status
+  attr_reader :completed, :path, :text, :show_incomplete, :custom_status, :custom_color
 end
