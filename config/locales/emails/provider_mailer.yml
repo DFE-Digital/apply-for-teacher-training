@@ -28,3 +28,5 @@ en:
         subject: Duplicate application withdrawn
     courses_open_on_apply:
       subject: Your courses are live on Apply and you have access to Manage
+    confirm_sign_in:
+      subject: New sign in to Manage teacher training applications  

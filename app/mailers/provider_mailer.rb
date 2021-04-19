@@ -10,6 +10,16 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def confirm_sign_in(provider_user, device:)
+    @provider_user = provider_user
+    @device = device
+
+    notify_email(
+      to: provider_user.email_address,
+      subject: I18n.t!('provider_mailer.confirm_sign_in.subject'),
+    )
+  end
+
   def application_submitted(provider_user, application_choice)
     @application = map_application_choice_params(application_choice)
 

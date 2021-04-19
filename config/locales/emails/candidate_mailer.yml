@@ -109,3 +109,5 @@ en:
       subject: Interview details updated - %{provider_name}
     interview_cancelled:
       subject: Interview cancelled - %{provider_name}
+    confirm_sign_in:
+      subject: New sign in to your Apply for teacher training account
