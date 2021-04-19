@@ -61,6 +61,15 @@ class ProviderUser < ApplicationRecord
     provider_permissions.exists?(manage_organisations: true)
   end
 
+  def primary_provider_type
+    provider_types = providers.map(&:provider_type)
+
+    return 'university' if provider_types.include?('university')
+    return 'scitt' if provider_types.include?('scitt')
+
+    'school_direct'
+  end
+
 private
 
   def downcase_email_address

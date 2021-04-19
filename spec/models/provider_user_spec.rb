@@ -159,4 +159,34 @@ RSpec.describe ProviderUser, type: :model do
       expect(loaded_user.impersonator).to eq(support_user)
     end
   end
+
+  describe '#primary_provider_type' do
+    it 'returns university if the user belongs to a university provider organisation' do
+      provider_user = build_stubbed(:provider_user, providers: [
+        build_stubbed(:provider, provider_type: 'university'),
+        build_stubbed(:provider, provider_type: 'scitt'),
+        build_stubbed(:provider, provider_type: 'school_direct'),
+      ])
+
+      expect(provider_user.primary_provider_type).to eq('university')
+    end
+
+    it 'returns scitt if the user belongs to a scitt provider organisation but not a university' do
+      provider_user = build_stubbed(:provider_user, providers: [
+        build_stubbed(:provider, provider_type: 'scitt'),
+        build_stubbed(:provider, provider_type: 'school_direct'),
+      ])
+
+      expect(provider_user.primary_provider_type).to eq('scitt')
+    end
+
+    it 'returns school_direct if the user only belongs to schools direct providers' do
+      provider_user = build_stubbed(:provider_user, providers: [
+        build_stubbed(:provider, provider_type: 'school_direct'),
+        build_stubbed(:provider, provider_type: 'school_direct'),
+      ])
+
+      expect(provider_user.primary_provider_type).to eq('school_direct')
+    end
+  end
 end
