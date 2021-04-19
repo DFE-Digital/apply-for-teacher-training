@@ -196,8 +196,8 @@ module ProviderInterface
       condition_models.map(&:valid?).all?
 
       condition_models.each do |model|
-        model.errors.each do |key, message|
-          errors.add("further_conditions[#{model.id}][#{key}]", message)
+        model.errors.each do |error|
+          errors.add("further_conditions[#{model.id}][#{error.attribute}]", error.message)
         end
       end
     end

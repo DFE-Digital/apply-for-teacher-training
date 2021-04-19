@@ -12,8 +12,8 @@ FactoryBot.define do
     age_range { '4 to 8' }
     withdrawn { false }
 
-    subject_codes { [Faker::Alphanumeric.alphanumeric(number: 2, min_alpha: 1).upcase] }
     funding_type { %w[fee salary apprenticeship].sample }
+    course_subjects { [association(:course_subject, course: instance)] }
 
     trait :open_on_apply do
       open_on_apply { true }

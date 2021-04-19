@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa, staging, production, sandbox]
+        environment: [production, sandbox]
         include:
          - environment: production
            NAME_SUFFIX: prod

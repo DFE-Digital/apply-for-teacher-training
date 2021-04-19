@@ -95,7 +95,7 @@ class CandidateMailer < ApplicationMailer
     @course = application_choice.course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @offer = application_choice.self_and_siblings.find(&:offer?)
-    @awaiting_decision = application_choice.self_and_siblings.find(&:awaiting_provider_decision?)
+    @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
     @awaiting_decision_by = @awaiting_decision.reject_by_default_at.to_s(:govuk_date)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
@@ -105,7 +105,7 @@ class CandidateMailer < ApplicationMailer
   def application_rejected_awaiting_decision_only(application_choice)
     @course = application_choice.course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @awaiting_decision = application_choice.self_and_siblings.select(&:awaiting_provider_decision?)
+    @awaiting_decision = application_choice.self_and_siblings.select(&:decision_pending?)
     @awaiting_decisions_by = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last.to_s(:govuk_date)
 
     email_for_candidate(application_choice.application_form)
@@ -221,7 +221,7 @@ class CandidateMailer < ApplicationMailer
 
     @course_option = @application_choice.course_option
     @offered_course_option = @application_choice.offered_course_option
-    @is_awaiting_decision = application_choice.self_and_siblings.any?(&:awaiting_provider_decision?)
+    @is_awaiting_decision = application_choice.self_and_siblings.decision_pending.any?
     @offers = @application_choice.self_and_siblings.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end

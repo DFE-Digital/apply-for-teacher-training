@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::ApplicationOfferWithdrawnFeedbackComponent do
     let(:application_choice) { create(:application_choice, :with_withdrawn_offer) }
 
     it 'renders the date of offer withdrawal' do
-      expect(render.text).to include('The offer was withdrawn on 31 October 2021')
+      expect(render.text).to include("The offer was withdrawn on #{application_choice.offer_withdrawn_at.to_s(:govuk_date)}")
     end
 
     it 'renders the reasons for offer withdrawal' do

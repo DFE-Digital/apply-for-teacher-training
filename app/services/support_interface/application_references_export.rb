@@ -11,7 +11,7 @@ module SupportInterface
           application_state: ProcessState.new(application_form).state,
         }
 
-        application_form.application_references.map.with_index(1) do |reference, index|
+        application_form.application_references.reject(&:duplicate).map.with_index(1) do |reference, index|
           output[:"ref_#{index}_type"] = reference.referee_type
           output[:"ref_#{index}_state"] = reference.feedback_status
           output[:"ref_#{index}_requested_at"] = reference.requested_at

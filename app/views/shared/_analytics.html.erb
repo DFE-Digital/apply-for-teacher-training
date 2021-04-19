@@ -1,6 +1,6 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=<%= @google_analytics_id %>"></script>
-<script>
+<script nonce="<%= request.content_security_policy_nonce %>">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());

@@ -14,7 +14,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
 
   def given_there_is_an_existing_provider_and_course_in_apply
     @existing_provider = create :provider, code: 'ABC', sync_courses: true
-    create :course, code: 'ABC1', provider: @existing_provider, subject_codes: %w[]
+    create :course, code: 'ABC1', provider: @existing_provider, subjects: %w[]
   end
 
   def and_there_is_a_provider_with_a_course_in_find
@@ -36,6 +36,9 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def when_the_sync_runs
+    sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
+    allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
+
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 

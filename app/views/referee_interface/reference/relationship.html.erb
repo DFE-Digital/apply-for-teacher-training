@@ -16,7 +16,7 @@
 
       <p class="govuk-body"><%= @application.full_name %> describes your relationship as follows:</p>
 
-      <p class="govuk-inset-text"><%= @relationship %></p>
+      <%= govuk_inset_text(text: @relationship) %>
 
       <%= f.govuk_radio_buttons_fieldset :relationship_confirmation, legend: { text: t('referee.relationship_confirmation.legend') } do %>
         <%= f.govuk_radio_button :relationship_confirmation, :yes, label: { text: t('referee.relationship_confirmation.yes.label') }, link_errors: true %>

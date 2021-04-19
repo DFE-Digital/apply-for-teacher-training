@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate without an acccount arrives after the apply1 deadline' do
+  include CycleTimetableHelper
+
   around do |example|
-    Timecop.freeze(EndOfCycleTimetable.find_reopens.end_of_day + 1.hour) do
+    Timecop.freeze(after_apply_1_deadline) do
       example.run
     end
   end

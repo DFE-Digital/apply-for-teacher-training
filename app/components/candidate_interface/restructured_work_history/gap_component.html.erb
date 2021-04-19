@@ -1,6 +1,6 @@
-<div class="govuk-inset-text app-inset-text--important govuk-!-margin-top-0 govuk-!-margin-bottom-0">
+<%= govuk_inset_text(classes: 'app-inset-text--important govuk-!-margin-top-0 govuk-!-margin-bottom-0') do %>
   You have a break in your work history (<%= format_months_to_years_and_months(@break_period.length) %>)
   <br>
   <%= govuk_link_to 'Add another job', candidate_interface_new_restructured_work_history_path %> or
   <%= govuk_link_to 'add a reason for this break', candidate_interface_new_restructured_work_history_break_path(start_date: @break_period.start_date, end_date: @break_period.end_date) %>
-</div>
+<% end %>

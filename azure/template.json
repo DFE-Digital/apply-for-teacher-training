@@ -458,6 +458,20 @@
             "metadata": {
                 "description": "Google analytics code for Manage"
             }
+        },
+        "googleTagManagerApply": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Google Tag Manager code for Apply"
+            }
+        },
+        "googleTagManagerManage": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Google Tag Manager code for Manage"
+            }
         }
     },
     "variables": {
@@ -832,6 +846,14 @@
                             {
                                 "name": "GOOGLE_ANALYTICS_MANAGE",
                                 "value": "[parameters('googleAnalyticsManage')]"
+                            },
+                            {
+                                "name": "GOOGLE_TAG_MANAGER_APPLY",
+                                "value": "[parameters('googleTagManagerApply')]"
+                            },
+                            {
+                                "name": "GOOGLE_TAG_MANAGER_MANAGE",
+                                "value": "[parameters('googleTagManagerManage')]"
                             }
                         ]
                     }

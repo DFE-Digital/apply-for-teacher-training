@@ -16,13 +16,13 @@
         Your feedback will be given to the candidate in the format below.
       </p>
 
-      <div class="govuk-inset-text">
+      <%= govuk_inset_text do %>
         <%= render ReasonsForRejectionComponent.new(
           application_choice: @application_choice,
           reasons_for_rejection: @wizard.to_model,
           editable: true,
         ) %>
-      </div>
+      <% end %>
 
       <% if @application_choice.rejected_by_default? %>
         <%= f.govuk_submit 'Send feedback' %>

@@ -40,6 +40,16 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_already_have_3_courses
+
+    given_the_course_i_selected_has_multiple_sites
+    and_i_am_an_existing_candidate_on_apply
+    and_i_am_signed_in
+    and_i_am_applying_again
+    and_i_have_1_application_choice
+
+    when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
+    then_i_should_see_the_courses_review_page
+    and_i_should_be_informed_i_can_only_have_1_course_choice
   end
 
   def given_the_pilot_is_open
@@ -170,6 +180,18 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_should_be_informed_i_have_already_selected_that_course
     expect(page).to have_content "You have already selected #{@course.name_and_code}."
+  end
+
+  def and_i_am_applying_again
+    @candidate.current_application.apply_2!
+  end
+
+  def and_i_have_1_application_choice
+    create(:application_choice, application_form: @candidate.current_application)
+  end
+
+  def and_i_should_be_informed_i_can_only_have_1_course_choice
+    expect(page).to have_content t('errors.messages.apply_again_course_already_chosen', course_name_and_code: @course.name_and_code)
   end
 
 private

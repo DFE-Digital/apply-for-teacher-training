@@ -28,7 +28,7 @@ module ProviderInterface
     end
 
     def organisation_row
-      build_row(:provider_id, @interview_form.provider.name)
+      build_row(:provider_id, @interview_form.provider.name, editable: @interview_form.multiple_application_providers?)
     end
 
     def location_row
@@ -39,13 +39,13 @@ module ProviderInterface
       build_row(:additional_details, @interview_form.additional_details.presence || 'None')
     end
 
-    def build_row(field, value)
+    def build_row(field, value, editable: true)
       key = key_for_field(field)
       {
         key: key,
         value: value,
         action: key.downcase,
-        change_path: change_path(field),
+        change_path: editable ? change_path(field) : nil,
       }
     end
 

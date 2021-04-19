@@ -7,7 +7,7 @@ module TaskViewHelper
     when 4 then 'Ready for review'
     when 5 then 'Interviewing'
     when 6 then 'Offers pending conditions (previous cycle)'
-    when 7 then 'Waiting for candidate action'
+    when 7 then 'Waiting for candidate to respond to offer'
     when 8 then 'Offers pending conditions (current cycle)'
     when 9 then 'Successful candidates'
     when 10 then 'Deferred offers'

@@ -55,7 +55,7 @@ module ProviderInterface
     end
 
     def awaiting_decision_but_cannot_respond?
-      !provider_can_respond && application_choice.awaiting_provider_decision?
+      !provider_can_respond && application_choice.decision_pending?
     end
 
     def waiting_for_interview?

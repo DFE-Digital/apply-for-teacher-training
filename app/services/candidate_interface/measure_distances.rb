@@ -21,7 +21,7 @@ module CandidateInterface
   private
 
     def has_coordinates?(model)
-      model && model.geocoded?
+      model&.geocoded?
     end
   end
 end

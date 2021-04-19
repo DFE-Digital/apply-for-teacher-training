@@ -111,4 +111,12 @@ RSpec.describe Course, type: :model do
       expect(course.in_previous_cycle).to eq course_in_previous_cycle
     end
   end
+
+  describe '#subject_codes' do
+    let(:course) { create(:course, subjects: [create(:subject, code: '01'), create(:subject, code: '9X')]) }
+
+    it 'returns an array with all the codes of the course subjects' do
+      expect(course.subject_codes).to contain_exactly('01', '9X')
+    end
+  end
 end

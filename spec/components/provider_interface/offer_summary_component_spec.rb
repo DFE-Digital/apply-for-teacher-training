@@ -24,8 +24,9 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     rows = {
       provider: 0,
       course: 1,
-      location: 2,
-      full_or_part_time: 3,
+      full_or_part_time: 2,
+      location: 3,
+      accredited_provider: 4,
     }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
@@ -74,7 +75,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
 
     it 'renders a change link' do
       course_options_change_link = Rails.application.routes.url_helpers.new_provider_interface_application_choice_offer_locations_path(application_choice)
-      expect(row_link_selector(2)).to eq(course_options_change_link)
+      expect(row_link_selector(3)).to eq(course_options_change_link)
     end
   end
 
@@ -82,7 +83,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     let(:course_options) { [build_stubbed(:course_option)] }
 
     it 'renders no change link' do
-      expect(row_link_selector(2)).to eq(nil)
+      expect(row_link_selector(3)).to eq(nil)
     end
   end
 
@@ -91,7 +92,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
 
     it 'renders a change link' do
       study_mode_change_link = Rails.application.routes.url_helpers.new_provider_interface_application_choice_offer_study_modes_path(application_choice)
-      expect(row_link_selector(3)).to eq(study_mode_change_link)
+      expect(row_link_selector(2)).to eq(study_mode_change_link)
     end
   end
 
@@ -99,7 +100,7 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     let(:course) { build_stubbed(:course, study_mode: :full_time) }
 
     it 'renders no change link' do
-      expect(row_link_selector(3)).to eq(nil)
+      expect(row_link_selector(2)).to eq(nil)
     end
   end
 
@@ -108,6 +109,15 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
     expect(row_text_selector(:course, render)).to include(course_option.course.name_and_code)
     expect(row_text_selector(:location, render)).to include(course_option.site.name_and_address)
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
+  end
+
+  context 'when the accredited provider is not the same as the training provider' do
+    let(:course) { build_stubbed(:course, :with_accredited_provider) }
+    let(:course_option) { build_stubbed(:course_option, course: course) }
+
+    it 'renders an extra row with the accredited provider details' do
+      expect(row_text_selector(:accredited_provider, render)).to include(course.accredited_provider.name_and_code)
+    end
   end
 
   context 'when conditions are set' do

@@ -106,7 +106,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
             first_name: 'Jim',
             last_name: 'James',
           ),
-          updated_at: Date.parse('25-03-2020'),
+          updated_at: 2.months.ago,
         )
       end
 
@@ -120,14 +120,13 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
   describe '#days_to_respond_text' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
+      Timecop.freeze { example.run }
     end
 
     let(:application_choice) do
       create(
         :application_choice,
         :awaiting_provider_decision,
-        updated_at: Time.zone.parse('2020-06-01T09:05:00+01:00'),
       )
     end
 
@@ -138,7 +137,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     context 'when application status is not awaiting_provider_decision' do
-      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
+      let(:rbd) { Time.zone.now }
 
       before { application_choice.status = 'offer' }
 
@@ -146,37 +145,75 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     context 'when reject_by_default_at is in the past' do
-      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
-
-      before { application_choice.reject_by_default_at = Time.zone.parse('2020-05-30T09:05:00+01:00') }
+      let(:rbd) { 1.day.ago }
 
       it { is_expected.to be_nil }
     end
 
     context 'when less than a day is left to respond' do
-      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
+      let(:rbd) { 1.hour.from_now }
 
-      it { is_expected.to eq('Less than 1 day to respond') }
+      it { is_expected.to eq('Last day to make decision') }
     end
 
     context 'when 1 day is left to respond' do
-      let(:rbd) { Time.zone.parse('2020-06-03T09:05:00+01:00') }
+      let(:rbd) { 1.day.from_now.end_of_day }
 
-      it { is_expected.to eq('1 day to respond') }
+      it { is_expected.to eq('1 day to make decision') }
     end
 
     context 'when 2 days are left to respond' do
-      let(:rbd) { Time.zone.parse('2020-06-04T09:05:00+01:00') }
+      let(:rbd) { 2.days.from_now.end_of_day }
 
-      it { is_expected.to eq('2 days to respond') }
+      it { is_expected.to eq('2 days to make decision') }
+    end
+  end
+
+  describe '#decision_by_date_text' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
+    end
+
+    let(:application_choice) do
+      create(
+        :application_choice,
+        :with_offer,
+        decline_by_default_at: dbd,
+      )
+    end
+
+    before { application_choice.decline_by_default_at = dbd }
+
+    subject(:candidate_days_to_respond_text) do
+      described_class.new(application_choice: application_choice).candidate_days_to_respond_text
+    end
+
+    context 'when decision_by_date is in the past' do
+      let(:dbd) { Time.zone.parse('2020-05-02T09:05:00+01:00') }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when less than a day is left to respond' do
+      let(:dbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
+
+      it { is_expected.to eq('Last day for candidate to respond') }
+    end
+
+    context 'when 1 day is left to respond' do
+      let(:dbd) { Time.zone.parse('2020-06-03T09:05:00+01:00') }
+
+      it { is_expected.to eq('1 day for candidate to respond') }
+    end
+
+    context 'when 2 days are left to respond' do
+      let(:dbd) { Time.zone.parse('2020-06-04T09:05:00+01:00') }
+
+      it { is_expected.to eq('2 days for candidate to respond') }
     end
   end
 
   describe '#recruitment_cycle_text' do
-    around do |example|
-      Timecop.freeze(Time.zone.local(2020, 7, 31, 12, 30, 0)) { example.run }
-    end
-
     let(:current_year) { RecruitmentCycle.current_year }
 
     let(:course_option) { create(:course_option) }
@@ -186,8 +223,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         :application_choice,
         :awaiting_provider_decision,
         course_option: course_option,
-        reject_by_default_at: Time.zone.parse('2020-06-02T09:05:00+01:00'),
-        updated_at: Time.zone.parse('2020-06-02T09:05:00+01:00'),
       )
     end
 

@@ -57,7 +57,7 @@ jobs:
             type=registry,ref=${{ env.DOCKER_IMAGE }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
           build-args: |
-            VERSION=${{ github.sha }}
+            VERSION=paas-${{ github.sha }}
             BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
 
   lint:

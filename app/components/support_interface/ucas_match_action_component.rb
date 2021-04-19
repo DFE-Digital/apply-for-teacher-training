@@ -68,7 +68,7 @@ module SupportInterface
     def required_action_details
       capture do
         concat tag.p(ACTIONS[@match.next_action][:instructions])
-        concat tag.p("Please refer to #{govuk_link_to('Dual-running user support manual', 'https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4')} for more information about the current process.".html_safe)
+        concat tag.p("Please refer to the #{govuk_link_to('dual-running user support manual', 'https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4')} for more information about the current process.".html_safe)
       end
     end
 

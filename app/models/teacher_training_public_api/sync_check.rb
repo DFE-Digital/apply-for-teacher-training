@@ -1,5 +1,5 @@
 module TeacherTrainingPublicAPI
-  class SyncCheck < OkComputer::Check
+  class SyncCheck
     LAST_SUCCESSFUL_SYNC = 'last-successful-sync-with-teacher-training-api'.freeze
 
     def self.set_last_sync(date)
@@ -14,17 +14,11 @@ module TeacherTrainingPublicAPI
       Redis.current.get(LAST_SUCCESSFUL_SYNC)
     end
 
-    def check
-      last_date = self.class.last_sync
-
-      if last_date.nil?
-        mark_failure
-        mark_message 'Problem finding the time when the Teacher training API sync last succeeded'
-      elsif Time.zone.parse(last_date) < (Time.zone.now - 1.hour)
-        mark_failure
-        mark_message 'The sync with the Teacher training API has not succeeded in an hour'
+    def self.check
+      if last_sync.nil?
+        false
       else
-        mark_message 'The sync with the Teacher training API has succeeded in the last hour'
+        Time.zone.parse(last_sync) >= (Time.zone.now - 1.hour)
       end
     end
   end

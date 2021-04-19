@@ -1,3 +1,13 @@
+## 16th April
+
+`Qualification` now includes an optional `subject_code` field. This contains the HECoS code for the subject if it is available
+
+## 15th April
+
+Changes to existing attributes:
+
+- Update the return values of the `rejection` object `reason` field to return `Not entered` if there is no rejection reason yet provided on an application rejected by default.
+
 ## 31st March
 
 `Qualification.grade` now has a value of `Not entered` when the candidate did not provide a value. This used to be `null`, though we promised a string.

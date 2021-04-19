@@ -16,7 +16,7 @@
         as part of my application.
       </p>
 
-      <div class="govuk-inset-text">
+      <%= govuk_inset_text do %>
         <p class="govuk-body">
           As prospective teachers, all candidates must consent to an enhanced
           DBS check. This will show up any past criminal convictions, both
@@ -31,7 +31,7 @@
         <p class="govuk-body">
           <%= govuk_link_to t('application_form.submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
         </p>
-      </div>
+      <% end %>
 
       <%= f.govuk_radio_buttons_fieldset :further_information, legend: { text: t('application_form.further_information.further_information.label'), size: 'm' } do %>
         <%= f.govuk_radio_button :further_information, true, label: { text: 'Yes' }, link_errors: true do %>

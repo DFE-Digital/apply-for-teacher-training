@@ -33,7 +33,7 @@ private
   def resolve_ucas_match(application_choice)
     match = UCASMatches::RetrieveForApplicationChoice.new(application_choice).call
 
-    if match && match.ready_to_resolve? && match.duplicate_applications_withdrawn_from_apply?
+    if match&.ready_to_resolve? && match&.duplicate_applications_withdrawn_from_apply?
       UCASMatches::ResolveOnApply.new(match).call
     end
   end

@@ -154,10 +154,10 @@ FactoryBot.define do
 
     trait :with_offer do
       status { 'offer' }
-      decline_by_default_at { Time.zone.now + 7.days }
+      decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }
       offer { { 'conditions' => ['Be cool'] } }
-      offered_at { Time.zone.now - 3.days }
+      offered_at { Time.zone.now }
     end
 
     trait :with_modified_offer do
@@ -166,6 +166,8 @@ FactoryBot.define do
       after(:build) do |choice, _evaluator|
         other_course = create(:course, provider: choice.course_option.course.provider)
         choice.offered_course_option_id = create(:course_option, course: other_course).id
+        choice.offered_at = 3.business_days.ago
+        choice.decline_by_default_at = 7.business_days.from_now
       end
     end
 

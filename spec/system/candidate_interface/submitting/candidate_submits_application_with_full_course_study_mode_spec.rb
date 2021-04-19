@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application with full course study mode', skip: true do
+RSpec.feature 'Candidate submits the application with full course study mode' do
   include CandidateHelper
 
   scenario 'The location that the candidate picked has no full time vacancies but does have part time vacancies' do

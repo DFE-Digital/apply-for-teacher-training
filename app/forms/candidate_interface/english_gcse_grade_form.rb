@@ -240,7 +240,7 @@ module CandidateInterface
     end
 
     def sanitize(grade)
-      grade.delete(' ').upcase if grade
+      grade&.delete(' ')&.upcase
     end
 
     def invalid_grades

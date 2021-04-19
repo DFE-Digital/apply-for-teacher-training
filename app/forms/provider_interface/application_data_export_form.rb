@@ -37,13 +37,13 @@ module ProviderInterface
 
     def at_least_one_recruitment_cycle_year_is_selected
       if recruitment_cycle_years.all?(&:blank?)
-        errors[:recruitment_cycle_years] << 'Select at least one year'
+        errors.add(:recruitment_cycle_years, 'Select at least one year')
       end
     end
 
     def at_least_one_status_is_selected
       if statuses.all?(&:blank?)
-        errors[:statuses] << 'Select at least one status'
+        errors.add(:statuses, 'Select at least one status')
       end
     end
 

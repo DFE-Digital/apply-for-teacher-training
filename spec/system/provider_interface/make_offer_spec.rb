@@ -148,7 +148,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_new_location_selection
-    within(:xpath, "////div[@class='govuk-summary-list__row'][3]") do
+    within(:xpath, "////div[@class='govuk-summary-list__row'][4]") do
       expect(page).to have_content(@selected_course_option.site.name_and_address)
     end
   end
@@ -158,7 +158,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_new_study_mode_selection
-    within(:xpath, "////div[@class='govuk-summary-list__row'][4]") do
+    within(:xpath, "////div[@class='govuk-summary-list__row'][3]") do
       expect(page).to have_content(@selected_course_option.study_mode.humanize)
     end
   end
@@ -238,7 +238,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Select provider')
+    expect(page).to have_content('Select training provider')
   end
 
   def when_i_select_a_different_provider

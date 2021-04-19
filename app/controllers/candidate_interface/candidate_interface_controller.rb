@@ -18,7 +18,10 @@ module CandidateInterface
     end
 
     def check_cookie_preferences
-      @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '') if cookies['consented-to-apply-cookies'].eql?('yes')
+      if cookies['consented-to-apply-cookies'].eql?('yes')
+        @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '')
+        @google_tag_manager_id = ENV.fetch('GOOGLE_TAG_MANAGER_APPLY', '')
+      end
     end
 
     def track_validation_error(form)

@@ -9,7 +9,8 @@ module ProviderInterface
       end
 
       def create
-        @wizard = OfferWizard.new(offer_store, course_params.to_h)
+        @wizard = OfferWizard.new(offer_store)
+        reset_study_mode_if_course_has_changed_and_update_course
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
@@ -30,7 +31,8 @@ module ProviderInterface
       end
 
       def update
-        @wizard = OfferWizard.new(offer_store, course_params.to_h)
+        @wizard = OfferWizard.new(offer_store)
+        reset_study_mode_if_course_has_changed_and_update_course
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
@@ -44,6 +46,12 @@ module ProviderInterface
       end
 
     private
+
+      def reset_study_mode_if_course_has_changed_and_update_course
+        course_id = course_params['course_id']
+        @wizard.study_mode = nil if course_id != @wizard.course_id
+        @wizard.course_id = course_id
+      end
 
       def course_params
         params.require(:provider_interface_offer_wizard).permit(:course_id)

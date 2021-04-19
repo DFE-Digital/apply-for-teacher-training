@@ -21,12 +21,12 @@ module ProviderInterface
           value: course_option.course.name_and_code,
         },
         {
-          key: 'Location',
-          value: course_option.site.name_and_address,
-        },
-        {
           key: 'Full time or part time',
           value: course_option.study_mode.humanize,
+        },
+        {
+          key: 'Location',
+          value: course_option.site.name_and_address,
         },
       ]
     end

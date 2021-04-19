@@ -206,6 +206,8 @@ stages:
       googleMapsAPIKey: '$(googleMapsAPIKey)'
       googleAnalyticsApply: '$(googleAnalyticsApply)'
       googleAnalyticsManage: '$(googleAnalyticsManage)'
+      googleTagManagerApply: '$(googleTagManagerApply)'
+      googleTagManagerManage: '$(googleTagManagerManage)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'

@@ -76,6 +76,10 @@ module ProviderInterface
       wizard
     end
 
+    def multiple_application_providers?
+      @_multiple_application_providers ||= application_providers.count > 1
+    end
+
   private
 
     def date_and_time_in_future
@@ -107,10 +111,6 @@ module ProviderInterface
       return if time_in_correct_format?
 
       errors.add(:time, :invalid)
-    end
-
-    def multiple_application_providers?
-      @_multiple_application_providers ||= application_providers.count > 1
     end
 
     def application_providers

@@ -18,7 +18,21 @@ module ProviderInterface
 
     def days_to_respond_text
       if (days_left_to_respond = application_choice.days_left_to_respond)
-        "#{days_until(Date.current + days_left_to_respond).capitalize} to respond"
+        if days_left_to_respond.zero?
+          'Last day to make decision'
+        else
+          "#{days_until(Date.current + days_left_to_respond).capitalize} to make decision"
+        end
+      end
+    end
+
+    def candidate_days_to_respond_text
+      if (days_left_to_respond = application_choice.days_until_decline_by_default)
+        if days_left_to_respond.positive?
+          "#{days_until(Date.current + days_left_to_respond).capitalize} for candidate to respond"
+        else
+          'Last day for candidate to respond'
+        end
       end
     end
 

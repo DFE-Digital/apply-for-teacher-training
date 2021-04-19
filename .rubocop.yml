@@ -199,3 +199,6 @@ Style/ConditionalAssignment:
 Rails/Output:
   Exclude:
     - config/initializers/console.rb
+
+Style/SafeNavigation:
+  Enabled: true

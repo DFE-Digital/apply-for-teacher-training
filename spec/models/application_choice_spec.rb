@@ -23,6 +23,41 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
+  describe '.decision_pending' do
+    it 'returns nothing when there are no awaiting_provider_decision or interviewing application choices' do
+      create(:application_choice, :with_offer)
+
+      expect(described_class.decision_pending).to be_empty
+    end
+
+    it 'scopes to awaiting_provider_decision and interviewing application choices' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state|
+        create(:application_choice, status: state)
+      end
+      choice_awaiting_decision = create(:application_choice, :awaiting_provider_decision)
+      interviewing_choice = create(:application_choice, status: :interviewing)
+
+      expect(described_class.decision_pending).to contain_exactly(choice_awaiting_decision, interviewing_choice)
+    end
+  end
+
+  describe '#decision_pending?' do
+    it 'returns false for choices in states not requiring provider action' do
+      (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state|
+        application_choice = build_stubbed(:application_choice, status: state)
+        expect(application_choice.decision_pending?).to eq(false)
+      end
+    end
+
+    it 'returns true for awaiting_provider_decision and interviewing application choices' do
+      choice_awaiting_decision = build_stubbed(:application_choice, :awaiting_provider_decision)
+      interviewing_choice = build_stubbed(:application_choice, :with_scheduled_interview)
+
+      expect(choice_awaiting_decision.decision_pending?).to eq(true)
+      expect(interviewing_choice.decision_pending?).to eq(true)
+    end
+  end
+
   describe '#course_full?' do
     context 'with 3 options all full' do
       it 'returns true' do

@@ -10,7 +10,7 @@ class ValidForNotifyValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     if value.blank? || !value.match?(EMAIL_REGEX)
-      record.errors[attribute] << I18n.t('validation_errors.email_address_format')
+      record.errors.add(attribute, I18n.t('validation_errors.email_address_format'))
     end
   end
 end

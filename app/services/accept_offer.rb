@@ -42,7 +42,7 @@ private
   def application_choices_awaiting_provider_decision
     @application_choice
       .self_and_siblings
-      .awaiting_provider_decision
+      .decision_pending
   end
 
   def unconditional_offer?

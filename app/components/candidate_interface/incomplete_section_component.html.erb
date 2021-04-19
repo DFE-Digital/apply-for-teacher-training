@@ -1,4 +1,4 @@
-<div class="govuk-inset-text app-inset-text--narrow-border app-inset-text--<%= @error ? 'error' : 'important' %>" id="incomplete-<%= section %>-error">
+<%= govuk_inset_text(classes: "app-inset-text--narrow-border app-inset-text--#{@error ? 'error' : 'important'}", html_attributes: { id: "incomplete-#{section}-error" }) do %>
   <p class="app-inset-text__title"><%= @text %></p>
   <p class="govuk-body"><%= govuk_link_to link_text, @section_path, class: 'govuk-link--no-visited-state', 'data-qa': "incomplete-#{section}" %></p>
-</div>
+<% end %>

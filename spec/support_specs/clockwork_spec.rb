@@ -3,6 +3,12 @@ require 'clockwork/test'
 require 'sidekiq'
 
 RSpec.describe Clockwork, clockwork: true do
+  around do |example|
+    Timecop.freeze(Time.zone.now) do
+      example.run
+    end
+  end
+
   [
     { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
@@ -10,8 +16,8 @@ RSpec.describe Clockwork, clockwork: true do
   ].each do |worker|
     describe 'worker schedule' do
       it 'runs the job every hour' do
-        start_time = Time.zone.local(2020, 1, 2, 0, 0, 0)
-        end_time = Time.zone.local(2020, 1, 2, 3, 0, 0)
+        start_time = Time.zone.now
+        end_time = Time.zone.now + 3.hours
         Clockwork::Test.run(
           start_time: start_time,
           end_time: end_time,

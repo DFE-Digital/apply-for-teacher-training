@@ -44,7 +44,7 @@ module CandidateInterface
                     'errors.messages.too_many_course_choices'
                   end
 
-      errors[:base] << I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code)
+      errors.add(:base, I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code))
     end
   end
 end

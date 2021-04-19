@@ -6,6 +6,7 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
   let(:application_choice) { build_stubbed(:application_choice, id: 1) }
   let(:location) { 'Zoom' }
   let(:additional_details) { 'Do not be late' }
+  let(:multiple_application_providers) { false }
   let(:interview_form) do
     instance_double(
       ProviderInterface::InterviewWizard,
@@ -14,6 +15,7 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
       location: location,
       additional_details: additional_details,
       application_choice: application_choice,
+      multiple_application_providers?: multiple_application_providers,
     )
   end
   let(:render) { render_inline(described_class.new(interview_form)) }
@@ -63,9 +65,13 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
       expect(time_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider-interface-interview-wizard-time-field')
     end
 
-    it 'provider' do
-      provider_row = find_table_row('Organisation carrying out interview')
-      expect(provider_row.css('a').attr('href').value).to eq("/provider/applications/1/interviews/new#provider-interface-interview-wizard-provider-id-#{provider.id}-field")
+    context 'provider' do
+      let(:multiple_application_providers) { true }
+
+      it 'when multiple providers' do
+        provider_row = find_table_row('Organisation carrying out interview')
+        expect(provider_row.css('a').attr('href').value).to eq("/provider/applications/1/interviews/new#provider-interface-interview-wizard-provider-id-#{provider.id}-field")
+      end
     end
 
     it 'location' do
@@ -76,6 +82,17 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
     it 'additional_details' do
       additional_details_row = find_table_row('Additional details')
       expect(additional_details_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider-interface-interview-wizard-additional-details-field')
+    end
+  end
+
+  describe 'renders no change change link' do
+    context 'provider' do
+      let(:multiple_application_providers) { false }
+
+      it 'when single provider' do
+        provider_row = find_table_row('Organisation carrying out interview')
+        expect(provider_row.css('a')).to be_empty
+      end
     end
   end
 

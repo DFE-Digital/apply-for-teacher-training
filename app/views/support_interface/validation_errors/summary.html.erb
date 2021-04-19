@@ -25,12 +25,10 @@
                 options: {
                   selected: params['sortby'] || 'all_time',
                 },
-                html_options: {
-                  class: 'sortedby-label',
-                  selected: 2,
-                  onchange: 'this.form.submit()',
-                  role: 'listbox',
-                },
+                class: 'sortedby-label',
+                selected: 2,
+                onchange: 'this.form.submit()',
+                role: 'listbox',
               ) %>
         </div>
         <%= f.govuk_submit('Update') %>

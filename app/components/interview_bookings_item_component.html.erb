@@ -3,9 +3,9 @@
 <% else %>
   <p class="govuk-body">You have an interview scheduled for <%= formatted_time(interview) %></p>
   <p class="govuk-body govuk-!-margin-bottom-0">Information from provider:</p>
-  <div class="govuk-inset-text govuk-!-margin-top-1 govuk-!-margin-bottom-1">
+  <%= govuk_inset_text(classes: 'govuk-!-margin-top-1 govuk-!-margin-bottom-1') do %>
     <%= location(interview) %>
     <%= additional_details(interview) %>
-  </div>
+  <% end %>
   <p class="govuk-body">The provider will send more details about the interview by email.</p>
 <% end %>

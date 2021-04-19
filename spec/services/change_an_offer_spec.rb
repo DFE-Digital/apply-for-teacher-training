@@ -56,7 +56,9 @@ RSpec.describe ChangeAnOffer do
   end
 
   it 'resets decline_by_default_at for the application choice' do
-    expect { service.save && application_choice.reload }.to change(application_choice, :decline_by_default_at)
+    Timecop.travel(1.business_day.from_now) do
+      expect { service.save && application_choice.reload }.to change(application_choice, :decline_by_default_at)
+    end
   end
 
   it 'sends an email to the candidate to notify them about the change' do

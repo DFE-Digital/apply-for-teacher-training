@@ -6,7 +6,7 @@
 <% if show_inset_text? -%>
   <div class="govuk-grid-row govuk-!-display-none-print">
     <div class="govuk-grid-column-two-thirds-from-desktop">
-      <div class="govuk-inset-text govuk-!-margin-top-0">
+      <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
         <% if respond_to_application? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             <% if FeatureFlag.active?(:interviews) %>
@@ -17,9 +17,9 @@
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              You have until <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %> to respond to this application. Otherwise it will be automatically rejected.
+              This application will be automatically rejected at the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %> if you do not make a decision.
             <% else -%>
-              You have <%= days_until(application_choice.reject_by_default_at.to_date) %> to make a decision - this application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+              This application will be automatically rejected in <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>) if you do not make a decision.
             <% end -%>
           </p>
 
@@ -37,9 +37,9 @@
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              You have until <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %> to respond to this application. Otherwise it will be automatically rejected.
+              This application will be automatically rejected at the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %> if you do not make a decision.
             <% else -%>
-              You have <%= days_until(application_choice.reject_by_default_at.to_date) %> to make a decision - this application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+              This application will be automatically rejected in <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>) if you do not make a decision.
             <% end -%>
           </p>
 
@@ -87,7 +87,7 @@
           </p>
           <%= govuk_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice), button: true %>
         <% end -%>
-      </div>
+      <% end %>
     </div>
   </div>
 <% end -%>

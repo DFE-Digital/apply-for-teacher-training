@@ -42,8 +42,9 @@ RSpec.feature 'Provider makes an offer' do
 
     when_i_select_a_different_course
     and_i_click_continue
+    then_no_study_mode_is_pre_selected
 
-    when_i_select_a_different_study_mode
+    when_i_select_a_study_mode
     and_i_click_continue
 
     when_i_select_a_new_location
@@ -132,12 +133,17 @@ RSpec.feature 'Provider makes an offer' do
     expect(page).to have_content('Select study mode')
   end
 
-  def when_i_select_a_different_study_mode
+  def when_i_select_a_study_mode
     choose @selected_course_option.study_mode.humanize
   end
 
   def when_i_select_a_different_course
     choose @selected_course.name_and_code
+  end
+
+  def then_no_study_mode_is_pre_selected
+    expect(find_field('Full time')).not_to be_checked
+    expect(find_field('Part time')).not_to be_checked
   end
 
   def then_i_am_taken_to_the_change_course_page
@@ -174,7 +180,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_am_taken_to_the_change_provider_page
-    expect(page).to have_content('Select provider')
+    expect(page).to have_content('Select training provider')
   end
 
   def when_i_select_a_different_provider
