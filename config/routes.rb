@@ -618,11 +618,6 @@ Rails.application.routes.draw do
       get '/timeline' => 'application_choices#timeline', as: :application_choice_timeline
       get '/emails' => 'application_choices#emails', as: :application_choice_emails
       get '/feedback' => 'application_choices#feedback', as: :application_choice_feedback
-      get '/respond' => 'decisions#respond', as: :application_choice_respond
-      post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
-      get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
-      post '/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
-      post '/offer' => 'decisions#create_offer', as: :application_choice_create_offer
       get '/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
       patch '/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
       patch '/conditions' => 'conditions#update', as: :application_choice_update_conditions
