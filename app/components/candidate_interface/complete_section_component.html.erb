@@ -1,8 +1,12 @@
-<%= form_with model: @application_form, url: @path, method: @request_method do |f| %>
-  <div class='govuk-form-group'>
-    <%= f.hidden_field @field_name, value: false %>
-    <%= f.govuk_check_box @field_name, true, multiple: false, label: { text: t('application_form.completed_checkbox') } %>
-  </div>
+<%= form_with model: completion_form, url: path, method: request_method do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= render(summary) %>
+
+  <%= f.govuk_radio_buttons_fieldset field_name, legend: { text: 'Have you completed this section?', size: 'm' } do %>
+    <%= f.govuk_radio_button field_name, true, label: { text: t('application_form.completed_radio') }, link_errors: true%>
+    <%= f.govuk_radio_button field_name, false, label: { text: t('application_form.incomplete_radio') } %>
+  <% end %>
 
   <%= f.govuk_submit t('continue') %>
 <% end %>

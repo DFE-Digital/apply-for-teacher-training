@@ -31,6 +31,7 @@ module CandidateInterface
         user: current_candidate,
         details: form.errors.messages.map { |field, messages| [field, { messages: messages, value: form.public_send(field) }] }.to_h,
       )
+
     rescue StandardError => e
       # Never crash validation error tracking
       Raven.capture_exception(e)

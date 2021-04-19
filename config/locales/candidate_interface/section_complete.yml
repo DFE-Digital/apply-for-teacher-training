@@ -1,0 +1,8 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/completion_form:
+          attributes:
+            personal_details_completed:
+              blank: Select whether you have completed this section
