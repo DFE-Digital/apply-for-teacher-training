@@ -50,6 +50,15 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
       end
     end
 
+    context 'Applications submitted before Dec 1, 2020' do
+      it "does not return a hash of candidates' autofill usage" do
+        application_form = create(:application_form, :minimum_info, phase: 'apply_1', submitted_at: Date.new(2020, 11, 1))
+        create(:degree_qualification, application_form: application_form)
+
+        expect(described_class.new.data_for_export).to be_empty
+      end
+    end
+
     context 'Non UK qualifications' do
       it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_1')
