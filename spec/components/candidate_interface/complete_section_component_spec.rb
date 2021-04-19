@@ -8,13 +8,32 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
 
   it 'renders successfully' do
     result = render_inline(
-      described_class.new(application_form: application_form,
-                          path: path,
-                          request_method: request_method,
-                          field_name: field_name),
+      described_class.new(
+        application_form: application_form,
+        path: path,
+        request_method: request_method,
+        field_name: field_name,
+      ),
     )
 
     expect(result.css('.govuk-form-group').text).to include 'I have completed this section'
+    expect(result.to_html).to include path
+    expect(result.to_html).to include request_method
+    expect(result.to_html).to include field_name
+  end
+
+  it 'renders a review checkbox label if specified' do
+    result = render_inline(
+      described_class.new(
+        application_form: application_form,
+        path: path,
+        request_method: request_method,
+        field_name: field_name,
+        section_review: true,
+      ),
+    )
+
+    expect(result.css('.govuk-form-group').text).to include 'I have reviewed this section'
     expect(result.to_html).to include path
     expect(result.to_html).to include request_method
     expect(result.to_html).to include field_name
