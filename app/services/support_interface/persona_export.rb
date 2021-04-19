@@ -3,7 +3,7 @@ module SupportInterface
     include GeocodeHelper
 
     def data_for_export
-      application_choices.find_each.map do |application_choice|
+      application_choices.find_each(batch_size: 100).map do |application_choice|
         application_form = application_choice.application_form
 
         {

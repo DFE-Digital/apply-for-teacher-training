@@ -1,7 +1,7 @@
 module SupportInterface
   class OfferConditionsExport
     def offers
-      relevant_choices.flat_map do |choice|
+      relevant_choices.find_each(batch_size: 100).flat_map do |choice|
         {
           support_reference: choice.application_form.support_reference,
           phase: choice.application_form.phase,

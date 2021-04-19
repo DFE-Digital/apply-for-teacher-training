@@ -3,7 +3,7 @@ module SupportInterface
     def data_for_export
       active_provider_users = ProviderUser.includes(:providers).where.not(last_signed_in_at: nil)
 
-      active_provider_users.flat_map { |provider_user| data_for_user(provider_user) }
+      active_provider_users.find_each(batch_size: 100).flat_map { |provider_user| data_for_user(provider_user) }
     end
 
   private

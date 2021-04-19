@@ -3,7 +3,7 @@ module SupportInterface
     include GeocodeHelper
 
     def sites
-      relevant_sites.map do |site|
+      relevant_sites.find_each(batch_size: 100).map do |site|
         {
           site_id: site.id,
           site_code: site.code,

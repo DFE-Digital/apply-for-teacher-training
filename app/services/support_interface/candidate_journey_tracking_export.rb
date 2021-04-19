@@ -1,7 +1,7 @@
 module SupportInterface
   class CandidateJourneyTrackingExport
     def application_choices
-      all_application_choices.find_each.map do |choice|
+      all_application_choices.find_each(batch_size: 100).map do |choice|
         {
           application_choice_id: choice.id,
           choice_status: choice.status,
