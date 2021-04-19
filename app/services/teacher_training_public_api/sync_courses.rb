@@ -1,6 +1,7 @@
 module TeacherTrainingPublicAPI
   class SyncCourses
     attr_reader :provider, :run_in_background
+    include Rails.application.routes.url_helpers
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
@@ -29,6 +30,12 @@ module TeacherTrainingPublicAPI
         recruitment_cycle_year: recruitment_cycle_year,
       ) do |new_course|
         new_course.open_on_apply = new_course.in_previous_cycle&.open_on_apply ? true : false
+        if provider.any_open_courses_in_current_cycle?
+          SlackNotificationWorker.perform_async(
+            "#{provider.name}, which has courses open on Apply, added a new course",
+            support_interface_provider_courses_path(provider),
+          )
+        end
       end
 
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
