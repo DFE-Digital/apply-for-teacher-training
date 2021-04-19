@@ -51,7 +51,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def when_i_respond_to_an_application
-    visit provider_interface_application_choice_respond_path(@application_choice)
+    visit provider_interface_application_choice_path(@application_choice)
+    click_on 'Make decision'
   end
 
   def and_i_choose_to_reject_it

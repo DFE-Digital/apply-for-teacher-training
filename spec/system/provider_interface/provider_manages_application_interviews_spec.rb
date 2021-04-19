@@ -75,7 +75,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     choose 'Make an offer'
     click_button 'Continue'
     click_button 'Continue' # conditions page
-    click_button 'Make offer'
+    click_button 'Send offer'
   end
 
   def then_i_should_see_the_interview_on_the_interview_tab(date)

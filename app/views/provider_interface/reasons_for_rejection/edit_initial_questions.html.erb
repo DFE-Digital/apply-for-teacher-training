@@ -1,7 +1,7 @@
 <% if @application_choice.rejected_by_default? %>
   <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice)) %>
 <% else %>
-  <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice)) %>
+  <% content_for :before_content, govuk_back_link_to(new_provider_interface_application_choice_decision_path(@application_choice)) %>
 <% end -%>
 
 <div class="govuk-grid-row">
