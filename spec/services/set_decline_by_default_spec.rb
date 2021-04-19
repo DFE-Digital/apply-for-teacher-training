@@ -33,11 +33,11 @@ RSpec.describe SetDeclineByDefault do
 
     context 'when all the application choices have an offer' do
       it 'the DBD is set to 10 business days from the date of the most recent offer' do
-        choices[0].update(status: :offer, offered_at: 1.business_days.before(now).end_of_day)
+        most_recent_offer_date = 1.business_days.before(now).end_of_day
+        choices[0].update(status: :offer, offered_at: most_recent_offer_date)
         choices[1].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
         choices[2].destroy # this tests that we can handle fewer than 3 choices
-
-        expected_dbd_date = 9.business_days.after(now).end_of_day
+        expected_dbd_date = 10.business_days.after(most_recent_offer_date).end_of_day
 
         call_service
 
@@ -83,11 +83,12 @@ RSpec.describe SetDeclineByDefault do
 
     context 'when one offer was made, and two decisions are rejected' do
       it 'the DBD is set to 10 business days from the date of the most recent decision' do
-        choices[0].update(status: :offer, offered_at: 1.business_days.before(now).end_of_day)
+        most_recent_offer_date = 1.business_days.before(now).end_of_day
+        choices[0].update(status: :offer, offered_at: most_recent_offer_date)
         choices[1].update(status: :rejected, rejected_at: 2.business_days.before(now).end_of_day)
         choices[2].update(status: :rejected, rejected_at: 3.business_days.before(now).end_of_day)
 
-        expected_dbd_date = 9.business_days.after(now).end_of_day
+        expected_dbd_date = 10.business_days.after(most_recent_offer_date).end_of_day
 
         call_service
 
@@ -97,11 +98,12 @@ RSpec.describe SetDeclineByDefault do
 
     context 'when the most recent decision is a rejection' do
       it 'the DBD is set to 10 business days from the date of this rejection' do
+        most_recent_rejection_date = 1.business_days.before(now).end_of_day
         choices[0].update(status: :rejected, rejected_at: 3.business_days.before(now).end_of_day)
         choices[1].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
-        choices[2].update(status: :rejected, rejected_at: 1.business_days.before(now).end_of_day)
+        choices[2].update(status: :rejected, rejected_at: most_recent_rejection_date)
 
-        expected_dbd_date = 9.business_days.after(now).end_of_day
+        expected_dbd_date = 10.business_days.after(most_recent_rejection_date).end_of_day
 
         call_service
 
@@ -180,9 +182,7 @@ RSpec.describe SetDeclineByDefault do
         )
 
         call_service
-
-        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
 
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
@@ -192,8 +192,7 @@ RSpec.describe SetDeclineByDefault do
 
         call_service
 
-        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
 
@@ -202,8 +201,7 @@ RSpec.describe SetDeclineByDefault do
 
         call_service
 
-        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
     end
