@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
 
   describe '#data_for_export' do
     it 'returns an array of hashes containing reference types' do
-      application_form_one = create(:application_form)
+      application_form_one = create(:application_form, created_at: 1.day.ago)
 
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form_one)
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'professional', application_form: application_form_one)
@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
 
       application_form_one.application_references[3].update!(feedback_status: 'feedback_provided')
 
-      application_form_two = create(:application_form)
+      application_form_two = create(:application_form, created_at: 1.day.ago)
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form_two)
 
       data = Bullet.profile { described_class.new.data_for_export }
