@@ -182,7 +182,8 @@ RSpec.describe SetDeclineByDefault do
         )
 
         call_service
-        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
+        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
+        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
 
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
@@ -192,7 +193,9 @@ RSpec.describe SetDeclineByDefault do
 
         call_service
 
-        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
+        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
+        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
 
@@ -201,7 +204,9 @@ RSpec.describe SetDeclineByDefault do
 
         call_service
 
-        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
+        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
+        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
     end
