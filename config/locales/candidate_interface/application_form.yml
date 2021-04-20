@@ -1,8 +1,10 @@
 en:
   application_form:
     begin_button: Start now
-    completed_checkbox: I have completed this section
-    reviewed_checkbox: I have reviewed this section
+    completed_question: Have you completed this section?
+    completed_radio: Yes, I have completed this section
+    reviewed_radio: I have reviewed this section
+    incomplete_radio: No, I'll come back to it later
 
   activemodel:
     errors:

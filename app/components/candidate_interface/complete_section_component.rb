@@ -1,18 +1,20 @@
 module CandidateInterface
   class CompleteSectionComponent < ViewComponent::Base
-    def initialize(application_form:, path:, request_method:, field_name:, section_review: false)
-      @application_form = application_form
+    attr_reader :section_complete_form, :path, :request_method, :summary_component, :section_review
+
+    def initialize(section_complete_form:, path:, request_method:, summary_component:, section_review: false)
+      @section_complete_form = section_complete_form
       @path = path
       @request_method = request_method
-      @field_name = field_name
+      @summary_component = summary_component
       @section_review = section_review
     end
 
-    def checkbox_label
-      if @section_review
-        'application_form.reviewed_checkbox'
+    def radio_button_label
+      if section_review
+        'application_form.reviewed_radio'
       else
-        'application_form.completed_checkbox'
+        'application_form.completed_radio'
       end
     end
   end
