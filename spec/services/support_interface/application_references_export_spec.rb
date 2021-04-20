@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
 
   describe '#data_for_export' do
     it 'returns an array of hashes containing non duplicate reference types' do
-      application_form_one = create(:application_form)
+      application_form_one = create(:application_form, created_at: 1.day.ago)
 
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form_one)
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'professional', application_form: application_form_one)
