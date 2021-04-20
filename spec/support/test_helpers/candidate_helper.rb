@@ -221,7 +221,7 @@ module CandidateHelper
     fill_in 'candidate_interface_contact_details_form[address_line4]', with: '110018'
     click_button t('save_and_continue')
 
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 

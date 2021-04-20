@@ -7,11 +7,21 @@ module CandidateInterface
 
       def show
         @component_instance = ChooseEflReviewComponent.call(english_proficiency)
+        @section_complete_form = SectionCompleteForm.new(
+          completed: current_application.efl_completed,
+        )
       end
 
       def complete
-        current_application.update!(completion_params)
-        redirect_to candidate_interface_application_form_path
+        @component_instance = ChooseEflReviewComponent.call(english_proficiency)
+        @section_complete_form = SectionCompleteForm.new(completion_params)
+
+        if @section_complete_form.save(current_application, :efl_completed)
+          redirect_to candidate_interface_application_form_path
+        else
+          track_validation_error(@section_complete_form)
+          render :show
+        end
       end
 
     private
@@ -28,8 +38,8 @@ module CandidateInterface
 
       def completion_params
         strip_whitespace params
-          .require(:application_form)
-          .permit(:efl_completed)
+          .require(:candidate_interface_section_complete_form)
+          .permit(:completed)
       end
     end
   end
