@@ -10,9 +10,16 @@ module SupportInterface
     end
 
     def rows
-      rows = [
-        { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) },
-      ]
+      rows = if FeatureFlag.active?(:support_user_reinstate_offer) && application_choice.declined? && !application_choice.declined_by_default
+               [
+                 { key: 'Status',
+                   value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)),
+                   action: 'Reinstate offer',
+                   action_path: support_interface_application_form_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id) },
+               ]
+             else
+               [{ key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) }]
+             end
 
       if application_choice.offer?
         rows << { key: 'Offer made at', value: application_choice.offered_at.to_s(:govuk_date_and_time) }
