@@ -29,7 +29,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       apply_again_form = create(:application_form, phase: 'apply_2')
       create(:application_choice, status: 'unsubmitted', application_form: apply_again_form)
-      apply_again_form.update_column(:updated_at, form.created_at)
+      apply_again_form.update_column(:updated_at, apply_again_form.created_at)
 
       expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
 
