@@ -7,15 +7,15 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application_with_rejection_reasons
     when_i_apply_again
-    then_become_a_teacher_needs_review
-    and_i_can_review_become_a_teacher
+    then_becoming_a_teacher_needs_review
+    and_i_can_review_becoming_a_teacher
 
     when_i_confirm_i_have_reviewed_this_section
-    then_become_a_teacher_no_longer_needs_review
+    then_becoming_a_teacher_no_longer_needs_review
     and_i_can_set_it_back_to_unreviewed
 
     when_i_submit_my_application
-    then_i_am_informed_that_i_have_not_reviewed_become_a_teacher
+    then_i_am_informed_that_i_have_not_reviewed_becoming_a_teacher
     and_i_can_submit_once_i_have_reviewed
   end
 
@@ -45,13 +45,13 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     candidate_fills_in_apply_again_course_choice
   end
 
-  def then_become_a_teacher_needs_review
+  def then_becoming_a_teacher_needs_review
     within_task_list_item('Why do you want to teach') do
       expect(page).to have_css('.govuk-tag', text: 'Review')
     end
   end
 
-  def and_i_can_review_become_a_teacher
+  def and_i_can_review_becoming_a_teacher
     click_link 'Why do you want to teach'
     expect(page).to have_content 'Use a spellchecker'
   end
@@ -61,7 +61,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     click_button t('continue')
   end
 
-  def then_become_a_teacher_no_longer_needs_review
+  def then_becoming_a_teacher_no_longer_needs_review
     within_task_list_item('Why do you want to teach') do
       expect(page).to have_css('.govuk-tag', text: 'Completed')
     end
@@ -71,7 +71,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     click_link 'Why do you want to teach'
     uncheck t('application_form.reviewed_checkbox')
     click_button t('continue')
-    then_become_a_teacher_needs_review
+    then_becoming_a_teacher_needs_review
   end
 
   def when_i_submit_my_application
@@ -79,8 +79,8 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     click_on 'Continue'
   end
 
-  def then_i_am_informed_that_i_have_not_reviewed_become_a_teacher
-    within become_a_teacher_error_container do
+  def then_i_am_informed_that_i_have_not_reviewed_becoming_a_teacher
+    within becoming_a_teacher_error_container do
       expect(page).to have_content 'Personal statement not marked as reviewed'
     end
   end
@@ -90,7 +90,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     click_on 'Continue'
     when_i_confirm_i_have_reviewed_this_section
     click_on 'Check and submit'
-    expect(page).not_to have_css become_a_teacher_error_container
+    expect(page).not_to have_css becoming_a_teacher_error_container
     click_on 'Continue'
     choose 'No'
     click_on 'Continue'
@@ -102,7 +102,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
 
 private
 
-  def become_a_teacher_error_container
+  def becoming_a_teacher_error_container
     '#incomplete-becoming_a_teacher-error'
   end
 end
