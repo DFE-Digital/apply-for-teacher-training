@@ -356,6 +356,28 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def mark_sections_incomplete_if_review_needed!
+    if becoming_a_teacher_reviewable?
+      update!(becoming_a_teacher_completed: false)
+    end
+  end
+
+  def becoming_a_teacher_rejection_reasons
+    CandidateInterface::RejectionReasonsHistory.all_previous_applications(self, :becoming_a_teacher)
+  end
+
+  def becoming_a_teacher_most_recent_rejection_reason
+    CandidateInterface::RejectionReasonsHistory.most_recent(self, :becoming_a_teacher)
+  end
+
+  def becoming_a_teacher_review_pending?
+    !becoming_a_teacher_completed? && becoming_a_teacher_reviewable?
+  end
+
+  def becoming_a_teacher_reviewable?
+    apply_2? && becoming_a_teacher_most_recent_rejection_reason.present?
+  end
+
 private
 
   def geocode_address_if_required

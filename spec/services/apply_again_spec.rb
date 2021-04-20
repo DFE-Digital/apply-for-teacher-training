@@ -22,10 +22,12 @@ RSpec.describe ApplyAgain do
   it_behaves_like 'duplicates application form', 'apply_2', RecruitmentCycle.current_year
 
   describe '#call' do
+    let(:duplicated_application) { instance_double(ApplicationForm, mark_sections_incomplete_if_review_needed!: true) }
+    let(:duplication_service) { instance_double(DuplicateApplication, duplicate: duplicated_application) }
+
     context 'application_form.ended_without_success? returns true' do
       it 'calls the DuplicateApplication service' do
         application = instance_double(ApplicationForm, ended_without_success?: true)
-        duplication_service = instance_double(DuplicateApplication, duplicate: true)
         allow(DuplicateApplication).to receive(:new)
           .with(application, target_phase: 'apply_2')
           .and_return(duplication_service)
@@ -42,6 +44,17 @@ RSpec.describe ApplyAgain do
 
         expect(described_class.new(application).call).to eq false
       end
+    end
+
+    it 'tells the duplicate to mark sections that need review as incomplete' do
+      application = instance_double(ApplicationForm, ended_without_success?: true)
+      allow(DuplicateApplication).to receive(:new)
+        .with(application, target_phase: 'apply_2')
+        .and_return(duplication_service)
+
+      described_class.new(application).call
+
+      expect(duplicated_application).to have_received :mark_sections_incomplete_if_review_needed!
     end
   end
 end

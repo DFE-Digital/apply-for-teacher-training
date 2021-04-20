@@ -250,6 +250,10 @@ module CandidateInterface
       end
     end
 
+    def becoming_a_teacher_review_pending?
+      @application_form.becoming_a_teacher_review_pending?
+    end
+
     def subject_knowledge_completed?
       @application_form.subject_knowledge_completed
     end
