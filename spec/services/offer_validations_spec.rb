@@ -1,9 +1,10 @@
 require 'rails_helper'
 RSpec.describe OfferValidations, type: :model do
-  subject(:offer) { OfferValidations.new(course_option: course_option) }
+  subject(:offer) { OfferValidations.new(course_option: course_option, conditions: conditions) }
 
   let(:course_option) { create(:course_option, course: course) }
   let(:course) { create(:course, :open_on_apply) }
+  let(:conditions) { [] }
 
   context 'validations' do
     it { is_expected.to validate_presence_of(:course_option) }
@@ -26,6 +27,34 @@ RSpec.describe OfferValidations, type: :model do
           expect(offer).to be_invalid
 
           expect(offer.errors[:course_option]).to contain_exactly('The requested course is not open for applications via the Apply service')
+        end
+      end
+    end
+
+    describe '#conditions_count' do
+      context 'when more than MAX_CONDITIONS_COUNT' do
+        let(:conditions) { (OfferValidations::MAX_CONDITIONS_COUNT + 1).times.map { Faker::Coffee.blend_name } }
+
+        it 'adds a :too_many error' do
+          expect(offer).to be_invalid
+
+          expect(offer.errors[:conditions]).to contain_exactly("Offer has over #{OfferValidations::MAX_CONDITIONS_COUNT} conditions")
+        end
+      end
+    end
+
+    describe '#conditions_length' do
+      context 'when any conditions are more than 255 characters long' do
+        let(:conditions) do
+          [Faker::Lorem.paragraph_by_chars(number: 256),
+           Faker::Lorem.paragraph_by_chars(number: 254),
+           Faker::Lorem.paragraph_by_chars(number: 256)]
+        end
+
+        it 'adds a :too_long error' do
+          expect(offer).to be_invalid
+
+          expect(offer.errors[:conditions]).to contain_exactly('Condition 1 must be 255 characters or fewer', 'Condition 3 must be 255 characters or fewer')
         end
       end
     end

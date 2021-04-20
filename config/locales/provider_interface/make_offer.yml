@@ -83,3 +83,6 @@ en:
           attributes:
             course_option:
               not_open_on_apply: The requested course is not open for applications via the Apply service
+            conditions:
+              too_many: Offer has over %{count} conditions
+              too_long: 'Condition %{index} must be %{limit} characters or fewer'
