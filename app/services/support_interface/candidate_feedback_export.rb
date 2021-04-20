@@ -1,7 +1,7 @@
 module SupportInterface
   class CandidateFeedbackExport
     def data_for_export
-      application_forms.find_each.map do |application_form|
+      application_forms.find_each(batch_size: 100).map do |application_form|
         {
           full_name: application_form.full_name,
           recruitment_cycle_year: application_form.recruitment_cycle_year,

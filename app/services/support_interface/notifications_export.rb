@@ -3,7 +3,7 @@ module SupportInterface
     def data_for_export
       courses = Course.where(recruitment_cycle_year: RecruitmentCycle.current_year, open_on_apply: true)
       providers = Provider.includes(:provider_users, :application_choices).joins(:courses).merge(courses).group('providers.id')
-      providers.flat_map do |provider|
+      providers.find_each(batch_size: 100).flat_map do |provider|
         data_for_provider(provider, provider_users_with_make_decisions(provider), visible_applications(provider))
       end
     end

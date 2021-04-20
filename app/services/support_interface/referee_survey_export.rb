@@ -5,7 +5,7 @@ module SupportInterface
                                   .includes(:application_form)
                                   .where.not(questionnaire: nil)
                                   .where.not(duplicate: true)
-      references_with_feedback = non_duplicate_references.reject do |reference|
+      references_with_feedback = non_duplicate_references.find_each(batch_size: 100).reject do |reference|
         reference.questionnaire.values.all? { |response| response == ' | ' }
       end
 

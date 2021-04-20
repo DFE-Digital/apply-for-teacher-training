@@ -3,7 +3,7 @@ module SupportInterface
     include GeocodeHelper
 
     def providers
-      relevant_providers.map do |provider|
+      relevant_providers.find_each(batch_size: 100).map do |provider|
         {
           provider_name: provider.name,
           provider_code: provider.code,

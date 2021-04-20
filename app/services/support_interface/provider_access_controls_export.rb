@@ -3,7 +3,7 @@ module SupportInterface
     def data_for_export
       providers = Provider.where(sync_courses: true)
 
-      providers.map do |provider|
+      providers.find_each(batch_size: 100).map do |provider|
         access_controls = ProviderAccessControlsStats.new(provider)
         {
           provider_name: provider.name,
