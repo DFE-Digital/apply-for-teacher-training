@@ -20,13 +20,17 @@ module CandidateInterface
 
       application_form.application_choices.create!(
         course_option: course_option,
+        current_course_option_id: course_option.id,
       )
     end
 
     def update(application_choice)
       return unless valid?
 
-      application_choice.update!(course_option: course_option)
+      application_choice.update!(
+        course_option: course_option,
+        current_course_option_id: course_option.id,
+      )
     end
 
   private
