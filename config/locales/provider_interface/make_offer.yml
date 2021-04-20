@@ -79,3 +79,7 @@ en:
               blank: Select course
             provider_id:
               blank: Select provider
+        offer_validations:
+          attributes:
+            course_option:
+              not_open_on_apply: The requested course is not open for applications via the Apply service
