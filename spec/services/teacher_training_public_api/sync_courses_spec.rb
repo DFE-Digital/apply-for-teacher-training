@@ -354,5 +354,39 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(new_course.reload).not_to be_open_on_apply
       end
     end
+
+    it 'notifies Slack when the provider already has open courses on Apply in this cycle', sidekiq: true do
+      provider = create(:provider, code: 'ABC', name: 'University of Life', sync_courses: true)
+      create(:course, :open_on_apply, provider: provider) # existing course
+
+      stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                 course_code: 'ABC1',
+                                                 recruitment_cycle_year: RecruitmentCycle.current_year,
+                                                 course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                 site_code: 'A',
+                                                 vacancy_status: 'full_time_vacancies')
+
+      described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+
+      expect_slack_message_with_text('University of Life, which has courses open on Apply, added a new course')
+    end
+
+    it 'does not notify Slack when the provider does not have open courses on Apply in this cycle', sidekiq: true do
+      provider = create(:provider, code: 'ABC', name: 'University of Life', sync_courses: true)
+
+      # existing course in wrong cycle
+      create(:course, :open_on_apply, provider: provider, recruitment_cycle_year: RecruitmentCycle.previous_year)
+
+      stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                 course_code: 'ABC1',
+                                                 recruitment_cycle_year: RecruitmentCycle.current_year,
+                                                 course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                 site_code: 'A',
+                                                 vacancy_status: 'full_time_vacancies')
+
+      described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+
+      expect_no_slack_message
+    end
   end
 end
