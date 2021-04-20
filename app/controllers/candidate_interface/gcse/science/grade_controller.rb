@@ -30,7 +30,9 @@ module CandidateInterface
     end
 
     def next_path
-      if current_qualification.award_year.nil?
+      if current_qualification.failed_required_gcse?
+        candidate_interface_gcse_details_edit_grade_explanation_path(subject: @subject)
+      elsif current_qualification.award_year.nil?
         candidate_interface_gcse_details_edit_year_path(subject: @subject)
       else
         candidate_interface_gcse_review_path(subject: @subject)

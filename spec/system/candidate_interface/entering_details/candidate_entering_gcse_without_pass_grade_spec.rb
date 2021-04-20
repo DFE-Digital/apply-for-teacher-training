@@ -71,14 +71,14 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   def when_i_fill_in_the_fail_grade
     fill_in 'Please specify your grade', with: 'D'
   end
-  
+
   def then_i_am_prompted_to_explain_how_i_can_improve_this_grade
-    expect(page).to have_content 'You need a Maths GCSE at grade 4 (C) or above, or equivalent'
+    expect(page).to have_content 'You need a maths GCSE at grade 4 (C) or above, or equivalent'
     expect(page).to have_content 'If you are working towards this qualification at grade 4 (C) or above, give us details (optional)'
   end
 
   def when_i_fill_in_the_explanation
-    fill_in 'missing_explanation', with: 'Hard work and dedication'
+    fill_in 'If you are working towards this qualification at grade 4 (C) or above, give us details (optional)', with: 'Hard work and dedication'
   end
 
   def and_i_fill_in_the_year

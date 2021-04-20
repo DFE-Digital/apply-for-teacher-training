@@ -82,6 +82,30 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
     end
   end
 
+  context 'a uk qualification with failure grade and explanation' do
+    it 'displays award year, qualification type and grade' do
+      application_form = build :application_form
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form: application_form,
+        qualification_type: 'gcse',
+        level: 'gcse',
+        grade: 'D',
+        subject: 'maths',
+        missing_explanation: 'I am going to work harder',
+      )
+      result = render_inline(
+        described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
+      )
+
+      expect(result.text).to match(/Qualification\s+GCSE/)
+      expect(result.text).to match(/Year awarded\s+#{@qualification.award_year}/)
+      expect(result.text).to match(/Grade\s+#{@qualification.grade}/)
+      expect(result.text).to match(/How I expect to gain this qualification\s+#{@qualification.missing_explanation}/)
+      expect(result.text).not_to match(/Country\s+#{@qualification.institution_country}/)
+    end
+  end
+
   context 'when the candidate has entered a triple science GCSE award' do
     it 'displays each science subject and associated grade' do
       application_form = build :application_form

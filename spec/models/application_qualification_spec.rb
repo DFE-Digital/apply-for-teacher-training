@@ -272,4 +272,26 @@ RSpec.describe ApplicationQualification, type: :model do
       expect(qualification.constituent_grades['Cockney Rhyming Slang']['public_id']).not_to be_nil
     end
   end
+
+  describe '#failed_required_gcse?' do
+    it 'returns false if the qualification is not GCSE level' do
+      expect(build(:degree_qualification).failed_required_gcse?).to be false
+    end
+
+    it 'returns false if the qualification is GCSE level but is a non-uk equivalant' do
+      expect(build(:gcse_qualification, :non_uk).failed_required_gcse?).to be false
+    end
+
+    it 'returns false if the qualification is GCSE and has a pass grade' do
+      expect(build(:gcse_qualification, grade: 'B').failed_required_gcse?).to be false
+    end
+
+    it 'returns false if the qualification is not for maths, english or science' do
+      expect(build(:gcse_qualification, grade: 'E', subject: 'history').failed_required_gcse?).to be false
+    end
+
+    it 'returns true if the qualification is GCSE and has a fail grade' do
+      expect(build(:gcse_qualification, grade: 'E').failed_required_gcse?).to be true
+    end
+  end
 end
