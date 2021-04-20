@@ -52,6 +52,7 @@ en:
       complete_section: Have you done an English as a foreign language assessment?
     becoming_a_teacher:
       incomplete: Personal statement not entered
+      not_reviewed: Personal statement not marked as reviewed
       complete_section: Why do you want to be a teacher?
     subject_knowledge:
       incomplete: Subject knowledge not entered

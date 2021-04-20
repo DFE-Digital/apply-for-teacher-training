@@ -10,7 +10,9 @@
       <ul class="govuk-list govuk-error-summary__list">
         <% @incomplete_sections.each do |section| %>
           <li>
-            <a href="<%= "#incomplete-#{section}-error" %>"><%= t("review_application.#{section}.incomplete", minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES) %></a>
+            <a href="<%= "#incomplete-#{section.name}-error" %>">
+              <%= t(section.message, minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES) %>
+            </a>
           </li>
         <% end %>
 
