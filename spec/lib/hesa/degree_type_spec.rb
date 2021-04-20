@@ -18,7 +18,7 @@ RSpec.describe Hesa::DegreeType do
     it 'returns a list of concatenated abbreviations and names' do
       abbreviations_and_names = described_class.abbreviations_and_names
 
-      expect(abbreviations_and_names.first).to eq '|BEd'
+      expect(abbreviations_and_names.first).to eq 'BA|Bachelor of Arts'
       expect(abbreviations_and_names[60]).to eq 'MTheol|Master of Theology'
     end
 

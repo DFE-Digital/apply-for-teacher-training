@@ -1,10 +1,4 @@
 HESA_DEGREE_TYPES = [
-  ['1', nil, 'BEd', :bachelor],
-  ['3', nil, 'BSc/Education', :bachelor],
-  ['5', nil, 'BTech/Education', :bachelor],
-  ['7', nil, 'BA/Education', :bachelor],
-  ['9', nil, 'BA Combined Studies/Education of the Deaf', :bachelor],
-  ['12', nil, 'BA with intercalated PGCE', :bachelor],
   ['51', 'BA', 'Bachelor of Arts', :bachelor],
   ['52', 'BAEcon', 'Bachelor of Arts Economics', :bachelor],
   ['53', 'BAArch', 'Bachelor of Arts in Architecture', :bachelor],
@@ -53,6 +47,13 @@ HESA_DEGREE_TYPES = [
   ['96', 'BVsc', 'Bachelor of Veterinary Science', :bachelor],
   ['97', 'BEd', 'Bachelor of Education Scotland and Northern Ireland', :bachelor],
   ['98', 'BPhil', 'Bachelor of Philosophy', :bachelor],
+
+  ['1', nil, 'BEd', :bachelor],
+  ['3', nil, 'BSc/Education', :bachelor],
+  ['5', nil, 'BTech/Education', :bachelor],
+  ['7', nil, 'BA/Education', :bachelor],
+  ['9', nil, 'BA Combined Studies/Education of the Deaf', :bachelor],
+  ['12', nil, 'BA with intercalated PGCE', :bachelor],
 
   ['200', 'MA', 'Master of Arts', :master],
   ['201', 'MLib', 'Master of Librarianship', :master],
