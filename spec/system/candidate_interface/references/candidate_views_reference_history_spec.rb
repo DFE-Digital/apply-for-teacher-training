@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Reference history on review page' do
   include CandidateHelper
 
-  scenario 'candidate views reference history', with_audited: true, recruitment_cycle: 2020 do
+  scenario 'candidate views reference history', with_audited: true do
     given_i_am_signed_in
     and_i_add_a_reference
     and_i_send_it
@@ -29,7 +29,7 @@ RSpec.feature 'Reference history on review page' do
   end
 
   def and_i_send_it
-    Timecop.travel(Time.zone.parse('2020/01/01 14:00')) do
+    Timecop.travel(Time.zone.now + 2.hours) do
       choose 'Yes, send a reference request now'
       click_button t('save_and_continue')
     end
@@ -53,9 +53,9 @@ RSpec.feature 'Reference history on review page' do
     visit candidate_interface_references_review_path
     expect(page).to have_content 'History'
     expected_history = [
-      { event_name: 'Request sent', timestamp: '1 January 2020 at 2pm' },
-      { event_name: 'Reminder sent', timestamp: '2 January 2020 at 2pm' },
-      { event_name: 'Automated reminder sent', timestamp: '8 January 2020 at 2pm' },
+      { event_name: 'Request sent', timestamp: (Time.zone.now + 2.hours).to_s(:govuk_date_and_time) },
+      { event_name: 'Reminder sent', timestamp: (Time.zone.now + 1.day + 2.hours).to_s(:govuk_date_and_time) },
+      { event_name: 'Automated reminder sent', timestamp: (Time.zone.now + 7.days + 2.hours).to_s(:govuk_date) },
     ]
 
     within '[data-qa="reference-history"]' do

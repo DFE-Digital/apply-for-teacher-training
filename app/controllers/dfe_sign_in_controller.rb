@@ -13,6 +13,8 @@ class DfESignInController < ActionController::Base
 
       if @local_user.is_a?(SupportUser)
         send_support_sign_in_confirmation_email
+      elsif @local_user.is_a?(ProviderUser)
+        send_provider_sign_in_confirmation_email
       end
 
       redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
@@ -62,6 +64,25 @@ private
     ).deliver_later
   end
 
+  def send_provider_sign_in_confirmation_email
+    return if cookies.signed[:sign_in_confirmation] == @local_user.id
+
+    cookies.signed[:sign_in_confirmation] = {
+      value: @local_user.id,
+      expires: 6.months.from_now,
+      httponly: true,
+      secure: Rails.env.production?,
+    }
+
+    ProviderMailer.confirm_sign_in(
+      @local_user,
+      device: {
+        user_agent: request.user_agent,
+        ip_address: request.remote_ip,
+      },
+    ).deliver_later
+  end
+
   def get_local_user
     target_path_is_support_path ? get_support_user : get_provider_user
   end
@@ -91,6 +112,6 @@ private
   end
 
   def target_path_is_support_path
-    @target_path && @target_path.match(/^#{support_interface_path}/)
+    @target_path&.match(/^#{support_interface_path}/)
   end
 end

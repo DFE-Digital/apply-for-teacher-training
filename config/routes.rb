@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
 
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
+    post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
 
     get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
     post '/account', to: 'start_page#create_account_or_sign_in_handler'
@@ -76,8 +77,6 @@ Rails.application.routes.draw do
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
 
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
-
-      get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
 
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
@@ -592,6 +591,7 @@ Rails.application.routes.draw do
     get '/covid-19-guidance', to: redirect('/')
 
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
+    post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
 
     get '/getting-ready-for-next-cycle', to: redirect('/provider/guidance-for-the-new-cycle')
     get '/guidance-for-the-new-cycle', to: 'content#guidance_for_the_new_cycle', as: :guidance_for_the_new_cycle
@@ -894,6 +894,7 @@ Rails.application.routes.draw do
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
       get '/data-directory' => 'data_exports#directory', as: :data_directory
       get '/data-directory/export/:data_export_type' => 'data_exports#view_export_information', as: :view_export_information
+      get '/data-directory/export-history' => 'data_exports#history', as: :data_exports_history
       get '/data-directory/export/:data_export_type/history' => 'data_exports#view_history', as: :view_history
 
       resources :data_exports, path: '/data-exports' do
@@ -993,6 +994,12 @@ Rails.application.routes.draw do
     namespace :data_api_docs, path: '/data-api' do
       get '/' => 'reference#reference', as: :home
       get '/spec.yml' => 'open_api#spec', as: :spec
+    end
+
+    namespace :register_api_docs, path: '/register-api' do
+      get '/' => 'reference#reference', as: :home
+      get '/spec.yml' => 'open_api#spec', as: :spec
+      get '/release-notes' => 'pages#release_notes', as: :release_notes
     end
   end
 

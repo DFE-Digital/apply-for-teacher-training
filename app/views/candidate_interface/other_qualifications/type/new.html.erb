@@ -1,5 +1,5 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.add_other_qualification'), @form.errors.any?) %>
-<% if current_application.application_qualifications.other.blank? %>
+<% content_for :title, title_with_error_prefix(other_qualifications_title(current_application), @form.errors.any?) %>
+<% if current_application.application_qualifications.other.blank? && !current_application.no_other_qualifications %>
   <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 <% else %>
   <% content_for :before_content, govuk_back_link_to(candidate_interface_review_other_qualifications_path, 'Back') %>

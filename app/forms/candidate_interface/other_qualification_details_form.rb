@@ -46,6 +46,7 @@ module CandidateInterface
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
       options = @intermediate_data_service.read.merge(options) if @intermediate_data_service
+      self.choice = 'no'
 
       self.id ||= options[:id] || options['id']
 
@@ -70,6 +71,7 @@ module CandidateInterface
         )
 
       application_qualification.assign_attributes(attributes_for_persistence)
+      @current_application.update!(no_other_qualifications: false)
       application_qualification.save
     end
 

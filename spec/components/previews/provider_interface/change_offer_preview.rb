@@ -1,5 +1,7 @@
 module ProviderInterface
   class ChangeOfferPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     def existing_offer_start_at_1_provider(provider_interface_change_offer_form: nil)
       initial_step :provider
       set_application_choice application_choice_with_offer

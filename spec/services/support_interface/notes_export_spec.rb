@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::NotesExport do
         {
           note_subject: note1.subject,
           note_message: note1.message,
-          note_created_at: note1.created_at,
+          note_created_at: note1.created_at.iso8601,
           candidate_id: candidate.id,
           provider_code: training_provider.code,
           provider_name: training_provider.name,
@@ -47,7 +47,7 @@ RSpec.describe SupportInterface::NotesExport do
         {
           note_subject: note2.subject,
           note_message: note2.message,
-          note_created_at: note2.created_at,
+          note_created_at: note2.created_at.iso8601,
           candidate_id: candidate.id,
           provider_code: ratifying_provider.code,
           provider_name: ratifying_provider.name,
@@ -84,7 +84,7 @@ RSpec.describe SupportInterface::NotesExport do
         {
           note_subject: note1.subject,
           note_message: note1.message,
-          note_created_at: note1.created_at,
+          note_created_at: note1.created_at.iso8601,
           candidate_id: candidate.id,
           provider_code: nil,
           provider_name: nil,
@@ -95,7 +95,7 @@ RSpec.describe SupportInterface::NotesExport do
         {
           note_subject: note2.subject,
           note_message: note2.message,
-          note_created_at: note2.created_at,
+          note_created_at: note2.created_at.iso8601,
           candidate_id: candidate.id,
           provider_code: training_provider2.code,
           provider_name: training_provider2.name,

@@ -7,12 +7,12 @@
       The following feedback was sent to the candidate.
     <% end -%>
   </p>
-  <div class="govuk-inset-text">
+  <%= govuk_inset_text do %>
     <%= render ReasonsForRejectionComponent.new(
       application_choice: application_choice,
       reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
     ) %>
-  </div>
+  <% end %>
 <% else %>
   <%= render SummaryListComponent.new(rows: rejected_rows) %>
 <% end %>

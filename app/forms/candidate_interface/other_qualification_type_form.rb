@@ -25,7 +25,7 @@ module CandidateInterface
     attr_accessor :non_uk_qualification_type
 
     validates :qualification_type, presence: true
-    validates :qualification_type, inclusion: { in: ALL_VALID_TYPES, allow_blank: false }
+    validates :qualification_type, inclusion: { in: ALL_VALID_TYPES + %w[no_other_qualifications], allow_blank: false }
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_TYPE }
     validates :other_uk_qualification_type, length: { maximum: 100 }
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_TYPE }
@@ -45,6 +45,16 @@ module CandidateInterface
 
     def save_intermediate
       valid? && save_intermediate!
+    end
+
+    def save_no_other_qualifications
+      return false unless valid?
+
+      @current_application.update!(no_other_qualifications: true)
+    end
+
+    def no_other_qualification?
+      qualification_type == 'no_other_qualifications'
     end
 
     def save_intermediate!

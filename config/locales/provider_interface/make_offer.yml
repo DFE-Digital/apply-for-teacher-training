@@ -7,7 +7,7 @@ en:
     offer:
       providers:
         new:
-          title: Select provider
+          title: Select training provider
         edit:
           title: Select training provider
       courses:

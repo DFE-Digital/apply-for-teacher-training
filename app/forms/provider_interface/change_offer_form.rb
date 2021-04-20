@@ -17,7 +17,7 @@ module ProviderInterface
 
     def previous_step
       idx = STEPS.index(step)
-      if idx && idx.positive?
+      if idx&.positive?
         STEPS[idx - 1]
       else
         STEPS[0]

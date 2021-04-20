@@ -4,10 +4,10 @@
   <%= breadcrumbs({
     'Providers': support_interface_providers_path(onboarding_stages: %w[synced dsa_signed]),
     @provider.name => support_interface_provider_path(@provider),
-  }.merge(title != 'Details' ? { title: nil } : {})) %>
+  }.merge(title != 'Details' ? { title => nil } : {})) %>
 <% end %>
 
-<%= render 'no_admin_users_warning' %>
+<%= render 'lacks_admin_users_warning' %>
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_provider_path },

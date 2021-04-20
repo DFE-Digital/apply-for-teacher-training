@@ -7,18 +7,16 @@
         <%= t('application_form.confirm_selection.heading') %>
       </h1>
 
-      <div class="govuk-inset-text govuk-!-margin-top-0">
-        <%= govuk_link_to @course_selection_form.course.find_url,
-                    class: 'govuk-!-font-weight-bold',
-                    style: 'text-decoration: none' do %>
-        <span class="govuk-!-font-size-19">
-          <%= @course_selection_form.course.provider.name %>
-        </span><br>
-        <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
-          <%= @course_selection_form.course.name_and_code %>
-        </span>
+      <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
+        <%= govuk_link_to(@course_selection_form.course.find_url, class: 'govuk-!-font-weight-bold', style: 'text-decoration: none') do %>
+          <span class="govuk-!-font-size-19">
+            <%= @course_selection_form.course.provider.name %>
+          </span><br>
+          <span class="search-result-link-name govuk-!-font-size-24" style="text-decoration: underline">
+            <%= @course_selection_form.course.name_and_code %>
+          </span>
         <% end %>
-      </div>
+      <% end %>
 
       <%= f.govuk_radio_buttons_fieldset :confirm, legend: { text: t('application_form.confirm_selection.question'), size: 'm' } do %>
         <%= f.govuk_radio_button :confirm, true, label: { text: 'Yes' }, link_errors: true %>

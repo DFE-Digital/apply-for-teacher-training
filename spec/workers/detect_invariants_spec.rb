@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe DetectInvariants do
-  before { allow(Raven).to receive(:capture_exception) }
+  before do
+    allow(Raven).to receive(:capture_exception)
+
+    # or unwanted exceptions will be thrown by this check
+    TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
+  end
 
   describe '#perform' do
     it 'detects application choices in deprecated states' do
@@ -18,8 +23,8 @@ RSpec.describe DetectInvariants do
             One or more application choices are still in `awaiting_references` or
             `application_complete` state, but all these states have been removed:
 
-            http://localhost:3000/support/application-choices/#{application_choice_bad.id}
-            http://localhost:3000/support/application-choices/#{application_choice_bad_too.id}
+            #{HostingEnvironment.application_url}/support/application-choices/#{application_choice_bad.id}
+            #{HostingEnvironment.application_url}/support/application-choices/#{application_choice_bad_too.id}
           MSG
         ),
       )
@@ -46,7 +51,7 @@ RSpec.describe DetectInvariants do
             One or more references are still pending on these applications,
             even though they've already been submitted:
 
-            http://localhost:3000/support/applications/#{weird_application_form.id}
+            #{HostingEnvironment.application_url}/support/applications/#{weird_application_form.id}
           MSG
         ),
       )
@@ -77,7 +82,7 @@ RSpec.describe DetectInvariants do
           <<~MSG,
             The following application forms have had edits by a candidate who is not the owner of the application:
 
-            http://localhost:3000/support/applications/#{suspect_form.id}
+            #{HostingEnvironment.application_url}/support/applications/#{suspect_form.id}
           MSG
         ),
       )
@@ -102,7 +107,7 @@ RSpec.describe DetectInvariants do
           <<~MSG,
             The following application forms have course choices from the previous recruitment cycle
 
-            http://localhost:3000/support/applications/#{bad_form_this_year.id}
+            #{HostingEnvironment.application_url}/support/applications/#{bad_form_this_year.id}
           MSG
         ),
       )
@@ -120,10 +125,66 @@ RSpec.describe DetectInvariants do
           <<~MSG,
             The following application forms have been submitted with more than three course choices
 
-            http://localhost:3000/support/applications/#{bad_application_form.id}
+            #{HostingEnvironment.application_url}/support/applications/#{bad_application_form.id}
           MSG
         ),
       )
+    end
+
+    it 'detects applications submitted with the same course' do
+      course = create(:course)
+      course_option1 = create(:course_option, course: course)
+      course_option2 = create(:course_option, course: course)
+      application_form = create(:completed_application_form)
+
+      create(:submitted_application_choice, application_form: application_form, course_option: course_option1)
+      create(:submitted_application_choice, application_form: application_form, course_option: course_option2)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::ApplicationSubmittedWithTheSameCourse.new(
+          <<~MSG,
+            The following applications have been submitted containing the same course choice multiple times
+
+            #{HostingEnvironment.application_url}/support/applications/#{application_form.id}
+          MSG
+        ),
+      )
+    end
+
+    it 'ignores withdrawn and rejected application choices submitted with the same course' do
+      course = create(:course)
+      course_option1 = create(:course_option, course: course)
+      course_option2 = create(:course_option, course: course)
+      course_option3 = create(:course_option, course: course)
+      application_form = create(:completed_application_form)
+
+      create(:submitted_application_choice, status: :withdrawn, application_form: application_form, course_option: course_option1)
+      create(:submitted_application_choice, status: :rejected, application_form: application_form, course_option: course_option2)
+      create(:submitted_application_choice, application_form: application_form, course_option: course_option3)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).not_to have_received(:capture_exception)
+    end
+
+    it 'detects when the course sync hasn’t succeeded for an hour' do
+      TeacherTrainingPublicAPI::SyncCheck.clear_last_sync
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::CourseSyncNotSucceededForAnHour.new(
+          'The course sync via the Teacher training public API has not succeeded for an hour',
+        ),
+      )
+    end
+
+    it 'doesn’t alert when the course sync has succeeded recently' do
+      DetectInvariants.new.perform
+
+      expect(Raven).not_to have_received(:capture_exception)
     end
   end
 end

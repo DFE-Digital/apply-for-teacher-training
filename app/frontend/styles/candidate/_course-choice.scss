@@ -1,0 +1,15 @@
+.app-course-choice {
+  .govuk-summary-list__key {
+    @include govuk-media-query($from: tablet) {
+      width: 20%;
+    }
+  }
+}
+
+.app-course-choice__provider-name {
+  @include govuk-font($size: 19, $weight: "bold");
+}
+
+.app-course-choice__course-name {
+  display: block;
+}

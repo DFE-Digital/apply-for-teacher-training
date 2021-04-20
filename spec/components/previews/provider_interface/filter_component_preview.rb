@@ -1,5 +1,7 @@
 module ProviderInterface
   class FilterComponentPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     def default_view
       render_component_for(filter: filter_mock(filters: with_name_status_provider_and_accredited_provider))
     end

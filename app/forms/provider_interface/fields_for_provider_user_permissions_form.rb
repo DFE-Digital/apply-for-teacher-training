@@ -25,7 +25,7 @@ module ProviderInterface
 
     def at_least_one_extra_permission_is_set
       if permissions.reject(&:blank?).none?
-        errors[:permissions] << 'Select extra permissions'
+        errors.add(:permissions, 'Select extra permissions')
       end
     end
   end

@@ -6,6 +6,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   scenario 'International candidate enters their other non-uk qualification' do
     given_i_am_signed_in
     and_i_visit_the_site
+    and_i_am_an_international_candidate
 
     when_i_click_on_other_qualifications
     then_i_see_the_select_qualification_type_page
@@ -76,8 +77,13 @@ RSpec.feature 'Non-uk Other qualifications' do
     visit candidate_interface_application_form_path
   end
 
+  def and_i_am_an_international_candidate
+    click_link 'Contact information'
+    candidate_fills_in_international_contact_details
+  end
+
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualification')
+    click_link t('page_titles.other_qualifications_international')
   end
 
   def then_i_see_the_select_qualification_type_page
@@ -216,7 +222,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
+    expect(page).to have_css('#other-qualifications-badge-id', text: 'Completed')
   end
 
   def then_i_see_the_qualification_type_error

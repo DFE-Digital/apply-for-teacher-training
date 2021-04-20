@@ -32,7 +32,7 @@ private
   end
 
   def applications_awaiting_decision_count
-    @applications_pending_decision_count ||= candidate_applications.awaiting_provider_decision.count
+    @applications_pending_decision_count ||= candidate_applications.decision_pending.count
   end
 
   def applications_with_offer_count

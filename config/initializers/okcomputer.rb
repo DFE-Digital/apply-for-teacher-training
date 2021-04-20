@@ -32,7 +32,6 @@ OkComputer::Registry.register 'sidekiq_default_queue', OkComputer::SidekiqLatenc
 OkComputer::Registry.register 'sidekiq_mailers_queue', OkComputer::SidekiqLatencyCheck.new(queue: 'mailers', threshold: 100) # threshold in seconds
 OkComputer::Registry.register 'sidekiq_retries_count', SidekiqRetriesCheck.new
 OkComputer::Registry.register 'simulated_failure', SimulatedFailureCheck.new
-OkComputer::Registry.register 'ttapi_sync', TeacherTrainingPublicAPI::SyncCheck.new
 OkComputer::Registry.register 'version', OkComputer::AppVersionCheck.new
 
 OkComputer.make_optional %w[version]

@@ -23,19 +23,17 @@ en:
     production_url: https://www.find-postgraduate-teacher-training.service.gov.uk/
     sandbox_url: https://sandbox.find-postgraduate-teacher-training.service.gov.uk/
   get_into_teaching:
-    # TODO: Update to 0800 389 2500 when GIT leaves beta
-    tel: 0800 389 2501
+    tel: 0800 389 2500
     opening_times: "Monday to Friday, 8.30am to 5pm (except public\u00A0holidays)"
-    # TODO: Update domain names when GIT leaves beta
-    url: https://beta-getintoteaching.education.gov.uk
-    url_applying: https://beta-getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
-    url_get_an_advisor: https://beta-adviser-getintoteaching.education.gov.uk
-    url_international_candidates: https://beta-getintoteaching.education.gov.uk/international-candidates
-    url_training_with_a_disability: https://beta-getintoteaching.education.gov.uk/guidance/become-a-teacher-in-england#training-to-teach-if-you-have-a-disability
-    url_online_chat: https://beta-getintoteaching.education.gov.uk/#talk-to-us
+    url: https://getintoteaching.education.gov.uk
+    url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
+    url_get_an_advisor: https://adviser-getintoteaching.education.gov.uk
+    url_international_candidates: https://getintoteaching.education.gov.uk/international-candidates
+    url_training_with_a_disability: https://getintoteaching.education.gov.uk/guidance/become-a-teacher-in-england#training-to-teach-if-you-have-a-disability
+    url_online_chat: https://getintoteaching.education.gov.uk/#talk-to-us
   page_titles:
     application_form: Your application
-    application_dashboard: Application dashboard
+    application_dashboard: Your application
     efl:
       ielts: Your IELTS result
       other: Your English language assessment result
@@ -121,8 +119,8 @@ en:
     which_study_mode: Full time or part time?
     edit_degree: Edit degree
     edit_degree_type: Edit degree type
-    other_qualification: Academic and other relevant qualifications
-    add_other_qualification: Academic and other relevant qualifications
+    other_qualifications: A levels and other qualifications
+    other_qualifications_international: Other qualifications
     qualification_details: Qualification details
     edit_other_qualification: Edit qualification
     destroy_other_qualification: Are you sure you want to delete this qualification?
@@ -185,6 +183,8 @@ en:
         release_notes: Release notes
         lifecycle: Lifecycle
         alpha_release_notes: Alpha release notes
+      register_api_docs:
+        reference: Apply for teacher training - Register API
     provider:
       confirm_offer: Check and confirm offer
       confirm_reject: Check feedback and reject application

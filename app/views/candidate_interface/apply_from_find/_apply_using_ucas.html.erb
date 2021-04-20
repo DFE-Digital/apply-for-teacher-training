@@ -16,7 +16,7 @@
       When you apply you’ll need these codes for the Choices section of your application form:
     </p>
 
-    <div class="govuk-inset-text">
+    <%= govuk_inset_text do %>
       <ul class="govuk-list">
         <li class="govuk-!-margin-bottom-2">
           Training provider code:
@@ -55,7 +55,7 @@
           <% end %>
         </tbody>
       </table>
-    </div>
+    <% end %>
 
     <%= govuk_start_now_button(
       text: t('apply_from_find.ucas_apply_button'),

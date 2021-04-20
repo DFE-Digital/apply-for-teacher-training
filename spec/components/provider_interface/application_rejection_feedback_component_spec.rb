@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     end
 
     it 'renders the date of rejection' do
-      expect(render.text).to include('This application was rejected on 31 October 2021')
+      expect(render.text).to include("This application was rejected on #{application_choice.rejected_at.to_s(:govuk_date)}")
     end
 
     it 'renders the reasons for rejection' do
@@ -50,11 +50,11 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
     end
 
     it 'renders the date of rejection' do
-      expect(render.text).to include('This application was automatically rejected on 31 October 2021')
+      expect(render.text).to include("This application was automatically rejected on #{application_choice.rejected_at.to_s(:govuk_date)}")
     end
 
     it 'renders the date of feedback sent' do
-      expect(render.text).to include('Feedback was sent on 1 November 2021')
+      expect(render.text).to include("Feedback was sent on #{(application_choice.rejected_at + 1.day).to_s(:govuk_date)}")
     end
 
     it 'renders the reasons for rejection' do
@@ -74,7 +74,7 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
 
     it 'renders a row with the rejection date' do
       rejected_at_row = find_summary_row('Rejected')
-      expect(rejected_at_row.text).to include('31 October 2021')
+      expect(rejected_at_row.text).to include(application_choice.rejected_at.to_s(:govuk_date))
     end
 
     it 'renders a row with the rejection reason' do
@@ -94,12 +94,12 @@ RSpec.describe ProviderInterface::ApplicationRejectionFeedbackComponent do
 
     it 'renders a row with the rejection date' do
       rejected_at_row = find_summary_row('Automatically rejected')
-      expect(rejected_at_row.text).to include('31 October 2021')
+      expect(rejected_at_row.text).to include(application_choice.rejected_at.to_s(:govuk_date))
     end
 
     it 'renders a row with the rejection feedback sent date' do
       rejection_feedback_sent_at_row = find_summary_row('Feedback sent')
-      expect(rejection_feedback_sent_at_row.text).to include('1 November 2021')
+      expect(rejection_feedback_sent_at_row.text).to include((application_choice.rejected_at + 1.day).to_s(:govuk_date))
     end
 
     it 'renders a row with the rejection reason' do

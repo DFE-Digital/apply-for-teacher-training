@@ -1,3 +1,4 @@
-<%= render NotificationMessageComponent.new(:info,
-                                            message: 'UCAS planned maintenance',
-                                            secondary_message: 'UCAS services will not be available from 6pm on Friday 24 April until Sunday 26 April.') %>
+<%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+  <%= notification_banner.slot(:heading, text: 'UCAS planned maintenance') %>
+  <p class="govuk-body">UCAS services will not be available from 6pm on Friday 24 April until Sunday 26 April.</p>
+<% end %>

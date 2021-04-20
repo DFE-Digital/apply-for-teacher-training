@@ -3,6 +3,8 @@ class Course < ApplicationRecord
   has_many :course_options
   has_many :application_choices, through: :course_options
   has_many :sites, through: :course_options
+  has_many :course_subjects
+  has_many :subjects, through: :course_subjects
   belongs_to :accredited_provider, class_name: 'Provider', optional: true
 
   audited associated_with: :provider
@@ -134,5 +136,9 @@ class Course < ApplicationRecord
       .joins(application_choices: :course_option)
       .where(application_choices: { course_options: { course: self } })
       .distinct
+  end
+
+  def subject_codes
+    @subject_codes ||= subjects.includes(:course_subjects).map(&:code)
   end
 end

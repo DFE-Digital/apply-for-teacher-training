@@ -13,7 +13,7 @@
     <% if @interview.present? %>
       <%= govuk_button_to t('.update.confirm'), { action: 'update', id: @interview.id }, method: :put %>
     <% else %>
-      <%= govuk_button_to t('.confirm'), action: 'commit' %>
+      <%= govuk_button_to t('.confirm'), { action: 'commit' }, method: :post %>
     <% end %>
 
     <p class="govuk-body">

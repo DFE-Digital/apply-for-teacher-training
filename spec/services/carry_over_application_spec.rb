@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'services/duplicate_application_shared_examples'
 
 RSpec.describe CarryOverApplication do
+  include CycleTimetableHelper
   def original_application_form
     @original_application_form ||= Timecop.travel(-1.day) do
       application_form = create(
@@ -21,7 +22,7 @@ RSpec.describe CarryOverApplication do
 
   context 'when original application is from an earlier recruitment cycle' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 10, 15, 12, 0, 0)) do
+      Timecop.freeze(after_apply_reopens) do
         example.run
       end
     end
@@ -35,7 +36,7 @@ RSpec.describe CarryOverApplication do
 
   context 'when original application is from the current recruitment cycle but that cycle has now closed' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 9, 19, 12, 0, 0)) do
+      Timecop.freeze(after_apply_2_deadline) do
         example.run
       end
     end
@@ -45,7 +46,7 @@ RSpec.describe CarryOverApplication do
 
   context 'when the application_form has references has an application_reference in the cancelled_at_end_of_cycle state' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 9, 19, 12, 0, 0)) do
+      Timecop.freeze(after_apply_2_deadline) do
         example.run
       end
     end

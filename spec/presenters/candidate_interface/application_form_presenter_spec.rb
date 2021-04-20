@@ -188,7 +188,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#other_qualifications_completed?' do
-    it 'returns true if other qualifications section is completed' do
+    it 'returns true if other qualifications section is completed and there are no incompleted qualifications' do
       application_form = FactoryBot.build(:application_form, other_qualifications_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
@@ -197,6 +197,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
     it 'returns false if other qualifications section is incomplete' do
       application_form = FactoryBot.build(:application_form, other_qualifications_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_other_qualifications_completed
+    end
+
+    it 'returns false if other qualifications is completed but there is an incomplete qualification' do
+      application_form = FactoryBot.build(:application_form, other_qualifications_completed: true)
+      create(:other_qualification,
+             subject: nil,
+             grade: nil,
+             application_form: application_form)
+
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_other_qualifications_completed

@@ -21,7 +21,7 @@ module RegisterAPI
           submitted_at: application_form.submitted_at.iso8601,
           recruited_at: application_choice.recruited_at.iso8601,
           candidate: {
-            id: "C#{application_form.candidate.id}",
+            id: application_form.candidate.public_id,
             first_name: application_form.first_name,
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
@@ -42,7 +42,7 @@ module RegisterAPI
           contact_details: contact_details,
           course: course_info_for(application_choice.offered_option),
           qualifications: qualifications,
-          hesa_itt_data: hesa_itt_data.presence || {},
+          hesa_itt_data: hesa_itt_data.presence,
         },
       }
     end

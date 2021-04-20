@@ -56,15 +56,13 @@ module APIDocs
     def get_all_of_array(schema)
       properties = []
 
-      if schema['allOf']
-        schema['allOf'].each do |schema_nested|
-          schema_nested.properties.each do |property|
-            if property.is_a?(Array)
-              property = property[1]
-            end
-
-            properties << property
+      schema['allOf']&.each do |schema_nested|
+        schema_nested.properties.each do |property|
+          if property.is_a?(Array)
+            property = property[1]
           end
+
+          properties << property
         end
       end
 
@@ -74,11 +72,9 @@ module APIDocs
     def get_all_of_hash(schema)
       properties = {}
 
-      if schema['allOf']
-        schema['allOf'].each do |schema_nested|
-          schema_nested.properties.each do |key, property|
-            properties[key] = property
-          end
+      schema['allOf']&.each do |schema_nested|
+        schema_nested.properties.each do |key, property|
+          properties[key] = property
         end
       end
 

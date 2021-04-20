@@ -12,7 +12,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [qa]
+        environment: [production, sandbox]
+        include:
+         - environment: production
+           NAME_SUFFIX: prod
     environment:
       name: ${{ matrix.environment }}
     steps:
@@ -21,7 +24,7 @@ jobs:
       with:
         CF_USERNAME:   ${{ secrets.CF_USERNAME }}
         CF_PASSWORD:   ${{ secrets.CF_PASSWORD }}
-        CF_SPACE_NAME: bat-${{ matrix.environment }}
+        CF_SPACE_NAME: ${{ secrets.CF_SPACE }}
         INSTALL_CONDUIT: true
 
     - name: Setup postgres client
@@ -37,4 +40,4 @@ jobs:
     - name: Restore Azure DB to PaaS ${{ matrix.environment }}
       run: cf conduit ${POSTGRES_SERVICE_INSTANCE} -- psql < db_backup_${{ matrix.environment }}.sql
       env:
-        POSTGRES_SERVICE_INSTANCE: apply-postgres-${{ matrix.environment }}
+        POSTGRES_SERVICE_INSTANCE: apply-postgres-${{ matrix.NAME_SUFFIX || matrix.environment }}

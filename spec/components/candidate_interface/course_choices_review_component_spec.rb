@@ -392,6 +392,19 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  describe '#application_choices' do
+    context "when one or more have an 'ACCEPTED_STATE'" do
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions rejected]) }
+
+      it 'returns only the application choices with ACCEPTED STATES' do
+        component = described_class.new(application_form: application_form, editable: false, show_status: true, display_accepted_application_choices: true)
+
+        expect(component.application_choices.count).to eq(1)
+        expect(component.application_choices.first.status).to eq('pending_conditions')
+      end
+    end
+  end
+
   def create_application_form_with_course_choices(statuses:)
     application_form = build(:application_form)
 

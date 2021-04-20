@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe InterviewBookingsComponent, type: :component do
+  around do |example|
+    Timecop.freeze(2020, 6, 1, 12) do
+      example.run
+    end
+  end
+
   let(:interview) do
     create(
       :interview,
@@ -11,11 +17,6 @@ RSpec.describe InterviewBookingsComponent, type: :component do
   it 'renders the interview time' do
     result = render_inline(described_class.new(interview.application_choice))
     expect(result.text).to include('6 June 2020 at 6:30pm')
-  end
-
-  it 'renders the provider name' do
-    result = render_inline(described_class.new(interview.application_choice))
-    expect(result.text).to include(interview.provider.name)
   end
 
   it 'renders the location, with breaks and hyperlinks' do
@@ -103,6 +104,39 @@ RSpec.describe InterviewBookingsComponent, type: :component do
       expect(result.to_html).to include '<ul class="govuk-list govuk-list--number">'
       expect(result.text).to include 'This is interview 1'
       expect(result.text).to include 'This is interview 2'
+    end
+  end
+
+  context 'when the interview is in the past' do
+    it 'renders interview details including date and time on the same day as the interview' do
+      Timecop.freeze(2020, 6, 6, 23, 0, 0) do
+        result = render_inline(described_class.new(interview.application_choice))
+        expect(result.text).to include('6 June 2020 at 6:30pm')
+      end
+    end
+
+    it 'renders a simple message with the date after the day of the interview' do
+      Timecop.freeze(2020, 6, 7, 12, 0, 0) do
+        result = render_inline(described_class.new(interview.application_choice))
+        expect(result.text).to include('You had an interview on 6 June 2020')
+        expect(result.text).not_to include('6 June 2020 at 6:30pm')
+      end
+    end
+  end
+
+  context 'when no interviews are scheduled' do
+    it 'renders nothing if the application is not awaiting a provider decision' do
+      application_choice = create(:application_choice, status: 'rejected')
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to be_blank
+    end
+
+    it 'renders a message if the application is awaiting a provider decision' do
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision')
+      result = render_inline(described_class.new(application_choice))
+
+      expect(result.text).to include('The provider will be in touch if they want to invite you to an interview')
     end
   end
 end

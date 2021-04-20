@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   around do |example|
-    @now = Time.zone.local(2020, 2, 11, 22, 0, 0)
-    Timecop.freeze(@now) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -51,9 +50,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Application received'
       expect(rendered.text).to include 'Candidate'
-      expect(rendered.text).to include '6 February 2020 at 10pm'
+      expect(rendered.text).to include 5.days.ago.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View application'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '6 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq 5.days.ago.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
     end
   end
@@ -72,9 +71,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Offer made'
       expect(rendered.text).to include 'Bob Roberts'
-      expect(rendered.text).to include '8 February 2020 at 10pm'
+      expect(rendered.text).to include 3.days.ago.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View offer'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '8 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq 3.days.ago.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
     end
   end
@@ -91,9 +90,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Note added'
       expect(rendered.text).to include 'Bob Roberts'
-      expect(rendered.text).to include '11 February 2020 at 10pm'
+      expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View note'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '11 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/notes/#{note.id}"
     end
   end
@@ -103,9 +102,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice = create(:application_choice, :with_rejection_by_default_and_feedback)
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Feedback sent'
-      expect(rendered.text).to include '11 February 2020 at 10pm'
+      expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View feedback'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '11 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/feedback"
     end
   end
@@ -116,9 +115,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       create(:application_choice_audit, :with_changed_offer, application_choice: application_choice)
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Offer changed'
-      expect(rendered.text).to include '11 February 2020 at 10pm'
+      expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View offer'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '11 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
     end
   end
@@ -136,9 +135,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Interview set up'
-      expect(rendered.text).to include '11 February 2020 at 10pm'
+      expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View interview'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '11 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
 
@@ -154,9 +153,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Interview updated'
-      expect(rendered.text).to include '11 February 2020 at 10pm'
+      expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View interview'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '11 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
 
@@ -172,9 +171,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Interview cancelled'
-      expect(rendered.text).to include '11 February 2020 at 10pm'
+      expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View interview'
-      expect(rendered.css('.govuk-visually-hidden').text).to eq '11 February 2020 at 10pm'
+      expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
   end

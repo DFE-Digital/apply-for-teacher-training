@@ -15,7 +15,7 @@ class DataExport < ApplicationRecord
     application_references: {
       name: 'Application references',
       export_type: 'application_references',
-      description: 'A list of all application references which have been selected by candidates to date.',
+      description: 'A list of all application references which have been selected by candidates to date. All duplicate references caused by duplication of a candidates application form caused by Applying Again or carrying over their application between cycles have been removed.',
       class: SupportInterface::ApplicationReferencesExport,
     },
     application_timings: {

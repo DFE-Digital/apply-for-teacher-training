@@ -8,11 +8,15 @@ class DetectInvariants
     detect_unauthorised_application_form_edits
     detect_applications_with_course_choices_in_previous_cycle
     detect_submitted_applications_with_more_than_three_course_choices
+    detect_applications_submitted_with_the_same_course
+    detect_course_sync_not_succeeded_for_an_hour
   end
 
   def detect_application_choices_in_old_states
     choices_in_wrong_state = begin
-      ApplicationChoice.where(status: %w[awaiting_references application_complete]).map(&:id).sort
+      ApplicationChoice
+        .where("status IN ('awaiting_references', 'application_complete')")
+        .map(&:id).sort
     end
 
     if choices_in_wrong_state.any?
@@ -115,11 +119,44 @@ class DetectInvariants
     end
   end
 
+  def detect_applications_submitted_with_the_same_course
+    applications_with_the_same_choice = ApplicationForm
+      .joins(application_choices: [:course_option])
+      .where.not(submitted_at: nil)
+      .where.not("application_choices.status": %w[withdrawn rejected])
+      .group('application_forms.id', 'course_options.course_id')
+      .having('COUNT(DISTINCT course_options.course_id) < COUNT(application_choices.id)')
+
+    if applications_with_the_same_choice.any?
+      urls = applications_with_the_same_choice.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
+
+      message = <<~MSG
+        The following applications have been submitted containing the same course choice multiple times
+
+        #{urls.join("\n")}
+      MSG
+
+      Raven.capture_exception(ApplicationSubmittedWithTheSameCourse.new(message))
+    end
+  end
+
+  def detect_course_sync_not_succeeded_for_an_hour
+    unless TeacherTrainingPublicAPI::SyncCheck.check
+      Raven.capture_exception(
+        CourseSyncNotSucceededForAnHour.new(
+          'The course sync via the Teacher training public API has not succeeded for an hour',
+        ),
+      )
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
   class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
+  class ApplicationSubmittedWithTheSameCourse < StandardError; end
+  class CourseSyncNotSucceededForAnHour < StandardError; end
 
 private
 

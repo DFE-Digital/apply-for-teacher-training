@@ -2,6 +2,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body"><%= govuk_link_to 'History', support_interface_data_exports_history_path %></p>
+
     <% @export_types.each do |id, export| %>
 
       <% if @export_types.first.second[:name] == export[:name] %>

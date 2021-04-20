@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::PersonaExport do
 
   describe '#data_for_export' do
     around do |example|
-      Timecop.freeze(Date.new(2020, 1, 2)) do
+      Timecop.freeze do
         example.run
       end
     end
@@ -17,7 +17,7 @@ RSpec.describe SupportInterface::PersonaExport do
     it 'returns a hash of location and application choice related data' do
       application_form = create(
         :application_form,
-        date_of_birth: Date.new(2000, 1, 1),
+        date_of_birth: 20.years.ago,
         latitude: 51.5973506,
         longitude: -1.2967454,
         first_nationality: 'British',

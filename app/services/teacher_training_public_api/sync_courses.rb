@@ -1,6 +1,7 @@
 module TeacherTrainingPublicAPI
   class SyncCourses
     attr_reader :provider, :run_in_background
+    include Rails.application.routes.url_helpers
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
@@ -13,7 +14,9 @@ module TeacherTrainingPublicAPI
         year: recruitment_cycle_year,
         provider_code: @provider.code,
       ).paginate(per_page: 500).each do |course_from_api|
-        create_or_update_course(course_from_api, recruitment_cycle_year)
+        ActiveRecord::Base.transaction do
+          create_or_update_course(course_from_api, recruitment_cycle_year)
+        end
       end
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
@@ -27,6 +30,12 @@ module TeacherTrainingPublicAPI
         recruitment_cycle_year: recruitment_cycle_year,
       ) do |new_course|
         new_course.open_on_apply = new_course.in_previous_cycle&.open_on_apply ? true : false
+        if provider.any_open_courses_in_current_cycle?
+          SlackNotificationWorker.perform_async(
+            "#{provider.name}, which has courses open on Apply, added a new course",
+            support_interface_provider_courses_path(provider),
+          )
+        end
       end
 
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
@@ -54,7 +63,10 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.withdrawn = course_from_api.state == 'withdrawn'
       course.qualifications = course_from_api.qualifications
-      course.subject_codes = course_from_api.subject_codes
+      course_from_api.subject_codes.each do |code|
+        subject = ::Subject.find_or_initialize_by(code: code)
+        course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)
+      end
     end
 
     def study_mode(course_from_api)

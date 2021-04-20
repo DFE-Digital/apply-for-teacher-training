@@ -688,7 +688,7 @@ components:
           type: string
           description: The candidate’s phone number
           maxLength: 50
-          example: "07944386555"
+          example: "07700 900000"
     Course:
       type: object
       additionalProperties: false
@@ -797,6 +797,7 @@ components:
       - qualification_type
       - non_uk_qualification_type
       - subject
+      - subject_code
       - grade
       - start_year
       - award_year
@@ -831,6 +832,11 @@ components:
           description: The subject studied
           maxLength: 256
           example: History and Politics
+        subject_code:
+          type: string
+          description: The HECoS code for the subject studied, if available
+          example: 100403
+          nullable: true
         grade:
           type: string
           maxLength: 256
@@ -969,7 +975,7 @@ components:
       properties:
         reason:
           type: string
-          description: The reason for rejection or offer withdrawal
+          description: The reason for rejection or offer withdrawal. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           maxLength: 65535
           example: Does not meet minimum GCSE requirements
         date:

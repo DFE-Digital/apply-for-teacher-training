@@ -20,10 +20,11 @@
       <%= f.govuk_fieldset legend: { text: 'Further conditions', size: 'm' } do %>
         <p class="govuk-body">For example, studying a subject knowledge enhancement course.</p>
 
-        <%= f.govuk_text_area :further_condition_1, label: { size: 's' }, rows: 3 %>
-        <%= f.govuk_text_area :further_condition_2, label: { size: 's' }, rows: 3 %>
-        <%= f.govuk_text_area :further_condition_3, label: { size: 's' }, rows: 3 %>
-        <%= f.govuk_text_area :further_condition_4, label: { size: 's' }, rows: 3 %>
+        <% @wizard.condition_models.each do |model| %>
+          <%= f.fields_for 'further_conditions[]', model do |fc| %>
+            <%= fc.govuk_text_area :text, label: { text: "Condition #{model.id.to_i + 1}", size: 's' }, rows: 3 %>
+          <% end %>
+        <% end %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>

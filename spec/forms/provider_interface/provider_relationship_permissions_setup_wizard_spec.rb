@@ -112,7 +112,7 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
         )
 
         expect(wizard.valid?(:permissions)).to be false
-        expect(wizard.errors.keys).to eq([:'provider_relationship_permissions[123][make_decisions]'])
+        expect(wizard.errors.attribute_names).to eq([:'provider_relationship_permissions[123][make_decisions]'])
       end
     end
   end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe TimeLimitCalculator, skip: true do
+RSpec.describe TimeLimitCalculator do
   around do |example|
-    Timecop.freeze(Time.zone.local(2019, 6, 1)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -19,8 +19,8 @@ RSpec.describe TimeLimitCalculator, skip: true do
     )
     expect(calculator.call).to eq(
       days: 20,
-      time_in_future: Time.zone.local(2019, 7, 1).end_of_day,
-      time_in_past: Time.zone.local(2019, 5, 1).end_of_day,
+      time_in_future: 20.business_days.from_now.end_of_day,
+      time_in_past: 20.business_days.ago.end_of_day,
     )
   end
 
@@ -37,8 +37,8 @@ RSpec.describe TimeLimitCalculator, skip: true do
     )
     expect(calculator.call).to eq(
       days: 10,
-      time_in_future: Time.zone.local(2019, 6, 17).end_of_day,
-      time_in_past: Time.zone.local(2019, 5, 16).end_of_day,
+      time_in_future: 10.business_days.from_now.end_of_day,
+      time_in_past: 10.business_days.ago.end_of_day,
     )
   end
 
@@ -55,8 +55,8 @@ RSpec.describe TimeLimitCalculator, skip: true do
     )
     expect(calculator.call).to eq(
       days: 20,
-      time_in_future: Time.zone.local(2019, 7, 1).end_of_day,
-      time_in_past: Time.zone.local(2019, 5, 1).end_of_day,
+      time_in_future: 20.business_days.from_now.end_of_day,
+      time_in_past: 20.business_days.ago.end_of_day,
     )
   end
 
@@ -74,8 +74,8 @@ RSpec.describe TimeLimitCalculator, skip: true do
     )
     expect(calculator.call).to eq(
       days: 5,
-      time_in_future: Time.zone.local(2019, 6, 10).end_of_day,
-      time_in_past: Time.zone.local(2019, 5, 23).end_of_day,
+      time_in_future: 5.business_days.from_now.end_of_day,
+      time_in_past: 5.business_days.ago.end_of_day,
     )
   end
 
@@ -109,12 +109,12 @@ RSpec.describe TimeLimitCalculator, skip: true do
       it 'applies the 20 day rule' do
         calculator = TimeLimitCalculator.new(
           rule: :reject_by_default,
-          effective_date: Time.zone.local(2020, 7, 6),
+          effective_date: Time.zone.local(RecruitmentCycle.current_year, 7, 6),
         )
         expect(calculator.call).to eq(
           days: 20,
-          time_in_future: Time.zone.local(2020, 8, 3).end_of_day,
-          time_in_past: Time.zone.local(2020, 6, 8).end_of_day,
+          time_in_future: Time.zone.local(RecruitmentCycle.current_year, 8, 3).end_of_day,
+          time_in_past: Time.zone.local(RecruitmentCycle.current_year, 6, 8).end_of_day,
         )
       end
     end
@@ -139,12 +139,12 @@ RSpec.describe TimeLimitCalculator, skip: true do
       it 'applies the 20 day rule' do
         calculator = TimeLimitCalculator.new(
           rule: :chase_provider_before_rbd,
-          effective_date: Time.zone.local(2020, 7, 6),
+          effective_date: Time.zone.local(RecruitmentCycle.current_year, 7, 6),
         )
         expect(calculator.call).to eq(
           days: 10,
-          time_in_future: Time.zone.local(2020, 7, 20).end_of_day,
-          time_in_past: Time.zone.local(2020, 6, 22).end_of_day,
+          time_in_future: Time.zone.local(RecruitmentCycle.current_year, 7, 20).end_of_day,
+          time_in_past: Time.zone.local(RecruitmentCycle.current_year, 6, 22).end_of_day,
         )
       end
     end

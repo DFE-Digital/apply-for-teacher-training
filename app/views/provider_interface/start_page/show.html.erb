@@ -27,9 +27,10 @@
 <% if FeatureFlag.active?('provider_information_banner') %>
   <div class="govuk-width-container">
     <div class="govuk-width-container govuk-!-margin-top-4">
-      <%= render NotificationMessageComponent.new(:info,
-                                                  message: '2 April to 16 April 2021 do not count as working days',
-                                                  secondary_message: 'This period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.') %>
+      <%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+        <%= notification_banner.slot(:heading, text: '2 April to 16 April 2021 do not count as working days') %>
+        <p class="govuk-body">This period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.</p>
+      <% end %>
     </div>
   </div>
 <% end %>
@@ -127,7 +128,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m app-section__title--with-top-border">The team</h2>
-        <p class="govuk-body">Our team is constantly making improvements based on feedback from users. To get involved so you can shape the service, email us at <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher<wbr>@digital.education.gov.uk</a></p>
+        <p class="govuk-body">Our team is constantly making improvements based on feedback from users. To get involved so you can shape the service, email us at <%= bat_contact_mail_to %></p>
       </div>
       <div class="govuk-grid-column-one-half">
         <img src="/provider/team.jpg" alt="The Apply team sat round a desk.">

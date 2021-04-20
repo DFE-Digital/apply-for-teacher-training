@@ -23,7 +23,7 @@
           </p>
         <% end %>
         <% if link.present? && link[:url].present? %>
-          <p class="app-timeline__event_link"><a class="govuk-link" href="<%= link[:url] %>"><%= link[:text] %></a></p>
+          <p class="app-timeline__event_link"><%= govuk_link_to link[:text], link[:url] %></p>
         <% end %>
       </div>
     </div>

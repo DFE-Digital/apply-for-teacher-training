@@ -5,7 +5,7 @@ RSpec.feature 'Validation errors' do
   include DfESignInHelpers
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2020, 4, 24, 12, 35, 46)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -58,7 +58,7 @@ RSpec.feature 'Validation errors' do
   end
 
   def then_i_should_see_a_list_of_individual_errors
-    expect(page).to have_content('24 April 2020 at 12:35pm')
+    expect(page).to have_content(Time.zone.now.to_s(:govuk_date_and_time))
     expect(page).to have_content('Showing errors on the Phone number field in Contact details form by all users')
     expect(page).to have_content('Contact details form: Phone number')
     expect(page).to have_content('ABCDEF')

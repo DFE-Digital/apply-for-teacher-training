@@ -64,7 +64,7 @@ module CandidateInterface
 
     def save
       unless valid?
-        log_validation_errors(errors.keys.first)
+        log_validation_errors(errors.attribute_names.first)
         return false
       end
 
@@ -201,7 +201,7 @@ module CandidateInterface
     end
 
     def sanitize(grade)
-      grade.delete(' ').upcase if grade
+      grade&.delete(' ')&.upcase
     end
 
     def new_record?

@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe CancelUnsubmittedApplicationsWorker do
+  include CycleTimetableHelper
+
   describe '#perform' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 9, 19, 12, 0, 0)) { example.run }
+      Timecop.freeze(after_apply_2_deadline) { example.run }
     end
 
     it 'cancels any unsubmitted applications from the last cycle' do

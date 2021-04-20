@@ -28,7 +28,7 @@ module SupportInterface
         },
         {
           type: :search,
-          heading: 'Name or email',
+          heading: 'Name, email or ID',
           value: applied_filters[:q],
           name: 'q',
         },

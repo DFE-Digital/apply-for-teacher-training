@@ -3,13 +3,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
-gem 'activesupport', '~> 6.0'
-gem 'actionpack', '~> 6.0'
-gem 'actionview', '~> 6.0'
-gem 'activemodel', '~> 6.0'
-gem 'activerecord', '~> 6.0'
-gem 'actionmailer', '~> 6.0'
-gem 'railties', '~> 6.0'
+gem 'activesupport', '~> 6.1'
+gem 'actionpack', '~> 6.1'
+gem 'actionview', '~> 6.1'
+gem 'activemodel', '~> 6.1'
+gem 'activerecord', '~> 6.1'
+gem 'actionmailer', '~> 6.1'
+gem 'railties', '~> 6.1'
 gem 'sprockets-rails'
 
 gem 'puma', '~> 5.2'
@@ -21,7 +21,7 @@ gem 'tzinfo-data'
 
 gem 'webpacker'
 gem 'govuk-components'
-gem 'govuk_design_system_formbuilder', '~> 2.2.0'
+gem 'govuk_design_system_formbuilder', '~> 2.5.0'
 
 # GOV.UK Notify
 gem 'mail-notify'

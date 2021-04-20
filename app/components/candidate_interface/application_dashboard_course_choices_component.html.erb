@@ -1,0 +1,104 @@
+<% application_choices.each do |application_choice| %>
+  <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
+  <% if CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_choice.application_form) && @editable %>
+    <% if application_choice.course_not_available? %>
+      <p class="app-inset-text__title"><%= application_choice.course_not_available_error %>.</p>
+      <p class="govuk-body"><%= application_choice.provider.name %> have decided not to run this course.</p>
+      <p class="govuk-body">You can:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(application_choice.id) %></li>
+        <% if course_change_path(application_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to discuss alternatives
+        </li>
+      </ul>
+    <% elsif application_choice.course_closed_on_apply? %>
+      <p class="app-inset-text__title"><%= application_choice.course_closed_on_apply_error %>.</p>
+      <p class="govuk-body">You can still apply for ‘<%= application_choice.course.name_and_code %>’ on UCAS.</p>
+      <p class="govuk-body">You can:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(application_choice.id) %></li>
+        <% if course_change_path(application_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to discuss alternatives
+        </li>
+        <li>
+          <%= govuk_link_to 'apply for this course on UCAS', UCAS.apply_url %>
+        </li>
+      </ul>
+    <% elsif application_choice.course_full? %>
+      <p class="app-inset-text__title"><%= application_choice.course_full_error %>.</p>
+      <p class="govuk-body">You can:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(application_choice.id) %></li>
+        <% if course_change_path(application_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
+        </li>
+      </ul>
+    <% elsif application_choice.site_full? %>
+      <p class="app-inset-text__title"><%= application_choice.site_full_error %>.</p>
+      <p class="govuk-body">You can:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <% if site_change_path(application_choice) %>
+          <li><%= govuk_link_to 'pick a new location', site_change_path(application_choice) %></li>
+        <% end %>
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(application_choice.id) %></li>
+        <% if course_change_path(application_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
+        </li>
+      </ul>
+    <% elsif application_choice.study_mode_full? %>
+      <p class="app-inset-text__title"><%= application_choice.study_mode_full_error %>.</p>
+      <p class="govuk-body">You can:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <% if site_change_path(application_choice) %>
+          <li><%= govuk_link_to 'pick a new location', site_change_path(application_choice) %></li>
+        <% end %>
+        <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(application_choice.id) %></li>
+        <% if course_change_path(application_choice) %>
+          <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
+        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
+        </li>
+      </ul>
+    <% end %>
+  <% end %>
+
+  <%= render(SummaryCardComponent.new(rows: course_choice_rows(application_choice), editable: @editable)) do %>
+    <%= render(SummaryCardHeaderComponent.new(
+      title: title_for(application_choice),
+      heading_level: @heading_level,
+    )) do %>
+      <div class="app-summary-card__actions">
+        <%= govuk_link_to 'View application', candidate_interface_application_review_submitted_path %>
+        <% if !application_choice.offer? && !withdrawable?(application_choice) && @editable %>
+          <%= govuk_link_to candidate_interface_confirm_destroy_course_choice_path(application_choice.id), data: { action: :delete } do %>
+            <%= t('application_form.courses.delete') %>
+            <span class="govuk-visually-hidden"> <%= application_choice.offered_course.name_and_code %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+  </div>
+<% end %>
+
+<% if show_missing_banner? %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
+<% end %>

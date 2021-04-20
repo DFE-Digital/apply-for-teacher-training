@@ -10,4 +10,8 @@ RSpec.configure do |config|
       sent_message.include?(expected_message)
     }
   end
+
+  def expect_no_slack_message
+    expect(WebMock).not_to have_requested(:post, 'https://example.com/slack-webhook')
+  end
 end

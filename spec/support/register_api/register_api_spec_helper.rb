@@ -20,4 +20,8 @@ module RegisterAPISpecHelper
   def error_response
     parsed_response['errors'].first
   end
+
+  def be_valid_against_openapi_schema(expected)
+    ValidAgainstOpenAPISchemaMatcher.new(expected, RegisterAPISpecification.as_hash)
+  end
 end

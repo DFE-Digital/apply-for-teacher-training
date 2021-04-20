@@ -1,0 +1,95 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      qa:
+        description: Deploy to qa?
+        default: 'false'
+        required: true
+      staging:
+        description: Deploy to staging?
+        default: 'false'
+        required: true
+      production:
+        description: Deploy to production?
+        default: 'false'
+        required: true
+      sandbox:
+        description: Deploy to sandbox?
+        default: 'false'
+        required: true        
+      sha:
+        description: Commit sha to be deployed
+        required: true
+
+jobs:
+  prepare-matrix:
+    name: Prepare Environment Matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      environments: ${{ steps.select-environments.outputs.environments }}
+    steps:
+      - id:   select-environments
+        uses: DFE-Digital/bat-infrastructure/actions/prepare-environment-matrix@main
+
+      - uses: DFE-Digital/github-actions/turnstyle@master
+        name: Wait for other inprogress deployment runs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: ${{ matrix.environment }} Deployment
+    runs-on: ubuntu-latest
+    needs: [prepare-matrix]
+    environment: 
+      name: ${{ matrix.environment }}
+    strategy:
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.environments) }}
+      max-parallel: 1 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Environment variable
+        run: |
+          echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
+          echo "TF_VAR_key_vault_name=$KEY_VAULT_NAME" >> $GITHUB_ENV
+          echo "TF_VAR_key_vault_resource_group=$KEY_VAULT_RESOURCE_GROUP" >> $GITHUB_ENV
+          echo "TF_VAR_key_vault_app_secret_name=$KEY_VAULT_APP_SECRET_NAME" >> $GITHUB_ENV
+          echo "TF_VAR_key_vault_infra_secret_name=$KEY_VAULT_INFRA_SECRET_NAME" >> $GITHUB_ENV
+        env:
+          DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:paas-{0}', github.event.inputs.sha) }}
+          KEY_VAULT_NAME: ${{ secrets.KEY_VAULT_NAME }}
+          KEY_VAULT_RESOURCE_GROUP: ${{ secrets.KEY_VAULT_RESOURCE_GROUP }}
+          KEY_VAULT_INFRA_SECRET_NAME: ${{ secrets.KEY_VAULT_INFRA_SECRET_NAME }}
+          KEY_VAULT_APP_SECRET_NAME: ${{ secrets.KEY_VAULT_APP_SECRET_NAME }}
+
+      - name: Use Terraform v0.14.9
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.9
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Validate Azure Key Vault secrets
+        uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
+        with:
+          KEY_VAULT: ${{ env.TF_VAR_key_vault_name }}
+          SECRETS: |
+            ${{ env.TF_VAR_key_vault_app_secret_name }}
+            ${{ env.TF_VAR_key_vault_infra_secret_name }}
+
+      - name: Terraform init, plan & apply
+        run: |
+          terraform init -backend-config=workspace_variables/${{ matrix.environment }}_backend.tfvars
+          terraform plan -var-file workspace_variables/${{ matrix.environment }}.tfvars -out tfplan
+          terraform apply -auto-approve -input=false "tfplan"
+        working-directory: terraform
+        env:
+          ARM_ACCESS_KEY:           ${{ secrets.TERRAFORM_STATE_ACCESS_KEY }}
+          TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          TF_VAR_paas_docker_image: ${{ env.DOCKER_IMAGE }}

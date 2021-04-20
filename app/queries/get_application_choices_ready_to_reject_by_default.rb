@@ -1,6 +1,6 @@
 class GetApplicationChoicesReadyToRejectByDefault
   def self.call
-    scope = ApplicationChoice.where(status: :awaiting_provider_decision).order(:application_form_id)
+    scope = ApplicationChoice.decision_pending.order(:application_form_id)
     application_choices_past_reject_by_default_at(scope)
   end
 

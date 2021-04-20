@@ -52,7 +52,7 @@ module ApplyForPostgraduateTeacherTraining
     config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
 
     config.i18n.exception_handler = Proc.new { |exception| raise exception.to_exception }
-    config.action_view.raise_on_missing_translations = true
+    config.i18n.raise_on_missing_translations = true
     config.action_view.form_with_generates_remote_forms = false
 
     config.active_job.queue_adapter = :sidekiq
@@ -69,5 +69,9 @@ module ApplyForPostgraduateTeacherTraining
     config.after_initialize do |app|
       app.routes.append { get '*path', to: 'errors#not_found' }
     end
+
+    config.action_dispatch.default_headers = {
+      'Feature-Policy' => "accelerometer 'none'; ambient-light-sensor: 'none', autoplay: 'none', battery: 'none', camera 'none'; display-capture: 'none', document-domain: 'none', fullscreen: 'none', geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi: 'none', payment 'none'; publickey-credentials-get: 'none', usb 'none', wake-lock: 'none', screen-wake-lock: 'none', web-share: 'none'",
+    }
   end
 end

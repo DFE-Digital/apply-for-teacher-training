@@ -2,6 +2,7 @@
 <html lang="en" class="govuk-template">
   <head>
     <%= render 'shared/analytics' if @google_analytics_id.present? %>
+    <%= render 'shared/tag_manager' if @google_tag_manager_id.present? %>
     <meta charset="utf-8">
     <title><%= try(:browser_title) %></title>
     <%= csrf_meta_tags %>
@@ -29,7 +30,7 @@
       <%= stylesheet_pack_tag 'application-support', media: 'all' %>
     <% when 'provider_interface' %>
       <%= stylesheet_pack_tag 'application-provider', media: 'all' %>
-    <% when 'api_docs', 'data_api_docs' %>
+    <% when /api_docs/ %>
       <%= stylesheet_pack_tag 'application-api-docs', media: 'all' %>
     <% else %>
       <%= stylesheet_pack_tag 'application', media: 'all' %>
@@ -37,24 +38,13 @@
   </head>
 
   <body class="govuk-template__body <%= yield :body_class %>">
-    <script>
+    <script nonce="<%= request.content_security_policy_nonce %>">
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
-    <% unless current_page?(candidate_interface_cookies_path) || current_page?(provider_interface_cookies_path) %>
-      <% if try(:current_namespace).eql?('candidate_interface') && cookies['consented-to-apply-cookies'].blank? %>
-        <%= render 'shared/cookies_banner',
-                   cookies_path: candidate_interface_cookies_path,
-                   cookie_preferences_path: candidate_interface_cookie_preferences_path(consent: 'yes') %>
+    <%= render CookieBannersComponent.new(current_namespace: try(:current_namespace), request_path: request.path) %>
 
-      <% elsif try(:current_namespace).eql?('provider_interface') && cookies['consented-to-manage-cookies'].blank? %>
-        <%= render 'shared/cookies_banner',
-                   cookies_path: provider_interface_cookies_path,
-                   cookie_preferences_path: provider_interface_cookie_preferences_path(consent: 'yes') %>
-      <% end %>
-    <% end %>
-
-    <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
+    <%= govuk_skip_link %>
 
     <%= render 'layouts/header' %>
 
@@ -78,7 +68,7 @@
     <% when 'provider_interface' %>
       <%= javascript_pack_tag 'application-provider' %>
       <%= render 'shared/zendesk_snippet' if HostingEnvironment.test_environment? %>
-    <% when 'api_docs' %>
+    <% when /api_docs/ %>
       <%= javascript_pack_tag 'application-api-docs' %>
     <% else %>
       <%= javascript_pack_tag 'application' %>

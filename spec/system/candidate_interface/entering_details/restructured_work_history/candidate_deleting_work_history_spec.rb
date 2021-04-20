@@ -4,7 +4,7 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   around do |example|
-    Timecop.freeze(Time.zone.local(2019, 11, 1)) do
+    Timecop.freeze do
       example.run
     end
   end
@@ -20,22 +20,22 @@ RSpec.feature 'Entering their work history' do
     then_i_choose_that_i_have_work_history_to_add
     and_i_click_add_a_first_job
     then_i_should_see_the_add_a_job_page
-    and_i_add_a_job_between_october_2014_to_august_2019
+    and_i_add_a_job_that_covers_the_last_4_years_and_9_months
     then_i_see_a_two_month_break_between_my_job_and_now
 
     given_i_am_on_review_work_history_page
-    when_i_click_to_explain_my_break_between_august_2019_and_november_2019
-    then_i_see_the_start_and_end_date_filled_in_for_my_break_between_august_2019_and_november_2019
-    when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
-    then_i_see_my_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
+    when_i_click_to_explain_my_break_for_the_last_2_months
+    then_i_see_the_start_and_end_date_filled_in_for_my_break_that_covers_the_last_2_months
+    when_i_enter_a_reason_for_my_break_for_the_last_2_months
+    then_i_see_my_reason_for_my_break_for_the_last_2_months_on_the_review_page
 
-    when_i_delete_my_job_between_october_2014_and_august_2019
-    and_i_confirm_i_want_to_delete_my_job_between_october_2014_and_august_2019
+    when_i_delete_my_job
+    and_i_confirm_i_want_to_delete_my_job
     then_i_should_see_the_start_page
     then_i_choose_that_i_have_work_history_to_add
     and_i_click_add_a_first_job
     then_i_should_see_the_add_a_job_page
-    and_i_add_a_job_between_october_2014_to_august_2019
+    and_i_add_a_job_that_covers_the_last_4_years_and_9_months
     then_i_see_a_two_month_break_between_my_job_and_now
     and_i_should_not_see_my_previous_break_entry
   end
@@ -69,7 +69,7 @@ RSpec.feature 'Entering their work history' do
     expect(page).to have_current_path candidate_interface_new_restructured_work_history_path
   end
 
-  def and_i_add_a_job_between_october_2014_to_august_2019
+  def and_i_add_a_job_that_covers_the_last_4_years_and_9_months
     scope = 'application_form.restructured_work_history'
     fill_in t('role.label', scope: scope), with: 'Microsoft Painter'
     fill_in t('employer.label', scope: scope), with: 'Department for Education'
@@ -77,8 +77,8 @@ RSpec.feature 'Entering their work history' do
     choose 'Full time'
 
     within('[data-qa="start-date"]') do
-      fill_in 'Month', with: '10'
-      fill_in 'Year', with: '2014'
+      fill_in 'Month', with: Date.current.month
+      fill_in 'Year', with: 5.years.ago.year
     end
 
     within('[data-qa="currently-working"]') do
@@ -86,8 +86,8 @@ RSpec.feature 'Entering their work history' do
     end
 
     within('[data-qa="end-date"]') do
-      fill_in 'Month', with: '8'
-      fill_in 'Year', with: '2019'
+      fill_in 'Month', with: 3.months.ago.month
+      fill_in 'Year', with: 3.months.ago.year
     end
 
     within('[data-qa="relevant-skills"]') do
@@ -101,40 +101,40 @@ RSpec.feature 'Entering their work history' do
     expect(page).to have_content('You have a break in your work history (2 months)')
   end
 
-  def then_i_see_the_start_and_end_date_filled_in_for_my_break_between_august_2019_and_november_2019
-    then_i_see_the_start_and_end_date_filled_for_adding_another_job_between_august_2019_and_november_2019
+  def then_i_see_the_start_and_end_date_filled_in_for_my_break_that_covers_the_last_2_months
+    then_i_see_the_start_and_end_date_filled_for_adding_another_job_that_covers_the_last_2_months
   end
 
-  def then_i_see_the_start_and_end_date_filled_for_adding_another_job_between_august_2019_and_november_2019
-    expect(page).to have_selector("input[value='8']")
-    expect(page).to have_selector("input[value='2019']")
-    expect(page).to have_selector("input[value='11']")
-    expect(page).to have_selector("input[value='2019']")
+  def then_i_see_the_start_and_end_date_filled_for_adding_another_job_that_covers_the_last_2_months
+    expect(page).to have_selector("input[value='#{3.months.ago.month}']")
+    expect(page).to have_selector("input[value='#{3.months.ago.year}']")
+    expect(page).to have_selector("input[value='#{Date.current.month}']")
+    expect(page).to have_selector("input[value='#{Date.current.year}']")
   end
 
   def given_i_am_on_review_work_history_page
     visit candidate_interface_restructured_work_history_review_path
   end
 
-  def when_i_click_to_explain_my_break_between_august_2019_and_november_2019
+  def when_i_click_to_explain_my_break_for_the_last_2_months
     click_link 'add a reason for this break', match: :first
   end
 
-  def when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
+  def when_i_enter_a_reason_for_my_break_for_the_last_2_months
     fill_in 'Enter reasons for break in work history', with: 'Painting is tiring.'
 
     click_button t('continue')
   end
 
-  def then_i_see_my_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
+  def then_i_see_my_reason_for_my_break_for_the_last_2_months_on_the_review_page
     expect(page).to have_content('Painting is tiring.')
   end
 
-  def when_i_delete_my_job_between_october_2014_and_august_2019
+  def when_i_delete_my_job
     click_link 'Delete job Microsoft Painter for Department for Education'
   end
 
-  def and_i_confirm_i_want_to_delete_my_job_between_october_2014_and_august_2019
+  def and_i_confirm_i_want_to_delete_my_job
     click_button 'Yes I’m sure - delete this job'
   end
 

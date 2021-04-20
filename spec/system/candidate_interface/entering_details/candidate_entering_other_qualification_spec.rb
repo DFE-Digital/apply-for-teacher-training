@@ -92,7 +92,7 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_see_the_select_qualification_type_page
 
     when_i_click_back_to_application_form
-    and_that_the_section_is_not_marked_as_complete_or_incomplete
+    and_that_the_section_is_not_marked_as_complete
   end
 
   def given_i_am_signed_in
@@ -104,7 +104,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_other_qualifications
-    click_link t('page_titles.other_qualification')
+    click_link t('page_titles.other_qualifications')
   end
 
   def then_i_see_the_select_qualification_type_page
@@ -128,7 +128,7 @@ RSpec.feature 'Entering their other qualifications' do
   def and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
     suggested_subjects = find('#subject-autosuggest-data')['data-source']
 
-    expect(JSON[suggested_subjects]).to eq A_AND_AS_LEVEL_SUBJECTS
+    expect(JSON[suggested_subjects]).to eq(A_AND_AS_LEVEL_SUBJECTS)
   end
 
   def when_i_submit_in_some_of_my_qualification_but_omit_some_required_details
@@ -295,7 +295,7 @@ RSpec.feature 'Entering their other qualifications' do
   def and_the_suggested_subject_data_matches_the_gcse_subjects_data
     suggested_subjects = find('#subject-autosuggest-data')['data-source']
 
-    expect(JSON[suggested_subjects]).to eq GCSE_SUBJECTS
+    expect(JSON[suggested_subjects]).to eq(GCSE_SUBJECTS)
   end
 
   def when_i_change_my_qualification
@@ -348,7 +348,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
+    expect(page).to have_css('#a-levels-and-other-qualifications-badge-id', text: 'Completed')
   end
 
   def when_i_do_not_select_any_type_option; end
@@ -368,7 +368,7 @@ RSpec.feature 'Entering their other qualifications' do
     click_link 'Back to application'
   end
 
-  def and_that_the_section_is_not_marked_as_complete_or_incomplete
-    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id')
+  def and_that_the_section_is_not_marked_as_complete
+    expect(page).not_to have_css('#a-levels-and-other-qualifications-badge-id', text: 'Completed')
   end
 end

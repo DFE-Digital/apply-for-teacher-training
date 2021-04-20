@@ -17,6 +17,6 @@
       possible_permissions: @possible_permissions,
     ) %>
 
-    <%= govuk_button_link_to 'Delete user', provider_interface_provider_user_remove_provider_user_path(@provider_user), class: 'govuk-button--warning' %>
+    <%= govuk_link_to 'Delete user', provider_interface_provider_user_remove_provider_user_path(@provider_user), button: true, class: 'govuk-button--warning' %>
   </div>
 </div>

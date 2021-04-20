@@ -1,5 +1,7 @@
 module ProviderInterface
   class ApplicationTimelineComponentPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     def rejected
       application_choice = ApplicationChoice.where(status: 'rejected').sample
       render_component_for application_choice: application_choice

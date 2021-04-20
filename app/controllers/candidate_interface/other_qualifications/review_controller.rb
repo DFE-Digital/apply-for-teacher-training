@@ -1,7 +1,7 @@
 module CandidateInterface
   class OtherQualifications::ReviewController < OtherQualifications::BaseController
     def show
-      redirect_to candidate_interface_other_qualification_type_path and return if current_application.application_qualifications.other.blank?
+      redirect_to candidate_interface_other_qualification_type_path and return if current_application.application_qualifications.other.blank? && !current_application.no_other_qualifications
 
       @application_form = current_application
     end

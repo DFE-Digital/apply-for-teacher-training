@@ -17,7 +17,7 @@ provider "cloudfoundry" {
 resource "cloudfoundry_app" "web_app" {
   name                       = local.web_app_name
   docker_image               = var.app_docker_image
-  health_check_type          = "http"
+  health_check_type          = "process"
   health_check_http_endpoint = "/check"
   instances                  = var.web_app_instances
   memory                     = var.web_app_memory
@@ -88,6 +88,12 @@ resource "cloudfoundry_route" "web_app_cloudapps_digital_route" {
 
 resource "cloudfoundry_route" "web_app_service_gov_uk_route" {
   domain   = data.cloudfoundry_domain.apply_service_gov_uk.id
+  space    = data.cloudfoundry_space.space.id
+  hostname = local.service_gov_uk_host_names[var.app_environment]
+}
+
+resource "cloudfoundry_route" "web_app_education_gov_uk_route" {
+  domain   = data.cloudfoundry_domain.apply_education_gov_uk.id
   space    = data.cloudfoundry_space.space.id
   hostname = local.service_gov_uk_host_names[var.app_environment]
 }

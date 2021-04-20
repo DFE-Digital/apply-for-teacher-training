@@ -152,8 +152,8 @@ module ProviderInterface
     def validate_permissions_form
       return if current_permissions_form.valid?
 
-      current_permissions_form.errors.map do |key, message|
-        errors.add("provider_relationship_permissions[#{current_provider_relationship_id}][#{key}]", message)
+      current_permissions_form.errors.map do |error|
+        errors.add("provider_relationship_permissions[#{current_provider_relationship_id}][#{error.attribute}]", error.message)
       end
     end
   end

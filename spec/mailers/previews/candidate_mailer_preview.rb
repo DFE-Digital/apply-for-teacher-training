@@ -1,4 +1,14 @@
 class CandidateMailerPreview < ActionMailer::Preview
+  def confirm_sign_in
+    CandidateMailer.confirm_sign_in(
+      FactoryBot.build_stubbed(:candidate),
+      device: {
+        ip_address: Faker::Internet.ip_v4_address,
+        user_agent: Faker::Internet.user_agent,
+      },
+    )
+  end
+
   def application_submitted
     application_form = FactoryBot.build_stubbed(
       :completed_application_form,
@@ -579,7 +589,8 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def ucas_match_initial_email_multiple_acceptances
-    candidate = FactoryBot.build_stubbed(:candidate, application_forms: [application_form])
+    application_form = FactoryBot.create(:application_form, :minimum_info, first_name: 'Gemma')
+    candidate = FactoryBot.create(:candidate, application_forms: [application_form])
 
     CandidateMailer.ucas_match_initial_email_multiple_acceptances(candidate)
   end

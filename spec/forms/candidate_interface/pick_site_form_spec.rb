@@ -36,6 +36,22 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
     end
   end
 
+  describe '#save' do
+    it 'updates the course_option for an existing course choice' do
+      application_form = create(:application_form)
+      course_option = create(:course_option)
+
+      CandidateInterface::PickSiteForm.new(
+        application_form: application_form,
+        course_option_id: course_option.id,
+      ).save
+
+      application_choice = application_form.reload.application_choices.first
+      expect(application_choice.course_option.id).to eq(course_option.id)
+      expect(application_choice.current_course_option_id).to eq(course_option.id)
+    end
+  end
+
   describe '#update' do
     it 'updates the course_option for an existing course choice' do
       application_choice = create(:application_choice)
@@ -49,6 +65,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
       ).update(application_choice)
 
       expect(application_choice.course_option.id).to eq(new_course_option.id)
+      expect(application_choice.current_course_option_id).to eq(new_course_option.id)
     end
   end
 end

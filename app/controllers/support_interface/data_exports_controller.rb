@@ -1,5 +1,7 @@
 module SupportInterface
   class DataExportsController < SupportInterfaceController
+    PAGE_SIZE = 30
+
     def new
       @export_types = DataExport::EXPORT_TYPES
     end
@@ -8,12 +10,20 @@ module SupportInterface
       @export_types = DataExport::EXPORT_TYPES
     end
 
+    def history
+      @data_exports = DataExport
+        .includes(:initiator)
+        .order(created_at: :desc)
+        .page(params[:page] || 1)
+        .per(PAGE_SIZE)
+    end
+
     def view_export_information
       @data_export = DataExport::EXPORT_TYPES[params[:data_export_type].to_sym]
     end
 
     def view_history
-      @data_exports = DataExport.includes(:initiator).send(params[:data_export_type]).order(created_at: :desc).page(params[:page] || 1).per(30)
+      @data_exports = DataExport.includes(:initiator).send(params[:data_export_type]).order(created_at: :desc).page(params[:page] || 1).per(PAGE_SIZE)
     end
 
     def create

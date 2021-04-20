@@ -28,6 +28,9 @@ module CandidateInterface
         courses_to_apply_to: Course.current_cycle.open_on_apply.joins(:course_options).merge(CourseOption.available),
         candidate: current_candidate,
       )
+
+      destroy_blank_application
+
       example_application_form = example_application_choices.first.application_form
       current_candidate.application_forms << example_application_form
     end
@@ -36,6 +39,11 @@ module CandidateInterface
 
     def prefill_application_or_not_params
       params.fetch(:candidate_interface_prefill_application_or_not_form, {}).permit(:prefill)
+    end
+
+    def destroy_blank_application
+      application_form = current_candidate.application_forms.first
+      application_form.destroy if application_form.blank_application?
     end
   end
 end

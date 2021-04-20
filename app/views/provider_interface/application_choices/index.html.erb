@@ -3,14 +3,15 @@
 <% if FeatureFlag.active?('provider_information_banner') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <%= render NotificationMessageComponent.new(:info,
-                                                  message: '2 April to 16 April 2021 do not count as working days',
-                                                  secondary_message: 'This period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.') %>
+      <%= govuk_notification_banner(title: t('notification_banner.info')) do |notification_banner| %>
+        <%= notification_banner.slot(:heading, text: '2 April to 16 April 2021 do not count as working days') %>
+        <p class="govuk-body">This period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.</p>
+      <% end %>
     </div>
   </div>
 <% end %>
 
-<h1 class='govuk-heading-xl'>Applications (<%= @application_choices_count %>)</h1>
+<h1 class="govuk-heading-xl">Applications (<%= @application_choices_count %>)</h1>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
   <% if @application_choices.any? %>
@@ -19,7 +20,7 @@
       <% @application_choices.each do |choice| %>
         <% group_header = task_view_header choice %>
         <% if group_header != previous_header %>
-          <h2 class='govuk-heading-m task_view_group_header'>
+          <h2 class="govuk-heading-m task_view_group_header">
             <%= group_header %>
           </h2>
           <% previous_header = group_header %>
@@ -28,8 +29,8 @@
       <% end %>
     </div>
   <% elsif @filter.filtered? %>
-    <p class='govuk-body'><%= @filter.no_results_message %></p>
+    <p class="govuk-body"><%= @filter.no_results_message %></p>
   <% else %>
-    <p class='govuk-body'>You have not received any applications from <%= t('service_name.apply') %>.</p>
+    <p class="govuk-body">You have not received any applications from <%= t('service_name.apply') %>.</p>
   <% end %>
 <% end %>

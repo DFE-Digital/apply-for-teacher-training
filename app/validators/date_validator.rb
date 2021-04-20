@@ -6,8 +6,8 @@ class DateValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank? || (blank?(value) && !options[:presence])
 
-    date_validations(record, attribute, value) if !record.errors.keys.include?(attribute)
-    date_of_birth_validations(record, attribute, value) if options[:date_of_birth] && !record.errors.keys.include?(attribute)
+    date_validations(record, attribute, value) if !record.errors.attribute_names.include?(attribute)
+    date_of_birth_validations(record, attribute, value) if options[:date_of_birth] && !record.errors.attribute_names.include?(attribute)
   end
 
   def date_of_birth_validations(record, attribute, value)

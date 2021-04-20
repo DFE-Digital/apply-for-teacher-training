@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe GetActivityLogEvents, with_audited: true do
   around do |example|
-    now = Time.zone.local(2020, 2, 11)
+    now = Time.zone.now
     Timecop.travel(now) { example.run }
   end
 

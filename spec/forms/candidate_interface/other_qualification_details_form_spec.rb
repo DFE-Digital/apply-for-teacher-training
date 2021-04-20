@@ -59,8 +59,8 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
         expect(valid_other_qualification.errors.messages[:grade]).to be_blank
         expect(valid_other_qualification.grade).to eq 'Gold star'
 
-        expect(invalid_a_level.errors.messages[:grade].pop).to eq 'Enter a real grade'
-        expect(invalid_as_level.errors.messages[:grade].pop).to eq 'Enter a real grade'
+        expect(invalid_a_level.errors.messages[:grade].first).to eq 'Enter a real grade'
+        expect(invalid_as_level.errors.messages[:grade].first).to eq 'Enter a real grade'
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
       expect(valid_other_qualification.errors.messages[:grade]).to be_blank
       expect(valid_other_qualification.grade).to eq 'Gold star'
 
-      expect(invalid_gcse.errors.messages[:grade].pop).to eq 'Enter a real grade'
+      expect(invalid_gcse.errors.messages[:grade].first).to eq 'Enter a real grade'
     end
 
     it { is_expected.to validate_presence_of(:subject).on(:details) }

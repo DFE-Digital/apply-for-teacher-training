@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
-  let(:now) { Time.zone.local(2020, 6, 6, 12, 30, 24) }
+  let!(:now) { Time.zone.now.change(usec: 0) }
 
   around do |example|
     Timecop.freeze(now) { example.run }
@@ -18,23 +18,23 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
   describe '#form_started_but_unsubmitted' do
     it 'returns the time when the application choice was created if the audit trail is empty' do
-      application_form = create(:application_form, created_at: Time.zone.local(2020, 6, 1))
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: Time.zone.local(2020, 6, 2))
+      application_form = create(:application_form, created_at: 5.days.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
     end
 
     it 'returns the time when the application form was first updated if this is recorded in the audit trail', audited: true do
-      application_form = create(:application_form, created_at: Time.zone.local(2020, 6, 1))
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: Time.zone.local(2020, 6, 7))
+      application_form = create(:application_form, created_at: 5.days.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       application_form.update(phone_number: '01234 567890')
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq now
     end
 
     it 'returns the time when the application choice was created if this is earlier than any audit trail updated entries', audited: true do
-      application_form = create(:application_form, created_at: Time.zone.local(2020, 6, 1))
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: Time.zone.local(2020, 6, 5))
+      application_form = create(:application_form, created_at: 5.days.ago)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form, created_at: 1.day.ago)
       application_form.update(phone_number: '01234 567890')
 
       expect(described_class.new(application_choice).form_started_and_not_submitted).to eq application_choice.created_at
@@ -43,7 +43,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
   describe '#submitted' do
     it 'returns the time when the application form was submitted' do
-      submitted_at = Time.zone.local(2020, 6, 2, 12, 10, 0)
+      submitted_at = 5.days.ago
       application_form = create(:application_form, submitted_at: submitted_at)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
@@ -58,103 +58,85 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
-  describe '#completed_reference_1_requested_at' do
-    it 'returns nil if no references have been requested' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-
-      expect(described_class.new(application_choice).completed_reference_1_requested_at).to be_nil
+  describe 'completed references' do
+    let!(:application_form) do
+      create(:completed_application_form, application_choices_count: 1)
     end
+    let(:application_choice) { application_form.application_choices.first }
+    let(:reference_1) { build(:reference, :feedback_provided, requested_at: 4.days.ago - 1.hour, feedback_provided_at: 1.day.ago) }
+    let(:reference_2) { build(:reference, :feedback_provided, requested_at: 4.days.ago - 2.hours, feedback_provided_at: 2.days.ago) }
+    # Historically, applications may have more than 2 completed references:
+    let(:reference_3) { build(:reference, :feedback_provided, requested_at: 4.days.ago - 3.hours, feedback_provided_at: 3.days.ago) }
 
-    it 'returns the time when the first reference was requested' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      Timecop.freeze(now) do
-        application_reference = create(:reference, :feedback_requested, requested_at: 1.day.ago, application_form: application_form)
-        application_reference.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
+    describe '#completed_reference_1_requested_at' do
+      it 'returns nil if no references have been requested' do
+        expect(described_class.new(application_choice).completed_reference_1_requested_at).to be_nil
       end
-      expect(described_class.new(application_choice).completed_reference_1_requested_at).to eq(now - 1.day)
-    end
-  end
 
-  describe '#completed_reference_2_requested_at' do
-    let(:application_reference1) { create(:reference, :feedback_requested, requested_at: 2.days.ago, application_form: application_form) }
-    let(:application_reference2) { create(:reference, :feedback_requested, requested_at: 1.day.ago, application_form: application_form) }
-    let(:application_form) { create(:application_form) }
-
-    it 'returns nil if only one reference has been requested' do
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
-
-      expect(described_class.new(application_choice).completed_reference_2_requested_at).to be_nil
-    end
-
-    it 'returns the time when the second reference was requested' do
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
-      application_reference2.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
-
-      expect(described_class.new(application_choice).completed_reference_2_requested_at).to eq(application_reference2.requested_at)
-    end
-  end
-
-  describe '#completed_reference_1_received' do
-    it 'returns nil if no references were received' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-
-      expect(described_class.new(application_choice).completed_reference_1_received_at).to be_nil
-    end
-
-    it 'returns the time when the first reference was received' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference = create(:reference, :feedback_requested, application_form: application_form)
-      Timecop.freeze(now + 1.day) do
-        application_reference.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
+      it 'returns the time when the first completed reference was requested' do
+        application_form.application_references = [reference_1, reference_2, reference_3]
+        expect(described_class.new(application_choice).completed_reference_1_requested_at).to eq(reference_3.requested_at)
       end
-      expect(described_class.new(application_choice).completed_reference_1_received_at).to eq(now + 1.day)
-    end
-  end
-
-  describe '#completed_reference_2_received' do
-    it 'returns nil if only one reference has been received' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference = create(:reference, :feedback_requested, application_form: application_form)
-      Timecop.freeze(now + 1.day) do
-        application_reference.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
-      end
-      expect(described_class.new(application_choice).completed_reference_2_received_at).to be_nil
     end
 
-    it 'returns the time when the second reference was received' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
-      application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
-      Timecop.freeze(now + 1.day) do
-        application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
+    describe '#completed_reference_2_requested_at' do
+      it 'returns nil if no references have been requested' do
+        expect(described_class.new(application_choice).completed_reference_2_requested_at).to be_nil
       end
-      Timecop.freeze(now + 2.days) do
-        application_reference2.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
+
+      it 'returns nil if one reference has been requested' do
+        application_form.application_references = [reference_1]
+        expect(described_class.new(application_choice).completed_reference_2_requested_at).to be_nil
       end
-      expect(described_class.new(application_choice).completed_reference_2_received_at).to eq(now + 2.days)
+
+      it 'returns the time when the second completed reference was requested' do
+        application_form.application_references = [reference_1, reference_2, reference_3]
+        expect(described_class.new(application_choice).completed_reference_2_requested_at).to eq(reference_2.requested_at)
+      end
     end
 
-    context 'when feedback_provided_at is nil' do
-      it 'returns nil for the time when the second reference was received' do
-        application_form = create(:application_form)
-        application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-        application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
-        application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
-        Timecop.freeze(now + 1.day) do
-          application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
-        end
-        Timecop.freeze(now + 2.days) do
-          application_reference2.update!(feedback_status: 'feedback_provided', feedback_provided_at: nil)
-        end
+    describe '#completed_reference_1_received_at' do
+      it 'returns nil if no references were received' do
+        expect(described_class.new(application_choice).completed_reference_1_received_at).to be_nil
+      end
+
+      it 'returns the time when the first reference was received' do
+        application_form.application_references = [reference_1, reference_2, reference_3]
+        expect(described_class.new(application_choice).completed_reference_1_received_at).to eq(reference_3.feedback_provided_at)
+      end
+    end
+
+    describe '#completed_reference_2_received_at' do
+      it 'returns nil if only one reference has been received' do
+        application_form.application_references = [reference_1]
         expect(described_class.new(application_choice).completed_reference_2_received_at).to be_nil
+      end
+
+      it 'returns the time when the second reference was received' do
+        application_form.application_references = [reference_1, reference_2, reference_3]
+        expect(described_class.new(application_choice).completed_reference_2_received_at).to eq(reference_2.feedback_provided_at)
+      end
+    end
+
+    context 'when missing a feedback_provided_at timestamp' do
+      # A scenario that can occur due to historic bugs causing incomplete data
+      it 'returns no reference data' do
+        application_form.application_references = [reference_1, reference_2, reference_3]
+        reference_2.update!(feedback_provided_at: nil)
+
+        expect(described_class.new(application_choice).completed_reference_1_requested_at).to eq(nil)
+        expect(described_class.new(application_choice).completed_reference_2_requested_at).to eq(nil)
+        expect(described_class.new(application_choice).completed_reference_1_received_at).to eq(nil)
+        expect(described_class.new(application_choice).completed_reference_2_received_at).to eq(nil)
+      end
+    end
+
+    describe '#received_references' do
+      it 'returns only references related to the application choice' do
+        create(:reference, :feedback_provided, requested_at: 4.days.ago, feedback_provided_at: 3.days.ago)
+        application_form.application_references = [reference_1, reference_2, reference_3]
+
+        expect(described_class.new(application_choice).received_references).to eq([reference_3, reference_2, reference_1])
       end
     end
   end

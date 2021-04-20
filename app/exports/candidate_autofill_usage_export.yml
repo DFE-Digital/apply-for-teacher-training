@@ -1,7 +1,7 @@
 custom_columns:
   field:
     type: string
-    description: The autofill field (either an autocomplete or autosuggest)
+    description: The autofill field (either an autocomplete or autosuggest). Note this export is scoped to applications submitted after Dec 1, 2020.
     enum:
       - Degree grade
       - Degree institution

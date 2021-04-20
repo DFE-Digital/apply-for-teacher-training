@@ -97,6 +97,13 @@ class NavigationItems
       ]
     end
 
+    def for_register_api_docs(current_controller)
+      [
+        NavigationItem.new('Home', api_docs_register_api_docs_home_path, is_active_action(current_controller, 'reference')),
+        NavigationItem.new('Release notes', api_docs_register_api_docs_release_notes_path, is_active_action(current_controller, 'release_notes')),
+      ]
+    end
+
   private
 
     def is_active(current_controller, active_controllers)

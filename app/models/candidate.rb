@@ -23,7 +23,7 @@ class Candidate < ApplicationRecord
   end
 
   def current_application
-    application_form = application_forms.last
+    application_form = application_forms.order(:created_at).last
     application_form ||= application_forms.create!
     application_form
   end
@@ -34,6 +34,10 @@ class Candidate < ApplicationRecord
 
   def encrypted_id
     Encryptor.encrypt(id)
+  end
+
+  def public_id
+    "C#{id}"
   end
 
 private

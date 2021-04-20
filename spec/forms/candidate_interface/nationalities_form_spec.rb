@@ -140,7 +140,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
         details_with_invalid_nationality.validate
 
-        expect(details_with_invalid_nationality.errors.keys).to include :nationalities
+        expect(details_with_invalid_nationality.errors.attribute_names).to include :nationalities
       end
     end
 
@@ -150,8 +150,8 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
         details_with_invalid_nationality.validate
 
-        expect(details_with_invalid_nationality.errors.keys).not_to include :other
-        expect(details_with_invalid_nationality.errors.keys).to include :other_nationality1
+        expect(details_with_invalid_nationality.errors.attribute_names).not_to include :other
+        expect(details_with_invalid_nationality.errors.attribute_names).to include :other_nationality1
       end
     end
 
@@ -182,13 +182,13 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       details_with_valid_nationality.validate
       details_with_invalid_nationality.validate
 
-      expect(details_with_valid_nationality.errors.keys).not_to include :other_nationality1
-      expect(details_with_valid_nationality.errors.keys).not_to include :other_nationality2
-      expect(details_with_valid_nationality.errors.keys).not_to include :other_nationality3
+      expect(details_with_valid_nationality.errors.attribute_names).not_to include :other_nationality1
+      expect(details_with_valid_nationality.errors.attribute_names).not_to include :other_nationality2
+      expect(details_with_valid_nationality.errors.attribute_names).not_to include :other_nationality3
 
-      expect(details_with_invalid_nationality.errors.keys).to include :other_nationality1
-      expect(details_with_invalid_nationality.errors.keys).not_to include :other_nationality2
-      expect(details_with_invalid_nationality.errors.keys).to include :other_nationality3
+      expect(details_with_invalid_nationality.errors.attribute_names).to include :other_nationality1
+      expect(details_with_invalid_nationality.errors.attribute_names).not_to include :other_nationality2
+      expect(details_with_invalid_nationality.errors.attribute_names).to include :other_nationality3
     end
   end
 end

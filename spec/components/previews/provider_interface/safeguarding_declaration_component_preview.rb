@@ -1,5 +1,7 @@
 module ProviderInterface
   class SafeguardingDeclarationComponentPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     def can_view__with_safeguarding_issues_never_asked
       find_user_and_course safeguarding_access: true
       build_application_choice :with_safeguarding_issues_never_asked

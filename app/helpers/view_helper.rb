@@ -1,19 +1,4 @@
 module ViewHelper
-  def govuk_link_to(body = nil, url = nil, html_options = nil, &block)
-    if block_given?
-      html_options = url
-      url = body
-      body = block
-    end
-    html_options ||= {}
-
-    html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
-
-    return link_to(url, html_options) { yield } if block_given?
-
-    link_to(body, url, html_options)
-  end
-
   def govuk_back_link_to(url = :back, body = 'Back')
     classes = 'govuk-!-display-none-print'
 
@@ -44,52 +29,12 @@ module ViewHelper
     )
   end
 
-  def govuk_button_link_to(body = nil, url = nil, html_options = nil, &block)
-    if block_given?
-      html_options = url
-      url = body
-      body = block
-    end
-    html_options ||= {}
-
-    html_options = {
-      class: prepend_css_class('govuk-button', html_options[:class]),
-      role: 'button',
-      data: { module: 'govuk-button' },
-      draggable: false,
-    }.merge(html_options)
-
-    return link_to(url, html_options) { yield } if block_given?
-
-    link_to(body, url, html_options)
-  end
-
-  def govuk_button_to(name, options = {}, html_options = {}, &_block)
-    if block_given?
-      html_options = options
-      options = name
-    end
-
-    html_options = {
-      class: prepend_css_class('govuk-button', html_options[:class]),
-      role: 'button',
-      data: { module: 'govuk-button' },
-      draggable: false,
-    }.merge(html_options)
-
-    return button_to(options, html_options) { yield } if block_given?
-
-    button_to(name, options, html_options)
-  end
-
   def break_email_address(email_address)
     email_address.gsub(/@/, '<wbr>@').html_safe
   end
 
   def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
-    html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
-
-    mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
+    govuk_mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
   def submitted_at_date
@@ -108,9 +53,9 @@ module ViewHelper
   def format_months_to_years_and_months(number_of_months)
     duration_parts = ActiveSupport::Duration.build(number_of_months.months).parts
 
-    if duration_parts[:years].positive? && duration_parts[:months].positive?
+    if duration_parts[:years] && duration_parts[:months]
       "#{pluralize(duration_parts[:years], 'year')} and #{pluralize(duration_parts[:months], 'month')}"
-    elsif duration_parts[:years].positive?
+    elsif duration_parts[:years]
       pluralize(duration_parts[:years], 'year')
     else
       pluralize(number_of_months, 'month')
@@ -180,16 +125,6 @@ module ViewHelper
       yield
     else
       govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: request.fullpath)
-    end
-  end
-
-private
-
-  def prepend_css_class(css_class, current_class)
-    if current_class
-      current_class.prepend("#{css_class} ")
-    else
-      css_class
     end
   end
 end

@@ -1,0 +1,663 @@
+---
+openapi: 3.0.0
+info:
+  version: v1
+  title: Apply register API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for data extracts of recruited candidates applications from DfE’s Apply for teacher training service
+    used by the DfE’s Register trainee teachers service.
+servers:
+- description: Sandbox (test environment)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/register-api
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/register-api
+paths:
+  "/applications":
+    get:
+      summary: Get many applications
+      description: |
+        This endpoint can be used to retrieve applications for recruited candidates for a given recruitment cycle year.
+
+        Use the `changed_since` parameter to limit the number of results. This is intended
+        to make it possible to check for new or updated applications regularly.
+      parameters:
+      - name: recruitment_cycle_year
+        description: Include only applications in a given recruitment cycle year visible to providers.
+        in: query
+        required: true
+        example: 2021
+        schema:
+          type: integer
+      - name: changed_since
+        description: Include only applications changed or created on or since a date
+          and time. Times should be in ISO 8601 format.
+        in: query
+        example: 2019-12-06T12:00:00Z
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: An array of applications
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MultipleApplicationsResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+components:
+  responses:
+    OK:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/OkResponse"
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/NotFoundResponse"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/UnauthorizedResponse"
+    UnprocessableEntity:
+      description: Returned when the request body was missing data or contained invalid
+        data
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - "$ref": "#/components/schemas/ParameterMissingResponse"
+              - "$ref": "#/components/schemas/ParameterInvalidResponse"
+  schemas:
+    MultipleApplicationsResponse:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Application"
+    Application:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - attributes
+      properties:
+        id:
+          type: string
+          description: The unique ID of this application
+          maxLength: 10
+          example: 11fc0d3b2f
+        type:
+          type: string
+          description: Type of the object, always "application"
+          enum:
+          - application
+          example: application
+        attributes:
+          "$ref": "#/components/schemas/ApplicationAttributes"
+    ApplicationAttributes:
+      type: object
+      additionalProperties: false
+      required:
+      - support_reference
+      - status
+      - updated_at
+      - submitted_at
+      - recruited_at
+      - candidate
+      - contact_details
+      - course
+      - qualifications
+      properties:
+        support_reference:
+          type: string
+          description: The candidate’s reference number for their application in the Apply system
+          maxLength: 10
+          example: AB1234
+        status:
+          type: string
+          description: |
+            The status of this application. Refer to the [application
+            lifecycle diagram](/api-docs/lifecycle) for states and transitions.
+          enum:
+          - recruited
+          - withdrawn
+          - offer_deferred
+          example: awaiting_provider_decision
+        updated_at:
+          type: string
+          format: date-time
+          description: Time of last change
+          example: 2019-06-13T10:44:31Z
+        submitted_at:
+          type: string
+          format: date-time
+          description: Time of submission
+          example: 2019-06-13T10:44:31Z
+        recruited_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the candidate met their conditions, receiving a firm place on the course
+          example: 2019-06-13T23:59:59Z
+        candidate:
+          "$ref": "#/components/schemas/Candidate"
+        contact_details:
+          "$ref": "#/components/schemas/ContactDetails"
+        course:
+          "$ref": "#/components/schemas/Course"
+        qualifications:
+          "$ref": "#/components/schemas/Qualifications"
+        hesa_itt_data:
+          anyOf:
+          - "$ref": "#/components/schemas/HESAITTData"
+          nullable: true
+          description: Values to populate this candidate’s HESA Initial Teacher
+            Training data return.  Available once an offer has been accepted.
+    Candidate:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - first_name
+      - last_name
+      - date_of_birth
+      - nationality
+      - domicile
+      - uk_residency_status
+      - uk_residency_status_code
+      - fee_payer
+      - english_main_language
+      - english_language_qualifications
+      - other_languages
+      - disability_disclosure
+      - disabilities
+      - gender
+      - ethnic_group
+      - ethnic_background
+      properties:
+        id:
+          type: string
+          description: The candidate’s ID in the Apply system
+          maxLength: 10
+          example: C5432
+        first_name:
+          type: string
+          description: The candidate’s first name
+          maxLength: 60
+          example: Boris
+        last_name:
+          type: string
+          description: The candidate’s last name
+          example: Brown
+          maxLength: 60
+        date_of_birth:
+          type: string
+          format: date
+          description: The candidate’s date of birth
+          example: "1985-02-13"
+        nationality:
+          type: array
+          items:
+            type: string
+            pattern: "^[A-Z]{2}$"
+            example: NL
+          maxItems: 5
+          description: One or more ISO 3166-2 country codes
+        domicile:
+          type: string
+          maxLength: 2
+          description: The candidate’s domicile, extracted from their address. Coded according to [the HESA DOMICILE field](https://www.hesa.ac.uk/collection/c20051/a/domicile).
+          example: XF
+        uk_residency_status:
+          type: string
+          maxLength: 256
+          description: The candidate’s UK residency status indicating their right to work and study in the UK. Possible values include "UK Citizen", "Irish Citizen" and "Candidate needs to apply for permission to work and study in the UK". The candidate can also provide details as free text for example "Settled status".
+          example: UK Citizen
+        uk_residency_status_code:
+          type: string
+          maxLength: 1
+          description: |
+            Single alphabetical character code for the candidate’s UK residency status indicating their right to work and study in the UK:
+
+            - A - UK Citizen
+            - B - Irish Citizen
+            - C - Candidate needs to apply for permission to work and study in the UK
+            - D - Candidate's free text response
+          example: 'B'
+          enum:
+            - 'A'
+            - 'B'
+            - 'C'
+            - 'D'
+        fee_payer:
+          type: string
+          maxLength: 2
+          description: Provisional fee payer status based on a candidate's nationality, residency status and domicile.
+          example: '02'
+          enum:
+          - '02'
+          - '99'
+        english_main_language:
+          type: boolean
+          description: Does this candidate have English as a main language?
+          example: true
+        english_language_qualifications:
+          type: string
+          maxLength: 10240
+          nullable: true
+          description: Details of this candidate's English language qualification, if English is not their main language
+          example: 'Name: TOEFL, Grade: 20, Awarded: 1999'
+        other_languages:
+          type: string
+          maxLength: 10240
+          nullable: true
+          description: Details of the candidate’s fluency in other languages
+          example: I am bilingual in Finnish and English
+        disability_disclosure:
+          type: string
+          maxLength: 10240
+          nullable: true
+          description: Voluntary disclosure of disabliity or SEN so providers can
+            provide appropriate support
+          example: I am dyslexic
+        gender:
+          type: string
+          maxLength: 256
+          description: The candidate’s sex
+          nullable: true
+          example: male
+          enum:
+          - male
+          - female
+          - intersex
+          - Prefer not to say
+        disabilities:
+          type: array
+          maxLength: 256
+          description: Candidate's disabilities
+          items:
+            type: string
+            example: blind
+        ethnic_group:
+          type: string
+          maxLength: 256
+          nullable: true
+          description: Candidate's ethnic group
+          example: Asian or Asian British
+          enum:
+          - Asian or Asian British
+          - Black, African, Black British or Caribbean
+          - Mixed or multiple ethnic groups
+          - White
+          - Another ethnic group
+        ethnic_background:
+          type: string
+          maxLength: 256
+          nullable: true
+          description: Candidate's ethnic background
+          example: Chinese
+    ContactDetails:
+      type: object
+      additionalProperties: false
+      required:
+      - address_line1
+      - country
+      - email
+      - phone_number
+      properties:
+        address_line1:
+          type: string
+          description: The candidate’s address line 1
+          maxLength: 50
+          example: 45 Dialstone Lane
+        address_line2:
+          type: string
+          description: The candidate’s address line 2
+          maxLength: 50
+          example: Stockport
+          nullable: true
+        address_line3:
+          type: string
+          description: The candidate’s address line 3
+          maxLength: 50
+          example: Greater Manchester
+          nullable: true
+        address_line4:
+          type: string
+          description: The candidate’s address line 4
+          maxLength: 50
+          example: England
+          nullable: true
+        postcode:
+          type: string
+          description: The candidate’s postcode
+          maxLength: 8
+          example: SK2 6AA
+          nullable: true
+        country:
+          type: string
+          maxLength: 2
+          description: The candidate’s country - ISO 3166-2 country code
+          pattern: "^[A-Z]{2}$"
+          example: GB
+        email:
+          type: string
+          description: The candidate’s email address
+          maxLength: 100
+          example: boris.brown@example.com
+        phone_number:
+          type: string
+          description: The candidate’s phone number
+          maxLength: 50
+          example: "07700 900000"
+    Course:
+      type: object
+      additionalProperties: false
+      required:
+      - recruitment_cycle_year
+      - course_code
+      - training_provider_code
+      - site_code
+      - study_mode
+      properties:
+        recruitment_cycle_year:
+          type: integer
+          description: The course’s recruitment cycle year
+          example: 2020
+        training_provider_code:
+          type: string
+          description: The training provider’s code
+          example: 2FR
+          maxLength: 3
+        course_code:
+          type: string
+          description: The course’s code
+          example: 3CVK
+          maxLength: 4
+        site_code:
+          type: string
+          description: The site’s code
+          example: K
+          maxLength: 5
+        study_mode:
+          type: string
+          description: Can be `full_time` or `part_time`
+          example: full_time
+          enum:
+          - full_time
+          - part_time
+    Qualification:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - qualification_type
+      - non_uk_qualification_type
+      - subject
+      - grade
+      - start_year
+      - award_year
+      - institution_details
+      - equivalency_details
+      - comparable_uk_degree
+      properties:
+        id:
+          type: integer
+          description: The qualification ID in the Apply system. These IDs are not guaranteed to be unique, for example when a candidate has multiple English GCSEs
+          example: 123
+        qualification_type:
+          type: string
+          maxLength: 256
+          description: The qualification awarded
+          example: BA
+        non_uk_qualification_type:
+          nullable: true
+          type: string
+          maxLength: 256
+          description: For a qualification of type non_uk, this field will contain a free-text description of the qualification type
+          example: High School Diploma
+        subject:
+          type: string
+          description: The subject studied
+          maxLength: 256
+          example: History and Politics
+        grade:
+          type: string
+          maxLength: 256
+          description: The grade awarded. e.g. "2:1" for university degrees, "A" for GCSE, "BA*" for double-award science, or "ABC" for triple-award science. For triple-award science, which is the only possible value with three grades, the grades are in the order Biology, Physics, Chemistry.
+          example: "AA*B"
+        start_year:
+          type: string
+          nullable: true
+          maxLength: 4
+          description: The year the candidate started qualification
+          example: "1989"
+        award_year:
+          type: string
+          maxLength: 4
+          description: The year the award was made
+          example: "1992"
+        institution_details:
+          type: string
+          description: Details about the institution and awarding body
+          maxLength: 256
+          example: University of Huddersfield
+          nullable: true
+        equivalency_details:
+          type: string
+          description: Details of equivalency, if this qualification was awarded overseas
+          example: 'Enic: 4000123456 - Between GCSE and GCSE AS Level - Equivalent to GCSE C'
+          maxLength: 256
+          nullable: true
+        comparable_uk_degree:
+          type: string
+          description: Details of comparable degree, if this qualification was awarded overseas
+          example: masters_degree
+          maxLength: 256
+          nullable: true
+          enum:
+          - bachelor_ordinary_degree
+          - masters_degree
+          - doctor_of_philosophy
+          - post_doctoral_award
+          - postgraduate_certificate_or_diploma
+          - bachelor_honours_degree
+    Qualifications:
+      type: object
+      additionalProperties: false
+      required:
+      - gcses
+      - degrees
+      - other_qualifications
+      - missing_gcses_explanation
+      properties:
+        gcses:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Qualification"
+        degrees:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Qualification"
+        other_qualifications:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Qualification"
+        missing_gcses_explanation:
+          type: string
+          nullable: true
+          maxLength: 10240
+          description: If the candidate lacks any required GCSEs, this field will
+            contain their free-text explanation of why this is the case.
+          example: "Maths GCSE or equivalent: I will take Maths GCSE at my local training
+            provider on 18th August 2020"
+    HESAITTData:
+      type: object
+      additionalProperties: false
+      description: |
+        Information required by HESA for the Initial Teacher Training data
+        return.
+      required:
+      - sex
+      - disability
+      - ethnicity
+      properties:
+        sex:
+          type: string
+          nullable: true
+          description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
+          example: "1"
+          enum:
+          - "1"
+          - "2"
+          - "3"
+        disability:
+          nullable: true
+          type: array
+          items:
+            type: string
+            enum:
+            - "00"
+            - "08"
+            - "51"
+            - "53"
+            - "54"
+            - "55"
+            - "56"
+            - "57"
+            - "58"
+            - "96"
+          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          example:
+            - "00"
+            - "51"
+        ethnicity:
+          type: string
+          nullable: true
+          description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
+          example: "10"
+          enum:
+          - "10"
+          - "15"
+          - "21"
+          - "22"
+          - "29"
+          - "31"
+          - "32"
+          - "33"
+          - "34"
+          - "39"
+          - "41"
+          - "42"
+          - "43"
+          - "49"
+          - "50"
+          - "80"
+          - "90"
+          - "98"
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Name of the current error
+          example: Unauthorized
+        message:
+          type: string
+          description: Description of the current error
+          example: Please provide a valid authentication token
+      required:
+      - error
+      - message
+    UnauthorizedResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: Unauthorized
+            message: Please provide a valid authentication token
+    ParameterMissingResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterMissing
+            message: "param is missing or the value is empty: parameter_name"
+    ParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterInvalid
+            message: "Parameter is invalid: parameter_name"
+    NotFoundResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: NotFound
+            message: Unable to find Application(s)
+    OkResponse:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          required:
+          - message
+          properties:
+            message:
+              type: string
+              example: OK
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+security:
+- tokenAuth: []

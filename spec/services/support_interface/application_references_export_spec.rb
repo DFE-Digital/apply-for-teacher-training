@@ -22,6 +22,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
       create(:reference, feedback_status: 'feedback_requested', referee_type: 'school-based', application_form: application_form_one)
       create(:reference, feedback_status: 'feedback_requested', referee_type: 'character', application_form: application_form_one)
 
+      application_form_one.application_references[2].update!(feedback_status: 'feedback_provided')
       application_form_one.application_references[3].update!(feedback_status: 'feedback_provided')
 
       application_form_two = create(:application_form, created_at: 1.day.ago)
@@ -46,7 +47,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           ref_3_type: application_form_one.application_references[2].referee_type,
           ref_3_state: application_form_one.application_references[2].feedback_status,
           ref_3_requested_at: application_form_one.application_references[2].requested_at,
-          ref_3_received_at: nil,
+          ref_3_received_at: application_form_one.application_references[2].feedback_provided_at,
           ref_4_type: application_form_one.application_references[3].referee_type,
           ref_4_state: application_form_one.application_references[3].feedback_status,
           ref_4_requested_at: application_form_one.application_references[3].requested_at,
@@ -57,12 +58,18 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           support_reference: application_form_two.support_reference,
           phase: application_form_two.phase,
           application_state: ProcessState.new(application_form_two).state,
-          ref_1_type: application_form_two.application_references[0].referee_type,
-          ref_1_state: application_form_two.application_references[0].feedback_status,
-          ref_1_requested_at: application_form_one.application_references[0].requested_at,
+          ref_1_type: new_reference1.referee_type,
+          ref_1_state: new_reference1.feedback_status,
+          ref_1_requested_at: new_reference1.requested_at,
           ref_1_received_at: nil,
+          ref_2_type: new_reference2.referee_type,
+          ref_2_state: new_reference2.feedback_status,
+          ref_2_requested_at: new_reference2.requested_at,
+          ref_2_received_at: new_reference2.feedback_provided_at,
         },
       )
+
+      expect(application_form_two.reload.application_references.count).to eq 4
     end
   end
 end

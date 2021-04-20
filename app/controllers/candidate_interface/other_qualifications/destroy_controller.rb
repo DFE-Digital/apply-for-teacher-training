@@ -10,7 +10,13 @@ module CandidateInterface
       current_qualification.destroy!
       current_application.update!(other_qualifications_completed: false)
 
-      redirect_to candidate_interface_review_other_qualifications_path
+      if current_application.application_qualifications.other.count.zero?
+
+        redirect_to candidate_interface_other_qualification_type_path
+      else
+
+        redirect_to candidate_interface_review_other_qualifications_path
+      end
     end
   end
 end

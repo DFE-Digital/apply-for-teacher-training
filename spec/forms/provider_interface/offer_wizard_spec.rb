@@ -9,10 +9,7 @@ RSpec.describe ProviderInterface::OfferWizard do
                         location_id: location_id,
                         application_choice_id: application_choice_id,
                         standard_conditions: standard_conditions,
-                        further_condition_1: further_condition_1,
-                        further_condition_2: further_condition_2,
-                        further_condition_3: further_condition_3,
-                        further_condition_4: further_condition_4,
+                        further_conditions: further_conditions,
                         current_step: current_step,
                         decision: decision)
   end
@@ -25,10 +22,18 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:location_id) { nil }
   let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { MakeAnOffer::STANDARD_CONDITIONS }
-  let(:further_condition_1) { nil }
-  let(:further_condition_2) { nil }
-  let(:further_condition_3) { nil }
-  let(:further_condition_4) { nil }
+  let(:further_condition_1) { '' }
+  let(:further_condition_2) { '' }
+  let(:further_condition_3) { '' }
+  let(:further_condition_4) { '' }
+  let(:further_conditions) do
+    [
+      further_condition_1,
+      further_condition_2,
+      further_condition_3,
+      further_condition_4,
+    ]
+  end
   let(:current_step) { nil }
   let(:decision) { nil }
 
@@ -39,10 +44,18 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:course_option_id).on(:locations).on(:save) }
     it { is_expected.to validate_presence_of(:study_mode).on(:study_modes).on(:save) }
     it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
-    it { is_expected.to validate_length_of(:further_condition_1).is_at_most(255) }
-    it { is_expected.to validate_length_of(:further_condition_2).is_at_most(255) }
-    it { is_expected.to validate_length_of(:further_condition_3).is_at_most(255) }
-    it { is_expected.to validate_length_of(:further_condition_4).is_at_most(255) }
+
+    context 'if a further condition is too long' do
+      let(:further_condition_1) { Faker::Lorem.paragraph_by_chars(number: 300) }
+      let(:further_condition_2) { Faker::Lorem.paragraph_by_chars(number: 300) }
+
+      it 'adds the correct validation error messages to the wizard' do
+        expect(wizard.valid?(:conditions)).to eq(false)
+        expect(wizard.errors[:"further_conditions[0][text]"]).to contain_exactly('Condition 1 must be 255 characters or fewer')
+        expect(wizard.errors[:"further_conditions[1][text]"]).to contain_exactly('Condition 2 must be 255 characters or fewer')
+        expect(wizard.errors[:"further_conditions[2][text]"]).to be_blank
+      end
+    end
 
     context 'if the course option is in an invalid state' do
       let(:course_option) { create(:course_option) }
@@ -53,6 +66,50 @@ RSpec.describe ProviderInterface::OfferWizard do
 
       it 'throws an error' do
         expect(wizard.valid?(:save)).to eq(false)
+      end
+    end
+  end
+
+  describe '.build_from_application_choice' do
+    let(:application_choice) { create(:application_choice, offer: offer) }
+    let(:offer) { { 'conditions' => ['Fitness to train to teach check', 'Be cool'] } }
+    let(:options) { {} }
+    let(:wizard) do
+      described_class.build_from_application_choice(
+        store,
+        application_choice,
+        options,
+      )
+    end
+
+    it 'correctly populates the wizard with offer conditions' do
+      expect(wizard).to be_valid
+      expect(wizard.standard_conditions).to contain_exactly('Fitness to train to teach check')
+      expect(wizard.further_conditions).to eq ['Be cool', '', '', '']
+    end
+
+    context 'when options are passed in' do
+      let(:options) do
+        {
+          current_step: 'my_step',
+          decision: 'my_decision',
+        }
+      end
+
+      it 'merges them into the initializing hash' do
+        expect(wizard).to be_valid
+        expect(wizard.current_step).to eq('my_step')
+        expect(wizard.decision).to eq('my_decision')
+      end
+    end
+
+    context 'when there is no offer present' do
+      let(:offer) { nil }
+
+      it 'populates the conditions with the standard ones' do
+        expect(wizard).to be_valid
+        expect(wizard.standard_conditions).to match_array(MakeAnOffer::STANDARD_CONDITIONS)
+        expect(wizard.further_conditions).to eq ['', '', '', '']
       end
     end
   end
@@ -216,22 +273,13 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe '#conditions' do
     let(:standard_conditions) { ['', MakeAnOffer::STANDARD_CONDITIONS.last] }
-    let(:further_condition_3) { 'They must graduate from their current course with an Honors' }
     let(:further_condition_1) { 'Receiving an A* on their Maths A Level' }
+    let(:further_condition_3) { 'They must graduate from their current course with an Honors' }
 
     it 'constructs an array with the offer conditions' do
       expect(wizard.conditions).to eq([MakeAnOffer::STANDARD_CONDITIONS.last,
                                        further_condition_1,
                                        further_condition_3])
-    end
-  end
-
-  describe '#configure_additional_conditions' do
-    it 'sets further conditions when any defined' do
-      wizard.configure_additional_conditions(['Swimming diploma', 'GCSE A Level in Languages'])
-
-      expect(wizard.further_condition_1).to eq('Swimming diploma')
-      expect(wizard.further_condition_2).to eq('GCSE A Level in Languages')
     end
   end
 end

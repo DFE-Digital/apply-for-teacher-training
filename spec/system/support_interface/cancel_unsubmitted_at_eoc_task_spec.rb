@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.feature 'Cancel unsubmitted applications support task', sidekiq: true do
   include DfESignInHelpers
+  include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(Date.new(2020, 8, 24)) { example.run }
+    Timecop.freeze(after_apply_2_deadline) { example.run }
   end
 
   scenario 'Support user performs the cancel unsubmitted applications at EoC task' do
     given_i_have_a_candidate_with_an_unsubmitted_application
-    and_the_2020_recruitment_cycle_has_ended
 
     when_i_am_a_support_user
     and_i_visit_the_support_tasks_page
@@ -28,10 +28,6 @@ RSpec.feature 'Cancel unsubmitted applications support task', sidekiq: true do
   def given_i_have_a_candidate_with_an_unsubmitted_application
     @application_form = create :completed_application_form, submitted_at: nil
     create :application_choice, application_form: @application_form, status: :unsubmitted
-  end
-
-  def and_the_2020_recruitment_cycle_has_ended
-    Timecop.travel(Time.zone.local(2020, 9, 19, 12, 0, 0))
   end
 
   def and_i_visit_the_support_tasks_page

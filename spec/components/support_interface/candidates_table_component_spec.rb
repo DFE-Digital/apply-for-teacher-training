@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidatesTableComponent do
-  let(:today) { Time.zone.local(2020, 1, 7, 12, 0, 0) }
-
   let(:application_form_apply_again) { create(:application_form, updated_at: 1.day.ago, phase: 'apply_2') }
   let(:application_forms) { create_list(:application_form, 3, updated_at: 1.day.ago) }
   let(:candidates) { ([application_form_apply_again] + application_forms).map(&:candidate) }
 
   around do |example|
-    Timecop.freeze(today) do
+    Timecop.freeze do
       example.run
     end
   end

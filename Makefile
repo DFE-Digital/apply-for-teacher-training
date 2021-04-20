@@ -31,10 +31,6 @@ az_setup: ## Set up a clean database and node_modules folder for running the app
 test: ## Run the linters and specs
 	docker-compose run --rm web /bin/sh -c "bundle exec rake"
 
-.PHONY: shell
-shell: ## Open a shell on the app container
-	docker-compose run --rm web ash
-
 .PHONY: serve
 serve: ## Run the service
 	docker-compose up -V --build
@@ -66,3 +62,46 @@ ci.integration-tests: ## Run the tests with results formatted for CI
 	$(call copy_to_host,$(RSPEC_RESULTS_PATH))
 	$(call copy_to_host,$(COVERAGE_RESULT_PATH))
 	docker-compose rm -f -v web
+
+.PHONY: install-fetch-config
+install-fetch-config: ## Install the fetch-config script, for viewing/editing secrets in Azure Key Vault
+	[ ! -f bin/fetch_config.rb ] \
+		&& curl -s https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/scripts/fetch_config/fetch_config.rb -o bin/fetch_config.rb \
+		&& chmod +x bin/fetch_config.rb \
+		|| true
+
+qa:
+	$(eval APP_ENV=qa)
+	$(eval SPACE_SUFFIX=qa)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
+
+staging:
+	$(eval APP_ENV=staging)
+	$(eval SPACE_SUFFIX=staging)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
+
+sandbox:
+	$(eval APP_ENV=sandbox)
+	$(eval SPACE_SUFFIX=prod)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+
+prod:
+  $(eval APP_ENV=production)
+  $(eval SPACE_SUFFIX=prod)
+  $(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+
+azure-login:
+	az account set -s $(AZURE_SUBSCRIPTION)
+
+.PHONY: view-app-secrets
+view-app-secrets: install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
+	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml
+
+.PHONY: edit-app-secrets
+edit-app-secrets: install-fetch-config azure-login ## Edit App Secrets, eg: make qa edit-app-secrets
+	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml -e -d azure-key-vault-secret -c
+
+.PHONY: shell
+shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
+	cf target -s bat-${SPACE_SUFFIX}
+	cf ssh apply-clock-${SPACE_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'

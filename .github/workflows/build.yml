@@ -57,7 +57,7 @@ jobs:
             type=registry,ref=${{ env.DOCKER_IMAGE }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
           build-args: |
-            VERSION=${{ github.sha }}
+            VERSION=paas-${{ github.sha }}
             BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
 
   lint:
@@ -138,3 +138,16 @@ jobs:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
+
+  trigger-deployment:
+    name: Trigger Deployment
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    if: success() && github.ref == 'refs/heads/master'
+    steps:
+      - name: Trigger Deployment to QA and Staging
+        uses: benc-uk/workflow-dispatch@v1.1
+        with:
+          workflow: Deploy
+          token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          inputs: '{"qa": "true", "staging": "true", "sha": "${{ github.sha }}"}'

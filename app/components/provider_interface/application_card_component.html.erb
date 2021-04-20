@@ -25,6 +25,9 @@
         <% if days_to_respond_text %>
           <dt class="govuk-visually-hidden">Days left to respond</dt>
           <dd class="govuk-body-s"><%= days_to_respond_text %></dd>
+        <% elsif candidate_days_to_respond_text %>
+          <dt class="govuk-visually-hidden">Days left for candidate to respond</dt>
+          <dd class="govuk-body-s"><%= candidate_days_to_respond_text %></dd>
         <% end %>
         <dt class="govuk-visually-hidden">Cycle</dt>
         <dd class="govuk-hint govuk-!-font-size-16"><%= recruitment_cycle_text %></dd>

@@ -30,6 +30,9 @@
     "env": [
       "jest"
     ],
-    "globals": ["$", "history"]
+    "globals": [
+      "$",
+      "history"
+    ]
   }
 }

@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_30_105355) do
+ActiveRecord::Schema.define(version: 2021_04_15_141658) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
   create_sequence "candidates_id_seq"
   create_sequence "chasers_sent_id_seq"
   create_sequence "course_options_id_seq"
+  create_sequence "course_subjects_id_seq"
   create_sequence "courses_id_seq"
   create_sequence "data_exports_id_seq"
   create_sequence "data_migrations_id_seq"
@@ -42,15 +43,16 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
   create_sequence "other_efl_qualifications_id_seq"
   create_sequence "provider_agreements_id_seq"
   create_sequence "provider_relationship_permissions_id_seq"
-  create_sequence "providers_id_seq"
   create_sequence "provider_user_notifications_id_seq"
   create_sequence "provider_users_id_seq"
   create_sequence "provider_users_providers_id_seq"
+  create_sequence "providers_id_seq"
   create_sequence "qualifications_public_id_seq", start: 120000
-  create_sequence "references_id_seq"
   create_sequence "reference_tokens_id_seq"
+  create_sequence "references_id_seq"
   create_sequence "site_settings_id_seq"
   create_sequence "sites_id_seq"
+  create_sequence "subjects_id_seq"
   create_sequence "support_users_id_seq"
   create_sequence "toefl_qualifications_id_seq"
   create_sequence "ucas_matches_id_seq"
@@ -94,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
     t.string "status_before_deferral"
     t.datetime "reject_by_default_feedback_sent_at"
     t.datetime "offer_changed_at"
+    t.bigint "current_course_option_id"
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
@@ -197,6 +200,7 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
     t.float "longitude"
     t.boolean "feature_restructured_work_history", default: true
     t.string "work_history_status"
+    t.boolean "no_other_qualifications", default: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
@@ -373,6 +377,16 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
     t.index ["vacancy_status", "site_still_valid"], name: "index_course_options_on_vacancy_status_and_site_still_valid"
   end
 
+  create_table "course_subjects", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id", "subject_id"], name: "index_course_subjects_on_course_id_and_subject_id", unique: true
+    t.index ["course_id"], name: "index_course_subjects_on_course_id"
+    t.index ["subject_id"], name: "index_course_subjects_on_subject_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.string "name"
@@ -389,7 +403,6 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
     t.string "course_length"
     t.string "description"
     t.integer "accredited_provider_id"
-    t.jsonb "subject_codes"
     t.string "funding_type"
     t.string "age_range"
     t.jsonb "qualifications"
@@ -656,6 +669,14 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
     t.index ["provider_id"], name: "index_sites_on_provider_id"
   end
 
+  create_table "subjects", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_subjects_on_code", unique: true
+  end
+
   create_table "support_users", force: :cascade do |t|
     t.string "dfe_sign_in_uid", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -744,6 +765,8 @@ ActiveRecord::Schema.define(version: 2021_03_30_105355) do
   add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
+  add_foreign_key "course_subjects", "courses"
+  add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
   add_foreign_key "interviews", "application_choices", on_delete: :cascade

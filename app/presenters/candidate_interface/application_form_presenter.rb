@@ -26,7 +26,7 @@ module CandidateInterface
         [:maths_gcse, maths_gcse_completed?],
         [:english_gcse, english_gcse_completed?],
         ([:science_gcse, science_gcse_completed?] if @application_form.science_gcse_needed?),
-        [:other_qualifications, no_incomplete_qualifications?],
+        [:other_qualifications, other_qualifications_completed?],
         ([:efl, english_as_a_foreign_language_completed?] if display_efl_link?),
 
         # "Personal statement and interview" section
@@ -167,7 +167,7 @@ module CandidateInterface
     end
 
     def other_qualification_path
-      if other_qualifications_completed? || other_qualifications_added?
+      if other_qualifications_completed? || other_qualifications_added? || @application_form.no_other_qualifications
         Rails.application.routes.url_helpers.candidate_interface_review_other_qualifications_path
       else
         Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path
@@ -223,7 +223,7 @@ module CandidateInterface
     end
 
     def other_qualifications_completed?
-      @application_form.other_qualifications_completed
+      @application_form.other_qualifications_completed && no_incomplete_qualifications?
     end
 
     def other_qualifications_added?

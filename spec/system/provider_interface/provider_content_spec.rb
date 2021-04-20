@@ -14,7 +14,6 @@ RSpec.feature 'Provider content' do
     and_i_can_no_longer_see_the_cookie_banner
     then_i_can_see_the_cookies_page
     and_i_can_opt_in_to_tracking_website_usage
-    and_i_can_go_back_to_the_page_i_was_looking_at_before
 
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
@@ -36,7 +35,7 @@ RSpec.feature 'Provider content' do
   end
 
   def and_i_can_see_the_cookie_banner
-    expect(page).to have_content('We use cookies to collect information about how you use ‘Manage teacher training applications’')
+    expect(page).to have_content('Cookies on Manage teacher training applications')
   end
 
   def when_i_click_on_the_cookies_page
@@ -44,7 +43,7 @@ RSpec.feature 'Provider content' do
   end
 
   def and_i_can_no_longer_see_the_cookie_banner
-    expect(page).not_to have_content('We use cookies to collect information about how you use ‘Manage teacher training applications’')
+    expect(page).not_to have_content('We use cookies to collect information about how you use Manage teacher training applications')
   end
 
   def then_i_can_see_the_cookies_page
@@ -52,13 +51,9 @@ RSpec.feature 'Provider content' do
   end
 
   def and_i_can_opt_in_to_tracking_website_usage
-    choose 'Yes, opt-in to Google Analytics cookies'
-    click_on 'Save preferences'
+    choose 'Yes'
+    click_on 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
-  end
-
-  def and_i_can_go_back_to_the_page_i_was_looking_at_before
-    expect(page).to have_link('Go back to the page you were looking at', href: /#{provider_interface_complaints_path}/)
   end
 
   def when_i_click_on_complaints

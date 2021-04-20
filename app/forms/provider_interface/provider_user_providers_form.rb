@@ -32,7 +32,7 @@ module ProviderInterface
 
       not_selected_providers.each do |provider|
         permission = ProviderPermissions.find_by(provider: provider, provider_user: provider_user)
-        permission.destroy! if permission
+        permission&.destroy!
       end
 
       true
@@ -40,7 +40,7 @@ module ProviderInterface
 
     def at_least_one_provider_is_selected
       if selected_providers.none?
-        errors[:provider_ids] << 'Select which organisations this user will have access to'
+        errors.add(:provider_ids, 'Select which organisations this user will have access to')
       end
     end
 

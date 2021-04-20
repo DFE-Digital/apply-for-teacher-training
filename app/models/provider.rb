@@ -52,6 +52,10 @@ class Provider < ApplicationRecord
     accredited_courses.or(courses).current_cycle.exposed_in_find.all?(&:open_on_apply?)
   end
 
+  def any_open_courses_in_current_cycle?
+    accredited_courses.or(courses).current_cycle.exposed_in_find.any?(&:open_on_apply?)
+  end
+
   def application_forms
     ApplicationForm.where(id: application_choices.select(:application_form_id))
   end
@@ -65,9 +69,10 @@ class Provider < ApplicationRecord
     accredited_providers.all?(&:onboarded?)
   end
 
-  def no_admin_users?
-    !(provider_permissions.exists?(manage_users: true) &&
-      provider_permissions.exists?(manage_organisations: true))
+  def lacks_admin_users?
+    sync_courses &&
+      !(provider_permissions.exists?(manage_users: true) &&
+        provider_permissions.exists?(manage_organisations: true))
   end
 
   def not_accepting_appplications_on_ucas?

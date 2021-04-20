@@ -20,13 +20,17 @@ module CandidateInterface
 
       application_form.application_choices.create!(
         course_option: course_option,
+        current_course_option_id: course_option.id,
       )
     end
 
     def update(application_choice)
       return unless valid?
 
-      application_choice.update!(course_option: course_option)
+      application_choice.update!(
+        course_option: course_option,
+        current_course_option_id: course_option.id,
+      )
     end
 
   private
@@ -44,7 +48,7 @@ module CandidateInterface
                     'errors.messages.too_many_course_choices'
                   end
 
-      errors[:base] << I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code)
+      errors.add(:base, I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code))
     end
   end
 end

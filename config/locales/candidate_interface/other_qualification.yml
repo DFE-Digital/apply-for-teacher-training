@@ -30,6 +30,8 @@ en:
         change_action: year
       another:
         button: Add another qualification
+      first:
+        button: Add a qualification
       review:
         completed_checkbox: I have completed this section
       delete: Delete qualification

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # This is an end-to-end test for the API response. To test complex logic in
 # the presenter, see spec/presenters/vendor_api/single_application_presenter_spec.rb.
-RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
+RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
   scenario 'A completed application is submitted with references' do
@@ -48,7 +48,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           email: @current_candidate.email_address,
         },
         course: {
-          recruitment_cycle_year: 2020,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
           provider_code: '1N1',
           site_code: '-',
           course_code: '2XT2',
@@ -77,6 +77,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
               qualification_type: 'gcse',
               non_uk_qualification_type: nil,
               subject: 'English single award',
+              subject_code: '100320',
               grade: 'B',
               start_year: nil,
               award_year: '1990',
@@ -96,6 +97,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
               qualification_type: 'gcse',
               non_uk_qualification_type: nil,
               subject: 'maths',
+              subject_code: '100403',
               grade: 'B',
               start_year: nil,
               award_year: '1990',
@@ -117,6 +119,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
               qualification_type: 'BA',
               non_uk_qualification_type: nil,
               subject: 'Doge',
+              subject_code: nil,
               grade: 'First class honours',
               start_year: '2006',
               award_year: '2009',
@@ -138,6 +141,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
               qualification_type: 'A level',
               non_uk_qualification_type: nil,
               subject: 'Believing in the Heart of the Cards',
+              subject_code: nil,
               grade: 'A',
               start_year: nil,
               award_year: '2015',

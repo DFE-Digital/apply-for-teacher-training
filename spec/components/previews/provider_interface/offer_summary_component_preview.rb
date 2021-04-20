@@ -1,5 +1,7 @@
 module ProviderInterface
   class OfferSummaryComponentPreview < ViewComponent::Preview
+    layout 'previews/provider'
+
     def offer_summary
       application_choice = ApplicationChoice.limit(5).sample
       course_option = CourseOption.limit(10).sample

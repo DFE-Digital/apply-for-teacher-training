@@ -104,7 +104,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def awaiting_provider_decisions?
-    application_choices.where(status: :awaiting_provider_decision).any?
+    application_choices.decision_pending.any?
   end
 
   def first_not_declined_application_choice
@@ -155,16 +155,12 @@ class ApplicationForm < ApplicationRecord
   end
 
   def all_provider_decisions_made?
-    application_choices.any? && (application_choices.map(&:status).map(&:to_sym) & ApplicationStateChange::DECISION_PENDING_STATUSES).empty?
+    application_choices.decision_pending.none?
   end
 
   def all_choices_withdrawn?
     application_choices.any? &&
       application_choices.all? { |application_choice| application_choice.status == 'withdrawn' }
-  end
-
-  def any_awaiting_provider_decision?
-    application_choices.map.any?(&:awaiting_provider_decision?)
   end
 
   def any_offers?
@@ -232,6 +228,11 @@ class ApplicationForm < ApplicationRecord
   def ended_without_success?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
+  end
+
+  def provider_decision_made?
+    application_choices.present? &&
+      application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_END_STATES).include?(status) }
   end
 
   def too_many_complete_references?

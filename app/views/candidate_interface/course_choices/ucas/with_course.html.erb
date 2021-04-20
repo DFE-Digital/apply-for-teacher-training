@@ -23,20 +23,18 @@
     <h2 class="govuk-heading-m">Make a note of your choice</h2>
     <p class="govuk-body">When you apply through UCAS, you’ll need these details for the course choices section of your application:</p>
 
-    <div class="govuk-inset-text govuk-!-margin-top-0 govuk-body">
+    <%= govuk_inset_text do %>
       Training provider:
-      <h2 class="govuk-header-l">
+      <h2 class="govuk-header-l govuk-!-margin-top-0">
         <%= @provider.name_and_code %>
       </h2>
       Training programme:
       <h2 class="govuk-header-l govuk-!-margin-top-0">
         <%= @course.name_and_code %>
       </h2>
-    </div>
+    <% end %>
 
-    <p class="govuk-body govuk-!-margin-bottom-0">
-      <%= govuk_button_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url %>
-    </p>
+    <p class="govuk-body govuk-!-margin-bottom-0"><%= govuk_link_to t('apply_from_find.ucas_apply_button'), UCAS.apply_url, button: true %></p>
     <p class="govuk-body">or</p>
     <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
   </div>

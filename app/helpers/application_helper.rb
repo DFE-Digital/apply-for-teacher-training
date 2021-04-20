@@ -38,9 +38,11 @@ module ApplicationHelper
   def current_namespace
     section = request.path.split('/').second
     if section == 'api-docs'
-      'api_docs'
+      'vendor_api_docs'
     elsif section == 'data-api'
       'data_api_docs'
+    elsif section == 'register-api'
+      'register_api_docs'
     else
       "#{section}_interface"
     end
