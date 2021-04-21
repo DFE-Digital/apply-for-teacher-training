@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::VolunteeringReviewComponent do
   context 'when they have no experience in volunteering' do
-    it 'shows how to get school experience' do
+    it 'confirms that they have no volunteering experience' do
       application_form = build_stubbed(:application_form)
 
       result = render_inline(described_class.new(application_form: application_form))
@@ -12,13 +12,33 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
       )
     end
 
-    it 'does not show how to get school experience if volunteering experience' do
+    it 'does not confirm that they have no volunteering experience' do
       application_form = create(:completed_application_form, volunteering_experiences_count: 1)
 
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__title').text).not_to include(
         t('application_form.volunteering.no_experience.summary_card_title'),
+      )
+    end
+
+    it 'shows how to get school experience' do
+      application_form = build_stubbed(:application_form)
+
+      result = render_inline(described_class.new(application_form: application_form, show_experience_advice: true))
+
+      expect(result.css('.govuk-inset-text').text).to include(
+        t('application_form.volunteering.no_experience.get_experience'),
+      )
+    end
+
+    it 'does not show how to get school experience' do
+      application_form = build_stubbed(:application_form)
+
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-inset-text').text).not_to include(
+        t('application_form.volunteering.no_experience.get_experience'),
       )
     end
   end
