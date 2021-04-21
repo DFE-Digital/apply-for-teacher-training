@@ -111,6 +111,24 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
+  describe '#site_invalid?' do
+    context 'a course option has been removed by the provider' do
+      it 'returns true' do
+        course_option = build(:course_option, site_still_valid: false)
+        application_choice = create(:application_choice, course_option: course_option)
+        expect(application_choice.site_invalid?).to be true
+      end
+    end
+
+    context 'a course option is still valid' do
+      it 'returns false' do
+        course_option = build(:course_option, site_still_valid: true)
+        application_choice = create(:application_choice, course_option: course_option)
+        expect(application_choice.site_invalid?).to be false
+      end
+    end
+  end
+
   describe '#course_study_mode_full?' do
     context 'with option that has vacancies' do
       it 'returns false' do

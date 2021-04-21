@@ -45,8 +45,12 @@
           to see if the course will re-open or discuss alternatives
         </li>
       </ul>
-    <% elsif application_choice.site_full? %>
-      <p class="app-inset-text__title"><%= application_choice.site_full_error %>.</p>
+    <% elsif application_choice.site_full? || application_choice.site_invalid? %>
+       <% if application_choice.site_full? %>
+         <p class="app-inset-text__title"><%= application_choice.site_full_error %>.</p>
+       <% else %>
+         <p class="app-inset-text__title"><%= application_choice.site_invalid_error %>.</p>
+       <% end %>
       <p class="govuk-body">You can:</p>
       <ul class="govuk-list govuk-list--bullet">
         <% if site_change_path(application_choice) %>

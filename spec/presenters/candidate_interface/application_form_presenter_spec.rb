@@ -500,6 +500,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         site_full?: false,
         study_mode_full?: false,
         course_closed_on_apply?: false,
+        site_invalid?: false,
       )
     end
 
@@ -512,6 +513,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         site_full?: false,
         study_mode_full?: false,
         course_closed_on_apply?: false,
+        site_invalid?: false,
       )
     end
 
@@ -576,6 +578,18 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       it 'returns the appropriate error' do
         expect(presenter.application_choice_errors.map(&:message)).to eq %w[site_full]
+        expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
+      end
+    end
+
+    context 'a course option has been removed by the provider' do
+      before do
+        allow(application_choice_2).to receive(:site_invalid?).and_return true
+        allow(application_choice_2).to receive(:site_invalid_error).and_return 'site_invalid'
+      end
+
+      it 'returns the appropriate error' do
+        expect(presenter.application_choice_errors.map(&:message)).to eq %w[site_invalid]
         expect(presenter.application_choice_errors.map(&:anchor)).to eq(['#course-choice-999'])
       end
     end
