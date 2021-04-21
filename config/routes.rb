@@ -816,6 +816,9 @@ Rails.application.routes.draw do
       patch '/nationalities' => 'application_forms/nationalities#update'
       get '/right-to-work-or-study' => 'application_forms/right_to_work_or_study#edit', as: :application_form_edit_right_to_work_or_study
       patch '/right-to-work-or-study' => 'application_forms/right_to_work_or_study#update'
+
+      get '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices#confirm_reinstate_offer', as: :application_form_reinstate_offer
+      patch '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices#reinstate_offer'
     end
 
     get '/ucas-matches' => 'ucas_matches#index'
