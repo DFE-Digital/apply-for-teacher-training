@@ -7,8 +7,8 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include(
-        t('application_form.volunteering.no_experience.summary_card_title'),
+      expect(result.css('.app-summary-card__body').text).to include(
+        t('application_form.volunteering.experience.label'),
       )
     end
 

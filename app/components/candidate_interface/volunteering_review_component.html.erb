@@ -15,13 +15,12 @@
 <% if show_missing_banner? %>
   <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :volunteering, section_path: candidate_interface_volunteering_experience_path, error: @missing_error)) %>
 <% elsif @application_form.application_volunteering_experiences.empty? %>
-  <section class="app-summary-card govuk-!-margin-bottom-6">
-    <%= render(SummaryCardHeaderComponent.new(title: t('application_form.volunteering.no_experience.summary_card_title'), heading_level: @heading_level)) %>
+  <%= govuk_inset_text(classes: 'govuk-!-margin-top-0 govuk-!-width-two-thirds') do %>
+    <p>The Department for Education have made it easier for teacher training applicants to gain experience in school.</p>
+    <p>
+      <%= govuk_link_to t('application_form.volunteering.no_experience.get_experience'), 'https://schoolexperience.education.gov.uk', target: :_blank, rel: 'noopener' %>
+    </p>
+  <% end %>
 
-    <div class="app-summary-card__body">
-      The Department for Education have made it easier for teacher training
-      applicants to gain experience in school. Learn more at
-      <%= govuk_link_to 'Get school experience', 'https://schoolexperience.education.gov.uk/', target: :_blank, rel: 'noopener' %>.
-    </div>
-  </section>
+  <%= render(SummaryCardComponent.new(rows: no_experience_row, editable: @editable)) %>
 <% end %>

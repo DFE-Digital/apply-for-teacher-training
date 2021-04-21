@@ -24,6 +24,17 @@ module CandidateInterface
       ]
     end
 
+    def no_experience_row
+      [
+        {
+          key: t('application_form.volunteering.experience.label'),
+          value: 'No',
+          action: t('application_form.volunteering.experience.change_action'),
+          change_path: candidate_interface_volunteering_experience_path,
+        },
+      ]
+    end
+
     def show_missing_banner?
       @show_incomplete && !@application_form.volunteering_completed && @editable
     end
