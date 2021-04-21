@@ -266,6 +266,14 @@ module CandidateInterface
       SubjectKnowledgeForm.build_from_application(@application_form).valid?
     end
 
+    def subject_knowledge_path
+      if subject_knowledge_valid?
+        Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_show_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_edit_subject_knowledge_path
+      end
+    end
+
     def subject_knowledge_review_pending?
       @application_form.subject_knowledge_review_pending?
     end
