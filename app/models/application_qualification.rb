@@ -156,13 +156,23 @@ class ApplicationQualification < ApplicationRecord
 
   GCSE_PASS_GRADES = %w[A* A B C A*A* A*A AA AB BB BC CC CD 9 8 7 6 5 4 99 98 88 87 77 76 66 65 55 54 44 43].freeze
   def failed_required_gcse?
-    return true if required_gcse? && grade.present? && !GCSE_PASS_GRADES.include?(grade.upcase)
+    return true if required_gcse? &&
+      all_grades.present? &&
+      all_grades.none? { |grade| GCSE_PASS_GRADES.include?(grade.upcase) }
 
     false
   end
 
+  def all_grades
+    return [grade] if grade.present?
+
+    constituent_grades.map { |_key, value| value['grade'] }
+  end
+
   def required_gcse?
-    gcse? && qualification_type.to_s.downcase == 'gcse' && REQUIRED_GCSE_SUBJECTS.include?(subject)
+    gcse? &&
+      qualification_type.to_s.downcase == 'gcse' &&
+      REQUIRED_GCSE_SUBJECTS.include?(subject)
   end
 
 private

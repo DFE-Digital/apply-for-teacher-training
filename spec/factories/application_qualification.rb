@@ -32,6 +32,12 @@ FactoryBot.define do
         grade { nil }
         missing_explanation { 'I will be taking an equivalency test in a few weeks' }
       end
+
+      trait :multiple_english_gcses do
+        grade { nil }
+        subject { 'english' }
+        constituent_grades { { english_language: { grade: 'A', public_id: 120282 }, english_literature: { grade: 'D', public_id: 120283 } } }
+      end
     end
 
     factory :degree_qualification do
