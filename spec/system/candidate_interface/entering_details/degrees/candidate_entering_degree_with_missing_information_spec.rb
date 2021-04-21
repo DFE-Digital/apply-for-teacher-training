@@ -49,7 +49,7 @@ RSpec.feature 'Entering degree with missing info' do
   end
 
   def then_i_cannot_mark_this_section_complete
-    check t('application_form.degree.review.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
     expect(page).to have_content 'You cannot mark this section complete with incomplete degree information.'
     expect(current_candidate.current_application).not_to be_degrees_completed
