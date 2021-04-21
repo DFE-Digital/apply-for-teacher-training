@@ -366,8 +366,8 @@ class ApplicationForm < ApplicationRecord
     CandidateInterface::RejectionReasonsHistory.all_previous_applications(self, :becoming_a_teacher)
   end
 
-  def becoming_a_teacher_most_recent_rejection_reason
-    CandidateInterface::RejectionReasonsHistory.most_recent(self, :becoming_a_teacher)
+  def becoming_a_teacher_previous_application_rejection_reason
+    CandidateInterface::RejectionReasonsHistory.previous_application(self, :becoming_a_teacher)
   end
 
   def becoming_a_teacher_review_pending?
@@ -375,7 +375,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def becoming_a_teacher_reviewable?
-    apply_2? && becoming_a_teacher_most_recent_rejection_reason.present?
+    apply_2? && becoming_a_teacher_previous_application_rejection_reason.present?
   end
 
 private

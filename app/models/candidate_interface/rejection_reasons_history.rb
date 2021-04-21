@@ -7,8 +7,8 @@ module CandidateInterface
       new(application_form, section).all_previous_applications
     end
 
-    def self.most_recent(application_form, section)
-      new(application_form, section).most_recent
+    def self.previous_application(application_form, section)
+      new(application_form, section).previous_application
     end
 
     attr_reader :application_form, :section, :reasons_for_rejection_method
@@ -28,7 +28,7 @@ module CandidateInterface
       end
     end
 
-    def most_recent
+    def previous_application
       previous_application = application_form.previous_application_form
       return [] if previous_application.blank?
 
