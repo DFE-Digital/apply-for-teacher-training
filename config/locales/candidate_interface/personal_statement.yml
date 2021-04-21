@@ -11,6 +11,9 @@ en:
         key: Your knowledge about the subject you want to teach
         change_action: evidence of subject knowledge
         label: Tell us what you know about the subject you want to teach
+        complete_hint_text_html: |
+          Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion.
+          <p>Ensure this is all your own work as plagiarism will be penalised.</p>
       interview_preferences:
         key: Interview needs
         change_action: interview needs
