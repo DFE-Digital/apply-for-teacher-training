@@ -4,7 +4,7 @@ RSpec.describe SetDeclineByDefault do
   describe '#call' do
     let(:application_form) { create(:completed_application_form, application_choices_count: 3) }
     let(:choices) { application_form.application_choices }
-    let(:now) { Time.zone.now }
+    let(:now) { Time.zone.local(2021, 4, 22, 12, 26, 0) }
     let(:call_service) { SetDeclineByDefault.new(application_form: application_form).call }
 
     around do |example|
@@ -183,7 +183,7 @@ RSpec.describe SetDeclineByDefault do
 
         call_service
         # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
 
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
@@ -194,7 +194,7 @@ RSpec.describe SetDeclineByDefault do
         call_service
 
         # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
 
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
@@ -205,7 +205,7 @@ RSpec.describe SetDeclineByDefault do
         call_service
 
         # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date - 12.hours).end_of_day
+        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
 
         expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
       end
