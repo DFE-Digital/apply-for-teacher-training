@@ -76,7 +76,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_mark_this_section_as_completed
-    check t('application_form.volunteering.review.completed_checkbox')
+    choose t('application_form.completed_radio')
   end
 
   def and_i_click_on_continue

@@ -6,11 +6,9 @@
   <%= govuk_link_to(t('application_form.volunteering.another.button'), candidate_interface_new_volunteering_role_path, button: true, class: 'govuk-button--secondary') %>
 <% end %>
 
-<%= render(CandidateInterface::VolunteeringReviewComponent.new(application_form: @application_form, show_experience_advice: true)) %>
-
 <%= render(CandidateInterface::CompleteSectionComponent.new(
-  application_form: @application_form,
+  section_complete_form: @section_complete_form,
   path: candidate_interface_complete_volunteering_path,
   request_method: :patch,
-  field_name: :volunteering_completed,
+  summary_component: CandidateInterface::VolunteeringReviewComponent.new(application_form: @application_form),
 )) %>
