@@ -3,13 +3,17 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def show
-      @volunteering_experience_form = VolunteeringExperienceForm.new
+      @volunteering_experience_form = VolunteeringExperienceForm.new(
+        experience: current_application.volunteering_experience,
+      )
     end
 
     def submit
       @volunteering_experience_form = VolunteeringExperienceForm.new(volunteering_experience_form_params)
 
       if @volunteering_experience_form.valid?
+        @volunteering_experience_form.save(current_application)
+
         if @volunteering_experience_form.experience == 'false'
           redirect_to candidate_interface_review_volunteering_path
         else
