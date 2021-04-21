@@ -48,7 +48,6 @@ resource "cloudfoundry_app" "clock" {
   instances          = var.clock_app_instances
   memory             = var.clock_app_memory
   space              = data.cloudfoundry_space.space.id
-  strategy           = "blue-green-v2"
   timeout            = 180
   environment        = local.clock_app_env_variables
   docker_credentials = var.docker_credentials
@@ -68,7 +67,6 @@ resource "cloudfoundry_app" "worker" {
   instances          = var.worker_app_instances
   memory             = var.worker_app_memory
   space              = data.cloudfoundry_space.space.id
-  strategy           = "blue-green-v2"
   timeout            = 180
   environment        = local.worker_app_env_variables
   docker_credentials = var.docker_credentials
