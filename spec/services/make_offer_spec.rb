@@ -11,12 +11,18 @@ RSpec.describe MakeOffer do
   end
 
   describe '#save!' do
-    let(:application_choice) { create(:application_choice) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
+    let(:provider_user) do
+      create(:provider_user,
+             :with_make_decisions,
+             providers: [application_choice.course_option.provider])
+    end
     let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
-    let(:provider_user) { create(:provider_user, providers: [build(:provider)]) }
     let(:conditions) { [Faker::Lorem.sentence] }
 
     describe 'if the actor is not authorised to perform this action' do
+      let(:provider_user) { create(:provider_user, providers: [build(:provider)]) }
+
       it 'throws an exception' do
         expect {
           make_offer.save!
@@ -29,11 +35,6 @@ RSpec.describe MakeOffer do
 
     describe 'if the application choice cannot transition to the offer state' do
       let(:application_choice) { create(:application_choice, status: :pending_conditions) }
-      let(:provider_user) do
-        create(:provider_user,
-               :with_make_decisions,
-               providers: [application_choice.course_option.provider])
-      end
 
       it 'throws an exception' do
         expect {
@@ -42,27 +43,17 @@ RSpec.describe MakeOffer do
       end
     end
 
-    describe 'if the .save returns false for any reason' do
-      it 'throws an exception' do
-        make_an_offer = instance_double(MakeAnOffer)
-        allow(MakeAnOffer).to receive(:new).and_return(make_an_offer)
-        allow(make_an_offer).to receive(:save).and_return(false)
-        allow(make_an_offer).to receive(:errors).and_return({ base: [] })
+    describe 'if the offer is invalid' do
+      let(:conditions) { [Faker::Lorem.paragraph_by_chars(number: 256)] }
 
+      it 'throws an exception' do
         expect {
           make_offer.save!
-        }.to raise_error('Unable to complete save on make_an_offer')
+        }.to raise_error(ValidationException, 'Condition 1 must be 255 characters or fewer')
       end
     end
 
     describe 'if the provided details are correct' do
-      let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision) }
-      let(:provider_user) do
-        create(:provider_user,
-               :with_make_decisions,
-               providers: [application_choice.course_option.provider])
-      end
-
       it 'then it executes the service without errors ' do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
@@ -77,6 +68,15 @@ RSpec.describe MakeOffer do
 
         expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
         expect(SendNewOfferEmailToCandidate).to have_received(:new).with(application_choice: application_choice)
+      end
+    end
+
+    describe 'audits', with_audited: true do
+      it 'generates an audit event combining status change with current_course_option_id' do
+        make_offer.save!
+
+        audit_with_status_change = application_choice.reload.audits.find_by('jsonb_exists(audited_changes, ?)', 'status')
+        expect(audit_with_status_change.audited_changes).to have_key('current_course_option_id')
       end
     end
   end
