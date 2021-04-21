@@ -56,7 +56,8 @@ en:
       complete_section: Why do you want to be a teacher?
     subject_knowledge:
       incomplete: Subject knowledge not entered
-      complete_section: What you know about the subject you want to teach?
+      not_reviewed: Subject knowledge not marked as reviewed
+      complete_section: What do you know about the subject you want to teach?
     interview_preferences:
       incomplete: Interview needs not entered
       complete_section: Do you have any interview needs?

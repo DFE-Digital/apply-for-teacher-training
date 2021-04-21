@@ -360,6 +360,10 @@ class ApplicationForm < ApplicationRecord
     if becoming_a_teacher_reviewable?
       update!(becoming_a_teacher_completed: false)
     end
+
+    if subject_knowledge_reviewable?
+      update!(subject_knowledge_completed: false)
+    end
   end
 
   def becoming_a_teacher_rejection_reasons
@@ -376,6 +380,22 @@ class ApplicationForm < ApplicationRecord
 
   def becoming_a_teacher_reviewable?
     apply_2? && becoming_a_teacher_previous_application_rejection_reason.present?
+  end
+
+  def subject_knowledge_review_pending?
+    !subject_knowledge_completed? && subject_knowledge_reviewable?
+  end
+
+  def subject_knowledge_reviewable?
+    apply_2? && subject_knowledge_previous_application_rejection_reason.present?
+  end
+
+  def subject_knowledge_previous_application_rejection_reason
+    CandidateInterface::RejectionReasonsHistory.previous_application(self, :subject_knowledge)
+  end
+
+  def subject_knowledge_rejection_reasons
+    CandidateInterface::RejectionReasonsHistory.all_previous_applications(self, :subject_knowledge)
   end
 
 private

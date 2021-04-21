@@ -66,6 +66,8 @@ module CandidateInterface
       case section
       when :becoming_a_teacher
         :quality_of_application_personal_statement_what_to_improve
+      when :subject_knowledge
+        :quality_of_application_subject_knowledge_what_to_improve
       else
         raise UnsupportedSectionError
       end
