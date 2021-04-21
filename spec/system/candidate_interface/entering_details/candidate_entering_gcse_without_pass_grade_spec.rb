@@ -24,7 +24,13 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
 
-    # TODO: change grade
+    when_i_click_to_change_grade
+    and_i_change_to_a_pass_grade
+    then_i_see_the_review_page_with_new_details
+
+    when_i_click_to_change_grade
+    and_i_change_to_a_fail_grade
+    then_i_am_prompted_to_explain_how_i_can_improve_this_grade
   end
 
   def given_i_am_signed_in
@@ -59,7 +65,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
     expect(page).to have_content 'Maths GCSE or equivalent'
 
     expect(page).to have_content 'GCSE'
-    expect(page).to have_content 'D'
+    expect(page).to have_content "Grade\nD"
     expect(page).to have_content 'Hard work and dedication'
     expect(page).to have_content '1990'
   end
@@ -70,6 +76,10 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
 
   def when_i_fill_in_the_fail_grade
     fill_in 'Please specify your grade', with: 'D'
+  end
+
+  def when_i_fill_in_the_pass_grade
+    fill_in 'Please specify your grade', with: 'B'
   end
 
   def then_i_am_prompted_to_explain_how_i_can_improve_this_grade
@@ -83,5 +93,23 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
 
   def and_i_fill_in_the_year
     fill_in 'Enter year', with: '1990'
+  end
+
+  def when_i_click_to_change_grade
+    click_change_link('grade')
+  end
+
+  def and_i_change_to_a_pass_grade
+    when_i_fill_in_the_pass_grade
+    and_i_click_save_and_continue
+  end
+
+  def and_i_change_to_a_fail_grade
+    when_i_fill_in_the_fail_grade
+    and_i_click_save_and_continue
+  end
+
+  def then_i_see_the_review_page_with_new_details
+    expect(page).to have_content "Grade\nB"
   end
 end

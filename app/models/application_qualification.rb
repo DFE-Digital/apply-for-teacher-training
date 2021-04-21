@@ -164,6 +164,8 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def all_grades
+    return [] unless grade.present? || constituent_grades.present?
+
     return [grade] if grade.present?
 
     constituent_grades.map { |_key, value| value['grade'] }
