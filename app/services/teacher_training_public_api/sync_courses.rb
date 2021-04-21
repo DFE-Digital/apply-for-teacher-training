@@ -33,7 +33,7 @@ module TeacherTrainingPublicAPI
         if provider.any_open_courses_in_current_cycle?
           SlackNotificationWorker.perform_async(
             "#{provider.name}, which has courses open on Apply, added a new course",
-            support_interface_provider_courses_path(provider),
+            support_interface_provider_courses_url(provider),
           )
         end
       end
