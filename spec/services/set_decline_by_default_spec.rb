@@ -154,63 +154,6 @@ RSpec.describe SetDeclineByDefault do
       end
     end
 
-    context 'when the service is run multiple times' do
-      let(:last_decision_at) { 2.business_days.before(now).end_of_day }
-      let(:old_dbd_date) { 8.business_days.after(now).end_of_day }
-
-      before do
-        choices[0].update(status: :rejected, rejected_at: 2.business_days.before(last_decision_at))
-        choices[1].update(
-          status: :offer,
-          offered_at: last_decision_at,
-          decline_by_default_at: old_dbd_date,
-          decline_by_default_days: 10,
-        )
-        choices[2].update(
-          status: :offer,
-          offered_at: last_decision_at,
-          decline_by_default_at: old_dbd_date,
-          decline_by_default_days: 10,
-        )
-      end
-
-      it 'the DBD for all offers is extended if an offer is updated' do
-        choices[1].update(
-          status: :offer,
-          offered_at: last_decision_at,
-          offer_changed_at: last_decision_at + 1.day,
-        )
-
-        call_service
-        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
-
-        expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
-      end
-
-      it 'the DBD for all offers is extended if an offer becomes a rejection' do
-        choices[1].update(status: :rejected, rejected_at: last_decision_at + 1.day)
-
-        call_service
-
-        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
-
-        expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
-      end
-
-      it 'the DBD for all offers is extended if a rejection becomes an offer' do
-        choices[0].update(status: :offer, offered_at: last_decision_at + 1.day)
-
-        call_service
-
-        # adding 1 day to a time _after business hours_ takes you 2.business_days fwd
-        new_dbd_date = 1.business_days.after(old_dbd_date).end_of_day
-
-        expect_all_relevant_decline_by_default_at_values_to_be new_dbd_date
-      end
-    end
-
     it 'the decline_by_default_days is set to 10 days when DBD is present' do
       choices[0].update(status: :offer, offered_at: 1.business_days.before(now).end_of_day)
       choices[1].update(status: :offer, offered_at: 2.business_days.before(now).end_of_day)
