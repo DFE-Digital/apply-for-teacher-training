@@ -68,7 +68,7 @@ en:
       another:
         button: Add another job
       review:
-        completed_checkbox: I have completed this section
+        complete_hint_text: Ensure you’ve added all the jobs you’ve had since you left school. Remember to explain any gaps in your work history.
 
   activemodel:
     errors:

@@ -13,13 +13,10 @@
   </div>
 </div>
 
-<%= render(CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form)) %>
-
-<%= form_with model: @application_form, url: candidate_interface_work_history_complete_path do |f| %>
-  <div class="govuk-form-group">
-    <%= f.hidden_field :work_history_completed, value: false %>
-    <%= f.govuk_check_box :work_history_completed, true, multiple: false, label: { text: t('application_form.work_history.review.completed_checkbox') } %>
-  </div>
-
-  <%= f.govuk_submit t('continue') %>
-<% end %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(
+  section_complete_form: @section_complete_form,
+  path: candidate_interface_work_history_complete_path,
+  request_method: :patch,
+  summary_component: CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form),
+  complete_hint_text: t('application_form.work_history.complete.hint_text')
+)) %>
