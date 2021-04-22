@@ -2,6 +2,7 @@ module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :redirect_if_application_rejected_and_feedback_provided
+    before_action :check_application_is_rejectable
 
     def edit_initial_questions
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'initial_questions')
@@ -133,6 +134,13 @@ module ProviderInterface
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def check_application_is_rejectable
+      return if ApplicationStateChange.new(@application_choice).can_reject?
+      return if @application_choice.rejected_by_default?
+
+      render_404
     end
   end
 end
