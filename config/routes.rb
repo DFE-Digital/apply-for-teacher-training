@@ -904,6 +904,10 @@ Rails.application.routes.draw do
           get '/search' => 'candidate#search', as: :candidate_search
           get '/summary' => 'candidate#summary', as: :candidate_summary
         end
+
+        scope '/vendor-api' do
+          get '/' => 'vendor_api#index', as: :vendor_api
+        end
       end
 
       resources :data_exports, path: '/data-exports' do
