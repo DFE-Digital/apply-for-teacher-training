@@ -6,8 +6,9 @@
 </h1>
 
 <% if @application_form.review_pending?(:becoming_a_teacher) %>
-  <div class='govuk-inset-text govuk-!-width-two-thirds govuk-!-margin-top-0'>
-    <h2 class="govuk-heading-m">Feedback from previous applications</h2>
+  <%= govuk_inset_text do %>
+    <% rejection_reasons = @application_form.rejection_reasons(:becoming_a_teacher) %>
+    <h2 class="govuk-heading-m">Feedback from previous <%= 'application'.pluralize(rejection_reasons.size) %></h2>
 
     <% @application_form.rejection_reasons(:becoming_a_teacher).each do |rejection_reason| %>
       <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
@@ -15,7 +16,7 @@
         <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
       </blockquote>
     <% end %>
-  </div>
+  <% end %>
 <% else %>
   <p class="govuk-body govuk-!-font-weight-bold">This section is important to your application. Before continuing:</p>
   <ul class="govuk-list govuk-list--bullet">
