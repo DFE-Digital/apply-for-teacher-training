@@ -84,6 +84,33 @@ RSpec.describe WorkHistoryComponent do
     end
   end
 
+  context 'with work experiences with relevant skills' do
+    it 'renders work experience details and relevant skills flag' do
+      experiences = [
+        build(
+          :application_work_experience,
+          start_date: 6.years.ago,
+          end_date: nil,
+          role: 'Nursery manager',
+          commitment: 'part_time',
+          working_pattern: '',
+          organisation: 'Bobs Farm',
+          details: 'I run the staff nursery',
+          relevant_skills: true,
+          working_with_children: true,
+        ),
+      ]
+      allow(application_form).to receive(:application_work_experiences).and_return(experiences)
+      allow(application_form).to receive(:application_work_history_breaks).and_return([])
+
+      rendered = render_inline(described_class.new(application_form: application_form))
+      expect(rendered.text).to include "#{6.years.ago.to_s(:month_and_year)} - Present"
+      expect(rendered.text).to include 'Nursery manager - Part time'
+      expect(rendered.text).to include 'This role used skills relevant to teaching'
+      expect(rendered.text).not_to include 'Worked with children'
+    end
+  end
+
   context 'with work experiences and unexplained work break' do
     it 'renders work experience details and unexplained break' do
       experiences = [

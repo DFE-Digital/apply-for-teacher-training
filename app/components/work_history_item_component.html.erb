@@ -10,7 +10,14 @@
   </p>
   <p class="govuk-body">
     <%= details %>
-    <% if working_with_children? %>
+    <% if relevant_skills? %>
+      <p class="govuk-body govuk-!-font-size-16">
+        <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
+          <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
+        </svg>
+        This role used skills relevant to teaching
+      </p>
+    <% elsif working_with_children? %>
       <p class="govuk-body govuk-!-font-size-16">
         <svg class="app-icon govuk-!-margin-right-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 200 200" focusable="false" fill="currentColor" aria-hidden="true">
           <path d="M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z"></path>
