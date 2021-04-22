@@ -56,13 +56,5 @@ RSpec.describe WizardPathHistory do
         expect(service.previous_step).to eq(:step3)
       end
     end
-
-    context 'when no step is specified' do
-      let(:step) {}
-
-      it 'returns the step before the last' do
-        expect(service.previous_step).to eq(:step3)
-      end
-    end
   end
 end
