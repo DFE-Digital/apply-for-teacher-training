@@ -13,6 +13,12 @@ module SupportInterface
           .order('created_at DESC')
           .page(params[:page] || 1)
       end
+
+      def summary
+        sort_param = params.permit(:sortby)[:sortby]
+
+        @validation_error_summary = ::VendorAPIRequestSummaryQuery.new(sort_param).call
+      end
     end
   end
 end

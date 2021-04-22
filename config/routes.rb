@@ -908,6 +908,7 @@ Rails.application.routes.draw do
         scope '/vendor-api' do
           get '/' => 'vendor_api#index', as: :vendor_api
           get '/search' => 'vendor_api#search', as: :vendor_api_search
+          get '/summary' => 'vendor_api#summary', as: :vendor_api_summary
         end
       end
 
