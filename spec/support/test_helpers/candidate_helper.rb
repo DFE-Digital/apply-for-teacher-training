@@ -180,15 +180,14 @@ module CandidateHelper
         'What is your immigration status?',
         with: 'I have settled status',
       )
-      click_button t('save_and_continue')
     else
       check 'British'
       check 'Citizen of a different country'
       within('#candidate-interface-nationalities-form-other-nationality1-field') do
         select 'American'
       end
-      click_button t('save_and_continue')
     end
+    click_button t('save_and_continue')
 
     check t('application_form.completed_checkbox')
     click_button t('continue')

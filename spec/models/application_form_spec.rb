@@ -297,7 +297,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#english_speaking_nationality?' do
+  describe '#british_or_irish?' do
     context 'when any applicant nationality is identified as "English-speaking"' do
       let(:nationality_permutations) do
         [
@@ -314,7 +314,7 @@ RSpec.describe ApplicationForm do
       it 'returns true' do
         nationality_permutations.each do |permutation|
           application_form = build(:application_form, permutation)
-          expect(application_form.english_speaking_nationality?).to eq true
+          expect(application_form.british_or_irish?).to eq true
         end
       end
     end
@@ -331,7 +331,7 @@ RSpec.describe ApplicationForm do
       it 'return false' do
         nationality_permutations.each do |permutation|
           application_form = build(:application_form, permutation)
-          expect(application_form.english_speaking_nationality?).to eq false
+          expect(application_form.british_or_irish?).to eq false
         end
       end
     end
@@ -369,7 +369,7 @@ RSpec.describe ApplicationForm do
         expect(application_form.english_main_language).to eq false
       end
 
-      context 'when english_speaking_nationality? is true' do
+      context 'when british_or_irish? is true' do
         it 'returns true' do
           application_form.first_nationality = 'British'
 
