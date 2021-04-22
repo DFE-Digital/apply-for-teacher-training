@@ -1,0 +1,11 @@
+custom_columns:
+  export_type:
+    type: string
+  created_at:
+    type: string
+    format: date-time
+    example: 2020-11-01T00:00:00+00:00
+  initiated_by:
+    type: string
+    description: The email address of the support user that initated the export
+    example: joe.bloggs@digital.education.gov.uk

@@ -66,6 +66,12 @@ class DataExport < ApplicationRecord
       description: 'Anonymised candidate equality and diversity data.',
       class: SupportInterface::EqualityAndDiversityExport,
     },
+    who_ran_which_export: {
+      name: 'Who ran which export',
+      export_type: 'who_ran_which_export',
+      description: 'A list of all the exports that have been generated and who initiated them.',
+      class: SupportInterface::WhoRanWhichExportExport,
+    },
     interviews_export: {
       name: 'Interview changes',
       export_type: 'interview_export',
@@ -201,6 +207,7 @@ class DataExport < ApplicationRecord
     candidate_journey_tracking: 'candidate_journey_tracking',
     candidate_course_choice_withdrawal_survey: 'candidate_course_choice_withdrawal_survey',
     equality_and_diversity: 'equality_and_diversity',
+    export_initiators: 'export_initiators',
     interviews_export: 'interview_export',
     notifications_export: 'notifications_export',
     notes_export: 'notes_export',
