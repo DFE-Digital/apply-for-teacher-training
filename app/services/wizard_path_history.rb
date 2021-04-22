@@ -18,7 +18,7 @@ class WizardPathHistory
   def update
     if action == 'back'
       path_history.pop
-    elsif step
+    elsif step && !path_history.last.eql?(step)
       path_history << step
     end
   end

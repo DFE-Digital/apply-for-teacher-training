@@ -36,6 +36,17 @@ RSpec.describe WizardPathHistory do
         expect(service.path_history).to eq(%i[step1 step2 step3])
       end
     end
+
+    context 'when action is not `back` and the same as the last step is provided' do
+      let(:action) { nil }
+      let(:step) { :step2 }
+
+      it 'the path_history is not updated' do
+        service.update
+
+        expect(service.path_history).to eq(%i[step1 step2])
+      end
+    end
   end
 
   describe '#previous_step' do
