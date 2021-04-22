@@ -4,6 +4,7 @@ module CandidateInterface
 
     def show
       @application_form = current_application
+      @section_complete_form = SectionCompleteForm.new(completed: current_application.training_with_a_disability_completed)
     end
 
     def edit
@@ -24,9 +25,14 @@ module CandidateInterface
     end
 
     def complete
-      current_application.update!(application_form_params)
+      @section_complete_form = SectionCompleteForm.new(section_complete_form_params)
 
-      redirect_to candidate_interface_application_form_path
+      if @section_complete_form.save(current_application, :training_with_a_disability_completed)
+        redirect_to candidate_interface_application_form_path
+      else
+        track_validation_error(@section_complete_form)
+        render :show
+      end
     end
 
   private
@@ -37,8 +43,8 @@ module CandidateInterface
         .permit(:disclose_disability, :disability_disclosure)
     end
 
-    def application_form_params
-      strip_whitespace params.require(:application_form).permit(:training_with_a_disability_completed)
+    def section_complete_form_params
+      strip_whitespace params.require(:candidate_interface_section_complete_form).permit(:completed)
     end
   end
 end

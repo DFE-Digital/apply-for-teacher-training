@@ -13,7 +13,7 @@ RSpec.describe SupportInterface::ProviderUserForm do
       },
     }
   end
-  let(:form_params) do
+  let(:section_complete_form_params) do
     {
       first_name: 'Jane',
       last_name: 'Smith',
