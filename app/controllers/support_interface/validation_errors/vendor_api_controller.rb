@@ -5,6 +5,14 @@ module SupportInterface
         @grouped_counts = VendorAPIRequest.validation_errors.group(:request_path).order('count_all DESC').count
         @grouped_column_error_counts = VendorAPIRequest.list_of_distinct_errors_with_count
       end
+
+      def search
+        @vendor_api_requests = VendorAPIRequest
+          .search_validation_errors(params)
+          .includes('provider')
+          .order('created_at DESC')
+          .page(params[:page] || 1)
+      end
     end
   end
 end
