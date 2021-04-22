@@ -404,7 +404,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#efl_section_required?' do
+  describe '#international_applicant?' do
     let(:application_with_english_speaking_nationality) do
       build_stubbed :application_form, first_nationality: 'British', second_nationality: 'French'
     end
@@ -417,7 +417,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { application_with_english_speaking_nationality }
 
       it 'returns false' do
-        expect(application_form.efl_section_required?).to be false
+        expect(application_form.international_applicant?).to be false
       end
     end
 
@@ -425,7 +425,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { application_with_no_english_speaking_nationalities }
 
       it 'returns true' do
-        expect(application_form.efl_section_required?).to be true
+        expect(application_form.international_applicant?).to be true
       end
     end
 
@@ -433,7 +433,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { build_stubbed :application_form }
 
       it 'returns false' do
-        expect(application_form.efl_section_required?).to be false
+        expect(application_form.international_applicant?).to be false
       end
     end
   end

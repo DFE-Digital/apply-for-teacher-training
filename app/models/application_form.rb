@@ -254,7 +254,6 @@ class ApplicationForm < ApplicationRecord
   def international_applicant?
     nationalities.present? && !english_speaking_nationality?
   end
-  alias_method :efl_section_required?, :international_applicant?
 
   def build_nationalities_hash
     CandidateInterface::GetNationalitiesFormHash.new(application_form: self).call
