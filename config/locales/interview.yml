@@ -39,7 +39,7 @@ en:
         additional_details: Additional details
     hint:
       provider_interface_interview_wizard:
-        date: For example, %{example_date}
+        date: No later than %{rbd_date}, after which the application will be automatically rejected - enter numbers, for example, %{example_date}
         time: For example, 9am or 2:30pm - enter 12pm for midday
     legend:
       provider_interface_interview_wizard:
@@ -52,7 +52,7 @@ en:
           attributes:
             date:
               past: Interview date must be today or in the future
-              after_rdb: Interview date must be before the application closing date
+              after_rdb: Interview date must be no later than %{rbd_date}
               invalid_date: Interview date must be a real date
               blank_date_fields: Interview date must include a %{fields}
               blank_date: Enter interview date

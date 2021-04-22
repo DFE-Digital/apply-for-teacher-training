@@ -75,7 +75,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         it 'is invalid with the correct error' do
           Timecop.freeze(2021, 1, 13) do
             expect(wizard).to be_invalid
-            expect(wizard.errors[:date]).to contain_exactly('Interview date must be before the application closing date')
+            expect(wizard.errors[:date]).to contain_exactly('Interview date must be no later than 14 February 2021')
           end
         end
       end
