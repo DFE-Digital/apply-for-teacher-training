@@ -30,20 +30,20 @@ module CandidateInterface
     def review
       @application_form = current_application
       @application_choices = current_candidate.current_application.application_choices
+      @section_complete_form = SectionCompleteForm.new(completed: current_application.course_choices_completed)
     end
 
     def complete
       @application_form = current_application
+      @section_complete_form = SectionCompleteForm.new(form_params)
 
       render :index and return if @application_form.application_choices.count.zero?
 
-      if @application_form.update(application_form_params)
+      if @section_complete_form.save(current_application, :course_choices_completed)
         redirect_to candidate_interface_application_form_path
       else
-        @application_choices = current_candidate.current_application.application_choices
-        track_validation_error(@application_form)
-
-        render :review
+        track_validation_error(@section_complete_form)
+        render :show
       end
     end
 
@@ -53,8 +53,8 @@ module CandidateInterface
       params.permit(:id)[:id]
     end
 
-    def application_form_params
-      params.require(:application_form).permit(:course_choices_completed)
+    def form_params
+      strip_whitespace params.require(:candidate_interface_section_complete_form).permit(:completed)
     end
   end
 end
