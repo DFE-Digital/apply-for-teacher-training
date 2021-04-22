@@ -5,7 +5,6 @@ module CandidateInterface
         current_application.work_history_explanation.nil?
 
       @application_form = current_application
-
       @section_complete_form = SectionCompleteForm.new(completed: current_application.work_history_completed)
     end
 

@@ -173,8 +173,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_mark_this_section_as_completed
-    check t('application_form.work_history.review.completed_checkbox')
-    click_button t('save_and_continue')
+    choose t('application_form.completed_radio')
+    click_button t('continue')
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
