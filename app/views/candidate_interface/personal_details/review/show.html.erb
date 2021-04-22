@@ -2,7 +2,7 @@
                                                 @personal_details_form.errors.any? ||
                                                  @nationalities_form.errors.any? ||
                                                  @languages_form.errors.any? ||
-                                                  @section_complete_form.errors.any? ) %>
+                                                  @section_complete_form.errors.any?) %>
 
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
@@ -14,5 +14,5 @@
   section_complete_form: @section_complete_form,
   path: candidate_interface_personal_details_complete_path,
   request_method: :patch,
-  summary_component: SummaryCardComponent.new(rows: @personal_details_review.rows)
+  summary_component: SummaryCardComponent.new(rows: @personal_details_review.rows),
 )) %>
