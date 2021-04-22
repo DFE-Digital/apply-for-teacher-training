@@ -94,7 +94,8 @@ module ProviderInterface
     end
 
     def date_after_rbd_date
-      errors.add(:date, :after_rdb) if date > application_choice.reject_by_default_at
+      rbd_date = application_choice.reject_by_default_at
+      errors.add(:date, :after_rdb, rbd_date: rbd_date.to_s(:govuk_date)) if date > rbd_date
     end
 
     def time_in_correct_format?
