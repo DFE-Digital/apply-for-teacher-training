@@ -37,7 +37,7 @@ RSpec.feature 'Declare no EFL qualification' do
     click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
     click_link efl_link_text
-    check 'I have completed this section'
+    choose t('application_form.completed_radio')
     click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end

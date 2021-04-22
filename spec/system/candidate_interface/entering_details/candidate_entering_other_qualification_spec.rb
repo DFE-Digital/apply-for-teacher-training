@@ -319,7 +319,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_mark_this_section_as_completed
-    check t('application_form.other_qualification.review.completed_checkbox')
+    choose t('application_form.completed_radio')
   end
 
   def and_i_have_an_incomplete_qualification

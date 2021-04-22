@@ -36,7 +36,7 @@ module CandidateInterface
     end
 
     def section_marked_as_complete?
-      application_form_params[:other_qualifications_completed] == 'true'
+      application_form_params[:completed] == 'true'
     end
   end
 end

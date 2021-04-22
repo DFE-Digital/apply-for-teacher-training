@@ -114,7 +114,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def when_i_complete_my_application
-    check t('application_form.courses.complete.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
     candidate_submits_application
   end
