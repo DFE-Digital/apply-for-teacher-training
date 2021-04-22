@@ -12,6 +12,15 @@ class VendorAPIRequest < ApplicationRecord
     tally_errors(distinct_errors)
   end
 
+  def self.search_validation_errors(params)
+    scope = validation_errors
+    scope = scope.where(request_path: params[:request_path]) if params[:request_path]
+    scope = scope.where(provider_id: params[:provider_id]) if params[:provider_id]
+    scope = scope.where(id: params[:id]) if params[:id]
+    scope = scope.where('response_body@> ?', { errors: [{ error: params[:attribute] }] }.to_json) if params[:attribute]
+    scope
+  end
+
   def self.tally_errors(distinct_errors)
     distinct_errors
       .tally

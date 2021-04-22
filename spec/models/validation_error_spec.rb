@@ -47,4 +47,54 @@ RSpec.describe ValidationError, type: :model do
       )
     end
   end
+
+  describe '.search' do
+    it 'returns all validation errors with empty params' do
+      validation_error = create(:validation_error)
+
+      expect(described_class.search({})).to contain_exactly(validation_error)
+    end
+
+    it 'returns validation errors scoped to form object' do
+      validation_error = create(:validation_error)
+      params = { form_object: validation_error.form_object }
+
+      expect(described_class.search(params)).to contain_exactly(validation_error)
+    end
+
+    it 'returns validation errors scoped to user' do
+      validation_error = create(:validation_error)
+      params = { user_id: validation_error.user_id }
+
+      expect(described_class.search(params)).to contain_exactly(validation_error)
+    end
+
+    it 'returns validation errors scoped to validation_error id' do
+      validation_error = create(:validation_error)
+      params = { id: validation_error.id }
+
+      expect(described_class.search(params)).to contain_exactly(validation_error)
+    end
+
+    it 'returns validation errors scoped to error attribute' do
+      validation_error = create(:validation_error)
+      params = { attribute: 'feedback' }
+
+      expect(described_class.search(params)).to contain_exactly(validation_error)
+    end
+
+    it 'returns validation errors scoped to multiple parameters' do
+      validation_error = create(:validation_error)
+
+      create(:validation_error, form_object: 'PersonalDetailsForm', user: validation_error.user)
+
+      params = { user: validation_error.user, form_object: 'RefereeInterface::ReferenceFeedbackForm' }
+
+      expect(described_class.search(params)).to contain_exactly(validation_error)
+    end
+
+    it 'returns empty result if no validation errors found' do
+      expect(described_class.search({})).to be_empty
+    end
+  end
 end
