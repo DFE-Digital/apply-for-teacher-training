@@ -7,7 +7,7 @@ module ProviderInterface
       end
 
       def create
-        @wizard = OfferWizard.new(offer_store, conditions_attributes_for_wizard)
+        @wizard = OfferWizard.new(offer_store, attributes_for_wizard)
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
@@ -24,7 +24,7 @@ module ProviderInterface
       end
 
       def update
-        @wizard = OfferWizard.new(offer_store, conditions_attributes_for_wizard)
+        @wizard = OfferWizard.new(offer_store, attributes_for_wizard)
 
         if @wizard.valid_for_current_step?
           @wizard.save_state!
@@ -42,14 +42,12 @@ module ProviderInterface
               .permit(further_conditions: {}, standard_conditions: [])
       end
 
-      def conditions_attributes_for_wizard
-        params = conditions_params.to_h
+      def attributes_for_wizard
+        attributes = conditions_params
 
-        params['further_conditions'] = params['further_conditions'].values.map do |hash|
-          hash['text']
-        end
+        further_conditions = conditions_params.to_h['further_conditions'].values.map { |hash| hash['text'] }
 
-        params
+        attributes.merge!(further_conditions: further_conditions, current_step: 'conditions')
       end
     end
   end

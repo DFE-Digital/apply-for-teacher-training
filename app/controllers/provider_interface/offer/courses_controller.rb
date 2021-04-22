@@ -9,7 +9,7 @@ module ProviderInterface
       end
 
       def create
-        @wizard = OfferWizard.new(offer_store)
+        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'courses' })
         reset_study_mode_if_course_has_changed_and_update_course
 
         if @wizard.valid_for_current_step?
@@ -31,7 +31,7 @@ module ProviderInterface
       end
 
       def update
-        @wizard = OfferWizard.new(offer_store)
+        @wizard = OfferWizard.new(offer_store, { current_step: 'courses' })
         reset_study_mode_if_course_has_changed_and_update_course
 
         if @wizard.valid_for_current_step?

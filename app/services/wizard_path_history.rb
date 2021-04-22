@@ -18,13 +18,12 @@ class WizardPathHistory
   def update
     if action == 'back'
       path_history.pop
-    elsif step
+    elsif step && !path_history.last.eql?(step)
       path_history << step
     end
   end
 
   def previous_step
-    return path_history[PREVIOUS_STEP_INDEX] if step.nil?
     raise NoSuchStepError unless path_history.rindex(step)
 
     path_history[path_history.rindex(step) - 1]
