@@ -255,7 +255,7 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_review_pending?
-      @application_form.becoming_a_teacher_review_pending?
+      @application_form.review_pending?(:becoming_a_teacher)
     end
 
     def subject_knowledge_completed?
@@ -275,7 +275,7 @@ module CandidateInterface
     end
 
     def subject_knowledge_review_pending?
-      @application_form.subject_knowledge_review_pending?
+      @application_form.review_pending?(:subject_knowledge)
     end
 
     def interview_preferences_completed?

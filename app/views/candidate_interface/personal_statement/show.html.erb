@@ -5,11 +5,11 @@
   <%= t('page_titles.becoming_a_teacher') %>
 </h1>
 
-<% if @application_form.becoming_a_teacher_review_pending? %>
+<% if @application_form.review_pending?(:becoming_a_teacher) %>
   <div class='govuk-inset-text govuk-!-width-two-thirds govuk-!-margin-top-0'>
     <h2 class="govuk-heading-m">Feedback from previous applications</h2>
 
-    <% @application_form.becoming_a_teacher_rejection_reasons.each do |rejection_reason| %>
+    <% @application_form.rejection_reasons(:becoming_a_teacher).each do |rejection_reason| %>
       <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
       <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
         <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
@@ -33,5 +33,5 @@
   path: candidate_interface_becoming_a_teacher_complete_path,
   request_method: :patch,
   field_name: :becoming_a_teacher_completed,
-  section_review: @application_form.becoming_a_teacher_reviewable?,
+  section_review: @application_form.reviewable?(:becoming_a_teacher),
 )) %>

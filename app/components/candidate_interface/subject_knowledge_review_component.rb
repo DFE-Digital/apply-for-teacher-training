@@ -19,7 +19,7 @@ module CandidateInterface
     end
 
     def review_needed?
-      @application_form.subject_knowledge_review_pending?
+      @application_form.review_pending?(:subject_knowledge)
     end
 
   private

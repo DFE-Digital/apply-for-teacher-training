@@ -357,45 +357,29 @@ class ApplicationForm < ApplicationRecord
   end
 
   def mark_sections_incomplete_if_review_needed!
-    if becoming_a_teacher_reviewable?
+    if reviewable?(:becoming_a_teacher)
       update!(becoming_a_teacher_completed: false)
     end
 
-    if subject_knowledge_reviewable?
+    if reviewable?(:subject_knowledge)
       update!(subject_knowledge_completed: false)
     end
   end
 
-  def becoming_a_teacher_rejection_reasons
-    CandidateInterface::RejectionReasonsHistory.all_previous_applications(self, :becoming_a_teacher)
+  def rejection_reasons(section)
+    CandidateInterface::RejectionReasonsHistory.all_previous_applications(self, section)
   end
 
-  def becoming_a_teacher_previous_application_rejection_reason
-    CandidateInterface::RejectionReasonsHistory.previous_application(self, :becoming_a_teacher)
+  def previous_application_rejection_reason(section)
+    CandidateInterface::RejectionReasonsHistory.previous_application(self, section)
   end
 
-  def becoming_a_teacher_review_pending?
-    !becoming_a_teacher_completed? && becoming_a_teacher_reviewable?
+  def review_pending?(section)
+    !send("#{section}_completed?") && reviewable?(section)
   end
 
-  def becoming_a_teacher_reviewable?
-    apply_2? && becoming_a_teacher_previous_application_rejection_reason.present?
-  end
-
-  def subject_knowledge_review_pending?
-    !subject_knowledge_completed? && subject_knowledge_reviewable?
-  end
-
-  def subject_knowledge_reviewable?
-    apply_2? && subject_knowledge_previous_application_rejection_reason.present?
-  end
-
-  def subject_knowledge_previous_application_rejection_reason
-    CandidateInterface::RejectionReasonsHistory.previous_application(self, :subject_knowledge)
-  end
-
-  def subject_knowledge_rejection_reasons
-    CandidateInterface::RejectionReasonsHistory.all_previous_applications(self, :subject_knowledge)
+  def reviewable?(section)
+    apply_2? && previous_application_rejection_reason(section).present?
   end
 
 private
