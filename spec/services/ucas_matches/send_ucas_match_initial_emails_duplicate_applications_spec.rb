@@ -19,11 +19,13 @@ RSpec.describe UCASMatches::SendUCASMatchInitialEmailsDuplicateApplications do
           expect { described_class.new(ucas_match).call }.to raise_error("Initial emails for UCAS match ##{ucas_match.id} were already sent")
         end
 
-        it 'when no application_choices_for_same_course_on_both_services are present' do
-          weird_match = build_stubbed(:ucas_match)
+        it 'and no application_choices_for_same_course_on_both_services are present' do
+          weird_match = create(:ucas_match)
           allow(weird_match).to receive(:application_choices_for_same_course_on_both_services).and_return([])
 
           expect { described_class.new(weird_match).call }.to raise_error("No application choices found for UCAS match ##{weird_match.id}")
+          expect(weird_match.reload.action_taken).to eq('no_application_choice')
+          expect(weird_match).to be_resolved
         end
       end
 
