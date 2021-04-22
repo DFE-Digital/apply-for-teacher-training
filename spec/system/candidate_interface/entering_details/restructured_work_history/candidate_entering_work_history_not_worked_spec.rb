@@ -75,7 +75,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('save_and_continue')
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form
