@@ -58,7 +58,7 @@ class ApplicationForm < ApplicationRecord
   enum address_type: {
     uk: 'uk',
     international: 'international',
-  }
+  }, _suffix: :address
   attribute :address_type, :string, default: 'uk'
 
   enum feedback_satisfaction_level: {
@@ -264,7 +264,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def full_address
-    if international?
+    if international_address?
       [
         address_line1,
         address_line2,
@@ -349,7 +349,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def domicile
-    if international?
+    if international_address?
       DomicileResolver.hesa_code_for_country country
     else
       DomicileResolver.hesa_code_for_postcode postcode
@@ -387,7 +387,7 @@ private
   def geocode_address_if_required
     return unless address_changed?
 
-    if international?
+    if international_address?
       update!(latitude: nil, longitude: nil)
     else
       GeocodeApplicationAddressWorker.perform_async(id)

@@ -141,7 +141,7 @@ module VendorAPI
 
       (EU_EEA_SWISS_COUNTRY_CODES & application_choice.nationalities).any? &&
         application_form.right_to_work_or_study_yes? &&
-        application_form.uk?
+        application_form.uk_address?
     end
 
     def course_info_for(course_option)
@@ -319,7 +319,7 @@ module VendorAPI
     end
 
     def contact_details
-      if application_form.international?
+      if application_form.international_address?
         address_line1 = application_form.address_line1 || application_form.international_address
 
         {
