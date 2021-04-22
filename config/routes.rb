@@ -890,15 +890,21 @@ Rails.application.routes.draw do
       get '/course-options', to: 'performance#course_options', as: :course_options
       get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
 
-      get '/validation-errors' => 'validation_errors#index', as: :validation_errors
-      get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
-      get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
-
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
       get '/data-directory' => 'data_exports#directory', as: :data_directory
       get '/data-directory/export/:data_export_type' => 'data_exports#view_export_information', as: :view_export_information
       get '/data-directory/export-history' => 'data_exports#history', as: :data_exports_history
       get '/data-directory/export/:data_export_type/history' => 'data_exports#view_history', as: :view_history
+
+      get '/validation-errors' => 'validation_errors#index', as: :validation_errors
+
+      namespace :validation_errors, path: '/validation-errors' do
+        scope '/candidate' do
+          get '/' => 'candidate#index', as: :candidate
+          get '/search' => 'candidate#search', as: :candidate_search
+          get '/summary' => 'candidate#summary', as: :candidate_summary
+        end
+      end
 
       resources :data_exports, path: '/data-exports' do
         member do

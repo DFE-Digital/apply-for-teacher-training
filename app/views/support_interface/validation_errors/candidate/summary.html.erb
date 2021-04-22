@@ -4,6 +4,7 @@
   <%= breadcrumbs({
     'Performance': support_interface_performance_path,
     'Validation errors': support_interface_validation_errors_path,
+    'Candidate': support_interface_validation_errors_candidate_path,
     'Validation error summary': nil,
   }) %>
 <% end %>
@@ -11,7 +12,7 @@
 <div class="validation-results-header">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <%= form_with(url: support_interface_validation_error_summary_path, method: 'get', class: 'govuk-form') do |f| %>
+      <%= form_with(url: support_interface_validation_errors_candidate_summary_path, method: 'get', class: 'govuk-form') do |f| %>
         <div class="govuk-form-group">
           <%= f.govuk_collection_select(
                 :sortby,
@@ -63,13 +64,13 @@
       <td class="govuk-table__cell">
         <%= govuk_link_to(
           row['form_object'].to_s.demodulize.underscore.humanize,
-          support_interface_validation_error_search_path(form_object: row['form_object'].to_s),
+          support_interface_validation_errors_candidate_search_path(form_object: row['form_object'].to_s),
         ) %>
       </td>
       <td class="govuk-table__cell">
         <%= govuk_link_to(
           row['attribute'].to_s.humanize,
-          support_interface_validation_error_search_path(form_object: row['form_object'], attribute: row['attribute']),
+          support_interface_validation_errors_candidate_search_path(form_object: row['form_object'], attribute: row['attribute']),
         ) %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">

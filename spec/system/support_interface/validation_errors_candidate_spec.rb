@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Validation errors' do
+RSpec.feature 'Validation errors Candidate' do
   include CandidateHelper
   include DfESignInHelpers
 
@@ -45,6 +45,7 @@ RSpec.feature 'Validation errors' do
     visit support_interface_path
     click_link 'Performance'
     click_link 'Validation errors'
+    click_link 'Candidate validation errors'
   end
 
   def then_i_should_see_a_list_of_error_groups

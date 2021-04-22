@@ -1,0 +1,59 @@
+<% content_for :title, 'Candidate validation errors' %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Validation errors': support_interface_validation_errors_path,
+    'Candidate': nil,
+  }) %>
+<% end %>
+
+<p class="govuk-body"><%= govuk_link_to 'Validation error summary', support_interface_validation_errors_candidate_summary_path %></p>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-!-width-three-quarters">Attribute error</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Error count</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @grouped_column_error_counts.each do |(form_object, attribute, message), count| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+          <span class="govuk-!-font-weight-regular"><%= govuk_link_to form_object.demodulize.underscore.humanize, support_interface_validation_errors_candidate_search_path(form_object: form_object) %>:</span>
+          <%= govuk_link_to attribute.humanize, support_interface_validation_errors_candidate_search_path(form_object: form_object, attribute: attribute) %>
+        </h2>
+        <p class="govuk-body govuk-!-margin-bottom-0"><%= message %></p>
+      </td>
+      <td class="govuk-table__cell govuk-table__cell--numeric">
+        <%= count %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-!-width-three-quarters">Form</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Error count</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @grouped_counts.each do |form_object, count| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+          <%= govuk_link_to form_object.demodulize.underscore.humanize, support_interface_validation_errors_candidate_search_path(form_object: form_object) %>
+        </h2>
+      </td>
+      <td class="govuk-table__cell govuk-table__cell--numeric">
+        <%= count %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
