@@ -115,12 +115,13 @@ RSpec.describe SupportInterface::OfferConditionsExport do
       choice = create(:application_choice, :with_modified_offer)
 
       offers = described_class.new.offers
-      expect(offers.first[:offered_provider_code]).to eq(choice.offered_course.provider.code)
-      expect(offers.first[:offered_provider_name]).to eq(choice.offered_course.provider.name)
-      expect(offers.first[:offered_course_name]).to eq(choice.offered_course.name)
-      expect(offers.first[:offered_course_code]).to eq(choice.offered_course.code)
-      expect(offers.first[:offered_course_location]).to eq(choice.offered_site.name)
-      expect(offers.first[:offered_course_study_mode]).to eq(choice.offered_option.study_mode)
+
+      expect(offers.first[:offered_provider_code]).to eq(choice.current_provider.code)
+      expect(offers.first[:offered_provider_name]).to eq(choice.current_provider.name)
+      expect(offers.first[:offered_course_name]).to eq(choice.current_course.name)
+      expect(offers.first[:offered_course_code]).to eq(choice.current_course.code)
+      expect(offers.first[:offered_course_location]).to eq(choice.current_site.name)
+      expect(offers.first[:offered_course_study_mode]).to eq(choice.current_course_option.study_mode)
     end
 
     it 'returns most recent offered_at' do

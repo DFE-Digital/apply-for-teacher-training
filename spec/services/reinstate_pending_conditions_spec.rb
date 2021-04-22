@@ -16,8 +16,8 @@ RSpec.describe ReinstatePendingConditions do
     expect { service.save }.to change(application_choice, :status).to('pending_conditions')
   end
 
-  it 'changes offered_course_option_id for the application choice' do
-    expect { service.save }.to change(application_choice, :offered_course_option_id)
+  it 'changes current_course_option_id for the application choice' do
+    expect { service.save }.to change(application_choice, :current_course_option_id)
   end
 
   it 'sets recruited_at to nil if conditions are no longer met' do

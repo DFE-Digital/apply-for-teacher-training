@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       it 'renders study mode values' do
         expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.current_course_option.study_mode.humanize.to_s)
       end
 
       it 'renders the study mode change link' do
@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).not_to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.current_course_option.study_mode.humanize.to_s)
         expect(result.css('.app-summary-card__actions').text).not_to include("Change study mode for #{application_choice.course.name_and_code}")
       end
     end
@@ -218,7 +218,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
       it 'renders study mode values' do
         expect(result.css('.govuk-summary-list__key').text).to include('Full time or part time')
-        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.offered_option.study_mode.humanize.to_s)
+        expect(result.css('.govuk-summary-list__value').text).to include(application_choice.current_course_option.study_mode.humanize.to_s)
       end
 
       it 'renders without the change link' do
@@ -325,7 +325,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       create(:application_choice,
              status: 'offer',
              course_option: create(:course_option, :full_time),
-             offered_course_option: create(:course_option, :part_time, course: create(:course, description: 'PGCE with QTS part time')))
+             current_course_option: create(:course_option, :part_time, course: create(:course, description: 'PGCE with QTS part time')))
     end
     let(:application_form) { create(:application_form, application_choices: [application_choice]) }
 
@@ -383,7 +383,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
   context 'when an interview has been cancelled' do
     it 'renders the component without interview details' do
-      application_choice = build(:application_choice, :with_completed_application_form, :with_cancelled_interview)
+      application_choice = create(:application_choice, :with_completed_application_form, :with_cancelled_interview)
       application_form = application_choice.application_form
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))

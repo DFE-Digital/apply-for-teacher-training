@@ -59,7 +59,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_choice.application_form
     @interview = interview
     @provider_name = interview.provider.name
-    @course_name = application_choice.offered_option.course.name
+    @course_name = application_choice.current_course_option.course.name
 
     email_for_candidate(
       @application_form,
@@ -71,7 +71,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_choice.application_form
     @interview = interview
     @provider_name = interview.provider.name
-    @course_name = application_choice.offered_option.course.name
+    @course_name = application_choice.current_course_option.course.name
 
     email_for_candidate(
       @application_form,
@@ -83,7 +83,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_choice.application_form
     @interview = interview
     @provider_name = interview.provider.name
-    @course_name = application_choice.offered_option.course.name
+    @course_name = application_choice.current_course_option.course.name
     @reason = reason
 
     email_for_candidate(
@@ -136,7 +136,7 @@ class CandidateMailer < ApplicationMailer
 
   def feedback_received_for_application_rejected_by_default(application_choice)
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
-    @course = @application_choice.offered_option.course
+    @course = @application_choice.current_course_option.course
 
     email_for_candidate(
       @application_choice.application_form,
@@ -230,7 +230,7 @@ class CandidateMailer < ApplicationMailer
     @conditions = @application_choice.offer&.dig('conditions') || []
 
     @course_option = @application_choice.course_option
-    @offered_course_option = @application_choice.offered_course_option
+    @current_course_option = @application_choice.current_course_option
     @is_awaiting_decision = application_choice.self_and_siblings.decision_pending.any?
     @offers = @application_choice.self_and_siblings.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
@@ -244,7 +244,7 @@ class CandidateMailer < ApplicationMailer
 
   def deferred_offer(application_choice)
     @application_choice = application_choice
-    @course = @application_choice.offered_option.course
+    @course = @application_choice.current_course_option.course
     @new_course_academic_year = "#{@course.recruitment_cycle_year + 1} to #{@course.recruitment_cycle_year + 2}"
 
     email_for_candidate(
@@ -255,7 +255,7 @@ class CandidateMailer < ApplicationMailer
 
   def deferred_offer_reminder(application_choice)
     @application_choice = application_choice
-    @course_option = @application_choice.offered_option
+    @course_option = @application_choice.current_course_option
 
     email_for_candidate(
       @application_choice.application_form,
@@ -265,7 +265,7 @@ class CandidateMailer < ApplicationMailer
 
   def reinstated_offer(application_choice)
     @application_choice = application_choice
-    @course_option = @application_choice.offered_option
+    @course_option = @application_choice.current_course_option
     @conditions = @application_choice.offer&.dig('conditions') || []
 
     email_for_candidate(
@@ -320,8 +320,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def offer_withdrawn(application_choice)
-    @course_name_and_code = application_choice.offered_option.course.name_and_code
-    @provider_name = application_choice.offered_option.provider.name
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @provider_name = application_choice.current_course_option.provider.name
     @withdrawal_reason = application_choice.offer_withdrawal_reason
     @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
 
@@ -332,9 +332,9 @@ class CandidateMailer < ApplicationMailer
   end
 
   def offer_accepted(application_choice)
-    @course_name_and_code = application_choice.offered_option.course.name_and_code
-    @provider_name = application_choice.offered_option.provider.name
-    @start_date = application_choice.offered_option.course.start_date.to_s(:month_and_year)
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @provider_name = application_choice.current_course_option.provider.name
+    @start_date = application_choice.current_course_option.course.start_date.to_s(:month_and_year)
 
     email_for_candidate(
       application_choice.application_form,
@@ -347,9 +347,9 @@ class CandidateMailer < ApplicationMailer
   end
 
   def unconditional_offer_accepted(application_choice)
-    @course_name_and_code = application_choice.offered_option.course.name_and_code
-    @provider_name = application_choice.offered_option.provider.name
-    @start_date = application_choice.offered_option.course.start_date.to_s(:month_and_year)
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @provider_name = application_choice.current_course_option.provider.name
+    @start_date = application_choice.current_course_option.course.start_date.to_s(:month_and_year)
 
     email_for_candidate(
       application_choice.application_form,
@@ -403,8 +403,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def ucas_match_resolved_on_ucas_email(application_choice)
-    @course_name_and_code = application_choice.offered_option.course.name_and_code
-    @provider_name = application_choice.offered_option.provider.name
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @provider_name = application_choice.current_course_option.provider.name
 
     email_for_candidate(
       application_choice.application_form,
@@ -413,8 +413,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def ucas_match_resolved_on_ucas_at_our_request_email(application_choice)
-    @course_name_and_code = application_choice.offered_option.course.name_and_code
-    @provider_name = application_choice.offered_option.provider.name
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @provider_name = application_choice.current_course_option.provider.name
 
     email_for_candidate(
       application_choice.application_form,
@@ -423,8 +423,8 @@ class CandidateMailer < ApplicationMailer
   end
 
   def ucas_match_resolved_on_apply_email(application_choice)
-    @course_name_and_code = application_choice.offered_option.course.name_and_code
-    @provider_name = application_choice.offered_option.provider.name
+    @course_name_and_code = application_choice.current_course_option.course.name_and_code
+    @provider_name = application_choice.current_course_option.provider.name
 
     email_for_candidate(
       application_choice.application_form,
@@ -436,7 +436,7 @@ private
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
-    course_option = CourseOption.find_by(id: @application_choice.offered_course_option_id) || @application_choice.course_option
+    course_option = CourseOption.find_by(id: @application_choice.current_course_option_id) || @application_choice.course_option
     @provider_name = course_option.course.provider.name
     @course_name = course_option.course.name_and_code
     @conditions = @application_choice.offer&.dig('conditions') || []

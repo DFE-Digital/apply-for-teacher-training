@@ -4,13 +4,19 @@ class ApplicationChoice < ApplicationRecord
   before_create :set_initial_status
 
   belongs_to :application_form, touch: true
+  has_one :candidate, through: :application_form
+
   belongs_to :course_option
-  belongs_to :offered_course_option, class_name: 'CourseOption', optional: true
-  has_one :course, through: :course_option
   has_one :site, through: :course_option
+  has_one :course, through: :course_option
   has_one :provider, through: :course
   has_one :accredited_provider, through: :course, class_name: 'Provider'
-  has_one :candidate, through: :application_form
+
+  belongs_to :current_course_option, class_name: 'CourseOption', optional: true
+  has_one :current_site, through: :current_course_option, source: :site
+  has_one :current_course, through: :current_course_option, source: :course
+  has_one :current_provider, through: :current_course, source: :provider
+  has_one :current_accredited_provider, through: :current_course, source: :accredited_provider
 
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
@@ -46,27 +52,11 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def different_offer?
-    offered_course_option_id && offered_course_option_id != course_option_id
-  end
-
-  def offered_option
-    offered_course_option || course_option
-  end
-
-  def offered_provider
-    offered_option.provider
-  end
-
-  def offered_course
-    offered_option.course
-  end
-
-  def offered_site
-    offered_option.site
+    current_course_option_id && current_course_option_id != course_option_id
   end
 
   def recruitment_cycle
-    offered_course.recruitment_cycle_year
+    current_course.recruitment_cycle_year
   end
 
   def days_left_to_respond
@@ -156,6 +146,13 @@ class ApplicationChoice < ApplicationRecord
 
   def associated_providers
     [provider, accredited_provider].compact.uniq
+  end
+
+  def set_initial_course_choice!(course_option)
+    update!(
+      course_option: course_option,
+      current_course_option: course_option,
+    )
   end
 
 private

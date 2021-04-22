@@ -5,7 +5,7 @@ module ProviderInterface
     def index
       @provider_can_respond = current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
-        course_option_id: @application_choice.offered_option.id,
+        course_option_id: @application_choice.current_course_option.id,
       )
 
       @notes = @application_choice.notes.order('created_at DESC')

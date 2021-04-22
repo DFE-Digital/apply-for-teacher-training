@@ -9,7 +9,7 @@ module SupportInterface
 
       notes.map do |note|
         providers = note.provider_user.providers
-        course = note.application_choice.offered_course_option&.course || note.application_choice.course_option.course
+        course = note.application_choice.current_course
         training_provider = course.provider
         ratifying_provider = course.accredited_provider
 

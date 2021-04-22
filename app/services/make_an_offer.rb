@@ -42,8 +42,7 @@ class MakeAnOffer
       if ApplicationStateChange.new(application_choice).can_make_offer?
         ActiveRecord::Base.transaction do
           application_choice.status = 'offer'
-          application_choice.offered_course_option = course_option
-          application_choice.current_course_option_id = course_option.id
+          application_choice.current_course_option = course_option
           application_choice.offer = { 'conditions' => offer_conditions }
           application_choice.offered_at = Time.zone.now
           application_choice.save!

@@ -3,6 +3,6 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 # Offer declined
 
-<%= @application_choice.application_form.full_name %> has declined your offer to study <%= @application_choice.offered_course.name_and_code %>.
+<%= @application_choice.application_form.full_name %> has declined your offer to study <%= @application_choice.current_course_option.course.name_and_code %>.
 
 <%= provider_interface_application_choice_url(@application_choice) %>

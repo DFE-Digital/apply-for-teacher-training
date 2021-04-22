@@ -163,7 +163,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
         it "for application #{trait}" do
           with_audit(trait) do |audit, _user, _candidate|
             choice = audit.auditable
-            choice.update_columns(offered_course_option_id: create(:course_option).id)
+            choice.update_columns(current_course_option_id: create(:course_option).id)
             expect(component_for(audit).course_option.id).to eq(choice.course_option.id)
           end
         end
@@ -185,8 +185,8 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
         it "for application #{trait}" do
           with_audit(trait) do |audit, _user, _candidate|
             choice = audit.auditable
-            choice.update_columns(offered_course_option_id: create(:course_option).id)
-            expect(component_for(audit).course_option.id).to eq(choice.offered_option.id)
+            choice.update_columns(current_course_option_id: create(:course_option).id)
+            expect(component_for(audit).course_option.id).to eq(choice.current_course_option.id)
           end
         end
       end
@@ -194,7 +194,6 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
 
     context 'for offer and change offer events' do
       examples = %i[
-        with_offer
         with_modified_offer
         with_changed_offer
       ]
@@ -202,8 +201,25 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       examples.each do |trait|
         it "#{trait} uses the course option from the event, not the application" do
           with_audit(trait) do |audit, _user, _candidate|
-            audit.auditable.update_columns(offered_course_option_id: create(:course_option).id)
-            expected = audit.audited_changes['offered_course_option_id'].second
+            audit.auditable.update_columns(current_course_option_id: create(:course_option).id)
+            expected = audit.audited_changes['current_course_option_id'].second
+            expect(component_for(audit).course_option.id).to eq(expected)
+          end
+        end
+      end
+    end
+
+    context 'for old offer and change offer events' do
+      examples = %i[
+        with_old_modified_offer
+        with_old_changed_offer
+      ]
+
+      examples.each do |trait|
+        it "#{trait} uses the course option from the event, not the application" do
+          with_audit(trait) do |audit, _user, _candidate|
+            audit.auditable.update_columns(current_course_option_id: create(:course_option).id)
+            expected = audit.audited_changes['current_course_option_id'].second
             expect(component_for(audit).course_option.id).to eq(expected)
           end
         end

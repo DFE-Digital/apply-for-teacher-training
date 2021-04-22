@@ -129,10 +129,10 @@ module ProviderInterface
         study_mode = new_course_option.study_mode
         course_option_id = new_course_option.id
       else
-        provider_id = application_choice.offered_course.provider.id
-        course_id = application_choice.offered_course.id
-        study_mode = application_choice.offered_option.study_mode
-        course_option_id = application_choice.offered_option.id
+        provider_id = application_choice.current_course.provider.id
+        course_id = application_choice.current_course.id
+        study_mode = application_choice.current_course_option.study_mode
+        course_option_id = application_choice.current_course_option.id
       end
       ProviderInterface::ChangeOfferForm.new(
         application_choice: application_choice,

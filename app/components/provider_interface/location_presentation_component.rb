@@ -7,7 +7,7 @@ module ProviderInterface
     end
 
     def course_option
-      application_choice.offered_course_option || application_choice.course_option
+      application_choice.current_course_option
     end
 
     delegate :site, to: :course_option

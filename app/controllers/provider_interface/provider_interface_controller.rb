@@ -120,12 +120,12 @@ module ProviderInterface
     def requires_make_decisions_permission
       if !current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
-        course_option_id: @application_choice.offered_option.id,
+        course_option_id: @application_choice.current_course_option.id,
       )
         raise ProviderInterface::AccessDenied.new({
           permission: 'make_decisions',
-          training_provider: @application_choice.offered_course.provider,
-          ratifying_provider: @application_choice.offered_course.accredited_provider,
+          training_provider: @application_choice.current_course.provider,
+          ratifying_provider: @application_choice.current_course.accredited_provider,
           provider_user: current_provider_user,
         }), 'make_decisions required'
       end

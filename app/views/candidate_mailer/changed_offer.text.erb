@@ -4,12 +4,12 @@ Dear <%= @application_form.first_name %>,
 
 Your offer from <%= @course_option.course.provider.name %> to study <%= @course_option.course.name_and_code %> at <%= @course_option.site.name %> has been changed.
 
-<%= @offered_course_option.course.provider.name %> has offered you the following course:
+<%= @current_course_option.course.provider.name %> has offered you the following course:
 
-Provider: <%= @offered_course_option.course.provider.name %>
-Course: <%= @offered_course_option.course.name_and_code %>
-Location: <%= @offered_course_option.site.name %>
-Full time or part time: <%= @offered_course_option.course.study_mode.humanize %>
+Provider: <%= @current_course_option.course.provider.name %>
+Course: <%= @current_course_option.course.name_and_code %>
+Location: <%= @current_course_option.site.name %>
+Full time or part time: <%= @current_course_option.course.study_mode.humanize %>
 
 <% if @conditions.blank? %>
   <%= @course_option.course.provider.name %> will let you know if they need further information before you can start training.

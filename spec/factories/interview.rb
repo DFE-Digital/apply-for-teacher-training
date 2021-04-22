@@ -8,7 +8,7 @@ FactoryBot.define do
 
     after(:build) do |interview|
       interview.application_choice.status = 'interviewing'
-      interview.provider ||= interview.application_choice.offered_course.provider
+      interview.provider ||= interview.application_choice.current_provider
     end
 
     trait :future_date_and_time do

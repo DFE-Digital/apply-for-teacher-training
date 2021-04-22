@@ -34,7 +34,7 @@ module ProviderInterface
   private
 
     def course_option
-      @course_option || @application_choice.offered_option
+      @course_option || @application_choice.current_course_option
     end
   end
 end

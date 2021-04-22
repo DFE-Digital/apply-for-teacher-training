@@ -11,7 +11,7 @@ class GetActivityLogEvents
       site
       provider
       accredited_provider
-      offered_course_option
+      current_course_option
     ],
   }.freeze
 

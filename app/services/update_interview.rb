@@ -20,7 +20,7 @@ class UpdateInterview
   def save!
     auth.assert_can_make_decisions!(
       application_choice: interview.application_choice,
-      course_option_id: interview.application_choice.offered_option.id,
+      course_option_id: interview.application_choice.current_course_option.id,
     )
 
     interview.provider = provider

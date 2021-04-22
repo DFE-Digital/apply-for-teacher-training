@@ -85,7 +85,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       :application_choice,
       :with_completed_application_form,
       :with_offer,
-      offered_course_option: create(:course_option),
+      current_course_option: create(:course_option),
       offered_at: Time.zone.local(2020, 1, 1, 10),
       decline_by_default_at: nil,
     )

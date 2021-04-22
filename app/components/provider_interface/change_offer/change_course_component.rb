@@ -23,7 +23,7 @@ module ProviderInterface
       end
 
       def recruitment_cycle_year
-        application_choice.offered_course.recruitment_cycle_year # same year as application
+        application_choice.current_course.recruitment_cycle_year # same year as application
       end
 
       def page_title

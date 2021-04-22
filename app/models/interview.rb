@@ -11,7 +11,7 @@ class Interview < ApplicationRecord
 
   validates :application_choice, :provider, :date_and_time, presence: true
 
-  delegate :offered_course, to: :application_choice
+  delegate :current_course, to: :application_choice
 
   scope :for_application_choices, ->(application_choices) { joins(:application_choice).merge(application_choices).kept }
   scope :upcoming, -> { where('date_and_time >= ?', Time.zone.now.beginning_of_day) }

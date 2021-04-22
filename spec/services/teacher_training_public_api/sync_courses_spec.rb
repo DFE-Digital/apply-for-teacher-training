@@ -293,7 +293,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         invalid_course_option_three = create(:course_option, course: course, site: invalid_site_three)
 
         create(:application_choice, course_option: invalid_course_option_two)
-        create(:application_choice, course_option: valid_course_option, offered_course_option: invalid_course_option_three)
+        create(:application_choice, course_option: valid_course_option, current_course_option: invalid_course_option_three)
 
         described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false

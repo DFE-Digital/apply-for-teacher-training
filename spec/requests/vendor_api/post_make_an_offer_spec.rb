@@ -361,7 +361,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           "conditions": [
             'DBS check',
           ],
-          "course": course_option_to_course_payload(choice.offered_option),
+          "course": course_option_to_course_payload(choice.current_course_option),
         },
       }
 

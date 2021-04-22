@@ -3,6 +3,12 @@ FactoryBot.define do
     course_option
     application_form
 
+    after(:stub, :build) do |application_choice, _evaluator|
+      if application_choice.current_course_option.blank?
+        application_choice.current_course_option = application_choice.course_option
+      end
+    end
+
     status { ApplicationStateChange.valid_states.sample }
 
     trait :with_completed_application_form do
@@ -31,7 +37,7 @@ FactoryBot.define do
 
       after(:build) do |application_choice, _evaluator|
         application_choice.status = :interviewing
-        application_choice.interviews << build(:interview, provider: application_choice.provider)
+        application_choice.interviews << build(:interview, provider: application_choice.current_provider)
       end
     end
 
@@ -40,7 +46,7 @@ FactoryBot.define do
 
       after(:build) do |application_choice, _evaluator|
         application_choice.status = :awaiting_provider_decision
-        application_choice.interviews << build(:interview, :cancelled, provider: application_choice.provider)
+        application_choice.interviews << build(:interview, :cancelled, provider: application_choice.current_provider)
       end
     end
 
@@ -165,7 +171,7 @@ FactoryBot.define do
 
       after(:build) do |choice, _evaluator|
         other_course = create(:course, provider: choice.course_option.course.provider)
-        choice.offered_course_option_id = create(:course_option, course: other_course).id
+        choice.current_course_option_id = create(:course_option, course: other_course).id
         choice.offered_at = 3.business_days.ago
         choice.decline_by_default_at = 7.business_days.from_now
       end
@@ -176,7 +182,7 @@ FactoryBot.define do
 
       after(:build) do |choice, _evaluator|
         other_course = create(:course, provider: choice.course_option.course.provider)
-        choice.offered_course_option_id = create(:course_option, course: other_course).id
+        choice.current_course_option_id = create(:course_option, course: other_course).id
         choice.offer_changed_at = Time.zone.now - 1.day
       end
     end

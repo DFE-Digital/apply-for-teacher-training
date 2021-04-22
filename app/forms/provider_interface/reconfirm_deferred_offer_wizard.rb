@@ -43,7 +43,7 @@ module ProviderInterface
     end
 
     def course_option_in_new_cycle
-      @course_option_in_new_cycle ||= application_choice&.offered_option&.in_next_cycle
+      @course_option_in_new_cycle ||= application_choice&.current_course_option&.in_next_cycle
     end
 
     def is_course_option_still_available

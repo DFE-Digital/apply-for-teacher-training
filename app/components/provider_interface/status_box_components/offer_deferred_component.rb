@@ -27,7 +27,7 @@ module ProviderInterface
             key: 'Offer deferred',
             value: application_choice.offer_deferred_at.to_s(:govuk_date),
           },
-        ] + add_change_links_to(course_rows(course_option: application_choice.offered_option))
+        ] + add_change_links_to(course_rows(course_option: application_choice.current_course_option))
       end
 
       def add_change_links_to(rows)

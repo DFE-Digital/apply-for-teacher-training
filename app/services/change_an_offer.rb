@@ -17,7 +17,7 @@ class ChangeAnOffer
 
   def identical_to_existing_offer?
     course_option.present? && \
-      course_option == application_choice.offered_option && \
+      course_option == application_choice.current_course_option && \
       application_choice.offer['conditions'] == @offer_conditions
   end
 
@@ -27,8 +27,7 @@ class ChangeAnOffer
       if valid?
         now = Time.zone.now
         attributes = {
-          offered_course_option: @course_option,
-          current_course_option_id: @course_option.id,
+          current_course_option: @course_option,
           offer_changed_at: now,
         }
         attributes[:offer] = { 'conditions' => @offer_conditions } if @offer_conditions

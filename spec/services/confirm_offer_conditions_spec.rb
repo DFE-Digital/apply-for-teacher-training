@@ -4,7 +4,7 @@ RSpec.describe ConfirmOfferConditions do
   it 'raises an error if the user is not authorised' do
     application_choice = create(:application_choice, status: :pending_conditions)
     provider_user = create(:provider_user)
-    provider_user.providers << application_choice.offered_course.provider
+    provider_user.providers << application_choice.current_course.provider
 
     service = ConfirmOfferConditions.new(
       actor: provider_user,

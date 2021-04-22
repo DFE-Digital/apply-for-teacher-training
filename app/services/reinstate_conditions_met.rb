@@ -19,7 +19,7 @@ class ReinstateConditionsMet
 
     audit(@auth.actor) do
       if valid?
-        attrs = { offered_course_option_id: @course_option.id }
+        attrs = { current_course_option_id: @course_option.id }
         attrs[:recruited_at] = Time.zone.now unless application_choice.status_before_deferral == 'recruited' # conditions are 'still met'
 
         ActiveRecord::Base.transaction do

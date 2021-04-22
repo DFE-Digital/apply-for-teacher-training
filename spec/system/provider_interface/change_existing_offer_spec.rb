@@ -12,7 +12,7 @@ RSpec.feature 'Provider changes an existing offer' do
     create(:application_choice, :with_offer,
            offer: { conditions: ['Fitness to train to teach check', 'Be cool'] },
            application_form: application_form,
-           offered_course_option: course_option)
+           current_course_option: course_option)
   end
   let(:course) do
     build(:course, :open_on_apply, :full_time, provider: provider, accredited_provider: ratifying_provider)

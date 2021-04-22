@@ -64,7 +64,7 @@ module CandidateInterface
         candidate_interface_course_choices_site_path(
           application_choice.provider.id,
           application_choice.course.id,
-          application_choice.offered_option.study_mode,
+          application_choice.current_course_option.study_mode,
           course_choice_id: application_choice.id,
         )
       end
@@ -89,8 +89,8 @@ module CandidateInterface
     end
 
     def title_for(application_choice)
-      "<span class=\"app-course-choice__provider-name\">#{application_choice.offered_course.provider.name}</span>
-      <span class=\"app-course-choice__course-name\">#{application_choice.offered_course.name_and_code}</span>".html_safe
+      "<span class=\"app-course-choice__provider-name\">#{application_choice.current_course.provider.name}</span>
+      <span class=\"app-course-choice__course-name\">#{application_choice.current_course.name_and_code}</span>".html_safe
     end
 
   private
@@ -116,7 +116,7 @@ module CandidateInterface
         value: render(
           OfferConditionsReviewComponent.new(
             conditions: application_choice.offer['conditions'],
-            provider: application_choice.offered_course.provider.name,
+            provider: application_choice.current_course.provider.name,
           ),
         ),
       }
@@ -192,7 +192,7 @@ module CandidateInterface
     end
 
     def has_multiple_sites?(application_choice)
-      CourseOption.where(course_id: application_choice.course.id, study_mode: application_choice.offered_option.study_mode).many?
+      CourseOption.where(course_id: application_choice.course.id, study_mode: application_choice.current_course_option.study_mode).many?
     end
 
     def has_multiple_courses?(application_choice)
@@ -202,7 +202,7 @@ module CandidateInterface
     def application_choices_with_accepted_states
       @application_form
         .application_choices
-        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+        .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
         .order(id: :asc)
         .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
     end
@@ -210,7 +210,7 @@ module CandidateInterface
     def all_application_choices
       @application_form
         .application_choices
-        .includes(:course, :site, :provider, :offered_course_option, :interviews)
+        .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
         .order(id: :asc)
     end
 

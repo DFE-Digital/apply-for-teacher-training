@@ -40,7 +40,7 @@ module RegisterAPI
             ethnic_background: equality_and_diversity_data['ethnic_background'],
           },
           contact_details: contact_details,
-          course: course_info_for(application_choice.offered_option),
+          course: course_info_for(application_choice.current_course_option),
           qualifications: qualifications,
           hesa_itt_data: hesa_itt_data.presence,
         },

@@ -44,8 +44,8 @@ module ProviderInterface
       return unless provider_user_can_make_decisions
 
       @providers = available_providers
-      @courses = available_courses(@application_choice.offered_course.provider.id)
-      @course_options = available_course_options(@application_choice.offered_course.id, @application_choice.offered_course_option.study_mode)
+      @courses = available_courses(@application_choice.current_course.provider.id)
+      @course_options = available_course_options(@application_choice.current_course.id, @application_choice.current_course_option.study_mode)
     end
 
     def update
@@ -104,7 +104,7 @@ module ProviderInterface
     def query_service
       @query_service ||= GetChangeOfferOptions.new(
         user: current_provider_user,
-        current_course: @application_choice.offered_course,
+        current_course: @application_choice.current_course,
       )
     end
 
@@ -113,7 +113,7 @@ module ProviderInterface
     def provider_user_can_make_decisions
       @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
-        course_option_id: @application_choice.offered_option.id,
+        course_option_id: @application_choice.current_course_option.id,
       )
     end
   end

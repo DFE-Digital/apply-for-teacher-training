@@ -31,7 +31,7 @@ RSpec.describe WithdrawOffer do
     it 'raises an error if the user is not authorised' do
       application_choice = create(:application_choice, status: :offer)
       provider_user = create(:provider_user)
-      provider_user.providers << application_choice.offered_course.provider
+      provider_user.providers << application_choice.current_course.provider
 
       service = described_class.new(
         actor: provider_user,

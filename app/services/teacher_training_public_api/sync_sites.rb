@@ -88,8 +88,8 @@ module TeacherTrainingPublicAPI
 
       chosen_course_option_ids = ApplicationChoice
                                      .where(course_option: invalid_course_options)
-                                     .or(ApplicationChoice.where(offered_course_option: invalid_course_options))
-                                     .pluck(:course_option_id, :offered_course_option_id).flatten.uniq
+                                     .or(ApplicationChoice.where(current_course_option: invalid_course_options))
+                                     .pluck(:course_option_id, :current_course_option_id).flatten.uniq
 
       not_part_of_an_application = invalid_course_options.where.not(id: chosen_course_option_ids)
       not_part_of_an_application.delete_all

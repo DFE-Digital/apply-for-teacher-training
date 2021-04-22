@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::ApplicationDashboardCourseChoicesComponent do
 
     it 'does not render study mode values' do
       expect(result.css('.govuk-summary-list__key').text).not_to include('Full time or part time')
-      expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.offered_option.study_mode.humanize.to_s)
+      expect(result.css('.govuk-summary-list__value').text).not_to include(application_choice.current_course_option.study_mode.humanize.to_s)
     end
 
     it 'renders without the change link' do

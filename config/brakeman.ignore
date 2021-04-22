@@ -7,7 +7,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/candidate_interface/after_sign_in_controller.rb",
-      "line": 27,
+      "line": 29,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(params[:path])",
       "render_path": null,
@@ -18,26 +18,6 @@
       },
       "user_input": "params[:path]",
       "confidence": "High",
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "05d90ef689d855e7186cca0d43681bbb15a03b2e9f556e1a1e3aa86c22e1c510",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/magic_link_feature_metrics.rb",
-      "line": 15,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "ApplicationForm.select(\"count(DISTINCT audits.id) as audit_count\", \"count(DISTINCT authentication_tokens.id) as token_count\").joins(:application_choices).joins(\"LEFT OUTER JOIN audits ON audits.auditable_id = application_forms.candidate_id AND audits.auditable_type = 'Candidate' AND audits.action = 'update' AND audits.audited_changes#>>'{magic_link_token, 1}' IS NOT NULL AND audits.created_at <= application_choices.#{timestamp}\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "MagicLinkFeatureMetrics",
-        "method": "average_magic_link_requests_upto"
-      },
-      "user_input": "timestamp",
-      "confidence": "Medium",
       "note": ""
     },
     {
@@ -63,13 +43,13 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "36b0cc45521a9bc41933ac9756d5dd14e0e9f902c602dadd0116d9185473a6c5",
+      "fingerprint": "2efd94b2f239188f2a6f8fe47c2d7bc7f885641dd75a4774d0d669af00d03a89",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/services/provider_interface/sort_application_choices.rb",
       "line": 13,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choices.from(\"        (\\n          SELECT a.*, c.recruitment_cycle_year,\\n            CASE\\n              WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n              WHEN #{about_to_be_rejected_automatically} THEN 2\\n              WHEN #{give_feedback_for_rbd} THEN 3\\n              WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n              WHEN #{interviewing_non_urgent} THEN 5\\n              WHEN #{pending_conditions_previous_cycle} THEN 6\\n              WHEN #{waiting_on_candidate} THEN 7\\n              WHEN #{pending_conditions_current_cycle} THEN 8\\n              WHEN #{successful_candidates} THEN 9\\n              WHEN #{deferred_offers_current_cycle} THEN 10\\n              ELSE 999\\n            END AS task_view_group,\\n            #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n            FROM application_choices a\\n            LEFT JOIN course_options option\\n              ON option.id = COALESCE(a.offered_course_option_id, a.course_option_id)\\n            LEFT JOIN courses c\\n              ON c.id = option.course_id\\n        ) AS application_choices\\n\".squish)",
+      "code": "application_choices.from(\"        (\\n          SELECT a.*, c.recruitment_cycle_year,\\n            CASE\\n              WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n              WHEN #{about_to_be_rejected_automatically} THEN 2\\n              WHEN #{give_feedback_for_rbd} THEN 3\\n              WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n              WHEN #{interviewing_non_urgent} THEN 5\\n              WHEN #{pending_conditions_previous_cycle} THEN 6\\n              WHEN #{waiting_on_candidate} THEN 7\\n              WHEN #{pending_conditions_current_cycle} THEN 8\\n              WHEN #{successful_candidates} THEN 9\\n              WHEN #{deferred_offers_current_cycle} THEN 10\\n              ELSE 999\\n            END AS task_view_group,\\n            #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n            FROM application_choices a\\n            LEFT JOIN course_options option\\n              ON option.id = COALESCE(a.current_course_option_id, a.course_option_id)\\n            LEFT JOIN courses c\\n              ON c.id = option.course_id\\n        ) AS application_choices\\n\".squish)",
       "render_path": null,
       "location": {
         "type": "method",
@@ -161,26 +141,6 @@
       "note": ""
     },
     {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "53c8ba33ea76005585e7380e66bbc196385862111c7cb27fe2f0e6793c1ed630",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/queries/get_activity_log_events.rb",
-      "line": 42,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "Audited::Audit.includes(:user => ([:provider_user, :support_user]), :auditable => ([:application_form, :course_option, :course, :site, :provider, :accredited_provider, :offered_course_option])).joins(\"INNER JOIN (#{application_choices.to_sql}) ac\\n  ON (\\n    auditable_type = 'ApplicationChoice'\\n    AND auditable_id = ac.id\\n    AND action = 'update'\\n    AND ( #{application_choice_audits_filter_sql} )\\n  ) OR (\\n    associated_type = 'ApplicationChoice'\\n    AND associated_id = ac.id\\n  )\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "GetActivityLogEvents",
-        "method": "s(:self).call"
-      },
-      "user_input": "application_choice_audits_filter_sql",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "6ef6028f663074c27a5022a598ab480021906f24a15525d47be3a5be44348320",
@@ -207,7 +167,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `CourseOption#find`",
       "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 63,
+      "line": 69,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "CourseOption.find(params[:course_option_id])",
       "render_path": null,
@@ -267,7 +227,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `CourseOption#find`",
       "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 50,
+      "line": 56,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "CourseOption.find(params[:course_option_id])",
       "render_path": null,
@@ -287,7 +247,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `CourseOption#find`",
       "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 81,
+      "line": 87,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "CourseOption.find(params[:course_option_id])",
       "render_path": null,
@@ -319,8 +279,28 @@
       "user_input": "start_time",
       "confidence": "Medium",
       "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "e77c6624c2ae7f7c47fb255dfc9ebb54786de04bb737f4d3fac75dd0581c000b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/queries/get_activity_log_events.rb",
+      "line": 42,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Audited::Audit.includes(:user => ([:provider_user, :support_user]), :auditable => ([:application_form, :course_option, :course, :site, :provider, :accredited_provider, :current_course_option])).joins(\"INNER JOIN (#{application_choices.to_sql}) ac\\n  ON (\\n    auditable_type = 'ApplicationChoice'\\n    AND auditable_id = ac.id\\n    AND action = 'update'\\n    AND ( #{application_choice_audits_filter_sql} )\\n  ) OR (\\n    associated_type = 'ApplicationChoice'\\n    AND associated_id = ac.id\\n  )\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "GetActivityLogEvents",
+        "method": "s(:self).call"
+      },
+      "user_input": "application_choice_audits_filter_sql",
+      "confidence": "Weak",
+      "note": ""
     }
   ],
-  "updated": "2021-03-17 16:17:09 +0000",
+  "updated": "2021-04-19 11:33:22 +0100",
   "brakeman_version": "5.0.0"
 }

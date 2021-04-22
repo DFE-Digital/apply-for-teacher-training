@@ -7,7 +7,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   let(:course) { build_stubbed(:course, name: 'Primary', code: '33WA', provider: provider) }
   let(:course_option) { build_stubbed(:course_option, course: course) }
   let(:provider) { build_stubbed(:provider, name: 'Wonderland University') }
-  let(:application_choice) { build_stubbed(:application_choice, course_option: course_option, offered_course_option: course_option) }
+  let(:application_choice) { build_stubbed(:application_choice, course_option: course_option, current_course_option: course_option) }
   let(:application_choices) { [application_choice] }
 
   describe '.ucas_match_resolved_on_ucas_email' do

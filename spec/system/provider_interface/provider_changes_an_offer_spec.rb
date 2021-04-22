@@ -53,7 +53,7 @@ RSpec.feature 'Provider changes an offer' do
   def and_an_offered_application_choice_exists_for_one_of_my_providers
     # Course @course_option_one belongs to is exclusively full time
     @course_option_one = course_option_for_provider(provider: @provider, study_mode: 'full_time')
-    @application_offered = create(:application_choice, :with_offer, course_option: @course_option_one, offered_course_option: @course_option_one)
+    @application_offered = create(:application_choice, :with_offer, course_option: @course_option_one, current_course_option: @course_option_one)
   end
 
   def and_other_full_time_and_part_time_courses_exist_for_this_provider
@@ -146,7 +146,7 @@ RSpec.feature 'Provider changes an offer' do
     expect(page).to have_content @course_option_three.course.name_and_code
     expect(page).to have_content @course_option_three.site.name_and_address
     expect(page).to have_content 'Part time'
-    expect(@application_offered.reload.offered_option).to eq(@course_option_three)
+    expect(@application_offered.reload.current_course_option).to eq(@course_option_three)
   end
 
   def given_i_am_the_candidate_of_the_changed_offer

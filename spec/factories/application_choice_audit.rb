@@ -88,7 +88,6 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
-          'offered_course_option_id' => [nil, application_choice.course_option_id],
         }
       end
     end
@@ -107,7 +106,18 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
-          'offered_course_option_id' => [nil, application_choice.offered_course_option_id],
+          'current_course_option_id' => [application_choice.course_option_id, application_choice.current_course_option_id],
+        }
+      end
+    end
+
+    trait :with_old_modified_offer do
+      association(:application_choice, :with_modified_offer)
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision offer],
+          'current_course_option_id' => [application_choice.course_option_id, application_choice.current_course_option_id],
         }
       end
     end
@@ -118,7 +128,18 @@ FactoryBot.define do
       changes do
         {
           'offer_changed_at' => [nil, Time.zone.now.iso8601],
-          'offered_course_option_id' => [nil, application_choice.offered_course_option_id],
+          'current_course_option_id' => [application_choice.course_option_id, application_choice.current_course_option_id],
+        }
+      end
+    end
+
+    trait :with_old_changed_offer do
+      association(:application_choice, :with_changed_offer)
+
+      changes do
+        {
+          'offer_changed_at' => [nil, Time.zone.now.iso8601],
+          'current_course_option_id' => [application_choice.course_option_id, application_choice.current_course_option_id],
         }
       end
     end

@@ -345,19 +345,15 @@ module VendorAPI
       end
     end
 
-    def offered_course
-      offered_option = application_choice.offered_course_option || application_choice.course_option
-
-      {
-        course: course_info_for(offered_option),
-      }
+    def current_course
+      { course: course_info_for(application_choice.current_course_option) }
     end
 
     def offer
       return nil if application_choice.offer.nil?
 
       application_choice.offer
-        .merge(offered_course)
+        .merge(current_course)
         .merge({
           offer_made_at: application_choice.offered_at,
           offer_accepted_at: application_choice.accepted_at,

@@ -38,7 +38,7 @@ RSpec.describe DeferOffer do
     it 'raises an error if the user is not authorised' do
       application_choice = create(:application_choice, :with_accepted_offer)
       provider_user = create(:provider_user)
-      provider_user.providers << application_choice.offered_course.provider
+      provider_user.providers << application_choice.current_course.provider
 
       service = DeferOffer.new(
         actor: provider_user,

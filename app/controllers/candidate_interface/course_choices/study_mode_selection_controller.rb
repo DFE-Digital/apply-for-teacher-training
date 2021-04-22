@@ -9,7 +9,7 @@ module CandidateInterface
           @pick_study_mode = PickStudyModeForm.new(
             provider_id: params.fetch(:provider_id),
             course_id: params.fetch(:course_id),
-            study_mode: current_application_choice.offered_option.study_mode,
+            study_mode: current_application_choice.current_course_option.study_mode,
           )
         else
           @pick_study_mode = PickStudyModeForm.new(
