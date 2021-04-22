@@ -1,7 +1,7 @@
 <% if @qualifications.present? %>
   <% if @submitting_application && !@application_form.other_qualifications_completed %>
     <%= render CandidateInterface::IncompleteSectionComponent.new(
-      section: application_form.international_address? ? :other_qualifications_international : :other_qualifications,
+      section: application_form.international_applicant? ? :other_qualifications_international : :other_qualifications,
       section_path: candidate_interface_review_other_qualifications_path,
       error: @missing_error,
     ) %>
@@ -30,7 +30,7 @@
 <% else %>
   <% if @submitting_application && !application_form.other_qualifications_completed %>
     <%= render CandidateInterface::IncompleteSectionComponent.new(
-      section: application_form.international_address? ? :other_qualifications_international : :other_qualifications,
+      section: application_form.international_applicant? ? :other_qualifications_international : :other_qualifications,
       section_path: candidate_interface_other_qualification_type_path,
       error: @missing_error,
     ) %>

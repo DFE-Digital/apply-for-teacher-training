@@ -20,7 +20,7 @@
     <%= f.govuk_radio_divider %>
     <%= f.govuk_radio_button :qualification_type,
       'no_other_qualifications',
-      label: { text: current_application.international_address? ? 'I do not want to add any other qualifications' : 'I do not want to add any A levels and other qualifications' },
+      label: { text: current_application.international_applicant? ? 'I do not want to add any other qualifications' : 'I do not want to add any A levels and other qualifications' },
       hint: -> { 'Providers look at A levels and other qualifications for evidence of subject knowledge not covered in your degree or work history' } %>
   <% end %>
 <% end %>
