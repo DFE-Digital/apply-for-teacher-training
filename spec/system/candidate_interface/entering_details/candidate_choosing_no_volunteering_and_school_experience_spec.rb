@@ -53,6 +53,6 @@ RSpec.feature 'Choosing no volunteering and school experience' do
   end
 
   def then_i_see_how_to_get_school_experience
-    expect(page).to have_content('Learn more at Get school experience.')
+    expect(page).to have_content(t('application_form.volunteering.no_experience.get_experience'))
   end
 end

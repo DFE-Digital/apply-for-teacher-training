@@ -3,7 +3,7 @@ module CandidateInterface
     include ViewHelper
     include DateValidationHelper
 
-    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
+    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, show_experience_advice: false)
       @application_form = application_form
       @volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(
         @application_form,
@@ -12,6 +12,7 @@ module CandidateInterface
       @heading_level = heading_level
       @show_incomplete = show_incomplete
       @missing_error = missing_error
+      @show_experience_advice = show_experience_advice
     end
 
     def volunteering_role_rows(volunteering_role)
@@ -24,13 +25,24 @@ module CandidateInterface
       ]
     end
 
+    def no_experience_row
+      [
+        {
+          key: t('application_form.volunteering.experience.label'),
+          value: 'No',
+          action: t('application_form.volunteering.experience.change_action'),
+          change_path: candidate_interface_volunteering_experience_path,
+        },
+      ]
+    end
+
     def show_missing_banner?
       @show_incomplete && !@application_form.volunteering_completed && @editable
     end
 
   private
 
-    attr_reader :application_form
+    attr_reader :application_form, :show_experience_advice
 
     def role_row(volunteering_role)
       {

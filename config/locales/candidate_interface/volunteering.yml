@@ -3,8 +3,10 @@ en:
     volunteering:
       experience:
         label: Do you have any relevant unpaid experience?
+        change_action: Change
       no_experience:
         summary_card_title: 'Children and young people: no volunteering or experience in school roles entered'
+        get_experience: Learn more at Get school experience
       role:
         label: Your role
         review_label: Role
