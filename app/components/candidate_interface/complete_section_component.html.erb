@@ -1,7 +1,7 @@
 <%= form_with model: @application_form, url: @path, method: @request_method do |f| %>
   <div class='govuk-form-group'>
     <%= f.hidden_field @field_name, value: false %>
-    <%= f.govuk_check_box @field_name, true, multiple: false, label: { text: t('application_form.completed_checkbox') } %>
+    <%= f.govuk_check_box @field_name, true, multiple: false, label: { text: t(checkbox_label) } %>
   </div>
 
   <%= f.govuk_submit t('continue') %>

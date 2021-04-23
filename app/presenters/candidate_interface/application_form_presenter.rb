@@ -30,7 +30,7 @@ module CandidateInterface
         ([:efl, english_as_a_foreign_language_completed?] if display_efl_link?),
 
         # "Personal statement and interview" section
-        [:becoming_a_teacher, becoming_a_teacher_completed?],
+        [:becoming_a_teacher, becoming_a_teacher_completed?, becoming_a_teacher_review_pending?],
         [:subject_knowledge, subject_knowledge_completed?],
         [:interview_preferences, interview_preferences_completed?],
 
@@ -42,7 +42,11 @@ module CandidateInterface
     def incomplete_sections
       sections_with_completion
         .reject(&:second)
-        .map(&:first)
+        .map { |sections_with_completion| OpenStruct.new(name: sections_with_completion.first, needs_review?: sections_with_completion.third) }
+        .map do |section|
+          message = section.needs_review? ? "review_application.#{section.name}.not_reviewed" : "review_application.#{section.name}.incomplete"
+          OpenStruct.new(name: section.name, message: message)
+        end
     end
 
     ApplicationChoiceError = Struct.new(:message, :course_choice_id) do
@@ -240,6 +244,18 @@ module CandidateInterface
 
     def becoming_a_teacher_valid?
       BecomingATeacherForm.build_from_application(@application_form).valid?
+    end
+
+    def becoming_a_teacher_path
+      if becoming_a_teacher_valid?
+        Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_show_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_edit_becoming_a_teacher_path
+      end
+    end
+
+    def becoming_a_teacher_review_pending?
+      @application_form.becoming_a_teacher_review_pending?
     end
 
     def subject_knowledge_completed?

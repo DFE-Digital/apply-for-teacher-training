@@ -5,13 +5,26 @@
   <%= t('page_titles.becoming_a_teacher') %>
 </h1>
 
-<p class="govuk-body govuk-!-font-weight-bold">This section is important to your application. Before continuing:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>proofread your answer carefully for spelling and grammar</li>
-  <li>ask someone you trust for their opinion</li>
-  <li>ensure this piece of writing is all your own work – plagiarism will be penalised</li>
-</ul>
-<p class="govuk-body govuk-!-font-weight-bold">You’ll be able to review it again before you submit your application.</p>
+<% if @application_form.becoming_a_teacher_review_pending? %>
+  <div class='govuk-inset-text govuk-!-width-two-thirds govuk-!-margin-top-0'>
+    <h2 class="govuk-heading-m">Feedback from previous applications</h2>
+
+    <% @application_form.becoming_a_teacher_rejection_reasons.each do |rejection_reason| %>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
+      <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
+        <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
+      </blockquote>
+    <% end %>
+  </div>
+<% else %>
+  <p class="govuk-body govuk-!-font-weight-bold">This section is important to your application. Before continuing:</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>proofread your answer carefully for spelling and grammar</li>
+    <li>ask someone you trust for their opinion</li>
+    <li>ensure this piece of writing is all your own work – plagiarism will be penalised</li>
+  </ul>
+  <p class="govuk-body govuk-!-font-weight-bold">You’ll be able to review it again before you submit your application.</p>
+<% end %>
 
 <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
 
@@ -20,4 +33,5 @@
   path: candidate_interface_becoming_a_teacher_complete_path,
   request_method: :patch,
   field_name: :becoming_a_teacher_completed,
+  section_review: @application_form.becoming_a_teacher_reviewable?,
 )) %>

@@ -144,6 +144,21 @@ module CandidateHelper
     click_button t('continue')
   end
 
+  def candidate_fills_in_apply_again_course_choice
+    click_link t('continue')
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+
+    choose 'Primary (2XT2)'
+    click_button t('continue')
+
+    check t('application_form.courses.complete.completed_checkbox')
+    click_button t('continue')
+  end
+
   def candidate_fills_in_personal_details
     scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: scope), with: 'Lando'
@@ -420,6 +435,12 @@ module CandidateHelper
 
   def within_summary_row(row_description, &block)
     within(page.all('.govuk-summary-list__row').find { |row| row.has_text?(row_description) }) do
+      block.call
+    end
+  end
+
+  def within_task_list_item(title, &block)
+    within(page.find('.app-task-list__item', text: title)) do
       block.call
     end
   end

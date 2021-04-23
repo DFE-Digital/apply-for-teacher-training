@@ -18,6 +18,10 @@ module CandidateInterface
       !@application_form.becoming_a_teacher_completed && @editable if @submitting_application
     end
 
+    def review_needed?
+      @application_form.becoming_a_teacher_review_pending?
+    end
+
   private
 
     attr_reader :application_form

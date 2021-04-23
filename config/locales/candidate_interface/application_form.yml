@@ -2,6 +2,7 @@ en:
   application_form:
     begin_button: Start now
     completed_checkbox: I have completed this section
+    reviewed_checkbox: I have reviewed this section
 
   activemodel:
     errors:

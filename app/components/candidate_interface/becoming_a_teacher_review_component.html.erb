@@ -1,5 +1,12 @@
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :becoming_a_teacher, section_path: candidate_interface_edit_becoming_a_teacher_path, error: @missing_error)) %>
+  <%= render(
+    CandidateInterface::IncompleteSectionComponent.new(
+      section: :becoming_a_teacher,
+      section_path: candidate_interface_edit_becoming_a_teacher_path,
+      error: @missing_error,
+      review_needed: review_needed?,
+    ),
+  ) %>
 <% else %>
   <%= render(SummaryCardComponent.new(rows: becoming_a_teacher_form_rows, editable: @editable)) %>
 <% end %>
