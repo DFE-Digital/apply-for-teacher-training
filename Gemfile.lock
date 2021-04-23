@@ -477,6 +477,8 @@ GEM
       sprockets (>= 3.0.0)
     strip_attributes (1.11.0)
       activemodel (>= 3.0, < 7.0)
+    strong_migrations (0.7.6)
+      activerecord (>= 5)
     super_diff (0.6.2)
       attr_extras (>= 6.2.4)
       diff-lcs
@@ -611,6 +613,7 @@ DEPENDENCIES
   skylight
   sprockets-rails
   strip_attributes
+  strong_migrations
   super_diff
   timecop
   tzinfo-data
