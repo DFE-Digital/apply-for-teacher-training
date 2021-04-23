@@ -21,7 +21,7 @@ module CandidateInterface
           enic_reference_row,
           comparable_uk_qualification_row,
           grade_row,
-          grade_explanation_row,
+          failing_grade_explanation_row,
           award_year_row,
         ].compact
       end
@@ -76,7 +76,7 @@ module CandidateInterface
       }
     end
 
-    def grade_explanation_row
+    def failing_grade_explanation_row
       return nil unless application_qualification.failed_required_gcse? && application_qualification.missing_explanation.present?
 
       {
