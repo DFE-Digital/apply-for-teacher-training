@@ -19,6 +19,7 @@ resource "cloudfoundry_app" "web_app" {
   docker_image               = var.app_docker_image
   health_check_type          = "process"
   health_check_http_endpoint = "/check"
+  health_check_timeout       = 180
   instances                  = var.web_app_instances
   memory                     = var.web_app_memory
   space                      = data.cloudfoundry_space.space.id
@@ -41,16 +42,17 @@ resource "cloudfoundry_app" "web_app" {
 }
 
 resource "cloudfoundry_app" "clock" {
-  name               = local.clock_app_name
-  docker_image       = var.app_docker_image
-  health_check_type  = "process"
-  command            = "bundle exec clockwork config/clock.rb"
-  instances          = var.clock_app_instances
-  memory             = var.clock_app_memory
-  space              = data.cloudfoundry_space.space.id
-  timeout            = 180
-  environment        = local.clock_app_env_variables
-  docker_credentials = var.docker_credentials
+  name                 = local.clock_app_name
+  docker_image         = var.app_docker_image
+  health_check_type    = "process"
+  health_check_timeout = 180
+  command              = "bundle exec clockwork config/clock.rb"
+  instances            = var.clock_app_instances
+  memory               = var.clock_app_memory
+  space                = data.cloudfoundry_space.space.id
+  timeout              = 180
+  environment          = local.clock_app_env_variables
+  docker_credentials   = var.docker_credentials
   dynamic "service_binding" {
     for_each = local.app_service_bindings
     content {
@@ -60,16 +62,17 @@ resource "cloudfoundry_app" "clock" {
 }
 
 resource "cloudfoundry_app" "worker" {
-  name               = local.worker_app_name
-  docker_image       = var.app_docker_image
-  health_check_type  = "process"
-  command            = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
-  instances          = var.worker_app_instances
-  memory             = var.worker_app_memory
-  space              = data.cloudfoundry_space.space.id
-  timeout            = 180
-  environment        = local.worker_app_env_variables
-  docker_credentials = var.docker_credentials
+  name                 = local.worker_app_name
+  docker_image         = var.app_docker_image
+  health_check_type    = "process"
+  health_check_timeout = 180
+  command              = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
+  instances            = var.worker_app_instances
+  memory               = var.worker_app_memory
+  space                = data.cloudfoundry_space.space.id
+  timeout              = 180
+  environment          = local.worker_app_env_variables
+  docker_credentials   = var.docker_credentials
   dynamic "service_binding" {
     for_each = local.app_service_bindings
     content {
