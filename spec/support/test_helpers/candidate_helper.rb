@@ -159,7 +159,7 @@ module CandidateHelper
     click_button t('continue')
   end
 
-  def candidate_fills_in_personal_details
+  def candidate_fills_in_personal_details(international: false)
     scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: scope), with: 'Lando'
     fill_in t('last_name.label', scope: scope), with: 'Calrissian'
@@ -169,10 +169,23 @@ module CandidateHelper
     fill_in 'Year', with: '1937'
     click_button t('save_and_continue')
 
-    check 'British'
-    check 'Citizen of a different country'
-    within('#candidate-interface-nationalities-form-other-nationality1-field') do
-      select 'American'
+    if international
+      check 'Citizen of a different country'
+      within('#candidate-interface-nationalities-form-other-nationality1-field') do
+        select 'Indian'
+      end
+      click_button t('save_and_continue')
+      choose 'Yes'
+      fill_in(
+        'What is your immigration status?',
+        with: 'I have settled status',
+      )
+    else
+      check 'British'
+      check 'Citizen of a different country'
+      within('#candidate-interface-nationalities-form-other-nationality1-field') do
+        select 'American'
+      end
     end
     click_button t('save_and_continue')
 

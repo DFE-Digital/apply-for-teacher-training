@@ -7,7 +7,7 @@ class EflQualificationCardComponent < ViewComponent::Base
   end
 
   def render?
-    !application_form.english_speaking_nationality? && english_proficiency.present?
+    !application_form.british_or_irish? && english_proficiency.present?
   end
 
   def english_proficiency

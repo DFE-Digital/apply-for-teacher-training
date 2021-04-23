@@ -333,7 +333,7 @@ module CandidateInterface
     end
 
     def display_efl_link?
-      @application_form.efl_section_required?
+      @application_form.international_applicant?
     end
 
     def references

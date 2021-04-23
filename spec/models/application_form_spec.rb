@@ -297,7 +297,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#english_speaking_nationality?' do
+  describe '#british_or_irish?' do
     context 'when any applicant nationality is identified as "English-speaking"' do
       let(:nationality_permutations) do
         [
@@ -314,7 +314,7 @@ RSpec.describe ApplicationForm do
       it 'returns true' do
         nationality_permutations.each do |permutation|
           application_form = build(:application_form, permutation)
-          expect(application_form.english_speaking_nationality?).to eq true
+          expect(application_form.british_or_irish?).to eq true
         end
       end
     end
@@ -331,7 +331,7 @@ RSpec.describe ApplicationForm do
       it 'return false' do
         nationality_permutations.each do |permutation|
           application_form = build(:application_form, permutation)
-          expect(application_form.english_speaking_nationality?).to eq false
+          expect(application_form.british_or_irish?).to eq false
         end
       end
     end
@@ -369,7 +369,7 @@ RSpec.describe ApplicationForm do
         expect(application_form.english_main_language).to eq false
       end
 
-      context 'when english_speaking_nationality? is true' do
+      context 'when british_or_irish? is true' do
         it 'returns true' do
           application_form.first_nationality = 'British'
 
@@ -404,7 +404,7 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#efl_section_required?' do
+  describe '#international_applicant?' do
     let(:application_with_english_speaking_nationality) do
       build_stubbed :application_form, first_nationality: 'British', second_nationality: 'French'
     end
@@ -417,7 +417,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { application_with_english_speaking_nationality }
 
       it 'returns false' do
-        expect(application_form.efl_section_required?).to be false
+        expect(application_form.international_applicant?).to be false
       end
     end
 
@@ -425,7 +425,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { application_with_no_english_speaking_nationalities }
 
       it 'returns true' do
-        expect(application_form.efl_section_required?).to be true
+        expect(application_form.international_applicant?).to be true
       end
     end
 
@@ -433,7 +433,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { build_stubbed :application_form }
 
       it 'returns false' do
-        expect(application_form.efl_section_required?).to be false
+        expect(application_form.international_applicant?).to be false
       end
     end
   end

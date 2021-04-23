@@ -78,8 +78,8 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_i_am_an_international_candidate
-    click_link 'Contact information'
-    candidate_fills_in_international_contact_details
+    click_link t('page_titles.personal_information')
+    candidate_fills_in_personal_details(international: true)
   end
 
   def when_i_click_on_other_qualifications

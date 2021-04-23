@@ -55,7 +55,7 @@
   <h3 class="govuk-heading-m"><%= t('page_titles.english_gcse') %></h3>
   <%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_form.english_gcse, subject: 'english', editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 
-  <% if @application_form.efl_section_required? %>
+  <% if @application_form.international_applicant? %>
     <h3 class="govuk-heading-m"><%= t('page_titles.efl.start') %></h3>
     <% if @application_form.english_proficiency.present? %>
       <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency)) %>

@@ -28,7 +28,7 @@ class ApplicationForm < ApplicationRecord
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
-  ENGLISH_SPEAKING_NATIONALITIES = %w[GB IE].freeze
+  BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_PHASE_ONE_COURSE_CHOICES = 3
   MAXIMUM_PHASE_TWO_COURSE_CHOICES = 1
 
@@ -58,7 +58,7 @@ class ApplicationForm < ApplicationRecord
   enum address_type: {
     uk: 'uk',
     international: 'international',
-  }
+  }, _suffix: :address
   attribute :address_type, :string, default: 'uk'
 
   enum feedback_satisfaction_level: {
@@ -243,16 +243,16 @@ class ApplicationForm < ApplicationRecord
     application_qualifications.degree.any?(&:incomplete_degree_information?)
   end
 
-  def english_speaking_nationality?
+  def british_or_irish?
     nationality_codes = nationalities.map { |n| NATIONALITIES_BY_NAME[n] }.compact
 
     nationality_codes.any? do |code|
-      code.in? ENGLISH_SPEAKING_NATIONALITIES
+      code.in? BRITISH_OR_IRISH_NATIONALITIES
     end
   end
 
-  def efl_section_required?
-    nationalities.present? && !english_speaking_nationality?
+  def international_applicant?
+    nationalities.present? && !british_or_irish?
   end
 
   def build_nationalities_hash
@@ -264,7 +264,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def full_address
-    if international?
+    if international_address?
       [
         address_line1,
         address_line2,
@@ -319,7 +319,7 @@ class ApplicationForm < ApplicationRecord
     return self[:english_main_language] if fetch_database_value
 
     if self[:english_main_language].nil?
-      return true if english_speaking_nationality?
+      return true if british_or_irish?
       return true if english_proficiency&.qualification_not_needed?
 
       false
@@ -349,7 +349,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def domicile
-    if international?
+    if international_address?
       DomicileResolver.hesa_code_for_country country
     else
       DomicileResolver.hesa_code_for_postcode postcode
@@ -387,7 +387,7 @@ private
   def geocode_address_if_required
     return unless address_changed?
 
-    if international?
+    if international_address?
       update!(latitude: nil, longitude: nil)
     else
       GeocodeApplicationAddressWorker.perform_async(id)
