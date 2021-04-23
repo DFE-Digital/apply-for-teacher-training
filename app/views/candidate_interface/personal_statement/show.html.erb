@@ -31,7 +31,7 @@
   section_complete_form: @section_complete_form,
   path: candidate_interface_becoming_a_teacher_complete_path,
   request_method: :patch,
-  summary_component: CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form),
+  review_component: CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form),
   hint_text: t('application_form.personal_statement.becoming_a_teacher.complete_hint_text_html'),
   section_review: @application_form.reviewable?(:becoming_a_teacher),
 )) %>

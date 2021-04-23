@@ -15,6 +15,6 @@
   section_complete_form: @section_complete_form,
   path: candidate_interface_degrees_complete_path,
   request_method: :patch,
-  summary_component: CandidateInterface::DegreesReviewComponent.new(application_form: @application_form),
+  review_component: CandidateInterface::DegreesReviewComponent.new(application_form: @application_form),
   hint_text: t('application_form.degree.review.complete_hint_text'),
 )) %>

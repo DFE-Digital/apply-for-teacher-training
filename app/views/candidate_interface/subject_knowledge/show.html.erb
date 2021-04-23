@@ -24,6 +24,6 @@
   path: candidate_interface_subject_knowledge_complete_path,
   request_method: :patch,
   section_review: @application_form.reviewable?(:subject_knowledge),
-  summary_component: CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form),
+  review_component: CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form),
   hint_text: t('application_form.personal_statement.subject_knowledge.complete_hint_text_html'),
 )) %>

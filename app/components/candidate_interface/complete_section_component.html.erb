@@ -1,9 +1,7 @@
 <%= form_with model: section_complete_form, url: path, method: request_method do |f| %>
   <%= f.govuk_error_summary %>
 
-  <% if summary_component %>
-    <%= render(summary_component) %>
-  <% end %>
+  <%= render(review_component) %>
 
   <%= f.govuk_radio_buttons_fieldset :completed, classes: 'govuk-!-width-two-thirds ', legend: { text: t('application_form.completed_question'), size: 'm' } do %>
     <% if hint_text %>

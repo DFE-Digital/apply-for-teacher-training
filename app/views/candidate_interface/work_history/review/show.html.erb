@@ -17,6 +17,6 @@
   section_complete_form: @section_complete_form,
   path: candidate_interface_work_history_complete_path,
   request_method: :patch,
-  summary_component: CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form),
+  review_component: CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form),
   hint_text: t('application_form.work_history.complete.hint_text'),
 )) %>
