@@ -52,7 +52,6 @@ RSpec.feature 'Docs' do
       provider_mailer-courses_open_on_apply
       candidate_mailer-unconditional_offer_accepted
       provider_mailer-unconditional_offer_accepted
-      candidate_mailer-confirm_sign_in
       provider_mailer-confirm_sign_in
     ]
 

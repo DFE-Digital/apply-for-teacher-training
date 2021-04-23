@@ -53,8 +53,6 @@ module CandidateInterface
         add_identity_to_log(candidate.id)
         authentication_token.use!
 
-        send_candidate_sign_in_confirmation_email unless first_sign_in
-
         redirect_to candidate_interface_interstitial_path(path: params[:path])
       else
         redirect_to candidate_interface_expired_sign_in_path(token: params[:token], path: params[:path])
@@ -99,27 +97,6 @@ module CandidateInterface
 
     def candidate_params
       params.require(:candidate).permit(:email_address)
-    end
-
-    def send_candidate_sign_in_confirmation_email
-      raise 'Tried to send a confirmation email to a nonexistent candidate' unless current_candidate
-
-      return if cookies.signed[:sign_in_confirmation] == current_candidate.id
-
-      cookies.signed[:sign_in_confirmation] = {
-        value: current_candidate.id,
-        expires: 6.months.from_now,
-        httponly: true,
-        secure: Rails.env.production?,
-      }
-
-      CandidateMailer.confirm_sign_in(
-        current_candidate,
-        device: {
-          user_agent: request.user_agent,
-          ip_address: request.remote_ip,
-        },
-      ).deliver_later
     end
   end
 end
