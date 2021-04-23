@@ -7,7 +7,7 @@
     <% if hint_text %>
       <div class="govuk-hint"><%= hint_text %></div>
     <% end %>
-    <%= f.govuk_radio_button :completed, true, label: { text: radio_button_label }, link_errors: true %>
+    <%= f.govuk_radio_button :completed, true, label: { text: complete_or_reviewed_radio_button_label }, link_errors: true %>
     <%= f.govuk_radio_button :completed, false, label: { text: t('application_form.incomplete_radio') } %>
   <% end %>
 

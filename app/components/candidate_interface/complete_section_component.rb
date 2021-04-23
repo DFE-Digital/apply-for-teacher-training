@@ -11,7 +11,7 @@ module CandidateInterface
       @hint_text = hint_text
     end
 
-    def radio_button_label
+    def complete_or_reviewed_radio_button_label
       if section_review
         t('application_form.reviewed_radio')
       else
