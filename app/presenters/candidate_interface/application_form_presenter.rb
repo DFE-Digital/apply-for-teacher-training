@@ -85,6 +85,12 @@ module CandidateInterface
             )
             next
           end
+          if choice.site_invalid?
+            error_list << ApplicationChoiceError.new(
+              choice.site_invalid_error, choice.id
+            )
+            next
+          end
 
           next unless choice.study_mode_full?
 

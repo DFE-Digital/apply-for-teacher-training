@@ -436,6 +436,7 @@ en:
       course_not_available: You cannot apply to ‘%{descriptor}’ because it is not running
       course_full: You cannot apply to ‘%{descriptor}’ because it has no vacancies
       site_full: Your chosen location for ‘%{descriptor}’ has no vacancies
+      site_invalid: The location you’ve chosen for ‘%{descriptor}’ has been removed by the provider. Choose a different location.
       study_mode_full: Your chosen location for ‘%{descriptor}’ has no %{study_mode} vacancies
       course_closed_on_apply: ‘%{course_name_and_code}’ at %{provider_name} is not available on Apply for teacher training anymore
       already_added: You have already added %{course_name_and_code}

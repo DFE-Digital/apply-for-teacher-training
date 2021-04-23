@@ -109,6 +109,14 @@ class ApplicationChoice < ApplicationRecord
     I18n.t('errors.application_choices.site_full', descriptor: course.provider_and_name_code)
   end
 
+  def site_invalid?
+    !course_option.site_still_valid
+  end
+
+  def site_invalid_error
+    I18n.t('errors.application_choices.site_invalid', descriptor: course.provider_and_name_code)
+  end
+
   def study_mode_full?
     course_option.no_vacancies?
   end
