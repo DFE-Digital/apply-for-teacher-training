@@ -1,16 +1,6 @@
 class CandidateMailer < ApplicationMailer
   layout 'candidate_email_with_support_footer'
 
-  def confirm_sign_in(candidate, device:)
-    @candidate = candidate
-    @device = device
-
-    notify_email(
-      to: candidate.email_address,
-      subject: I18n.t!('candidate_mailer.confirm_sign_in.subject'),
-    )
-  end
-
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
