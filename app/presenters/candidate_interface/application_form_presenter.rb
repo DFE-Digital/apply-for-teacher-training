@@ -31,7 +31,7 @@ module CandidateInterface
 
         # "Personal statement and interview" section
         [:becoming_a_teacher, becoming_a_teacher_completed?, becoming_a_teacher_review_pending?],
-        [:subject_knowledge, subject_knowledge_completed?],
+        [:subject_knowledge, subject_knowledge_completed?, subject_knowledge_review_pending?],
         [:interview_preferences, interview_preferences_completed?],
 
         # "References" section
@@ -255,7 +255,7 @@ module CandidateInterface
     end
 
     def becoming_a_teacher_review_pending?
-      @application_form.becoming_a_teacher_review_pending?
+      @application_form.review_pending?(:becoming_a_teacher)
     end
 
     def subject_knowledge_completed?
@@ -264,6 +264,18 @@ module CandidateInterface
 
     def subject_knowledge_valid?
       SubjectKnowledgeForm.build_from_application(@application_form).valid?
+    end
+
+    def subject_knowledge_path
+      if subject_knowledge_valid?
+        Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_show_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_edit_subject_knowledge_path
+      end
+    end
+
+    def subject_knowledge_review_pending?
+      @application_form.review_pending?(:subject_knowledge)
     end
 
     def interview_preferences_completed?

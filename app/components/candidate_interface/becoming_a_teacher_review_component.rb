@@ -19,7 +19,7 @@ module CandidateInterface
     end
 
     def review_needed?
-      @application_form.becoming_a_teacher_review_pending?
+      @application_form.review_pending?(:becoming_a_teacher)
     end
 
   private
