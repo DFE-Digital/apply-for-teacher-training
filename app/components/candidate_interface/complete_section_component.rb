@@ -1,14 +1,14 @@
 module CandidateInterface
   class CompleteSectionComponent < ViewComponent::Base
-    attr_reader :section_complete_form, :path, :request_method, :summary_component, :complete_hint_text, :section_review
+    attr_reader :section_complete_form, :path, :request_method, :summary_component, :hint_text, :section_review
 
-    def initialize(section_complete_form:, path:, request_method:, summary_component: nil, section_review: false, complete_hint_text: false)
+    def initialize(section_complete_form:, path:, request_method:, summary_component: nil, section_review: false, hint_text: false)
       @section_complete_form = section_complete_form
       @path = path
       @request_method = request_method
       @summary_component = summary_component
       @section_review = section_review
-      @complete_hint_text = complete_hint_text
+      @hint_text = hint_text
     end
 
     def radio_button_label

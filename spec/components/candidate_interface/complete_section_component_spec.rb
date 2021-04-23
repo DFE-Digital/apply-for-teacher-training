@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
   let(:path) { Rails.application.routes.url_helpers.candidate_interface_application_form_path }
   let(:field_name) { 'completed' }
   let(:request_method) { 'post' }
-  let(:complete_hint_text) { 'hints' }
+  let(:hint_text) { 'hints' }
 
   it 'renders successfully' do
     result = render_inline(
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
         section_complete_form: section_complete_form,
         path: path,
         request_method: request_method,
-        complete_hint_text: complete_hint_text,
+        hint_text: hint_text,
       ),
     )
 

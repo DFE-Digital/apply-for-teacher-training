@@ -6,8 +6,8 @@
   <% end %>
 
   <%= f.govuk_radio_buttons_fieldset :completed, classes: 'govuk-!-width-two-thirds ', legend: { text: t('application_form.completed_question'), size: 'm' } do %>
-    <% if complete_hint_text %>
-      <div class="govuk-hint"><%= complete_hint_text %></div>
+    <% if hint_text %>
+      <div class="govuk-hint"><%= hint_text %></div>
     <% end %>
     <%= f.govuk_radio_button :completed, true, label: { text: radio_button_label }, link_errors: true %>
     <%= f.govuk_radio_button :completed, false, label: { text: t('application_form.incomplete_radio') } %>
