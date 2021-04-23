@@ -155,7 +155,7 @@ module CandidateHelper
     choose 'Primary (2XT2)'
     click_button t('continue')
 
-    check t('application_form.courses.complete.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
