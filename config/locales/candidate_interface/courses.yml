@@ -8,8 +8,9 @@ en:
         button: Add another course
       withdraw: Withdraw
       complete:
-        hint_text_one_course: You can add one more course
-        hint_text_two_courses: You can add two more courses
+        hint_text:
+          one: You can add one more course
+          other: You can add %{count} more courses
       view_and_respond_to_offer: View and respond to offer
     confirm_selection:
       heading: You selected a course

@@ -28,11 +28,9 @@
         path: candidate_interface_course_choices_complete_path,
         request_method: :patch,
         review_component: CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form),
-        hint_text: if @application_choices.count == 1
-                              t('application_form.courses.complete.hint_text_two_courses')
-                            elsif @application_choices.count == 2
-                              t('application_form.courses.complete.hint_text_one_course')
-                            end,
+        hint_text: if current_application.choices_left_to_make.positive?
+                     t('application_form.courses.complete.hint_text', count: current_application.choices_left_to_make)
+                   end,
       )) %>
     <% end %>
   </div>
