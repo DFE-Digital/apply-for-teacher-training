@@ -9,6 +9,7 @@ module ProviderInterface
 
         rows << {
           'application_choice_id' => application.id,
+          'candidate_id' => application.application_form.candidate.public_id,
           'support_reference' => application.application_form.support_reference,
           'status' => application.status,
           'submitted_at' => application.application_form.submitted_at,

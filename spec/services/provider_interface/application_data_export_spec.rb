@@ -47,6 +47,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
 
       expected = {
         'application_choice_id' => application_choice.id.to_s,
+        'candidate_id' => application_choice.application_form.candidate.public_id,
         'support_reference' => application_choice.application_form.support_reference,
         'status' => application_choice.status,
         'submitted_at' => application_choice.application_form.submitted_at&.to_s,
