@@ -45,6 +45,14 @@ Grades for GCSEs and A/AS levels are strictly validated since the ITT 2021 recru
 - `/reference-data/gcse-grades`
 - `/reference-data/a-and-as-level-grades`
 
+### How candidates and applications are identified
+
+Applications on the API have three identifiers associated with them:
+
+- `Application.id`, eg `1234`. This identifies an application to a single course. Candidates can have up to three course applications for one application form.
+-  `ApplicationAttributes.support_reference`, eg `AB1234`. This identifies the application form carrying this application choice. We show it to candidates when they submit their form.
+- `Candidate.id`, eg `C7890`. This identifies a candidate. Candidates can have multiple applications.
+
 ## How do I connect to this API?
 
 ### Authentication and authorisation

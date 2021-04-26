@@ -1,3 +1,7 @@
+## 26th April
+
+Add [documentation](/api-docs#how-candidates-and-applications-are-identified) about application and candidate IDs
+
 ## 16th April
 
 `Qualification` now includes an optional `subject_code` field. This contains the HECoS code for the subject if it is available
