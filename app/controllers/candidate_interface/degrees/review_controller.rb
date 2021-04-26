@@ -24,7 +24,7 @@ module CandidateInterface
     private
 
       def application_form_params
-        strip_whitespace params.require(:candidate_interface_section_complete_form).permit(:completed)
+        strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
       end
     end
   end

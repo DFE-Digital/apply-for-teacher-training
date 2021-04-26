@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::SectionCompleteForm, type: :model do
   describe 'validations' do
-    it "validates presence of 'completed'" do
+    it "validates 'completed'" do
       degree_form = described_class.new(completed: nil)
       error_message_blank = t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
       error_message_inclusion = t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.inclusion')
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::SectionCompleteForm, type: :model do
     end
 
     it "updates 'section completed' if valid" do
-      section_complete_form = described_class.new(completed: true)
+      section_complete_form = described_class.new(completed: 'true')
 
       expect(section_complete_form.save(application_form, :personal_details_completed)).to eq(true)
       expect(application_form.personal_details_completed).to eq(true)
