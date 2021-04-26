@@ -86,3 +86,5 @@ en:
             conditions:
               too_many: Offer has over %{count} conditions
               too_long: 'Condition %{index} must be %{limit} characters or fewer'
+            base:
+              identical_to_existing: The new offer is identical to the current offer

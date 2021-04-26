@@ -1,4 +1,6 @@
 class ChangeOffer
+  include ImpersonationAuditHelper
+
   attr_reader :actor, :application_choice, :course_option, :conditions
 
   def initialize(actor:,
@@ -12,21 +14,38 @@ class ChangeOffer
   end
 
   def save!
-    change_an_offer = ChangeAnOffer.new(actor: actor,
-                                        application_choice: application_choice,
-                                        course_option: course_option,
-                                        offer_conditions: conditions)
-    unless change_an_offer.save
-      if change_an_offer.errors[:base].include?('The new offer is identical to the current offer')
-        raise IdenticalOfferError, 'The new offer is identical to the current offer'
-      elsif change_an_offer.errors[:course_option].present?
-        raise CourseValidationError, change_an_offer.errors[:course_option].join
-      else
-        raise 'Unable to complete save on change_an_offer'
+    auth.assert_can_make_decisions!(application_choice: application_choice, course_option: course_option)
+
+    if offer.valid?
+      audit(actor) do
+        ActiveRecord::Base.transaction do
+          ApplicationStateChange.new(application_choice).make_offer!
+
+          application_choice.current_course_option = course_option
+          application_choice.offer = { 'conditions' => conditions }
+          application_choice.offer_changed_at = Time.zone.now
+          application_choice.save!
+
+          SetDeclineByDefault.new(application_form: application_choice.application_form).call
+        end
+
+        CandidateMailer.changed_offer(application_choice).deliver_later
+        StateChangeNotifier.call(:change_an_offer, application_choice: application_choice)
       end
+    else
+      raise ValidationException, offer.errors.map(&:message)
     end
   end
 
-  class IdenticalOfferError < StandardError; end
-  class CourseValidationError < StandardError; end
+private
+
+  def auth
+    @auth ||= ProviderAuthorisation.new(actor: actor)
+  end
+
+  def offer
+    @offer ||= OfferValidations.new(application_choice: application_choice,
+                                    course_option: course_option,
+                                    conditions: conditions)
+  end
 end

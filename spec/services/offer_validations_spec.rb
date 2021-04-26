@@ -1,7 +1,8 @@
 require 'rails_helper'
 RSpec.describe OfferValidations, type: :model do
-  subject(:offer) { OfferValidations.new(course_option: course_option, conditions: conditions) }
+  subject(:offer) { OfferValidations.new(application_choice: application_choice, course_option: course_option, conditions: conditions) }
 
+  let(:application_choice) { nil }
   let(:course_option) { create(:course_option, course: course) }
   let(:course) { create(:course, :open_on_apply) }
   let(:conditions) { [] }
@@ -55,6 +56,18 @@ RSpec.describe OfferValidations, type: :model do
           expect(offer).to be_invalid
 
           expect(offer.errors[:conditions]).to contain_exactly('Condition 1 must be 255 characters or fewer', 'Condition 3 must be 255 characters or fewer')
+        end
+      end
+    end
+
+    describe '#identical_to_existing_offer?' do
+      context 'when the offer details are identical to the existing offer' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
+        let(:course_option) { application_choice.course_option }
+        let(:conditions) { application_choice.offer['conditions'] }
+
+        it 'raises an IdenticalOfferError' do
+          expect { offer.valid? }.to raise_error(IdenticalOfferError)
         end
       end
     end

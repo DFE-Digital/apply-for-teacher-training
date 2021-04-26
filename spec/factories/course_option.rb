@@ -6,6 +6,10 @@ FactoryBot.define do
     vacancy_status { 'vacancies' }
     site_still_valid { true }
 
+    trait :open_on_apply do
+      association :course, :open_on_apply
+    end
+
     trait :full_time do
       study_mode { :full_time }
     end

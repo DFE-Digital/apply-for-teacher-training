@@ -6,8 +6,7 @@ RSpec.describe ChangeOffer do
   let(:change_offer) do
     ChangeOffer.new(actor: provider_user,
                     application_choice: application_choice,
-                    course_option: course_option,
-                    conditions: new_conditions)
+                    course_option: course_option, conditions: new_conditions)
   end
 
   describe '#save!' do
@@ -46,13 +45,8 @@ RSpec.describe ChangeOffer do
                         conditions: ['DBS check'])
       end
 
-      it 'raises an IdenticalOfferError' do
-        expect {
-          change_offer.save!
-        }.to raise_error(
-          ChangeOffer::IdenticalOfferError,
-          'The new offer is identical to the current offer',
-        )
+      it 'raises a ValidationException' do
+        expect { change_offer.save! }.to raise_error(IdenticalOfferError)
       end
     end
 
@@ -64,26 +58,13 @@ RSpec.describe ChangeOffer do
         )
       end
 
-      it 'raises a Course Validation Error' do
+      it 'raises a Course Validation Exception' do
         expect {
           change_offer.save!
         }.to raise_error(
-          ChangeOffer::CourseValidationError,
-          'is not open for applications via the Apply service',
+          ValidationException,
+          'The requested course is not open for applications via the Apply service',
         )
-      end
-    end
-
-    describe 'if the .save returns false for any reason' do
-      it 'throws an exception' do
-        change_an_offer = instance_double(ChangeAnOffer)
-        allow(ChangeAnOffer).to receive(:new).and_return(change_an_offer)
-        allow(change_an_offer).to receive(:save).and_return(false)
-        allow(change_an_offer).to receive(:errors).and_return({ base: [] })
-
-        expect {
-          change_offer.save!
-        }.to raise_error('Unable to complete save on change_an_offer')
       end
     end
 
@@ -104,6 +85,15 @@ RSpec.describe ChangeOffer do
         change_offer.save!
 
         expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
+      end
+    end
+
+    describe 'audits', with_audited: true do
+      it 'generates an audit event combining status change with current_course_option_id' do
+        change_offer.save!
+
+        audit_with_status_change = application_choice.reload.audits.find_by('jsonb_exists(audited_changes, ?)', 'status')
+        expect(audit_with_status_change.audited_changes).to have_key('current_course_option_id')
       end
     end
   end

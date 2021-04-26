@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :application_choice do
-    course_option
+    association :course_option, :open_on_apply
     application_form
 
     after(:stub, :build) do |application_choice, _evaluator|
