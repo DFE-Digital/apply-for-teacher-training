@@ -3,26 +3,32 @@
 <h1 class="govuk-heading-xl">
   <%= t('page_titles.right_to_work') %>
 </h1>
+
 <p class="govuk-body">
   To get help with student visas and your immigration status, speak to a
-  <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_get_an_advisor') %> adviser.
+  <%= govuk_link_to 'teacher training advisor', t('get_into_teaching.url_get_an_advisor') %>.
 </p>
-<p class="govuk-body">
-  Universities providing initial teacher training can usually sponsor student visas for courses without a salary.
-</p>
-<p class="govuk-body">
-  State funded schools, including those that are School Centred Initial Teacher Training (SCITT) providers, cannot
-  sponsor student visas for courses without a salary.
-</p>
+
+<h2 class="govuk-heading-m">Getting a visa through your training provider</h2>
+
+<p class="govuk-body">You may be able to get a visa through your teacher training provider. This is called sponsoring a student visa.</p>
+
+<p class="govuk-body">It depends on what type of training provider they are and if they have a student visa sponsor licence.</p>
+
+<p class="govuk-body">Universities providing initial teacher training can usually sponsor student visas for courses without a salary.</p>
+
+<p class="govuk-body">State funded schools, including School Centred Initial Teacher Training (SCITT) providers, cannot sponsor student visas for courses without a salary.</p>
+
+<p class="govuk-body">Contact your chosen training provider if you're not sure if they are university or a SCITT.</p>
+
 <p class="govuk-body">
   <%= govuk_link_to 'Check if a provider has a student visa sponsor licence', 'https://www.gov.uk/government/publications/register-of-licensed-sponsors-students' %>.
 </p>
+
 <p class="govuk-body">
-  You may be eligible for another type of visa that does not need your training provider to act as sponsor.
+  Find out more about <%= govuk_link_to 'visa options for international trainees.', t('get_into_teaching.url_international_candidates') %>.
 </p>
-<p class="govuk-body">
-  <%= govuk_link_to 'Find out about student visas, visa routes that do not need a sponsor and visa options for trainees on courses with a salary.', t('get_into_teaching.url_international_candidates') %>
-</p>
+
 <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
   <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true do %>
     <%= f.govuk_text_area :right_to_work_or_study_details, label: { text: 'What is your immigration status?' }, hint: { text: 'For example, “I have settled status” or “I have permanent residence”' } %>
