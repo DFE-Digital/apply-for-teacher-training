@@ -44,10 +44,18 @@
               <p class="govuk-body govuk-!-margin-bottom-0"><%= validation_error['message'] %></p>
             </td>
             <td class="govuk-table__cell">
+              <span>Query string:</span>
+              <% if vendor_api_request.request_headers['QUERY_STRING'].blank? %>
+                <%= govuk_tag(text: 'Empty', colour: 'grey') %>
+              <% else %>
+                <pre><code><%= JSON.pretty_generate(vendor_api_request.request_headers['QUERY_STRING']) %></code></pre>
+              <% end %>
+              <br>
+              <span>Request body:</span>
               <% if vendor_api_request.request_body.blank? %>
                 <%= govuk_tag(text: 'Empty', colour: 'grey') %>
               <% else %>
-                <code><%= JSON.pretty_generate(vendor_api_request.request_body) %></code>
+                <pre class="app-json-code-sample"><code><%= JSON.pretty_generate(vendor_api_request.request_body) %></code></pre>
               <% end %>
             </td>
           </tr>
