@@ -4,6 +4,7 @@ module CandidateInterface
 
     attr_accessor :completed
     validates :completed, presence: true
+    validates :completed, inclusion: { in: %w[true false] }
 
     def save(application_form, attr)
       return false unless valid?

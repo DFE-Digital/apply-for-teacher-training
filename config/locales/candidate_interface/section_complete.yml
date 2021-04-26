@@ -6,3 +6,4 @@ en:
           attributes:
             completed:
               blank: Select whether you have completed this section
+              inclusion: Select ‘true’ or ‘false’
