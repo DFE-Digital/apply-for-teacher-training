@@ -17,7 +17,15 @@ module VendorAPI
                         application_choice.course_option
                       end
 
-      if application_choice.offer?
+      if FeatureFlag.active?(:updated_offer_flow)
+        offer_service = if application_choice.offer?
+                          ChangeOffer.new(offer_params(application_choice, course_option))
+                        else
+                          MakeOffer.new(offer_params(application_choice, course_option))
+                        end
+
+        respond_to_decision(offer_service)
+      elsif application_choice.offer?
         change_offer = ChangeAnOffer.new(
           actor: audit_user,
           application_choice: application_choice,
@@ -100,11 +108,25 @@ module VendorAPI
     end
 
     def respond_to_decision(decision)
-      if decision.save
+      if FeatureFlag.active?(:updated_offer_flow) && [MakeOffer, ChangeOffer].include?(decision.class)
+        decision.save!
+        render_application
+      elsif decision.save
         render_application
       else
         render_validation_errors(decision.errors)
       end
+    rescue IdenticalOfferError
+      render_application
+    rescue ValidationException => e
+      render status: :unprocessable_entity, json: e.as_json
+    rescue Workflow::NoTransitionAllowed
+      render status: :unprocessable_entity, json: {
+        errors: [
+          error: 'StateTransitionError',
+          message: 'The application is not ready for that action',
+        ],
+      }
     rescue ProviderAuthorisation::NotAuthorisedError => e
       render status: :unprocessable_entity, json: {
         errors: [
@@ -120,6 +142,19 @@ module VendorAPI
     def render_validation_errors(errors)
       error_responses = errors.full_messages.map { |message| { error: 'ValidationError', message: message } }
       render status: :unprocessable_entity, json: { errors: error_responses }
+    end
+
+    def offer_params(application_choice, course_option)
+      {
+        actor: audit_user,
+        application_choice: application_choice,
+        course_option: course_option,
+        conditions: conditions_params,
+      }
+    end
+
+    def conditions_params
+      params.require(:data).permit(conditions: [])[:conditions] || []
     end
   end
 end
