@@ -27,6 +27,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
     when_i_click_to_change_grade
     and_i_change_to_a_pass_grade
     then_i_see_the_review_page_with_new_details
+    and_the_missing_explanation_has_been_reset
 
     when_i_click_to_change_grade
     and_i_change_to_a_fail_grade
@@ -111,5 +112,10 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
 
   def then_i_see_the_review_page_with_new_details
     expect(page).to have_content "Grade\nB"
+  end
+
+  def and_the_missing_explanation_has_been_reset
+    expect(page).not_to have_content 'Hard work and dedication'
+    expect(ApplicationQualification.last.missing_explanation).to be_nil
   end
 end

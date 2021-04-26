@@ -31,6 +31,7 @@ module CandidateInterface
     def save(qualification)
       if valid?
         qualification.update!(grade: set_grade)
+        reset_missing_explanation!(qualification)
       else
         log_validation_errors(:grade)
         false
@@ -90,6 +91,12 @@ module CandidateInterface
       else
         sanitize(grade)
       end
+    end
+
+    def reset_missing_explanation!(qualification)
+      return true unless qualification.pass_gcse?
+
+      qualification.update(missing_explanation: nil)
     end
   end
 end
