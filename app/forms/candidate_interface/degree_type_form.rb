@@ -14,6 +14,7 @@ module CandidateInterface
     validates :international_type_description, length: { maximum: 255 }
 
     def save
+      sanitize!
       return false unless valid?
       return false unless application_form_present?
 
@@ -25,6 +26,7 @@ module CandidateInterface
     end
 
     def update
+      sanitize!
       return false unless valid?
       return false unless degree_present?
 
@@ -72,6 +74,11 @@ module CandidateInterface
 
     def uk?
       uk_degree == 'yes'
+    end
+
+    def sanitize!
+      self.type_description = self.type_description.strip if self.type_description
+      self.international_type_description = self.international_type_description.strip if self.international_type_description
     end
   end
 end

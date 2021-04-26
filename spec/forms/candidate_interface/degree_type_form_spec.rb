@@ -56,6 +56,23 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         expect(form.errors.full_messages).to eq ['Application form is missing']
       end
     end
+
+    context 'when type description has trailing whitespace' do
+      let(:form) do
+        described_class.new(
+          type_description: ' BSc  ',
+          uk_degree: 'yes',
+          application_form: create(:application_form),
+        )
+      end
+
+      it 'persists the qualification and strips the trailing and leading whitespace from qualification_type' do
+        form.save
+
+        degree = form.application_form.application_qualifications.degree.first
+        expect(degree.qualification_type).to eq 'BSc'
+      end
+    end
   end
 
   describe '#update' do
