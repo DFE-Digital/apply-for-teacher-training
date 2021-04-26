@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewComponent do
       application_form = build_stubbed(:application_form)
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include('Personal details not entered')
+      expect(result.text).to include('Personal details not marked as complete')
     end
   end
 
