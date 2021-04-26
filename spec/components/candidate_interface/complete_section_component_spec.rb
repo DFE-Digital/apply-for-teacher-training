@@ -41,6 +41,23 @@ RSpec.describe CandidateInterface::CompleteSectionComponent do
     expect(result.to_html).to include hint_text
   end
 
+  it 'renders more than one hint' do
+    another_hint_text = 'Another hint text'
+
+    result = render_inline(
+      described_class.new(
+        section_complete_form: section_complete_form,
+        path: path,
+        request_method: request_method,
+        hint_text: [hint_text, another_hint_text],
+        review_component: review_component,
+      ),
+    )
+
+    expect(result.to_html).to include hint_text
+    expect(result.to_html).to include another_hint_text
+  end
+
   it 'renders a review radio button label if specified' do
     result = render_inline(
       described_class.new(
