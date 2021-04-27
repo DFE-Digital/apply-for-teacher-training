@@ -27,6 +27,7 @@ module VendorAPI
 
     def clear!
       current_provider.application_choices.map(&:application_form).map(&:candidate).map(&:destroy!)
+      clear_accredited_application_data!
 
       render json: { data: { message: 'Applications cleared' } }
     end
@@ -55,6 +56,13 @@ module VendorAPI
 
     def for_ratified_courses_param
       params[:for_ratified_courses] == 'true'
+    end
+
+    def clear_accredited_application_data!
+      Candidate
+        .joins(application_forms: { application_choices: { course_option: :course } })
+        .where("courses.accredited_provider": current_provider)
+        .map(&:destroy!)
     end
   end
 end
