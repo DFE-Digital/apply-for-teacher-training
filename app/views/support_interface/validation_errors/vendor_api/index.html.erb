@@ -1,0 +1,13 @@
+<% content_for :title, 'Vendor API validation errors' %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Validation errors': support_interface_validation_errors_path,
+    'Vendor API': nil,
+  }) %>
+<% end %>
+
+<p class="govuk-body"><%= govuk_link_to 'Validation error summary', support_interface_validation_errors_vendor_api_summary_path %></p>
+
+<%= render SupportInterface::ValidationErrorsListComponent.new(distinct_errors_with_counts: @list_of_distinct_errors_with_counts, grouped_counts: @grouped_counts, scoped_error_object: :request_path, source_name: :vendor_api, grouped_counts_label: 'Request') %>

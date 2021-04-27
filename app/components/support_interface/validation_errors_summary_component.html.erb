@@ -1,17 +1,7 @@
-<% content_for :title, 'Validation error summary' %>
-
-<% content_for :before_content do %>
-  <%= breadcrumbs({
-    'Performance': support_interface_performance_path,
-    'Validation errors': support_interface_validation_errors_path,
-    'Validation error summary': nil,
-  }) %>
-<% end %>
-
 <div class="validation-results-header">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <%= form_with(url: support_interface_validation_error_summary_path, method: 'get', class: 'govuk-form') do |f| %>
+      <%= form_with(url: [:support_interface, :validation_errors, source_name, :summary], method: 'get', class: 'govuk-form') do |f| %>
         <div class="govuk-form-group">
           <%= f.govuk_collection_select(
                 :sortby,
@@ -50,11 +40,11 @@
       <th class="govuk-table__header govuk-table__header--numeric"></th>
       <th class="govuk-table__header govuk-table__header--numeric"></th>
       <th class="govuk-table__header govuk-table__header--numeric">Error<br>count</th>
-      <th class="govuk-table__header govuk-table__header--numeric">Unique<br>users</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Unique<br><%= error_source %></th>
       <th class="govuk-table__header govuk-table__header--numeric">Error<br>count</th>
-      <th class="govuk-table__header govuk-table__header--numeric">Unique<br>users</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Unique<br><%= error_source %></th>
       <th class="govuk-table__header govuk-table__header--numeric">Error<br>count</th>
-      <th class="govuk-table__header govuk-table__header--numeric">Unique<br>users</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Unique<br><%= error_source %></th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -62,33 +52,33 @@
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
         <%= govuk_link_to(
-          row['form_object'].to_s.demodulize.underscore.humanize,
-          support_interface_validation_error_search_path(form_object: row['form_object'].to_s),
+          format_value(row[scoped_error_object.to_s]),
+          [:support_interface, :validation_errors, source_name, :search, { scoped_error_object => row[scoped_error_object.to_s] }],
         ) %>
       </td>
       <td class="govuk-table__cell">
         <%= govuk_link_to(
-          row['attribute'].to_s.humanize,
-          support_interface_validation_error_search_path(form_object: row['form_object'], attribute: row['attribute']),
+          format_value(row['attribute'].to_s),
+          [:support_interface, :validation_errors, source_name, :search, { scoped_error_object => row[scoped_error_object.to_s], attribute: row['attribute'] }],
         ) %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['incidents_all_time'] %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">
-        <%= row['unique_users_all_time'] %>
+        <%= row["unique_#{error_source}_all_time"] %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['incidents_last_month'] %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">
-        <%= row['unique_users_last_month'] %>
+        <%= row["unique_#{error_source}_last_month"] %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['incidents_last_week'] %>
       </td>
       <td class="govuk-table__cell govuk-table__cell--numeric">
-        <%= row['unique_users_last_week'] %>
+        <%= row["unique_#{error_source}_last_week"] %>
       </td>
     </tr>
   <% end %>

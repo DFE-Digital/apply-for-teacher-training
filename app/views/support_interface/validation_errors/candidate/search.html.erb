@@ -4,6 +4,7 @@
   <%= breadcrumbs({
     'Performance': support_interface_performance_path,
     'Validation errors': support_interface_validation_errors_path,
+    'Candidate': support_interface_validation_errors_candidate_path,
     'Search validation errors': nil,
   }) %>
 <% end %>
@@ -21,12 +22,12 @@
 
 <% @validation_errors.each do |validation_error| %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
-    <%= render(SummaryCardHeaderComponent.new(title: "Validation error #{govuk_link_to("##{validation_error.id}", support_interface_validation_error_search_path(id: validation_error.id))}".html_safe)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: "Validation error #{govuk_link_to("##{validation_error.id}", support_interface_validation_errors_candidate_search_path(id: validation_error.id))}".html_safe)) do %>
       <div class="app-summary-card__actions">
         <%= validation_error.created_at.to_s(:govuk_date_and_time) %>
 
         <% if validation_error.user_id %>
-          by user <%= govuk_link_to "##{validation_error.user_id}", support_interface_validation_error_search_path(user_id: validation_error.user_id) %>
+          by user <%= govuk_link_to "##{validation_error.user_id}", support_interface_validation_errors_candidate_search_path(user_id: validation_error.user_id) %>
           (<%= govuk_link_to 'view application', support_interface_candidate_path(candidate_id: validation_error.user_id) %>)
         <% end %>
       </div>
@@ -39,8 +40,8 @@
             <tr class="govuk-table__row">
               <td class="govuk-table__cell govuk-!-width-one-half">
                 <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
-                  <span class="govuk-!-font-weight-regular"><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:</span>
-                  <%= govuk_link_to attribute.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object, attribute: attribute) %>
+                  <span class="govuk-!-font-weight-regular"><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_errors_candidate_search_path(form_object: validation_error.form_object) %>:</span>
+                  <%= govuk_link_to attribute.humanize, support_interface_validation_errors_candidate_search_path(form_object: validation_error.form_object, attribute: attribute) %>
                 </h3>
                 <p class="govuk-body govuk-!-margin-bottom-0"><%= message %></p>
               </td>

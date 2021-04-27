@@ -9,5 +9,19 @@ FactoryBot.define do
     response_headers { {} }
     response_body { {} }
     created_at { Time.zone.now }
+
+    trait :with_validation_error do
+      status_code { 422 }
+      response_body do
+        {
+          'errors' => [
+            {
+              'error' => 'ValidationError',
+              'message' => 'Some error message',
+            },
+          ],
+        }
+      end
+    end
   end
 end

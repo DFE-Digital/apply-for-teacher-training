@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Validation errors summary' do
+RSpec.feature 'Validation errors candidate summary' do
   include CandidateHelper
   include DfESignInHelpers
 
@@ -36,6 +36,7 @@ RSpec.feature 'Validation errors summary' do
     visit support_interface_path
     click_link 'Performance'
     click_link 'Validation errors'
+    click_link 'Candidate validation errors'
     click_link 'Validation error summary'
   end
 
@@ -49,7 +50,7 @@ RSpec.feature 'Validation errors summary' do
 
   def then_i_should_see_errors_for_contact_details_form_only
     expect(page).to have_current_path(
-      support_interface_validation_error_search_path(form_object: 'CandidateInterface::ContactDetailsForm'),
+      support_interface_validation_errors_candidate_search_path(form_object: 'CandidateInterface::ContactDetailsForm'),
     )
   end
 end

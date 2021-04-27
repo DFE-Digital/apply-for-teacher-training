@@ -1,0 +1,68 @@
+<% content_for :title, 'Search validation errors' %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    'Performance': support_interface_performance_path,
+    'Validation errors': support_interface_validation_errors_path,
+    'Vendor API': support_interface_validation_errors_vendor_api_path,
+    'Search validation errors': nil,
+  }) %>
+<% end %>
+
+<p class="govuk-body">
+  <% if params[:id] %>
+    Showing validation error #<%= params[:id] %>
+  <% else %>
+    Showing errors on
+    <strong><%= params[:attribute] ? "the #{params[:attribute]} field" : 'all fields' %></strong>
+    in <strong><%= params[:request_path] || 'all requests' %></strong>
+    by <strong><%= params[:provider_id] ? "provider ##{params[:provider_id]}" : 'all providers' %></strong>.
+  <% end %>
+</p>
+
+<% @vendor_api_requests.each do |vendor_api_request| %>
+  <section class="app-summary-card govuk-!-margin-bottom-6">
+    <%= render(SummaryCardHeaderComponent.new(title: "Validation error #{govuk_link_to("##{vendor_api_request.id}", support_interface_validation_errors_vendor_api_search_path(id: vendor_api_request.id))}".html_safe)) do %>
+      <div class="app-summary-card__actions">
+        <%= vendor_api_request.created_at.to_s(:govuk_date_and_time) %>
+
+        <% if vendor_api_request.provider_id %>
+          by provider <%= govuk_link_to "##{vendor_api_request.provider_id}", support_interface_validation_errors_vendor_api_search_path(provider_id: vendor_api_request.provider_id) %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="app-summary-card__body">
+      <table class="govuk-table">
+        <% vendor_api_request.response_body['errors'].each do |validation_error| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-half">
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+                <span class="govuk-!-font-weight-regular"><%= govuk_link_to vendor_api_request.request_path, support_interface_validation_errors_vendor_api_search_path(request_path: vendor_api_request.request_path) %>:</span>
+                <%= govuk_link_to validation_error['error'], support_interface_validation_errors_vendor_api_search_path(request_path: vendor_api_request.request_path, attribute: validation_error['error']) %>
+              </h3>
+              <p class="govuk-body govuk-!-margin-bottom-0"><%= validation_error['message'] %></p>
+            </td>
+            <td class="govuk-table__cell">
+              <span>Query string:</span>
+              <% if vendor_api_request.request_headers['QUERY_STRING'].blank? %>
+                <%= govuk_tag(text: 'Empty', colour: 'grey') %>
+              <% else %>
+                <pre><code><%= JSON.pretty_generate(vendor_api_request.request_headers['QUERY_STRING']) %></code></pre>
+              <% end %>
+              <br>
+              <span>Request body:</span>
+              <% if vendor_api_request.request_body.blank? %>
+                <%= govuk_tag(text: 'Empty', colour: 'grey') %>
+              <% else %>
+                <pre class="app-json-code-sample"><code><%= JSON.pretty_generate(vendor_api_request.request_body) %></code></pre>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </section>
+<% end %>
+
+<%= render(PaginatorComponent.new(scope: @vendor_api_requests)) %>
