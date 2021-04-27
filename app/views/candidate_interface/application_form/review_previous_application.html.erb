@@ -1,0 +1,9 @@
+<% content_for :title, submitted_at_date.present? ? t('page_titles.submitted_application') : t('page_titles.unsubmitted_previous_application') %>
+
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+
+<h1 class="govuk-heading-xl">
+  <%= submitted_at_date.present? ? t('page_titles.submitted_application') : t('page_titles.unsubmitted_previous_application') %>
+</h1>
+
+<%= render 'candidate_interface/application_form/review', application_form: @application_form, editable: false %>
