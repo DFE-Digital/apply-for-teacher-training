@@ -1,11 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe EmitRequestEvents, type: :request do
+RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
   include DfESignInHelpers
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
+  let(:project) { instance_double(Google::Cloud::Bigquery::Project, dataset: dataset) }
+  let(:dataset) { instance_double(Google::Cloud::Bigquery::Dataset, table: table) }
+  let(:table) { instance_double(Google::Cloud::Bigquery::Table) }
 
   before do
+    FeatureFlag.activate(:send_request_data_to_bigquery)
+    allow(Google::Cloud::Bigquery).to receive(:new).and_return(project)
+    allow(table).to receive(:insert)
+
     allow(DfESignInUser).to receive(:load_from_session)
       .and_return(
         DfESignInUser.new(
