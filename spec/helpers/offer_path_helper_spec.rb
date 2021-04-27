@@ -24,7 +24,7 @@ RSpec.describe OfferPathHelper do
       context 'when :offer' do
         it 'returns the offer path' do
           expect(helper.offer_path_for(application_choice, 'offer', :edit))
-            .to eq(provider_interface_application_choice_offers_path(application_choice, {}))
+            .to eq(provider_interface_application_choice_offer_path(application_choice, {}))
         end
       end
 

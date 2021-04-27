@@ -76,7 +76,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 3.days.ago.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View offer'
       expect(rendered.css('.govuk-visually-hidden').text).to eq 3.days.ago.to_s(:govuk_date_and_time)
-      expect(rendered.css('a').attr('href').value).to eq provider_interface_application_choice_offers_path(application_choice)
+      expect(rendered.css('a').attr('href').value).to eq provider_interface_application_choice_offer_path(application_choice)
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').text).to include 'View offer'
       expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
-      expect(rendered.css('a').attr('href').value).to eq provider_interface_application_choice_offers_path(application_choice)
+      expect(rendered.css('a').attr('href').value).to eq provider_interface_application_choice_offer_path(application_choice)
     end
   end
 

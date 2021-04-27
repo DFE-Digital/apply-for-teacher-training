@@ -70,7 +70,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     it 'links to View offer if application is at offer stage' do
       with_audit(:with_offer) do |audit, _user, _candidate|
         expect(component_for(audit).link).to eq({
-          url: routes.provider_interface_application_choice_offers_path(audit.auditable),
+          url: routes.provider_interface_application_choice_offer_path(audit.auditable),
           text: 'View offer',
         })
       end
@@ -79,7 +79,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     it 'links to View conditions if application is at pending_conditions stage' do
       with_audit(:with_accepted_offer) do |audit, _user, _candidate|
         expect(component_for(audit).link).to eq({
-          url: routes.provider_interface_application_choice_offers_path(audit.auditable),
+          url: routes.provider_interface_application_choice_offer_path(audit.auditable),
           text: 'View offer',
         })
       end
@@ -97,7 +97,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     it 'links to View offer for change offer events if at offer stage' do
       with_audit(:with_changed_offer) do |audit, _user, _candidate|
         expect(component_for(audit).link).to eq({
-          url: routes.provider_interface_application_choice_offers_path(audit.auditable),
+          url: routes.provider_interface_application_choice_offer_path(audit.auditable),
           text: 'View offer',
         })
       end

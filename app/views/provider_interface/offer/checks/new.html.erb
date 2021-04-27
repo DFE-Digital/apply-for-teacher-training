@@ -1,7 +1,7 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :new, back: true)) %>
 
-<%= form_with model: @wizard, url: provider_interface_application_choice_offers_path(@application_choice), method: :post do |f| %>
+<%= form_with model: @wizard, url: provider_interface_application_choice_offer_path(@application_choice), method: :post do |f| %>
   <h1 class="govuk-heading-l">
     <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
     <%= t('.title') %>

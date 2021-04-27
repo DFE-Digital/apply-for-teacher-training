@@ -632,8 +632,7 @@ Rails.application.routes.draw do
 
       resource :decision, only: %i[new create], as: :application_choice_decision
 
-      resource :offers, only: %i[new], as: :application_choice_offer
-      resource :offers, only: %i[create show update], as: :application_choice_offers
+      resource :offers, only: %i[new create show update], as: :application_choice_offer
 
       namespace :offer, as: :application_choice_offer do
         resource :providers, only: %i[new create edit update]

@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST create' do
       it 'responds with 302' do
-        post provider_interface_application_choice_offers_path(application_choice)
+        post provider_interface_application_choice_offer_path(application_choice)
 
         expect(response.status).to eq(302)
       end

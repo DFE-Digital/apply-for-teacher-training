@@ -88,8 +88,7 @@ module ProviderInterface
     end
 
     def offer_navigation_item
-      path = provider_interface_application_choice_offers_path(application_choice)
-      { name: 'Offer', url: path }
+      { name: 'Offer', url: provider_interface_application_choice_offer_path(application_choice) }
     end
 
     def notes_navigation_item

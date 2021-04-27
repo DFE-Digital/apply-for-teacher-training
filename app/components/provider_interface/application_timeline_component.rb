@@ -83,7 +83,7 @@ module ProviderInterface
           actor_for(event),
           event.created_at,
           'View offer',
-          provider_interface_application_choice_offers_path(application_choice),
+          provider_interface_application_choice_offer_path(application_choice),
         )
       end
     end
@@ -134,7 +134,7 @@ module ProviderInterface
     end
 
     def offer_link_params
-      ['View offer', provider_interface_application_choice_offers_path(application_choice)]
+      ['View offer', provider_interface_application_choice_offer_path(application_choice)]
     end
 
     def interview_link_params(interview)
