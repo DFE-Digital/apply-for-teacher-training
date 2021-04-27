@@ -1,0 +1,16 @@
+common_columns:
+  - email
+
+custom_columns:
+  feedback_provided_at:
+    type: string
+    format: date-time
+    example: 2020-11-01T00:00:00+00:00
+  find_url:
+    type: string
+    format: link
+    description: A link to the page that the candidate was on when they chose to provide feedback.
+    example: https://www.find-postgraduate-teacher-training.service.gov.uk/course/2AT/2T84
+  feedback:
+    type: string
+    description: Feedback left by the user

@@ -66,6 +66,12 @@ class DataExport < ApplicationRecord
       description: 'Anonymised candidate equality and diversity data.',
       class: SupportInterface::EqualityAndDiversityExport,
     },
+    find_feedback: {
+      name: 'Find feedback',
+      export_type: 'find_feedback',
+      description: 'Feedback provided from the Find service results and course pages',
+      class: SupportInterface::FindFeedbackExport,
+    },
     interviews_export: {
       name: 'Interview changes',
       export_type: 'interview_export',
@@ -207,6 +213,7 @@ class DataExport < ApplicationRecord
     candidate_journey_tracking: 'candidate_journey_tracking',
     candidate_course_choice_withdrawal_survey: 'candidate_course_choice_withdrawal_survey',
     equality_and_diversity: 'equality_and_diversity',
+    find_feedback: 'find_feedback',
     interviews_export: 'interview_export',
     notifications_export: 'notifications_export',
     notes_export: 'notes_export',
