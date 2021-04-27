@@ -12,6 +12,6 @@ module EmitRequestEvents
       .with_user_and_namespace(current_user, current_namespace)
 
     # send event
-    Rails.logger.info(request_event.as_json)
+    SendRequestEventsToBigquery.perform_async(request_event.as_json)
   end
 end
