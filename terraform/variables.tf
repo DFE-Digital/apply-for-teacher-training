@@ -34,6 +34,9 @@ variable "key_vault_infra_secret_name" {}
 
 variable "key_vault_app_secret_name" {}
 
+# StatusCake variables
+variable "statuscake_alerts" { type = map(any) }
+
 locals {
   cf_api_url        = "https://api.london.cloud.service.gov.uk"
   azure_credentials = try(jsondecode(var.azure_credentials), null)

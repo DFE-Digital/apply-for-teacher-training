@@ -22,14 +22,26 @@ statuscake_alerts = {
     contact_group  = [188603]
     trigger_rate   = 0
     node_locations = ["UKINT", "UK1", "MAN1", "MAN5", "DUB2"]
+    confirmations  = 2
   }
-  apply-cloudapps-qa = {
-    website_name   = "Apply-Teacher-Training-Cloudapps-Staging"
-    website_url    = "https://apply-staging.london.cloudapps.digital/integrations/monitoring/all"
+  apply-staging-check = {
+    website_name   = "Apply-Teacher-Training-Check-Staging"
+    website_url    = "https://staging.apply-for-teacher-training.service.gov.uk/check"
     test_type      = "HTTP"
     check_rate     = 30
     contact_group  = [188603]
     trigger_rate   = 0
     node_locations = ["UKINT", "UK1", "MAN1", "MAN5", "DUB2"]
+    confirmations  = 2
+  }
+  apply-cloudapps-qa = {
+    website_name   = "Apply-Teacher-Training-Cloudapps-Staging"
+    website_url    = "https://apply-staging.london.cloudapps.digital/check"
+    test_type      = "HTTP"
+    check_rate     = 30
+    contact_group  = [188603]
+    trigger_rate   = 0
+    node_locations = ["UKINT", "UK1", "MAN1", "MAN5", "DUB2"]
+    confirmations  = 1
   }
 }
