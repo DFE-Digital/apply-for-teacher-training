@@ -43,26 +43,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "2efd94b2f239188f2a6f8fe47c2d7bc7f885641dd75a4774d0d669af00d03a89",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/provider_interface/sort_application_choices.rb",
-      "line": 13,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choices.from(\"        (\\n          SELECT a.*, c.recruitment_cycle_year,\\n            CASE\\n              WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n              WHEN #{about_to_be_rejected_automatically} THEN 2\\n              WHEN #{give_feedback_for_rbd} THEN 3\\n              WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n              WHEN #{interviewing_non_urgent} THEN 5\\n              WHEN #{pending_conditions_previous_cycle} THEN 6\\n              WHEN #{waiting_on_candidate} THEN 7\\n              WHEN #{pending_conditions_current_cycle} THEN 8\\n              WHEN #{successful_candidates} THEN 9\\n              WHEN #{deferred_offers_current_cycle} THEN 10\\n              ELSE 999\\n            END AS task_view_group,\\n            #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n            FROM application_choices a\\n            LEFT JOIN course_options option\\n              ON option.id = COALESCE(a.current_course_option_id, a.course_option_id)\\n            LEFT JOIN courses c\\n              ON c.id = option.course_id\\n        ) AS application_choices\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::SortApplicationChoices",
-        "method": "s(:self).for_task_view"
-      },
-      "user_input": "deferred_offers_pending_reconfirmation",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "37b3066632afad7b480ce45f1b9d1263a923f29bba5edd3afd3e2f78e2cd425e",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -263,6 +243,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "dece053fb978e9b4bae68ab806d70e0c144cd598ab227892133f2d61c790e2b6",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/provider_interface/sort_application_choices.rb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choices.from(\"        (\\n          SELECT a.*, c.recruitment_cycle_year,\\n            CASE\\n              WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n              WHEN #{about_to_be_rejected_automatically} THEN 2\\n              WHEN #{give_feedback_for_rbd} THEN 3\\n              WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n              WHEN #{interviewing_non_urgent} THEN 5\\n              WHEN #{pending_conditions_previous_cycle} THEN 6\\n              WHEN #{waiting_on_candidate} THEN 7\\n              WHEN #{pending_conditions_current_cycle} THEN 8\\n              WHEN #{successful_candidates} THEN 9\\n              WHEN #{deferred_offers_current_cycle} THEN 10\\n              ELSE 999\\n            END AS task_view_group,\\n            #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n            FROM application_choices a\\n            LEFT JOIN course_options option\\n              ON option.id = a.current_course_option_id\\n            LEFT JOIN courses c\\n              ON c.id = option.course_id\\n        ) AS application_choices\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::SortApplicationChoices",
+        "method": "s(:self).for_task_view"
+      },
+      "user_input": "deferred_offers_pending_reconfirmation",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "dee8e3d32c167d6090d7a67d1bc9add167f8ef7b154fcc1d1311fc7aad779a84",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -301,6 +301,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-04-19 11:33:22 +0100",
+  "updated": "2021-04-27 10:45:46 +0100",
   "brakeman_version": "5.0.0"
 }

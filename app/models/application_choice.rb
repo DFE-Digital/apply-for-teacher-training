@@ -12,7 +12,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :provider, through: :course
   has_one :accredited_provider, through: :course, class_name: 'Provider'
 
-  belongs_to :current_course_option, class_name: 'CourseOption', optional: true
+  belongs_to :current_course_option, class_name: 'CourseOption'
   has_one :current_site, through: :current_course_option, source: :site
   has_one :current_course, through: :current_course_option, source: :course
   has_one :current_provider, through: :current_course, source: :provider

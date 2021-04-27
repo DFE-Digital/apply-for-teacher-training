@@ -9,7 +9,7 @@ class SubmitApplication
   def call
     application_form.update!(submitted_at: Time.zone.now)
 
-    application_choices.includes(%i[course_option provider accredited_provider]).each do |application_choice|
+    application_choices.includes(%i[course_option current_course_option provider accredited_provider]).each do |application_choice|
       SendApplicationToProvider.call(application_choice)
     end
 
