@@ -14,6 +14,7 @@ RSpec.describe SupportInterface::AddCourseChoiceAfterSubmission do
       expect(called).to eq(appended_application_choice)
       expect(called.application_form).to eq(application_form)
       expect(called.course_option).to eq(course_option)
+      expect(called.current_course_option).to eq(course_option)
       expect(called.status).to eq('unsubmitted')
       expect(SendApplicationToProvider).to have_received(:call).with(called)
     end
