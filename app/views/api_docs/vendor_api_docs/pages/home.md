@@ -49,9 +49,9 @@ Grades for GCSEs and A/AS levels are strictly validated since the ITT 2021 recru
 
 Applications on the API have three identifiers associated with them:
 
-- `Application.id`, eg `1234`. This identifies an application to a single course. Candidates can have up to three course applications for one application form.
--  `ApplicationAttributes.support_reference`, eg `AB1234`. This identifies the application form carrying this application choice. We show it to candidates when they submit their form.
-- `Candidate.id`, eg `C7890`. This identifies a candidate. Candidates can have multiple applications.
+- `Application.id`, eg `1234`. This identifies an application to a single course, also known as an application choice. Candidates can have up to three application choices for one application form.
+- `Candidate.id`, eg `C7890`. This identifies a candidate.
+- `ApplicationAttributes.support_reference`, eg `AB1234`. This identifies the application form carrying this application choice. We show it to candidates when they submit their form. Candidates can have multiple application forms. For instance, when a candidate moves from Apply 1 to Apply again their candidate ID will stay the same, but that’s a new application form so the `support_reference` will be different.
 
 ## How do I connect to this API?
 
