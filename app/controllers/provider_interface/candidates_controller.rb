@@ -21,11 +21,9 @@ module ProviderInterface
   private
 
     def verify_provider_association(candidate:, providers:)
-      provider_ids_from_candidate = candidate.application_forms
-                                              .map(&:application_choices).flatten
-                                              .map(&:provider).map(&:id).uniq
+      application_choices = candidate.application_forms.map(&:application_choices).flatten
 
-      providers.any? { |provider| provider_ids_from_candidate.include? provider.id }
+      (application_choices.map(&:associated_providers).flatten & providers).any?
     end
 
     def disable_on_production
