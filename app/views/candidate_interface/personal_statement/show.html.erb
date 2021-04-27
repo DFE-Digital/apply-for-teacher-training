@@ -27,12 +27,14 @@
   <p class="govuk-body govuk-!-font-weight-bold">You’ll be able to review it again before you submit your application.</p>
 <% end %>
 
-<%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
-
 <%= render(CandidateInterface::CompleteSectionComponent.new(
-  application_form: @application_form,
+  section_complete_form: @section_complete_form,
   path: candidate_interface_becoming_a_teacher_complete_path,
   request_method: :patch,
-  field_name: :becoming_a_teacher_completed,
+  review_component: CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form),
+  hint_text: [
+    t('application_form.personal_statement.becoming_a_teacher.complete_hint_text_one'),
+    t('application_form.personal_statement.becoming_a_teacher.complete_hint_text_two'),
+  ],
   section_review: @application_form.reviewable?(:becoming_a_teacher),
 )) %>

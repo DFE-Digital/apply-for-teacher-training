@@ -4,10 +4,14 @@ en:
       becoming_a_teacher:
         change_action: why do you want to be a teacher?
         label: Why do you want to be a teacher?
+        complete_hint_text_one: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion.
+        complete_hint_text_two: Ensure this is all your own work as plagiarism will be penalised.
       subject_knowledge:
         key: Your knowledge about the subject you want to teach
         change_action: evidence of subject knowledge
         label: Tell us what you know about the subject you want to teach
+        complete_hint_text_one: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion.
+        complete_hint_text_two: Ensure this is all your own work as plagiarism will be penalised.
       interview_preferences:
         key: Interview needs
         change_action: interview needs

@@ -1,0 +1,9 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/section_complete_form:
+          attributes:
+            completed:
+              blank: Select whether you have completed this section
+              inclusion: Select ‘true’ or ‘false’

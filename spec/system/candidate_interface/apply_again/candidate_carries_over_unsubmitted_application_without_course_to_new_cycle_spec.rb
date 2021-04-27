@@ -140,7 +140,7 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
   def and_i_complete_the_section
     choose 'No, not at the moment'
     click_button t('continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 

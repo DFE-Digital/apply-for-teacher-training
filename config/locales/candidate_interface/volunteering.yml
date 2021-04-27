@@ -44,8 +44,6 @@ en:
         button: Add a role
       another:
         button: Add another role
-      review:
-        completed_checkbox: I have completed this section
       start_date_restructured_work_history:
         label: When did you start this role?
         hint_text: For example, 5 2018. If you cannot remember the exact month or year, enter an estimate.

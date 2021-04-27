@@ -85,10 +85,6 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
     click_button t('application_form.degree.confirm_delete')
   end
 
-  def and_i_mark_this_section_as_completed
-    check t('application_form.degree.review.completed_checkbox')
-  end
-
   def and_i_click_on_continue
     click_button t('continue')
   end

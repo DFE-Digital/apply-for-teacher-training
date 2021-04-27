@@ -79,7 +79,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_mark_the_section_as_completed
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
   end
 
   def when_i_click_on_continue

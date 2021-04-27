@@ -80,7 +80,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
 
   def when_i_confirm_i_have_reviewed_becoming_a_teacher
     click_link 'Why do you want to teach'
-    check t('application_form.reviewed_checkbox')
+    choose t('application_form.reviewed_radio')
     click_on t('continue')
   end
 
@@ -92,9 +92,8 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
 
   def and_i_can_set_it_back_to_unreviewed
     click_link 'Why do you want to teach'
-    uncheck t('application_form.reviewed_checkbox')
-    click_on t('continue')
-    then_becoming_a_teacher_needs_review
+    choose t('application_form.incomplete_radio')
+    click_button t('continue')
   end
 
   def when_i_submit_my_application
@@ -115,10 +114,10 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
   def and_i_can_submit_once_i_have_reviewed
     click_link 'Why do you want to be a teacher'
     click_on t('continue')
-    check t('application_form.reviewed_checkbox')
+    choose t('application_form.reviewed_radio')
     click_on t('continue')
     click_link 'Your suitability to teach a subject or age group'
-    check t('application_form.reviewed_checkbox')
+    choose t('application_form.reviewed_radio')
     click_on t('continue')
 
     click_on 'Check and submit'

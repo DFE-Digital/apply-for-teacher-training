@@ -118,7 +118,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_i_mark_this_section_as_completed
-    check t('application_form.work_history.review.completed_checkbox')
+    choose t('application_form.completed_radio')
   end
 
   def and_i_click_on_continue

@@ -140,7 +140,7 @@ module CandidateHelper
     choose 'No, not at the moment'
     click_button t('continue')
 
-    check t('application_form.courses.complete.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -155,7 +155,7 @@ module CandidateHelper
     choose 'Primary (2XT2)'
     click_button t('continue')
 
-    check t('application_form.courses.complete.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -189,7 +189,7 @@ module CandidateHelper
     end
     click_button t('save_and_continue')
 
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -204,7 +204,7 @@ module CandidateHelper
     fill_in t('application_form.contact_details.postcode.uk.label'), with: 'SW1P 3BT'
     click_button t('save_and_continue')
 
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -221,7 +221,7 @@ module CandidateHelper
     fill_in 'candidate_interface_contact_details_form[address_line4]', with: '110018'
     click_button t('save_and_continue')
 
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -250,7 +250,7 @@ module CandidateHelper
     fill_in 'Year started course', with: year_with_trailing_space
     fill_in 'Graduation year', with: year_with_preceding_space
     click_button t('save_and_continue')
-    check t('application_form.degree.review.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -262,7 +262,7 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
     choose 'No, not at the moment'
     click_button t('save_and_continue')
-    check t('application_form.other_qualification.review.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -270,7 +270,7 @@ module CandidateHelper
     choose t('application_form.training_with_a_disability.disclose_disability.yes')
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
     click_button t('continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -278,7 +278,7 @@ module CandidateHelper
     choose 'Yes'
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
     click_button t('continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -305,7 +305,7 @@ module CandidateHelper
     end
 
     click_button t('save_and_continue')
-    check t('application_form.work_history.review.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -333,7 +333,7 @@ module CandidateHelper
     end
 
     click_button t('save_and_continue')
-    check t('application_form.volunteering.review.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -378,7 +378,7 @@ module CandidateHelper
     click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
     click_button t('save_and_continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -390,7 +390,7 @@ module CandidateHelper
     click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
     click_button t('save_and_continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -398,7 +398,7 @@ module CandidateHelper
     choose('I do not have this qualification yet')
     fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
     click_button t('save_and_continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -406,7 +406,7 @@ module CandidateHelper
     fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
     click_button t('continue')
     # Confirmation page
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -414,7 +414,7 @@ module CandidateHelper
     fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
     click_button t('continue')
     # Confirmation page
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
@@ -423,7 +423,7 @@ module CandidateHelper
     fill_in t('application_form.personal_statement.interview_preferences.yes_label'), with: 'Not on a Wednesday'
     click_button t('save_and_continue')
     # Confirmation page
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 

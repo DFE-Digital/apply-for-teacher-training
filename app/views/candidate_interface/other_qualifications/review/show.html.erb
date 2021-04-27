@@ -5,13 +5,9 @@
   <%= other_qualifications_title(@application_form) %>
 </h1>
 
-<%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form)) %>
-
-<%= form_with model: @application_form, url: candidate_interface_complete_other_qualifications_path do |f| %>
-  <div class="govuk-form-group">
-    <%= f.hidden_field :other_qualifications_completed, value: false %>
-    <%= f.govuk_check_box :other_qualifications_completed, true, multiple: false, label: { text: t('application_form.other_qualification.review.completed_checkbox') } %>
-  </div>
-
-  <%= f.govuk_submit t('continue') %>
-<% end %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(
+  section_complete_form: @section_complete_form,
+  path: candidate_interface_complete_other_qualifications_path,
+  request_method: :patch,
+  review_component: CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form),
+)) %>

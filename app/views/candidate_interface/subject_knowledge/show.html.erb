@@ -19,12 +19,14 @@
   <% end %>
 <% end %>
 
-<%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form)) %>
-
 <%= render(CandidateInterface::CompleteSectionComponent.new(
-  application_form: @application_form,
+  section_complete_form: @section_complete_form,
   path: candidate_interface_subject_knowledge_complete_path,
   request_method: :patch,
-  field_name: :subject_knowledge_completed,
   section_review: @application_form.reviewable?(:subject_knowledge),
+  review_component: CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form),
+  hint_text: [
+    t('application_form.personal_statement.subject_knowledge.complete_hint_text_one'),
+    t('application_form.personal_statement.subject_knowledge.complete_hint_text_two'),
+  ],
 )) %>

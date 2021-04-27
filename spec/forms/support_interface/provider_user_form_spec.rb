@@ -13,7 +13,7 @@ RSpec.describe SupportInterface::ProviderUserForm do
       },
     }
   end
-  let(:form_params) do
+  let(:section_complete_form_params) do
     {
       first_name: 'Jane',
       last_name: 'Smith',
@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::ProviderUserForm do
     }
   end
 
-  subject(:provider_user_form) { described_class.new(form_params) }
+  subject(:provider_user_form) { described_class.new(section_complete_form_params) }
 
   describe 'validations' do
     context 'email address exists' do

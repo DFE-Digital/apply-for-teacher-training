@@ -8,7 +8,9 @@ en:
         button: Add another course
       withdraw: Withdraw
       complete:
-        completed_checkbox: I have completed this section
+        hint_text:
+          one: You can add one more course
+          other: You can add %{count} more courses
       view_and_respond_to_offer: View and respond to offer
     confirm_selection:
       heading: You selected a course

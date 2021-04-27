@@ -12,39 +12,23 @@
     </h1>
 
     <% if @application_choices.present? && @application_form.can_add_more_choices? %>
-      <%= govuk_inset_text do %>
-        <p class="govuk-body">You can choose <%= pluralize(current_application.choices_left_to_make, 'more course') %>.</p>
-        <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
-      <% end %>
+      <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
     <% end %>
   </div>
 </div>
 
-<%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path do |f| %>
-  <%= f.govuk_error_summary %>
-
-  <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form)) %>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <% if @application_choices.present? %>
-        <% if @application_choices.count >= 1 %>
-          <%= f.govuk_check_boxes_fieldset :course_choices_completed, legend: nil do %>
-            <%= f.hidden_field :course_choices_completed, value: false %>
-            <%= f.govuk_check_box(
-              :course_choices_completed,
-              true,
-              multiple: false,
-              label: {
-                text: t('application_form.courses.complete.completed_checkbox'),
-              },
-              link_errors: true,
-            ) %>
-          <% end %>
-
-          <%= f.govuk_submit t('continue') %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @application_choices.present? &&  @application_choices.count >= 1 %>
+      <%= render(CandidateInterface::CompleteSectionComponent.new(
+        section_complete_form: @section_complete_form,
+        path: candidate_interface_course_choices_complete_path,
+        request_method: :patch,
+        review_component: CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form),
+        hint_text: if current_application.choices_left_to_make.positive?
+                     t('application_form.courses.complete.hint_text', count: current_application.choices_left_to_make)
+                   end,
+      )) %>
+    <% end %>
+  </div>
+</div>

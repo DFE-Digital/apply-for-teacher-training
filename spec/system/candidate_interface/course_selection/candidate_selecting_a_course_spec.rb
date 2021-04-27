@@ -194,7 +194,7 @@ RSpec.feature 'Selecting a course' do
 
   def when_i_mark_this_section_as_completed
     visit candidate_interface_course_choices_index_path
-    check t('application_form.courses.complete.completed_checkbox')
+    choose t('application_form.completed_radio')
   end
 
   def then_i_see_that_the_section_is_completed

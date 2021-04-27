@@ -11,13 +11,10 @@
   </div>
 </div>
 
-<%= render(CandidateInterface::DegreesReviewComponent.new(application_form: @application_form)) %>
-
-<%= form_with model: @application_form, url: candidate_interface_degrees_complete_path do |f| %>
-  <div class="govuk-form-group">
-    <%= f.hidden_field :degrees_completed, value: false %>
-    <%= f.govuk_check_box :degrees_completed, true, multiple: false, label: { text: t('application_form.degree.review.completed_checkbox') } %>
-  </div>
-
-  <%= f.govuk_submit t('continue') %>
-<% end %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(
+  section_complete_form: @section_complete_form,
+  path: candidate_interface_degrees_complete_path,
+  request_method: :patch,
+  review_component: CandidateInterface::DegreesReviewComponent.new(application_form: @application_form),
+  hint_text: t('application_form.degree.review.complete_hint_text'),
+)) %>

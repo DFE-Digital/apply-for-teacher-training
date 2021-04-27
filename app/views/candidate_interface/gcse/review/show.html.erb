@@ -3,11 +3,13 @@
 
 <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
 
-<%= render(CandidateInterface::GcseQualificationReviewComponent.new(application_form: @application_form, application_qualification: @application_qualification, subject: @subject)) %>
-
 <%= render(CandidateInterface::CompleteSectionComponent.new(
-  application_form: @application_form,
+  section_complete_form: @section_complete_form,
   path: candidate_interface_gcse_complete_path,
   request_method: :patch,
-  field_name: @field_name,
+  review_component: CandidateInterface::GcseQualificationReviewComponent.new(
+    application_form: @application_form,
+    application_qualification: @application_qualification,
+    subject: @subject,
+  ),
 )) %>

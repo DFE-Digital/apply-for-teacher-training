@@ -5,11 +5,9 @@
   <%= t('page_titles.training_with_a_disability') %>
 </h1>
 
-<%= render(CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form)) %>
-
 <%= render(CandidateInterface::CompleteSectionComponent.new(
-  application_form: @application_form,
+  section_complete_form: @section_complete_form,
   path: candidate_interface_training_with_a_disability_complete_path,
   request_method: :patch,
-  field_name: :training_with_a_disability_completed,
+  review_component: CandidateInterface::TrainingWithADisabilityReviewComponent.new(application_form: @application_form),
 )) %>

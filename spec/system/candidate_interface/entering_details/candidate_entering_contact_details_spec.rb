@@ -175,7 +175,7 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def when_i_mark_the_section_as_completed
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
   end
 
   def and_i_submit_my_details

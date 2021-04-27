@@ -66,7 +66,7 @@ RSpec.feature 'International candidate submits the application' do
     click_button t('save_and_continue')
 
     # Mark Personal Details complete
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
 
     click_link t('page_titles.contact_information')
@@ -134,7 +134,7 @@ RSpec.feature 'International candidate submits the application' do
 
     choose 'No, English is not a foreign language to me'
     click_button t('continue')
-    check t('application_form.completed_checkbox')
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
