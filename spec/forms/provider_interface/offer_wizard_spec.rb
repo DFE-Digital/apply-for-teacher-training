@@ -6,7 +6,6 @@ RSpec.describe ProviderInterface::OfferWizard do
                         course_id: course_id,
                         course_option_id: course_option_id,
                         study_mode: study_mode,
-                        location_id: location_id,
                         application_choice_id: application_choice_id,
                         standard_conditions: standard_conditions,
                         further_conditions: further_conditions,
@@ -19,7 +18,6 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_id) { nil }
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
-  let(:location_id) { nil }
   let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { MakeAnOffer::STANDARD_CONDITIONS }
   let(:further_condition_1) { '' }

@@ -6,7 +6,7 @@ module ProviderInterface
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
     NUMBER_OF_FURTHER_CONDITIONS = 4
 
-    attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
+    attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_conditions, :current_step, :decision,
                   :action, :path_history, :wizard_path_history,
                   :provider_user_id, :application_choice_id
@@ -36,7 +36,6 @@ module ProviderInterface
         course_option_id: course_option.id,
         provider_id: course_option.provider.id,
         study_mode: course_option.study_mode,
-        location_id: course_option.site.id,
         decision: :default,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_conditions: further_conditions_from(application_choice.offer),
