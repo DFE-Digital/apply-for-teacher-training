@@ -4,12 +4,16 @@ RSpec.describe ProviderAuthorisation do
   include CourseOptionHelpers
 
   describe '#assert_can_make_decisions!' do
+    let(:auth_context) { ProviderAuthorisation.new(actor: nil) }
+
+    it 'raises a ValidationException if neither a course_option or a course_option_id is provided' do
+      expect { auth_context.assert_can_make_decisions!(application_choice: nil) }.to raise_error(ValidationException, 'Please provide a course_option or course_option_id')
+    end
+
     it 'raises an error if the actor cannot make decisions' do
-      auth_context = ProviderAuthorisation.new(actor: nil)
-      allow(auth_context).to receive(:can_make_decisions?).and_return(true)
-      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: nil) }.not_to raise_error
       allow(auth_context).to receive(:can_make_decisions?).and_return(false)
-      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: nil) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+
+      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: build_stubbed(:course_option).id) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
     end
   end
 
