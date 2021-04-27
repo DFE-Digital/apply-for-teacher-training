@@ -1,18 +1,13 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
     before_action :validate_metadata!
+    rescue_from ValidationException, with: :render_validation_error
 
     def make_offer
       course_data = params.dig(:data, :course)
 
       course_option = if course_data.present?
-                        GetCourseOptionFromCodes.new(
-                          provider_code: course_data[:provider_code],
-                          course_code: course_data[:course_code],
-                          recruitment_cycle_year: course_data[:recruitment_cycle_year],
-                          study_mode: course_data[:study_mode],
-                          site_code: course_data[:site_code],
-                        ).call
+                        retrieve_course(course_data) || raise_no_course_found!
                       else
                         application_choice.course_option
                       end
@@ -118,8 +113,6 @@ module VendorAPI
       end
     rescue IdenticalOfferError
       render_application
-    rescue ValidationException => e
-      render status: :unprocessable_entity, json: e.as_json
     rescue Workflow::NoTransitionAllowed
       render status: :unprocessable_entity, json: {
         errors: [
@@ -155,6 +148,24 @@ module VendorAPI
 
     def conditions_params
       params.require(:data).permit(conditions: [])[:conditions] || []
+    end
+
+    def retrieve_course(course_data)
+      GetCourseOptionFromCodes.new(
+        provider_code: course_data[:provider_code],
+        course_code: course_data[:course_code],
+        recruitment_cycle_year: course_data[:recruitment_cycle_year],
+        study_mode: course_data[:study_mode],
+        site_code: course_data[:site_code],
+      ).call
+    end
+
+    def render_validation_error(e)
+      render status: :unprocessable_entity, json: e.as_json
+    end
+
+    def raise_no_course_found!
+      raise ValidationException, ['The requested course could not be found']
     end
   end
 end
