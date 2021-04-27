@@ -14,8 +14,8 @@
     Showing validation error #<%= params[:id] %>
   <% else %>
     Showing errors on
-    <strong><%= params[:attribute] ? "the #{params[:attribute].humanize} field" : 'all fields' %></strong>
-    in <strong><%= params[:request_path] || 'all forms' %></strong>
+    <strong><%= params[:attribute] ? "the #{params[:attribute]} field" : 'all fields' %></strong>
+    in <strong><%= params[:request_path] || 'all requests' %></strong>
     by <strong><%= params[:provider_id] ? "provider ##{params[:provider_id]}" : 'all providers' %></strong>.
   <% end %>
 </p>
@@ -39,7 +39,7 @@
             <td class="govuk-table__cell govuk-!-width-one-half">
               <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
                 <span class="govuk-!-font-weight-regular"><%= govuk_link_to vendor_api_request.request_path, support_interface_validation_errors_vendor_api_search_path(request_path: vendor_api_request.request_path) %>:</span>
-                <%= govuk_link_to validation_error['error'].humanize, support_interface_validation_errors_vendor_api_search_path(request_path: vendor_api_request.request_path, attribute: validation_error['error']) %>
+                <%= govuk_link_to validation_error['error'], support_interface_validation_errors_vendor_api_search_path(request_path: vendor_api_request.request_path, attribute: validation_error['error']) %>
               </h3>
               <p class="govuk-body govuk-!-margin-bottom-0"><%= validation_error['message'] %></p>
             </td>

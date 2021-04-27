@@ -48,19 +48,19 @@ RSpec.feature 'Validation errors Vendor API' do
   end
 
   def then_i_should_see_a_list_of_error_groups
-    expect(page).to have_content('/api/v1/applications: Parameterinvalid')
+    expect(page).to have_content('/api/v1/applications: ParameterInvalid')
     expect(page).to have_content('2')
   end
 
   def when_i_click_on_a_group
-    click_on('Parameterinvalid')
+    click_on('ParameterInvalid')
   end
 
   def then_i_should_see_a_list_of_individual_errors
-    expect(page).to have_content('Showing errors on the Parameterinvalid field in /api/v1/applications by all providers')
+    expect(page).to have_content('Showing errors on the ParameterInvalid field in /api/v1/applications by all providers')
     expect(page).to have_content("Query string:\n\"since=2019-01-012222\"")
     expect(page).to have_content("Request body:\n{ \"since\": \"2019-01-012222\" }")
-    expect(page).to have_content('/api/v1/applications: Parameterinvalid')
+    expect(page).to have_content('/api/v1/applications: ParameterInvalid')
     expect(page).to have_content('Parameter is invalid (should be ISO8601): since')
   end
 

@@ -1,0 +1,47 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-!-width-three-quarters">Attribute error</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Error count</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% distinct_errors_with_counts.each do |(object, attribute, message), count| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+          <span class="govuk-!-font-weight-regular"><%= govuk_link_to format_value(object), [:support_interface, :validation_errors, source_name, :search, { scoped_error_object => object }] %>:</span>
+          <%= govuk_link_to format_value(attribute), [:support_interface, :validation_errors, source_name, :search, { scoped_error_object => object, attribute: attribute }] %>
+        </h2>
+        <p class="govuk-body govuk-!-margin-bottom-0"><%= message %></p>
+      </td>
+      <td class="govuk-table__cell govuk-table__cell--numeric">
+        <%= count %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-!-width-three-quarters"><%= grouped_counts_label %></th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Error count</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @grouped_counts.each do |object, count| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+          <%= govuk_link_to format_value(object), [:support_interface, :validation_errors, source_name, :search, { scoped_error_object => object }] %>
+        </h2>
+      </td>
+      <td class="govuk-table__cell govuk-table__cell--numeric">
+        <%= count %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
