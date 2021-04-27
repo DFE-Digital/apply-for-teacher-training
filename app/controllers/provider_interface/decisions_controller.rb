@@ -81,7 +81,7 @@ module ProviderInterface
       ).save!
 
       flash[:success] = 'Offer successfully deferred'
-      redirect_to provider_interface_application_choice_offer_path(@application_choice)
+      redirect_to provider_interface_application_choice_offers_path(@application_choice)
     end
 
   private

@@ -133,7 +133,7 @@ module ProviderInterface
 
     def offer_link
       {
-        url: routes.provider_interface_application_choice_offer_path(application_choice),
+        url: routes.provider_interface_application_choice_offers_path(application_choice),
         text: 'View offer',
       }
     end

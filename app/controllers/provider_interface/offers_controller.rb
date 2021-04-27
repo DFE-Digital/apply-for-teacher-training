@@ -20,7 +20,7 @@ module ProviderInterface
         @wizard.clear_state!
 
         flash[:success] = t('.success')
-        redirect_to provider_interface_application_choice_offer_path(@application_choice)
+        redirect_to provider_interface_application_choice_offers_path(@application_choice)
       else
         @wizard.clear_state!
 
@@ -63,7 +63,7 @@ module ProviderInterface
 
         flash[:warning] = t('.failure')
       end
-      redirect_to provider_interface_application_choice_offer_path(@application_choice)
+      redirect_to provider_interface_application_choice_offers_path(@application_choice)
     end
 
   private
