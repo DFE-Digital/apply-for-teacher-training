@@ -70,6 +70,29 @@ RSpec.describe ProviderInterface::OfferWizard do
     end
   end
 
+  describe '#initialize' do
+    context 'is responsible for sanitising the attributes' do
+      context 'when the provided course_id does not match the stored value' do
+        let(:wizard) do
+          described_class.new(store, course_id: course_id)
+        end
+        let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
+        let(:course_id) { 4 }
+
+        before do
+          allow(store).to receive(:read).and_return(stored_data)
+        end
+
+        it 'resets the study mode and course_option_id' do
+          expect(wizard.study_mode).to eq(nil)
+          expect(wizard.course_option_id).to eq(nil)
+          expect(wizard.course_id).to eq(course_id)
+          expect(wizard.provider_id).to eq(10)
+        end
+      end
+    end
+  end
+
   describe '.build_from_application_choice' do
     let(:application_choice) { create(:application_choice, offer: offer) }
     let(:offer) { { 'conditions' => ['Fitness to train to teach check', 'Be cool'] } }

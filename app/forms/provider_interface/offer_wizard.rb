@@ -20,6 +20,7 @@ module ProviderInterface
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
+      attrs = sanitize_parameters(attrs)
 
       super(last_saved_state.deep_merge(attrs))
       setup_further_conditions
@@ -200,6 +201,13 @@ module ProviderInterface
           errors.add("further_conditions[#{model.id}][#{error.attribute}]", error.message)
         end
       end
+    end
+
+    def sanitize_parameters(attrs)
+      if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'] != attrs[:course_id]
+        attrs.merge!(study_mode: nil, course_option_id: nil)
+      end
+      attrs
     end
   end
 end
