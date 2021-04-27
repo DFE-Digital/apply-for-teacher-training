@@ -73,7 +73,12 @@ class ProviderAuthorisation
     full_authorisation? permission: :view_diversity_information, course: course
   end
 
-  def can_make_decisions?(application_choice:, course_option_id:)
+  def can_make_decisions?(application_choice:, course_option_id: nil, course_option: nil)
+    if course_option_id.blank? && course_option.blank?
+      raise ValidationException, ['Please provide a course_option or course_option_id']
+    end
+
+    course_option_id ||= course_option.id
     course = CourseOption.find(course_option_id).course
 
     add_error(:make_decisions, :requires_application_choice_visibility) unless
@@ -87,7 +92,12 @@ class ProviderAuthorisation
     errors.blank?
   end
 
-  def assert_can_make_decisions!(application_choice:, course_option_id:)
+  def assert_can_make_decisions!(application_choice:, course_option_id: nil, course_option: nil)
+    if course_option_id.blank? && course_option.blank?
+      raise ValidationException, ['Please provide a course_option or course_option_id']
+    end
+
+    course_option_id ||= course_option.id
     return if can_make_decisions?(application_choice: application_choice, course_option_id: course_option_id)
 
     raise NotAuthorisedError, full_error_messages.join(' ')
