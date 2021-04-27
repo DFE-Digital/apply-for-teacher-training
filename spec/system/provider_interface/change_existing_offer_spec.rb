@@ -19,10 +19,6 @@ RSpec.feature 'Provider changes an existing offer' do
   end
   let(:course_option) { build(:course_option, course: course) }
 
-  before do
-    FeatureFlag.activate(:updated_offer_flow)
-  end
-
   scenario 'Changing an offer which has already been made' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider

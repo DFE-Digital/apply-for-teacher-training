@@ -614,7 +614,6 @@ Rails.application.routes.draw do
 
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice
-      get '/offer' => 'application_choices#offer', as: :application_choice_offer
       get '/timeline' => 'application_choices#timeline', as: :application_choice_timeline
       get '/emails' => 'application_choices#emails', as: :application_choice_emails
       get '/feedback' => 'application_choices#feedback', as: :application_choice_feedback
