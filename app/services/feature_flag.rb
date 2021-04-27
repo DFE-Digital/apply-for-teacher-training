@@ -25,7 +25,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:provider_activity_log, 'Show provider users a log of all application activity', 'Michael Nacos'],
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
-    [:interviews, 'Providers can filter applications by interviewing state', 'Despo Pentara'],
     [:restructured_work_history, 'Candidates use the new design for the Work History section', 'David Gisbey'],
     [:unconditional_offers_via_api, 'Activates the ability to accept unconditional offers via the API', 'Steve Laing'],
     [:configurable_provider_notifications, 'Providers can manage individual email notifications', 'Aga Dufrat'],

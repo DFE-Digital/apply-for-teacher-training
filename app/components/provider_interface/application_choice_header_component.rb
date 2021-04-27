@@ -108,8 +108,6 @@ module ProviderInterface
     end
 
     def interviews_present?
-      return false unless FeatureFlag.active?(:interviews)
-
       application_choice.interviews.kept.any?
     end
 
