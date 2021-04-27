@@ -12,6 +12,14 @@ module GcseQualificationHelper
     end
   end
 
+  def grade_explanation_step_title(subject)
+    t("gcse_edit_grade_explanation.page_titles.#{subject}")
+  end
+
+  def grade_explanation_subject_title(subject)
+    t("gcse_edit_grade_explanation.subject_titles.#{subject}")
+  end
+
   def grade_step_title(subject, qualification_type)
     subject = subject.capitalize if subject == 'english'
     t('gcse_edit_grade.page_title', subject: subject, qualification_type: get_qualification_type_name(qualification_type))

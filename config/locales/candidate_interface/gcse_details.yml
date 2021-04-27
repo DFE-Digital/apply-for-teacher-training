@@ -4,6 +4,15 @@ en:
       maths: Add maths GCSE grade 4 (C) or above, or equivalent
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
+  gcse_edit_grade_explanation:
+    subject_titles:
+      maths: a maths
+      english: an English
+      science: a science
+    page_titles:
+      maths: You need a maths GCSE at grade 4 (C) or above, or equivalent
+      english: You need an English GCSE at grade 4 (C) or above, or equivalent
+      science: You need a science GCSE at grade 4 (C) or above, or equivalent
   gcse_edit_grade:
     page_title: What grade is your %{subject} %{qualification_type}?
     guidance:

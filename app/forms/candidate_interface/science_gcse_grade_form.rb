@@ -68,11 +68,13 @@ module CandidateInterface
         return false
       end
 
-      qualification.update(
+      return false unless qualification.update(
         grade: set_grade,
         constituent_grades: set_triple_award_grades,
         subject: subject,
       )
+
+      reset_missing_explanation!(qualification)
     end
 
     def assign_values(params)
@@ -230,6 +232,12 @@ module CandidateInterface
 
     def gsce_qualification_type?
       qualification.qualification_type == 'gcse'
+    end
+
+    def reset_missing_explanation!(qualification)
+      return true unless qualification.pass_gcse?
+
+      qualification.update(missing_explanation: nil)
     end
   end
 end

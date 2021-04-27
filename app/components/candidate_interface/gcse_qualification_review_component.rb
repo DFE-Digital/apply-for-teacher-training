@@ -21,6 +21,7 @@ module CandidateInterface
           enic_reference_row,
           comparable_uk_qualification_row,
           grade_row,
+          failing_grade_explanation_row,
           award_year_row,
         ].compact
       end
@@ -72,6 +73,17 @@ module CandidateInterface
         value: present_grades || t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: grade_edit_path,
+      }
+    end
+
+    def failing_grade_explanation_row
+      return nil unless application_qualification.failed_required_gcse? && application_qualification.missing_explanation.present?
+
+      {
+        key: 'How I expect to gain this qualification',
+        value: application_qualification.missing_explanation,
+        action: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
+        change_path: candidate_interface_gcse_details_edit_grade_explanation_path(subject: subject),
       }
     end
 
