@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_141658) do
+ActiveRecord::Schema.define(version: 2021_04_27_084549) do
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
@@ -82,7 +82,6 @@ ActiveRecord::Schema.define(version: 2021_04_15_141658) do
     t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
-    t.bigint "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
     t.datetime "conditions_not_met_at"
@@ -755,7 +754,6 @@ ActiveRecord::Schema.define(version: 2021_04_15_141658) do
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
   add_foreign_key "application_choices", "course_options"
-  add_foreign_key "application_choices", "course_options", column: "offered_course_option_id"
   add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
   add_foreign_key "application_feedback", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"

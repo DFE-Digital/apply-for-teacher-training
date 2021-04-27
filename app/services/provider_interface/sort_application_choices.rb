@@ -27,7 +27,7 @@ module ProviderInterface
 
             FROM application_choices a
             LEFT JOIN course_options option
-              ON option.id = COALESCE(a.current_course_option_id, a.course_option_id)
+              ON option.id = a.current_course_option_id
             LEFT JOIN courses c
               ON c.id = option.course_id
         ) AS application_choices

@@ -12,6 +12,7 @@ RSpec.describe SendNewOfferEmailToCandidate do
       @application_choice = @application_form.application_choices.create(
         application_form: @application_form,
         course_option: course_option,
+        current_course_option: course_option,
         status: :offer,
       )
     end
@@ -38,6 +39,7 @@ RSpec.describe SendNewOfferEmailToCandidate do
         @application_form.application_choices.create(
           application_form: @application_form,
           course_option: other_course_option,
+          current_course_option: other_course_option,
           status: :offer,
         )
       end
@@ -57,6 +59,7 @@ RSpec.describe SendNewOfferEmailToCandidate do
         @application_form.application_choices.create(
           application_form: @application_form,
           course_option: other_course_option,
+          current_course_option: other_course_option,
           status: :awaiting_provider_decision,
         )
       end
@@ -76,6 +79,7 @@ RSpec.describe SendNewOfferEmailToCandidate do
         @application_form.application_choices.create(
           application_form: @application_form,
           course_option: other_course_option,
+          current_course_option: other_course_option,
           status: :interviewing,
         )
       end

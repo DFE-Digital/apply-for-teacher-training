@@ -11,6 +11,7 @@ module SupportInterface
       application_choice = ApplicationChoice.create!(
         application_form: application_form,
         course_option: course_option,
+        current_course_option: course_option,
         status: 'unsubmitted',
       )
 
