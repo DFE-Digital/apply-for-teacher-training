@@ -5,9 +5,9 @@
 </h1>
 
 <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { text: 'What type of qualification do you want to add?', size: 'm' } do %>
-  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE, label: { text: 'GCSE' }, link_errors: true %>
   <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::A_LEVEL_TYPE, label: { text: 'A level' } %>
   <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::AS_LEVEL_TYPE, label: { text: 'AS level' } %>
+  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE, label: { text: 'GCSE' }, link_errors: true %>
 
   <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
     <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name', size: 's' } %>
