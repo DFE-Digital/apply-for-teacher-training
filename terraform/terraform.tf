@@ -49,3 +49,11 @@ module "paas" {
   clock_app_instances       = var.paas_clock_app_instances
   worker_app_instances      = var.paas_worker_app_instances
 }
+
+module "statuscake" {
+  source = "./modules/statuscake"
+
+  username = local.infra_secrets.STATUSCAKE_USERNAME
+  password = local.infra_secrets.STATUSCAKE_PASSWORD
+  alerts   = var.statuscake_alerts
+}
