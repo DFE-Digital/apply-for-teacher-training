@@ -25,8 +25,18 @@ paths:
           default: 1
           minimum: 1
           maximum: 3
+      - name: for_training_courses
+        description: Generate applications for courses your organisation runs. Please specify 'true', for example for_training_courses=true. Will be set to true if neither for_ratified_courses or for_test_provider_courses are true
+        in: query
+        schema:
+          type: string
       - name: for_ratified_courses
         description: Generate applications for courses your organisation awards Qualified Teacher Status (QTS) for but does not run. For example, your organisation may be a Higher Education Institution ratifying School Direct courses. Please specify 'true', for example for_ratified_courses=true
+        in: query
+        schema:
+          type: string
+      - name: for_test_provider_courses
+        description: Generate applications for courses run by a test provider, separate to your organisation. Please specify 'true', for example for_test_provider_courses=true
         in: query
         schema:
           type: string
