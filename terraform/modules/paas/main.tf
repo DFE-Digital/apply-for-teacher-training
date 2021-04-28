@@ -47,6 +47,7 @@ resource "cloudfoundry_app" "clock" {
   health_check_type    = "process"
   health_check_timeout = 180
   command              = "bundle exec clockwork config/clock.rb"
+  stopped              = var.worker_app_stopped
   instances            = var.clock_app_instances
   memory               = var.clock_app_memory
   space                = data.cloudfoundry_space.space.id
@@ -67,6 +68,7 @@ resource "cloudfoundry_app" "worker" {
   health_check_type    = "process"
   health_check_timeout = 180
   command              = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
+  stopped              = var.worker_app_stopped
   instances            = var.worker_app_instances
   memory               = var.worker_app_memory
   space                = data.cloudfoundry_space.space.id
