@@ -3,7 +3,7 @@ class WorkHistoryItemComponent < ViewComponent::Base
   include ViewHelper
 
   def initialize(item:)
-    self.item = item
+    @item = item
   end
 
   def dates

@@ -1,0 +1,7 @@
+<section class="app-section govuk-!-width-two-thirds" data-qa="work-history-and-unpaid-experience">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="work-history">Work history and unpaid experience</h2>
+
+  <% history.each do |item| %>
+    <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item: item) %>
+  <% end %>
+</section>
