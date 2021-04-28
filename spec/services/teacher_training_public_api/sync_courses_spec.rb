@@ -50,6 +50,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course_option.course.provider.postcode).to eq 'SK2 6AA'
         expect(course_option.course.code).to eq 'ABC1'
         expect(course_option.course.exposed_in_find).to be true
+        expect(course_option.course.open_on_apply).to be false
         expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
         expect(course_option.course.description).to eq 'PGCE with QTS full time'
         expect(course_option.course.start_date).to eq Time.zone.local(2021, 9, 1)
@@ -300,6 +301,20 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(invalid_course_option_two.reload).not_to be_site_still_valid
         expect(invalid_course_option_three.reload).not_to be_site_still_valid
         expect(valid_course_option.reload).to be_site_still_valid
+      end
+
+      it 'automatically opens new courses on Sandbox', sandbox: true do
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                   site_code: 'A',
+                                                   vacancy_status: 'full_time_vacancies')
+
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
+
+        course = Course.find_by(code: 'ABC1')
+
+        expect(course.open_on_apply).to be true
       end
     end
 

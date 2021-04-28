@@ -29,7 +29,12 @@ module TeacherTrainingPublicAPI
         code: course_from_api.code,
         recruitment_cycle_year: recruitment_cycle_year,
       ) do |new_course|
-        new_course.open_on_apply = new_course.in_previous_cycle&.open_on_apply ? true : false
+        if HostingEnvironment.sandbox_mode?
+          new_course.open_on_apply = true
+        else
+          new_course.open_on_apply = new_course.in_previous_cycle&.open_on_apply ? true : false
+        end
+
         if provider.any_open_courses_in_current_cycle?
           notify_of_new_course!(provider, course_from_api[:accredited_body_code])
         end
