@@ -65,6 +65,39 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
     end
   end
 
+  describe 'making an offer with conditions with non UTF-8 characters' do
+    it 'returns the updated application' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+      request_body = {
+        'data': {
+          'conditions': [
+            'Completion of subject knowledge enhancement°',
+            'Completion of professional skills test',
+          ],
+        },
+      }
+      expect(request_body[:data]).to be_valid_against_openapi_schema('MakeOffer')
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
+
+      course_option = application_choice.course_option
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response['data']['attributes']['status']).to eq('offer')
+      expect(parsed_response['data']['attributes']['offer']).to eq(
+        'conditions' => [
+          'Completion of subject knowledge enhancement°',
+          'Completion of professional skills test',
+        ],
+        'course' => course_option_to_course_payload(course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
+      )
+    end
+  end
+
   describe 'making an offer for another course' do
     it 'returns the updated application' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
