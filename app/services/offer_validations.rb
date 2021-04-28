@@ -11,6 +11,7 @@ class OfferValidations
   validate :conditions_count, if: :conditions
   validate :conditions_length, if: :conditions
   validate :identical_to_existing_offer?, if: %i[application_choice course_option]
+  validate :ratifying_provider_changed?, if: %i[application_choice course_option]
 
   def course_option_open_on_apply
     errors.add(:course_option, :not_open_on_apply) unless course_option.course.open_on_apply?
@@ -31,6 +32,12 @@ class OfferValidations
   def identical_to_existing_offer?
     if application_choice.current_course_option == course_option && application_choice.offer['conditions'] == conditions
       raise IdenticalOfferError
+    end
+  end
+
+  def ratifying_provider_changed?
+    if application_choice.current_course.ratifying_provider != course_option.course.ratifying_provider
+      errors.add(:base, :different_ratifying_provider)
     end
   end
 end

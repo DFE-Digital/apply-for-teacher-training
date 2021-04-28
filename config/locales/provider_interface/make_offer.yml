@@ -88,3 +88,4 @@ en:
               too_long: 'Condition %{index} must be %{limit} characters or fewer'
             base:
               identical_to_existing: The new offer is identical to the current offer
+              different_ratifying_provider: The offered course's ratifying provider must be the same as the one originally requested

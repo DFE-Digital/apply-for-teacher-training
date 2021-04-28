@@ -141,4 +141,8 @@ class Course < ApplicationRecord
   def subject_codes
     @subject_codes ||= subjects.includes(:course_subjects).map(&:code)
   end
+
+  def ratifying_provider
+    accredited_provider || provider
+  end
 end

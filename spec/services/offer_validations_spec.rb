@@ -71,5 +71,20 @@ RSpec.describe OfferValidations, type: :model do
         end
       end
     end
+
+    describe '#ratifying_provider_changed?' do
+      context 'when the ratifying provider is different than the one of the requested course' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_offer, current_course_option: current_course_option) }
+        let(:current_course_option) { create(:course_option, :open_on_apply) }
+        let(:course_option) { build(:course_option, :open_on_apply) }
+        let(:conditions) { application_choice.offer['conditions'] }
+
+        it 'adds a :different_ratifying_provider error' do
+          expect(offer).to be_invalid
+
+          expect(offer.errors[:base]).to contain_exactly('The offered course\'s ratifying provider must be the same as the one originally requested')
+        end
+      end
+    end
   end
 end
