@@ -355,38 +355,63 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
       end
     end
 
-    it 'notifies Slack when the provider already has open courses on Apply in this cycle', sidekiq: true do
-      provider = create(:provider, code: 'ABC', name: 'University of Life', sync_courses: true)
-      create(:course, :open_on_apply, provider: provider) # existing course
+    describe 'Slack notification' do
+      let(:accredited_body_code) { nil }
 
-      stub_teacher_training_api_course_with_site(provider_code: 'ABC',
-                                                 course_code: 'ABC1',
-                                                 recruitment_cycle_year: RecruitmentCycle.current_year,
-                                                 course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-                                                 site_code: 'A',
-                                                 vacancy_status: 'full_time_vacancies')
+      let!(:provider) do
+        create(:provider, code: 'ABC', name: 'University of Life', sync_courses: true)
+      end
 
-      described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+      before do
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   recruitment_cycle_year: RecruitmentCycle.current_year,
+                                                   course_attributes: [{
+                                                     accredited_body_code: accredited_body_code,
+                                                     study_mode: 'full_time',
+                                                   }],
+                                                   site_code: 'A',
+                                                   vacancy_status: 'full_time_vacancies')
+      end
 
-      expect_slack_message_with_text('University of Life, which has courses open on Apply, added a new course')
-    end
+      it 'notifies Slack when the provider already has open courses on Apply in this cycle', sidekiq: true do
+        create(:course, :open_on_apply, provider: provider) # existing course
 
-    it 'does not notify Slack when the provider does not have open courses on Apply in this cycle', sidekiq: true do
-      provider = create(:provider, code: 'ABC', name: 'University of Life', sync_courses: true)
+        described_class.new.perform(provider.id, RecruitmentCycle.current_year)
 
-      # existing course in wrong cycle
-      create(:course, :open_on_apply, provider: provider, recruitment_cycle_year: RecruitmentCycle.previous_year)
+        expect_slack_message_with_text('University of Life, which has courses open on Apply, added a new course. There’s no separate accredited body for this course.')
+      end
 
-      stub_teacher_training_api_course_with_site(provider_code: 'ABC',
-                                                 course_code: 'ABC1',
-                                                 recruitment_cycle_year: RecruitmentCycle.current_year,
-                                                 course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-                                                 site_code: 'A',
-                                                 vacancy_status: 'full_time_vacancies')
+      context 'the course from TTAPI has an accredited_body_code' do
+        let(:accredited_body_code) { 'DEF' }
 
-      described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+        it 'includes the accredited provider details when DSA is signed' do
+          accredited_provider = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Canterbury')
+          create(:course, :open_on_apply, provider: provider, accredited_provider: accredited_provider) # existing course
 
-      expect_no_slack_message
+          described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+
+          expect_slack_message_with_text('University of Life, which has courses open on Apply, added a new course. It’s ratified by Canterbury, who have signed the DSA.')
+        end
+
+        it 'includes the accredited provider details when DSA is not signed' do
+          accredited_provider = create(:provider, code: 'DEF', name: 'Canterbury')
+          create(:course, :open_on_apply, provider: provider, accredited_provider: accredited_provider) # existing course
+
+          described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+
+          expect_slack_message_with_text('University of Life, which has courses open on Apply, added a new course. It’s ratified by Canterbury, who have NOT signed the DSA.')
+        end
+      end
+
+      it 'does not notify Slack when the provider does not have open courses on Apply in this cycle', sidekiq: true do
+        # existing course in wrong cycle
+        create(:course, :open_on_apply, provider: provider, recruitment_cycle_year: RecruitmentCycle.previous_year)
+
+        described_class.new.perform(provider.id, RecruitmentCycle.current_year)
+
+        expect_no_slack_message
+      end
     end
   end
 end

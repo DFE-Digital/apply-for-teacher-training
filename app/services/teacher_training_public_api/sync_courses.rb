@@ -31,10 +31,7 @@ module TeacherTrainingPublicAPI
       ) do |new_course|
         new_course.open_on_apply = new_course.in_previous_cycle&.open_on_apply ? true : false
         if provider.any_open_courses_in_current_cycle?
-          SlackNotificationWorker.perform_async(
-            "#{provider.name}, which has courses open on Apply, added a new course",
-            support_interface_provider_courses_url(provider),
-          )
+          notify_of_new_course!(provider, course_from_api[:accredited_body_code])
         end
       end
 
@@ -116,6 +113,24 @@ module TeacherTrainingPublicAPI
       accredited_provider.save!
 
       accredited_provider
+    end
+
+    def notify_of_new_course!(provider, accredited_provider_code)
+      notification = [":seedling: #{provider.name}, which has courses open on Apply, added a new course"]
+      accredited_provider = ::Provider.find_by(code: accredited_provider_code)
+
+      if accredited_provider&.onboarded?
+        notification << "It’s ratified by #{accredited_provider.name}, who have signed the DSA"
+      elsif accredited_provider.present?
+        notification << "It’s ratified by #{accredited_provider.name}, who have NOT signed the DSA"
+      else
+        notification << 'There’s no separate accredited body for this course'
+      end
+
+      SlackNotificationWorker.perform_async(
+        notification.join('. ') + '.',
+        support_interface_provider_courses_url(provider),
+      )
     end
   end
 end
