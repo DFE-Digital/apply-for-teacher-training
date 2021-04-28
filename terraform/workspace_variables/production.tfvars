@@ -66,7 +66,7 @@ statuscake_alerts = {
     confirmations  = 2
   }
   apply-prod-postgres = {
-    website_name   = "Apply-Teacher-Training-Redis-Prod"
+    website_name   = "Apply-Teacher-Training-Postgres-Prod"
     website_url    = "https://www.apply-for-teacher-training.service.gov.uk/integrations/monitoring/postgres"
     test_type      = "HTTP"
     check_rate     = 60
