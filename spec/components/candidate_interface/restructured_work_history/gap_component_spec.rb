@@ -12,14 +12,14 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::GapComponent do
   it 'renders the component with a link to explain break' do
     result = render_inline(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: break_period))
 
-    expect(result.css('a').last.text).to eq('add a reason for this break')
+    expect(result.text).to include('Add another job between January 2020 and May 2020')
     expect(result.css('a').last.attributes['href'].value).to eq '/candidate/application/restructured-work-history/explain-break/new?end_date=2020-05-01&start_date=2020-01-01'
   end
 
   it 'renders the component with a link to add another job' do
     result = render_inline(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: break_period))
 
-    expect(result.css('a').first.text).to eq('Add another job')
+    expect(result.text).to include('Add another job between January 2020 and May 2020')
     expect(result.css('a').first.attributes['href'].value).to eq '/candidate/application/restructured-work-history/new'
   end
 
