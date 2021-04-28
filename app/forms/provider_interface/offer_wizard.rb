@@ -6,7 +6,7 @@ module ProviderInterface
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
     NUMBER_OF_FURTHER_CONDITIONS = 4
 
-    attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
+    attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_conditions, :current_step, :decision,
                   :action, :path_history, :wizard_path_history,
                   :provider_user_id, :application_choice_id
@@ -20,6 +20,7 @@ module ProviderInterface
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
+      attrs = sanitize_parameters(attrs)
 
       super(last_saved_state.deep_merge(attrs))
       setup_further_conditions
@@ -35,7 +36,6 @@ module ProviderInterface
         course_option_id: course_option.id,
         provider_id: course_option.provider.id,
         study_mode: course_option.study_mode,
-        location_id: course_option.site.id,
         decision: :default,
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_conditions: further_conditions_from(application_choice.offer),
@@ -200,6 +200,13 @@ module ProviderInterface
           errors.add("further_conditions[#{model.id}][#{error.attribute}]", error.message)
         end
       end
+    end
+
+    def sanitize_parameters(attrs)
+      if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'] != attrs[:course_id]
+        attrs.merge!(study_mode: nil, course_option_id: nil)
+      end
+      attrs
     end
   end
 end

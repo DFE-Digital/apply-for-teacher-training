@@ -6,7 +6,6 @@ RSpec.describe ProviderInterface::OfferWizard do
                         course_id: course_id,
                         course_option_id: course_option_id,
                         study_mode: study_mode,
-                        location_id: location_id,
                         application_choice_id: application_choice_id,
                         standard_conditions: standard_conditions,
                         further_conditions: further_conditions,
@@ -19,7 +18,6 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_id) { nil }
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
-  let(:location_id) { nil }
   let(:application_choice_id) { create(:application_choice).id }
   let(:standard_conditions) { MakeAnOffer::STANDARD_CONDITIONS }
   let(:further_condition_1) { '' }
@@ -66,6 +64,29 @@ RSpec.describe ProviderInterface::OfferWizard do
 
       it 'throws an error' do
         expect(wizard.valid?(:save)).to eq(false)
+      end
+    end
+  end
+
+  describe '#initialize' do
+    context 'is responsible for sanitising the attributes' do
+      context 'when the provided course_id does not match the stored value' do
+        let(:wizard) do
+          described_class.new(store, course_id: course_id)
+        end
+        let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
+        let(:course_id) { 4 }
+
+        before do
+          allow(store).to receive(:read).and_return(stored_data)
+        end
+
+        it 'resets the study mode and course_option_id' do
+          expect(wizard.study_mode).to eq(nil)
+          expect(wizard.course_option_id).to eq(nil)
+          expect(wizard.course_id).to eq(course_id)
+          expect(wizard.provider_id).to eq(10)
+        end
       end
     end
   end
