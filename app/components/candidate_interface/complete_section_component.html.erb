@@ -3,18 +3,17 @@
 
   <%= render(review_component) %>
 
-  <%= f.govuk_radio_buttons_fieldset :completed, classes: 'govuk-!-width-two-thirds ', legend: { text: t('application_form.completed_question'), size: 'm' } do %>
-    <% if hint_text %>
-      <% if hint_text.is_a?(Array) %>
-        <% hint_text.each do |paragraph| %>
-          <div class="govuk-hint"><%= paragraph %></div>
-        <% end %>
-      <% else %>
-        <div class="govuk-hint"><%= hint_text %></div>
+  <%= f.govuk_collection_radio_buttons :completed,
+    [[true, complete_or_reviewed_radio_button_label], [false, t('application_form.incomplete_radio')]],
+    :first,
+    :last,
+    legend: { text: t('application_form.completed_question'), size: 'm' },
+    hint: -> do %>
+      <% if hint_text %>
+        <div class="govuk-!-width-two-thirds">
+          <%= hint_text %>
+        </div>
       <% end %>
-    <% end %>
-    <%= f.govuk_radio_button :completed, true, label: { text: complete_or_reviewed_radio_button_label }, link_errors: true %>
-    <%= f.govuk_radio_button :completed, false, label: { text: t('application_form.incomplete_radio') } %>
   <% end %>
 
   <%= f.govuk_submit t('continue') %>
