@@ -3,63 +3,65 @@ en:
     title: Review your application
     heading: Review your application
     course_choices:
-      incomplete: Course choices are not marked as completed
+      incomplete: Course choices not marked as complete
       complete_section: Complete your course choices
     personal_details:
-      incomplete: Personal details not entered
-      complete_section: Enter your personal details
+      incomplete: Personal details not marked as complete
+      not_marked_complete: Personal details not marked as completed
+      complete_section: Complete your personal details
+      mark_as_complete: Mark as complete
     contact_details:
-      incomplete: Contact details not entered
-      complete_section: Enter your contact details
+      incomplete: Contact details not marked as complete
+      complete_section: Complete your contact details
     training_with_a_disability:
-      incomplete: Any disability or other needs not entered
+      incomplete: Any disability or other needs not marked as complete
       complete_section: Do you want to ask for help to become a teacher?
     safeguarding:
-      incomplete: Safeguarding information not entered
+      incomplete: Safeguarding information not marked as complete
       complete_section: Do you need to declare any safeguarding issues?
     work_experience:
-      incomplete: Work history is not marked as completed
+      incomplete: Work history not marked as complete
       complete_section: Complete your work history
     volunteering:
-      incomplete: Volunteering with children and young people is not marked as completed
+      incomplete: Volunteering with children and young people not marked as complete
       complete_section: Do you have any experience working with children and young people?
     degrees:
-      incomplete: Degree section not marked as completed
-      complete_section: Enter your degrees
+      incomplete: Degree section not marked as complete
+      complete_section: Complete degrees section
     maths_gcse:
-      incomplete: Maths GCSE or equivalent not entered
-      complete_section: Enter your Maths GCSE or equivalent
+      incomplete: Maths GCSE or equivalent not marked as complete
+      complete_section: Complete Maths GCSE or equivalent
       missing: Maths GCSE not complete
       enter_missing: Enter all values for Maths GCSE or equivalent
     english_gcse:
-      incomplete: English GCSE or equivalent not entered
-      complete_section: Enter your English GCSE or equivalent
+      incomplete: English GCSE or equivalent not marked as complete
+      complete_section: Complete English GCSE or equivalent
       missing: English GCSE not complete
       enter_missing: Enter all values for English GCSE or equivalent
     science_gcse:
-      incomplete: Science GCSE or equivalent not entered
-      complete_section: Enter your Science GCSE or equivalent
+      incomplete: Science GCSE or equivalent not marked as complete
+      complete_section: Complete Science GCSE or equivalent
       missing: Science GCSE not complete
       enter_missing: Enter all values for Science GCSE or equivalent
     other_qualifications:
       incomplete: A levels and other qualifications not marked as complete
       complete_section: Complete your other qualifications
     other_qualifications_international:
-      incomplete: The other qualifications section is not marked as complete
+      incomplete: Other qualifications section not marked as complete
       complete_section: Complete your other qualifications
     efl:
       incomplete: English as a foreign language not marked as complete
       complete_section: Have you done an English as a foreign language assessment?
     becoming_a_teacher:
-      incomplete: Personal statement not entered
+      incomplete: Personal statement not marked as complete
       not_reviewed: Personal statement not marked as reviewed
       complete_section: Why do you want to be a teacher?
     subject_knowledge:
-      incomplete: Subject knowledge not entered
+      incomplete: Subject knowledge not marked as complete
       not_reviewed: Subject knowledge not marked as reviewed
       complete_section: What do you know about the subject you want to teach?
     interview_preferences:
-      incomplete: Interview needs not entered
+      incomplete: Interview needs not marked as complete
       complete_section: Do you have any interview needs?
     references:
       incomplete: Add %{minimum_references} referees to your application
