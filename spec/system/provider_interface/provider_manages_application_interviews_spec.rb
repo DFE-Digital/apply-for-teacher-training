@@ -9,7 +9,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
   around do |example|
-    Timecop.freeze(Time.zone.now.midday) do
+    Timecop.freeze(Time.zone.local(2021, 4, 22, 12, 26, 0)) do
       example.run
     end
   end
