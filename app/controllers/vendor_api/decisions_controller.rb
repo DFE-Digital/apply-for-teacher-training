@@ -12,39 +12,7 @@ module VendorAPI
                         application_choice.course_option
                       end
 
-      if FeatureFlag.active?(:updated_offer_flow)
-        offer_service = if application_choice.offer?
-                          ChangeOffer.new(offer_params(application_choice, course_option))
-                        else
-                          MakeOffer.new(offer_params(application_choice, course_option))
-                        end
-
-        respond_to_decision(offer_service)
-      elsif application_choice.offer?
-        change_offer = ChangeAnOffer.new(
-          actor: audit_user,
-          application_choice: application_choice,
-          course_option: course_option,
-          offer_conditions: params.dig(:data, :conditions),
-        )
-
-        if change_offer.identical_to_existing_offer?
-          # noop - allow multiple POSTs (effectively PUTs) of the same offer
-          # to support vendors who don’t trust the network
-          render_application
-        else
-          respond_to_decision(change_offer)
-        end
-      else
-        make_offer = MakeAnOffer.new(
-          actor: audit_user,
-          application_choice: application_choice,
-          course_option: course_option,
-          offer_conditions: params.dig(:data, :conditions),
-        )
-
-        respond_to_decision(make_offer)
-      end
+      respond_to_decision(offer_service_for(application_choice, course_option))
     end
 
     def confirm_conditions_met
@@ -103,7 +71,7 @@ module VendorAPI
     end
 
     def respond_to_decision(decision)
-      if FeatureFlag.active?(:updated_offer_flow) && [MakeOffer, ChangeOffer].include?(decision.class)
+      if [MakeOffer, ChangeOffer].include?(decision.class)
         decision.save!
         render_application
       elsif decision.save
@@ -166,6 +134,14 @@ module VendorAPI
 
     def raise_no_course_found!
       raise ValidationException, ['The requested course could not be found']
+    end
+
+    def offer_service_for(application_choice, course_option)
+      if application_choice.offer?
+        ChangeOffer.new(offer_params(application_choice, course_option))
+      else
+        MakeOffer.new(offer_params(application_choice, course_option))
+      end
     end
   end
 end

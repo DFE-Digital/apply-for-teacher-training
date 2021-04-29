@@ -123,283 +123,142 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       )
     end
 
-    context 'in the current offer flow' do
-      before do
-        FeatureFlag.deactivate(:updated_offer_flow)
-      end
+    it 'returns an error when specifying a course from a different provider' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
 
-      it 'returns an error when specifying a course from a different provider' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
+      other_course_option = course_option_for_provider(provider: create(:provider))
 
-        other_course_option = course_option_for_provider(provider: create(:provider))
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          'data' => {
-            'conditions' => [],
-            'course' => course_option_to_course_payload(other_course_option),
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to match 'The specified course is not associated with any of your organisations.'
-      end
-
-      it 'logs the actual error in a VendorAPIRequest when a 422 is returned', sidekiq: true do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        other_course_option = course_option_for_provider(provider: create(:provider))
-
-        expect {
-          post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-            'data' => {
-              'conditions' => [],
-              'course' => course_option_to_course_payload(other_course_option),
-            },
-          }
-        }.to change(VendorAPIRequest, :count)
-
-        expect(response).to have_http_status(422)
-
-        logged_error = VendorAPIRequest.first.response_body['errors'].first['error']
-
-        expect(logged_error).to eq('NotAuthorisedError')
-      end
-
-      it 'returns an error when specifying a course that is not open on Apply' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        course = create(:course, provider: currently_authenticated_provider)
-        other_course_option = course_option_for_provider(provider: currently_authenticated_provider, course: course)
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          'data' => {
-            'conditions' => [],
-            'course' => course_option_to_course_payload(other_course_option),
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to match 'The requested course is not open for applications via the Apply service'
-      end
-
-      it 'returns an error when specifying a course that does not exist' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          'data' => {
-            'conditions' => [],
-            'course' => {
-              'recruitment_cycle_year' => 2030,
-              'provider_code' => 'ABC',
-              'course_code' => 'X100',
-              'site_code' => 'E',
-              'study_mode' => 'full_time',
-            },
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to match 'The requested course could not be found'
-      end
-
-      it 'returns an error when trying to transition to an invalid state' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'withdrawn',
-        )
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {}
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to eq 'The application is not ready for that action'
-      end
-
-      it 'returns an error when given invalid conditions' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          data: {
-            conditions: 'DO NOT WANT',
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      end
-
-      it 'returns a not found error if the application cannot be found' do
-        request_body = {
-          "data": {
-            "conditions": [
-              'Completion of subject knowledge enhancement',
-              'Completion of professional skills test',
-            ],
-          },
-        }
-
-        post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
-
-        expect(response).to have_http_status(404)
-        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-        expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
-      end
-    end
-
-    context 'in the updated offer flow' do
-      before do
-        FeatureFlag.activate(:updated_offer_flow)
-      end
-
-      it 'returns an error when specifying a course from a different provider' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        other_course_option = course_option_for_provider(provider: create(:provider))
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          'data' => {
-            'conditions' => [],
-            'course' => course_option_to_course_payload(other_course_option),
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to match 'The specified course is not associated with any of your organisations.'
-      end
-
-      it 'logs the actual error in a VendorAPIRequest when a 422 is returned', sidekiq: true do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        other_course_option = course_option_for_provider(provider: create(:provider))
-
-        expect {
-          post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-            'data' => {
-              'conditions' => [],
-              'course' => course_option_to_course_payload(other_course_option),
-            },
-          }
-        }.to change(VendorAPIRequest, :count)
-
-        expect(response).to have_http_status(422)
-
-        logged_error = VendorAPIRequest.first.response_body['errors'].first['error']
-
-        expect(logged_error).to eq('NotAuthorisedError')
-      end
-
-      it 'returns an error when specifying a course that is not open on Apply' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        course = create(:course, provider: currently_authenticated_provider)
-        other_course_option = course_option_for_provider(provider: currently_authenticated_provider, course: course)
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          'data' => {
-            'conditions' => [],
-            'course' => course_option_to_course_payload(other_course_option),
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to match 'The requested course is not open for applications via the Apply service'
-      end
-
-      it 'returns an error when specifying a course that does not exist' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          'data' => {
-            'conditions' => [],
-            'course' => {
-              'recruitment_cycle_year' => 2030,
-              'provider_code' => 'ABC',
-              'course_code' => 'X100',
-              'site_code' => 'E',
-              'study_mode' => 'full_time',
-            },
-          },
-        }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to match 'The requested course could not be found'
-      end
-
-      it 'returns an error when trying to transition to an invalid state' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'withdrawn',
-        )
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: { data: { conditions: [] } }
-
-        expect(response).to have_http_status(422)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(error_response['message']).to eq 'The application is not ready for that action'
-      end
-
-      it 'returns a not found error if the application cannot be found' do
-        request_body = {
-          "data": {
-            "conditions": [
-              'Completion of subject knowledge enhancement',
-              'Completion of professional skills test',
-            ],
-          },
-        }
-
-        post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
-
-        expect(response).to have_http_status(404)
-        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-        expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
-      end
-
-      it 'does not process the conditions if they are not provided correctly' do
-        application_choice = create_application_choice_for_currently_authenticated_provider(
-          status: 'awaiting_provider_decision',
-        )
-
-        other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
-
-        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-          data: {
-            conditions: 'INVALID CONDITION FORMAT',
-            'course' => course_option_to_course_payload(other_course_option).except(:start_date),
-          },
-        }
-
-        expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
-        expect(parsed_response['data']['attributes']['offer']).to eq(
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
           'conditions' => [],
           'course' => course_option_to_course_payload(other_course_option),
-          'offer_made_at' => Time.zone.now.iso8601(3),
-          'offer_accepted_at' => nil,
-          'offer_declined_at' => nil,
-        )
-      end
+        },
+      }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match 'The specified course is not associated with any of your organisations.'
+    end
+
+    it 'logs the actual error in a VendorAPIRequest when a 422 is returned', sidekiq: true do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      other_course_option = course_option_for_provider(provider: create(:provider))
+
+      expect {
+        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+          'data' => {
+            'conditions' => [],
+            'course' => course_option_to_course_payload(other_course_option),
+          },
+        }
+      }.to change(VendorAPIRequest, :count)
+
+      expect(response).to have_http_status(422)
+
+      logged_error = VendorAPIRequest.first.response_body['errors'].first['error']
+
+      expect(logged_error).to eq('NotAuthorisedError')
+    end
+
+    it 'returns an error when specifying a course that is not open on Apply' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      course = create(:course, provider: currently_authenticated_provider)
+      other_course_option = course_option_for_provider(provider: currently_authenticated_provider, course: course)
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => course_option_to_course_payload(other_course_option),
+        },
+      }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match 'The requested course is not open for applications via the Apply service'
+    end
+
+    it 'returns an error when specifying a course that does not exist' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => {
+            'recruitment_cycle_year' => 2030,
+            'provider_code' => 'ABC',
+            'course_code' => 'X100',
+            'site_code' => 'E',
+            'study_mode' => 'full_time',
+          },
+        },
+      }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match 'The requested course could not be found'
+    end
+
+    it 'returns an error when trying to transition to an invalid state' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'withdrawn',
+      )
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: { data: { conditions: [] } }
+
+      expect(response).to have_http_status(422)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to eq 'The application is not ready for that action'
+    end
+
+    it 'returns a not found error if the application cannot be found' do
+      request_body = {
+        "data": {
+          "conditions": [
+            'Completion of subject knowledge enhancement',
+            'Completion of professional skills test',
+          ],
+        },
+      }
+
+      post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
+
+      expect(response).to have_http_status(404)
+      expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
+      expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
+    end
+
+    it 'does not process the conditions if they are not provided correctly' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        data: {
+          conditions: 'INVALID CONDITION FORMAT',
+          'course' => course_option_to_course_payload(other_course_option).except(:start_date),
+        },
+      }
+
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response['data']['attributes']['offer']).to eq(
+        'conditions' => [],
+        'course' => course_option_to_course_payload(other_course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
+      )
     end
 
     it 'does not require the course start date to be specified' do
