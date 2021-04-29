@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_142908) do
+ActiveRecord::Schema.define(version: 2021_04_29_083515) do
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
@@ -155,17 +155,17 @@ ActiveRecord::Schema.define(version: 2021_04_27_142908) do
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
-    t.boolean "work_history_completed", default: false, null: false
+    t.boolean "work_history_completed", default: false
     t.text "work_history_explanation"
-    t.boolean "degrees_completed", default: false, null: false
+    t.boolean "degrees_completed", default: false
     t.text "becoming_a_teacher"
     t.text "subject_knowledge"
     t.text "interview_preferences"
-    t.boolean "other_qualifications_completed", default: false, null: false
+    t.boolean "other_qualifications_completed", default: false
     t.boolean "disclose_disability"
     t.text "work_history_breaks"
-    t.boolean "course_choices_completed", default: false, null: false
-    t.boolean "volunteering_completed", default: false, null: false
+    t.boolean "course_choices_completed", default: false
+    t.boolean "volunteering_completed", default: false
     t.boolean "volunteering_experience"
     t.string "phase", default: "apply_1", null: false
     t.jsonb "equality_and_diversity"
