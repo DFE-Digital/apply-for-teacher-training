@@ -52,6 +52,7 @@ module TeacherTrainingPublicAPI
     end
 
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
+      course.uuid = course_from_api.uuid
       course.name = course_from_api.name
       course.level = course_from_api.level
       course.study_mode = study_mode(course_from_api)
