@@ -28,9 +28,10 @@ module TeacherTrainingPublicAPI
       open_required = false
 
       course = provider.courses.find_or_create_by(
-        code: course_from_api.code,
+        uuid: course_from_api.uuid,
         recruitment_cycle_year: recruitment_cycle_year,
       ) do |new_course|
+        new_course.code = course_from_api.code
         open_required =
           HostingEnvironment.sandbox_mode? || new_course.in_previous_cycle&.open_on_apply
 
@@ -54,6 +55,7 @@ module TeacherTrainingPublicAPI
 
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       course.uuid = course_from_api.uuid
+      course.code = course_from_api.code
       course.name = course_from_api.name
       course.level = course_from_api.level
       course.study_mode = study_mode(course_from_api)
