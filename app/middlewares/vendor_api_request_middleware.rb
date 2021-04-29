@@ -53,7 +53,7 @@ private
     {
       path: @request.path,
       params: @request.params,
-      body: @request.body.read.force_encoding('utf-8'),
+      body: @request.body.read.dup.force_encoding('utf-8'),
       headers: request_headers,
       method: @request.request_method,
     }
