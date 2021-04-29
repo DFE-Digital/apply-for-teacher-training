@@ -44,6 +44,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
+        expect(course_option.course.uuid).to eq '906c6f3c-b2d6-46e1-8bf7-3fbd13d3ea06'
         expect(course_option.course.provider.code).to eq 'ABC'
         expect(course_option.course.provider.provider_type).to eq 'scitt'
         expect(course_option.course.provider.region_code).to eq 'south_west'
