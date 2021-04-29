@@ -23,7 +23,7 @@ RSpec.feature 'Provider can view information in the banner' do
   end
 
   def then_i_see_information_about_working_days_changes
-    expect(page).to have_content '2 April to 16 April 2021 do not count as working days'
+    expect(page).to have_content 'The Manage service will be unavailable on Thursday 6th May from 8am to 9am'
   end
 
   def when_feature_flag_is_off
@@ -31,6 +31,6 @@ RSpec.feature 'Provider can view information in the banner' do
   end
 
   def then_i_dont_see_information_about_working_days_changes
-    expect(page).not_to have_content '2 April to 16 April 2021 do not count as working days'
+    expect(page).not_to have_content 'The Manage service will be unavailable on Thursday 6th May from 8am to 9am'
   end
 end
