@@ -19,6 +19,7 @@ class FeatureFlag
     [:provider_information_banner, 'Displays an information banner for providers on the start page and applications page', 'Apply team'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Apply team'],
+    [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
