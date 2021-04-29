@@ -26,7 +26,7 @@ module VendorAPI
     end
 
     def clear!
-      current_provider.application_choices.map(&:application_form).map(&:candidate).map(&:destroy!)
+      ClearApplicationDataForProvider.call(current_provider)
 
       render json: { data: { message: 'Applications cleared' } }
     end
