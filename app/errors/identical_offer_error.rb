@@ -1,0 +1,2 @@
+class IdenticalOfferError < StandardError
+end

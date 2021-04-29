@@ -119,4 +119,22 @@ RSpec.describe Course, type: :model do
       expect(course.subject_codes).to contain_exactly('01', '9X')
     end
   end
+
+  describe '#ratifying_provider' do
+    context 'when there is an accredited provider set' do
+      let(:course) { build(:course, accredited_provider: build(:provider)) }
+
+      it 'returns the accredited provider' do
+        expect(course.ratifying_provider).to eq(course.accredited_provider)
+      end
+    end
+
+    context 'when there is no accredited provider set' do
+      let(:course) { build(:course) }
+
+      it 'returns the provider' do
+        expect(course.ratifying_provider).to eq(course.provider)
+      end
+    end
+  end
 end
