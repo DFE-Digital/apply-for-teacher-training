@@ -46,7 +46,7 @@ resource "cloudfoundry_app" "clock" {
   docker_image         = var.app_docker_image
   health_check_type    = "process"
   health_check_timeout = 180
-  command              = "bundle exec clockwork config/clock.rb"
+  command              = var.clock_app_command
   stopped              = var.worker_app_stopped
   instances            = var.clock_app_instances
   memory               = var.clock_app_memory
@@ -67,7 +67,7 @@ resource "cloudfoundry_app" "worker" {
   docker_image         = var.app_docker_image
   health_check_type    = "process"
   health_check_timeout = 180
-  command              = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
+  command              = var.worker_app_command
   stopped              = var.worker_app_stopped
   instances            = var.worker_app_instances
   memory               = var.worker_app_memory

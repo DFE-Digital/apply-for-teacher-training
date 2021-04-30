@@ -49,6 +49,8 @@ module "paas" {
   clock_app_instances       = var.paas_clock_app_instances
   worker_app_instances      = var.paas_worker_app_instances
   worker_app_stopped        = var.paas_worker_app_stopped
+  worker_app_command        = var.paas_worker_app_command
+  clock_app_command         = var.paas_clock_app_command
 }
 
 module "statuscake" {

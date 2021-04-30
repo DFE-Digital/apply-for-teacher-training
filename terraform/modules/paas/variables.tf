@@ -34,6 +34,10 @@ variable "worker_app_instances" {}
 
 variable "worker_app_stopped" {}
 
+variable "worker_app_command" {}
+
+variable "clock_app_command" {}
+
 locals {
   web_app_name          = "apply-${var.app_environment}"
   clock_app_name        = "apply-clock-${var.app_environment}"
