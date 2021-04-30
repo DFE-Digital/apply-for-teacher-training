@@ -40,3 +40,17 @@ describe('initAutoSuggest', () => {
     expect(document.querySelector('#outer-container')).toMatchSnapshot()
   })
 })
+
+describe('initAutoSuggest.stripWhitespaceFilter', () => {
+  it('stripWhitespaceFilter should return matching items', () => {
+    let result
+    initAutosuggest.stripWhitespaceFilter(['foo', 'bar', 'food'])('foo', (r) => { result = r })
+    expect(result).toEqual(['foo', 'food'])
+  })
+
+  it('stripWhitespaceFilter should return matching items ignoring trailing and leading whitespace', () => {
+    let result
+    initAutosuggest.stripWhitespaceFilter(['foo', 'bar', 'food'])('  foo ', (r) => { result = r })
+    expect(result).toEqual(['foo', 'food'])
+  })
+})
