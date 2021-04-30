@@ -1,15 +1,18 @@
 <% content_for :title, t("gcse_summary.page_titles.#{@subject}") %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_gcse_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(
-  section_complete_form: @section_complete_form,
-  path: candidate_interface_gcse_complete_path,
-  request_method: :patch,
-  review_component: CandidateInterface::GcseQualificationReviewComponent.new(
+  <h1 class="govuk-heading-xl"><%= t("gcse_summary.page_titles.#{@subject}") %></h1>
+
+  <%= render CandidateInterface::GcseQualificationReviewComponent.new(
     application_form: @application_form,
     application_qualification: @application_qualification,
     subject: @subject,
-  ),
-)) %>
+  ) %>
+
+  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>

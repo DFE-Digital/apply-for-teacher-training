@@ -1,13 +1,14 @@
 <% content_for :title, t('page_titles.suitability_to_work_with_children') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.suitability_to_work_with_children') %>
-</h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_complete_safeguarding_path, method: :post do |f| %>
+  <%= f.govuk_error_summary %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(
-  section_complete_form: @section_complete_form,
-  path: candidate_interface_complete_safeguarding_path,
-  request_method: :post,
-  review_component: CandidateInterface::SafeguardingReviewComponent.new(application_form: @current_application),
-)) %>
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.suitability_to_work_with_children') %>
+  </h1>
+
+  <%= render CandidateInterface::SafeguardingReviewComponent.new(application_form: @current_application) %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+  <%= f.govuk_submit t('continue') %>
+<% end %>

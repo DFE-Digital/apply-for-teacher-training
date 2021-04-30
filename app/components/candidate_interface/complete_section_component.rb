@@ -1,12 +1,9 @@
 module CandidateInterface
   class CompleteSectionComponent < ViewComponent::Base
-    attr_reader :section_complete_form, :path, :request_method, :review_component, :hint_text, :section_review
+    attr_reader :form, :hint_text, :section_review
 
-    def initialize(section_complete_form:, path:, request_method:, review_component:, section_review: false, hint_text: false)
-      @section_complete_form = section_complete_form
-      @path = path
-      @request_method = request_method
-      @review_component = review_component
+    def initialize(form:, section_review: false, hint_text: false)
+      @form = form
       @section_review = section_review
       @hint_text = hint_text
     end

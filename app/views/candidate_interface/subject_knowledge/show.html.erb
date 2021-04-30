@@ -1,29 +1,34 @@
 <% content_for :title, t('page_titles.subject_knowledge') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.subject_knowledge') %>
-</h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_subject_knowledge_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
 
-<% if @application_form.review_pending?(:subject_knowledge) %>
-  <%= govuk_inset_text do %>
-    <% rejection_reasons = @application_form.rejection_reasons(:subject_knowledge) %>
-    <h2 class="govuk-heading-m">Feedback from previous <%= 'application'.pluralize(rejection_reasons.size) %></h2>
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.subject_knowledge') %>
+  </h1>
 
-    <% rejection_reasons.each do |rejection_reason| %>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
-      <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
-        <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
-      </blockquote>
+  <% if @application_form.review_pending?(:subject_knowledge) %>
+    <%= govuk_inset_text do %>
+      <% rejection_reasons = @application_form.rejection_reasons(:subject_knowledge) %>
+      <h2 class="govuk-heading-m">Feedback from previous <%= 'application'.pluralize(rejection_reasons.size) %></h2>
+
+      <% rejection_reasons.each do |rejection_reason| %>
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
+        <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
+          <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
+        </blockquote>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(
-  section_complete_form: @section_complete_form,
-  path: candidate_interface_subject_knowledge_complete_path,
-  request_method: :patch,
-  section_review: @application_form.reviewable?(:subject_knowledge),
-  review_component: CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form),
-  hint_text: t('application_form.personal_statement.subject_knowledge.complete_hint_text'),
-)) %>
+  <%= render CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: @application_form) %>
+
+  <%= render(CandidateInterface::CompleteSectionComponent.new(
+    form: f,
+    section_review: @application_form.reviewable?(:subject_knowledge),
+    hint_text: t('application_form.personal_statement.subject_knowledge.complete_hint_text'),
+  )) %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>

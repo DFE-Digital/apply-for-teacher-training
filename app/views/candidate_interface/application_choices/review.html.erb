@@ -1,34 +1,38 @@
 <% content_for :title, t('page_titles.courses') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <% if @application_form.candidate_can_choose_single_course? %>
-        <%= t('page_titles.course_choice') %>
-      <% else %>
-        <%= t('page_titles.course_choices') %>
+<%= form_with model: @section_complete_form, url: candidate_interface_course_choices_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        <% if @application_form.candidate_can_choose_single_course? %>
+          <%= t('page_titles.course_choice') %>
+        <% else %>
+          <%= t('page_titles.course_choices') %>
+        <% end %>
+      </h1>
+
+      <% if @application_choices.present? && @application_form.can_add_more_choices? %>
+        <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
       <% end %>
-    </h1>
-
-    <% if @application_choices.present? && @application_form.can_add_more_choices? %>
-      <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
-    <% end %>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <% if @application_choices.present? &&  @application_choices.count >= 1 %>
-      <%= render(CandidateInterface::CompleteSectionComponent.new(
-        section_complete_form: @section_complete_form,
-        path: candidate_interface_course_choices_complete_path,
-        request_method: :patch,
-        review_component: CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form),
-        hint_text: if current_application.choices_left_to_make.positive?
-                     t('application_form.courses.complete.hint_text', count: current_application.choices_left_to_make)
-                   end,
-      )) %>
-    <% end %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <% if @application_choices.present? &&  @application_choices.count >= 1 %>
+        <%= render CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form) %>
+
+        <%= render(CandidateInterface::CompleteSectionComponent.new(
+          form: f,
+          hint_text: if current_application.choices_left_to_make.positive?
+                       t('application_form.courses.complete.hint_text', count: current_application.choices_left_to_make)
+                     end,
+        )) %>
+        <%= f.govuk_submit t('continue') %>
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>

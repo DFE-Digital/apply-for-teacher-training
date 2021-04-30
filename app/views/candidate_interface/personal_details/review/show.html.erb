@@ -6,13 +6,15 @@
 
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.personal_information') %>
-</h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_personal_details_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(
-  section_complete_form: @section_complete_form,
-  path: candidate_interface_personal_details_complete_path,
-  request_method: :patch,
-  review_component: SummaryCardComponent.new(rows: @personal_details_review.rows),
-)) %>
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.personal_information') %>
+  </h1>
+
+  <%= render SummaryCardComponent.new(rows: @personal_details_review.rows) %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>

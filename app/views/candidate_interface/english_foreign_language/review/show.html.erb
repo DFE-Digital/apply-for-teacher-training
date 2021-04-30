@@ -1,11 +1,12 @@
 <% content_for :title, t('page_titles.efl.review') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl"><%= t('page_titles.efl.review') %></h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_english_foreign_language_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(
-  section_complete_form: @section_complete_form,
-  path: candidate_interface_english_foreign_language_complete_path,
-  request_method: :patch,
-  review_component: @component_instance,
-)) %>
+  <h1 class="govuk-heading-xl"><%= t('page_titles.efl.review') %></h1>
+
+  <%= render @component_instance %>
+  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+  <%= f.govuk_submit t('continue') %>
+<% end %>

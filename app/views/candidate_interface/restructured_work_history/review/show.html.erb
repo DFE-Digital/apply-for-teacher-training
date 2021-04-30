@@ -1,29 +1,35 @@
 <% content_for :title, t('page_titles.work_history') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl"><%= t('page_titles.work_history') %></h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_restructured_work_history_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
 
-<% if @application_form.can_complete? %>
-  <div class="govuk-!-width-two-thirds">
-    <p class="govuk-body">Enter all the jobs you’ve had since you left school.</p>
-    <p class="govuk-body">Explain any gaps in your work history. For example, raising children, unemployment or illness.</p>
-  </div>
+  <h1 class="govuk-heading-xl"><%= t('page_titles.work_history') %></h1>
 
-  <% if @application_form.application_work_experiences.blank? %>
-    <%= govuk_link_to 'Add a job', candidate_interface_new_restructured_work_history_path, button: true %>
-  <% else %>
-    <%= govuk_link_to candidate_interface_new_restructured_work_history_path, button: true, class: 'govuk-button--secondary' do %>
-      <%= @application_form.application_work_experiences.any? ? t('application_form.work_history.another.button') : t('application_form.work_history.add.button') %>
+  <% if @application_form.can_complete? %>
+    <div class="govuk-!-width-two-thirds">
+      <p class="govuk-body">Enter all the jobs you’ve had since you left school.</p>
+      <p class="govuk-body">Explain any gaps in your work history. For example, raising children, unemployment or illness.</p>
+    </div>
+
+    <% if @application_form.application_work_experiences.blank? %>
+      <%= govuk_link_to 'Add a job', candidate_interface_new_restructured_work_history_path, button: true %>
+    <% else %>
+      <%= govuk_link_to candidate_interface_new_restructured_work_history_path, button: true, class: 'govuk-button--secondary' do %>
+        <%= @application_form.application_work_experiences.any? ? t('application_form.work_history.another.button') : t('application_form.work_history.add.button') %>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
 
-<% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
-  <%= render(CandidateInterface::CompleteSectionComponent.new(
-    section_complete_form: @section_complete_form,
-    path: candidate_interface_restructured_work_history_complete_path,
-    request_method: :patch,
-    review_component: CandidateInterface::RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form),
-    hint_text: t('application_form.work_history.complete.hint_text'),
-  )) %>
+  <% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
+    <%= render CandidateInterface::RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form) %>
+
+    <%= render(CandidateInterface::CompleteSectionComponent.new(
+      form: f,
+      hint_text: t('application_form.work_history.complete.hint_text'),
+    )) %>
+
+    <%= f.govuk_submit t('continue') %>
+  <% end %>
+
 <% end %>

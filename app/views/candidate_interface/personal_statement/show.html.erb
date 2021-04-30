@@ -1,37 +1,43 @@
 <% content_for :title, t('page_titles.becoming_a_teacher') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.becoming_a_teacher') %>
-</h1>
+<%= form_with model: @section_complete_form, url: candidate_interface_becoming_a_teacher_complete_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
 
-<% if @application_form.review_pending?(:becoming_a_teacher) %>
-  <%= govuk_inset_text do %>
-    <% rejection_reasons = @application_form.rejection_reasons(:becoming_a_teacher) %>
-    <h2 class="govuk-heading-m">Feedback from previous <%= 'application'.pluralize(rejection_reasons.size) %></h2>
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.becoming_a_teacher') %>
+  </h1>
 
-    <% @application_form.rejection_reasons(:becoming_a_teacher).each do |rejection_reason| %>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
-      <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
-        <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
-      </blockquote>
+  <% if @application_form.review_pending?(:becoming_a_teacher) %>
+    <%= govuk_inset_text do %>
+      <% rejection_reasons = @application_form.rejection_reasons(:becoming_a_teacher) %>
+      <h2 class="govuk-heading-m">Feedback from previous <%= 'application'.pluralize(rejection_reasons.size) %></h2>
+
+      <% @application_form.rejection_reasons(:becoming_a_teacher).each do |rejection_reason| %>
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-2"><%= rejection_reason.provider_name %></h3>
+        <blockquote class="govuk-!-margin-left-0 govuk-!-margin-top-0">
+          <p class="govuk-body">“<%= rejection_reason.feedback %>”</p>
+        </blockquote>
+      <% end %>
     <% end %>
+  <% else %>
+    <p class="govuk-body govuk-!-font-weight-bold">This section is important to your application. Before continuing:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>proofread your answer carefully for spelling and grammar</li>
+      <li>ask someone you trust for their opinion</li>
+      <li>ensure this piece of writing is all your own work – plagiarism will be penalised</li>
+    </ul>
+    <p class="govuk-body govuk-!-font-weight-bold">You’ll be able to review it again before you submit your
+      application.</p>
   <% end %>
-<% else %>
-  <p class="govuk-body govuk-!-font-weight-bold">This section is important to your application. Before continuing:</p>
-  <ul class="govuk-list govuk-list--bullet">
-    <li>proofread your answer carefully for spelling and grammar</li>
-    <li>ask someone you trust for their opinion</li>
-    <li>ensure this piece of writing is all your own work – plagiarism will be penalised</li>
-  </ul>
-  <p class="govuk-body govuk-!-font-weight-bold">You’ll be able to review it again before you submit your application.</p>
-<% end %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(
-  section_complete_form: @section_complete_form,
-  path: candidate_interface_becoming_a_teacher_complete_path,
-  request_method: :patch,
-  review_component: CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form),
-  hint_text: t('application_form.personal_statement.becoming_a_teacher.complete_hint_text'),
-  section_review: @application_form.reviewable?(:becoming_a_teacher),
-)) %>
+  <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
+
+  <%= render(CandidateInterface::CompleteSectionComponent.new(
+    form: f,
+    hint_text: t('application_form.personal_statement.becoming_a_teacher.complete_hint_text'),
+    section_review: @application_form.reviewable?(:becoming_a_teacher),
+  )) %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>
