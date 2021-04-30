@@ -1,9 +1,9 @@
 <% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.confirm_withdraw_offer'), @withdraw_offer.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
+<% content_for :before_content, govuk_back_link_to(new_provider_interface_application_choice_decision_path(@application_choice)) %>
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
 
-<%= form_with model: @withdraw_offer, url: provider_interface_application_choice_withdraw_offer_path(@application_choice.id), method: :post do |f| %>
+<%= form_with model: @withdraw_offer, url: provider_interface_application_choice_withdraw_offer_path(@application_choice), method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">

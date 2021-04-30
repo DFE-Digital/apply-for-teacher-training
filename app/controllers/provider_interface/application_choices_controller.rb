@@ -41,18 +41,6 @@ module ProviderInterface
         .present?
     end
 
-    def offer
-      if FeatureFlag.active?(:updated_offer_flow)
-        redirect_to provider_interface_application_choice_offers_path(@application_choice) and return
-      end
-
-      @status_box_options = { provider_can_respond: @provider_can_respond }
-
-      if @application_choice.offer? && @provider_can_respond
-        @status_box_options.merge!(get_all_change_options(@application_choice))
-      end
-    end
-
     def timeline; end
 
     def feedback

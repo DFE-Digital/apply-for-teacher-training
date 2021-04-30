@@ -18,10 +18,6 @@ RSpec.feature 'Provider makes an offer' do
   end
   let(:course_option) { build(:course_option, course: course) }
 
-  before do
-    FeatureFlag.activate(:updated_offer_flow)
-  end
-
   scenario 'Making an offer for the requested course option' do
     given_i_am_a_provider_user
     and_i_am_permitted_to_make_decisions_for_my_provider

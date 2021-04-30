@@ -26,10 +26,10 @@
           <% if FeatureFlag.active?(:interviews) %>
             <div class="govuk-button-group">
               <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
-              <%= govuk_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice), button: true, class: 'govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+              <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true, class: 'govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
             </div>
           <% else %>
-            <%= govuk_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice), button: true %>
+            <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true %>
           <% end %>
         <% elsif waiting_for_interview? %>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
@@ -43,7 +43,7 @@
             <% end -%>
           </p>
 
-          <%= govuk_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice), button: true %>
+          <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true %>
 
         <% elsif awaiting_decision_but_cannot_respond? -%>
           <p class="govuk-body">

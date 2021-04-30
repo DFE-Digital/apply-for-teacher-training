@@ -614,20 +614,12 @@ Rails.application.routes.draw do
 
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice
-      get '/offer' => 'application_choices#offer', as: :application_choice_offer
       get '/timeline' => 'application_choices#timeline', as: :application_choice_timeline
       get '/emails' => 'application_choices#emails', as: :application_choice_emails
       get '/feedback' => 'application_choices#feedback', as: :application_choice_feedback
-      get '/respond' => 'decisions#respond', as: :application_choice_respond
-      post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
-      get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
-      post '/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
-      post '/offer' => 'decisions#create_offer', as: :application_choice_create_offer
       get '/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
       patch '/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
       patch '/conditions' => 'conditions#update', as: :application_choice_update_conditions
-      get '/offer/change/*step' => 'offer_changes#edit_offer', as: :application_choice_edit_offer
-      patch '/offer/change' => 'offer_changes#update_offer', as: :application_choice_update_offer
 
       get '/offer/new_withdraw' => redirect('/offer/withdraw')
       post '/offer/confirm_withdraw' => redirect('/offer/confirm-withdraw')
@@ -640,8 +632,7 @@ Rails.application.routes.draw do
 
       resource :decision, only: %i[new create], as: :application_choice_decision
 
-      resource :offers, only: %i[new], as: :application_choice_offer
-      resource :offers, only: %i[create show update], as: :application_choice_offers
+      resource :offers, only: %i[new create show update], as: :application_choice_offer
 
       namespace :offer, as: :application_choice_offer do
         resource :providers, only: %i[new create edit update]

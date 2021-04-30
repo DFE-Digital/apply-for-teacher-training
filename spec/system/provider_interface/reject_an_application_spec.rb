@@ -51,7 +51,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def when_i_respond_to_an_application
-    visit provider_interface_application_choice_respond_path(@application_choice)
+    visit provider_interface_application_choice_path(@application_choice)
+    click_on 'Make decision'
   end
 
   def and_i_choose_to_reject_it
@@ -60,7 +61,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
-    expect(page).to have_link('Back', href: provider_interface_application_choice_respond_path(@application_choice))
+    expect(page).to have_link('Back', href: new_provider_interface_application_choice_decision_path(@application_choice))
 
     choose 'reasons-for-rejection-candidate-behaviour-y-n-no-field'
 
