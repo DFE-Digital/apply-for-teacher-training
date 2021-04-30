@@ -35,8 +35,8 @@ export const initAutosuggest = ({ inputIds, containerId, templates = {}, styles 
   }
 }
 
-initAutosuggest.stripWhitespaceFilter = (_source) => {
-  const source = _source
+initAutosuggest.stripWhitespaceFilter = (s) => {
+  const source = s
   return (query, populateResults) => {
     const matches = source.filter(r => r.toLowerCase().indexOf(query.toLowerCase().trim()) !== -1)
     populateResults(matches)
