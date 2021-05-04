@@ -822,6 +822,8 @@ Rails.application.routes.draw do
 
     get '/application_choices/:application_choice_id' => redirect('/application-choices/%{application_choice_id}')
     get '/application-choices/:application_choice_id' => 'application_choices#show', as: :application_choice
+    get '/application-choices/:application_choice_id/conditions' => 'application_choice_conditions#edit', as: :edit_application_choice_conditions
+    post '/application-choices/:application_choice_id/conditions' => 'application_choice_conditions#update', as: :update_application_choice_conditions
 
     get '/candidates' => 'candidates#index'
 

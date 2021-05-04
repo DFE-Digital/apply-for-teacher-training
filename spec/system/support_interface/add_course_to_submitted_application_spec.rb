@@ -5,10 +5,10 @@ RSpec.feature 'Add course to submitted application' do
 
   scenario 'Support user adds course to submitted application' do
     given_i_am_a_support_user
-    and_there_is_a_submitted_application_in_the_system_logged_by_a_candidate
+    and_there_is_a_submitted_application_in_the_system
     and_i_visit_the_support_page
 
-    when_i_click_on_an_application
+    when_i_click_on_the_application
     when_i_click_on_add_a_course
 
     then_i_should_see_the_course_search_page

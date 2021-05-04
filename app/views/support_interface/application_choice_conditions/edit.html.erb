@@ -1,0 +1,37 @@
+<% content_for :browser_title, title_with_error_prefix('Update conditions', @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@form.application_choice.application_form_id)) %>
+
+<h1 class="govuk-heading-l">
+  Change offer conditions
+</h1>
+
+<%= form_with model: @form, url: support_interface_update_application_choice_conditions_path(@form.application_choice.id), method: :post do |f| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_collection_check_boxes(
+        :standard_conditions,
+        standard_conditions_checkboxes,
+        :id,
+        :name,
+        legend: { size: 'm', text: 'Standard conditions' },
+      ) %>
+
+      <%= f.govuk_fieldset legend: { text: 'Further conditions', size: 'm' } do %>
+        <p class="govuk-body">For example, studying a subject knowledge enhancement course.</p>
+
+        <% @form.further_condition_models.each do |model| %>
+          <%= f.fields_for 'further_conditions[]', model do |fc| %>
+            <%= fc.govuk_text_area :text, label: { text: "Condition #{model.id.to_i + 1}", size: 's' }, rows: 3 %>
+          <% end %>
+        <% end %>
+
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>
