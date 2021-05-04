@@ -7,11 +7,12 @@ module EmitRequestEvents
   end
 
   def trigger_request_event
-    request_event = Events::Event.new
-      .with_request_details(request)
-      .with_user_and_namespace(current_user, current_namespace)
+    if FeatureFlag.active?(:send_request_data_to_bigquery)
+      request_event = Events::Event.new
+        .with_request_details(request)
+        .with_user_and_namespace(current_user, current_namespace)
 
-    # send event
-    SendRequestEventsToBigquery.perform_async(request_event.as_json)
+      SendRequestEventsToBigquery.perform_async(request_event.as_json)
+    end
   end
 end
