@@ -14,7 +14,7 @@ RSpec.describe ServiceInformationBanner do
 
     context 'when the hosting environment is sandbox' do
       it 'renders the banner header', sandbox: true do
-        expect(result.text).to include('Manage sandbox')
+        expect(result.text).to include('the sandbox')
       end
     end
   end
@@ -23,12 +23,12 @@ RSpec.describe ServiceInformationBanner do
     let(:namespace) { :candidate }
 
     it 'renders the banner' do
-      expect(result.text).to include('Apply service')
+      expect(result.text).to include('this service')
     end
 
     context 'when the hosting environment is sandbox' do
       it 'renders the banner header', sandbox: true do
-        expect(result.text).to include('Apply sandbox')
+        expect(result.text).to include('the sandbox')
       end
     end
   end
