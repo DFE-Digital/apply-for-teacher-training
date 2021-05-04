@@ -1,5 +1,7 @@
 <% content_for :title, t('page_titles.create_account_or_sign_in') %>
 
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(

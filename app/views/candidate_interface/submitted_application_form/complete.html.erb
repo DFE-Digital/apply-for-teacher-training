@@ -1,4 +1,6 @@
 <% dashboard = CandidateInterface::ApplicationDashboardComponent.new(application_form: @application_form) %>
 <% content_for :title, dashboard.title %>
 
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
 <%= render dashboard %>

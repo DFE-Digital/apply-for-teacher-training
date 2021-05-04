@@ -3,8 +3,3 @@ en:
     info: Information
     warning: Warning
     success: Success
-    sandbox_header: The Manage sandbox will be unavailable on Tuesday 4th May from 6pm to 7pm
-    sandbox_body: This will affect both the web service and the API. You may lose work if you are using the Manage sandbox when it becomes unavailable.
-    header: The Manage service will be unavailable on Thursday 6th May from 8am to 9am
-    body: This will affect both the web service and the API. You may lose work if you are using Manage when it becomes unavailable.
-

@@ -24,10 +24,10 @@
   </div>
 </div>
 
-<%= render ProviderInterface::InformationBannerComponent.new %>
-
 <div class="govuk-width-container">
   <section class="app-section">
+    <%= render ServiceInformationBanner.new(namespace: :provider) %>
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
         <h2 class="govuk-heading-m">View applications</h2>

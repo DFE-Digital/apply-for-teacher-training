@@ -1,6 +1,6 @@
 <% content_for :browser_title, "Applications (#{@application_choices_count})" %>
 
-<%= render ProviderInterface::InformationBannerComponent.new %>
+<%= render ServiceInformationBanner.new(namespace: :provider) %>
 
 <h1 class="govuk-heading-xl">Applications (<%= @application_choices_count %>)</h1>
 
