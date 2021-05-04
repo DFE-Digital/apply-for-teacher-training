@@ -28,6 +28,45 @@ RSpec.describe WorkHistoryWithBreaks do
     let(:breaks) { [] }
     let(:work_history) { [] }
 
+    context 'when :include_unpaid_experience is enabled' do
+      let(:work_history_with_breaks) { described_class.new(application_form, include_unpaid_experience: true) }
+      let(:application_form) do
+        build_stubbed(:application_form,
+                      application_work_experiences: work_history,
+                      application_work_history_breaks: breaks,
+                      application_volunteering_experiences: volunteering_experiences,
+                      submitted_at: submitted_at)
+      end
+      let(:volunteering_experiences) { [] }
+
+      describe '#initialize' do
+        let(:volunteering_experiences) { build_stubbed_list(:application_volunteering_experience, 2) }
+
+        it 'configures unpaid work' do
+          expect(work_history_with_breaks.unpaid_work).to eq(application_form.application_volunteering_experiences)
+        end
+      end
+
+      describe '#timeline' do
+        let(:volunteering_experience1) { build_stubbed(:application_volunteering_experience, start_date: february2019) }
+        let(:volunteering_experience2) { build_stubbed(:application_volunteering_experience, start_date: february2020) }
+        let(:volunteering_experiences) { [volunteering_experience1, volunteering_experience2] }
+        let(:job1) { build_stubbed(:application_work_experience, start_date: february2015, end_date: nil) }
+        let(:job2) { build_stubbed(:application_work_experience, start_date: september2019, end_date: nil) }
+        let(:work_history) { [job1, job2] }
+
+        it 'renders both paid and unpaid experieence in descending order by start date' do
+          timeline = work_history_with_breaks.timeline
+
+          expect(timeline.count).to eq(4)
+          expect(timeline[0]).to eq(volunteering_experience2)
+          expect(timeline[1]).to eq(job2)
+          expect(timeline[2]).to eq(volunteering_experience1)
+          expect(timeline[3]).to eq(job1)
+        end
+      end
+    end
+
     context 'when there are no jobs' do
       it 'returns an empty array' do
         expect(work_history_with_breaks).to eq([])

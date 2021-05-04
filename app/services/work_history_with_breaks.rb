@@ -1,20 +1,21 @@
 class WorkHistoryWithBreaks
-  attr_accessor :application_form, :work_history, :existing_breaks, :unpaid_work
+  attr_accessor :application_form, :work_history, :existing_breaks, :unpaid_work, :include_unpaid_experience
 
-  def initialize(application_form)
+  def initialize(application_form, include_unpaid_experience: false)
+    @include_unpaid_experience = include_unpaid_experience
     @application_form = application_form
     @work_history = application_form.application_work_experiences.sort_by(&:start_date)
     @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
 
-    if FeatureFlag.active?(:restructured_work_history)
+    if include_unpaid_experience
       @unpaid_work = application_form.application_volunteering_experiences.sort_by(&:start_date)
     end
   end
 
   def timeline
     work_history_with_breaks = work_history + existing_breaks
-    work_history_with_breaks += unpaid_work if FeatureFlag.active?(:restructured_work_history)
+    work_history_with_breaks += unpaid_work if include_unpaid_experience
 
     if work_history.any?
       timeline_in_months = month_range(
@@ -28,7 +29,7 @@ class WorkHistoryWithBreaks
     end
 
     timeline = work_history_with_breaks.sort_by(&:start_date)
-    FeatureFlag.active?(:restructured_work_history) ? timeline.reverse : timeline
+    include_unpaid_experience ? timeline.reverse : timeline
   end
 
 private
