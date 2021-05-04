@@ -4,6 +4,8 @@
 <%= render(CandidateInterface::DeadlineBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 <%= render(CandidateInterface::ReopenBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 
+<%= render ServiceInformationBanner.new(namespace: :candidate) %>
+
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2"><%= t('page_titles.application_form') %></h1>
 <p class="govuk-hint govuk-!-margin-bottom-8"><%= @application_form_presenter.updated_at %></p>
 
