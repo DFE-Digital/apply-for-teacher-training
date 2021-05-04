@@ -24,7 +24,7 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
 
   it 'resets the state to unsubmitted' do
     expect(duplicate_application_form.submitted_at).to be_nil
-    expect(duplicate_application_form.course_choices_completed).to be false
+    expect(duplicate_application_form.course_choices_completed).to be nil
   end
 
   it "sets the phase to `#{expected_phase}`" do

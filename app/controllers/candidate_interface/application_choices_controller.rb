@@ -43,7 +43,7 @@ module CandidateInterface
         redirect_to candidate_interface_application_form_path
       else
         track_validation_error(@section_complete_form)
-        render :show
+        render :review
       end
     end
 

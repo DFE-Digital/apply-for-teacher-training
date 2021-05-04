@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_27_142908) do
+ActiveRecord::Schema.define(version: 2021_04_29_084354) do
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
@@ -155,39 +155,39 @@ ActiveRecord::Schema.define(version: 2021_04_27_142908) do
     t.string "support_reference", limit: 10
     t.string "disability_disclosure"
     t.string "uk_residency_status"
-    t.boolean "work_history_completed", default: false, null: false
+    t.boolean "work_history_completed"
     t.text "work_history_explanation"
-    t.boolean "degrees_completed", default: false, null: false
+    t.boolean "degrees_completed"
     t.text "becoming_a_teacher"
     t.text "subject_knowledge"
     t.text "interview_preferences"
-    t.boolean "other_qualifications_completed", default: false, null: false
+    t.boolean "other_qualifications_completed"
     t.boolean "disclose_disability"
     t.text "work_history_breaks"
-    t.boolean "course_choices_completed", default: false, null: false
-    t.boolean "volunteering_completed", default: false, null: false
+    t.boolean "course_choices_completed"
+    t.boolean "volunteering_completed"
     t.boolean "volunteering_experience"
     t.string "phase", default: "apply_1", null: false
     t.jsonb "equality_and_diversity"
     t.text "safeguarding_issues"
     t.string "safeguarding_issues_status", default: "not_answered_yet", null: false
     t.integer "previous_application_form_id"
-    t.boolean "personal_details_completed", default: false
-    t.boolean "contact_details_completed", default: false
-    t.boolean "english_gcse_completed", default: false
-    t.boolean "maths_gcse_completed", default: false
-    t.boolean "training_with_a_disability_completed", default: false
+    t.boolean "personal_details_completed"
+    t.boolean "contact_details_completed"
+    t.boolean "english_gcse_completed"
+    t.boolean "maths_gcse_completed"
+    t.boolean "training_with_a_disability_completed"
     t.boolean "safeguarding_issues_completed", default: false
-    t.boolean "becoming_a_teacher_completed", default: false
-    t.boolean "subject_knowledge_completed", default: false
+    t.boolean "becoming_a_teacher_completed"
+    t.boolean "subject_knowledge_completed"
     t.boolean "interview_preferences_completed", default: false
-    t.boolean "science_gcse_completed", default: false
+    t.boolean "science_gcse_completed"
     t.datetime "edit_by"
     t.string "address_type", default: "uk", null: false
     t.string "international_address"
     t.string "right_to_work_or_study"
     t.string "right_to_work_or_study_details"
-    t.boolean "efl_completed", default: false
+    t.boolean "efl_completed"
     t.string "third_nationality"
     t.string "fourth_nationality"
     t.string "fifth_nationality"
