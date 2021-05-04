@@ -33,9 +33,8 @@ module ProviderInterface
   private
 
     def note_params
-      params.require(:provider_interface_new_note_form).permit(:subject, :message).merge \
-        application_choice: @application_choice,
-        provider_user: current_provider_user
+      params.require(:provider_interface_new_note_form).permit(:message)
+        .merge(application_choice: @application_choice, provider_user: current_provider_user)
     end
   end
 end
