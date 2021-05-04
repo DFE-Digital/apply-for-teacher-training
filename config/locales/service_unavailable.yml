@@ -1,7 +1,7 @@
 en:
   service_unavailable:
     sandbox_title: Sorry, the sandbox is unavailable
-    sandbox_downtime: You will be able to use the Apply for teacher training sandbox from 7pm on Tuesday 4th May.
-    title: Sorry, the service is unavailable
-    downtime: You will be able to use the Apply for teacher training service from 9am on Thursday 6th May.
+    sandbox_downtime: You will be able to use the sandbox from 7pm on Tuesday 4 May.
+    title: Sorry, this service is unavailable
+    downtime: You will be able to use this service from 9am on Thursday 6 May.
     body: If you reached this page after submitting information then it has not been saved. You will need to enter it again when the service is available.
