@@ -1,0 +1,9 @@
+<%= content_for :title, title_content %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= title_content %></h1>
+    <p class="govuk-body"><%= downtime_content %></p>
+    <p class="govuk-body"><%= t('service_unavailable.body') %></p>
+  </div>
+</div>
