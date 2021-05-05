@@ -160,6 +160,8 @@ module CandidateInterface
     end
 
     def offer_withdrawal_reason_row(application_choice)
+      return nil unless application_choice.offer_withdrawn?
+
       if application_choice.offer_withdrawal_reason.present?
         {
           key: 'Reason for offer withdrawal',
