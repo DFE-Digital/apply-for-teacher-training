@@ -72,6 +72,7 @@ gem 'okcomputer'
 gem 'skylight'
 
 # Logging
+gem 'rails_semantic_logger'
 gem 'lograge'
 gem 'logstash-logger'
 gem 'logstash-event'
