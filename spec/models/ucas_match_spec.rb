@@ -73,8 +73,20 @@ RSpec.describe UCASMatch do
   end
 
   describe '#resolved?' do
-    it 'returns true if action_taken is resolved_on_apply or resolved_on_ucas' do
+    it 'returns true if action_taken is resolved_on_apply' do
+      ucas_match = build_stubbed(:ucas_match, action_taken: 'resolved_on_apply')
+
+      expect(ucas_match.resolved?).to eq(true)
+    end
+
+    it 'returns true if action_taken is resolved_on_ucas' do
       ucas_match = build_stubbed(:ucas_match, action_taken: 'resolved_on_ucas')
+
+      expect(ucas_match.resolved?).to eq(true)
+    end
+
+    it 'returns true if action_taken is no_application_choice' do
+      ucas_match = build_stubbed(:ucas_match, action_taken: 'no_application_choice')
 
       expect(ucas_match.resolved?).to eq(true)
     end

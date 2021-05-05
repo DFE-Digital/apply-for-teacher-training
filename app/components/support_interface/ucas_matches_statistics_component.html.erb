@@ -30,6 +30,14 @@
   </div>
 </div>
 
+<% if action_taken_count['no_application_choice'].present? %>
+  <div class="govuk-grid-row app-grid-row--flex govuk-!-margin-bottom-6">
+    <div class="govuk-grid-column-one-quarter">
+      <%= render SupportInterface::TileComponent.new(count: action_taken_count['no_application_choice'] || '0', label: 'bad data') %>
+    </div>
+  </div>
+<% end %>
+
 <p class='govuk-body'>For the matches which have not been resolved yet, we have taken the following actions</p>
 
 <div class="govuk-grid-row app-grid-row--flex govuk-!-margin-bottom-6">
