@@ -1,9 +1,7 @@
 module SupportInterface
   class ApplicationChoiceConditionsController < SupportInterfaceController
     def edit
-      @form = SupportInterface::ConditionsForm.new(
-        application_choice: application_choice,
-      )
+      @form = SupportInterface::ConditionsForm.build_from_application_choice(application_choice)
     end
 
     def update
