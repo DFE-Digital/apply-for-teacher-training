@@ -85,7 +85,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice = create(:application_choice)
       note = Note.new(
         provider_user: provider_user,
-        subject: 'This is a note',
         message: 'Notes are a new feature',
       )
       application_choice.notes << note
