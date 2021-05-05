@@ -12,8 +12,6 @@ module CandidateInterface
         @languages_form = LanguagesForm.new(languages_params)
 
         if @languages_form.save(current_application)
-          current_application.update!(personal_details_completed: false)
-
           redirect_to candidate_interface_personal_details_show_path
         else
           track_validation_error(@languages_form)
@@ -30,8 +28,6 @@ module CandidateInterface
         @languages_form = LanguagesForm.new(languages_params)
 
         if @languages_form.save(current_application)
-          current_application.update!(personal_details_completed: false)
-
           redirect_to candidate_interface_personal_details_show_path
         else
           track_validation_error(@languages_form)

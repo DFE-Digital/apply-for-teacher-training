@@ -8,8 +8,6 @@ module CandidateInterface
       @choice_form = RestructuredWorkHistory::ChoiceForm.new(choice_params)
 
       if @choice_form.save(current_application)
-        current_application.update!(work_history_completed: false)
-
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@choice_form)

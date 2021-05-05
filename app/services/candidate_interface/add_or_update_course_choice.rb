@@ -56,7 +56,6 @@ module CandidateInterface
       )
 
       if pick_site_form.save
-        application_form.update!(course_choices_completed: false)
         course_choices = application_form.application_choices
         flash[:success] = "You’ve added #{course_choices.last.course.name_and_code} to your application"
 

@@ -15,8 +15,6 @@ module CandidateInterface
       @training_with_a_disability_form = TrainingWithADisabilityForm.new(training_with_a_disability_params)
 
       if @training_with_a_disability_form.save(current_application)
-        current_application.update!(training_with_a_disability_completed: false)
-
         redirect_to candidate_interface_training_with_a_disability_show_path
       else
         track_validation_error(@training_with_a_disability_form)

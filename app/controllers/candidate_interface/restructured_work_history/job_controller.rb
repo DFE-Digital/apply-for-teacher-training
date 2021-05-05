@@ -8,7 +8,6 @@ module CandidateInterface
       @job_form = RestructuredWorkHistory::JobForm.new(job_form_params)
 
       if @job_form.save(current_application)
-        current_application.update!(work_history_completed: false)
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@job_form)
@@ -25,7 +24,6 @@ module CandidateInterface
       @job_form = RestructuredWorkHistory::JobForm.new(job_form_params)
 
       if @job_form.update(job)
-        current_application.update!(work_history_completed: false)
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@job_form)
@@ -40,8 +38,6 @@ module CandidateInterface
 
     def destroy
       job.destroy!
-
-      current_application.update!(work_history_completed: false)
 
       if current_application.application_work_experiences.blank? && current_application.application_work_history_breaks.present?
         current_application.application_work_history_breaks.destroy_all

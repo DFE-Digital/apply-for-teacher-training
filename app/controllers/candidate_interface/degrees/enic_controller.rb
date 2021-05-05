@@ -23,7 +23,6 @@ module CandidateInterface
       def update
         @degree_enic_form = DegreeEnicForm.new(enic_params)
         if @degree_enic_form.save
-          current_application.update!(degrees_completed: false)
           redirect_to candidate_interface_degrees_review_path
         else
           track_validation_error(@degree_enic_form)

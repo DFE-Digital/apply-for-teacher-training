@@ -19,14 +19,13 @@ RSpec.feature 'Candidate deletes their work history' do
     when_i_click_on_work_history
     and_i_click_on_add_another_job
     and_i_fill_in_the_job_form
-
-    when_i_visit_the_application_page
-    then_the_work_history_section_should_be_marked_as_incomplete
+    and_i_visit_the_application_page
+    then_the_work_history_section_should_be_marked_as_complete
 
     when_i_click_on_work_history
-    and_i_mark_this_section_as_completed
+    and_i_mark_this_section_as_incomplete
     and_i_click_on_continue
-    then_the_work_history_section_should_be_marked_as_complete
+    then_the_work_history_section_should_be_marked_as_incomplete
 
     when_i_click_on_work_history
     and_i_click_on_change
@@ -45,7 +44,7 @@ RSpec.feature 'Candidate deletes their work history' do
     and_i_click_on_confirm
 
     when_i_visit_the_application_page
-    then_the_work_history_section_should_be_marked_as_incomplete
+    then_the_work_history_section_should_be_marked_as_complete
   end
 
   def given_i_am_signed_in
@@ -55,6 +54,10 @@ RSpec.feature 'Candidate deletes their work history' do
 
   def when_i_visit_the_application_page
     visit candidate_interface_application_form_path
+  end
+
+  def and_i_visit_the_application_page
+    when_i_visit_the_application_page
   end
 
   def and_i_click_on_work_history
@@ -119,6 +122,10 @@ RSpec.feature 'Candidate deletes their work history' do
 
   def and_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')
+  end
+
+  def and_i_mark_this_section_as_incomplete
+    choose t('application_form.incomplete_radio')
   end
 
   def and_i_click_on_continue

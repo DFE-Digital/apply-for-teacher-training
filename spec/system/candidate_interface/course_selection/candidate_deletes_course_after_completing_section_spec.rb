@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate edits their choice section' do
   include CandidateHelper
 
-  scenario 'Candidate deletes and adds additonal courses' do
+  scenario 'Candidate deletes and adds additional courses' do
     given_i_am_signed_in
     and_i_have_completed_the_course_choice_section
 
@@ -22,7 +22,7 @@ RSpec.feature 'Candidate edits their choice section' do
     and_i_choose_a_provider
     and_i_choose_a_course_with_a_single_site
     and_visit_my_application_page
-    then_the_course_choices_section_should_be_marked_as_incomplete
+    then_the_course_choices_section_should_be_marked_as_complete
   end
 
   def given_i_am_signed_in
@@ -53,6 +53,10 @@ RSpec.feature 'Candidate edits their choice section' do
 
   def then_the_course_choices_section_should_be_marked_as_incomplete
     expect(page.text).to include 'Choose your courses Incomplete'
+  end
+
+  def then_the_course_choices_section_should_be_marked_as_complete
+    expect(page.text).to include 'Choose your courses Complete'
   end
 
   def given_there_are_courses_to_add

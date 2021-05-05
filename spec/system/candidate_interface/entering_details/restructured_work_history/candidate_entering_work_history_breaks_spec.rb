@@ -42,7 +42,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     then_i_see_my_updated_reason_for_my_first_break_on_the_review_page
 
     when_i_visit_the_application_form_page
-    then_the_work_history_section_is_incomplete
+    then_the_work_history_section_is_complete
 
     when_i_click_on_work_history
     and_i_click_to_delete_my_first_break
@@ -200,8 +200,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     visit candidate_interface_application_form_path
   end
 
-  def then_the_work_history_section_is_incomplete
-    expect(page).to have_css('#work-history-badge-id', text: 'Incomplete')
+  def then_the_work_history_section_is_complete
+    expect(page).to have_css('#work-history-badge-id', text: 'Complete')
   end
 
   def and_i_click_to_delete_my_first_break

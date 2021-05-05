@@ -11,8 +11,6 @@ module CandidateInterface
         .find(work_experience_params[:id])
         .destroy!
 
-      current_application.update!(work_history_completed: false)
-
       redirect_to candidate_interface_work_history_show_path
     end
 

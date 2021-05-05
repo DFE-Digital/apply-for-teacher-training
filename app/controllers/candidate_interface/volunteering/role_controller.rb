@@ -8,8 +8,6 @@ module CandidateInterface
       @volunteering_role = VolunteeringRoleForm.new(volunteering_role_params)
 
       if @volunteering_role.save(current_application)
-        current_application.update!(volunteering_completed: false)
-
         redirect_to candidate_interface_review_volunteering_path
       else
         track_validation_error(@volunteering_role)
@@ -26,8 +24,6 @@ module CandidateInterface
       @volunteering_role = VolunteeringRoleForm.new(volunteering_role_params)
 
       if @volunteering_role.update(current_application)
-        current_application.update!(volunteering_completed: false)
-
         redirect_to candidate_interface_review_volunteering_path
       else
         track_validation_error(@volunteering_role)

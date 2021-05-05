@@ -23,8 +23,8 @@ RSpec.feature 'Entering volunteering and school experience' do
     when_i_fill_in_my_volunteering_role
     and_i_submit_the_volunteering_role_form
     then_i_check_my_volunteering_role
-
-    when_i_click_on_continue
+    and_i_mark_the_section_as_complete
+    and_i_click_on_continue
     then_i_should_see_the_form
 
     when_i_click_on_volunteering_with_children_and_young_people
@@ -115,6 +115,10 @@ RSpec.feature 'Entering volunteering and school experience' do
     end
   end
 
+  def and_i_mark_the_section_as_complete
+    choose t('application_form.completed_radio')
+  end
+
   def and_i_submit_the_volunteering_role_form
     click_button t('save_and_continue')
   end
@@ -158,7 +162,7 @@ RSpec.feature 'Entering volunteering and school experience' do
     expect(current_candidate.current_application.application_volunteering_experiences.count).to eq 1
   end
 
-  def when_i_click_on_continue
+  def and_i_click_on_continue
     click_button t('continue')
   end
 

@@ -68,7 +68,8 @@ RSpec.feature 'Entering their other qualifications' do
     and_click_save_and_continue
     then_i_can_check_my_revised_qualification
 
-    when_i_click_on_continue
+    when_i_mark_this_section_as_incomplete
+    and_i_click_on_continue
     then_i_should_see_the_form
     and_the_section_is_not_completed
 
@@ -92,7 +93,7 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_see_the_select_qualification_type_page
 
     when_i_click_back_to_application_form
-    and_that_the_section_is_not_marked_as_complete
+    then_i_see_the_section_is_marked_as_complete
   end
 
   def given_i_am_signed_in
@@ -322,6 +323,10 @@ RSpec.feature 'Entering their other qualifications' do
     choose t('application_form.completed_radio')
   end
 
+  def when_i_mark_this_section_as_incomplete
+    choose t('application_form.incomplete_radio')
+  end
+
   def and_i_have_an_incomplete_qualification
     current_candidate.current_application.application_qualifications.create!(
       level: 'other',
@@ -366,6 +371,10 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_click_back_to_application_form
     click_link 'Back to application'
+  end
+
+  def then_i_see_the_section_is_marked_as_complete
+    expect(page).to have_css('#a-levels-and-other-qualifications-badge-id', text: 'Completed')
   end
 
   def and_that_the_section_is_not_marked_as_complete

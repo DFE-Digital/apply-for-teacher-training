@@ -9,7 +9,6 @@ module CandidateInterface
 
       def destroy
         current_degree.destroy!
-        current_application.update!(degrees_completed: false)
 
         if current_application.application_qualifications.degrees.blank?
           redirect_to candidate_interface_new_degree_path

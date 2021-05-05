@@ -30,7 +30,6 @@ module CandidateInterface
         else
           redirect_to candidate_interface_work_history_show_path
         end
-        current_application.update!(work_history_completed: false)
       else
         track_validation_error(@work_experience_form)
         render :new
@@ -51,8 +50,6 @@ module CandidateInterface
       @work_experience_form = WorkExperienceForm.new(work_experience_form_params)
 
       if @work_experience_form.update(work_experience)
-        current_application.update!(work_history_completed: false)
-
         redirect_to candidate_interface_work_history_show_path
       else
         track_validation_error(@work_experience_form)

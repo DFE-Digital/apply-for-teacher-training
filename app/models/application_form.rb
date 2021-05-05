@@ -358,11 +358,11 @@ class ApplicationForm < ApplicationRecord
 
   def mark_sections_incomplete_if_review_needed!
     if reviewable?(:becoming_a_teacher)
-      update!(becoming_a_teacher_completed: false)
+      update!(becoming_a_teacher_completed: nil)
     end
 
     if reviewable?(:subject_knowledge)
-      update!(subject_knowledge_completed: false)
+      update!(subject_knowledge_completed: nil)
     end
   end
 
