@@ -506,7 +506,6 @@ ActiveRecord::Schema.define(version: 2021_05_07_131855) do
   end
 
   create_table "notes", force: :cascade do |t|
-    t.string "subject"
     t.text "message"
     t.bigint "application_choice_id", null: false
     t.bigint "provider_user_id", null: false
