@@ -54,6 +54,7 @@ RSpec.describe FeatureMetricsDashboard do
       apply_again_metrics_double = instance_double(ApplyAgainFeatureMetrics)
       carry_over_metrics_double = instance_double(CarryOverFeatureMetrics)
       qualifications_metrics_double = instance_double(QualificationsFeatureMetrics)
+      satisfaction_survey_metrics_double = instance_double(SatisfactionSurveyFeatureMetrics)
 
       allow(ReferenceFeatureMetrics).to receive(:new).and_return(reference_metrics_double)
       allow(WorkHistoryFeatureMetrics).to receive(:new).and_return(work_history_metrics_double)
@@ -62,6 +63,7 @@ RSpec.describe FeatureMetricsDashboard do
       allow(ApplyAgainFeatureMetrics).to receive(:new).and_return(apply_again_metrics_double)
       allow(CarryOverFeatureMetrics).to receive(:new).and_return(carry_over_metrics_double)
       allow(QualificationsFeatureMetrics).to receive(:new).and_return(qualifications_metrics_double)
+      allow(SatisfactionSurveyFeatureMetrics).to receive(:new).and_return(satisfaction_survey_metrics_double)
 
       allow(reference_metrics_double).to receive(:average_time_to_get_references).and_return(1)
       allow(reference_metrics_double).to receive(:percentage_references_within).and_return(2)
@@ -73,6 +75,7 @@ RSpec.describe FeatureMetricsDashboard do
       allow(apply_again_metrics_double).to receive(:formatted_application_rate).and_return('18.7%')
       allow(carry_over_metrics_double).to receive(:carry_over_count).and_return(20)
       allow(qualifications_metrics_double).to receive(:formatted_a_level_percentage).and_return('30%')
+      allow(satisfaction_survey_metrics_double).to receive(:formatted_response_rate).and_return('15.4%')
 
       dashboard = described_class.new
       dashboard.load_updated_metrics
@@ -117,6 +120,9 @@ RSpec.describe FeatureMetricsDashboard do
         'pct_applications_with_three_a_levels' => '30%',
         'pct_applications_with_three_a_levels_this_month' => '30%',
         'pct_applications_with_three_a_levels_last_month' => '30%',
+        'satisfaction_survey_response_rate' => '15.4%',
+        'satisfaction_survey_response_rate_this_month' => '15.4%',
+        'satisfaction_survey_response_rate_last_month' => '15.4%',
       })
     end
   end

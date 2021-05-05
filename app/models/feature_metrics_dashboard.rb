@@ -22,6 +22,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_apply_again_application_rate
     load_carry_over_counts
     load_qualifications
+    load_satisfaction_survey_response_rate
   end
 
   def last_updated_at
@@ -60,6 +61,10 @@ private
 
   def qualifications_statistics
     QualificationsFeatureMetrics.new
+  end
+
+  def satisfaction_survey_statistics
+    SatisfactionSurveyFeatureMetrics.new
   end
 
   def load_avg_time_to_get_references
@@ -331,6 +336,28 @@ private
       qualifications_statistics.formatted_a_level_percentage(
         3,
         Time.zone.now.beginning_of_month - 1.month,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+  end
+
+  def load_satisfaction_survey_response_rate
+    write_metric(
+      :satisfaction_survey_response_rate,
+      satisfaction_survey_statistics.formatted_response_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :satisfaction_survey_response_rate_this_month,
+      satisfaction_survey_statistics.formatted_response_rate(
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :satisfaction_survey_response_rate_last_month,
+      satisfaction_survey_statistics.formatted_response_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),
     )
