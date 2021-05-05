@@ -48,7 +48,6 @@ module "paas" {
   worker_app_memory         = var.paas_worker_app_memory
   clock_app_instances       = var.paas_clock_app_instances
   worker_app_instances      = var.paas_worker_app_instances
-  worker_app_stopped        = var.paas_worker_app_stopped
 }
 
 module "statuscake" {
