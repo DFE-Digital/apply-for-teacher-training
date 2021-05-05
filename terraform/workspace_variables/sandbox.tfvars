@@ -7,7 +7,6 @@ paas_web_app_instances     = 2
 paas_worker_app_instances  = 2
 paas_postgres_service_plan = "small-11"
 paas_redis_service_plan    = "micro-5_x"
-paas_worker_app_stopped    = true
 paas_clock_app_command     = "bundle exec clockwork config/clock.rb"
 paas_worker_app_command    = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
 

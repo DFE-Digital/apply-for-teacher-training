@@ -34,8 +34,6 @@ variable "worker_app_instances" {}
 
 variable "worker_app_stopped" {}
 
-variable "worker_app_command" {}
-
 variable "clock_app_command" {}
 
 locals {

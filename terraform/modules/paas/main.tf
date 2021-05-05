@@ -67,7 +67,7 @@ resource "cloudfoundry_app" "worker" {
   docker_image         = var.app_docker_image
   health_check_type    = "process"
   health_check_timeout = 180
-  command              = var.worker_app_command
+  command              = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
   stopped              = var.worker_app_stopped
   instances            = var.worker_app_instances
   memory               = var.worker_app_memory
