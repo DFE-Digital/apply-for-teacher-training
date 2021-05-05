@@ -1,7 +1,7 @@
 module SupportInterface
   class NotesExport
     def data_for_export
-      notes = Note.select(:subject, :message, :created_at, :application_choice_id, :provider_user_id)
+      notes = Note.select(:message, :created_at, :application_choice_id, :provider_user_id)
                 .includes(
                   { provider_user: { provider_permissions: :provider } },
                   { application_choice: [{ application_form: :candidate }, { course_option: { course: %i[provider accredited_provider] } }] },
@@ -23,7 +23,6 @@ module SupportInterface
         end
 
         {
-          note_subject: note.subject,
           note_message: note.message,
           note_created_at: note.created_at.iso8601,
           candidate_id: note.application_choice.application_form.candidate.id,

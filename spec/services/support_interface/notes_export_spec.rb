@@ -34,7 +34,6 @@ RSpec.describe SupportInterface::NotesExport do
 
       expect(data).to match_array([
         {
-          note_subject: note1.subject,
           note_message: note1.message,
           note_created_at: note1.created_at.iso8601,
           candidate_id: candidate.id,
@@ -45,7 +44,6 @@ RSpec.describe SupportInterface::NotesExport do
           total_number_of_provider_relationships: 2,
         },
         {
-          note_subject: note2.subject,
           note_message: note2.message,
           note_created_at: note2.created_at.iso8601,
           candidate_id: candidate.id,
@@ -82,7 +80,6 @@ RSpec.describe SupportInterface::NotesExport do
 
       expect(data).to match_array([
         {
-          note_subject: note1.subject,
           note_message: note1.message,
           note_created_at: note1.created_at.iso8601,
           candidate_id: candidate.id,
@@ -93,7 +90,6 @@ RSpec.describe SupportInterface::NotesExport do
           total_number_of_provider_relationships: nil,
         },
         {
-          note_subject: note2.subject,
           note_message: note2.message,
           note_created_at: note2.created_at.iso8601,
           candidate_id: candidate.id,
