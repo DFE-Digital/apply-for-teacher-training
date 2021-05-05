@@ -13,12 +13,14 @@ module VendorAPI
     end
 
     def generate
-      GenerateTestApplicationsForProvider.new.call(
+      GenerateTestApplicationsForProvider.new(
         provider: current_provider,
         courses_per_application: courses_per_application_param,
         count: count_param,
+        for_training_courses: for_training_courses_param,
         for_ratified_courses: for_ratified_courses_param,
-      )
+        for_test_provider_courses: for_test_provider_courses_param,
+      ).call
 
       render json: { data: { message: 'Request submitted. Applications will appear once they have been generated' } }
     rescue ParameterInvalid => e
@@ -53,8 +55,16 @@ module VendorAPI
       [(params[:courses_per_application] || DEFAULT_COURSES_COUNT).to_i, MAX_COURSES_COUNT].min
     end
 
+    def for_training_courses_param
+      params[:for_training_courses] == 'true'
+    end
+
     def for_ratified_courses_param
       params[:for_ratified_courses] == 'true'
+    end
+
+    def for_test_provider_courses_param
+      params[:for_test_provider_courses] == 'true'
     end
   end
 end

@@ -1,3 +1,14 @@
+## 5th May
+
+The following experimental/sandbox endpoint has been updated:
+
+`/test-data/generate` now accepts optional `for_training_courses` and `for_test_provider_courses` query params.
+
+Supplying `for_training_courses=true` will ensure that applications are generated for courses run by the organisation.
+Supplying `for_test_provider_courses=true` will ensure that applications are generated for courses run by a separate, sandbox only, test provider.
+Supplying none of `for_ratified_courses`, `for_training_courses` or `for_test_provider_courses` as `true`, will result in applications being generated to courses run by the organisation (the same effect as just `for_training_courses=true`)
+
+
 ## 26th April
 
 Add [documentation](/api-docs#how-candidates-and-applications-are-identified) about application and candidate IDs

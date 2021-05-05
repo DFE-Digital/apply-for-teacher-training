@@ -25,7 +25,7 @@ class GenerateFakeProvider
   end
 
   def self.generate_ratified_courses_for(ratifying_provider)
-    test_provider = Provider.default_scoped.find_or_create_by(name: 'Test Provider', code: 'TEST')
+    test_provider = TestProvider.find_or_create
 
     unique_course_codes(3).each do |code|
       generate_course_options_for FactoryBot.create(
