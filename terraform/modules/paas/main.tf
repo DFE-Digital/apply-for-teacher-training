@@ -121,3 +121,9 @@ resource "cloudfoundry_service_key" "redis-key" {
   name             = "${local.redis_service_name}-key"
   service_instance = cloudfoundry_service_instance.redis.id
 }
+
+resource "cloudfoundry_user_provided_service" "logging" {
+  name             = local.logging_service_name
+  space            = data.cloudfoundry_space.space.id
+  syslog_drain_url = var.logstash_url
+}

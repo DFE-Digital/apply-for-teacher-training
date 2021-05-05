@@ -32,16 +32,19 @@ variable "clock_app_instances" {}
 
 variable "worker_app_instances" {}
 
+variable "logstash_url" {}
+
 locals {
   web_app_name          = "apply-${var.app_environment}"
   clock_app_name        = "apply-clock-${var.app_environment}"
   worker_app_name       = "apply-worker-${var.app_environment}"
   postgres_service_name = "apply-postgres-${var.app_environment}"
   redis_service_name    = "apply-redis-${var.app_environment}"
+  logging_service_name  = "apply-logit-${var.app_environment}"
   postgres_params = {
     enable_extensions = ["pg_buffercache", "pg_stat_statements", "pgcrypto"]
   }
-  app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis]
+  app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis, cloudfoundry_user_provided_service.logging]
   service_gov_uk_host_names = {
     qa      = "qa"
     staging = "staging"
