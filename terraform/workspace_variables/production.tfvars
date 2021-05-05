@@ -7,7 +7,6 @@ paas_web_app_instances     = 4
 paas_worker_app_instances  = 2
 paas_postgres_service_plan = "small-ha-11"
 paas_redis_service_plan    = "micro-ha-5_x"
-paas_clock_app_command     = "sleep 180s" # to be changed after migrating to PaaS
 
 # KeyVault
 key_vault_resource_group    = "s121p01-shared-rg"
