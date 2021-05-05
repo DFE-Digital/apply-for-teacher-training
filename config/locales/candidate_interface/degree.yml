@@ -65,7 +65,7 @@ en:
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
       enic_statement:
-        label: Do you have a statement of comparability from UK ENIC (the UK agency for international qualifications and skills)?
+        label: Do you have a statement of comparability from UK ENIC (the UK agency that recognises international qualifications and skills)?
         review_label: Do you have a UK ENIC statement of comparability?
         change_action: UK ENIC statement
       enic_reference:
