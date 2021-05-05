@@ -55,13 +55,10 @@ Rails.application.configure do
 
   # Logging configuration
   config.log_level = :debug
-  if ENV['LOGSTASH_ENABLE'] == 'true'
-    LogstashLogging.enable(config) if ENV['LOGSTASH_ENABLE'] == 'true'
-  else
-    logger           = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  end
+  config.rails_semantic_logger.semantic   = false
+  config.rails_semantic_logger.started    = true
+  config.rails_semantic_logger.processing = true
+  config.rails_semantic_logger.rendered   = true
 
   config.x.read_only_database_url = "postgres://localhost/bat_apply_development"
 end

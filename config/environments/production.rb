@@ -76,19 +76,15 @@ Rails.application.configure do
   # Logging configuration
   config.log_level = :info
 
-  if ENV['LOGSTASH_ENABLE'] == 'true'
-    LogstashLogging.enable(config)
-  else
-    # log to STDOUT using standard verbose format + request_id + timestamp
-    config.log_tags = [ :request_id ] # prepend these to log lines
-    config.log_formatter = ::Logger::Formatter.new # preserves timestamp, PID
-    logger = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
-  end
-
+  # log to STDOUT using standard verbose format + request_id + timestamp
+  config.log_tags = [ :request_id ] # prepend these to log lines
+  
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.active_record.logger = nil # Don't log SQL in production
+
+  config.rails_semantic_logger.add_file_appender = false
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
