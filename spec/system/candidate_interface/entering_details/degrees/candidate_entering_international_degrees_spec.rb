@@ -161,7 +161,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_enic_page
-    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC (the UK agency for international qualifications and skills)?'
+    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC (the UK agency that recognises international qualifications and skills)?'
   end
 
   def then_i_see_validation_errors_for_enic_question
