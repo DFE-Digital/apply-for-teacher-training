@@ -15,9 +15,6 @@ RSpec.feature 'Add course to submitted application' do
     then_i_see_the_condition_edit_form_with_a_warning
 
     when_i_add_a_new_condition_and_click_update_conditions
-    then_i_see_a_confirmation_page
-
-    when_i_click_continue
     then_i_see_the_new_condition_as_well_as_the_original_ones
   end
 
@@ -61,5 +58,20 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_see_the_condition_edit_form_with_a_warning
+    expect(page).to have_current_path(
+      support_interface_update_application_choice_conditions_path(@application_choice)
+    )
+  end
+
+  def when_i_add_a_new_condition_and_click_update_conditions
+    check 'Fitness to train to teach check'
+    fill_in 'Condition 2', with: 'Learn to play piano'
+    click_on 'Continue'
+  end
+
+  def then_i_see_the_new_condition_as_well_as_the_original_ones
+    expect(page).to have_content(
+      "Conditions\nFitness to train to teach check Be cool Learn to play piano",
+    )
   end
 end

@@ -13,8 +13,17 @@ module SupportInterface
         standard_conditions: standard_conditions_from(application_choice.offer),
         further_conditions: further_conditions_from(application_choice.offer),
       }
-
       new(attrs).tap do |form|
+        form.setup_further_conditions
+      end
+    end
+
+    def self.build_from_params(application_choice, params)
+      form = build_from_application_choice(application_choice)
+
+      form.tap do |form|
+        form.standard_conditions = params['standard_conditions']
+        form.further_conditions = params['further_conditions'].values.map { |v| v['text'] }
         form.setup_further_conditions
       end
     end
@@ -47,7 +56,9 @@ module SupportInterface
     end
 
     def save
-      raise 'TODO'
+      application_choice.update(
+        offer: { conditions: (standard_conditions + further_conditions).reject(&:blank?) }
+      )
     end
   end
 end
