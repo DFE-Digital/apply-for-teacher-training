@@ -2,6 +2,8 @@ class OfferValidations
   include ActiveModel::Model
 
   MAX_CONDITIONS_COUNT = 20
+  # This is required for the API integrations which send conditions together
+  MAX_CONDITION_1_LENGTH = 2000
   MAX_CONDITION_LENGTH = 255
 
   attr_accessor :application_choice, :course_option, :conditions
@@ -25,7 +27,11 @@ class OfferValidations
 
   def conditions_length
     conditions.each_with_index do |condition, index|
-      errors.add(:conditions, :too_long, index: index + 1, limit: MAX_CONDITION_LENGTH) if condition.length > MAX_CONDITION_LENGTH
+      if index.zero?
+        errors.add(:conditions, :too_long, index: index + 1, limit: MAX_CONDITION_1_LENGTH) if condition.length > MAX_CONDITION_1_LENGTH
+      elsif condition.length > MAX_CONDITION_LENGTH
+        errors.add(:conditions, :too_long, index: index + 1, limit: MAX_CONDITION_LENGTH)
+      end
     end
   end
 
