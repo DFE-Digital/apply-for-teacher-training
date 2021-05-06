@@ -106,6 +106,9 @@ gem 'strip_attributes'
 # Automate checks for potentially unsafe migrations
 gem 'strong_migrations'
 
+# Rails console colours
+gem 'colorize'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.6'
