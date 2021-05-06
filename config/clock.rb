@@ -8,16 +8,17 @@ class Clock
 
   error_handler { |error| Raven.capture_exception(error) if defined? Raven }
 
-  every(1.hour, 'DetectInvariants') { DetectInvariants.perform_async }
+  # Hourly jobs
+  every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI', at: '**:00') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
+  every(1.hour, 'DetectInvariants', at: '**:30') { DetectInvariants.perform_async }
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
   every(1.hour, 'UpdateFeatureMetricsDashboard', at: '**:45') { UpdateFeatureMetricsDashboard.perform_async }
 
-  every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
-
+  # Daily jobs
   every(1.day, 'UCASMatching::UploadMatchingData', at: '06:23') do
     if Time.zone.today.weekday?
       UCASMatching::UploadMatchingData.perform_async
@@ -40,12 +41,10 @@ class Clock
     end
   end
 
-  every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI') do
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
-  end
-
   every(1.day, 'Generate export for Notifications', at: '23:57') do
     data_export = DataExport.create!(name: 'Daily export of notifications breakdown')
     DataExporter.perform_async(SupportInterface::NotificationsExport, data_export.id)
   end
+
+  every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 end
