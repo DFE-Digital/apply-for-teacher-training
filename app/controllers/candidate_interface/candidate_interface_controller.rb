@@ -14,7 +14,7 @@ module CandidateInterface
 
       return unless current_candidate
 
-      Raven.extra_context(application_support_url: support_interface_application_form_url(current_application))
+      Raven.tags_context(application_support_url: support_interface_application_form_url(current_application))
     end
 
     def check_cookie_preferences
