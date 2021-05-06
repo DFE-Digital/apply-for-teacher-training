@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_29_084354) do
+ActiveRecord::Schema.define(version: 2021_05_06_101257) do
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
@@ -177,10 +177,10 @@ ActiveRecord::Schema.define(version: 2021_04_29_084354) do
     t.boolean "english_gcse_completed"
     t.boolean "maths_gcse_completed"
     t.boolean "training_with_a_disability_completed"
-    t.boolean "safeguarding_issues_completed", default: false
+    t.boolean "safeguarding_issues_completed"
     t.boolean "becoming_a_teacher_completed"
     t.boolean "subject_knowledge_completed"
-    t.boolean "interview_preferences_completed", default: false
+    t.boolean "interview_preferences_completed"
     t.boolean "science_gcse_completed"
     t.datetime "edit_by"
     t.string "address_type", default: "uk", null: false
