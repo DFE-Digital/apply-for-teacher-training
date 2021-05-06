@@ -17,8 +17,10 @@
                 },
                 class: 'sortedby-label',
                 selected: 2,
-                onchange: 'this.form.submit()',
                 role: 'listbox',
+                data: {
+                  module: 'sort-by-filter-option',
+                },
               ) %>
         </div>
         <%= f.govuk_submit('Update') %>
