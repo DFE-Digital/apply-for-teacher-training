@@ -112,7 +112,7 @@ private
       symbolize_names: true,
     )
 
-    if specified_attributes
+    if specified_attributes.present?
       record_or_array = api_response[:data]
 
       new_data = if record_or_array.is_a? Array

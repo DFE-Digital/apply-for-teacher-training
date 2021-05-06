@@ -1,15 +1,15 @@
 module TeacherTrainingPublicAPI
   class SyncAllProvidersAndCourses
-    def self.call
+    def self.call(recruitment_cycle_year: ::RecruitmentCycle.current_year)
       is_last_page = false
       page_number = 0
       until is_last_page
         page_number += 1
         response = TeacherTrainingPublicAPI::Provider
-          .where(year: ::RecruitmentCycle.current_year)
+          .where(year: recruitment_cycle_year)
           .paginate(page: page_number, per_page: 500)
           .all
-        sync_providers(response)
+        sync_providers(response, recruitment_cycle_year)
         is_last_page = true if response.links.links['next'].nil?
       end
 
@@ -18,11 +18,11 @@ module TeacherTrainingPublicAPI
       raise TeacherTrainingPublicAPI::SyncError
     end
 
-    def self.sync_providers(providers_from_api)
+    def self.sync_providers(providers_from_api, recruitment_cycle_year)
       providers_from_api.each do |provider_from_api|
         TeacherTrainingPublicAPI::SyncProvider.new(
           provider_from_api: provider_from_api,
-          recruitment_cycle_year: ::RecruitmentCycle.current_year,
+          recruitment_cycle_year: recruitment_cycle_year,
         ).call
       end
     end
