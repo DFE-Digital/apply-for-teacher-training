@@ -812,6 +812,12 @@ Rails.application.routes.draw do
 
       get '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices#confirm_reinstate_offer', as: :application_form_reinstate_offer
       patch '/reinstate-offer/:application_choice_id' => 'application_forms/application_choices#reinstate_offer'
+
+      get '/change-offered-course-search/:application_choice_id' => 'application_forms/application_choices#change_offered_course_search', as: :application_form_change_offered_course_search
+      post '/change-offered-course-search/:application_choice_id' => 'application_forms/application_choices#search'
+
+      get '/choose-offered-course/:application_choice_id' => 'application_forms/application_choices#offered_course_options', as: :application_form_choose_offered_course_option
+      patch '/choose-offered-course/:application_choice_id' => 'application_forms/application_choices#choose_offered_course_option'
     end
 
     get '/ucas-matches' => 'ucas_matches#index'
