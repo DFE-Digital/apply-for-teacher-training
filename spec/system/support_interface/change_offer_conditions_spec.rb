@@ -62,7 +62,7 @@ RSpec.feature 'Add course to submitted application' do
 
   def then_i_see_the_condition_edit_form_with_a_warning
     expect(page).to have_current_path(
-      support_interface_update_application_choice_conditions_path(@application_choice)
+      support_interface_update_application_choice_conditions_path(@application_choice),
     )
   end
 

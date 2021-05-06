@@ -1,5 +1,13 @@
 module SupportInterface
   class ConditionsForm
+    class OfferConditionField
+      include ActiveModel::Model
+
+      attr_accessor :id, :text
+
+      validates :text, length: { maximum: 255, too_long: ->(c, _) { "Condition #{c.id + 1} must be %{count} characters or fewer" } }
+    end
+
     include ActiveModel::Model
 
     attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment
@@ -16,9 +24,7 @@ module SupportInterface
         further_conditions: further_conditions_from(application_choice.offer),
       }.merge(attrs)
 
-      new(attrs).tap do |form|
-        form.setup_further_conditions
-      end
+      new(attrs).tap(&:setup_further_conditions)
     end
 
     def self.build_from_params(application_choice, params)
@@ -56,7 +62,7 @@ module SupportInterface
 
     def further_condition_models
       @further_condition_models ||= further_conditions.map.with_index do |further_condition, index|
-        ProviderInterface::OfferConditionField.new(id: index, text: further_condition)
+        OfferConditionField.new(id: index, text: further_condition)
       end
     end
 

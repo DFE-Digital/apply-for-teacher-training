@@ -90,10 +90,12 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment' => 'See support ticket #123',
       )
       form.save
-      expect(application_choice.audits.where(
-        action: 'update',
-        comment: 'See support ticket #123',
-      )).to be_present
+      expect(
+        application_choice.audits.where(
+          action: 'update',
+          comment: 'See support ticket #123',
+        ),
+      ).to be_present
     end
   end
 
