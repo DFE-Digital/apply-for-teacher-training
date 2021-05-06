@@ -25,6 +25,7 @@ module CandidateInterface
     end
 
     def complete
+      @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :becoming_a_teacher_completed)

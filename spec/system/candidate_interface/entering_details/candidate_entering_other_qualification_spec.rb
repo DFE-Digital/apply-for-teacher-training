@@ -68,6 +68,9 @@ RSpec.feature 'Entering their other qualifications' do
     and_click_save_and_continue
     then_i_can_check_my_revised_qualification
 
+    when_i_click_continue
+    then_i_see_a_section_complete_error
+
     when_i_mark_this_section_as_incomplete
     and_i_click_on_continue
     then_i_should_see_the_form
@@ -336,6 +339,10 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_i_click_on_continue
     when_i_click_on_continue
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_should_be_told_i_cannot_submit_incomplete_qualifications

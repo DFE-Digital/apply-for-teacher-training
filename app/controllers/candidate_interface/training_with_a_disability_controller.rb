@@ -23,6 +23,7 @@ module CandidateInterface
     end
 
     def complete
+      @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(section_complete_form_params)
 
       if @section_complete_form.save(current_application, :training_with_a_disability_completed)

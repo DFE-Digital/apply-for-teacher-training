@@ -24,6 +24,12 @@ RSpec.feature 'Entering volunteering experience' do
 
     when_i_fill_in_the_job_form_with_valid_details
     then_i_should_see_the_volunteering_review_page
+
+    when_i_click_on_continue
+    then_i_see_a_section_complete_error
+
+    when_i_mark_this_section_as_completed
+    then_i_should_see_the_section_is_completed
   end
 
   def given_i_am_signed_in
@@ -98,6 +104,24 @@ RSpec.feature 'Entering volunteering experience' do
 
     fill_in t('application_form.volunteering.details.label'), with: 'I volunteered.'
     click_button t('save_and_continue')
+  end
+
+  def when_i_click_on_continue
+    click_button t('continue')
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+  end
+
+  def when_i_mark_this_section_as_completed
+    choose t('application_form.completed_radio')
+    click_button t('continue')
+  end
+
+  def then_i_should_see_the_section_is_completed
+    expect(page).to have_content(t('page_titles.application_form'))
+    expect(page).to have_css('#unpaid-experience-badge-id', text: 'Completed')
   end
 
   def then_i_should_see_the_volunteering_review_page

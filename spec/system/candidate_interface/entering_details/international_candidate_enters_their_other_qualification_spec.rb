@@ -63,6 +63,9 @@ RSpec.feature 'Non-uk Other qualifications' do
     and_click_save_and_continue
     then_i_should_see_my_second_qualification
 
+    when_i_click_on_continue
+    then_i_see_a_section_complete_error
+
     when_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_should_see_the_form
@@ -203,7 +206,15 @@ RSpec.feature 'Non-uk Other qualifications' do
     expect(page).to have_content('2015')
   end
 
-  def and_leave_grade_and_subject_blank; end
+  def and_leave_grade_and_subject_blank; end\
+
+  def when_i_click_on_continue
+    click_button t('continue')
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+  end
 
   def when_i_mark_this_section_as_completed
     choose t('application_form.completed_radio')

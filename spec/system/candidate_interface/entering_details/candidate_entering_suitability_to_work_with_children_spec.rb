@@ -16,6 +16,9 @@ RSpec.feature 'Entering their suitability to work with children' do
     and_i_click_on_continue
     then_i_see_my_relevant_information
 
+    when_i_click_on_continue
+    then_i_see_a_section_complete_error
+
     when_i_click_to_change_sharing_safeguarding_issues
     then_i_see_declaring_any_safeguarding_issues_form
 
@@ -83,7 +86,11 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_click_on_continue
-    click_link t('continue')
+    click_button t('continue')
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_see_the_section_is_completed

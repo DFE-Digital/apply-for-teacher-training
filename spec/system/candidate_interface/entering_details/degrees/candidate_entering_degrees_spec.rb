@@ -49,6 +49,9 @@ RSpec.feature 'Entering a degree' do
     then_i_can_check_my_undergraduate_degree
 
     # Mark section as complete
+    when_i_click_on_continue
+    then_i_see_a_section_complete_error
+
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_should_see_the_form
@@ -186,6 +189,10 @@ RSpec.feature 'Entering a degree' do
   def and_i_confirm_i_have_completed_my_degree
     choose 'Yes'
     and_i_click_on_save_and_continue
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def when_i_click_to_change_my_completion_status

@@ -8,8 +8,6 @@ module CandidateInterface
       @year_form = CandidateInterface::GcseYearForm.new(year_params)
 
       if @year_form.save(current_qualification)
-        update_gcse_completed(false)
-
         redirect_to candidate_interface_gcse_review_path
       else
         track_validation_error(@year_form)

@@ -14,7 +14,7 @@
         <% end %>
       </h1>
 
-      <% if @application_choices.present? && @application_form.can_add_more_choices? %>
+      <% if @application_form.can_add_more_choices? %>
         <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
       <% end %>
     </div>
@@ -22,7 +22,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% if @application_choices.present? &&  @application_choices.count >= 1 %>
+      <%# if @application_choices.present? &&  @application_choices.count >= 1 %>
         <%= render CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form) %>
 
         <%= render(CandidateInterface::CompleteSectionComponent.new(
@@ -32,7 +32,7 @@
                      end,
         )) %>
         <%= f.govuk_submit t('continue') %>
-      <% end %>
+      <%# end %>
     </div>
   </div>
 <% end %>

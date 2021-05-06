@@ -12,8 +12,6 @@ module CandidateInterface
       @enic_form.set_attributes(enic_params)
 
       if @enic_form.save(current_qualification)
-        update_gcse_completed(false)
-
         redirect_to next_gcse_path
       else
         track_validation_error(@enic_form)
