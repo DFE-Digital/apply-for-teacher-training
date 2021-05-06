@@ -14,7 +14,10 @@ RSpec.feature 'Add course to submitted application' do
     when_i_click_on_change_conditions
     then_i_see_the_condition_edit_form_with_a_warning
 
-    when_i_add_a_new_condition_and_click_update_conditions
+    when_i_add_a_new_condition_and_click_update_conditions_without_an_audit_comment
+    then_i_see_a_validation_error
+
+    when_i_add_a_new_condition_and_click_update_conditions_with_an_audit_comment
     then_i_see_the_new_condition_as_well_as_the_original_ones
   end
 
@@ -63,10 +66,22 @@ RSpec.feature 'Add course to submitted application' do
     )
   end
 
-  def when_i_add_a_new_condition_and_click_update_conditions
+  def when_i_add_a_new_condition_and_click_update_conditions_without_an_audit_comment
     check 'Fitness to train to teach check'
     fill_in 'Condition 2', with: 'Learn to play piano'
-    click_on 'Continue'
+    click_on 'Update conditions'
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_current_path(support_interface_update_application_choice_conditions_path(@application_choice))
+    expect(page).to have_content('Enter a comment for the audit trail')
+  end
+
+  def when_i_add_a_new_condition_and_click_update_conditions_with_an_audit_comment
+    check 'Fitness to train to teach check'
+    fill_in 'Audit comment', with: 'See support ticket #123'
+    fill_in 'Condition 2', with: 'Learn to play piano'
+    click_on 'Update conditions'
   end
 
   def then_i_see_the_new_condition_as_well_as_the_original_ones

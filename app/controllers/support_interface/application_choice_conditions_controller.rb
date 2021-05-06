@@ -27,7 +27,7 @@ module SupportInterface
     def condition_params
       params
         .require(:support_interface_conditions_form)
-        .permit(:application_choice_id, further_conditions: {}, standard_conditions: [])
+        .permit(:application_choice_id, :audit_comment, further_conditions: {}, standard_conditions: [])
         .to_h
         .with_indifferent_access
     end
