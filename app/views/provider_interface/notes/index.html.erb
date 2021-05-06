@@ -10,10 +10,16 @@
       <div class="app-notes">
         <% @notes.each do |note| %>
           <div class="app-notes__note">
-            <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-              <%= govuk_link_to note.subject, provider_interface_application_choice_note_path(@application_choice, note), id: note.id %>
-            </h2>
-            <p class="govuk-body govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= note.message %></p>
+            <p class="govuk-body govuk-!-margin-top-1 govuk-!-margin-bottom-1">
+              <%= govuk_link_to provider_interface_application_choice_note_path(@application_choice, note) do %>
+                <% if note.subject %>
+                  Subject: <%= note.subject %>
+                  <br>
+                  <br>
+                <% end %>
+                <%= note.message %>
+              <% end %>
+            </p>
             <p class="meta">
               <%= "#{note.provider_user.full_name}," if note.provider_user.full_name.present? %>
               <%= note.created_at.to_s(:govuk_date_and_time) %>

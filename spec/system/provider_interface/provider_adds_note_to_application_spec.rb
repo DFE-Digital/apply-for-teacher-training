@@ -12,7 +12,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_visit_that_application_in_the_provider_interface
     and_i_visit_the_notes_tab
     and_i_click_to_add_a_note
-    and_i_write_a_note_with_a_subject_and_some_text
+    and_i_write_a_note_with_some_text
 
     then_i_am_still_on_the_notes_tab
     and_the_notes_tab_includes_the_new_note
@@ -44,13 +44,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Add note'
   end
 
-  def and_i_write_a_note_with_a_subject_and_some_text
-    @note_subject = 'Documents missing'
+  def and_i_write_a_note_with_some_text
     @note_text = 'The candidate has not forwarded the required documents yet.'
-    fill_in 'Subject', with: @note_subject
     fill_in 'Note', with: @note_text
     click_on 'Save note'
-    @note = Note.find_by_subject(@note_subject)
+    @note = Note.last
   end
 
   def then_i_am_still_on_the_notes_tab
@@ -58,14 +56,13 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_the_notes_tab_includes_the_new_note
-    expect(page).to have_link(@note_subject, href: provider_interface_application_choice_note_path(@application_choice, @note))
+    expect(page).to have_link(@note_text, href: provider_interface_application_choice_note_path(@application_choice, @note))
     expect(page).to have_content(@note_text)
   end
 
   def and_i_can_navigate_to_the_new_note
-    click_on @note_subject
+    click_on @note_text
 
-    expect(page).to have_content(@note_subject)
     expect(page).to have_content(@note_text)
 
     click_on 'Back'
