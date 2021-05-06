@@ -23,7 +23,7 @@ RUN apk -U upgrade && \
     bundler -v && \
     bundle config set no-cache 'true' && \
     bundle config set no-binstubs 'true' && \
-    bundle --retry=5 --jobs=4 --without=development && \
+    bundle --retry=5 --jobs=4 --without=development --with=production && \
     yarn install --check-files && \
     apk del .gem-installdeps && \
     rm -rf /usr/local/bundle/cache && \

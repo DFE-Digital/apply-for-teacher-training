@@ -72,7 +72,6 @@ gem 'okcomputer'
 gem 'skylight'
 
 # Logging
-gem 'rails_semantic_logger'
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
 
@@ -108,6 +107,10 @@ gem 'strong_migrations'
 
 # Rails console colours
 gem 'colorize'
+
+group :production do
+  gem 'rails_semantic_logger'
+end
 
 group :development do
   gem 'web-console', '>= 3.3.0'
