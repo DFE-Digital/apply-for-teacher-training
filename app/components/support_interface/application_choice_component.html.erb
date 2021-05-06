@@ -1,3 +1,17 @@
 <%= render SummaryCardComponent.new(rows: rows) do %>
-  <%= render SummaryCardHeaderComponent.new(title: title, heading_level: 3, anchor: anchor) %>
+  <%= render SummaryCardHeaderComponent.new(title: title, heading_level: 3, anchor: anchor) do %>
+    <% if FeatureFlag.active?(:support_user_change_offered_course) && application_choice.pending_conditions? %>
+      <div class="app-summary-card__actions">
+        <ul class="app-summary-card__actions-list">
+          <div class="app-summary-card__actions">
+            <%= govuk_link_to 'Change offered course',
+              support_interface_application_form_change_offered_course_search_path(
+                application_form_id: application_choice.application_form.id,
+                application_choice_id: application_choice.id
+              ) %>
+          </div>
+        <ul>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>

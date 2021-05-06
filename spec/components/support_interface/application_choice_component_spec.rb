@@ -39,6 +39,33 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
   end
 
+  context 'Pending conditions' do
+    let(:accepted_choice) { create(:application_choice, :with_completed_application_form, :with_accepted_offer) }
+
+    it 'renders a link to the change the offered course choice when the `change_offered_course` flag is active' do
+      FeatureFlag.activate(:support_user_change_offered_course)
+
+      result = render_inline(described_class.new(accepted_choice))
+
+      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_change_offered_course_search_path(
+          application_form_id: accepted_choice.application_form.id,
+          application_choice_id: accepted_choice.id,
+        ),
+      )
+      expect(result.css('.app-summary-card__actions').text.strip).to include('Change offered course')
+    end
+
+    it 'does not render a link to the change the offered course choice  when the`change_offered_course` flag is not active' do
+      FeatureFlag.deactivate(:support_user_change_offered_course)
+
+      render_inline(described_class.new(accepted_choice))
+
+      expect(page).not_to have_selector '.app-summary-card__actions a'
+      expect(page).not_to have_text 'Change offered course'
+    end
+  end
+
   it 'displays the date an application was rejected' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
