@@ -10,10 +10,11 @@ module DataMigrations
         .where('tp.name = rp.name')
 
       if permissions.any?
-        ActiveRecord::Base.transaction do
-          permissions.each do |permission|
+        permissions.each do |permission|
+          ActiveRecord::Base.transaction do
             courses = permission.training_provider.courses.where(accredited_provider: permission.ratifying_provider)
-            next if courses.empty?
+
+            next if permission.ratifying_provider.courses.any?
 
             courses.each do |course|
               course.update!(accredited_provider: nil, audit_comment: 'Deduplicating accredited provider, this course is self-ratified')
