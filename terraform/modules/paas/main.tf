@@ -20,6 +20,7 @@ resource "cloudfoundry_app" "web_app" {
   health_check_type          = "http"
   health_check_http_endpoint = "/check"
   health_check_timeout       = 180
+  enable_ssh                 = false
   instances                  = var.web_app_instances
   memory                     = var.web_app_memory
   space                      = data.cloudfoundry_space.space.id
