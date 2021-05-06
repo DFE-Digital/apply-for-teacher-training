@@ -45,7 +45,7 @@ RSpec.describe OfferValidations, type: :model do
     end
 
     describe '#conditions_length' do
-      context 'when any conditions are more than 255 characters long' do
+      context 'when any conditions after condition 1 are more than 255 characters long' do
         let(:conditions) do
           [Faker::Lorem.paragraph_by_chars(number: 256),
            Faker::Lorem.paragraph_by_chars(number: 254),
@@ -55,7 +55,21 @@ RSpec.describe OfferValidations, type: :model do
         it 'adds a :too_long error' do
           expect(offer).to be_invalid
 
-          expect(offer.errors[:conditions]).to contain_exactly('Condition 1 must be 255 characters or fewer', 'Condition 3 must be 255 characters or fewer')
+          expect(offer.errors[:conditions]).to contain_exactly('Condition 3 must be 255 characters or fewer')
+        end
+      end
+
+      context 'when conditions are merged into condition 1 in the API' do
+        let(:conditions) do
+          [Faker::Lorem.paragraph_by_chars(number: 2004),
+           Faker::Lorem.paragraph_by_chars(number: 254),
+           Faker::Lorem.paragraph_by_chars(number: 256)]
+        end
+
+        it 'adds a :too_long error' do
+          expect(offer).to be_invalid
+
+          expect(offer.errors[:conditions]).to contain_exactly('Condition 1 must be 2000 characters or fewer', 'Condition 3 must be 255 characters or fewer')
         end
       end
     end
