@@ -1,8 +1,8 @@
 # PaaS
 paas_app_environment       = "prod"
 paas_cf_space              = "bat-prod"
-paas_web_app_memory        = 1024
-paas_worker_app_memory     = 1024
+paas_web_app_memory        = 1536
+paas_worker_app_memory     = 1536
 paas_web_app_instances     = 4
 paas_worker_app_instances  = 2
 paas_postgres_service_plan = "small-ha-11"
