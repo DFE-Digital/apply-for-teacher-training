@@ -79,7 +79,11 @@ module ProviderInterface
       end
 
       def anchor_for_further_condition
-        "provider-interface-offer-wizard-further-conditions-#{@wizard.further_conditions.length - 1}-text-field"
+        if remove_condition_param.present?
+          'further-conditions-heading'
+        elsif add_another_condition?
+          "provider-interface-offer-wizard-further-conditions-#{@wizard.further_conditions.length - 1}-text-field"
+        end
       end
     end
   end
