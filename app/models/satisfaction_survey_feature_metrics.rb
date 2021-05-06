@@ -5,15 +5,8 @@ class SatisfactionSurveyFeatureMetrics
     start_time,
     end_time = Time.zone.now.end_of_day
   )
-    success_count = 0.0
-    fail_count = 0.0
-    application_forms(start_time, end_time).find_each do |application_form|
-      if application_form.feedback_satisfaction_level? || application_form.feedback_suggestions?
-        success_count += 1
-      else
-        fail_count += 1
-      end
-    end
+    success_count = application_forms_with_feedback(start_time, end_time).count.to_f
+    fail_count = application_forms_with_no_feedback(start_time, end_time).count.to_f
     return nil if (fail_count + success_count).zero?
 
     success_count / (fail_count + success_count)
@@ -39,12 +32,24 @@ private
     "#{percentage}%"
   end
 
-  def application_forms(start_time, end_time)
+  def application_forms_with_feedback(start_time, end_time)
     ApplicationForm
       .where(
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
       .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
+      .where.not(feedback_satisfaction_level: '').where.not(feedback_suggestions: '')
+      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
+  end
+
+  def application_forms_with_no_feedback(start_time, end_time)
+    ApplicationForm
+      .where(
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+      )
+      .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
+      .where(feedback_satisfaction_level: nil).or(ApplicationForm.where(feedback_satisfaction_level: ''))
+      .where(feedback_suggestions: nil).or(ApplicationForm.where(feedback_suggestions: ''))
       .where(recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 end

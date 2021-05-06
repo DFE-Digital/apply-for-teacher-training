@@ -21,12 +21,12 @@ RSpec.describe SatisfactionSurveyFeatureMetrics, with_audited: true do
     end
 
     context 'with applications with feedback' do
-      it 'returns 0 when there are no applications with feedback' do
+      it 'returns 0 when there are no submitted applications with feedback' do
         create_application
         expect(feature_metrics.formatted_response_rate(1.month.ago)).to eq('0%')
       end
 
-      it 'returns the right percentages when applications with feedback exist' do
+      it 'returns the right percentages when submitted applications with feedback exist' do
         create_application
         2.times { create_application_with_feeback }
         expect(feature_metrics.formatted_response_rate(1.month.ago)).to eq('66.7%')

@@ -357,7 +357,7 @@ private
     write_metric(
       :satisfaction_survey_response_rate_last_month,
       satisfaction_survey_statistics.formatted_response_rate(
-        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        Time.zone.now.beginning_of_month - 1.month,
         Time.zone.now.beginning_of_month,
       ),
     )
