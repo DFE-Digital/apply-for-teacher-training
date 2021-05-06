@@ -50,7 +50,10 @@ RSpec.feature 'Provider changes an existing offer' do
     then_the_conditions_page_is_loaded
     and_the_conditions_of_the_original_offer_are_filled_in
 
-    when_i_add_further_conditions
+    when_i_add_a_further_condition
+    and_i_add_another_and_then_remove_a_further_condition
+    then_the_correct_conditions_are_displayed
+
     and_i_click_continue
 
     then_the_review_page_is_loaded
@@ -161,8 +164,20 @@ RSpec.feature 'Provider changes an existing offer' do
     expect(page).to have_field('Condition 1', with: 'Be cool')
   end
 
-  def when_i_add_further_conditions
+  def when_i_add_a_further_condition
+    click_on 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][1][text]', with: 'A* on Maths A Level')
+  end
+
+  def and_i_add_another_and_then_remove_a_further_condition
+    click_on 'Add another condition'
+    fill_in('provider_interface_offer_wizard[further_conditions][2][text]', with: 'Go to the cinema')
+    click_on 'Remove condition 3'
+  end
+
+  def then_the_correct_conditions_are_displayed
+    expect(page).to have_field('Condition 2', with: 'A* on Maths A Level')
+    expect(page).not_to have_field('Condition 3', with: 'Go to the cinema')
   end
 
   def then_the_review_page_is_loaded

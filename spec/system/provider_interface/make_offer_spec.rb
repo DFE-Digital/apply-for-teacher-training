@@ -36,6 +36,7 @@ RSpec.feature 'Provider makes an offer' do
     and_the_default_conditions_are_checked
 
     when_i_add_further_conditions
+    and_i_add_and_remove_another_condition
     and_i_click_continue
     then_the_review_page_is_loaded
     and_i_can_confirm_my_answers
@@ -122,7 +123,14 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_add_further_conditions
+    click_on 'Add another condition'
     fill_in('provider_interface_offer_wizard[further_conditions][0][text]', with: 'A* on Maths A Level')
+  end
+
+  def and_i_add_and_remove_another_condition
+    click_on 'Add another condition'
+    fill_in('provider_interface_offer_wizard[further_conditions][1][text]', with: 'A condition that will be removed')
+    click_on 'Remove condition 2'
   end
 
   def and_i_click_continue

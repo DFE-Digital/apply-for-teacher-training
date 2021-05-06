@@ -106,7 +106,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     it 'correctly populates the wizard with offer conditions' do
       expect(wizard).to be_valid
       expect(wizard.standard_conditions).to contain_exactly('Fitness to train to teach check')
-      expect(wizard.further_conditions).to eq ['Be cool', '', '', '']
+      expect(wizard.further_conditions).to contain_exactly('Be cool')
     end
 
     context 'when options are passed in' do
@@ -130,7 +130,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       it 'populates the conditions with the standard ones' do
         expect(wizard).to be_valid
         expect(wizard.standard_conditions).to match_array(MakeAnOffer::STANDARD_CONDITIONS)
-        expect(wizard.further_conditions).to eq ['', '', '', '']
+        expect(wizard.further_conditions).to be_empty
       end
     end
   end
