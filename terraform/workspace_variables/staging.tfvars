@@ -1,8 +1,8 @@
 # PaaS
 paas_app_environment       = "staging"
 paas_cf_space              = "bat-staging"
-paas_web_app_memory        = 512
-paas_web_app_instances     = 1
+paas_web_app_memory        = 1024
+paas_web_app_instances     = 2
 paas_postgres_service_plan = "small-11"
 paas_redis_service_plan    = "micro-5_x"
 
