@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_06_101257) do
+ActiveRecord::Schema.define(version: 2021_05_07_131855) do
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
@@ -407,6 +407,7 @@ ActiveRecord::Schema.define(version: 2021_05_06_101257) do
     t.string "program_type"
     t.boolean "withdrawn"
     t.uuid "uuid"
+    t.datetime "opened_on_apply_at"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id"], name: "index_courses_on_provider_id"
