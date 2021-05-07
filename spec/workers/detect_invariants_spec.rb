@@ -188,5 +188,25 @@ RSpec.describe DetectInvariants do
 
       expect(Raven).not_to have_received(:capture_exception)
     end
+
+    it 'detects when the sidekiq retries queue is high' do
+      sidekiq_retries = instance_double(Sidekiq::RetrySet, size: 100)
+      allow(Sidekiq::RetrySet).to receive(:new).and_return(sidekiq_retries)
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::SidekiqRetriesQueueHigh.new(
+          'Sidekiq pending retries depth is high (100). Suggests high error rate',
+        ),
+      )
+    end
+
+    it 'doesn’t alert when the sidekiq retries queue is low' do
+      sidekiq_retries = instance_double(Sidekiq::RetrySet, size: 20)
+      allow(Sidekiq::RetrySet).to receive(:new).and_return(sidekiq_retries)
+      DetectInvariants.new.perform
+
+      expect(Raven).not_to have_received(:capture_exception)
+    end
   end
 end

@@ -10,6 +10,7 @@ class DetectInvariants
     detect_submitted_applications_with_more_than_three_course_choices
     detect_applications_submitted_with_the_same_course
     detect_course_sync_not_succeeded_for_an_hour
+    detect_high_sidekiq_retries_queue_length
   end
 
   def detect_application_choices_in_old_states
@@ -150,6 +151,17 @@ class DetectInvariants
     end
   end
 
+  def detect_high_sidekiq_retries_queue_length
+    retries_queue_length = Sidekiq::RetrySet.new.size
+    if retries_queue_length > 50
+      Raven.capture_exception(
+        SidekiqRetriesQueueHigh.new(
+          "Sidekiq pending retries depth is high (#{retries_queue_length}). Suggests high error rate",
+        ),
+      )
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
@@ -157,6 +169,7 @@ class DetectInvariants
   class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
   class ApplicationSubmittedWithTheSameCourse < StandardError; end
   class CourseSyncNotSucceededForAnHour < StandardError; end
+  class SidekiqRetriesQueueHigh < StandardError; end
 
 private
 
