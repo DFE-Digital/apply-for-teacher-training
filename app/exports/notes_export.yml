@@ -5,10 +5,6 @@ common_columns:
 - provider_user_id
 
 custom_columns:
-  note_subject:
-    type: string
-    description: Subject of the note
-    example: Important
   note_message:
     type: string
     description: Body of the note

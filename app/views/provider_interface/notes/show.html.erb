@@ -2,14 +2,9 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="app-notes__note">
-      <p class="govuk-body">
-        <% if @note.subject %>
-          Subject: <%= @note.subject %>
-          <br>
-          <br>
-        <% end %>
-        <%= @note.message %>
-      </p>
+      <div class="govuk-body">
+        <%= simple_format(@note.message) %>
+      </div>
       <p class="meta">
         <%= "#{@note.provider_user.full_name}," if @note.provider_user.full_name.present? %>
         <%= @note.created_at.to_s(:govuk_date_and_time) %>
