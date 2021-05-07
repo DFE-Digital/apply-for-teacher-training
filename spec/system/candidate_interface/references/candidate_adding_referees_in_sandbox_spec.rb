@@ -9,6 +9,9 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
     when_i_provide_two_references
     then_i_see_that_references_are_given
+
+    when_i_provide_incomplete_reference_details
+    then_i_see_that_the_incomplete_reference_rendered
   end
 
   def given_i_am_signed_in
@@ -55,6 +58,23 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
     within all('.app-summary-card')[1] do
       expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference given')
+    end
+  end
+
+  def when_i_provide_incomplete_reference_details
+    visit candidate_interface_references_start_path
+    click_link t('continue')
+    choose 'Academic'
+    click_button t('save_and_continue')
+  end
+
+  def then_i_see_that_the_incomplete_reference_rendered
+    visit candidate_interface_references_review_path
+    within all('.app-summary-card')[2] do
+      expect(all('.govuk-summary-list__value')[0].text).to have_content('Not entered')
+      expect(all('.govuk-summary-list__value')[1].text).to have_content('Not entered')
+      expect(all('.govuk-summary-list__value')[2].text).to have_content('Academic')
+      expect(all('.govuk-summary-list__value')[3].text).to have_content('Not entered')
     end
   end
 end

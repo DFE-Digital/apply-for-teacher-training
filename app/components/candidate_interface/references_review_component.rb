@@ -80,7 +80,7 @@ module CandidateInterface
     def name_row(reference)
       {
         key: 'Name',
-        value: reference.name,
+        value: reference.name || 'Not entered',
         action: "name for #{reference.name}",
         change_path: candidate_interface_references_edit_name_path(
           reference.id, return_to: :review
@@ -91,7 +91,7 @@ module CandidateInterface
     def email_row(reference)
       {
         key: 'Email address',
-        value: reference.email_address,
+        value: reference.email_address || 'Not entered',
         action: "email address for #{reference.name}",
         change_path: candidate_interface_references_edit_email_address_path(
           reference.id, return_to: :review
@@ -102,7 +102,7 @@ module CandidateInterface
     def relationship_row(reference)
       {
         key: 'Relationship to referee',
-        value: reference.relationship,
+        value: reference.relationship || 'Not entered',
         action: "relationship for #{reference.name}",
         change_path: candidate_interface_references_edit_relationship_path(
           reference.id, return_to: :review
