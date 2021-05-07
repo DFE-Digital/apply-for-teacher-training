@@ -5,7 +5,6 @@ import { initAutosuggest } from './autosuggests/init-autosuggest'
 import { candidateAutocompleteInputs } from './autocompletes/candidate/candidate-autocomplete-inputs'
 import { candidateAutosuggestInputs } from './autosuggests/candidate/candidate-autosuggest-inputs'
 import nationalitiesComponent from './nationalities-component'
-import initBackLinks from './app-back-link'
 import 'accessible-autocomplete/dist/accessible-autocomplete.min.css'
 import '../styles/application-candidate.scss'
 import cookieBanners from './cookies/cookie-banners'
@@ -24,5 +23,4 @@ candidateAutosuggestInputs.forEach((autoSuggestInput) => {
 
 initWarnOnUnsavedChanges()
 nationalitiesComponent()
-initBackLinks()
 cookieBanners()

@@ -14,10 +14,18 @@ RSpec.describe ViewHelper, type: :helper do
       expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"https://localhost:0103/lion/roar\">Back to application</a>\n")
     end
 
-    it 'returns an anchor tag with the app-back-link--no-js class if given :back as an argument' do
+    it 'returns an anchor tag with the current namespace root if given :back as an argument with no referer' do
       anchor_tag = helper.govuk_back_link_to(:back)
 
-      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print app-back-link--fallback app-back-link--no-js\" href=\"javascript:history.back()\">Back</a>\n")
+      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"/\">Back</a>\n")
+    end
+
+    it 'uses the HTTP referer if available when :back is passed' do
+      helper.request.env['HTTP_REFERER'] = 'foo'
+
+      anchor_tag = helper.govuk_back_link_to(:back)
+
+      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"foo\">Back</a>\n")
     end
   end
 

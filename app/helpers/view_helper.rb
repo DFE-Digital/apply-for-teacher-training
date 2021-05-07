@@ -3,12 +3,11 @@ module ViewHelper
     classes = 'govuk-!-display-none-print'
 
     if url == :back
-      url = controller.request.env['HTTP_REFERER'] || 'javascript:history.back()'
-      classes += ' app-back-link--fallback'
-    end
+      url = controller.request.env['HTTP_REFERER']
 
-    if url == 'javascript:history.back()'
-      classes += ' app-back-link--no-js'
+      if url.blank?
+        url = service_link
+      end
     end
 
     if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)
