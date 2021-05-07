@@ -24,6 +24,7 @@ RSpec.feature 'Feature metrics dashboard' do
     and_i_should_see_reasons_for_rejection_metrics
     and_i_should_see_apply_again_metrics
     and_i_should_see_carry_over_metrics
+    and_i_should_see_satisfaction_survey_metrics
   end
 
   def given_i_am_a_support_user
@@ -193,6 +194,14 @@ RSpec.feature 'Feature metrics dashboard' do
       expect(page).to have_content('1 candidates carried over applications from previous cycle')
       expect(page).to have_content('0 last month')
       expect(page).to have_content('1 this month')
+    end
+  end
+
+  def and_i_should_see_satisfaction_survey_metrics
+    within('#satisfaction_survey_dashboard_section') do
+      expect(page).to have_content('n/a Satisfaction Survey Response Rate')
+      expect(page).to have_content('n/a last month')
+      expect(page).to have_content('n/a this month')
     end
   end
 end
