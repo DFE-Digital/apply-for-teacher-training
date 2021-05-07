@@ -24,6 +24,7 @@ resource "cloudfoundry_app" "web_app" {
   memory                     = var.web_app_memory
   space                      = data.cloudfoundry_space.space.id
   strategy                   = "blue-green-v2"
+  enable_ssh                 = true
   timeout                    = 180
   environment                = local.web_app_env_variables
   docker_credentials         = var.docker_credentials
