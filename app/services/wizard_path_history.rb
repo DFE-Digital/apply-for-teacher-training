@@ -1,6 +1,4 @@
 class WizardPathHistory
-  PREVIOUS_STEP_INDEX = -2
-
   class NoSuchStepError < StandardError
     def message
       'Invalid wizard step'
@@ -26,6 +24,6 @@ class WizardPathHistory
   def previous_step
     raise NoSuchStepError unless path_history.rindex(step)
 
-    path_history[path_history.rindex(step) - 1]
+    path_history[path_history.rindex(step) - 1].to_sym
   end
 end
