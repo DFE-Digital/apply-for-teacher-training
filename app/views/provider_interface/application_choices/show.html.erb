@@ -36,11 +36,17 @@
 
 <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
 
-<%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
+<% if FeatureFlag.active?(:restructured_work_history) %>
+  <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
 
-<%= render WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
+  <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
+<% else %>
+  <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 
-<%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
+  <%= render WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
+
+  <%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
+<% end %>
 
 <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 

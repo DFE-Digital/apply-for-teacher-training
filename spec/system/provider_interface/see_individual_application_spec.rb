@@ -4,6 +4,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  before do
+    FeatureFlag.deactivate(:restructured_work_history)
+  end
+
   around do |example|
     Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
       example.run

@@ -1,36 +1,23 @@
 class WorkHistoryWithBreaks
-  class BreakPlaceholder
-    def initialize(month_range:)
-      @month_range = month_range
-    end
+  attr_accessor :application_form, :work_history, :existing_breaks, :unpaid_work, :include_unpaid_experience
 
-    def start_date
-      @month_range.first.prev_month
-    end
-
-    def end_date
-      @month_range.last.next_month
-    end
-
-    def length
-      @month_range.count
-    end
-  end
-
-  def initialize(application_form)
+  def initialize(application_form, include_unpaid_experience: false)
+    @include_unpaid_experience = include_unpaid_experience
     @application_form = application_form
     @work_history = application_form.application_work_experiences.sort_by(&:start_date)
     @existing_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
     @current_job = nil
+
+    if include_unpaid_experience
+      @unpaid_work = application_form.application_volunteering_experiences.sort_by(&:start_date)
+    end
   end
 
   def timeline
-    work_history_with_breaks = []
+    work_history_with_breaks = work_history + existing_breaks
+    work_history_with_breaks += unpaid_work if include_unpaid_experience
 
-    @work_history.each { |job| work_history_with_breaks << job }
-    @existing_breaks.each { |existing_break| work_history_with_breaks << existing_break }
-
-    if @work_history.any?
+    if work_history.any?
       timeline_in_months = month_range(
         start_date: submitted_at - 5.years,
         end_date: submitted_at - 1.month,
@@ -41,13 +28,14 @@ class WorkHistoryWithBreaks
       work_history_with_breaks += break_placeholders if break_placeholders.any?
     end
 
-    work_history_with_breaks.sort_by(&:start_date)
+    timeline = work_history_with_breaks.sort_by(&:start_date)
+    include_unpaid_experience ? timeline.reverse : timeline
   end
 
 private
 
   def submitted_at
-    @application_form.submitted_at || Time.zone.now
+    application_form.submitted_at || Time.zone.now
   end
 
   def month_range(start_date:, end_date:)
@@ -55,16 +43,14 @@ private
   end
 
   def remove_months(timeline:, entries:)
-    remaining_months_in_timeline = timeline
-
     entries.each do |entry|
       entry_end_date = entry.end_date.nil? ? submitted_at : entry.end_date
       months_in_entry_period = month_range(start_date: entry.start_date, end_date: entry_end_date)
 
-      remaining_months_in_timeline -= months_in_entry_period
+      timeline -= months_in_entry_period
     end
 
-    remaining_months_in_timeline
+    timeline
   end
 
   def break_placeholder_entries(break_months_in_timeline)
@@ -83,5 +69,25 @@ private
     end
 
     breaks << BreakPlaceholder.new(month_range: current_break)
+  end
+
+  class BreakPlaceholder
+    attr_accessor :month_range
+
+    def initialize(month_range:)
+      @month_range = month_range
+    end
+
+    def start_date
+      month_range.first.prev_month
+    end
+
+    def end_date
+      month_range.last.next_month
+    end
+
+    def length
+      month_range.count
+    end
   end
 end
