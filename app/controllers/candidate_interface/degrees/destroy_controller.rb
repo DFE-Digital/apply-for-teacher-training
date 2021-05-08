@@ -11,6 +11,7 @@ module CandidateInterface
         current_degree.destroy!
 
         if current_application.application_qualifications.degrees.blank?
+          current_application.update!(degrees_completed: nil)
           redirect_to candidate_interface_new_degree_path
         else
           redirect_to candidate_interface_degrees_review_path

@@ -23,8 +23,6 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
     and_i_click_on_save_and_continue
     and_i_mark_the_section_as_complete
     and_i_click_on_continue
-
-    when_i_visit_the_application_page
     then_the_other_qualifications_section_should_be_marked_as_complete
 
     when_i_click_the_other_qualifications_link
@@ -32,7 +30,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
     and_i_confirm_that_i_want_to_delete_my_qualification
 
     when_i_visit_the_application_page
-    then_the_other_qualifications_section_should_be_marked_as_complete
+    then_the_other_qualifications_section_should_be_marked_as_incomplete
   end
 
   def given_i_am_signed_in

@@ -40,6 +40,7 @@ module CandidateInterface
       if current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?
         redirect_to candidate_interface_restructured_work_history_review_path
       else
+        current_application.update!(work_history_completed: nil)
         redirect_to candidate_interface_restructured_work_history_path
       end
     end

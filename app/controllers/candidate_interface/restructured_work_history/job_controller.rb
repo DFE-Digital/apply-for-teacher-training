@@ -40,6 +40,7 @@ module CandidateInterface
       job.destroy!
 
       if current_application.application_work_experiences.blank? && current_application.application_work_history_breaks.present?
+        current_application.update!(work_history_completed: nil)
         current_application.application_work_history_breaks.destroy_all
         redirect_to candidate_interface_restructured_work_history_path
       elsif current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?

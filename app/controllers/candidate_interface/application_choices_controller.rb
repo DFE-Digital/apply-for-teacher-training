@@ -22,6 +22,8 @@ module CandidateInterface
         .find(current_course_choice_id)
         .destroy!
 
+      current_application.update!(course_choices_completed: nil) if current_application.application_choices.empty?
+
       redirect_to candidate_interface_course_choices_index_path
     end
 
