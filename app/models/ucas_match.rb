@@ -10,6 +10,7 @@ class UCASMatch < ApplicationRecord
     resolved_on_apply: 'resolved_on_apply',
     resolved_on_ucas: 'resolved_on_ucas',
     manually_resolved: 'manually_resolved',
+    no_application_choice: 'no_application_choice',
   }
 
   def ready_to_resolve?
@@ -17,7 +18,7 @@ class UCASMatch < ApplicationRecord
   end
 
   def resolved?
-    %w[resolved_on_apply resolved_on_ucas manually_resolved].include?(action_taken)
+    %w[resolved_on_apply resolved_on_ucas manually_resolved no_application_choice].include?(action_taken)
   end
 
   def trackable_applicant_key
