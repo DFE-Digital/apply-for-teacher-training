@@ -41,7 +41,30 @@ module SupportInterface
         end
       end
 
-      def choose_offered_course; end
+      def offered_course_options
+        @pick_course = PickCourseForm.new(
+          course_code: params[:course_code],
+          application_form_id: @application_form.id,
+        )
+      end
+
+      def choose_offered_course_option
+        @pick_course = PickCourseForm.new(
+          application_form_id: @application_form.id,
+          course_code: params[:course_code],
+          course_option_id: course_option_id,
+        )
+
+        if @pick_course.valid?(:save)
+          redirect_to support_interface_application_form_confirm_offered_course_option_path(
+            application_form_id: @application_form.id,
+            application_choice_id: @application_choice.id,
+            course_option_id: course_option_id,
+          )
+        else
+          render :offered_course_options
+        end
+      end
 
     private
 
@@ -52,6 +75,10 @@ module SupportInterface
       def course_search_params
         params.require(:support_interface_application_forms_course_search_form)
               .permit(:course_code)
+      end
+
+      def course_option_id
+        params.dig(:support_interface_application_forms_pick_course_form, :course_option_id)
       end
 
       def build_application_form
