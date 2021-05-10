@@ -20,8 +20,8 @@ jobs:
         run:  |
           GEM_NODE_MODULES_HASH=${{ hashFiles('Dockerfile', 'Gemfile', 'Gemfile.lock', 'package.json', 'yarn.lock') }}
           echo "GEM_NODE_MODULES_HASH=${GEM_NODE_MODULES_HASH}" >> $GITHUB_ENV
-          echo "DOCKER_IMAGE=ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}" >> $GITHUB_ENV
-          echo "GEMS_NODE_MODULES_IMAGE=ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:paas-${GEM_NODE_MODULES_HASH}" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=ghcr.io/dfe-digital/apply-teacher-training:${{ github.sha }}" >> $GITHUB_ENV
+          echo "GEMS_NODE_MODULES_IMAGE=ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${GEM_NODE_MODULES_HASH}" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1 
@@ -57,7 +57,7 @@ jobs:
             type=registry,ref=${{ env.DOCKER_IMAGE }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}
           build-args: |
-            VERSION=paas-${{ github.sha }}
+            VERSION=${{ github.sha }}
             BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}
 
   lint:
@@ -68,7 +68,7 @@ jobs:
       run:
         working-directory: /app
     container: 
-      image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
+      image: ghcr.io/dfe-digital/apply-teacher-training:${{ github.sha }}
       options: -a STDOUT -a STDERR -t
       credentials:
         username: ${{ github.actor }}
@@ -117,7 +117,7 @@ jobs:
       run:
         working-directory: /app
     container: 
-      image: ghcr.io/dfe-digital/apply-teacher-training:paas-${{ github.sha }}
+      image: ghcr.io/dfe-digital/apply-teacher-training:${{ github.sha }}
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
