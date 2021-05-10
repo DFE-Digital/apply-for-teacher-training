@@ -1,17 +1,6 @@
 desc 'Set up your local development environment with data from the Teacher training public API'
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
-  puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
-  ProviderUser.create!(
-    dfe_sign_in_uid: 'dev-provider',
-    email_address: 'provider@example.com',
-    first_name: 'Peter',
-    last_name: 'Rovider',
-  ) do |u|
-    u.providers = Provider.where(code: %w[1JA 1N1]).all
-  end
-
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
-
   SupportUser.create!(
     dfe_sign_in_uid: 'dev-support',
     email_address: 'support@example.com',
@@ -19,27 +8,11 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
     last_name: 'Upport',
   )
 
-  admin_provider_user = ProviderUser.create!(
-    dfe_sign_in_uid: 'dev-support',
-    email_address: 'support@example.com',
-    first_name: 'Susan',
-    last_name: 'Upport',
-  ) do |u|
-    u.providers = Provider.where(code: %w[1JA 1JB 24J]).all
-  end
-
-  admin_provider_user.provider_permissions.update_all(
-    manage_users: true,
-    manage_organisations: true,
-    view_safeguarding_information: true,
-    make_decisions: true,
-  )
-
-  puts 'Creating users for providers 1N1, 24P, 1JB, D39 with various permission combinations...'
+  puts 'Creating various provider users...'
   CreateExampleProviderUsersWithPermissions.call
 
   puts 'Generating a Vendor API token...'
-  VendorAPIToken.create_with_random_token!(provider: admin_provider_user.providers.first)
+  VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: '1JA'))
 
   Rake::Task['generate_test_applications'].invoke
 end
