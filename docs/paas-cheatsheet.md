@@ -69,7 +69,7 @@ $ cf logs <APP_NAME> --recent
 ## Shelling into a container
 To shell into a container:
 ```
-$ cf ssh <APP_NAME>
+$ cf ssh <APP_NAME>-clock
 ```
 
 Then you can run a rails console as follows:
