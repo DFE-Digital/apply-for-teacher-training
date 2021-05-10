@@ -14,7 +14,6 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 | Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                                 | `bat-staging` | `apply-staging`  |
 | Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API        | `bat-prod`    | `apply-sandbox`  |
 | QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from master | `bat-qa`      | `apply-qa`       |
-| DevOps     | [dev](https://dev.apply-for-teacher-training.service.gov.uk)         | For testing infrastructure changes                                      |               |                  |
 
 ## Table of Contents
 
