@@ -3,11 +3,18 @@ module ViewHelper
     classes = 'govuk-!-display-none-print'
 
     if url == :back
-      url = controller.request.env['HTTP_REFERER']
+      referer = controller.request.env['HTTP_REFERER']
 
-      if url.blank?
-        url = service_link
-      end
+      url = if !referer
+              service_link
+            else
+              referer_host = URI(referer).host
+              if referer_host.present? && referer_host != request.host
+                service_link
+              else
+                referer
+              end
+            end
     end
 
     if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)

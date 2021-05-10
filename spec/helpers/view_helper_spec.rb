@@ -27,6 +27,14 @@ RSpec.describe ViewHelper, type: :helper do
 
       expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"foo\">Back</a>\n")
     end
+
+    it 'discards the HTTP referer and defaults to current namespace root if the referer came from another domain' do
+      helper.request.env['HTTP_REFERER'] = 'http://some.other.domain/path'
+
+      anchor_tag = helper.govuk_back_link_to(:back)
+
+      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"/\">Back</a>\n")
+    end
   end
 
   describe '#bat_contact_mail_to' do
