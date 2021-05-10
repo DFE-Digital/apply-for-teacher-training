@@ -11,8 +11,8 @@ module CandidateInterface
       def create
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
-        if @reference_type_form.save(current_application)
-          redirect_to candidate_interface_references_name_path(current_application.application_references.last.id)
+        if @reference_type_form.valid?
+          redirect_to candidate_interface_references_name_path(@reference_type_form.referee_type)
         else
           track_validation_error(@reference_type_form)
           render :new

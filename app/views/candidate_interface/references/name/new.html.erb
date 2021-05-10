@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference_name_form,
-      url: candidate_interface_references_name_path(@reference.id),
+      url: candidate_interface_references_name_path(referee_type: params[:referee_type]),
       method: :patch,
     ) do |f| %>
       <%= render 'shared_form', f: f %>

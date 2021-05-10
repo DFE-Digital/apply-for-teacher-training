@@ -443,8 +443,8 @@ Rails.application.routes.draw do
         get '/type/edit/:id' => 'references/type#edit', as: :references_edit_type
         patch '/type/edit/:id' => 'references/type#update'
 
-        get '/name/:id' => 'references/name#new', as: :references_name
-        patch '/name/:id' => 'references/name#create'
+        get '/name/:referee_type' => 'references/name#new', as: :references_name
+        patch '/name/:referee_type' => 'references/name#create'
         get '/name/edit/:id' => 'references/name#edit', as: :references_edit_name
         patch '/name/edit/:id' => 'references/name#update'
 
