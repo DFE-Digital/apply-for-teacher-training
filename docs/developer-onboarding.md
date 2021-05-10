@@ -13,4 +13,4 @@ You can get an account by requesting one in the `#digital-tools-support` Slack c
 PaaS is built on CloudFoundary and we use the CloudFoundary CLI to interact with PaaS. You can install version 7 of the CLI [here](https://github.com/cloudfoundry/cli#downloads).
 
 ### Getting familiar with PaaS
-See [PaaS cheatsheet](/docs/paas-cheatsheet.md)
+See [PaaS cheatsheet](/docs/paas-cheatsheet.md).
