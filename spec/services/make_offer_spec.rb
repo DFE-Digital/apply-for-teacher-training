@@ -44,12 +44,12 @@ RSpec.describe MakeOffer do
     end
 
     describe 'if the offer is invalid' do
-      let(:conditions) { [Faker::Lorem.paragraph_by_chars(number: 256)] }
+      let(:conditions) { [Faker::Lorem.paragraph_by_chars(number: 2001)] }
 
       it 'throws an exception' do
         expect {
           make_offer.save!
-        }.to raise_error(ValidationException, 'Condition 1 must be 255 characters or fewer')
+        }.to raise_error(ValidationException, 'Condition 1 must be 2000 characters or fewer')
       end
     end
 
