@@ -12,8 +12,6 @@ module CandidateInterface
       @interview_preferences_form = InterviewPreferencesForm.new(interview_preferences_params)
 
       if @interview_preferences_form.save(current_application)
-        current_application.update!(interview_preferences_completed: false)
-
         redirect_to candidate_interface_interview_preferences_show_path
       else
         track_validation_error(@interview_preferences_form)
@@ -27,6 +25,7 @@ module CandidateInterface
     end
 
     def complete
+      @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :interview_preferences_completed)

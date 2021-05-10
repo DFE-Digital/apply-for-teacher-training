@@ -8,8 +8,6 @@ module CandidateInterface
       @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
 
       if @form.save(current_qualification)
-        update_gcse_completed(false)
-
         if current_qualification.award_year.nil?
           redirect_to candidate_interface_gcse_details_edit_year_path(subject: params[:subject])
         else

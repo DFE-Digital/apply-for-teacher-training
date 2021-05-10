@@ -10,6 +10,7 @@ module CandidateInterface
     end
 
     def complete
+      @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: application_form_params[:completed])
 
       if @section_complete_form.save(current_application, :contact_details_completed)

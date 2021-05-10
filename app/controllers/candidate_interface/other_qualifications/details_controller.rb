@@ -61,7 +61,6 @@ module CandidateInterface
       )
 
       if @form.save
-        current_application.update!(other_qualifications_completed: false)
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@form)

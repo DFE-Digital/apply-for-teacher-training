@@ -8,8 +8,6 @@ module CandidateInterface
       @institution_country = GcseInstitutionCountryForm.new(institution_country_params)
 
       if @institution_country.save(current_qualification)
-        update_gcse_completed(false)
-
         redirect_to next_gcse_path
       else
         track_validation_error(@institution_country)

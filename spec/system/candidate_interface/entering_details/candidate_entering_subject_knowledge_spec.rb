@@ -24,6 +24,9 @@ RSpec.feature 'Entering subject knowledge' do
     and_i_submit_the_form
     then_i_can_check_my_revised_answers
 
+    when_i_click_on_continue
+    then_i_see_a_section_complete_error
+
     when_i_mark_the_section_as_completed
     and_i_submit_my_subject_knowledge
     then_i_should_see_the_form
@@ -92,6 +95,14 @@ RSpec.feature 'Entering subject knowledge' do
 
   def and_i_submit_my_subject_knowledge
     click_button t('continue')
+  end
+
+  def when_i_click_on_continue
+    and_i_submit_my_subject_knowledge
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_should_see_the_form

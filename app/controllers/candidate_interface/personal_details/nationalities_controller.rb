@@ -12,7 +12,6 @@ module CandidateInterface
         @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
         if @nationalities_form.save(current_application)
-          current_application.update!(personal_details_completed: false)
           if !british_or_irish?
             redirect_to candidate_interface_right_to_work_or_study_path
           elsif LanguagesSectionPolicy.hide?(current_application)
@@ -35,7 +34,6 @@ module CandidateInterface
         @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
         if @nationalities_form.save(current_application)
-          current_application.update!(personal_details_completed: false)
           if !british_or_irish?
             redirect_to candidate_interface_edit_right_to_work_or_study_path
           else

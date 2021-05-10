@@ -40,6 +40,9 @@ RSpec.feature 'Selecting a course' do
     and_i_visit_my_course_choices_page
     then_i_review_my_second_course_choice
 
+    when_i_click_continue
+    then_i_see_a_section_complete_error
+
     when_i_mark_this_section_as_completed
     when_i_click_continue
     then_i_see_that_the_section_is_completed
@@ -195,6 +198,10 @@ RSpec.feature 'Selecting a course' do
   def when_i_mark_this_section_as_completed
     visit candidate_interface_course_choices_index_path
     choose t('application_form.completed_radio')
+  end
+
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
   end
 
   def then_i_see_that_the_section_is_completed

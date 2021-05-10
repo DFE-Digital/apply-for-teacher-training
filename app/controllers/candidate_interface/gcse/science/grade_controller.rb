@@ -11,7 +11,6 @@ module CandidateInterface
       @gcse_grade_form = science_gcse_grade_form.assign_values(science_details_params)
 
       if @gcse_grade_form.save
-        update_gcse_completed(false)
         redirect_to next_path
       else
         track_validation_error(@gcse_grade_form)

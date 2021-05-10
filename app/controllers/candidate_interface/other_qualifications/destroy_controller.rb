@@ -8,10 +8,8 @@ module CandidateInterface
 
     def destroy
       current_qualification.destroy!
-      current_application.update!(other_qualifications_completed: false)
-
       if current_application.application_qualifications.other.count.zero?
-
+        current_application.update!(other_qualifications_completed: nil)
         redirect_to candidate_interface_other_qualification_type_path
       else
 

@@ -43,6 +43,9 @@ RSpec.feature 'Entering their work history' do
     when_i_change_the_job_title
     then_i_should_see_my_updated_job
 
+    when_i_click_on_continue
+    then_i_see_a_section_complete_error
+
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_i_should_see_the_form
@@ -193,8 +196,16 @@ RSpec.feature 'Entering their work history' do
     choose t('application_form.completed_radio')
   end
 
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+  end
+
   def and_i_click_on_continue
     click_button t('continue')
+  end
+
+  def when_i_click_on_continue
+    and_i_click_on_continue
   end
 
   def then_i_should_see_the_form

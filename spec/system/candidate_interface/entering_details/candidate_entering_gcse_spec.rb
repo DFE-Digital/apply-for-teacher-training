@@ -40,6 +40,9 @@ RSpec.feature 'Candidate entering GCSE details' do
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
 
+    when_i_click_continue
+    then_i_see_a_section_complete_error
+
     when_i_click_to_change_qualification_type
     then_i_see_the_gcse_option_selected
 
@@ -167,6 +170,10 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(page).to have_selector("input[value='1990']")
   end
 
+  def then_i_see_a_section_complete_error
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+  end
+
   def when_i_select_a_different_qualification_type
     choose('Scottish National 5')
   end
@@ -202,6 +209,10 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def and_click_continue
     click_button t('continue')
+  end
+
+  def when_i_click_continue
+    and_click_continue
   end
 
   def when_i_click_on_the_maths_gcse_link

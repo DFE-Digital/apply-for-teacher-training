@@ -12,6 +12,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     then_i_see_the_undergraduate_degree_form
 
     when_i_add_my_degree_back_in
+    and_i_mark_the_section_as_incomplete
     and_i_click_on_continue
     then_i_should_see_the_form_and_the_section_is_not_completed
     when_i_click_on_degree
@@ -184,6 +185,10 @@ RSpec.feature 'Deleting and replacing a degree' do
   def and_i_confirm_i_have_completed_my_degree
     choose 'Yes'
     and_i_click_on_save_and_continue
+  end
+
+  def and_i_mark_the_section_as_incomplete
+    choose t('application_form.incomplete_radio')
   end
 
   def and_i_have_completed_the_degree_section

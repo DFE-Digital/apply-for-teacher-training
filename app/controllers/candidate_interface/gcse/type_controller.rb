@@ -12,8 +12,6 @@ module CandidateInterface
       @type_form.set_attributes(qualification_params)
 
       if @type_form.save_base(current_candidate.current_application)
-        update_gcse_completed(false)
-
         redirect_to next_gcse_path
       else
         track_validation_error(@type_form)

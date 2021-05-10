@@ -8,8 +8,6 @@ module CandidateInterface
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.new(work_history_break_params)
 
       if @work_break.save(current_application)
-        current_application.update!(work_history_completed: false)
-
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@work_break)
@@ -25,8 +23,6 @@ module CandidateInterface
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.new(work_history_break_params)
 
       if @work_break.update(current_work_history_break)
-        current_application.update!(work_history_completed: false)
-
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@work_break)
@@ -40,11 +36,11 @@ module CandidateInterface
 
     def destroy
       current_work_history_break.destroy!
-      current_application.update!(work_history_completed: false)
 
       if current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?
         redirect_to candidate_interface_restructured_work_history_review_path
       else
+        current_application.update!(work_history_completed: nil)
         redirect_to candidate_interface_restructured_work_history_path
       end
     end

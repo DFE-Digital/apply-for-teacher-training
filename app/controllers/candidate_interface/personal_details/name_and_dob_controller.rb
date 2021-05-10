@@ -12,8 +12,6 @@ module CandidateInterface
         @personal_details_form = PersonalDetailsForm.new(personal_details_params)
 
         if @personal_details_form.save(current_application)
-          current_application.update!(personal_details_completed: false)
-
           redirect_to candidate_interface_nationalities_path
         else
           track_validation_error(@personal_details_form)
@@ -30,8 +28,6 @@ module CandidateInterface
         @personal_details_form = PersonalDetailsForm.new(personal_details_params)
 
         if @personal_details_form.save(current_application)
-          current_application.update!(personal_details_completed: false)
-
           redirect_to candidate_interface_personal_details_show_path
         else
           track_validation_error(@personal_details_form)

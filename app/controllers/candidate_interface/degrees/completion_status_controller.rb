@@ -23,7 +23,6 @@ module CandidateInterface
         @completion_status_form = DegreeCompletionStatusForm.new(completion_status_params)
 
         if @completion_status_form.save(current_degree)
-          current_application.update!(degrees_completed: false)
           redirect_to candidate_interface_degrees_review_path
         else
           track_validation_error(@completion_status_form)

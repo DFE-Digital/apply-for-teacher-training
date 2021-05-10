@@ -12,8 +12,6 @@ module CandidateInterface
       @becoming_a_teacher_form = BecomingATeacherForm.new(becoming_a_teacher_params)
 
       if @becoming_a_teacher_form.save(current_application)
-        current_application.update!(becoming_a_teacher_completed: false)
-
         redirect_to candidate_interface_becoming_a_teacher_show_path
       else
         track_validation_error(@becoming_a_teacher_form)
@@ -27,6 +25,7 @@ module CandidateInterface
     end
 
     def complete
+      @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(form_params)
 
       if @section_complete_form.save(current_application, :becoming_a_teacher_completed)

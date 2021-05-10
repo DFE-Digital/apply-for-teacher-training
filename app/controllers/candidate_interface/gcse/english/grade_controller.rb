@@ -12,7 +12,6 @@ module CandidateInterface
       @gcse_grade_form = english_gcse_grade_form.assign_values(english_details_params)
 
       if @gcse_grade_form.save
-        update_gcse_completed(false)
         redirect_to next_gcse_path
       else
         track_validation_error(@gcse_grade_form)
