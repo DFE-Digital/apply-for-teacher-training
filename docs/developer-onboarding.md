@@ -2,22 +2,12 @@
 
 ## Purpose
 
-This document describes the on-boardng steps that need to be undertaken for new Developers when they join the team.
+This document describes the on-boardng steps for new Developers when they join the team.
 
-## Azure/DevOps steps
+## PaaS/DevOps steps
 
-These steps can only be completed by members of the DevOps community. At the present time the contacts for this are Colin Saliceti, Vignesh Natraj or Karthik Kumar.
+### Get a PaaS account
+You can get an account by requesting one in the `#digital-tools-support` Slack channel. Request an account with a SpaceDeveloper role for your @digital.education.gov.uk email address with access to the `dfe` organisation and `bat-prod`, `bat-staging` and `bat-qa` spaces.
 
-1. Azure Portal
-   1. Sign into the Azure Portal
-   1. Go to the "Groups" blade
-   1. Type "s106" into the search box
-   1. Select the `s106-applyforpostgraduateteachertraining-Delivery Team USR` group
-   1. Select "Members" from the menu on the left
-   1. Click the "Add member" button and select the user(s) you wish to add and click the "Select" button to save the changes
-1. Azure DevOps
-   1. Sign in to the Azure DevOps portal
-   1. Click "Project Settings" at the bottom left of the page
-   1. Select `Teams` under the General section of the menu
-   1. Select `Apply Team` from the list of groups
-   1. Click the blue "Add" button and search for the user(s) you wish to add. Click the "Save" button once you have added all the required users
+### Install the CloudFoundary CLI
+PaaS is built on CloudFoundary and we use the CloudFoundary CLI to interact with PaaS. You can install version 7 of the CLI [here](https://github.com/cloudfoundry/cli#downloads).
