@@ -27,7 +27,7 @@ module ProviderInterface
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
-      !@current_provider_user.nil? ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
+      @current_provider_user ||= ProviderUser.load_from_session(session)
     end
 
     alias_method :current_user, :current_provider_user
