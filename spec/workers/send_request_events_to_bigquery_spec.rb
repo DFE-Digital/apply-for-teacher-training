@@ -20,8 +20,8 @@ RSpec.describe SendRequestEventsToBigquery do
     before do
       allow(Google::Cloud::Bigquery).to receive(:new).and_return(project)
       allow(table).to receive(:insert)
-      allow(ENV).to receive(:[]).with('BIG_QUERY_PROJECT_ID').and_return('bat-apply-test')
-      allow(ENV).to receive(:[]).with('BIG_QUERY_DATASET').and_return('bat-apply-test-events')
+      allow(ENV).to receive(:fetch).with('BIG_QUERY_PROJECT_ID').and_return('bat-apply-test')
+      allow(ENV).to receive(:fetch).with('BIG_QUERY_DATASET').and_return('bat-apply-test-events')
     end
 
     it 'sends request event JSON to Bigquery' do
