@@ -316,7 +316,7 @@ GEM
       pry (>= 0.10.4)
     psych (3.3.0)
     public_suffix (4.0.6)
-    puma (5.2.2)
+    puma (5.3.0)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -588,7 +588,7 @@ DEPENDENCIES
   pry
   pry-byebug
   pry-rails
-  puma (~> 5.2)
+  puma (~> 5.3)
   rails-erd
   rails_semantic_logger
   railties (~> 6.1)
