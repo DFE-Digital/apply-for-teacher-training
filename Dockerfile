@@ -84,10 +84,12 @@ RUN apk -U upgrade && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
+WORKDIR /app
+
 COPY --from=assets-precompile /app /app
 COPY --from=assets-precompile /usr/local/bundle/ /usr/local/bundle/
 
-WORKDIR /app
+RUN echo ${VERSION} > public/check
 
 # Use this for development testing
 # CMD bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0

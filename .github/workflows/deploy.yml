@@ -60,7 +60,7 @@ jobs:
           echo "TF_VAR_key_vault_app_secret_name=$KEY_VAULT_APP_SECRET_NAME" >> $GITHUB_ENV
           echo "TF_VAR_key_vault_infra_secret_name=$KEY_VAULT_INFRA_SECRET_NAME" >> $GITHUB_ENV
         env:
-          DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:paas-{0}', github.event.inputs.sha) }}
+          DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
           KEY_VAULT_NAME: ${{ secrets.KEY_VAULT_NAME }}
           KEY_VAULT_RESOURCE_GROUP: ${{ secrets.KEY_VAULT_RESOURCE_GROUP }}
           KEY_VAULT_INFRA_SECRET_NAME: ${{ secrets.KEY_VAULT_INFRA_SECRET_NAME }}
