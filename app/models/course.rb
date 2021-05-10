@@ -145,4 +145,13 @@ class Course < ApplicationRecord
   def ratifying_provider
     accredited_provider || provider
   end
+
+  def open!
+    return if persisted? && open_on_apply
+
+    update!(
+      open_on_apply: true,
+      opened_on_apply_at: Time.zone.now,
+    )
+  end
 end

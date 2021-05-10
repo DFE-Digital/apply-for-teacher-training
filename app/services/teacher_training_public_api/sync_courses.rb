@@ -25,15 +25,14 @@ module TeacherTrainingPublicAPI
   private
 
     def create_or_update_course(course_from_api, recruitment_cycle_year)
+      open_required = false
+
       course = provider.courses.find_or_create_by(
         code: course_from_api.code,
         recruitment_cycle_year: recruitment_cycle_year,
       ) do |new_course|
-        if HostingEnvironment.sandbox_mode?
-          new_course.open_on_apply = true
-        else
-          new_course.open_on_apply = new_course.in_previous_cycle&.open_on_apply ? true : false
-        end
+        open_required =
+          HostingEnvironment.sandbox_mode? || new_course.in_previous_cycle&.open_on_apply
 
         if provider.any_open_courses_in_current_cycle?
           notify_of_new_course!(provider, course_from_api[:accredited_body_code])
@@ -43,6 +42,8 @@ module TeacherTrainingPublicAPI
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
       course.save!
+
+      course.open! if open_required
 
       if run_in_background
         TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id)

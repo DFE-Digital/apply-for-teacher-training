@@ -6,7 +6,10 @@ class OpenProviderCourses
   end
 
   def call
-    if run_courses.or(ratified_courses).update(open_on_apply: true).any?
+    if run_courses.or(ratified_courses).update(
+      open_on_apply: true,
+      opened_on_apply_at: Time.zone.now,
+    ).any?
       provider.provider_users.each do |provider_user|
         ProviderMailer.courses_open_on_apply(provider_user)
       end
