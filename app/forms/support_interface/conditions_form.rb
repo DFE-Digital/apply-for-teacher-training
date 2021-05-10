@@ -5,14 +5,15 @@ module SupportInterface
 
       attr_accessor :id, :text
 
-      validates :text, length: { maximum: 255, too_long: ->(c, _) { "Condition #{c.id + 1} must be %{count} characters or fewer" } }
+      validates :text, length: { maximum: MakeAnOffer::MAX_CONDITION_LENGTH, too_long: ->(c, _) { "Condition #{c.id + 1} must be %{count} characters or fewer" } }
     end
 
     include ActiveModel::Model
 
     attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment
 
-    NUMBER_OF_FURTHER_CONDITIONS = 4
+    MIN_FURTHER_CONDITIONS = 4
+    MAX_FURTHER_CONDITIONS = MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
     validates :application_choice, presence: true
     validates :audit_comment, presence: true
@@ -54,7 +55,13 @@ module SupportInterface
     end
 
     def add_slots_for_new_conditions
-      self.further_conditions = NUMBER_OF_FURTHER_CONDITIONS.times.map do |index|
+      further_condition_count = (further_conditions&.reject(&:blank?)&.count || 0)
+      number_of_conditions_to_display = [
+        [MIN_FURTHER_CONDITIONS, further_condition_count + 1].max,
+        MAX_FURTHER_CONDITIONS,
+      ].min
+
+      self.further_conditions = number_of_conditions_to_display.times.map do |index|
         existing_value = further_conditions && further_conditions[index]
         existing_value.presence || ''
       end

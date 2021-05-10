@@ -124,5 +124,15 @@ RSpec.describe SupportInterface::ConditionsForm do
       expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
       expect(form.further_conditions).to eq(['Get a haircut', '', '', ''])
     end
+
+    it 'reads more than 4 further conditions' do
+      application_choice = build(
+        :application_choice,
+        offer: { 'conditions' => ['Fitness to train to teach check', 'FC1', 'FC2', 'FC3', 'FC4', 'FC5'] },
+      )
+      form = described_class.build_from_application_choice(application_choice)
+      expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
+      expect(form.further_conditions).to eq(['FC1', 'FC2', 'FC3', 'FC4', 'FC5', ''])
+    end
   end
 end
