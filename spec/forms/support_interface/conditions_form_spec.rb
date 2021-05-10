@@ -19,6 +19,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         },
       )
       expect(form.save).to be(false)
+      expect(form.errors.full_messages).to include('Audit comment Enter a comment for the audit trail')
       expect(application_choice.reload.offer['conditions']).to eq([
         'Fitness to train to teach check',
         'Get a haircut',

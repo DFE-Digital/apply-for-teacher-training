@@ -24,7 +24,7 @@ module SupportInterface
         further_conditions: further_conditions_from(application_choice.offer),
       }.merge(attrs)
 
-      new(attrs).tap(&:setup_further_conditions)
+      new(attrs).tap(&:add_slots_for_new_conditions)
     end
 
     def self.build_from_params(application_choice, params)
@@ -35,7 +35,7 @@ module SupportInterface
       }
 
       form = build_from_application_choice(application_choice, attrs)
-      form.setup_further_conditions
+      form.add_slots_for_new_conditions
       form
     end
 
@@ -53,7 +53,7 @@ module SupportInterface
       conditions - MakeAnOffer::STANDARD_CONDITIONS
     end
 
-    def setup_further_conditions
+    def add_slots_for_new_conditions
       self.further_conditions = NUMBER_OF_FURTHER_CONDITIONS.times.map do |index|
         existing_value = further_conditions && further_conditions[index]
         existing_value.presence || ''
