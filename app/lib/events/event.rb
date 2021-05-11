@@ -3,6 +3,7 @@ module Events
     def initialize
       @event_hash = {
         environment: HostingEnvironment.environment_name,
+        timestamp: Time.zone.now.iso8601,
       }
     end
 

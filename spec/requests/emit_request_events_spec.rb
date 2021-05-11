@@ -25,18 +25,23 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
   end
 
   it 'enqueues request event data with sidekiq worker' do
-    Sidekiq::Testing.fake! do
-      expect {
-        get provider_interface_applications_path
-      }.to change(SendRequestEventsToBigquery.jobs, :size).by(1)
+    Timecop.freeze('2021-05-10 12:00:00') do
+      now = Time.zone.now
 
-      worker_args = SendRequestEventsToBigquery.jobs.first['args']
+      Sidekiq::Testing.fake! do
+        expect {
+          get provider_interface_applications_path
+        }.to change(SendRequestEventsToBigquery.jobs, :size).by(1)
 
-      expect(worker_args.first['request_path']).to eq('/provider/applications')
-      expect(worker_args.first['request_method']).to eq('GET')
-      expect(worker_args.first['environment']).to eq('test')
-      expect(worker_args.first['namespace']).to eq('provider_interface')
-      expect(worker_args.first['user_id']).to eq(provider_user.id)
+        worker_args = SendRequestEventsToBigquery.jobs.first['args']
+
+        expect(worker_args.first['request_path']).to eq('/provider/applications')
+        expect(worker_args.first['request_method']).to eq('GET')
+        expect(worker_args.first['environment']).to eq('test')
+        expect(worker_args.first['timestamp']).to eq(now.iso8601)
+        expect(worker_args.first['namespace']).to eq('provider_interface')
+        expect(worker_args.first['user_id']).to eq(provider_user.id)
+      end
     end
   end
 end

@@ -9,6 +9,7 @@ RSpec.describe SendRequestEventsToBigquery do
         request_path: '/provider/applications',
         request_uuid: '1c94ee0c-c217-4c45-a633-d649ff30a4c3',
         namespace: 'provider_interface',
+        timestamp: Time.zone.now.iso8601,
         user_id: 3456,
       }
     end
