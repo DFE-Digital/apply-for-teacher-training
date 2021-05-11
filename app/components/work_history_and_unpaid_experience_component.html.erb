@@ -1,6 +1,12 @@
 <section class="app-section govuk-!-width-two-thirds" data-qa="work-history-and-unpaid-experience">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="work-history">Work history and unpaid experience</h2>
 
+  <%= render SummaryListComponent.new(rows: rows) %>
+
+  <% if subtitle %>
+    <h3 class="govuk-heading-m" id="work-history-subheader"><%= subtitle %></h3>
+  <% end %>
+
   <% history.each do |item| %>
     <%= render WorkHistoryAndUnpaidExperienceItemComponent.new(item: item) %>
   <% end %>
