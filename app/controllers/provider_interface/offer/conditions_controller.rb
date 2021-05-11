@@ -58,6 +58,7 @@ module ProviderInterface
 
       def submit_form(action:)
         if @wizard.valid_for_current_step?
+          @wizard.remove_empty_conditions!
           @wizard.save_state!
 
           redirect_to [action, :provider_interface, @application_choice, :offer, @wizard.next_step]

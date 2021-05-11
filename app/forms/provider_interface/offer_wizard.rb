@@ -100,6 +100,10 @@ module ProviderInterface
       save_state!
     end
 
+    def remove_empty_conditions!
+      further_conditions.reject!(&:blank?)
+    end
+
   private
 
     def self.standard_conditions_from(offer)

@@ -377,4 +377,14 @@ RSpec.describe ProviderInterface::OfferWizard do
       end
     end
   end
+
+  describe '#remove_empty_conditions!' do
+    let(:further_conditions) { ['', 'Be cool', ''] }
+
+    it 'removes any blank further conditions' do
+      expect { wizard.remove_empty_conditions! }.to change { wizard.further_conditions.length }.from(3).to(1)
+
+      expect(wizard.further_conditions).to contain_exactly('Be cool')
+    end
+  end
 end
