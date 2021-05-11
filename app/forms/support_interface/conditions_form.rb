@@ -10,7 +10,6 @@ module SupportInterface
 
     attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment
 
-    MIN_FURTHER_CONDITIONS = 4
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
     validates :application_choice, presence: true
@@ -56,7 +55,7 @@ module SupportInterface
     def add_slots_for_new_conditions
       further_condition_count = (further_conditions&.reject(&:blank?)&.count || 0)
       number_of_conditions_to_display = [
-        [MIN_FURTHER_CONDITIONS, further_condition_count + 1].max,
+        further_condition_count + 1,
         MAX_FURTHER_CONDITIONS,
       ].min
 
