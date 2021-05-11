@@ -55,9 +55,17 @@ module Integrations
     end
 
     def log_params
-      relevant_parameters = params.permit(:reference, :status).to_h
-      RequestLocals.store[:identity] = relevant_parameters
-      Raven.extra_context(relevant_parameters)
+      Raven.extra_context(reference_status_parameters)
+    end
+
+    def reference_status_parameters
+      params.permit(:reference, :status).to_h
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!(reference_status_parameters)
     end
   end
 end

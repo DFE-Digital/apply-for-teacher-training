@@ -7,8 +7,6 @@ if Rails.env.production?
     def call(log, logger)
       super(log, logger)
       add_service_type
-      add_params
-      add_debugging_fields
       add_job_data
       hash.to_json
     end
@@ -20,21 +18,6 @@ if Rails.env.production?
       hash['environment'] = HostingEnvironment.environment_name
       hash['hosting_environment'] = HostingEnvironment.environment_name
       hash['service'] = ENV['SERVICE_TYPE']
-    end
-
-    def add_params
-      params = RequestLocals.fetch(:params) {} # block is required
-      if params
-        hash['params'] = params # add query params to the logs, if available
-      end
-    end
-
-    def add_debugging_fields
-      identity_hash = RequestLocals.fetch(:identity) {} # block is required
-      identity_hash&.each { |key, val| hash[key] = val }
-
-      debugging_info = RequestLocals.fetch(:debugging_info) {} # block is required
-      debugging_info&.each { |key, val| hash[key] = val }
     end
 
     def add_job_data

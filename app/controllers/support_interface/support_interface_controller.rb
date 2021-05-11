@@ -33,8 +33,14 @@ module SupportInterface
     def add_identity_to_log
       return unless current_support_user
 
-      RequestLocals.store[:identity] = { support_user_id: current_support_user.id }
       Raven.user_context(id: "support_#{current_support_user.id}")
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!({ support_user_id: current_support_user.id }) if current_support_user
+      payload.merge!(log_query_params)
     end
   end
 end

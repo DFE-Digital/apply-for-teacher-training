@@ -9,7 +9,6 @@ module CandidateInterface
     alias_method :current_user, :current_candidate
 
     def add_identity_to_log(candidate_id = current_candidate&.id)
-      RequestLocals.store[:identity] = { candidate_id: candidate_id }
       Raven.user_context(id: "candidate_#{candidate_id}")
 
       return unless current_candidate
@@ -98,6 +97,13 @@ module CandidateInterface
 
     def strip_whitespace(params)
       StripWhitespace.from_hash(params)
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!({ candidate_id: current_candidate&.id })
+      payload.merge!(log_query_params)
     end
   end
 end

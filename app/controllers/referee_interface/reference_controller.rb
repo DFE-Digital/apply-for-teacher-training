@@ -148,11 +148,17 @@ module RefereeInterface
     def add_identity_to_log
       return if reference.blank?
 
-      RequestLocals.store[:identity] = { reference_id: reference.id }
       Raven.extra_context(
         application_support_url: support_interface_application_form_url(reference.application_form),
         reference_id: reference.id,
       )
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!({ reference_id: reference.id }) if reference.present?
+      payload.merge!(log_query_params)
     end
 
     def reference
