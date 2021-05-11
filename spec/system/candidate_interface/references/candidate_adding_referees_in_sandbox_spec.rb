@@ -66,12 +66,14 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     click_link t('continue')
     choose 'Academic'
     click_button t('save_and_continue')
+    fill_in 'What is the referee’s name?', with: 'Refbot Three'
+    click_button t('save_and_continue')
   end
 
   def then_i_see_that_the_incomplete_reference_rendered
     visit candidate_interface_references_review_path
     within all('.app-summary-card')[2] do
-      expect(all('.govuk-summary-list__value')[0].text).to have_content('Not entered')
+      expect(all('.govuk-summary-list__value')[0].text).to have_content('Refbot Three')
       expect(all('.govuk-summary-list__value')[1].text).to have_content('Not entered')
       expect(all('.govuk-summary-list__value')[2].text).to have_content('Academic')
       expect(all('.govuk-summary-list__value')[3].text).to have_content('Not entered')

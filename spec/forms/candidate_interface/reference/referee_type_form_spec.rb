@@ -10,27 +10,6 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
     end
   end
 
-  describe '#save' do
-    let(:application_form) { create(:application_form) }
-
-    context 'when referee_type is blank' do
-      it 'returns false' do
-        form = described_class.new
-
-        expect(form.save(application_form)).to be(false)
-      end
-    end
-
-    context 'when referee_type has a value' do
-      it 'creates the referee' do
-        form = described_class.new(referee_type: 'professional')
-        form.save(application_form)
-
-        expect(application_form.application_references.last.referee_type).to eq('professional')
-      end
-    end
-  end
-
   describe '#update' do
     let(:application_reference) { create(:reference) }
 

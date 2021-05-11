@@ -17,22 +17,23 @@ RSpec.describe CandidateInterface::Reference::RefereeNameForm, type: :model do
   end
 
   describe '#save' do
-    let(:application_reference) { create(:reference) }
+    let(:application_form) { create(:application_form) }
 
     context 'when name is blank' do
       it 'returns false' do
         form = described_class.new
 
-        expect(form.save(application_reference)).to be(false)
+        expect(form.save(application_form, 'academic')).to be(false)
       end
     end
 
-    context 'when name has a value' do
+    context 'when name and referee type have a value' do
       it 'creates the referee' do
         form = described_class.new(name: 'Walter White')
-        form.save(application_reference)
+        form.save(application_form, 'academic')
 
-        expect(application_reference.name).to eq('Walter White')
+        expect(application_form.application_references.last.referee_type).to eq('academic')
+        expect(application_form.application_references.last.name).to eq('Walter White')
       end
     end
   end
