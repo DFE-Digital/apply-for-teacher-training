@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe SupportInterface::QualificationsExport do
   include CourseOptionHelpers
 
+  before { FeatureFlag.deactivate(:expanded_quals_export) }
+
   describe 'documentation' do
     before do
       application_form = create(:completed_application_form, candidate: create(:candidate))
