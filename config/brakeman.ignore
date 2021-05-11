@@ -143,26 +143,6 @@
     {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
-      "fingerprint": "77d33cae7c75a2a5315e9cae27cdcf4fcfccfca45eedb3202e75043fd5801bf0",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `CourseOption#find`",
-      "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 69,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "CourseOption.find(params[:course_option_id])",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::DecisionsController",
-        "method": "confirm_offer"
-      },
-      "user_input": "params[:course_option_id]",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
       "fingerprint": "888df680e5c3ed7e243853bd4e44a6a4d10fe664576ff034ae15da1480ca8b15",
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `ProviderRelationshipPermissions#find`",
@@ -201,43 +181,23 @@
       "note": "not a user input"
     },
     {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
-      "fingerprint": "c156deb252a43bc828b89928a0bccce9f8d8e776f8e742ed012929f3211205f4",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `CourseOption#find`",
-      "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 56,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "CourseOption.find(params[:course_option_id])",
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "a467468b65951f8497a03f76e03c5af0d7daa801e4abaef50c94db98c1df7be1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/data_migrations/backfill_opened_on_apply_at_from_audits.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"UPDATE courses c\\nSET opened_on_apply_at = open_events.opened_at\\nFROM (#{open_events_sql}) open_events\\nWHERE c.id = open_events.course_id\\n\".squish)",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "ProviderInterface::DecisionsController",
-        "method": "new_offer"
+        "class": "DataMigrations::BackfillOpenedOnApplyAtFromAudits",
+        "method": "update_courses_from_audits!"
       },
-      "user_input": "params[:course_option_id]",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "Unscoped Find",
-      "warning_code": 82,
-      "fingerprint": "d910924006fc5ba7182ea2b067b9113b5ea86616fc332f0f15291fd9f34cec66",
-      "check_name": "UnscopedFind",
-      "message": "Unscoped call to `CourseOption#find`",
-      "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 87,
-      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
-      "code": "CourseOption.find(params[:course_option_id])",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::DecisionsController",
-        "method": "create_offer"
-      },
-      "user_input": "params[:course_option_id]",
-      "confidence": "Weak",
+      "user_input": "open_events_sql",
+      "confidence": "Medium",
       "note": ""
     },
     {
@@ -301,6 +261,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-04-27 10:45:46 +0100",
-  "brakeman_version": "5.0.0"
+  "updated": "2021-05-11 21:11:55 +0100",
+  "brakeman_version": "5.0.1"
 }
