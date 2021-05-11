@@ -32,6 +32,8 @@ RSpec.describe 'Selecting a full course' do
     select @course.provider.name
     click_button t('continue')
 
+    expect(page).to have_text("#{@course.name_and_code} – No vacancies")
+
     choose @course.name
     click_button t('continue')
   end
