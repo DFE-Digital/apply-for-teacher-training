@@ -8,13 +8,12 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Live environments
 
-| Name       | URL                                                                  | Description                                                             | Azure ID  |
-| ---------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
-| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                             | `s106p01` |
-| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                                 | `s106t01` |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API        | `s106t02` |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
-| DevOps     | [dev](https://dev.apply-for-teacher-training.service.gov.uk)         | For testing infrastructure changes                                      | `s106d02` |
+| Name       | URL                                                                  | Description                                                             | PaaS space    | PaaS application |
+| ---------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------- |----------------- |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                             | `bat-prod`    | `apply-prod`     |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API        | `bat-prod`    | `apply-sandbox`  |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                                 | `bat-staging` | `apply-staging`  |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from master | `bat-qa`      | `apply-qa`       |
 
 ## Table of Contents
 
@@ -59,7 +58,7 @@ The application has a number of different interfaces for different types of user
 
 We keep track of architecture decisions in [Architecture Decision Records (ADRs)](/adr).
 
-An overview of the Azure hosted infrastructure architecture can be found in the [Azure Infrastructure](/docs/azure-infrastructure.md) document.
+An overview of the PaaS hosted infrastructure architecture can be found in the [PaaS Infrastructure](/docs/paas-infrastructure.md) document.
 
 ### Domain Model
 
