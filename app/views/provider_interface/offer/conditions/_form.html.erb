@@ -1,4 +1,4 @@
-<%= form_with model: form_object, url: provider_interface_application_choice_offer_conditions_path(application_choice), method: form_method do |f| %>
+<%= form_with model: form_object, url: provider_interface_application_choice_offer_conditions_path(application_choice), method: form_method, local: false do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-l">
@@ -24,16 +24,16 @@
       ) do %>
         <p class="govuk-body">For example, studying a subject knowledge enhancement course.</p>
 
-        <% form_object.condition_models.each do |model| %>
-          <%= f.fields_for 'further_conditions[]', model do |fc| %>
-            <%= render 'provider_interface/offer/conditions/further_condition', form: f, condition_field: fc, condition_id: model.id %>
+        <div id="app-add-another-list">
+          <% form_object.condition_models.each do |model| %>
+            <%= f.fields_for 'further_conditions[]', model do |fc| %>
+              <%= render 'further_condition', condition_id: model.id, label_text: t('.condition', id: model.id + 1), form: f, condition_field: fc %>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
 
         <% unless form_object.has_max_number_of_further_conditions? %>
-          <%= f.button name: 'commit', value: 'add_another_condition', class: 'govuk-button govuk-button--secondary app-add-another__add-button govuk-!-margin-bottom-4' do %>
-            <%= t('.add_another') %>
-          <% end %>
+          <%= add_another_button(f) %>
         <% end %>
       <% end %>
 

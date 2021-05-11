@@ -33,9 +33,9 @@ en:
         form:
           further_conditions: Further conditions
           add_another: Add another condition
+          condition: Condition %{id}
         further_condition:
           remove: Remove
-          condition: Condition %{label}
       checks:
         new:
           title: Check and send offer
