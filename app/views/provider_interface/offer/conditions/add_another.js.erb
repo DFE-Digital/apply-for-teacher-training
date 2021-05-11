@@ -1,19 +1,10 @@
+<%= render 'provider_interface/offer/conditions/set_add_button_visibility' %>
+
 function appendConditionField() {
   const button = document.querySelector('.app-add-another__add-button');
   const furtherConditionsContainer = document.querySelector('#app-add-another-list');
   const latestId = document.getElementsByClassName('app-add-another__item').length;
   furtherConditionsContainer.insertAdjacentHTML("beforeend", button.dataset.field.replaceAll('{condition_id}', latestId).replaceAll('{label_text}', `Condition ${latestId + 1}`));
-}
-
-function setAddButtonVisibility() {
-  const button = document.querySelector('.app-add-another__add-button');
-  const numberOfConditions = document.getElementsByClassName('app-add-another__item').length;
-
-  if (numberOfConditions >= <%= MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length %>) {
-    button.style.display = 'none';
-  } else {
-    button.style.display = 'block';
-  }
 }
 
 appendConditionField();

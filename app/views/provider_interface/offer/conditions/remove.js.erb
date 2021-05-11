@@ -1,0 +1,25 @@
+<%= render 'provider_interface/offer/conditions/set_add_button_visibility' %>
+
+function removeConditionField() {
+  const furtherConditionsContainer = document.querySelector('#app-add-another-list');
+  furtherConditionsContainer.removeChild(furtherConditionsContainer.children[<%= @condition_id %>]);
+  reassignConditionIndices();
+}
+
+function reassignConditionIndices(){
+  const conditionFields = document.getElementsByClassName('app-add-another__item');
+  for (let i = 0; i < conditionFields.length; i++) {
+    assignValues(conditionFields[i], i);
+  }
+}
+
+function assignValues(element, index) {
+  const conditionLabel = `Condition ${index + 1}`;
+  element.querySelector('label').innerHTML = conditionLabel;
+  element.querySelector('textarea').name = element.querySelector('textarea').name.replace(/\d+/, index);
+  element.querySelector('.app-add-another__remove-button').value = index;
+  element.querySelector('.govuk-visually-hidden').innerHTML = conditionLabel.toLowerCase();
+}
+
+removeConditionField();
+setAddButtonVisibility();

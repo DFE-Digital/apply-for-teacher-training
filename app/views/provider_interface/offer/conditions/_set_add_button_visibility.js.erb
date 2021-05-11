@@ -1,0 +1,10 @@
+function setAddButtonVisibility() {
+  const button = document.querySelector('.app-add-another__add-button');
+  const numberOfConditions = document.getElementsByClassName('app-add-another__item').length;
+
+  if (numberOfConditions >= <%= MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length %>) {
+    button.style.display = 'none';
+  } else {
+    button.style.display = 'block';
+  }
+}
