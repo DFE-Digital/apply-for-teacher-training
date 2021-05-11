@@ -1,0 +1,46 @@
+<% content_for :browser_title, title_with_error_prefix('Revert rejection', @application_choice.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
+
+<%= form_with(
+    model: @form,
+    url: support_interface_application_form_revert_rejection_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
+    method: :patch
+  ) do |f| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+      <h1 class="govuk-heading-l">
+        Are you sure you want to revert this rejection?
+      </h1>
+
+      <p class="govuk-body">A rejection can only be reverted if:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>it was rejected within 5 working days of the request to revert and,</li>
+        <li>the candidate has not accepted any other offers</li>
+      </ul>
+      <p class="govuk-body">In order to revert the rejection you must first contact the provider to confirm that they agree to this.</p>
+      <p class="govuk-body">Once the rejection has been reverted, please email the candidate using the macro.</p>
+      <p class="govuk-body">There are separate macros if the request was made after 5 working days or if the candidate has already accepted another offer.</p>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_text_field(
+              :audit_comment_ticket,
+              label: {
+                text: 'Zendesk ticket URL',
+                size: 'm',
+              },
+              rows: 1,
+              hint: { text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345' },
+            ) %>
+    </div>
+  </div>
+
+  <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+    <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>

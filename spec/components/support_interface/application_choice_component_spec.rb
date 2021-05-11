@@ -66,6 +66,32 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
   end
 
+  context 'Rejected application' do
+    let(:rejected_application_choice) { create(:application_choice, :with_completed_application_form, :with_rejection) }
+
+    it 'Renders a link to the revert rejection page when application was manually rejected' do
+      result = render_inline(described_class.new(rejected_application_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_revert_rejection_path(
+          application_form_id: rejected_application_choice.application_form.id,
+          application_choice_id: rejected_application_choice.id,
+        ),
+      )
+      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Revert rejection')
+    end
+
+    it 'Does not renders a link to the revert rejection page when application was rejected by default' do
+      rejected_application_choice.update!(
+        rejected_by_default: true,
+      )
+      result = render_inline(described_class.new(rejected_application_choice))
+
+      expect(result.css('.govuk-summary-list__actions a')).to be_empty
+      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Revert rejection')
+    end
+  end
+
   it 'displays the date an application was rejected' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,

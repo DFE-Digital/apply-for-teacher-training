@@ -42,14 +42,10 @@ module SupportInterface
   private
 
     def status_row
-      if FeatureFlag.active?(:support_user_reinstate_offer) && application_choice.declined? && !application_choice.declined_by_default
-        { key: 'Status',
-          value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)),
-          action: 'Reinstate offer',
-          action_path: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id) }
-      else
-        { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) }
-      end
+      {
+        key: 'Status',
+        value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)),
+      }.merge(status_action_link)
     end
 
     def offer_made_at_row
@@ -182,6 +178,22 @@ module SupportInterface
       GetRecruitedApplicationChoices.call(
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ).find_by(id: application_choice.id).present?
+    end
+
+    def status_action_link
+      if FeatureFlag.active?(:support_user_reinstate_offer) && application_choice.declined? && !application_choice.declined_by_default
+        {
+          action: 'Reinstate offer',
+          action_path: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+        }
+      elsif application_choice.rejected? && !application_choice.rejected_by_default?
+        {
+          action: 'Revert rejection',
+          action_path: support_interface_application_form_revert_rejection_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+        }
+      else
+        {}
+      end
     end
   end
 end

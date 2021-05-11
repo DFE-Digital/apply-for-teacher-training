@@ -160,3 +160,10 @@ en:
             audit_comment:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
+        support_interface/application_forms/revert_rejection_form:
+          attributes:
+            accept_guidance:
+              blank: Select that you have read the guidance
+            audit_comment_ticket:
+              blank: Enter a Zendesk ticket URL
+              invalid: Enter a valid Zendesk ticket URL
