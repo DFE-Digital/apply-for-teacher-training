@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Reference history on review page' do
   include CandidateHelper
 
+  around do |example|
+    Timecop.freeze { example.run }
+  end
+
   scenario 'candidate views reference history', with_audited: true do
     given_i_am_signed_in
     and_i_add_a_reference
@@ -29,7 +33,7 @@ RSpec.feature 'Reference history on review page' do
   end
 
   def and_i_send_it
-    Timecop.travel(Time.zone.now + 2.hours) do
+    Timecop.freeze(Time.zone.now + 2.hours) do
       choose 'Yes, send a reference request now'
       click_button t('save_and_continue')
     end
@@ -37,14 +41,14 @@ RSpec.feature 'Reference history on review page' do
   end
 
   def and_i_send_a_reminder
-    Timecop.travel(@reference.requested_at + 1.day) do
+    Timecop.freeze(@reference.requested_at + 1.day) do
       click_link 'Send a reminder to this referee'
       click_button 'Yes I’m sure - send a reminder'
     end
   end
 
   def and_the_system_sends_an_automated_reminder
-    Timecop.travel(@reference.requested_at + TimeLimitConfig.chase_referee_by.days) do
+    Timecop.freeze(@reference.requested_at + TimeLimitConfig.chase_referee_by.days + 1.minute) do
       ChaseReferences.new.perform
     end
   end
@@ -55,7 +59,7 @@ RSpec.feature 'Reference history on review page' do
     expected_history = [
       { event_name: 'Request sent', timestamp: (Time.zone.now + 2.hours).to_s(:govuk_date_and_time) },
       { event_name: 'Reminder sent', timestamp: (Time.zone.now + 1.day + 2.hours).to_s(:govuk_date_and_time) },
-      { event_name: 'Automated reminder sent', timestamp: (Time.zone.now + 7.days + 2.hours).to_s(:govuk_date) },
+      { event_name: 'Automated reminder sent', timestamp: (Time.zone.now + 7.days + 2.hours + 1.minute).to_s(:govuk_date) },
     ]
 
     within '[data-qa="reference-history"]' do
