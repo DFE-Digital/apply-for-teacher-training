@@ -12,7 +12,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src    :self, :https, :data
   policy.img_src     :self, :https, :data
   policy.object_src  :none
-  policy.script_src  :self, :https, 'www.googletagmanager.com', 'static.zdassets.com', :unsafe_inline, :unsafe_eval
+  policy.script_src  :self, :https, 'www.googletagmanager.com', 'static.zdassets.com', :unsafe_eval
   policy.style_src   :self, :https, :unsafe_inline
 
   # For ZenDesk chat
