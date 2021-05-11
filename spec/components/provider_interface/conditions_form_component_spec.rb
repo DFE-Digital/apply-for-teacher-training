@@ -36,6 +36,10 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
     it 'renders no text boxes' do
       expect(render.css('textarea')).to be_empty
     end
+
+    it 'renders the add another button' do
+      expect(render.css('.app-add-another__add-button').text.squish).to eq('Add another condition')
+    end
   end
 
   context 'When the form object has further conditions set' do
@@ -48,6 +52,22 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
 
     it 'renders the correct numbering for the labels' do
       expect(render.css('.app-add-another__item > .govuk-form-group > .govuk-label').map(&:text)).to contain_exactly('Condition 1', 'Condition 2')
+    end
+
+    it 'renders the add another button' do
+      expect(render.css('.app-add-another__add-button').text.squish).to eq('Add another condition')
+    end
+
+    it 'renders the remove condition links' do
+      expect(render.css('.app-add-another__remove-button').map(&:text).map(&:squish)).to contain_exactly('Remove condition 1', 'Remove condition 2')
+    end
+  end
+
+  context 'when the form object has 20 conditions set' do
+    let(:further_conditions) { Array.new(20, 'condition text') }
+
+    it 'does not render the add another button' do
+      expect(render.css('.app-add-another__add-button')).to be_empty
     end
   end
 end
