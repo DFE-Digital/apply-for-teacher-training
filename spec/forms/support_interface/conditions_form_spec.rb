@@ -1,6 +1,49 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ConditionsForm do
+  describe '#validations' do
+    it 'first further condition can be up to 2000 characters' do
+      application_choice = create(:application_choice)
+      form = described_class.build_from_params(
+        application_choice,
+        'further_conditions' => {
+          '0' => { 'text' => 2000.times.map { ('a'..'z').to_a[rand(26)] }.join },
+          '1' => { 'text' => 255.times.map { ('a'..'z').to_a[rand(26)] }.join },
+        },
+        'audit_comment' => 'See support ticket #123',
+      )
+      expect(form).to be_valid
+    end
+
+    it 'first further condition cannot be more than 2000 characters' do
+      application_choice = create(:application_choice)
+      form = described_class.build_from_params(
+        application_choice,
+        'further_conditions' => {
+          '0' => { 'text' => 2001.times.map { ('a'..'z').to_a[rand(26)] }.join },
+          '1' => { 'text' => 10.times.map { ('a'..'z').to_a[rand(26)] }.join },
+        },
+        'audit_comment' => 'See support ticket #123',
+      )
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to include('Further conditions Condition 1 must be 2000 characters or fewer')
+    end
+
+    it 'second further condition cannot be more than 255 characters' do
+      application_choice = create(:application_choice)
+      form = described_class.build_from_params(
+        application_choice,
+        'further_conditions' => {
+          '0' => { 'text' => 10.times.map { ('a'..'z').to_a[rand(26)] }.join },
+          '1' => { 'text' => 256.times.map { ('a'..'z').to_a[rand(26)] }.join },
+        },
+        'audit_comment' => 'See support ticket #123',
+      )
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to include('Further conditions Condition 2 must be 255 characters or fewer')
+    end
+  end
+
   describe '#save' do
     it 'returns false with a validation error if audit_comment is missing' do
       application_choice = create(

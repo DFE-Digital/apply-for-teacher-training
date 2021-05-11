@@ -4,8 +4,6 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_accessor :id, :text
-
-      validates :text, length: { maximum: MakeAnOffer::MAX_CONDITION_LENGTH, too_long: ->(c, _) { "Condition #{c.id + 1} must be %{count} characters or fewer" } }
     end
 
     include ActiveModel::Model
@@ -13,10 +11,11 @@ module SupportInterface
     attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment
 
     MIN_FURTHER_CONDITIONS = 4
-    MAX_FURTHER_CONDITIONS = MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
+    MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
     validates :application_choice, presence: true
     validates :audit_comment, presence: true
+    validate :further_conditions_length
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
@@ -70,6 +69,16 @@ module SupportInterface
     def further_condition_models
       @further_condition_models ||= further_conditions.map.with_index do |further_condition, index|
         OfferConditionField.new(id: index, text: further_condition)
+      end
+    end
+
+    def further_conditions_length
+      further_conditions.each_with_index do |condition, index|
+        if index.zero?
+          errors.add(:further_conditions, :too_long, index: index + 1, limit: OfferValidations::MAX_CONDITION_1_LENGTH) if condition.length > OfferValidations::MAX_CONDITION_1_LENGTH
+        elsif condition.length > OfferValidations::MAX_CONDITION_LENGTH
+          errors.add(:further_conditions, :too_long, index: index + 1, limit: OfferValidations::MAX_CONDITION_LENGTH)
+        end
       end
     end
 
