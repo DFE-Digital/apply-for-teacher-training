@@ -137,4 +137,20 @@ RSpec.describe Course, type: :model do
       end
     end
   end
+
+  describe '#open!' do
+    it 'sets both open_on_apply and opened_on_apply_at' do
+      Timecop.freeze do
+        course = create(:course)
+        course.open!
+        expect(course.open_on_apply).to be(true)
+        expect(course.opened_on_apply_at).to eq(Time.zone.now)
+      end
+    end
+
+    it 'does not update the timestamp if course already open' do
+      course = create(:course, :open_on_apply)
+      expect { course.open! }.not_to change(course, :opened_on_apply_at)
+    end
+  end
 end

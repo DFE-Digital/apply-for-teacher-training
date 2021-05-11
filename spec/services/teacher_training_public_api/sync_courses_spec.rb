@@ -316,6 +316,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         course = Course.find_by(code: 'ABC1')
 
         expect(course.open_on_apply).to be true
+        expect(course.opened_on_apply_at).not_to be_nil
       end
     end
 
@@ -362,12 +363,14 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
         new_course = Course.find_by(recruitment_cycle_year: 2021)
         expect(new_course).to be_open_on_apply
+        expect(new_course.opened_on_apply_at).not_to be_nil
 
         new_course.update(open_on_apply: false)
 
         described_class.new.perform(existing_provider.id, 2021)
 
         expect(new_course.reload).not_to be_open_on_apply
+        expect(new_course.opened_on_apply_at).not_to be_nil
       end
     end
 

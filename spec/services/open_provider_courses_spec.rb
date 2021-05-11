@@ -37,6 +37,17 @@ RSpec.describe OpenProviderCourses do
     expect(other_course.reload).not_to be_open_on_apply
   end
 
+  it 'sets the opened on apply timestamp' do
+    opened_on_apply = Time.zone.local(2021, 3, 24, 12)
+    course = create(:course, provider: provider, exposed_in_find: true)
+
+    Timecop.freeze(opened_on_apply) do
+      described_class.new(provider: provider).call
+
+      expect(course.reload.opened_on_apply_at).to eq(opened_on_apply)
+    end
+  end
+
   it 'creates audits for the changes it makes', with_audited: true do
     provider = create(:provider)
     course = create(:course, exposed_in_find: true, provider: provider)
