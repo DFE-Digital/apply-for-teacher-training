@@ -30,7 +30,7 @@
           <% end %>
         <% end %>
 
-        <% if form_object.condition_models.length < 20 %>
+        <% unless form_object.has_max_number_of_further_conditions? %>
           <%= f.button name: 'commit', value: 'add_another_condition', class: 'govuk-button govuk-button--secondary app-add-another__add-button govuk-!-margin-bottom-4' do %>
             <%= t('.add_another') %>
           <% end %>

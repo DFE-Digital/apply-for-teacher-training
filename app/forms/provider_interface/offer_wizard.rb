@@ -84,6 +84,22 @@ module ProviderInterface
       end
     end
 
+    def has_max_number_of_further_conditions?
+      further_conditions.length >= MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
+    end
+
+    def add_empty_condition
+      return if has_max_number_of_further_conditions?
+
+      further_conditions << ''
+      save_state!
+    end
+
+    def remove_condition(condition_id)
+      further_conditions.delete_at(condition_id)
+      save_state!
+    end
+
   private
 
     def self.standard_conditions_from(offer)

@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       further_condition_2,
       further_condition_3,
       further_condition_4,
-    ]
+    ].reject(&:blank?)
   end
   let(:current_step) { nil }
   let(:decision) { nil }
@@ -301,6 +301,80 @@ RSpec.describe ProviderInterface::OfferWizard do
       expect(wizard.conditions).to eq([MakeAnOffer::STANDARD_CONDITIONS.last,
                                        further_condition_1,
                                        further_condition_3])
+    end
+  end
+
+  describe '#has_max_number_of_further_conditions?' do
+    context 'when there are fewer than 18 conditions already set' do
+      let(:further_conditions) { Array.new(17, 'be cool') }
+
+      it 'returns false' do
+        expect(wizard.has_max_number_of_further_conditions?).to eq(false)
+      end
+    end
+
+    context 'when there are 18 conditions already set' do
+      let(:further_conditions) { Array.new(18, 'be cool') }
+
+      it 'returns true' do
+        expect(wizard.has_max_number_of_further_conditions?).to eq(true)
+      end
+    end
+
+    context 'when there are more than 18 conditions already set' do
+      let(:further_conditions) { Array.new(19, 'be cool') }
+
+      it 'returns true' do
+        expect(wizard.has_max_number_of_further_conditions?).to eq(true)
+      end
+    end
+  end
+
+  describe '#add_empty_condition' do
+    let(:further_condition_1) { 'Be cool' }
+    let(:further_condition_2) { 'Degree certificate' }
+
+    before do
+      allow(store).to receive(:write)
+    end
+
+    it 'appends a blank condition to the array of further conditions' do
+      expect { wizard.add_empty_condition }.to change { wizard.further_conditions.length }.from(2).to(3)
+
+      expect(wizard.further_conditions.last).to eq('')
+    end
+
+    context 'when there are 18 conditions already set' do
+      let(:further_conditions) { Array.new(18, 'be cool') }
+
+      it 'does not append a blank condition to the array of further conditions' do
+        expect { wizard.add_empty_condition }.not_to(change { wizard.further_conditions })
+
+        expect(wizard.further_conditions.last).to eq('be cool')
+      end
+    end
+  end
+
+  describe '#remove_condition' do
+    let(:further_condition_1) { 'Be cool' }
+    let(:further_condition_2) { 'Degree certificate' }
+
+    before do
+      allow(store).to receive(:write)
+    end
+
+    it 'removes the further condition at the specified index' do
+      expect { wizard.remove_condition(0) }.to change { wizard.further_conditions.length }.from(2).to(1)
+
+      expect(wizard.further_conditions).to contain_exactly('Degree certificate')
+    end
+
+    context 'when there are no conditions already set' do
+      let(:further_conditions) { [] }
+
+      it 'does nothing' do
+        expect { wizard.remove_condition(0) }.not_to(change { wizard.further_conditions })
+      end
     end
   end
 end

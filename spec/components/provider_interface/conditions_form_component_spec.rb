@@ -5,7 +5,9 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
   let(:form_object_class) do
     Class.new do
       include ActiveModel::Model
-      attr_accessor :standard_conditions, :condition_models
+      attr_accessor :standard_conditions, :condition_models, :has_max_number_of_further_conditions
+
+      alias_method :has_max_number_of_further_conditions?, :has_max_number_of_further_conditions
     end
   end
 
@@ -15,8 +17,9 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
       OpenStruct.new(id: index, text: condition)
     end
   end
+  let(:max_conditions) { false }
 
-  let(:form_object) { FormObjectClass.new(condition_models: condition_models) }
+  let(:form_object) { FormObjectClass.new(condition_models: condition_models, has_max_number_of_further_conditions: max_conditions) }
 
   let(:component) do
     described_class.new(
@@ -63,8 +66,8 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
     end
   end
 
-  context 'when the form object has 20 conditions set' do
-    let(:further_conditions) { Array.new(20, 'condition text') }
+  context 'when the form object has the maximum number of further conditions set' do
+    let(:max_conditions) { true }
 
     it 'does not render the add another button' do
       expect(render.css('.app-add-another__add-button')).to be_empty
