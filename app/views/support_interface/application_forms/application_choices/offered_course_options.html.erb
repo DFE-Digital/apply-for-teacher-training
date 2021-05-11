@@ -14,7 +14,7 @@
     <% end %>
 
     <% if @pick_course.course_options.present? %>
-      <%= form_with model: @pick_course, url: support_interface_application_form_choose_offered_course_option_path(course_code: @pick_course.course_code), method: :patch do |f| %>
+      <%= form_with model: @pick_course, url: support_interface_application_form_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
         <%= f.govuk_error_summary %>
         <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
           <% @pick_course.course_options.each_with_index do |co, i| %>

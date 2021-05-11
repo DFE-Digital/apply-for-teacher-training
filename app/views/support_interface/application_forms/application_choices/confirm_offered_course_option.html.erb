@@ -1,0 +1,42 @@
+<% content_for :browser_title, title_with_error_prefix('Confirm offered course', @update_offered_course_option_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_choose_offered_course_option_path(course_code: @update_offered_course_option_form.course_option.course.code)) %>
+
+<%= form_with(
+  model: @update_offered_course_option_form,
+  url: support_interface_application_form_confirm_offered_course_option_path,
+  method: :patch
+  )do |f| %>
+
+  <%= f.govuk_error_summary %>
+  <%= f.hidden_field :course_option_id, value: @update_offered_course_option_form.course_option.id %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        Are you sure you want to offer this course?
+      </h1>
+
+      <p class="govuk-body">Guidance</p>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_text_field(
+              :audit_comment,
+              label: {
+                text: 'Zendesk ticket URL',
+                size: 'm',
+              },
+              rows: 1,
+              hint: { text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345' },
+            ) %>
+    </div>
+  </div>
+
+  <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+    <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>

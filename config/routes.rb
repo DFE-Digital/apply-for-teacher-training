@@ -818,6 +818,9 @@ Rails.application.routes.draw do
 
       get '/choose-offered-course/:application_choice_id' => 'application_forms/application_choices#offered_course_options', as: :application_form_choose_offered_course_option
       post '/choose-offered-course/:application_choice_id' => 'application_forms/application_choices#choose_offered_course_option'
+
+      get '/confirm-offered-course/:application_choice_id/:application_choice_id' => 'application_forms/application_choices#confirm_offered_course_option', as: :application_form_confirm_offered_course_option
+      patch '/confirm-offered-course/:application_choice_id/:application_choice_id' => 'application_forms/application_choices#update_offered_course_option'
     end
 
     get '/ucas-matches' => 'ucas_matches#index'

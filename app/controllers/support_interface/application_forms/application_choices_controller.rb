@@ -66,6 +66,21 @@ module SupportInterface
         end
       end
 
+      def confirm_offered_course_option
+        @update_offered_course_option_form = UpdateOfferedCourseOptionForm.new(course_option_id: params[:course_option_id])
+      end
+
+      def update_offered_course_option
+        @update_offered_course_option_form = UpdateOfferedCourseOptionForm.new(confirm_offered_course_option_params)
+
+        if @update_offered_course_option_form.save(@application_choice)
+          flash[:success] = 'Offered course choice updated successfully'
+          redirect_to support_interface_application_form_path(@application_form.id)
+        else
+          render :confirm_offered_course_option
+        end
+      end
+
     private
 
       def reinstate_offer_params
@@ -79,6 +94,10 @@ module SupportInterface
 
       def course_option_id
         params.dig(:support_interface_application_forms_pick_course_form, :course_option_id)
+      end
+
+      def confirm_offered_course_option_params
+        params.require(:support_interface_application_forms_update_offered_course_option_form).permit(:course_option_id, :audit_comment, :accept_guidance)
       end
 
       def build_application_form
