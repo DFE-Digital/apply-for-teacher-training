@@ -30,6 +30,12 @@ en:
           title: Conditions of offer
         edit:
           title: Conditions of offer
+        form:
+          further_conditions: Further conditions
+          add_another: Add another condition
+        further_condition:
+          remove: Remove
+          condition: Condition %{label}
       checks:
         new:
           title: Check and send offer
@@ -37,11 +43,6 @@ en:
         edit:
           title: Check and send new offer
           submit: Send new offer
-    conditions_form_component:
-      further_conditions: Further conditions
-      add_another: Add another condition
-      remove: Remove
-      condition: Condition %{label}
     offers:
       failure: Sorry, there is a problem with the service.
       create:

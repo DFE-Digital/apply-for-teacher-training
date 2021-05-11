@@ -22,7 +22,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
     described_class.new(
       application_choice: application_choice,
       form_object: form_object,
-      method: :post,
+      form_method: :post,
       form_heading: 'Title',
     )
   end

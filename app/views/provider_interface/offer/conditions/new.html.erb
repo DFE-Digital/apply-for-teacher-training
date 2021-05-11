@@ -1,4 +1,4 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :new, back: true)) %>
 
-<%= render ProviderInterface::ConditionsFormComponent.new(form_object: @wizard, application_choice: @application_choice, method: :post, form_heading: t('.title')) %>
+<%= render ProviderInterface::ConditionsFormComponent.new(form_object: @wizard, application_choice: @application_choice, form_method: :post, form_heading: t('.title')) %>
