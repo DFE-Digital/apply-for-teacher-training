@@ -70,7 +70,12 @@ module ProviderInterface
           @wizard.remove_empty_conditions!
           @wizard.save_state!
 
-          redirect_to [action, :provider_interface, @application_choice, :offer, @wizard.next_step]
+          redirect_url = polymorphic_url([action, :provider_interface, @application_choice, :offer, @wizard.next_step])
+
+          respond_to do |format|
+            format.js { render js: "window.location.replace('#{redirect_url}')" }
+            format.html { redirect_to redirect_url }
+          end
         else
           rerender_form(action)
         end
