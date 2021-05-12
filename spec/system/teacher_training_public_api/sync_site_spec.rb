@@ -17,6 +17,7 @@ RSpec.describe 'Sync sites', sidekiq: true do
   end
 
   def given_there_are_2_sites_in_the_teacher_training_api
+    @course_uuid = SecureRandom.uuid
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
 
@@ -34,6 +35,7 @@ RSpec.describe 'Sync sites', sidekiq: true do
         code: 'ABC1',
         accredited_body_code: 'ABC',
         study_mode: 'both',
+        uuid: @course_uuid,
       }],
     )
     stub_teacher_training_api_sites(
@@ -60,7 +62,7 @@ RSpec.describe 'Sync sites', sidekiq: true do
 
   def and_one_of_the_sites_exists_already
     provider = create :provider, code: 'ABC', sync_courses: true
-    create(:course, code: 'ABC1', provider: provider)
+    create(:course, code: 'ABC1', provider: provider, uuid: @course_uuid)
     create(:site, code: 'A', provider: provider, name: 'Hogwarts School of Witchcraft and Wizardry')
   end
 

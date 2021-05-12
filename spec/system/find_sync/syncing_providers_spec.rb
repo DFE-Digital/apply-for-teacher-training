@@ -13,8 +13,9 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def given_there_is_an_existing_provider_and_course_in_apply
+    @course_uuid = SecureRandom.uuid
     @existing_provider = create :provider, code: 'ABC', sync_courses: true
-    create :course, code: 'ABC1', provider: @existing_provider, subjects: %w[]
+    create :course, code: 'ABC1', provider: @existing_provider, subjects: %w[], uuid: @course_uuid
   end
 
   def and_there_is_a_provider_with_a_course_in_find
@@ -27,7 +28,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
 
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
-      specified_attributes: [{ code: 'ABC1', accredited_body_code: nil, subject_codes: %w[08] }],
+      specified_attributes: [{ code: 'ABC1', accredited_body_code: nil, subject_codes: %w[08], uuid: @course_uuid }],
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',

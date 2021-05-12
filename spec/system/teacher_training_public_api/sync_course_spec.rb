@@ -17,6 +17,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
   def given_there_are_2_courses_in_the_teacher_training_api
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
+    @course_uuid = SecureRandom.uuid
 
     stub_teacher_training_api_providers(
       specified_attributes: [
@@ -44,6 +45,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
         state: 'published',
         qualifications: %w[qts pgce],
         accredited_body_code: '',
+        uuid: @course_uuid,
       },
                              {
                                code: 'ABC2',
@@ -76,7 +78,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
   def and_one_of_the_courses_exists_already
     provider = create :provider, code: 'ABC', sync_courses: true
     create :provider, code: 'DEF', sync_courses: true
-    create(:course, code: 'ABC1', provider: provider, name: 'Secondary')
+    create(:course, code: 'ABC1', provider: provider, name: 'Secondary', uuid: @course_uuid)
   end
 
   def when_the_sync_runs

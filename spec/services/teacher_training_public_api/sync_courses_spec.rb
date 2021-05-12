@@ -181,11 +181,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
       end
 
       it 'resets the accredited provider if it is no longer specified' do
-        course = create(:course, accredited_provider: create(:provider), code: 'ABC1', provider: create(:provider, code: 'ABC'))
+        course = create(:course, uuid: '9875793b-83b6-4a6f-a3d7-4775e76a9ae7', accredited_provider: create(:provider), code: 'ABC1', provider: create(:provider, code: 'ABC'))
 
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                    course_code: 'ABC1',
-                                                   course_attributes: [{ accredited_body_code: nil }],
+                                                   course_attributes: [{ accredited_body_code: nil, uuid: '9875793b-83b6-4a6f-a3d7-4775e76a9ae7' }],
                                                    site_code: 'A')
 
         described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
@@ -355,7 +355,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                    course_code: 'ABC1',
                                                    recruitment_cycle_year: 2021,
-                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time', uuid: SecureRandom.uuid }],
                                                    site_code: 'A',
                                                    vacancy_status: 'full_time_vacancies')
 
