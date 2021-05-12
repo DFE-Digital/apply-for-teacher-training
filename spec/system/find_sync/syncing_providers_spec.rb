@@ -5,6 +5,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
 
   scenario 'Updates course subject codes' do
     given_there_is_an_existing_provider_and_course_in_apply
+    and_the_last_sync_was_two_hours_ago
     and_there_is_a_provider_with_a_course_in_find
 
     when_the_sync_runs
@@ -18,17 +19,26 @@ RSpec.describe 'Syncing providers', sidekiq: true do
     create :course, code: 'ABC1', provider: @existing_provider, subjects: %w[], uuid: @course_uuid
   end
 
+  def and_the_last_sync_was_two_hours_ago
+    @updated_since = Time.zone.now - 2.hours
+    allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(@updated_since)
+  end
+
   def and_there_is_a_provider_with_a_course_in_find
-    stub_teacher_training_api_providers(specified_attributes: [
-      {
-        code: 'ABC',
-        name: 'ABC College',
-      },
-    ])
+    stub_teacher_training_api_providers(
+      specified_attributes: [
+        {
+          code: 'ABC',
+          name: 'ABC College',
+        },
+      ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
+    )
 
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
       specified_attributes: [{ code: 'ABC1', accredited_body_code: nil, subject_codes: %w[08], uuid: @course_uuid }],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',

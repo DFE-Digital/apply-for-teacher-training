@@ -5,6 +5,7 @@ RSpec.describe 'Sync provider', sidekiq: true do
 
   scenario 'Creates and updates providers' do
     given_there_are_2_providers_in_the_teacher_training_api
+    and_the_last_sync_was_two_hours_ago
     and_one_of_the_providers_exists_already
 
     when_the_sync_runs
@@ -14,6 +15,7 @@ RSpec.describe 'Sync provider', sidekiq: true do
   end
 
   def given_there_are_2_providers_in_the_teacher_training_api
+    @updated_since = Time.zone.now - 2.hours
     stub_teacher_training_api_providers(
       specified_attributes: [
         {
@@ -25,7 +27,12 @@ RSpec.describe 'Sync provider', sidekiq: true do
           name: 'DER College',
         },
       ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
+  end
+
+  def and_the_last_sync_was_two_hours_ago
+    allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(@updated_since)
   end
 
   def and_one_of_the_providers_exists_already

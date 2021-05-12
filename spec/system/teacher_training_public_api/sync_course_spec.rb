@@ -5,6 +5,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
 
   scenario 'Creates and updates courses' do
     given_there_are_2_courses_in_the_teacher_training_api
+    and_the_last_sync_was_two_hours_ago
     and_one_of_the_courses_exists_already
 
     when_the_sync_runs
@@ -15,6 +16,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
   end
 
   def given_there_are_2_courses_in_the_teacher_training_api
+    @updated_since = Time.zone.now - 2.hours
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
     @course_uuid = SecureRandom.uuid
@@ -26,6 +28,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
           name: 'ABC College',
         },
       ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
@@ -64,6 +67,7 @@ RSpec.describe 'Sync courses', sidekiq: true do
                                qualifications: %w[qts pgce],
                                accredited_body_code: 'DEF',
                              }],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
@@ -73,6 +77,10 @@ RSpec.describe 'Sync courses', sidekiq: true do
       provider_code: 'ABC',
       course_code: 'ABC2',
     )
+  end
+
+  def and_the_last_sync_was_two_hours_ago
+    allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(@updated_since)
   end
 
   def and_one_of_the_courses_exists_already

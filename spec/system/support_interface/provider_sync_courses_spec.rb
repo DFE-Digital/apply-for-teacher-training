@@ -6,6 +6,7 @@ RSpec.feature 'See provider course syncing' do
 
   scenario 'User switches sync courses on Provider' do
     given_i_am_a_support_user
+    and_the_last_sync_was_two_hours_ago
     and_a_provider_exists
     when_i_visit_the_providers_page
     then_i_see_that_the_provider_is_not_configured_to_sync_courses
@@ -22,6 +23,11 @@ RSpec.feature 'See provider course syncing' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def and_the_last_sync_was_two_hours_ago
+    @updated_since = Time.zone.now - 2.hours
+    allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(@updated_since)
   end
 
   def and_a_provider_exists
@@ -61,9 +67,20 @@ RSpec.feature 'See provider course syncing' do
           name: 'ABC College',
         },
       ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
 
-    stub_teacher_training_api_courses(provider_code: 'ABC', specified_attributes: [{ code: 'ABC1', accredited_body_code: nil }])
+    stub_teacher_training_api_courses(
+      provider_code: 'ABC',
+      specified_attributes: [
+        {
+          code: 'ABC1',
+          accredited_body_code: nil,
+        },
+      ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
+    )
+
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
       course_code: 'ABC1',
