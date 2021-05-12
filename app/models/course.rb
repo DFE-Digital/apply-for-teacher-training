@@ -7,8 +7,6 @@ class Course < ApplicationRecord
   has_many :subjects, through: :course_subjects
   belongs_to :accredited_provider, class_name: 'Provider', optional: true
 
-  audited associated_with: :provider
-
   validates :level, presence: true
   validates :code, uniqueness: { scope: %i[recruitment_cycle_year provider_id] }
 

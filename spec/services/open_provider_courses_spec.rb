@@ -47,14 +47,4 @@ RSpec.describe OpenProviderCourses do
       expect(course.reload.opened_on_apply_at).to eq(opened_on_apply)
     end
   end
-
-  it 'creates audits for the changes it makes', with_audited: true do
-    provider = create(:provider)
-    course = create(:course, exposed_in_find: true, provider: provider)
-
-    expect { described_class.new(provider: provider).call }
-      .to(change { course.audits.count }.from(2).to(3))
-
-    expect(course.audits.last.audited_changes.keys).to include('open_on_apply')
-  end
 end
