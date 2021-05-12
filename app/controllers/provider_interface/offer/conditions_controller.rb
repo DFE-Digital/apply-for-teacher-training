@@ -72,9 +72,15 @@ module ProviderInterface
           @wizard.remove_empty_conditions!
           @wizard.save_state!
 
-          redirect_to [action, :provider_interface, @application_choice, :offer, @wizard.next_step]
+          respond_to do |format|
+            format.js { render js: "window.location.replace('#{polymorphic_url([action, :provider_interface, @application_choice, :offer, @wizard.next_step])}')" }
+            format.html { redirect_to [action, :provider_interface, @application_choice, :offer, @wizard.next_step] }
+          end
         else
-          render action
+          respond_to do |format|
+            format.js { render js: 'window.location.reload()' }
+            format.html { render action }
+          end
         end
       end
 
