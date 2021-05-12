@@ -3,6 +3,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+
+    <p class="govuk-body">A candidate can only accept 1 of the courses they are offered by any providers they have submitted applications to.</p>
+    <p class="govuk-body">The support team can change the offered course accepted by a candidate if a request to alter the course accepted is made before the end of the cycle.</p>
+    <p class="govuk-body">Candidates should decline all other offers received apart from the offer they wish to accept.</p>
+
     <p class="govuk-body">You can find the course code by searching on
       <%= govuk_link_to(
         'Find postgraduate teacher training',
@@ -13,6 +18,7 @@
     </p>
     <p class="govuk-body">The code you need is in the title of the course.</p>
     <p class="govuk-body">For example, the course code for York St John University Primary (Q859), is Q859.</p>
+
     <%= form_with(
       model: @course_search,
       url: support_interface_application_form_application_choice_change_offered_course_search_path(

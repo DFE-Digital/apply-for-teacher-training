@@ -151,7 +151,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def and_i_see_the_guidance_on_changing_an_offered_course
-    expect(page).to have_content 'Guidance'
+    expect(page).to have_content 'An offer can only be changed if:'
   end
 
   def when_i_provide_an_invalid_zendesk_ticket_link
