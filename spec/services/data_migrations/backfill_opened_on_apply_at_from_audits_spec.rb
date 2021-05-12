@@ -1,13 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::BackfillOpenedOnApplyAtFromAudits, with_audited: true do
-  it 'hardcodes the timestamp to 2020-03-26 for courses predating audits' do
-    course = create(:course, open_on_apply: true, created_at: Time.zone.local(2020, 2, 10, 12, 0, 0))
-    course.audits.destroy_all
-    described_class.new.change
-    expect(course.reload.opened_on_apply_at).to eq(Time.zone.local(2020, 3, 26, 0, 0, 0))
-  end
-
   it 'uses the timestamp from last open in audits' do
     course = create(:course)
     last_opened_at = Time.zone.local(2021, 1, 12, 12, 30, 0)
@@ -43,5 +36,13 @@ RSpec.describe DataMigrations::BackfillOpenedOnApplyAtFromAudits, with_audited: 
       described_class.new.change
       expect(course.reload.opened_on_apply_at).to eq(opened_at)
     end
+  end
+
+  it 'uses created_at for courses lacking open_on_apply audits' do
+    created_at = Time.zone.local(2020, 2, 10, 12, 0, 0)
+    course = create(:course, open_on_apply: true, created_at: created_at)
+    course.audits.destroy_all
+    described_class.new.change
+    expect(course.reload.opened_on_apply_at).to eq(created_at)
   end
 end
