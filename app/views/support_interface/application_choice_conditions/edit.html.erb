@@ -8,12 +8,9 @@
 <%= form_with model: @form, url: support_interface_update_application_choice_conditions_path(@form.application_choice.id), method: :put do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= govuk_notification_banner(
-        title: t('notification_banner.warning'),
-        classes: 'govuk-notification-banner--warning',
-      ) do |_notification_banner| %>
-        <p class="govuk-body">Offer conditions should only be changed on accepted applications following a request from a provider that has already informed the candidate about the change</p>
-      <% end %>
+      <%= govuk_warning(
+        text: 'Offer conditions should only be changed on accepted applications following a request from a provider that has already informed the candidate about the change',
+      ) %>
 
       <%= f.govuk_text_area(
         :audit_comment,
