@@ -1,0 +1,13 @@
+function renderForm() {
+  const rerenderedForm = '<%= j render template: "provider_interface/offer/conditions/#{@action}" %>';
+  const currentForm = document.querySelector('form');
+  currentForm.insertAdjacentHTML('afterend', rerenderedForm);
+  currentForm.remove();
+}
+
+function focusElement() {
+  document.getElementById('<%= @element_id_to_focus %>').focus();
+}
+
+renderForm();
+focusElement();

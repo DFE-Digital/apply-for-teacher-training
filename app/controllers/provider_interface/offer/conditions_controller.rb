@@ -26,10 +26,10 @@ module ProviderInterface
 
         if add_another_condition?
           @wizard.add_empty_condition
-          redirect_to action: action, anchor: anchor_for_further_condition
+          rerender_form(action)
         elsif remove_condition_param.present?
           @wizard.remove_condition(remove_condition_param)
-          redirect_to action: action, anchor: anchor_for_further_condition
+          rerender_form(action)
         else
           submit_form(action: action)
         end
@@ -56,6 +56,15 @@ module ProviderInterface
               .permit(further_conditions: {}, standard_conditions: [])
       end
 
+      def rerender_form(action)
+        @action = action
+        @element_id_to_focus = element_id_to_focus
+        respond_to do |format|
+          format.js { render :update_form }
+          format.html { redirect_to action: @action, anchor: @element_id_to_focus }
+        end
+      end
+
       def submit_form(action:)
         if @wizard.valid_for_current_step?
           @wizard.remove_empty_conditions!
@@ -63,11 +72,11 @@ module ProviderInterface
 
           redirect_to [action, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
-          render action
+          rerender_form(action)
         end
       end
 
-      def anchor_for_further_condition
+      def element_id_to_focus
         if remove_condition_param.present?
           'further-conditions-heading'
         elsif add_another_condition?

@@ -1,4 +1,4 @@
-<%= form_with model: form_object, url: provider_interface_application_choice_offer_conditions_path(application_choice), method: form_method do |f| %>
+<%= form_with model: form_object, url: provider_interface_application_choice_offer_conditions_path(application_choice), method: form_method, local: false do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-l">
