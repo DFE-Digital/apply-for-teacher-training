@@ -1,0 +1,6 @@
+<div class="app-add-another__item">
+  <%= condition_field.govuk_text_area :text, label: { text: t('.condition', label: condition_id + 1), size: 's' }, rows: 3 %>
+  <%= form.button name: 'remove_condition', value: condition_id, class: 'govuk-button govuk-button--secondary app-add-another__remove-button' do %>
+    <%= t('.remove') %> <span class="govuk-visually-hidden"> <%= t('.condition', label: condition_id + 1).downcase %></span>
+  <% end %>
+</div>

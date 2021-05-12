@@ -1,37 +1,4 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, :edit, back: true)) %>
 
-<%= form_with model: @wizard, url: provider_interface_application_choice_offer_conditions_path(@application_choice), method: :put do |f| %>
-  <%= f.govuk_error_summary %>
-
-  <h1 class="govuk-heading-l">
-    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-    <%= t('.title') %>
-  </h1>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <%= f.govuk_collection_check_boxes(:standard_conditions,
-                                         standard_conditions_checkboxes,
-                                         :id,
-                                         :name,
-                                         legend: { size: 'm' }) %>
-
-      <%= f.govuk_fieldset legend: { text: 'Further conditions', size: 'm' } do %>
-        <p class="govuk-body">For example, studying a subject knowledge enhancement course.</p>
-
-        <% @wizard.condition_models.each do |model| %>
-          <%= f.fields_for 'further_conditions[]', model do |fc| %>
-            <%= fc.govuk_text_area :text, label: { text: "Condition #{model.id.to_i + 1}", size: 's' }, rows: 3 %>
-          <% end %>
-        <% end %>
-      <% end %>
-
-      <%= f.govuk_submit t('continue') %>
-
-      <p class="govuk-body">
-        <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice), class: 'govuk-link--no-visited-state' %>
-      </p>
-    </div>
-  </div>
-<% end %>
+<%= render ProviderInterface::ConditionsFormComponent.new(form_object: @wizard, application_choice: @application_choice, form_method: :put, form_heading: t('.title')) %>

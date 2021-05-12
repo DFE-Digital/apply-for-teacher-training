@@ -30,6 +30,12 @@ en:
           title: Conditions of offer
         edit:
           title: Conditions of offer
+        form:
+          further_conditions: Further conditions
+          add_another: Add another condition
+        further_condition:
+          remove: Remove
+          condition: Condition %{label}
       checks:
         new:
           title: Check and send offer
@@ -50,21 +56,11 @@ en:
           make_offer: Make an offer
           change_offer: Change course details and make an offer
           rejection: Reject application
-        further_condition_1: 'Condition 1'
-        further_condition_2: 'Condition 2'
-        further_condition_3: 'Condition 3'
-        further_condition_4: 'Condition 4'
     legend:
       provider_interface_offer_wizard:
         decision: 'Select decision'
         standard_conditions: 'Standard conditions'
   activemodel:
-    attributes:
-      provider_interface/offer_wizard:
-        further_condition_1: 'Condition 1'
-        further_condition_2: 'Condition 2'
-        further_condition_3: 'Condition 3'
-        further_condition_4: 'Condition 4'
     errors:
       models:
         provider_interface/offer_wizard:

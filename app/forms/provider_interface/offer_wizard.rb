@@ -4,7 +4,6 @@ module ProviderInterface
 
     STEPS = { make_offer: %i[select_option conditions check],
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
-    NUMBER_OF_FURTHER_CONDITIONS = 4
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_conditions, :current_step, :decision,
@@ -23,7 +22,6 @@ module ProviderInterface
       attrs = sanitize_parameters(attrs)
 
       super(last_saved_state.deep_merge(attrs))
-      setup_further_conditions
       update_path_history(attrs)
     end
 
@@ -84,6 +82,26 @@ module ProviderInterface
       @_condition_models ||= further_conditions.map.with_index do |further_condition, index|
         OfferConditionField.new(id: index, text: further_condition)
       end
+    end
+
+    def has_max_number_of_further_conditions?
+      further_conditions.length >= MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
+    end
+
+    def add_empty_condition
+      return if has_max_number_of_further_conditions?
+
+      further_conditions << ''
+      save_state!
+    end
+
+    def remove_condition(condition_id)
+      further_conditions.delete_at(condition_id)
+      save_state!
+    end
+
+    def remove_empty_conditions!
+      further_conditions.reject!(&:blank?)
     end
 
   private
@@ -183,13 +201,6 @@ module ProviderInterface
                                                    action: attrs[:action].presence)
       @wizard_path_history.update
       @path_history = @wizard_path_history.path_history
-    end
-
-    def setup_further_conditions
-      self.further_conditions = NUMBER_OF_FURTHER_CONDITIONS.times.map do |index|
-        existing_value = further_conditions && further_conditions[index]
-        existing_value.presence || ''
-      end
     end
 
     def further_conditions_valid
