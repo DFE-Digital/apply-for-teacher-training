@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       result = render_inline(described_class.new(declined_offer))
 
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.support_interface_application_form_reinstate_offer_path(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_reinstate_offer_path(
           application_form_id: declined_offer.application_form.id,
           application_choice_id: declined_offer.id,
         ),
@@ -48,7 +48,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       result = render_inline(described_class.new(accepted_choice))
 
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.support_interface_application_form_change_offered_course_search_path(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
           application_form_id: accepted_choice.application_form.id,
           application_choice_id: accepted_choice.id,
         ),

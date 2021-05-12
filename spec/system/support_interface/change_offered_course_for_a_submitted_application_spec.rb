@@ -66,7 +66,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_should_see_the_change_offered_course_search_page
-    expect(page).to have_current_path support_interface_application_form_change_offered_course_search_path(
+    expect(page).to have_current_path support_interface_application_form_application_choice_change_offered_course_search_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
     )
@@ -90,7 +90,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_should_see_the_course_results_page_with_no_results
-    expect(page).to have_current_path support_interface_application_form_choose_offered_course_option_path(
+    expect(page).to have_current_path support_interface_application_form_application_choice_choose_offered_course_option_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
       course_code: @non_existent_course_code,
@@ -103,7 +103,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_should_see_the_course_search_page_with_the_course_code_i_entered
-    expect(page).to have_current_path support_interface_application_form_choose_offered_course_option_path(
+    expect(page).to have_current_path support_interface_application_form_application_choice_choose_offered_course_option_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
       course_code: @non_existent_course_code,
@@ -117,7 +117,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_should_see_the_course_results_page_with_results
-    expect(page).to have_current_path support_interface_application_form_choose_offered_course_option_path(
+    expect(page).to have_current_path support_interface_application_form_application_choice_choose_offered_course_option_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
       course_code: @course_code,
@@ -143,7 +143,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_see_the_confirm_offered_course_page
-    expect(page).to have_current_path support_interface_application_form_confirm_offered_course_option_path(
+    expect(page).to have_current_path support_interface_application_form_application_choice_confirm_offered_course_option_path(
       application_form_id: @application_form.id,
       application_choice_id: @application_choice.id,
       course_option_id: @course_option.id,

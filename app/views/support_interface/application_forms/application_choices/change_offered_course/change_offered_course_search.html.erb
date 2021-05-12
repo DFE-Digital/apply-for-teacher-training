@@ -15,10 +15,10 @@
     <p class="govuk-body">For example, the course code for York St John University Primary (Q859), is Q859.</p>
     <%= form_with(
       model: @course_search,
-      url: support_interface_application_form_change_offered_course_search_path(
+      url: support_interface_application_form_application_choice_change_offered_course_search_path(
         application_form_id: params[:application_form_id],
-        application_choice_id: params[:application_choice_id]
-        ),
+        application_choice_id: params[:application_choice_id],
+      ),
     ) do |f| %>
       <%= f.govuk_error_summary %>
 

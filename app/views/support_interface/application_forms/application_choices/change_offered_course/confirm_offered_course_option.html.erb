@@ -1,9 +1,9 @@
 <% content_for :browser_title, title_with_error_prefix('Confirm offered course', @update_offered_course_option_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(support_interface_application_form_choose_offered_course_option_path(course_code: @update_offered_course_option_form.course_option.course.code)) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @update_offered_course_option_form.course_option.course.code)) %>
 
 <%= form_with(
   model: @update_offered_course_option_form,
-  url: support_interface_application_form_confirm_offered_course_option_path,
+  url: support_interface_application_form_application_choice_confirm_offered_course_option_path,
   method: :patch
   )do |f| %>
 

@@ -45,7 +45,7 @@ module SupportInterface
         { key: 'Status',
           value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)),
           action: 'Reinstate offer',
-          action_path: support_interface_application_form_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id) }
+          action_path: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id) }
       else
         { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) }
       end

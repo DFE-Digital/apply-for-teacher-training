@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix("Choose a course to replace #{@application_choice.current_course_option.course.name_and_code}", @pick_course.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(support_interface_application_form_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -14,7 +14,7 @@
     <% end %>
 
     <% if @pick_course.course_options.present? %>
-      <%= form_with model: @pick_course, url: support_interface_application_form_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
+      <%= form_with model: @pick_course, url: support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
         <%= f.govuk_error_summary %>
         <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
           <% @pick_course.course_options.each_with_index do |co, i| %>
@@ -25,7 +25,7 @@
       <% end %>
     <% else %>
       <p class="govuk-body">No open courses found for current recruitment cycle.</p>
-      <%= govuk_link_to('Search again', support_interface_application_form_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
+      <%= govuk_link_to('Search again', support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
     <% end %>
   </div>
 </div>
