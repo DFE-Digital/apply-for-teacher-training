@@ -4,11 +4,6 @@ module DataMigrations
     MANUAL_RUN = true
 
     def change
-      Course
-        .where(open_on_apply: true)
-        .where('created_at < \'2020-04-01\'')
-        .update_all('opened_on_apply_at = \'2020-03-26\'')
-
       Course.where(open_on_apply: true).in_batches(of: 50).each_with_index do |relation, batch_index|
         most_recent_open_events_per_course =
           Audited::Audit
@@ -23,6 +18,11 @@ module DataMigrations
           batch_index: batch_index,
         )
       end
+
+      Course
+        .where(open_on_apply: true)
+        .where(opened_on_apply_at: nil)
+        .update_all('opened_on_apply_at = created_at')
     end
 
     def update_courses_from_audits!(open_events_sql:, batch_index:)
