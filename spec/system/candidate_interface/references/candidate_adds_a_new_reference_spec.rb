@@ -15,12 +15,12 @@ RSpec.feature 'References' do
     when_i_click_continue
     then_i_see_the_type_page
 
-    when_i_click_save_and_continue_without_providing_a_type
+    when_i_click_continue_without_providing_a_type
     then_i_should_be_told_to_provide_a_type
     and_a_validation_error_is_logged_for_type
 
     when_i_select_academic
-    and_i_click_save_and_continue
+    and_i_click_continue
     then_i_should_see_the_referee_name_page
 
     when_i_click_save_and_continue_without_providing_a_name
@@ -64,7 +64,7 @@ RSpec.feature 'References' do
 
     when_i_click_change_on_the_reference_type
     and_i_choose_professional
-    and_i_click_save_and_continue
+    and_i_click_continue
     then_i_see_the_updated_type
 
     when_i_click_change_on_relationship
@@ -126,8 +126,8 @@ RSpec.feature 'References' do
     expect(page).to have_current_path candidate_interface_references_type_path
   end
 
-  def when_i_click_save_and_continue_without_providing_a_type
-    and_i_click_save_and_continue
+  def when_i_click_continue_without_providing_a_type
+    and_i_click_continue
   end
 
   def then_i_should_be_told_to_provide_a_type
@@ -144,6 +144,10 @@ RSpec.feature 'References' do
 
   def and_i_click_save_and_continue
     click_button t('save_and_continue')
+  end
+
+  def and_i_click_continue
+    click_button t('continue')
   end
 
   def then_i_should_see_the_referee_name_page

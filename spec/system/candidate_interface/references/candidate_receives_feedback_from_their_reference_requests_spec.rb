@@ -31,7 +31,7 @@ RSpec.feature 'References' do
     visit candidate_interface_references_start_path
     click_link t('continue')
     choose 'Academic'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee
     choose 'Yes, send a reference request now'
@@ -40,7 +40,7 @@ RSpec.feature 'References' do
     click_link 'Add a second referee'
     click_link t('continue')
     choose 'Professional'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Anne Other',
@@ -53,7 +53,7 @@ RSpec.feature 'References' do
     click_link 'Add another referee'
     click_link t('continue')
     choose 'School-based'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Mr Declined',
@@ -66,7 +66,7 @@ RSpec.feature 'References' do
     click_link 'Add another referee'
     click_link t('continue')
     choose 'Character'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Ms Cancelled',

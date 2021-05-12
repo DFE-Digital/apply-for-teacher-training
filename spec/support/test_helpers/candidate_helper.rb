@@ -350,7 +350,7 @@ module CandidateHelper
     visit candidate_interface_references_start_path
     click_link t('continue')
     choose 'Academic'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee
     choose 'Yes, send a reference request now'
@@ -359,7 +359,7 @@ module CandidateHelper
     click_link 'Add a second referee'
     click_link t('continue')
     choose 'Professional'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Anne Other',

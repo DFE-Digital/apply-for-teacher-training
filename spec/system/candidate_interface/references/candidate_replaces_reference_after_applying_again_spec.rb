@@ -83,7 +83,7 @@ RSpec.feature 'Candidate applying again' do
     click_link 'Add a second referee'
     click_link t('continue')
     choose 'Academic'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee(
       name: 'Bob Lawblob',

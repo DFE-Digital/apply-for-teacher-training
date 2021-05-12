@@ -17,9 +17,9 @@ module CandidateInterface
 
     def reference_rows(reference)
       [
+        reference_type_row(reference),
         name_row(reference),
         email_row(reference),
-        reference_type_row(reference),
         relationship_row(reference),
         feedback_status_row(reference),
         history_row(reference),
