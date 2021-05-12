@@ -13,7 +13,10 @@ module SupportInterface
 
         return false unless valid?
 
-        # TODO: Call new service to update the application state
+        SupportInterface::RevertRejection.new(
+          application_choice: application_choice,
+          zendesk_ticket: audit_comment_ticket,
+        ).save!
       end
     end
   end

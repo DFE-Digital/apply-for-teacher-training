@@ -82,12 +82,10 @@ RSpec.feature 'Revert an accidental rejection' do
   end
 
   def then_i_see_the_application_page
-    pending 'TODO'
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
   end
 
   def and_the_application_is_now_awaiting_provider_decision
-    pending 'TODO'
     expect(@application_choice.reload.awaiting_provider_decision?).to be true
   end
 end
