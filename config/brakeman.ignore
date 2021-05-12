@@ -121,6 +121,26 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "547478fed5fe3e80416c654be6c2a71ed29541d38febaa12ce144775c4ccc702",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/data_migrations/delete_all_course_audits.rb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM audits\\nWHERE id IN (#{audits_sql})\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DataMigrations::DeleteAllCourseAudits",
+        "method": "delete_course_audits!"
+      },
+      "user_input": "audits_sql",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "6ef6028f663074c27a5022a598ab480021906f24a15525d47be3a5be44348320",
@@ -187,7 +207,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/services/data_migrations/backfill_opened_on_apply_at_from_audits.rb",
-      "line": 31,
+      "line": 36,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"UPDATE courses c\\nSET opened_on_apply_at = open_events.opened_at\\nFROM (#{open_events_sql}) open_events\\nWHERE c.id = open_events.course_id\\n\".squish)",
       "render_path": null,
@@ -261,6 +281,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-05-11 21:11:55 +0100",
+  "updated": "2021-05-12 16:25:23 +0100",
   "brakeman_version": "5.0.1"
 }
