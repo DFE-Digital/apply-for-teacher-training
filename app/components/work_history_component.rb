@@ -2,10 +2,11 @@
 class WorkHistoryComponent < ViewComponent::Base
   def initialize(application_form:)
     @application_form = application_form
+    @work_history_with_breaks ||= WorkHistoryWithBreaks.new(application_form)
   end
 
   def history
-    @history ||= WorkHistoryWithBreaks.new(application_form).timeline
+    @history ||= work_history_with_breaks.timeline
   end
 
   def render?
@@ -14,5 +15,5 @@ class WorkHistoryComponent < ViewComponent::Base
 
 private
 
-  attr_accessor :application_form
+  attr_accessor :application_form, :work_history_with_breaks
 end
