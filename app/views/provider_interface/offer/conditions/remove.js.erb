@@ -1,4 +1,5 @@
 <%= render 'provider_interface/offer/conditions/set_add_button_visibility' %>
+<%= render 'provider_interface/offer/conditions/focus' %>
 
 function removeConditionField() {
   const furtherConditionsContainer = document.querySelector('#app-add-another-list');
@@ -23,3 +24,4 @@ function assignValues(element, index) {
 
 removeConditionField();
 setAddButtonVisibility();
+focusElement();

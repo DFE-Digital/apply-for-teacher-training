@@ -1,4 +1,5 @@
 <%= render 'provider_interface/offer/conditions/set_add_button_visibility' %>
+<%= render 'provider_interface/offer/conditions/focus' %>
 
 function appendConditionField() {
   const button = document.querySelector('.app-add-another__add-button');
@@ -9,3 +10,4 @@ function appendConditionField() {
 
 appendConditionField();
 setAddButtonVisibility();
+focusElement();

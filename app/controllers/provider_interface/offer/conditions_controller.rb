@@ -27,16 +27,19 @@ module ProviderInterface
         if add_another_condition?
           @wizard.add_empty_condition
 
+          @focus = anchor_for_further_condition
           respond_to do |format|
             format.js { render :add_another }
-            format.html { redirect_to action: action, anchor: anchor_for_further_condition }
+            format.html { redirect_to action: action, anchor: @focus }
           end
         elsif remove_condition_param.present?
           @wizard.remove_condition(remove_condition_param)
+
+          @focus = anchor_for_further_condition
           respond_to do |format|
             @condition_id = remove_condition_param
             format.js { render :remove }
-            format.html { redirect_to action: action, anchor: anchor_for_further_condition }
+            format.html { redirect_to action: action, anchor: @focus }
           end
         else
           submit_form(action: action)
