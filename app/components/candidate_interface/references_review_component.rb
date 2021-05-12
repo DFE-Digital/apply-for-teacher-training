@@ -80,7 +80,7 @@ module CandidateInterface
     def name_row(reference)
       {
         key: 'Name',
-        value: reference.name || 'Not entered',
+        value: reference.name,
         action: "name for #{reference.name}",
         change_path: candidate_interface_references_edit_name_path(
           reference.id, return_to: :review
@@ -89,25 +89,49 @@ module CandidateInterface
     end
 
     def email_row(reference)
-      {
-        key: 'Email address',
-        value: reference.email_address || 'Not entered',
-        action: "email address for #{reference.name}",
-        change_path: candidate_interface_references_edit_email_address_path(
-          reference.id, return_to: :review
-        ),
-      }
+      if reference.email_address?
+        {
+          key: 'Email address',
+          value: reference.email_address,
+          action: "email address for #{reference.name}",
+          change_path: candidate_interface_references_edit_email_address_path(
+            reference.id, return_to: :review
+          ),
+        }
+      else
+        {
+          key: 'Email address',
+          value: govuk_link_to(
+            'Enter email address', candidate_interface_references_edit_email_address_path(
+                                     reference.id,
+                                   )
+          ),
+          action: "email address for #{reference.name}",
+        }
+      end
     end
 
     def relationship_row(reference)
-      {
-        key: 'Relationship to referee',
-        value: reference.relationship || 'Not entered',
-        action: "relationship for #{reference.name}",
-        change_path: candidate_interface_references_edit_relationship_path(
-          reference.id, return_to: :review
-        ),
-      }
+      if reference.relationship?
+        {
+          key: 'Relationship to referee',
+          value: reference.relationship,
+          action: "relationship for #{reference.name}",
+          change_path: candidate_interface_references_edit_relationship_path(
+            reference.id, return_to: :review
+          ),
+        }
+      else
+        {
+          key: 'Relationship to referee',
+          value: govuk_link_to(
+            'Enter relationship to referee', candidate_interface_references_edit_relationship_path(
+                                               reference.id, return_to: :review
+                                             )
+          ),
+          action: "relationship for #{reference.name}",
+        }
+      end
     end
 
     def reference_type_row(reference)

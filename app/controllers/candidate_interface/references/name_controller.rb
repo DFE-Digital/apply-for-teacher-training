@@ -26,7 +26,11 @@ module CandidateInterface
         @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
 
         if @reference_name_form.update(@reference)
-          if return_to_path.present?
+          if !@reference.email_address?
+            redirect_to candidate_interface_references_edit_email_address_path(
+              @reference.id, return_to: :review
+            )
+          elsif return_to_path.present?
             redirect_to return_to_path
           else
             redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)

@@ -27,7 +27,11 @@ module CandidateInterface
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
 
         if @reference_type_form.update(@reference)
-          if return_to_path.present?
+          if !@reference.email_address?
+            redirect_to candidate_interface_references_edit_email_address_path(
+              @reference.id,
+            )
+          elsif return_to_path.present?
             redirect_to return_to_path
           else
             redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)
