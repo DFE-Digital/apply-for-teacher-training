@@ -13,4 +13,4 @@ UCAS_HOLIDAYS.each do |date|
 end
 
 BusinessTime::Config.beginning_of_workday = '0:00 am'
-BusinessTime::Config.end_of_workday = '11:59 pm'
+BusinessTime::Config.end_of_workday = '11:59:59 pm'
