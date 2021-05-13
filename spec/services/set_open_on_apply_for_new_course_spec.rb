@@ -46,6 +46,14 @@ RSpec.describe SetOpenOnApplyForNewCourse do
       expect_no_slack_message
     end
 
+    it 'opens the course if all the provider’s other courses are open on apply' do
+      create(:course, :open_on_apply, provider: course.provider)
+
+      course_opener.call
+
+      expect(course).to be_open_on_apply
+    end
+
     context 'when the course has an accredited provider' do
       let(:accredited_provider) { create(:provider, name: 'Canterbury') }
       let(:course) { create(:course, open_on_apply: false, accredited_provider: accredited_provider) }

@@ -9,6 +9,7 @@ class SetOpenOnApplyForNewCourse
     @course.open! if HostingEnvironment.sandbox_mode? || @course.in_previous_cycle&.open_on_apply?
 
     if @course.provider.any_open_courses_in_current_cycle?
+      @course.open! if @course.provider.all_courses_open_in_current_cycle?(exclude_ratified_courses: true)
       notify_of_new_course!(@course.provider, @course.accredited_provider)
     end
   end
