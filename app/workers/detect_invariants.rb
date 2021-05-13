@@ -5,7 +5,7 @@ class DetectInvariants
   def perform
     detect_application_choices_in_old_states
     detect_outstanding_references_on_submitted_applications
-    # detect_unauthorised_application_form_edits # FIXME
+    detect_unauthorised_application_form_edits
     detect_applications_with_course_choices_in_previous_cycle
     detect_submitted_applications_with_more_than_three_course_choices
     detect_applications_submitted_with_the_same_course
