@@ -73,7 +73,7 @@ class Course < ApplicationRecord
   end
 
   def name_code_and_age_range
-    "#{name} (#{code}) – #{age_range}"
+    "#{name}, #{age_range} (#{code})"
   end
 
   def name_description_provider_and_age_range
@@ -81,7 +81,7 @@ class Course < ApplicationRecord
   end
 
   def provider_and_name_code
-    "#{provider.name} - #{name_and_code}"
+    "#{provider.name} – #{name_and_code}"
   end
 
   def currently_has_both_study_modes_available?

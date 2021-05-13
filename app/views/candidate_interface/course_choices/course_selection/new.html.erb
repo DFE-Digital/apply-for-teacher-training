@@ -22,7 +22,13 @@
       <% else %>
         <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>
           <% @pick_course.radio_available_courses.each_with_index do |course, i| %>
-            <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% if !course.open_on_apply? %>
+              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code}) – Only on UCAS" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% elsif course.course_options.available.blank? %>
+              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code}) – No vacancies" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% else %>
+              <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, hint: { text: course.description }, link_errors: i.zero? %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>

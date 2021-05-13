@@ -11,13 +11,13 @@ module CandidateInterface
 
     def radio_available_courses
       @radio_available_courses ||= begin
-        courses_for_current_cycle.exposed_in_find.order(:name)
+        courses_for_current_cycle.exposed_in_find.order(:name).includes(:course_options)
       end
     end
 
     def dropdown_available_courses
       @dropdown_available_courses ||= begin
-        courses = courses_for_current_cycle.exposed_in_find.includes(:accredited_provider)
+        courses = courses_for_current_cycle.exposed_in_find.includes(:accredited_provider, :course_options)
 
         courses_with_names = courses.map(&:name).map(&:downcase)
         courses_with_descriptions = courses.map(&:name_and_description).map(&:downcase)
@@ -36,6 +36,14 @@ module CandidateInterface
                  else
                    course.name_and_code
                  end
+
+          if !course.open_on_apply?
+            name += ' – Only on UCAS'
+          end
+
+          if course.course_options.available.blank?
+            name += ' – No vacancies'
+          end
 
           DropdownOption.new(course.id, name)
         end
