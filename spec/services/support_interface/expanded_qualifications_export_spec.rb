@@ -29,7 +29,6 @@ RSpec.describe SupportInterface::ExpandedQualificationsExport do
     def row_data(application_form, choice, qualification)
       {
         application_form_id: application_form.id,
-        choice_id: choice.id,
         qualification_id: qualification.id,
         candidate_id: application_form.candidate.id,
         support_reference: application_form.support_reference,

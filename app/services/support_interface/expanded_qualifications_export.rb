@@ -14,7 +14,6 @@ module SupportInterface
         qualifications.map do |qualification|
           {
             application_form_id: application_form.id,
-            choice_id: application_choice.id,
             qualification_id: qualification.id,
             candidate_id: application_form.candidate_id,
             support_reference: application_form.support_reference,
