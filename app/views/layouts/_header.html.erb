@@ -3,28 +3,30 @@
   <%= render(HeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name}",
     service_name: service_name,
-    service_url: service_link,
+    service_link: service_link,
     navigation_items: NavigationItems.for_candidate_interface(try(:current_candidate), controller),
   )) %>
   <%= render PhaseBannerComponent.new %>
 <% when 'support_interface' %>
-  <%= render(ProductHeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+  <%= render(HeaderComponent.new(
+    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
-    service_url: service_link,
+    service_link: service_link,
     phase_tag: true,
     navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
+    navigation_classes: 'govuk-header__navigation--end',
   )) %>
   <%= render(PrimaryNavigationComponent.new(
     items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
   )) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
 <% when 'provider_interface' %>
-  <%= render(ProductHeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+  <%= render(HeaderComponent.new(
+    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
-    service_url: service_link,
+    service_link: service_link,
     navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
+    navigation_classes: 'govuk-header__navigation--end',
   )) %>
   <% if controller.controller_name == 'start_page' %>
     <%= render(PhaseBannerComponent.new(
@@ -44,23 +46,21 @@
     )) %>
   <% end %>
 <% when 'vendor_api_docs' %>
-  <%= render(ProductHeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+  <%= render(HeaderComponent.new(
+    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
-    service_url: service_link,
+    service_link: service_link,
     phase_tag: true,
-    navigation_items: [],
   )) %>
   <%= render(PrimaryNavigationComponent.new(
     items: NavigationItems.for_vendor_api_docs(controller),
   )) %>
 <% when 'register_api_docs' %>
-  <%= render(ProductHeaderComponent.new(
-    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
+  <%= render(HeaderComponent.new(
+    classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
-    service_url: service_link,
+    service_link: service_link,
     phase_tag: true,
-    navigation_items: [],
   )) %>
   <%= render(PrimaryNavigationComponent.new(
     items: NavigationItems.for_register_api_docs(controller),
@@ -71,8 +71,7 @@
   <%= render(HeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name}",
     service_name: components_name || try(:service_name),
-    service_url: components_url || try(:service_link),
-    navigation_items: [],
+    service_link: components_url || try(:service_link),
   )) %>
   <%= render PhaseBannerComponent.new %>
 <% end %>

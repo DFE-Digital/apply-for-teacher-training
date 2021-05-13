@@ -22,13 +22,11 @@
   </head>
 
   <body class="govuk-template__body">
-    <%= render(ProductHeaderComponent.new(
-      classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
-      product_name: 'Apply for teacher training',
-      service_url: '#',
-      navigation_items: [],
+    <%= render(HeaderComponent.new(
+      classes: "app-header--#{HostingEnvironment.environment_name}",
+      service_name: t('service_name.apply'),
+      service_link: '#',
     )) %>
-
     <%= render PhaseBannerComponent.new %>
     <div class="govuk-width-container">
       <main class="govuk-main-wrapper" id="main-content" role="main">
