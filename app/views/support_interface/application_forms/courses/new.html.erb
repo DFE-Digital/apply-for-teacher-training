@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <% if @pick_course.unavailable_courses.present? %>
-      <h2 class='govuk-heading-m'>Courses with no vacancies</h2>
+      <h2 class="govuk-heading-m">Courses with no vacancies</h2>
       <% @pick_course.unavailable_courses.each do |course| %>
         <ul class="govuk-list">
           <%= "#{course.provider.name} (#{course.provider.code}) - #{course.name} (#{course.code})" %>

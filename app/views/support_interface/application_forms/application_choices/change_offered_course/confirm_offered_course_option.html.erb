@@ -33,14 +33,16 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_text_field(
-              :audit_comment,
-              label: {
-                text: 'Zendesk ticket URL',
-                size: 'm',
-              },
-              rows: 1,
-              hint: { text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345' },
-            ) %>
+            :audit_comment,
+            label: {
+              text: 'Zendesk ticket URL',
+              size: 'm',
+            },
+            rows: 1,
+            hint: {
+              text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345',
+            },
+          ) %>
     </div>
   </div>
 
