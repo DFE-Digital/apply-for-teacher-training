@@ -42,7 +42,10 @@ class Clock
   end
 
   every(1.day, 'Generate export for Notifications', at: '23:57') do
-    data_export = DataExport.create!(name: 'Daily export of notifications breakdown')
+    data_export = DataExport.create!(
+      name: 'Daily export of notifications breakdown',
+      export_type: :notifications_export,
+    )
     DataExporter.perform_async(SupportInterface::NotificationsExport, data_export.id)
   end
 
