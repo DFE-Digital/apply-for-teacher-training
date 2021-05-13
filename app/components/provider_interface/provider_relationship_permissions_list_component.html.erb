@@ -2,35 +2,34 @@
   <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: @heading_level)) %>
 
   <div class="app-summary-card__body">
-    <dl class="govuk-summary-list">
-    <% rows.each do |row| %>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          <%= row[:key] %>
-        </dt>
-        <dd class="govuk-summary-list__value">
+    <%= govuk_summary_list do |component| %>
+      <% rows.each do |row| %>
+        <% content_for :value, flush: true do %>
           <ul class="govuk-list <%= row[:permission_slug] %>">
             <% row[:permissions_list].each do |provider_name| %>
               <li><%= render IconComponent.new(type: 'check') %> <%= provider_name %></li>
             <% end %>
           </ul>
           <% if row[:permission_slug] == 'view-applications' %>
-            <%= govuk_details(
-              summary: 'Why can’t this be changed?',
-            ) do %>
+            <%= govuk_details(summary: 'Why can’t this be changed?') do %>
               All users at both organisations can view applications – you do not need to set permissions for this.
             <% end %>
           <% end %>
-        </dd>
-        <% if editable %>
-          <dd class="govuk-summary-list__actions">
-            <%= govuk_link_to(row[:change_path]) do %>
-              Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
-            <% end if row[:change_path] %>
-          </dd>
         <% end %>
-      </div>
+
+        <% content_for :action, flush: true do %>
+          <%= govuk_link_to(row[:change_path]) do %>
+            Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
+          <% end if row[:change_path] %>
+        <% end %>
+
+        <%= component.slot(
+          :row,
+          key: row[:key],
+          value: content_for(:value),
+          action: editable ? content_for(:action) : nil,
+        ) %>
+      <% end %>
     <% end %>
-    </dl>
   </div>
 </section>
