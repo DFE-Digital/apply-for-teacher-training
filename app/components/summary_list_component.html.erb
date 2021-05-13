@@ -1,34 +1,10 @@
-<dl class="govuk-summary-list">
+<%= govuk_summary_list do |component| %>
   <% rows.each do |row| %>
-    <div class="govuk-summary-list__row">
-      <% if row[:key] %>
-        <dt class="govuk-summary-list__key">
-          <%= row[:key] %>
-        </dt>
-      <% end %>
-      <dd class="govuk-summary-list__value">
-        <% if row[:value].is_a?(Array) %>
-          <% row[:value].each do |value| %><%= value %><br><% end %>
-        <% elsif row[:value].html_safe? %>
-          <%= row[:value] %>
-        <% else %>
-          <%= simple_format row[:value], class: 'govuk-body' %>
-        <% end %>
-      </dd>
-
-      <% if row[:change_path] %>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to row[:change_path], class: 'govuk-!-display-none-print' do %>
-            Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
-          <% end %>
-        </dd>
-      <% elsif row[:action_path] %>
-        <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to row[:action], row[:action_path], class: 'govuk-!-display-none-print' %>
-        </dd>
-      <% elsif any_row_has_action_span? %>
-        <dd class="govuk-summary-list__actions"></dd>
-      <% end %>
-    </div>
+    <%= component.slot(
+      :row,
+      key: row[:key],
+      value: value(row),
+      action: action(row),
+    ) %>
   <% end %>
-</dl>
+<% end %>

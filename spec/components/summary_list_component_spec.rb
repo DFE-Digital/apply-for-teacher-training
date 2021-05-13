@@ -78,7 +78,7 @@ RSpec.describe SummaryListComponent do
     expect(result.to_html).not_to include('<dd class="govuk-summary-list__actions"></dd>')
   end
 
-  it 'does render an extra dd if any row as an action' do
+  it 'does render an extra dd if any row has an action' do
     rows = [{ key: 'Job',
               value: ['Teacher', 'Clearcourt High'] },
             { key: 'Working pattern',
