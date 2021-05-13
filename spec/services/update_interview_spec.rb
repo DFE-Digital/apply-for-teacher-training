@@ -20,8 +20,6 @@ RSpec.describe UpdateInterview do
     }
   end
 
-  before { FeatureFlag.activate(:interviews) }
-
   describe '#save!' do
     it 'updates the existing interview with provided params' do
       described_class.new(service_params).save!

@@ -13,8 +13,6 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
   before do
     allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
 
-    FeatureFlag.activate(:interviews)
-
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
   end
 

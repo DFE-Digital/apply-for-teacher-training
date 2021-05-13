@@ -1,7 +1,5 @@
 module ProviderInterface
   class InterviewSchedulesController < ProviderInterfaceController
-    before_action :interview_flag_enabled?
-
     def show
       @interviews = Interview.for_application_choices(application_choices_for_user_providers)
         .undiscarded
@@ -30,13 +28,6 @@ module ProviderInterface
       GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
       )
-    end
-
-    def interview_flag_enabled?
-      unless FeatureFlag.active?(:interviews)
-        fallback_path = provider_interface_application_choice_path(@application_choice)
-        redirect_back(fallback_location: fallback_path)
-      end
     end
   end
 end

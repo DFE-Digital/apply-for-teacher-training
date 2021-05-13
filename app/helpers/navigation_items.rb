@@ -52,9 +52,7 @@ class NavigationItems
 
       if current_provider_user && !performing_setup
         items << NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes notes interviews offers feedback conditions reconfirm_deferred_offers]))
-        if FeatureFlag.active?(:interviews)
-          items << NavigationItem.new('Interview schedule', provider_interface_interview_schedule_path, is_active(current_controller, %w[interview_schedules]))
-        end
+        items << NavigationItem.new('Interview schedule', provider_interface_interview_schedule_path, is_active(current_controller, %w[interview_schedules]))
 
         if FeatureFlag.active?(:provider_activity_log)
           items << NavigationItem.new('Activity log', provider_interface_activity_log_path, is_active(current_controller, %w[activity_log]))

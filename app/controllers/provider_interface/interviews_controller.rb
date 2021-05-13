@@ -1,7 +1,6 @@
 module ProviderInterface
   class InterviewsController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :interview_flag_enabled?
     before_action :requires_make_decisions_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
     before_action :redirect_to_index_if_store_cleared, only: %i[check commit]
@@ -123,13 +122,6 @@ module ProviderInterface
 
     def cancellation_params
       params.require(:provider_interface_cancel_interview_wizard).permit(:cancellation_reason)
-    end
-
-    def interview_flag_enabled?
-      unless FeatureFlag.active?(:interviews)
-        fallback_path = provider_interface_application_choice_path(@application_choice)
-        redirect_back(fallback_location: fallback_path)
-      end
     end
 
     def interview_form_context_params

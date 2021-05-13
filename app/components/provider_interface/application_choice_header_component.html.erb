@@ -9,11 +9,7 @@
       <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
         <% if respond_to_application? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            <% if FeatureFlag.active?(:interviews) %>
-              Set up an interview or make a decision
-            <% else %>
-              Make a decision
-            <% end %>
+            Set up an interview or make a decision
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
@@ -23,14 +19,11 @@
             <% end -%>
           </p>
 
-          <% if FeatureFlag.active?(:interviews) %>
-            <div class="govuk-button-group">
-              <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
-              <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true, class: 'govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
-            </div>
-          <% else %>
-            <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true %>
-          <% end %>
+          <div class="govuk-button-group">
+            <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+            <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true, class: 'govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+          </div>
+
         <% elsif waiting_for_interview? %>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Make a decision

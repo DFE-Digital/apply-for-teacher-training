@@ -12,47 +12,21 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     context 'when the application is awaiting provider decision and the user can make decisions' do
       let(:reject_by_default_at) { 1.day.from_now }
 
-      context 'when the interviews FeatureFlag is enabled' do
-        before do
-          FeatureFlag.activate(:interviews)
-        end
-
-        it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
-          expect(result.css('.govuk-button').first.text).to eq('Set up interview')
-          expect(result.css('.govuk-button').last.text).to eq('Make decision')
-          expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected at the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}) if you do not make a decision.",
-          )
-        end
-      end
-
-      context 'when the interviews FeatureFlag is disabled' do
-        it 'the Make decision button is available and RDB info is presented ' do
-          expect(result.css('.govuk-button').last.text).to eq('Make decision')
-          expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected at the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}) if you do not make a decision.",
-          )
-        end
+      it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
+        expect(result.css('.govuk-button').first.text).to eq('Set up interview')
+        expect(result.css('.govuk-button').last.text).to eq('Make decision')
+        expect(result.css('.govuk-inset-text').text).to include(
+          "This application will be automatically rejected at the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}) if you do not make a decision.",
+        )
       end
     end
 
     context 'when the application is awaiting provider decision and the user cannot make decisions' do
       let(:provider_can_respond) { false }
+      let(:status) { 'interviewing' }
 
       it 'presents content without a heading or button' do
         expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
-      end
-
-      context 'when the interviews FeatureFlag is enabled' do
-        let(:status) { 'interviewing' }
-
-        before do
-          FeatureFlag.activate(:interviews)
-        end
-
-        it 'presents content without a heading or button' do
-          expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
-        end
       end
     end
 
@@ -94,7 +68,6 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
       before do
         allow(application_choice).to receive(:interviews).and_return(interviews)
-        FeatureFlag.activate(:interviews)
       end
 
       context 'when there are no interviews' do

@@ -14,10 +14,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     end
   end
 
-  before do
-    FeatureFlag.activate(:interviews)
-  end
-
   scenario 'can view, create and cancel interviews' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
