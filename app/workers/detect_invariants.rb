@@ -5,7 +5,7 @@ class DetectInvariants
   def perform
     detect_application_choices_in_old_states
     detect_outstanding_references_on_submitted_applications
-    # detect_unauthorised_application_form_edits # FIXME
+    detect_unauthorised_application_form_edits
     detect_applications_with_course_choices_in_previous_cycle
     detect_submitted_applications_with_more_than_three_course_choices
     detect_applications_submitted_with_the_same_course
@@ -58,9 +58,9 @@ class DetectInvariants
 
   def detect_unauthorised_application_form_edits
     unauthorised_changes = Audited::Audit
-      .joins("INNER JOIN application_forms ON application_forms.id = audits.associated_id AND audits.associated_type = 'ApplicationForm'")
+      .joins("INNER JOIN application_forms ON audits.associated_type = 'ApplicationForm' AND application_forms.id = audits.associated_id")
       .joins('INNER JOIN candidates ON candidates.id = application_forms.candidate_id')
-      .where(audits: { user_type: 'Candidate' })
+      .where(user_type: 'Candidate')
       .where('candidates.id != audits.user_id')
       .pluck('application_forms.id').uniq
       .sort
