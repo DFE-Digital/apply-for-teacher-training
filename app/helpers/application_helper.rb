@@ -43,7 +43,7 @@ module ApplicationHelper
       'data_api_docs'
     elsif section == 'register-api'
       'register_api_docs'
-    else
+    elsif section.present?
       "#{section}_interface"
     end
   end

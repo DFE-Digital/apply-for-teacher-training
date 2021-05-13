@@ -1,12 +1,12 @@
 module CandidateInterface
-  class CandidateInterfaceController < ActionController::Base
-    include LogQueryParams
+  class CandidateInterfaceController < ApplicationController
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :add_identity_to_log
     before_action :check_cookie_preferences
     layout 'application'
     alias_method :audit_user, :current_candidate
+    alias_method :current_user, :current_candidate
 
     def add_identity_to_log(candidate_id = current_candidate&.id)
       RequestLocals.store[:identity] = { candidate_id: candidate_id }

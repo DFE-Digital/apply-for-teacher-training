@@ -112,6 +112,9 @@ group :production do
   gem 'rails_semantic_logger'
 end
 
+# Data integration with Bigquery
+gem 'google-cloud-bigquery'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.6'

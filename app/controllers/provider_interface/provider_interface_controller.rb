@@ -10,9 +10,7 @@ module ProviderInterface
     end
   end
 
-  class ProviderInterfaceController < ActionController::Base
-    include LogQueryParams
-
+  class ProviderInterfaceController < ApplicationController
     before_action :authenticate_provider_user!
     before_action :add_identity_to_log
     before_action :redirect_if_setup_required
@@ -29,8 +27,10 @@ module ProviderInterface
     helper_method :current_provider_user, :dfe_sign_in_user
 
     def current_provider_user
-      !@current_provider_user.nil? ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
+      @current_provider_user ||= ProviderUser.load_from_session(session)
     end
+
+    alias_method :current_user, :current_provider_user
 
     def check_cookie_preferences
       if cookies['consented-to-manage-cookies'].eql?('yes')

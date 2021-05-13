@@ -20,6 +20,7 @@ class FeatureFlag
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Apply team'],
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
+    [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
