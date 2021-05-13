@@ -135,7 +135,7 @@ jobs:
         run: bundle exec rake db:setup
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose rspec --exclude-pattern ${EXCLUDE_PATTERN} --pattern ${INCLUDE_PATTERN} --format documentation
+        run: apk add chromium chromium-chromedriver && bundle exec --verbose rspec --exclude-pattern ${EXCLUDE_PATTERN} --pattern ${INCLUDE_PATTERN} --format documentation
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern }}
