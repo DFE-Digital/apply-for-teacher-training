@@ -107,8 +107,8 @@ module SupportInterface
       {
         key: 'Conditions',
         value: render(SupportInterface::ConditionsComponent.new(conditions: conditions)),
-        action: 'Change conditions',
-        action_path: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+        action: 'conditions',
+        change_path: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
       }
     end
 
