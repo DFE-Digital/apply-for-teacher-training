@@ -89,7 +89,7 @@ RSpec.feature 'See provider course syncing' do
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
 
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
+    TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker.perform_async
 
     refresh
   end
