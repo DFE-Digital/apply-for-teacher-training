@@ -1,63 +1,67 @@
 module SupportInterface
   class QualificationsExport
     def data_for_export
-      application_choices = ApplicationChoice
-        .select(:id, :application_form_id, :rejection_reason, :structured_rejection_reasons, :status, :course_option_id)
-        .includes(:course_option, :course, :provider, application_form: [:application_qualifications])
+      if FeatureFlag.active?(:expanded_quals_export)
+        ExpandedQualificationsExport.new.data_for_export
+      else
+        application_choices = ApplicationChoice
+          .select(:id, :application_form_id, :rejection_reason, :structured_rejection_reasons, :status, :course_option_id)
+          .includes(:course_option, :course, :provider, application_form: [:application_qualifications])
 
-      application_choices.find_each(batch_size: 100).lazy.map do |application_choice|
-        application_form = application_choice.application_form
-        course = application_choice.course
-        qualifications = application_form.application_qualifications.all
-        a_levels = a_levels(qualifications).sort_by(&:subject)
-        degrees = degrees(qualifications).sort_by(&:subject)
+        application_choices.find_each(batch_size: 100).lazy.map do |application_choice|
+          application_form = application_choice.application_form
+          course = application_choice.course
+          qualifications = application_form.application_qualifications.all
+          a_levels = a_levels(qualifications).sort_by(&:subject)
+          degrees = degrees(qualifications).sort_by(&:subject)
 
-        output = {
-          candidate_id: application_form.candidate_id,
-          support_reference: application_form.support_reference,
-          phase: application_form.phase,
-          recruitment_cycle_year: application_form.recruitment_cycle_year,
+          output = {
+            candidate_id: application_form.candidate_id,
+            support_reference: application_form.support_reference,
+            phase: application_form.phase,
+            recruitment_cycle_year: application_form.recruitment_cycle_year,
 
-          choice_status: application_choice.status,
-          rejection_reason: application_choice.structured_rejection_reasons || application_choice.rejection_reason,
-          course_code: course.code,
-          provider_code: course.provider.code,
+            choice_status: application_choice.status,
+            rejection_reason: application_choice.structured_rejection_reasons || application_choice.rejection_reason,
+            course_code: course.code,
+            provider_code: course.provider.code,
 
-          gcse_maths_grade: maths_gcse_grade(qualifications),
+            gcse_maths_grade: maths_gcse_grade(qualifications),
 
-          gcse_science_single_grade: science_single_gcse_grade(qualifications),
-          gcse_science_double_grade: science_double_gcse_grade(qualifications),
-          gcse_science_triple_grade: science_triple_gcse_grade(qualifications),
+            gcse_science_single_grade: science_single_gcse_grade(qualifications),
+            gcse_science_double_grade: science_double_gcse_grade(qualifications),
+            gcse_science_triple_grade: science_triple_gcse_grade(qualifications),
 
-          gcse_english_unstructured_grade: english_unstructured_gcse_grade(qualifications),
-          gcse_english_single_grade: english_structured_gcse_grades(qualifications, 'english_single_award'),
-          gcse_english_double_grade: english_structured_gcse_grades(qualifications, 'english_double_award'),
-          gcse_english_language_grade: english_structured_gcse_grades(qualifications, 'english_language'),
-          gcse_english_literature_grade: english_structured_gcse_grades(qualifications, 'english_literature'),
-          gcse_english_studies_single_grade: english_structured_gcse_grades(qualifications, 'english_studies_single_award'),
-          gcse_english_studies_double_grade: english_structured_gcse_grades(qualifications, 'english_studies_double_award'),
-          gcse_english_other_grade: english_other_gcse_grade(qualifications),
+            gcse_english_unstructured_grade: english_unstructured_gcse_grade(qualifications),
+            gcse_english_single_grade: english_structured_gcse_grades(qualifications, 'english_single_award'),
+            gcse_english_double_grade: english_structured_gcse_grades(qualifications, 'english_double_award'),
+            gcse_english_language_grade: english_structured_gcse_grades(qualifications, 'english_language'),
+            gcse_english_literature_grade: english_structured_gcse_grades(qualifications, 'english_literature'),
+            gcse_english_studies_single_grade: english_structured_gcse_grades(qualifications, 'english_studies_single_award'),
+            gcse_english_studies_double_grade: english_structured_gcse_grades(qualifications, 'english_studies_double_award'),
+            gcse_english_other_grade: english_other_gcse_grade(qualifications),
 
-          a_level_1_subject: a_levels[0].try(:subject),
-          a_level_1_grade: a_levels[0].try(:grade),
-          a_level_2_subject: a_levels[1].try(:subject),
-          a_level_2_grade: a_levels[1].try(:grade),
-          a_level_3_subject: a_levels[2].try(:subject),
-          a_level_3_grade: a_levels[2].try(:grade),
-          a_level_4_subject: a_levels[3].try(:subject),
-          a_level_4_grade: a_levels[3].try(:grade),
-          a_level_5_subject: a_levels[4].try(:subject),
-          a_level_5_grade: a_levels[4].try(:grade),
+            a_level_1_subject: a_levels[0].try(:subject),
+            a_level_1_grade: a_levels[0].try(:grade),
+            a_level_2_subject: a_levels[1].try(:subject),
+            a_level_2_grade: a_levels[1].try(:grade),
+            a_level_3_subject: a_levels[2].try(:subject),
+            a_level_3_grade: a_levels[2].try(:grade),
+            a_level_4_subject: a_levels[3].try(:subject),
+            a_level_4_grade: a_levels[3].try(:grade),
+            a_level_5_subject: a_levels[4].try(:subject),
+            a_level_5_grade: a_levels[4].try(:grade),
 
-          degree_1_type: degrees[0].try(:qualification_type),
-          degree_1_grade: degrees[0].try(:grade),
-          degree_2_type: degrees[1].try(:qualification_type),
-          degree_2_grade: degrees[1].try(:grade),
+            degree_1_type: degrees[0].try(:qualification_type),
+            degree_1_grade: degrees[0].try(:grade),
+            degree_2_type: degrees[1].try(:qualification_type),
+            degree_2_grade: degrees[1].try(:grade),
 
-          number_of_other_qualifications_provided: other_qualification_count(qualifications),
-        }
+            number_of_other_qualifications_provided: other_qualification_count(qualifications),
+          }
 
-        output
+          output
+        end
       end
     end
 
