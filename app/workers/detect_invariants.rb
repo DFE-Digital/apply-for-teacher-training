@@ -58,9 +58,9 @@ class DetectInvariants
 
   def detect_unauthorised_application_form_edits
     unauthorised_changes = Audited::Audit
-      .joins("INNER JOIN application_forms ON application_forms.id = audits.associated_id AND audits.associated_type = 'ApplicationForm'")
+      .joins("INNER JOIN application_forms ON audits.associated_type = 'ApplicationForm' AND application_forms.id = audits.associated_id")
       .joins('INNER JOIN candidates ON candidates.id = application_forms.candidate_id')
-      .where(audits: { user_type: 'Candidate' })
+      .where(user_type: 'Candidate')
       .where('candidates.id != audits.user_id')
       .pluck('application_forms.id').uniq
       .sort
