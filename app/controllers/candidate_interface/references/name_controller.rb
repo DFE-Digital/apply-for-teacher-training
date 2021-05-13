@@ -1,7 +1,7 @@
 module CandidateInterface
   module References
     class NameController < BaseController
-      before_action :redirect_to_review_page_unless_reference_is_editable
+      before_action :redirect_to_review_page_unless_reference_is_editable, only: %i[edit update]
 
       def new
         @reference_name_form = Reference::RefereeNameForm.new
@@ -10,8 +10,8 @@ module CandidateInterface
       def create
         @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
 
-        if @reference_name_form.save(@reference)
-          redirect_to candidate_interface_references_email_address_path(@reference.id)
+        if @reference_name_form.save(current_application, params[:referee_type])
+          redirect_to candidate_interface_references_email_address_path(current_application.application_references.last.id)
         else
           track_validation_error(@reference_name_form)
           render :new
@@ -25,8 +25,12 @@ module CandidateInterface
       def update
         @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
 
-        if @reference_name_form.save(@reference)
-          if return_to_path.present?
+        if @reference_name_form.update(@reference)
+          if !@reference.email_address?
+            redirect_to candidate_interface_references_edit_email_address_path(
+              @reference.id, return_to: :review
+            )
+          elsif return_to_path.present?
             redirect_to return_to_path
           else
             redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)

@@ -26,7 +26,7 @@ RSpec.feature 'Reference history on review page' do
     visit candidate_interface_references_start_path
     click_link t('continue')
     choose 'Academic'
-    click_button t('save_and_continue')
+    click_button t('continue')
 
     candidate_fills_in_referee
     @reference = current_candidate.current_application.application_references.first

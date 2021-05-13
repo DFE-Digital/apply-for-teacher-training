@@ -5,8 +5,8 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
-    name_row = result.css('.govuk-summary-list__row')[0].text
-    email_row = result.css('.govuk-summary-list__row')[1].text
+    name_row = result.css('.govuk-summary-list__row')[1].text
+    email_row = result.css('.govuk-summary-list__row')[2].text
     expect(name_row).to include 'Name'
     expect(name_row).to include reference.name
     expect(email_row).to include 'Email address'
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     reference = create(:reference, :not_requested_yet, referee_type: :school_based)
     result = render_inline(described_class.new(references: [reference]))
 
-    type_row = result.css('.govuk-summary-list__row')[2].text
+    type_row = result.css('.govuk-summary-list__row')[0].text
     expect(type_row).to include 'Reference type'
     expect(type_row).to include 'School-based'
   end

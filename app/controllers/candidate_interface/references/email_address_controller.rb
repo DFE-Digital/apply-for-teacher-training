@@ -26,7 +26,11 @@ module CandidateInterface
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
 
         if @reference_email_address_form.save(@reference)
-          if return_to_path.present?
+          if !@reference.relationship?
+            redirect_to candidate_interface_references_edit_relationship_path(
+              @reference.id,
+            )
+          elsif return_to_path.present?
             redirect_to return_to_path
           else
             redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)
