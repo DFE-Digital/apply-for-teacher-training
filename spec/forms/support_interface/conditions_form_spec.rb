@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ConditionsForm do
           '0' => { 'text' => 2000.times.map { ('a'..'z').to_a[rand(26)] }.join },
           '1' => { 'text' => 255.times.map { ('a'..'z').to_a[rand(26)] }.join },
         },
-        'audit_comment' => 'See support ticket #123',
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).to be_valid
     end
@@ -23,7 +23,7 @@ RSpec.describe SupportInterface::ConditionsForm do
           '0' => { 'text' => 2001.times.map { ('a'..'z').to_a[rand(26)] }.join },
           '1' => { 'text' => 10.times.map { ('a'..'z').to_a[rand(26)] }.join },
         },
-        'audit_comment' => 'See support ticket #123',
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).not_to be_valid
       expect(form.errors.full_messages).to include('Further conditions Condition 1 must be 2000 characters or fewer')
@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::ConditionsForm do
           '0' => { 'text' => 10.times.map { ('a'..'z').to_a[rand(26)] }.join },
           '1' => { 'text' => 256.times.map { ('a'..'z').to_a[rand(26)] }.join },
         },
-        'audit_comment' => 'See support ticket #123',
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).not_to be_valid
       expect(form.errors.full_messages).to include('Further conditions Condition 2 must be 255 characters or fewer')
@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::ConditionsForm do
   end
 
   describe '#save' do
-    it 'returns false with a validation error if audit_comment is missing' do
+    it 'returns false with a validation error if audit_comment_ticket is missing' do
       application_choice = create(
         :application_choice,
         offer: { 'conditions' => ['Fitness to train to teach check', 'Get a haircut'] },
@@ -62,7 +62,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         },
       )
       expect(form.save).to be(false)
-      expect(form.errors.full_messages).to include('Audit comment Enter a comment for the audit trail')
+      expect(form.errors.full_messages).to include('Audit comment ticket Enter a Zendesk ticket URL')
       expect(application_choice.reload.offer['conditions']).to eq([
         'Fitness to train to teach check',
         'Get a haircut',
@@ -84,7 +84,7 @@ RSpec.describe SupportInterface::ConditionsForm do
           '0' => { 'text' => 'Get a haircut' },
           '1' => { 'text' => 'Wear a tie' },
         },
-        'audit_comment' => 'See support ticket #123',
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
       expect(application_choice.reload.offer).to eq(
@@ -110,7 +110,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         'further_conditions' => {
           '0' => { 'text' => 'Wear a tie' },
         },
-        'audit_comment' => 'See support ticket #123',
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
       expect(application_choice.reload.offer).to eq(
@@ -131,13 +131,13 @@ RSpec.describe SupportInterface::ConditionsForm do
         'standard_conditions' => [
           'Disclosure and Barring Service (DBS) check',
         ],
-        'audit_comment' => 'See support ticket #123',
+        'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
       expect(
         application_choice.audits.where(
           action: 'update',
-          comment: 'See support ticket #123',
+          comment: 'Change offer condition Zendesk request: https://becomingateacher.zendesk.com/agent/tickets/12345',
         ),
       ).to be_present
     end

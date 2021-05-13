@@ -8,12 +8,13 @@ module SupportInterface
 
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment
+    attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment_ticket
 
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
     validates :application_choice, presence: true
-    validates :audit_comment, presence: true
+    validates :audit_comment_ticket, presence: true
+    validates :audit_comment_ticket, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
     validate :further_conditions_length
 
     def self.build_from_application_choice(application_choice, attrs = {})
@@ -29,7 +30,7 @@ module SupportInterface
     def self.build_from_params(application_choice, params)
       attrs = {
         standard_conditions: params['standard_conditions'],
-        audit_comment: params['audit_comment'],
+        audit_comment_ticket: params['audit_comment_ticket'],
         further_conditions: params['further_conditions']&.values&.map { |v| v['text'] },
       }
 
@@ -86,7 +87,7 @@ module SupportInterface
 
       application_choice.update(
         offer: { conditions: (standard_conditions + further_conditions).reject(&:blank?) },
-        audit_comment: audit_comment,
+        audit_comment: "Change offer condition Zendesk request: #{audit_comment_ticket}",
       )
     end
   end

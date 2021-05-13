@@ -12,11 +12,10 @@
         text: 'Offer conditions should only be changed on accepted applications following a request from a provider that has already informed the candidate about the change',
       ) %>
 
-      <%= f.govuk_text_area(
-        :audit_comment,
-        label: { text: 'Audit comment', size: 'm' },
-        hint: { text: 'Include a link to the support ticket that the provider raised for this change' },
-        rows: 3,
+      <%= f.govuk_text_field(
+        :audit_comment_ticket,
+        label: { text: 'Zendesk ticket URL', size: 'm' },
+        hint: { text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345' },
       ) %>
 
       <%= f.govuk_collection_check_boxes(
