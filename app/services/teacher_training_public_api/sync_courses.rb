@@ -1,7 +1,6 @@
 module TeacherTrainingPublicAPI
   class SyncCourses
     attr_reader :provider, :run_in_background
-    include Rails.application.routes.url_helpers
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
@@ -29,27 +28,19 @@ module TeacherTrainingPublicAPI
   private
 
     def create_or_update_course(course_from_api, recruitment_cycle_year)
-      open_required = false
-
-      course = provider.courses.find_or_create_by(
+      course = provider.courses.find_or_initialize_by(
         uuid: course_from_api.uuid,
         recruitment_cycle_year: recruitment_cycle_year,
-      ) do |new_course|
-        new_course.code = course_from_api.code
-        open_required =
-          HostingEnvironment.sandbox_mode? || new_course.in_previous_cycle&.open_on_apply
-
-        if provider.any_open_courses_in_current_cycle?
-          # TODO: fix https://ukgovernmentdfe.slack.com/archives/CQA64BETU/p1620925219441400
-          # notify_of_new_course!(provider, course_from_api[:accredited_body_code])
-        end
-      end
+      )
 
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
-      course.save!
 
-      course.open! if open_required
+      if course.new_record?
+        SetOpenOnApplyForNewCourse.new(course).call
+      end
+
+      course.save!
 
       if run_in_background
         TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id)
@@ -127,24 +118,6 @@ module TeacherTrainingPublicAPI
       accredited_provider.save!
 
       accredited_provider
-    end
-
-    def notify_of_new_course!(provider, accredited_provider_code)
-      notification = [":seedling: #{provider.name}, which has courses open on Apply, added a new course"]
-      accredited_provider = ::Provider.find_by(code: accredited_provider_code)
-
-      if accredited_provider&.onboarded?
-        notification << "It’s ratified by #{accredited_provider.name}, who have signed the DSA"
-      elsif accredited_provider.present?
-        notification << "It’s ratified by #{accredited_provider.name}, who have NOT signed the DSA"
-      else
-        notification << 'There’s no separate accredited body for this course'
-      end
-
-      SlackNotificationWorker.perform_async(
-        notification.join('. ') + '.',
-        support_interface_provider_courses_url(provider),
-      )
     end
   end
 end
