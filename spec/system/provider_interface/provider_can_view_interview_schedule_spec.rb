@@ -9,6 +9,12 @@ RSpec.describe 'A Provider user' do
   let(:course) { create(:course, :open_on_apply, provider: provider) }
   let(:course_options) { create_list(:course_option, 4, course: course) }
 
+  around do |example|
+    Timecop.freeze(Time.zone.now.midday) do
+      example.run
+    end
+  end
+
   scenario 'can view all present and past interviews scheduled for their provider' do
     given_i_am_a_provider_user
     and_i_sign_in_to_the_provider_interface
