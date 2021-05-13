@@ -51,7 +51,7 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_click_the_change_link_next_to_address
-    all('.govuk-summary-list__actions')[7].click_link 'Change'
+    click_link('Change address')
   end
 
   def then_i_should_see_the_address_type_page

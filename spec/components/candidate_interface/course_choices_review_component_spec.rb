@@ -71,9 +71,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
 
       it 'renders the study mode change link' do
-        change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
-
-        expect(change_location_link).to eq("Change study mode for #{application_choice.course.name_and_code}")
+        expect(result.css('.govuk-summary-list__actions').text).to include(
+          "Change study mode for #{application_choice.course.name_and_code}",
+        )
       end
     end
 
@@ -134,9 +134,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       it 'renders the correct text for "Change" location links' do
         application_choice = application_form.application_choices.first
         result = render_inline(described_class.new(application_form: application_form))
-        change_location_link = result.css('.govuk-summary-list__actions')[1].text.strip
-
-        expect(change_location_link).to eq("Change location for #{application_choice.course.name_and_code}")
+        expect(result.css('.govuk-summary-list__actions').text).to include(
+          "Change location for #{application_choice.course.name_and_code}",
+        )
       end
     end
 
