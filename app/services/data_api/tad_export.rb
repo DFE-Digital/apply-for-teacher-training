@@ -1,15 +1,16 @@
 module DataAPI
   class TADExport
-    EXPORT_NAME = 'Daily export of applications for TAD'.freeze
-
     def self.run_daily
-      data_export = DataExport.create!(name: EXPORT_NAME)
+      data_export = DataExport.create!(
+        name: 'Daily export of applications for TAD',
+        export_type: :tad_applications,
+      )
       DataExporter.perform_async(DataAPI::TADExport, data_export.id)
     end
 
     def self.all
       DataExport
-        .where(name: EXPORT_NAME)
+        .where(export_type: :tad_applications)
         .where('completed_at IS NOT NULL')
     end
 
