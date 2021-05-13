@@ -33,10 +33,10 @@ module SupportInterface
             predicted_grade: qualification.predicted_grade,
             grade: qualification.grade,
             constituent_grades: qualification.constituent_grades,
-            international: qualification.international,
+            international_qualification: qualification.international,
             non_uk_qualification_type: qualification.non_uk_qualification_type,
-            institution_name: qualification.institution_name,
-            institution_country: qualification.institution_country,
+            qualification_institution_name: qualification.institution_name,
+            qualification_institution_country: qualification.institution_country,
             comparable_uk_degree: qualification.comparable_uk_degree,
             comparable_uk_qualification: qualification.comparable_uk_qualification,
           }
