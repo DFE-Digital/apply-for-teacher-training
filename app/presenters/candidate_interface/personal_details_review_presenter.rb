@@ -63,7 +63,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.english_main_language.label'),
         value: @languages_form.english_main_language&.titleize,
         action: ('if English is your main language' if @editable),
-        change_path: candidate_interface_languages_path,
+        change_path: candidate_interface_edit_languages_path,
       }
     end
 
