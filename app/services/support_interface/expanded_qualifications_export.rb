@@ -2,7 +2,7 @@ module SupportInterface
   class ExpandedQualificationsExport
     def data_for_export
       application_choices = ApplicationChoice
-        .select(:id, :application_form_id, :status, :course_option_id, :rejection_reason, :structured_rejection_reasons)
+        .select(:id, :application_form_id, :status, :course_option_id)
         .includes(:course_option, :course, :provider, application_form: [:application_qualifications])
         .order(:application_form_id)
 
@@ -22,7 +22,6 @@ module SupportInterface
             recruitment_cycle_year: application_form.recruitment_cycle_year,
 
             choice_status: application_choice.status,
-            rejection_reason: application_choice.structured_rejection_reasons || application_choice.rejection_reason,
             course_code: course.code,
             provider_code: course.provider.code,
 

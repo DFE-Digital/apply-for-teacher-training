@@ -37,7 +37,6 @@ RSpec.describe SupportInterface::ExpandedQualificationsExport do
         recruitment_cycle_year: application_form.recruitment_cycle_year,
 
         choice_status: choice.status,
-        rejection_reason: choice.structured_rejection_reasons || choice.rejection_reason,
         course_code: choice.course.code,
         provider_code: choice.course.provider.code,
 
