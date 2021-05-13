@@ -80,7 +80,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.other_language_details.label'),
         value: @languages_form.other_language_details,
         action: ('other languages' if @editable),
-        change_path: candidate_interface_languages_path,
+        change_path: candidate_interface_edit_languages_path,
       }
     end
 
@@ -89,7 +89,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.english_language_details.label'),
         value: @languages_form.english_language_details,
         action: ('English language qualifications' if @editable),
-        change_path: candidate_interface_languages_path,
+        change_path: candidate_interface_edit_languages_path,
       }
     end
 
