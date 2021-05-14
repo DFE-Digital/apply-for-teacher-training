@@ -70,5 +70,15 @@ RSpec.describe Provider, type: :model do
 
       expect(result).to be false
     end
+
+    context 'exclude_ratified_courses: true' do
+      subject(:result) { provider.all_courses_open_in_current_cycle?(exclude_ratified_courses: true) }
+
+      it 'is true if the provider’s other courses including ratified courses are a mixture of open on Apply and open on UCAS' do
+        create(:course, accredited_provider: provider, exposed_in_find: true, open_on_apply: false)
+
+        expect(result).to be true
+      end
+    end
   end
 end
