@@ -12,7 +12,7 @@ module ProviderInterface
 
   class ProviderInterfaceController < ApplicationController
     before_action :authenticate_provider_user!
-    before_action :add_identity_to_log
+    before_action :set_user_context
     before_action :redirect_if_setup_required
     before_action :check_cookie_preferences
 
@@ -61,7 +61,7 @@ module ProviderInterface
       redirect_to provider_interface_sign_in_path
     end
 
-    def add_identity_to_log
+    def set_user_context
       return unless current_provider_user
 
       Raven.user_context(id: "provider_#{current_provider_user.id}")

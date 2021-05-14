@@ -1,6 +1,6 @@
 module Integrations
   class NotifyController < IntegrationsController
-    before_action :log_params
+    before_action :set_context
 
     include ActionController::HttpAuthentication::Token::ControllerMethods
 
@@ -54,7 +54,7 @@ module Integrations
       )
     end
 
-    def log_params
+    def set_context
       Raven.extra_context(reference_status_parameters)
     end
 

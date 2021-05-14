@@ -21,7 +21,7 @@ module CandidateInterface
       if candidate.persisted?
         update_course_from_find(candidate)
         CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
-        controller.add_identity_to_log(candidate.id)
+        controller.set_user_context(candidate.id)
         redirect_to candidate_interface_check_email_sign_in_path
       elsif candidate.valid?
         AuthenticationMailer.sign_in_without_account_email(to: candidate.email_address).deliver_now

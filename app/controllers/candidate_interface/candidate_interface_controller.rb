@@ -2,13 +2,13 @@ module CandidateInterface
   class CandidateInterfaceController < ApplicationController
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
-    before_action :add_identity_to_log
+    before_action :set_user_context
     before_action :check_cookie_preferences
     layout 'application'
     alias_method :audit_user, :current_candidate
     alias_method :current_user, :current_candidate
 
-    def add_identity_to_log(candidate_id = current_candidate&.id)
+    def set_user_context(candidate_id = current_candidate&.id)
       Raven.user_context(id: "candidate_#{candidate_id}")
 
       return unless current_candidate

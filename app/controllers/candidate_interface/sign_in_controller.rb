@@ -50,7 +50,7 @@ module CandidateInterface
         first_sign_in = candidate.last_signed_in_at.nil?
         flash[:success] = t('apply_from_find.account_created_message') if first_sign_in
         sign_in(candidate, scope: :candidate)
-        add_identity_to_log(candidate.id)
+        set_user_context(candidate.id)
         authentication_token.use!
 
         redirect_to candidate_interface_interstitial_path(path: params[:path])
@@ -86,7 +86,7 @@ module CandidateInterface
 
       if candidate
         CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate, path: authentication_token&.path)
-        add_identity_to_log candidate.id
+        set_user_context candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else
         render 'errors/not_found', status: :forbidden

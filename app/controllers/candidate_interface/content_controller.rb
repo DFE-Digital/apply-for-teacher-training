@@ -2,7 +2,7 @@ module CandidateInterface
   class ContentController < CandidateInterfaceController
     include ContentHelper
     skip_before_action :authenticate_candidate!
-    skip_before_action :add_identity_to_log
+    skip_before_action :set_user_context
 
     def accessibility
       render_content_page :accessibility

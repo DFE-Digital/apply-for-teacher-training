@@ -9,7 +9,7 @@ module VendorAPI
 
     before_action :set_cors_headers
     before_action :require_valid_api_token!
-    before_action :add_identity_to_log
+    before_action :set_user_context
 
     def audit_user
       return unless @metadata
@@ -78,7 +78,7 @@ module VendorAPI
       @current_provider ||= @current_vendor_api_token&.provider
     end
 
-    def add_identity_to_log
+    def set_user_context
       Raven.user_context(id: "api_token_#{@current_vendor_api_token&.id}")
     end
 
