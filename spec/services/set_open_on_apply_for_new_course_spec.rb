@@ -35,7 +35,7 @@ RSpec.describe SetOpenOnApplyForNewCourse do
 
       course_opener.call
 
-      expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. There’s no separate accredited body for this course.")
+      expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. We opened it automatically. There’s no separate accredited body for this course.")
     end
 
     it 'does not notify Slack when the provider does not have open courses on Apply in this cycle' do
@@ -52,6 +52,17 @@ RSpec.describe SetOpenOnApplyForNewCourse do
       course_opener.call
 
       expect(course).to be_open_on_apply
+      expect_slack_message_with_text('We opened it automatically')
+    end
+
+    it 'does not open the course if all the provider’s other courses are not open on apply' do
+      create(:course, :open_on_apply, provider: course.provider)
+      create(:course, :ucas_only, provider: course.provider)
+
+      course_opener.call
+
+      expect(course).not_to be_open_on_apply
+      expect_slack_message_with_text('We didn’t automatically open it')
     end
 
     context 'when the course has an accredited provider' do
@@ -63,7 +74,7 @@ RSpec.describe SetOpenOnApplyForNewCourse do
 
         course_opener.call
 
-        expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. It’s ratified by Canterbury, who have NOT signed the DSA.")
+        expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. We opened it automatically. It’s ratified by Canterbury, who have NOT signed the DSA.")
       end
 
       context 'and the accredited provider has signed the DSA' do
@@ -74,7 +85,7 @@ RSpec.describe SetOpenOnApplyForNewCourse do
 
           course_opener.call
 
-          expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. It’s ratified by Canterbury, who have signed the DSA.")
+          expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. We opened it automatically. It’s ratified by Canterbury, who have signed the DSA.")
         end
       end
     end
