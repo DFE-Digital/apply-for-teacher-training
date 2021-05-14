@@ -8,7 +8,7 @@ module Hesa
       elsif cycle_year == 2021
         HESA_ETHNICITIES_2020_2021.map { |ethnicity| EthnicityStruct.new(*ethnicity) }
       else
-        raise ArgumentError, "Do not know Hesa Ethnicities codes for #{recruitment_cycle_year}"
+        raise ArgumentError, "Do not know Hesa Ethnicities codes for #{cycle_year}"
       end
     end
 
