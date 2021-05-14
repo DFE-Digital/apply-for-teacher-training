@@ -74,7 +74,7 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
       it 'renders a UK ENIC statement' do
         result = render_inline described_class.new([degree])
         expect(result.text).to include(
-          'UK ENIC statement 1234 says this is comparable to a Master’s degree / Integrated Master’s degree',
+          'UK ENIC or NARIC statement 1234 says this is comparable to a Master’s degree / Integrated Master’s degree',
         )
       end
     end

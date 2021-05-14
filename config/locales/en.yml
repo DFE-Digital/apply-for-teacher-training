@@ -12,6 +12,7 @@ en:
     get_into_teaching: Get Into Teaching
     enic:
       short_name: UK ENIC
+      short_name_with_naric: UK ENIC or NARIC
       full_name: UK ENIC (the UK agency that recognises international qualifications and skills)
       url: https://www.enic.org.uk
   teacher_training_courses_api:
