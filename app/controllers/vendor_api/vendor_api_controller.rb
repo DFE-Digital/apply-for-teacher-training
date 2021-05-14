@@ -1,7 +1,7 @@
 module VendorAPI
   class VendorAPIController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
-    include LogQueryParams
+    include RequestQueryParams
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
@@ -91,7 +91,7 @@ module VendorAPI
       }
 
       payload.merge!(user_info)
-      payload.merge!(log_query_params)
+      payload.merge!(request_query_params)
     end
 
     def validate_metadata!

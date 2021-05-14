@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 class DummyController < ApplicationController
-  include LogQueryParams
+  include RequestQueryParams
   attr_accessor :request
   def initialize
     @request = Struct.new(:query_parameters, :path_parameters).new({}, {})
   end
 end
 
-RSpec.describe LogQueryParams do
+RSpec.describe RequestQueryParams do
   context 'excludes specific params' do
     let(:controller) { DummyController.new }
-    let(:logged_params) { controller.log_query_params }
+    let(:logged_params) { controller.request_query_params }
 
     it 'excludes the sign_in token from the logs' do
       allow(controller.request).to receive(:query_parameters).and_return(

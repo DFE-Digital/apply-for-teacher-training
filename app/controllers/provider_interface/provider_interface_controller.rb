@@ -65,15 +65,15 @@ module ProviderInterface
       return unless current_provider_user
 
       Raven.user_context(id: "provider_#{current_provider_user.id}")
-      Raven.extra_context(useful_debugging_info)
+      Raven.extra_context(current_user_details)
     end
 
     def append_info_to_payload(payload)
       super
 
-      payload.merge!(useful_debugging_info) if current_provider_user
+      payload.merge!(current_user_details) if current_provider_user
       payload.merge!(application_support_url) if @application_choice
-      payload.merge!(log_query_params)
+      payload.merge!(request_query_params)
     end
 
     # Set the `@application_choice` instance variable for use in views.
@@ -130,7 +130,7 @@ module ProviderInterface
       render 'errors/forbidden', status: :forbidden
     end
 
-    def useful_debugging_info
+    def current_user_details
       information = {
         dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid,
         provider_user_admin_url: support_interface_provider_user_url(current_provider_user),

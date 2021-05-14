@@ -1,6 +1,6 @@
 module RefereeInterface
   class ReferenceController < ActionController::Base
-    include LogQueryParams
+    include RequestQueryParams
     before_action :set_user_context
     before_action :check_referee_has_valid_token
     before_action :set_token_param
@@ -158,7 +158,7 @@ module RefereeInterface
       super
 
       payload.merge!({ reference_id: reference.id }) if reference.present?
-      payload.merge!(log_query_params)
+      payload.merge!(request_query_params)
     end
 
     def reference
