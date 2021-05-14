@@ -1,7 +1,7 @@
 module RefereeInterface
   class ReferenceController < ActionController::Base
-    include LogQueryParams
-    before_action :add_identity_to_log
+    include RequestQueryParams
+    before_action :set_user_context
     before_action :check_referee_has_valid_token
     before_action :set_token_param
     before_action :show_finished_page_if_feedback_provided, except: %i[submit_feedback submit_questionnaire confirmation finish]
@@ -145,14 +145,20 @@ module RefereeInterface
       redirect_to referee_interface_finish_path(token: @token_param)
     end
 
-    def add_identity_to_log
+    def set_user_context
       return if reference.blank?
 
-      RequestLocals.store[:identity] = { reference_id: reference.id }
       Raven.extra_context(
         application_support_url: support_interface_application_form_url(reference.application_form),
         reference_id: reference.id,
       )
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!({ reference_id: reference.id }) if reference.present?
+      payload.merge!(request_query_params)
     end
 
     def reference

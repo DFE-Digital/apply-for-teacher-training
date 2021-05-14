@@ -1,7 +1,7 @@
 module VendorAPI
   class VendorAPIController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
-    include LogQueryParams
+    include RequestQueryParams
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
@@ -9,7 +9,7 @@ module VendorAPI
 
     before_action :set_cors_headers
     before_action :require_valid_api_token!
-    before_action :add_identity_to_log
+    before_action :set_user_context
 
     def audit_user
       return unless @metadata
@@ -78,15 +78,20 @@ module VendorAPI
       @current_provider ||= @current_vendor_api_token&.provider
     end
 
-    # controller-specific additional info to include in logstash logs
-    def add_identity_to_log
+    def set_user_context
+      Raven.user_context(id: "api_token_#{@current_vendor_api_token&.id}")
+    end
+
+    def append_info_to_payload(payload)
+      super
+
       user_info = {
         vendor_api_token_id: @current_vendor_api_token&.id,
         provider_id: current_provider&.id,
       }
 
-      RequestLocals.store[:identity] = user_info
-      Raven.user_context(id: "api_token_#{@current_vendor_api_token&.id}")
+      payload.merge!(user_info)
+      payload.merge!(request_query_params)
     end
 
     def validate_metadata!

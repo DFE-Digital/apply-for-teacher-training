@@ -12,7 +12,7 @@ module ProviderInterface
 
   class ProviderInterfaceController < ApplicationController
     before_action :authenticate_provider_user!
-    before_action :add_identity_to_log
+    before_action :set_user_context
     before_action :redirect_if_setup_required
     before_action :check_cookie_preferences
 
@@ -61,23 +61,19 @@ module ProviderInterface
       redirect_to provider_interface_sign_in_path
     end
 
-    def add_identity_to_log
+    def set_user_context
       return unless current_provider_user
 
-      useful_debugging_info = {
-        dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid,
-        provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
-      }
-
-      if (impersonator = current_provider_user.impersonator)
-        useful_debugging_info[:dfe_sign_in_uid] = impersonator.dfe_sign_in_uid
-        useful_debugging_info[:support_user_email] = impersonator.email_address
-        useful_debugging_info[:support_user_admin_url] = support_interface_support_user_url(impersonator)
-      end
-
-      RequestLocals.store[:identity] = useful_debugging_info
       Raven.user_context(id: "provider_#{current_provider_user.id}")
-      Raven.extra_context(useful_debugging_info)
+      Raven.extra_context(current_user_details)
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!(current_user_details) if current_provider_user
+      payload.merge!(application_support_url) if @application_choice
+      payload.merge!(request_query_params)
     end
 
     # Set the `@application_choice` instance variable for use in views.
@@ -86,12 +82,7 @@ module ProviderInterface
         providers: current_provider_user.providers,
       ).find(params[:application_choice_id])
 
-      debugging_info = {
-        application_support_url: support_interface_application_form_url(@application_choice.application_form),
-      }
-
-      Raven.extra_context(debugging_info)
-      RequestLocals.store[:debugging_info] = debugging_info
+      Raven.extra_context(application_support_url)
     rescue ActiveRecord::RecordNotFound
       render_404
     end
@@ -137,6 +128,27 @@ module ProviderInterface
 
     def render_403
       render 'errors/forbidden', status: :forbidden
+    end
+
+    def current_user_details
+      information = {
+        dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid,
+        provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
+      }
+
+      if (impersonator = current_provider_user.impersonator)
+        information[:dfe_sign_in_uid] = impersonator.dfe_sign_in_uid
+        information[:support_user_email] = impersonator.email_address
+        information[:support_user_admin_url] = support_interface_support_user_url(impersonator)
+      end
+
+      information
+    end
+
+    def application_support_url
+      {
+        application_support_url: support_interface_application_form_url(@application_choice.application_form),
+      }
     end
   end
 end

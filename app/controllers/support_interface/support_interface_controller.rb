@@ -2,7 +2,7 @@ module SupportInterface
   class SupportInterfaceController < ApplicationController
     layout 'support_layout'
     before_action :authenticate_support_user!
-    before_action :add_identity_to_log
+    before_action :set_user_context
 
     helper_method :current_support_user, :dfe_sign_in_user
 
@@ -30,11 +30,17 @@ module SupportInterface
       redirect_to support_interface_sign_in_path
     end
 
-    def add_identity_to_log
+    def set_user_context
       return unless current_support_user
 
-      RequestLocals.store[:identity] = { support_user_id: current_support_user.id }
       Raven.user_context(id: "support_#{current_support_user.id}")
+    end
+
+    def append_info_to_payload(payload)
+      super
+
+      payload.merge!({ support_user_id: current_support_user.id }) if current_support_user
+      payload.merge!(request_query_params)
     end
   end
 end

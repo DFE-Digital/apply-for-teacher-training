@@ -1,36 +1,23 @@
 require 'rails_helper'
 
 class DummyController < ApplicationController
-  include LogQueryParams
+  include RequestQueryParams
   attr_accessor :request
   def initialize
     @request = Struct.new(:query_parameters, :path_parameters).new({}, {})
   end
 end
 
-RSpec.describe LogQueryParams do
-  context 'module inclusion' do
-    it 'adds #add_params_to_request_store to the class' do
-      expect(DummyController.new).to respond_to(:add_params_to_request_store)
-    end
-
-    it 'sets before_action :add_params_to_request_store' do
-      expect(DummyController._process_action_callbacks.map(&:filter)).to \
-        include :add_params_to_request_store
-    end
-  end
-
+RSpec.describe RequestQueryParams do
   context 'excludes specific params' do
     let(:controller) { DummyController.new }
-    let(:logged_params) { RequestLocals.fetch(:params) { nil } }
+    let(:logged_params) { controller.request_query_params }
 
     it 'excludes the sign_in token from the logs' do
       allow(controller.request).to receive(:query_parameters).and_return(
         non_excluded: 'true',
         token: 'xyz',
       )
-
-      controller.add_params_to_request_store
 
       expect(logged_params[:non_excluded]).not_to be_nil
       expect(logged_params[:token]).to be_nil
@@ -42,8 +29,6 @@ RSpec.describe LogQueryParams do
         email_address: 'user@example.com',
       )
 
-      controller.add_params_to_request_store
-
       expect(logged_params[:email]).to be_nil
       expect(logged_params[:email_address]).to be_nil
     end
@@ -54,8 +39,6 @@ RSpec.describe LogQueryParams do
         controller: 'DummyController',
         action: 'index',
       )
-
-      controller.add_params_to_request_store
 
       expect(logged_params[:application_id]).to eq(15)
       expect(logged_params[:controller]).to eq('DummyController')
