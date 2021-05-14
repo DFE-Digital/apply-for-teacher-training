@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_131855) do
+ActiveRecord::Schema.define(version: 2021_05_14_135324) do
+
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
@@ -265,6 +266,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_131855) do
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["auditable_type", "id"], name: "index_audits_on_auditable_type_and_id"
+    t.index ["audited_changes"], name: "index_audits_on_audited_changes", using: :gin
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
