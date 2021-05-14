@@ -1,0 +1,69 @@
+common_columns:
+  - application_form_id
+  - application_choice_id
+  - candidate_id
+  - support_reference
+  - phase
+  - recruitment_cycle_year
+  - choice_status
+  - course_code
+  - provider_code
+
+custom_columns:
+  level:
+    type: string
+    description: An internal convention describing the level at which the qualification sits
+    enum:
+      - degree
+      - gcse
+      - other
+  qualification_type:
+    type: string
+    description: The specific type of qualification at a given level
+    example: BSc Computer Science
+  other_uk_qualification_type:
+    type: string
+    description: A flexible type description for candidates inputting 'Other' qualifications
+    example: Intermediate GNVQ
+  award_year:
+    type: integer
+    description: The year the qualification was awarded
+    example: 1999
+  subject:
+    type: string
+    description: The qualification subject
+    example: Chemistry
+  predicted_grade:
+    type: boolean
+    description: Whether or not the provided grade is predicted
+  grade:
+    type: string
+    description: The qualification grade
+    example: First class honours
+  constituent_grades:
+    type: string
+    description: A composite grade for subjects like Triple Science GCSE where more than one grade is awarded for the qualification
+    example: '{"biology"=>{"grade"=>"B"}, "physics"=>{"grade"=>"B"}, "chemistry"=>{"grade"=>"A"}}'
+  international_degree:
+    type: boolean
+    description: Whether or not this is an international degree. Note that this only applies to qualifications entered via the Degree flow - candidates sometimes enter degrees in the 'A levels and other qualifications' section.
+  non_uk_qualification_type:
+    type: string
+    description: The specific type of any non-uk qualification (entered via the 'A levels and other qualifications' section).
+    example: High School Diploma
+  qualification_institution_name:
+    type: string
+    description: Name of the awarding institution
+    example: Loughborough Grammar School
+  qualification_institution_country:
+    type: string
+    description: Country of the awarding institution
+    example: FR
+  comparable_uk_degree:
+    type: string
+    description: The UK equivalent of an international degree
+    example: "Bachelor of Science"
+  comparable_uk_qualification:
+    type: string
+    description: The UK equivalent of a non-uk qualification
+    example: GCE Advanced (A) level

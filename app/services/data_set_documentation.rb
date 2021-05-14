@@ -1,6 +1,6 @@
 class DataSetDocumentation
   def self.for(klass)
-    name = klass.name.demodulize.underscore
+    name = with_feature_flag_handling(klass.name.demodulize.underscore)
 
     spec = YAML.load_file(Rails.root.join("app/exports/#{name}.yml"))
     common_columns = load_common_columns
@@ -22,6 +22,15 @@ class DataSetDocumentation
     Dir[Rails.root.join('app/exports/common_columns/*')]
         .map { |file| YAML.load_file(file) }
         .reduce({}, :merge)
+  end
+
+  def self.with_feature_flag_handling(spec_name)
+    case spec_name
+    when 'qualifications_export'
+      FeatureFlag.active?(:expanded_quals_export) ? 'expanded_qualifications_export' : spec_name
+    else
+      spec_name
+    end
   end
 
   private_class_method :load_common_columns, :check_for_shadowed_columns
