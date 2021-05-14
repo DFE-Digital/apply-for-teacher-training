@@ -29,7 +29,7 @@ module SupportInterface
             other_uk_qualification_type: qualification.other_uk_qualification_type,
             award_year: qualification.award_year,
             subject: qualification.subject,
-            predicted_grade: qualification.predicted_grade,
+            predicted_grade: qualification.predicted_grade || false,
             grade: qualification.grade,
             constituent_grades: qualification.constituent_grades,
             international_degree: qualification.international,
