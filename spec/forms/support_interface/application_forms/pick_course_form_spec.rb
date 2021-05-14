@@ -54,6 +54,90 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     end
   end
 
+  describe '#course_options_for_provider' do
+    let(:first_site) { build(:site) }
+    let(:second_site) { build(:site) }
+    let(:provider) { build(:provider, sites: [first_site, second_site]) }
+    let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
+
+    it 'returns only course options that have vacancies' do
+      course_option_with_vacancies = create(:course_option, site: first_site, course: course)
+      create(:course_option, course: course, site: second_site, vacancy_status: 'no_vacancies')
+      application_form = create(:application_form)
+
+      form_data = {
+        application_form_id: application_form.id,
+        course_code: course.code,
+      }
+
+      course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
+
+      expect(course_options_for_provider.length).to eq(1)
+      expect(course_options_for_provider.first.course_option_id).to eq(course_option_with_vacancies.id)
+    end
+
+    it 'only returns courses that are ratified by the same accredited_provider' do
+      application_form = create(:completed_application_form)
+      application_choice = create(:application_choice, :with_accepted_offer, application_form: application_form)
+
+      provider1 = application_choice.provider
+      site1 = create(:site, provider: provider1)
+      course1 = create(:course, :open_on_apply, provider: provider1, name: 'A', code: 'A123')
+
+      provider2 = create(:provider)
+      site2 = create(:site, provider: provider2)
+
+      course2 = create(:course, :open_on_apply, provider: provider2, accredited_provider: provider1, code: 'A123', name: 'B')
+
+      course3 = create(:course, :open_on_apply, code: 'A123')
+
+      course_option_with_the_same_provider = create(:course_option, site: site1, course: course1)
+      course_option_with_the_same_accrediting_provider = create(:course_option, site: site2, course: course2)
+      create(:course_option, course: course3)
+
+      form_data = {
+        application_form_id: application_form.id,
+        course_code: 'A123',
+      }
+
+      course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider1)
+
+      expect(course_options_for_provider.length).to eq(2)
+      expect(course_options_for_provider.first.course_option_id).to eq course_option_with_the_same_provider.id
+      expect(course_options_for_provider.second.course_option_id).to eq course_option_with_the_same_accrediting_provider.id
+    end
+
+    it 'does not return course options that have already been added to an application form' do
+      course_option = build(:course_option, site: first_site, course: course)
+      application_choice = build(:application_choice, course_option: course_option)
+      application_form = create(:application_form, application_choices: [application_choice])
+
+      form_data = {
+        application_form_id: application_form.id,
+        course_code: course.code,
+      }
+
+      course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
+
+      expect(course_options_for_provider.length).to eq(0)
+    end
+
+    it 'does not return course options for courses not open on apply' do
+      course = create(:course)
+      create(:course_option, course: create(:course))
+      application_form = create(:completed_application_form)
+
+      form_data = {
+        application_form_id: application_form.id,
+        course_code: course.code,
+      }
+
+      course_options_for_provider = described_class.new(form_data).course_options_for_provider(provider)
+
+      expect(course_options_for_provider).to be_empty
+    end
+  end
+
   describe '#unavailable_courses' do
     it 'returns courses with no vacacncies' do
       course1 = create(:course, :open_on_apply, code: 'ABC')
