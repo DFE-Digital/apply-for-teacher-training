@@ -8,7 +8,8 @@ module SupportInterface
 
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment_ticket
+    attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment_ticket, :confirm_make_unconditional
+    alias_method :confirm_make_unconditional?, :confirm_make_unconditional
 
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
@@ -29,9 +30,10 @@ module SupportInterface
 
     def self.build_from_params(application_choice, params)
       attrs = {
-        standard_conditions: params['standard_conditions'],
+        standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
-        further_conditions: params['further_conditions']&.values&.map { |v| v['text'] },
+        confirm_make_unconditional: params['confirm_make_unconditional'],
+        further_conditions: params['further_conditions']&.values&.map { |v| v['text'] } || [],
       }
 
       form = build_from_application_choice(application_choice, attrs)
@@ -85,10 +87,19 @@ module SupportInterface
     def save
       return false unless valid?
 
-      application_choice.update(
-        offer: { conditions: (standard_conditions + further_conditions).reject(&:blank?) },
-        audit_comment: "Change offer condition Zendesk request: #{audit_comment_ticket}",
-      )
+      UpdateAcceptedOfferConditions.new(
+        application_choice: application_choice,
+        conditions: all_conditions,
+        audit_comment_ticket: audit_comment_ticket,
+      ).save!
+    end
+
+    def all_conditions
+      ((standard_conditions || []) + (further_conditions || [])).reject(&:blank?)
+    end
+
+    def conditions_empty?
+      all_conditions.empty?
     end
   end
 end

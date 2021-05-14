@@ -19,6 +19,13 @@ RSpec.feature 'Add course to submitted application' do
 
     when_i_add_a_new_condition_and_click_update_conditions_with_a_support_ticket_url
     then_i_see_the_new_condition_as_well_as_the_original_ones
+
+    when_i_click_on_change_conditions
+    and_i_remove_all_conditions_and_click_update_conditions
+    then_i_see_a_confirmation_page_about_candidate_being_recruited
+
+    when_i_check_that_i_understand_and_click_continue
+    then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
   end
 
   def given_i_am_a_support_user
@@ -85,8 +92,33 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def then_i_see_the_new_condition_as_well_as_the_original_ones
+    expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
     expect(page).to have_content(
       "Conditions\nFitness to train to teach check Be cool Learn to play piano",
     )
+  end
+
+  def and_i_remove_all_conditions_and_click_update_conditions
+    uncheck 'Fitness to train to teach check'
+    fill_in 'Condition 1', with: ''
+    fill_in 'Condition 2', with: ''
+    fill_in 'Zendesk ticket URL', with: 'becomingateacher.zendesk.com/agent/tickets/12345'
+    click_on 'Update conditions'
+  end
+
+  def then_i_see_a_confirmation_page_about_candidate_being_recruited
+    expect(page).to have_content('Are you sure you want to make this offer unconditional?')
+    expect(page).to have_content('Because this offer has already been accepted removing all conditions will recruit this candidate immediately.')
+  end
+
+  def when_i_check_that_i_understand_and_click_continue
+    check 'I understand that I am making this offer unconditional'
+    click_on 'Continue'
+  end
+
+  def then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
+    expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
+    expect(page).to have_content('Recruited')
+    expect(page).not_to have_content('Conditions')
   end
 end

@@ -824,6 +824,7 @@ Rails.application.routes.draw do
     get '/application-choices/:application_choice_id' => 'application_choices#show', as: :application_choice
     get '/application-choices/:application_choice_id/conditions' => 'application_choice_conditions#edit', as: :edit_application_choice_conditions
     put '/application-choices/:application_choice_id/conditions' => 'application_choice_conditions#update', as: :update_application_choice_conditions
+    get '/application-choices/:application_choice_id/make-unconditional' => 'application_choice_conditions#confirm_make_unconditional', as: :confirm_make_application_choice_unconditional
 
     get '/candidates' => 'candidates#index'
 
