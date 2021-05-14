@@ -70,6 +70,7 @@ resource "cloudfoundry_app" "worker" {
   command              = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
   instances            = var.worker_app_instances
   memory               = var.worker_app_memory
+  strategy             = "blue-green-v2"
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.worker_app_env_variables
