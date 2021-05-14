@@ -38,7 +38,7 @@ private
 
     SlackNotificationWorker.perform_async(
       notification.join('. ') + '.',
-      support_interface_provider_courses_url(provider),
+      support_interface_course_url(@course),
     )
   end
 end

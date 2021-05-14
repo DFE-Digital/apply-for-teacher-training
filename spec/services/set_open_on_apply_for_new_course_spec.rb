@@ -36,6 +36,7 @@ RSpec.describe SetOpenOnApplyForNewCourse do
       course_opener.call
 
       expect_slack_message_with_text("#{course.provider.name}, which has courses open on Apply, added a new course. We opened it automatically. There’s no separate accredited body for this course.")
+      expect_slack_message_with_text("support/courses/#{course.id}")
     end
 
     it 'does not notify Slack when the provider does not have open courses on Apply in this cycle' do
