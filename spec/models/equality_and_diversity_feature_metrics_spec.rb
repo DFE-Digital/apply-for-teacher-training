@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SatisfactionSurveyFeatureMetrics, with_audited: true do
+RSpec.describe EqualityAndDiversityFeatureMetrics, with_audited: true do
   subject(:feature_metrics) { described_class.new }
 
   def create_application
@@ -8,8 +8,8 @@ RSpec.describe SatisfactionSurveyFeatureMetrics, with_audited: true do
     application_form
   end
 
-  def create_application_with_feedback
-    application_form = create(:completed_application_form, :with_feedback_completed, submitted_at: Time.zone.now)
+  def create_application_with_equality_and_diversity_data
+    application_form = create(:completed_application_form, :with_equality_and_diversity_data, submitted_at: Time.zone.now)
     application_form
   end
 
@@ -20,28 +20,28 @@ RSpec.describe SatisfactionSurveyFeatureMetrics, with_audited: true do
       end
     end
 
-    context 'with applications with feedback' do
+    context 'with applications with equality and diversity data' do
       it 'returns 0 when there are no submitted applications with feedback' do
         create_application
         expect(feature_metrics.formatted_response_rate(1.month.ago)).to eq('0%')
       end
 
-      it 'returns the right percentages when submitted applications with feedback exist' do
+      it 'returns the right percentages when submitted applications with equality and diversity data exist' do
         create_application
-        2.times { create_application_with_feedback }
+        2.times { create_application_with_equality_and_diversity_data }
         expect(feature_metrics.formatted_response_rate(1.month.ago)).to eq('66.7%')
       end
 
       it 'returns the right percentages over a range of dates' do
         @today = Time.zone.local(2021, 3, 10, 12)
         Timecop.freeze(@today - 40.days) do
-          2.times { create_application_with_feedback }
+          2.times { create_application_with_equality_and_diversity_data }
         end
         Timecop.freeze(@today - 20.days) do
           create_application
         end
         Timecop.freeze(@today - 5.days) do
-          create_application_with_feedback
+          create_application_with_equality_and_diversity_data
         end
         Timecop.freeze(@today) do
           expect(feature_metrics.formatted_response_rate(25.days.ago)).to eq('50%')
