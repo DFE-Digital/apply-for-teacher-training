@@ -25,6 +25,8 @@ private
         application_form_ids: Audited::Audit
           .select(:auditable_id)
           .where(auditable_type: 'ApplicationForm')
+          .where(action: :update)
+          .where("audited_changes ? 'work_history_completed'")
           .where("audited_changes#>>'{work_history_completed, 1}' = 'true'")
           .where('created_at BETWEEN ? AND ?', start_time, end_time),
       )
