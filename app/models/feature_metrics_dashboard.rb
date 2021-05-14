@@ -23,6 +23,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_carry_over_counts
     load_qualifications
     load_satisfaction_survey_response_rate
+    load_equality_and_diversity_response_rate
   end
 
   def last_updated_at
@@ -65,6 +66,10 @@ private
 
   def satisfaction_survey_statistics
     SatisfactionSurveyFeatureMetrics.new
+  end
+
+  def equality_and_diversity_statistics
+    EqualityAndDiversityFeatureMetrics.new
   end
 
   def load_avg_time_to_get_references
@@ -357,6 +362,28 @@ private
     write_metric(
       :satisfaction_survey_response_rate_last_month,
       satisfaction_survey_statistics.formatted_response_rate(
+        Time.zone.now.beginning_of_month - 1.month,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+  end
+
+  def load_equality_and_diversity_response_rate
+    write_metric(
+      :equality_and_diversity_response_rate,
+      equality_and_diversity_statistics.formatted_response_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :equality_and_diversity_response_rate_this_month,
+      equality_and_diversity_statistics.formatted_response_rate(
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :equality_and_diversity_response_rate_last_month,
+      equality_and_diversity_statistics.formatted_response_rate(
         Time.zone.now.beginning_of_month - 1.month,
         Time.zone.now.beginning_of_month,
       ),
