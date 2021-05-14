@@ -563,7 +563,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.12.2)
+    webmock (3.13.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -666,7 +666,7 @@ DEPENDENCIES
   uk_postcode
   view_component
   web-console (>= 3.3.0)
-  webmock
+  webmock (~> 3.13)
   webpacker
   wkhtmltopdf-binary
   workflow
