@@ -131,7 +131,7 @@ group :test do
   gem 'launchy'
   gem 'timecop'
   gem 'guard-rspec'
-  gem 'webmock'
+  gem 'webmock', '~> 3.13'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
   gem 'clockwork-test'
