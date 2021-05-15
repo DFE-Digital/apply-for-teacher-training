@@ -574,10 +574,17 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.references' do
     let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
 
-    it 'returns only references with feedback' do
-      with_feedback = create(
+    it 'returns only references with feedback which were selected by the candidate' do
+      with_feedback_and_selected = create(
         :reference,
         :feedback_provided,
+        application_form: application_choice.application_form,
+      )
+
+      with_feedback_but_not_selected = create(
+        :reference,
+        :feedback_provided,
+        selected: false,
         application_form: application_choice.application_form,
       )
 
@@ -588,7 +595,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       )
 
       presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
-      expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).to include(with_feedback.id)
+      expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).to include(with_feedback_and_selected.id)
+      expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).not_to include(with_feedback_but_not_selected.id)
       expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).not_to include(refused.id)
     end
 

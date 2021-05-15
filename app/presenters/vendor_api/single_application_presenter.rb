@@ -187,7 +187,7 @@ module VendorAPI
     end
 
     def references
-      application_form.application_references.feedback_provided.map do |reference|
+      application_form.application_references.selected.map do |reference|
         reference_to_hash(reference)
       end
     end
