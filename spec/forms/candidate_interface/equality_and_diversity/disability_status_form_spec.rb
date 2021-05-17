@@ -103,12 +103,14 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       end
 
       it 'resets the disabilities of equality and diversity information if disability status is Prefer not to say' do
-        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind], 'hesa_disabilities' => %w[58] })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'Prefer not to say')
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => ['Prefer not to say'],
+          'sex' => 'male',
+          'disabilities' => ['Prefer not to say'],
+          'hesa_disabilities' => [],
         )
       end
 
