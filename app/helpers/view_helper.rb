@@ -45,6 +45,8 @@ module ViewHelper
 
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
+    return if dates.submitted_at.nil?
+
     dates.submitted_at.to_s(:govuk_date).strip
   end
 
