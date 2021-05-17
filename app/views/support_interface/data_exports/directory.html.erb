@@ -5,12 +5,8 @@
     <p class="govuk-body"><%= govuk_link_to 'History', support_interface_data_exports_history_path %></p>
 
     <% @export_types.each do |id, export| %>
-
-      <% if @export_types.first.second[:name] == export[:name] %>
-        <section>
-      <% else %>
-        <section class="app-section app-section--with-top-border">
-      <% end %>
+      <% section_classes = @export_types.first.second[:name] == export[:name] ? 'app-section' : 'app-section app-section--with-top-border' %>
+      <section class="<%= section_classes %>">
         <h3 class="govuk-heading-m govuk-!-margin-bottom-2"><%= govuk_link_to export.fetch(:name), support_interface_view_export_information_path(data_export_type: id) %></h3>
         <p class="govuk-body govuk-!-margin-bottom-2"><%= export.fetch(:description) %></p>
       </section>

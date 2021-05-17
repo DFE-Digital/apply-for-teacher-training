@@ -1,8 +1,9 @@
 <% ApplicationStateChange.workflow_spec.states.each do |_, state| %>
   <% state_name = state.name.to_s %>
   <% human_state_name = I18n.t!("application_states.#{state_name}.name") %>
+  <% section_classes = state_name == 'unsubmitted' ? 'app-section' : 'app-section app-section--with-top-border' %>
   <% next unless state.events.any? %>
-  <section class="app-section app-section--with-top-border">
+  <section class="<%= section_classes %>">
     <h2 class="govuk-heading-m" id="<%= state_name %>"><%= human_state_name %></h2>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
