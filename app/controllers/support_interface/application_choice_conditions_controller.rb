@@ -36,7 +36,7 @@ module SupportInterface
         condition_params,
       )
 
-      if  @form.save
+      if @form.save
         flash[:success] = 'Offer conditions updated'
         redirect_to support_interface_application_form_path(@form.application_choice.application_form_id)
       else

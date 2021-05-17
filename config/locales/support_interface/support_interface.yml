@@ -55,6 +55,8 @@ en:
               blank: Please specify a provider
         support_interface/conditions_form:
           attributes:
+            confirm_make_unconditional:
+              blank: Select that you understand the consequences of making this offer unconditional
             audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
