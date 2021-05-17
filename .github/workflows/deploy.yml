@@ -105,3 +105,7 @@ jobs:
           ARM_ACCESS_KEY:           ${{ secrets.TERRAFORM_STATE_ACCESS_KEY }}
           TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           TF_VAR_paas_docker_image: ${{ env.DOCKER_IMAGE }}
+
+      - name: Start Clockwork container
+        if: always()
+        run: cf start apply-clock-${{ env.SPACE_SUFFIX || matrix.environment }}
