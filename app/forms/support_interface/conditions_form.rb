@@ -17,6 +17,7 @@ module SupportInterface
     validates :audit_comment_ticket, presence: true
     validates :audit_comment_ticket, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
     validate :further_conditions_length
+    validates :confirm_make_unconditional, presence: true, if: :conditions_empty?
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {

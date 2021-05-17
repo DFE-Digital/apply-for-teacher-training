@@ -17,7 +17,7 @@ module SupportInterface
         condition_params,
       )
 
-      if @form.valid? && @form.conditions_empty? && !@form.confirm_make_unconditional?
+      if @form.conditions_empty? && !@form.confirm_make_unconditional?
         redirect_to support_interface_confirm_make_application_choice_unconditional_path(
           @form.application_choice.id,
           audit_comment_ticket: @form.audit_comment_ticket,
@@ -27,6 +27,20 @@ module SupportInterface
         redirect_to support_interface_application_form_path(@form.application_choice.application_form_id)
       else
         render :edit
+      end
+    end
+
+    def make_unconditional
+      @form = SupportInterface::ConditionsForm.build_from_params(
+        application_choice,
+        condition_params,
+      )
+
+      if  @form.save
+        flash[:success] = 'Offer conditions updated'
+        redirect_to support_interface_application_form_path(@form.application_choice.application_form_id)
+      else
+        render :confirm_make_unconditional
       end
     end
 
