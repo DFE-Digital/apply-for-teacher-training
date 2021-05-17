@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.languages'), @languages_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_personal_details_complete_path) %>
 
 <%= form_with model: @languages_form, url: candidate_interface_edit_languages_path, method: :patch do |f| %>
   <%= render partial: 'shared_form', locals: { f: f } %>
