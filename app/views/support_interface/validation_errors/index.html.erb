@@ -1,21 +1,6 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Validation errors' %>
 
-<div class="govuk-grid">
-  <div class="govuk-grid-column-two-third">
-    <h1 class="govuk-heading-l">Validation Errors</h1>
-    <div class="app-application-card">
-      <div>
-        <h2 class="govuk-heading-m">
-          <%= govuk_link_to 'Candidate validation errors', support_interface_validation_errors_candidate_path %>
-        </h2>
-      </div>
-    </div>
-    <div class="app-application-card">
-      <div>
-        <h2 class="govuk-heading-m">
-          <%= govuk_link_to 'Vendor API validation errors', support_interface_validation_errors_vendor_api_path %>
-        </h2>
-      </div>
-    </div>
-  </div>
-</div>
+<ul class="govuk-list govuk-list--spaced">
+  <li class="govuk-heading-m"><%= govuk_link_to 'Candidate validation errors', support_interface_validation_errors_candidate_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'Vendor API validation errors', support_interface_validation_errors_vendor_api_path %></li>
+</ul>
