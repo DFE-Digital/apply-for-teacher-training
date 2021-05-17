@@ -24,10 +24,10 @@
       ) do %>
         <p class="govuk-body">For example, studying a subject knowledge enhancement course.</p>
 
+        <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: OpenStruct.new(id: 'placeholder'), label_text: 'placeholder', disabled: true %>
+
         <% form_object.condition_models.each do |model| %>
-          <%= f.fields_for 'further_conditions[]', model do |fc| %>
-            <%= render 'provider_interface/offer/conditions/further_condition', form: f, condition_field: fc, condition_id: model.id %>
-          <% end %>
+          <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: model, label_text: model.id + 1, disabled: false %>
         <% end %>
 
         <% unless form_object.has_max_number_of_further_conditions? %>

@@ -37,7 +37,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
 
   context 'When the form object has no further conditions set' do
     it 'renders no text boxes' do
-      expect(render.css('textarea')).to be_empty
+      expect(render.css('.app-add-another__item > div > textarea')).to be_empty
     end
 
     it 'renders the add another button' do
@@ -49,8 +49,9 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
     let(:further_conditions) { ['Do a backflip and send a video', 'Be uncool'] }
 
     it 'renders the conditions in the text area' do
-      expect(render.css('textarea').first.text).to include('Do a backflip and send a video')
-      expect(render.css('textarea').last.text).to include('Be uncool')
+      text_areas = render.css('.app-add-another__item > div > textarea')
+      expect(text_areas.first.text).to include('Do a backflip and send a video')
+      expect(text_areas.last.text).to include('Be uncool')
     end
 
     it 'renders the correct numbering for the labels' do
@@ -62,7 +63,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
     end
 
     it 'renders the remove condition links' do
-      expect(render.css('.app-add-another__remove-button').map(&:text).map(&:squish)).to contain_exactly('Remove condition 1', 'Remove condition 2')
+      expect(render.css('.app-add-another__item > .app-add-another__remove-button').map(&:text).map(&:squish)).to contain_exactly('Remove condition 1', 'Remove condition 2')
     end
   end
 
