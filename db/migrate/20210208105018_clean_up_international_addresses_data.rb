@@ -1,7 +1,7 @@
 class CleanUpInternationalAddressesData < ActiveRecord::Migration[6.0]
   def change
     application_forms = ApplicationForm
-                        .international
+                        .international_address
                         .where
                         .not(postcode: nil)
 

@@ -132,7 +132,7 @@ jobs:
         DB_PORT: 5432
     steps:
       - name: Setup Database
-        run: bundle exec rake db:setup
+        run: bundle exec rake db:create db:migrate db:seed
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
         run: bundle exec --verbose rspec --exclude-pattern ${EXCLUDE_PATTERN} --pattern ${INCLUDE_PATTERN} --format documentation
