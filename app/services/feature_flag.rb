@@ -33,6 +33,7 @@ class FeatureFlag
     [:support_user_reinstate_offer, 'Allows a support users to reinstate a declined course choice offer', 'James Glenn'],
     [:expanded_quals_export, 'Rework the Qualifications export to contain all candidate qualifications', 'Malcolm Baig'],
     [:support_user_change_offered_course, 'Allows support users to offer a different course option for an application choice', 'David Gisbey'],
+    [:reference_selection, 'Allow candidates to receive multiple references and then select which two are added to their application', 'Malcolm Baig'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
