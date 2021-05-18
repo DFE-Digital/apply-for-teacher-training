@@ -71,6 +71,17 @@ RSpec.describe ViewHelper, type: :helper do
       it 'renders with correct submission date' do
         expect(helper.submitted_at_date).to include('22 October 2019')
       end
+
+      it 'returns nil if there is no submitted at date' do
+        @application_dates = instance_double(
+          ApplicationDates,
+          submitted_at: nil,
+          reject_by_default_at: Time.zone.local(2019, 12, 17, 12, 0, 0),
+        )
+        allow(ApplicationDates).to receive(:new).and_return(@application_dates)
+
+        expect(helper.submitted_at_date).to eq(nil)
+      end
     end
   end
 
