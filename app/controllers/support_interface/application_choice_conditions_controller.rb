@@ -17,7 +17,7 @@ module SupportInterface
         condition_params,
       )
 
-      if @form.conditions_empty? && !@form.confirm_make_unconditional?
+      if @form.conditions_empty?
         redirect_to support_interface_confirm_make_application_choice_unconditional_path(
           @form.application_choice.id,
           audit_comment_ticket: @form.audit_comment_ticket,

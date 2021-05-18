@@ -8,8 +8,7 @@ module SupportInterface
 
     include ActiveModel::Model
 
-    attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment_ticket, :confirm_make_unconditional
-    alias_method :confirm_make_unconditional?, :confirm_make_unconditional
+    attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment_ticket
 
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
@@ -17,7 +16,6 @@ module SupportInterface
     validates :audit_comment_ticket, presence: true
     validates :audit_comment_ticket, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
     validate :further_conditions_length
-    validates :confirm_make_unconditional, presence: true, if: :conditions_empty?
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
@@ -33,7 +31,6 @@ module SupportInterface
       attrs = {
         standard_conditions: params['standard_conditions'] || [],
         audit_comment_ticket: params['audit_comment_ticket'],
-        confirm_make_unconditional: params['confirm_make_unconditional'],
         further_conditions: params['further_conditions']&.values&.map { |v| v['text'] } || [],
       }
 

@@ -11,22 +11,9 @@
 
       <p class="govuk-body">Because this offer has already been accepted removing all conditions will recruit this candidate immediately.</p>
 
-      <%= f.govuk_text_field(
-        :audit_comment_ticket,
-        label: { text: 'Zendesk ticket URL', size: 'm' },
-        hint: { text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345' },
-      ) %>
-      <%= f.govuk_check_boxes_fieldset :confirm_make_unconditional, legend: nil do %>
-        <%= f.govuk_check_box(
-          :confirm_make_unconditional,
-          true,
-          multiple: false,
-          label: { text: 'I understand that I am making this offer unconditional' },
-          link_errors: true,
-        ) %>
-      <% end %>
+      <%= f.hidden_field(:audit_comment_ticket) %>
 
-      <%= f.govuk_submit t('continue') %>
+      <%= f.govuk_submit('Yes I\'m sure - make offer unconditional and recruit candidate') %>
 
       <p class="govuk-body">
         <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), class: 'govuk-link--no-visited-state' %>

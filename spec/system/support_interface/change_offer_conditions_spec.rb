@@ -24,10 +24,7 @@ RSpec.feature 'Add course to submitted application' do
     and_i_remove_all_conditions_and_click_update_conditions
     then_i_see_a_confirmation_page_about_candidate_being_recruited
 
-    when_i_click_continue_without_checking_confirmation_box
-    then_i_see_a_unconditional_offer_validation_error
-
-    when_i_check_that_i_understand_and_click_continue
+    when_i_click_yes_im_sure
     then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
   end
 
@@ -114,22 +111,8 @@ RSpec.feature 'Add course to submitted application' do
     expect(page).to have_content('Because this offer has already been accepted removing all conditions will recruit this candidate immediately.')
   end
 
-  def when_i_click_continue_without_checking_confirmation_box
-    click_on 'Continue'
-  end
-
-  def then_i_see_a_unconditional_offer_validation_error
-    expect(page).to have_current_path(
-      support_interface_confirm_make_application_choice_unconditional_path(
-        @application_choice.id,
-      ),
-    )
-    expect(page).to have_content('Select that you understand the consequences of making this offer unconditional')
-  end
-
-  def when_i_check_that_i_understand_and_click_continue
-    check 'I understand that I am making this offer unconditional'
-    click_on 'Continue'
+  def when_i_click_yes_im_sure
+    click_on 'Yes I\'m sure - make offer unconditional and recruit candidate'
   end
 
   def then_i_see_that_the_candidate_has_been_recruited_and_conditions_have_been_removed
