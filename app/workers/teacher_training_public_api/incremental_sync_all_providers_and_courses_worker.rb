@@ -1,5 +1,5 @@
 module TeacherTrainingPublicAPI
-  class SyncAllProvidersAndCoursesWorker
+  class IncrementalSyncAllProvidersAndCoursesWorker
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 

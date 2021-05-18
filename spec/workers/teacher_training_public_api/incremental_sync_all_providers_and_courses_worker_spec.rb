@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker do
+RSpec.describe TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker do
   describe '#perform' do
     it 'calls the SyncSubjects service' do
       allow(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to receive(:call)

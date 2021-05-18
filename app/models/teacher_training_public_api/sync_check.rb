@@ -14,6 +14,10 @@ module TeacherTrainingPublicAPI
       Redis.current.get(LAST_SUCCESSFUL_SYNC)
     end
 
+    def self.updated_since
+      (Time.zone.parse(last_sync) - 2.hours)
+    end
+
     def self.check
       if last_sync.nil?
         false

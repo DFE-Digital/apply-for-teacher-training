@@ -9,7 +9,7 @@ class Clock
   error_handler { |error| Raven.capture_exception(error) if defined? Raven }
 
   # Hourly jobs
-  every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI', at: '**:00') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
+  every(1.hour, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', at: '**:00') { TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
@@ -50,4 +50,6 @@ class Clock
   end
 
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
+
+  every(3.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') { TeacherTrainingPublicAPI::FullSyncAllProvidersAndCoursesWorker.perform_async }
 end

@@ -7,6 +7,7 @@ RSpec.feature 'Providers and courses' do
   scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
+    and_the_last_sync_was_two_hours_ago
     when_i_visit_the_tasks_page
     and_i_click_the_sync_button
 
@@ -82,6 +83,11 @@ RSpec.feature 'Providers and courses' do
     create(:course_option, course: create(:course, exposed_in_find: true, provider: somerset_scitt))
   end
 
+  def and_the_last_sync_was_two_hours_ago
+    @updated_since = Time.zone.now - 2.hours
+    allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(@updated_since)
+  end
+
   def then_i_should_see_the_providers
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).not_to have_content('Gorse SCITT')
@@ -111,6 +117,7 @@ RSpec.feature 'Providers and courses' do
           name: 'University of Chester',
         },
       ],
+      filter_option: { 'filter[updated_since]' => @updated_since },
     )
 
     stub_teacher_training_api_provider(
@@ -124,16 +131,19 @@ RSpec.feature 'Providers and courses' do
                                                course_code: 'ABC1',
                                                course_attributes: [{ accredited_body_code: 'XYZ', qualifications: %w[qts pgce], name: 'Primary' }],
                                                site_code: 'X',
-                                               site_attributes: [{ name: 'Main site' }])
+                                               site_attributes: [{ name: 'Main site' }],
+                                               filter_option: { 'filter[updated_since]' => @updated_since })
 
     stub_teacher_training_api_course_with_site(provider_code: 'DEF',
                                                course_code: 'DEF1',
                                                course_attributes: [{ accredited_body_code: 'ABC' }],
+                                               filter_option: { 'filter[updated_since]' => @updated_since },
                                                site_code: 'Y')
 
     stub_teacher_training_api_course_with_site(provider_code: 'GHI',
                                                course_code: 'GHI1',
                                                course_attributes: [{ accredited_body_code: 'GHI' }],
+                                               filter_option: { 'filter[updated_since]' => @updated_since },
                                                site_code: 'C')
 
     Sidekiq::Testing.inline! do
