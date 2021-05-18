@@ -12,6 +12,10 @@ class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
     end
   end
 
+  def render?
+    true
+  end
+
 private
 
   def rows

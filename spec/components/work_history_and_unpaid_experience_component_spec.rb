@@ -40,17 +40,6 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
     FeatureFlag.activate(:restructured_work_history)
   end
 
-  context 'with an empty history' do
-    let(:work_experiences) { [] }
-    let(:volunteering_experiences) { [] }
-
-    it 'renders nothing' do
-      rendered = render_inline(described_class.new(application_form: application_form))
-
-      expect(rendered.text).to eq ''
-    end
-  end
-
   context 'with full work experience including unpaid experience' do
     let(:breaks) do
       [build(:application_work_history_break,
@@ -151,6 +140,20 @@ RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
         expect(section).to have_text 'Livestock management'
         expect(section).to have_text 'Sheep herder'
         expect(section).to have_text "#{2.months.ago.to_s(:month_and_year)} - Present"
+      end
+    end
+
+    context 'with no work history or unpaid experience' do
+      subject! { render_inline(described_class.new(application_form: application_form)) }
+
+      let(:volunteering_experiences) { [] }
+      let(:work_experiences) { [] }
+
+      it 'renders the correct details' do
+        expect(page).to have_css('dl', class: 'govuk-summary-list') do |summary|
+          expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
+          expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
+        end
       end
     end
   end
