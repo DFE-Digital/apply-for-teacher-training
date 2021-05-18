@@ -23,8 +23,9 @@ module CandidateInterface
       else
         application_form.equality_and_diversity['ethnic_group'] = ethnic_group
 
-        if current_ethnic_group
-          application_form.equality_and_diversity['ethnic_background'] = nil if (ethnic_group == 'Prefer not to say') || (current_ethnic_group != ethnic_group)
+        if current_ethnic_group && ((ethnic_group == 'Prefer not to say') || (current_ethnic_group != ethnic_group))
+          application_form.equality_and_diversity['ethnic_background'] = nil
+          application_form.equality_and_diversity['hesa_ethnicity'] = nil
         end
 
         application_form.save

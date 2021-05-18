@@ -84,6 +84,16 @@ RSpec.feature 'Entering their equality and diversity information' do
 
     when_i_manually_restart_the_questionnaire
     then_i_go_straight_to_the_review_page
+
+    when_i_click_change_ethnic_group
+    when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
+    and_i_click_on_continue
+    then_the_ethnicity_hesa_code_has_been_reset
+
+    when_i_click_change_my_disability
+    and_i_choose_that_i_prefer_not_to_state_my_disabilities
+    and_i_click_on_continue
+    then_the_disabilities_hesa_code_has_been_reset
   end
 
   def given_i_am_signed_in
@@ -295,5 +305,17 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def then_i_go_straight_to_the_review_page
     expect(page).to have_current_path candidate_interface_review_equality_and_diversity_path
+  end
+
+  def then_the_ethnicity_hesa_code_has_been_reset
+    expect(current_candidate.current_application.reload.equality_and_diversity['hesa_ethnicity']).to be_nil
+  end
+
+  def and_i_choose_that_i_prefer_not_to_state_my_disabilities
+    choose 'Prefer not to say'
+  end
+
+  def then_the_disabilities_hesa_code_has_been_reset
+    expect(current_candidate.current_application.reload.equality_and_diversity['hesa_disabilities']).to eq([])
   end
 end

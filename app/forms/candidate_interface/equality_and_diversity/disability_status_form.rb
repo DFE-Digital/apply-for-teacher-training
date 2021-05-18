@@ -25,9 +25,11 @@ module CandidateInterface
         })
       elsif reset_disabilities?(application_form)
         application_form.equality_and_diversity['disabilities'] = []
+        application_form.equality_and_diversity['hesa_disabilities'] = []
         application_form.save
       elsif disability_status == 'Prefer not to say'
         application_form.equality_and_diversity['disabilities'] = ['Prefer not to say']
+        application_form.equality_and_diversity['hesa_disabilities'] = []
         application_form.save
       else
         true
