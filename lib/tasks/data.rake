@@ -3,6 +3,7 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::SpecifyExportTypeForTADExports',
   'DataMigrations::SpecifyExportTypeForNotificationExports',
   'DataMigrations::DeleteAllCourseAudits',
+  'DataMigrations::FixMisspellingOfCaribbeanEthnicGroupAndSetHesaCodes',
   'DataMigrations::BackfillOpenedOnApplyAtFromAudits',
   'DataMigrations::PrefixNoteSubjectToMessage',
   'DataMigrations::TrimQualificationDegreeTypes',

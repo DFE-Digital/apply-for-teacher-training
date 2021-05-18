@@ -9,7 +9,7 @@ module EthnicBackgroundHelper
 
   ETHNIC_BACKGROUNDS = {
     'Asian or Asian British' => %w[Bangladeshi Chinese Indian Pakistani],
-    'Black, African, Black British or Caribbean' => %w[African Carribean],
+    'Black, African, Black British or Caribbean' => %w[African Caribbean],
     'Mixed or multiple ethnic groups' => ['Asian and White', 'Black African and White', 'Black Caribbean and White'],
     'White' => ['British, English, Northern Irish, Scottish, or Welsh', 'Irish', 'Irish Traveller or Gypsy'],
     'Another ethnic group' => %w[Arab],
