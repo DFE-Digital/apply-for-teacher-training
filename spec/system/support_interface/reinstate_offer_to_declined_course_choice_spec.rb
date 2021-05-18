@@ -77,7 +77,7 @@ RSpec.feature 'Reinstate offer to a declined course choice' do
   end
 
   def then_i_see_the_reinstate_offer_page
-    expect(page).to have_current_path support_interface_application_form_reinstate_offer_path(@application_form.id, @application_choice.id)
+    expect(page).to have_current_path support_interface_application_form_application_choice_reinstate_offer_path(@application_form.id, @application_choice.id)
   end
 
   def and_i_click_continue

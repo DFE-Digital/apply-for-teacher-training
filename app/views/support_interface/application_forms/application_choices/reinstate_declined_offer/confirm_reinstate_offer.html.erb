@@ -3,7 +3,7 @@
 
 <%= form_with(
   model: @declined_course_choice,
-  url: support_interface_application_form_reinstate_offer_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
+  url: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
   method: :patch
   )do |f| %>
   <div class="govuk-grid-row">
