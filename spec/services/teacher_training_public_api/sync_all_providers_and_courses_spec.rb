@@ -44,7 +44,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
 
       before do
         allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(updated_since)
-        allow(sync_provider).to receive(:call).with(incremental_sync: true)
+        allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
             .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year)
@@ -55,10 +55,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         )
       end
 
-      it "calls sync provider with incremental sync 'true'" do
+      it 'calls sync provider' do
         described_class.call(incremental_sync: true)
 
-        expect(sync_provider).to have_received(:call).with(incremental_sync: true)
+        expect(sync_provider).to have_received(:call)
       end
     end
   end

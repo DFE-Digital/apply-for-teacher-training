@@ -32,10 +32,10 @@ module TeacherTrainingPublicAPIHelper
     )
   end
 
-  def stub_teacher_training_api_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [], filter_option: nil)
+  def stub_teacher_training_api_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [])
     course_attributes = course_attributes.any? ? [course_attributes.first.merge(code: course_code)] : [{ code: course_code }]
     site_attributes = site_attributes.any? ? [site_attributes.first.merge(code: site_code)] : [{ code: site_code }]
-    stub_teacher_training_api_courses(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, specified_attributes: course_attributes, filter_option: filter_option)
+    stub_teacher_training_api_courses(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, specified_attributes: course_attributes)
     stub_teacher_training_api_sites(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, course_code: course_code, specified_attributes: site_attributes, vacancy_status: vacancy_status)
   end
 
@@ -44,9 +44,9 @@ module TeacherTrainingPublicAPIHelper
     stub_teacher_training_single_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}", response_body)
   end
 
-  def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [], filter_option: nil)
+  def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
     response_body = build_response_body('course_list_response.json', specified_attributes)
-    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body, filter_option: filter_option)
+    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
   end
 
   def stub_teacher_training_api_sites(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [], vacancy_status: 'full_time_vacancies')
@@ -100,15 +100,13 @@ private
     )
   end
 
-  def stub_teacher_training_list_api_request(url, response_body, filter_option: nil)
+  def stub_teacher_training_list_api_request(url, response_body)
     scope = stub_request(
       :get,
       url,
     ).with(
       query: { page: { per_page: 500 } },
     )
-
-    scope = scope.with(query: filter_option) if filter_option
 
     scope.to_return(
       status: 200,

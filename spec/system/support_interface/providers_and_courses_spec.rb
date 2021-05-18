@@ -131,19 +131,16 @@ RSpec.feature 'Providers and courses' do
                                                course_code: 'ABC1',
                                                course_attributes: [{ accredited_body_code: 'XYZ', qualifications: %w[qts pgce], name: 'Primary' }],
                                                site_code: 'X',
-                                               site_attributes: [{ name: 'Main site' }],
-                                               filter_option: { 'filter[updated_since]' => @updated_since })
+                                               site_attributes: [{ name: 'Main site' }])
 
     stub_teacher_training_api_course_with_site(provider_code: 'DEF',
                                                course_code: 'DEF1',
                                                course_attributes: [{ accredited_body_code: 'ABC' }],
-                                               filter_option: { 'filter[updated_since]' => @updated_since },
                                                site_code: 'Y')
 
     stub_teacher_training_api_course_with_site(provider_code: 'GHI',
                                                course_code: 'GHI1',
                                                course_attributes: [{ accredited_body_code: 'GHI' }],
-                                               filter_option: { 'filter[updated_since]' => @updated_since },
                                                site_code: 'C')
 
     Sidekiq::Testing.inline! do

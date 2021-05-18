@@ -46,30 +46,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
       end
     end
 
-    context 'ingesting an existing provider configured to sync courses, sites and course_options' do
-      it 'calls the Sync Courses job with the correct parameters' do
-        existing_provider = create(:provider, sync_courses: true)
-        incremental_sync = true
-        provider_from_api = fake_api_provider(id: existing_provider.id, code: existing_provider.code)
-
-        allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_async).and_return(true)
-
-        sync_job = described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        sync_job.call(run_in_background: true)
-
-        expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_async).with(
-          provider_from_api.id,
-          stubbed_recruitment_cycle_year,
-          incremental_sync,
-        ).exactly(1).time
-      end
-    end
-
     context 'Incremental sync' do
       it 'updates the providers that have changes since the last sync' do
         existing_provider = create(:provider, sync_courses: true, name: 'Foo school')
         provider_from_api = fake_api_provider(id: existing_provider.id, code: existing_provider.code)
-        incremental_sync = true
 
         allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_async).and_return(true)
 
@@ -78,14 +58,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
           recruitment_cycle_year: stubbed_recruitment_cycle_year,
         )
 
-        sync_job.call(run_in_background: true, incremental_sync: true)
+        sync_job.call(run_in_background: true)
 
         expect(TeacherTrainingPublicAPI::SyncCourses)
           .to have_received(:perform_async)
             .with(
               provider_from_api.id,
               stubbed_recruitment_cycle_year,
-              incremental_sync,
             )
             .exactly(1)
             .time

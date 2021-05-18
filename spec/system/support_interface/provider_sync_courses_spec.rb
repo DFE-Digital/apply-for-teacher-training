@@ -78,7 +78,6 @@ RSpec.feature 'See provider course syncing' do
           accredited_body_code: nil,
         },
       ],
-      filter_option: { 'filter[updated_since]' => @updated_since },
     )
 
     stub_teacher_training_api_sites(
