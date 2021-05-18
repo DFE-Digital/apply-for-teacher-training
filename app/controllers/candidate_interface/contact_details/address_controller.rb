@@ -2,6 +2,23 @@ module CandidateInterface
   class ContactDetails::AddressController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
 
+    def new
+      @contact_details_form = ContactDetailsForm.new(address_type: current_application.address_type)
+    end
+
+    def create
+      @contact_details_form = ContactDetailsForm.new(
+        contact_details_params.merge(address_type: current_application.address_type),
+      )
+
+      if @contact_details_form.save_address(current_application)
+        redirect_to candidate_interface_contact_information_review_path
+      else
+        track_validation_error(@contact_details_form)
+        render :edit
+      end
+    end
+
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
         current_application,
