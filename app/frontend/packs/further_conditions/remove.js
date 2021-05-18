@@ -1,5 +1,6 @@
 import assignIndexBasedValues from './assignIndexBasedValues'
 import { CONDITIONS_HEADING_ID, ITEM_CSS_CLASS, REMOVE_BUTTON_CSS_CLASS } from './constants'
+import updateAddButtonVisibility from './updateAddButtonVisibility'
 
 const setupRemoveButtons = (element) => {
   const removeButtons = element.getElementsByClassName(REMOVE_BUTTON_CSS_CLASS)
@@ -20,6 +21,7 @@ const removeFurtherCondition = (event) => {
   updateAttributesOfConditionFields()
 
   document.getElementById(CONDITIONS_HEADING_ID).focus()
+  updateAddButtonVisibility()
 }
 
 const updateAttributesOfConditionFields = () => {
