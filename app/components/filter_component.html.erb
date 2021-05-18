@@ -26,7 +26,7 @@
               <ul class="moj-filter-tags">
                 <% tags_for_active_filter(active_filter).each do |tag| %>
                   <li>
-                    <%= link_to(tag[:remove_link], class: 'moj-filter__tag', id: "tag-#{tag[:title].parameterize}") do %>
+                    <%= link_to(tag[:remove_link], class: 'app-checkbox-filter__tag', id: "tag-#{tag[:title].parameterize}") do %>
                       <span class="govuk-visually-hidden">Remove this filter</span>
                       <%= tag[:title] %>
                     <% end %>
@@ -60,6 +60,35 @@
                         </div>
                       </div>
                     <% end %>
+                     <% elsif filter[:type] == :checkbox_filter %>
+                    <div id="<%= filter[:name] %>" class="app-checkbox-filter app-checkbox-filter--enhanced">
+                      <% if active_filters&.find { |f| f[:name] == filter[:name] } %>
+                        <div class="app-checkbox-filter__selected">
+                          <ul class="app-checkbox-filter__tags">
+                            <% tags_for_active_filter(filter).each do |tag| %>
+                              <li>
+                                <%= link_to(tag[:remove_link], class: 'app-checkbox-filter__tag', id: "tag-#{tag[:title].parameterize}") do %>
+                                  <span class="govuk-visually-hidden">Remove this filter</span>
+                                  <%= tag[:title] %>
+                                <% end %>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      <% end %>
+                      <div class="app-checkbox-filter__container">
+                        <div class="govuk-checkboxes govuk-checkboxes--small app-checkbox-filter__container-inner">
+                          <% filter[:options].each do |option| %>
+                            <div class="govuk-checkboxes__item">
+                              <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= 'checked' if option[:checked] %> value="<%= option[:value] %>">
+                              <label class="govuk-label govuk-checkboxes__label" for="<%= filter[:name] %>-<%= option[:value] %>">
+                                <%= option[:label] %>
+                              </label>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
                   <% end %>
                 </fieldset>
               </div>
