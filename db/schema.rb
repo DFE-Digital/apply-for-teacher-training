@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_15_213413) do
+ActiveRecord::Schema.define(version: 2021_05_18_113512) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 2021_05_15_213413) do
     t.boolean "feature_restructured_work_history", default: true
     t.string "work_history_status"
     t.boolean "no_other_qualifications", default: false
+    t.boolean "references_completed"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
