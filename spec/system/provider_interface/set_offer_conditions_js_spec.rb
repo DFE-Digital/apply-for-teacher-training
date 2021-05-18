@@ -107,7 +107,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
   alias_method :and_i_remove_the_second_condition, :when_i_remove_the_second_condition
 
   def then_the_condition_inputs_are_rendered_correctly
-    condition_fields = all('.app-add-another__item')
+    condition_fields = all('.app-add-condition__item')
     condition_fields.each_with_index do |field, index|
       expect(field.find('label')).to have_content("Condition #{index + 1}")
       expect(field.find('.govuk-visually-hidden')).to have_content("condition #{index + 1}")
