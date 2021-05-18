@@ -22,7 +22,8 @@ RSpec.feature 'Provider history', with_audited: true do
   end
 
   def and_a_related_record_is_created
-    create(:site, provider: @provider)
+    course = create(:course, provider: @provider)
+    create(:course_option, course: course)
   end
 
   def and_i_visit_the_provider_history
@@ -32,6 +33,6 @@ RSpec.feature 'Provider history', with_audited: true do
   def then_i_see_the_changes
     expect(page).to have_content 'Create Provider'
     expect(page).to have_content 'Update Provider'
-    expect(page).to have_content 'Create Site'
+    expect(page).to have_content 'Create Course Option'
   end
 end
