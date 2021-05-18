@@ -1,0 +1,27 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.references_candidate_name'), @reference_candidate_name_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_references_review_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @reference_candidate_name_form,
+      url: candidate_interface_references_update_candidate_name_path(@reference.id, return_to: params[:return_to]),
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.references_candidate_name') %>
+      </h1>
+
+      <p class="govuk-body">
+        Tell the referee who the reference is for.
+      </p>
+
+      <%= f.govuk_text_field :first_name, label: { text: t('application_form.references.candidate_name.first_name.label'), size: 'm' }, hint: { text: t('application_form.references.candidate_name.first_name.hint_text') } %>
+
+      <%= f.govuk_text_field :last_name, label: { text: t('application_form.references.candidate_name.last_name.label'), size: 'm' }, hint: { text: t('application_form.references.candidate_name.last_name.hint_text') } %>
+
+      <%= f.govuk_submit t('save_and_continue') %>
+    <% end %>
+  </div>
+</div>
