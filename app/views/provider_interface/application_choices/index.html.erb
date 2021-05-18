@@ -1,11 +1,11 @@
-<% content_for :browser_title, "Applications (#{@application_choices_count})" %>
+<% content_for :browser_title, "Applications (#{@application_choices.total_count})" %>
 
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 
-<h1 class="govuk-heading-xl">Applications (<%= @application_choices_count %>)</h1>
+<h1 class="govuk-heading-xl">Applications (<%= @application_choices.total_count %>)</h1>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
-  <% if @application_choices.any? %>
+  <% if @application_choices.size > 0 %>
     <div class="app-application-cards">
       <% previous_header = '' %>
       <% @application_choices.each do |choice| %>

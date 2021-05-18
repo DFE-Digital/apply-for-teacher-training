@@ -58,8 +58,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = provider(filtered_application_choices, filters[:provider])
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])
       filtered_application_choices = status(filtered_application_choices, filters[:status])
-      filtered_application_choices = provider_location(filtered_application_choices, filters[:provider_location])
-      filtered_application_choices
+      provider_location(filtered_application_choices, filters[:provider_location])
     end
   end
 end
