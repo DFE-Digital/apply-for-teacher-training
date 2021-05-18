@@ -4,6 +4,16 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_accessor :id, :text
+
+      validate :validate_length
+
+      def validate_length
+        if id.zero?
+          errors.add(:text, :too_long, index: id + 1, limit: OfferValidations::MAX_CONDITION_1_LENGTH) if text.length > OfferValidations::MAX_CONDITION_1_LENGTH
+        elsif text.length > OfferValidations::MAX_CONDITION_LENGTH
+          errors.add(:text, :too_long, index: id + 1, limit: OfferValidations::MAX_CONDITION_LENGTH)
+        end
+      end
     end
 
     include ActiveModel::Model
@@ -15,7 +25,7 @@ module SupportInterface
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
     validates :audit_comment_ticket, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
-    validate :further_conditions_length
+    validate :further_conditions_valid
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
@@ -72,12 +82,12 @@ module SupportInterface
       end
     end
 
-    def further_conditions_length
-      further_conditions.each_with_index do |condition, index|
-        if index.zero?
-          errors.add(:further_conditions, :too_long, index: index + 1, limit: OfferValidations::MAX_CONDITION_1_LENGTH) if condition.length > OfferValidations::MAX_CONDITION_1_LENGTH
-        elsif condition.length > OfferValidations::MAX_CONDITION_LENGTH
-          errors.add(:further_conditions, :too_long, index: index + 1, limit: OfferValidations::MAX_CONDITION_LENGTH)
+    def further_conditions_valid
+      further_condition_models.map(&:valid?).all?
+
+      further_condition_models.each do |condition_model|
+        condition_model.errors.each do |error|
+          errors.add("further_conditions[#{condition_model.id}][#{error.attribute}]", error.message)
         end
       end
     end

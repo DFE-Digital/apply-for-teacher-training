@@ -26,7 +26,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to include('Further conditions Condition 1 must be 2000 characters or fewer')
+      expect(form.errors.messages[:'further_conditions[0][text]']).to include('Condition 1 must be 2000 characters or fewer')
     end
 
     it 'second further condition cannot be more than 255 characters' do
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).not_to be_valid
-      expect(form.errors.full_messages).to include('Further conditions Condition 2 must be 255 characters or fewer')
+      expect(form.errors.messages[:'further_conditions[1][text]']).to include('Condition 2 must be 255 characters or fewer')
     end
   end
 

@@ -1,13 +1,15 @@
 <% content_for :browser_title, title_with_error_prefix('Update conditions', @form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@form.application_choice.application_form_id)) %>
 
-<h1 class="govuk-heading-l">
-  Change offer conditions
-</h1>
-
 <%= form_with model: @form, url: support_interface_update_application_choice_conditions_path(@form.application_choice.id), method: :put do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        Change offer conditions
+      </h1>
+
       <%= govuk_warning(
         text: 'Offer conditions should only be changed on accepted applications following a request from a provider that has already informed the candidate about the change',
       ) %>
