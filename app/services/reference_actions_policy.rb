@@ -46,7 +46,11 @@ private
   attr_reader :reference
 
   def needs_more_references?
-    !reference.application_form.enough_references_have_been_provided?
+    if FeatureFlag.active?(:reference_selection)
+      true
+    else
+      !reference.application_form.enough_references_have_been_provided?
+    end
   end
 
   def valid_reference?

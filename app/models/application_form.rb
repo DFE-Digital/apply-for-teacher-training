@@ -236,7 +236,11 @@ class ApplicationForm < ApplicationRecord
   end
 
   def too_many_complete_references?
-    application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
+    if FeatureFlag.active?(:reference_selection)
+      false
+    else
+      application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
+    end
   end
 
   def incomplete_degree_information?
@@ -341,7 +345,11 @@ class ApplicationForm < ApplicationRecord
   end
 
   def enough_references_have_been_provided?
-    application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
+    if FeatureFlag.active?(:reference_selection)
+      false
+    else
+      application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
+    end
   end
 
   def address_formatted_for_geocoding

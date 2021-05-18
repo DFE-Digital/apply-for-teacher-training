@@ -55,7 +55,11 @@ module CandidateInterface
     end
 
     def too_many_complete_references?
-      references.select(&:feedback_provided?).size > ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      if FeatureFlag.active?(:reference_selection)
+        false
+      else
+        references.select(&:feedback_provided?).size > ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      end
     end
 
     def container_class
