@@ -19,14 +19,14 @@ const setTextAreaProperties = (element, index) => {
 const setLabelProperties = (element, index) => {
   const label = element.querySelector('label')
   replaceExistingAttribute(label, 'for', index)
-  label.innerText = replacedText(label.innerText, index + 1)
+  label.innerHTML = replacedText(label.innerHTML, index + 1)
 }
 
 const setRemoveButtonProperties = (element, index) => {
   const removeButton = element.querySelector(`.${REMOVE_BUTTON_CSS_CLASS}`)
   replaceExistingAttribute(removeButton, 'value', index)
   const hiddenText = removeButton.querySelector('.govuk-visually-hidden')
-  hiddenText.innerText = replacedText(hiddenText.innerText, index + 1)
+  hiddenText.innerHTML = replacedText(hiddenText.innerHTML, index + 1)
 }
 
 const replaceExistingAttribute = (element, attribute, replaceValue) => {
