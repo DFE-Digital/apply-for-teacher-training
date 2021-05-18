@@ -52,12 +52,19 @@ class FilterApplicationChoicesForProviders
       application_choices.where('sites.id' => provider_location)
     end
 
+    def course_subject(application_choices, subject_ids)
+      return application_choices unless subject_ids&.any?
+
+      application_choices.joins(:course).merge(Course.with_subjects(subject_ids))
+    end
+
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
       filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
       filtered_application_choices = provider(filtered_application_choices, filters[:provider])
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])
       filtered_application_choices = status(filtered_application_choices, filters[:status])
+      filtered_application_choices = course_subject(filtered_application_choices, filters[:subject])
       provider_location(filtered_application_choices, filters[:provider_location])
     end
   end

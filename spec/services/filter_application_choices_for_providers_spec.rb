@@ -72,5 +72,15 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
       expect(result).to eq([application_choices.last])
     end
+
+    it 'filters by course subjects' do
+      subject = create(:subject)
+      course = create(:course, subjects: [subject])
+      course_option = create(:course_option, course: course)
+      application_choices.last.update(course_option: course_option)
+      result = described_class.call(application_choices: application_choices.joins(:course), filters: { subject: [subject.id] })
+
+      expect(result).to eq([application_choices.last])
+    end
   end
 end

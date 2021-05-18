@@ -8,6 +8,18 @@ RSpec.describe Course, type: :model do
     it { is_expected.to validate_uniqueness_of(:code).scoped_to(%i[recruitment_cycle_year provider_id]) }
   end
 
+  context 'scopes' do
+    describe '#with_subjects' do
+      let(:subjects) { create_list(:subject, 3) }
+      let!(:courses) { [create(:course, subjects: subjects), create(:course, subjects: subjects.sample(1))] }
+      let!(:other_course) { create_list(:course, 2) }
+
+      it 'only returns courses associated with the provided subject_ids' do
+        expect(described_class.with_subjects(subjects.map(&:id)).uniq).to match_array(courses)
+      end
+    end
+  end
+
   describe '#currently_has_both_study_modes_available?' do
     let(:course) { build(:course) }
 
