@@ -38,7 +38,6 @@ RSpec.describe 'Syncing providers', sidekiq: true do
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
       specified_attributes: [{ code: 'ABC1', accredited_body_code: nil, subject_codes: %w[08], uuid: @course_uuid }],
-      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',

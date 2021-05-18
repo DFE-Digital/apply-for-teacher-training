@@ -5,7 +5,7 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def call(run_in_background: true, force_sync_courses: false, incremental_sync: true)
+    def call(run_in_background: true, force_sync_courses: false)
       @force_sync_courses = force_sync_courses
 
       provider_attrs = if existing_provider
@@ -17,17 +17,15 @@ module TeacherTrainingPublicAPI
                        end
 
       provider = create_or_update_provider(provider_attrs)
-      sync_courses(run_in_background, provider, incremental_sync: incremental_sync)
+      sync_courses(run_in_background, provider)
     end
 
-    def sync_courses(run_in_background, provider, incremental_sync: true)
-      Rails.logger.info("Syncing Provider's (#{provider.code}) courses, with the incremental sync set to #{incremental_sync} and sync courses set to: #{sync_courses?}")
-
+    def sync_courses(run_in_background, provider)
       if sync_courses?
         if run_in_background
-          TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year, incremental_sync)
+          TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
         else
-          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, incremental_sync, run_in_background: false)
+          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
         end
       end
     end

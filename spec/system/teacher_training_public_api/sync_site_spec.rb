@@ -40,7 +40,6 @@ RSpec.describe 'Sync sites', sidekiq: true do
         study_mode: 'both',
         uuid: @course_uuid,
       }],
-      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
