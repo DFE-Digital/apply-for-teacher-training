@@ -2,6 +2,7 @@ DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillSelectedBoolean',
   'DataMigrations::DeleteAllSiteAudits',
+  'DataMigrations::RemoveIncorrectHesaCodes',
   'DataMigrations::SpecifyExportTypeForTADExports',
   'DataMigrations::SpecifyExportTypeForNotificationExports',
   'DataMigrations::FixMisspellingOfCaribbeanEthnicGroupAndSetHesaCodes',
