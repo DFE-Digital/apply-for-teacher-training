@@ -4,7 +4,7 @@
 <%= form_with(
     model: @form,
     url: support_interface_application_form_revert_rejection_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
-    method: :patch
+    method: :patch,
   ) do |f| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -19,8 +19,7 @@
         <li>the candidate has not accepted any other offers</li>
       </ul>
       <p class="govuk-body">In order to revert the rejection you must first contact the provider to confirm that they agree to this.</p>
-      <p class="govuk-body">Once the rejection has been reverted, please email the candidate using the macro.</p>
-      <p class="govuk-body">There are separate macros if the request was made after 5 working days or if the candidate has already accepted another offer.</p>
+      <p class="govuk-body">Once the rejection has been reverted, please email the candidate to let them know.</p>
     </div>
   </div>
 

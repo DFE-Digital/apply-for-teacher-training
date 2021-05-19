@@ -81,7 +81,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       expect(result.css('.govuk-summary-list__actions').text.strip).to include('Revert rejection')
     end
 
-    it 'Does not renders a link to the revert rejection page when application was rejected by default' do
+    it 'Does not render a link to the revert rejection page when application was rejected by default' do
       rejected_application_choice.update!(
         rejected_by_default: true,
       )
