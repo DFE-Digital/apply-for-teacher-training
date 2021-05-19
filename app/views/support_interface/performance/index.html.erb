@@ -1,11 +1,11 @@
 <%= render 'performance_navigation', title: 'Dashboards' %>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li><%= govuk_link_to 'Service performance', support_interface_service_performance_dashboard_path %></li>
-  <li><%= govuk_link_to 'Applications with unavailable choices', support_interface_unavailable_choices_path %></li>
-  <li><%= govuk_link_to 'Course options without vacancies', support_interface_course_options_path %></li>
-  <li><%= govuk_link_to 'Course statistics', support_interface_courses_dashboard_path %></li>
-  <li><%= govuk_link_to 'Feature metrics', support_interface_feature_metrics_dashboard_path %></li>
-  <li><%= govuk_link_to 'Structured reasons for rejection', support_interface_reasons_for_rejection_dashboard_path %></li>
-  <li><%= govuk_link_to 'UCAS matches', support_interface_ucas_matches_dashboard_path %></li>
+<ul class="govuk-list govuk-list--spaced">
+  <li class="govuk-heading-m"><%= govuk_link_to 'Service performance', support_interface_service_performance_dashboard_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'Applications with unavailable choices', support_interface_unavailable_choices_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'Course options without vacancies', support_interface_course_options_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'Course statistics', support_interface_courses_dashboard_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'Feature metrics', support_interface_feature_metrics_dashboard_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'Structured reasons for rejection', support_interface_reasons_for_rejection_dashboard_path %></li>
+  <li class="govuk-heading-m"><%= govuk_link_to 'UCAS matches', support_interface_ucas_matches_dashboard_path %></li>
 </ul>

@@ -1,14 +1,14 @@
-<% content_for :browser_title, 'History' %>
-<% content_for :title, 'History' %>
+<% content_for :browser_title, 'Exports history' %>
+<% content_for :title, 'Exports history' %>
 
 <% content_for :before_content do %>
   <%= breadcrumbs({
     'Performance': support_interface_performance_path,
     'Data directory': support_interface_data_directory_path,
-    'History': nil,
+    'Exports history': nil,
   }) %>
 <% end %>
 
-<h2 class="govuk-visually-hidden">History</h2>
+<h2 class="govuk-visually-hidden">Exports history</h2>
 
 <%= render SupportInterface::DataExportHistoryComponent.new(data_exports: @data_exports, show_name: true) %>
