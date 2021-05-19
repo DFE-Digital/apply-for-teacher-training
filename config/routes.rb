@@ -161,21 +161,27 @@ Rails.application.routes.draw do
       end
 
       scope '/contact-details' do
-        get '/', to: redirect('/candidate/application/contact-information')
+        get '/', to: redirect('/candidate/application/contact-information/phone-number')
         get '/address_type', to: redirect('/candidate/application/contact-information/address-type')
         get '/address', to: redirect('/candidate/application/contact-information/address')
         get '/review', to: redirect('/candidate/application/contact-information/review')
       end
 
       scope '/contact-information' do
-        get '/' => 'contact_details/phone_number#edit', as: :contact_information_edit_phone_number
-        patch '/' => 'contact_details/phone_number#update'
+        get '/phone-number' => 'contact_details/phone_number#new', as: :new_phone_number
+        post '/phone-number' => 'contact_details/phone_number#create'
+        get '/phone-number/edit' => 'contact_details/phone_number#edit', as: :edit_phone_number
+        patch '/phone-number/edit' => 'contact_details/phone_number#update'
 
-        get '/address-type' => 'contact_details/address_type#edit', as: :contact_information_edit_address_type
-        patch '/address-type' => 'contact_details/address_type#update'
+        get '/address-type' => 'contact_details/address_type#new', as: :new_address_type
+        post '/address-type' => 'contact_details/address_type#create'
+        get '/address-type/edit' => 'contact_details/address_type#edit', as: :edit_address_type
+        patch '/address-type/edit' => 'contact_details/address_type#update'
 
-        get '/address' => 'contact_details/address#edit', as: :contact_information_edit_address
-        patch '/address' => 'contact_details/address#update'
+        get '/address' => 'contact_details/address#new', as: :new_address
+        post '/address' => 'contact_details/address#create'
+        get '/address/edit' => 'contact_details/address#edit', as: :edit_address
+        patch '/address/edit' => 'contact_details/address#update'
 
         get '/review' => 'contact_details/review#show', as: :contact_information_review
         patch '/complete' => 'contact_details/review#complete', as: :contact_information_complete
