@@ -48,8 +48,10 @@ class Provider < ApplicationRecord
     accredited_courses.current_cycle.exposed_in_find.any?
   end
 
-  def all_courses_open_in_current_cycle?
-    accredited_courses.or(courses).current_cycle.exposed_in_find.all?(&:open_on_apply?)
+  def all_courses_open_in_current_cycle?(exclude_ratified_courses: false)
+    courses_to_check = exclude_ratified_courses ? courses : accredited_courses.or(courses)
+
+    courses_to_check.current_cycle.exposed_in_find.all?(&:open_on_apply?)
   end
 
   def any_open_courses_in_current_cycle?
