@@ -70,8 +70,8 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
   context 'when the form object has the maximum number of further conditions set' do
     let(:max_conditions) { true }
 
-    it 'does not render the add another button' do
-      expect(render.css('.app-add-condition__add-button')).to be_empty
+    it 'does not display the add another button' do
+      expect(render.css('.app-add-condition__add-button').first.attributes['style'].value).to eq('display: none;')
     end
   end
 end

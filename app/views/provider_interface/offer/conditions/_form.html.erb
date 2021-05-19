@@ -30,15 +30,14 @@
           <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: model, label_text: model.id + 1, disabled: false %>
         <% end %>
 
-        <% unless form_object.has_max_number_of_further_conditions? %>
-          <%= f.button(
-            name: 'commit',
-            data: { max_conditions: ProviderInterface::OfferWizard::MAX_FURTHER_CONDITIONS },
-            value: 'add_another_condition',
-            class: 'govuk-button govuk-button--secondary app-add-condition__add-button govuk-!-margin-bottom-4',
-          ) do %>
-            <%= t('.add_another') %>
-          <% end %>
+        <%= f.button(
+          name: 'commit',
+          data: { max_conditions: ProviderInterface::OfferWizard::MAX_FURTHER_CONDITIONS },
+          value: 'add_another_condition',
+          class: 'govuk-button govuk-button--secondary app-add-condition__add-button govuk-!-margin-bottom-4',
+          style: "display: #{form_object.has_max_number_of_further_conditions? ? 'none' : 'block'};",
+        ) do %>
+          <%= t('.add_another') %>
         <% end %>
       <% end %>
 
