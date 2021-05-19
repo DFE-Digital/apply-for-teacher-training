@@ -101,6 +101,7 @@ The most common way to run a development version of the application is run with 
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
 - [`ruby`](.ruby-version)
 - `bundle 2.1.4+`
+- `chromedriver` (you will need chromedriver and a version of Chrome installed to run the full test suite)
 
 You'll also need to copy `.env.example` to `.env` and fill in the secrets.
 This will populate required environment variables
