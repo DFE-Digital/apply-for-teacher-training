@@ -493,6 +493,10 @@ Rails.application.routes.draw do
 
         get '/candidate-name/:id' => 'references/candidate_name#new', as: :references_new_candidate_name
         post '/candidate-name/:id' => 'references/candidate_name#create', as: :references_create_candidate_name
+
+        post '/complete' => 'references/review#complete', as: :complete_references
+
+        get '/select' => 'references/selection#new', as: :select_references
       end
 
       scope '/equality-and-diversity' do

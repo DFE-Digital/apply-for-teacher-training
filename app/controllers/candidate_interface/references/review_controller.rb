@@ -4,12 +4,33 @@ module CandidateInterface
       before_action :redirect_to_start_path_if_candidate_has_no_references
 
       def show
-        @application_form = current_application
-        @references_given = current_application.application_references.includes(:application_form).feedback_provided
-        @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
-        @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
+        set_references
+        @too_many_references = current_application.too_many_complete_references?
 
-        @too_many_references = @application_form.too_many_complete_references?
+        if FeatureFlag.active?(:reference_selection)
+          @section_complete_form = SectionCompleteForm.new(completed: current_application.references_completed)
+          render 'show_for_reference_selection' and return
+        end
+      end
+
+      def complete
+        set_references
+        @section_complete_form = SectionCompleteForm.new(completed: section_complete_params[:completed])
+
+        if !@section_complete_form.valid?
+          track_validation_error(@section_complete_form)
+          render 'show_for_reference_selection' and return
+        end
+
+        if @section_complete_form.not_completed?
+          @section_complete_form.save(current_application, :references_completed)
+          redirect_to candidate_interface_application_form_path
+        elsif current_application.selected_enough_references?
+          @section_complete_form.save(current_application, :references_completed)
+          redirect_to candidate_interface_application_form_path
+        else
+          redirect_to candidate_interface_select_references_path
+        end
       end
 
       def unsubmitted
@@ -101,6 +122,16 @@ module CandidateInterface
 
       def redirect_to_start_path_if_candidate_has_no_references
         redirect_to candidate_interface_references_start_path if current_application.application_references.blank?
+      end
+
+      def section_complete_params
+        strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
+      end
+
+      def set_references
+        @references_given = current_application.application_references.includes(:application_form).feedback_provided
+        @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
+        @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
       end
     end
   end

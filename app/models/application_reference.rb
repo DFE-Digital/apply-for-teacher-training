@@ -38,6 +38,8 @@ class ApplicationReference < ApplicationRecord
     never_asked: 'never_asked',
   }
 
+  scope :selected, -> { where(selected: true) }
+
   def self.pending_feedback_or_failed
     where.not(feedback_status: %i[not_requested_yet feedback_provided])
   end

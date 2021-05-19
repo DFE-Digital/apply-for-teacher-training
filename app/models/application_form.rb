@@ -352,6 +352,13 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def selected_enough_references?
+    # For the purposes of this method, we only care that we have at least the
+    # minimum selected. Other parts of the system will enforce having no more
+    # than the minimum selected.
+    application_references.selected.count >= MINIMUM_COMPLETE_REFERENCES
+  end
+
   def address_formatted_for_geocoding
     full_address.compact.join(', ')
   end

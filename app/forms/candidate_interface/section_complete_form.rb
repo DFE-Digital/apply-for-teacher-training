@@ -11,5 +11,9 @@ module CandidateInterface
 
       application_form.update!(attr => completed)
     end
+
+    def not_completed?
+      completed == 'false'
+    end
   end
 end
