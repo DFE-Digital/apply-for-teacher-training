@@ -39,9 +39,14 @@ class ApplicationReference < ApplicationRecord
   }
 
   scope :selected, -> { where(selected: true) }
+  scope :feedback_provided_but_not_selected, -> { feedback_provided.where.not(selected: true) }
 
   def self.pending_feedback_or_failed
     where.not(feedback_status: %i[not_requested_yet feedback_provided])
+  end
+
+  def single_line_identifier
+    "#{name} (#{referee_type.humanize})"
   end
 
   def email_address_not_own

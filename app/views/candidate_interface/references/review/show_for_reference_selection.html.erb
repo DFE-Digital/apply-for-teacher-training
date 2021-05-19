@@ -14,10 +14,21 @@
 <%= form_with model: @section_complete_form, url: candidate_interface_complete_references_path, method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
+  <% if @references_selected.present? %>
+    <div id="references_selected">
+      <h2 class="govuk-heading-m">References that have been selected</h2>
+
+      <p class="govuk-body govuk-list govuk-!-font-size-18">
+      <%= govuk_link_to 'Change selections', candidate_interface_select_references_path %>
+      </p>
+      <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_selected, show_history: true, heading_level: 3)) %>
+    </div>
+  <% end %>
+
   <% if @references_given.present? %>
     <div id="references_given">
       <h2 class="govuk-heading-m">References that have been given</h2>
-      <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, heading_level: 3, is_errored: @too_many_references)) %>
+      <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, heading_level: 3)) %>
     </div>
   <% end %>
 

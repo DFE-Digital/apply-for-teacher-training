@@ -129,7 +129,13 @@ module CandidateInterface
       end
 
       def set_references
-        @references_given = current_application.application_references.includes(:application_form).feedback_provided
+        if FeatureFlag.active?(:reference_selection)
+          @references_selected = current_application.application_references.includes(:application_form).selected
+          @references_given = current_application.application_references.includes(:application_form).feedback_provided_but_not_selected
+        else
+          @references_given = current_application.application_references.includes(:application_form).feedback_provided
+        end
+
         @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
         @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
       end
