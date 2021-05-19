@@ -51,7 +51,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
     expect(validation_error).to be_present
     expect(validation_error.details).to have_key('becoming_a_teacher')
     expect(validation_error.user).to eq(current_candidate)
-    expect(validation_error.request_path).to eq(candidate_interface_edit_becoming_a_teacher_path)
+    expect(validation_error.request_path).to eq(candidate_interface_new_becoming_a_teacher_path)
   end
 
   def and_i_fill_in_some_details_but_omit_some_required_details

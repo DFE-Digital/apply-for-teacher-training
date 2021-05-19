@@ -256,7 +256,7 @@ module CandidateInterface
       if becoming_a_teacher_valid?
         Rails.application.routes.url_helpers.candidate_interface_becoming_a_teacher_show_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_edit_becoming_a_teacher_path
+        Rails.application.routes.url_helpers.candidate_interface_new_becoming_a_teacher_path
       end
     end
 

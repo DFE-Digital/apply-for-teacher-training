@@ -1,0 +1,19 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.becoming_a_teacher') %>
+</h1>
+
+<p class="govuk-body">You can include:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>your interest in the subject or age group</li>
+  <li>the demands and rewards of teaching</li>
+  <li>the personal qualities that would make you a good teacher</li>
+  <li>how you could contribute to a school outside of the classroom</li>
+  <li>any past experience working with children or young people, and what you learnt</li>
+  <li>your thoughts on welfare and education</li>
+</ul>
+<p class="govuk-body">If you need help, you can speak to a <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_get_an_advisor') %> adviser. They’re all experienced teachers who can give you advice on applying for teacher training.</p>
+
+<%= f.govuk_text_area :becoming_a_teacher, label: { text: t('application_form.personal_statement.becoming_a_teacher.label'), size: 'm' }, rows: 20, max_words: 600 %>
+<%= f.govuk_submit t('continue') %>

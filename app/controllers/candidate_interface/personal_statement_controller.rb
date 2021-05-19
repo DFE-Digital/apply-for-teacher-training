@@ -2,6 +2,21 @@ module CandidateInterface
   class PersonalStatementController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
 
+    def new
+      @becoming_a_teacher_form = BecomingATeacherForm.new
+    end
+
+    def create
+      @becoming_a_teacher_form = BecomingATeacherForm.new(becoming_a_teacher_params)
+
+      if @becoming_a_teacher_form.save(current_application)
+        redirect_to candidate_interface_becoming_a_teacher_show_path
+      else
+        track_validation_error(@becoming_a_teacher_form)
+        render :new
+      end
+    end
+
     def edit
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(
         current_application,

@@ -128,8 +128,10 @@ Rails.application.routes.draw do
         get '/interview-preferences', to: redirect('/candidate/application/interview-needs')
         get '/interview-preferences/review', to: redirect('/candidate/application/interview-needs/review')
 
-        get '/' => 'personal_statement#edit', as: :edit_becoming_a_teacher
-        patch '/' => 'personal_statement#update'
+        get '/' => 'personal_statement#new', as: :new_becoming_a_teacher
+        patch '/' => 'personal_statement#create'
+        get '/edit' => 'personal_statement#edit', as: :edit_becoming_a_teacher
+        patch '/edit' => 'personal_statement#update'
         get '/review' => 'personal_statement#show', as: :becoming_a_teacher_show
         patch '/complete' => 'personal_statement#complete', as: :becoming_a_teacher_complete
       end
