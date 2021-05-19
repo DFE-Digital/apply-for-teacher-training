@@ -23,17 +23,17 @@ module DataMigrations
 
     def disabilities_not_specified?(application_form)
       disabilities = application_form.equality_and_diversity.dig('disabilities')
-      disabilities.blank? || disabilities == ['no'] || disabilities == ['Prefer not to say']
+      disabilities.blank? || disabilities == %w[no] || disabilities == ['Prefer not to say']
     end
 
     def hesa_disabilities_present?(application_form)
       hesa_disabilities = application_form.equality_and_diversity.dig('hesa_disabilities')
-      hesa_disabilities != nil && hesa_disabilities != []
+      !hesa_disabilities.nil? && hesa_disabilities != []
     end
 
     def reset_disabilities(application_form)
-      # TODO: Audit comment
       application_form.equality_and_diversity['hesa_disabilities'] = []
+      application_form.audit_comment = 'Resetting incorrect HESA disability codes. See https://trello.com/c/U7W3r0tj/3402'
       application_form.save!
     end
 
@@ -47,9 +47,9 @@ module DataMigrations
     end
 
     def reset_ethnicity(application_form)
-      # TODO: Audit comment
       application_form.equality_and_diversity['hesa_ethnicity'] = nil
-      application_form.save
+      application_form.audit_comment = 'Resetting incorrect HESA ethnicity code. See https://trello.com/c/U7W3r0tj/3402'
+      application_form.save!
     end
   end
 end
