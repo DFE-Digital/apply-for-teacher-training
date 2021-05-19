@@ -2,11 +2,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body"><%= govuk_link_to 'History', support_interface_data_exports_history_path %></p>
+    <p class="govuk-body">Choose a data export below, or view <%= govuk_link_to 'a history of all requested exports', support_interface_data_exports_history_path %>.</p>
 
     <% @export_types.each do |id, export| %>
-      <% section_classes = @export_types.first.second[:name] == export[:name] ? 'app-section' : 'app-section app-section--with-top-border' %>
-      <section class="<%= section_classes %>">
+      <section class="app-section app-section--with-top-border">
         <h3 class="govuk-heading-m govuk-!-margin-bottom-2"><%= govuk_link_to export.fetch(:name), support_interface_view_export_information_path(data_export_type: id) %></h3>
         <p class="govuk-body govuk-!-margin-bottom-2"><%= export.fetch(:description) %></p>
       </section>

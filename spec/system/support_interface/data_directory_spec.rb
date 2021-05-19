@@ -110,7 +110,7 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def and_i_click_on_the_full_export_history
-    click_link 'History'
+    click_link 'a history of all requested exports'
   end
 
   def then_i_see_a_list_of_all_exports
