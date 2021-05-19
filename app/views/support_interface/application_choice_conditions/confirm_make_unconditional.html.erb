@@ -1,0 +1,23 @@
+<% content_for :browser_title, title_with_error_prefix('Make offer unconditional', @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@form.application_choice.application_form_id)) %>
+
+<%= form_with model: @form, url: support_interface_make_application_choice_unconditional_path(@form.application_choice.id), method: :put do |f| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+      <h1 class="govuk-heading-l">
+        Are you sure you want to make this offer unconditional?
+      </h1>
+
+      <p class="govuk-body">Because this offer has already been accepted removing all conditions will recruit this candidate immediately.</p>
+
+      <%= f.hidden_field(:audit_comment_ticket) %>
+
+      <%= f.govuk_submit('Yes I\'m sure - make offer unconditional and recruit candidate') %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>

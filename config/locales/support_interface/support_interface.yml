@@ -53,6 +53,18 @@ en:
               blank: Last name cannot be blank
             provider_permissions:
               blank: Please specify a provider
+        support_interface/conditions_form:
+          attributes:
+            audit_comment_ticket:
+              blank: Enter a Zendesk ticket URL
+              invalid: Enter a valid Zendesk ticket URL
+            further_conditions:
+              too_long: 'Condition %{index} must be %{limit} characters or fewer'
+              too_many: 'You can only have %{limit} conditions or fewer'
+        support_interface/conditions_form/offer_condition_field:
+          attributes:
+            text:
+              too_long: 'Condition %{index} must be %{limit} characters or fewer'
         support_interface/new_offer_form:
           attributes:
             further_conditions:

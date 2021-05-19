@@ -17,6 +17,7 @@ module SupportInterface
         course_candidate_applied_for_row,
         course_offered_by_provider_row,
         course_row,
+        offer_conditions_row,
         rejected_at_or_by_default_at_row,
         rejection_reason_row,
         sent_to_provider_at_row,
@@ -95,6 +96,20 @@ module SupportInterface
       return unless rejection_reasons_text
 
       { key: 'Rejection reason', value: rejection_reasons_text }
+    end
+
+    def offer_conditions_row
+      return unless application_choice.pending_conditions? || application_choice.offer?
+
+      conditions = application_choice.offer&.[]('conditions')
+      return if conditions.blank?
+
+      {
+        key: 'Conditions',
+        value: render(SupportInterface::ConditionsComponent.new(conditions: conditions)),
+        action: 'conditions',
+        change_path: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+      }
     end
 
     def sent_to_provider_at_row
