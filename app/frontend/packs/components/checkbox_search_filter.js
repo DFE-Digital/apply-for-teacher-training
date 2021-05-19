@@ -110,7 +110,9 @@ class CheckboxSearchFilter {
   setup() {
     this.setupStatusBox()
     this.setupHeading()
-    this.setupTextBox()
+    if (this.checkboxes.length >= 15) {
+      this.setupTextBox()
+    }
     this.setupHeight()
   }
 

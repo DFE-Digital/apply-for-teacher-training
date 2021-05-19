@@ -4,21 +4,27 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:site) { build(:site, provider: current_provider) }
+  let(:site) { build(:site, provider: main_provider) }
 
   let(:math) { create(:subject, name: 'Mathematics') }
   let!(:primary) { create(:subject, name: 'Primary') }
   let!(:primary_with_pe) { create(:subject, name: 'Primary with physical education') }
   let!(:primary_with_english) { create(:subject, name: 'Primary with English') }
   let!(:english) { create(:subject, name: 'English') }
+  let(:extra_subjects) { create_list(:subject, 12) }
+  let!(:other_course) { create(:course, subjects: [math, english], provider: secondary_provider) }
 
-  let(:primary_course) { create(:course, subjects: [primary, primary_with_pe], provider: current_provider) }
-  let(:math_course) { create(:course, subjects: [math], provider: current_provider) }
+  let(:primary_course) { create(:course, subjects: [primary, primary_with_pe], provider: main_provider) }
+  let(:math_course) { create(:course, subjects: [math], provider: main_provider) }
 
-  let(:course_option_math) { course_option_for_provider(provider: current_provider, site: site,  course: math_course) }
-  let(:course_option_primary) { course_option_for_provider(provider: current_provider, site: site, course: primary_course) }
+  let!(:other_provider_course) { create(:course, subjects: [math, english], provider: secondary_provider) }
+  let!(:music_course) { create(:course, subjects: extra_subjects, provider: secondary_provider) }
 
-  let(:current_provider) { create(:provider, :with_signed_agreement, name: 'College of Dumbervale') }
+  let(:course_option_math) { course_option_for_provider(provider: main_provider, site: site, course: math_course) }
+  let(:course_option_primary) { course_option_for_provider(provider: main_provider, site: site, course: primary_course) }
+
+  let(:main_provider) { create(:provider, :with_signed_agreement, name: 'College of Brodick') }
+  let(:secondary_provider) { create(:provider, :with_signed_agreement, name: 'College of Lochranza') }
 
   scenario 'can filter applications by status and provider' do
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -27,6 +33,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_provider_page
+    i_can_see_all_filters_available_for_providers_i_have_access_to
 
     when_i_filter_by_course_subjects_that_have_no_courses
     then_i_should_not_see_any_applications
@@ -40,10 +47,19 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
 
     when_i_type_in_a_subject
     then_i_only_see_checkboxes_that_correspond_to_it
+
+    when_i_filter_by_a_provider_with_only_a_couple_of_subjects
+    then_i_only_see_the_provider_available_subjects
+    and_i_dont_see_the_search_box
   end
 
   def when_i_visit_the_provider_page
     visit provider_interface_path
+  end
+
+  def i_can_see_all_filters_available_for_providers_i_have_access_to
+    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
+    expect(checkboxes.count).to eq(16)
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -51,7 +67,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   end
 
   def and_i_am_permitted_to_see_applications
-    create(:provider_user, providers: [current_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    create(:provider_user, providers: [main_provider, secondary_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
   def and_my_organisation_has_courses_with_applications
@@ -99,11 +115,21 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
 
   def then_i_only_see_checkboxes_that_correspond_to_it
     checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
+    expect(checkboxes.count).to eq(2)
+    expect(checkboxes.map(&:text)).to match_array(['Primary', 'Primary with physical education'])
+  end
 
+  def when_i_filter_by_a_provider_with_only_a_couple_of_subjects
+    check main_provider.name, visible: false
+    click_on 'Apply filters'
+  end
+
+  def then_i_only_see_the_provider_available_subjects
+    checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
     expect(checkboxes.count).to eq(3)
+  end
 
-    checkboxes.each do |element|
-      expect(['Primary', 'Primary with English', 'Primary with physical education']).to include(element.text)
-    end
+  def and_i_dont_see_the_search_box
+    expect(page).not_to have_selector('#subject-checkbox-filter__filter-input')
   end
 end
