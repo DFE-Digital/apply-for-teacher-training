@@ -4,6 +4,7 @@ module ProviderInterface
 
     STEPS = { make_offer: %i[select_option conditions check],
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
+    MAX_FURTHER_CONDITIONS = MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_conditions, :current_step, :decision,
@@ -85,7 +86,7 @@ module ProviderInterface
     end
 
     def has_max_number_of_further_conditions?
-      further_conditions.length >= MakeAnOffer::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
+      further_conditions.length >= MAX_FURTHER_CONDITIONS
     end
 
     def add_empty_condition
