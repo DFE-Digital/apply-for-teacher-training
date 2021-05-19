@@ -35,7 +35,7 @@ en:
           add_another: Add another condition
         further_condition:
           remove: Remove
-          condition: Condition %{label}
+          condition: Condition %{id}
       checks:
         new:
           title: Check and send offer

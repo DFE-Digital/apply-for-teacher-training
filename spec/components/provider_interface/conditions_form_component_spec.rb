@@ -37,11 +37,11 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
 
   context 'When the form object has no further conditions set' do
     it 'renders no text boxes' do
-      expect(render.css('textarea')).to be_empty
+      expect(render.css('.app-add-condition__item > div > textarea')).to be_empty
     end
 
     it 'renders the add another button' do
-      expect(render.css('.app-add-another__add-button').text.squish).to eq('Add another condition')
+      expect(render.css('.app-add-condition__add-button').text.squish).to eq('Add another condition')
     end
   end
 
@@ -49,28 +49,29 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
     let(:further_conditions) { ['Do a backflip and send a video', 'Be uncool'] }
 
     it 'renders the conditions in the text area' do
-      expect(render.css('textarea').first.text).to include('Do a backflip and send a video')
-      expect(render.css('textarea').last.text).to include('Be uncool')
+      text_areas = render.css('.app-add-condition__item > div > textarea')
+      expect(text_areas.first.text).to include('Do a backflip and send a video')
+      expect(text_areas.last.text).to include('Be uncool')
     end
 
     it 'renders the correct numbering for the labels' do
-      expect(render.css('.app-add-another__item > .govuk-form-group > .govuk-label').map(&:text)).to contain_exactly('Condition 1', 'Condition 2')
+      expect(render.css('.app-add-condition__item > .govuk-form-group > .govuk-label').map(&:text)).to contain_exactly('Condition 1', 'Condition 2')
     end
 
     it 'renders the add another button' do
-      expect(render.css('.app-add-another__add-button').text.squish).to eq('Add another condition')
+      expect(render.css('.app-add-condition__add-button').text.squish).to eq('Add another condition')
     end
 
     it 'renders the remove condition links' do
-      expect(render.css('.app-add-another__remove-button').map(&:text).map(&:squish)).to contain_exactly('Remove condition 1', 'Remove condition 2')
+      expect(render.css('.app-add-condition__item > .app-add-condition__remove-button').map(&:text).map(&:squish)).to contain_exactly('Remove condition 1', 'Remove condition 2')
     end
   end
 
   context 'when the form object has the maximum number of further conditions set' do
     let(:max_conditions) { true }
 
-    it 'does not render the add another button' do
-      expect(render.css('.app-add-another__add-button')).to be_empty
+    it 'does not display the add another button' do
+      expect(render.css('.app-add-condition__add-button').first.attributes['style'].value).to eq('display: none;')
     end
   end
 end

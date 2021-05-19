@@ -1,4 +1,4 @@
-.app-add-another {
+.app-add-condition {
   &__item {
     margin: 0;
     margin-top: govuk-spacing(6);
@@ -44,7 +44,7 @@
   }
 }
 
-.app-add-another__heading:focus {
+.app-add-condition__heading:focus {
   background-color: $govuk-focus-colour;
   color: $govuk-focus-text-colour;
   box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
