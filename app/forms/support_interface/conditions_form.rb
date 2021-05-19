@@ -20,12 +20,13 @@ module SupportInterface
 
     attr_accessor :application_choice, :standard_conditions, :further_conditions, :audit_comment_ticket
 
-    MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeAnOffer::STANDARD_CONDITIONS.length
+    MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT
 
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
     validates :audit_comment_ticket, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
-    validate :further_conditions_valid
+    validate :condition_count_valid
+    validate :further_conditions_lengths_valid
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {
@@ -82,7 +83,13 @@ module SupportInterface
       end
     end
 
-    def further_conditions_valid
+    def condition_count_valid
+      if all_conditions.count > OfferValidations::MAX_CONDITIONS_COUNT
+        errors.add(:further_conditions, :too_many, limit: OfferValidations::MAX_CONDITIONS_COUNT)
+      end
+    end
+
+    def further_conditions_lengths_valid
       further_condition_models.map(&:valid?).all?
 
       further_condition_models.each do |condition_model|

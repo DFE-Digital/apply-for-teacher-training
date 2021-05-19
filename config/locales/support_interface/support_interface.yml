@@ -60,6 +60,7 @@ en:
               invalid: Enter a valid Zendesk ticket URL
             further_conditions:
               too_long: 'Condition %{index} must be %{limit} characters or fewer'
+              too_many: 'You can only have %{limit} conditions or fewer'
         support_interface/conditions_form/offer_condition_field:
           attributes:
             text:
