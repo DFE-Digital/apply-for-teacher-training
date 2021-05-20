@@ -1,13 +1,13 @@
 const outerHeight = (el) => {
-  var height = el.offsetHeight;
-  var style = getComputedStyle(el, "");
+  let height = el.offsetHeight
+  const style = window.getComputedStyle(el, '')
 
-  height += parseInt(style.marginTop) + parseInt(style.marginBottom);
-  return height;
+  height += parseInt(style.marginTop) + parseInt(style.marginBottom)
+  return height
 }
 
 class CheckboxSearchFilter {
-  constructor(params) {
+  constructor (params) {
     this.params = params
     this.container = params.container
     this.container.classList.add('app-checkbox-filter--enhanced')
@@ -17,13 +17,13 @@ class CheckboxSearchFilter {
     this.setup()
   }
 
-  filterCheckboxes() {
-    var textValue = this.sanitizeText(this.textBox.value)
-    var allCheckboxes = this.getAllCheckboxes()
+  filterCheckboxes () {
+    const textValue = this.sanitizeText(this.textBox.value)
+    const allCheckboxes = this.getAllCheckboxes()
 
-    for(var i = 0; i < allCheckboxes.length; i++ ) {
-      var labelValue = this.sanitizeText( allCheckboxes[i].querySelector('.govuk-checkboxes__label').textContent )
-      if(labelValue.search(textValue) === -1) {
+    for (let i = 0; i < allCheckboxes.length; i++) {
+      const labelValue = this.sanitizeText(allCheckboxes[i].querySelector('.govuk-checkboxes__label').textContent)
+      if (labelValue.search(textValue) === -1) {
         allCheckboxes[i].style.display = 'none'
       } else {
         allCheckboxes[i].style.display = 'block'
@@ -36,59 +36,58 @@ class CheckboxSearchFilter {
     })
   }
 
-  getAllCheckboxes() {
+  getAllCheckboxes () {
     return this.checkboxesContainer.querySelectorAll('.govuk-checkboxes__item')
   }
 
-  getAllVisibleCheckboxes() {
-    return [].filter.call(this.getAllCheckboxes(), function(el) {
-      return el.style.display == 'block'
+  getAllVisibleCheckboxes () {
+    return [].filter.call(this.getAllCheckboxes(), function (el) {
+      return el.style.display === 'block'
     })
   }
 
-  getAllVisibleCheckedCheckboxes() {
-    return [].filter.call(this.getAllVisibleCheckboxes(), function(el) {
+  getAllVisibleCheckedCheckboxes () {
+    return [].filter.call(this.getAllVisibleCheckboxes(), function (el) {
       return el.querySelector('.govuk-checkboxes__input').checked
     })
   }
 
-  getTextBoxHtml() {
-    var container_id = this.container.id
-    var label = document.createElement('label')
-    label.setAttribute('for', container_id + '-checkbox-filter__filter-input')
+  getTextBoxHtml () {
+    const containerId = this.container.id
+    const label = document.createElement('label')
+    label.setAttribute('for', containerId + '-checkbox-filter__filter-input')
     label.className = 'govuk-label govuk-visually-hidden'
     label.innerHTML = this.params.textBox.label
 
-    var input = document.createElement('input')
+    const input = document.createElement('input')
     input.className = 'app-checkbox-filter__filter-input govuk-input'
-    input.setAttribute('id', container_id + '-checkbox-filter__filter-input')
-    input.setAttribute('type','text')
-    input.setAttribute('aria-describedby', container_id + '-checkboxes-status')
-    input.setAttribute('aria-controls', container_id + '-checkboxes')
+    input.setAttribute('id', containerId + '-checkbox-filter__filter-input')
+    input.setAttribute('type', 'text')
+    input.setAttribute('aria-describedby', containerId + '-checkboxes-status')
+    input.setAttribute('aria-controls', containerId + '-checkboxes')
     input.setAttribute('autocomplete', 'off')
     input.setAttribute('spellcheck', 'false')
 
     return [label, input]
   }
 
-  getVisibleCheckboxes() {
-    var visibleCheckboxes = [].filter.call(this.checkboxes, (el) => this.isCheckboxInView(el))
+  getVisibleCheckboxes () {
+    const visibleCheckboxes = [].filter.call(this.checkboxes, (el) => this.isCheckboxInView(el))
 
     // add an extra checkbox, if the label of the first is too long it collapses onto itself
-    visibleCheckboxes.push(this.checkboxes[visibleCheckboxes.length-1])
+    visibleCheckboxes.push(this.checkboxes[visibleCheckboxes.length - 1])
     return visibleCheckboxes
   }
 
-  isCheckboxInView(element) {
-    var checkbox = element
-    var initialOptionContainerHeight = this.checkboxesContainer.style.height
-    var optionListOffsetTop = this.checkboxesInnerContainer.offsetTop
-    var distanceFromTopOfContainer = checkbox.offsetTop - optionListOffsetTop
+  isCheckboxInView (checkbox) {
+    const initialOptionContainerHeight = this.checkboxesContainer.style.height
+    const optionListOffsetTop = this.checkboxesInnerContainer.offsetTop
+    const distanceFromTopOfContainer = checkbox.offsetTop - optionListOffsetTop
     return distanceFromTopOfContainer < initialOptionContainerHeight
   }
 
-  onTextBoxKeyUp(e) {
-    var ENTER_KEY = 13
+  onTextBoxKeyUp (e) {
+    const ENTER_KEY = 13
     if (e.keyCode === ENTER_KEY) {
       e.preventDefault()
     } else {
@@ -96,18 +95,18 @@ class CheckboxSearchFilter {
     }
   }
 
-  sanitizeText(text) {
+  sanitizeText (text) {
     text = text.replace(/&/g, 'and')
     text = text.replace(/[’',:–-]/g, '') // remove punctuation characters
     text = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // escape special characters
     return text.trim().replace(/\s\s+/g, ' ').toLowerCase() // replace multiple spaces with one
   }
 
-  setContainerHeight(height) {
+  setContainerHeight (height) {
     this.checkboxesContainer.style.height = height
   }
 
-  setup() {
+  setup () {
     this.setupStatusBox()
     this.setupHeading()
     if (this.checkboxes.length >= 15) {
@@ -116,8 +115,8 @@ class CheckboxSearchFilter {
     this.setupHeight()
   }
 
-  setupHeading() {
-    var element = document.createElement('span')
+  setupHeading () {
+    const element = document.createElement('span')
     element.className = 'app-checkbox-filter__title'
     element.setAttribute('aria-hidden', 'true')
 
@@ -125,9 +124,9 @@ class CheckboxSearchFilter {
     this.container.prepend(this.heading)
   }
 
-  setupHeight() {
-    var initialOptionContainerHeight = this.checkboxesContainer.style.height
-    var height = outerHeight(this.checkboxesInnerContainer)
+  setupHeight () {
+    let initialOptionContainerHeight = this.checkboxesContainer.style.height
+    let height = outerHeight(this.checkboxesInnerContainer)
 
     // check whether this is hidden by progressive disclosure,
     // because height calculations won't work
@@ -143,14 +142,14 @@ class CheckboxSearchFilter {
     }
 
     // Resize to cut last item cleanly in half
-    var visibleCheckboxes = this.getVisibleCheckboxes()
-    var lastVisibleCheckbox = visibleCheckboxes[visibleCheckboxes.length-1]
-    var position = lastVisibleCheckbox.parentNode.offsetTop // parent element is relative
+    const visibleCheckboxes = this.getVisibleCheckboxes()
+    const lastVisibleCheckbox = visibleCheckboxes[visibleCheckboxes.length - 1]
+    const position = lastVisibleCheckbox.parentNode.offsetTop // parent element is relative
     this.setContainerHeight(position + (lastVisibleCheckbox.height / 1.5))
   }
 
-  setupStatusBox() {
-    var element = document.createElement('div')
+  setupStatusBox () {
+    const element = document.createElement('div')
     element.className = 'govuk-visually-hidden'
     element.id = this.container.id + '-checkboxes-status'
     element.setAttribute('role', 'status')
@@ -163,17 +162,17 @@ class CheckboxSearchFilter {
     this.container.insertAdjacentElement('afterend', this.statusBox)
   }
 
-  setupTextBox() {
-    var tagContainer = this.container.querySelector('.app-checkbox-filter__selected')
-    var textBoxElements = this.getTextBoxHtml();
+  setupTextBox () {
+    const tagContainer = this.container.querySelector('.app-checkbox-filter__selected')
+    const textBoxElements = this.getTextBoxHtml()
 
-    if(tagContainer) {
-      for(var i = 0; i < textBoxElements.length; i++ ) {
-        tagContainer.parentNode.insertBefore(textBoxElements[i], tagContainer.nextSibling )
+    if (tagContainer) {
+      for (let i = 0; i < textBoxElements.length; i++) {
+        tagContainer.parentNode.insertBefore(textBoxElements[i], tagContainer.nextSibling)
       }
     } else {
-      for(var i = 0; i < textBoxElements.length; i++ ) {
-        this.heading.parentNode.insertBefore(textBoxElements[i], this.heading.nextSibling )
+      for (let i = 0; i < textBoxElements.length; i++) {
+        this.heading.parentNode.insertBefore(textBoxElements[i], this.heading.nextSibling)
       }
     }
 
@@ -181,15 +180,15 @@ class CheckboxSearchFilter {
     this.textBox.addEventListener('keyup', () => this.onTextBoxKeyUp(this))
   }
 
-  updateStatusBox(params) {
-    var status = '%found% options found, %selected% selected'
+  updateStatusBox (params) {
+    let status = '%found% options found, %selected% selected'
     status = status.replace(/%found%/, params.foundCount)
     status = status.replace(/%selected%/, params.checkedCount)
     this.statusBox.innerHTML = status
   }
 }
 
-const checkbox_search_filter = (containerId, label) => {
+const checkboxSearchFilter = (containerId, label) => {
   const containerElement = document.getElementById(containerId)
 
   if (containerElement) {
@@ -200,4 +199,4 @@ const checkbox_search_filter = (containerId, label) => {
   }
 }
 
-export default checkbox_search_filter
+export default checkboxSearchFilter
