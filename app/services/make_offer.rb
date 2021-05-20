@@ -1,6 +1,8 @@
 class MakeOffer
   include ImpersonationAuditHelper
 
+  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
+
   attr_reader :actor, :application_choice, :course_option, :conditions
 
   def initialize(actor:,

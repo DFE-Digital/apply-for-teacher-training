@@ -66,7 +66,7 @@ RSpec.feature 'See application history', with_audited: true do
 
     Timecop.travel(2.days.from_now) do
       Audited.audit_class.as_user(provider_user) do
-        MakeAnOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option).save
+        MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option).save!
       end
     end
   end

@@ -357,12 +357,12 @@ private
   def make_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward
-      MakeAnOffer.new(
+      MakeOffer.new(
         actor: actor,
-        course_option: choice.course_option,
         application_choice: choice,
-        offer_conditions: conditions,
-      ).save
+        course_option: choice.course_option,
+        conditions: conditions,
+      ).save!
       choice.update_columns(offered_at: time, updated_at: time)
     end
     choice.audits.last&.update_columns(created_at: time)
@@ -374,15 +374,18 @@ private
       year = choice.current_course.recruitment_cycle_year
       new_course = choice.current_course.provider.courses
                          .in_cycle(year).with_course_options.sample
-      ChangeAnOffer.new(
+      ChangeOffer.new(
         actor: actor,
         application_choice: choice,
         course_option: new_course.course_options.first,
-        offer_conditions: conditions,
-      ).save
+        conditions: conditions,
+      ).save!
       choice.update_columns(offer_changed_at: time, updated_at: time)
     end
     choice.audits.last&.update_columns(created_at: time)
+  rescue IdenticalOfferError => e
+    Raven.capture_exception(e)
+    nil
   end
 
   def reject_application(choice)
