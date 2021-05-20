@@ -1383,10 +1383,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@ministryofjustice/frontend@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.3.tgz#02847e2ba079f8c670b4baf9ec0c6c7387fe41c1"
-  integrity sha512-Q+He/iB+GxWn4QpFwZCMQ5n22hmrmZaMRWkuE1fH1+jlQr/s6pdjzTE2dsD7ff0BccIHrAK5wb3lFdRdlZlsMw==
+"@ministryofjustice/frontend@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.4.tgz#88b6a0d03b5ef2f577dddd0e4624deb66821e738"
+  integrity sha512-KmDTogrU0cDBs7Mwa/v2I5jHEdeV67oyHohX2MezQCC8HZnCFh5ZtqYPsdXd3fj0Smb/H9m5NHv5wdWPNkLkrA==
   dependencies:
     moment "^2.27.0"
 
