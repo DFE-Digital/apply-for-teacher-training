@@ -14,7 +14,9 @@ module TeacherTrainingPublicAPI
         provider_code: @provider.code,
       ).paginate(per_page: 500)
 
-      scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since) if incremental_sync
+      if incremental_sync && SyncCheck.last_sync
+        scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since)
+      end
 
       scope.each do |course_from_api|
         ActiveRecord::Base.transaction do
