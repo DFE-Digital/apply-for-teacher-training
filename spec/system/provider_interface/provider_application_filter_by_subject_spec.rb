@@ -5,23 +5,26 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   include DfESignInHelpers
 
   let(:site) { build(:site, provider: main_provider) }
+  let(:secondary_site) { build(:site, provider: secondary_provider) }
 
   let(:math) { create(:subject, name: 'Mathematics') }
   let!(:primary) { create(:subject, name: 'Primary') }
   let!(:primary_with_pe) { create(:subject, name: 'Primary with physical education') }
   let!(:primary_with_english) { create(:subject, name: 'Primary with English') }
   let!(:english) { create(:subject, name: 'English') }
+  let!(:geography) { create(:subject, name: 'Geography') }
   let(:extra_subjects) { create_list(:subject, 12) }
   let!(:other_course) { create(:course, subjects: [math, english], provider: secondary_provider) }
+  let!(:unused_course) { create(:course, subjects: [geography], provider: secondary_provider) }
 
   let(:primary_course) { create(:course, subjects: [primary, primary_with_pe], provider: main_provider) }
   let(:math_course) { create(:course, subjects: [math], provider: main_provider) }
 
-  let!(:other_provider_course) { create(:course, subjects: [math, english], provider: secondary_provider) }
   let!(:music_course) { create(:course, subjects: extra_subjects, provider: secondary_provider) }
 
   let(:course_option_math) { course_option_for_provider(provider: main_provider, site: site, course: math_course) }
   let(:course_option_primary) { course_option_for_provider(provider: main_provider, site: site, course: primary_course) }
+  let(:other_provider_math) { course_option_for_provider(provider: main_provider, site: secondary_site, course: other_course) }
 
   let(:main_provider) { create(:provider, :with_signed_agreement, name: 'College of Brodick') }
   let(:secondary_provider) { create(:provider, :with_signed_agreement, name: 'College of Lochranza') }
@@ -51,6 +54,9 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
     when_i_filter_by_a_provider_with_only_a_couple_of_subjects
     then_i_only_see_the_provider_available_subjects
     and_i_dont_see_the_search_box
+
+    when_i_filter_by_provider_and_a_subject
+    then_i_should_only_see_provider_applications_related_to_the_subjects
   end
 
   def when_i_visit_the_provider_page
@@ -59,7 +65,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
 
   def i_can_see_all_filters_available_for_providers_i_have_access_to
     checkboxes = all('.app-checkbox-filter__container .govuk-checkboxes__label', visible: true)
-    expect(checkboxes.count).to eq(16)
+    expect(checkboxes.count).to eq(17)
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -73,10 +79,11 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   def and_my_organisation_has_courses_with_applications
     @math_applications = create_list(:application_choice, 3, :awaiting_provider_decision, course_option: course_option_math)
     @primary_applications = create_list(:application_choice, 2, :awaiting_provider_decision, course_option: course_option_primary)
+    @other_math_applications = create_list(:application_choice, 1, :awaiting_provider_decision, course_option: other_provider_math)
   end
 
   def when_i_filter_by_course_subjects_that_have_no_courses
-    check 'English', visible: false
+    check 'Geography', visible: false
     click_on 'Apply filters'
   end
 
@@ -92,7 +99,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   end
 
   def then_i_should_see_applications_related_to_those_subjects
-    @math_applications.each do |application|
+    (@math_applications + @other_math_applications).each do |application|
       expect(page).to have_content(application.application_form.full_name)
     end
   end
@@ -106,7 +113,7 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
   end
 
   def and_i_should_see_all_the_applications
-    expect(page).to have_content("Applications (#{(@math_applications + @primary_applications).count})")
+    expect(page).to have_content("Applications (#{(@math_applications + @primary_applications + @other_math_applications).count})")
   end
 
   def when_i_type_in_a_subject
@@ -131,5 +138,21 @@ RSpec.describe 'Providers should be able to filter applications by subject', js:
 
   def and_i_dont_see_the_search_box
     expect(page).not_to have_selector('#subject-checkbox-filter__filter-input')
+  end
+
+  def when_i_filter_by_provider_and_a_subject
+    click_on 'Clear filters'
+
+    check secondary_provider.name, visible: false
+    check 'Mathematics', visible: false
+    click_on 'Apply filters'
+  end
+
+  def then_i_should_only_see_provider_applications_related_to_the_subjects
+    expect(page).to have_content("Applications (#{@other_math_applications.count})")
+
+    @math_applications.each do |application|
+      expect(page).to have_content(application.application_form.full_name)
+    end
   end
 end
