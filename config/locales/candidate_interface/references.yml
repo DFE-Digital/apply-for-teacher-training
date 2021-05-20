@@ -87,6 +87,7 @@ en:
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
       review:
         more_than_two: More than 2 references have been given
+        need_two: You need to have received at least 2 references before marking this section complete
 
   activemodel:
     errors:

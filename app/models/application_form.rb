@@ -359,6 +359,10 @@ class ApplicationForm < ApplicationRecord
     application_references.selected.count >= MINIMUM_COMPLETE_REFERENCES
   end
 
+  def minimum_references_available_for_selection?
+    application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
+  end
+
   def address_formatted_for_geocoding
     full_address.compact.join(', ')
   end

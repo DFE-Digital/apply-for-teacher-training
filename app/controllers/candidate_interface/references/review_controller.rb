@@ -22,6 +22,11 @@ module CandidateInterface
           render 'show_for_reference_selection' and return
         end
 
+        if !current_application.minimum_references_available_for_selection?
+          flash.now[:warning] = I18n.t('application_form.references.review.need_two')
+          render 'show_for_reference_selection' and return
+        end
+
         if @section_complete_form.not_completed?
           @section_complete_form.save(current_application, :references_completed)
           redirect_to candidate_interface_application_form_path
