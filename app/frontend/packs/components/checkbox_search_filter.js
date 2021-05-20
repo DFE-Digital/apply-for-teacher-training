@@ -1,3 +1,5 @@
+import '../polyfills'
+
 const outerHeight = (el) => {
   let height = el.offsetHeight
   const style = window.getComputedStyle(el, '')
