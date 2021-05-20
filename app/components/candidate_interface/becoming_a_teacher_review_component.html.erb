@@ -2,7 +2,7 @@
   <%= render(
     CandidateInterface::IncompleteSectionComponent.new(
       section: :becoming_a_teacher,
-      section_path: candidate_interface_edit_becoming_a_teacher_path,
+      section_path: @application_form.becoming_a_teacher.present? ? candidate_interface_edit_becoming_a_teacher_path : candidate_interface_new_becoming_a_teacher_path,
       error: @missing_error,
       review_needed: review_needed?,
     ),

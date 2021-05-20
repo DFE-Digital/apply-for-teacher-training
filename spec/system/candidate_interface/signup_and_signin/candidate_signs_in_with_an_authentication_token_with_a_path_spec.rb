@@ -67,7 +67,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
   end
 
   def then_i_am_redirected_to_the_personal_statement_page
-    expect(page).to have_current_path candidate_interface_edit_becoming_a_teacher_path
+    expect(page).to have_current_path candidate_interface_new_becoming_a_teacher_path
   end
 
   def given_i_am_signed_out
