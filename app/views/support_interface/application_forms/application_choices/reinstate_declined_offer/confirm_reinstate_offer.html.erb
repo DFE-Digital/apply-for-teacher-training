@@ -27,15 +27,17 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= f.govuk_text_field(
-              :audit_comment_ticket,
-              label: {
-                text: 'Zendesk ticket URL',
-                size: 'm',
-              },
-              rows: 1,
-              hint: { text: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345' },
-            ) %>
+      <%=
+        f.govuk_text_field(
+          :audit_comment_ticket,
+          label: {
+            text: t('support_interface.reinstate_declined_offer_form.audit_comment_ticket.label'),
+            size: 'm',
+          },
+          rows: 1,
+          hint: { text: t('support_interface.reinstate_declined_offer_form.audit_comment_ticket.hint') },
+        )
+      %>
     </div>
   </div>
 

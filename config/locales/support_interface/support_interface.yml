@@ -28,6 +28,18 @@ en:
       audit_comment:
         label: Audit log comment
         hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
+    conditions_form:
+      audit_comment_ticket:
+        label: 'Zendesk ticket URL'
+        hint: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345'
+    reinstate_declined_offer_form:
+      audit_comment_ticket:
+        label: 'Zendesk ticket URL'
+        hint: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345'
+    changed_offered_course_form:
+      audit_comment_ticket:
+        label: 'Zendesk ticket URL'
+        hint: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345'
   activemodel:
     errors:
       models:
