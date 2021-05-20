@@ -27,11 +27,15 @@ task sync_dev_providers_and_open_courses: :environment do
         .where(year: RecruitmentCycle.current_year)
         .find(code).first
 
-    TeacherTrainingPublicAPI::SyncProvider.new(provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.previous_year).call(run_in_background: false, force_sync_courses: true)
+    TeacherTrainingPublicAPI::SyncProvider.new(
+      provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.previous_year,
+    ).call(run_in_background: false, force_sync_courses: true, incremental_sync: false)
 
     Provider.find_by_code(code).courses.previous_cycle.exposed_in_find.update_all(open_on_apply: true, opened_on_apply_at: Time.zone.now)
 
-    TeacherTrainingPublicAPI::SyncProvider.new(provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year).call(run_in_background: false, force_sync_courses: true)
+    TeacherTrainingPublicAPI::SyncProvider.new(
+      provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year,
+    ).call(run_in_background: false, force_sync_courses: true, incremental_sync: false)
   end
 
   puts 'Making all the courses open on Apply...'
