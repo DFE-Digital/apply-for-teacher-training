@@ -97,15 +97,15 @@ class DataExport < ApplicationRecord
       class: SupportInterface::OfferConditionsExport,
     },
     organisation_permissions: {
-      name: 'Organisation permissions',
+      name: 'Organisational permissions changes',
       export_type: 'organisation_permissions',
       description: 'A list of changes to organisational permissions and audit information about the changes.',
       class: SupportInterface::OrganisationPermissionsExport,
     },
     provider_access_controls: {
-      name: 'Provider Access Controls',
+      name: 'Provider permissions stats',
       export_type: 'provider_access_controls',
-      description: 'A list of providers and information about their permissions.',
+      description: "A list of providers and aggregated information about the number of users they have, their permissions, the changes that they\'ve made and their relationships to other organisations.",
       class: SupportInterface::ProviderAccessControlsExport,
     },
     providers_export: {
@@ -163,7 +163,7 @@ class DataExport < ApplicationRecord
       class: SupportInterface::TADProviderStatsExport,
     },
     user_permissions: {
-      name: 'User permissions',
+      name: 'User permissions changes',
       export_type: 'user_permissions',
       description: 'A list of changes to user permissions and audit information about the changes.',
       class: SupportInterface::UserPermissionsExport,
