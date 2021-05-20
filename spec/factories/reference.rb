@@ -7,6 +7,7 @@ FactoryBot.define do
     referee_type { %i[academic professional school_based character].sample }
     questionnaire { nil }
     duplicate { false }
+    selected { false }
 
     trait :not_requested_yet do
       feedback_status { 'not_requested_yet' }
@@ -73,6 +74,7 @@ FactoryBot.define do
       feedback_provided_at { Time.zone.now }
       safeguarding_concerns { '' }
       relationship_correction { '' }
+      selected { true }
     end
 
     trait :feedback_provided_with_completed_referee_questionnaire do
@@ -89,6 +91,7 @@ FactoryBot.define do
       end
       safeguarding_concerns { '' }
       relationship_correction { '' }
+      selected { true }
     end
   end
 end
