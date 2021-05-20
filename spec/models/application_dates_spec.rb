@@ -39,7 +39,7 @@ RSpec.describe ApplicationDates, type: :model do
     it 'returns correct decline_by_default_at' do
       choices.update_all(status: :offer, decline_by_default_at: 10.business_days.after(submitted_at))
 
-      expect(application_dates.decline_by_default_at).to eq(10.business_days.after(submitted_at))
+      expect(application_dates.decline_by_default_at).to be_within(1.second).of(10.business_days.after(submitted_at))
     end
   end
 end
