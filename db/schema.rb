@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_18_113512) do
+ActiveRecord::Schema.define(version: 2021_05_19_132016) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -720,6 +720,7 @@ ActiveRecord::Schema.define(version: 2021_05_18_113512) do
     t.jsonb "details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "service"
     t.index ["form_object"], name: "index_validation_errors_on_form_object"
   end
 
