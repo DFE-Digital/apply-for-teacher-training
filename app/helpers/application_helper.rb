@@ -5,17 +5,21 @@ module ApplicationHelper
   end
 
   def service_name
+    t("service_name.#{service_key}")
+  end
+
+  def service_key
     case current_namespace
     when 'candidate_interface'
-      t('service_name.apply')
+      'apply'
     when 'provider_interface'
-      t('service_name.manage')
+      'manage'
     when 'support_interface'
-      t('service_name.support')
+      'support'
     when 'api_docs'
-      t('service_name.api')
+      'api'
     else
-      t('service_name.apply')
+      'apply'
     end
   end
 
