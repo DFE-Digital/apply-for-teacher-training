@@ -54,14 +54,14 @@ module SupportInterface
       return [] if offer.blank?
 
       conditions = offer['conditions']
-      conditions & MakeAnOffer::STANDARD_CONDITIONS
+      conditions & MakeOffer::STANDARD_CONDITIONS
     end
 
     def self.further_conditions_from(offer)
       return [] if offer.blank?
 
       conditions = offer['conditions']
-      conditions - MakeAnOffer::STANDARD_CONDITIONS
+      conditions - MakeOffer::STANDARD_CONDITIONS
     end
 
     def add_slots_for_new_conditions

@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:course_option_id) { nil }
   let(:study_mode) { nil }
   let(:application_choice_id) { create(:application_choice).id }
-  let(:standard_conditions) { MakeAnOffer::STANDARD_CONDITIONS }
+  let(:standard_conditions) { MakeOffer::STANDARD_CONDITIONS }
   let(:further_condition_1) { '' }
   let(:further_condition_2) { '' }
   let(:further_condition_3) { '' }
@@ -129,7 +129,7 @@ RSpec.describe ProviderInterface::OfferWizard do
 
       it 'populates the conditions with the standard ones' do
         expect(wizard).to be_valid
-        expect(wizard.standard_conditions).to match_array(MakeAnOffer::STANDARD_CONDITIONS)
+        expect(wizard.standard_conditions).to match_array(MakeOffer::STANDARD_CONDITIONS)
         expect(wizard.further_conditions).to be_empty
       end
     end
@@ -293,12 +293,12 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#conditions' do
-    let(:standard_conditions) { ['', MakeAnOffer::STANDARD_CONDITIONS.last] }
+    let(:standard_conditions) { ['', MakeOffer::STANDARD_CONDITIONS.last] }
     let(:further_condition_1) { 'Receiving an A* on their Maths A Level' }
     let(:further_condition_3) { 'They must graduate from their current course with an Honors' }
 
     it 'constructs an array with the offer conditions' do
-      expect(wizard.conditions).to eq([MakeAnOffer::STANDARD_CONDITIONS.last,
+      expect(wizard.conditions).to eq([MakeOffer::STANDARD_CONDITIONS.last,
                                        further_condition_1,
                                        further_condition_3])
     end

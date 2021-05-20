@@ -17,7 +17,7 @@ RSpec.describe CheckboxOptionsHelper, type: :helper do
 
   describe '#standard_conditions_checkboxes' do
     it 'returns structured data for standard offer conditions' do
-      expected = MakeAnOffer::STANDARD_CONDITIONS.map do |condition|
+      expected = MakeOffer::STANDARD_CONDITIONS.map do |condition|
         OpenStruct.new(id: condition, name: condition)
       end
 
