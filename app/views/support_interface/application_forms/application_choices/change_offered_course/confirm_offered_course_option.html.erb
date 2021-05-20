@@ -32,19 +32,17 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%=
-        f.govuk_text_field(
-          :audit_comment,
-          label: {
-            text: t('support_interface.changed_offered_course_form.audit_comment_ticket.label'),
-            size: 'm',
-          },
-          rows: 1,
-          hint: {
-            text: t('support_interface.changed_offered_course_form.audit_comment_ticket.hint'),
-          },
-        )
-      %>
+      <%= f.govuk_text_field(
+        :audit_comment,
+        label: {
+          text: t('support_interface.audit_comment_ticket.label'),
+          size: 'm',
+        },
+        rows: 1,
+        hint: {
+          text: t('support_interface.audit_comment_ticket.hint'),
+        },
+      ) %>
     </div>
   </div>
 
