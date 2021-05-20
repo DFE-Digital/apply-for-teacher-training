@@ -18,6 +18,10 @@ on:
       sandbox:
         description: Deploy to sandbox?
         default: 'false'
+        required: true
+      rollover:
+        description: Deploy to rollover?
+        default: 'false'
         required: true        
       sha:
         description: Commit sha to be deployed
