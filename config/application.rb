@@ -22,6 +22,8 @@ require './app/middlewares/redirect_to_service_gov_uk_middleware'
 require './app/middlewares/vendor_api_request_middleware'
 require './app/middlewares/service_unavailable_middleware'
 
+require_relative "../lib/modules/aws_ip_ranges"
+
 require 'pdfkit'
 
 module ApplyForPostgraduateTeacherTraining
