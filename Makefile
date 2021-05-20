@@ -90,6 +90,11 @@ prod:
   $(eval SPACE_SUFFIX=prod)
   $(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 
+rollover:
+  $(eval APP_ENV=rollover)
+  $(eval SPACE_SUFFIX=staging)
+  $(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
+
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 

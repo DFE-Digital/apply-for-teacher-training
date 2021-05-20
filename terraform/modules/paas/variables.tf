@@ -46,10 +46,11 @@ locals {
   }
   app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis, cloudfoundry_user_provided_service.logging]
   service_gov_uk_host_names = {
-    qa      = "qa"
-    staging = "staging"
-    sandbox = "sandbox"
-    prod    = "www"
+    qa       = "qa"
+    staging  = "staging"
+    sandbox  = "sandbox"
+    rollover = "rollover"
+    prod     = "www"
   }
   web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route, cloudfoundry_route.web_app_education_gov_uk_route]
   app_environment_variables = merge(var.app_environment_variables,
