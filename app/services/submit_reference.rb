@@ -8,7 +8,10 @@ class SubmitReference
   end
 
   def save!
-    @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now)
+    # Updating selected bool to true here will probably be done conditionally based
+    # on if enough references have been provided/the references section has been completed
+    # when we add in the new functionality
+    @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: true)
 
     cancel_feedback_requested_references if enough_references_have_been_provided?
 

@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :contact_details, section_path: candidate_interface_contact_information_edit_phone_number_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :contact_details, section_path: candidate_interface_edit_phone_number_path, error: @missing_error)) %>
 <% else %>
   <%= render(SummaryCardComponent.new(rows: contact_details_form_rows, editable: @editable)) %>
 <% end %>

@@ -10,6 +10,8 @@ class ApplicationReference < ApplicationRecord
   has_many :reference_tokens, dependent: :destroy
   has_one :candidate, through: :application_form
 
+  scope :selected, -> { feedback_provided.where(selected: true) }
+
   audited associated_with: :application_form
 
   enum feedback_status: {

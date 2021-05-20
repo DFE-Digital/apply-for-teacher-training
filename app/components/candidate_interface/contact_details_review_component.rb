@@ -27,12 +27,12 @@ module CandidateInterface
         key: t('application_form.contact_details.phone_number.label'),
         value: @contact_details_form.phone_number,
         action: t('application_form.contact_details.phone_number.change_action'),
-        change_path: candidate_interface_contact_information_edit_phone_number_path,
+        change_path: candidate_interface_edit_phone_number_path,
       }
     end
 
     def address_row
-      change_path = candidate_interface_contact_information_edit_address_type_path
+      change_path = candidate_interface_edit_address_type_path
 
       {
         key: t('application_form.contact_details.full_address.label'),

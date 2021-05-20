@@ -1,0 +1,8 @@
+<%= f.govuk_radio_buttons_fieldset :address_types, legend: { text: t('page_titles.where_do_you_live'), size: 'xl', tag: 'h1' } do %>
+  <%= f.govuk_radio_button :address_type, 'uk', label: { text: t('application_form.contact_details.address_type.values.uk') } %>
+  <%= f.govuk_radio_button :address_type, 'international', label: { text: t('application_form.contact_details.address_type.values.international') }, link_errors: true do %>
+    <%= f.govuk_collection_select :country, select_country_options, :id, :name, label: { text: t('application_form.contact_details.country.label') } %>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit t('save_and_continue') %>

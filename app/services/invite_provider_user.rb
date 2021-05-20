@@ -12,7 +12,10 @@ class InviteProviderUser
   def call!
     lookup_provider_user
     invite_user_to_dfe_sign_in
+  end
 
+  def notify
+    lookup_provider_user
     send_welcome_email
     send_slack_notification
   end

@@ -16,6 +16,7 @@ class SaveAndInviteProviderUser
         save_service.call!
         invite_service.call! if new_user
       end
+      invite_service.notify
     rescue DfeSignInAPIError => e
       form.errors.add(
         :base,

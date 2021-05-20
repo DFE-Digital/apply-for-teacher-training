@@ -80,7 +80,7 @@
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.contact_information'),
             completed: @application_form_presenter.contact_details_completed?,
-            path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_information_review_path : candidate_interface_contact_information_edit_phone_number_path,
+            path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_information_review_path : candidate_interface_new_phone_number_path,
           )) %>
         </li>
       </ol>

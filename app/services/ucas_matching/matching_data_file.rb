@@ -1,6 +1,3 @@
-require 'csv'
-# require 'archive/zip'
-
 module UCASMatching
   class MatchingDataFile
     # @returns filename
