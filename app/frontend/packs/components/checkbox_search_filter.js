@@ -109,9 +109,11 @@ class CheckboxSearchFilter {
   }
 
   setup () {
+    const MIN_FILTERED_CHECKBOX_LENGTH = 15
+
     this.setupStatusBox()
     this.setupHeading()
-    if (this.checkboxes.length >= 15) {
+    if (this.checkboxes.length >= MIN_FILTERED_CHECKBOX_LENGTH) {
       this.setupTextBox()
     }
     this.setupHeight()
@@ -123,7 +125,7 @@ class CheckboxSearchFilter {
     element.setAttribute('aria-hidden', 'true')
 
     this.heading = element
-    this.container.prepend(this.heading)
+    this.container.insertBefore(this.heading, this.container.firstChild)
   }
 
   setupHeight () {
