@@ -92,7 +92,7 @@ module SupportInterface
     end
 
     def enable_course_syncing
-      update_provider('Courses will now be synced') { |provider| SyncProvider.new(provider) }
+      update_provider('Course sync enabled and running') { |provider| SyncProvider.new(provider: provider).call }
     end
 
   private
