@@ -4,5 +4,6 @@ FactoryBot.define do
     details { { feedback: { messages: ['Enter feedback'], value: '' } } }
     association :user, factory: :candidate
     request_path { '/candidate' }
+    service { 'apply' }
   end
 end

@@ -1,4 +1,9 @@
 class ValidationError < ApplicationRecord
+  enum service: {
+    apply: 'apply',
+    manage: 'manage',
+  }
+
   validates :form_object, presence: true
 
   belongs_to :user, polymorphic: true, optional: true
