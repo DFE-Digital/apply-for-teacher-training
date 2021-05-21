@@ -72,7 +72,7 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def when_i_click_on_the_enable_course_syncing_button
-    click_button 'Enable course syncing from Find'
+    click_button 'Enable course syncing from the Teacher Training API'
   end
 
   def then_i_see_that_course_syncing_is_on
