@@ -85,6 +85,7 @@ RSpec.feature 'Entering their contact information' do
     expect(validation_error.details).to have_key('phone_number')
     expect(validation_error.user).to eq(current_candidate)
     expect(validation_error.request_path).to eq(candidate_interface_new_phone_number_path)
+    expect(validation_error.service).to eq('apply')
   end
 
   def when_i_fill_in_my_phone_number
