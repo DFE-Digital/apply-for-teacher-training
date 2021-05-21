@@ -138,7 +138,7 @@ jobs:
         run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose rspec --exclude-pattern ${EXCLUDE_PATTERN} --pattern ${INCLUDE_PATTERN} --format documentation
+        run: bundle exec --verbose rspec --exclude-pattern "${{ env.EXCLUDE_PATTERN }}" --pattern "${{ env.INCLUDE_PATTERN }}" --format documentation
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern }}
