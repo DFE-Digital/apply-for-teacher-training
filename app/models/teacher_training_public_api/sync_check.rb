@@ -2,8 +2,8 @@ module TeacherTrainingPublicAPI
   class SyncCheck
     LAST_SUCCESSFUL_SYNC = 'last-successful-sync-with-teacher-training-api'.freeze
 
-    def self.set_last_sync(date)
-      Redis.current.set(LAST_SUCCESSFUL_SYNC, date)
+    def self.set_last_sync(time)
+      Redis.current.set(LAST_SUCCESSFUL_SYNC, time)
     end
 
     def self.clear_last_sync
