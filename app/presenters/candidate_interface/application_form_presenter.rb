@@ -35,8 +35,16 @@ module CandidateInterface
         [:interview_preferences, interview_preferences_completed?],
 
         # "References" section
-        [:references_provided, enough_references_provided?],
+        references_section_definition,
       ].compact
+    end
+
+    def references_section_definition
+      if FeatureFlag.active?(:reference_selection)
+        [:references_selected, references_completed?]
+      else
+        [:references_provided, references_completed?]
+      end
     end
 
     def incomplete_sections
@@ -321,8 +329,7 @@ module CandidateInterface
       @application_form.application_volunteering_experiences.any?
     end
 
-    # Rename this method to references_completed? when removing reference_selection feature flag
-    def enough_references_provided?
+    def references_completed?
       if FeatureFlag.active?(:reference_selection)
         @application_form.references_completed
       else
@@ -332,9 +339,9 @@ module CandidateInterface
 
     def references_in_progress?
       if FeatureFlag.active?(:reference_selection)
-        false
+        false # Irrelevant to the reference_selection flow
       else
-        !enough_references_provided? && @application_form.application_references.present?
+        !references_completed? && @application_form.application_references.present?
       end
     end
 

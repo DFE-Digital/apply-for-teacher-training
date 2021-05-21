@@ -116,6 +116,18 @@ module CandidateHelper
     ).save!
   end
 
+  def select_references_and_complete_section
+    application_form = ApplicationForm.last
+    first_reference = application_form.application_references.first
+    second_reference = application_form.application_references.second
+
+    choose 'Yes, I have completed this section'
+    click_button t('continue')
+    check first_reference.single_line_identifier
+    check second_reference.single_line_identifier
+    click_button t('continue')
+  end
+
   def given_courses_exist
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
