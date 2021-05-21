@@ -8,8 +8,10 @@ class Clock
 
   error_handler { |error| Raven.capture_exception(error) if defined? Raven }
 
+  # More-than-hourly jobs
+  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker.perform_async }
+
   # Hourly jobs
-  every(1.hour, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', at: '**:00') { TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
