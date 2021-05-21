@@ -28,6 +28,9 @@ en:
       audit_comment:
         label: Audit log comment
         hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
+    audit_comment_ticket:
+      label: 'Zendesk ticket URL'
+      hint: 'For example https://becomingateacher.zendesk.com/agent/tickets/12345'
   activemodel:
     errors:
       models:
@@ -158,5 +161,12 @@ en:
             accept_guidance:
               blank: Select that you have read the guidance
             audit_comment:
+              blank: Enter a Zendesk ticket URL
+              invalid: Enter a valid Zendesk ticket URL
+        support_interface/application_forms/revert_rejection_form:
+          attributes:
+            accept_guidance:
+              blank: Select that you have read the guidance
+            audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
