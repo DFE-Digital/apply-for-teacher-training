@@ -107,6 +107,12 @@ RSpec.configure do |config|
 
   config.before { Redis.new.flushdb }
 
+  # Temporarily disable the reference_selection feature. This flag will be
+  # selectively enabled as the feature is being built out. The line below will
+  # be removed prior to switching the feature on in production. See:
+  # https://trello.com/c/hZVGCcxd
+  config.before { FeatureFlag.deactivate(:reference_selection) }
+
   # If running tests in parallel, use a unique Redis database per test process.
   # This allocates databases from 1 onwards, as it's assumed that 0 is the
   # development database.
