@@ -1,9 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderApplicationsFilter do
-  let(:course1) { create(:course) }
-  let(:course2) { create(:course) }
-  let(:course3) { create(:course) }
+  let(:provider_1_subjects) { create_list(:subject, 2) }
+  let(:provider_2_subjects) { create_list(:subject, 1) }
+  let(:provider_3_subjects) { create_list(:subject, 1) }
+  let(:accredited_provider_subjects) { create_list(:subject, 1) }
+
+  let(:course1) { create(:course, subjects: provider_1_subjects) }
+  let(:course2) { create(:course, subjects: provider_2_subjects) }
+  let(:course3) { create(:course, subjects: provider_3_subjects) }
+  let(:accredited_course) { create(:course, subjects: accredited_provider_subjects, accredited_provider: accredited_provider) }
 
   let(:site1) { create(:site) }
   let(:site2) { create(:site) }
@@ -11,8 +17,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:provider1) { create(:provider, courses: [course1], sites: [site1, site2]) }
   let(:provider2) { create(:provider, courses: [course2]) }
   let(:provider3) { create(:provider, courses: [course3]) }
+  let(:accredited_provider) { create(:provider) }
 
-  let(:provider_user) { create(:provider_user, providers: [provider1, provider2, provider3]) }
+  let(:provider_user) { create(:provider_user, providers: [provider1, provider2, accredited_provider]) }
   let(:another_provider_user) { create(:provider_user, providers: [provider1]) }
 
   describe '#filters' do
@@ -23,10 +30,10 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         state_store: {},
       )
 
-      expected_number_of_filters = 4
+      expected_number_of_filters = 5
       recruitment_cycle_index = 1
       providers_array_index = 3
-      number_of_courses = 3
+      number_of_courses = 2
 
       expect(filter.filters).to be_a(Array)
       expect(filter.filters.size).to eq(expected_number_of_filters)
@@ -41,7 +48,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         state_store: {},
       )
 
-      expected_number_of_filters = 3
+      expected_number_of_filters = 4
 
       headings = filter.filters.map { |f| f[:heading] }
 
@@ -63,11 +70,27 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
       relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
-      expect(relevant_provider_ids).to include(filter.filters[3][:options][0][:value])
-      expect(relevant_provider_ids).to include(filter.filters[3][:options][1][:value])
+      expect(relevant_provider_ids).to include(filter.filters[4][:options][0][:value])
+      expect(relevant_provider_ids).to include(filter.filters[4][:options][1][:value])
 
-      expect(relevant_provider_names).to include(filter.filters[3][:options][0][:label])
-      expect(relevant_provider_names).to include(filter.filters[3][:options][1][:label])
+      expect(relevant_provider_names).to include(filter.filters[4][:options][0][:label])
+      expect(relevant_provider_names).to include(filter.filters[4][:options][1][:label])
+    end
+
+    it 'can return filter config for a list of provider subjects' do
+      filter = described_class.new(
+        params: ActionController::Parameters.new({ subject: provider_1_subjects }),
+        provider_user: provider_user,
+        state_store: {},
+      )
+
+      headings = filter.filters.map { |f| f[:heading] }
+      expect(headings).to include('Subject')
+
+      subjects = provider_1_subjects + provider_2_subjects
+      filter_subjects = filter.filters[4][:options].map { |h| h[:label] }
+
+      expect(filter_subjects).to match_array(subjects.map(&:name))
     end
   end
 

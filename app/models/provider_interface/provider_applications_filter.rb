@@ -18,7 +18,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -41,7 +41,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: []).to_h
     end
 
     def save_filter_state!
@@ -143,22 +143,41 @@ module ProviderInterface
 
       providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: applied_filters[:provider])
 
-      providers.map do |p|
-        next unless p.sites.count > 1
+      providers.map do |provider|
+        next unless provider.sites.count > 1
 
         {
           type: :checkboxes,
-          heading: "Locations for #{p.name}",
+          heading: "Locations for #{provider.name}",
           name: 'provider_location',
-          options: p.sites.map do |s|
+          options: provider.sites.map do |site|
             {
-              value: s.id,
-              label: s.name,
-              checked: applied_filters[:provider_location]&.include?(s.id.to_s),
+              value: site.id,
+              label: site.name,
+              checked: applied_filters[:provider_location]&.include?(site.id.to_s),
             }
           end,
         }
       end
+    end
+
+    def subject_filter
+      provider_ids = applied_filters[:provider] || ProviderOptionsService.new(provider_user).providers.pluck(:id)
+      provider_courses = Course.where(provider_id: provider_ids)
+
+      {
+        type: :checkbox_filter,
+        heading: 'Subject',
+        name: 'subject',
+        options: Subject.joins(:courses).merge(provider_courses).order(:name).distinct
+        .map do |subject|
+          {
+            value: subject.id,
+            label: subject.name,
+            checked: applied_filters[:subject]&.include?(subject.id.to_s),
+          }
+        end,
+      }
     end
   end
 end
