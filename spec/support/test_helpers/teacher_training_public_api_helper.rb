@@ -62,6 +62,10 @@ module TeacherTrainingPublicAPIHelper
     stub_teacher_training_list_api_request(url, response)
   end
 
+  def stub_teacher_training_api_provider_404(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:)
+    stub_404("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}")
+  end
+
   def stub_teacher_training_api_course_404(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:)
     stub_404("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}")
   end
