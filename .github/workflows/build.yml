@@ -100,7 +100,7 @@ jobs:
             exclude-pattern: spec/{system,requests}/**/*_spec.rb
           - tests: integration
             include-pattern: spec/{system,requests}/**/*_spec.rb            
-            exclude-pattern: spec/**/**/*_spec.rb
+            exclude-pattern: ''
     services:
       redis: 
         image: redis:alpine
@@ -138,7 +138,7 @@ jobs:
         run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose rspec --exclude-pattern "${{ env.EXCLUDE_PATTERN }}" --pattern "${{ env.INCLUDE_PATTERN }}" --format documentation
+        run: bundle exec --verbose rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}" --format documentation
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern }}
