@@ -40,5 +40,6 @@ RSpec.feature 'Candidate tries to sign up' do
     expect(validation_error.details).to have_key('accept_ts_and_cs')
     expect(validation_error.user).to be_nil
     expect(validation_error.request_path).to eq(candidate_interface_sign_up_path)
+    expect(validation_error.service).to eq('apply')
   end
 end

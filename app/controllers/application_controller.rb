@@ -11,6 +11,19 @@ class ApplicationController < ActionController::Base
     render template: 'errors/internal_server_error', status: :internal_server_error
   }
 
+  def track_validation_error(form)
+    ValidationError.create!(
+      form_object: form.class.name,
+      request_path: request.path,
+      user: current_user,
+      details: form.errors.messages.map { |field, messages| [field, { messages: messages, value: form.public_send(field) }] }.to_h,
+      service: service_key,
+    )
+  rescue StandardError => e
+    # Never crash validation error tracking
+    Raven.capture_exception(e)
+  end
+
 private
 
   def append_info_to_payload(payload)

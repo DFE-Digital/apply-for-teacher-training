@@ -23,18 +23,6 @@ module CandidateInterface
       end
     end
 
-    def track_validation_error(form)
-      ValidationError.create!(
-        form_object: form.class.name,
-        request_path: request.path,
-        user: current_candidate,
-        details: form.errors.messages.map { |field, messages| [field, { messages: messages, value: form.public_send(field) }] }.to_h,
-      )
-    rescue StandardError => e
-      # Never crash validation error tracking
-      Raven.capture_exception(e)
-    end
-
   private
 
     def redirect_to_dashboard_if_submitted
