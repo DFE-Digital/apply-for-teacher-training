@@ -21,10 +21,6 @@ class FlashMessageComponent < ViewComponent::Base
     %i[warning success].include?(message_key) ? 'alert' : 'region'
   end
 
-  def disable_auto_focus
-    message_key == 'info'
-  end
-
   def heading
     messages.is_a?(Array) ? messages[0] : messages
   end
