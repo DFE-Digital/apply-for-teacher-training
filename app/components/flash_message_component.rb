@@ -2,11 +2,11 @@ class FlashMessageComponent < ViewComponent::Base
   ALLOWED_PRIMARY_KEYS = %i[info warning success].freeze
 
   def initialize(flash:)
-    @flash = flash
+    @flash = flash.to_hash.symbolize_keys!
   end
 
   def message_key
-    flash.keys.detect { |key| ALLOWED_PRIMARY_KEYS.include?(key.to_sym) }
+    flash.keys.detect { |key| ALLOWED_PRIMARY_KEYS.include?(key) }
   end
 
   def title
