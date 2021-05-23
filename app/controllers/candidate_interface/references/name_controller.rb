@@ -1,6 +1,7 @@
 module CandidateInterface
   module References
     class NameController < BaseController
+      before_action :verify_name_is_editable, only: %i[new create]
       before_action :redirect_to_review_page_unless_reference_is_editable, :set_edit_backlink, only: %i[edit update]
 
       def new
@@ -41,6 +42,13 @@ module CandidateInterface
 
       def referee_name_param
         strip_whitespace params.require(:candidate_interface_reference_referee_name_form).permit(:name)
+      end
+
+      def verify_name_is_editable
+        policy = ReferenceActionsPolicy.new(@reference)
+        return if @reference.blank? || (@reference.present? && policy.editable?)
+
+        redirect_to candidate_interface_references_review_path
       end
     end
   end
