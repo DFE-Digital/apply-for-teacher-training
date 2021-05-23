@@ -7,7 +7,7 @@ module CandidateInterface
     validates :referee_type, presence: true
 
     def self.build_from_reference(reference)
-      new(referee_type: reference.referee_type)
+      new(referee_type: reference.present? ? reference.referee_type : nil)
     end
 
     def update(reference)

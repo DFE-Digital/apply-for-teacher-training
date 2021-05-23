@@ -15,10 +15,12 @@ RSpec.feature 'Candidate adding incomplete referees' do
 
     when_i_click_to_add_the_email_address
     and_i_provide_a_valid_email_address
-    then_i_am_redirected_to_the_relationship_page
+    then_i_am_redirected_to_the_review_page
 
-    when_i_provide_a_valid_relationship_to_referee
-    then_i_see_that_referee_is_now_complete
+    when_i_click_to_add_the_relationship
+    and_i_provide_a_valid_relationship_to_referee
+    then_i_am_redirected_to_the_review_page
+    and_i_see_that_referee_is_now_complete
   end
 
   def given_i_am_signed_in
@@ -69,16 +71,20 @@ RSpec.feature 'Candidate adding incomplete referees' do
     click_button t('save_and_continue')
   end
 
-  def then_i_am_redirected_to_the_relationship_page
-    expect(page).to have_current_path(candidate_interface_references_edit_relationship_path(@candidate.current_application.application_references.last.id))
+  def then_i_am_redirected_to_the_review_page
+    expect(page).to have_current_path candidate_interface_references_review_path
   end
 
-  def when_i_provide_a_valid_relationship_to_referee
+  def when_i_click_to_add_the_relationship
+    click_link 'Enter relationship to referee'
+  end
+
+  def and_i_provide_a_valid_relationship_to_referee
     fill_in 'How do you know this referee and how long have you known them?', with: 'Gave me a yellow card'
     click_button t('save_and_continue')
   end
 
-  def then_i_see_that_referee_is_now_complete
+  def and_i_see_that_referee_is_now_complete
     within_summary_row('Name') { expect(page.text).to have_content('Mike Dean') }
     within_summary_row('Email address') { expect(page.text).to have_content('mike.dean@thefa.co.uk') }
     within_summary_row('Reference type') { expect(page.text).to have_content('Academic') }

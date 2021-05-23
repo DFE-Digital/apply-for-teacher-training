@@ -21,7 +21,11 @@ module CandidateInterface
 
       def redirect_to_review_page_unless_reference_is_editable
         policy = ReferenceActionsPolicy.new(@reference)
-        redirect_to candidate_interface_references_review_path unless @reference.present? && policy.editable?
+        redirect_to candidate_interface_references_review_path if @reference.blank? || !policy.editable?
+      end
+
+      def set_edit_backlink
+        @edit_backlink = return_to_path || candidate_interface_references_review_unsubmitted_path(@reference.id)
       end
     end
   end

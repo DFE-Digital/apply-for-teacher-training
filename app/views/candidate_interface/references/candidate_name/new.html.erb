@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.references_candidate_name'), @reference_candidate_name_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, candidate_interface_references_review_unsubmitted_path(@reference.id) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
