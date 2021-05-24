@@ -16,7 +16,7 @@ module SupportInterface
       def summary
         sort_param = params.permit(:sortby)[:sortby]
 
-        @validation_error_summary = ::ValidationErrorSummaryQuery.new(sort_param).call
+        @validation_error_summary = ::ValidationErrorSummaryQuery.new(:apply, sort_param).call
       end
     end
   end

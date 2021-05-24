@@ -15,7 +15,7 @@ module SupportInterface
     end
 
     def validation_error_summary
-      validation_error_summary = ::ValidationErrorSummaryQuery.new('all_time').call
+      validation_error_summary = ::ValidationErrorSummaryQuery.new(:apply, 'all_time').call
 
       render SupportInterface::ValidationErrorsSummaryComponent.new(
         validation_error_summary: validation_error_summary,
