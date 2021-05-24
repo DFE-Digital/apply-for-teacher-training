@@ -199,7 +199,7 @@
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.interview_preferences'),
             completed: @application_form_presenter.interview_preferences_completed?,
-            path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_edit_interview_preferences_path,
+            path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_new_interview_preferences_path,
           )) %>
         </li>
       </ol>
