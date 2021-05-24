@@ -471,13 +471,15 @@ RSpec.describe ApplicationForm do
         :completed_application_form,
         address_line1: 'Flat 4 Prospect House',
         address_line2: 'Technique Street',
-        address_line3: 'West Glamorgan',
+        address_line3: 'Crynant',
+        address_line4: 'West Glamorgan',
         postcode: 'NW1 8TQ',
       )
 
       expect(application_form.full_address).to eq [
         'Flat 4 Prospect House',
         'Technique Street',
+        'Crynant',
         'West Glamorgan',
         'NW1 8TQ',
       ]
@@ -488,8 +490,8 @@ RSpec.describe ApplicationForm do
         :completed_application_form,
         :international_address,
         address_line1: 'Beverley Hills',
-        address_line2: nil,
-        address_line3: '90210',
+        address_line3: nil,
+        address_line4: '90210',
         postcode: nil,
         country: 'US',
       )

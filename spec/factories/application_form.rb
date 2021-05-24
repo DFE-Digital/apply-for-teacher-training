@@ -120,9 +120,8 @@ FactoryBot.define do
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
-      address_line2 { Faker::Address.city }
-      address_line3 { Faker::Address.county }
-      address_line4 { '' }
+      address_line3 { Faker::Address.city }
+      address_line4 { Faker::Address.county }
       postcode { Faker::Address.postcode }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
