@@ -236,4 +236,31 @@ RSpec.describe ApplicationChoice, type: :model do
       end
     end
   end
+
+  describe '#unconditional_offer?' do
+    context 'recruited with conditions' do
+      it 'returns false' do
+        application_choice = build_stubbed(:application_choice, :with_recruited)
+        expect(application_choice.unconditional_offer?).to eq false
+      end
+    end
+
+    context 'recruited unconditionally' do
+      it 'returns true' do
+        application_choice = build_stubbed(:application_choice, :with_recruited, offer: { 'conditions' => [] })
+        expect(application_choice.unconditional_offer?).to eq true
+      end
+    end
+
+    context 'all other statuses' do
+      it 'returns false' do
+        statuses = ApplicationChoice.statuses.values.reject { |value| value == 'recruited' }
+
+        statuses.each do |status|
+          application_choice = build_stubbed(:application_choice, status: status)
+          expect(application_choice.unconditional_offer?).to eq false
+        end
+      end
+    end
+  end
 end
