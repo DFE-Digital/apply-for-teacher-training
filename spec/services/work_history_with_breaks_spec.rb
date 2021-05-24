@@ -42,8 +42,8 @@ RSpec.describe WorkHistoryWithBreaks do
       describe '#initialize' do
         let(:volunteering_experiences) { build_stubbed_list(:application_volunteering_experience, 2) }
 
-        it 'configures unpaid work' do
-          expect(work_history_with_breaks.unpaid_work).to eq(application_form.application_volunteering_experiences)
+        it 'returns volunteering experiences for #unpaid_work and sorts them by start_date' do
+          expect(work_history_with_breaks.unpaid_work).to eq(application_form.application_volunteering_experiences.sort_by(&:start_date))
         end
       end
 
