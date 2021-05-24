@@ -127,7 +127,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_select_a_course
-    choose "#{@course_option.course.name} (#{@course_code}) - #{@course_option.site.name}"
+    choose "#{@course_option.provider.name} (#{@course_option.provider.code}) – #{@course_option.course.name} (#{@course_code})"
   end
 
   def and_i_click_add_course_to_application
