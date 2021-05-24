@@ -139,9 +139,11 @@ module ProviderInterface
     end
 
     def provider_locations_filters
-      return [] if applied_filters[:provider].nil?
+      user_provider_ids = ProviderOptionsService.new(provider_user).providers.pluck(:id)
+      return [] if applied_filters[:provider].nil? && user_provider_ids.length > 1
 
-      providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: applied_filters[:provider])
+      selected_provider_ids = applied_filters[:provider].presence || user_provider_ids
+      providers = ProviderOptionsService.new(provider_user).providers_with_sites(provider_ids: selected_provider_ids)
 
       providers.map do |provider|
         next unless provider.sites.count > 1
