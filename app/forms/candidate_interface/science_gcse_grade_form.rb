@@ -203,7 +203,11 @@ module CandidateInterface
     end
 
     def sanitize(grade)
-      grade&.delete(' ')&.upcase
+      if DOUBLE_GCSE_GRADES.exclude?(grade)
+        grade&.gsub(/[^*\w]/, '')&.upcase
+      else
+        grade
+      end
     end
 
     def new_record?

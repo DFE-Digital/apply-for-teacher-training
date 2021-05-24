@@ -75,7 +75,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         let(:form) { CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification) }
 
         it 'returns no errors if grade is valid' do
-          mistyped_grades = ['A a', 'A    a', 'b b']
+          mistyped_grades = ['A a', 'A    a', 'b b', 'A-a', 'B/b', 'C,c']
           valid_grades = DOUBLE_GCSE_GRADES + mistyped_grades
 
           valid_grades.each do |grade|
@@ -266,7 +266,25 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         expect(qualification.grade).to eq('D')
       end
 
-      it 'stores a sanitized grade when it is a single or double award' do
+      it 'stores a sanitized grade when it is a single' do
+        application_form = build(:application_form)
+        qualification = ApplicationQualification.create(
+          level: 'gcse',
+          application_form: application_form,
+        )
+
+        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+
+        details_form.subject = ApplicationQualification::SCIENCE_SINGLE_AWARD
+        details_form.grade = 'a*'
+
+        details_form.save
+        qualification.reload
+
+        expect(qualification.grade).to eq('A*')
+      end
+
+      it 'stores a sanitized grade when it is double award' do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
@@ -276,7 +294,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
         details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
-        details_form.grade = 'a* a*'
+        details_form.grade = 'a* -/, a*'
 
         details_form.save
         qualification.reload
