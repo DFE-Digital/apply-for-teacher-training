@@ -48,9 +48,7 @@ RSpec.describe AcceptOffer do
     end
   end
 
-  describe 'emails' do
-    around { |example| perform_enqueued_jobs(&example) }
-
+  describe 'emails', sidekiq: true do
     context 'when the configurable provider notifications feature flag is off' do
       before { FeatureFlag.deactivate(:configurable_provider_notifications) }
 
@@ -65,9 +63,11 @@ RSpec.describe AcceptOffer do
         application_choice = create(:application_choice, :with_offer, course_option: course_option)
 
         expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
-        expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
-        expect(ActionMailer::Base.deliveries.first.to).to eq [training_provider_user.email_address]
-        expect(ActionMailer::Base.deliveries.second.to).to eq [ratifying_provider_user.email_address]
+
+        emails_to_providers = ActionMailer::Base.deliveries.take(2) # email 3 goes to candidate
+
+        expect(emails_to_providers.map(&:subject)).to all(match(/has accepted your offer/))
+        expect(emails_to_providers.flat_map(&:to)).to match_array([training_provider_user.email_address, ratifying_provider_user.email_address])
       end
     end
 
@@ -85,9 +85,11 @@ RSpec.describe AcceptOffer do
         application_choice = create(:application_choice, :with_offer, course_option: course_option)
 
         expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
-        expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
-        expect(ActionMailer::Base.deliveries.first.to).to eq [training_provider_user.email_address]
-        expect(ActionMailer::Base.deliveries.second.to).to eq [ratifying_provider_user.email_address]
+
+        emails_to_providers = ActionMailer::Base.deliveries.take(2) # email 3 goes to candidate
+
+        expect(emails_to_providers.map(&:subject)).to all(match(/has accepted your offer/))
+        expect(emails_to_providers.flat_map(&:to)).to match_array([training_provider_user.email_address, ratifying_provider_user.email_address])
       end
     end
 
