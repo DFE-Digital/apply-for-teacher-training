@@ -212,8 +212,10 @@ Rails.application.routes.draw do
         get '/edit' => 'gcse/type#edit', as: :gcse_details_edit_type
         patch '/edit' => 'gcse/type#update'
 
-        get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
-        patch '/country' => 'gcse/institution_country#update'
+        get '/country' => 'gcse/institution_country#new', as: :gcse_details_new_institution_country
+        patch '/country' => 'gcse/institution_country#create'
+        get '/country/edit' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
+        patch '/country/edit' => 'gcse/institution_country#update'
 
         get '/enic' => 'gcse/enic#edit', as: :gcse_details_edit_enic
         patch '/enic' => 'gcse/enic#update'

@@ -60,6 +60,10 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
   def given_i_am_not_signed_in; end
 
+  def when_i_visit_the_candidate_application_page
+    visit '/candidate/application'
+  end
+
   def and_i_click_on_the_maths_gcse_link
     click_on 'Maths GCSE or equivalent'
   end
@@ -86,12 +90,8 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
   def when_i_do_not_select_any_gcse_option; end
 
-  def when_i_visit_the_candidate_application_page
-    visit '/candidate/application'
-  end
-
   def then_i_see_the_add_institution_country_page
-    expect(page).to have_current_path candidate_interface_gcse_details_edit_institution_country_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_institution_country_path('maths')
   end
 
   def when_i_do_not_select_a_country; end
