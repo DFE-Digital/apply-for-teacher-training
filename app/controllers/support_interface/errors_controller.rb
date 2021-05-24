@@ -4,7 +4,7 @@ module SupportInterface
     skip_before_action :authenticate_support_user!
 
     def not_found
-      render 'errors/not_found', status: :not_found
+      render 'errors/not_found', status: :not_found, formats: :html
     end
   end
 end

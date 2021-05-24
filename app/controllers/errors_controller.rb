@@ -2,7 +2,7 @@ class ErrorsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def not_found
-    render 'not_found', status: :not_found, formats: %i[html]
+    render 'not_found', status: :not_found, formats: :html
   end
 
   def unprocessable_entity
