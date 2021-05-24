@@ -25,7 +25,7 @@
       <% end %>
     <% else %>
       <p class="govuk-body">No courses for <%= @application_choice.provider.name_and_code %> found.</p>
-      <%= govuk_link_to('Search again', support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
+      <%= govuk_link_to('Search again', support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code), button: true) %>
     <% end %>
   </div>
 </div>
