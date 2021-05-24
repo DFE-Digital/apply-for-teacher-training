@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.references_email_address'), @reference_email_address_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_references_edit_name_path(@reference.id, return_to: :email_address)) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_references_name_path(@reference.referee_type.dasherize, @reference.id)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

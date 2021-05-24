@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
   describe '.build_from_reference' do
-    it 'creates an object based on the reference' do
+    it 'creates an object based on the reference and dasherises school_based' do
       application_reference = build_stubbed(:reference, referee_type: :school_based)
       form = described_class.build_from_reference(application_reference)
 
-      expect(form.referee_type).to eq('school_based')
+      expect(form.referee_type).to eq('school-based')
     end
   end
 

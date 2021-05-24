@@ -177,7 +177,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def when_i_manually_try_and_edit_my_references_type
-    visit candidate_interface_references_edit_type_path(@reference.id)
+    visit candidate_interface_references_edit_type_path(@reference.referee_type, @reference.id)
   end
 
   def then_i_am_redirected_to_the_review_page

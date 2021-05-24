@@ -102,9 +102,10 @@ module CandidateInterface
         {
           key: 'Email address',
           value: govuk_link_to(
-            'Enter email address', candidate_interface_references_edit_email_address_path(
-                                     reference.id,
-                                   )
+            'Enter email address',
+            candidate_interface_references_edit_email_address_path(
+              reference.id, return_to: :review
+            ),
           ),
           action: "email address for #{reference.name}",
         }
@@ -140,7 +141,7 @@ module CandidateInterface
         value: formatted_reference_type(reference),
         action: "reference type for #{reference.name}",
         change_path: candidate_interface_references_edit_type_path(
-          reference.id, return_to: :review
+          reference.referee_type, reference.id, return_to: :review
         ),
       }
     end

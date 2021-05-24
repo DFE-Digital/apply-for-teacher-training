@@ -1,5 +1,9 @@
 <% content_for :title, t('page_titles.references_start') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back') %>
+<% if @application_form.application_references.present? %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_references_review_path) %>
+<% else %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

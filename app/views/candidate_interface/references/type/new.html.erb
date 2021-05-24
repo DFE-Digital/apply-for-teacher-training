@@ -1,11 +1,11 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.references_type'), @reference_type_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_references_start_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @reference_type_form,
-      url: candidate_interface_references_type_path,
+      url: candidate_interface_references_type_path(params[:referee_type], params[:id]),
       method: :post,
     ) do |f| %>
       <%= render 'shared_form', f: f %>

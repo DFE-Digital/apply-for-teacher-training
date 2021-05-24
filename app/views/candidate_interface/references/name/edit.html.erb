@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.references_name'), @reference_name_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, govuk_back_link_to(@edit_backlink) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

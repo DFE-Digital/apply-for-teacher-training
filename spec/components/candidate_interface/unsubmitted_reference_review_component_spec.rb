@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::UnsubmittedReferenceReviewComponent do
     expect(result.css('.govuk-summary-list__key')[2].text).to include('Reference type')
     expect(result.css('.govuk-summary-list__value')[2].to_html).to include(reference.referee_type.capitalize.dasherize)
     expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(
-      Rails.application.routes.url_helpers.candidate_interface_references_edit_type_path(reference.id),
+      Rails.application.routes.url_helpers.candidate_interface_references_edit_type_path(reference.referee_type, reference.id),
     )
     expect(result.css('.govuk-summary-list__actions')[2].text).to include("Change reference type for #{reference.name}")
   end

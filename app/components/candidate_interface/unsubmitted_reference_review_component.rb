@@ -40,7 +40,7 @@ module CandidateInterface
         key: 'Reference type',
         value: reference.referee_type ? reference.referee_type.capitalize.dasherize : '',
         action: "reference type for #{reference.name}",
-        change_path: candidate_interface_references_edit_type_path(reference.id),
+        change_path: candidate_interface_references_edit_type_path(reference.referee_type, reference.id),
       }
     end
 
