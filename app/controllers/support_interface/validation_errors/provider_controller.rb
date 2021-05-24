@@ -1,16 +1,16 @@
 module SupportInterface
   module ValidationErrors
-    class CandidateController < SupportInterface::ValidationErrors::UserController
+    class ProviderController < SupportInterface::ValidationErrors::UserController
       before_action :set_user_type
 
       def service_scope
-        :apply
+        :manage
       end
 
     private
 
       def set_user_type
-        @user_type = :candidate
+        @user_type = :provider
       end
     end
   end
