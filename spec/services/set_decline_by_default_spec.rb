@@ -156,7 +156,7 @@ RSpec.describe SetDeclineByDefault do
 
     context 'when the service is run multiple times' do
       let(:last_decision_at) { 2.business_days.before(now).end_of_day }
-      let(:old_dbd_date) { 8.business_days.after(now).end_of_day }
+      let(:old_dbd_date) { 10.business_days.after(last_decision_at) }
 
       before do
         choices[0].update(status: :rejected, rejected_at: 2.business_days.before(last_decision_at))
