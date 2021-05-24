@@ -65,28 +65,33 @@ install-fetch-config: ## Install the fetch-config script, for viewing/editing se
 
 qa:
 	$(eval APP_ENV=qa)
-	$(eval SPACE_SUFFIX=qa)
+	$(eval SPACE=bat-qa)
+	$(eval APP_NAME_SUFFIX=qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 
 staging:
 	$(eval APP_ENV=staging)
-	$(eval SPACE_SUFFIX=staging)
+	$(eval SPACE=bat-staging)
+	$(eval APP_NAME_SUFFIX=staging)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 
 sandbox:
 	$(eval APP_ENV=sandbox)
-	$(eval SPACE_SUFFIX=prod)
+	$(eval SPACE=bat-prod)
+	$(eval APP_NAME_SUFFIX=sandbox)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 
 prod:
-  $(eval APP_ENV=production)
-  $(eval SPACE_SUFFIX=prod)
-  $(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+	$(eval APP_ENV=production)
+	$(eval APP_NAME_SUFFIX=prod)
+	$(eval SPACE=bat-prod)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 
 rollover:
-  $(eval APP_ENV=rollover)
-  $(eval SPACE_SUFFIX=staging)
-  $(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
+	$(eval APP_ENV=rollover)
+	$(eval APP_NAME_SUFFIX=rollover)
+	$(eval SPACE=bat-staging)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
@@ -101,5 +106,5 @@ edit-app-secrets: install-fetch-config azure-login ## Edit App Secrets, eg: make
 
 .PHONY: shell
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
-	cf target -s bat-${SPACE_SUFFIX}
-	cf ssh apply-clock-${SPACE_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
+	cf target -s ${SPACE}
+	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
