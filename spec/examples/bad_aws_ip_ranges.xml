@@ -1,0 +1,18 @@
+HTTP/1.1 403 Forbidden
+Content-Type: application/xml
+Transfer-Encoding: chunked
+Connection: keep-alive
+Date: Thu, 30 Aug 2018 15:20:48 GMT
+Server: AmazonS3
+Age: 156
+X-Cache: Error from cloudfront
+Via: 1.1 dd12e7e803f596deb3908675a4e017be.cloudfront.net (CloudFront)
+X-Amz-Cf-Id: vFrd7pLiJmoGL4dUDJsvu41YR13_X_yQHymK5MlBHd3jdHQPlj153Q==
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Error>
+  <Code>AccessDenied</Code>
+  <Message>Access Denied</Message>
+  <RequestId>41561330E5F1240B</RequestId>
+  <HostId>yQ4BdRISh5XUnE9nPKxrv7n5GF7W6nx8Ey6sgvtPjIkmb2MH/VCgHARQA1Mykmw/xir4xu6jrV8=</HostId>
+</Error>%

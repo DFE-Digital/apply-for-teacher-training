@@ -78,7 +78,7 @@ Rails.application.configure do
 
   # log to STDOUT using standard verbose format + request_id + timestamp
   config.log_tags = [ :request_id ] # prepend these to log lines
-  
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
@@ -141,4 +141,10 @@ Rails.application.configure do
   end
 
   config.middleware.insert_before ActionDispatch::RemoteIp, FixAzureXForwardedForMiddleware
+
+  # Add AWS IP addresses to trusted proxy list
+  config.action_dispatch.trusted_proxies = [
+    ActionDispatch::RemoteIp::TRUSTED_PROXIES,
+    AWSIpRanges.cloudfront_ips.map { |proxy| IPAddr.new(proxy) },
+  ].flatten
 end
