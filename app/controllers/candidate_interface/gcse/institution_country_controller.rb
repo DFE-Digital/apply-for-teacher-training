@@ -8,7 +8,7 @@ module CandidateInterface
       @institution_country = GcseInstitutionCountryForm.new(institution_country_params)
 
       if @institution_country.save(current_qualification)
-        redirect_to candidate_interface_gcse_details_edit_enic_path
+        redirect_to candidate_interface_gcse_details_new_enic_path
       else
         track_validation_error(@institution_country)
         render :new

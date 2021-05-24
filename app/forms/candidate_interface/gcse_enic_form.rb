@@ -20,15 +20,9 @@ module CandidateInterface
       return false unless valid?
 
       qualification.update!(
-        enic_reference: enic_reference,
-        comparable_uk_qualification: comparable_uk_qualification,
+        enic_reference: chose_to_provide_enic_reference? ? enic_reference : nil,
+        comparable_uk_qualification: chose_to_provide_enic_reference? ? comparable_uk_qualification : nil,
       )
-    end
-
-    def set_attributes(params)
-      @have_enic_reference = params['have_enic_reference']
-      @enic_reference = chose_to_provide_enic_reference? ? params['enic_reference'] : nil
-      @comparable_uk_qualification = chose_to_provide_enic_reference? ? params['comparable_uk_qualification'] : nil
     end
 
   private

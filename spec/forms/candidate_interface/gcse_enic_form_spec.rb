@@ -61,6 +61,19 @@ RSpec.describe CandidateInterface::GcseEnicForm do
         expect(qualification.enic_reference).to eq form_data[:enic_reference]
         expect(qualification.comparable_uk_qualification).to eq form_data[:comparable_uk_qualification]
       end
+
+      it 'updates enic_reference and comparable_uk_qualification to nil if they choose no' do
+        qualification = build(:gcse_qualification)
+        enic_form = CandidateInterface::GcseEnicForm.new(
+          have_enic_reference: 'No',
+          enic_reference: '12345',
+          comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
+        )
+
+        expect(enic_form.save(qualification)).to eq(true)
+        expect(qualification.enic_reference).to eq nil
+        expect(qualification.comparable_uk_qualification).to eq nil
+      end
     end
   end
 end

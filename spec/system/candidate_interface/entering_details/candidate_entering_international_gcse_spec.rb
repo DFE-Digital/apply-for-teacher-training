@@ -105,7 +105,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_add_enic_reference_page
-    expect(page).to have_current_path candidate_interface_gcse_details_edit_enic_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_new_enic_path('maths')
   end
 
   def when_i_do_not_input_my_enic_reference_or_choose_an_equivalency; end
