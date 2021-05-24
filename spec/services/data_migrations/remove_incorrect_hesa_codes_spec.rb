@@ -37,7 +37,7 @@ RSpec.describe DataMigrations::RemoveIncorrectHesaCodes do
 
   it 'corrects any applications that have a redundant HESA ethnicity code', with_audited: true do
     valid_application_form = application_with_ethnicity_code(
-      'Asian or Asian British',
+      'Chinese',
       HesaEthnicityValues::CHINESE,
       '34',
     )
