@@ -207,8 +207,10 @@ Rails.application.routes.draw do
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
-        get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
-        post '/' => 'gcse/type#update'
+        get '/' => 'gcse/type#new', as: :gcse_details_new_type
+        post '/' => 'gcse/type#create'
+        get '/edit' => 'gcse/type#edit', as: :gcse_details_edit_type
+        patch '/edit' => 'gcse/type#update'
 
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
         patch '/country' => 'gcse/institution_country#update'
