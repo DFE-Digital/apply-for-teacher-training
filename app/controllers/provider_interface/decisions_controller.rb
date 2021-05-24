@@ -29,6 +29,7 @@ module ProviderInterface
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
         end
       else
+        track_validation_error(@wizard)
         render 'new'
       end
     end
@@ -47,6 +48,7 @@ module ProviderInterface
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
       if !@withdraw_offer.valid?
+        track_validation_error(@withdraw_offer)
         render action: :new_withdraw_offer
       end
     end
@@ -63,6 +65,7 @@ module ProviderInterface
           application_choice_id: @application_choice.id,
         )
       else
+        track_validation_error(@withdraw_offer)
         render action: :new_withdraw_offer
       end
     end
