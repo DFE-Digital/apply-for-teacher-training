@@ -5,7 +5,7 @@ module CandidateInterface
       before_action :redirect_to_review_page_unless_reference_is_editable, :set_edit_backlink, only: %i[edit update]
 
       def new
-        @reference_type_form = Reference::RefereeTypeForm.build_from_reference(@reference)
+        @reference_type_form = Reference::RefereeTypeForm.new(referee_type: params[:referee_type])
       end
 
       def create
