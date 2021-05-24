@@ -23,58 +23,60 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:another_provider_user) { create(:provider_user, providers: [provider1]) }
 
   describe '#filters' do
-    it 'calculates a correct list of possible filters' do
-      filter = described_class.new(
-        params: ActionController::Parameters.new,
-        provider_user: provider_user,
-        state_store: {},
-      )
+    let(:headings) { filter.filters.map { |f| f[:heading] } }
+    let(:params) { ActionController::Parameters.new }
 
-      expected_number_of_filters = 5
-      recruitment_cycle_index = 1
-      providers_array_index = 3
-      number_of_courses = 2
+    context 'default filters' do
+      context 'for a user balonging to multiple providers' do
+        let(:filter) do
+          described_class.new(params: params,
+                              provider_user: provider_user,
+                              state_store: {})
+        end
 
-      headings = filter.filters.map { |f| f[:heading] }
+        it 'does not include the Locations filter' do
+          expected_number_of_filters = 5
+          recruitment_cycle_index = 1
+          providers_array_index = 3
+          number_of_courses = 2
 
-      expect(filter.filters).to be_a(Array)
-      expect(filter.filters.size).to eq(expected_number_of_filters)
-      expect(filter.filters[recruitment_cycle_index][:options].size).to eq(2)
-      expect(filter.filters[providers_array_index][:options].size).to eq(number_of_courses)
-      expect(headings).not_to include('Locations')
-    end
+          expect(filter.filters).to be_a(Array)
+          expect(filter.filters.size).to eq(expected_number_of_filters)
+          expect(filter.filters[recruitment_cycle_index][:options].size).to eq(2)
+          expect(filter.filters[providers_array_index][:options].size).to eq(number_of_courses)
+          expect(headings).not_to include('Locations')
+        end
+      end
 
-    it 'does not include providers if available providers is > 2' do
-      filter = described_class.new(
-        params: ActionController::Parameters.new,
-        provider_user: another_provider_user,
-        state_store: {},
-      )
+      context 'for a user belonging to a single provider' do
+        let(:filter) do
+          described_class.new(params: params,
+                              provider_user: another_provider_user,
+                              state_store: {})
+        end
 
-      expected_number_of_filters = 5
+        it 'does not include the Providers filter' do
+          expected_number_of_filters = 5
 
-      headings = filter.filters.map { |f| f[:heading] }
-
-      expect(filter.filters.size).to eq(expected_number_of_filters)
-      expect(headings).not_to include('Provider')
+          expect(filter.filters.size).to eq(expected_number_of_filters)
+          expect(headings).not_to include('Provider')
+        end
+      end
     end
 
     describe 'location filter' do
       context 'when the user belongs to a single provider ' do
+        let(:filter) do
+          described_class.new(params: params,
+                              provider_user: another_provider_user,
+                              state_store: {})
+        end
+
         it 'displays the location filter by default' do
-          filter = described_class.new(
-            params: ActionController::Parameters.new,
-            provider_user: another_provider_user,
-            state_store: {},
-          )
-
-          headings = filter.filters.map { |f| f[:heading] }
-
-          expect(headings).to include("Locations for #{provider1.name}")
-
           relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
           relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
+          expect(headings).to include("Locations for #{provider1.name}")
           expect(relevant_provider_ids).to include(filter.filters[4][:options][0][:value])
           expect(relevant_provider_ids).to include(filter.filters[4][:options][1][:value])
 
@@ -82,59 +84,60 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
           expect(relevant_provider_names).to include(filter.filters[4][:options][1][:label])
         end
       end
+    end
+
+    context 'when the user belongs to multiple providers and a provider is selected' do
+      let(:params) { ActionController::Parameters.new({ provider: [provider1.id] }) }
+      let(:filter) do
+        described_class.new(params: params,
+                            provider_user: provider_user,
+                            state_store: {})
+      end
 
       it 'can return filter config for a list of provider locations' do
-        filter = described_class.new(
-          params: ActionController::Parameters.new({ provider: [provider1.id] }),
-          provider_user: another_provider_user,
-          state_store: {},
-        )
-
-        headings = filter.filters.map { |f| f[:heading] }
-
-        expect(headings).to include("Locations for #{provider1.name}")
-
         relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
         relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
-        expect(relevant_provider_ids).to include(filter.filters[4][:options][0][:value])
-        expect(relevant_provider_ids).to include(filter.filters[4][:options][1][:value])
+        expect(headings).to include("Locations for #{provider1.name}")
 
-        expect(relevant_provider_names).to include(filter.filters[4][:options][0][:label])
-        expect(relevant_provider_names).to include(filter.filters[4][:options][1][:label])
+        expect(relevant_provider_ids).to include(filter.filters[5][:options][0][:value])
+        expect(relevant_provider_ids).to include(filter.filters[5][:options][1][:value])
+
+        expect(relevant_provider_names).to include(filter.filters[5][:options][0][:label])
+        expect(relevant_provider_names).to include(filter.filters[5][:options][1][:label])
       end
     end
 
-    it 'can return filter config for a list of provider subjects' do
-      filter = described_class.new(
-        params: ActionController::Parameters.new({ subject: provider_1_subjects }),
-        provider_user: provider_user,
-        state_store: {},
-      )
+    context 'when a subject is selected' do
+      let(:params) { ActionController::Parameters.new({ subject: provider_1_subjects }) }
+      let(:filter) do
+        described_class.new(params: params,
+                            provider_user: provider_user,
+                            state_store: {})
+      end
 
-      headings = filter.filters.map { |f| f[:heading] }
-      expect(headings).to include('Subject')
+      it 'can return filter config for a list of provider subjects' do
+        subjects = provider_1_subjects + provider_2_subjects
+        filter_subjects = filter.filters[4][:options].map { |h| h[:label] }
 
-      subjects = provider_1_subjects + provider_2_subjects
-      filter_subjects = filter.filters[4][:options].map { |h| h[:label] }
-
-      expect(filter_subjects).to match_array(subjects.map(&:name))
+        expect(headings).to include('Subject')
+        expect(filter_subjects).to match_array(subjects.map(&:name))
+      end
     end
   end
 
   describe '#applied_filters' do
     let(:params) do
-      ActionController::Parameters.new(
-        {
-          'status' => %w[awaiting_provider_decision pending_conditions recruited declined],
-          'weekdays' => %w[wed thurs mon],
-        },
-      )
+      ActionController::Parameters.new({ status: %w[awaiting_provider_decision pending_conditions recruited declined],
+                                         weekdays: %w[wed thurs mon] })
+    end
+    let(:filter) do
+      described_class.new(params: params,
+                          provider_user: provider_user,
+                          state_store: {})
     end
 
     it 'returns a has of permitted parameters' do
-      filter = described_class.new(params: params, provider_user: provider_user, state_store: {})
-
       expect(filter.applied_filters).to be_a(Hash)
       expect(filter.applied_filters.keys).to include('status')
       expect(filter.applied_filters.keys).not_to include('weekdays')
@@ -142,85 +145,101 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   end
 
   describe '#filtered?' do
-    let(:params) do
-      ActionController::Parameters.new({
-        'status' => %w[awaiting_provider_decision pending_conditions recruited declined],
-      })
+    let(:filter) do
+      described_class.new(params: params,
+                          provider_user: provider_user,
+                          state_store: {})
     end
 
-    let(:empty_params) { ActionController::Parameters.new }
+    context 'when filters' do
+      let(:params) do
+        ActionController::Parameters.new({ status: %w[awaiting_provider_decision pending_conditions recruited declined] })
+      end
 
-    it 'returns true if filters have been applied' do
-      filter = described_class.new(params: params, provider_user: provider_user, state_store: {})
-      expect(filter.filtered?).to eq(true)
+      it 'returns true' do
+        expect(filter.filtered?).to eq(true)
+      end
     end
 
-    it 'returns false if filters have not been applied' do
-      filter = described_class.new(params: empty_params, provider_user: provider_user, state_store: {})
-      expect(filter.filtered?).to eq(false)
+    context 'when no filters' do
+      let(:params) { ActionController::Parameters.new }
+
+      it 'returns false' do
+        filter = described_class.new(params: params, provider_user: provider_user, state_store: {})
+        expect(filter.filtered?).to eq(false)
+      end
     end
-  end
 
-  it 'can load and persist its own state' do
-    state_store = {}
+    it 'can load and persist its own state' do
+      state_store = {}
 
-    state_one = described_class.new(
-      params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
-      provider_user: provider_user,
-      state_store: state_store,
-    )
+      state_one = described_class.new(
+        params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
+        provider_user: provider_user,
+        state_store: state_store,
+      )
 
-    # The state is what we passed in
-    expect(state_one.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
+      # The state is what we passed in
+      expect(state_one.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
 
-    state_two = described_class.new(
-      params: ActionController::Parameters.new, # empty params
-      provider_user: provider_user,
-      state_store: state_store,
-    )
+      state_two = described_class.new(
+        params: ActionController::Parameters.new, # empty params
+        provider_user: provider_user,
+        state_store: state_store,
+      )
 
-    # The state is kept from last time
-    expect(state_two.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
+      # The state is kept from last time
+      expect(state_two.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
 
-    state_three = described_class.new(
-      params: ActionController::Parameters.new({ 'candidate_name' => 'Another Tom' }),
-      provider_user: provider_user,
-      state_store: state_store,
-    )
+      state_three = described_class.new(
+        params: ActionController::Parameters.new({ 'candidate_name' => 'Another Tom' }),
+        provider_user: provider_user,
+        state_store: state_store,
+      )
 
-    # Providing new params replaces the saved state
-    expect(state_three.applied_filters).to eq({ 'candidate_name' => 'Another Tom' })
+      # Providing new params replaces the saved state
+      expect(state_three.applied_filters).to eq({ 'candidate_name' => 'Another Tom' })
+    end
   end
 
   describe '#no_results_message' do
-    it 'returns a message specific to text searches' do
-      filter = described_class.new(
-        params: ActionController::Parameters.new({ 'candidate_name' => 'Tom' }),
-        provider_user: provider_user,
-        state_store: {},
-      )
+    context 'when text search' do
+      let(:params) { ActionController::Parameters.new({ candidate_name: 'Tom' }) }
+      let(:filter) do
+        described_class.new(params: params,
+                            provider_user: provider_user,
+                            state_store: {})
+      end
 
-      expect(filter.no_results_message).to eq("There are no results for 'Tom'.")
+      it 'returns a relevant message' do
+        expect(filter.no_results_message).to eq("There are no results for 'Tom'.")
+      end
     end
 
-    it 'returns a message specific to filtering' do
-      filter = described_class.new(
-        params: ActionController::Parameters.new({ 'status' => %w[rejected] }),
-        provider_user: provider_user,
-        state_store: {},
-      )
+    context 'when status search' do
+      let(:params) { ActionController::Parameters.new({ status: %w[rejected] }) }
+      let(:filter) do
+        described_class.new(params: params,
+                            provider_user: provider_user,
+                            state_store: {})
+      end
 
-      expect(filter.no_results_message).to eq('There are no results for the selected filter.')
+      it 'returns a relevant message' do
+        expect(filter.no_results_message).to eq('There are no results for the selected filter.')
+      end
     end
 
-    it 'returns a message specific to searching combined with filtering' do
-      filter = described_class.new(
-        params: ActionController::Parameters.new({ 'candidate_name' => 'Tom', 'status' => %w[rejected] }),
-        provider_user: provider_user,
-        state_store: {},
-      )
+    context 'when combined filtering' do
+      let(:params) { ActionController::Parameters.new({ candidate_name: 'Tom', status: %w[rejected] }) }
+      let(:filter) do
+        described_class.new(params: params,
+                            provider_user: provider_user,
+                            state_store: {})
+      end
 
-      expect(filter.no_results_message).to eq("There are no results for 'Tom' and the selected filter.")
+      it 'returns a relevant message' do
+        expect(filter.no_results_message).to eq("There are no results for 'Tom' and the selected filter.")
+      end
     end
   end
 end
