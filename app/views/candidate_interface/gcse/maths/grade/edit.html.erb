@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(grade_step_title(@subject, @qualification_type), @gcse_grade_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_review_path) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_review_path(@subject)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

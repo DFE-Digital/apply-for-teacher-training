@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('multiple_gcse_edit_grade.page_title', subject: @subject), @gcse_grade_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_review_path(@subject)) %>
+<% content_for :before_content, govuk_back_link_to(@previous_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @gcse_grade_form, url: candidate_interface_edit_gcse_english_grade_path, method: :patch do |f| %>
+    <%= form_with model: @gcse_grade_form, url: candidate_interface_new_gcse_english_grade_path, method: :patch do |f| %>
       <%= render 'multiple_grade_form', f: f %>
     <% end %>
   </div>

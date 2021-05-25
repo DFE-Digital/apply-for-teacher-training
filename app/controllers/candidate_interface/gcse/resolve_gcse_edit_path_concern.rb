@@ -8,7 +8,7 @@ module CandidateInterface
         when 'science'
           candidate_interface_edit_gcse_science_grade_path
         when 'english'
-          candidate_interface_edit_gcse_english_grade_path
+          candidate_interface_new_gcse_english_grade_path
         end
       end
     end

@@ -1,5 +1,30 @@
 module CandidateInterface
   class Gcse::English::GradeController < Gcse::BaseController
+    def new
+      @gcse_grade_form = english_gcse_grade_form
+      @qualification_type = gcse_english_qualification.qualification_type
+      set_previous_path
+
+      render view_path
+    end
+
+    def create
+      @qualification_type = gcse_english_qualification.qualification_type
+      @gcse_grade_form = english_gcse_grade_form.assign_values(english_details_params)
+
+      if @gcse_grade_form.save
+        if current_qualification.failed_required_gcse?
+          redirect_to candidate_interface_gcse_details_new_grade_explanation_path(@subject)
+        else
+          redirect_to candidate_interface_gcse_details_edit_year_path(@subject)
+        end
+      else
+        set_previous_path
+        track_validation_error(@gcse_grade_form)
+        render view_path
+      end
+    end
+
     def edit
       @gcse_grade_form = english_gcse_grade_form
       @qualification_type = gcse_english_qualification.qualification_type
@@ -12,7 +37,11 @@ module CandidateInterface
       @gcse_grade_form = english_gcse_grade_form.assign_values(english_details_params)
 
       if @gcse_grade_form.save
-        redirect_to next_gcse_path
+        if current_qualification.failed_required_gcse?
+          candidate_interface_gcse_details_edit_grade_explanation_path(@subject)
+        else
+          candidate_interface_gcse_review_path(@subject)
+        end
       else
         track_validation_error(@gcse_grade_form)
         render view_path
@@ -46,19 +75,15 @@ module CandidateInterface
         ])
     end
 
-    def next_gcse_path
-      if current_qualification.failed_required_gcse?
-        candidate_interface_gcse_details_edit_grade_explanation_path(subject: @subject)
-      elsif english_gcse_grade_form.award_year.nil?
-        candidate_interface_gcse_details_edit_year_path(subject: @subject)
-      else
-        candidate_interface_gcse_review_path(subject: @subject)
-      end
-    end
-
     def view_path
       if gcse_qualification? && application_not_submitted_yet?
-        'candidate_interface/gcse/english/grade/multiple_gcse_edit'
+        if gcse_english_qualification.award_year.nil?
+          'candidate_interface/gcse/english/grade/multiple_gcse_new'
+        else
+          'candidate_interface/gcse/english/grade/multiple_gcse_edit'
+        end
+      elsif gcse_english_qualification.award_year.nil?
+        'candidate_interface/gcse/english/grade/new'
       else
         'candidate_interface/gcse/english/grade/edit'
       end
@@ -82,6 +107,14 @@ module CandidateInterface
 
     def set_subject
       @subject = 'english'
+    end
+
+    def set_previous_path
+      @previous_path = if current_qualification.non_uk_qualification_type.present?
+                         candidate_interface_gcse_details_new_enic_path(@subject)
+                       else
+                         candidate_interface_gcse_details_new_type_path(@subject)
+                       end
     end
   end
 end

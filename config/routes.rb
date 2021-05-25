@@ -201,10 +201,12 @@ Rails.application.routes.draw do
         get '/maths/grade/edit' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
         patch '/maths/grade/edit' => 'gcse/maths/grade#update'
 
-        get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
-        patch '/english/grade' => 'gcse/english/grade#update'
+        get '/english/grade' => 'gcse/english/grade#new', as: :new_gcse_english_grade
+        patch '/english/grade' => 'gcse/english/grade#create'
+        get '/english/grade/edit' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
+        patch '/english/grade/edit' => 'gcse/english/grade#update'
 
-        get '/english/grade' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
+        get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
         patch '/science/grade' => 'gcse/science/grade#update'
       end
 
