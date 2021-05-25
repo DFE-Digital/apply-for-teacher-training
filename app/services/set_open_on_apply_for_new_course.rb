@@ -20,7 +20,7 @@ class SetOpenOnApplyForNewCourse
 private
 
   def notify_of_new_course!(provider, accredited_provider, auto_open)
-    notification = [":seedling: #{provider.name}, which has courses open on Apply, added a new course"]
+    notification = [":seedling: #{provider.name}, which has courses open on Apply, added #{@course.name_and_code}"]
 
     if auto_open
       notification << 'We opened it automatically'
