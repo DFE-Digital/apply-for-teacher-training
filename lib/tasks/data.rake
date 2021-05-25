@@ -3,6 +3,7 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::BackfillValidationErrorsServiceColumn',
   'DataMigrations::BackfillSelectedBoolean',
   'DataMigrations::DeleteAllSiteAudits',
+  'DataMigrations::RemoveIncorrectHesaCodes',
   'DataMigrations::SpecifyExportTypeForTADExports',
   'DataMigrations::SpecifyExportTypeForNotificationExports',
   'DataMigrations::FixMisspellingOfCaribbeanEthnicGroupAndSetHesaCodes',
