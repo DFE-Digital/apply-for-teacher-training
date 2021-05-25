@@ -1,0 +1,19 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl"><%= grade_step_title(@subject, @qualification_type) %></h1>
+
+<%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
+<%= f.govuk_radio_buttons_fieldset :gcse_science, legend: { text: 'Select the GCSEs you did and include your grade' } do %>
+  <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_SINGLE_AWARD, label: { text: 'Single award' }, hint: { text: t('gcse_edit_grade.hint.science.one_grade') }, link_errors: true) do %>
+    <%= f.govuk_text_field :single_award_grade, label: { text: 'Grade' }, hint: { text: t('gcse_edit_grade.hint.other.gcse') }, width: 2 %>
+  <% end %>
+  <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_DOUBLE_AWARD, label: { text: 'Double award' }, hint: { text: t('gcse_edit_grade.hint.science.combined_grade') }) do %>
+    <%= f.govuk_text_field :double_award_grade, label: { text: 'Grade' }, hint: { text: t('gcse_edit_grade.hint.science.gcse_double_award') }, width: 4 %>
+  <% end %>
+  <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_TRIPLE_AWARD, label: { text: 'Triple award' }, hint: { text: t('gcse_edit_grade.hint.science.subject_per_grade') }) do %>
+    <%= f.govuk_text_field :biology_grade, label: { text: 'Biology grade' }, hint: { text: t('gcse_edit_grade.hint.other.gcse') }, width: 2 %>
+    <%= f.govuk_text_field :chemistry_grade, label: { text: 'Chemistry grade' }, hint: { text: t('gcse_edit_grade.hint.other.gcse') }, width: 2 %>
+    <%= f.govuk_text_field :physics_grade, label: { text: 'Physics grade' }, hint: { text: t('gcse_edit_grade.hint.other.gcse') }, width: 2 %>
+  <% end %>
+<% end %>
+<%= f.govuk_submit t('save_and_continue') %>

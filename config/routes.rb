@@ -206,8 +206,10 @@ Rails.application.routes.draw do
         get '/english/grade/edit' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
         patch '/english/grade/edit' => 'gcse/english/grade#update'
 
-        get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
-        patch '/science/grade' => 'gcse/science/grade#update'
+        get '/science/grade' => 'gcse/science/grade#new', as: :new_gcse_science_grade
+        patch '/science/grade' => 'gcse/science/grade#create'
+        get '/science/grade/edit' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
+        patch '/science/grade/edit' => 'gcse/science/grade#update'
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
