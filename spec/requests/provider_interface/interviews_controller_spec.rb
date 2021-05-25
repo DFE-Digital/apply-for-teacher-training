@@ -99,4 +99,35 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       end
     end
   end
+
+  describe 'validation errors' do
+    let(:application_choice) do
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form, course_option: course_option)
+    end
+
+    let(:store) { instance_double(WizardStateStores::RedisStore, read: %({ "provider_user" : "#{provider_user.id}" }), write: true) }
+
+    before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
+
+    it 'tracks validation errors on check' do
+      expect {
+        post new_check_provider_interface_application_choice_interviews_path(application_choice),
+             params: { provider_interface_interview_wizard: { location: 'here' } }
+      }.to change(ValidationError, :count).by(1)
+    end
+
+    it 'tracks validation errors on commit' do
+      expect {
+        post confirm_provider_interface_application_choice_interviews_path(application_choice),
+             params: { provider_interface_interview_wizard: { location: 'here' } }
+      }.to change(ValidationError, :count).by(1)
+    end
+
+    it 'tracks validation errors on update' do
+      expect {
+        put update_provider_interface_application_choice_interview_path(application_choice, interview),
+            params: { provider_interface_interview_wizard: { location: 'here' } }
+      }.to change(ValidationError, :count).by(1)
+    end
+  end
 end

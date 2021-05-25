@@ -20,11 +20,11 @@ module ProviderInterface
   private
 
     def date_row
-      build_row(:date, @interview_form.date_and_time.to_s(:govuk_date))
+      build_row(:date, @interview_form.date_and_time&.to_s(:govuk_date))
     end
 
     def time_row
-      build_row(:time, @interview_form.date_and_time.to_s(:govuk_time))
+      build_row(:time, @interview_form.date_and_time&.to_s(:govuk_time))
     end
 
     def organisation_row
