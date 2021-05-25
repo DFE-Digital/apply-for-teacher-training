@@ -276,7 +276,7 @@ module CandidateInterface
       if subject_knowledge_valid?
         Rails.application.routes.url_helpers.candidate_interface_subject_knowledge_show_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_edit_subject_knowledge_path
+        Rails.application.routes.url_helpers.candidate_interface_new_subject_knowledge_path
       end
     end
 
