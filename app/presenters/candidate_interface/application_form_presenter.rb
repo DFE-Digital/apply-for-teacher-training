@@ -154,6 +154,14 @@ module CandidateInterface
       end
     end
 
+    def references_selection_path
+      if @application_form.application_references.includes(:application_form).selected.count >= 2
+        Rails.application.routes.url_helpers.candidate_interface_review_selected_references_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_select_references_path
+      end
+    end
+
     def work_experience_path
       if @application_form.feature_restructured_work_history && FeatureFlag.active?(:restructured_work_history)
         if @application_form.application_work_experiences.any? || @application_form.work_history_explanation.present?
