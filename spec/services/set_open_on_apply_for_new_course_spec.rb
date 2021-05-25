@@ -13,6 +13,50 @@ RSpec.describe SetOpenOnApplyForNewCourse do
     end
   end
 
+  context 'the provider has no courses in the current cycle' do
+    it 'does not open the course' do
+      course_opener.call
+
+      expect(course).not_to be_open_on_apply
+    end
+  end
+
+  context 'the provider has a course in the current cycle but it’s hidden in find' do
+    before do
+      create(:course, provider: course.provider, exposed_in_find: false)
+    end
+
+    it 'does not open the course' do
+      course_opener.call
+
+      expect(course).not_to be_open_on_apply
+    end
+  end
+
+  context 'the provider has a course in the current cycle and it’s exposed in find but not open' do
+    before do
+      create(:course, provider: course.provider, exposed_in_find: true, open_on_apply: false)
+    end
+
+    it 'does not open the course' do
+      course_opener.call
+
+      expect(course).not_to be_open_on_apply
+    end
+  end
+
+  context 'the provider ratifies an open course in the current cycle' do
+    before do
+      create(:course, :open_on_apply, accredited_provider: course.provider)
+    end
+
+    it 'does not open the course' do
+      course_opener.call
+
+      expect(course).not_to be_open_on_apply
+    end
+  end
+
   context 'the course was open in the previous cycle' do
     before do
       create(:course, provider: course.provider, code: course.code, recruitment_cycle_year: RecruitmentCycle.previous_year, open_on_apply: true)
