@@ -32,7 +32,7 @@ module SupportInterface
     end
 
     def users
-      @provider = Provider.includes(provider_users: [:provider_permissions]).find(params[:provider_id])
+      @provider = Provider.includes(provider_users: [provider_permissions: [:provider]]).find(params[:provider_id])
       @relationship_diagram = SupportInterface::ProviderRelationshipsDiagram.new(provider: @provider)
     end
 
