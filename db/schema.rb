@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_132016) do
+ActiveRecord::Schema.define(version: 2021_05_25_095046) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 2021_05_19_132016) do
   create_sequence "ielts_qualifications_id_seq"
   create_sequence "interviews_id_seq"
   create_sequence "notes_id_seq"
+  create_sequence "offer_conditions_id_seq"
+  create_sequence "offers_id_seq"
   create_sequence "other_efl_qualifications_id_seq"
   create_sequence "provider_agreements_id_seq"
   create_sequence "provider_relationship_permissions_id_seq"
@@ -517,6 +519,22 @@ ActiveRecord::Schema.define(version: 2021_05_19_132016) do
     t.index ["provider_user_id"], name: "index_notes_on_provider_user_id"
   end
 
+  create_table "offer_conditions", force: :cascade do |t|
+    t.bigint "offer_id", null: false
+    t.string "text"
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["offer_id"], name: "index_offer_conditions_on_offer_id"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.bigint "application_choice_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_choice_id"], name: "index_offers_on_application_choice_id"
+  end
+
   create_table "other_efl_qualifications", force: :cascade do |t|
     t.string "name", null: false
     t.string "grade", null: false
@@ -775,6 +793,8 @@ ActiveRecord::Schema.define(version: 2021_05_19_132016) do
   add_foreign_key "interviews", "providers", on_delete: :cascade
   add_foreign_key "notes", "application_choices", on_delete: :cascade
   add_foreign_key "notes", "provider_users", on_delete: :cascade
+  add_foreign_key "offer_conditions", "offers"
+  add_foreign_key "offers", "application_choices"
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
