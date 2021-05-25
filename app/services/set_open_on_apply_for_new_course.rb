@@ -8,7 +8,7 @@ class SetOpenOnApplyForNewCourse
   def call
     @course.open! if HostingEnvironment.sandbox_mode? || @course.in_previous_cycle&.open_on_apply?
 
-    if @course.provider.any_open_courses_in_current_cycle?
+    if @course.provider.any_courses_open_in_current_cycle?(exclude_ratified_courses: true)
       auto_open = @course.provider.all_courses_open_in_current_cycle?(exclude_ratified_courses: true)
 
       @course.open! if auto_open
@@ -20,7 +20,7 @@ class SetOpenOnApplyForNewCourse
 private
 
   def notify_of_new_course!(provider, accredited_provider, auto_open)
-    notification = [":seedling: #{provider.name}, which has courses open on Apply, added a new course"]
+    notification = [":seedling: #{provider.name}, which has courses open on Apply, added #{@course.name_and_code}"]
 
     if auto_open
       notification << 'We opened it automatically'
