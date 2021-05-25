@@ -15,13 +15,13 @@ class NotificationsList
       return application_choice.provider.provider_users.joins(:notification_preferences).where("#{notification_name} IS true") if application_choice.accredited_provider.nil? || !include_ratifying_provider
 
       application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users)
-        .joins(:notification_preferences).where("#{notification_name} IS true")
+        .joins(:notification_preferences).where("#{notification_name} IS true").distinct
     else
       return application_choice.provider.provider_users.where(send_notifications: true) if application_choice.accredited_provider.nil? || !include_ratifying_provider
 
       application_choice.provider.provider_users.where(send_notifications: true).or(
         application_choice.accredited_provider.provider_users.where(send_notifications: true),
-      )
+      ).distinct
     end
   end
 end
