@@ -106,17 +106,5 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
       expect(result).to eq([application_choices.last])
     end
-
-    it 'works with GetApplicationChoicesForProvider' do
-      accredited_provider = create(:provider)
-      application_choices.first.course.update(accredited_provider: accredited_provider)
-      query_to_be_combined = GetApplicationChoicesForProviders.call(providers: [accredited_provider])
-      result = described_class.call(
-        application_choices: query_to_be_combined,
-        filters: { accredited_provider: accredited_provider.id },
-      )
-
-      expect(result).to eq([application_choices.first])
-    end
   end
 end

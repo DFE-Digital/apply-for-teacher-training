@@ -30,6 +30,12 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         provider: current_provider,
         accredited_provider: accredited_provider,
       ),
+      site: create(
+        :site,
+        code: 'L123',
+        name: 'Skywalker Training',
+        provider: current_provider,
+      ),
     )
   end
 
@@ -44,7 +50,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         first_name: 'Jim',
         last_name: 'James',
       ),
-      site: create(:site, code: 'L123', name: 'Skywalker Training'),
       updated_at: Date.parse('25-03-2020'),
     )
   end
@@ -81,6 +86,27 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     it 'renders the location of the course' do
       expect(card).to include('Skywalker Training (L123)')
+    end
+
+    it 'renders the new location if application choice has been updated' do
+      new_course_option = course_option_for_provider(
+        provider: current_provider,
+        course: create(
+          :course,
+          name: 'Alchemy',
+          provider: current_provider,
+          accredited_provider: accredited_provider,
+        ),
+        site: create(
+          :site,
+          code: 'L456',
+          name: 'Darth Vader Academy',
+          provider: current_provider,
+        ),
+      )
+      application_choice.update(current_course_option: new_course_option)
+
+      expect(card).to include('Darth Vader Academy (L456)')
     end
 
     context 'when there is no accredited provider' do
