@@ -233,8 +233,10 @@ Rails.application.routes.draw do
         get '/grade-explanation/edit' => 'gcse/grade_explanation#edit', as: :gcse_details_edit_grade_explanation
         patch '/grade-explanation/edit' => 'gcse/grade_explanation#update'
 
-        get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
+        get '/year' => 'gcse/year#edit', as: :gcse_details_new_year
         patch '/year' => 'gcse/year#update'
+        get '/year/edit' => 'gcse/year#edit', as: :gcse_details_edit_year
+        patch '/year/edit' => 'gcse/year#update'
 
         get '/review' => 'gcse/review#show', as: :gcse_review
         patch '/complete' => 'gcse/review#complete', as: :gcse_complete
