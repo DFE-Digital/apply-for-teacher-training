@@ -497,7 +497,7 @@ Rails.application.routes.draw do
         post '/complete' => 'references/review#complete', as: :complete_references
 
         get '/select' => 'references/selection#new', as: :select_references
-        post '/select' => 'references/selection#create'
+        patch '/select' => 'references/selection#create'
       end
 
       scope '/equality-and-diversity' do

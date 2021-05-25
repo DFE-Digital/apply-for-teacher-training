@@ -1,13 +1,12 @@
 <% content_for :title, t('page_titles.references') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl"> <%= t('page_titles.references_select') %> </h1>
 
-    <%= form_with(model: @selection_form, url: candidate_interface_select_references_path, method: :post) do |f| %>
-      <%= f.govuk_check_boxes_fieldset :selected, multiple: true, legend: { text: ''} do %>
+    <%= form_with(model: @selection_form, url: candidate_interface_select_references_path, method: :patch) do |f| %>
+      <%= f.govuk_check_boxes_fieldset :selected, multiple: true, legend: { text: '' } do %>
         <% @selection_form.available_references.each do |reference| %>
           <%= f.govuk_check_box :selected, reference.id, label: { text: reference.single_line_identifier, size: 's' } %>
           <%= render(CandidateInterface::ReferencesReviewComponent.new(references: [reference], show_history: false, heading_level: 3)) %>

@@ -11,6 +11,7 @@ module CandidateInterface
       def create
         @selection_form = CandidateInterface::Reference::SelectionForm.new(selection_params)
         if @selection_form.save!
+          track_validation_error(@section_complete_form)
           redirect_to candidate_interface_references_review_path
         else
           render :new

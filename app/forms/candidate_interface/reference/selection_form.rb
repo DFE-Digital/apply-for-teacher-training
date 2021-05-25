@@ -15,7 +15,7 @@ module CandidateInterface
     def save!
       return false unless valid?
 
-      available_references.update_all(selected: false)
+      available_references.where.not(id: selected).update_all(selected: false)
       available_references.where(id: selected).update_all(selected: true)
       application_form.update!(references_completed: true)
     end
