@@ -2,11 +2,11 @@ class FlashMessageComponent < ViewComponent::Base
   ALLOWED_PRIMARY_KEYS = %i[info warning success].freeze
 
   def initialize(flash:)
-    @flash = flash
+    @flash = flash.to_hash.symbolize_keys!
   end
 
   def message_key
-    flash.keys.detect { |key| ALLOWED_PRIMARY_KEYS.include?(key.to_sym) }
+    flash.keys.detect { |key| ALLOWED_PRIMARY_KEYS.include?(key) }
   end
 
   def title
@@ -19,10 +19,6 @@ class FlashMessageComponent < ViewComponent::Base
 
   def role
     %i[warning success].include?(message_key) ? 'alert' : 'region'
-  end
-
-  def disable_auto_focus
-    message_key == 'info'
   end
 
   def heading

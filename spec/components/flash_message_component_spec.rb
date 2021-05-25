@@ -17,15 +17,39 @@ RSpec.describe FlashMessageComponent do
   end
 
   context 'when a valid flash key is provided' do
-    let(:flash) { { info: 'Your application has been updated' } }
+    let(:flash) { { success: 'Your application has been updated' } }
 
     it 'the component is rendered with the correct content' do
       expect(component.css('.govuk-notification-banner__heading').text).to include('Your application has been updated')
     end
   end
 
+  context 'when an info flash key is provided' do
+    let(:flash) { { info: 'This service will be unavailable tomorrow' } }
+
+    it 'the component is rendered with a region role' do
+      expect(component.css('.govuk-notification-banner').attribute('role').value).to eq('region')
+    end
+  end
+
+  context 'when a success flash key is provided' do
+    let(:flash) { { success: 'Your application has been updated' } }
+
+    it 'the component is rendered with an alert role' do
+      expect(component.css('.govuk-notification-banner').attribute('role').value).to eq('alert')
+    end
+  end
+
+  context 'when a warning flash key is provided' do
+    let(:flash) { { warning: 'There is a problem' } }
+
+    it 'the component is rendered with an alert role' do
+      expect(component.css('.govuk-notification-banner').attribute('role').value).to eq('alert')
+    end
+  end
+
   context 'when a secondary message is provided' do
-    let(:flash) { { success: ['Message', 'Some more details...'] } }
+    let(:flash) { { info: ['Message', 'Some more details...'] } }
 
     it 'the component is rendered with the correct content' do
       expect(component.text).to include('Message')
