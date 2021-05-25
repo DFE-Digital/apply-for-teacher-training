@@ -38,7 +38,11 @@ module ProviderInterface
 
       @wizard = InterviewWizard.new(interview_store, interview_params.merge(current_step: 'check'))
       @wizard.save_state!
-      render :new unless @wizard.valid?
+
+      unless @wizard.valid?
+        track_validation_error(@wizard)
+        render :new
+      end
     end
 
     def commit
@@ -59,6 +63,7 @@ module ProviderInterface
         flash[:success] = t('.success')
         redirect_to provider_interface_application_choice_interviews_path(@application_choice)
       else
+        track_validation_error(@wizard)
         render :check
       end
     end
@@ -82,6 +87,7 @@ module ProviderInterface
         flash[:success] = t('.success')
         redirect_to provider_interface_application_choice_interviews_path(@application_choice)
       else
+        track_validation_error(@wizard)
         render :check
       end
     end
