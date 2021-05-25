@@ -23,20 +23,44 @@ RSpec.describe SubmitReference do
     end
 
     context 'when the second reference is received' do
-      it 'cancels reference requests for all remaining "awaiting_feedback" references' do
-        application_form = create(:application_form)
-        reference1 = create(:reference, :feedback_requested, application_form: application_form)
-        reference2 = create(:reference, :feedback_requested, application_form: application_form)
-        reference3 = create(:reference, :feedback_refused, application_form: application_form)
-        reference4 = create(:reference, :feedback_requested, application_form: application_form)
+      context 'and the reference_selection feature is off' do
+        before { FeatureFlag.deactivate(:reference_selection) }
 
-        SubmitReference.new(reference: reference1).save!
-        SubmitReference.new(reference: reference2).save!
+        it 'cancels reference requests for all remaining "awaiting_feedback" references' do
+          application_form = create(:application_form)
+          reference1 = create(:reference, :feedback_requested, application_form: application_form)
+          reference2 = create(:reference, :feedback_requested, application_form: application_form)
+          reference3 = create(:reference, :feedback_refused, application_form: application_form)
+          reference4 = create(:reference, :feedback_requested, application_form: application_form)
 
-        expect(reference1).to be_feedback_provided
-        expect(reference2).to be_feedback_provided
-        expect(reference3.reload).to be_feedback_refused
-        expect(reference4.reload).to be_cancelled
+          SubmitReference.new(reference: reference1).save!
+          SubmitReference.new(reference: reference2).save!
+
+          expect(reference1).to be_feedback_provided
+          expect(reference2).to be_feedback_provided
+          expect(reference3.reload).to be_feedback_refused
+          expect(reference4.reload).to be_cancelled
+        end
+      end
+
+      context 'and the reference_selection feature is on' do
+        before { FeatureFlag.activate(:reference_selection) }
+
+        it 'does not alter the state of any outstanding references' do
+          application_form = create(:application_form)
+          reference1 = create(:reference, :feedback_requested, application_form: application_form)
+          reference2 = create(:reference, :feedback_requested, application_form: application_form)
+          reference3 = create(:reference, :feedback_refused, application_form: application_form)
+          reference4 = create(:reference, :feedback_requested, application_form: application_form)
+
+          SubmitReference.new(reference: reference1).save!
+          SubmitReference.new(reference: reference2).save!
+
+          expect(reference1).to be_feedback_provided
+          expect(reference2).to be_feedback_provided
+          expect(reference3.reload).to be_feedback_refused
+          expect(reference4.reload).to be_feedback_requested
+        end
       end
     end
   end
