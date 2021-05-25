@@ -57,17 +57,22 @@ RSpec.describe MakeOffer do
       it 'then it executes the service without errors ' do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
+        update_offer_conditions_service = instance_double(UpdateOfferConditions, call: true)
         allow(SetDeclineByDefault)
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
         allow(SendNewOfferEmailToCandidate)
             .to receive(:new).with(application_choice: application_choice)
                     .and_return(send_new_offer_email_to_candidate)
+        allow(UpdateOfferConditions)
+            .to receive(:new).with(application_choice: application_choice)
+                     .and_return(update_offer_conditions_service)
 
         make_offer.save!
 
-        expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
-        expect(SendNewOfferEmailToCandidate).to have_received(:new).with(application_choice: application_choice)
+        expect(set_declined_by_default).to have_received(:call)
+        expect(send_new_offer_email_to_candidate).to have_received(:call)
+        expect(update_offer_conditions_service).to have_received(:call)
       end
     end
 
