@@ -9,6 +9,8 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
   let(:course) { build(:course, :open_on_apply, provider: provider) }
   let(:course_option) { build(:course_option, course: course) }
 
+  before { allow(ProviderUser).to receive(:load_from_session).and_return(provider_user) }
+
   describe 'if application choice is in a recruited state' do
     let!(:application_choice) do
       create(:application_choice, :recruited,
@@ -16,16 +18,6 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
              course_option: course_option)
     end
     let(:referer) { "http://www.example.com/provider/applications/#{application_choice.id}" }
-
-    before do
-      allow(ProviderUser).to receive(:load_from_session)
-        .and_return(
-          ProviderUser.new(
-            id: provider_user.id,
-            providers: provider_user.providers,
-          ),
-        )
-    end
 
     context 'GET edit' do
       it 'redirects back' do
@@ -64,6 +56,26 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
         expect(response.status).to eq(302)
         expect(response.redirect_url).to eq(referer)
       end
+    end
+  end
+
+  describe 'validation errors' do
+    let!(:application_choice) do
+      create(:application_choice, :pending_conditions,
+             application_form: application_form,
+             course_option: course_option)
+    end
+
+    it 'tracks errors on confirm_update' do
+      expect {
+        patch provider_interface_application_choice_confirm_update_conditions_path(application_choice)
+      }.to change(ValidationError, :count).by(1)
+    end
+
+    it 'tracks errors on update' do
+      expect {
+        patch provider_interface_application_choice_update_conditions_path(application_choice)
+      }.to change(ValidationError, :count).by(1)
     end
   end
 end
