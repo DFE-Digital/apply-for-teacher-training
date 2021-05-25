@@ -3,7 +3,8 @@ class ValidationErrorSummaryQuery
   LAST_WEEK = 'last_week'.freeze
   LAST_MONTH = 'last_month'.freeze
 
-  def initialize(sort_param = ALL_TIME)
+  def initialize(service_name, sort_param = ALL_TIME)
+    @service_name = service_name
     @sort_param = sort_param
   end
 
@@ -49,6 +50,7 @@ private
         1 AS incident,
         user_id AS user_id
       FROM validation_errors
+      WHERE service = '#{@service_name}'
     )
     SELECT
       form_object,

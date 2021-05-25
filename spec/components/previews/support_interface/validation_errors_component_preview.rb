@@ -2,8 +2,8 @@ module SupportInterface
   class ValidationErrorsComponentPreview < ViewComponent::Preview
     include SelectOptionsHelper
     def validation_error_list
-      distinct_errors_with_counts = ValidationError.list_of_distinct_errors_with_count
-      grouped_counts = ValidationError.group(:form_object).count
+      distinct_errors_with_counts = ValidationError.apply.list_of_distinct_errors_with_count
+      grouped_counts = ValidationError.apply.group(:form_object).count
 
       render SupportInterface::ValidationErrorsListComponent.new(
         distinct_errors_with_counts: distinct_errors_with_counts,
@@ -15,7 +15,7 @@ module SupportInterface
     end
 
     def validation_error_summary
-      validation_error_summary = ::ValidationErrorSummaryQuery.new('all_time').call
+      validation_error_summary = ::ValidationErrorSummaryQuery.new(:apply, 'all_time').call
 
       render SupportInterface::ValidationErrorsSummaryComponent.new(
         validation_error_summary: validation_error_summary,
