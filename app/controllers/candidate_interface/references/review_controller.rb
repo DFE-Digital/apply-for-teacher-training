@@ -6,36 +6,6 @@ module CandidateInterface
       def show
         set_references
         @too_many_references = current_application.too_many_complete_references?
-
-        if FeatureFlag.active?(:reference_selection)
-          @section_complete_form = SectionCompleteForm.new(completed: current_application.references_completed)
-          render 'show_for_reference_selection' and return
-        end
-      end
-
-      def complete
-        set_references
-        @section_complete_form = SectionCompleteForm.new(completed: section_complete_params[:completed])
-
-        if !@section_complete_form.valid?
-          track_validation_error(@section_complete_form)
-          render 'show_for_reference_selection' and return
-        end
-
-        if !current_application.minimum_references_available_for_selection?
-          flash.now[:warning] = I18n.t('application_form.references.review.need_two')
-          render 'show_for_reference_selection' and return
-        end
-
-        if @section_complete_form.not_completed?
-          @section_complete_form.save(current_application, :references_completed)
-          redirect_to candidate_interface_application_form_path
-        elsif current_application.selected_enough_references?
-          @section_complete_form.save(current_application, :references_completed)
-          redirect_to candidate_interface_application_form_path
-        else
-          redirect_to candidate_interface_select_references_path
-        end
       end
 
       def unsubmitted
@@ -136,11 +106,9 @@ module CandidateInterface
       def set_references
         if FeatureFlag.active?(:reference_selection)
           @references_selected = current_application.application_references.includes(:application_form).selected
-          @references_given = current_application.application_references.includes(:application_form).feedback_provided_but_not_selected
-        else
-          @references_given = current_application.application_references.includes(:application_form).feedback_provided
         end
 
+        @references_given = current_application.application_references.includes(:application_form).feedback_provided
         @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
         @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
       end
