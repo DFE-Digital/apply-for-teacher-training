@@ -1,17 +1,16 @@
-<% content_for :browser_title, title_with_error_prefix('Revert rejection', @application_choice.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Are you sure you want to revert this rejection?', @application_choice.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
 
-<%= form_with(
-    model: @form,
-    url: support_interface_application_form_revert_rejection_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
-    method: :patch,
-  ) do |f| %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @form,
+      url: support_interface_application_form_revert_rejection_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
+      method: :patch,
+    ) do |f| %>
       <%= f.govuk_error_summary %>
-      <h1 class="govuk-heading-l">
-        Are you sure you want to revert this rejection?
-      </h1>
+
+      <h1 class="govuk-heading-l">Are you sure you want to revert this rejection?</h1>
 
       <p class="govuk-body">A rejection can only be reverted if:</p>
       <ul class="govuk-list govuk-list--bullet">
@@ -20,11 +19,7 @@
       </ul>
       <p class="govuk-body">In order to revert the rejection you must first contact the provider to confirm that they agree to this.</p>
       <p class="govuk-body">Once the rejection has been reverted, please email the candidate to let them know.</p>
-    </div>
-  </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_text_field(
         :audit_comment_ticket,
         label: {
@@ -34,12 +29,12 @@
         rows: 1,
         hint: { text: t('support_interface.audit_comment_ticket.hint') },
       ) %>
-    </div>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit %>
+    <% end %>
   </div>
-
-  <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
-    <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
-  <% end %>
-
-  <%= f.govuk_submit t('continue') %>
-<% end %>
+</div>

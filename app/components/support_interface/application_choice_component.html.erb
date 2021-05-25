@@ -1,6 +1,6 @@
 <%= render SummaryCardComponent.new(rows: rows) do %>
   <%= render SummaryCardHeaderComponent.new(title: title, heading_level: 3, anchor: anchor) do %>
-    <% if FeatureFlag.active?(:support_user_change_offered_course) && application_choice.pending_conditions? %>
+    <% if FeatureFlag.active?(:support_user_change_offered_course) && (application_choice.pending_conditions? || application_choice.unconditional_offer?) %>
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
           <div class="app-summary-card__actions">

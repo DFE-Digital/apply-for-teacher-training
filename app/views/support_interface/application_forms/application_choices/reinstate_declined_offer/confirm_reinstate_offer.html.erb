@@ -1,17 +1,16 @@
-<% content_for :browser_title, title_with_error_prefix('Reinstate offer', @declined_course_choice.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Are you sure you want to reinstate this offer?', @declined_course_choice.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(application_form_id: params[:application_form_id]), 'Back to application') %>
 
-<%= form_with(
-  model: @declined_course_choice,
-  url: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
-  method: :patch
-  )do |f| %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @declined_course_choice,
+      url: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: params[:application_form_id], application_choice_id: params[:application_choice_id]),
+      method: :patch,
+    ) do |f| %>
       <%= f.govuk_error_summary %>
-      <h1 class="govuk-heading-l">
-        Are you sure you want to reinstate this offer?
-      </h1>
+
+      <h1 class="govuk-heading-l">Are you sure you want to reinstate this offer?</h1>
 
       <p class="govuk-body">An offer can only be reinstated if:</p>
       <ul class="govuk-list govuk-list--bullet">
@@ -22,11 +21,7 @@
       <p class="govuk-body">By reinstating the offer, the DBD deadline for this offer (and any other offers) will be reset to 10 working days.</p>
       <p class="govuk-body">Once the offer has been reinstated, please email the candidate using the macro.</p>
       <p class="govuk-body">There are separate macros if the request was made after 5 working days or if the candidate has already accepted another offer.</p>
-    </div>
-  </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_text_field(
         :audit_comment_ticket,
         label: {
@@ -36,12 +31,12 @@
         rows: 1,
         hint: { text: t('support_interface.audit_comment_ticket.hint') },
       ) %>
-    </div>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit %>
+    <% end %>
   </div>
-
-  <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
-    <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
-  <% end %>
-
-  <%= f.govuk_submit t('continue') %>
-<% end %>
+</div>

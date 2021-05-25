@@ -163,6 +163,12 @@ class ApplicationChoice < ApplicationRecord
     )
   end
 
+  def unconditional_offer?
+    return false unless recruited?
+
+    offer&.fetch('conditions', []).blank?
+  end
+
 private
 
   def set_initial_status

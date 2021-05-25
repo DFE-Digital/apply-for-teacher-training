@@ -1,37 +1,28 @@
-<% content_for :browser_title, title_with_error_prefix('Confirm offered course', @update_offered_course_option_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Are you sure you want to offer this course?', @update_offered_course_option_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @update_offered_course_option_form.course_option.course.code)) %>
 
-<%= form_with(
-  model: @update_offered_course_option_form,
-  url: support_interface_application_form_application_choice_confirm_offered_course_option_path,
-  method: :patch
-  )do |f| %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @update_offered_course_option_form,
+      url: support_interface_application_form_application_choice_confirm_offered_course_option_path,
+      method: :patch,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
 
-  <%= f.govuk_error_summary %>
-  <%= f.hidden_field :course_option_id, value: @update_offered_course_option_form.course_option.id %>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">
-        Are you sure you want to offer this course?
-      </h1>
+      <h1 class="govuk-heading-l">Are you sure you want to offer this course?</h1>
 
       <p class="govuk-body">An offer can only be changed if:</p>
-
       <ul class="govuk-list govuk-list--bullet">
-        <li>The candidate has already accepted an offer and the application is in either the pending conditions or recruited states (for unconditional offers)</li>
-        <li>The candidate has another course offer</li>
-        <li>The request to change the course accepted to another offered is made before the end of the cycle</li>
+        <li>the application is in the ‘pending conditions’ state (or ‘recruited’ for an unconditional offer)</li>
+        <li>the request is made before the end of the cycle</li>
       </ul>
-
       <p class="govuk-body">In order to change the accepted course offer you must first contact the provider and candidate to confirm that they agree to this change.</p>
       <p class="govuk-body">By changing the course offer accepted, all of the candidate’s other course choices will be automatically withdrawn.</p>
       <p class="govuk-body">Once the course offer has been changed, please email the candidate using the macro.</p>
-    </div>
-  </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+      <%= f.hidden_field :course_option_id, value: @update_offered_course_option_form.course_option.id %>
+
       <%= f.govuk_text_field(
         :audit_comment,
         label: {
@@ -43,12 +34,12 @@
           text: t('support_interface.audit_comment_ticket.hint'),
         },
       ) %>
-    </div>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
   </div>
-
-  <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
-    <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
-  <% end %>
-
-  <%= f.govuk_submit t('continue') %>
-<% end %>
+</div>

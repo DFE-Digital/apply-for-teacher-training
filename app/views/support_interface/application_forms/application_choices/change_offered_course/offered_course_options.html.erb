@@ -1,31 +1,26 @@
 <% content_for :title, title_with_error_prefix("Choose a course to replace #{@application_choice.current_course_option.course.name_and_code}", @pick_course.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+<% if @pick_course.unavailable_courses.present? %>
+  <h2 class="govuk-heading-m">Courses with no vacancies</h2>
+  <% @pick_course.unavailable_courses.each do |course| %>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><%= "#{course.provider.name} (#{course.provider.code}) – #{course.name} (#{course.code})" %></li>
+    </ul>
+  <% end %>
+<% end %>
 
-    <% if @pick_course.unavailable_courses.present? %>
-      <h2 class="govuk-heading-m">Courses with no vacancies</h2>
-      <% @pick_course.unavailable_courses.each do |course| %>
-        <ul class="govuk-list">
-          <%= "#{course.provider.name} (#{course.provider.code}) - #{course.name} (#{course.code})" %>
-        </ul>
+<% if @pick_course.course_options_for_provider(@application_choice.provider).present? %>
+  <%= form_with model: @pick_course, url: support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
+    <%= f.govuk_error_summary %>
+    <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
+      <% @pick_course.course_options_for_provider(@application_choice.provider).each_with_index do |co, i| %>
+        <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) – #{co.course_name} (#{co.course_code})" }, hint: { text: "#{co.site_name} – #{co.study_mode}" }, link_errors: i.zero? %>
       <% end %>
     <% end %>
-
-    <% if @pick_course.course_options_for_provider(@application_choice.provider).present? %>
-      <%= form_with model: @pick_course, url: support_interface_application_form_application_choice_choose_offered_course_option_path(course_code: @pick_course.course_code) do |f| %>
-        <%= f.govuk_error_summary %>
-        <%= f.govuk_radio_buttons_fieldset :course_option_id, legend: { text: 'Which course should be added to the application?', size: 'm' } do %>
-          <% @pick_course.course_options_for_provider(@application_choice.provider).each_with_index do |co, i| %>
-            <%= f.govuk_radio_button :course_option_id, co.course_option_id, label: { text: "#{co.provider_name} (#{co.provider_code}) - #{co.course_name} (#{co.course_code}) - #{co.site_name} - #{co.study_mode} " }, link_errors: i.zero? %>
-          <% end %>
-        <% end %>
-        <%= f.govuk_submit 'Continue' %>
-      <% end %>
-    <% else %>
-      <p class="govuk-body">No courses for <%= @application_choice.provider.name_and_code %> found.</p>
-      <%= govuk_link_to('Search again', support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code)) %>
-    <% end %>
-  </div>
-</div>
+    <%= f.govuk_submit 'Continue' %>
+  <% end %>
+<% else %>
+  <p class="govuk-body">No courses for <%= @application_choice.provider.name_and_code %> found.</p>
+  <%= govuk_link_to('Search again', support_interface_application_form_application_choice_change_offered_course_search_path(course_code: @pick_course.course_code), button: true) %>
+<% end %>

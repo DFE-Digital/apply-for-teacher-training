@@ -66,6 +66,33 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
   end
 
+  context 'Unconditional offer' do
+    let(:unconditional_offer) { create(:application_choice, :with_completed_application_form, :with_recruited, offer: { 'conditions' => [] }) }
+
+    it 'renders a link to the change the offered course choice when the `change_offered_course` flag is active' do
+      FeatureFlag.activate(:support_user_change_offered_course)
+
+      result = render_inline(described_class.new(unconditional_offer))
+
+      expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_change_offered_course_search_path(
+          application_form_id: unconditional_offer.application_form.id,
+          application_choice_id: unconditional_offer.id,
+        ),
+      )
+      expect(result.css('.app-summary-card__actions').text.strip).to include('Change offered course')
+    end
+
+    it 'does not render a link to the change the offered course choice  when the`change_offered_course` flag is not active' do
+      FeatureFlag.deactivate(:support_user_change_offered_course)
+
+      render_inline(described_class.new(unconditional_offer))
+
+      expect(page).not_to have_selector '.app-summary-card__actions a'
+      expect(page).not_to have_text 'Change offered course'
+    end
+  end
+
   context 'Rejected application' do
     let(:rejected_application_choice) { create(:application_choice, :with_completed_application_form, :with_rejection) }
 
