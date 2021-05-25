@@ -196,8 +196,10 @@ Rails.application.routes.draw do
       end
 
       scope '/gcse' do
-        get '/maths/grade' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
-        patch '/maths/grade' => 'gcse/maths/grade#update'
+        get '/maths/grade' => 'gcse/maths/grade#new', as: :new_gcse_maths_grade
+        patch '/maths/grade' => 'gcse/maths/grade#create'
+        get '/maths/grade/edit' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
+        patch '/maths/grade/edit' => 'gcse/maths/grade#update'
 
         get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
         patch '/english/grade' => 'gcse/english/grade#update'

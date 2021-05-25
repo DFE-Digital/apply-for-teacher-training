@@ -132,7 +132,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_add_grade_page
-    expect(page).to have_current_path candidate_interface_edit_gcse_maths_grade_path
+    expect(page).to have_current_path candidate_interface_new_gcse_maths_grade_path
   end
 
   def then_i_see_the_review_page_with_correct_details
