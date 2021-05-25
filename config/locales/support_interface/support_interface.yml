@@ -56,6 +56,16 @@ en:
               blank: Last name cannot be blank
             provider_permissions:
               blank: Please specify a provider
+        support_interface/create_single_provider_user_form:
+          attributes:
+            email_address:
+              blank: Enter an email address in the correct format, like name@example.com
+            first_name:
+              blank: Enter a first name
+            last_name:
+              blank: Enter a last name
+            provider_permissions:
+              blank: Please specify a provider
         support_interface/conditions_form:
           attributes:
             audit_comment_ticket:

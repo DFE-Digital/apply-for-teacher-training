@@ -34,7 +34,7 @@ class FeatureFlag
     [:expanded_quals_export, 'Rework the Qualifications export to contain all candidate qualifications', 'Malcolm Baig'],
     [:support_user_change_offered_course, 'Allows support users to offer a different course option for an application choice', 'David Gisbey'],
     [:reference_selection, 'Allow candidates to receive multiple references and then select which two are added to their application', 'Malcolm Baig'],
-    [:create_update_single_provider_user, 'New flow for creating or updating a single ProviderUser', 'Toby Retallick'],
+    [:new_provider_user_flow, 'New flow for creating or updating a single ProviderUser and adding Provider users in bulk', 'Toby Retallick'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
