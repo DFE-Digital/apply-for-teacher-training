@@ -42,12 +42,7 @@ RSpec.describe NotificationsList do
         provider_user = create(:provider_user, send_notifications: true, providers: [training_provider, ratifying_provider])
         application_choice = create(:application_choice, course_option: create(:course_option, course: create(:course, provider: training_provider, accredited_provider: ratifying_provider)))
 
-        create(
-          :provider_user_notification_preferences,
-          :all_off,
-          provider_user: create(:provider_user, send_notifications: false, providers: [training_provider, ratifying_provider]),
-        )
-        create(:provider_user_notification_preferences)
+        create(:provider_user_notification_preferences, provider_user: provider_user)
 
         expect(NotificationsList.for(
           application_choice,
@@ -87,13 +82,6 @@ RSpec.describe NotificationsList do
         training_provider = create(:provider)
         provider_user = create(:provider_user, send_notifications: true, providers: [training_provider, ratifying_provider])
         application_choice = create(:application_choice, course_option: create(:course_option, course: create(:course, provider: training_provider, accredited_provider: ratifying_provider)))
-
-        create(
-          :provider_user_notification_preferences,
-          :all_off,
-          provider_user: create(:provider_user, send_notifications: false, providers: [training_provider, ratifying_provider]),
-        )
-        create(:provider_user_notification_preferences)
 
         expect(NotificationsList.for(
           application_choice,
