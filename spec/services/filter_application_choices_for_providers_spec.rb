@@ -27,10 +27,18 @@ RSpec.describe FilterApplicationChoicesForProviders do
     end
 
     it 'filters by recruitment cycle year' do
-      course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 1999))
-      application_choices.last.update(course_option: course_option)
+      application_choices.last.course.update(recruitment_cycle_year: 1999)
 
-      result = described_class.call(application_choices: application_choices.joins(:course), filters: { recruitment_cycle_year: '1999' })
+      result = described_class.call(application_choices: application_choices, filters: { recruitment_cycle_year: '1999' })
+
+      expect(result).to eq([application_choices.last])
+    end
+
+    it 'uses the updated course details when filtering by recruitment cycle year' do
+      course_option = create(:course_option, course: create(:course, recruitment_cycle_year: 1999))
+      application_choices.last.update(current_course_option_id: course_option.id)
+
+      result = described_class.call(application_choices: application_choices, filters: { recruitment_cycle_year: '1999' })
 
       expect(result).to eq([application_choices.last])
     end
@@ -45,19 +53,27 @@ RSpec.describe FilterApplicationChoicesForProviders do
 
     it 'filters by provider' do
       provider = create(:provider)
+      application_choices.first.course.update(provider: provider)
+      result = described_class.call(application_choices: application_choices, filters: { provider: provider.id })
+
+      expect(result).to eq([application_choices.first])
+    end
+
+    it 'uses the updated course details when filtering by provider' do
+      provider = create(:provider)
       course = create(:course, provider: provider)
       site = create(:site, provider: provider)
       course_option = create(:course_option, course: course, site: site)
-      application_choices.first.update(course_option: course_option)
-      result = described_class.call(application_choices: application_choices.joins(:course), filters: { provider: provider.id })
+      application_choices.first.update(current_course_option_id: course_option.id)
+      result = described_class.call(application_choices: application_choices, filters: { provider: provider.id })
 
       expect(result).to eq([application_choices.first])
     end
 
     it 'filters by accredited provider' do
-      course_option = create(:course_option, course: create(:course, accredited_provider_id: 2121))
-      application_choices.first.update(course_option: course_option)
-      result = described_class.call(application_choices: application_choices.joins(:course), filters: { accredited_provider: '2121' })
+      accredited_provider = create(:provider)
+      application_choices.first.course.update(accredited_provider: accredited_provider)
+      result = described_class.call(application_choices: application_choices, filters: { accredited_provider: accredited_provider.id })
 
       expect(result).to eq([application_choices.first])
     end
@@ -66,21 +82,41 @@ RSpec.describe FilterApplicationChoicesForProviders do
       provider = create(:provider)
       course = create(:course, provider: provider)
       site = create(:site, provider: provider)
-      course_option = create(:course_option, course: course, site: site)
-      application_choices.last.update(course_option: course_option)
-      result = described_class.call(application_choices: application_choices.joins(:course, :site), filters: { provider_location: site.id })
+      application_choices.last.course_option.update(course: course, site: site)
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: site.id })
 
       expect(result).to eq([application_choices.last])
     end
 
     it 'filters by course subjects' do
       subject = create(:subject)
-      course = create(:course, subjects: [subject])
-      course_option = create(:course_option, course: course)
-      application_choices.last.update(course_option: course_option)
-      result = described_class.call(application_choices: application_choices.joins(:course), filters: { subject: [subject.id] })
+      application_choices.last.course.subjects << subject
+      result = described_class.call(application_choices: application_choices, filters: { subject: [subject.id] })
 
       expect(result).to eq([application_choices.last])
+    end
+
+    it 'uses the updated course details when filtering by provider location' do
+      provider = create(:provider)
+      course = create(:course, provider: provider)
+      site = create(:site, provider: provider)
+      course_option = create(:course_option, course: course, site: site)
+      application_choices.last.update(current_course_option_id: course_option.id)
+      result = described_class.call(application_choices: application_choices, filters: { provider_location: site.id })
+
+      expect(result).to eq([application_choices.last])
+    end
+
+    it 'works with GetApplicationChoicesForProvider' do
+      accredited_provider = create(:provider)
+      application_choices.first.course.update(accredited_provider: accredited_provider)
+      query_to_be_combined = GetApplicationChoicesForProviders.call(providers: [accredited_provider])
+      result = described_class.call(
+        application_choices: query_to_be_combined,
+        filters: { accredited_provider: accredited_provider.id },
+      )
+
+      expect(result).to eq([application_choices.first])
     end
   end
 end
