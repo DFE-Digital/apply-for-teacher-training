@@ -228,11 +228,13 @@ Rails.application.routes.draw do
         get '/enic/edit' => 'gcse/enic#edit', as: :gcse_details_edit_enic
         patch '/enic/edit' => 'gcse/enic#update'
 
+        get '/grade-explanation' => 'gcse/grade_explanation#new', as: :gcse_details_new_grade_explanation
+        patch '/grade-explanation' => 'gcse/grade_explanation#create'
+        get '/grade-explanation/edit' => 'gcse/grade_explanation#edit', as: :gcse_details_edit_grade_explanation
+        patch '/grade-explanation/edit' => 'gcse/grade_explanation#update'
+
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
         patch '/year' => 'gcse/year#update'
-
-        get '/grade-explanation' => 'gcse/grade_explanation#edit', as: :gcse_details_edit_grade_explanation
-        patch '/grade-explanation' => 'gcse/grade_explanation#update'
 
         get '/review' => 'gcse/review#show', as: :gcse_review
         patch '/complete' => 'gcse/review#complete', as: :gcse_complete
