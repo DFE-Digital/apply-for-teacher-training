@@ -312,12 +312,21 @@ module CandidateInterface
       @application_form.application_volunteering_experiences.any?
     end
 
+    # Rename this method to references_completed? when removing reference_selection feature flag
     def enough_references_provided?
-      @application_form.enough_references_have_been_provided?
+      if FeatureFlag.active?(:reference_selection)
+        @application_form.references_completed
+      else
+        @application_form.enough_references_have_been_provided?
+      end
     end
 
     def references_in_progress?
-      !enough_references_provided? && @application_form.application_references.present?
+      if FeatureFlag.active?(:reference_selection)
+        false
+      else
+        !enough_references_provided? && @application_form.application_references.present?
+      end
     end
 
     def safeguarding_completed?
