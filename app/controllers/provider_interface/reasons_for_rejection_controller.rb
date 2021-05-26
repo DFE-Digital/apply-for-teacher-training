@@ -16,6 +16,7 @@ module ProviderInterface
         @wizard.save_state!
         redirect_to next_redirect(@wizard)
       else
+        track_validation_error(@wizard)
         render :edit_initial_questions
       end
     end
@@ -32,6 +33,7 @@ module ProviderInterface
         @wizard.save_state!
         redirect_to next_redirect(@wizard)
       else
+        track_validation_error(@wizard)
         render :edit_other_reasons
       end
     end
@@ -66,6 +68,7 @@ module ProviderInterface
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       else
         @wizard.errors.merge!(service.errors)
+        track_validation_error(@wizard)
         render :check
       end
     end
