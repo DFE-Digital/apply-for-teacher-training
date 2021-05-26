@@ -5,7 +5,7 @@ module CandidateInterface
       before_action :render_application_feedback_component
 
       def current_degree
-        current_application.application_qualifications.degrees.find(params[:id])
+        current_application.application_qualifications.degrees.find_by(id: params[:id])
       end
       helper_method :current_degree
     end

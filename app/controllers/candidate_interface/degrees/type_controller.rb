@@ -4,13 +4,27 @@ module CandidateInterface
       before_action :set_degree_type_names, only: %i[edit update]
 
       def new
-        @degree_type_form = DegreeTypeForm.new
+        if current_degree
+          @degree_type_form = DegreeTypeForm.new(degree: current_degree).assign_form_values
+        else
+          @degree_type_form = DegreeTypeForm.new
+        end
+
         conditionally_render_new_degree_type_form
       end
 
       def create
-        @degree_type_form = DegreeTypeForm.new(create_params)
-        if @degree_type_form.save
+        if current_degree
+          @degree_type_form = DegreeTypeForm.new(update_params)
+        else
+          @degree_type_form = DegreeTypeForm.new(create_params)
+        end
+
+        if current_degree && @degree_type_form.update
+          redirect_to candidate_interface_degree_subject_path(
+            @degree_type_form.degree,
+          )
+        elsif @degree_type_form.save
           redirect_to candidate_interface_degree_subject_path(
             @degree_type_form.degree,
           )

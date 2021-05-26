@@ -305,8 +305,8 @@ Rails.application.routes.draw do
       end
 
       scope '/degrees' do
-        get '/' => 'degrees/type#new', as: :new_degree
-        post '/' => 'degrees/type#create'
+        get '/type/(:id)' => 'degrees/type#new', as: :new_degree
+        post '/type/(:id)' => 'degrees/type#create'
         get '/:id/type/edit' => 'degrees/type#edit', as: :edit_degree_type
         patch '/:id/type/edit' => 'degrees/type#update'
 
