@@ -12,6 +12,28 @@ RSpec.describe UpdateOfferConditions do
       expect(offer.conditions.last.text).to eq('Test but longer')
     end
 
+    context 'when the application choice is in the recruited state' do
+      let(:application_choice) { create(:application_choice, :with_offer, status: :recruited) }
+
+      it 'creates new conditions in the met state' do
+        described_class.new(application_choice: application_choice).call
+
+        offer = Offer.find_by(application_choice: application_choice)
+        expect(offer.conditions.map(&:status).uniq).to contain_exactly('met')
+      end
+    end
+
+    context 'when the application choice is in the conditions_not_met state' do
+      let(:application_choice) { create(:application_choice, :with_offer, status: :conditions_not_met) }
+
+      it 'creates new conditions in the unmet state' do
+        described_class.new(application_choice: application_choice).call
+
+        offer = Offer.find_by(application_choice: application_choice)
+        expect(offer.conditions.map(&:status).uniq).to contain_exactly('unmet')
+      end
+    end
+
     context 'when there is an existing offer' do
       let!(:existing_offer) { create(:offer, application_choice: application_choice) }
 
