@@ -1,7 +1,7 @@
 class UpdateOfferConditions
   def initialize(application_choice:)
     @application_choice = application_choice
-    @conditions = application_choice.offer&.[]('conditions')
+    @conditions = application_choice.offer&.[]('conditions') || []
   end
 
   def call
@@ -15,7 +15,7 @@ class UpdateOfferConditions
         updated_at: Time.zone.now,
       }
     end
-    offer.conditions.insert_all!(conditions_attrs)
+    offer.conditions.insert_all!(conditions_attrs) if conditions_attrs.any?
   end
 
 private

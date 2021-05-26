@@ -12,6 +12,17 @@ RSpec.describe UpdateOfferConditions do
       expect(offer.conditions.last.text).to eq('Test but longer')
     end
 
+    context 'when the application choice has an offer with no conditions' do
+      let(:conditions) { nil }
+
+      it 'does not create any offer conditions' do
+        described_class.new(application_choice: application_choice).call
+
+        offer = Offer.find_by(application_choice: application_choice)
+        expect(offer.conditions).to be_empty
+      end
+    end
+
     context 'when the application choice is in the recruited state' do
       let(:application_choice) { create(:application_choice, :with_offer, status: :recruited) }
 

@@ -13,6 +13,7 @@ class ConditionsNotMet
     audit(@auth.actor) do
       ApplicationStateChange.new(@application_choice).conditions_not_met!
       @application_choice.update!(conditions_not_met_at: Time.zone.now)
+      UpdateOfferConditions.new(application_choice: @application_choice).call
       CandidateMailer.conditions_not_met(@application_choice).deliver_later
     end
   rescue Workflow::NoTransitionAllowed
