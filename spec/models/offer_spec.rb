@@ -10,4 +10,12 @@ RSpec.describe Offer do
       expect(offer.conditions.map(&:text)).to contain_exactly('Provide evidence of degree qualification', 'Do a backflip and send us a video')
     end
   end
+
+  describe '#unconditional' do
+    it 'returns true when there are no conditions' do
+      offer = create(:unconditional_offer)
+
+      expect(offer.unconditional?).to be true
+    end
+  end
 end

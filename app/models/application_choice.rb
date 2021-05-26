@@ -170,7 +170,7 @@ class ApplicationChoice < ApplicationRecord
   def unconditional_offer?
     return false unless recruited?
 
-    offer.conditions.none?
+    offer&.unconditional?
   end
 
 private
