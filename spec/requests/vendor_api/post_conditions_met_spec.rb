@@ -8,6 +8,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
 
   it 'confirms the conditions have been met' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'pending_conditions')
+    create(:offer, application_choice: application_choice)
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met"
 

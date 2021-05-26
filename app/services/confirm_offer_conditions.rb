@@ -13,6 +13,7 @@ class ConfirmOfferConditions
     audit(@auth.actor) do
       ApplicationStateChange.new(@application_choice).confirm_conditions_met!
       @application_choice.update!(recruited_at: Time.zone.now)
+      UpdateOfferConditions.new(application_choice: @application_choice).call
       CandidateMailer.conditions_met(@application_choice).deliver_later
       StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
     end
