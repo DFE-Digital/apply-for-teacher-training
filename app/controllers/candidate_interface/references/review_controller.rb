@@ -62,7 +62,7 @@ module CandidateInterface
           redirect_to_review_page and return
         end
 
-        @reference.destroy!
+        DeleteReference.new.call(reference: @reference)
         redirect_to_review_page
       end
 
