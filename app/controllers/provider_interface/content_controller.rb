@@ -36,5 +36,9 @@ module ProviderInterface
     def complaints
       render_content_page :complaints
     end
+
+    def roadmap
+      render_content_page :roadmap
+    end
   end
 end
