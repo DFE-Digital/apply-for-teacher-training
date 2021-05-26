@@ -1,0 +1,31 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.training_with_a_disability') %>
+</h1>
+
+<p class="govuk-body">You might benefit from extra support if you’re disabled, have a mental health condition or educational needs.</p>
+<p class="govuk-body">If you choose to tell us you need support, we’ll let your training provider know. They can then make adjustments so you can attend an interview or do the training.</p>
+<p class="govuk-body">Examples of support could be:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>organising equipment like a hearing loop or an adapted keyboard</li>
+  <li>putting you in touch with support staff if you have a mental health condition</li>
+  <li>making sure classrooms are wheelchair accessible</li>
+</ul>
+<p class="govuk-body">If the help you need is not covered by your provider making adjustments, you might also be able to get support from <%= govuk_link_to 'Access to Work', 'https://www.gov.uk/access-to-work' %>. This could include a grant to help cover the costs of practical support in the workplace.</p>
+<h2 class="govuk-heading-m">It’s against the law to discriminate</h2>
+<p class="govuk-body">If you’re disabled, <%= govuk_link_to 'it’s against the law to discriminate against you', t('get_into_teaching.url_training_with_a_disability') %>. Training providers must not:</p>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+  <li>ask disability or health questions if they’re not relevant to your ability to become a teacher</li>
+  <li>reject your application because you’re disabled</li>
+</ul>
+
+<%= f.govuk_radio_buttons_fieldset :disclose_disability, legend: { text: t('application_form.training_with_a_disability.disclose_disability.label'), size: 'm' } do %>
+  <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') }, link_errors: true do %>
+    <%= f.govuk_text_area :disability_disclosure, rows: 8, label: { text: t('application_form.training_with_a_disability.disability_disclosure.label'), size: 's' }, max_words: 400 %>
+  <% end %>
+
+  <%= f.govuk_radio_button :disclose_disability, 'no', label: { text: t('application_form.training_with_a_disability.disclose_disability.no') } %>
+<% end %>
+
+<%= f.govuk_submit t('continue') %>

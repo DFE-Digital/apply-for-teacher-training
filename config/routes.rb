@@ -158,8 +158,10 @@ Rails.application.routes.draw do
       end
 
       scope '/additional-support' do
-        get '/' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
-        patch '/' => 'training_with_a_disability#update'
+        get '/' => 'training_with_a_disability#new', as: :new_training_with_a_disability
+        patch '/' => 'training_with_a_disability#create'
+        get '/edit' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
+        patch '/edit' => 'training_with_a_disability#update'
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
         patch '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end

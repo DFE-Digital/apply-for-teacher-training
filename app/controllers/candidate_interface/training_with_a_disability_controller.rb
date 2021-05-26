@@ -7,6 +7,21 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(completed: current_application.training_with_a_disability_completed)
     end
 
+    def new
+      @training_with_a_disability_form = TrainingWithADisabilityForm.new
+    end
+
+    def create
+      @training_with_a_disability_form = TrainingWithADisabilityForm.new(training_with_a_disability_params)
+
+      if @training_with_a_disability_form.save(current_application)
+        redirect_to candidate_interface_training_with_a_disability_show_path
+      else
+        track_validation_error(@training_with_a_disability_form)
+        render :new
+      end
+    end
+
     def edit
       @training_with_a_disability_form = TrainingWithADisabilityForm.build_from_application(current_application)
     end
