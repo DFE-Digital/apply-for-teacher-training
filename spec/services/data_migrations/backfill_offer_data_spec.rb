@@ -27,6 +27,18 @@ RSpec.describe DataMigrations::BackfillOfferData do
     expect(OfferCondition.count).to be(3)
   end
 
+  it 'backfills the correct condition status based on the offer state' do
+    application_choice_with_offer = create(:application_choice, :with_offer)
+    application_choice_recruited = create(:application_choice, :with_offer, :recruited)
+    application_choice_conditions_not_met = create(:application_choice, :with_offer, :conditions_not_met)
+
+    expect { described_class.new.change }.to change(Offer, :count).by(3)
+
+    expect(Offer.find_by(application_choice: application_choice_with_offer).conditions.first.status).to eq('pending')
+    expect(Offer.find_by(application_choice: application_choice_recruited).conditions.first.status).to eq('met')
+    expect(Offer.find_by(application_choice: application_choice_conditions_not_met).conditions.first.status).to eq('unmet')
+  end
+
   it 'does not update the audit log' do
     create(:application_choice, :with_offer)
 
