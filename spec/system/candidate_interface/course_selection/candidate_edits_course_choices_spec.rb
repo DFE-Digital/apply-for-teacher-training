@@ -70,6 +70,10 @@ RSpec.describe 'Candidate edits course choices' do
     and_i_choose_part_time_study_mode
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_see_the_updated_study_mode_for_the_third_choice
+
+    when_i_click_to_change_the_course_of_my_third_choice
+    and_i_select_the_course_associated_with_my_second_choice
+    then_i_am_told_that_i_have_already_added_that_course
   end
 
   def given_i_am_signed_in
@@ -261,5 +265,18 @@ RSpec.describe 'Candidate edits course choices' do
     third_choice = page.all('.govuk-summary-list').to_a.second.text
 
     expect(third_choice).to have_content("Full time or part time\nPart time")
+  end
+
+  def when_i_click_to_change_the_course_of_my_third_choice
+    click_change_link "course choice for #{@provider.courses.third.name_and_code}"
+  end
+
+  def and_i_select_the_course_associated_with_my_second_choice
+    choose @provider.courses.second.name_and_code
+    click_button t('continue')
+  end
+
+  def then_i_am_told_that_i_have_already_added_that_course
+    expect(page).to have_content t('errors.application_choices.already_added', course_name_and_code: @provider.courses.second.name_and_code)
   end
 end

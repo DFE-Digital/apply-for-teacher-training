@@ -29,10 +29,8 @@ module CandidateInterface
         )
         render :new and return unless @pick_course.valid?
 
-        if params[:course_choice_id].blank?
-          redirect_to_review_page_if_course_already_added(current_application, course_id)
-          return if performed?
-        end
+        redirect_to_review_page_if_course_already_added(current_application, course_id)
+        return if performed?
 
         if !@pick_course.open_on_apply?
           redirect_to candidate_interface_course_choices_ucas_with_course_path(@pick_course.provider_id, @pick_course.course_id)
