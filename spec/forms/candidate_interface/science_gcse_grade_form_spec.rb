@@ -302,6 +302,24 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         expect(qualification.grade).to eq('A*A*')
       end
 
+      it 'stores a sanitized grade when it is a numerical double award' do
+        application_form = build(:application_form)
+        qualification = ApplicationQualification.create(
+          level: 'gcse',
+          application_form: application_form,
+        )
+
+        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+
+        details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
+        details_form.grade = '43'
+
+        details_form.save
+        qualification.reload
+
+        expect(qualification.grade).to eq('4-3')
+      end
+
       it 'stores sanitized grades when it is a triple award' do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(

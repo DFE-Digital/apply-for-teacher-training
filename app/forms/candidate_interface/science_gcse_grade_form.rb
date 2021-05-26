@@ -203,7 +203,9 @@ module CandidateInterface
     end
 
     def sanitize(grade)
-      if DOUBLE_GCSE_GRADES.exclude?(grade)
+      if ALL_GCSE_GRADES.exclude?(grade) && grade_contains_number?(grade)
+        grade&.gsub(/[^%\d]/, '')&.insert(1, '-')
+      elsif DOUBLE_GCSE_GRADES.exclude?(grade)
         grade&.gsub(/[^*\w]/, '')&.upcase
       else
         grade
@@ -242,6 +244,12 @@ module CandidateInterface
       return true unless qualification.pass_gcse?
 
       qualification.update(missing_explanation: nil)
+    end
+
+    def grade_contains_number?(grade)
+      return false if grade.nil?
+
+      grade.count('0-9').positive?
     end
   end
 end
