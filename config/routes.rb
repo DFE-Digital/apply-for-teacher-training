@@ -146,8 +146,10 @@ Rails.application.routes.draw do
       end
 
       scope '/interview-needs' do
-        get '/' => 'interview_needs#edit', as: :edit_interview_preferences
-        patch '/' => 'interview_needs#update'
+        get '/' => 'interview_needs#new', as: :new_interview_preferences
+        patch '/' => 'interview_needs#create'
+        get '/edit' => 'interview_needs#edit', as: :edit_interview_preferences
+        patch '/edit' => 'interview_needs#update'
         get '/review' => 'interview_needs#show', as: :interview_preferences_show
         patch '/complete' => 'interview_needs#complete', as: :interview_preferences_complete
       end

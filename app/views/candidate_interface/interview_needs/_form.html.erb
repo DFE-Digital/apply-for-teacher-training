@@ -1,0 +1,39 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl"><%= t('page_titles.interview_preferences') %></h1>
+
+<p class="govuk-body">
+  Providers do not usually have much flexibility when setting a date
+  and time for interview unless you need adjustments due to a
+  <%= govuk_link_to(
+    'health condition or disability',
+    candidate_interface_edit_training_with_a_disability_path,
+  ) %>.
+</p>
+
+<p class="govuk-body">
+  However, if you need flexibility for other reasons you can tell us about it here.
+</p>
+
+<p class="govuk-body">
+  For example: you have commitments like caring responsibilities or employment.
+</p>
+
+<p class="govuk-body">
+  Interview processes might be different at the moment because of
+  coronavirus (COVID-19).
+</p>
+
+<p class="govuk-body">
+  Contact your provider if you’re concerned about the interview process.
+</p>
+
+<%= f.govuk_radio_buttons_fieldset :any_preferences, legend: { text: t('application_form.personal_statement.interview_preferences.label'), size: 'm' } do %>
+  <%= f.govuk_radio_button :any_preferences, 'yes', label: { text: 'Yes' }, link_errors: true do %>
+    <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.personal_statement.interview_preferences.yes_label'), size: 's' }, rows: 8, max_words: 200 %>
+  <% end %>
+
+  <%= f.govuk_radio_button :any_preferences, 'no', label: { text: 'No' } %>
+<% end %>
+
+<%= f.govuk_submit t('save_and_continue') %>
