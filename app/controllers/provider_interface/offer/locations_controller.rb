@@ -17,6 +17,7 @@ module ProviderInterface
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
           @course_options = available_course_options(@wizard.course_id, @wizard.study_mode)
+          track_validation_error(@wizard)
 
           render :new
         end
@@ -38,6 +39,7 @@ module ProviderInterface
           redirect_to [:edit, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
           @course_options = available_course_options(@wizard.course_id, @wizard.study_mode)
+          track_validation_error(@wizard)
 
           render :edit
         end

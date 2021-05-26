@@ -23,6 +23,7 @@ module ProviderInterface
         redirect_to provider_interface_application_choice_offer_path(@application_choice)
       else
         @wizard.clear_state!
+        track_validation_error(@wizard)
 
         flash[:warning] = t('.failure')
         redirect_to new_provider_interface_application_choice_decision_path(@application_choice)
@@ -60,6 +61,7 @@ module ProviderInterface
         flash[:success] = t('.success')
       else
         @wizard.clear_state!
+        track_validation_error(@wizard)
 
         flash[:warning] = t('.failure')
       end

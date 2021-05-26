@@ -20,6 +20,7 @@ module ProviderInterface
         else
           @course = Course.find(@wizard.course_id)
           @study_modes = available_study_modes(@course)
+          track_validation_error(@wizard)
 
           render :new
         end
@@ -44,6 +45,7 @@ module ProviderInterface
         else
           @course = Course.find(@wizard.course_id)
           @study_modes = available_study_modes(@course)
+          track_validation_error(@wizard)
 
           render :edit
         end
