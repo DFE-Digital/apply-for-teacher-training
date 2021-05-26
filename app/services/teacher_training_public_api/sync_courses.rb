@@ -36,11 +36,12 @@ module TeacherTrainingPublicAPI
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
 
-      if course.new_record?
+      new_course = course.new_record?
+      course.save!
+
+      if new_course
         SetOpenOnApplyForNewCourse.new(course).call
       end
-
-      course.save!
 
       if run_in_background
         TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id)
