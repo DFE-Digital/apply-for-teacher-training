@@ -26,6 +26,7 @@ module ProviderInterface
         flash[:success] = 'Note successfully added'
         redirect_to provider_interface_application_choice_notes_path(@application_choice)
       else
+        track_validation_error(@new_note_form)
         render(action: :new)
       end
     end
