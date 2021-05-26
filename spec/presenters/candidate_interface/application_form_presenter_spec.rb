@@ -645,20 +645,44 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#reference_section_errors' do
-    it 'returns an error if the application form has too many references' do
-      application_form = instance_double(ApplicationForm, too_many_complete_references?: true)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+    context 'with reference_selection feature on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      expect(presenter.reference_section_errors).to eq(
-        [OpenStruct.new(message: 'More than 2 references have been given', anchor: '#references')],
-      )
+      it 'returns an error if the application form has too many selected references' do
+        application_form = instance_double(ApplicationForm, selected_too_many_references?: true)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq(
+          [OpenStruct.new(message: 'More than 2 references have been selected', anchor: '#references')],
+        )
+      end
+
+      it 'returns an empty array if the application form does not have too many selected references' do
+        application_form = instance_double(ApplicationForm, selected_too_many_references?: false)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq []
+      end
     end
 
-    it 'returns an empty array if the application form does not have too many references' do
-      application_form = instance_double(ApplicationForm, too_many_complete_references?: false)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+    context 'with reference_selection feature off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
 
-      expect(presenter.reference_section_errors).to eq []
+      it 'returns an error if the application form has too many references' do
+        application_form = instance_double(ApplicationForm, too_many_complete_references?: true)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq(
+          [OpenStruct.new(message: 'More than 2 references have been given', anchor: '#references')],
+        )
+      end
+
+      it 'returns an empty array if the application form does not have too many references' do
+        application_form = instance_double(ApplicationForm, too_many_complete_references?: false)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq []
+      end
     end
   end
 

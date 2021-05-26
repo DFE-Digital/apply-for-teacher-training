@@ -73,7 +73,14 @@ module CandidateHelper
     click_link t('page_titles.interview_preferences')
     candidate_fills_in_interview_preferences
 
-    candidate_provides_two_referees if with_referees
+    if with_referees
+      candidate_provides_two_referees
+      receive_references
+      if FeatureFlag.active?(:reference_selection)
+        click_link 'Selected references'
+        select_references_and_complete_section
+      end
+    end
 
     @application = ApplicationForm.last
   end
@@ -120,12 +127,12 @@ module CandidateHelper
     application_form = ApplicationForm.last
     first_reference = application_form.application_references.first
     second_reference = application_form.application_references.second
+    check first_reference.name
+    check second_reference.name
+    click_button t('save_and_continue')
 
     choose 'Yes, I have completed this section'
-    click_button t('continue')
-    check first_reference.single_line_identifier
-    check second_reference.single_line_identifier
-    click_button t('continue')
+    click_button t('save_and_continue')
   end
 
   def given_courses_exist

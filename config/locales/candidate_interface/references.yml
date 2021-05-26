@@ -88,6 +88,7 @@ en:
       review:
         more_than_two: More than 2 references have been given
         need_two: You need to have received at least 2 references before marking this section complete
+        more_than_two_selected: More than 2 references have been selected
 
   activemodel:
     errors:

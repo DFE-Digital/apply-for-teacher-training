@@ -111,7 +111,11 @@ module CandidateInterface
 
     def reference_section_errors
       [].tap do |errors|
-        if @application_form.too_many_complete_references?
+        if FeatureFlag.active?(:reference_selection)
+          if @application_form.selected_too_many_references?
+            errors << OpenStruct.new(message: I18n.t('application_form.references.review.more_than_two_selected'), anchor: '#references')
+          end
+        elsif @application_form.too_many_complete_references?
           errors << OpenStruct.new(message: I18n.t('application_form.references.review.more_than_two'), anchor: '#references')
         end
       end
