@@ -15,6 +15,7 @@ module ProviderInterface
         flash[:success] = 'Organisation permissions successfully updated'
         redirect_to provider_interface_organisation_path(permissions_model.training_provider)
       else
+        track_validation_error(@form)
         render :edit
       end
     end
