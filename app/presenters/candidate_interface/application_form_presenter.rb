@@ -146,6 +146,7 @@ module CandidateInterface
       end
     end
 
+    # TODO: remove this method when deleting the reference_selection feature flag
     def references_path
       if @application_form.application_references.present?
         Rails.application.routes.url_helpers.candidate_interface_references_review_path
