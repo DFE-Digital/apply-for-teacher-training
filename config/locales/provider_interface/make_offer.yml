@@ -75,6 +75,8 @@ en:
               blank: Select course
             provider_id:
               blank: Select provider
+            base:
+              exceeded_max_conditions: The offer must have %{count} conditions or fewer
         offer_validations:
           attributes:
             course_option:

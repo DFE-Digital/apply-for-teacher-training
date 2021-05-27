@@ -55,6 +55,16 @@ RSpec.describe ProviderInterface::OfferWizard do
       end
     end
 
+    context 'if the offer has too many conditions' do
+      let(:further_conditions) { 22.times.map { Faker::Lorem.paragraph } }
+
+      it 'adds the correct validation error messages to the wizard' do
+        expect(wizard.valid?(:conditions)).to eq(false)
+
+        expect(wizard.errors[:base]).to contain_exactly("The offer must have #{OfferValidations::MAX_CONDITIONS_COUNT} conditions or fewer")
+      end
+    end
+
     context 'if the course option is in an invalid state' do
       let(:course_option) { create(:course_option) }
       let(:course_option_id) { course_option.id }

@@ -16,6 +16,7 @@ module ProviderInterface
     validates :study_mode, presence: true, on: %i[study_modes save]
     validates :course_id, presence: true, on: %i[courses save]
     validate :further_conditions_valid, on: %i[conditions]
+    validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
 
     def initialize(state_store, attrs = {})
@@ -212,6 +213,12 @@ module ProviderInterface
           errors.add("further_conditions[#{model.id}][#{error.attribute}]", error.message)
         end
       end
+    end
+
+    def max_conditions_length
+      return unless (condition_models.count + standard_conditions.compact_blank.length) > OfferValidations::MAX_CONDITIONS_COUNT
+
+      errors.add(:base, :exceeded_max_conditions, count: OfferValidations::MAX_CONDITIONS_COUNT)
     end
 
     def sanitize_parameters(attrs)
