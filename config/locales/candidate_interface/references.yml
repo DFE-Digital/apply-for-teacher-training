@@ -22,10 +22,10 @@ en:
       relationship:
         label: How do you know this referee and how long have you known them?
         hint_text:
-          academic: 'For example, ‘He was my course supervisor at university. I’ve known him for a year’.'
-          professional: 'For example, ‘He was my line manager in my last job. I’ve known him for 2 years’.'
-          school_based: 'For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’.'
-          character: 'For example, ‘She’s the head coach for my athletics club. I’ve known her for 5 years’.'
+          academic: 'For example, ‘They were my course supervisor at university. I’ve known them for a year’.'
+          professional: 'For example, ‘They were my line manager in my last job. I’ve known them for 2 years’.'
+          school_based: 'For example, ‘They are the deputy head at the school where I currently volunteer. I’ve known them for 3 years’.'
+          character: 'For example, ‘They are the head coach for my athletics club. I’ve known them for 5 years’.'
       candidate_name:
         first_name:
           label: First name
