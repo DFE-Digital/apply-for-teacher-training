@@ -17,6 +17,8 @@ RSpec.describe ProviderInterface::NotesController, type: :request do
 
   describe 'validation errors' do
     it 'tracks validation errors on create' do
+      stub_model_instance_with_errors(ProviderInterface::NewNoteForm, save: false)
+
       expect {
         post provider_interface_application_choice_notes_path(application_choice),
              params: { provider_interface_new_note_form: { message: nil } }

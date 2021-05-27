@@ -27,9 +27,16 @@ RSpec.describe ProviderInterface::ProviderUsersInvitationsController, type: :req
       }.to change(ValidationError, :count).by(1)
     end
 
-    # rubocop:disable RSpec/AnyInstance
     it 'tracks validation errors on POST to update_permissions' do
-      allow_any_instance_of(ProviderInterface::ProviderUserInvitationWizard).to receive(:valid_for_current_step?).and_return(false)
+      stub_model_instance_with_errors(
+        ProviderInterface::ProviderUserInvitationWizard,
+        valid_for_current_step?: false, previous_step: :details, first_name: nil, last_name: nil,
+        permissions_form: instance_double(
+          ProviderInterface::FieldsForProviderUserPermissionsForm,
+          id: '1', provider_id: provider.id, view_applications_only: nil, permissions: {},
+        )
+      )
+
       expect {
         post provider_interface_update_invitation_provider_permissions_path(provider),
              params: { provider_interface_provider_user_invitation_wizard: { provider_permissions: { provider.id => { view_applications_only: 'false' } } } }
@@ -37,9 +44,9 @@ RSpec.describe ProviderInterface::ProviderUsersInvitationsController, type: :req
     end
 
     it 'tracks validation errors on POST to commit' do
-      allow_any_instance_of(SaveAndInviteProviderUser).to receive(:call).and_return(false)
+      allow(SaveAndInviteProviderUser).to receive(:new).and_return(instance_double(SaveAndInviteProviderUser, call: false))
+
       expect { post provider_interface_commit_invitation_path }.to change(ValidationError, :count).by(1)
     end
-    # rubocop:enable RSpec/AnyInstance
   end
 end

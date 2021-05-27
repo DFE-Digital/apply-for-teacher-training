@@ -65,7 +65,6 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
     end
   end
 
-  # rubocop:disable RSpec/AnyInstance
   describe 'validation errors' do
     let(:permissions) do
       permissions = create(
@@ -79,11 +78,19 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
     end
 
     it 'tracks validation errors on save_permissions' do
-      allow_any_instance_of(ProviderInterface::ProviderRelationshipPermissionsSetupWizard).to receive(:valid?).and_return(false)
+      stub_model_instance_with_errors(
+        ProviderInterface::ProviderRelationshipPermissionsSetupWizard,
+        valid?: false,
+        previous_step: :check,
+        current_permissions_form: instance_double(
+          ProviderInterface::ProviderRelationshipPermissionsSetupWizard::PermissionsForm,
+          id: '1', make_decisions: nil, view_safeguarding_information: nil, view_diversity_information: nil,
+        ),
+      )
+
       expect {
         post provider_interface_save_provider_relationship_permissions_path(permissions)
       }.to change(ValidationError, :count).by(1)
     end
   end
-  # rubocop:enable RSpec/AnyInstance
 end

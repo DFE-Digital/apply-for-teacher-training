@@ -13,7 +13,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
   let(:course) { create(:course, :open_on_apply, provider: provider) }
-  let(:course_option) { build(:course_option, course: course) }
+  let(:course_option) { create(:course_option, course: course) }
 
   before do
     allow(DfESignInUser).to receive(:load_from_session)
@@ -75,7 +75,6 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
   end
 
-  # rubocop:disable RSpec/AnyInstance
   describe 'validation errors' do
     let(:trait) { :offer }
     let(:application_choice) do
@@ -85,8 +84,11 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
         course_option: course_option
       )
     end
+    let(:wizard_attrs) { {} }
 
-    before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:valid_for_current_step?).and_return(false) }
+    before do
+      stub_model_instance_with_errors(ProviderInterface::OfferWizard, { clear_state!: nil, valid?: false, valid_for_current_step?: false }.merge(wizard_attrs))
+    end
 
     context 'POST to create' do
       let(:trait) { :awaiting_provider_decision }
@@ -104,6 +106,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (providers) create' do
       let(:trait) { :awaiting_provider_decision }
+      let(:wizard_attrs) { { provider_id: provider.id, previous_step: :select_option } }
 
       subject do
         post provider_interface_application_choice_offer_providers_path(application_choice),
@@ -114,6 +117,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PUT to (providers) update' do
+      let(:wizard_attrs) { { provider_id: provider.id, previous_step: :select_option } }
+
       subject do
         put provider_interface_application_choice_offer_providers_path(application_choice),
             params: { provider_interface_offer_wizard: { provider_id: provider.id } }
@@ -124,6 +129,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (conditions) create' do
       let(:trait) { :awaiting_provider_decision }
+      let(:wizard_attrs) { { previous_step: :locations, standard_conditions: [], persisted?: true, condition_models: [], has_max_number_of_further_conditions?: false } }
 
       subject do
         post provider_interface_application_choice_offer_conditions_path(application_choice),
@@ -134,6 +140,8 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PATCH to (conditions) update' do
+      let(:wizard_attrs) { { previous_step: :locations, standard_conditions: [], persisted?: true, condition_models: [], has_max_number_of_further_conditions?: false } }
+
       subject do
         patch provider_interface_application_choice_offer_conditions_path(application_choice),
               params: { provider_interface_offer_wizard: { standard_conditions: %w[dance] } }
@@ -144,8 +152,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (courses) create' do
       let(:trait) { :awaiting_provider_decision }
-
-      before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:provider_id).and_return(provider.id) }
+      let(:wizard_attrs) { { provider_id: provider.id, previous_step: :providers } }
 
       subject do
         post provider_interface_application_choice_offer_courses_path(application_choice),
@@ -156,7 +163,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PATCH to (courses) update' do
-      before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:provider_id).and_return(provider.id) }
+      let(:wizard_attrs) { { provider_id: provider.id, previous_step: :providers } }
 
       subject do
         patch provider_interface_application_choice_offer_courses_path(application_choice),
@@ -168,8 +175,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (locations) create' do
       let(:trait) { :awaiting_provider_decision }
-
-      before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:course_id).and_return(course.id) }
+      let(:wizard_attrs) { { course_id: course.id, previous_step: :providers, study_mode: 'full_time' } }
 
       subject do
         post provider_interface_application_choice_offer_locations_path(application_choice),
@@ -180,7 +186,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PATCH to (locations) update' do
-      before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:course_id).and_return(course.id) }
+      let(:wizard_attrs) { { course_id: course.id, previous_step: :providers, study_mode: 'full_time' } }
 
       subject do
         patch provider_interface_application_choice_offer_locations_path(application_choice),
@@ -192,8 +198,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (study_modes) create' do
       let(:trait) { :awaiting_provider_decision }
-
-      before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:course_id).and_return(course.id) }
+      let(:wizard_attrs) { { course_id: course.id, course_option: course_option, course_option_id: course_option.id, study_mode: 'full_time', previous_step: :courses } }
 
       subject do
         post provider_interface_application_choice_offer_study_modes_path(application_choice),
@@ -204,7 +209,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PATCH to (study_modes) update' do
-      before { allow_any_instance_of(ProviderInterface::OfferWizard).to receive(:course_id).and_return(course.id) }
+      let(:wizard_attrs) { { course_id: course.id, course_option: course_option, course_option_id: course_option.id, study_mode: 'full_time', previous_step: :courses } }
 
       subject do
         patch provider_interface_application_choice_offer_study_modes_path(application_choice),
@@ -214,5 +219,4 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       it_behaves_like 'an action which tracks validation errors', 'PATCH to (study_modes) update'
     end
   end
-  # rubocop:enable RSpec/AnyInstance
 end

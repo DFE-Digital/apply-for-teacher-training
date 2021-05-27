@@ -90,10 +90,14 @@ RSpec.describe ProviderInterface::ReasonsForRejectionController, type: :request 
   describe 'validation errors' do
     let(:status) { 'awaiting_provider_decision' }
 
-    # rubocop:disable RSpec/AnyInstance
-    it 'tracks validation errors on update_initial_questions' do
-      allow_any_instance_of(ProviderInterface::ReasonsForRejectionWizard).to receive(:valid_for_current_step?).and_return(false)
+    before do
+      stub_model_instance_with_errors(
+        ProviderInterface::ReasonsForRejectionWizard,
+        valid_for_current_step?: false, reason_not_captured_by_initial_questions?: true, to_model: ReasonsForRejection.new({}),
+      )
+    end
 
+    it 'tracks validation errors on update_initial_questions' do
       expect {
         post provider_interface_reasons_for_rejection_update_initial_questions_path(application_choice),
              params: { reasons_for_rejection: { candidate_behaviour_y_n: '' } }
@@ -101,7 +105,6 @@ RSpec.describe ProviderInterface::ReasonsForRejectionController, type: :request 
     end
 
     it 'tracks validation errors on update_other_reasons' do
-      allow_any_instance_of(ProviderInterface::ReasonsForRejectionWizard).to receive(:valid_for_current_step?).and_return(false)
       expect {
         post provider_interface_reasons_for_rejection_update_other_reasons_path(application_choice),
              params: { reasons_for_rejection: { candidate_behaviour_y_n: '' } }
@@ -109,12 +112,11 @@ RSpec.describe ProviderInterface::ReasonsForRejectionController, type: :request 
     end
 
     it 'tracks validation errors on commit' do
-      allow_any_instance_of(RejectApplication).to receive(:save).and_return(false)
+      stub_model_instance_with_errors(RejectApplication, { save: false })
 
       expect {
         post provider_interface_reasons_for_rejection_commit_path(application_choice)
       }.to change(ValidationError, :count).by(1)
     end
-    # rubocop:enable RSpec/AnyInstance
   end
 end
