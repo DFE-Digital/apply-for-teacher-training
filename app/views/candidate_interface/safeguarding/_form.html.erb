@@ -1,0 +1,39 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.suitability_to_work_with_children') %>
+</h1>
+
+<p class="govuk-body">
+  Teacher training providers need to check that it’s safe for you to work
+  with children and young people.
+</p>
+
+<p class="govuk-body">
+  As well as confirming your identity and your right to work in the UK,
+  providers will check:
+</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>your criminal record in the UK (they’ll do an enhanced <%= govuk_link_to 'Disclosure and Barring Service check', 'https://www.gov.uk/government/organisations/disclosure-and-barring-service/about#dbs-checks', target: '_blank' %>) and abroad where relevant</li>
+  <li>whether you’ve been banned from teaching or working with children</li>
+  <li>your professional behaviour, such as whether you’ve been removed from teacher training and what your referees say about you</li>
+</ul>
+
+<p class="govuk-body">
+  Tell your provider about any potential safeguarding issues, such as
+  offences, cautions, reprimands and final warnings. They can give advice
+  about whether this will affect your application.
+</p>
+
+<p class="govuk-body">It will not necessarily stop you becoming a teacher.</p>
+
+<%= f.govuk_radio_buttons_fieldset :share_safeguarding_issues, legend: { text: 'Do you want to share any safeguarding issues?', size: 'm' } do %>
+  <%= f.govuk_radio_button :share_safeguarding_issues, 'Yes', label: { text: 'Yes, I want to share something' }, hint: { text: 'After you have submitted your application, your provider may be in touch to discuss the information you shared. If you prefer, you can contact your provider directly.' }, link_errors: true do %>
+    <%= f.govuk_text_area :safeguarding_issues, rows: 8, label: { text: 'Give any relevant information', size: 's' }, max_words: 400 %>
+  <% end %>
+
+  <%= f.govuk_radio_button :share_safeguarding_issues, 'No', label: { text: 'No' } %>
+<% end %>
+
+<%= f.govuk_submit t('continue') %>
