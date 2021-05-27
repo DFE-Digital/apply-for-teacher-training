@@ -15,13 +15,17 @@ module DataMigrations
         application_choices.each do |application_choice|
           next if Offer.exists?(application_choice: application_choice)
 
-          offer = Offer.new(application_choice: application_choice)
-          application_choice.offer['conditions'].each do |condition|
+          offer = Offer.create!(application_choice: application_choice)
+          conditions = application_choice.offer['conditions'].map do |condition|
             condition_details = { text: condition }
             condition_details.merge!(status: CONDITION_STATUS[application_choice.status.to_sym]) if CONDITION_STATUS.key?(application_choice.status.to_sym)
-            offer.conditions.build(condition_details)
+            condition_details
           end
-          offer.save
+          next unless conditions.any?
+
+          offer.conditions.create_with(offer_id: offer.id,
+                                       created_at: Time.zone.now,
+                                       updated_at: Time.zone.now).insert_all!(conditions)
         end
       end
     end

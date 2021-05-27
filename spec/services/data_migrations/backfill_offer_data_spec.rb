@@ -25,8 +25,8 @@ RSpec.describe DataMigrations::BackfillOfferData do
   end
 
   it 'backfills information of offers with conditions' do
-    application_choice = create(:application_choice, :with_offer)
-    other_application_choice = create(:application_choice, :with_offer, offer: { conditions: %w[One Two] })
+    application_choice = create(:application_choice, status: 'offer', offer: { conditions: %w[Three] }, offered_at: Time.zone.now)
+    other_application_choice = create(:application_choice, status: :offer, offer: { conditions: %w[One Two] }, offered_at: Time.zone.now)
 
     expect { described_class.new.change }.to change(Offer, :count).by(2)
 
@@ -36,9 +36,9 @@ RSpec.describe DataMigrations::BackfillOfferData do
   end
 
   it 'backfills the correct condition status based on the offer state' do
-    application_choice_with_offer = create(:application_choice, :with_offer)
-    application_choice_recruited = create(:application_choice, :with_offer, :recruited)
-    application_choice_conditions_not_met = create(:application_choice, :with_offer, :conditions_not_met)
+    application_choice_with_offer = create(:application_choice, :offer, offer: { conditions: %w[Three] }, offered_at: Time.zone.now)
+    application_choice_recruited = create(:application_choice, :recruited, offer: { conditions: %w[Three] }, offered_at: Time.zone.now)
+    application_choice_conditions_not_met = create(:application_choice, :conditions_not_met, offer: { conditions: %w[Three] }, offered_at: Time.zone.now)
 
     expect { described_class.new.change }.to change(Offer, :count).by(3)
 
@@ -48,7 +48,7 @@ RSpec.describe DataMigrations::BackfillOfferData do
   end
 
   it 'does not update the audit log' do
-    create(:application_choice, :with_offer)
+    create(:application_choice, status: 'offer', offer: { conditions: [] }, offered_at: Time.zone.now)
 
     expect { described_class.new.change }
       .to change(Offer, :count).by(1)
