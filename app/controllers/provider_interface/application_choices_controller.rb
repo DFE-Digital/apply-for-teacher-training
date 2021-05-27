@@ -21,7 +21,7 @@ module ProviderInterface
 
       # Eager load / prevent Bullet::Notification::UnoptimizedQueryError
       with_includes = ApplicationChoice.includes(
-        %i[application_form provider current_course_option current_course site accredited_provider],
+        %i[application_form current_course_option current_course current_site current_provider current_accredited_provider],
       )
 
       # Using id: below turns all previous queries into a subquery for sorting

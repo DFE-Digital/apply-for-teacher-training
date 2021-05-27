@@ -4,7 +4,16 @@ class FilterApplicationChoicesForProviders
   def self.call(application_choices:, filters:)
     return application_choices if filters.empty?
 
-    create_filter_query(application_choices, filters)
+    combined_query = ApplicationChoice.includes(
+      current_course_option: [
+        :site,
+        course: %i[provider accredited_provider course_subjects],
+      ],
+    )
+    .with(supplied_choices: application_choices)
+    .joins('INNER JOIN supplied_choices ON supplied_choices.id = application_choices.id')
+
+    create_filter_query(combined_query, filters)
   end
 
   class << self
@@ -25,7 +34,7 @@ class FilterApplicationChoicesForProviders
     def recruitment_cycle_year(application_choices, years)
       return application_choices if years.blank?
 
-      application_choices.where('courses.recruitment_cycle_year' => years)
+      application_choices.where(course: { recruitment_cycle_year: years })
     end
 
     def status(application_choices, statuses)
@@ -37,25 +46,28 @@ class FilterApplicationChoicesForProviders
     def provider(application_choices, providers)
       return application_choices if providers.blank?
 
-      application_choices.where('courses.provider_id' => providers)
+      application_choices
+        .where(provider: { id: providers })
     end
 
     def accredited_provider(application_choices, accredited_providers)
       return application_choices if accredited_providers.blank?
 
-      application_choices.where('courses.accredited_provider_id' => accredited_providers)
+      application_choices
+        .where(accredited_provider: { id: accredited_providers })
     end
 
     def provider_location(application_choices, provider_location)
       return application_choices if provider_location.blank?
 
-      application_choices.where('sites.id' => provider_location)
+      application_choices.where(site: { id: provider_location })
     end
 
     def course_subject(application_choices, subject_ids)
       return application_choices unless subject_ids&.any?
 
-      application_choices.joins(:course).merge(Course.with_subjects(subject_ids))
+      application_choices
+        .where(course_subjects: { subject_id: subject_ids })
     end
 
     def create_filter_query(application_choices, filters)

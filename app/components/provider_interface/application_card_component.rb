@@ -7,13 +7,13 @@ module ProviderInterface
                   :site_name_and_code
 
     def initialize(application_choice:)
-      @accredited_provider = application_choice.accredited_provider
+      @accredited_provider = application_choice.current_accredited_provider
       @application_choice = application_choice
       @candidate_name = application_choice.application_form.full_name
       @course_name_and_code = application_choice.current_course.name_and_code
-      @course_provider_name = application_choice.current_course.provider.name
+      @course_provider_name = application_choice.current_provider.name
       @changed_at = application_choice.updated_at.to_s(:govuk_date_and_time)
-      @site_name_and_code = application_choice.site.name_and_code
+      @site_name_and_code = application_choice.current_site.name_and_code
     end
 
     def days_to_respond_text
