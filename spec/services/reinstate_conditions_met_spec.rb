@@ -9,7 +9,7 @@ RSpec.describe ReinstateConditionsMet do
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
 
   def service
-    ReinstateConditionsMet.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
+    described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
   end
 
   it 'changes application status to \'recruited\'' do
@@ -37,9 +37,35 @@ RSpec.describe ReinstateConditionsMet do
     end
   end
 
+  it 'updates the status of all conditions to met' do
+    offer = Offer.find_by(application_choice: application_choice)
+
+    expect { service.save }.to change { offer.reload.conditions.first.status }.from('pending').to('met')
+  end
+
+  context 'when the application does not have an offer object associated' do
+    let(:application_choice) do
+      create(
+        :application_choice,
+        offer: { conditions: ['Be cool'] },
+        status: :offer_deferred,
+        status_before_deferral: :pending_conditions,
+        course_option: previous_course_option,
+      )
+    end
+
+    it 'creates an offer object' do
+      service.save
+
+      offer = Offer.find_by(application_choice: application_choice)
+      expect(offer).not_to be_nil
+      expect(offer.conditions.first.status).to eq('met')
+    end
+  end
+
   describe 'course option validation' do
     it 'checks the course option is present' do
-      reinstate = ReinstateConditionsMet.new(actor: provider_user, application_choice: application_choice, course_option: nil)
+      reinstate = described_class.new(actor: provider_user, application_choice: application_choice, course_option: nil)
 
       expect(reinstate).not_to be_valid
 
@@ -48,7 +74,7 @@ RSpec.describe ReinstateConditionsMet do
 
     it 'checks the course is open on apply' do
       new_course_option = create(:course_option, course: create(:course, provider: provider, open_on_apply: false))
-      reinstate = ReinstateConditionsMet.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
+      reinstate = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
 
       expect(reinstate).not_to be_valid
 
@@ -56,7 +82,7 @@ RSpec.describe ReinstateConditionsMet do
     end
 
     it 'checks course option matches the current RecruitmentCycle' do
-      reinstate = ReinstateConditionsMet.new(actor: provider_user, application_choice: application_choice, course_option: previous_course_option)
+      reinstate = described_class.new(actor: provider_user, application_choice: application_choice, course_option: previous_course_option)
 
       expect(reinstate).not_to be_valid
 

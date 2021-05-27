@@ -21,6 +21,7 @@ class ReinstatePendingConditions
       if valid?
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
+          UpdateOfferConditions.new(application_choice: application_choice).call
           @application_choice.update(
             current_course_option_id: course_option.id,
             recruited_at: nil,
