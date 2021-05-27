@@ -27,4 +27,16 @@ RSpec.describe ProviderUserNotificationPreferences do
       expect(described_class.notification_preference_exists?(:application_exploded)).to eq(false)
     end
   end
+
+  describe 'auditing' do
+    it 'updating adds an audit entry related to the provider_user', with_audited: true do
+      notification_preferences = create(:provider_user_notification_preferences)
+      notification_preferences.update(application_withdrawn: false)
+
+      audit = notification_preferences.provider_user.associated_audits.last
+
+      expect(notification_preferences.provider_user.associated_audits.count).to eq(1)
+      expect(audit.audited_changes['application_withdrawn']).to eq([true, false])
+    end
+  end
 end
