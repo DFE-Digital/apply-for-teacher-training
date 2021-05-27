@@ -11,7 +11,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::PrefixNoteSubjectToMessage',
   'DataMigrations::TrimQualificationDegreeTypes',
   'DataMigrations::BackfillExportType',
-  'DataMigrations::FixLatLongFlipFlops',
 ].freeze
 
 def data_migrations
