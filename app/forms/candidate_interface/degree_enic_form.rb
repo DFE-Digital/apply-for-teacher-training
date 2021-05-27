@@ -22,10 +22,22 @@ module CandidateInterface
     end
 
     def assign_form_values
-      self.have_enic_reference = (degree.enic_reference.present? ? 'yes' : 'no')
+      self.have_enic_reference = set_have_enic_references
       self.enic_reference = degree.enic_reference
       self.comparable_uk_degree = degree.comparable_uk_degree
       self
+    end
+
+  private
+
+    def set_have_enic_references
+      if degree.enic_reference.present?
+        'yes'
+      elsif degree.comparable_uk_degree.blank? && degree.award_year.blank?
+        nil
+      else
+        'no'
+      end
     end
   end
 end
