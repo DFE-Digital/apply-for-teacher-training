@@ -1,6 +1,8 @@
 class ProviderUserNotificationPreferences < ApplicationRecord
   belongs_to :provider_user
 
+  audited associated_with: :provider_user, on: [:update]
+
   self.table_name = :provider_user_notifications
 
   NOTIFICATION_PREFERENCES = %i[
