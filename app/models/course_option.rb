@@ -5,6 +5,7 @@ class CourseOption < ApplicationRecord
 
   audited associated_with: :provider
   delegate :provider, to: :course
+  delegate :accredited_provider, to: :course
   delegate :name, :full_address, to: :site, prefix: true
 
   validates :vacancy_status, presence: true
