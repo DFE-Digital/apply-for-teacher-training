@@ -2,7 +2,7 @@
 <% if current_application.application_work_experiences.present? %>
   <% content_for :before_content, govuk_back_link_to(candidate_interface_work_history_show_path) %>
 <% else %>
-  <% content_for :before_content, govuk_back_link_to %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_work_history_length_path) %>
 <% end %>
 
 <div class="govuk-grid-row">
