@@ -101,7 +101,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     context 'PUT to update' do
       subject { put provider_interface_application_choice_offer_path(application_choice) }
 
-      it_behaves_like 'an action which tracks validation errors', 'POST to create'
+      it_behaves_like 'an action which tracks validation errors', 'PUT to update'
     end
 
     context 'POST to (providers) create' do
