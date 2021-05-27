@@ -13,6 +13,8 @@ module DataMigrations
 
       ActiveRecord::Base.no_touching do
         application_choices.each do |application_choice|
+          next if Offer.exists?(application_choice: application_choice)
+
           offer = Offer.new(application_choice: application_choice)
           application_choice.offer['conditions'].each do |condition|
             condition_details = { text: condition }

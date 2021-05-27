@@ -9,6 +9,14 @@ RSpec.describe DataMigrations::BackfillOfferData do
     expect { described_class.new.change }.not_to change(Offer, :count)
   end
 
+  it 'does nothing when the application choice already has an offer associated with it' do
+    application_choice = create(:application_choice, offered_at: Time.zone.now)
+    create(:offer, application_choice: application_choice)
+    create_list(:application_choice, 2, offer: { conditions: [] }, offered_at: Time.zone.now)
+
+    expect { described_class.new.change }.to change(Offer, :count).by(2)
+  end
+
   it 'backfills information of offers without conditions' do
     create_list(:application_choice, 3, offer: { conditions: [] }, offered_at: Time.zone.now)
 
