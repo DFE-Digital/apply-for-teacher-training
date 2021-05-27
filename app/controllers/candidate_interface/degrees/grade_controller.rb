@@ -7,7 +7,7 @@ module CandidateInterface
       before_action :set_page_title
 
       def new
-        @degree_grade_form = DegreeGradeForm.new(degree: current_degree)
+        @degree_grade_form = DegreeGradeForm.new(degree: current_degree).assign_form_values
       end
 
       def create

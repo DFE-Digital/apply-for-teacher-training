@@ -4,7 +4,7 @@ module CandidateInterface
       before_action :set_institution_names, :set_countries
 
       def new
-        @degree_institution_form = DegreeInstitutionForm.new(degree: current_degree)
+        @degree_institution_form = DegreeInstitutionForm.new(degree: current_degree).assign_form_values
       end
 
       def create

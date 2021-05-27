@@ -4,7 +4,7 @@ module CandidateInterface
       before_action :set_subject_names
 
       def new
-        @degree_subject_form = DegreeSubjectForm.new(degree: current_degree)
+        @degree_subject_form = DegreeSubjectForm.new(degree: current_degree).assign_form_values
       end
 
       def create

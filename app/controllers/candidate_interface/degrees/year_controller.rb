@@ -2,7 +2,7 @@ module CandidateInterface
   module Degrees
     class YearController < BaseController
       def new
-        @degree_year_form = DegreeYearForm.new(degree: current_degree)
+        @degree_year_form = DegreeYearForm.new(degree: current_degree).assign_form_values
       end
 
       def create

@@ -2,7 +2,7 @@ module CandidateInterface
   module Degrees
     class EnicController < BaseController
       def new
-        @degree_enic_form = DegreeEnicForm.new(degree: current_degree)
+        @degree_enic_form = DegreeEnicForm.new(degree: current_degree).assign_form_values
       end
 
       def create
