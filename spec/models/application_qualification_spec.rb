@@ -302,5 +302,13 @@ RSpec.describe ApplicationQualification, type: :model do
       grades = { english_language: { grade: 'E', public_id: 120282 }, english_literature: { grade: 'D', public_id: 120283 } }
       expect(build(:gcse_qualification, :multiple_english_gcses, constituent_grades: grades).failed_required_gcse?).to be true
     end
+
+    it 'returns false if the qualification is Double Award GCSE and has a numerical pass grade' do
+      expect(build(:gcse_qualification, grade: '4-3').failed_required_gcse?).to be false
+    end
+
+    it 'returns true if the qualification is Double Award GCSE and has a numerical fail grade' do
+      expect(build(:gcse_qualification, grade: '3-3').failed_required_gcse?).to be true
+    end
   end
 end
