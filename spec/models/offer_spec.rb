@@ -54,5 +54,14 @@ RSpec.describe Offer do
         expect(offer.accredited_provider).to eq(offer.course_option.accredited_provider)
       end
     end
+
+    describe '#offered_at' do
+      let(:application_choice) { create(:application_choice) }
+      let(:offer) { create(:offer, application_choice: application_choice) }
+
+      it 'returns the offered_at related to the application_choice' do
+        expect(offer.offered_at).to eq(offer.course_option.accredited_provider)
+      end
+    end
   end
 end
