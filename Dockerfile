@@ -88,6 +88,8 @@ WORKDIR /app
 
 COPY --from=assets-precompile /app /app
 COPY --from=assets-precompile /usr/local/bundle/ /usr/local/bundle/
+RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
+ENV ENV="/root/.ashrc"
 
 RUN echo ${VERSION} > public/check
 
