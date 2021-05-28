@@ -79,6 +79,7 @@ en:
     guidance_for_the_new_cycle: Guidance for the new cycle (2020 to 2021)
     cookies_candidate: Cookies
     cookies_provider: Cookies
+    roadmap: Apply for teacher training roadmap
     complaints: Make a complaint about this service
     contact_information: Contact information
     contact_details: Contact details
@@ -252,6 +253,7 @@ en:
       complaints: Complaints
       terms_of_use: Terms of use
       privacy_policy: Privacy policy
+      roadmap: Roadmap
   activemodel:
     attributes:
       vendor_api/metadata:

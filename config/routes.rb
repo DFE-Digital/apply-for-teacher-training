@@ -610,6 +610,7 @@ Rails.application.routes.draw do
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_page', as: :cookies
+    get '/roadmap', to: 'content#roadmap', as: :roadmap
     get '/make-a-complaint', to: 'content#complaints', as: :complaints
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
     get '/covid-19-guidance', to: redirect('/')

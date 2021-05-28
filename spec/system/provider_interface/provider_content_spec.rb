@@ -20,6 +20,9 @@ RSpec.feature 'Provider content' do
 
     when_i_click_on_the_service_guidance
     then_i_can_see_the_service_guidance_provider
+
+    when_i_click_on_the_roadmap
+    then_i_can_see_the_roadmap
   end
 
   def given_i_am_on_the_provider_interface
@@ -79,5 +82,13 @@ RSpec.feature 'Provider content' do
 
   def then_i_can_see_the_service_guidance_provider
     expect(page).to have_content(t('page_titles.service_guidance_provider'))
+  end
+
+  def when_i_click_on_the_roadmap
+    within('.govuk-footer') { click_link t('layout.support_links.roadmap') }
+  end
+
+  def then_i_can_see_the_roadmap
+    expect(page).to have_content(t('page_titles.roadmap'))
   end
 end
