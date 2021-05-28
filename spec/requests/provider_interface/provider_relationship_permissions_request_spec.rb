@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'ProviderRelationshipPermissions', type: :request do
+  include ModelWithErrorsStubHelper
+
   let(:provider) { create(:provider, :with_signed_agreement) }
   let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 

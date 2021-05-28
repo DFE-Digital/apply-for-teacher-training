@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderUsersController, type: :request do
   include DfESignInHelpers
+  include ModelWithErrorsStubHelper
 
   describe 'validation errors' do
     let(:managing_user) { create(:provider_user, :with_manage_organisations, :with_manage_users, providers: [provider]) }

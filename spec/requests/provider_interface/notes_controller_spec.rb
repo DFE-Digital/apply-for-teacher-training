@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::NotesController, type: :request do
   include DfESignInHelpers
+  include ModelWithErrorsStubHelper
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }

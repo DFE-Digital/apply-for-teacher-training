@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderUsersInvitationsController, type: :request do
   include DfESignInHelpers
+  include ModelWithErrorsStubHelper
 
   describe 'validation errors' do
     let(:provider) { create(:provider, :with_signed_agreement) }
