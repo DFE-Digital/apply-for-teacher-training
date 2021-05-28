@@ -7,6 +7,4 @@ class OfferCondition < ApplicationRecord
     met: 'met',
     unmet: 'unmet',
   }
-
-  audited associated_with: :application_choice
 end

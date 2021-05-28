@@ -164,6 +164,13 @@ FactoryBot.define do
       decline_by_default_days { 10 }
       offer { { 'conditions' => ['Be cool'] } }
       offered_at { Time.zone.now }
+
+      after(:build) do |choice, _evaluator|
+        offer = create(:offer, application_choice: choice, conditions: [])
+        choice.offer['conditions'].each do |condition|
+          create(:offer_condition, text: condition, offer: offer)
+        end
+      end
     end
 
     trait :with_modified_offer do

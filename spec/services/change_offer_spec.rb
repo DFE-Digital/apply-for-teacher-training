@@ -78,13 +78,18 @@ RSpec.describe ChangeOffer do
 
       it 'then it executes the service without errors ' do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
+        update_offer_conditions_service = instance_double(UpdateOfferConditions, call: true)
         allow(SetDeclineByDefault)
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
+        allow(UpdateOfferConditions)
+            .to receive(:new).with(application_choice: application_choice)
+                    .and_return(update_offer_conditions_service)
 
         change_offer.save!
 
-        expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
+        expect(set_declined_by_default).to have_received(:call)
+        expect(update_offer_conditions_service).to have_received(:call)
       end
     end
 
