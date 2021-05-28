@@ -310,13 +310,13 @@
         "dfeSignInClientId": {
             "type": "string",
             "metadata": {
-                "description": "The DfE Sign-in client ID, obtained from the DfE Sign in management interface"
+                "description": "The DfE Sign-in client ID, obtained from the DfE Sign-in management interface"
             }
         },
         "dfeSignInSecret": {
             "type": "string",
             "metadata": {
-                "description": "The DfE Sign-in secret, obtained from the DfE sign-in management interface"
+                "description": "The DfE Sign-in secret, obtained from the DfE Sign-in management interface"
             }
         },
         "dfeSignInIssuer": {
