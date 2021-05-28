@@ -11,6 +11,7 @@ class DetectInvariants
     detect_applications_submitted_with_the_same_course
     detect_course_sync_not_succeeded_for_an_hour
     detect_high_sidekiq_retries_queue_length
+    detect_application_choices_with_courses_from_the_incorrect_cycle
   end
 
   def detect_application_choices_in_old_states
@@ -162,6 +163,28 @@ class DetectInvariants
     end
   end
 
+  def detect_application_choices_with_courses_from_the_incorrect_cycle
+    applications_choices_with_invalid_courses = ApplicationChoice
+    .joins(:application_form, current_course_option: [:course])
+    .where('courses.recruitment_cycle_year != application_forms.recruitment_cycle_year')
+    .where(offer_deferred_at: nil)
+
+    if applications_choices_with_invalid_courses.any?
+      urls = applications_choices_with_invalid_courses
+      .map(&:application_form)
+      .uniq
+      .map { |application_form| helpers.support_interface_application_form_url(application_form.id) }
+
+      message = <<~MSG
+        The following applications have an application choice with a course from a different recruitment cycle
+
+        #{urls.join("\n")}
+      MSG
+
+      Raven.capture_exception(ApplicationWithADifferentCyclesCourse.new(message))
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
@@ -170,6 +193,7 @@ class DetectInvariants
   class ApplicationSubmittedWithTheSameCourse < StandardError; end
   class CourseSyncNotSucceededForAnHour < StandardError; end
   class SidekiqRetriesQueueHigh < StandardError; end
+  class ApplicationWithADifferentCyclesCourse < StandardError; end
 
 private
 
