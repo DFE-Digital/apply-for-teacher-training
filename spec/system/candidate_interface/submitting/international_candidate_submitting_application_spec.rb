@@ -110,6 +110,9 @@ RSpec.feature 'International candidate submits the application' do
 
     candidate_provides_two_referees
     receive_references
+    if FeatureFlag.active?(:reference_selection)
+      select_references_and_complete_section
+    end
   end
 
   def when_i_review_my_application

@@ -139,13 +139,17 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_can_see_my_referees
-    expect(page).to have_content 'Terri Tudor'
-    expect(page).to have_content 'terri@example.com'
-    expect(page).to have_content 'Tutor'
-
-    expect(page).to have_content 'Anne Other'
-    expect(page).to have_content 'anne@other.com'
-    expect(page).to have_content 'First boss'
+    if FeatureFlag.active?(:reference_selection)
+      within_summary_row('Selected references') do
+        expect(page).to have_content 'Terri Tudor'
+        expect(page).to have_content 'Anne Other'
+      end
+    else
+      expect(page).to have_content 'terri@example.com'
+      expect(page).to have_content 'Tutor'
+      expect(page).to have_content 'anne@other.com'
+      expect(page).to have_content 'First boss'
+    end
   end
 
   def and_i_visit_the_application_form_page
