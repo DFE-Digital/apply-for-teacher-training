@@ -1,4 +1,9 @@
 <div class="app-task-list__content">
+  <% if FeatureFlag.active?(:reference_selection) %>
+    <p class="govuk-body">
+      <%= govuk_link_to t('page_titles.references_review'), references_path, 'aria-describedby': "#{t('page_titles.references_review').parameterize}-badge-id" %>
+    </p>
+  <% end %>
   <ul class="govuk-list">
     <% references.each do |reference| %>
       <li class="govuk-body-s">

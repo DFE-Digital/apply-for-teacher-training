@@ -6,27 +6,45 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   scenario 'the candidate has received 4 references and must select 2 before completing the section' do
     given_i_am_signed_in
     and_the_reference_selection_feature_flag_is_active
-    and_i_have_requested_four_references
-    when_i_visit_the_references_section
-    then_i_cannot_complete_the_section_because_i_dont_have_any_references
 
-    when_i_have_received_four_references
-    and_i_visit_the_references_section
-    and_i_choose_to_complete_the_section
-    and_click_continue
-    then_i_see_the_select_references_page
-    and_i_see_all_my_feedback_provided_references
+    when_i_visit_the_select_references_page
+    then_i_am_told_i_need_to_receive_references
 
-    when_i_click_continue
+    when_i_request_my_references
+    and_i_visit_the_select_references_page
+    then_i_am_told_i_need_to_receive_references
+
+    when_i_receive_only_one_of_my_references
+    and_i_visit_the_select_references_page
+    then_i_am_told_i_need_to_receive_references
+
+    when_i_have_received_all_my_references
+    and_i_visit_the_select_references_page
+    then_i_can_select_any_of_my_feedback_provided_references
+
+    when_i_click_save_and_continue
     then_i_am_told_i_need_to_select_two_references
+
     when_i_select_3_references
-    and_click_continue
+    and_i_click_save_and_continue
     then_i_am_told_i_need_to_select_two_references
 
     when_i_select_2_references
-    and_click_continue
+    and_i_click_save_and_continue
     then_those_references_are_selected
-    and_the_references_section_is_complete
+
+    when_i_change_my_selected_references
+    and_i_click_save_and_continue
+    then_i_see_my_new_selection
+
+    when_i_mark_the_section_as_incomplete
+    and_i_click_save_and_continue
+    then_i_see_the_section_is_incomplete
+
+    when_i_revisit_the_select_references_page
+    and_i_mark_the_section_as_completed
+    and_i_click_save_and_continue
+    then_i_see_the_references_section_is_complete
   end
 
   def given_i_am_signed_in
@@ -39,52 +57,54 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
     FeatureFlag.activate('reference_selection')
   end
 
-  def then_i_cannot_complete_the_section_because_i_dont_have_any_references
-    expect(page).to have_content 'Have you completed this section?'
-    when_i_choose_to_complete_the_section
-    and_click_continue
-    expect(page).to have_content I18n.t('application_form.references.review.need_two')
-    expect(@application.reload.references_completed).to eq nil
-  end
-
-  def and_i_have_requested_four_references
+  def when_i_request_my_references
     create_list(:reference, 4, feedback_status: :feedback_requested, application_form: @application)
   end
 
-  def when_i_have_received_four_references
-    @application.application_references.update_all(feedback_status: :feedback_provided)
+  def when_i_receive_only_one_of_my_references
+    reference = @application.application_references.last
+    SubmitReference.new(reference: reference).save!
   end
 
-  def when_i_visit_the_references_section
-    visit candidate_interface_references_review_path
+  def when_i_have_received_all_my_references
+    references = @application.application_references.where(feedback_status: 'feedback_requested')
+    references.each { |reference| reference.update!(feedback_status: 'feedback_provided') }
   end
-  alias_method :and_i_visit_the_references_section, :when_i_visit_the_references_section
 
-  def when_i_choose_to_complete_the_section
-    choose 'Yes, I have completed this section'
+  def when_i_click_save_and_continue
+    click_button 'Save and continue'
   end
-  alias_method :and_i_choose_to_complete_the_section, :when_i_choose_to_complete_the_section
+  alias_method :and_i_click_save_and_continue, :when_i_click_save_and_continue
 
-  def and_click_continue
-    click_button 'Continue'
+  def when_i_visit_the_select_references_page
+    visit candidate_interface_select_references_path
   end
-  alias_method :when_i_click_continue, :and_click_continue
+  alias_method :and_i_visit_the_select_references_page, :when_i_visit_the_select_references_page
 
-  def then_i_see_the_select_references_page
+  def then_i_am_told_i_need_to_receive_references
+    expect(page).to have_content 'Once 2 or more references have been given, you can then select which you want to include'
+  end
+
+  def and_i_see_the_select_references_page
     expect(page).to have_current_path candidate_interface_select_references_path
   end
 
-  def and_i_see_all_my_feedback_provided_references
+  def then_i_can_select_any_of_my_feedback_provided_references
+    expect(page).to have_current_path candidate_interface_select_references_path
     provided_references = @application.application_references.feedback_provided
     @first_reference = provided_references.first
     @second_reference = provided_references.second
     @third_reference = provided_references.third
     @fourth_reference = provided_references.fourth
 
-    expect(page).to have_content(@first_reference.single_line_identifier)
-    expect(page).to have_content(@second_reference.single_line_identifier)
-    expect(page).to have_content(@third_reference.single_line_identifier)
-    expect(page).to have_content(@fourth_reference.single_line_identifier)
+    expect(page).to have_content(@first_reference.name)
+    expect(page).to have_content(@first_reference.referee_type.humanize)
+    expect(page).to have_content(@second_reference.name)
+    expect(page).to have_content(@second_reference.referee_type.humanize)
+    expect(page).to have_content(@third_reference.name)
+    expect(page).to have_content(@third_reference.referee_type.humanize)
+    expect(page).to have_content(@fourth_reference.name)
+    expect(page).to have_content(@fourth_reference.referee_type.humanize)
   end
 
   def then_i_am_told_i_need_to_select_two_references
@@ -92,32 +112,54 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   end
 
   def when_i_select_3_references
-    check @first_reference.single_line_identifier
-    check @second_reference.single_line_identifier
-    check @third_reference.single_line_identifier
+    check @first_reference.name
+    check @second_reference.name
+    check @third_reference.name
   end
 
   def when_i_select_2_references
-    check @first_reference.single_line_identifier
-    check @second_reference.single_line_identifier
+    check @first_reference.name
+    check @second_reference.name
   end
 
   def then_those_references_are_selected
-    within find('#references_selected') do
-      expect(page).to have_content @first_reference.name
-      expect(page).to have_content @second_reference.name
-      expect(page).not_to have_content @third_reference.name
-    end
-
-    within find('#references_given') do
-      expect(page).not_to have_content @first_reference.name
-      expect(page).not_to have_content @second_reference.name
-      expect(page).to have_content @third_reference.name
-    end
+    expect(page).to have_content @first_reference.name
+    expect(page).to have_content @second_reference.name
+    expect(page).not_to have_content @third_reference.name
   end
 
-  def and_the_references_section_is_complete
-    click_link 'Back to application'
-    expect(page).to have_css('#manage-your-references-badge-id', text: 'Completed')
+  def when_i_change_my_selected_references
+    click_link 'Change'
+    uncheck @first_reference.name
+    uncheck @second_reference.name
+    check @third_reference.name
+    check @fourth_reference.name
+  end
+
+  def then_i_see_my_new_selection
+    expect(page).to have_content @third_reference.name
+    expect(page).to have_content @fourth_reference.name
+    expect(page).not_to have_content @first_reference.name
+    expect(page).not_to have_content @second_reference.name
+  end
+
+  def when_i_mark_the_section_as_incomplete
+    choose t('application_form.incomplete_radio')
+  end
+
+  def when_i_revisit_the_select_references_page
+    click_link 'Selected references'
+  end
+
+  def and_i_mark_the_section_as_completed
+    choose t('application_form.completed_radio')
+  end
+
+  def then_i_see_the_section_is_incomplete
+    expect(page).to have_css('#selected-references-badge-id', text: 'Incomplete')
+  end
+
+  def then_i_see_the_references_section_is_complete
+    expect(page).to have_css('#selected-references-badge-id', text: 'Completed')
   end
 end
