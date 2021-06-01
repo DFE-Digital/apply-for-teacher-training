@@ -1,6 +1,7 @@
 module CandidateInterface
   class Gcse::YearController < Gcse::BaseController
     def new
+      set_previous_path
       @year_form = CandidateInterface::GcseYearForm.build_from_qualification(current_qualification)
     end
 
@@ -10,6 +11,7 @@ module CandidateInterface
       if @year_form.save(current_qualification)
         redirect_to candidate_interface_gcse_review_path
       else
+        set_previous_path
         track_validation_error(@year_form)
 
         render :new

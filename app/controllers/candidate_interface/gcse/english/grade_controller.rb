@@ -16,7 +16,7 @@ module CandidateInterface
         if current_qualification.failed_required_gcse?
           redirect_to candidate_interface_gcse_details_new_grade_explanation_path(@subject)
         else
-          redirect_to candidate_interface_gcse_details_edit_year_path(@subject)
+          redirect_to candidate_interface_gcse_details_new_year_path(@subject)
         end
       else
         set_previous_path

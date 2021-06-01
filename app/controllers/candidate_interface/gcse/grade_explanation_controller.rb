@@ -9,7 +9,7 @@ module CandidateInterface
       @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
 
       if @form.save(current_qualification)
-        redirect_to candidate_interface_gcse_details_edit_year_path(params[:subject])
+        redirect_to candidate_interface_gcse_details_new_year_path(params[:subject])
       else
         set_previous_path
         track_validation_error(@form)
