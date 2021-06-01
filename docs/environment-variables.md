@@ -1,8 +1,6 @@
 # Environment Variables
 
-**NOTE: Environment variables should not start with *endpoint*, *input*, *secret*, or *securefile* (irrespective of capitalisation) due to them being protected variable names within the Azure DevOps environment.** If this cannot be avoided variable mapping will have to be used, but wherever possible it is simpler not to use these protected names.
-
-Environment variables have to be defined in several places depending upon where they are required, some are common to both local development and the Azure hosted deployment, while others are specific to the environments they relate, all of which are described below
+Environment variables have to be defined in several places depending upon where they are required, some are common to both local development and the deployment application, while others are specific to the environments they relate, all of which are described below
 
 ## Dockerfile
 
@@ -22,35 +20,57 @@ The [.env.example](../.env.example) file contains the essential environment vari
 
 ## Docker Compose
 
-For docker compose to make the necessary environment variables available in the container at run time they must be declared in the relevant docker-compose.yaml file, of which there are three.
+For docker compose to make the necessary environment variables available in the container at run time they must be declared in the relevant docker-compose file.
 
-* [docker-compose.yml](../docker-compose.yml) - Variables that are required for local dev and the docker image build phase in azure only should be defined the *environment* section in this file. This will in general only be for the database.
-* [docker-compose.azure.yml](../docker-compose.azure.yml) - This file is used in the Azure devops pipeline. Any environment variables required during build/deployment need to be declared in the *environment* section of this file. **You should only declare the environment variable here, not its value.** The only exception to this is where we need to map variables due to the use of protected variable names, e.g. Rails SECRET_KEY_BASE.
+* [docker-compose.yml](../docker-compose.yml) - Variables that are required for local dev should be defined the *environment* section in this file. This will in general only be for the database.
 
-## Azure Hosting (DevOps pipeline)
+## Deploy Pipeline
 
-These steps describe the process for making environment variables available to the the Azure DevOps pipeline.
+Runtime environment variables and app secrets are stored in Azure KeyVault and the github actions workflow reads this secrets and configures them as environment variables during the deployment. All required app secrets and environment variables are stored as one YAML file inside Azure KeyVault and each key in the file is set as individual environment variable as part of the deployment.
+Run the below commands from the root of the repository to view the current values stored in Key Vault.
+You'll also need to be logged into your azure account using the [az cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 
-1. Declare the desired variable in the appropriate "variable group" in the Library section of the Azure DevOps site (https://dfe-ssp.visualstudio.com/Become-A-Teacher/_library?itemType=VariableGroups). All variable groups related to apply are suffixed as such and there is a variable group per deployment environment.
-2. Add your variable with the same name in all the 5(DevOps, QA, Staging, Sandbox, Production) variable groups.
-3. In [deploy.yml](../azure/pipelines/templates/deploy.yml#L191) make the following additions:
-   1. In the Azure Resource Group deployment task *overrideParameters* section add your variable in the format `-varName: "$(varName)"`
-4. In [azure/template.json](../azure/template.json) make the following additions:
-   1. Duplicate this block of code for your new variable at the end of the *parameters* section.
-      ```json
-      "varName": {
-        "type": "string",
-        "metadata": {
-          "description": "Describe your variable here."
-        }
-      }
-      ```
-   2. Around [line 500](../azure/template.json#L505) duplicate this block of code in the *appEnvironmentVariables* parameter of the `app-service-and-containers` resource and configure it to match your new environment varaible.
-   If the environment variable in question is a secret, change `value` to `secureValue`.
-      ```json
-      {
-        "name": "ENV_VAR_NAME",
-        "value": "[parameters('varName')]"
-      }
-      ```
-   The values asigned to `appEnvironmentVariables` will be available as environment variables in the web app, clock and worker container instances.
+Command                          | Description                                   | Azure Subscription
+---------------------------------| --------------------------------------------- |---------------------
+make qa view-app-secrets         | View app secrets for `qa` environment         | s121-findpostgraduateteachertraining-development
+make staging view-app-secrets    | View app secrets for `staging` environment    | s121-findpostgraduateteachertraining-test
+make sandbox view-app-secrets    | View app secrets for `sandbox` environment    | s121-findpostgraduateteachertraining-production
+make production view-app-secrets | View app secrets for `production` environment | s121-findpostgraduateteachertraining-production
+
+**Please note that you'll need PIM access on the corresponding Azure subscription to view/edit app secrets in staging, sandbox and production environments.**
+
+Command                          | Description                                   | Azure Subscription
+---------------------------------| --------------------------------------------- |---------------------
+make qa edit-app-secrets         | Edit app secrets for `qa` environment         | s121-findpostgraduateteachertraining-development
+make staging edit-app-secrets    | Edit app secrets for `staging` environment    | s121-findpostgraduateteachertraining-test
+make sandbox edit-app-secrets    | Edit app secrets for `sandbox` environment    | s121-findpostgraduateteachertraining-production
+make production edit-app-secrets | Edit app secrets for `production` environment | s121-findpostgraduateteachertraining-production
+
+### View the current app environment variables
+
+The `cf app <app-name>` command can be used to view/verify the current environment variables for the app.
+Example: `cf app apply-qa` to view the environment variables for the apply web app.
+
+App Name              | Space
+----------------------|---------
+apply-qa              | bat-qa
+apply-clock-qa        | bat-qa
+apply-worker-qa       | bat-qa
+apply-staging         | bat-staging
+apply-clock-staging   | bat-staging
+apply-worker-staging  | bat-staging
+apply-sandbox         | bat-prod
+apply-clock-sandbox   | bat-prod
+apply-worker-sandbox  | bat-prod
+apply-prod            | bat-prod
+apply-clock-prod      | bat-prod
+apply-worker-prod     | bat-prod
+
+### Ad-hoc environment variable changes
+`cf set-env <app-name>` can be used to make changes to the environment variables without having to do a full deployment.
+But please note that any change will be overridden during the next deployment.
+
+```
+cf set-env apply-qa <ENV_VAR_NAME> <VALUE> ## sets ENV_VAR_NAME=VALUE
+cf restart apply-qa --strategy rolling ## restart app without causing downtime for the change to be reflected
+```
