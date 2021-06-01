@@ -9,7 +9,7 @@ RSpec.feature 'References' do
     when_i_visit_the_site
     then_i_should_see_the_references_section
 
-    when_i_click_add_you_references
+    when_i_click_through_to_add_my_references
     then_i_see_the_start_page
 
     when_i_click_continue
@@ -110,8 +110,12 @@ RSpec.feature 'References' do
     expect(page).to have_content 'It takes 8 days to get a reference on average.'
   end
 
-  def when_i_click_add_you_references
-    click_link 'Add your references'
+  def when_i_click_through_to_add_my_references
+    if FeatureFlag.active?(:reference_selection)
+      click_link 'Review your references'
+    else
+      click_link 'Add your references'
+    end
   end
 
   def then_i_see_the_start_page

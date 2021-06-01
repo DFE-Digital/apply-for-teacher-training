@@ -92,7 +92,11 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   end
 
   def when_i_view_referees
-    click_on 'Manage your references'
+    if FeatureFlag.active?(:reference_selection)
+      click_on 'Review your references'
+    else
+      click_on 'Manage your references'
+    end
   end
 
   def then_i_can_see_the_referees_i_previously_added
