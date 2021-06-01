@@ -13,7 +13,7 @@ module CourseOptionHelpers
   end
 
   def course_option_for_accredited_provider(provider:, accredited_provider:, recruitment_cycle_year: RecruitmentCycle.current_year)
-    course = create(:course, :open_on_apply, provider: provider, accredited_provider: accredited_provider, recruitment_cycle_year: recruitment_cycle_year)
+    course = create(:course, :open_on_apply, :with_provider_relationship_permissions, provider: provider, accredited_provider: accredited_provider, recruitment_cycle_year: recruitment_cycle_year)
     site = create(:site, provider: provider)
     create(:course_option, course: course, site: site)
   end

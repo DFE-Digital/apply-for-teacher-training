@@ -124,9 +124,12 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
       end
 
       context 'when provider user does not have permissions to view diversity information and the application is accepted' do
+        before do
+          provider_relationship_permissions
+        end
+
         it 'displays the correct text' do
-          provider_user.provider_permissions.find_by(provider: training_provider)
-            .update!(view_diversity_information: false)
+          provider_user.provider_permissions.find_by(provider: training_provider).update!(view_diversity_information: false)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
           expect(result.text).to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
@@ -172,6 +175,10 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
       end
 
       context 'when provider user does not have permissions to view diversity information' do
+        before do
+          provider_relationship_permissions
+        end
+
         it 'displays the correct text' do
           provider_user.provider_permissions.find_by(provider: training_provider)
             .update!(view_diversity_information: false)
@@ -219,6 +226,10 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
       end
 
       context 'when provider user does not have permissions to view diversity information' do
+        before do
+          provider_relationship_permissions
+        end
+
         it 'displays the correct text with correct offer context' do
           provider_user.provider_permissions.find_by(provider: training_provider)
             .update!(view_diversity_information: false)
