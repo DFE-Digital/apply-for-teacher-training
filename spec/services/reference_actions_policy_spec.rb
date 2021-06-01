@@ -8,18 +8,22 @@ RSpec.describe ReferenceActionsPolicy do
       expect(policy(reference).editable?).to eq true
     end
 
-    it 'is not editable when the application form has enough references' do
-      reference = create(:reference, :not_requested_yet)
-      create(:reference, :feedback_provided, application_form: reference.application_form)
-      create(:reference, :feedback_provided, application_form: reference.application_form)
-
-      expect(policy(reference).editable?).to eq false
-    end
-
     it 'is not editable in any other other state' do
       reference = build(:reference, :feedback_provided)
 
       expect(policy(reference).editable?).to eq false
+    end
+
+    context 'with reference_selection feature off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
+
+      it 'is not editable when the application form has enough references' do
+        reference = create(:reference, :not_requested_yet)
+        create(:reference, :feedback_provided, application_form: reference.application_form)
+        create(:reference, :feedback_provided, application_form: reference.application_form)
+
+        expect(policy(reference).editable?).to eq false
+      end
     end
   end
 
