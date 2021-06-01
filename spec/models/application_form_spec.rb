@@ -278,22 +278,34 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#too_many_complete_references?' do
-    it 'returns true if there are more than 2 references' do
-      application_form = create :application_form
-      references = []
-      3.times { references << create(:reference, :feedback_provided) }
-      application_form.application_references = references
+    context 'when reference_selection feature is on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      expect(application_form.too_many_complete_references?).to be true
+      it 'returns false' do
+        application_form = create :application_form
+        create_list(:reference, 3, :feedback_provided, application_form: application_form)
+        expect(application_form.too_many_complete_references?).to be false
+      end
     end
 
-    it 'returns false if there are 2 or fewer references' do
-      application_form = create :application_form
-      expect(application_form.too_many_complete_references?).to be false
-      application_form.application_references << create(:reference)
-      expect(application_form.too_many_complete_references?).to be false
-      application_form.application_references << create(:reference)
-      expect(application_form.too_many_complete_references?).to be false
+    context 'when reference_selection feature is off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
+
+      it 'returns true if there are more than 2 references' do
+        application_form = create :application_form
+        create_list(:reference, 3, :feedback_provided, application_form: application_form)
+
+        expect(application_form.too_many_complete_references?).to be true
+      end
+
+      it 'returns false if there are 2 or fewer references' do
+        application_form = create :application_form
+        expect(application_form.too_many_complete_references?).to be false
+        application_form.application_references << create(:reference)
+        expect(application_form.too_many_complete_references?).to be false
+        application_form.application_references << create(:reference)
+        expect(application_form.too_many_complete_references?).to be false
+      end
     end
   end
 
