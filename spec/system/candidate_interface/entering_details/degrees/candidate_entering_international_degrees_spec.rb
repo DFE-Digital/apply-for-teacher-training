@@ -198,7 +198,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def and_i_enter_my_grade
-    grade_input = first('#candidate-interface-degree-grade-form-other-grade-field')
+    grade_input = first('#candidate-interface-degree-grade-form-other-grade-field-error')
     grade_input.fill_in with: '100'
   end
 

@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.add_another_degree'), @degree_type_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_review_path(params[:id])) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @degree_type_form, url: candidate_interface_new_degree_path do |f| %>
+    <%= form_with model: @degree_type_form, url: candidate_interface_new_degree_path(params[:id]) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { text: t('page_titles.add_another_degree'), size: 'xl', tag: 'h1' } do %>
