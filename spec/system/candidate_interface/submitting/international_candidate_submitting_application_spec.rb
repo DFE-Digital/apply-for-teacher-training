@@ -141,7 +141,7 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def then_i_should_see_all_sections_are_complete
-    CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
+    application_form_sections.each do |section|
       expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
     end
   end

@@ -22,6 +22,14 @@ module CandidateHelper
     login_as(current_candidate)
   end
 
+  def application_form_sections
+    if FeatureFlag.active?(:reference_selection)
+      APPLICATION_FORM_SECTIONS - [:references_provided] + [:references_selected]
+    else
+      APPLICATION_FORM_SECTIONS
+    end
+  end
+
   def candidate_completes_application_form(with_referees: true)
     FeatureFlag.deactivate(:restructured_work_history)
     given_courses_exist
