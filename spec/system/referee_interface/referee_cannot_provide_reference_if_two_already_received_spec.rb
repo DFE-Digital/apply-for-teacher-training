@@ -7,6 +7,7 @@ RSpec.feature 'Referee is not required to submit a reference' do
   # We believe this is a false positive so will disable Bullet for this spec for now
 
   before do
+    FeatureFlag.deactivate(:reference_selection)
     Bullet.raise = false
   end
 

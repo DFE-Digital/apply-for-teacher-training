@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Submitting an application' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:reference_selection) }
+
   scenario 'Candidate submits complete application' do
     given_i_am_signed_in
     and_i_have_completed_my_application
