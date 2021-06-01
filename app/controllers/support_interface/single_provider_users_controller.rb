@@ -24,7 +24,7 @@ module SupportInterface
         form: @form,
         save_service: SaveProviderUser.new(
           provider_user: provider_user,
-          provider_permissions: @form.provider_permissions,
+          provider_permissions: [@form.provider_permissions],
         ),
         invite_service: InviteProviderUser.new(provider_user: provider_user),
       )
@@ -66,7 +66,7 @@ module SupportInterface
 
     def provider_user_params
       params.require(:support_interface_create_single_provider_user_form)
-            .permit(:email_address, :first_name, :last_name)
+            .permit(:email_address, :first_name, :last_name, :provider_id)
     end
 
     def create_provider_permissions_params

@@ -23,26 +23,8 @@ module SupportInterface
       @email_address = raw_email_address.downcase.strip
     end
 
-    def persisted?
-      @provider_user&.persisted?
-    end
-
     def permission_form
-      ProviderPermissionsForm.new(active: possible_permissions.persisted?, provider_permission: possible_permissions)
-    end
-
-    def possible_permissions
-      @possible_permissions ||= begin
-        if provider_user
-          existing_permissions_for_user = ProviderPermissions.includes(:provider, :provider_user).where(provider_user_id: provider_user.id)
-        else
-          existing_permissions_for_user = []
-        end
-
-        provider = Provider.where(id: provider_id).first
-        provider_permissions = existing_permissions_for_user.find { |existing_permission| existing_permission.provider_id == provider.id }
-        provider_permissions || ProviderPermissions.new(provider: provider)
-      end
+      ProviderPermissionsForm.new(provider_permission: provider_permissions)
     end
 
     def provider_permissions=(attributes)
@@ -52,7 +34,7 @@ module SupportInterface
 
       @provider_permissions = begin
         permission = ProviderPermissions.find_or_initialize_by(
-          provider_id: form.provider_permission[:provider_id],
+          provider_id: provider_id,
           provider_user_id: provider_user.try(:id),
         )
 
@@ -60,7 +42,7 @@ module SupportInterface
           permission.send("#{permission_name}=", form.provider_permission.fetch(permission_name, false))
         end
 
-        [permission]
+        permission
       end
     end
   end
