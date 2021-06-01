@@ -51,14 +51,5 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
         expect(provider_user_form.errors[:email_address]).not_to be_empty
       end
     end
-
-    context 'provider permissions must be present' do
-      let(:provider_permissions) { {} }
-
-      it 'is invalid' do
-        expect(provider_user_form.valid?).to be false
-        expect(provider_user_form.errors[:provider_permissions]).not_to be_empty
-      end
-    end
   end
 end

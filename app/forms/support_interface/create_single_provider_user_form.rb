@@ -8,7 +8,6 @@ module SupportInterface
 
     validates :first_name, :last_name, :email_address, presence: true
     validates :email_address, valid_for_notify: true
-    validates :provider_permissions, presence: true
 
     def build
       return unless valid?
@@ -21,10 +20,6 @@ module SupportInterface
 
     def email_address=(raw_email_address)
       @email_address = raw_email_address.downcase.strip
-    end
-
-    def permission_form
-      ProviderPermissionsForm.new(provider_permission: provider_permissions)
     end
 
     def provider_permissions=(attributes)
@@ -44,6 +39,10 @@ module SupportInterface
 
         permission
       end
+    end
+
+    def permission_form
+      ProviderPermissionsForm.new(provider_permission: provider_permissions)
     end
   end
 end
