@@ -23,6 +23,7 @@ module ProviderInterface
 
       @form = ProviderInterface::ProviderUserEditPermissionsForm.build_from_model provider_permissions
       if @form.invalid?
+        track_validation_error(@form)
         redirect_to provider_interface_provider_user_path(@provider_user)
       end
     end
@@ -38,6 +39,7 @@ module ProviderInterface
         flash[:success] = 'User’s permissions successfully updated'
         redirect_to provider_interface_provider_user_path(@provider_user)
       else
+        track_validation_error(@form)
         render action: :edit_permissions
       end
     end
@@ -72,6 +74,7 @@ module ProviderInterface
         flash[:success] = 'User’s access successfully updated'
         redirect_to provider_interface_provider_user_path(@provider_user)
       else
+        track_validation_error(@form)
         render :edit_providers
       end
     end

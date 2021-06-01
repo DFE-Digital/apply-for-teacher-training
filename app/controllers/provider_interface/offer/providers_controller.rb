@@ -17,6 +17,7 @@ module ProviderInterface
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
           @providers = available_providers
+          track_validation_error(@wizard)
 
           render :new
         end
@@ -37,6 +38,7 @@ module ProviderInterface
 
           redirect_to [:edit, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
+          track_validation_error(@wizard)
           @providers = available_providers
 
           render :edit

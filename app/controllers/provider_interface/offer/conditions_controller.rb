@@ -63,6 +63,7 @@ module ProviderInterface
 
           redirect_to [action, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
+          track_validation_error(@wizard)
           render action
         end
       end

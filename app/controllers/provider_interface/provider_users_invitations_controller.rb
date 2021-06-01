@@ -14,6 +14,7 @@ module ProviderInterface
         @wizard.save_state!
         redirect_to next_redirect
       else
+        track_validation_error(@wizard)
         render :edit_details
       end
     end
@@ -33,6 +34,7 @@ module ProviderInterface
         @wizard.save_state!
         redirect_to next_redirect
       else
+        track_validation_error(@wizard)
         render :edit_providers
       end
     end
@@ -51,6 +53,7 @@ module ProviderInterface
         redirect_to next_redirect
       else
         @provider = available_providers.find(params[:provider_id])
+        track_validation_error(@wizard)
         render :edit_permissions
       end
     end
@@ -73,12 +76,15 @@ module ProviderInterface
         invite_service: InviteProviderUser.new(provider_user: @wizard.email_address),
         new_user: @wizard.new_user?,
       )
-      render :check and return unless service.call
+      if service.call
+        @wizard.clear_state!
 
-      @wizard.clear_state!
-
-      flash[:success] = 'User successfully invited'
-      redirect_to provider_interface_provider_users_path
+        flash[:success] = 'User successfully invited'
+        redirect_to provider_interface_provider_users_path
+      else
+        track_validation_error(@wizard)
+        render :check
+      end
     end
 
     def next_redirect

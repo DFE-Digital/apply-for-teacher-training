@@ -39,6 +39,7 @@ module ProviderInterface
       else
         @permissions_model = ProviderRelationshipPermissions.find(params[:id])
         @permissions_form = @wizard.current_permissions_form
+        track_validation_error(@wizard)
 
         render :setup_permissions
       end
