@@ -101,6 +101,13 @@ RSpec.describe ProviderAuthorisation do
         expect(can_make_decisions?(actor: ratifying_provider_user)).to be_falsy
       end
 
+      it 'bad data: relationship record is missing' do
+        provider_relationship_permissions.destroy
+
+        expect(can_make_decisions?(actor: training_provider_user)).to be_falsy
+        expect(can_make_decisions?(actor: ratifying_provider_user)).to be_falsy
+      end
+
       it 'training_provider for self-ratified course can always decide' do
         for_self_ratified_course = create(
           :application_choice,
