@@ -2,10 +2,6 @@ module CandidateInterface
   class EqualityAndDiversity::DisabilitiesForm
     include ActiveModel::Model
 
-    DISABILITIES = %w[blind deaf learning long_standing mental physical social].map { |disability|
-      [disability, I18n.t("equality_and_diversity.disabilities.#{disability}.label")]
-    }.freeze
-
     attr_accessor :disabilities, :other_disability
 
     validates :disabilities, presence: true
@@ -13,7 +9,7 @@ module CandidateInterface
     def self.build_from_application(application_form)
       return new(disabilities: nil) if application_form.equality_and_diversity.nil?
 
-      list_of_disabilities = DISABILITIES.map { |_, disability| disability } << 'Other'
+      list_of_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map { |_, disability| disability } << 'Other'
       listed, other = application_form.equality_and_diversity['disabilities'].partition { |d| list_of_disabilities.include?(d) }
 
       if other.any?

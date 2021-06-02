@@ -40,7 +40,7 @@ FactoryBot.define do
       equality_and_diversity do
         ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
         other_disability = 'Acquired brain injury'
-        all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:second) << other_disability
+        all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability
         disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
         hesa_sex = %w[1 2 3].sample
         hesa_disabilities = disabilities ? [HESA_DISABILITIES.map(&:first).sample] : %w[00]
