@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
   let(:email_address) { 'provider@example.com' }
   let(:first_name) { 'Fred' }
   let(:last_name) { 'Smith' }
-  let(:provider) { build_stubbed(:provider, id: 2) }
+  let(:provider) { create(:provider, id: 2) }
   let(:provider_permissions) do
     {
       provider_permission: {
@@ -47,6 +47,15 @@ RSpec.describe SupportInterface::CreateSingleProviderUserForm do
       let(:email_address) { '' }
 
       it 'is invalid' do
+        expect(provider_user_form.valid?).to be false
+        expect(provider_user_form.errors[:email_address]).not_to be_empty
+      end
+    end
+
+    context 'provider with user exists?' do
+      it 'is invalid' do
+        create(:provider_user, email_address: email_address, providers: [provider])
+
         expect(provider_user_form.valid?).to be false
         expect(provider_user_form.errors[:email_address]).not_to be_empty
       end

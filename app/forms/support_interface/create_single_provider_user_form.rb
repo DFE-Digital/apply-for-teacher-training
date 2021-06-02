@@ -8,6 +8,7 @@ module SupportInterface
 
     validates :first_name, :last_name, :email_address, presence: true
     validates :email_address, valid_for_notify: true
+    validate :user_with_provider_exists?
 
     def build
       return unless valid?
@@ -43,6 +44,16 @@ module SupportInterface
 
     def permission_form
       ProviderPermissionsForm.new(provider_permission: provider_permissions)
+    end
+
+  private
+
+    def user_with_provider_exists?
+      provider = Provider.find(provider_id)
+      provider_user = ProviderUser.where(email_address: email_address).first
+      return unless provider_user&.providers&.include?(provider)
+
+      errors.add(:email_address, 'A user with this email address already has permissions for this provider')
     end
   end
 end
