@@ -18,40 +18,36 @@ module CandidateInterface
 
     validates :subject, length: { maximum: 255 }
 
-    def save_base(application_form)
+    def save(application_form)
       return false unless valid?
 
       reset_other_uk_qualification_type
       reset_non_uk_qualification_type
 
-      if new_record?
-        application_form.application_qualifications.create(
-          level: level,
-          subject: subject,
-          qualification_type: qualification_type,
-          other_uk_qualification_type: other_uk_qualification_type,
-          non_uk_qualification_type: non_uk_qualification_type,
-          missing_explanation: missing_explanation,
-        )
-      else
-        qualification = ApplicationQualification.find(qualification_id)
-
-        qualification.update(
-          level: level,
-          subject: subject,
-          qualification_type: qualification_type,
-          other_uk_qualification_type: other_uk_qualification_type,
-          non_uk_qualification_type: non_uk_qualification_type,
-          missing_explanation: missing_explanation,
-        )
-      end
+      application_form.application_qualifications.create(
+        level: level,
+        subject: subject,
+        qualification_type: qualification_type,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
+        missing_explanation: missing_explanation,
+      )
     end
 
-    def set_attributes(params)
-      @qualification_type = params[:qualification_type]
-      @other_uk_qualification_type = params[:other_uk_qualification_type]
-      @non_uk_qualification_type = params[:non_uk_qualification_type]
-      @missing_explanation = params[:missing_explanation]
+    def update(qualification)
+      return false unless valid?
+
+      reset_other_uk_qualification_type
+      reset_non_uk_qualification_type
+
+      qualification.update(
+        level: level,
+        subject: subject,
+        qualification_type: qualification_type,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
+        missing_explanation: missing_explanation,
+      )
     end
 
     def missing_qualification?
@@ -68,10 +64,6 @@ module CandidateInterface
         qualification_id: qualification.id,
         missing_explanation: qualification.missing_explanation,
       )
-    end
-
-    def new_record?
-      qualification_id.nil?
     end
 
   private

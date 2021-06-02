@@ -2,17 +2,30 @@ module CandidateInterface
   class Gcse::EnicController < Gcse::BaseController
     include Gcse::ResolveGcseEditPathConcern
 
+    def new
+      @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+    end
+
+    def create
+      @enic_form = GcseEnicForm.new(enic_params)
+
+      if @enic_form.save(current_qualification)
+        redirect_to resolve_gcse_edit_path(subject_param)
+      else
+        track_validation_error(@enic_form)
+        render :new
+      end
+    end
+
     def edit
-      @enic_form = build_enic_form
+      @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
     end
 
     def update
-      @enic_form = build_enic_form
-
-      @enic_form.set_attributes(enic_params)
+      @enic_form = GcseEnicForm.new(enic_params)
 
       if @enic_form.save(current_qualification)
-        redirect_to next_gcse_path
+        redirect_to candidate_interface_gcse_review_path
       else
         track_validation_error(@enic_form)
         render :edit
@@ -20,18 +33,6 @@ module CandidateInterface
     end
 
   private
-
-    def build_enic_form
-      GcseEnicForm.build_from_qualification(current_qualification)
-    end
-
-    def next_gcse_path
-      if current_qualification.grade.nil?
-        resolve_gcse_edit_path(subject_param)
-      else
-        candidate_interface_gcse_review_path
-      end
-    end
 
     def enic_params
       strip_whitespace params

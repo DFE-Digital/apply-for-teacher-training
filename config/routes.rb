@@ -196,31 +196,47 @@ Rails.application.routes.draw do
       end
 
       scope '/gcse' do
-        get '/maths/grade' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
-        patch '/maths/grade' => 'gcse/maths/grade#update'
+        get '/maths/grade' => 'gcse/maths/grade#new', as: :new_gcse_maths_grade
+        patch '/maths/grade' => 'gcse/maths/grade#create'
+        get '/maths/grade/edit' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
+        patch '/maths/grade/edit' => 'gcse/maths/grade#update'
 
-        get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
-        patch '/english/grade' => 'gcse/english/grade#update'
+        get '/english/grade' => 'gcse/english/grade#new', as: :new_gcse_english_grade
+        patch '/english/grade' => 'gcse/english/grade#create'
+        get '/english/grade/edit' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
+        patch '/english/grade/edit' => 'gcse/english/grade#update'
 
-        get '/english/grade' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
-        patch '/science/grade' => 'gcse/science/grade#update'
+        get '/science/grade' => 'gcse/science/grade#new', as: :new_gcse_science_grade
+        patch '/science/grade' => 'gcse/science/grade#create'
+        get '/science/grade/edit' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
+        patch '/science/grade/edit' => 'gcse/science/grade#update'
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
-        get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
-        post '/' => 'gcse/type#update'
+        get '/' => 'gcse/type#new', as: :gcse_details_new_type
+        post '/' => 'gcse/type#create'
+        get '/edit' => 'gcse/type#edit', as: :gcse_details_edit_type
+        patch '/edit' => 'gcse/type#update'
 
-        get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
-        patch '/country' => 'gcse/institution_country#update'
+        get '/country' => 'gcse/institution_country#new', as: :gcse_details_new_institution_country
+        patch '/country' => 'gcse/institution_country#create'
+        get '/country/edit' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
+        patch '/country/edit' => 'gcse/institution_country#update'
 
-        get '/enic' => 'gcse/enic#edit', as: :gcse_details_edit_enic
-        patch '/enic' => 'gcse/enic#update'
+        get '/enic' => 'gcse/enic#new', as: :gcse_details_new_enic
+        patch '/enic' => 'gcse/enic#create'
+        get '/enic/edit' => 'gcse/enic#edit', as: :gcse_details_edit_enic
+        patch '/enic/edit' => 'gcse/enic#update'
 
-        get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
-        patch '/year' => 'gcse/year#update'
+        get '/grade-explanation' => 'gcse/grade_explanation#new', as: :gcse_details_new_grade_explanation
+        patch '/grade-explanation' => 'gcse/grade_explanation#create'
+        get '/grade-explanation/edit' => 'gcse/grade_explanation#edit', as: :gcse_details_edit_grade_explanation
+        patch '/grade-explanation/edit' => 'gcse/grade_explanation#update'
 
-        get '/grade-explanation' => 'gcse/grade_explanation#edit', as: :gcse_details_edit_grade_explanation
-        patch '/grade-explanation' => 'gcse/grade_explanation#update'
+        get '/year' => 'gcse/year#new', as: :gcse_details_new_year
+        patch '/year' => 'gcse/year#create'
+        get '/year/edit' => 'gcse/year#edit', as: :gcse_details_edit_year
+        patch '/year/edit' => 'gcse/year#update'
 
         get '/review' => 'gcse/review#show', as: :gcse_review
         patch '/complete' => 'gcse/review#complete', as: :gcse_complete

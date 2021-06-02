@@ -119,7 +119,7 @@
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.english_gcse'),
             completed: @application_form_presenter.english_gcse_completed?,
-            path: @application_form_presenter.english_gcse_added? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english),
+            path: @application_form.english_gcse.present? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_new_type_path(subject: :english),
           )) %>
         </li>
         <% if @application_form_presenter.display_efl_link? %>
@@ -135,7 +135,7 @@
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.maths_gcse'),
             completed: @application_form_presenter.maths_gcse_completed?,
-            path: @application_form_presenter.maths_gcse_added? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths),
+            path: @application_form.maths_gcse.present? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_new_type_path(subject: :maths),
           )) %>
         </li>
         <% if @application_form.science_gcse_needed? %>
@@ -143,7 +143,7 @@
             <%= render(TaskListItemComponent.new(
               text: t('page_titles.science_gcse'),
               completed: @application_form_presenter.science_gcse_completed?,
-              path: @application_form_presenter.science_gcse_added? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science),
+              path: @application_form.science_gcse.present? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_new_type_path(subject: :science),
             )) %>
           </li>
         <% end %>
