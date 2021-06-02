@@ -9,6 +9,9 @@ module CandidateInterface
 
       unless @form.qualification_type
         @form.qualification_type = params[:qualification_type]
+        @form.other_uk_qualification_type = params[:other_uk_qualification_type] if @form.qualification_type == OtherQualificationTypeForm::OTHER_TYPE
+        @form.non_uk_qualification_type = params[:non_uk_qualification_type] if @form.qualification_type == OtherQualificationTypeForm::NON_UK_TYPE
+
         @form.save_intermediate!
       end
 
@@ -27,7 +30,9 @@ module CandidateInterface
       if @form.save
         if @form.choice == 'same_type'
           intermediate_data_service.clear_state!
-          redirect_to candidate_interface_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
+          redirect_to candidate_interface_other_qualification_details_path(
+            params_for_same_type(current_application.application_qualifications.last),
+          )
         elsif @form.choice == 'different_type'
           redirect_to candidate_interface_other_qualification_type_path
         else
@@ -92,6 +97,17 @@ module CandidateInterface
           .permit(:qualification_type),
         ),
       )
+    end
+
+    def params_for_same_type(qualification)
+      { qualification_type: qualification.qualification_type }.tap do |params|
+        if qualification.qualification_type == OtherQualificationTypeForm::OTHER_TYPE
+          params[:other_uk_qualification_type] = qualification.other_uk_qualification_type
+        end
+        if qualification.qualification_type == OtherQualificationTypeForm::NON_UK_TYPE
+          params[:non_uk_qualification_type] = qualification.non_uk_qualification_type
+        end
+      end
     end
   end
 end

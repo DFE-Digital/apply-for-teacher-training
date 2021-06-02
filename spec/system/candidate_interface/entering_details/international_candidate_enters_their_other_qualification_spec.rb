@@ -25,10 +25,15 @@ RSpec.feature 'Non-uk Other qualifications' do
     then_i_see_validation_errors_for_my_qualification
 
     when_i_fill_in_my_qualification
+    and_i_choose_to_add_another_non_uk_qualification
+    and_click_save_and_continue
+    then_i_see_the_other_qualifications_form
+
+    when_i_fill_in_my_second_qualification
     and_i_choose_not_to_add_another_non_uk_qualification
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
-    and_i_should_see_my_qualification
+    and_i_should_see_my_two_qualifications
 
     when_i_click_to_change_my_first_qualification_type
     then_i_see_my_qualification_type_filled_in
@@ -46,9 +51,9 @@ RSpec.feature 'Non-uk Other qualifications' do
 
     when_i_click_add_another_qualification
     and_i_select_add_other_non_uk_qualification
-    and_i_fill_in_the_name_of_my_qualification
+    and_i_fill_in_the_name_of_my_new_qualification
     and_i_click_continue
-    then_i_see_the_other_qualifications_form
+    then_i_see_the_new_other_qualifications_form
 
     when_i_visit_the_review_page
     then_i_do_not_see_the_incomplete_application
@@ -104,12 +109,20 @@ RSpec.feature 'Non-uk Other qualifications' do
     fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Master Rules'
   end
 
+  def and_i_fill_in_the_name_of_my_new_qualification
+    fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Advanced Rules'
+  end
+
   def and_i_click_continue
     click_button t('continue')
   end
 
   def then_i_see_the_other_qualifications_form
     expect(page).to have_content('Add Master Rules qualification')
+  end
+
+  def then_i_see_the_new_other_qualifications_form
+    expect(page).to have_content('Add Advanced Rules qualification')
   end
 
   def when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
@@ -130,8 +143,17 @@ RSpec.feature 'Non-uk Other qualifications' do
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
+  def when_i_fill_in_my_second_qualification
+    fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards part II'
+    fill_in t('application_form.other_qualification.award_year.label'), with: '2016'
+  end
+
   def and_i_choose_not_to_add_another_non_uk_qualification
     choose 'No, not at the moment'
+  end
+
+  def and_i_choose_to_add_another_non_uk_qualification
+    choose 'Yes, add another Master Rules'
   end
 
   def and_click_save_and_continue
@@ -142,14 +164,17 @@ RSpec.feature 'Non-uk Other qualifications' do
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
   end
 
-  def and_i_should_see_my_qualification
-    expect(page).to have_content('Master Rules')
-    expect(page).to have_content('Believing in the Heart of the Cards')
+  def and_i_should_see_my_two_qualifications
+    expect(page).to have_content('Master Rules Believing in the Heart of the Cards')
     expect(page).to have_content('2015')
+    # expect(page).to have_content('Master Rules Believing in the Heart of the Cards part II')
+    expect(page).to have_content('2016')
   end
 
   def when_i_click_to_change_my_first_qualification_type
-    click_change_link('qualification')
+    within all('.app-summary-card__body')[0] do
+      click_change_link('qualification')
+    end
   end
 
   def then_i_see_my_qualification_type_filled_in
@@ -165,7 +190,9 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def when_i_click_to_change_my_first_qualification
-    click_change_link('subject')
+    within all('.app-summary-card__body')[0] do
+      click_change_link('subject')
+    end
   end
 
   def then_i_see_my_qualification_filled_in
@@ -188,12 +215,6 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def when_i_visit_the_review_page
     visit candidate_interface_review_other_qualifications_path
-  end
-
-  def when_i_click_to_change_my_second_qualification
-    within all('.app-summary-card__body')[1] do
-      click_change_link('subject')
-    end
   end
 
   def and_i_fill_in_the_year_institution_and_country
@@ -221,7 +242,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def then_i_do_not_see_the_incomplete_application
-    expect(page).not_to have_content('Master Rules')
+    expect(page).not_to have_content('Advanced Rules')
   end
 
   def then_i_should_see_the_form
