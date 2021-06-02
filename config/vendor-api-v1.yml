@@ -1175,6 +1175,16 @@ components:
           - "80"
           - "90"
           - "98"
+        other_disability_details:
+          type: string
+          nullable: true
+          description: The candidate’s description of their disability, if they selected “Other” and entered a value. This corresponds to HESA disability code `96`.
+          example: "My disability is..."
+        other_ethnicity_details:
+          type: string
+          nullable: true
+          description: The candidate’s description of their ethnicity, if they selected “Other” and entered a value.
+          example: "My ethnicity is..."
     Attribution:
       type: object
       additionalProperties: false
