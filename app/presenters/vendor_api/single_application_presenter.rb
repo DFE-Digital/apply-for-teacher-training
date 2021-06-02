@@ -369,8 +369,29 @@ module VendorAPI
           sex: equality_and_diversity_data['hesa_sex'],
           disability: equality_and_diversity_data['hesa_disabilities'],
           ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-        }
+        }.merge(additional_hesa_itt_data(equality_and_diversity_data))
       end
+    end
+
+    def additional_hesa_itt_data(equality_and_diversity_data)
+      {
+        other_disability_details: other_disability_details(equality_and_diversity_data),
+        other_ethnicity_details: other_ethnicity_details(equality_and_diversity_data),
+      }
+    end
+
+    def other_disability_details(equality_and_diversity_data)
+      return unless equality_and_diversity_data['hesa_disabilities'].include?('96')
+
+      standard_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:last)
+      (equality_and_diversity_data['disabilities'] - standard_disabilities).first.presence
+    end
+
+    def other_ethnicity_details(equality_and_diversity_data)
+      known_ethnic_backgrounds = OTHER_ETHNIC_BACKGROUNDS.values + ETHNIC_BACKGROUNDS.values.flatten + ['Prefer not to say']
+      return if known_ethnic_backgrounds.include?(equality_and_diversity_data['ethnic_background'])
+
+      equality_and_diversity_data['ethnic_background']
     end
 
     def work_history_breaks
