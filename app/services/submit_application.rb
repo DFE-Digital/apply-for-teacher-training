@@ -13,6 +13,13 @@ class SubmitApplication
       SendApplicationToProvider.call(application_choice)
     end
 
+    # Cancel any outstanding references
+    if FeatureFlag.active?(:reference_selection)
+      application_form.application_references.feedback_requested.each do |reference|
+        CancelReferee.new.call(reference: reference)
+      end
+    end
+
     if application_form.apply_2?
       CandidateMailer.application_submitted_apply_again(application_form).deliver_later
     else

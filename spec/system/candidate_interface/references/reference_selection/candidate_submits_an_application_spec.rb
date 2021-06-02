@@ -14,13 +14,14 @@ RSpec.feature 'Submitting an application' do
     when_i_submit_the_application
     then_i_get_an_error_about_my_references
 
-    when_my_references_have_been_provided
+    when_most_of_my_references_have_been_provided
     and_i_submit_the_application
     then_i_get_an_error_about_my_references
     when_i_have_selected_references
-    then_i_can_see_references_are_complete
+    then_i_can_see_the_references_section_is_complete
     when_i_submit_the_application
     then_i_can_see_my_application_has_been_successfully_submitted
+    and_any_outstanding_reference_requests_are_cancelled
   end
 
   def given_i_am_signed_in
@@ -36,18 +37,20 @@ RSpec.feature 'Submitting an application' do
   end
 
   def when_i_have_added_references
-    @reference1 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
-    @reference2 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
-    @reference3 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
+    @reference1 = create(:reference, :feedback_requested, application_form: current_candidate.current_application)
+    @reference2 = create(:reference, :feedback_requested, application_form: current_candidate.current_application)
+    @reference3 = create(:reference, :feedback_requested, application_form: current_candidate.current_application)
+    @reference4 = create(:reference, :feedback_requested, application_form: current_candidate.current_application)
   end
 
   def then_i_can_see_references_are_in_progress
     visit candidate_interface_application_form_path
     expect(page).to have_content('You have to get 2 references back before you can send your application to training providers.')
     within(all('.app-task-list')[1]) do
-      expect(page).to have_content("#{@reference1.name}: Not requested yet")
-      expect(page).to have_content("#{@reference2.name}: Not requested yet")
-      expect(page).to have_content("#{@reference3.name}: Not requested yet")
+      expect(page).to have_content("#{@reference1.name}: Awaiting response")
+      expect(page).to have_content("#{@reference2.name}: Awaiting response")
+      expect(page).to have_content("#{@reference3.name}: Awaiting response")
+      expect(page).to have_content("#{@reference4.name}: Awaiting response")
     end
   end
 
@@ -58,7 +61,7 @@ RSpec.feature 'Submitting an application' do
     end
   end
 
-  def then_i_can_see_references_are_complete
+  def then_i_can_see_the_references_section_is_complete
     visit candidate_interface_application_form_path
     expect(page).not_to have_content('You have to get 2 references back before you can send your application to training providers.')
     within(all('.app-task-list')[1]) do
@@ -66,6 +69,7 @@ RSpec.feature 'Submitting an application' do
       expect(page).to have_content("#{@reference1.name}: Reference given")
       expect(page).to have_content("#{@reference2.name}: Reference given")
       expect(page).to have_content("#{@reference3.name}: Reference given")
+      expect(page).to have_content("#{@reference4.name}: Awaiting response")
     end
   end
 
@@ -93,7 +97,7 @@ RSpec.feature 'Submitting an application' do
     select_references_and_complete_section
   end
 
-  def when_my_references_have_been_provided
+  def when_most_of_my_references_have_been_provided
     receive_references
     SubmitReference.new(reference: @reference3).save!
   end
@@ -105,6 +109,17 @@ RSpec.feature 'Submitting an application' do
     click_button 'Send application'
     click_button 'Continue'
     expect(page).to have_content 'Application successfully submitted'
+  end
+
+  def and_any_outstanding_reference_requests_are_cancelled
+    expect(@reference1.reload).to be_feedback_provided
+    expect(@reference1).to be_selected
+    expect(@reference2.reload).to be_feedback_provided
+    expect(@reference2).to be_selected
+    expect(@reference3.reload).to be_feedback_provided
+    expect(@reference3).not_to be_selected
+
+    expect(@reference4.reload).to be_cancelled
   end
 
 private
