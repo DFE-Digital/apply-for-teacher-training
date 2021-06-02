@@ -2,15 +2,20 @@ module SupportInterface
   class EqualityAndDiversityExport
     def data_for_export
       data_for_export = application_forms.includes(:application_choices).find_each(batch_size: 100).map do |application_form|
-        rejected_application_choices = application_form.application_choices.rejected
+        application_choices = application_form.application_choices
+        rejected_application_choices = application_choices.select(&:rejected?)
 
         output = {
-          month: application_form.submitted_at&.strftime('%B'),
+          month: application_form.submitted_at&.strftime('%B') || 'Unsubmitted',
+          phase: application_form.phase,
           recruitment_cycle_year: application_form.recruitment_cycle_year,
           sex: application_form.equality_and_diversity['sex'],
           ethnic_group: application_form.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form.equality_and_diversity['ethnic_background'],
           application_status: I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          application_choice_1_subject: application_choices[0]&.course&.name,
+          application_choice_2_subject: application_choices[1]&.course&.name,
+          application_choice_3_subject: application_choices[2]&.course&.name,
           application_choice_1_unstructured_rejection_reasons: rejected_application_choices[0]&.rejection_reason,
           application_choice_2_unstructured_rejection_reasons: rejected_application_choices[1]&.rejection_reason,
           application_choice_3_unstructured_rejection_reasons: rejected_application_choices[2]&.rejection_reason,

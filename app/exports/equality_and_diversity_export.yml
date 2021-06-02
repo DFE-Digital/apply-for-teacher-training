@@ -1,11 +1,12 @@
 common_columns:
   - recruitment_cycle_year
   - sex
+  - phase
 
 custom_columns:
   month:
     type: string
-    description: The month in which the application form was submitted
+    description: The month in which the application form was submitted. This will return `Unsubmitted` if submitted_at is nil
     example: October
 
   ethnic_group:
@@ -35,6 +36,21 @@ custom_columns:
       - offer_deferred
       - ended_without_success
       - unknown_state
+
+  application_choice_1_subject:
+    type: string
+    description: The name of a course
+    example: English
+
+  application_choice_2_subject:
+    type: string
+    description: The name of a course
+    example: English
+
+  application_choice_3_subject:
+    type: string
+    description: The name of a course
+    example: English
 
   application_choice_1_unstructured_rejection_reasons:
     type: string

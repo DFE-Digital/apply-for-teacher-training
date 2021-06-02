@@ -49,11 +49,11 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
       }
 
       application_form_one = create(:completed_application_form, equality_and_diversity: two_disabilities)
-      application_form_two = create(:completed_application_form, equality_and_diversity: one_disability)
+      application_form_two = create(:completed_application_form, equality_and_diversity: one_disability, submitted_at: nil)
       application_form_three = create(:completed_application_form, equality_and_diversity: three_disabilities)
 
       create(:completed_application_form, equality_and_diversity: nil)
-      create(
+      application_choice1 = create(
         :application_choice,
         :with_structured_rejection_reasons,
         structured_rejection_reasons: {
@@ -66,16 +66,20 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
         application_form: application_form_two,
       )
 
-      create(:application_choice, :with_rejection, rejection_reason: 'Absence of English GCSE.', application_form: application_form_three)
+      application_choice2 = create(:application_choice, :with_rejection, rejection_reason: 'Absence of English GCSE.', application_form: application_form_three)
 
       expect(described_class.new.data_for_export).to contain_exactly(
         {
           month: application_form_three.submitted_at&.strftime('%B'),
+          phase: application_form_three.phase,
           recruitment_cycle_year: application_form_three.recruitment_cycle_year,
           sex: application_form_three.equality_and_diversity['sex'],
           ethnic_group: application_form_three.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form_three.equality_and_diversity['ethnic_background'],
           application_status: 'Ended without success',
+          application_choice_1_subject: application_choice2.course.name,
+          application_choice_2_subject: nil,
+          application_choice_3_subject: nil,
           application_choice_1_unstructured_rejection_reasons: 'Absence of English GCSE.',
           application_choice_2_unstructured_rejection_reasons: nil,
           application_choice_3_unstructured_rejection_reasons: nil,
@@ -88,11 +92,15 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
         },
         {
           month: application_form_one.submitted_at&.strftime('%B'),
+          phase: application_form_one.phase,
           recruitment_cycle_year: application_form_one.recruitment_cycle_year,
           sex: application_form_one.equality_and_diversity['sex'],
           ethnic_group: application_form_one.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form_one.equality_and_diversity['ethnic_background'],
           application_status: 'Have not started form',
+          application_choice_1_subject: nil,
+          application_choice_2_subject: nil,
+          application_choice_3_subject: nil,
           application_choice_1_unstructured_rejection_reasons: nil,
           application_choice_2_unstructured_rejection_reasons: nil,
           application_choice_3_unstructured_rejection_reasons: nil,
@@ -103,12 +111,16 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           disability_2: application_form_one.equality_and_diversity['disabilities'].last,
         },
         {
-          month: application_form_two.submitted_at&.strftime('%B'),
+          month: 'Unsubmitted',
+          phase: application_form_two.phase,
           recruitment_cycle_year: application_form_two.recruitment_cycle_year,
           sex: application_form_two.equality_and_diversity['sex'],
           ethnic_group: application_form_two.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form_two.equality_and_diversity['ethnic_background'],
           application_status: 'Ended without success',
+          application_choice_1_subject: application_choice1.course.name,
+          application_choice_2_subject: nil,
+          application_choice_3_subject: nil,
           application_choice_1_unstructured_rejection_reasons: nil,
           application_choice_2_unstructured_rejection_reasons: nil,
           application_choice_3_unstructured_rejection_reasons: nil,
