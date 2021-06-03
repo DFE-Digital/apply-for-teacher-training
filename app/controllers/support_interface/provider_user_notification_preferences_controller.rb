@@ -8,8 +8,6 @@ module SupportInterface
     end
 
     def update_notifications
-      render_404 unless FeatureFlag.active?(:configurable_provider_notifications)
-
       provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params: notification_preferences_params)
 
       flash[:success] = 'Provider user notifications updated'
