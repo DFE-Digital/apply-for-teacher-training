@@ -101,6 +101,8 @@ module ProviderInterface
                 :safeguarding_concerns_candidate_disclosed_information_details,
                 :safeguarding_concerns_vetting_disclosed_information_details,
                 :safeguarding_concerns_other_details,
+                :cannot_sponsor_visa_y_n,
+                :cannot_sponsor_visa_details,
                 :other_advice_or_feedback_y_n,
                 :other_advice_or_feedback_details,
                 :why_are_you_rejecting_this_application,

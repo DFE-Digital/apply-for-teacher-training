@@ -147,6 +147,9 @@ module ProviderInterface
       @safeguarding_concerns || []
     end
 
+    attr_accessor :cannot_sponsor_visa_y_n
+    attr_accessor :cannot_sponsor_visa_details
+
     attr_accessor :other_advice_or_feedback_y_n
     attr_accessor :other_advice_or_feedback_details
 
@@ -165,9 +168,16 @@ module ProviderInterface
                 presence: true,
                 if: -> { offered_on_another_course_y_n == 'Yes' }
 
-      validates_each(:performance_at_interview_what_to_improve, :offered_on_another_course_details) do |record, attr, value|
+      validates :cannot_sponsor_visa_y_n, presence: true, inclusion: { in: %w[Yes No] }
+      validates :cannot_sponsor_visa_details,
+                presence: true,
+                if: -> { cannot_sponsor_visa_y_n == 'Yes' }
+
+      validates_each(:performance_at_interview_what_to_improve, :offered_on_another_course_details, :cannot_sponsor_visa_details) do |record, attr, value|
         method = if attr == :performance_at_interview_what_to_improve
                    :performance_at_interview_y_n
+                 elsif attr == :cannot_sponsor_visa_details
+                   :cannot_sponsor_visa_y_n
                  else
                    :offered_on_another_course_y_n
                  end

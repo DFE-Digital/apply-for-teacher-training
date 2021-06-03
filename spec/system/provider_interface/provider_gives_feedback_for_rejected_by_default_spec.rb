@@ -96,6 +96,8 @@ RSpec.feature 'Provider gives feedback for application rejected by default', wit
     check 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
     fill_in 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
 
+    choose 'reasons-for-rejection-cannot-sponsor-visa-y-n-no-field'
+
     click_on t('continue')
   end
 

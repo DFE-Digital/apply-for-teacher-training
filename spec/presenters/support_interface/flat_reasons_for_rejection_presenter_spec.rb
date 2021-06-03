@@ -51,6 +51,8 @@ RSpec.describe SupportInterface::FlatReasonsForRejectionPresenter, type: :presen
           information_revealed_by_our_vetting_process_makes_the_candidate_unsuitable_to_work_with_children: false,
           information_revealed_by_our_vetting_process_makes_the_candidate_unsuitable_to_work_with_children_details: nil,
           safeguarding_issues_other_reason_details: 'We need to run further checks',
+          visa_application_sponsorship: false,
+          cannot_sponsor_visa_details: nil,
           additional_advice: false,
           future_applications: false,
           why_are_you_rejecting_this_application_details: nil,

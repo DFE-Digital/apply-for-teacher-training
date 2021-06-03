@@ -184,6 +184,14 @@
         <% end %>
         <%= f.govuk_radio_button :safeguarding_y_n, 'No', label: { text: 'No' } %>
       <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:cannot_sponsor_visa_y_n, legend: { text: 'Was it because you cannot sponsor the candidate‘s visa?', size: 'm' }) do %>
+        <%= f.govuk_radio_button :cannot_sponsor_visa_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :cannot_sponsor_visa_details,
+                                label: { text: 'Give details' }, max_words: 100 %>
+        <% end %>
+        <%= f.govuk_radio_button :cannot_sponsor_visa_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
       <%= f.govuk_submit t('continue') %>
     <% end %>
 

@@ -76,6 +76,15 @@
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Cannot sponsor visa',
+  total_count: total_rejection_count('cannot_sponsor_visa_y_n'),
+  this_month: current_month_rejection_count('cannot_sponsor_visa_y_n'),
+  percentage_rejected: percentage_rejected_for_reason('cannot_sponsor_visa_y_n'),
+  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
+  reason_key: :cannot_sponsor_visa_y_n,
+) %>
+
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
   heading: 'Other advice or feedback',
   total_count: total_rejection_count('other_advice_or_feedback_y_n'),
   this_month: current_month_rejection_count('other_advice_or_feedback_y_n'),

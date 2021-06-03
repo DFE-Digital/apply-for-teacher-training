@@ -177,6 +177,15 @@ custom_columns:
     description: Was the reason for rejection related to other safeguarding issues?
     example: We heard from a previous school that this person should not work with children
 
+  visa_application_sponsorship:
+    type: boolean
+    description: Was the reason for rejection because the provider could not sponsor the candidate’s visa?
+
+  cannot_sponsor_visa_details:
+    type: string
+    description: Details about why the provider could not sponsor the candidate’s visa
+    example: We are not able to sponsor this type of visa
+
   additional_advice:
     type: boolean
     description: Did the provider give additional advice or feedback to the candidate?

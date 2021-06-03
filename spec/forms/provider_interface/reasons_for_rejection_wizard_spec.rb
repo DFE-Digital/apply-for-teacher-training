@@ -17,6 +17,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       expect(wizard.errors.attribute_names.sort).to eq(
         %i[
           candidate_behaviour_y_n
+          cannot_sponsor_visa_y_n
           course_full_y_n
           honesty_and_professionalism_y_n
           offered_on_another_course_y_n
@@ -33,6 +34,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         {
           current_step: 'initial_questions',
           candidate_behaviour_y_n: 'Yes',
+          cannot_sponsor_visa_y_n: 'Yes',
           course_full_y_n: 'Yes',
           honesty_and_professionalism_y_n: 'Yes',
           offered_on_another_course_y_n: 'Yes',
@@ -49,6 +51,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         expect(wizard.errors.attribute_names.sort).to eq(
           %i[
             candidate_behaviour_what_did_the_candidate_do
+            cannot_sponsor_visa_details
             honesty_and_professionalism_concerns
             offered_on_another_course_details
             performance_at_interview_what_to_improve
@@ -77,6 +80,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           quality_of_application_which_parts_needed_improvement: %w[other],
           safeguarding_y_n: 'Yes',
           safeguarding_concerns: %w[candidate_disclosed_information vetting_disclosed_information other],
+          cannot_sponsor_visa_y_n: 'Yes',
         }
       end
 
@@ -89,6 +93,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           %i[
             candidate_behaviour_other
             candidate_behaviour_what_to_improve
+            cannot_sponsor_visa_details
             honesty_and_professionalism_concerns_information_false_or_inaccurate_details
             honesty_and_professionalism_concerns_other_details
             honesty_and_professionalism_concerns_plagiarism_details
@@ -108,6 +113,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       it 'validates length of text in details and advice fields' do
         wizard_params[:candidate_behaviour_other] = long_text
         wizard_params[:candidate_behaviour_what_to_improve] = long_text
+        wizard_params[:cannot_sponsor_visa_details] = long_text
         wizard_params[:honesty_and_professionalism_concerns_information_false_or_inaccurate_details] = long_text
         wizard_params[:honesty_and_professionalism_concerns_plagiarism_details] = long_text
         wizard_params[:honesty_and_professionalism_concerns_references_details] = long_text
@@ -127,6 +133,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           %i[
             candidate_behaviour_other
             candidate_behaviour_what_to_improve
+            cannot_sponsor_visa_details
             honesty_and_professionalism_concerns_information_false_or_inaccurate_details
             honesty_and_professionalism_concerns_other_details
             honesty_and_professionalism_concerns_plagiarism_details
@@ -157,6 +164,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           'Details about safeguarding must be 100 words or fewer',
           'Details about how they can improve their performance at interview must be 100 words or fewer',
           'Details about the place offered on another course must be 100 words or fewer',
+          'Details about why you cannot sponsor the candidate’s visa must be 100 words or fewer',
         ])
       end
     end
@@ -166,6 +174,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         {
           current_step: 'initial_questions',
           candidate_behaviour_y_n: 'No',
+          cannot_sponsor_visa_y_n: 'No',
           course_full_y_n: 'No',
           honesty_and_professionalism_y_n: 'No',
           offered_on_another_course_y_n: 'No',
@@ -188,6 +197,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         {
           current_step: 'initial_questions',
           candidate_behaviour_y_n: 'No',
+          cannot_sponsor_visa_y_n: 'No',
           course_full_y_n: 'No',
           honesty_and_professionalism_y_n: 'Yes',
           honesty_and_professionalism_concerns: %w[information_false_or_inaccurate],
@@ -321,6 +331,8 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         safeguarding_concerns_candidate_disclosed_information_details: 'PPP',
         safeguarding_concerns_vetting_disclosed_information_details: 'QQQ',
         safeguarding_concerns_other_details: 'GGG',
+        cannot_sponsor_visa_y_n: 'No',
+        cannot_sponsor_visa_details: 'Martian',
       }
     end
 
@@ -353,6 +365,8 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be nil
       expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be nil
       expect(wizard.safeguarding_concerns_other_details).to be nil
+
+      expect(wizard.cannot_sponsor_visa_details).to be nil
     end
 
     # eg.
@@ -404,6 +418,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         offered_on_another_course_y_n: 'No',
         honesty_and_professionalism_y_n: 'No',
         safeguarding_y_n: 'No',
+        cannot_sponsor_visa_y_n: 'No',
       }
     end
 

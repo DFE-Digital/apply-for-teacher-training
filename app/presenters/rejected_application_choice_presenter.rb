@@ -4,8 +4,8 @@ class RejectedApplicationChoicePresenter < SimpleDelegator
 
     @rejection_reasons ||= [candidate_behaviour, quality_of_application, qualifications,
                             interview_performance, full_course, offered_other_course,
-                            honesty_and_professionalism_reasons, safeguarding_issues, additional_advice,
-                            interested_in_future_applications].reduce({}, :merge)
+                            honesty_and_professionalism_reasons, safeguarding_issues, cannot_sponsor_visa,
+                            additional_advice, interested_in_future_applications].reduce({}, :merge)
   end
 
   def reasons
@@ -101,6 +101,12 @@ private
                            reasons.safeguarding_concerns_other_details].compact
 
     reason_details('safeguarding_issues', safeguarding_issues)
+  end
+
+  def cannot_sponsor_visa
+    return {} unless reasons.cannot_sponsor_visa_y_n.eql?('Yes')
+
+    reason_details('cannot_sponsor_visa', [reasons.cannot_sponsor_visa_details])
   end
 
   def additional_advice

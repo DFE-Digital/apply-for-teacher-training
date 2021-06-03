@@ -73,6 +73,7 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     and_i_should_see_reasons_for_rejection_qualifications
     and_i_should_see_reasons_for_rejection_quality_of_application
     and_i_should_see_reasons_for_rejection_safeguarding_concerns
+    and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
   end
 
   def and_i_should_see_sub_reasons_for_rejection
@@ -98,6 +99,7 @@ private
         safeguarding_y_n: 'Yes',
         safeguarding_concerns: %w[other],
         offered_on_another_course_y_n: 'No',
+        cannot_sponsor_visa_y_n: 'No',
         interested_in_future_applications_y_n: 'No',
         other_advice_or_feedback_y_n: 'No',
         fashion_sense_y_n: 'Yes',
@@ -119,6 +121,7 @@ private
         qualifications_which_qualifications: %w[no_english_gcse other],
         quality_of_application_y_n: 'No',
         safeguarding_y_n: 'No',
+        cannot_sponsor_visa_y_n: 'No',
         offered_on_another_course_y_n: 'No',
         interested_in_future_applications_y_n: 'No',
         other_advice_or_feedback_y_n: 'No',
@@ -138,6 +141,7 @@ private
         qualifications_y_n: 'No',
         quality_of_application_y_n: 'No',
         safeguarding_y_n: 'No',
+        cannot_sponsor_visa_y_n: 'No',
         offered_on_another_course_y_n: 'No',
         interested_in_future_applications_y_n: 'No',
         other_advice_or_feedback_y_n: 'No',
@@ -257,6 +261,15 @@ private
       expect(page).to have_content('Didn’t reply to our interview offer 40% 2 1')
       expect(page).to have_content('Didn’t attend interview 20% 1 0')
       expect(page).to have_content('Other 0% 0 0')
+    end
+  end
+
+  def and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
+    within '#cannot-sponsor-visa' do
+      expect(page).to have_content('0%')
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
     end
   end
 

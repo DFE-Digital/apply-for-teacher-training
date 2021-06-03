@@ -98,13 +98,16 @@ RSpec.describe RejectedApplicationChoicePresenter do
           course_full_y_n: 'Yes',
           offered_on_another_course_y_n: 'Yes',
           offered_on_another_course_details: 'You have already been offered the Math course',
+          cannot_sponsor_visa_y_n: 'Yes',
+          cannot_sponsor_visa_details: 'You misspelled visa as viza',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
         rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Course full' => ["We're sorry to tell you the course you applied to was full"],
-            'They offered you a place on another course' => ['You have already been offered the Math course'] },
+            'They offered you a place on another course' => ['You have already been offered the Math course'],
+            'Visa application sponsorship' => ['You misspelled visa as viza'] },
         )
       end
     end
