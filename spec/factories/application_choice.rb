@@ -168,6 +168,17 @@ FactoryBot.define do
         condition = build(:offer_condition, text: 'Be cool')
         build(:offer, application_choice: application_choice, conditions: [condition])
       end
+
+      after(:stub) do |application_choice, _evaluator|
+        condition = build(:offer_condition, text: 'Be cool')
+        offer = build(:offer, application_choice: application_choice, conditions: [condition])
+        allow(application_choice).to receive(:offer).and_return(offer)
+      end
+
+      after(:create) do |application_choice, _evaluator|
+        condition = build(:offer_condition, text: 'Be cool')
+        create(:offer, application_choice: application_choice, conditions: [condition])
+      end
     end
 
     trait :with_modified_offer do
