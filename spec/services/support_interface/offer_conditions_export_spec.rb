@@ -41,8 +41,8 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     end
 
     it 'returns phase information for each offer' do
-      unsuccessful_application_choices = [build(:application_choice, :with_declined_offer),
-                                          build(:application_choice, :withdrawn)]
+      unsuccessful_application_choices = [create(:application_choice, :with_declined_offer),
+                                          create(:application_choice, :withdrawn)]
       apply_1_form = create(:completed_application_form,
                             application_choices: unsuccessful_application_choices)
       apply_2_form = ApplyAgain.new(apply_1_form).call
@@ -133,7 +133,8 @@ RSpec.describe SupportInterface::OfferConditionsExport do
 
     it 'includes offer conditions' do
       choice = create(:application_choice, :with_modified_offer)
-      choice.update(offer: { 'conditions' => ['DBS Check', 'Be cool'] })
+      choice.offer.conditions = [build(:offer_condition, text: 'DBS Check'), build(:offer_condition, text: 'Be cool')]
+      choice.offer.save
 
       offers = described_class.new.offers
       expect(offers.first[:conditions]).to eq('DBS Check, Be cool')

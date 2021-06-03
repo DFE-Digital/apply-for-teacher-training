@@ -60,12 +60,12 @@ module SupportInterface
     end
 
     def conditions(choice)
-      choice.offer['conditions'].join(', ')
+      choice.offer.conditions.map(&:text).join(', ')
     end
 
     def relevant_choices
       ApplicationChoice
-        .where('offer IS NOT NULL')
+        .where.not(offered_at: nil)
         .order('offered_at asc')
     end
   end
