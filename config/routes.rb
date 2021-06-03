@@ -901,6 +901,11 @@ Rails.application.routes.draw do
 
     get '/providers' => 'providers#index', as: :providers
 
+    scope path: '/providers/users/:provider_user_id' do
+      get '/permissions/edit' => 'single_provider_users#edit', as: :edit_permissions
+      patch '/permissions' => 'single_provider_users#update', as: :update_permissions
+    end
+
     scope path: '/providers/:provider_id' do
       get '/' => 'providers#show', as: :provider
       get '/courses' => 'providers#courses', as: :provider_courses
@@ -912,6 +917,9 @@ Rails.application.routes.draw do
       get '/history' => 'providers#history', as: :provider_history
       get '/relationships' => 'providers#relationships', as: :provider_relationships
       post '/relationships' => 'providers#update_relationships', as: :update_provider_relationships
+
+      get '/user/new' => 'single_provider_users#new', as: :new_single_provider_user
+      post '/user' => 'single_provider_users#create', as: :create_single_provider_user
 
       post '' => 'providers#open_all_courses'
       post '/enable_course_syncing' => redirect('/enable-course-syncing')
