@@ -28,6 +28,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     when_i_visit_the_carry_over_page_again
     then_i_am_redirected_to_my_existing_application
+
+    when_i_view_my_previous_application
+    then_i_can_see_my_previous_course_options
   end
 
   def given_i_am_signed_in
@@ -36,7 +39,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_have_an_application_with_a_rejection
-    @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
+    @application_form = create(:completed_application_form, :with_completed_references, :with_gcses, candidate: @candidate)
     create(:application_choice, :with_rejection, application_form: @application_form)
   end
 
@@ -98,5 +101,15 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def then_i_am_redirected_to_my_existing_application
     then_i_can_see_application_details
+  end
+
+  def when_i_view_my_previous_application
+    click_link 'First application'
+  end
+
+  def then_i_can_see_my_previous_course_options
+    expect(page).not_to have_content('You’ll be able to find courses in')
+    expect(page).to have_content("Course #{@application_form.application_choices.first.course.name_and_code}")
+    expect(page).to have_content("Status #{t("candidate_application_states.#{@application_form.application_choices.first.status}")}")
   end
 end

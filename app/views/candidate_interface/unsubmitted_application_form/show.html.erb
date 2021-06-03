@@ -24,7 +24,7 @@
       <% if @application_form.candidate_has_previously_applied? && @application_form.previous_application_form.application_choices.rejected.any? %>
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
       <% end %>
-      <% if  @application_form.candidate_has_previously_applied? && @application_form.apply_2? %>
+      <% if @application_form.candidate_has_previously_applied? && @application_form.apply_2? %>
         <%= render(CandidateInterface::ApplicationFormCourseChoiceComponent.new(
           completed: @application_form_presenter.course_choices_completed?,
         )) %>

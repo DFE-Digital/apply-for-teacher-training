@@ -4,7 +4,7 @@
 
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
-  <% if !CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(@application_form) %>
+  <% if !@application_form.submitted? && !CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(@application_form) %>
     <p class="govuk-body">
       You’ll be able to find courses in <%= days_until_find_reopens %> <%= 'day'.pluralize(days_until_find_reopens) %>
       (<%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date) %>).
@@ -17,6 +17,7 @@
         editable: editable,
         heading_level: 3,
         show_incomplete: true,
+        show_status: @application_form.submitted?,
         missing_error: missing_error,
         application_choice_error: application_choice_error,
       ),
