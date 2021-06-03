@@ -31,29 +31,11 @@ module CandidateInterface
       def review
         @references_selected = current_application.application_references.includes(:application_form).selected
         @section_complete_form = SectionCompleteForm.new(completed: current_application.references_completed)
-
-        @selected_references_rows = [
-          {
-            key: 'Selected references',
-            value: reference_values,
-            action: 'Change selected references',
-            change_path: candidate_interface_select_references_path,
-          },
-        ]
       end
 
       def complete
         @references_selected = current_application.application_references.includes(:application_form).selected
         @section_complete_form = SectionCompleteForm.new(completed: section_complete_params[:completed])
-
-        @selected_references_rows = [
-          {
-            key: 'Selected references',
-            value: reference_values,
-            action: 'Change selected references',
-            change_path: candidate_interface_select_references_path,
-          },
-        ]
 
         if !@section_complete_form.valid?
           track_validation_error(@section_complete_form)
@@ -84,17 +66,6 @@ module CandidateInterface
 
       def section_complete_params
         strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
-      end
-
-      def reference_values
-        list = '<ul class="govuk-list govuk-list--bullet">'.html_safe
-        @references_selected.map do |reference|
-          list <<
-            '<li>'.html_safe <<
-            "#{reference.referee_type.humanize} reference from #{reference.name}" <<
-            '</li>'.html_safe
-        end
-        list + '</ul>'.html_safe
       end
 
       def render_404_unless_feature_enabled
