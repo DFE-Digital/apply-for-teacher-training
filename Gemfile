@@ -71,6 +71,14 @@ gem 'holidays'
 gem 'okcomputer'
 gem 'skylight'
 
+gem 'prometheus-client'
+gem 'yabeda-rails'
+gem 'yabeda-puma-plugin'
+gem 'yabeda-gc'
+gem 'yabeda-sidekiq'
+gem 'yabeda-http_requests'
+gem 'yabeda-prometheus'
+
 # Logging
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
