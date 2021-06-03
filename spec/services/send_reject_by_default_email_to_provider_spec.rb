@@ -9,39 +9,17 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
     expect(described_class.new(application_choice: application_choice).call).to eq(false)
   end
 
-  context 'when the configurable provider notifications feature flag is off' do
-    before { FeatureFlag.deactivate(:configurable_provider_notifications) }
+  it 'sends a notification email to the training provider', sidekiq: true do
+    training_provider = create(:provider)
+    training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
 
-    it 'sends a notification email to the training provider', sidekiq: true do
-      training_provider = create(:provider)
-      training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
+    application_choice = create(:application_choice, :with_rejection_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
 
-      application_choice = create(:application_choice, :with_rejection_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
+    described_class.new(application_choice: application_choice).call
 
-      described_class.new(application_choice: application_choice).call
+    training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
 
-      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
-
-      expect(ActionMailer::Base.deliveries.count).to eq(1)
-      expect(training_provider_email['rails-mail-template'].value).to eq('application_rejected_by_default')
-    end
-  end
-
-  context 'when the configurable provider notifications feature flag is on' do
-    before { FeatureFlag.activate(:configurable_provider_notifications) }
-
-    it 'sends a notification email to the training provider', sidekiq: true do
-      training_provider = create(:provider)
-      training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
-
-      application_choice = create(:application_choice, :with_rejection_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
-
-      described_class.new(application_choice: application_choice).call
-
-      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
-
-      expect(ActionMailer::Base.deliveries.count).to eq(1)
-      expect(training_provider_email['rails-mail-template'].value).to eq('application_rejected_by_default')
-    end
+    expect(ActionMailer::Base.deliveries.count).to eq(1)
+    expect(training_provider_email['rails-mail-template'].value).to eq('application_rejected_by_default')
   end
 end
