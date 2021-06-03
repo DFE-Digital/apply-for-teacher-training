@@ -4,8 +4,6 @@ RSpec.feature 'Managing notifications' do
   include DfESignInHelpers
 
   scenario 'Provider can enable and disable individaul email notifications' do
-    FeatureFlag.activate(:configurable_provider_notifications)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
 

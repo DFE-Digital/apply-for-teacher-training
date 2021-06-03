@@ -11,24 +11,8 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l govuk-!-margin-bottom-2">
       <%= t('page_titles.provider.notifications') %>
-      <% if FeatureFlag.active?(:configurable_provider_notifications) %>
-        <span class="govuk-caption-m govuk-!-margin-top-1">Choose which email notifications you want to receive.</span>
-      <% else %>
-        <span class="govuk-caption-m govuk-!-margin-top-1">These are sent when an application is submitted, withdrawn, automatically rejected, accepted or declined.</span>
-      <% end %>
+      <span class="govuk-caption-m govuk-!-margin-top-1">Choose which email notifications you want to receive.</span>
     </h1>
-    <% if FeatureFlag.active?(:configurable_provider_notifications) %>
-      <%= render ProviderUserNotificationPreferencesComponent.new(current_provider_user.notification_preferences, form_path: provider_interface_notifications_path) %>
-    <% else %>
-      <%= form_with model: current_provider_user, url: provider_interface_notifications_path, method: :put do |f| %>
-        <div class='govuk-form-group'>
-          <%= f.govuk_radio_buttons_fieldset :send_notifications, inline: true, legend: -> { nil } do %>
-            <%= f.govuk_radio_button :send_notifications, 'true', label: { text: 'On' }, link_errors: true %>
-            <%= f.govuk_radio_button :send_notifications, 'false', label: { text: 'Off' } %>
-          <% end %>
-        </div>
-        <%= f.govuk_submit 'Save settings' %>
-      <% end %>
-    <% end %>
+    <%= render ProviderUserNotificationPreferencesComponent.new(current_provider_user.notification_preferences, form_path: provider_interface_notifications_path) %>
   </div>
 </div>
