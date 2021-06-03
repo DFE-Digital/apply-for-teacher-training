@@ -26,8 +26,9 @@ RSpec.feature 'Deleting and replacing a degree' do
     then_i_can_only_see_my_undergraduate_degree
 
     when_i_add_another_degree_type_only
-    and_return_to_the_application_review_page
-    then_i_should_see_the_form_and_the_section_is_not_completed
+    and_i_choose_to_return_later
+    then_i_am_returned_to_the_application_form
+    and_i_should_see_the_form_and_the_section_is_not_completed
   end
 
   def given_i_am_signed_in
@@ -116,6 +117,7 @@ RSpec.feature 'Deleting and replacing a degree' do
     expect(page).to have_content(t('page_titles.application_form'))
     expect(page).not_to have_css('#degree-badge-id', text: 'Completed')
   end
+  alias_method :and_i_should_see_the_form_and_the_section_is_not_completed, :then_i_should_see_the_form_and_the_section_is_not_completed
 
   def when_i_add_my_degree_back_in
     when_i_choose_uk_degree
@@ -205,7 +207,13 @@ RSpec.feature 'Deleting and replacing a degree' do
     and_i_click_on_save_and_continue
   end
 
-  def and_return_to_the_application_review_page
-    visit candidate_interface_application_form_path
+  def and_i_choose_to_return_later
+    visit candidate_interface_degrees_review_path
+    and_i_mark_the_section_as_incomplete
+    and_i_click_on_continue
+  end
+
+  def then_i_am_returned_to_the_application_form
+    expect(page).to have_current_path candidate_interface_application_form_path
   end
 end
