@@ -35,10 +35,10 @@
 
 <% if FeatureFlag.active?(:restructured_work_history) && @application_form.feature_restructured_work_history %>
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.work_experience') %></h2>
-  <%= render(CandidateInterface::RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form)) %>
+  <%= render(RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form)) %>
 <% else %>
   <h3 class="govuk-heading-m"><%= t('page_titles.work_history') %></h3>
-  <%= render(CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form)) %>
+  <%= render(WorkHistoryComponent.new(application_form: @application_form)) %>
 <% end %>
 
 <%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>

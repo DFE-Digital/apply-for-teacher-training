@@ -22,7 +22,7 @@
   <% end %>
 
   <% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
-    <%= render CandidateInterface::RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form) %>
+    <%= render RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form) %>
 
     <%= render(CandidateInterface::CompleteSectionComponent.new(
       form: f,
