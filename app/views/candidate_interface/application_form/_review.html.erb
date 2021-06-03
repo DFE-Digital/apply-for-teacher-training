@@ -27,25 +27,7 @@
 <section class="govuk-!-margin-bottom-8" id="references">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.references') %></h2>
   <% if FeatureFlag.active?(:reference_selection) %>
-    <% if application_form.references_completed? %>
-      <%= render(
-        CandidateInterface::ReferencesReviewComponent.new(
-          references: application_form.selected_references,
-          editable: editable,
-          is_errored: reference_section_error,
-        ),
-      ) %>
-    <% else %>
-      <%= render(
-        CandidateInterface::IncompleteSectionComponent.new(
-          section: :references_selected,
-          section_path: candidate_interface_select_references_path,
-          text: t('review_application.references_selected.incomplete', minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES),
-          link_text: t('review_application.references_selected.complete_section'),
-          error: missing_error,
-        ),
-      ) %>
-    <% end %>
+    <%= render(SelectedReferencesComponent.new(application_form, is_errored: missing_error)) %>
   <% else %>
     <% if !application_form.enough_references_have_been_provided? && editable %>
       <%= render(

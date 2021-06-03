@@ -1,0 +1,13 @@
+<% if application_form.references_completed? %>
+  <%= render(SummaryCardComponent.new(rows: rows, editable: editable)) %>
+<% else %>
+  <%= render(
+    CandidateInterface::IncompleteSectionComponent.new(
+      section: :references_selected,
+      section_path: incomplete_path,
+      text: incomplete_message,
+      link_text: incomplete_link_text,
+      error: is_errored,
+    ),
+  ) %>
+<% end %>

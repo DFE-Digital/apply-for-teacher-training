@@ -93,7 +93,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def when_i_have_selected_references
-    click_link 'Manage your references'
+    click_link 'You need to select 2 references'
     select_references_and_complete_section
   end
 
