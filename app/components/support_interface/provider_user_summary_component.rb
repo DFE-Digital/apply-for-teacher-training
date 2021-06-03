@@ -34,7 +34,7 @@ module SupportInterface
   private
 
     def email_notifications_value
-      FeatureFlag.active?(:configurable_provider_notifications) ? render(SummaryCardComponent.new(rows: notification_preferences_rows, border: false)) : boolean_to_word(provider_user.send_notifications?)
+      render(SummaryCardComponent.new(rows: notification_preferences_rows, border: false))
     end
 
     def notification_preferences_rows
