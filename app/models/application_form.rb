@@ -102,7 +102,8 @@ class ApplicationForm < ApplicationRecord
   def touch_choices
     return unless application_choices.any?
 
-    if recruitment_cycle_year < RecruitmentCycle.current_year
+    if recruitment_cycle_year < RecruitmentCycle.current_year && \
+        !RequestStore.store[:allow_unsafe_application_choice_touches]
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 
@@ -409,6 +410,16 @@ class ApplicationForm < ApplicationRecord
 
   def reviewable?(section)
     apply_2? && previous_application_rejection_reason(section).present?
+  end
+
+  def self.with_unsafe_application_choice_touches
+    prior_state = RequestStore.store[:allow_unsafe_application_choice_touches].presence || false
+
+    RequestStore.store[:allow_unsafe_application_choice_touches] = true
+    return_value = yield
+    RequestStore.store[:allow_unsafe_application_choice_touches] = prior_state
+
+    return_value
   end
 
 private
