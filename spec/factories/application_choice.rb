@@ -162,14 +162,11 @@ FactoryBot.define do
       status { 'offer' }
       decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }
-      offer { { 'conditions' => ['Be cool'] } }
       offered_at { Time.zone.now }
 
-      after(:build) do |choice, _evaluator|
-        offer = create(:offer, application_choice: choice, conditions: [])
-        choice.offer['conditions'].each do |condition|
-          create(:offer_condition, text: condition, offer: offer)
-        end
+      after(:build) do |application_choice, _evaluator|
+        condition = build(:offer_condition, text: 'Be cool')
+        build(:offer, application_choice: application_choice, conditions: [condition])
       end
     end
 
