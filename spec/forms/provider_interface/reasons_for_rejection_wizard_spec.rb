@@ -142,7 +142,22 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           ],
         )
 
-        expect(wizard.errors.details.values.flatten.map { |v| v[:error] }.uniq).to eq(%i[too_long])
+        expect(wizard.errors.details.values.flatten.map { |v| v[:error] }).to eq([
+          'Details about candidate behaviour must be 100 words or fewer',
+          'Details about how the candidate can improve their behaviour must be 100 words or fewer',
+          'Details about the quality of their application must be 100 words or fewer',
+          'Details about how they can improve their application must be 100 words or fewer',
+          'Details about the problem with their qualifications must be 100 words or fewer',
+          'Details about inaccurate or false information in the application must be 100 words or fewer',
+          'The details about evidence of plagiarism in the application must be 100 words or fewer',
+          'Details about references not supporting the application must be 100 words or fewer',
+          'Details about the candidate’s honesty and professionalism must be 100 words or fewer',
+          'Details about the information the candidate disclosed must be 100 words or fewer',
+          'Details about the information found by your vetting process which makes the candidate unsuitable to work with children must be 100 words or fewer',
+          'Details about safeguarding must be 100 words or fewer',
+          'Details about how they can improve their performance at interview must be 100 words or fewer',
+          'Details about the place offered on another course must be 100 words or fewer',
+        ])
       end
     end
 

@@ -2,6 +2,8 @@ module ProviderInterface
   class ReasonsForRejectionWizard
     include ActiveModel::Model
 
+    TRANSLATION_KEY_PREFIX = 'activemodel.errors.models.provider_interface/reasons_for_rejection_wizard.attributes'.freeze
+
     class NestedAnswerValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         return unless options.key?(:collection_name) && options.key?(:selected_option)
@@ -9,20 +11,22 @@ module ProviderInterface
         top_level_question = options[:top_level_question]
         top_level_answer = record.send(top_level_question)
 
-        record.errors.add(top_level_question, :blank) if top_level_answer.blank?
-        record.errors.add(top_level_question, :inclusion) unless %w[Yes No].include?(top_level_answer)
+        if top_level_answer.blank?
+          record.errors.add(top_level_question, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{top_level_question}.blank"))
+        end
 
-        return unless record.send(top_level_question) == 'Yes'
+        return unless top_level_answer == 'Yes'
 
-        collection_values = record.send(options[:collection_name])
+        collection_name = options[:collection_name]
+        collection_values = record.send(collection_name)
         if collection_values.blank?
-          record.errors.add(options[:collection_name], :blank)
+          record.errors.add(collection_name, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{collection_name}.blank"))
           return
         end
 
         if collection_values.include?(options[:selected_option])
-          record.errors.add(attribute, :blank) if value.blank?
-          record.errors.add(attribute, :too_long) if record.excessive_word_count?(value)
+          record.errors.add(attribute, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{attribute}.blank")) if value.blank?
+          record.errors.add(attribute, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{attribute}.too_long")) if record.excessive_word_count?(value)
         end
       end
     end
@@ -169,8 +173,8 @@ module ProviderInterface
                  end
 
         if record.send(method) == 'Yes'
-          record.errors.add(attr, :blank) if value.blank?
-          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+          record.errors.add(attr, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{attr}.blank")) if value.blank?
+          record.errors.add(attr, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{attr}.too_long")) if record.excessive_word_count?(value)
         end
       end
     end
