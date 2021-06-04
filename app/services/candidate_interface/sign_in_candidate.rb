@@ -35,14 +35,18 @@ module CandidateInterface
   private
 
     def update_course_from_find(candidate)
-      course_from_find = Provider
-        .find_by(code: params[:providerCode])
-        &.courses
-        &.find_by(code: params[:courseCode])
+      return nil if provider.blank?
 
-      if course_from_find
-        candidate.update!(course_from_find_id: course_from_find.id)
-      end
+      course = provider
+        .courses
+        .current_cycle
+        .find_by(code: params[:courseCode])
+
+      candidate.update!(course_from_find_id: course.id) if course.present?
+    end
+
+    def provider
+      @_provider ||= Provider.find_by(code: params[:providerCode])
     end
   end
 end
