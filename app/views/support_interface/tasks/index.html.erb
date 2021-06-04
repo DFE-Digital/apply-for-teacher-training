@@ -65,7 +65,7 @@
   </section>
 <% end %>
 
-<% unless HostingEnvironment.production? %>
+<% if HostingEnvironment.test_environment? %>
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
