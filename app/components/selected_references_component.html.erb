@@ -1,6 +1,4 @@
-<% if application_form.references_completed? %>
-  <%= render(SummaryCardComponent.new(rows: rows, editable: editable)) %>
-<% else %>
+<% if show_incomplete_banner? %>
   <%= render(
     CandidateInterface::IncompleteSectionComponent.new(
       section: :references_selected,
@@ -10,4 +8,6 @@
       error: is_errored,
     ),
   ) %>
+<% else %>
+  <%= render(SummaryCardComponent.new(rows: rows, editable: editable)) %>
 <% end %>

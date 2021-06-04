@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
 class SelectedReferencesComponent < ViewComponent::Base
-  attr_reader :application_form, :selected_references, :editable, :is_errored
+  attr_reader :application_form, :selected_references, :editable, :show_incomplete, :is_errored
 
-  def initialize(application_form, editable: true, is_errored: false)
+  def initialize(application_form, editable: true, show_incomplete: false, is_errored: false)
     @application_form = application_form
     @selected_references = application_form.selected_references
     @editable = editable
+    @show_incomplete = show_incomplete
     @is_errored = is_errored
+  end
+
+  def show_incomplete_banner?
+    !application_form.references_completed? && show_incomplete
   end
 
   def rows
