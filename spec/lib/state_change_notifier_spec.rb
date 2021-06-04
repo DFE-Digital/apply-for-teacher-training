@@ -229,6 +229,19 @@ RSpec.describe StateChangeNotifier do
         message = /.+#{applicant} previously declined an offer from #{declined_choice.provider.name}, declined by default an offer from #{declined_by_default_choice.provider.name}, withdrew from #{withdrawn_choice.provider.name}, was rejected by #{rejected_choice.provider.name}, and was rejected by default from #{rejected_by_default_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
+
+      it 'ignores other applications with statuses not included in outcome list' do
+        recruited_application_choice = create(:application_choice, :recruited, application_form: application_form)
+
+        # application with status not in outcome list
+        create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+        rejected_choice
+
+        StateChangeNotifier.new(:recruited, recruited_application_choice).application_outcome_notification
+
+        message = /:handshake: #{applicant} was recruited to #{recruited_application_choice.provider.name}. #{applicant} previously was rejected by #{rejected_choice.provider.name}/
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
     end
   end
 end
