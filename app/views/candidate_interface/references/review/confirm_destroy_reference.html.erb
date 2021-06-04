@@ -8,10 +8,21 @@
       url: candidate_interface_destroy_reference_path(@reference),
       method: :delete,
     ) do |f| %>
-      <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl"><%= @reference.name %></span>
-        <%= t('page_titles.references_delete_reference') %>
-      </h1>
+      <% if FeatureFlag.active?(:reference_selection) && @reference.selected %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl"><%= @reference.name %></span>
+          <%= t('page_titles.references_delete_selected_reference') %>
+        </h1>
+
+        <p class="govuk-body">
+          You’ve selected this reference, deleting it means you’ll need to select another.
+        </p>
+      <% else %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl"><%= @reference.name %></span>
+          <%= t('page_titles.references_delete_reference') %>
+        </h1>
+      <% end %>
 
       <%= f.govuk_submit t('application_form.references.delete_reference.confirm'), warning: true %>
 
