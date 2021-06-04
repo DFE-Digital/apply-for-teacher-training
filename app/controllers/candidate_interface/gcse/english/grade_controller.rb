@@ -38,9 +38,9 @@ module CandidateInterface
 
       if @gcse_grade_form.save
         if current_qualification.failed_required_gcse?
-          candidate_interface_gcse_details_edit_grade_explanation_path(@subject)
+          redirect_to candidate_interface_gcse_details_edit_grade_explanation_path(@subject)
         else
-          candidate_interface_gcse_review_path(@subject)
+          redirect_to candidate_interface_gcse_review_path(@subject)
         end
       else
         track_validation_error(@gcse_grade_form)

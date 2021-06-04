@@ -45,6 +45,9 @@ RSpec.feature 'Candidate entering GCSE English details' do
 
     when_i_click_to_change_my_grades
     then_i_see_the_grades_i_entered_in_the_form
+
+    when_i_enter_a_new_grade
+    then_i_see_my_new_grade_on_the_review_page
   end
 
   def given_i_am_signed_in
@@ -152,5 +155,16 @@ RSpec.feature 'Candidate entering GCSE English details' do
   def then_i_see_the_grades_i_entered_in_the_form
     expect(page).to have_selector("input[value='A*']")
     expect(page).to have_selector("input[value='Cockney rhyming slang']")
+  end
+
+  def when_i_enter_a_new_grade
+    within find('#candidate-interface-english-gcse-grade-form-english-gcses-other-english-gcse-conditional') do
+      fill_in('Grade', with: 'B')
+    end
+    and_i_click_save_and_continue
+  end
+
+  def then_i_see_my_new_grade_on_the_review_page
+    expect(page).to have_content('B (Cockney Rhyming Slang)')
   end
 end
