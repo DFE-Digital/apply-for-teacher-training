@@ -97,8 +97,8 @@ module SupportInterface
     def offer_conditions_row
       return unless application_choice.pending_conditions? || application_choice.offer?
 
-      conditions = application_choice.offer&.[]('conditions')
-      return if conditions.blank?
+      conditions = application_choice.offer.conditions
+      return if conditions.empty?
 
       {
         key: 'Conditions',
