@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.references'), @too_many_references) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
 <% if @too_many_references %>
   <div class="govuk-error-summary" tabindex="-1" role="alert" data-module="govuk-error-summary" aria-labelledby="error-summary-title">

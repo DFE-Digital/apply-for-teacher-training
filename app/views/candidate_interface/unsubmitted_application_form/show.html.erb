@@ -239,7 +239,7 @@
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.suitability_to_work_with_children'),
             completed: @application_form_presenter.safeguarding_completed?,
-            path: @application_form_presenter.safeguarding_valid? ? candidate_interface_review_safeguarding_path : candidate_interface_edit_safeguarding_path,
+            path: @application_form_presenter.safeguarding_valid? ? candidate_interface_review_safeguarding_path : candidate_interface_new_safeguarding_path,
           )) %>
         </li>
       </ol>

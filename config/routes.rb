@@ -544,8 +544,10 @@ Rails.application.routes.draw do
       end
 
       scope '/safeguarding' do
-        get '/' => 'safeguarding#edit', as: :edit_safeguarding
-        post '/' => 'safeguarding#update'
+        get '/' => 'safeguarding#new', as: :new_safeguarding
+        patch '/' => 'safeguarding#create'
+        get '/edit' => 'safeguarding#edit', as: :edit_safeguarding
+        patch '/edit' => 'safeguarding#update'
         get '/review' => 'safeguarding#show', as: :review_safeguarding
         post '/complete' => 'safeguarding#complete', as: :complete_safeguarding
       end

@@ -1,6 +1,7 @@
 module CandidateInterface
   class Volunteering::RoleController < Volunteering::BaseController
     def new
+      set_previous_path
       @volunteering_role = VolunteeringRoleForm.new
     end
 
@@ -10,6 +11,7 @@ module CandidateInterface
       if @volunteering_role.save(current_application)
         redirect_to candidate_interface_review_volunteering_path
       else
+        set_previous_path
         track_validation_error(@volunteering_role)
         render :new
       end
@@ -55,6 +57,14 @@ module CandidateInterface
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) },
       )
+    end
+
+    def set_previous_path
+      @previous_path = if current_application.application_volunteering_experiences.present?
+                         candidate_interface_review_volunteering_path
+                       else
+                         candidate_interface_volunteering_experience_path
+                       end
     end
   end
 end
