@@ -1086,6 +1086,8 @@ Rails.application.routes.draw do
   get '/check', to: 'healthcheck#show'
   get '/check/version', to: 'healthcheck#version'
 
+  mount Yabeda::Prometheus::Exporter => '/metrics'
+
   scope via: :all do
     match '/404', to: 'errors#not_found'
     match '/406', to: 'errors#not_acceptable'
