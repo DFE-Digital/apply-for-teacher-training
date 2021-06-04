@@ -223,9 +223,9 @@ private
         @application_form.application_choices.each do |choice|
           choice.update_columns(
             sent_to_provider_at: time,
-            reject_by_default_at: time + rand(3..30).days,
             updated_at: time,
           )
+
           choice.audits.last&.update_columns(created_at: time)
         end
 
