@@ -66,21 +66,43 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when two references have been received' do
+    context 'when an additional reference is received but none are selected' do
       let(:email) { mailer.send(:reference_received, reference) }
 
-      let(:application_form) { build_stubbed(:application_form, application_references: [other_reference]) }
-      let(:reference) { build_stubbed(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
-      let(:other_reference) { build_stubbed(:reference, :feedback_provided, name: 'William Adama') }
+      let(:application_form) { build(:application_form) }
+      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
+      let(:other_reference) { build(:reference, :feedback_provided, name: 'William Adama', application_form: application_form) }
 
       before do
-        allow(application_form).to receive(:enough_references_have_been_provided?).and_return(true)
+        application_form.application_references = [reference, other_reference]
+        FeatureFlag.activate(:reference_selection)
       end
 
       it_behaves_like(
         'a mail with subject and content',
         'You have a reference from Scott Knowles',
-        'request other' => 'You’ve got 2 references back now.',
+        'request other' => 'You have enough references to send your application to training providers.',
+      )
+    end
+
+    context 'when two references have been selected and another is received' do
+      let(:email) { mailer.send(:reference_received, reference) }
+
+      let(:application_form) { build(:application_form) }
+
+      let(:first_selected_reference) { build(:reference, :feedback_provided, selected: true, application_form: application_form) }
+      let(:second_selected_reference) { build(:reference, :feedback_provided, selected: true, application_form: application_form) }
+      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
+
+      before do
+        application_form.application_references = [first_selected_reference, second_selected_reference]
+        FeatureFlag.activate(:reference_selection)
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'You have a reference from Scott Knowles',
+        'request other' => 'You’ve selected 2 references to send with your application already',
       )
     end
   end
