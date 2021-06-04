@@ -111,7 +111,7 @@ module ProviderInterface
     def self.standard_conditions_from(offer)
       return MakeOffer::STANDARD_CONDITIONS if offer.blank?
 
-      conditions = offer['conditions']
+      conditions = offer.conditions.map(&:text)
       conditions & MakeOffer::STANDARD_CONDITIONS
     end
 
@@ -120,7 +120,7 @@ module ProviderInterface
     def self.further_conditions_from(offer)
       return [] if offer.blank?
 
-      conditions = offer['conditions']
+      conditions = offer.conditions.map(&:text)
       conditions - MakeOffer::STANDARD_CONDITIONS
     end
 

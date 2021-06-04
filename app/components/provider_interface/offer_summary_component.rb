@@ -57,14 +57,6 @@ module ProviderInterface
       course.full_time_or_part_time? ? new_provider_interface_application_choice_offer_study_modes_path(application_choice) : nil
     end
 
-    def conditions_met?
-      return application_choice.status_before_deferral == 'recruited' if application_choice.status == 'offer_deferred'
-
-      application_state.current_state == :recruited
-    end
-
-    delegate :conditions_not_met?, to: :application_state
-
   private
 
     def accredited_body_details(course_option)
