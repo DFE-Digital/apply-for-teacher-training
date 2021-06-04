@@ -109,13 +109,13 @@ module CandidateInterface
 
     def conditions_row(application_choice)
       return unless (application_choice.pending_conditions? || application_choice.offer?) &&
-        (application_choice.offer.present? && !application_choice.offer['conditions'].count.zero?)
+        (application_choice.offer.present? && application_choice.offer.conditions.any?)
 
       {
-        key: 'Condition'.pluralize(application_choice.offer['conditions'].count),
+        key: 'Condition'.pluralize(application_choice.offer.conditions.count),
         value: render(
           OfferConditionsReviewComponent.new(
-            conditions: application_choice.offer['conditions'],
+            conditions: application_choice.offer.conditions.map(&:text),
             provider: application_choice.current_course.provider.name,
           ),
         ),
