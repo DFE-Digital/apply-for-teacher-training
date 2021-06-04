@@ -73,10 +73,6 @@ module ProviderInterface
         change_path: nil }
     end
 
-    def application_state
-      @application_state ||= ApplicationStateChange.new(application_choice)
-    end
-
     def border_class
       'no-border' unless border
     end
