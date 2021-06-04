@@ -18,7 +18,7 @@ class SelectedReferencesComponent < ViewComponent::Base
   def rows
     [
       {
-        key: 'Selected references',
+        key: 'Select your references',
         value: reference_values,
         action: 'Change selected references',
         change_path: candidate_interface_select_references_path,

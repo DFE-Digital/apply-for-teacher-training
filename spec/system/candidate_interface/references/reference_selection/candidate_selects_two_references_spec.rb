@@ -82,7 +82,7 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   alias_method :and_i_visit_the_select_references_page, :when_i_visit_the_select_references_page
 
   def then_i_am_told_i_need_to_receive_references
-    expect(page).to have_content 'Once 2 or more references have been given, you can then select which you want to include'
+    expect(page).to have_content 'Once you’ve received 2 or more references, you can select which ones to include in your application.'
   end
 
   def and_i_see_the_select_references_page
@@ -148,7 +148,7 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   end
 
   def when_i_revisit_the_select_references_page
-    click_link 'Selected references'
+    click_link 'Select your references'
   end
 
   def and_i_mark_the_section_as_completed
@@ -156,10 +156,10 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   end
 
   def then_i_see_the_section_is_incomplete
-    expect(page).to have_css('#selected-references-badge-id', text: 'Incomplete')
+    expect(page).to have_css('#select-your-references-badge-id', text: 'Incomplete')
   end
 
   def then_i_see_the_references_section_is_complete
-    expect(page).to have_css('#selected-references-badge-id', text: 'Completed')
+    expect(page).to have_css('#select-your-references-badge-id', text: 'Completed')
   end
 end

@@ -25,7 +25,7 @@ RSpec.describe SelectedReferencesComponent, type: :component do
         render_inline(described_class.new(application, show_incomplete: false))
 
         expect(page).to have_css '.app-summary-card'
-        expect(page).to have_content 'Selected references'
+        expect(page).to have_content 'Select your references'
       end
     end
 

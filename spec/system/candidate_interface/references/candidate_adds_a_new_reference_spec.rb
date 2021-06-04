@@ -111,11 +111,7 @@ RSpec.feature 'References' do
   end
 
   def when_i_click_through_to_add_my_references
-    if FeatureFlag.active?(:reference_selection)
-      click_link 'Review your references'
-    else
-      click_link 'Add your references'
-    end
+    click_link 'Add your references'
   end
 
   def then_i_see_the_start_page
