@@ -175,9 +175,14 @@ FactoryBot.define do
         allow(application_choice).to receive(:offer).and_return(offer)
       end
 
-      after(:create) do |application_choice, _evaluator|
-        condition = build(:offer_condition, text: 'Be cool')
-        create(:offer, application_choice: application_choice, conditions: [condition])
+      after(:create) do |application_choice, evaluator|
+        if evaluator.offer.present?
+          evaluator.offer.update(application_choice: application_choice)
+        else
+          condition = build(:offer_condition, text: 'Be cool')
+          create(:offer, application_choice: application_choice, conditions: [condition])
+        end
+        application_choice
       end
     end
 
