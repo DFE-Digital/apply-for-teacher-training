@@ -1,13 +1,15 @@
 class UpdateOfferConditions
-  def initialize(application_choice:)
+  attr_reader :application_choice, :conditions
+
+  def initialize(application_choice:, conditions: nil)
     @application_choice = application_choice
-    @conditions = application_choice.offer&.[]('conditions') || []
+    @conditions = conditions || application_choice&.offer&.conditions&.map(&:text) || []
   end
 
   def call
-    offer = Offer.find_or_create_by(application_choice: @application_choice)
+    offer = Offer.find_or_create_by(application_choice: application_choice)
     offer.conditions.delete_all
-    conditions_attrs = @conditions.map do |condition|
+    conditions_attrs = conditions.map do |condition|
       {
         text: condition,
         status: condition_status,
@@ -21,9 +23,9 @@ class UpdateOfferConditions
 private
 
   def condition_status
-    @condition_status ||= if @application_choice.recruited?
+    @condition_status ||= if application_choice.recruited?
                             :met
-                          elsif @application_choice.conditions_not_met?
+                          elsif application_choice.conditions_not_met?
                             :unmet
                           else
                             :pending

@@ -11,7 +11,7 @@ class UpdateAcceptedOfferConditions
         offer: { conditions: @conditions },
         audit_comment: "Change offer condition Zendesk request: #{@audit_comment_ticket}",
       )
-      UpdateOfferConditions.new(application_choice: @application_choice).call
+      UpdateOfferConditions.new(application_choice: @application_choice, conditions: @conditions).call
       if @conditions.empty?
         ApplicationStateChange.new(@application_choice).confirm_conditions_met!
         @application_choice.update!(recruited_at: Time.zone.now)

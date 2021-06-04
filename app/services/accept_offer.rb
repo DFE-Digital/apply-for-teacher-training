@@ -46,6 +46,6 @@ private
   end
 
   def unconditional_offer?
-    @application_choice.offer&.fetch('conditions', []).blank?
+    @application_choice.offer.conditions.none?
   end
 end

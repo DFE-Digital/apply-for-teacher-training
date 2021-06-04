@@ -68,11 +68,11 @@ RSpec.describe SupportInterface::ConditionsForm do
 
   describe '#save' do
     it 'returns false with a validation error if audit_comment_ticket is missing' do
-      application_choice = create(
-        :application_choice,
-        :with_offer,
-        offer: { 'conditions' => ['Fitness to train to teach check', 'Get a haircut'] },
-      )
+      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+                    build(:offer_condition, text: 'Get a haircut')]
+      application_choice = create(:application_choice,
+                                  :with_offer,
+                                  offer: build(:offer, conditions: conditions))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -86,18 +86,18 @@ RSpec.describe SupportInterface::ConditionsForm do
       )
       expect(form.save).to be(false)
       expect(form.errors.full_messages).to include('Audit comment ticket Enter a Zendesk ticket URL')
-      expect(application_choice.reload.offer['conditions']).to eq([
+      expect(application_choice.offer.conditions.map(&:text)).to eq([
         'Fitness to train to teach check',
         'Get a haircut',
       ])
     end
 
     it 'adds an additional further and standard condition' do
-      application_choice = create(
-        :application_choice,
-        :with_offer,
-        offer: { 'conditions' => ['Fitness to train to teach check', 'Get a haircut'] },
-      )
+      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+                    build(:offer_condition, text: 'Get a haircut')]
+      application_choice = create(:application_choice,
+                                  :with_offer,
+                                  offer: build(:offer, conditions: conditions))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -111,22 +111,21 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
-      expect(application_choice.reload.offer).to eq(
-        'conditions' => [
-          'Fitness to train to teach check',
-          'Disclosure and Barring Service (DBS) check',
-          'Get a haircut',
-          'Wear a tie',
-        ],
-      )
+
+      expect(application_choice.offer.reload.conditions.map(&:text)).to eq([
+        'Fitness to train to teach check',
+        'Disclosure and Barring Service (DBS) check',
+        'Get a haircut',
+        'Wear a tie',
+      ])
     end
 
     it 'updates the attached offer model' do
-      application_choice = create(
-        :application_choice,
-        :with_offer,
-        offer: { 'conditions' => ['Fitness to train to teach check', 'Get a haircut'] },
-      )
+      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+                    build(:offer_condition, text: 'Get a haircut')]
+      application_choice = create(:application_choice,
+                                  :with_offer,
+                                  offer: build(:offer, conditions: conditions))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -153,11 +152,12 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'can remove conditions' do
-      application_choice = create(
-        :application_choice,
-        :with_offer,
-        offer: { 'conditions' => ['Fitness to train to teach check', 'Get a haircut', 'Wear a tie'] },
-      )
+      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+                    build(:offer_condition, text: 'Get a haircut'),
+                    build(:offer_condition, text: 'Wear a tie')]
+      application_choice = create(:application_choice,
+                                  :with_offer,
+                                  offer: build(:offer, conditions: conditions))
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -169,8 +169,8 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
-      expect(application_choice.reload.offer).to eq(
-        'conditions' => [
+      expect(application_choice.offer.reload.conditions.map(&:text)).to eq(
+        [
           'Disclosure and Barring Service (DBS) check',
           'Wear a tie',
         ],
@@ -178,11 +178,7 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'includes an audit comment', with_audited: true do
-      application_choice = create(
-        :application_choice,
-        :with_offer,
-        offer: { 'conditions' => ['Fitness to train to teach check'] },
-      )
+      application_choice = create(:application_choice, :with_offer)
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => [
@@ -209,27 +205,33 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'handles an empty set of conditions' do
-      application_choice = build(:application_choice, offer: { 'conditions' => [] })
+      application_choice = build(:application_choice, offer: build(:unconditional_offer))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq([])
       expect(form.further_conditions).to eq([''])
     end
 
     it 'reads standard and further conditions' do
-      application_choice = build(
-        :application_choice,
-        offer: { 'conditions' => ['Fitness to train to teach check', 'Get a haircut'] },
-      )
+      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+                    build(:offer_condition, text: 'Get a haircut')]
+      application_choice = create(:application_choice,
+                                  :with_offer,
+                                  offer: build(:offer, conditions: conditions))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
       expect(form.further_conditions).to eq(['Get a haircut', ''])
     end
 
     it 'reads more than 4 further conditions' do
-      application_choice = build(
-        :application_choice,
-        offer: { 'conditions' => ['Fitness to train to teach check', 'FC1', 'FC2', 'FC3', 'FC4', 'FC5'] },
-      )
+      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+                    build(:offer_condition, text: 'FC1'),
+                    build(:offer_condition, text: 'FC2'),
+                    build(:offer_condition, text: 'FC3'),
+                    build(:offer_condition, text: 'FC4'),
+                    build(:offer_condition, text: 'FC5')]
+      application_choice = create(:application_choice,
+                                  :with_offer,
+                                  offer: build(:offer, conditions: conditions))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
       expect(form.further_conditions).to eq(['FC1', 'FC2', 'FC3', 'FC4', 'FC5', ''])

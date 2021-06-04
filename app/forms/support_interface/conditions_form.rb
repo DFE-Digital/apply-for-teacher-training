@@ -53,14 +53,14 @@ module SupportInterface
     def self.standard_conditions_from(offer)
       return [] if offer.blank?
 
-      conditions = offer['conditions']
+      conditions = offer.conditions.map(&:text)
       conditions & MakeOffer::STANDARD_CONDITIONS
     end
 
     def self.further_conditions_from(offer)
       return [] if offer.blank?
 
-      conditions = offer['conditions']
+      conditions = offer.conditions.map(&:text)
       conditions - MakeOffer::STANDARD_CONDITIONS
     end
 
