@@ -53,6 +53,16 @@ RSpec.feature 'Candidate entering GCSE details' do
     when_i_mark_the_section_as_completed
     and_click_continue
     then_i_see_the_maths_gcse_is_completed
+
+    when_i_click_on_the_english_gcse_link
+    then_i_see_the_add_gcse_english_page
+
+    when_i_select_gcse_option
+    and_i_click_save_and_continue
+    then_i_see_add_english_grade_page
+
+    when_i_choose_to_return_later
+    then_i_am_returned_to_the_application_form
   end
 
   def given_i_am_signed_in
@@ -185,5 +195,31 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def when_i_click_continue
     and_click_continue
+  end
+
+  def when_i_click_on_the_english_gcse_link
+    click_on 'English GCSE or equivalent'
+  end
+
+  def then_i_see_add_english_grade_page
+    expect(page).to have_content t('multiple_gcse_edit_grade.page_title')
+  end
+
+  def then_i_see_the_add_gcse_english_page
+    expect(page).to have_content 'Add English GCSE grade 4 (C) or above, or equivalent'
+  end
+
+  def when_i_choose_to_return_later
+    visit candidate_interface_gcse_review_path(subject: 'english')
+    and_i_mark_the_section_as_incomplete
+    and_click_continue
+  end
+
+  def and_i_mark_the_section_as_incomplete
+    choose t('application_form.incomplete_radio')
+  end
+
+  def then_i_am_returned_to_the_application_form
+    expect(page).to have_current_path candidate_interface_application_form_path
   end
 end
