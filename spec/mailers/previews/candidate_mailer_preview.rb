@@ -392,6 +392,34 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.reference_received(reference)
   end
 
+  def reference_received_and_can_now_send_to_providers
+    application_form_with_provided_references = FactoryBot.build_stubbed(
+      :application_form,
+      application_references: [
+        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
+        FactoryBot.build_stubbed(:reference, feedback_status: :feedback_provided),
+      ],
+    )
+
+    new_reference = FactoryBot.build_stubbed(:reference, application_form: application_form_with_provided_references)
+
+    CandidateMailer.reference_received(new_reference)
+  end
+
+  def reference_received_after_selection
+    application_form_with_selected_references = FactoryBot.build_stubbed(
+      :application_form,
+      application_references: [
+        FactoryBot.build_stubbed(:reference, selected: true, feedback_status: :feedback_provided),
+        FactoryBot.build_stubbed(:reference, selected: true, feedback_status: :feedback_provided),
+      ],
+    )
+
+    new_reference = FactoryBot.build_stubbed(:reference, application_form: application_form_with_selected_references)
+
+    CandidateMailer.reference_received(new_reference)
+  end
+
   def offer_withdrawn
     candidate = FactoryBot.build_stubbed(:candidate)
     application_choice = FactoryBot.build_stubbed(
