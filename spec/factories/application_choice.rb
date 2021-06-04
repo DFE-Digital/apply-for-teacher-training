@@ -169,10 +169,14 @@ FactoryBot.define do
         build(:offer, application_choice: application_choice, conditions: [condition])
       end
 
-      after(:stub) do |application_choice, _evaluator|
-        condition = build(:offer_condition, text: 'Be cool')
-        offer = build(:offer, application_choice: application_choice, conditions: [condition])
-        allow(application_choice).to receive(:offer).and_return(offer)
+      after(:stub) do |application_choice, evaluator|
+        if evaluator.offer.present?
+          allow(application_choice).to receive(:offer).and_return(evaluator.offer)
+        else
+          condition = build(:offer_condition, text: 'Be cool')
+          offer = build(:offer, application_choice: application_choice, conditions: [condition])
+          allow(application_choice).to receive(:offer).and_return(offer)
+        end
       end
 
       after(:create) do |application_choice, evaluator|

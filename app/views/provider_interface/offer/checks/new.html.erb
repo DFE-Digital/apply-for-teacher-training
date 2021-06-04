@@ -12,7 +12,7 @@
       <%= f.govuk_error_summary %>
       <%= render ProviderInterface::OfferSummaryComponent.new(application_choice: @application_choice,
                                                               course_option: @wizard.course_option,
-                                                              conditions: @wizard.conditions,
+                                                              conditions: @wizard.conditions_to_render,
                                                               course: @wizard.course_option.course,
                                                               available_providers: @providers,
                                                               available_courses: @courses,
