@@ -292,7 +292,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.changed_offer' do
     let(:email) { mailer.changed_offer(application_choices.first) }
-    let(:application_choice) { build_stubbed(:submitted_application_choice, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+    let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
     it_behaves_like(
