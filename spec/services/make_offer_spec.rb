@@ -65,7 +65,7 @@ RSpec.describe MakeOffer do
             .to receive(:new).with(application_choice: application_choice)
                     .and_return(send_new_offer_email_to_candidate)
         allow(UpdateOfferConditions)
-            .to receive(:new).with(application_choice: application_choice)
+            .to receive(:new).with(application_choice: application_choice, conditions: conditions)
                      .and_return(update_offer_conditions_service)
 
         make_offer.save!

@@ -84,7 +84,7 @@ RSpec.describe ChangeOffer do
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
         allow(UpdateOfferConditions)
-            .to receive(:new).with(application_choice: application_choice)
+            .to receive(:new).with(application_choice: application_choice, conditions: new_conditions)
                     .and_return(update_offer_conditions_service)
 
         change_offer.save!
