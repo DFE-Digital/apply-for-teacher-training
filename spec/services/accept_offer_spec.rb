@@ -16,7 +16,9 @@ RSpec.describe AcceptOffer do
   it 'calls AcceptUnconditionalOffer when the feature is enabled and the offer is unconditional' do
     FeatureFlag.activate(:unconditional_offers_via_api)
 
-    application_choice = build(:application_choice, status: :offer, offer: { conditions: [] })
+    application_choice = create(:application_choice,
+                                :with_offer,
+                                offer: build(:unconditional_offer))
     allow(AcceptUnconditionalOffer).to receive(:new).and_call_original
 
     described_class.new(application_choice: application_choice).save!

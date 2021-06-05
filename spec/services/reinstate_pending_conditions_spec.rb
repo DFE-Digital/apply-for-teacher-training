@@ -39,14 +39,14 @@ RSpec.describe ReinstatePendingConditions do
   end
 
   context 'when the application does not have an offer object associated' do
+    let(:conditions) { [build(:offer_condition, text: 'Be cool')] }
     let(:application_choice) do
-      create(
-        :application_choice,
-        offer: { conditions: ['Be cool'] },
-        status: :offer_deferred,
-        status_before_deferral: :pending_conditions,
-        course_option: previous_course_option,
-      )
+      create(:application_choice,
+             :with_offer,
+             :offer_deferred,
+             offer: build(:offer, conditions: conditions),
+             status_before_deferral: :pending_conditions,
+             course_option: previous_course_option)
     end
 
     it 'creates an offer object' do
