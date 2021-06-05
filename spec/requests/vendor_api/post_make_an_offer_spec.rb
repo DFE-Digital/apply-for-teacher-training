@@ -374,8 +374,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       choice = create(:application_choice,
                       :with_completed_application_form,
                       :with_offer,
-                      course_option: course_option_for_provider(provider: currently_authenticated_provider),
-                      offer: { 'conditions' => ['DBS check'] })
+                      course_option: course_option_for_provider(provider: currently_authenticated_provider))
 
       request_body = {
         "data": {
@@ -386,24 +385,20 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      expect {
-        post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
-      }.to(change { choice.reload.offer })
+      post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+      expect(choice.offer.conditions.map(&:text)).to eq(['Change your sheets', 'Wash your clothes'])
     end
 
     it 'returns 200 OK when sending the same offer & conditions repeatedly' do
       choice = create(:application_choice,
                       :with_completed_application_form,
                       :with_offer,
-                      course_option: course_option_for_provider(provider: currently_authenticated_provider),
-                      offer: { 'conditions' => ['DBS check'] })
+                      course_option: course_option_for_provider(provider: currently_authenticated_provider))
 
       request_body = {
         "data": {
-          "conditions": [
-            'DBS check',
-          ],
-          "course": course_option_to_course_payload(choice.current_course_option),
+          "conditions": choice.offer.conditions.map(&:text),
+          "course": course_option_to_course_payload(choice.course_option),
         },
       }
 

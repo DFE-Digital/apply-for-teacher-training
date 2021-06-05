@@ -67,7 +67,7 @@ module VendorAPI
     end
 
     def render_application
-      render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
+      render json: { data: SingleApplicationPresenter.new(application_choice.reload).as_json }
     end
 
     def respond_to_decision(decision)
