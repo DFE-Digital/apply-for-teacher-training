@@ -30,7 +30,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def then_i_can_see_references_are_incomplete
-    expect(page).to have_content('You have to get 2 references back before you can send your application to training providers.')
+    expect(page).to have_content('You have to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Incomplete')
       expect(page).to have_link('Add your references')
@@ -39,23 +39,23 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_references_are_in_progress
     visit candidate_interface_application_form_path
-    expect(page).to have_content('You have to get 2 references back before you can send your application to training providers.')
+    expect(page).to have_content('You have to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('In progress')
       expect(page).to have_link('Manage your references')
-      expect(page).to have_content("#{@reference1.name}: Not requested yet")
-      expect(page).to have_content("#{@reference2.name}: Not requested yet")
+      expect(page).to have_content("#{@reference1.name}: Not sent yet")
+      expect(page).to have_content("#{@reference2.name}: Not sent yet")
     end
   end
 
   def then_i_can_see_references_are_complete
     visit candidate_interface_application_form_path
-    expect(page).not_to have_content('You have to get 2 references back before you can send your application to training providers.')
+    expect(page).not_to have_content('You have to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Complete')
       expect(page).to have_link('Review your references')
-      expect(page).to have_content("#{@reference1.name}: Reference given")
-      expect(page).to have_content("#{@reference2.name}: Reference given")
+      expect(page).to have_content("#{@reference1.name}: Reference received")
+      expect(page).to have_content("#{@reference2.name}: Reference received")
     end
   end
 

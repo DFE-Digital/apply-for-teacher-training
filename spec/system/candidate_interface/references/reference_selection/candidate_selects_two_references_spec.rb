@@ -98,13 +98,13 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
     @fourth_reference = provided_references.fourth
 
     expect(page).to have_content(@first_reference.name)
-    expect(page).to have_content(@first_reference.referee_type.humanize)
+    expect(page).to have_content(@first_reference.referee_type.capitalize.dasherize)
     expect(page).to have_content(@second_reference.name)
-    expect(page).to have_content(@second_reference.referee_type.humanize)
+    expect(page).to have_content(@second_reference.referee_type.capitalize.dasherize)
     expect(page).to have_content(@third_reference.name)
-    expect(page).to have_content(@third_reference.referee_type.humanize)
+    expect(page).to have_content(@third_reference.referee_type.capitalize.dasherize)
     expect(page).to have_content(@fourth_reference.name)
-    expect(page).to have_content(@fourth_reference.referee_type.humanize)
+    expect(page).to have_content(@fourth_reference.referee_type.capitalize.dasherize)
   end
 
   def then_i_am_told_i_need_to_select_two_references

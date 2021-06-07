@@ -18,7 +18,7 @@ class SelectedReferencesComponent < ViewComponent::Base
   def rows
     [
       {
-        key: 'Select your references',
+        key: 'Selected references',
         value: reference_values,
         action: 'Change selected references',
         change_path: candidate_interface_select_references_path,
@@ -31,7 +31,7 @@ class SelectedReferencesComponent < ViewComponent::Base
   def reference_values
     list = '<ul class="govuk-list govuk-list--bullet">'.html_safe
     selected_references.map do |reference|
-      list << '<li>'.html_safe << "#{reference.referee_type.humanize} reference from #{reference.name}" << '</li>'.html_safe
+      list << '<li>'.html_safe << "#{reference.referee_type.capitalize.dasherize} reference from #{reference.name}" << '</li>'.html_safe
     end
     list + '</ul>'.html_safe
   end

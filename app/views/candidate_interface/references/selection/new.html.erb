@@ -15,7 +15,7 @@
               :selected,
               reference.id,
               label: { text: reference.name, size: 's' },
-              hint: { text: "#{reference.referee_type.humanize} reference" },
+              hint: { text: "#{reference.referee_type.capitalize.dasherize} reference" },
             ) %>
           <% end %>
         <% end %>
