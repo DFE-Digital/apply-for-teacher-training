@@ -28,7 +28,6 @@ class FeatureFlag
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
     [:restructured_work_history, 'Candidates use the new design for the Work History section', 'David Gisbey'],
     [:unconditional_offers_via_api, 'Activates the ability to accept unconditional offers via the API', 'Steve Laing'],
-    [:configurable_provider_notifications, 'Providers can manage individual email notifications', 'Aga Dufrat'],
     [:content_security_policy, 'Enables the content security policy declared in `config/initializers/content_security_policy.rb`', 'Steve Hook'],
     [:support_user_reinstate_offer, 'Allows a support users to reinstate a declined course choice offer', 'James Glenn'],
     [:expanded_quals_export, 'Rework the Qualifications export to contain all candidate qualifications', 'Malcolm Baig'],

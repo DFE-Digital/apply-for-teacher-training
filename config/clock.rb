@@ -43,14 +43,6 @@ class Clock
     end
   end
 
-  every(1.day, 'Generate export for Notifications', at: '23:57') do
-    data_export = DataExport.create!(
-      name: 'Daily export of notifications breakdown',
-      export_type: :notifications_export,
-    )
-    DataExporter.perform_async(SupportInterface::NotificationsExport, data_export.id)
-  end
-
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
   every(3.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') { TeacherTrainingPublicAPI::FullSyncAllProvidersAndCoursesWorker.perform_async }

@@ -84,12 +84,6 @@ class DataExport < ApplicationRecord
       description: 'Data related to notes made on applications by providers.',
       class: SupportInterface::NotesExport,
     },
-    notifications_export: {
-      name: 'Notifications',
-      export_type: 'notifications_export',
-      description: 'Data to enable performance assesment of Notification feature.',
-      class: SupportInterface::NotificationsExport,
-    },
     offer_conditions: {
       name: 'Offer conditions',
       export_type: 'offer_conditions',

@@ -8,20 +8,12 @@ class NotificationsList
   }.freeze
 
   def self.for(application_choice, include_ratifying_provider: false, event: nil)
-    if FeatureFlag.active?(:configurable_provider_notifications)
-      notification_name = NOTIFICATION_PREFERENCE_NAMES_FOR_EVENTS.select { |k, v| k if event.in? v }.keys.first
-      raise 'Undefined type of notification event' unless ProviderUserNotificationPreferences.notification_preference_exists?(notification_name)
+    notification_name = NOTIFICATION_PREFERENCE_NAMES_FOR_EVENTS.select { |k, v| k if event.in? v }.keys.first
+    raise 'Undefined type of notification event' unless ProviderUserNotificationPreferences.notification_preference_exists?(notification_name)
 
-      return application_choice.provider.provider_users.joins(:notification_preferences).where("#{notification_name} IS true") if application_choice.accredited_provider.nil? || !include_ratifying_provider
+    return application_choice.provider.provider_users.joins(:notification_preferences).where("#{notification_name} IS true") if application_choice.accredited_provider.nil? || !include_ratifying_provider
 
-      application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users)
-        .joins(:notification_preferences).where("#{notification_name} IS true").distinct
-    else
-      return application_choice.provider.provider_users.where(send_notifications: true) if application_choice.accredited_provider.nil? || !include_ratifying_provider
-
-      application_choice.provider.provider_users.where(send_notifications: true).or(
-        application_choice.accredited_provider.provider_users.where(send_notifications: true),
-      ).distinct
-    end
+    application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users)
+      .joins(:notification_preferences).where("#{notification_name} IS true").distinct
   end
 end
