@@ -50,7 +50,7 @@ RSpec.feature 'Non-uk Other qualifications' do
     then_i_can_check_my_revised_qualification
 
     when_i_click_add_another_qualification
-    and_i_select_add_other_non_uk_qualification
+    and_i_select_add_other_uk_qualification
     and_i_fill_in_the_name_of_my_new_qualification
     and_i_click_continue
     then_i_see_the_new_other_qualifications_form
@@ -105,12 +105,16 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
   alias_method :and_i_select_add_other_non_uk_qualification, :when_i_select_add_other_non_uk_qualification
 
+  def and_i_select_add_other_uk_qualification
+    choose 'Other UK qualification'
+  end
+
   def and_i_fill_in_the_name_of_my_qualification
     fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Master Rules'
   end
 
   def and_i_fill_in_the_name_of_my_new_qualification
-    fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Advanced Rules'
+    fill_in 'candidate-interface-other-qualification-type-form-other-uk-qualification-type-field', with: 'Advanced Rules'
   end
 
   def and_i_click_continue
@@ -144,7 +148,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def when_i_fill_in_my_second_qualification
-    fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards part II'
+    fill_in t('application_form.other_qualification.subject.label'), with: 'Shuffling the deck'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2016'
   end
 
@@ -165,10 +169,12 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_i_should_see_my_two_qualifications
-    expect(page).to have_content('Master Rules Believing in the Heart of the Cards')
-    expect(page).to have_content('2015')
-    # expect(page).to have_content('Master Rules Believing in the Heart of the Cards part II')
-    expect(page).to have_content('2016')
+    within_summary_card('Master Rules Believing in the Heart of the Cards') do
+      expect(page).to have_content('2015')
+    end
+    within_summary_card('Master Rules Shuffling the deck') do
+      expect(page).to have_content('2016')
+    end
   end
 
   def when_i_click_to_change_my_first_qualification_type

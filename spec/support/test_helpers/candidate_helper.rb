@@ -445,6 +445,12 @@ module CandidateHelper
     end
   end
 
+  def within_summary_card(card_title, &block)
+    within(page.all('.app-summary-card').find { |row| row.has_text?(card_title) }) do
+      block.call
+    end
+  end
+
   def within_summary_row(row_description, &block)
     within(page.all('.govuk-summary-list__row').find { |row| row.has_text?(row_description) }) do
       block.call

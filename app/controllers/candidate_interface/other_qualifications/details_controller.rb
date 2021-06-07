@@ -8,10 +8,7 @@ module CandidateInterface
       )
 
       unless @form.qualification_type
-        @form.qualification_type = params[:qualification_type]
-        @form.other_uk_qualification_type = params[:other_uk_qualification_type] if @form.qualification_type == OtherQualificationTypeForm::OTHER_TYPE
-        @form.non_uk_qualification_type = params[:non_uk_qualification_type] if @form.qualification_type == OtherQualificationTypeForm::NON_UK_TYPE
-
+        @form.set_qualification_type_fields(params)
         @form.save_intermediate!
       end
 
