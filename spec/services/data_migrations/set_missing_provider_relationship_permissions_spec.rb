@@ -18,4 +18,14 @@ RSpec.describe DataMigrations::SetMissingProviderRelationshipPermissions do
       described_class.new.change
     }.to change(ProviderRelationshipPermissions, :count).by(0)
   end
+
+  it 'does nothing if the course has no accredited provider or a match provider and accredited provider' do
+    provider = build(:provider)
+    create(:course, provider: provider, accredited_provider: provider)
+    create(:course, provider: provider, accredited_provider: nil)
+
+    expect {
+      described_class.new.change
+    }.to change(ProviderRelationshipPermissions, :count).by(0)
+  end
 end
