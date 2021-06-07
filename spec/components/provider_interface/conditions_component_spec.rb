@@ -15,8 +15,8 @@ RSpec.describe ProviderInterface::ConditionsComponent do
       offer = build(:offer, conditions: [build(:offer_condition, status: 'met')])
       application_with_conditions_met = build_stubbed(:application_choice,
                                                       :with_offer,
-                                                      :recruited)
-      allow(application_with_conditions_met).to receive(:offer).and_return(offer)
+                                                      :recruited,
+                                                      offer: offer)
 
       result = render_inline(described_class.new(application_choice: application_with_conditions_met))
 
@@ -37,8 +37,8 @@ RSpec.describe ProviderInterface::ConditionsComponent do
       application_with_conditions_met = build_stubbed(:application_choice,
                                                       :with_offer,
                                                       :offer_deferred,
-                                                      status_before_deferral: 'recruited')
-      allow(application_with_conditions_met).to receive(:offer).and_return(offer)
+                                                      status_before_deferral: 'recruited',
+                                                      offer: offer)
 
       result = render_inline(described_class.new(application_choice: application_with_conditions_met))
 

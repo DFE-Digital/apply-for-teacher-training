@@ -247,9 +247,9 @@ RSpec.describe ApplicationChoice, type: :model do
 
     context 'recruited unconditionally' do
       it 'returns true' do
-        application_choice = build_stubbed(:application_choice, :with_recruited)
-        offer = build(:unconditional_offer)
-        allow(application_choice).to receive(:offer).and_return(offer)
+        application_choice = build_stubbed(:application_choice,
+                                           :with_recruited,
+                                           offer: build(:unconditional_offer))
 
         expect(application_choice.unconditional_offer?).to eq true
       end
