@@ -16,7 +16,7 @@ module CandidateInterface
         new(ethnic_background: application_form.equality_and_diversity['ethnic_background'])
       else
         new(
-          ethnic_background: EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].first,
+          ethnic_background: OTHER_ETHNIC_BACKGROUNDS[group],
           other_background: application_form.equality_and_diversity['ethnic_background'],
         )
       end
@@ -27,7 +27,7 @@ module CandidateInterface
 
       group = application_form.equality_and_diversity['ethnic_group']
 
-      other_background_present = ethnic_background == EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].first && other_background.present?
+      other_background_present = ethnic_background == OTHER_ETHNIC_BACKGROUNDS[group] && other_background.present?
 
       background = other_background_present ? other_background : ethnic_background
 
@@ -46,7 +46,7 @@ module CandidateInterface
     end
 
     def self.listed_ethnic_background?(group, background)
-      EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].include?(background) || EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].include?(background)
+      ETHNIC_BACKGROUNDS[group].include?(background) || OTHER_ETHNIC_BACKGROUNDS[group] == background
     end
 
   private

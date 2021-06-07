@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe EthnicBackgroundHelper, type: :helper do
   describe '#ethnic_backgrounds' do
-    let(:group) { EthnicBackgroundHelper::ETHNIC_GROUPS.sample }
+    let(:group) { EthnicGroup.all.sample }
 
     it 'return a stuctured list of all listed ethnic backgrounds' do
-      expected_background = EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].sample
+      expected_background = ETHNIC_BACKGROUNDS[group].sample
 
       expect(ethnic_backgrounds(group)).to include(
         OpenStruct.new(
@@ -16,12 +16,13 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
     end
 
     it 'includes a label for the contextual other ethnic background descreption textfield' do
-      expected_other_background = EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group]
+      expected_other_background = OTHER_ETHNIC_BACKGROUNDS[group]
+      expected_textfield_label = EthnicBackgroundHelper::ETHNIC_BACKGROUND_TEXTFIELD_LABELS[group]
 
       expect(ethnic_backgrounds(group)).to include(
         OpenStruct.new(
-          label: expected_other_background.first,
-          textfield_label: expected_other_background.second,
+          label: expected_other_background,
+          textfield_label: expected_textfield_label,
         ),
       )
     end
@@ -46,9 +47,9 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
 
     it 'has an entry for each combination of group and background' do
       result = all_combinations
-      EthnicBackgroundHelper::ETHNIC_GROUPS.each do |group|
+      EthnicGroup.all.each do |group|
         sorted_backgrounds = result.select { |e| e.first == group }.map(&:last).sort
-        expect(sorted_backgrounds).to eq(EthnicBackgroundHelper::ETHNIC_BACKGROUNDS[group].sort)
+        expect(sorted_backgrounds).to eq(ETHNIC_BACKGROUNDS[group].sort)
       end
     end
   end

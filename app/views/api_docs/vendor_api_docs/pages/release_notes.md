@@ -1,3 +1,10 @@
+## 3rd June
+
+`HESAITTData` now includes the following optional fields:
+
+- `other_disability_details` will contain the candidate’s description of their disability if they selected “Other” and entered a value. This corresponds to HESA disability code `96`
+- `other_ethnicity_details` will contain the candidate’s description of their ethnicity if they selected “Other” and entered a value.
+
 ## 5th May
 
 The following experimental/sandbox endpoint has been updated:

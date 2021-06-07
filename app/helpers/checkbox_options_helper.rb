@@ -1,6 +1,6 @@
 module CheckboxOptionsHelper
   def disabilities_checkboxes
-    CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map do |id, disability|
+    DisabilityHelper::STANDARD_DISABILITIES.map do |id, disability|
       OpenStruct.new(
         id: id,
         name: disability,
