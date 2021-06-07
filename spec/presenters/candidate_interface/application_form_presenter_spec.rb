@@ -313,22 +313,42 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#enough_references_provided?' do
-    it 'returns true if the referees section has been created and two references have been provided' do
-      application_form = create(:application_form)
-      create_list(:reference, 2, :feedback_provided, application_form: application_form)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+  describe '#references_completed?' do
+    context 'with reference_selection feature on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      expect(presenter).to be_enough_references_provided
+      it 'returns true if application form references_completed is true' do
+        application_form = build(:application_form, references_completed: true)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+        expect(presenter).to be_references_completed
+      end
+
+      it 'returns false if application form references_completed is false' do
+        application_form = build(:application_form, references_completed: false)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+        expect(presenter).not_to be_references_completed
+      end
     end
 
-    it 'returns false if the referees section has been completed and only one reference has been provided' do
-      application_form = create(:application_form)
-      create(:reference, :feedback_provided, application_form: application_form)
-      create(:reference, :feedback_requested, application_form: application_form)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+    context 'with reference_selection feature off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
 
-      expect(presenter).not_to be_enough_references_provided
+      it 'returns true if the referees section has been completed and two references have been provided' do
+        application_form = create(:application_form)
+        create_list(:reference, 2, :feedback_provided, application_form: application_form)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter).to be_references_completed
+      end
+
+      it 'returns false if the referees section has been completed and only one reference has been provided' do
+        application_form = create(:application_form)
+        create(:reference, :feedback_provided, application_form: application_form)
+        create(:reference, :feedback_requested, application_form: application_form)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter).not_to be_references_completed
+      end
     end
   end
 
@@ -625,20 +645,44 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#reference_section_errors' do
-    it 'returns an error if the application form has too many references' do
-      application_form = instance_double(ApplicationForm, too_many_complete_references?: true)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+    context 'with reference_selection feature on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      expect(presenter.reference_section_errors).to eq(
-        [OpenStruct.new(message: 'More than 2 references have been given', anchor: '#references')],
-      )
+      it 'returns an error if the application form has too many selected references' do
+        application_form = instance_double(ApplicationForm, selected_too_many_references?: true)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq(
+          [OpenStruct.new(message: 'More than 2 references have been selected', anchor: '#references')],
+        )
+      end
+
+      it 'returns an empty array if the application form does not have too many selected references' do
+        application_form = instance_double(ApplicationForm, selected_too_many_references?: false)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq []
+      end
     end
 
-    it 'returns an empty array  if the application form does not have too many references' do
-      application_form = instance_double(ApplicationForm, too_many_complete_references?: false)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+    context 'with reference_selection feature off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
 
-      expect(presenter.reference_section_errors).to eq []
+      it 'returns an error if the application form has too many references' do
+        application_form = instance_double(ApplicationForm, too_many_complete_references?: true)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq(
+          [OpenStruct.new(message: 'More than 2 references have been given', anchor: '#references')],
+        )
+      end
+
+      it 'returns an empty array if the application form does not have too many references' do
+        application_form = instance_double(ApplicationForm, too_many_complete_references?: false)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq []
+      end
     end
   end
 

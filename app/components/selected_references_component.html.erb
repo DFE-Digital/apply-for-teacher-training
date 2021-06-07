@@ -1,0 +1,13 @@
+<% if show_incomplete_banner? %>
+  <%= render(
+    CandidateInterface::IncompleteSectionComponent.new(
+      section: :references_selected,
+      section_path: incomplete_path,
+      text: incomplete_message,
+      link_text: incomplete_link_text,
+      error: is_errored,
+    ),
+  ) %>
+<% else %>
+  <%= render(SummaryCardComponent.new(rows: rows, editable: editable)) %>
+<% end %>

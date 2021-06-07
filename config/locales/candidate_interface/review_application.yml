@@ -69,3 +69,7 @@ en:
     references_provided:
       incomplete: You need %{minimum_references} references before you can submit your application
       complete_section: Manage your references
+    references_selected:
+      incomplete: References not marked as complete
+      complete_section: Manage your references
+

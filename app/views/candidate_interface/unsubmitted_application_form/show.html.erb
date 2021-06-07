@@ -39,7 +39,7 @@
     <section class="govuk-!-margin-bottom-8">
       <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.references') %></h2>
 
-      <% unless @application_form_presenter.enough_references_provided? %>
+      <% unless @application_form_presenter.references_completed? %>
         <p class="govuk-body">You have to get 2 references back before you can send your application to training providers.</p>
 
         <p class="govuk-body">It takes 8 days to get a reference on average.</p>
@@ -61,7 +61,7 @@
           <li class="app-task-list__item">
             <%= render(TaskListItemComponent.new(
               text: t('page_titles.references_selection'),
-              completed: @application_form_presenter.enough_references_provided?,
+              completed: @application_form_presenter.references_completed?,
               path: @application_form_presenter.references_selection_path,
             )) %>
           </li>
@@ -73,7 +73,7 @@
           <li class="app-task-list__item">
             <%= render(TaskListItemComponent.new(
               text: @application_form_presenter.references_link_text,
-              completed: @application_form_presenter.enough_references_provided?,
+              completed: @application_form_presenter.references_completed?,
               path: @application_form_presenter.references_path,
               custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil,
             )) %>

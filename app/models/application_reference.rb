@@ -42,6 +42,10 @@ class ApplicationReference < ApplicationRecord
     where.not(feedback_status: %i[not_requested_yet feedback_provided])
   end
 
+  def self_and_siblings
+    application_form.application_references
+  end
+
   def single_line_identifier
     "#{name} (#{referee_type.humanize})"
   end

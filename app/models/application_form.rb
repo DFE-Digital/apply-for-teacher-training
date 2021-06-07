@@ -356,7 +356,15 @@ class ApplicationForm < ApplicationRecord
     # For the purposes of this method, we only care that we have at least the
     # minimum selected. Other parts of the system will enforce having no more
     # than the minimum selected.
-    application_references.selected.count >= MINIMUM_COMPLETE_REFERENCES
+    selected_references.count >= MINIMUM_COMPLETE_REFERENCES
+  end
+
+  def selected_too_many_references?
+    selected_references.count > MINIMUM_COMPLETE_REFERENCES
+  end
+
+  def selected_references
+    application_references.selected
   end
 
   def minimum_references_available_for_selection?

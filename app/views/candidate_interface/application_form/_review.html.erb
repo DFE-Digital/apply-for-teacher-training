@@ -11,34 +11,44 @@
       You can keep making changes to the rest of your application until then.
     </p>
   <% else %>
-    <%= render(CandidateInterface::CourseChoicesReviewComponent.new(
-      application_form: application_form,
-      editable: editable,
-      heading_level: 3,
-      show_incomplete: true,
-      missing_error: missing_error,
-      application_choice_error: application_choice_error,
-    )) %>
- <% end %>
+    <%= render(
+      CandidateInterface::CourseChoicesReviewComponent.new(
+        application_form: application_form,
+        editable: editable,
+        heading_level: 3,
+        show_incomplete: true,
+        missing_error: missing_error,
+        application_choice_error: application_choice_error,
+      ),
+    ) %>
+  <% end %>
 </section>
 
 <section class="govuk-!-margin-bottom-8" id="references">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.references') %></h2>
-  <% if !application_form.enough_references_have_been_provided? && editable %>
-    <%= render(CandidateInterface::IncompleteSectionComponent.new(
-      section: :references_provided,
-      section_path: candidate_interface_references_review_path,
-      text: t('review_application.references_provided.incomplete', minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES),
-      link_text: t('review_application.references_provided.complete_section'),
-      error: missing_error,
-    )) %>
+  <% if FeatureFlag.active?(:reference_selection) %>
+    <%= render(SelectedReferencesComponent.new(application_form, show_incomplete: true, is_errored: missing_error)) %>
   <% else %>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(
-      references: application_form.application_references.includes(:application_form).feedback_provided,
-      editable: false,
-      heading_level: 3,
-      is_errored: reference_section_error,
-    )) %>
+    <% if !application_form.enough_references_have_been_provided? && editable %>
+      <%= render(
+        CandidateInterface::IncompleteSectionComponent.new(
+          section: :references_provided,
+          section_path: candidate_interface_references_review_path,
+          text: t('review_application.references_provided.incomplete', minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES),
+          link_text: t('review_application.references_provided.complete_section'),
+          error: missing_error,
+        ),
+      ) %>
+    <% else %>
+      <%= render(
+        CandidateInterface::ReferencesReviewComponent.new(
+          references: application_form.application_references.includes(:application_form).feedback_provided,
+          editable: false,
+          heading_level: 3,
+          is_errored: reference_section_error,
+        ),
+      ) %>
+    <% end %>
   <% end %>
 </section>
 

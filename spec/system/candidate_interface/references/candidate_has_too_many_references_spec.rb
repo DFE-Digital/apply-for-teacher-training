@@ -27,7 +27,7 @@ RSpec.feature 'References' do
   end
 
   def and_it_has_too_many_references
-    create_list(:reference, 3, feedback_status: :feedback_provided, application_form: @application)
+    create(:reference, feedback_status: :feedback_provided, application_form: @application)
   end
 
   def then_i_see_errors_on_the_reference_review_page
