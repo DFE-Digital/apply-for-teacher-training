@@ -11,7 +11,7 @@ RSpec.describe SendRejectByDefaultEmailToProvider do
 
   it 'sends a notification email to the training provider', sidekiq: true do
     training_provider = create(:provider)
-    training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
+    training_provider_user = create(:provider_user, :with_notification_preferences_enabled, providers: [training_provider])
 
     application_choice = create(:application_choice, :with_rejection_by_default, application_form: create(:application_form, :minimum_info), course_option: course_option_for_provider(provider: training_provider))
 
