@@ -96,41 +96,43 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_there_are_candidates_and_application_forms_in_the_system
-    allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
-    Timecop.freeze(@today - 65.days) do
-      @previous_application_form = create_application_form_with_references(recruitment_cycle_year: 2020).first
-    end
-    Timecop.freeze(@today - 50.days) do
-      @application_form1, @references1 = create_application_form_with_references
-      @application_form2, @references2 = create_application_form_with_references
-      create(:authentication_token, user: @application_form1.candidate, hashed_token: '0987654321')
-      create(:authentication_token, user: @application_form1.candidate, hashed_token: '9876543210')
-      create(:authentication_token, user: @application_form2.candidate, hashed_token: '8765432109')
-      start_work_history(@application_form1)
-    end
-    Timecop.freeze(@today - 40.days) do
-      @application_form3, @references3 = create_application_form_with_references
-      provide_references(@references1)
-      start_work_history(@application_form2)
-      complete_work_history(@application_form1)
-      reject_application(@application_form1.application_choices.first)
-    end
-    Timecop.freeze(@today - 21.days) do
-      @application_form4, @references4 = create_application_form_with_references
-      provide_references(@references2)
-      complete_work_history(@application_form2)
-      start_work_history(@application_form3)
-      start_work_history(@application_form4)
-    end
-    Timecop.freeze(@today - 2.days) do
-      provide_references(@references3)
-      provide_references(@references4)
-      complete_work_history(@application_form3)
-      complete_work_history(@application_form4)
-      reject_application(@application_form2.application_choices.first)
-      apply_again_and_reject_application(@application_form1)
-      apply_again_and_offer_application(@application_form2)
-      carry_over_application(@previous_application_form)
+    ApplicationForm.with_unsafe_application_choice_touches do
+      allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
+      Timecop.freeze(@today - 65.days) do
+        @previous_application_form = create_application_form_with_references(recruitment_cycle_year: 2020).first
+      end
+      Timecop.freeze(@today - 50.days) do
+        @application_form1, @references1 = create_application_form_with_references
+        @application_form2, @references2 = create_application_form_with_references
+        create(:authentication_token, user: @application_form1.candidate, hashed_token: '0987654321')
+        create(:authentication_token, user: @application_form1.candidate, hashed_token: '9876543210')
+        create(:authentication_token, user: @application_form2.candidate, hashed_token: '8765432109')
+        start_work_history(@application_form1)
+      end
+      Timecop.freeze(@today - 40.days) do
+        @application_form3, @references3 = create_application_form_with_references
+        provide_references(@references1)
+        start_work_history(@application_form2)
+        complete_work_history(@application_form1)
+        reject_application(@application_form1.application_choices.first)
+      end
+      Timecop.freeze(@today - 21.days) do
+        @application_form4, @references4 = create_application_form_with_references
+        provide_references(@references2)
+        complete_work_history(@application_form2)
+        start_work_history(@application_form3)
+        start_work_history(@application_form4)
+      end
+      Timecop.freeze(@today - 2.days) do
+        provide_references(@references3)
+        provide_references(@references4)
+        complete_work_history(@application_form3)
+        complete_work_history(@application_form4)
+        reject_application(@application_form2.application_choices.first)
+        apply_again_and_reject_application(@application_form1)
+        apply_again_and_offer_application(@application_form2)
+        carry_over_application(@previous_application_form)
+      end
     end
   end
 

@@ -32,14 +32,17 @@ class TestApplications
       courses_to_choose_from: courses_to_apply_to,
       course_full: course_full,
     )
-    create_application_to_courses(
-      recruitment_cycle_year: recruitment_cycle_year,
-      states: states,
-      courses: courses,
-      apply_again: apply_again,
-      carry_over: carry_over,
-      candidate: candidate,
-    )
+
+    ApplicationForm.with_unsafe_application_choice_touches do
+      create_application_to_courses(
+        recruitment_cycle_year: recruitment_cycle_year,
+        states: states,
+        courses: courses,
+        apply_again: apply_again,
+        carry_over: carry_over,
+        candidate: candidate,
+      )
+    end
   end
 
 private
