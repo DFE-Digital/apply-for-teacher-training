@@ -4,21 +4,21 @@ en:
       referee_type:
         academic:
           label: Academic
-          hint_text: 'For example: a university tutor.'
+          hint_text: 'For example, a university tutor.'
         professional:
           label: Professional
-          hint_text: 'For example: a manager.'
+          hint_text: 'For example, a manager.'
         school_based:
           label: School-based
-          hint_text: 'For example: a colleague from a school where you did experience.'
+          hint_text: 'For example, a colleague from a school where you did experience.'
         character:
           label: Character
-          hint_text: 'For example: a mentor, or someone you know from volunteering.'
+          hint_text: 'For example, a mentor, or someone you know from volunteering.'
       name:
         label: What is the referee’s name?
       email_address:
         label: What is the referee’s email address?
-        hint_text: In most cases, this should be a work address
+        hint_text: In most cases, this should be a work email address.
       relationship:
         label: How do you know this referee and how long have you known them?
         hint_text:
@@ -62,7 +62,7 @@ en:
         confirm: Send reference request
         email_address:
           label: Referee’s email address
-          hint_text: In most cases, this should be a work address
+          hint_text: In most cases, this should be a work email address.
       send_reminder:
         action: Send a reminder to this referee
         confirm: Yes I’m sure - send a reminder
