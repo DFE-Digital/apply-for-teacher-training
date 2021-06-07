@@ -118,6 +118,24 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
     end
 
+    context 'when the application choice has no disabilities or ethnicities' do
+      let(:equality_and_diversity) { {} }
+
+      it 'returns no the disability or ethnicity details' do
+        equality_and_diversity_data = application_choice.application_form.equality_and_diversity
+
+        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.dig(:attributes, :hesa_itt_data)).to eq(
+          disability: equality_and_diversity_data['hesa_disabilities'],
+          ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+          sex: equality_and_diversity_data['hesa_sex'],
+          other_disability_details: nil,
+          other_ethnicity_details: nil,
+        )
+      end
+    end
+
     context 'when the application choice has other freetext ethnicity' do
       let(:ethnic_group) { 'White' }
       let(:ethnic_background) { 'Custom ethnic background' }

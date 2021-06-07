@@ -381,7 +381,7 @@ module VendorAPI
     end
 
     def other_disability_details(equality_and_diversity_data)
-      return unless equality_and_diversity_data['hesa_disabilities'].include?('96')
+      return unless equality_and_diversity_data['hesa_disabilities']&.include?('96')
 
       standard_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:last)
       (equality_and_diversity_data['disabilities'] - standard_disabilities).first.presence
