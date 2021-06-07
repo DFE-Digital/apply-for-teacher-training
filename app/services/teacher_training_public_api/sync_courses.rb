@@ -17,6 +17,7 @@ module TeacherTrainingPublicAPI
       scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since) if incremental_sync
 
       scope.each do |course_from_api|
+        Rails.logger.info("Syncing Course (#{course_from_api.code}) from Provider (#{provider.code}), with the incremental sync set to #{incremental_sync}")
         ActiveRecord::Base.transaction do
           create_or_update_course(course_from_api, recruitment_cycle_year)
         end

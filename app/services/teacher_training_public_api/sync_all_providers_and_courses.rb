@@ -12,6 +12,7 @@ module TeacherTrainingPublicAPI
         scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since) if incremental_sync
         response = scope.all
 
+        Rails.logger.info("Syncing #{response.count} Providers with the incremental sync set to #{incremental_sync}")
         sync_providers(response, recruitment_cycle_year, incremental_sync: incremental_sync)
 
         is_last_page = true if response.links.links['next'].nil?
