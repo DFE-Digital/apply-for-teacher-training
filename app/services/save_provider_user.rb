@@ -7,17 +7,17 @@ class SaveProviderUser
 
   def call!
     @provider_user.save!
-    save_provider_user_notification_preferences!
+    save_notification_preferences!
     update_provider_permissions!
     @provider_user.reload
   end
 
 private
 
-  def save_provider_user_notification_preferences!
-    SaveProviderUserNotificationPreferences
-      .new(provider_user: @provider_user)
-      .backfill_notification_preferences!(send_notifications: @provider_user.send_notifications)
+  def save_notification_preferences!
+    return if ProviderUserNotificationPreferences.exists?(provider_user: @provider_user)
+
+    ProviderUserNotificationPreferences.create!(provider_user: @provider_user)
   end
 
   def update_provider_permissions!
