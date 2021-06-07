@@ -44,7 +44,7 @@ RSpec.feature 'Candidate accepts an offer' do
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
 
-    @provider_user = create(:provider_user, send_notifications: true, providers: [@course_option.course.provider])
+    @provider_user = create(:provider_user, :with_notification_preferences_enabled, providers: [@course_option.course.provider])
 
     @application_choice = create(
       :application_choice,

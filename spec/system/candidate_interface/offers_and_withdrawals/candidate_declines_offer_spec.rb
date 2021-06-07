@@ -57,7 +57,7 @@ RSpec.feature 'Candidate declines an offer' do
       application_form: @application_form,
     )
 
-    @provider_user = create(:provider_user, send_notifications: true, providers: [@application_choice.provider])
+    @provider_user = create(:provider_user, :with_notification_preferences_enabled, providers: [@application_choice.provider])
   end
 
   def when_i_visit_the_application_dashboard

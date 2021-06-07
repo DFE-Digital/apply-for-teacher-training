@@ -5,7 +5,7 @@ RSpec.feature 'Reject by default' do
 
   scenario 'An application is rejected by default', with_audited: true do
     given_there_is_a_provider_user_for_the_provider_course
-    and_the_provider_user_has_send_notifications_enabled
+    and_the_provider_user_has_notifications_enabled
     and_there_is_a_candidate
     and_an_application_is_ready_to_reject_by_default
 
@@ -22,8 +22,7 @@ RSpec.feature 'Reject by default' do
     @provider_user = Provider.find_by(code: 'ABC').provider_users.first
   end
 
-  def and_the_provider_user_has_send_notifications_enabled
-    @provider_user.update(send_notifications: true)
+  def and_the_provider_user_has_notifications_enabled
     create(:provider_user_notification_preferences, provider_user: @provider_user)
   end
 
