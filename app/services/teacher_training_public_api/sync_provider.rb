@@ -21,6 +21,8 @@ module TeacherTrainingPublicAPI
     end
 
     def sync_courses(run_in_background, provider, incremental_sync: true)
+      Rails.logger.info("Syncing Provider's (#{provider.code}) courses, with the incremental sync set to #{incremental_sync} and sync courses set to: #{sync_courses?}")
+
       if sync_courses?
         if run_in_background
           TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year, incremental_sync)
