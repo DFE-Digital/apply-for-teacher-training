@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderUserNotificationPreferencesComponent do
-  let(:provider_user) { create(:provider_user, send_notifications: true) }
+  let(:provider_user) { create(:provider_user) }
   let(:notification_preferences) { provider_user.notification_preferences }
 
   it 'renders correct labels for notification preferences' do
