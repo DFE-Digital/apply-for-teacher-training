@@ -90,6 +90,12 @@ class DataExport < ApplicationRecord
       description: 'Changes to notification preferences for provider users.',
       class: SupportInterface::NotificationPreferencesExport,
     },
+    notifications_export: {
+      name: 'Notification preferences',
+      export_type: 'notifications_export',
+      description: 'Notification preferences for each provider user within each provider organisation.',
+      class: SupportInterface::NotificationsExport,
+    },
     offer_conditions: {
       name: 'Offer conditions',
       export_type: 'offer_conditions',

@@ -1,0 +1,29 @@
+common_columns:
+- provider_code
+- provider_user_id
+
+custom_columns:
+  notification_application_received:
+    type: boolean
+    description: Receive notifications when an application is received.
+    example: true
+  notification_application_withdrawn:
+    type: boolean
+    description: Receive notifications when an application is withdrawn.
+    example: true
+  notification_application_rbd:
+    type: boolean
+    description: Receive notifications when an application is rejected by default.
+    example: true
+  notification_offer_accepted:
+    type: boolean
+    description: Receive notifications when an offer is accepted.
+    example: true
+  notification_offer_declined:
+    type: boolean
+    description: Receive notifications when an offer is declined.
+    example: true
+  permissions_make_decisions:
+    type: boolean
+    description: Whether the provider user has 'make decisions' permissions within their organisation.
+    example: false
