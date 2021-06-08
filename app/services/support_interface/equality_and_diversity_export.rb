@@ -13,6 +13,7 @@ module SupportInterface
           ethnic_group: application_form.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form.equality_and_diversity['ethnic_background'],
           application_status: I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          provider_made_decision: provider_made_decision_on_any_application_choice?(application_form),
           application_choice_1_subject: application_choices[0]&.course&.name,
           application_choice_2_subject: application_choices[1]&.course&.name,
           application_choice_3_subject: application_choices[2]&.course&.name,
@@ -44,6 +45,13 @@ module SupportInterface
       ApplicationForm
         .includes(:application_choices)
         .where.not(equality_and_diversity: nil)
+    end
+
+    def provider_made_decision_on_any_application_choice?(application_form)
+      application_form.application_choices.any? do |application_choice|
+        application_choice.status.in?(%w[offer pending_conditions recruited rejected declined conditions_not_met offer_deferred]) &&
+          !application_choice.rejected_by_default
+      end
     end
   end
 end

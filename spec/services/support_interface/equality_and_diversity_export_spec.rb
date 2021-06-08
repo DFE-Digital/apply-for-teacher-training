@@ -63,10 +63,25 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           honesty_and_professionalism_y_n: 'Yes',
           honesty_and_professionalism_concerns: %w[references],
         },
+        rejected_by_default: false,
         application_form: application_form_two,
       )
 
-      application_choice2 = create(:application_choice, :with_rejection, rejection_reason: 'Absence of English GCSE.', application_form: application_form_three)
+      application_choice2 = create(
+        :application_choice,
+        :with_rejection,
+        rejection_reason: 'Absence of English GCSE.',
+        rejected_by_default: false,
+        application_form: application_form_three,
+      )
+
+      application_choice3 = create(
+        :application_choice,
+        :with_rejection,
+        rejection_reason: 'Absence of Maths GCSE.',
+        rejected_by_default: true,
+        application_form: application_form_one,
+      )
 
       expect(described_class.new.data_for_export).to contain_exactly(
         {
@@ -77,6 +92,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           ethnic_group: application_form_three.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form_three.equality_and_diversity['ethnic_background'],
           application_status: 'Ended without success',
+          provider_made_decision: true,
           application_choice_1_subject: application_choice2.course.name,
           application_choice_2_subject: nil,
           application_choice_3_subject: nil,
@@ -97,11 +113,12 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           sex: application_form_one.equality_and_diversity['sex'],
           ethnic_group: application_form_one.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form_one.equality_and_diversity['ethnic_background'],
-          application_status: 'Have not started form',
-          application_choice_1_subject: nil,
+          application_status: 'Ended without success',
+          provider_made_decision: false,
+          application_choice_1_subject: application_choice3.course.name,
           application_choice_2_subject: nil,
           application_choice_3_subject: nil,
-          application_choice_1_unstructured_rejection_reasons: nil,
+          application_choice_1_unstructured_rejection_reasons: 'Absence of Maths GCSE.',
           application_choice_2_unstructured_rejection_reasons: nil,
           application_choice_3_unstructured_rejection_reasons: nil,
           application_choice_1_structured_rejection_reasons: nil,
@@ -118,6 +135,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           ethnic_group: application_form_two.equality_and_diversity['ethnic_group'],
           ethnic_background: application_form_two.equality_and_diversity['ethnic_background'],
           application_status: 'Ended without success',
+          provider_made_decision: true,
           application_choice_1_subject: application_choice1.course.name,
           application_choice_2_subject: nil,
           application_choice_3_subject: nil,
