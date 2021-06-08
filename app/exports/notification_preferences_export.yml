@@ -1,0 +1,22 @@
+common_columns:
+- provider_user_id
+- provider_code
+
+custom_columns:
+  permissions_make_decisions:
+    type: boolean
+    description: Whether this provider user can make decisions on applications within their organisation
+    example: true
+  changed_at:
+    type: string
+    description: The date and time when the change was made
+    format: datetime
+    example: 2020-11-01T00:00:00+00:00
+  notifications_added:
+    type: string
+    description: The events this user enabled notifications for
+    example: application_withdrawn offer_declined
+  notifications_removed:
+    type: string
+    description: The events this user disabled notifications for
+    example: application_withdrawn offer_declined
