@@ -34,6 +34,8 @@ variable "worker_app_instances" {}
 
 variable "logstash_url" {}
 
+variable "prometheus_app" { default = null }
+
 locals {
   web_app_name          = "apply-${var.app_environment}"
   clock_app_name        = "apply-clock-${var.app_environment}"

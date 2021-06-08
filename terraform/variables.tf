@@ -23,6 +23,8 @@ variable "paas_clock_app_instances" { default = 1 }
 
 variable "paas_worker_app_instances" { default = 1 }
 
+variable "prometheus_app" { default = null }
+
 # Key Vault variables
 variable "azure_credentials" { default = null }
 
@@ -35,7 +37,10 @@ variable "key_vault_infra_secret_name" {}
 variable "key_vault_app_secret_name" {}
 
 # StatusCake variables
-variable "statuscake_alerts" { type = map(any) }
+variable "statuscake_alerts" {
+  type    = map(any)
+  default = {}
+}
 
 locals {
   cf_api_url        = "https://api.london.cloud.service.gov.uk"

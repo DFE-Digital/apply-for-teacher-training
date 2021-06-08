@@ -15,6 +15,9 @@ key_vault_name              = "s121p01-shared-kv-01"
 key_vault_app_secret_name   = "APPLY-APP-SECRETS-PRODUCTION"
 key_vault_infra_secret_name = "BAT-INFRA-SECRETS-PRODUCTION"
 
+# Network Policy
+prometheus_app = "prometheus-bat"
+
 # StatusCake
 statuscake_alerts = {
   apply-prod = {
