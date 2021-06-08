@@ -15,7 +15,7 @@
       </h1>
 
       <% if @application_form.can_add_more_choices? %>
-        <%= govuk_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, button: true, class: 'govuk-button--secondary' %>
+        <%= govuk_button_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, secondary: true %>
       <% end %>
     </div>
   </div>

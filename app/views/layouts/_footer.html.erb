@@ -1,5 +1,5 @@
 <%= govuk_footer(classes: 'govuk-!-display-none-print') do |footer| %>
-  <%= footer.slot(:meta) do %>
+  <%= footer.meta do %>
     <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
       <% case try(:current_namespace) %>
       <% when 'candidate_interface' %>

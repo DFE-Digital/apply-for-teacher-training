@@ -21,7 +21,7 @@
           </p>
         <% end %>
 
-        <%= govuk_button_to "Generate #{export.fetch(:name)} export", support_interface_data_exports_path(export_type_id: id), class: 'govuk-button--secondary' %>
+        <%= govuk_button_to "Generate #{export.fetch(:name)} export", support_interface_data_exports_path(export_type_id: id), secondary: true %>
       </div>
     </div>
   </section>

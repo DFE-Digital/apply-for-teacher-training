@@ -7,10 +7,9 @@
       <%= audit_entry_event_label %>
       <span class="govuk-caption-m"><%= audit_entry_user_label %></span>
     </h2>
-    <%= govuk_summary_list(classes: 'govuk-!-font-size-16') do |component| %>
+    <%= govuk_summary_list(classes: 'govuk-!-font-size-16') do |summary_list| %>
       <% changes.each do |change| %>
-        <%= component.slot(
-          :row,
+        <% summary_list.row(
           key: change.attribute,
           value: change.formatted_values,
         ) %>

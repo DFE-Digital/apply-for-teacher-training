@@ -5,9 +5,7 @@
   <td class="govuk-table__cell">
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
 
-    <%= govuk_details(
-      summary: 'Email body',
-    ) do %>
+    <%= govuk_details(summary_text: 'Email body') do %>
       <%= tag.pre(email.body) %>
     <% end %>
   </td>

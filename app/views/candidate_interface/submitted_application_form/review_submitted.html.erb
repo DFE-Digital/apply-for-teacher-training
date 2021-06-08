@@ -6,8 +6,8 @@
   <%= t('page_titles.submitted_application') %>
 </h1>
 
-<%= govuk_summary_list do |component| %>
-  <%= component.slot(:row, key: 'Date submitted', value: submitted_at_date) %>
+<%= govuk_summary_list do |summary_list| %>
+  <% summary_list.row(key: 'Date submitted', value: submitted_at_date) %>
 <% end %>
 
 <%= render 'candidate_interface/application_form/review', application_form: @application_form, editable: false %>

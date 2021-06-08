@@ -24,11 +24,14 @@ class SummaryListComponent < ViewComponent::Base
 
   def action(row)
     if row[:change_path]
-      govuk_link_to(row[:change_path], class: 'govuk-!-display-none-print') do
-        "Change<span class=\"govuk-visually-hidden\"> #{row[:action]}</span>".html_safe
-      end
-    elsif row[:action_path]
-      govuk_link_to(row[:action], row[:action_path], class: 'govuk-!-display-none-print')
+      {
+        href: row[:change_path],
+        visually_hidden_text: row[:action],
+        classes: 'govuk-!-display-none-print',
+        html_attributes: {
+          data: { qa: row[:data_qa] }
+        }
+      }
     elsif row[:actions]
       links = row[:actions].map do |action|
         govuk_link_to(action[:path], class: 'govuk-!-display-none-print') do
@@ -36,14 +39,6 @@ class SummaryListComponent < ViewComponent::Base
         end
       end
       links.join('<br>').html_safe
-    end
-  end
-
-  def html_attributes(row)
-    if row[:data_qa]
-      { 'data-qa' => row[:data_qa] }
-    else
-      {}
     end
   end
 

@@ -126,7 +126,7 @@ module SupportInterface
         application_json = AllowedCrossNamespaceUsage::VendorAPISingleApplicationPresenter.new(application_choice).as_json
         {
           key: 'Vendor API',
-          value: govuk_details(summary: 'See this application as it appears over the Vendor API') do
+          value: govuk_details(summary_text: 'See this application as it appears over the Vendor API') do
             json_code_sample(application_json)
           end,
         }
@@ -140,7 +140,7 @@ module SupportInterface
         application_json = AllowedCrossNamespaceUsage::RegisterAPISingleApplicationPresenter.new(application_choice).as_json
         {
           key: 'Register API',
-          value: govuk_details(summary: 'See this application as it appears over the Register API') do
+          value: govuk_details(summary_text: 'See this application as it appears over the Register API') do
             json_code_sample(application_json)
           end,
         }

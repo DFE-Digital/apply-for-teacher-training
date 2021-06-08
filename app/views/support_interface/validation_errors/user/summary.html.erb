@@ -4,8 +4,8 @@
   <%= breadcrumbs({
     Performance: support_interface_performance_path,
     'Validation errors': support_interface_validation_errors_path,
-    @user_type.to_s.humanize => [:support_interface, :validation_errors, @user_type],
-    'Validation error summary': nil,
+    @user_type.to_s.humanize => "support_interface_validation_errors_#{@user_type}_path",
+    'Validation error summary' => nil,
   }) %>
 <% end %>
 

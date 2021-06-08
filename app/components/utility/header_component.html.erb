@@ -1,19 +1,13 @@
 <%= govuk_header(
   classes: "govuk-!-display-none-print #{classes}",
-  product_name: product_name,
-  logo_href: service_link,
+  homepage_url: service_link,
   service_name: service_name,
-  service_name_href: service_link,
+  service_url: service_link,
   navigation_classes: navigation_classes,
-) do | component | %>
-  <% if phase_tag %>
-    <% component.slot(:product_description) do %>
-      <%= govuk_tag(text: HostingEnvironment.phase, colour: HostingEnvironment.phase_colour) %>
-    <% end %>
+) do |header| %>
+  <% header.product_name do %>
+    <%= product_name %>
+    <%= phase_tag ? govuk_tag(text: HostingEnvironment.phase, colour: HostingEnvironment.phase_colour) : nil %>
   <% end %>
-  <% if navigation_items.any? %>
-    <% navigation_items.each do |nav_item| %>
-      <% component.slot(:item, title: nav_item.text, href: nav_item.href, active: nav_item.active) %>
-    <% end %>
-  <% end %>
+  <% header.navigation_items(navigation_items.map(&:to_h)) %>
 <% end %>

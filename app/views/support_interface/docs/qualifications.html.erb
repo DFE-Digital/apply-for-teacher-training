@@ -11,44 +11,44 @@
   </div>
 
   <div class="govuk-grid-column-three-quarters">
-    <%= govuk_accordion(id: 'qualifications') do |component| %>
-      <% component.slot(:section, title: 'GCSE subjects') do %>
+    <%= govuk_accordion(id: 'qualifications') do |accordion| %>
+      <% accordion.section(heading_text: 'GCSE subjects') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: GCSE_SUBJECTS) %>
       <% end %>
 
-      <% component.slot(:section, title: 'GCSE single grades') do %>
+      <% accordion.section(heading_text: 'GCSE single grades') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: SINGLE_GCSE_GRADES) %>
       <% end %>
 
-      <% component.slot(:section, title: 'GCSE double grades') do %>
+      <% accordion.section(heading_text: 'GCSE double grades') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: DOUBLE_GCSE_GRADES) %>
       <% end %>
 
-      <% component.slot(:section, title: 'A level subjects') do %>
+      <% accordion.section(heading_text: 'A level subjects') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: A_AND_AS_LEVEL_SUBJECTS) %>
       <% end %>
 
-      <% component.slot(:section, title: 'A level grades') do %>
+      <% accordion.section(heading_text: 'A level grades') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: A_LEVEL_GRADES) %>
       <% end %>
 
-      <% component.slot(:section, title: 'AS level grades') do %>
+      <% accordion.section(heading_text: 'AS level grades') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: AS_LEVEL_GRADES) %>
       <% end %>
 
-      <% component.slot(:section, title: 'Degree types') do %>
+      <% accordion.section(heading_text: 'Degree types') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: HESA_DEGREE_TYPES.map(&:third)) %>
       <% end %>
 
-      <% component.slot(:section, title: 'Degree grades (with HESA codes)') do %>
+      <% accordion.section(heading_text: 'Degree grades (with HESA codes)') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: HESA_DEGREE_GRADES.map { |hesa_grade| "#{hesa_grade.first} – #{hesa_grade.second}" }) %>
       <% end %>
 
-      <% component.slot(:section, title: 'Other UK qualification names') do %>
+      <% accordion.section(heading_text: 'Other UK qualification names') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: OTHER_UK_QUALIFICATIONS) %>
       <% end %>
 
-      <% component.slot(:section, title: 'Other UK qualification grades') do %>
+      <% accordion.section(heading_text: 'Other UK qualification grades') do %>
         <%= render SupportInterface::QualificationDocumentationComponent.new(list: OTHER_UK_QUALIFICATION_GRADES) %>
       <% end %>
     <% end %>

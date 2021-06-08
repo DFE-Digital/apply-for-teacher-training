@@ -5,19 +5,19 @@ RSpec.describe ViewHelper, type: :helper do
     it 'returns an anchor tag with the govuk-back-link class and defaults to "Back"' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/snek/ssss')
 
-      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"https://localhost:0103/snek/ssss\">Back</a>\n")
+      expect(anchor_tag).to eq('<a class="govuk-back-link govuk-!-display-none-print" href="https://localhost:0103/snek/ssss">Back</a>')
     end
 
     it 'returns an anchor tag with the govuk-back-link class and with the body if given' do
       anchor_tag = helper.govuk_back_link_to('https://localhost:0103/lion/roar', 'Back to application')
 
-      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"https://localhost:0103/lion/roar\">Back to application</a>\n")
+      expect(anchor_tag).to eq('<a class="govuk-back-link govuk-!-display-none-print" href="https://localhost:0103/lion/roar">Back to application</a>')
     end
 
     it 'returns an anchor tag with the current namespace root if given :back as an argument with no referer' do
       anchor_tag = helper.govuk_back_link_to(:back)
 
-      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"/\">Back</a>\n")
+      expect(anchor_tag).to eq('<a class="govuk-back-link govuk-!-display-none-print" href="/">Back</a>')
     end
 
     it 'uses the HTTP referer if available when :back is passed' do
@@ -25,7 +25,7 @@ RSpec.describe ViewHelper, type: :helper do
 
       anchor_tag = helper.govuk_back_link_to(:back)
 
-      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"foo\">Back</a>\n")
+      expect(anchor_tag).to eq('<a class="govuk-back-link govuk-!-display-none-print" href="foo">Back</a>')
     end
 
     it 'discards the HTTP referer and defaults to current namespace root if the referer came from another domain' do
@@ -33,7 +33,7 @@ RSpec.describe ViewHelper, type: :helper do
 
       anchor_tag = helper.govuk_back_link_to(:back)
 
-      expect(anchor_tag).to eq("<a class=\"govuk-back-link govuk-!-display-none-print\" href=\"/\">Back</a>\n")
+      expect(anchor_tag).to eq('<a class="govuk-back-link govuk-!-display-none-print" href="/">Back</a>')
     end
   end
 

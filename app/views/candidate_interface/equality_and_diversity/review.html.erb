@@ -11,7 +11,7 @@
     <%= render(CandidateInterface::EqualityAndDiversityReviewComponent.new(application_form: @current_application)) %>
 
     <p class="govuk-body">
-      <%= govuk_link_to t('continue'), candidate_interface_application_submit_show_path, button: true %>
+      <%= govuk_button_link_to t('continue'), candidate_interface_application_submit_show_path %>
     </p>
   </div>
 </div>

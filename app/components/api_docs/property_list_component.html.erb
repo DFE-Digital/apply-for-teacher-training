@@ -1,4 +1,4 @@
-<%= govuk_summary_list do |component| %>
+<%= govuk_summary_list do |summary_list| %>
   <% properties.each do |property| %>
     <% content_for :value, flush: true do %>
       <p class="govuk-body">
@@ -37,8 +37,7 @@
       <% end %>
     <% end %>
 
-    <%= component.slot(
-      :row,
+    <% summary_list.row(
       key: "<code>#{property.name}</code>".html_safe,
       value: content_for(:value),
     ) %>

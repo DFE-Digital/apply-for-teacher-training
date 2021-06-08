@@ -5,6 +5,15 @@ GIT
     audited (4.10.0)
       activerecord (>= 4.2, < 6.2)
 
+GIT
+  remote: https://github.com/dfe-digital/govuk-components.git
+  revision: 5d73338de63e2d9504ab30e29dea645a3622051f
+  specs:
+    govuk-components (2.0.0rc3)
+      activemodel (>= 6.0)
+      railties (>= 6.0)
+      view_component (~> 2.36.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -226,10 +235,6 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (~> 0.14)
-    govuk-components (1.2.0)
-      activemodel (>= 6.0)
-      railties (>= 6.0)
-      view_component (~> 2.20)
     govuk_design_system_formbuilder (2.7.2)
       actionview (>= 6.0)
       activemodel (>= 6.0)
@@ -702,7 +707,7 @@ DEPENDENCIES
   faker
   geocoder
   google-cloud-bigquery
-  govuk-components
+  govuk-components!
   govuk_design_system_formbuilder (~> 2.7.2)
   govuk_markdown
   guard-rspec

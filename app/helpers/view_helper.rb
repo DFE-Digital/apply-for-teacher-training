@@ -8,7 +8,7 @@ module ViewHelper
       body = 'Back to application'
     end
 
-    render GovukComponent::BackLink.new(
+    render GovukComponent::BackLinkComponent.new(
       text: body,
       href: url,
       classes: classes,
@@ -16,7 +16,7 @@ module ViewHelper
   end
 
   def breadcrumbs(breadcrumbs)
-    render GovukComponent::Breadcrumbs.new(
+    render GovukComponent::BreadcrumbsComponent.new(
       breadcrumbs: breadcrumbs,
       hide_in_print: true,
     )

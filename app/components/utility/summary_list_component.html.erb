@@ -1,7 +1,6 @@
-<%= govuk_summary_list do |component| %>
+<%= govuk_summary_list do |summary_list| %>
   <% rows.each do |row| %>
-    <%= component.slot(
-      :row,
+    <% summary_list.row(
       key: row[:key],
       value: value(row),
       action: action(row),

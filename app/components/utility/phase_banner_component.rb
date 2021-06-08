@@ -8,12 +8,14 @@ class PhaseBannerComponent < ViewComponent::Base
 
   def text
     if HostingEnvironment.sandbox_mode?
-      return "This is a #{govuk_link_to('test version of Apply', '/', class: 'govuk-link--no-visited-state')} for providers and software vendors".html_safe
+      return "This is a #{govuk_link_to('test version of Apply', '/', no_visited_state: true)} for providers and software vendors".html_safe
     end
 
     case HostingEnvironment.environment_name
-    when 'production', 'qa'
-      "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, class: 'govuk-link--no-visited-state')}".html_safe
+    when 'production'
+      "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, no_visited_state: true)}".html_safe
+    when 'qa'
+      'This is the QA version of the Apply service'
     when 'staging'
       'This is an internal environment used by DfE to test deploys'
     when 'development'

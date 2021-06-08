@@ -16,7 +16,7 @@
       <%= f.govuk_submit('Yes I\'m sure - make offer unconditional and recruit candidate') %>
 
       <p class="govuk-body">
-        <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), class: 'govuk-link--no-visited-state' %>
+        <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), no_visited_state: true %>
       </p>
     </div>
   </div>

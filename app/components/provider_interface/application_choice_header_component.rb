@@ -88,12 +88,6 @@ module ProviderInterface
       end
     end
 
-    def secondary_button_css
-      return '' unless set_up_interview?
-
-      'govuk-button--secondary '
-    end
-
   private
 
     def application_navigation_item

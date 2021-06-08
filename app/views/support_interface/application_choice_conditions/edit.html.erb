@@ -10,9 +10,7 @@
         Change offer conditions
       </h1>
 
-      <%= govuk_warning(
-        text: 'Offer conditions should only be changed on accepted applications following a request from a provider that has already informed the candidate about the change',
-      ) %>
+      <%= govuk_warning_text(text: 'Offer conditions should only be changed on accepted applications following a request from a provider that has already informed the candidate about the change') %>
 
       <%= f.govuk_text_field(
         :audit_comment_ticket,
@@ -43,7 +41,7 @@
       <%= f.govuk_submit 'Update conditions' %>
 
       <p class="govuk-body">
-        <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), class: 'govuk-link--no-visited-state' %>
+        <%= govuk_link_to t('cancel'), support_interface_application_form_path(@form.application_choice.application_form_id), no_visited_state: true %>
       </p>
     </div>
   </div>
