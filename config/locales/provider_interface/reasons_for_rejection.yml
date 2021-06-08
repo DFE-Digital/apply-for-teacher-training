@@ -42,6 +42,9 @@ en:
       vetting_disclosed_information_details: Information revealed by our vetting process makes the candidate unsuitable to work with children - details
       other: Other
       other_details: Safeguarding issues other reason - details
+    cannot_sponsor_visa:
+      title: 'Visa application sponsorship'
+      other_details: Cannot sponsor visa - details
     additional_advice:
       title: 'Additional advice'
     interested_in_future_applications:
@@ -144,6 +147,11 @@ en:
             safeguarding_concerns_other_details:
               blank: Enter details about safeguarding
               too_long: Details about safeguarding must be 100 words or fewer
+            cannot_sponsor_visa_y_n:
+              blank: Select yes if it was because you cannot sponsor the candidate’s visa
+            cannot_sponsor_visa_details:
+              blank: Enter details about why you cannot sponsor the candidate’s visa
+              too_long: Details about why you cannot sponsor the candidate’s visa must be 100 words or fewer
             why_are_you_rejecting_this_application:
               blank: Enter why you’re rejecting this application
               too_long: Details about why you’re rejecting this application must be 200 words or fewer

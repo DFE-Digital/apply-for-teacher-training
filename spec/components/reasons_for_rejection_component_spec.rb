@@ -25,6 +25,7 @@ RSpec.describe ReasonsForRejectionComponent do
         offered_on_another_course_details: 'We felt you would be better suited to Mathematics',
         honesty_and_professionalism_y_n: 'No',
         safeguarding_y_n: 'No',
+        cannot_sponsor_visa_y_n: 'No',
         other_advice_or_feedback_y_n: 'Yes',
         other_advice_or_feedback_details: 'That zoom background...',
         interested_in_future_applications_y_n: future_applications,

@@ -135,6 +135,8 @@ FactoryBot.define do
           safeguarding_concerns_other_details: 'We need to run further checks',
           safeguarding_concerns_vetting_disclosed_information_details: nil,
           safeguarding_concerns_candidate_disclosed_information_details: nil,
+          cannot_sponsor_visa_y_n: 'No',
+          cannot_sponsor_visa_details: nil,
           interested_in_future_applications_y_n: nil,
           why_are_you_rejecting_this_application: nil,
           other_advice_or_feedback_y_n: nil,

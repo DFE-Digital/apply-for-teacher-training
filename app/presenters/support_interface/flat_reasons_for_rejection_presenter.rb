@@ -39,6 +39,8 @@ module SupportInterface
         label_for_subreason('safeguarding_y_n', 'vetting_disclosed_information') => subreason_exists?(reasons_for_rejection.safeguarding_concerns, 'vetting_disclosed_information'),
         label_for_subreason_detail('safeguarding_y_n', 'vetting_disclosed_information_details') => reasons_for_rejection.safeguarding_concerns_vetting_disclosed_information_details,
         label_for_subreason_detail('safeguarding_y_n', 'other_details') => reasons_for_rejection.safeguarding_concerns_other_details,
+        title_for_top_level_reason('cannot_sponsor_visa_y_n') => y_n_to_boolean(reasons_for_rejection.cannot_sponsor_visa_y_n),
+        label_for_subreason_detail('cannot_sponsor_visa_y_n', 'other_details') => reasons_for_rejection.cannot_sponsor_visa_details,
         title_for_top_level_reason('other_advice_or_feedback_y_n') => y_n_to_boolean(reasons_for_rejection.other_advice_or_feedback_y_n),
         title_for_top_level_reason('interested_in_future_applications_y_n') => y_n_to_boolean(reasons_for_rejection.interested_in_future_applications_y_n),
         why_are_you_rejecting_this_application_details: reasons_for_rejection.why_are_you_rejecting_this_application,

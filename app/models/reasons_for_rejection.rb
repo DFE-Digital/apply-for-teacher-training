@@ -10,6 +10,7 @@ class ReasonsForRejection
     offered_on_another_course_y_n
     honesty_and_professionalism_y_n
     safeguarding_y_n
+    cannot_sponsor_visa_y_n
   ].freeze
 
   TOP_LEVEL_REASONS_TO_I18N_KEYS = {
@@ -23,6 +24,7 @@ class ReasonsForRejection
     performance_at_interview_y_n: :interview_performance,
     interested_in_future_applications_y_n: :interested_in_future_applications,
     other_advice_or_feedback_y_n: :additional_advice,
+    cannot_sponsor_visa_y_n: :cannot_sponsor_visa,
   }.with_indifferent_access.freeze
 
   ALL_QUESTIONS = {
@@ -60,6 +62,7 @@ class ReasonsForRejection
         other: :safeguarding_concerns_other_details,
       },
     },
+    cannot_sponsor_visa_y_n: { cannot_sponsor_visa_details: nil },
     other_advice_or_feedback_y_n: { other_advice_or_feedback_details: nil },
   }.freeze
   INITIAL_QUESTIONS = ALL_QUESTIONS.select { |key| INITIAL_TOP_LEVEL_QUESTIONS.include?(key) }.freeze
@@ -120,6 +123,9 @@ class ReasonsForRejection
   def safeguarding_concerns
     @safeguarding_concerns || []
   end
+
+  attr_accessor :cannot_sponsor_visa_y_n
+  attr_accessor :cannot_sponsor_visa_details
 
   attr_accessor :other_advice_or_feedback_y_n
   attr_accessor :other_advice_or_feedback_details

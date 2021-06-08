@@ -170,6 +170,19 @@
   </div>
 <% end %>
 
+<% if reasons_for_rejection.cannot_sponsor_visa_y_n == 'Yes' %>
+  <div class="app-rejection">
+    <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.cannot_sponsor_visa.title'), class: 'govuk-heading-s') %>
+    <p class="govuk-body"><%= reasons_for_rejection.cannot_sponsor_visa_details %></p>
+
+    <% if editable? %>
+      <p class="app-rejection__actions">
+        <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
 <% if reasons_for_rejection.why_are_you_rejecting_this_application.present? %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Reasons why your application was unsuccessful', class: 'govuk-heading-s') %>
