@@ -43,7 +43,7 @@ _See [make an offer](/api-docs/reference/#post-applications-application_id-offer
 
 ### 3. Confirm that the conditions are met
 
-When the candidate has accepted this offer the application status changes to `meeting_conditions`.
+When the candidate has accepted this offer the application status changes to `pending_conditions`.
 
 Once you know the conditions are met, make the following request.
 
@@ -57,7 +57,7 @@ _See [confirm offer conditions are met](/api-docs/reference/#post-applications-a
 
 ## When the candidate fails to meet their offer conditions
 
-When the candidate has accepted an offer, the application is in the `meeting_conditions` state.
+When the candidate has accepted an offer, the application is in the `pending_conditions` state.
 
 If the conditions will not be met, make the following request:
 
