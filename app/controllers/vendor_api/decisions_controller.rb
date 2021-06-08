@@ -106,11 +106,12 @@ module VendorAPI
     end
 
     def offer_params(application_choice, course_option)
+      persist_conditions_service = SaveOfferAndConditions.new(application_choice: application_choice, conditions: conditions_params)
       {
         actor: audit_user,
         application_choice: application_choice,
         course_option: course_option,
-        conditions: conditions_params,
+        persist_conditions_service: persist_conditions_service,
       }
     end
 

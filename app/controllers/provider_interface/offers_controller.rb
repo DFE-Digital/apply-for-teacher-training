@@ -16,7 +16,7 @@ module ProviderInterface
         MakeOffer.new(actor: current_provider_user,
                       application_choice: @application_choice,
                       course_option: @wizard.course_option,
-                      conditions: @wizard.conditions).save!
+                      persist_conditions_service: persist_conditions_service(@wizard.conditions)).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
@@ -52,10 +52,10 @@ module ProviderInterface
     def update
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?(:save)
-        ::ChangeOffer.new(actor: current_provider_user,
-                          application_choice: @application_choice,
-                          course_option: @wizard.course_option,
-                          conditions: @wizard.conditions).save!
+        ChangeOffer.new(actor: current_provider_user,
+                        application_choice: @application_choice,
+                        course_option: @wizard.course_option,
+                        persist_conditions_service: persist_conditions_service(@wizard.conditions)).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
@@ -108,6 +108,18 @@ module ProviderInterface
         user: current_provider_user,
         current_course: @application_choice.current_course,
       )
+    end
+
+    def persist_conditions_service(conditions)
+      SaveOfferAndConditions.new(
+        application_choice: @application_choice,
+        conditions: conditions,
+      )
+      # SerializeOffer.new(
+      #   application_choice: @application_choice,
+      #   standard_conditions: ['DBS', 'Fitness to train to teach to train to teach to train check'],
+      #   further_condition_attrs: { '0' => { 'text' => 'Hello', 'condition_id' => '12345' } },
+      # )
     end
 
     helper_method :provider_user_can_make_decisions

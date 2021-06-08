@@ -360,11 +360,12 @@ private
   def make_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward
+      persist_conditions_service = SaveOfferAndConditions.new(application_choice: choice, conditions: conditions)
       MakeOffer.new(
         actor: actor,
         application_choice: choice,
         course_option: choice.course_option,
-        conditions: conditions,
+        persist_conditions_service: persist_conditions_service,
       ).save!
       choice.update_columns(offered_at: time, updated_at: time)
     end
