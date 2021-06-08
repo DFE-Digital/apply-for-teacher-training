@@ -16,9 +16,9 @@ module TeacherTrainingPublicAPI
 
     def self.updated_since
       if last_sync.present?
-        Time.zone.parse(last_sync) - 1.hour
+        Time.zone.parse(last_sync) - 2.hours
       else
-        Time.zone.now - 1.hour
+        Time.zone.now - 2.hours
       end
     end
 
