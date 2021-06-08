@@ -83,6 +83,12 @@ resource "cloudfoundry_app" "worker" {
   }
 }
 
+resource "cloudfoundry_route" "web_app_internal_route" {
+  domain   = data.cloudfoundry_domain.internal.id
+  space    = data.cloudfoundry_space.space.id
+  hostname = local.web_app_name
+}
+
 resource "cloudfoundry_route" "web_app_cloudapps_digital_route" {
   domain   = data.cloudfoundry_domain.london_cloudapps_digital.id
   space    = data.cloudfoundry_space.space.id

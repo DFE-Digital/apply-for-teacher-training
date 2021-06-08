@@ -11,6 +11,10 @@ data "cloudfoundry_domain" "london_cloudapps_digital" {
   name = "london.cloudapps.digital"
 }
 
+data "cloudfoundry_domain" "internal" {
+  name = "apps.internal"
+}
+
 data "cloudfoundry_domain" "apply_service_gov_uk" {
   name = "apply-for-teacher-training.service.gov.uk"
 }
