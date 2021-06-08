@@ -138,7 +138,7 @@ GEM
     colorize (0.8.1)
     commonmarker (0.21.1)
       ruby-enum (~> 0.5)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.9)
     connection_pool (2.2.3)
     crack (0.4.5)
       rexml
@@ -575,7 +575,7 @@ GEM
       sprockets (>= 3.0.0)
     strip_attributes (1.11.0)
       activemodel (>= 3.0, < 7.0)
-    strong_migrations (0.7.6)
+    strong_migrations (0.7.7)
       activerecord (>= 5)
     super_diff (0.8.0)
       attr_extras (>= 6.2.4)
