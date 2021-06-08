@@ -37,6 +37,8 @@ class GenerateFakeProvider
         code: code,
       )
     end
+
+    generate_provider_permissions_for(test_provider, ratifying_provider)
   end
 
   def self.generate_course_options_for(course)
@@ -56,7 +58,19 @@ class GenerateFakeProvider
     course_codes.uniq
   end
 
+  def self.generate_provider_permissions_for(provider, ratifying_provider)
+    ProviderRelationshipPermissions.find_or_create_by!(
+      training_provider: provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+      ratifying_provider_can_view_safeguarding_information: true,
+      ratifying_provider_can_view_diversity_information: true,
+      setup_at: Time.zone.now,
+    )
+  end
+
   private_class_method :generate_ratified_courses_for,
                        :generate_courses_for,
-                       :generate_course_options_for
+                       :generate_course_options_for,
+                       :generate_provider_permissions_for
 end
