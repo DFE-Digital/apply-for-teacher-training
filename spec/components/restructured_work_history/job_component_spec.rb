@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::RestructuredWorkHistory::JobComponent do
+RSpec.describe RestructuredWorkHistory::JobComponent do
   it 'renders the component with the correct values' do
     work_experience = build_stubbed(
       :application_work_experience,

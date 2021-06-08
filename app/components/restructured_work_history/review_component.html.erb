@@ -6,11 +6,11 @@
       <section>
         <% @work_history_with_breaks.each do |entry| %>
           <% if entry.is_a?(ApplicationWorkExperience) %>
-            <%= render(CandidateInterface::RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
+            <%= render(RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
           <% elsif @editable && entry.is_a?(RestructuredWorkHistoryWithBreaks::BreakPlaceholder) %>
-            <%= render(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
+            <%= render(RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
           <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
-            <%= render(CandidateInterface::RestructuredWorkHistory::WorkBreakComponent.new(work_break: entry, editable: @editable)) %>
+            <%= render(RestructuredWorkHistory::WorkBreakComponent.new(work_break: entry, editable: @editable)) %>
           <% end %>
 
           <% if @work_history_with_breaks.last != entry %>
