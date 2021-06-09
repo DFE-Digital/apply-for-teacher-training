@@ -72,13 +72,27 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         )
       end
 
+      it 'amends the equality and diversity information on the application form' do
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male' })
+        form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'no')
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq(
+          'sex' => 'male',
+          'disabilities' => [],
+          'hesa_disabilities' => %w[00],
+        )
+      end
+
       it 'updates the existing record of equality and diversity information' do
         application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male' })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'yes')
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => [],
+          'sex' => 'male',
+          'disabilities' => [],
+          'hesa_disabilities' => [],
         )
       end
 
@@ -88,7 +102,8 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => %w[Blind],
+          'sex' => 'male',
+          'disabilities' => %w[Blind],
         )
       end
 
@@ -98,7 +113,9 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => [],
+          'sex' => 'male',
+          'disabilities' => [],
+          'hesa_disabilities' => %w[00],
         )
       end
 
@@ -120,7 +137,9 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => [],
+          'sex' => 'male',
+          'disabilities' => [],
+          'hesa_disabilities' => [],
         )
       end
     end
