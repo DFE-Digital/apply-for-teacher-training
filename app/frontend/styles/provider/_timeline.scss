@@ -1,10 +1,5 @@
-/* ==========================================================================
-   #TIMELINE
-   ========================================================================== */
-
 .app-timeline {
   margin-bottom: govuk-spacing(4);
-  // overflow: hidden;
   position: relative;
 
   &:before {
@@ -16,11 +11,11 @@
     top: govuk-spacing(2);
     width: 5px;
   }
-
 }
 
 .app-timeline--full {
   margin-bottom: 0;
+
   &:before {
     height: calc(100% - 75px);
   }

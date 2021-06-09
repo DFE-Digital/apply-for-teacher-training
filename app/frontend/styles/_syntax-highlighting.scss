@@ -1,29 +1,29 @@
 // A Base16 palette
 // https://github.com/chriskempson/base16
 
-$code-00: govuk-colour("light-grey"); /* Default Background */
-$code-01: #f5f5f5; /* Lighter Background (Unused) */
-$code-02: #bfc1c3; /* Selection Background */
-$code-03: darken( $govuk-secondary-text-colour, 2%);; /* Comments, Invisibles, Line Highlighting */
-$code-04: #e8e8e8; /* Dark Foreground (Unused) */
-$code-05:  $govuk-text-colour; /* Default Foreground, Caret, Delimiters, Operators */
-$code-06: #ffffff; /* Light Foreground (Unused) */
-$code-07: #ffffff; /* Light Background (Unused) */
+$code-00: govuk-colour("light-grey"); // Default background
+$code-01: #f5f5f5; // Lighter background (unused)
+$code-02: #bfc1c3; // Selection background
+$code-03: darken($govuk-secondary-text-colour, 2%); // Comments, invisibles, line highlighting
+$code-04: #e8e8e8; // Dark foreground (unused)
+$code-05:  $govuk-text-colour; // Default foreground, caret, delimiters, operators
+$code-06: #ffffff; // Light foreground (unused)
+$code-07: #ffffff; // Light background (unused)
 
-$code-08: #B26749; /* Variables, XML Tags, Markup Link Text, Markup Lists */
-$code-09: #0E7754; /* Integers, Boolean, Constants, XML Attributes, Markup Link Url */
-$code-0A: #4C4077; /* Classes, Markup Bold, Search Text Background */
-$code-0B: $govuk-brand-colour; /* Strings, Inherited Class, Markup Code */
-$code-0C: $govuk-brand-colour; /* Support, Regular Expressions, Escape Characters, Markup Quotes */
-$code-0D: #4C4077; /* Functions, Methods, Attribute IDs, Headings */
-$code-0E: #a71d5d; /* Keywords, Storage, Selector, Markup Italic */
-$code-0F: #C92424; /* Deprecated, Opening/Closing Embedded Language Tags e.g. <?php ?> (Unused) */
+$code-08: #b26749; // Variables, XML tags, markup link text, markup lists
+$code-09: #0e7754; // Integers, boolean, constants, XML attributes, markup link URL
+$code-0a: #4c4077; // Classes, markup bold, search text background
+$code-0b: $govuk-brand-colour; // Strings, inherited class, markup code
+$code-0c: $govuk-brand-colour; // Support, regular expressions, escape characters, markup quotes
+$code-0d: #4c4077; // Functions, methods, attribute IDs, headings
+$code-0e: #a71d5d; // Keywords, storage, selector, markup italic
+$code-0f: #c92424; // Deprecated, opening/closing embedded language tags e.g. <?php ?> (unused)
 
-$code-insert-bg: #DEF8CA;
-$code-delete-bg: #FADDDD;
+$code-insert-bg: #def8ca;
+$code-delete-bg: #fadddd;
 
 .app-api-metadata {
-  color:  $govuk-secondary-text-colour;
+  color: $govuk-secondary-text-colour;
   margin: 0;
   font-weight: normal;
 }
@@ -31,207 +31,153 @@ $code-delete-bg: #FADDDD;
 .app-json-code-sample {
   background: $code-00;
   color: $code-05;
-  padding:3px 5px;
-  border-radius:1px;
-  font-family:monaco, Consolas, "Lucida Console", monospace;
-  font-size:15px;
-  color:#a71d5d;
-  overflow-wrap:break-word;
-  word-wrap:break-word;
-  -ms-word-break:break-all;
-  word-break:break-all;
-  word-break:break-word;
+  padding: 3px 5px;
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  font-size: 15px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
   white-space: break-spaces;
 
-  /* Map Rouge / Pygments Tokens to work with 'Base 16' themes */
-
-
-  /**
-   * Comments
-   */
-
-  .c,       /* Comment */
-  .cm,      /* Comment.Multiline */
-  .cp,      /* Comment.Preproc */
-  .c1,      /* Comment.Single */
-  .cs {     /* Comment.Special */
+  .c,   // Comment
+  .cm,  // Comment.Multiline
+  .cp,  // Comment.Preproc
+  .c1,  // Comment.Single
+  .cs { // Comment.Special
     color: $code-03;
   }
 
-  /**
-   * Keywords
-   */
-
-  .k,       /* Keyword */
-  .kc,      /* Keyword.Constant */
-  .kd,      /* Keyword.Declaration */
-  .kp,      /* Keyword.Pseudo */
-  .kr {     /* Keyword.Reserved */
-    color: $code-0E;
+  .k,   // Keyword
+  .kc,  // Keyword.Constant
+  .kd,  // Keyword.Declaration
+  .kp,  // Keyword.Pseudo
+  .kr { // Keyword.Reserved
+    color: $code-0e;
   }
 
-  .kn {     /* Keyword.Namespace */
-    color: $code-0C;
+  .kn { // Keyword.Namespace
+    color: $code-0c;
   }
 
-  .kt {     /* Keyword.Type */
-    color: $code-0A;
+  .kt { // Keyword.Type
+    color: $code-0a;
   }
 
-  /**
-   * Operators
-   */
-
-  .o,       /* Operator */
-  .ow {     /* Operator.Word */
-    color: $code-0C
+  .o,   // Operator
+  .ow { // Operator.Word
+    color: $code-0c;
   }
 
-  /**
-   * Names
-   */
-
-  .n,       /* Name */
-  .nb,      /* Name.Builtin */
-  .bp,      /* Name.Builtin.Pseudo */
-  .ni,      /* Name.Entity */
-  .nl,      /* Name.Label */
-  .py {     /* Name.Property */
-    // Default styling
+  .nc,  // Name.Class
+  .nn { // Name.Namespace
+    color: $code-0a;
   }
 
-  .nc,      /* Name.Class */
-  .nn {     /* Name.Namespace */
-    color: $code-0A;
+  .na,  // Name.Attribute
+  .nf { // Name.Function
+    color: $code-0d;
   }
 
-  .na,      /* Name.Attribute */
-  .nf {     /* Name.Function */
-    color: $code-0D;
-  }
-
-  .nv,      /* Name.Variable */
-  .no,      /* Name.Constant */
-  .vc,      /* Name.Variable.Class */
-  .vg,      /* Name.Variable.Global */
-  .vi {     /* Name.Variable.Instance */
+  .nv,  // Name.Variable
+  .no,  // Name.Constant
+  .vc,  // Name.Variable.Class
+  .vg,  // Name.Variable.Global
+  .vi { // Name.Variable.Instance
     color: $code-08;
   }
 
-  .nd {     /* Name.Decorator */
-    color: $code-0C;
+  .nd { // Name.Decorator
+    color: $code-0c;
   }
 
-  .nt,      /* Name.Tag */
-  .nx {     /* Name.Other */
+  .nt,  // Name.Tag
+  .nx { // Name.Other
     color: $code-09;
   }
 
-  .ne {     /* Name.Exception */
-    color: $code-0F;
+  .ne { // Name.Exception
+    color: $code-0f;
   }
 
-  /**
-   * Literals
-   */
-
-  .l  {     /* Literal */
+  .l { // Literal
     color: $code-09;
   }
 
-  .ld {     /* Literal.Date */
-    color: $code-0B;
+  .ld { // Literal.Date
+    color: $code-0b;
   }
 
-  .m,       /* Literal.Number */
-  .mf,      /* Literal.Number.Float */
-  .mh,      /* Literal.Number.Hex */
-  .mi,      /* Literal.Number.Integer */
-  .il,      /* Literal.Number.Integer.Long */
-  .mo {     /* Literal.Number.Oct */
+  .m,   // Literal.Number
+  .mf,  // Literal.Number.Float
+  .mh,  // Literal.Number.Hex
+  .mi,  // Literal.Number.Integer
+  .il,  // Literal.Number.Integer.Long
+  .mo { // Literal.Number.Oct
     color: $code-09;
   }
 
-  .s,       /* Literal.String */
-  .sb,      /* Literal.String.Backtick */
-  .s2,      /* Literal.String.Double */
-  .sh {     /* Literal.String.Heredoc */
-    color: $code-0B;
+  .s,   // Literal.String
+  .sb,  // Literal.String.Backtick
+  .s2,  // Literal.String.Double
+  .sh { // Literal.String.Heredoc
+    color: $code-0b;
   }
 
-  .sx,      /* Literal.String.Other */
-  .sr,      /* Literal.String.Regex */
-  .s1,      /* Literal.String.Single */
-  .ss {     /* Literal.String.Symbol */
-    color: $code-0B;
+  .sx,  // Literal.String.Other
+  .sr,  // Literal.String.Regex
+  .s1,  // Literal.String.Single
+  .ss { // Literal.String.Symbol
+    color: $code-0b;
   }
 
-  .se,      /* Literal.String.Escape */
-  .si {     /* Literal.String.Interpol */
+  .se,  // Literal.String.Escape
+  .si { // Literal.String.Interpol
     color: $code-09;
   }
 
-  .sd {     /* Literal.String.Doc */
-    color: $code-03
+  .sd { // Literal.String.Doc
+    color: $code-03;
   }
 
-  .sc {     /* Literal.String.Char */
-    // Default styling
-  }
-
-  /**
-   * Diffs
-   */
-
-  .gi {     /* Generic.Inserted */
+  .gi { // Generic.Inserted
     background-color: $code-insert-bg;
   }
 
-  .gd {     /* Generic.Deleted */
+  .gd { // Generic.Deleted
     background-color: $code-delete-bg;
   }
 
-  /**
-   * Misc
-   */
-
-  .p {      /* Punctuation */
-    // Default styling
-  }
-
-  .w {      /* Text.Whitespace */
-    // Default styling
-  }
-
-  .hll {    /* Highlight */
+  .hll { // Highlight
     background-color: $code-02;
   }
 
-  .err,     /* Error */
-  .gr,      /* Generic.Error */
-  .gt {     /* Generic.Traceback */
-    color: $code-0F;
+  .err, // Error
+  .gr, // Generic.Error
+  .gt { // Generic.Traceback
+    color: $code-0f;
   }
 
-  .gs {     /* Generic.Strong */
+  .gs { // Generic.Strong
     font-weight: bold;
   }
 
-  .ge {     /* Generic.Emph */
+  .ge { // Generic.Emph
     font-style: italic;
   }
 
-  .gh {     /* Generic.Heading */
+  .gh { // Generic.Heading
     font-weight: bold;
   }
 
-  .gu {     /* Generic.Subheading */
-    color: $code-0A;
+  .gu { // Generic.Subheading
+    color: $code-0a;
     font-weight: bold;
   }
 
-  .gp {     /* Generic.Prompt */
+  .gp { // Generic.Prompt
     color: $code-03;
-    font-weight: bold
+    font-weight: bold;
   }
 }
