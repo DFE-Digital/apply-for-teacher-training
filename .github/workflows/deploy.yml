@@ -22,7 +22,11 @@ on:
       rollover:
         description: Deploy to rollover?
         default: 'false'
-        required: true        
+        required: true
+      research:
+        description: Deploy to research?
+        default: 'false'
+        required: true
       sha:
         description: Commit sha to be deployed
         required: true
@@ -47,11 +51,11 @@ jobs:
     name: ${{ matrix.environment }} Deployment
     runs-on: ubuntu-latest
     needs: [prepare-matrix]
-    environment: 
+    environment:
       name: ${{ matrix.environment }}
     strategy:
       matrix: ${{ fromJson(needs.prepare-matrix.outputs.environments) }}
-      max-parallel: 1 
+      max-parallel: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
