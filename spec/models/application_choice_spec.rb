@@ -237,11 +237,11 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
-  describe '#unconditional_offer?' do
+  describe '#unconditional_offer_pending_recruitment?' do
     context 'recruited with conditions' do
       it 'returns false' do
         application_choice = build_stubbed(:application_choice, :with_recruited)
-        expect(application_choice.unconditional_offer?).to eq false
+        expect(application_choice.unconditional_offer_pending_recruitment?).to eq false
       end
     end
 
@@ -249,7 +249,7 @@ RSpec.describe ApplicationChoice, type: :model do
       it 'returns true' do
         application_choice = build_stubbed(:application_choice, :with_recruited, offer: create(:unconditional_offer))
 
-        expect(application_choice.unconditional_offer?).to eq true
+        expect(application_choice.unconditional_offer_pending_recruitment?).to eq true
       end
     end
 
@@ -259,8 +259,26 @@ RSpec.describe ApplicationChoice, type: :model do
 
         statuses.each do |status|
           application_choice = build_stubbed(:application_choice, status: status)
-          expect(application_choice.unconditional_offer?).to eq false
+          expect(application_choice.unconditional_offer_pending_recruitment?).to eq false
         end
+      end
+    end
+  end
+
+  describe '#unconditional_offer' do
+    context 'when the offer has no conditions' do
+      it 'returns true' do
+        application_choice = build_stubbed(:application_choice, :with_recruited, offer: create(:unconditional_offer))
+
+        expect(application_choice.unconditional_offer?).to be true
+      end
+    end
+
+    context 'when the offer has conditions' do
+      it 'returns false' do
+        application_choice = build_stubbed(:application_choice, :with_offer, offer: create(:offer))
+
+        expect(application_choice.unconditional_offer?).to be false
       end
     end
   end

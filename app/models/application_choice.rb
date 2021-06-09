@@ -168,9 +168,13 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def unconditional_offer?
+    offer&.unconditional?
+  end
+
+  def unconditional_offer_pending_recruitment?
     return false unless recruited?
 
-    offer&.unconditional?
+    unconditional_offer?
   end
 
 private
