@@ -93,6 +93,12 @@ rollover:
 	$(eval SPACE=bat-staging)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 
+research:
+	$(eval APP_ENV=research)
+	$(eval APP_NAME_SUFFIX=research)
+	$(eval SPACE=bat-qa)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
+
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 
