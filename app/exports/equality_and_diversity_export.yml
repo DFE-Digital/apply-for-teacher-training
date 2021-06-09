@@ -37,6 +37,10 @@ custom_columns:
       - ended_without_success
       - unknown_state
 
+  provider_made_decision:
+    type: boolean
+    description: Returns true if a provider took an affirmative action by offering or rejecting any application choice
+
   application_choice_1_subject:
     type: string
     description: The name of a course
