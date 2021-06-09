@@ -254,6 +254,10 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def surplus_references_available_for_selection?
+    application_references.select(&:feedback_provided?).count >= 3
+  end
+
   def incomplete_degree_information?
     application_qualifications.degree.any?(&:incomplete_degree_information?)
   end

@@ -102,7 +102,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'You have a reference from Scott Knowles',
-        'request other' => 'You’ve selected 2 references to send with your application already',
+        'request other' => 'You’ve selected 2 references to submit with your application already',
       )
     end
   end
