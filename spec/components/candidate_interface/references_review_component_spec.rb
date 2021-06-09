@@ -59,6 +59,8 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
   end
 
   context 'handling too many complete references' do
+    before { FeatureFlag.deactivate(:reference_selection) }
+
     context 'given more than 2 complete references' do
       let(:references) do
         [
@@ -67,6 +69,15 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
           create(:reference, :feedback_provided),
           create(:reference, :feedback_provided),
         ]
+      end
+
+      # Remove this and the entire containing block when cleaning up the
+      # reference_selection feature flag (the warning isn't needed when the
+      # feature is active)
+      it 'does not render a warning if reference_selection feature is on' do
+        FeatureFlag.activate(:reference_selection)
+        result = render_inline(described_class.new(references: references))
+        expect(result.text).not_to include 'Delete 2 references. You can only include 2 with your application'
       end
 
       it 'renders a warning' do
@@ -126,16 +137,36 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
   end
 
   context 'when reference state is "not_requested_yet" and enough references are available' do
-    it 'no send request link is available' do
-      application_form = create(:application_form)
+    context 'when reference_selection feature is on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      result = render_inline(described_class.new(references: [
-        create(:reference, :not_requested_yet, application_form: application_form),
-        create(:reference, :feedback_provided, application_form: application_form),
-        create(:reference, :feedback_provided, application_form: application_form),
-      ]))
+      it 'send request link is still available' do
+        application_form = create(:application_form)
 
-      expect(result.text).not_to include 'Send request'
+        result = render_inline(described_class.new(references: [
+          create(:reference, :not_requested_yet, application_form: application_form),
+          create(:reference, :feedback_provided, application_form: application_form),
+          create(:reference, :feedback_provided, application_form: application_form),
+        ]))
+
+        expect(result.text).to include 'Send request'
+      end
+    end
+
+    context 'when reference_selection feature is off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
+
+      it 'no send request link is available' do
+        application_form = create(:application_form)
+
+        result = render_inline(described_class.new(references: [
+          create(:reference, :not_requested_yet, application_form: application_form),
+          create(:reference, :feedback_provided, application_form: application_form),
+          create(:reference, :feedback_provided, application_form: application_form),
+        ]))
+
+        expect(result.text).not_to include 'Send request'
+      end
     end
   end
 
@@ -168,11 +199,26 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     let(:email_bounced) { create(:reference, :email_bounced) }
     let(:provided_references) { create_list(:reference, 2, :feedback_provided, application_form: email_bounced.application_form) }
 
-    it 'a retry request link is not available' do
-      result = render_inline(described_class.new(references: [*provided_references, email_bounced]))
+    context 'when reference_selection feature is on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      email_bounced_summary = result.css('.app-summary-card')[2]
-      expect(email_bounced_summary.text).not_to include 'Retry request'
+      it 'a retry request link is still available' do
+        result = render_inline(described_class.new(references: [*provided_references, email_bounced]))
+
+        email_bounced_summary = result.css('.app-summary-card')[2]
+        expect(email_bounced_summary.text).to include 'Retry request'
+      end
+    end
+
+    context 'when reference_selection feature is off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
+
+      it 'a retry request link is not available' do
+        result = render_inline(described_class.new(references: [*provided_references, email_bounced]))
+
+        email_bounced_summary = result.css('.app-summary-card')[2]
+        expect(email_bounced_summary.text).not_to include 'Retry request'
+      end
     end
   end
 
@@ -202,11 +248,26 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     let(:cancelled) { create(:reference, :cancelled) }
     let(:provided_references) { create_list(:reference, 2, :feedback_provided, application_form: cancelled.application_form) }
 
-    it 'a send request link is NOT available' do
-      result = render_inline(described_class.new(references: [cancelled, *provided_references]))
+    context 'when reference_selection feature is on' do
+      before { FeatureFlag.activate(:reference_selection) }
 
-      cancelled_summary = result.css('.app-summary-card')[0]
-      expect(cancelled_summary.text).not_to include 'Send request again'
+      it 'a send request link is still available' do
+        result = render_inline(described_class.new(references: [cancelled, *provided_references]))
+
+        cancelled_summary = result.css('.app-summary-card')[0]
+        expect(cancelled_summary.text).to include 'Send request again'
+      end
+    end
+
+    context 'when reference_selection feature is off' do
+      before { FeatureFlag.deactivate(:reference_selection) }
+
+      it 'a send request link is NOT available' do
+        result = render_inline(described_class.new(references: [cancelled, *provided_references]))
+
+        cancelled_summary = result.css('.app-summary-card')[0]
+        expect(cancelled_summary.text).not_to include 'Send request again'
+      end
     end
   end
 

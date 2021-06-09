@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'References' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:reference_selection) }
+
   # We now take steps to prevent more than two references being provided. This
   # wasn't the case historically, however, and a candidate might end up in the
   # following state if they Apply Again from a previous application that had

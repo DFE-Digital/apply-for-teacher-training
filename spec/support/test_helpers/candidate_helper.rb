@@ -15,11 +15,19 @@ module CandidateHelper
     becoming_a_teacher
     subject_knowledge
     interview_preferences
-    references_provided
+    references_selected
   ].freeze
 
   def create_and_sign_in_candidate
     login_as(current_candidate)
+  end
+
+  def application_form_sections
+    if FeatureFlag.active?(:reference_selection)
+      APPLICATION_FORM_SECTIONS
+    else
+      APPLICATION_FORM_SECTIONS - [:references_selected] + [:references_provided]
+    end
   end
 
   def candidate_completes_application_form(with_referees: true)
@@ -77,7 +85,6 @@ module CandidateHelper
       candidate_provides_two_referees
       receive_references
       if FeatureFlag.active?(:reference_selection)
-        click_link 'Selected references'
         select_references_and_complete_section
       end
     end
@@ -87,6 +94,9 @@ module CandidateHelper
 
   def candidate_submits_application
     receive_references
+    if FeatureFlag.active?(:reference_selection)
+      select_references_and_complete_section
+    end
     click_link 'Check and submit your application'
     click_link t('continue')
     choose 'No'
@@ -124,6 +134,8 @@ module CandidateHelper
   end
 
   def select_references_and_complete_section
+    visit candidate_interface_application_form_path
+    click_link 'Selected references'
     application_form = ApplicationForm.last
     first_reference = application_form.application_references.first
     second_reference = application_form.application_references.second

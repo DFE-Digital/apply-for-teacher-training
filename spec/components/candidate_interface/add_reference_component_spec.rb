@@ -40,19 +40,43 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       expect(link_text(result)).to eq 'Add another referee'
       expect(href(result)).to eq '/candidate/application/references/start'
-      expect(body_text(result)).to eq expected_first_para + expected_second_para
+      if FeatureFlag.active?(:reference_selection)
+        expect(body_text(result)).to eq expected_first_para
+      else
+        expect(body_text(result)).to eq expected_first_para + expected_second_para
+      end
     end
   end
 
-  context 'when enough references have been provided' do
-    it 'does not render any content' do
-      create(:reference, :feedback_provided, application_form: application_form)
-      create(:reference, :feedback_provided, application_form: application_form)
+  context 'when reference_selection feature is off' do
+    before { FeatureFlag.deactivate(:reference_selection) }
 
-      result = render_inline(described_class.new(application_form))
+    context 'and enough references have been provided' do
+      it 'does not render any content' do
+        create(:reference, :feedback_provided, application_form: application_form)
+        create(:reference, :feedback_provided, application_form: application_form)
 
-      expect(link(result)).to be_empty
-      expect(body_text(result)).to be_empty
+        result = render_inline(described_class.new(application_form))
+
+        expect(link(result)).to be_empty
+        expect(body_text(result)).to be_empty
+      end
+    end
+  end
+
+  context 'when reference_selection feature is on' do
+    before { FeatureFlag.activate(:reference_selection) }
+
+    context 'and minimum required references have been provided' do
+      it 'continues to render successfully' do
+        create(:reference, :feedback_provided, application_form: application_form)
+        create(:reference, :feedback_provided, application_form: application_form)
+
+        result = render_inline(described_class.new(application_form))
+        expect(link_text(result)).to eq 'Add another referee'
+        expect(href(result)).to eq '/candidate/application/references/start'
+        expect(body_text(result)).to eq 'You can add more referees to increase the chances of getting 2 references quickly.'
+      end
     end
   end
 

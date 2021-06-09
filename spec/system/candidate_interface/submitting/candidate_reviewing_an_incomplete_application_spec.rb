@@ -23,7 +23,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
   end
 
   def then_i_should_be_able_to_click_through_and_complete_each_required_section
-    (CandidateHelper::APPLICATION_FORM_SECTIONS - %i[science_gcse efl]).each do |section|
+    (application_form_sections - %i[science_gcse efl]).each do |section|
       within "#incomplete-#{section}-error" do
         expect(page).to have_selector("a[data-qa='incomplete-#{section}']")
       end

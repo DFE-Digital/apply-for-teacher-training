@@ -70,7 +70,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def then_i_should_see_all_sections_are_complete
-    CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
+    application_form_sections.each do |section|
       expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
     end
   end
@@ -139,13 +139,17 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_can_see_my_referees
-    expect(page).to have_content 'Terri Tudor'
-    expect(page).to have_content 'terri@example.com'
-    expect(page).to have_content 'Tutor'
-
-    expect(page).to have_content 'Anne Other'
-    expect(page).to have_content 'anne@other.com'
-    expect(page).to have_content 'First boss'
+    if FeatureFlag.active?(:reference_selection)
+      within_summary_row('Selected references') do
+        expect(page).to have_content 'Terri Tudor'
+        expect(page).to have_content 'Anne Other'
+      end
+    else
+      expect(page).to have_content 'terri@example.com'
+      expect(page).to have_content 'Tutor'
+      expect(page).to have_content 'anne@other.com'
+      expect(page).to have_content 'First boss'
+    end
   end
 
   def and_i_visit_the_application_form_page

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SubmitReference do
   describe '#save!' do
-    it 'updates the reference to "feedback_provided", sets `feedback_provided_at` to the current time and selected to true' do
+    it 'updates the reference to "feedback_provided" and sets `feedback_provided_at` to the current time' do
       Timecop.freeze do
         application_choice = create(:application_choice, status: :unsubmitted)
         application_form = application_choice.application_form
@@ -14,10 +14,15 @@ RSpec.describe SubmitReference do
 
         expect(reference_one).to be_feedback_provided
         expect(reference_one.feedback_provided_at).to eq Time.zone.now
-        expect(reference_one.selected).to eq true
         expect(reference_two).to be_feedback_provided
         expect(reference_two.feedback_provided_at).to eq Time.zone.now
-        expect(reference_two.selected).to eq true
+        if FeatureFlag.active?(:reference_selection)
+          expect(reference_one.selected).to eq false
+          expect(reference_two.selected).to eq false
+        else
+          expect(reference_one.selected).to eq true
+          expect(reference_two.selected).to eq true
+        end
         expect(application_form.reload.application_choices).to all(be_unsubmitted)
       end
     end

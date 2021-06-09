@@ -110,6 +110,9 @@ RSpec.feature 'International candidate submits the application' do
 
     candidate_provides_two_referees
     receive_references
+    if FeatureFlag.active?(:reference_selection)
+      select_references_and_complete_section
+    end
   end
 
   def when_i_review_my_application
@@ -138,7 +141,7 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def then_i_should_see_all_sections_are_complete
-    CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
+    application_form_sections.each do |section|
       expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
     end
   end
