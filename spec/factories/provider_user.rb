@@ -65,7 +65,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_notification_preferences_enabled do
+    trait :with_notifications_enabled do
       after(:create) do |user, _evaluator|
         user.notification_preferences.update_all_preferences(true)
       end

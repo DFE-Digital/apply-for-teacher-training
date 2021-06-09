@@ -34,7 +34,7 @@ module DfESignInHelpers
     provider_one = create(:provider, :with_signed_agreement, code: 'ABC', name: 'Example Provider')
     provider_two = create(:provider, :with_signed_agreement, code: 'DEF', name: 'Another Provider')
     create(:provider_user,
-           :with_notification_preferences_enabled,
+           :with_notifications_enabled,
            providers: [provider_one, provider_two],
            dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
            email_address: email_address)

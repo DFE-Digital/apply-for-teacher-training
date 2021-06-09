@@ -39,7 +39,7 @@ RSpec.describe SendApplicationToProvider do
   end
 
   it 'emails the provider’s provider users', sidekiq: true do
-    user = create(:provider_user, :with_notification_preferences_enabled)
+    user = create(:provider_user, :with_notifications_enabled)
 
     application_choice.provider.provider_users = [user]
 

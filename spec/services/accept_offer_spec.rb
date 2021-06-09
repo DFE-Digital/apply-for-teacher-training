@@ -51,10 +51,10 @@ RSpec.describe AcceptOffer do
   describe 'emails', sidekiq: true do
     it 'sends a notification email to the training provider and ratifying provider' do
       training_provider = create(:provider)
-      training_provider_user = create(:provider_user, :with_notification_preferences_enabled, providers: [training_provider])
+      training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
       ratifying_provider = create(:provider)
-      ratifying_provider_user = create(:provider_user, :with_notification_preferences_enabled, providers: [ratifying_provider])
+      ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
       application_choice = create(:application_choice, :with_offer, course_option: course_option)

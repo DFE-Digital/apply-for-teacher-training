@@ -28,7 +28,7 @@ RSpec.feature 'Managing provider user notification preferences' do
   end
 
   def and_a_provider_user_exist
-    @provider_user = create(:provider_user, :with_notification_preferences_enabled)
+    @provider_user = create(:provider_user, :with_notifications_enabled)
   end
 
   def when_i_visit_the_support_console

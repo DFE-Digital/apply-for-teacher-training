@@ -35,7 +35,7 @@ RSpec.feature 'Decline by default' do
     @application_form = create(:completed_application_form, first_name: 'Harry', last_name: 'Potter')
     @application_choice = create(:application_choice, status: :offer, application_form: @application_form, sent_to_provider_at: Time.zone.now, decline_by_default_at: Time.zone.now + 10.days)
 
-    @provider_user = create(:provider_user, :with_notification_preferences_enabled, providers: [@application_choice.provider])
+    @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@application_choice.provider])
   end
 
   def and_the_time_limit_before_decline_by_default_date_has_been_exceeded

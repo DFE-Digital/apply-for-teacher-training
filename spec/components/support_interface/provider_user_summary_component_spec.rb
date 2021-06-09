@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ProviderUserSummaryComponent do
   let(:provider_user) do
     create(:provider_user,
-           :with_notification_preferences_enabled,
+           :with_notifications_enabled,
            first_name: 'John',
            last_name: 'Smith',
            email_address: 'provider@example.com',
