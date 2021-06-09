@@ -2,7 +2,7 @@
 openapi: 3.0.0
 info:
   version: v1
-  title: Apply candidates API
+  title: Apply candidate API
   contact:
     name: DfE
     email: becomingateacher@digital.education.gov.uk
@@ -10,9 +10,9 @@ info:
     API for candidates from DfE’s Apply for teacher training service.
 servers:
 - description: Sandbox (test environment)
-  url: https://sandbox.apply-for-teacher-training.service.gov.uk/candidates-api
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/candidate-api
 - description: Production
-  url: https://www.apply-for-teacher-training.service.gov.uk/candidates-api
+  url: https://www.apply-for-teacher-training.service.gov.uk/candidate-api
 paths:
   "/candidates":
     get:
