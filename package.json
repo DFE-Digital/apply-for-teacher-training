@@ -22,6 +22,7 @@
     "test": "jest"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "roots": [
       "app"
     ]
