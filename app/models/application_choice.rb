@@ -169,6 +169,15 @@ class ApplicationChoice < ApplicationRecord
     offer&.fetch('conditions', []).blank?
   end
 
+  # To be removed after testing. This has been tested here
+  # remove_application_choices_in_the_incorrect_cycle_spec.rb
+
+  def self.return_application_choices_with_a_course_in_a_different_cycle
+    ApplicationChoice
+    .joins(:application_form, course_option: [:course])
+    .where('courses.recruitment_cycle_year != application_forms.recruitment_cycle_year')
+  end
+
 private
 
   def set_initial_status
