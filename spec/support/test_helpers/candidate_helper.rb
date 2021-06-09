@@ -15,7 +15,7 @@ module CandidateHelper
     becoming_a_teacher
     subject_knowledge
     interview_preferences
-    references_provided
+    references_selected
   ].freeze
 
   def create_and_sign_in_candidate
@@ -24,9 +24,9 @@ module CandidateHelper
 
   def application_form_sections
     if FeatureFlag.active?(:reference_selection)
-      APPLICATION_FORM_SECTIONS - [:references_provided] + [:references_selected]
-    else
       APPLICATION_FORM_SECTIONS
+    else
+      APPLICATION_FORM_SECTIONS - [:references_selected] + [:references_provided]
     end
   end
 
