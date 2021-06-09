@@ -3,7 +3,7 @@ en:
     reference_status:
       cancelled: Cancelled
       cancelled_at_end_of_cycle: Cancelled at end of cycle
-      not_requested_yet: Not requested yet
+      not_requested_yet: Not sent yet
       feedback_requested: Requested
       feedback_provided: Feedback provided
       feedback_refused: Reference declined
