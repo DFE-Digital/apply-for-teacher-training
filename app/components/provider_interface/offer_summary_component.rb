@@ -66,7 +66,7 @@ module ProviderInterface
     end
 
     def border_class
-      'no-border' unless border
+      'app-offer-panel--no-border' unless border
     end
 
     def mode

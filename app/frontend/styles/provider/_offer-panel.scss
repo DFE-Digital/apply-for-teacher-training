@@ -1,0 +1,10 @@
+.app-offer-panel {
+  @include govuk-responsive-padding(4);
+  @include govuk-responsive-margin(6, "bottom");
+  border: $govuk-border-width solid govuk-colour("mid-grey");
+}
+
+.app-offer-panel--no-border {
+  border: none;
+  padding: 0;
+}
