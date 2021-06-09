@@ -33,6 +33,7 @@ COUNTRIES = {
   'CM' => 'Cameroon',
   'CA' => 'Canada',
   'CV' => 'Cape Verde',
+  'KY' => 'Cayman Islands',
   'CF' => 'Central African Republic',
   'TD' => 'Chad',
   'CL' => 'Chile',
