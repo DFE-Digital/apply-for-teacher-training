@@ -18,7 +18,7 @@ RSpec.describe ReferenceHistory do
         { name: 'request_bounced', time: start_time + 2.days, extra_info: OpenStruct.new(bounced_email: 'ericandre@email.com') },
         { name: 'request_sent', time: start_time + 3.days, extra_info: OpenStruct.new(email_address: 'ericandre@email.com') },
         { name: 'reminder_sent', time: start_time + 4.days, extra_info: nil },
-        { name: 'reference_given', time: start_time + 5.days, extra_info: nil },
+        { name: 'reference_received', time: start_time + 5.days, extra_info: nil },
       ]
       compare_data(expected_attributes, events)
     end
@@ -88,7 +88,7 @@ RSpec.describe ReferenceHistory do
         reminder_sent
         request_bounced
         request_declined
-        reference_given
+        reference_received
         automated_reminder_sent
       ]
     end
