@@ -1,0 +1,150 @@
+---
+openapi: 3.0.0
+info:
+  version: v1
+  title: Apply candidates API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for candidates from DfE’s Apply for teacher training service.
+servers:
+- description: Sandbox (test environment)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/candidates-api
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/candidates-api
+paths:
+  "/candidates":
+    get:
+      summary: Get a list of candidates
+      parameters:
+        - in: query
+          name: updated_since
+          schema:
+            type: string
+            format: date-time
+            example: 2021-05-20T12:34:00Z
+          required: true
+          description: Records updated since this date
+      responses:
+        '200':
+          description: Candidate data updated since a certain date and time
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/CandidateList"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '422':
+          "$ref": "#/components/responses/ParameterMissing"
+components:
+  responses:
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/UnauthorizedResponse"
+    ParameterMissing:
+      description: A required URL parameter was empty or missing
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/ParameterMissingResponse"
+  schemas:
+    CandidateList:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Candidate"
+    Candidate:
+      type: object
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: A candidate’s id
+          example: C1234
+        type:
+          type: string
+          description: Type of Apply user
+          example: candidate
+        attributes:
+          "$ref": "#/components/schemas/CandidateAttributes"
+    CandidateAttributes:
+      type: object
+      required:
+        - email_address
+        - created_at
+        - updated_at
+      properties:
+        email_address:
+         type: string
+         description: Candidate email address
+         example: email@example.com
+        created_at:
+         type: string
+         format: date-time
+         description: Time of candidate creation
+         example: 2021-05-20T12:34:00Z
+        updated_at:
+         type: string
+         format: date-time
+         description: Time of last change
+         example: 2021-05-20T12:34:00Z
+    UnauthorizedResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: Unauthorized
+            message: Please provide a valid authentication token
+    ParameterMissingResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterMissing
+            message: "param is missing or the value is empty: updated_since"
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Name of the current error
+          example: Unauthorized
+        message:
+          type: string
+          description: Description of the current error
+          example: Please provide a valid authentication token
+      required:
+      - error
+      - message
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+security:
+- tokenAuth: []
