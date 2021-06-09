@@ -210,7 +210,10 @@ module ProviderInterface
 
       condition_models.each do |model|
         model.errors.each do |error|
-          errors.add("further_conditions[#{model.id}][#{error.attribute}]", error.message)
+          field_name = "further_conditions[#{model.id}][#{error.attribute}]"
+          create_method(field_name) { error.message }
+
+          errors.add(field_name, error.message)
         end
       end
     end
@@ -226,6 +229,10 @@ module ProviderInterface
         attrs.merge!(study_mode: nil, course_option_id: nil)
       end
       attrs
+    end
+
+    def create_method(name, &block)
+      self.class.send(:define_method, name, &block)
     end
   end
 end
