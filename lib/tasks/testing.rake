@@ -31,12 +31,12 @@ task :jest do
   sh 'yarn jest --coverage'
 end
 
-desc 'Run brakeman'
+desc 'Run Brakeman'
 task :brakeman do
   sh 'bundle exec brakeman -c brakeman.yml'
 end
 
-desc 'Run rubocop'
+desc 'Run Rubocop'
 task :rubocop do
   sh 'bundle exec rubocop --parallel'
 end
@@ -46,8 +46,13 @@ task :erblint do
   sh 'bundle exec erblint --lint-all'
 end
 
+desc 'Run Stylelint'
+task :stylelint do
+  sh 'yarn stylelint app/frontend/styles'
+end
+
 desc 'Run all the linters'
-task linting: %i[rubocop erblint]
+task linting: %i[rubocop erblint stylelint]
 
 desc 'Compile assets for testing'
 task :compile_assets do
