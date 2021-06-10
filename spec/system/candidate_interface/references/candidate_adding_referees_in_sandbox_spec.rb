@@ -40,8 +40,8 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     click_button t('continue')
 
     candidate_fills_in_referee(
-      name: 'Refbot Two',
-      email_address: 'refbot2@example.com',
+      name: 'Refbot Three',
+      email_address: 'refbot3@example.com',
       relationship: 'Second boss',
     )
     choose 'Yes, send a reference request now'
