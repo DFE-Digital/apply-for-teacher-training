@@ -108,9 +108,10 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
       wizard.modified_application_choice
     end
 
-    it 'returns an unpersisted copy of the application choice' do
+    it 'returns a modified copy of the application choice' do
       state_store = state_store_for(application_choice_id: application_choice.id)
-      expect(modified_application_choice_for(state_store)).not_to be_persisted
+
+      expect(modified_application_choice_for(state_store).changed?).to be true
     end
 
     it 'returns the original choice status if conditions_status is not known' do
@@ -122,18 +123,26 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
       expect(modified_application_choice_for(state_store).status).to eq('recruited')
     end
 
-    it 'returns a new status according to conditions_status if this is known' do
+    it 'changes the status of the application choice and conditions to recruited if the condition status is set to met' do
       state_store = state_store_for(
         application_choice_id: application_choice.id,
         conditions_status: 'met',
       )
-      expect(modified_application_choice_for(state_store).status).to eq('recruited')
+      application_choice = modified_application_choice_for(state_store)
 
+      expect(application_choice.offer.conditions.map(&:status)).to eq(%w[met])
+      expect(modified_application_choice_for(state_store).status).to eq('recruited')
+    end
+
+    it 'changes the status of the application choice and conditions to pending if the condition status is set to not met' do
       recruited_choice = create(:application_choice, :with_deferred_offer_previously_recruited)
       state_store = state_store_for(
         application_choice_id: recruited_choice.id,
         conditions_status: 'not met',
       )
+      application_choice = modified_application_choice_for(state_store)
+
+      expect(application_choice.offer.conditions.map(&:status)).to eq(%w[pending])
       expect(modified_application_choice_for(state_store).status).to eq('pending_conditions')
     end
   end

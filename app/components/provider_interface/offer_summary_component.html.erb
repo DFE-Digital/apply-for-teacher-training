@@ -23,11 +23,11 @@
       <tbody class="govuk-table__body">
         <% conditions.each do |condition| %>
           <tr class="govuk-table__row conditions-row">
-            <td class="govuk-table__cell"><%= condition %></td>
+            <td class="govuk-table__cell"><%= condition.text %></td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
-              <% if conditions_met? %>
+              <% if condition.met? %>
                 <%= govuk_tag(text: 'Met', colour: 'green') %>
-              <% elsif conditions_not_met? %>
+              <% elsif condition.unmet? %>
                 <%= govuk_tag(text: 'Not met', colour: 'red') %>
               <% else %>
                 <%= govuk_tag(text: 'Pending', colour: 'grey') %>

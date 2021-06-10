@@ -10,7 +10,7 @@ module CandidateInterface
         course_row,
         location_row,
       ]
-      rows << conditions_row if @course_choice.offer&.dig('conditions')&.present?
+      rows << conditions_row if @course_choice.offer.conditions.any?
       rows
     end
 
@@ -42,7 +42,7 @@ module CandidateInterface
     def conditions_row
       {
         key: 'Conditions',
-        value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer['conditions'], provider: @course_choice.current_course.provider.name)),
+        value: render(OfferConditionsReviewComponent.new(conditions: @course_choice.offer.conditions.map(&:text), provider: @course_choice.current_course.provider.name)),
       }
     end
 

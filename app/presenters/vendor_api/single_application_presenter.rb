@@ -352,13 +352,12 @@ module VendorAPI
     def offer
       return nil if application_choice.offer.nil?
 
-      application_choice.offer
-        .merge(current_course)
-        .merge({
-          offer_made_at: application_choice.offered_at,
-          offer_accepted_at: application_choice.accepted_at,
-          offer_declined_at: application_choice.declined_at,
-        })
+      {
+        conditions: application_choice.offer.conditions.map(&:text),
+        offer_made_at: application_choice.offered_at,
+        offer_accepted_at: application_choice.accepted_at,
+        offer_declined_at: application_choice.declined_at,
+      }.merge(current_course)
     end
 
     def hesa_itt_data

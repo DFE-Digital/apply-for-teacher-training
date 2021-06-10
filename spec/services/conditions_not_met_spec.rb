@@ -42,7 +42,9 @@ RSpec.describe ConditionsNotMet do
   end
 
   it 'creates an offer object if it does not exist' do
-    application_choice = create(:application_choice, offer: { conditions: ['Be cool'] }, status: :pending_conditions)
+    application_choice = create(:application_choice,
+                                :with_offer,
+                                :pending_conditions)
 
     described_class.new(
       actor: create(:support_user),

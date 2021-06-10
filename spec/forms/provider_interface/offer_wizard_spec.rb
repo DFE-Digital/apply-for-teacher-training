@@ -102,8 +102,11 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '.build_from_application_choice' do
-    let(:application_choice) { create(:application_choice, offer: offer) }
-    let(:offer) { { 'conditions' => ['Fitness to train to teach check', 'Be cool'] } }
+    let(:application_choice) { create(:application_choice, :with_offer, offer: build(:offer, conditions: conditions)) }
+    let(:conditions) do
+      [build(:offer_condition, text: 'Fitness to train to teach check'),
+       build(:offer_condition, text: 'Be cool')]
+    end
     let(:options) { {} }
     let(:wizard) do
       described_class.build_from_application_choice(
@@ -135,7 +138,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     end
 
     context 'when there is no offer present' do
-      let(:offer) { nil }
+      let(:application_choice) { create(:application_choice) }
 
       it 'populates the conditions with the standard ones' do
         expect(wizard).to be_valid

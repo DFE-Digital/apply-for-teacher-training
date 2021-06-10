@@ -3,5 +3,6 @@ FactoryBot.define do
     offer
 
     text { 'Evidence of being cool' }
+    status { 'pending' }
   end
 end

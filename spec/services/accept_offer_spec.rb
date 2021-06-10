@@ -16,7 +16,9 @@ RSpec.describe AcceptOffer do
   it 'calls AcceptUnconditionalOffer when the feature is enabled and the offer is unconditional' do
     FeatureFlag.activate(:unconditional_offers_via_api)
 
-    application_choice = build(:application_choice, status: :offer, offer: { conditions: [] })
+    application_choice = create(:application_choice,
+                                :with_offer,
+                                offer: build(:unconditional_offer))
     allow(AcceptUnconditionalOffer).to receive(:new).and_call_original
 
     described_class.new(application_choice: application_choice).save!
@@ -68,7 +70,7 @@ RSpec.describe AcceptOffer do
     end
 
     it 'sends a confirmation email to the candidate' do
-      application_choice = create(:application_choice, status: :offer)
+      application_choice = create(:application_choice, :with_offer)
 
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]

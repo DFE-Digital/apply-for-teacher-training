@@ -5,14 +5,13 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
   let(:application_form) { create(:application_form, submitted_at: Time.zone.now) }
+  let(:conditions) { [build(:offer_condition, text: 'Fitness to train to teach check'), build(:offer_condition, text: 'Be cool')] }
   let(:application_choice) do
-    create(
-      :application_choice,
-      status: 'offer',
-      offer: { 'conditions' => ['Fitness to train to teach check', 'Be cool'] },
-      course_option: course_option,
-      application_form: application_form,
-    )
+    create(:application_choice,
+           :with_offer,
+           offer: build(:offer, conditions: conditions),
+           course_option: course_option,
+           application_form: application_form)
   end
   let(:find_closes) { EndOfCycleTimetable::CYCLE_DATES.dig(Time.zone.now.year, :find_closes) }
 
@@ -69,13 +68,11 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
 
   context 'when there are no conditions' do
     let(:application_choice) do
-      create(
-        :application_choice,
-        status: 'offer',
-        offer: { 'conditions' => [] },
-        course_option: course_option,
-        application_form: application_form,
-      )
+      create(:application_choice,
+             :with_offer,
+             offer: build(:unconditional_offer),
+             course_option: course_option,
+             application_form: application_form)
     end
 
     it 'does not render a conditions row' do

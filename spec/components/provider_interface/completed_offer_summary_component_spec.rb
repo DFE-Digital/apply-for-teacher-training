@@ -1,7 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
-  let(:application_choice) { build_stubbed(:application_choice) }
+  let(:application_choice) do
+    build_stubbed(:application_choice,
+                  :with_offer,
+                  offer: build(:offer, conditions: conditions))
+  end
+  let(:conditions) do
+    [build(:offer_condition, text: 'condition 1'),
+     build(:offer_condition, text: 'condition 2')]
+  end
   let(:course_option) { build_stubbed(:course_option, course: course) }
   let(:providers) { [] }
   let(:course) { build_stubbed(:course, accredited_provider: build(:provider)) }
@@ -10,7 +18,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
   let(:render) do
     render_inline(described_class.new(application_choice: application_choice,
                                       course_option: course_option,
-                                      conditions: ['condition 1', 'condition 2'],
+                                      conditions: conditions,
                                       available_providers: providers,
                                       available_courses: courses,
                                       available_course_options: course_options,

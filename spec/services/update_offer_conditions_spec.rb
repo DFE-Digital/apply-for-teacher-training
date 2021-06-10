@@ -1,11 +1,12 @@
 require 'rails_helper'
 RSpec.describe UpdateOfferConditions do
   let(:conditions) { ['Test', 'Test but longer'] }
-  let(:application_choice) { create(:application_choice, offer: { conditions: conditions }) }
+  let(:application_choice) { create(:application_choice) }
 
   describe '#call' do
     it 'writes the conditions to the offer conditions model' do
-      described_class.new(application_choice: application_choice).call
+      described_class.new(application_choice: application_choice, conditions: conditions).call
+
       offer = Offer.find_by(application_choice: application_choice)
       expect(offer.conditions.count).to eq(2)
       expect(offer.conditions.first.text).to eq('Test')
@@ -16,7 +17,7 @@ RSpec.describe UpdateOfferConditions do
       let(:conditions) { nil }
 
       it 'does not create any offer conditions' do
-        described_class.new(application_choice: application_choice).call
+        described_class.new(application_choice: application_choice, conditions: conditions).call
 
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions).to be_empty
@@ -46,13 +47,16 @@ RSpec.describe UpdateOfferConditions do
     end
 
     context 'when there is an existing offer' do
-      let!(:existing_offer) { create(:offer, application_choice: application_choice) }
+      let(:conditions) { [build(:offer_condition, text: 'Evidence of being cool')] }
+      let(:application_choice) { create(:application_choice, :with_offer, offer: build(:offer, conditions: conditions)) }
 
-      it 'overwrites the existing offer' do
+      it 'overwrites the existing offer conditions' do
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions.count).to eq(1)
         expect(offer.conditions.first.text).to eq('Evidence of being cool')
-        described_class.new(application_choice: application_choice).call
+
+        described_class.new(application_choice: application_choice, conditions: ['Test', 'Test but longer']).call
+
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions.count).to eq(2)
         expect(offer.conditions.first.text).to eq('Test')

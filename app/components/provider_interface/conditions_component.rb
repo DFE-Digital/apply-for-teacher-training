@@ -13,25 +13,7 @@ module ProviderInterface
     end
 
     def conditions
-      application_choice.offer['conditions']
-    end
-
-    def condition_rows
-      conditions&.any? ? conditions : ['No conditions have been set for this offer.']
-    end
-
-    def application_state
-      @application_state ||= ApplicationStateChange.new(application_choice)
-    end
-
-    def conditions_met?
-      return application_choice.status_before_deferral == 'recruited' if application_choice.status == 'offer_deferred'
-
-      application_state.current_state >= :recruited
-    end
-
-    def known_conditions_state?
-      conditions_met? || application_state.conditions_not_met?
+      application_choice.offer.conditions
     end
   end
 end

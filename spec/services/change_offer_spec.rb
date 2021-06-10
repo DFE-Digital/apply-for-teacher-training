@@ -17,8 +17,9 @@ RSpec.describe ChangeOffer do
     end
     let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
     let(:new_conditions) { [Faker::Lorem.sentence] }
+    let(:conditions) { [build(:offer_condition, text: 'DBS check')] }
     let(:application_choice) do
-      create(:application_choice, :with_offer, offer: { 'conditions' => ['DBS check'] })
+      create(:application_choice, :with_offer, offer: build(:offer, conditions: conditions))
     end
 
     describe 'if the actor is not authorised to perform this action' do
@@ -83,7 +84,7 @@ RSpec.describe ChangeOffer do
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
         allow(UpdateOfferConditions)
-            .to receive(:new).with(application_choice: application_choice)
+            .to receive(:new).with(application_choice: application_choice, conditions: new_conditions)
                     .and_return(update_offer_conditions_service)
 
         change_offer.save!

@@ -15,7 +15,7 @@
         <%= render ProviderInterface::ConditionsComponent.new(application_choice: @wizard.modified_application_choice) %>
       </div>
 
-      <% met = @wizard.modified_application_choice.status == 'recruited' ? 'still met' : 'met' %>
+      <% met = @wizard.modified_application_choice.recruited? ? 'still met' : 'met' %>
 
       <%= f.govuk_radio_buttons_fieldset :conditions_status,
         legend: { text: "Has the candidate #{met} all of the conditions?", size: 'm' } do %>

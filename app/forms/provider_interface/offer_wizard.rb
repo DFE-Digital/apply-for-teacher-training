@@ -48,6 +48,10 @@ module ProviderInterface
       @conditions = (standard_conditions + further_conditions).reject(&:blank?)
     end
 
+    def conditions_to_render
+      conditions.map { |condition| OfferCondition.new(text: condition, status: 'pending') }
+    end
+
     def course_option
       CourseOption.find(course_option_id)
     end
@@ -111,7 +115,7 @@ module ProviderInterface
     def self.standard_conditions_from(offer)
       return MakeOffer::STANDARD_CONDITIONS if offer.blank?
 
-      conditions = offer['conditions']
+      conditions = offer.conditions.map(&:text)
       conditions & MakeOffer::STANDARD_CONDITIONS
     end
 
@@ -120,7 +124,7 @@ module ProviderInterface
     def self.further_conditions_from(offer)
       return [] if offer.blank?
 
-      conditions = offer['conditions']
+      conditions = offer.conditions.map(&:text)
       conditions - MakeOffer::STANDARD_CONDITIONS
     end
 

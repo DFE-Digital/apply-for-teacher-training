@@ -78,6 +78,10 @@ class ApplicationChoice < ApplicationRecord
     end
   end
 
+  def offer
+    @offer ||= Offer.find_by(application_choice: self)
+  end
+
   delegate :course_not_available?, to: :course_option
   delegate :withdrawn?, to: :course, prefix: true
 
@@ -166,7 +170,7 @@ class ApplicationChoice < ApplicationRecord
   def unconditional_offer?
     return false unless recruited?
 
-    offer&.fetch('conditions', []).blank?
+    offer.conditions.none?
   end
 
 private

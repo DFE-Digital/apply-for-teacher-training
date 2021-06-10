@@ -67,7 +67,13 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   context 'Unconditional offer' do
-    let(:unconditional_offer) { create(:application_choice, :with_completed_application_form, :with_recruited, offer: { 'conditions' => [] }) }
+    let(:unconditional_offer) do
+      create(:application_choice,
+             :with_completed_application_form,
+             :with_offer,
+             :with_recruited,
+             offer: build(:unconditional_offer))
+    end
 
     it 'renders a link to the change the offered course choice when the `change_offered_course` flag is active' do
       FeatureFlag.activate(:support_user_change_offered_course)

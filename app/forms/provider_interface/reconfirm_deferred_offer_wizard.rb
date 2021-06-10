@@ -68,15 +68,19 @@ module ProviderInterface
     def modified_application_choice
       return unless application_choice
 
-      clone = application_choice.dup
-      clone.id = application_choice.id
-
-      clone.status = if conditions_status.present?
-                       conditions_met? ? 'recruited' : 'pending_conditions'
-                     else
-                       clone.status_before_deferral
-                     end
-      clone
+      modified_application_choice = application_choice.clone
+      modified_application_choice.status = if conditions_status.present?
+                                             if conditions_met?
+                                               modified_application_choice.offer.conditions.each { |condition| condition.status = 'met' }
+                                               'recruited'
+                                             else
+                                               modified_application_choice.offer.conditions.each { |condition| condition.status = 'pending' }
+                                               'pending_conditions'
+                                             end
+                                           else
+                                             application_choice.status_before_deferral
+                                           end
+      modified_application_choice
     end
 
     def next_step
