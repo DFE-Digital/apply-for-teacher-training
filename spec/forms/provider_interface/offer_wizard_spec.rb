@@ -53,6 +53,12 @@ RSpec.describe ProviderInterface::OfferWizard do
         expect(wizard.errors[:"further_conditions[1][text]"]).to contain_exactly('Condition 2 must be 255 characters or fewer')
         expect(wizard.errors[:"further_conditions[2][text]"]).to be_blank
       end
+
+      it 'creates custom methods with the field name that contain the error value' do
+        expect(wizard.valid?(:conditions)).to eq(false)
+
+        expect(wizard.public_send('further_conditions[0][text]')).to eq('Condition 1 must be 255 characters or fewer')
+      end
     end
 
     context 'if the offer has too many conditions' do
