@@ -10,7 +10,7 @@ module TeacherTrainingPublicAPI
         TeacherTrainingPublicAPI::SyncProvider.new(
           provider_from_api: provider_from_api,
           recruitment_cycle_year: ::RecruitmentCycle.current_year,
-        ).call(incremental_sync: false)
+        ).call
       end
     end
   end

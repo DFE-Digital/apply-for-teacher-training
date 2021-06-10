@@ -67,7 +67,6 @@ RSpec.describe 'Sync courses', sidekiq: true do
                                qualifications: %w[qts pgce],
                                accredited_body_code: 'DEF',
                              }],
-      filter_option: { 'filter[updated_since]' => @updated_since },
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
