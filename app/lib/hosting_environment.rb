@@ -77,6 +77,10 @@ module HostingEnvironment
     TEST_ENVIRONMENTS.include?(HostingEnvironment.environment_name)
   end
 
+  def self.use_refbots?
+    test_environment? || sandbox_mode?
+  end
+
   def self.dfe_signup_only?
     review? || qa? || staging?
   end
