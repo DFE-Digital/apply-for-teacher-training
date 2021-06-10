@@ -206,5 +206,32 @@ RSpec.describe DetectInvariants do
 
       expect(Raven).not_to have_received(:capture_exception)
     end
+
+    it 'detects non-deferred application choices with a course from a different recruitment cycle' do
+      application_form_with_invalid_course = create(:application_form)
+      application_form_with_valid_course = create(:application_form)
+
+      course_from_previous_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      course_from_current_cycle = create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)
+
+      old_course_option = create(:course_option, course: course_from_previous_cycle)
+      new_course_option = create(:course_option, course: course_from_current_cycle)
+
+      create(:application_choice, course_option: old_course_option, application_form: application_form_with_invalid_course)
+      create(:application_choice, current_course_option: new_course_option, application_form: application_form_with_valid_course)
+      create(:application_choice, course_option: old_course_option, application_form: application_form_with_valid_course, offer_deferred_at: Time.zone.now)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::ApplicationWithADifferentCyclesCourse.new(
+          <<~MSG,
+            The following applications have an application choice with a course from a different recruitment cycle
+
+            #{HostingEnvironment.application_url}/support/applications/#{application_form_with_invalid_course.id}
+          MSG
+        ),
+      )
+    end
   end
 end
