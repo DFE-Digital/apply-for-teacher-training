@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ProviderUserSummaryComponent do
   let(:provider_user) do
     create(:provider_user,
+           :with_notifications_enabled,
            first_name: 'John',
            last_name: 'Smith',
            email_address: 'provider@example.com',
            dfe_sign_in_uid: 'ABC-UID',
            last_signed_in_at: Time.zone.local(2021, 0o3, 15, 10, 45, 0),
-           providers: [create(:provider, name: 'The Provider')],
-           send_notifications: true)
+           providers: [create(:provider, name: 'The Provider')])
   end
 
   subject(:rendered_component) do

@@ -11,12 +11,6 @@ module ProviderInterface
 
   private
 
-    def notification_params
-      return ActionController::Parameters.new unless params.key?(:provider_user)
-
-      params.require(:provider_user).permit(:send_notifications)
-    end
-
     def notification_preferences_params
       return ActionController::Parameters.new unless params.key?(:provider_user_notification_preferences)
 

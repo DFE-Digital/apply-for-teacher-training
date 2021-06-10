@@ -55,9 +55,7 @@ module ProviderInterface
     end
 
     def create_notification_preferences!(user)
-      SaveProviderUserNotificationPreferences
-        .new(provider_user: user)
-        .backfill_notification_preferences!(send_notifications: user.send_notifications)
+      ProviderUserNotificationPreferences.create!(provider_user: user)
     end
 
     def create_provider_permissions!(user)

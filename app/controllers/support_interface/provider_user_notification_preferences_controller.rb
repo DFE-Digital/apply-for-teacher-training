@@ -1,12 +1,5 @@
 module SupportInterface
   class ProviderUserNotificationPreferencesController < SupportInterfaceController
-    def toggle_notifications
-      provider_user_notifications_service.backfill_notification_preferences!(send_notifications: !provider_user.send_notifications)
-
-      flash[:success] = 'Provider user updated'
-      redirect_to support_interface_provider_user_path(provider_user)
-    end
-
     def update_notifications
       provider_user_notifications_service.update_all_notification_preferences!(notification_preferences_params: notification_preferences_params)
 

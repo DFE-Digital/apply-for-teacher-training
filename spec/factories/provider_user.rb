@@ -4,7 +4,6 @@ FactoryBot.define do
     email_address { "#{Faker::Name.first_name.downcase}-#{SecureRandom.hex}@example.com" }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    send_notifications { Faker::Boolean.boolean(true_ratio: 0.5) }
 
     transient do
       create_notification_preference { true }
@@ -12,7 +11,7 @@ FactoryBot.define do
 
     after(:create) do |user, evaluator|
       if evaluator.create_notification_preference
-        user.send_notifications ? create(:provider_user_notification_preferences, provider_user: user) : create(:provider_user_notification_preferences, :all_off, provider_user: user)
+        create(:provider_user_notification_preferences, :all_off, provider_user: user)
       end
     end
 
@@ -63,6 +62,12 @@ FactoryBot.define do
     trait :with_view_diversity_information do
       after(:create) do |user, _evaluator|
         user.provider_permissions.update_all(view_diversity_information: true)
+      end
+    end
+
+    trait :with_notifications_enabled do
+      after(:create) do |user, _evaluator|
+        user.notification_preferences.update_all_preferences(true)
       end
     end
   end

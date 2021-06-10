@@ -26,7 +26,7 @@ RSpec.feature 'Vendor makes unconditional offer' do
 
     @application_choice = @application.application_choices.first
     @course_option = @application_choice.course_option
-    @provider_user = create(:provider_user, send_notifications: true, providers: [@provider])
+    @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@provider])
     uri = "/api/v1/applications/#{@application_choice.id}/offer"
 
     @api_response = page.driver.post(uri, unconditional_offer_payload)
