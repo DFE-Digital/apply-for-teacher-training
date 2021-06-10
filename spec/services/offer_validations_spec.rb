@@ -78,7 +78,7 @@ RSpec.describe OfferValidations, type: :model do
       context 'when the offer details are identical to the existing offer' do
         let(:application_choice) { build_stubbed(:application_choice, :with_offer) }
         let(:course_option) { application_choice.course_option }
-        let(:conditions) { application_choice.offer.conditions.map(&:text) }
+        let(:conditions) { application_choice.offer.conditions_text }
 
         it 'raises an IdenticalOfferError' do
           expect { offer.valid? }.to raise_error(IdenticalOfferError)
@@ -91,7 +91,7 @@ RSpec.describe OfferValidations, type: :model do
         let(:application_choice) { build_stubbed(:application_choice, :with_offer, current_course_option: current_course_option) }
         let(:current_course_option) { create(:course_option, :open_on_apply) }
         let(:course_option) { build(:course_option, :open_on_apply) }
-        let(:conditions) { application_choice.offer.conditions.map(&:text) }
+        let(:conditions) { application_choice.offer.conditions_text }
 
         it 'adds a :different_ratifying_provider error' do
           expect(offer).to be_invalid

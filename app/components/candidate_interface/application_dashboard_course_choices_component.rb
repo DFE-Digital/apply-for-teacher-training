@@ -115,7 +115,7 @@ module CandidateInterface
         key: 'Condition'.pluralize(application_choice.offer.conditions.count),
         value: render(
           OfferConditionsReviewComponent.new(
-            conditions: application_choice.offer.conditions.map(&:text),
+            conditions: application_choice.offer.conditions_text,
             provider: application_choice.current_course.provider.name,
           ),
         ),

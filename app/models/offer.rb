@@ -10,4 +10,8 @@ class Offer < ApplicationRecord
   def unconditional?
     conditions.none?
   end
+
+  def conditions_text
+    conditions.pluck(:text)
+  end
 end
