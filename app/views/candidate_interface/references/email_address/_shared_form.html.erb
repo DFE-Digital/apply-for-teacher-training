@@ -1,8 +1,8 @@
 <%= f.govuk_error_summary %>
 
-<% if HostingEnvironment.sandbox_mode? %>
+<% if HostingEnvironment.use_refbots? %>
   <%= render SandboxFeatureComponent.new(
-    description: 'Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed.',
+    description: 'Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed. Increment the number for each additional reference.',
   ) %>
 <% end %>
 
