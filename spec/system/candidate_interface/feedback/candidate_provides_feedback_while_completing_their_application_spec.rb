@@ -27,11 +27,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
   end
 
   def and_i_click_on_the_references_section
-    if FeatureFlag.active?(:reference_selection)
-      click_link 'Review your references'
-    else
-      click_link 'Add your references'
-    end
+    click_link 'Add your references'
   end
 
   def and_i_click_there_is_an_issue_with_the_section

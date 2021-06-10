@@ -159,8 +159,9 @@ en:
     references_delete_selected_reference: Are you sure you want to delete this selected reference?
     references_send_reminder: Would you like to send a reminder to this referee?
     references_select: Which 2 references do you want to include in your application?
+    references_request: Add your references
     references_review: Review your references
-    references_selection: Selected references
+    references_selection: Select your references
     application_feedback: How can we improve %{section} section?
     application_feedback_thank_you: Thank you for your feedback
     find_feedback: Help us improve this service

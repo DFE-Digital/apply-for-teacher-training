@@ -26,14 +26,14 @@
 
 <% if @references_given.present? %>
   <div id="references_given">
-    <h2 class="govuk-heading-m">References that have been given</h2>
+    <h2 class="govuk-heading-m">References you have received</h2>
     <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, heading_level: 3, is_errored: @too_many_references)) %>
   </div>
 <% end %>
 
 <% if @references_waiting_to_be_sent.present? %>
   <div id="references_waiting_to_be_sent">
-    <h2 class="govuk-heading-m">Requests that have not been sent</h2>
+    <h2 class="govuk-heading-m">Requests you have not sent yet</h2>
     <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_waiting_to_be_sent, show_history: true, heading_level: 3)) %>
   </div>
 <% end %>

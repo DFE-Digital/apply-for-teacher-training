@@ -54,7 +54,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
     candidate_fills_in_apply_again_course_choice
 
     if FeatureFlag.active?(:reference_selection)
-      click_link 'Selected references'
+      click_link 'Select your references'
       choose 'Yes, I have completed this section'
       click_button t('save_and_continue')
     end

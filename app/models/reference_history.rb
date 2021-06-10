@@ -13,7 +13,7 @@ class ReferenceHistory
       .concat(reminder_sent)
       .concat(request_bounced)
       .concat(request_declined)
-      .concat(reference_given)
+      .concat(reference_received)
       .concat(automated_reminder_sent)
       .sort_by(&:time)
   end
@@ -54,10 +54,10 @@ class ReferenceHistory
       .map { |a| Event.new('request_declined', a.created_at) }
   end
 
-  def reference_given
+  def reference_received
     audits
       .select { |a| status_change(a, to: 'feedback_provided') }
-      .map { |a| Event.new('reference_given', a.created_at) }
+      .map { |a| Event.new('reference_received', a.created_at) }
   end
 
   def automated_reminder_sent

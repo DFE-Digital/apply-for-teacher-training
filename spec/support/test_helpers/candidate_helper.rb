@@ -135,7 +135,7 @@ module CandidateHelper
 
   def select_references_and_complete_section
     visit candidate_interface_application_form_path
-    click_link 'Selected references'
+    click_link 'Select your references'
     application_form = ApplicationForm.last
     first_reference = application_form.application_references.first
     second_reference = application_form.application_references.second

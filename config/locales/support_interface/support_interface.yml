@@ -10,7 +10,7 @@ en:
         label: What is the referee’s name?
       email_address:
         label: What is the referee’s email address?
-        hint_text: In most cases, this should be a work address
+        hint_text: In most cases, this should be a work email address.
       relationship:
         label: What is the referee’s relationship to the candidate?
       feedback:

@@ -68,14 +68,14 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
     before { FeatureFlag.activate(:reference_selection) }
 
     context 'and minimum required references have been provided' do
-      it 'continues to render successfully' do
+      it 'renders the correct content' do
         create(:reference, :feedback_provided, application_form: application_form)
         create(:reference, :feedback_provided, application_form: application_form)
 
         result = render_inline(described_class.new(application_form))
         expect(link_text(result)).to eq 'Add another referee'
         expect(href(result)).to eq '/candidate/application/references/start'
-        expect(body_text(result)).to eq 'You can add more referees to increase the chances of getting 2 references quickly.'
+        expect(body_text(result)).to eq 'You can add as many referees as you like but you can only submit 2 with your application.'
       end
     end
   end

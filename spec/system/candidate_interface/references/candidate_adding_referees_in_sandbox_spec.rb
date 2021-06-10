@@ -50,11 +50,11 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def then_i_see_that_references_are_given
     within all('.app-summary-card')[0] do
-      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference given')
+      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference received')
     end
 
     within all('.app-summary-card')[1] do
-      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference given')
+      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference received')
     end
   end
 end
