@@ -101,7 +101,7 @@ jobs:
             ${{ env.TF_VAR_key_vault_infra_secret_name }}
 
       - name: Stop Clockwork container
-        run: cf stop apply-clock-${{ env.SPACE_SUFFIX || matrix.environment }}
+        run: cf stop apply-clock-${{ env.SPACE_SUFFIX || matrix.environment }} || true
 
       - name: Terraform init, plan & apply
         run: |
