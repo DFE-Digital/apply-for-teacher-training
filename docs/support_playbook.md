@@ -254,18 +254,16 @@ ApplicationChoice.find(_id).update!(status: :recruited, decline_by_default_at: n
 
 ## Delete an application
 
-TODO: rework this section, mention the DeleteApplication service
-
 If an individual requests we delete their data we have 1 month to comply with this. At the same time we need the record to track for stats purposes.
 
-In this case we:
+Use the `DeleteApplication` service if the application has not been submitted yet.
 
-remove all data from the application where possible
-add fake data where not possible (email_address)
-Candidate.find_by(email_address: “old_email”).update!(email_address: ‘deleted_on_user_requestX@example.com‘)
+If the application has been submitted, start a discussion to determine what steps we should take (eg - contacting the provider before deleting anything on our side).
 
-
-Note: https://github.com/DFE-Digital/apply-for-teacher-training/pull/4632
+Whatever is decided, we should (at a minimum) do the following:
+- Remove all data from the application where possible
+- Add fake data where not possible (email_address)
+- `Candidate.find_by(email_address: 'old_email').update!(email_address: 'deleted_on_user_requestX@example.com')`
 
 ## Change provider permissions
 
