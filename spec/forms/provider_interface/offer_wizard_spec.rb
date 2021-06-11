@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::OfferWizard do
                         study_mode: study_mode,
                         application_choice_id: application_choice_id,
                         standard_conditions: standard_conditions,
-                        further_conditions: further_conditions,
+                        further_condition_attrs: further_condition_attrs,
                         current_step: current_step,
                         decision: decision)
   end
@@ -31,6 +31,11 @@ RSpec.describe ProviderInterface::OfferWizard do
       further_condition_3,
       further_condition_4,
     ].reject(&:blank?)
+  end
+  let(:further_condition_attrs) do
+    further_conditions.each_with_index.to_h do |text, index|
+      [index.to_s, { 'text' => text }]
+    end
   end
   let(:current_step) { nil }
   let(:decision) { nil }
@@ -125,7 +130,8 @@ RSpec.describe ProviderInterface::OfferWizard do
     it 'correctly populates the wizard with offer conditions' do
       expect(wizard).to be_valid
       expect(wizard.standard_conditions).to contain_exactly('Fitness to train to teach check')
-      expect(wizard.further_conditions).to contain_exactly('Be cool')
+      expected_condition_id = conditions.last.id
+      expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Be cool', 'condition_id' => expected_condition_id } })
     end
 
     context 'when options are passed in' do
@@ -149,7 +155,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       it 'populates the conditions with the standard ones' do
         expect(wizard).to be_valid
         expect(wizard.standard_conditions).to match_array(MakeOffer::STANDARD_CONDITIONS)
-        expect(wizard.further_conditions).to be_empty
+        expect(wizard.further_condition_attrs).to eq({})
       end
     end
   end
@@ -357,19 +363,23 @@ RSpec.describe ProviderInterface::OfferWizard do
       allow(store).to receive(:write)
     end
 
-    it 'appends a blank condition to the array of further conditions' do
-      expect { wizard.add_empty_condition }.to change { wizard.further_conditions.length }.from(2).to(3)
+    def further_conditions_array
+      wizard.further_condition_attrs.values.map { |hash| hash['text'] }
+    end
 
-      expect(wizard.further_conditions.last).to eq('')
+    it 'appends a blank condition to the array of further conditions' do
+      expect { wizard.add_empty_condition }.to change { further_conditions_array.length }.from(2).to(3)
+
+      expect(further_conditions_array.last).to eq('')
     end
 
     context 'when there are 18 conditions already set' do
       let(:further_conditions) { Array.new(18, 'be cool') }
 
       it 'does not append a blank condition to the array of further conditions' do
-        expect { wizard.add_empty_condition }.not_to(change { wizard.further_conditions })
+        expect { wizard.add_empty_condition }.not_to(change { further_conditions_array })
 
-        expect(wizard.further_conditions.last).to eq('be cool')
+        expect(further_conditions_array.last).to eq('be cool')
       end
     end
   end
@@ -383,16 +393,16 @@ RSpec.describe ProviderInterface::OfferWizard do
     end
 
     it 'removes the further condition at the specified index' do
-      expect { wizard.remove_condition(0) }.to change { wizard.further_conditions.length }.from(2).to(1)
+      expect { wizard.remove_condition('0') }.to change { wizard.further_condition_attrs.length }.from(2).to(1)
 
-      expect(wizard.further_conditions).to contain_exactly('Degree certificate')
+      expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Degree certificate' } })
     end
 
     context 'when there are no conditions already set' do
       let(:further_conditions) { [] }
 
       it 'does nothing' do
-        expect { wizard.remove_condition(0) }.not_to(change { wizard.further_conditions })
+        expect { wizard.remove_condition('0') }.not_to(change { wizard.further_condition_attrs })
       end
     end
   end
@@ -400,10 +410,14 @@ RSpec.describe ProviderInterface::OfferWizard do
   describe '#remove_empty_conditions!' do
     let(:further_conditions) { ['', 'Be cool', ''] }
 
-    it 'removes any blank further conditions' do
-      expect { wizard.remove_empty_conditions! }.to change { wizard.further_conditions.length }.from(3).to(1)
+    before do
+      allow(store).to receive(:write)
+    end
 
-      expect(wizard.further_conditions).to contain_exactly('Be cool')
+    it 'removes any blank further conditions' do
+      expect { wizard.remove_empty_conditions! }.to change { wizard.further_condition_attrs.length }.from(3).to(1)
+
+      expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Be cool' } })
     end
   end
 end

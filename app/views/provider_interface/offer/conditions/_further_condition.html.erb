@@ -1,5 +1,6 @@
 <%= form.fields_for 'further_conditions[]', model do |condition_field| %>
   <div class="<%= disabled ? 'govuk-!-display-none' : 'app-add-condition__item' %>" <%= 'id=add-another-item-placeholder' if disabled %>>
+    <%= condition_field.hidden_field :condition_id, disabled: disabled %>
     <%= condition_field.govuk_text_area :text, label: { text: t('.condition', id: label_text), size: 's' }, rows: 3, disabled: disabled %>
     <%= form.button name: 'remove_condition', value: model.id, class: 'govuk-button govuk-button--secondary app-add-condition__remove-button' do %>
       <%= t('.remove') %> <span class="govuk-visually-hidden"> <%= t('.condition', id: label_text).downcase %></span>

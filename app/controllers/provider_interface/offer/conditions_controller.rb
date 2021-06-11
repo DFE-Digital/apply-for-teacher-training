@@ -36,7 +36,7 @@ module ProviderInterface
       end
 
       def remove_condition_param
-        params[:remove_condition]&.to_i
+        params[:remove_condition]
       end
 
       def add_another_condition?
@@ -44,11 +44,9 @@ module ProviderInterface
       end
 
       def attributes_for_wizard
-        attributes = conditions_params
-
-        further_conditions = conditions_params.fetch('further_conditions', {}).values.map { |hash| hash['text'] }
-
-        attributes.merge!(further_conditions: further_conditions, current_step: 'conditions')
+        attrs = conditions_params
+        attrs['further_condition_attrs'] = attrs.delete('further_conditions') || {}
+        attrs.merge!(current_step: 'conditions')
       end
 
       def conditions_params
@@ -72,7 +70,7 @@ module ProviderInterface
         if remove_condition_param.present?
           'further-conditions-heading'
         elsif add_another_condition?
-          "provider-interface-offer-wizard-further-conditions-#{@wizard.further_conditions.length - 1}-text-field"
+          "provider-interface-offer-wizard-further-conditions-#{@wizard.further_condition_attrs.length - 1}-text-field"
         end
       end
     end
