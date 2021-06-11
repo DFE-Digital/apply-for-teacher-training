@@ -23,7 +23,7 @@ module ProviderInterface
       @state_store = state_store
       attrs = sanitize_parameters(attrs)
 
-      super(last_saved_state.deep_merge(attrs))
+      super(last_saved_state.merge(attrs))
       update_path_history(attrs)
     end
 
@@ -153,7 +153,7 @@ module ProviderInterface
       attrs = { study_mode: available_study_modes.first } if step.eql?(:study_modes)
       attrs = { course_option_id: available_course_options.first.id } if step.eql?(:locations)
 
-      assign_attributes(last_saved_state.deep_merge(attrs))
+      assign_attributes(last_saved_state.merge(attrs))
       save_state!
 
       next_step(step)
