@@ -26,7 +26,7 @@
 
         <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: OpenStruct.new(id: 'placeholder'), label_text: 'placeholder', disabled: true %>
 
-        <% form_object.condition_models.each do |model| %>
+        <% form_object.further_condition_models.each do |model| %>
           <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: model, label_text: model.id + 1, disabled: false %>
         <% end %>
 

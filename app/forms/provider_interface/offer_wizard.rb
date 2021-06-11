@@ -45,7 +45,7 @@ module ProviderInterface
     end
 
     def conditions
-      @conditions = (standard_conditions + condition_models.map(&:text)).reject(&:blank?)
+      @conditions = (standard_conditions + further_condition_models.map(&:text)).reject(&:blank?)
     end
 
     def conditions_to_render
@@ -84,8 +84,8 @@ module ProviderInterface
 
     delegate :previous_step, to: :wizard_path_history
 
-    def condition_models
-      @_condition_models ||= further_condition_attrs.map do |index, params|
+    def further_condition_models
+      @_further_condition_models ||= further_condition_attrs.map do |index, params|
         OfferConditionField.new(id: index.to_i, text: params['text'], condition_id: params['condition_id'])
       end
     end
@@ -206,7 +206,7 @@ module ProviderInterface
 
     def state
       as_json(
-        except: %w[state_store errors validation_context query_service wizard_path_history _condition_models],
+        except: %w[state_store errors validation_context query_service wizard_path_history _further_condition_models],
       ).to_json
     end
 
@@ -219,9 +219,9 @@ module ProviderInterface
     end
 
     def further_conditions_valid
-      condition_models.map(&:valid?).all?
+      further_condition_models.map(&:valid?).all?
 
-      condition_models.each do |model|
+      further_condition_models.each do |model|
         model.errors.each do |error|
           field_name = "further_conditions[#{model.id}][#{error.attribute}]"
           create_method(field_name) { error.message }
@@ -232,7 +232,7 @@ module ProviderInterface
     end
 
     def max_conditions_length
-      return unless (condition_models.count + standard_conditions.compact_blank.length) > OfferValidations::MAX_CONDITIONS_COUNT
+      return unless (further_condition_models.count + standard_conditions.compact_blank.length) > OfferValidations::MAX_CONDITIONS_COUNT
 
       errors.add(:base, :exceeded_max_conditions, count: OfferValidations::MAX_CONDITIONS_COUNT)
     end
