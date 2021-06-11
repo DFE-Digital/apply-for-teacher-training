@@ -162,16 +162,6 @@ ApplicationStateChange.new(old_application_choice).withdraw!
 old_application_choice.update(withdrawn_at: Time.zone.now)
 ```
 
-**Change the course after it was accepted by the candidate**
-
-Make sure the support agent confirmed that the candidate is aware of the changes.
-
-Find ApplicationChoice and new CourseOption:
-
-```ruby
-ApplicationChoice.find(_id).update(current_course_option_id: _new_course_option.id)
-```
-
 ## Change offer conditions
 
 **Define new conditions**
