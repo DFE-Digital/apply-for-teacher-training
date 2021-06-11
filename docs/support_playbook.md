@@ -41,10 +41,6 @@ If the request is from a referee (eg—an accidental refusal), use the “Undo r
 
 Candidates can cancel and reinstate references themselves, so this shouldn't typically be something the support dev handles.
 
-## Referee cannot access the references page
-
-The usual cause for this is that the candidate had already received 2 references so this referee was no longer required to provide a reference.
-
 ## Candidate unable to submit because degree info incomplete
 
 We've seen this happen due to a `nil` value for `predicted_grade`.
