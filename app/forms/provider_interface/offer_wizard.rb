@@ -200,7 +200,8 @@ module ProviderInterface
 
     def last_saved_state
       saved_state = @state_store.read
-      saved_state ? JSON.parse(saved_state) : {}
+      state_hash = saved_state ? JSON.parse(saved_state) : {}
+      state_hash.except('further_conditions')
     end
 
     def state
