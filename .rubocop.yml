@@ -1,12 +1,9 @@
 inherit_from: .rubocop_todo.yml
 
-inherit_gem:
-  rubocop-govuk:
-    - config/default.yml
-    - config/rails.yml
-
 require:
 - rubocop-rspec
+- rubocop-rails
+- rubocop-rake
 - ./lib/rubocop/cop/govuk/govuk_button_to.rb
 - ./lib/rubocop/cop/govuk/govuk_link_to.rb
 - ./lib/rubocop/cop/govuk/govuk_submit.rb
@@ -175,6 +172,9 @@ Style/NumericLiterals:
 Style/NegatedIf:
   Enabled: false
 
+Layout/LineLength:
+  Enabled: false
+
 # Disable these cops because they do not allow reasonable code like splitting
 # `attr_reader :bla, :foo` over 2 lines.
 Layout/MultilineArrayLineBreaks:
@@ -202,3 +202,106 @@ Rails/Output:
 
 Style/SafeNavigation:
   Enabled: true
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Style/Documentation:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+  Exclude:
+    - app/helpers/geocode_helper.rb
+
+Style/Alias:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+  EnforcedStyle: mixed
+  AllowInnerSlashes: true
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+Style/FormatString:
+  Exclude:
+    - app/helpers/geocode_helper.rb
+
+Metrics/BlockNesting:
+  Exclude:
+    - app/services/provider_authorisation.rb
+    - app/helpers/geocode_helper.rb
