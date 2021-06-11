@@ -5,6 +5,7 @@ const setupBodyWithConditions = (count) => {
     <fieldset>
       <legend id="further-conditions-heading" tabindex="-1">Further conditions</legend>
       <div id="add-another-item-placeholder">
+        <input disabled="disabled" type="hidden" name="provider_interface_offer_wizard[further_conditions][placeholder][condition_id]" id="provider_interface_offer_wizard_further_conditions_placeholder_condition_id">
         <div>
           <label for="provider-interface-offer-wizard-further-conditions-placeholder-text-field">Condition placeholder</label>
           <textarea id="provider-interface-offer-wizard-further-conditions-placeholder-text-field" disabled="disabled" name="provider_interface_offer_wizard[further_conditions][placeholder][text]"></textarea>
@@ -32,6 +33,7 @@ const conditionFieldList = (count) => {
 const conditionFieldWithId = (id) => {
   return `
     <div class="app-add-condition__item" >
+      <input disabled="disabled" type="hidden" name="provider_interface_offer_wizard[further_conditions][${id}][condition_id]" id="provider_interface_offer_wizard_further_conditions_${id}_condition_id">
       <div>
         <label for="provider-interface-offer-wizard-further-conditions-${id}-text-field">Condition ${id + 1}</label>
         <textarea id="provider-interface-offer-wizard-further-conditions-${id}-text-field" name="provider_interface_offer_wizard[further_conditions][${id}][text]"></textarea>
