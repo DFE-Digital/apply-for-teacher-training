@@ -62,7 +62,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).not_to be_valid
-      expect(form.errors.messages[:further_conditions]).to include('You can only have 20 conditions or fewer')
+      expect(form.errors.messages[:base]).to include('You can only have 20 conditions or fewer')
     end
   end
 
@@ -201,25 +201,28 @@ RSpec.describe SupportInterface::ConditionsForm do
       application_choice = build(:application_choice, offer: nil)
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq([])
-      expect(form.further_conditions).to eq([''])
+      expect(form.further_condition_attrs).to eq({ '0' => { 'text' => '' } })
     end
 
     it 'handles an empty set of conditions' do
       application_choice = build(:application_choice, offer: build(:unconditional_offer))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq([])
-      expect(form.further_conditions).to eq([''])
+      expect(form.further_condition_attrs).to eq({ '0' => { 'text' => '' } })
     end
 
     it 'reads standard and further conditions' do
-      conditions = [build(:offer_condition, text: 'Fitness to train to teach check'),
+      conditions = [build(:offer_condition, text: MakeOffer::STANDARD_CONDITIONS.sample),
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :with_offer,
                                   offer: build(:offer, conditions: conditions))
       form = described_class.build_from_application_choice(application_choice)
-      expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
-      expect(form.further_conditions).to eq(['Get a haircut', ''])
+      expect(form.standard_conditions).to eq([conditions.first.text])
+      expect(form.further_condition_attrs).to eq({
+        '0' => { 'text' => conditions.last.text, 'condition_id' => conditions.last.id },
+        '1' => { 'text' => '' },
+      })
     end
 
     it 'reads more than 4 further conditions' do
@@ -234,7 +237,7 @@ RSpec.describe SupportInterface::ConditionsForm do
                                   offer: build(:offer, conditions: conditions))
       form = described_class.build_from_application_choice(application_choice)
       expect(form.standard_conditions).to eq(['Fitness to train to teach check'])
-      expect(form.further_conditions).to eq(['FC1', 'FC2', 'FC3', 'FC4', 'FC5', ''])
+      expect(form.further_condition_attrs.values.map { |hash| hash['text'] }).to eq(['FC1', 'FC2', 'FC3', 'FC4', 'FC5', ''])
     end
   end
 end

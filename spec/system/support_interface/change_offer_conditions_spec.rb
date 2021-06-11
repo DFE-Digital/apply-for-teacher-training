@@ -96,9 +96,10 @@ RSpec.feature 'Add course to submitted application' do
 
   def then_i_see_the_new_condition_as_well_as_the_original_ones
     expect(page).to have_current_path(support_interface_application_form_path(@application_choice.application_form_id))
-    expect(page).to have_content(
-      "Conditions\nFitness to train to teach check Be cool Learn to play piano",
-    )
+    expect(page).to have_content('Conditions')
+    expect(page).to have_content('Fitness to train to teach check')
+    expect(page).to have_content('Be cool')
+    expect(page).to have_content('Learn to play piano')
   end
 
   def and_i_remove_all_conditions_and_click_update_conditions

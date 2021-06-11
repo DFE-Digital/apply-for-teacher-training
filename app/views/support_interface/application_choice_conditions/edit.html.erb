@@ -33,6 +33,7 @@
 
         <% @form.further_condition_models.each do |model| %>
           <%= f.fields_for 'further_conditions[]', model do |fc| %>
+            <%= fc.hidden_field :condition_id %>
             <%= fc.govuk_text_area :text, label: { text: "Condition #{model.id.to_i + 1}", size: 's' }, rows: 3 %>
           <% end %>
         <% end %>
