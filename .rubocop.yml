@@ -1,12 +1,16 @@
-inherit_from: .rubocop_todo.yml
+inherit_from:
+  - .rubocop_todo.yml
+  - ./config/rubocop/config/rspec.yml
+  - ./config/rubocop/config/rails.yml
+  - ./config/rubocop/config/rake.yml
+  - ./config/rubocop/config/style.yml
+  - ./config/rubocop/config/layout.yml
+  - ./config/rubocop/config/metrics.yml
 
 require:
-- rubocop-rspec
-- rubocop-rails
-- rubocop-rake
-- ./lib/rubocop/cop/govuk/govuk_button_to.rb
-- ./lib/rubocop/cop/govuk/govuk_link_to.rb
-- ./lib/rubocop/cop/govuk/govuk_submit.rb
+  - ./lib/rubocop/cop/govuk/govuk_button_to.rb
+  - ./lib/rubocop/cop/govuk/govuk_link_to.rb
+  - ./lib/rubocop/cop/govuk/govuk_submit.rb
 
 AllCops:
   Exclude:
@@ -20,76 +24,13 @@ AllCops:
     - 'features/support/env.rb'
     - 'vendor/**/*'
 
-Rails/BulkChangeTable:
-  Enabled: false
-
-Style/AndOr:
-  EnforcedStyle: conditionals
-
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: single_quotes
-
 Bundler/OrderedGems:
   Enabled: false
-
-Metrics/BlockLength:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Enabled: true
-  Max: 4
-  Exclude:
-    - 'spec/forms/provider_interface/offer_wizard_spec.rb'
-
-RSpec/ExampleLength:
-  Enabled: false
-
-RSpec/MultipleExpectations:
-  Enabled: false
-
-RSpec/ContextWording:
-  Enabled: false
-
-# we have a property called "subject" in some factories
-RSpec/EmptyLineAfterSubject:
-  Exclude:
-    - 'spec/factories/*.rb'
-
-RSpec/LetSetup:
-  Enabled: false
-
-Naming/MethodParameterName:
-  AllowedNames:
-    - e
-    - to
 
 Capybara/FeatureMethods:
   EnabledMethods:
     - feature
     - scenario
-
-# It's better to be explicit about the class that's being tested
-RSpec/DescribedClass:
-  Enabled: false
-
-# This cop wants us to use `expect().to change(Candidate, :count)` instead
-# of `expect().to change { Candidate.count }`, which does not seem better.
-RSpec/ExpectChange:
-  Enabled: false
-
-RSpec/LeadingSubject:
-  Enabled: false
-
-# In acceptance tests it's often handy to user instance variables to keep track of state
-RSpec/InstanceVariable:
-  Enabled: false
-
-RSpec/PredicateMatcher:
-  Enabled: false
-
-RSpec/DescribeClass:
-  Enabled: false
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
@@ -97,32 +38,20 @@ Lint/AmbiguousBlockAssociation:
     - 'spec/system/support_interface/daily_report_spec.rb'
     - 'spec/requests/vendor_api/api_authentication_spec.rb'
 
-# We do not want to subclass from ApplicationController. This enables separation
-# between the namespaces, and allows subclassing from ActionController::API in
-# the Vendor API.
-Rails/ApplicationController:
-  Enabled: false
-
-# Rails does not actually allow "dynamic find_by", so this cop yields false positives
-# like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
-Rails/DynamicFindBy:
-  Enabled: false
-
-# Not all rake tasks need :environment
-Rails/RakeEnvironment:
-  Enabled: false
-
-# This cop demands a default value for not-null columns, which is not possible
-# when dealing with references
-Rails/NotNullColumn:
-  Enabled: false
+Naming/MethodParameterName:
+  AllowedNames:
+    - e
+    - to
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
 
-# sometimes reduce is fine
-Style/EachWithObject:
+Naming/AccessorMethodName:
   Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
 
 Govuk:
   Include:
@@ -148,160 +77,3 @@ Govuk/GovukLinkTo:
     # link_to for kaminari pagination links
     - 'app/views/kaminari/_next_page.html.erb'
     - 'app/views/kaminari/_prev_page.html.erb'
-
-# Pending cops
-# These will be enabled by default at Rubocop 1.0
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
-
-Rake/Desc:
-  Exclude:
-    - 'lib/tasks/reset_qa.rake'
-
-# This cop has too many false positives (it also requires underscores for things that are not numbers)
-Style/NumericLiterals:
-  Enabled: false
-
-# Sometimes it's easier to think about a negated if, for example `render_error if !model.valid?` vs `render_error unless model.valid?`
-Style/NegatedIf:
-  Enabled: false
-
-Layout/LineLength:
-  Enabled: false
-
-# Disable these cops because they do not allow reasonable code like splitting
-# `attr_reader :bla, :foo` over 2 lines.
-Layout/MultilineArrayLineBreaks:
-  Enabled: false
-
-Layout/MultilineHashKeyLineBreaks:
-  Enabled: false
-
-Layout/MultilineMethodArgumentLineBreaks:
-  Enabled: false
-
-Layout/FirstMethodArgumentLineBreak:
-  Enabled: false
-
-# 🤷‍♂️
-Style/AsciiComments:
-  Enabled: false
-
-Style/ConditionalAssignment:
-  Enabled: false
-
-Rails/Output:
-  Exclude:
-    - config/initializers/console.rb
-
-Style/SafeNavigation:
-  Enabled: true
-
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: comma
-
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: comma
-
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-
-Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: comma
-
-Layout/MultilineMethodCallIndentation:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
-
-Rails/SkipsModelValidations:
-  Enabled: false
-
-Layout/AccessModifierIndentation:
-  EnforcedStyle: outdent
-
-Metrics/ParameterLists:
-  Enabled: false
-
-Naming/AccessorMethodName:
-  Enabled: false
-
-Metrics/ModuleLength:
-  Enabled: false
-
-Style/BlockDelimiters:
-  Enabled: false
-
-Layout/FirstArrayElementIndentation:
-  EnforcedStyle: consistent
-
-Style/Documentation:
-  Enabled: false
-
-Style/FormatStringToken:
-  EnforcedStyle: template
-  Exclude:
-    - app/helpers/geocode_helper.rb
-
-Style/Alias:
-  Enabled: false
-
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Style/RegexpLiteral:
-  Enabled: false
-  EnforcedStyle: mixed
-  AllowInnerSlashes: true
-
-Style/IfUnlessModifier:
-  Enabled: false
-
-Metrics/ClassLength:
-  Enabled: false
-
-Style/GuardClause:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-Rails/OutputSafety:
-  Enabled: false
-
-Rails/HasManyOrHasOneDependent:
-  Enabled: false
-
-Layout/MultilineOperationIndentation:
-  Enabled: false
-
-Rails/InverseOf:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Naming/PredicateName:
-  Enabled: false
-
-Style/FormatString:
-  Exclude:
-    - app/helpers/geocode_helper.rb
-
-Metrics/BlockNesting:
-  Exclude:
-    - app/services/provider_authorisation.rb
-    - app/helpers/geocode_helper.rb

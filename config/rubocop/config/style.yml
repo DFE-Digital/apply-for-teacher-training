@@ -1,0 +1,83 @@
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+# sometimes reduce is fine
+Style/EachWithObject:
+  Enabled: false
+
+# Pending cops
+# These will be enabled by default at Rubocop 1.0
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+# This cop has too many false positives (it also requires underscores for things that are not numbers)
+Style/NumericLiterals:
+  Enabled: false
+
+# Sometimes it's easier to think about a negated if, for example `render_error if !model.valid?` vs `render_error unless model.valid?`
+Style/NegatedIf:
+  Enabled: false
+
+# 🤷‍♂️
+Style/AsciiComments:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: true
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+  Exclude:
+    - app/helpers/geocode_helper.rb
+
+Style/Alias:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+  EnforcedStyle: mixed
+  AllowInnerSlashes: true
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/FormatString:
+  Exclude:
+    - app/helpers/geocode_helper.rb

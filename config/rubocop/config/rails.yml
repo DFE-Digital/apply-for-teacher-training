@@ -1,0 +1,46 @@
+require: rubocop-rails
+
+Rails/BulkChangeTable:
+  Enabled: false
+
+# We do not want to subclass from ApplicationController. This enables separation
+# between the namespaces, and allows subclassing from ActionController::API in
+# the Vendor API.
+Rails/ApplicationController:
+  Enabled: false
+
+# Rails does not actually allow "dynamic find_by", so this cop yields false positives
+# like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
+Rails/DynamicFindBy:
+  Enabled: false
+
+# Not all rake tasks need :environment
+Rails/RakeEnvironment:
+  Enabled: false
+
+# This cop demands a default value for not-null columns, which is not possible
+# when dealing with references
+Rails/NotNullColumn:
+  Enabled: false
+
+Rails/Output:
+  Exclude:
+    - config/initializers/console.rb
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/OutputSafety:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Rails/HttpStatus:
+  Enabled: false
