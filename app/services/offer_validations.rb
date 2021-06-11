@@ -36,7 +36,7 @@ class OfferValidations
   end
 
   def identical_to_existing_offer?
-    if application_choice.current_course_option == course_option && application_choice.offer.conditions.map(&:text).sort == conditions.sort
+    if application_choice.current_course_option == course_option && application_choice.offer.conditions_text.sort == conditions.sort
       raise IdenticalOfferError
     end
   end

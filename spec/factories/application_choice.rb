@@ -178,6 +178,7 @@ FactoryBot.define do
           condition = build(:offer_condition, text: 'Be cool')
           offer = build(:offer, application_choice: application_choice, conditions: [condition])
           allow(application_choice).to receive(:offer).and_return(offer)
+          allow(offer).to receive(:conditions_text).and_return(offer.conditions.map(&:text))
         end
       end
 
