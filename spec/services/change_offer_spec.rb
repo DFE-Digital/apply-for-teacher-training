@@ -3,25 +3,31 @@ require 'rails_helper'
 RSpec.describe ChangeOffer do
   include CourseOptionHelpers
 
+  let(:conditions) { [build(:offer_condition, text: 'DBS check')] }
+  let(:application_choice) do
+    create(:application_choice, :with_offer, offer: build(:offer, conditions: conditions))
+  end
+  let(:provider_user) do
+    create(
+      :provider_user,
+      :with_make_decisions,
+      providers: [application_choice.current_course_option.provider],
+    )
+  end
+  let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
+  let(:new_conditions) { [Faker::Lorem.sentence] }
+  let(:update_conditions_service) { instance_double(UpdateOfferConditions, save: true, conditions: new_conditions) }
+
   let(:change_offer) do
-    ChangeOffer.new(actor: provider_user,
-                    application_choice: application_choice,
-                    course_option: course_option, conditions: new_conditions)
+    described_class.new(
+      actor: provider_user,
+      application_choice: application_choice,
+      course_option: course_option,
+      update_conditions_service: update_conditions_service,
+    )
   end
 
   describe '#save!' do
-    let(:provider_user) do
-      create(:provider_user,
-             :with_make_decisions,
-             providers: [application_choice.current_course_option.provider])
-    end
-    let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
-    let(:new_conditions) { [Faker::Lorem.sentence] }
-    let(:conditions) { [build(:offer_condition, text: 'DBS check')] }
-    let(:application_choice) do
-      create(:application_choice, :with_offer, offer: build(:offer, conditions: conditions))
-    end
-
     describe 'if the actor is not authorised to perform this action' do
       let(:provider_user) do
         create(:provider_user,
@@ -39,12 +45,8 @@ RSpec.describe ChangeOffer do
     end
 
     describe 'if the new offer is identical to the current offer' do
-      let(:change_offer) do
-        ChangeOffer.new(actor: provider_user,
-                        application_choice: application_choice,
-                        course_option: application_choice.current_course_option,
-                        conditions: ['DBS check'])
-      end
+      let(:course_option) { application_choice.current_course_option }
+      let(:new_conditions) { ['DBS check'] }
 
       it 'raises a ValidationException' do
         expect { change_offer.save! }.to raise_error(IdenticalOfferError)
@@ -79,18 +81,14 @@ RSpec.describe ChangeOffer do
 
       it 'then it executes the service without errors ' do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
-        update_offer_conditions_service = instance_double(UpdateOfferConditions, call: true)
         allow(SetDeclineByDefault)
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
-        allow(UpdateOfferConditions)
-            .to receive(:new).with(application_choice: application_choice, conditions: new_conditions)
-                    .and_return(update_offer_conditions_service)
 
         change_offer.save!
 
+        expect(update_conditions_service).to have_received(:save)
         expect(set_declined_by_default).to have_received(:call)
-        expect(update_offer_conditions_service).to have_received(:call)
       end
     end
 

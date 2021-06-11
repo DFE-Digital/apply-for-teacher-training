@@ -5,7 +5,7 @@ RSpec.describe UpdateOfferConditions do
 
   describe '#call' do
     it 'writes the conditions to the offer conditions model' do
-      described_class.new(application_choice: application_choice, conditions: conditions).call
+      described_class.new(application_choice: application_choice, conditions: conditions).save
 
       offer = Offer.find_by(application_choice: application_choice)
       expect(offer.conditions.count).to eq(2)
@@ -17,7 +17,7 @@ RSpec.describe UpdateOfferConditions do
       let(:conditions) { nil }
 
       it 'does not create any offer conditions' do
-        described_class.new(application_choice: application_choice, conditions: conditions).call
+        described_class.new(application_choice: application_choice, conditions: conditions).save
 
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions).to be_empty
@@ -28,7 +28,7 @@ RSpec.describe UpdateOfferConditions do
       let(:application_choice) { create(:application_choice, :with_offer, status: :recruited) }
 
       it 'creates new conditions in the met state' do
-        described_class.new(application_choice: application_choice).call
+        described_class.new(application_choice: application_choice).save
 
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions.map(&:status).uniq).to contain_exactly('met')
@@ -39,7 +39,7 @@ RSpec.describe UpdateOfferConditions do
       let(:application_choice) { create(:application_choice, :with_offer, status: :conditions_not_met) }
 
       it 'creates new conditions in the unmet state' do
-        described_class.new(application_choice: application_choice).call
+        described_class.new(application_choice: application_choice).save
 
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions.map(&:status).uniq).to contain_exactly('unmet')
@@ -55,7 +55,7 @@ RSpec.describe UpdateOfferConditions do
         expect(offer.conditions.count).to eq(1)
         expect(offer.conditions.first.text).to eq('Evidence of being cool')
 
-        described_class.new(application_choice: application_choice, conditions: ['Test', 'Test but longer']).call
+        described_class.new(application_choice: application_choice, conditions: ['Test', 'Test but longer']).save
 
         offer = Offer.find_by(application_choice: application_choice)
         expect(offer.conditions.count).to eq(2)
