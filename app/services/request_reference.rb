@@ -13,7 +13,7 @@ class RequestReference
 private
 
   def auto_approve_reference_in_sandbox(reference)
-    auto_approve_reference(reference) if HostingEnvironment.sandbox_mode? && email_address_is_a_bot?(reference)
+    auto_approve_reference(reference) if HostingEnvironment.use_refbots? && email_address_is_a_bot?(reference)
   end
 
   def auto_approve_reference(reference)
