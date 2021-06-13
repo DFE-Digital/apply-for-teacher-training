@@ -38,6 +38,18 @@ Lint/AmbiguousBlockAssociation:
     - 'spec/system/support_interface/daily_report_spec.rb'
     - 'spec/requests/vendor_api/api_authentication_spec.rb'
 
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
 Naming/MethodParameterName:
   AllowedNames:
     - e
