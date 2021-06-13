@@ -5,6 +5,7 @@ inherit_from:
   - ./config/rubocop/config/rake.yml
   - ./config/rubocop/config/style.yml
   - ./config/rubocop/config/layout.yml
+  - ./config/rubocop/config/lint.yml
   - ./config/rubocop/config/metrics.yml
 
 require:
@@ -31,24 +32,6 @@ Capybara/FeatureMethods:
   EnabledMethods:
     - feature
     - scenario
-
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/support/slack_notifications.rb'
-    - 'spec/system/support_interface/daily_report_spec.rb'
-    - 'spec/requests/vendor_api/api_authentication_spec.rb'
-
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: true
-
-Lint/MixedRegexpCaptureTypes:
-  Enabled: true
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
 
 Naming/MethodParameterName:
   AllowedNames:
