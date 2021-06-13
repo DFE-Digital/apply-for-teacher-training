@@ -52,7 +52,7 @@ Rails/AfterCommitOverride:
   Enabled: true
 
 Rails/FindById:
-  Enabled: false
+  Enabled: true
 
 Rails/Inquiry:
   Enabled: true
