@@ -6,12 +6,10 @@ RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
   def create_apply_again_application(
     original_application = create(:completed_application_form)
   )
-    apply_again_application_form = DuplicateApplication.new(
+    DuplicateApplication.new(
       original_application,
       target_phase: 'apply_2',
     ).duplicate
-
-    apply_again_application_form
   end
 
   def make_offer_for(application_form)
