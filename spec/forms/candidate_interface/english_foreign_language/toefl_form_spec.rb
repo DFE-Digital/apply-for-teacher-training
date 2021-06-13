@@ -18,21 +18,21 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
       form = valid_form.tap { |f| f.registration_number = nil }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages) .to eq ['Registration number Enter your registration number']
+      expect(form.errors.full_messages).to eq ['Registration number Enter your registration number']
     end
 
     it 'is invalid if given an invalid year' do
       form = valid_form.tap { |f| f.award_year = 111 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages) .to eq ['Award year Enter a real award year']
+      expect(form.errors.full_messages).to eq ['Award year Enter a real award year']
     end
 
     it 'is is future year if given a future year' do
       form = valid_form.tap { |f| f.award_year = Time.zone.today.year.to_i + 1 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages) .to eq ['Award year Assessment year must be this year or a previous year']
+      expect(form.errors.full_messages).to eq ['Award year Assessment year must be this year or a previous year']
     end
   end
 
