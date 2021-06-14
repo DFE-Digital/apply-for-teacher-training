@@ -1,5 +1,5 @@
 module HostingEnvironment
-  TEST_ENVIRONMENTS = %w[development test qa review].freeze
+  TEST_ENVIRONMENTS = %w[development test qa review research].freeze
   PRODUCTION_URL = 'https://apply-for-teacher-training.service.gov.uk'.freeze
 
   def self.application_url
@@ -32,14 +32,16 @@ module HostingEnvironment
     return 'purple' if HostingEnvironment.sandbox_mode?
 
     case HostingEnvironment.environment_name
-    when 'qa'
-      'orange'
-    when 'staging'
-      'red'
     when 'development'
       'grey'
     when 'review'
       'purple'
+    when 'research'
+      'turquoise'
+    when 'qa'
+      'orange'
+    when 'staging'
+      'red'
     when 'unknown-environment'
       'yellow'
     end
@@ -49,12 +51,20 @@ module HostingEnvironment
     ENV.fetch('HOSTING_ENVIRONMENT_NAME', 'unknown-environment')
   end
 
-  def self.review?
-    environment_name == 'review'
+  def self.development?
+    environment_name == 'development'
   end
 
   def self.qa?
     environment_name == 'qa'
+  end
+
+  def self.review?
+    environment_name == 'review'
+  end
+
+  def self.research?
+    environment_name == 'research'
   end
 
   def self.staging?
@@ -63,10 +73,6 @@ module HostingEnvironment
 
   def self.production?
     environment_name == 'production'
-  end
-
-  def self.development?
-    environment_name == 'development'
   end
 
   def self.sandbox_mode?
