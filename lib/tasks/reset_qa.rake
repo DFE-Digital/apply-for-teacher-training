@@ -1,6 +1,6 @@
 desc 'Reset the database to a state with some standard providers and test applications. Preserves existing support users'
 task reset_qa: :environment do
-  raise 'You cannot do this anywhere but QA or development!' unless HostingEnvironment.qa? || Rails.env.development?
+  raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
 
   Rake::Task['_reset_qa'].invoke
 end
@@ -15,7 +15,7 @@ task _reset_qa: %i[
 ]
 
 task truncate_qa_database: :environment do
-  raise 'You cannot do this anywhere but QA or development!' unless HostingEnvironment.qa? || Rails.env.development?
+  raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
 
   ActiveRecord::Tasks::DatabaseTasks.truncate_all
   puts 'Truncated database'

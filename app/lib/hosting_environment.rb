@@ -87,6 +87,10 @@ module HostingEnvironment
     test_environment? || sandbox_mode?
   end
 
+  def self.generate_test_data?
+    research? || qa? || development?
+  end
+
   def self.dfe_signup_only?
     review? || qa? || staging?
   end
