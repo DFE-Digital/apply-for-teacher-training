@@ -181,6 +181,8 @@ en:
       withdraw: Are you sure you want to withdraw this course choice?
       withdrawal_feedback: Course choice withdrawn
     api_docs:
+      candidate_api:
+        reference: Apply for teacher training candidate API
       data_api:
         reference: Apply for teacher training data API
       vendor_api_docs:

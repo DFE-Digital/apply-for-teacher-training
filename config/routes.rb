@@ -1080,6 +1080,11 @@ Rails.application.routes.draw do
       get '/spec.yml' => 'open_api#spec', as: :spec
       get '/release-notes' => 'pages#release_notes', as: :release_notes
     end
+
+    namespace :candidate_api_docs, path: '/candidate-api' do
+      get '/' => 'reference#reference', as: :home
+      get '/spec.yml' => 'open_api#spec', as: :spec
+    end
   end
 
   get '/check', to: 'healthcheck#show'

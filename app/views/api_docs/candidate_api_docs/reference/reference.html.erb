@@ -1,0 +1,59 @@
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.candidate_api.reference') %></h1>
+
+<p class="govuk-body">This is API documentation for the Apply for teacher training candidate API. This API provides candidate information to other services.</p>
+
+<h2 class="app-contents-list__title">Contents</h2>
+
+<ol class="app-contents-list__list">
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+    <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
+
+    <ol class="app-contents-list__nested-list">
+    <% @api_reference.operations.each do |operation| %>
+      <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+        <%= govuk_link_to operation.name, "##{operation.anchor}", class: 'app-contents-list__link' %>
+      </li>
+    <% end %>
+    </ol>
+  </li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+    <%= govuk_link_to 'Objects', '#objects', class: 'app-contents-list__link' %>
+
+    <ol class="app-contents-list__nested-list">
+      <% @api_reference.schemas.each do |schema| %>
+        <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+          <%= govuk_link_to schema.name, "##{schema.anchor}", class: 'app-contents-list__link' %>
+        </li>
+      <% end %>
+    </ol>
+  </li>
+</ol>
+
+<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+
+<h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
+
+<p class="govuk-body">
+  The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_candidate_api_docs_spec_url %>.
+</p>
+
+<h3 id="authentication" class="govuk-heading-m">Authentication</h3>
+
+<p class="govuk-body">
+  All requests must be accompanied by an <code>Authorization</code> request header in the following format:
+</p>
+
+<p class="govuk-body">
+  <code>
+    Authorization: Bearer {token}
+  </code>
+</p>
+
+<p class="govuk-body">You can get a token by writing to <%= bat_contact_mail_to %></p>
+
+<h3 class="govuk-heading-m">Testing</h3>
+
+<p class="govuk-body">To get familiar with our system and perform testing, you can use <%= govuk_link_to 'our sandbox environment', 'https://sandbox.apply-for-teacher-training.service.gov.uk' %>.</p>
+
+<%= render(APIDocs::APIReferenceComponent.new(@api_reference)) %>
