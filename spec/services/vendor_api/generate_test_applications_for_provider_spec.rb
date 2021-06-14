@@ -20,14 +20,12 @@ RSpec.describe VendorAPI::GenerateTestApplicationsForProvider, sidekiq: true do
 
   before do
     create(:course_option)
-    # rubocop:disable FactoryBot/CreateList
     3.times do
       create(:course_option, course: create(:course, :open_on_apply, provider: provider))
     end
     3.times do
       create(:course_option, course: create(:course, :open_on_apply, accredited_provider: provider))
     end
-    # rubocop:enable FactoryBot/CreateList
   end
 
   describe '#call' do

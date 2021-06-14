@@ -32,3 +32,9 @@ Layout/EmptyLinesAroundAttributeAccessor:
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: false
+
+Layout/SpaceBeforeBrackets:
+  Enabled: false

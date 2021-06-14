@@ -50,3 +50,14 @@ RSpec/MultipleMemoizedHelpers:
 
 RSpec/StubbedMock:
   Enabled: true
+
+RSpec/FactoryBot/CreateList:
+  Enabled: false
+
+RSpec/Rails/HttpStatus:
+  Enabled: false
+
+RSpec/Capybara/FeatureMethods:
+  EnabledMethods:
+    - feature
+    - scenario

@@ -105,3 +105,61 @@ Style/RedundantRegexpEscape:
 
 Style/SlicingWithRange:
   Enabled: true
+
+Style/StringConcatenation:
+  Enabled: false
+
+Style/KeywordParametersOrder:
+  Enabled: false
+
+Style/GlobalStdStream:
+  Enabled: false
+
+Style/SingleArgumentDig:
+  Enabled: false
+
+Style/RedundantBegin:
+  Enabled: false
+
+Style/HashAsLastArrayItem:
+  Enabled: false
+
+Style/CombinableLoops:
+  Enabled: false
+
+Style/HashLikeCase:
+  Enabled: false
+
+Style/CaseLikeIf:
+  Enabled: false
+
+Style/ExplicitBlockArgument:
+  Enabled: false
+
+Style/ClassEqualityComparison:
+  Enabled: false
+
+Style/OptionalBooleanParameter:
+  Enabled: false
+
+Style/SoleNestedConditional:
+  Enabled: false
+
+Style/RedundantParentheses:
+  Enabled: false
+
+Style/QuotedSymbols:
+  Enabled: false
+
+Style/NegatedIfElseCondition:
+  Enabled: false
+
+Style/HashConversion:
+  Enabled: false
+
+Style/IfWithBooleanLiteralBranches:
+  Enabled: false
+
+Style/NilLambda:
+  Exclude:
+    - app/views/provider_interface/interviews/cancel.html.erb

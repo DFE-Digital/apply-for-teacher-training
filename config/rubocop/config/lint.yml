@@ -15,3 +15,21 @@ Lint/RaiseException:
 
 Lint/StructNewOverride:
   Enabled: true
+
+Lint/EmptyFile:
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
+
+Lint/SymbolConversion:
+  Enabled: false
+
+Lint/DuplicateBranch:
+  Enabled: false
+
+Lint/EmptyBlock:
+  Enabled: false
