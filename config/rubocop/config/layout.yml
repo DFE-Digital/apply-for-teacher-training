@@ -31,4 +31,4 @@ Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: false
 
 Layout/SpaceAroundMethodCallOperator:
-  Enabled: false
+  Enabled: true

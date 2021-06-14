@@ -14,13 +14,11 @@ RSpec.describe CarryOverFeatureMetrics, with_audited: true do
   def create_carry_over_application(
     original_application = create_unsuccessful_application_from_last_cycle
   )
-    carry_over_application_form = DuplicateApplication.new(
+    DuplicateApplication.new(
       original_application,
       target_phase: 'apply_1',
       recruitment_cycle_year: RecruitmentCycle.current_year,
     ).duplicate
-
-    carry_over_application_form
   end
 
   describe '#carry_over_count' do

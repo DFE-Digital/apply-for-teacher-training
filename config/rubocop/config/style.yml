@@ -92,7 +92,7 @@ Style/ExponentialNotation:
   Enabled: true
 
 Style/RedundantAssignment:
-  Enabled: false
+  Enabled: true
 
 Style/RedundantFetchBlock:
   Enabled: true
