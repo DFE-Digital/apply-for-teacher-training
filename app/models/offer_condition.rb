@@ -1,5 +1,4 @@
 class OfferCondition < ApplicationRecord
-
   STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
   belongs_to :offer
@@ -12,4 +11,8 @@ class OfferCondition < ApplicationRecord
     met: 'met',
     unmet: 'unmet',
   }
+
+  def standard_condition?
+    STANDARD_CONDITIONS.include?(text)
+  end
 end
