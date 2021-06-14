@@ -40,8 +40,8 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     click_button t('continue')
 
     candidate_fills_in_referee(
-      name: 'Refbot Two',
-      email_address: 'refbot2@example.com',
+      name: 'Refbot Three',
+      email_address: 'refbot3@example.com',
       relationship: 'Second boss',
     )
     choose 'Yes, send a reference request now'
@@ -50,11 +50,11 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def then_i_see_that_references_are_given
     within all('.app-summary-card')[0] do
-      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference given')
+      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference received')
     end
 
     within all('.app-summary-card')[1] do
-      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference given')
+      expect(all('.govuk-summary-list__value')[4].text).to have_content('Reference received')
     end
   end
 end

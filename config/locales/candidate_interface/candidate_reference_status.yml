@@ -2,9 +2,9 @@ en:
   candidate_reference_status:
     cancelled: Request cancelled
     cancelled_at_end_of_cycle: Request cancelled
-    not_requested_yet: Not requested yet
+    not_requested_yet: Not sent yet
     feedback_requested: Awaiting response
-    feedback_provided: Reference given
+    feedback_provided: Reference received
     feedback_refused: Reference declined
     email_bounced: Request failed
     feedback_overdue: Response overdue

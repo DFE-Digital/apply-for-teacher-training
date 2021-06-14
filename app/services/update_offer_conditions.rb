@@ -6,7 +6,7 @@ class UpdateOfferConditions
     @conditions = conditions || application_choice&.offer&.conditions&.map(&:text) || []
   end
 
-  def call
+  def save
     offer = Offer.find_or_create_by(application_choice: application_choice)
     offer.conditions.delete_all
     conditions_attrs = conditions.map do |condition|

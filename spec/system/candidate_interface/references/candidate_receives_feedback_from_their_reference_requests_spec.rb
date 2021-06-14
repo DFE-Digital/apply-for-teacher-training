@@ -94,12 +94,12 @@ RSpec.feature 'References' do
   def then_i_can_see_my_references_have_provided_feedback
     within all('.app-summary-card')[0] do
       expect(find('.app-summary-card__title').text).to have_content 'Academic reference from Terri Tudor'
-      expect(all('.govuk-summary-list__row')[4].text).to have_content 'Reference given'
+      expect(all('.govuk-summary-list__row')[4].text).to have_content 'Reference received'
     end
 
     within all('.app-summary-card')[1] do
       expect(find('.app-summary-card__title').text).to have_content 'Professional reference from Anne Other'
-      expect(all('.govuk-summary-list__row')[4].text).to have_content 'Reference given'
+      expect(all('.govuk-summary-list__row')[4].text).to have_content 'Reference received'
     end
   end
 

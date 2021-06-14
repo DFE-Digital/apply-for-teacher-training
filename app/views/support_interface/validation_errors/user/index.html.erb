@@ -10,4 +10,4 @@
 
 <p class="govuk-body"><%= govuk_link_to 'Validation error summary', [:support_interface, :validation_errors, @user_type, :summary] %></p>
 
-<%= render SupportInterface:: ValidationErrorsListComponent.new(distinct_errors_with_counts: @list_of_distinct_errors_with_counts, grouped_counts: @grouped_counts, scoped_error_object: :form_object, source_name: @user_type, grouped_counts_label: 'Form') %>
+<%= render SupportInterface::ValidationErrorsListComponent.new(distinct_errors_with_counts: @list_of_distinct_errors_with_counts, grouped_counts: @grouped_counts, scoped_error_object: :form_object, source_name: @user_type, grouped_counts_label: 'Form') %>

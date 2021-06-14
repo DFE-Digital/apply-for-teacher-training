@@ -1,0 +1,5 @@
+require: rubocop-rake
+
+Rake/Desc:
+  Exclude:
+    - 'lib/tasks/reset_qa.rake'

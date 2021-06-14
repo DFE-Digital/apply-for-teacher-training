@@ -27,7 +27,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def given_there_is_a_new_match
     @not_previously_matched = Candidate.create_with(email_address: 'not_previously_matched@abc.com').find_or_create_by(id: 999213)
-    @provider_user = create(:provider_user, send_notifications: true)
+    @provider_user = create(:provider_user, :with_notifications_enabled)
     course = create(:course, code: 'XYZ', provider: create(:provider, code: 'XX', provider_users: [@provider_user]))
     course_option = create(:course_option, course: course)
     application_choice = create(:submitted_application_choice, course_option: course_option)
@@ -36,7 +36,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def and_there_is_a_previous_match_with_dual_application_we_emailed_about
     @previously_matched_changed = Candidate.create_with(email_address: 'previously_matched_changed@abc.com').find_or_create_by(id: 99944)
-    @provider_user1 = create(:provider_user, send_notifications: true)
+    @provider_user1 = create(:provider_user, :with_notifications_enabled)
     course = create(:course, code: 'LMN', provider: create(:provider, code: '2FF', provider_users: [@provider_user1]))
     course_option = create(:course_option, course: course)
     application_choice = create(:submitted_application_choice, course_option: course_option)

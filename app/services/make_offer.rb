@@ -3,16 +3,16 @@ class MakeOffer
 
   STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
-  attr_reader :actor, :application_choice, :course_option, :conditions
+  attr_reader :actor, :application_choice, :course_option, :update_conditions_service
 
   def initialize(actor:,
                  application_choice:,
                  course_option:,
-                 conditions: [])
+                 update_conditions_service:)
     @actor = actor
     @application_choice = application_choice
     @course_option = course_option
-    @conditions = conditions
+    @update_conditions_service = update_conditions_service
   end
 
   def save!
@@ -23,9 +23,10 @@ class MakeOffer
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).make_offer!
 
+          update_conditions_service.save
+
           application_choice.current_course_option = course_option
-          application_choice.offer = { 'conditions' => conditions }
-          UpdateOfferConditions.new(application_choice: application_choice, conditions: conditions).call
+          application_choice.offer = { 'conditions' => update_conditions_service.conditions }
           application_choice.offered_at = Time.zone.now
           application_choice.save!
 
@@ -47,6 +48,6 @@ private
 
   def offer
     @offer ||= OfferValidations.new(course_option: course_option,
-                                    conditions: conditions)
+                                    conditions: update_conditions_service.conditions)
   end
 end

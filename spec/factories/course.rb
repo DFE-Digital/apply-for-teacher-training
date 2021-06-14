@@ -25,6 +25,16 @@ FactoryBot.define do
       accredited_provider { create(:provider) }
     end
 
+    trait :with_provider_relationship_permissions do
+      with_accredited_provider
+
+      after(:build) do |_, evaluator|
+        create(:provider_relationship_permissions,
+               training_provider: evaluator.provider,
+               ratifying_provider: evaluator.accredited_provider)
+      end
+    end
+
     trait :ucas_only do
       open_on_apply { false }
       exposed_in_find { true }

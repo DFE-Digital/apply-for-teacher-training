@@ -63,10 +63,11 @@ RSpec.feature 'See application history', with_audited: true do
   def and_a_provider_updates_the_application_status
     provider_user = create :provider_user, email_address: 'derek@example.com', dfe_sign_in_uid: '123', providers: [@provider]
     permit_make_decisions!(dfe_sign_in_uid: '123')
+    update_conditions_service = UpdateOfferConditions.new(application_choice: @application_choice, conditions: [])
 
     Timecop.travel(2.days.from_now) do
       Audited.audit_class.as_user(provider_user) do
-        MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option).save!
+        MakeOffer.new(actor: provider_user, application_choice: @application_choice, course_option: @application_choice.course_option, update_conditions_service: update_conditions_service).save!
       end
     end
   end

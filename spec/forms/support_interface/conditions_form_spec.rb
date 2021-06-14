@@ -86,7 +86,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       )
       expect(form.save).to be(false)
       expect(form.errors.full_messages).to include('Audit comment ticket Enter a Zendesk ticket URL')
-      expect(application_choice.offer.conditions.map(&:text)).to eq([
+      expect(application_choice.offer.conditions_text).to eq([
         'Fitness to train to teach check',
         'Get a haircut',
       ])
@@ -112,7 +112,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       )
       form.save
 
-      expect(application_choice.offer.reload.conditions.map(&:text)).to eq([
+      expect(application_choice.offer.reload.conditions_text).to eq([
         'Fitness to train to teach check',
         'Disclosure and Barring Service (DBS) check',
         'Get a haircut',
@@ -141,7 +141,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       form.save
 
       offer = Offer.find_by(application_choice: application_choice)
-      expect(offer.conditions.map(&:text)).to eq(
+      expect(offer.conditions_text).to eq(
         [
           'Fitness to train to teach check',
           'Disclosure and Barring Service (DBS) check',
@@ -169,7 +169,7 @@ RSpec.describe SupportInterface::ConditionsForm do
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       form.save
-      expect(application_choice.offer.reload.conditions.map(&:text)).to eq(
+      expect(application_choice.offer.reload.conditions_text).to eq(
         [
           'Disclosure and Barring Service (DBS) check',
           'Wear a tie',

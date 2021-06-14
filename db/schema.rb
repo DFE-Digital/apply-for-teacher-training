@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_25_095046) do
+ActiveRecord::Schema.define(version: 2021_06_03_152817) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -589,7 +589,6 @@ ActiveRecord::Schema.define(version: 2021_05_25_095046) do
     t.datetime "last_signed_in_at"
     t.string "first_name"
     t.string "last_name"
-    t.boolean "send_notifications", default: true, null: false
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
     t.index ["email_address"], name: "index_provider_users_on_email_address", unique: true
   end

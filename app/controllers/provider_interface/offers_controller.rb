@@ -16,7 +16,7 @@ module ProviderInterface
         MakeOffer.new(actor: current_provider_user,
                       application_choice: @application_choice,
                       course_option: @wizard.course_option,
-                      conditions: @wizard.conditions).save!
+                      update_conditions_service: update_conditions_service(@wizard.conditions)).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
@@ -52,10 +52,10 @@ module ProviderInterface
     def update
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?(:save)
-        ::ChangeOffer.new(actor: current_provider_user,
-                          application_choice: @application_choice,
-                          course_option: @wizard.course_option,
-                          conditions: @wizard.conditions).save!
+        ChangeOffer.new(actor: current_provider_user,
+                        application_choice: @application_choice,
+                        course_option: @wizard.course_option,
+                        update_conditions_service: update_conditions_service(@wizard.conditions)).save!
         @wizard.clear_state!
 
         flash[:success] = t('.success')
@@ -107,6 +107,13 @@ module ProviderInterface
       @query_service ||= GetChangeOfferOptions.new(
         user: current_provider_user,
         current_course: @application_choice.current_course,
+      )
+    end
+
+    def update_conditions_service(conditions)
+      UpdateOfferConditions.new(
+        application_choice: @application_choice,
+        conditions: conditions,
       )
     end
 

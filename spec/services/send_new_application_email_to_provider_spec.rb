@@ -5,10 +5,10 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
 
   it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
     training_provider = create(:provider)
-    training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
+    training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
 
     ratifying_provider = create(:provider)
-    ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
+    ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])
 
     course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
     application_choice = create(:application_choice, :with_completed_application_form, :awaiting_provider_decision, course_option: course_option)
@@ -24,7 +24,7 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
 
   it 'sends a different email when the candidate supplied safeguarding information' do
     provider = create(:provider)
-    create(:provider_user, send_notifications: true, providers: [provider])
+    create(:provider_user, :with_notifications_enabled, providers: [provider])
     option = course_option_for_provider(provider: provider)
 
     form = create(:completed_application_form, :with_safeguarding_issues_disclosed)

@@ -84,6 +84,18 @@ class DataExport < ApplicationRecord
       description: 'Data related to notes made on applications by providers.',
       class: SupportInterface::NotesExport,
     },
+    notification_preferences_export: {
+      name: 'Notification preferences changes',
+      export_type: 'notification_preferences_export',
+      description: 'Changes to notification preferences for provider users.',
+      class: SupportInterface::NotificationPreferencesExport,
+    },
+    notifications_export: {
+      name: 'Notification preferences',
+      export_type: 'notifications_export',
+      description: 'Notification preferences for each provider user within each provider organisation.',
+      class: SupportInterface::NotificationsExport,
+    },
     offer_conditions: {
       name: 'Offer conditions',
       export_type: 'offer_conditions',
@@ -210,6 +222,7 @@ class DataExport < ApplicationRecord
     find_feedback: 'find_feedback',
     interviews_export: 'interview_export',
     notifications_export: 'notifications_export',
+    notification_preferences_export: 'notification_preferences_export',
     notes_export: 'notes_export',
     offer_conditions: 'offer_conditions',
     organisation_permissions: 'organisation_permissions',

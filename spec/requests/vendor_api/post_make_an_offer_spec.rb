@@ -386,6 +386,17 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
 
       post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+
+      expect(parsed_response['data']['attributes']['offer']).to eq(
+        'conditions' => [
+          'Change your sheets',
+          'Wash your clothes',
+        ],
+        'course' => course_option_to_course_payload(choice.course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
+      )
       expect(choice.offer.conditions.map(&:text)).to eq(['Change your sheets', 'Wash your clothes'])
     end
 

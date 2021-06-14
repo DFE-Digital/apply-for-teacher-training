@@ -67,7 +67,7 @@ module VendorAPI
     end
 
     def render_application
-      render json: { data: SingleApplicationPresenter.new(application_choice.reload).as_json }
+      render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
     end
 
     def respond_to_decision(decision)
@@ -106,11 +106,12 @@ module VendorAPI
     end
 
     def offer_params(application_choice, course_option)
+      update_conditions_service = UpdateOfferConditions.new(application_choice: application_choice, conditions: conditions_params)
       {
         actor: audit_user,
         application_choice: application_choice,
         course_option: course_option,
-        conditions: conditions_params,
+        update_conditions_service: update_conditions_service,
       }
     end
 

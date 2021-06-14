@@ -42,34 +42,48 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       expect(render_result.text).to include('Other provider')
     end
 
-    it 'may include accredited providers' do
-      accredited_provider = create(:provider, name: 'Accredited University', code: 'AU1')
-      provider = create(:provider)
+    context 'when there are accredited providers' do
+      let(:accredited_provider) { create(:provider, name: 'Accredited University', code: 'AU1') }
+      let(:provider) { create(:provider) }
 
-      course = create(
-        :course,
-        provider: provider,
-        name: 'My course',
-        code: 'ABC',
-        level: 'secondary',
-        recruitment_cycle_year: 2020,
-        exposed_in_find: true,
-        open_on_apply: true,
-        accredited_provider: accredited_provider,
-      )
-      create(:course_option, course: course)
+      let!(:course_with_accredited_provider) do
+        create(
+          :course,
+          provider: provider,
+          name: 'My course',
+          code: 'ABC',
+          level: 'secondary',
+          recruitment_cycle_year: 2020,
+          exposed_in_find: true,
+          open_on_apply: true,
+          accredited_provider: accredited_provider,
+        )
+      end
 
-      render_result = render_inline(SupportInterface::ProviderCoursesTableComponent.new(provider: provider, courses: provider.courses))
+      let!(:course_without_accredited_provider) do
+        create(
+          :course,
+          provider: provider,
+          name: 'My self-ratified course',
+          code: 'DEF',
+          level: 'secondary',
+          recruitment_cycle_year: 2020,
+          exposed_in_find: true,
+          open_on_apply: true,
+          accredited_provider: nil,
+        )
+      end
 
-      # Make a mapping colname -> colvalue
-      fields = render_result.css('th').map(&:text).zip(
-        render_result.css('td').map(&:text),
-      ).to_h
+      it 'may include accredited providers' do
+        render_result = render_inline(SupportInterface::ProviderCoursesTableComponent.new(provider: provider, courses: provider.courses))
 
-      expect(fields['Course']).to eq('My course (ABC)')
-      expect(fields['Cycle']).to eq('2020')
-      expect(fields).to have_key('Accredited body')
-      expect(fields['Accredited body']).to match(/Accredited University \(AU1\)/)
+        with_accredited = render_result.at_css("[data-qa=\"course-#{course_with_accredited_provider.id}\"]").text
+        expect(with_accredited).to include('No users on Apply')
+        expect(with_accredited).to include('Accredited University')
+
+        without_accredited = render_result.at_css("[data-qa=\"course-#{course_without_accredited_provider.id}\"]").text
+        expect(without_accredited).not_to include('No users on Apply')
+      end
     end
   end
 end

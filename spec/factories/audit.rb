@@ -58,4 +58,23 @@ FactoryBot.define do
       audit.audited_changes = evaluator.changes
     end
   end
+
+  factory :provider_user_notification_preferences_audit, class: 'Audited::Audit' do
+    action { 'update' }
+    user { create(:provider_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      notification_preferences { build_stubbed(:provider_user_notification_preferences) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ProviderUserNotificationPreferences'
+      audit.auditable_id = evaluator.notification_preferences.id
+      audit.audited_changes = evaluator.changes
+    end
+  end
 end

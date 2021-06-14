@@ -168,18 +168,13 @@ class ApplicationChoice < ApplicationRecord
   end
 
   def unconditional_offer?
-    return false unless recruited?
-
-    offer.conditions.none?
+    offer&.unconditional?
   end
 
-  # To be removed after testing. This has been tested here
-  # remove_application_choices_in_the_incorrect_cycle_spec.rb
+  def unconditional_offer_pending_recruitment?
+    return false unless recruited?
 
-  def self.return_application_choices_with_a_course_in_a_different_cycle
-    ApplicationChoice
-    .joins(:application_form, course_option: [:course])
-    .where('courses.recruitment_cycle_year != application_forms.recruitment_cycle_year')
+    unconditional_offer?
   end
 
 private

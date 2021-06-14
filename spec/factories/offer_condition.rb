@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :offer_condition do
     offer
 
-    text { 'Evidence of being cool' }
+    text { Faker::Lorem.sentence }
     status { 'pending' }
   end
 end

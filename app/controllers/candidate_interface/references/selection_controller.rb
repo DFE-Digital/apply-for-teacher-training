@@ -17,13 +17,13 @@ module CandidateInterface
         @enough_references_provided = current_application.minimum_references_available_for_selection?
 
         if @selection_form.save!
-          track_validation_error(@section_complete_form)
           redirect_to candidate_interface_review_selected_references_path
         elsif !@enough_references_provided
           flash.now[:warning] = I18n.t('application_form.references.review.need_two')
           render :new and return
         else
           track_validation_error(@selection_form)
+          @selection_form.selected = current_application.application_references.selected.pluck(:id)
           render :new
         end
       end

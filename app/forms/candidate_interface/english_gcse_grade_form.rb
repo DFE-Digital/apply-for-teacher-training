@@ -97,7 +97,7 @@ module CandidateInterface
               english_literature
               english_studies_single_award english_studies_double_award
             ].exclude? k
-          } .first
+          }.first
 
           english_gcses << 'other_english_gcse' if other_english_gcse_name
           params[:english_gcses] = english_gcses

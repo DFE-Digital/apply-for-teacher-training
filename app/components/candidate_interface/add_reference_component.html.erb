@@ -6,8 +6,12 @@
     <p class="govuk-body">You need 2 references before you can submit your application.</p>
     <%= govuk_link_to 'Add a second referee', candidate_interface_references_start_path, button: true %>
   <% else %>
-    <p class="govuk-body">You can add more referees to increase the chances of getting 2 references quickly.</p>
-    <% unless FeatureFlag.active?(:reference_selection) %>
+    <% if FeatureFlag.active?(:reference_selection) && @application_form.minimum_references_available_for_selection? %>
+      <p class="govuk-body">You can add as many referees as you like but you can only submit 2 with your application.</p>
+    <% elsif FeatureFlag.active?(:reference_selection) %>
+      <p class="govuk-body">You can add more referees to increase the chances of getting 2 references quickly.</p>
+    <% else %>
+      <p class="govuk-body">You can add more referees to increase the chances of getting 2 references quickly.</p>
       <p class="govuk-body">We’ll cancel any remaining requests when you’ve received 2 references.</p>
     <% end %>
     <%= govuk_link_to 'Add another referee', candidate_interface_references_start_path, button: true, class: 'govuk-button--secondary' %>
