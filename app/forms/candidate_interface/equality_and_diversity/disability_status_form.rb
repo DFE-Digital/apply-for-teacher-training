@@ -18,18 +18,15 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      if application_form.equality_and_diversity.nil?
-        application_form.update(equality_and_diversity: {
-          'disabilities' => [],
-          'hesa_disabilities' => [hesa_code].compact,
-        })
-      elsif reset_disabilities?(application_form)
+      application_form.equality_and_diversity ||= {}
+
+      if application_form.equality_and_diversity['disabilities'].nil? || reset_disabilities?(application_form)
         application_form.equality_and_diversity['disabilities'] = []
-        reset_hesa_disabilities(application_form)
+        application_form.equality_and_diversity['hesa_disabilities'] = [hesa_code].compact
         application_form.save
       elsif disability_status == 'Prefer not to say'
         application_form.equality_and_diversity['disabilities'] = ['Prefer not to say']
-        reset_hesa_disabilities(application_form)
+        application_form.equality_and_diversity['hesa_disabilities'] = []
         application_form.save
       else
         true
@@ -47,13 +44,8 @@ module CandidateInterface
     end
 
     def reset_disabilities?(application_form)
-      application_form.equality_and_diversity['disabilities'].nil? ||
-        disability_status == 'no' ||
+      disability_status == 'no' ||
         application_form.equality_and_diversity['disabilities'].include?('Prefer not to say')
-    end
-
-    def reset_hesa_disabilities(application_form)
-      application_form.equality_and_diversity['hesa_disabilities'] = [] if application_form.equality_and_diversity['hesa_disabilities'].present?
     end
   end
 end
