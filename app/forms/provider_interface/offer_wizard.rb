@@ -4,7 +4,7 @@ module ProviderInterface
 
     STEPS = { make_offer: %i[select_option conditions check],
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
-    MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeOffer::STANDARD_CONDITIONS.length
+    MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
                   :standard_conditions, :further_condition_attrs, :current_step, :decision,
@@ -116,10 +116,10 @@ module ProviderInterface
   private
 
     def self.standard_conditions_from(offer)
-      return MakeOffer::STANDARD_CONDITIONS if offer.blank?
+      return OfferCondition::STANDARD_CONDITIONS if offer.blank?
 
       conditions = offer.conditions_text
-      conditions & MakeOffer::STANDARD_CONDITIONS
+      conditions & OfferCondition::STANDARD_CONDITIONS
     end
 
     private_class_method :standard_conditions_from
@@ -128,7 +128,7 @@ module ProviderInterface
       return {} if offer.blank?
 
       further_conditions = offer.conditions.reject do |condition|
-        MakeOffer::STANDARD_CONDITIONS.include?(condition.text)
+        OfferCondition::STANDARD_CONDITIONS.include?(condition.text)
       end
 
       further_conditions.each_with_index.to_h do |condition, index|

@@ -79,7 +79,7 @@ module SupportInterface
       return [] if offer.blank?
 
       conditions = offer.conditions_text
-      conditions & MakeOffer::STANDARD_CONDITIONS
+      conditions & OfferCondition::STANDARD_CONDITIONS
     end
 
     def self.further_condition_attrs_from(offer)

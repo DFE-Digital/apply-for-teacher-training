@@ -10,7 +10,7 @@ module CheckboxOptionsHelper
   end
 
   def standard_conditions_checkboxes
-    MakeOffer::STANDARD_CONDITIONS.map do |condition|
+    OfferCondition::STANDARD_CONDITIONS.map do |condition|
       OpenStruct.new(
         id: condition,
         name: condition,
