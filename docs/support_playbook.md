@@ -8,15 +8,6 @@ https://trello.com/b/dcWOMFyp/
 
 Outside of assisting with user support, the support developer should ensure that trello cards are added for any issues logged by Sentry, and set the issues to resolved on the service, so we can easily identify and prioritise recurring errors.
 
-## Change the candidate's details
-
-You can make these changes in the Support UI:
-
-Changes to candidate's details: Full name, Date of birth, Nationality, Domicile, Phone number, Email address, Address
-Changes to references: Referee's name, Email address, Relationship to candidate, Reference
-
-Any other changes need to be made by a developer.
-
 ## Add a course to submitted applications
 
 You can add a course to a submitted application in the Support UI, if the maximum number of course choices has not been exceeded.
