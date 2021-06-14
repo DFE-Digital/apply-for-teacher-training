@@ -10,6 +10,7 @@ module SupportInterface
     def course_rows
       courses.map do |course|
         {
+          id: course.id,
           course_link: govuk_link_to(course.name_and_code, support_interface_course_path(course)),
           provider_link: link_to_provider_page(course.provider),
           recruitment_cycle_year: course.recruitment_cycle_year,
