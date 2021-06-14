@@ -44,3 +44,9 @@ RSpec/PredicateMatcher:
 
 RSpec/DescribeClass:
   Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/StubbedMock:
+  Enabled: true
