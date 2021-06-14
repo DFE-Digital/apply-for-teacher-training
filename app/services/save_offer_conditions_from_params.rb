@@ -8,10 +8,14 @@ class SaveOfferConditionsFromParams
   end
 
   def save
-    @offer = Offer.find_or_create_by(application_choice: application_choice)
+    ActiveRecord::Base.transaction do
+      @offer = Offer.find_or_create_by(application_choice: application_choice)
 
-    serialize_standard_conditions
-    serialize_further_conditions
+      serialize_standard_conditions
+      serialize_further_conditions
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    raise ValidationException, [e.message]
   end
 
   def conditions
@@ -47,7 +51,7 @@ private
   end
 
   def create_or_update_condition(params)
-    existing_condition = offer_further_conditions.find_by(id: params['condition_id'])
+    existing_condition = params['condition_id'].present? ? offer_further_conditions.find(params['condition_id']) : nil
 
     if existing_condition.blank?
       existing_condition = offer_further_conditions.create(text: params['text'])

@@ -60,7 +60,7 @@ RSpec.describe SaveOfferConditionsFromParams do
               'text' => 'You must have a driving license',
             },
             1 => {
-              'condition_id' => offer.conditions.last,
+              'condition_id' => offer.conditions.last.id,
               'text' => 'Blue hair',
             },
           }
@@ -166,6 +166,28 @@ RSpec.describe SaveOfferConditionsFromParams do
           expect { service.save }
             .to change(offer.conditions, :count).by(0)
             .and change { offer.conditions.first.reload.text }.to('You must NOT have a driving license')
+        end
+      end
+
+      context 'when a conditions with an invalid id is provided' do
+        let!(:application_choice) { create(:application_choice, :with_offer, offer: offer) }
+        let(:offer) { build(:unconditional_offer) }
+        let(:further_condition_attrs) do
+          {
+            0 => {
+              'conditions_id': '',
+              'text' => 'A valid new condition',
+            },
+            1 => {
+              'condition_id' => 999,
+              'text' => 'You must NOT have a driving license',
+            },
+          }
+        end
+
+        it 'the entire transaction is cancelled' do
+          expect { service.save }.to raise_error(ValidationException)
+            .and change(offer.conditions, :count).by(0)
         end
       end
     end
