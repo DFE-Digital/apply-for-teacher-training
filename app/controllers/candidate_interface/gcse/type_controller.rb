@@ -1,6 +1,7 @@
 module CandidateInterface
   class Gcse::TypeController < Gcse::BaseController
     include Gcse::ResolveGcseEditPathConcern
+    before_action :redirect_to_application_form_if_current_qualification_missing, only: %i[edit update]
 
     def new
       @type_form = if current_qualification
@@ -65,6 +66,12 @@ module CandidateInterface
 
     def non_uk_qualification?
       current_qualification.qualification_type == 'non_uk'
+    end
+
+    def redirect_to_application_form_if_current_qualification_missing
+      if current_qualification.blank?
+        redirect_to candidate_interface_application_form_path
+      end
     end
   end
 end
