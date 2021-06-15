@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_152817) do
+ActiveRecord::Schema.define(version: 2021_06_15_043807) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -792,8 +792,8 @@ ActiveRecord::Schema.define(version: 2021_06_03_152817) do
   add_foreign_key "interviews", "providers", on_delete: :cascade
   add_foreign_key "notes", "application_choices", on_delete: :cascade
   add_foreign_key "notes", "provider_users", on_delete: :cascade
-  add_foreign_key "offer_conditions", "offers"
-  add_foreign_key "offers", "application_choices"
+  add_foreign_key "offer_conditions", "offers", on_delete: :cascade
+  add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
