@@ -4,7 +4,7 @@ RSpec.describe ProviderInterface::StatusBoxComponents::RecruitedComponent do
   subject(:component) { described_class.new(application_choice: build_stubbed(:application_choice, :with_recruited), options: options) }
 
   let(:result) { render_inline(component) }
-  let(:options) {}
+  let(:options) { {} }
 
   context 'when :provider_can_respond' do
     let(:options) { { provider_can_respond: true } }
