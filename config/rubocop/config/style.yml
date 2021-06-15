@@ -146,7 +146,7 @@ Style/SoleNestedConditional:
   Enabled: false
 
 Style/RedundantParentheses:
-  Enabled: false
+  Enabled: true
 
 Style/QuotedSymbols:
   Enabled: false

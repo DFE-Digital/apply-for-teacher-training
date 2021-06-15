@@ -1,15 +1,18 @@
 class TestApplications
   class NotEnoughCoursesError < RuntimeError; end
+
   class ZeroCoursesPerApplicationError < RuntimeError
     def message
       'You cannot have zero courses per application'
     end
   end
+
   class CourseAndStateNumbersDoNotMatchError < RuntimeError
     def message
       'The number of states and courses must be equal'
     end
   end
+
   class OnlyOneCourseWhenApplyingAgainError < RuntimeError
     def message
       'You can only apply to one course when applying again'

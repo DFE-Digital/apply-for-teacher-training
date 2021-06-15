@@ -139,7 +139,7 @@ module CandidateInterface
         self.grade_other_english_gcse = params[:grade_other_english_gcse]
       else
         self.grade = params[:grade]
-        self.other_grade = params [:other_grade]
+        self.other_grade = params[:other_grade]
       end
       self
     end

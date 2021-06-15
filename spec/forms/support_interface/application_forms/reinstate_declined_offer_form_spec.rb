@@ -16,11 +16,6 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
     end
   end
 
-  describe '.build_from_course_choice' do
-    it 'creates an object based on the provided ApplicationChoice' do
-    end
-  end
-
   describe '#save' do
     let(:zendesk_ticket) { 'www.becomingateacher.zendesk.com/agent/tickets/example' }
 

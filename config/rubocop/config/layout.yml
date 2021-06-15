@@ -34,7 +34,8 @@ Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
 Layout/EmptyLineBetweenDefs:
-  Enabled: false
+  AllowAdjacentOneLineDefs: true
+  Enabled: true
 
 Layout/SpaceBeforeBrackets:
-  Enabled: false
+  Enabled: true
