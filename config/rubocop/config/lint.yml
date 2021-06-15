@@ -17,7 +17,7 @@ Lint/StructNewOverride:
   Enabled: true
 
 Lint/EmptyFile:
-  Enabled: false
+  Enabled: true
 
 Lint/MissingSuper:
   Enabled: false
