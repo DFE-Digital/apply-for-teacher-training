@@ -106,7 +106,7 @@ module VendorAPI
     end
 
     def offer_params(application_choice, course_option)
-      update_conditions_service = UpdateOfferConditions.new(application_choice: application_choice, conditions: conditions_params)
+      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: application_choice, conditions: conditions_params)
       {
         actor: audit_user,
         application_choice: application_choice,

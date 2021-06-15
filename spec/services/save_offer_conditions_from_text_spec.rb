@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe UpdateOfferConditions do
+RSpec.describe SaveOfferConditionsFromText do
   let(:conditions) { ['Test', 'Test but longer'] }
   let(:application_choice) { create(:application_choice) }
 

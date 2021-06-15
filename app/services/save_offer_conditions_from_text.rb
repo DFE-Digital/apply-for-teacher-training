@@ -1,4 +1,4 @@
-class UpdateOfferConditions
+class SaveOfferConditionsFromText
   attr_reader :application_choice, :conditions
 
   def initialize(application_choice:, conditions: nil)
