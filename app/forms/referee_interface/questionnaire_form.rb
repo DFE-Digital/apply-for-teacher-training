@@ -66,7 +66,7 @@ module RefereeInterface
     end
 
     def consent_to_be_contacted_response
-      "#{consent_to_be_contacted} | #{(consent_to_be_contacted_details if consent_to_be_contacted == 'true')}"
+      "#{consent_to_be_contacted} | #{consent_to_be_contacted_details if consent_to_be_contacted == 'true'}"
     end
   end
 end
