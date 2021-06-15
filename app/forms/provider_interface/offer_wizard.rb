@@ -7,7 +7,7 @@ module ProviderInterface
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - MakeOffer::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
-                  :standard_conditions, :further_conditions, :current_step, :decision,
+                  :standard_conditions, :further_condition_attrs, :current_step, :decision,
                   :action, :path_history, :wizard_path_history,
                   :provider_user_id, :application_choice_id
 
@@ -23,7 +23,7 @@ module ProviderInterface
       @state_store = state_store
       attrs = sanitize_parameters(attrs)
 
-      super(last_saved_state.deep_merge(attrs))
+      super(last_saved_state.merge(attrs))
       update_path_history(attrs)
     end
 
@@ -38,14 +38,14 @@ module ProviderInterface
         study_mode: course_option.study_mode,
         decision: :default,
         standard_conditions: standard_conditions_from(application_choice.offer),
-        further_conditions: further_conditions_from(application_choice.offer),
+        further_condition_attrs: further_condition_attrs_from(application_choice.offer),
       }.merge(options)
 
       new(state_store, attrs)
     end
 
     def conditions
-      @conditions = (standard_conditions + further_conditions).reject(&:blank?)
+      @conditions = (standard_conditions + further_condition_models.map(&:text)).reject(&:blank?)
     end
 
     def conditions_to_render
@@ -84,30 +84,33 @@ module ProviderInterface
 
     delegate :previous_step, to: :wizard_path_history
 
-    def condition_models
-      @_condition_models ||= further_conditions.map.with_index do |further_condition, index|
-        OfferConditionField.new(id: index, text: further_condition)
+    def further_condition_models
+      @_further_condition_models ||= further_condition_attrs.map do |index, params|
+        OfferConditionField.new(id: index.to_i, text: params['text'], condition_id: params['condition_id'])
       end
     end
 
     def has_max_number_of_further_conditions?
-      further_conditions.length >= MAX_FURTHER_CONDITIONS
+      further_condition_attrs.length >= MAX_FURTHER_CONDITIONS
     end
 
     def add_empty_condition
       return if has_max_number_of_further_conditions?
 
-      further_conditions << ''
+      further_condition_attrs.merge!(further_condition_attrs.length.to_s => { 'text' => '' })
       save_state!
     end
 
     def remove_condition(condition_id)
-      further_conditions.delete_at(condition_id)
+      further_condition_attrs.delete(condition_id)
+      further_condition_attrs.transform_keys!.with_index { |_, index| index.to_s }
       save_state!
     end
 
     def remove_empty_conditions!
-      further_conditions.reject!(&:blank?)
+      further_condition_attrs.reject! { |_, condition| condition['text'].blank? }
+      further_condition_attrs.transform_keys!.with_index { |_, index| index.to_s }
+      save_state!
     end
 
   private
@@ -121,14 +124,19 @@ module ProviderInterface
 
     private_class_method :standard_conditions_from
 
-    def self.further_conditions_from(offer)
-      return [] if offer.blank?
+    def self.further_condition_attrs_from(offer)
+      return {} if offer.blank?
 
-      conditions = offer.conditions_text
-      conditions - MakeOffer::STANDARD_CONDITIONS
+      further_conditions = offer.conditions.reject do |condition|
+        MakeOffer::STANDARD_CONDITIONS.include?(condition.text)
+      end
+
+      further_conditions.each_with_index.to_h do |condition, index|
+        [index.to_s, { 'text' => condition.text, 'condition_id' => condition.id }]
+      end
     end
 
-    private_class_method :further_conditions_from
+    private_class_method :further_condition_attrs_from
 
     def course_option_details
       OfferedCourseOptionDetailsCheck.new(provider_id: provider_id,
@@ -145,7 +153,7 @@ module ProviderInterface
       attrs = { study_mode: available_study_modes.first } if step.eql?(:study_modes)
       attrs = { course_option_id: available_course_options.first.id } if step.eql?(:locations)
 
-      assign_attributes(last_saved_state.deep_merge(attrs))
+      assign_attributes(last_saved_state.merge(attrs))
       save_state!
 
       next_step(step)
@@ -192,12 +200,13 @@ module ProviderInterface
 
     def last_saved_state
       saved_state = @state_store.read
-      saved_state ? JSON.parse(saved_state) : {}
+      state_hash = saved_state ? JSON.parse(saved_state) : {}
+      state_hash.except('further_conditions')
     end
 
     def state
       as_json(
-        except: %w[state_store errors validation_context query_service wizard_path_history _condition_models],
+        except: %w[state_store errors validation_context query_service wizard_path_history _further_condition_models],
       ).to_json
     end
 
@@ -210,9 +219,9 @@ module ProviderInterface
     end
 
     def further_conditions_valid
-      condition_models.map(&:valid?).all?
+      further_condition_models.map(&:valid?).all?
 
-      condition_models.each do |model|
+      further_condition_models.each do |model|
         model.errors.each do |error|
           field_name = "further_conditions[#{model.id}][#{error.attribute}]"
           create_method(field_name) { error.message }
@@ -223,7 +232,7 @@ module ProviderInterface
     end
 
     def max_conditions_length
-      return unless (condition_models.count + standard_conditions.compact_blank.length) > OfferValidations::MAX_CONDITIONS_COUNT
+      return unless (further_condition_models.count + standard_conditions.compact_blank.length) > OfferValidations::MAX_CONDITIONS_COUNT
 
       errors.add(:base, :exceeded_max_conditions, count: OfferValidations::MAX_CONDITIONS_COUNT)
     end

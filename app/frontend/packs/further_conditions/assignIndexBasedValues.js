@@ -4,16 +4,26 @@ const assignIndexBasedValues = (element, index) => {
   element.className = ITEM_CSS_CLASS
   element.removeAttribute('id')
 
+  setHiddenIdInputProperties(element, index)
   setTextAreaProperties(element, index)
   setLabelProperties(element, index)
   setRemoveButtonProperties(element, index)
 }
 
+const setHiddenIdInputProperties = (element, index) => {
+  const idInput = element.querySelector('input')
+  setInputProperties(idInput, index)
+}
+
 const setTextAreaProperties = (element, index) => {
   const textArea = element.querySelector('textarea')
-  replaceExistingAttribute(textArea, 'id', index)
-  replaceExistingAttribute(textArea, 'name', index)
-  textArea.removeAttribute('disabled')
+  setInputProperties(textArea, index)
+}
+
+const setInputProperties = (inputElement, index) => {
+  replaceExistingAttribute(inputElement, 'id', index)
+  replaceExistingAttribute(inputElement, 'name', index)
+  inputElement.removeAttribute('disabled')
 }
 
 const setLabelProperties = (element, index) => {
