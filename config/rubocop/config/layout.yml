@@ -37,4 +37,4 @@ Layout/EmptyLineBetweenDefs:
   Enabled: false
 
 Layout/SpaceBeforeBrackets:
-  Enabled: false
+  Enabled: true
