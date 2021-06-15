@@ -18,6 +18,10 @@ class Candidate < ApplicationRecord
   has_many :application_references, through: :application_forms
   belongs_to :course_from_find, class_name: 'Course', optional: true
 
+  after_create do
+    self.candidate_api_updated_at = Time.zone.now
+  end
+
   def self.for_email(email)
     find_or_initialize_by(email_address: email.downcase) if email
   end
