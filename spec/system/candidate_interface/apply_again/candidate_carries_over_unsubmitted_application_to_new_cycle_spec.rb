@@ -38,6 +38,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
 
     when_i_add_another_course
     and_i_complete_the_section
+    and_i_receive_references
     and_i_submit_my_application
     then_my_application_is_awaiting_provider_decision
   end
@@ -181,6 +182,13 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     click_button t('continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
+  end
+
+  def and_i_receive_references
+    receive_references
+    if FeatureFlag.active?(:reference_selection)
+      select_references_and_complete_section
+    end
   end
 
   def and_i_submit_my_application

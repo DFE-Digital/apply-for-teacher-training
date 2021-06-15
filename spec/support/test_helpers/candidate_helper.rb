@@ -93,10 +93,6 @@ module CandidateHelper
   end
 
   def candidate_submits_application
-    receive_references
-    if FeatureFlag.active?(:reference_selection)
-      select_references_and_complete_section
-    end
     click_link 'Check and submit your application'
     click_link t('continue')
     choose 'No'
