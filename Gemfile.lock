@@ -231,10 +231,10 @@ GEM
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.20)
-    govuk_design_system_formbuilder (2.5.3)
-      actionview (~> 6.1.3.1, >= 6.1)
-      activemodel (~> 6.1.3.1, >= 6.1)
-      activesupport (~> 6.1.3.1, >= 6.1)
+    govuk_design_system_formbuilder (2.6.0)
+      actionview (>= 6.0)
+      activemodel (>= 6.0)
+      activesupport (>= 6.0)
       deep_merge (~> 1.2.1)
     govuk_markdown (0.4.0)
       activesupport
@@ -305,7 +305,7 @@ GEM
     llhttp-ffi (0.0.1)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.9.1)
+    loofah (2.10.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
@@ -690,7 +690,7 @@ DEPENDENCIES
   geocoder
   google-cloud-bigquery
   govuk-components
-  govuk_design_system_formbuilder (~> 2.5.3)
+  govuk_design_system_formbuilder (~> 2.6.0)
   govuk_markdown
   guard-rspec
   holidays
