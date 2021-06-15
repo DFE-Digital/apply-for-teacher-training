@@ -8,7 +8,7 @@
     <%= govuk_details(
       summary: 'Email body',
     ) do %>
-      <%= tag.pre(email.body) %>
+      <%= tag.pre(email.body, class: 'app-json-code-sample') %>
     <% end %>
   </td>
 </tr>
