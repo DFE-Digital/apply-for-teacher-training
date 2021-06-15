@@ -39,6 +39,26 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
       expect { described_class.call(provider) }.to change { ApplicationChoice.count }.from(1).to(0)
     end
 
+    it 'deletes all associated offers to the candidate' do
+      create(
+        :application_choice,
+        :with_offer,
+        course_option: course_option_for_provider(provider: provider),
+      )
+
+      expect { described_class.call(provider) }.to change { Offer.count }.from(1).to(0)
+    end
+
+    it 'deletes all associated offer conditions to the candidate' do
+      create(
+        :application_choice,
+        :with_offer,
+        course_option: course_option_for_provider(provider: provider),
+      )
+
+      expect { described_class.call(provider) }.to change { OfferCondition.count }.from(1).to(0)
+    end
+
     it 'deletes all associated application forms to the candidate' do
       create(
         :application_choice,
