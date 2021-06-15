@@ -108,6 +108,7 @@ class ProviderAuthorisation
   end
 
   class NotAuthorisedError < StandardError; end
+  class RelationshipNotPresent < StandardError; end
 
 private
 
@@ -126,16 +127,20 @@ private
     permission_name = "training_provider_can_#{permission}"
     relationship = relationship_for course: course
 
+    raise RelationshipNotPresent if relationship.blank?
+
     @actor.providers.include?(course.provider) &&
-      (relationship.blank? || relationship.send(permission_name))
+      relationship.send(permission_name)
   end
 
   def permission_as_ratifying_provider_user?(permission:, course:)
     permission_name = "ratifying_provider_can_#{permission}"
     relationship = relationship_for course: course
 
+    raise RelationshipNotPresent if relationship.blank?
+
     @actor.providers.include?(course.accredited_provider) &&
-      (relationship.blank? || relationship.send(permission_name))
+      relationship.send(permission_name)
   end
 
   def full_authorisation?(permission:, course:)
