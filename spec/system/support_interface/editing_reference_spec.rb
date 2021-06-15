@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Editing reference' do
   include DfESignInHelpers
+  include CandidateHelper
 
   scenario 'Support user edits reference', with_audited: true do
     given_i_am_a_support_user
@@ -48,7 +49,11 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_referee_name
-    all('.govuk-summary-list__actions')[12].click_link 'Change'
+    within_summary_card("reference ##{@form.application_references.first.id}") do
+      within_summary_row('Name') do
+        click_link 'Change'
+      end
+    end
   end
 
   def then_i_should_see_a_prepopulated_details_form
@@ -90,7 +95,9 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_feedback
-    all('.govuk-summary-list__actions')[15].click_link 'Change'
+    within_summary_card("reference ##{@form.application_references.first.id}") do
+      click_link 'Change feedback'
+    end
   end
 
   def then_i_should_see_the_feedback_form
