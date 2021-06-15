@@ -17,7 +17,7 @@ class WithdrawApplication
 
     send_email_notification_to_provider_users(application_choice)
 
-    resolve_ucas_match(application_choice)
+    ResolveUCASMatch.new(application_choice: application_choice).call
   end
 
 private
@@ -27,14 +27,6 @@ private
   def send_email_notification_to_provider_users(application_choice)
     NotificationsList.for(application_choice, event: :application_withdrawn, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.application_withdrawn(provider_user, application_choice).deliver_later
-    end
-  end
-
-  def resolve_ucas_match(application_choice)
-    match = UCASMatches::RetrieveForApplicationChoice.new(application_choice).call
-
-    if match&.ready_to_resolve? && match&.duplicate_applications_withdrawn_from_apply?
-      UCASMatches::ResolveOnApply.new(match).call
     end
   end
 end
