@@ -5,7 +5,7 @@ end
 
 desc 'Generate a very large number of applications quickly, based on an example application form'
 task :bulk_create_test_applications, %i[application_form_id number_of_applications] => :environment do |_t, args|
-  raise 'You cannot do this anywhere but QA or development!' unless HostingEnvironment.qa? || Rails.env.development?
+  raise 'Not permitted on this environment' unless HostingEnvironment.generate_test_data?
 
   template_application_form = ApplicationForm.find(args[:application_form_id])
   number_of_applications = args[:number_of_applications]
