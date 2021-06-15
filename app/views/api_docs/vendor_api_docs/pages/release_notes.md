@@ -1,3 +1,7 @@
+## 15th June
+
+Documentation has been amended to mark the following endpoint as deprecated: `/test-data/regenerate`.
+
 ## 3rd June
 
 `HESAITTData` now includes the following optional fields:

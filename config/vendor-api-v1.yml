@@ -305,16 +305,16 @@ paths:
     post:
       tags:
       - Testing
-      summary: Regenerate test data
+      summary: Regenerate test data (DEPRECATED)
       description: |
-        Deletes all applications and generates 100 new applications. Only
-        available on the Sandbox.
+        This endpoint has been deprecated and will return an error. Please use `/test-data/clear` and `/test-data/generate`.
       parameters:
       - name: count
         description: How many items to generate (max 100)
         in: query
         schema:
           type: integer
+      deprecated: true
       responses:
         '200':
           "$ref": "#/components/responses/OK"
