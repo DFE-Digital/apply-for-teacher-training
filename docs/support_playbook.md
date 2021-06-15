@@ -156,38 +156,7 @@ old_application_choice.update(withdrawn_at: Time.zone.now)
 
 ### Change offer conditions
 
-**Define new conditions**
-
-```ruby
-offer = {"conditions"=>["Fitness to Teach check", "Disclosure and Barring Service (DBS) check", "Suitable host school agreed", "See sight of original certificates and identification documents"]}
-
-ApplicationChoice.find(_id).update(offer: offer)
-```
-
-**Add a new condition to an offer**
-
-Make sure the support agent confirmed that the candidate is aware of the changes.
-
-```ruby
-application_choice = ApplicationChoice.find(_id)
-offer = application_choice.offer
-offer["conditions"] << "$NEW_CONDITION"
-application_choice.update!(offer: offer, audit_comment: "Support request by provider to amend conditions")
-```
-
-**Change the offer conditions after it was accepted by the candidate**
-
-Make sure the support agent confirmed that the candidate is aware of the changes.
-
-```ruby
-offer = {"conditions"=>["Fitness to Teach check", "Disclosure and Barring Service (DBS) check", "Suitable host school agreed", "See sight of original certificates and identification documents"]}
-```
-
-Find ApplicationChoice and new CourseOption:
-
-```ruby
-ApplicationChoice.find(_id).update(offer: offer)
-```
+This is possible via the support UI.
 
 ### Revert an application choice to pending_conditions
 
