@@ -8,7 +8,7 @@ RSpec.feature 'Provider views account page' do
     and_i_can_manage_applications_for_two_providers
     and_i_sign_in_to_the_provider_interface
 
-    when_i_click_on_the_account_link
+    when_i_click_on_the_account_profile_link
     then_i_see_the_account_page_with_my_details
     and_i_see_my_permissions
     and_i_see_a_link_to_dfe_signin_to_change_details
@@ -25,10 +25,12 @@ RSpec.feature 'Provider views account page' do
     @another_provider = Provider.find_by(code: 'DEF')
   end
 
-  def when_i_click_on_the_account_link
+  def when_i_click_on_the_account_profile_link
     within('#navigation') do
-      click_on('Account')
+      click_on('Your account')
     end
+
+    click_on('Profile')
   end
 
   def then_i_see_the_account_page_with_my_details
@@ -40,7 +42,7 @@ RSpec.feature 'Provider views account page' do
   end
 
   def and_i_see_my_permissions
-    expect(@rows[4].text).to include('View applications only')
+    expect(@rows[4].text).to include('You can only view applications')
   end
 
   def and_i_see_a_link_to_dfe_signin_to_change_details
