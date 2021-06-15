@@ -250,7 +250,6 @@ RSpec.describe PerformanceStatistics, type: :model do
       scitt = create(:provider, provider_type: 'scitt')
       sd = create(:provider, provider_type: 'lead_school')
 
-      # rubocop:disable Naming/VariableNumber
       hei_course_2020 = course_option_for_provider(provider: hei, recruitment_cycle_year: 2020)
       hei_course_2021 = course_option_for_provider(provider: hei, recruitment_cycle_year: 2021)
       _hei_app_2020 = create(:application_choice, :awaiting_provider_decision,
@@ -282,7 +281,6 @@ RSpec.describe PerformanceStatistics, type: :model do
       _sd_scitt_app_2021 = create(:application_choice, :awaiting_provider_decision,
                                   course_option: sd_scitt_course_2021,
                                   application_form: create(:application_form, recruitment_cycle_year: 2021))
-      # rubocop:enable Naming/VariableNumber
 
       expect(PerformanceStatistics.new(2021).application_choices_by_provider_type).to eq({
         'scitt' => 1,

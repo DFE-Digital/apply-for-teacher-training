@@ -7,6 +7,7 @@ inherit_from:
   - ./config/rubocop/config/layout.yml
   - ./config/rubocop/config/lint.yml
   - ./config/rubocop/config/metrics.yml
+  - ./config/rubocop/config/naming.yml
 
 require:
   - ./lib/rubocop/cop/govuk/govuk_button_to.rb
@@ -14,6 +15,7 @@ require:
   - ./lib/rubocop/cop/govuk/govuk_submit.rb
 
 AllCops:
+  NewCops: enable
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
@@ -27,26 +29,6 @@ AllCops:
 
 Bundler/OrderedGems:
   Enabled: false
-
-Capybara/FeatureMethods:
-  EnabledMethods:
-    - feature
-    - scenario
-
-Naming/MethodParameterName:
-  AllowedNames:
-    - e
-    - to
-
-Naming/MemoizedInstanceVariableName:
-  Enabled: false
-
-Naming/AccessorMethodName:
-  Enabled: false
-
-Naming/PredicateName:
-  Enabled: false
-
 
 Govuk:
   Include:

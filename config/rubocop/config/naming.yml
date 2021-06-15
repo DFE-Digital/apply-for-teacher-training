@@ -1,0 +1,16 @@
+Naming/MethodParameterName:
+  AllowedNames:
+    - e
+    - to
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+
+Naming/VariableNumber:
+  Enabled: false
