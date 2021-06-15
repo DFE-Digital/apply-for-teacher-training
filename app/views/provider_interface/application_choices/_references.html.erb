@@ -1,7 +1,7 @@
 <section class="app-section govuk-!-width-two-thirds">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="references">References</h2>
 
-  <% @application_choice.application_form.application_references.selected.each_with_index do |reference, i| %>
+  <% selected_references.each_with_index do |reference, i| %>
     <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i) %>
   <% end %>
 </section>

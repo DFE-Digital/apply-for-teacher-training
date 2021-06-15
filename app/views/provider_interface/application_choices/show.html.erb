@@ -52,8 +52,8 @@
 
 <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
-<% if @application_choice.application_form.application_references.feedback_provided.any? %>
-  <%= render 'references' %>
+<% if @application_choice.application_form.selected_references.any? %>
+  <%= render 'references', selected_references: @application_choice.application_form.selected_references %>
 <% end %>
 
 <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
