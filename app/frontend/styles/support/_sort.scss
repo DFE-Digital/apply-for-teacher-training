@@ -55,7 +55,7 @@
   .sortedby-label {
     @include mq($from: desktop) {
       display: inline;
-      margin-right: 0.5em;
+      margin-right: .5em;
     }
   }
 }

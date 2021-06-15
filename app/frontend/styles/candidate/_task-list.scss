@@ -6,11 +6,11 @@
 }
 
 .app-task-list__item {
+  @include govuk-clearfix;
+
   border-bottom: 1px solid $govuk-border-colour;
-  margin-bottom: 0 !important;
   padding-top: govuk-spacing(1);
   padding-bottom: govuk-spacing(1);
-  @include govuk-clearfix;
 
   .govuk-tag {
     margin-top: govuk-spacing(1);
@@ -50,7 +50,7 @@
 }
 
 @media print {
-  .app-task-list__task-name::after {
+  .app-task-list__task-name:after {
     display: none;
   }
 }

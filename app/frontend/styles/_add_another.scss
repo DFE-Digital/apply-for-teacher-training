@@ -29,13 +29,13 @@
 
     &:hover {
       background: none;
-      color:  $govuk-link-hover-colour;
+      color: $govuk-link-hover-colour;
       text-decoration: underline;
     }
 
     &:focus {
       background: $govuk-focus-colour;
-      color:  $govuk-focus-text-colour;
+      color: $govuk-focus-text-colour;
     }
   }
 

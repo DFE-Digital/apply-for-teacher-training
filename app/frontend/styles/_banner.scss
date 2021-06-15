@@ -17,7 +17,10 @@
 
 .app-banner__message {
   @include govuk-font($size: 19);
-  p { margin-top: 0; }
+
+  p {
+    margin-top: 0;
+  }
 }
 
 .app-banner__message *:last-child {

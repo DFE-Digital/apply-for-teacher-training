@@ -59,6 +59,7 @@ COPY . .
 
 RUN yarn run lint && \
     yarn run test && \
+    yarn run stylelint app/frontend/styles && \
     bundle exec rake assets:precompile && \
     apk del nodejs yarn && \
     rm -rf yarn.lock && \

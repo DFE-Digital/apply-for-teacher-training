@@ -2,7 +2,6 @@
   margin-bottom: govuk-spacing(7);
 }
 
-
 .app-tab-navigation__list {
   font-size: 0; // Removes white space when using inline-block on child element.
   list-style: none;
@@ -18,9 +17,7 @@
   @include govuk-if-ie8 {
     border-bottom: 1px solid $govuk-border-colour;
   }
-
 }
-
 
 .app-tab-navigation__item {
   @include govuk-font(19);
@@ -38,9 +35,7 @@
     margin-right: govuk-spacing(4);
     margin-top: 0;
   }
-
 }
-
 
 .app-tab-navigation__link {
   @include govuk-link-common;
@@ -63,7 +58,7 @@
   }
 
   &:hover {
-    color: govuk-colour('black')
+    color: govuk-colour('black');
   }
 
   &:focus {
@@ -77,12 +72,13 @@
     content: "";
     display: block;
     width: 100%;
-    position: absolute; bottom: 0; left: 0; right: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     height: 5px;
   }
-
 }
-
 
 .app-tab-navigation__link[aria-current="page"] {
   color: $govuk-link-active-colour;
@@ -94,19 +90,19 @@
     content: "";
     display: block;
     height: 100%;
-    position: absolute; bottom: 0; left: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 5px;
 
     @include govuk-media-query($from: 375px) {
       height: 5px;
       width: 100%;
     }
-
   }
 
   &:focus:before {
     background-color: govuk-colour("black");
     height: 7px;
   }
-
 }

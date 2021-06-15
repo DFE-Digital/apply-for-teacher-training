@@ -32,7 +32,7 @@
   .govuk-link {
     color: inherit;
 
-    &:focus  {
+    &:focus {
       @include govuk-focused-text;
     }
   }

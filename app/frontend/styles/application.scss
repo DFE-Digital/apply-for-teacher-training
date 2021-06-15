@@ -23,35 +23,35 @@ $moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 @import "~govuk-frontend/govuk/all";
 
 // Shared (base HTML elements)
-@import "_code";
-@import "_mark";
+@import "code";
+@import "mark";
 
 // Shared (govuk-frontend component overrides)
-@import "_header";
-@import "_input";
-@import "_inset-text";
-@import "_list";
-@import "_phase-banner";
-@import "_tab-navigation";
-@import "_tag";
+@import "header";
+@import "input";
+@import "inset-text";
+@import "list";
+@import "phase-banner";
+@import "tab-navigation";
+@import "tag";
 
 // Shared (custom components)
-@import "_add_another";
-@import "_application-card";
-@import "_autocomplete";
-@import "_banner";
-@import "_notification_banner";
-@import "_card";
-@import "_contents-list";
-@import "_diagram";
-@import "_feedback";
-@import "_flex-grid";
-@import "_grid";
-@import "_primary-navigation";
-@import "_qualification";
-@import "_section";
-@import "_status-box";
-@import "_summary-card";
+@import "add_another";
+@import "application-card";
+@import "autocomplete";
+@import "banner";
+@import "notification_banner";
+@import "card";
+@import "contents-list";
+@import "diagram";
+@import "feedback";
+@import "flex-grid";
+@import "grid";
+@import "primary-navigation";
+@import "qualification";
+@import "section";
+@import "status-box";
+@import "summary-card";
 
 // Override utilities
-@import "_overrides";
+@import "overrides";

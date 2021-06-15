@@ -9,6 +9,7 @@
 
 .moj-filter-layout__content {
   overflow-x: hidden;
+
   .moj-action-bar {
     height: 60px;
   }
@@ -109,10 +110,10 @@
     display: flex;
   }
 
-	.govuk-form-group {
-		flex: 1;
-		margin-bottom: 0;
-		vertical-align: top;
+  .govuk-form-group {
+    flex: 1;
+    margin-bottom: 0;
+    vertical-align: top;
   }
 
   .app-search__button {
