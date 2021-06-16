@@ -1,6 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_panel(title: 'You’ve successfully signed the data sharing agreement', body: nil) %>
+    <%= govuk_panel(title: 'Data sharing agreement signed', body: nil) %>
 
     <% if @provider_relationship_pending %>
       <h2 class="govuk-heading-m">
@@ -8,11 +8,11 @@
       </h2>
 
       <p class="govuk-body">
-        You need to set up permissions for your organisation before you do anything else. We’ll guide you through this process.
+        Either you or your partner organisations must setup organisational permissions before you can manage teacher training applications.
       </p>
 
       <p class="govuk-body">
-        <%= govuk_link_to 'Set up permissions', provider_interface_provider_relationship_permissions_organisations_path, button: true %>
+        <%= govuk_link_to 'Continue', provider_interface_provider_relationship_permissions_organisations_path, button: true %>
       </p>
     <% else %>
       <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>

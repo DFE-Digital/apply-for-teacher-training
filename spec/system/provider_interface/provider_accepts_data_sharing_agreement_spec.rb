@@ -96,15 +96,15 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page
-    expect(page).to have_content('You’ve successfully signed the data sharing agreement')
+    expect(page).to have_content('Data sharing agreement signed')
     expect(page).to have_content('Continue to your applications.')
     expect(page).to have_link(t('continue'))
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page_with_organisation_setup_steps
-    expect(page).to have_content('You’ve successfully signed the data sharing agreement')
-    expect(page).to have_content('You need to set up permissions for your organisation before you do anything else')
-    expect(page).to have_link('Set up permissions')
+    expect(page).to have_content('Data sharing agreement signed')
+    expect(page).to have_content('Either you or your partner organisations must setup organisational permissions before you can manage teacher training applications.')
+    expect(page).to have_link('Continue')
   end
 
   def then_i_can_navigate_to_the_provider_interface
@@ -121,7 +121,7 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def and_i_can_proceed_to_set_up_organisation_permissions
-    click_on 'Set up permissions'
+    click_on 'Continue'
 
     expect(page).to have_content('Set organisational permissions')
   end
