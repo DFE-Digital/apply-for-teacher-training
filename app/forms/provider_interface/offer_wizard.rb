@@ -127,9 +127,7 @@ module ProviderInterface
     def self.further_condition_attrs_from(offer)
       return {} if offer.blank?
 
-      further_conditions = offer.conditions.reject do |condition|
-        OfferCondition::STANDARD_CONDITIONS.include?(condition.text)
-      end
+      further_conditions = offer.conditions.reject(&:standard_condition?)
 
       further_conditions.each_with_index.to_h do |condition, index|
         [index.to_s, { 'text' => condition.text, 'condition_id' => condition.id }]

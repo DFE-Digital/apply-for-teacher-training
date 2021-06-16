@@ -3,7 +3,7 @@ class SaveOfferConditionsFromParams
 
   def initialize(application_choice:, standard_conditions:, further_condition_attrs:)
     @application_choice = application_choice
-    @standard_conditions = standard_conditions & MakeOffer::STANDARD_CONDITIONS
+    @standard_conditions = standard_conditions & OfferCondition::STANDARD_CONDITIONS
     @further_condition_attrs = further_condition_attrs
   end
 
@@ -27,7 +27,7 @@ class SaveOfferConditionsFromParams
 private
 
   def serialize_standard_conditions
-    existing_standard_conditions = @offer.conditions.where(text: MakeOffer::STANDARD_CONDITIONS)
+    existing_standard_conditions = @offer.conditions.where(text: OfferCondition::STANDARD_CONDITIONS)
 
     standard_conditions.each do |text|
       existing_standard_conditions.find_or_create_by(text: text)
@@ -65,6 +65,6 @@ private
   end
 
   def offer_further_conditions
-    @offer_further_conditions ||= @offer.conditions.where.not(text: MakeOffer::STANDARD_CONDITIONS)
+    @offer_further_conditions ||= @offer.conditions.where.not(text: OfferCondition::STANDARD_CONDITIONS)
   end
 end
