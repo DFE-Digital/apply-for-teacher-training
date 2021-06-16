@@ -18,6 +18,7 @@ module SupportInterface
     def rows
       [
         status_row,
+        selected_row,
         date_rows,
         name_row,
         email_address_row,
@@ -40,6 +41,13 @@ module SupportInterface
       {
         key: 'Reference status',
         value: govuk_tag(text: t("support_interface.reference_status.#{feedback_status}"), colour: feedback_status_colour(reference)),
+      }
+    end
+
+    def selected_row
+      {
+        key: 'Selected?',
+        value: reference.selected? ? '✅' : '❌',
       }
     end
 
