@@ -7,7 +7,7 @@ RSpec.describe DataMigrations::BackfillCandidateAPIUpdatedAt do
 
       described_class.new.change
 
-      expect(candidate.reload.candidate_api_updated_at).to eq candidate.created_at
+      expect(candidate.reload.candidate_api_updated_at).to be_within(1.second).of(candidate.created_at)
     end
   end
 end
