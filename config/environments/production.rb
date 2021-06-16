@@ -29,8 +29,10 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
+  if ENV.key?('RAILS_ASSETS_HOST')
+    # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+    config.action_controller.asset_host = ENV['RAILS_ASSETS_HOST']
+  end
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
