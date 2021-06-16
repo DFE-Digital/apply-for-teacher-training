@@ -20,18 +20,18 @@
               summary: 'Details',
             ) do %>
               <h3 class="govuk-!-margin-top-0">Headers</h3>
-              <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers)) %>
+              <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers), class: 'app-json-code-sample') %>
               <% if vendor_api_request.request_body.present? %>
                 <h3>Request <%= vendor_api_request.request_method == 'GET' ? 'params' : 'body' %></h3>
-                <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_body)) %>
+                <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_body), class: 'app-json-code-sample') %>
               <% end %>
               <% if vendor_api_request.response_headers.present? %>
                 <h3>Response headers</h3>
-                <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_headers)) %>
+                <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_headers), class: 'app-json-code-sample') %>
               <% end %>
               <% if vendor_api_request.response_body.present? %>
                 <h3>Response body</h3>
-                <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_body)) %>
+                <%= tag.pre(JSON.pretty_generate(vendor_api_request.response_body), class: 'app-json-code-sample') %>
               <% end %>
             <% end %>
           </td>
