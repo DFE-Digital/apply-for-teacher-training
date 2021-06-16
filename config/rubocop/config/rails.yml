@@ -89,3 +89,9 @@ Rails/WhereExists:
 
 Rails/WhereNot:
   Enabled: false
+
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
+Rails/WhereEquals:
+  Enabled: false
