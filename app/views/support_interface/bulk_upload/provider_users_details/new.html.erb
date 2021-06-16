@@ -1,0 +1,20 @@
+<% content_for :browser_title, title_with_error_prefix("Add users to #{@provider.name}", @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_provider_user_list_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: support_interface_bulk_upload_provider_users_details_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class='govuk-heading-l'>Add users to <%= @provider.name %></h1>
+
+      <%= f.govuk_text_area :provider_users,
+        rows: 5,
+        label: { text: 'Users’ details', size: 's' },
+        hint: { text: 'Enter first name, last name and email address. Separate them with a tab or comma and use a new line for each user. You can also copy and paste directly from a spreadsheet.' } %>
+      <%= f.hidden_field :provider_id %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

@@ -927,6 +927,13 @@ Rails.application.routes.draw do
       get '/user/new' => 'single_provider_users#new', as: :new_single_provider_user
       post '/user' => 'single_provider_users#create', as: :create_single_provider_user
 
+      namespace :bulk_upload, path: '/bulk-upload' do
+        resource :provider_users_details, path: '/provider-users-details', only: %i[new create]
+        resource :permissions, only: %i[edit update]
+        resource :checks, only: %i[show]
+        resource :provider_users, path: '/provider-users', only: %i[create]
+      end
+
       post '' => 'providers#open_all_courses'
       post '/enable_course_syncing' => redirect('/enable-course-syncing')
       post '/enable-course-syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing

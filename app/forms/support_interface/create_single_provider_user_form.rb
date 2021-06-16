@@ -4,7 +4,7 @@ module SupportInterface
     include ActiveModel::Validations
 
     attr_accessor :first_name, :last_name, :provider_user, :provider_id
-    attr_reader :provider_permissions, :email_address
+    attr_reader :provider_permissions, :email_address, :index
 
     validates :first_name, :last_name, :email_address, presence: true
     validates :email_address, valid_for_notify: true
@@ -20,7 +20,11 @@ module SupportInterface
     end
 
     def email_address=(raw_email_address)
-      @email_address = raw_email_address.downcase.strip
+      @email_address = raw_email_address.downcase.strip if raw_email_address
+    end
+
+    def index=(index)
+      @index = index.to_i
     end
 
     def provider_permissions=(attributes)
