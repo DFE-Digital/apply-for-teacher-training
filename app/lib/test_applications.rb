@@ -375,7 +375,7 @@ private
   def make_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward
-      update_conditions_service = UpdateOfferConditions.new(application_choice: choice, conditions: conditions)
+      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions: conditions)
       MakeOffer.new(
         actor: actor,
         application_choice: choice,
@@ -393,7 +393,7 @@ private
       year = choice.current_course.recruitment_cycle_year
       new_course = choice.current_course.provider.courses
                          .in_cycle(year).with_course_options.sample
-      update_conditions_service = UpdateOfferConditions.new(application_choice: choice, conditions: conditions)
+      update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions: conditions)
       ChangeOffer.new(
         actor: actor,
         application_choice: choice,

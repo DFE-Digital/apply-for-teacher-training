@@ -16,7 +16,7 @@ RSpec.describe ChangeOffer do
   end
   let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
   let(:new_conditions) { [Faker::Lorem.sentence] }
-  let(:update_conditions_service) { instance_double(UpdateOfferConditions, save: true, conditions: new_conditions) }
+  let(:update_conditions_service) { instance_double(SaveOfferConditionsFromText, save: true, conditions: new_conditions) }
 
   let(:change_offer) do
     described_class.new(

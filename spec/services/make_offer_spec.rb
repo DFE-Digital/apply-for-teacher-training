@@ -13,7 +13,7 @@ RSpec.describe MakeOffer do
   end
   let(:course_option) { course_option_for_provider(provider: application_choice.course_option.provider) }
   let(:conditions) { [Faker::Lorem.sentence] }
-  let(:update_conditions_service) { instance_double(UpdateOfferConditions, save: true, conditions: conditions) }
+  let(:update_conditions_service) { instance_double(SaveOfferConditionsFromText, save: true, conditions: conditions) }
   let(:make_offer) do
     described_class.new(
       actor: provider_user,

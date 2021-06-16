@@ -47,7 +47,7 @@ private
       conditions << hash['condition_id']
     end
 
-    offer_further_conditions.where.not(id: existing_condition_ids).destroy_all
+    offer_further_conditions.includes(%i[application_choice offer]).where.not(id: existing_condition_ids).destroy_all
   end
 
   def create_or_update_condition(params)
