@@ -28,6 +28,26 @@ RSpec.describe Offer do
     end
   end
 
+  describe '#has_non_pending_conditions?' do
+    it 'returns false when there are no conditions' do
+      offer = create(:unconditional_offer)
+
+      expect(offer.has_non_pending_conditions?).to be false
+    end
+
+    it 'returns false if all conditions are pending' do
+      offer = create(:offer, conditions: [build(:offer_condition), build(:offer_condition)])
+
+      expect(offer.has_non_pending_conditions?).to be false
+    end
+
+    it 'returns true if there is a non-pending condition' do
+      offer = create(:offer, conditions: [build(:offer_condition, status: :met), build(:offer_condition)])
+
+      expect(offer.has_non_pending_conditions?).to be true
+    end
+  end
+
   context 'delegators' do
     let(:offer) { create(:offer, course_option: create(:course_option)) }
 
