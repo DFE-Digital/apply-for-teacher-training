@@ -623,6 +623,10 @@ Rails.application.routes.draw do
     get '/applications' => 'applications#index'
   end
 
+  namespace :candidate_api, path: 'candidate-api' do
+    get '/candidates' => 'candidates#index'
+  end
+
   namespace :provider_interface, path: '/provider' do
     get '/' => 'start_page#show'
 
