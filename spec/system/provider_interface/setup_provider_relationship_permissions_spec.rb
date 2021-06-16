@@ -54,6 +54,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
       training_provider_can_view_diversity_information: false,
       setup_at: nil,
     )
+    create(:course, :open_on_apply, provider: @training_provider, accredited_provider: @ratifying_provider)
 
     create(
       :provider_relationship_permissions,
@@ -64,6 +65,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
       training_provider_can_view_diversity_information: false,
       setup_at: nil,
     )
+    create(:course, :open_on_apply, provider: @another_training_provider, accredited_provider: @another_ratifying_provider)
   end
 
   alias_method :when_i_sign_in_to_the_provider_interface, :and_i_sign_in_to_the_provider_interface

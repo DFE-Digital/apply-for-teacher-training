@@ -68,16 +68,18 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
   end
 
   describe 'validation errors' do
+    let(:ratifying_provider) { create(:provider) }
     let(:permissions) do
       permissions = create(
         :provider_relationship_permissions,
-        ratifying_provider: create(:provider),
+        ratifying_provider: ratifying_provider,
         training_provider: provider,
         setup_at: nil,
       )
       provider_user.provider_permissions.update_all(manage_organisations: true)
       permissions
     end
+    let!(:course) { create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider) }
 
     it 'tracks validation errors on save_permissions' do
       stub_model_instance_with_errors(

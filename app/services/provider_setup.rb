@@ -28,6 +28,12 @@ class ProviderSetup
 
   def relationships_pending
     auth = ProviderAuthorisation.new(actor: @provider_user)
-    auth.training_provider_relationships_that_actor_can_manage_organisations_for.select { |prp| prp.setup_at.blank? || prp.invalid? }
+    auth.training_provider_relationships_that_actor_can_manage_organisations_for.select do |relationship|
+      (relationship.setup_at.blank? || relationship.invalid?) && has_open_course_for_relationship?(relationship)
+    end
+  end
+
+  def has_open_course_for_relationship?(relationship)
+    Course.current_cycle.open_on_apply.exists?(provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
   end
 end

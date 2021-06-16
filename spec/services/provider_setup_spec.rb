@@ -48,6 +48,8 @@ RSpec.describe ProviderSetup do
   describe '#next_relationship_pending' do
     let(:training_provider_user) { create(:provider_user, :with_provider, :with_manage_organisations) }
     let(:training_provider) { training_provider_user.providers.first }
+    let(:ratifying_provider) { create(:provider) }
+    let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider: training_provider) }
 
     def next_relationship_pending
       ProviderSetup.new(provider_user: training_provider_user).next_relationship_pending
@@ -57,7 +59,7 @@ RSpec.describe ProviderSetup do
       create(
         :provider_relationship_permissions,
         training_provider: training_provider,
-        ratifying_provider: create(:provider),
+        ratifying_provider: ratifying_provider,
         setup_at: nil,
       )
 
@@ -65,23 +67,26 @@ RSpec.describe ProviderSetup do
     end
 
     it 'provides all relationships pending setup for the user when called multiple times' do
-      relationships = []
-      3.times do |n|
-        relationships << create(
-          :provider_relationship_permissions,
-          training_provider: training_provider,
-          ratifying_provider: create(:provider),
-          setup_at: nil,
-          created_at: Time.zone.now + n,
-        )
-      end
+      second_ratifying_provider = create(:provider)
+      create(:course, :open_on_apply, accredited_provider: second_ratifying_provider, provider: training_provider)
+      first_relationship = create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+        setup_at: nil,
+      )
+      second_relationship = create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: second_ratifying_provider,
+        setup_at: nil,
+      )
       create(:provider_relationship_permissions, setup_at: nil) # pending setup but unrelated
 
-      3.times.each do |idx|
-        expected_relationship = relationships[idx]
-        expect(next_relationship_pending).to eq(expected_relationship)
-        expected_relationship.update(setup_at: Time.zone.now)
-      end
+      expect(next_relationship_pending).to eq(first_relationship)
+      first_relationship.update(setup_at: Time.zone.now)
+      expect(next_relationship_pending).to eq(second_relationship)
+      second_relationship.update(setup_at: Time.zone.now)
 
       expect(next_relationship_pending).to be_nil
     end
@@ -90,6 +95,7 @@ RSpec.describe ProviderSetup do
       relationship = create(
         :provider_relationship_permissions,
         training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
         training_provider_can_view_safeguarding_information: false,
         ratifying_provider_can_view_safeguarding_information: false,
         setup_at: nil,
@@ -102,6 +108,22 @@ RSpec.describe ProviderSetup do
 
     it 'returns nil if no relationships exist' do
       expect(next_relationship_pending).to be_nil
+    end
+
+    context 'when the provider has no courses open on apply' do
+      let!(:course) { create(:course, accredited_provider: ratifying_provider, provider: training_provider, open_on_apply: false) }
+
+      it 'returns nil' do
+        create(
+          :provider_relationship_permissions,
+          training_provider: training_provider,
+          ratifying_provider: ratifying_provider,
+          training_provider_can_view_safeguarding_information: false,
+          ratifying_provider_can_view_safeguarding_information: false,
+          setup_at: nil,
+        )
+        expect(next_relationship_pending).to eq(nil)
+      end
     end
   end
 end
