@@ -36,7 +36,7 @@ paths:
         '401':
           "$ref": "#/components/responses/Unauthorized"
         '422':
-          "$ref": "#/components/responses/ParameterMissing"
+          "$ref": "#/components/responses/UnprocessableEntity"
 components:
   responses:
     Unauthorized:
@@ -45,12 +45,15 @@ components:
         application/json:
           schema:
             "$ref": "#/components/schemas/UnauthorizedResponse"
-    ParameterMissing:
-      description: A required URL parameter was empty or missing
+    UnprocessableEntity:
+      description: Returned when the request body was missing data or contained invalid
+        data
       content:
         application/json:
           schema:
-            "$ref": "#/components/schemas/ParameterMissingResponse"
+            oneOf:
+              - "$ref": "#/components/schemas/ParameterMissingResponse"
+              - "$ref": "#/components/schemas/ParameterInvalidResponse"
   schemas:
     CandidateList:
       type: object
@@ -127,6 +130,20 @@ components:
           example:
           - error: ParameterMissing
             message: "param is missing or the value is empty: updated_since"
+    ParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterInvalid
+            message: "Parameter is invalid: updated_since"
     Error:
       type: object
       additionalProperties: false

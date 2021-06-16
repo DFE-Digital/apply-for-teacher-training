@@ -51,4 +51,28 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     expect(response).to have_http_status(401)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
   end
+
+  it 'returns HTTP status 422 given an unparseable `updated_since` date value' do
+    get_api_request '/candidate-api/candidates?updated_since=17/07/2020T12:00:42Z', token: candidate_api_token
+
+    expect(response).to have_http_status(422)
+    expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): updated_since')
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
+  end
+
+  it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
+    get_api_request '/candidate-api/candidates?updated_since=12936', token: candidate_api_token
+
+    expect(response).to have_http_status(422)
+    expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): updated_since')
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
+  end
+
+  it 'returns HTTP status 422 given a parseable but nonsensensical `updated_since` date value' do
+    get_api_request '/candidate-api/candidates?updated_since=-004713-03-23T11:52:19.448Z', token: candidate_api_token
+
+    expect(response).to have_http_status(422)
+    expect(error_response['message']).to eql('Parameter is invalid (date is nonsense): updated_since')
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
+  end
 end
