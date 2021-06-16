@@ -55,7 +55,16 @@ locals {
     research = "research"
     prod     = "www"
   }
-  web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route, cloudfoundry_route.web_app_education_gov_uk_route, cloudfoundry_route.web_app_internal_route]
+  assets_host_names = {
+    qa       = "qa-assets"
+    staging  = "staging-assets"
+    sandbox  = "sandbox-assets"
+    rollover = "rollover-assets"
+    research = "research-assets"
+    prod     = "assets"
+  }
+  web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route,
+  cloudfoundry_route.web_app_education_gov_uk_route, cloudfoundry_route.web_app_internal_route, cloudfoundry_route.web_app_assets_service_gov_uk_route]
   app_environment_variables = merge(var.app_environment_variables,
     {
       BLAZER_DATABASE_URL = cloudfoundry_service_key.postgres-readonly-key.credentials.uri
