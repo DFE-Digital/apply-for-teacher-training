@@ -64,6 +64,30 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       expect(page).not_to have_selector '.app-summary-card__actions a'
       expect(page).not_to have_text 'Change offered course'
     end
+
+    it 'renders a link to change conditions' do
+      result = render_inline(described_class.new(accepted_choice))
+
+      expect(result.css('.app-summary-card .govuk-summary-list__actions a').first.text.squish).to eq 'Change conditions'
+    end
+
+    context 'when one of the conditions is met' do
+      let(:conditions) { [build(:offer_condition, status: 'met'), build(:offer_condition)] }
+      let(:accepted_choice) do
+        create(
+          :application_choice,
+          :with_completed_application_form,
+          :with_accepted_offer,
+          offer: build(:offer, conditions: conditions),
+        )
+      end
+
+      it 'does not render a link to the change the offered course choice  when the`change_offered_course` flag is not active' do
+        result = render_inline(described_class.new(accepted_choice))
+
+        expect(result.css('.app-summary-card .govuk-summary-list__actions a').text.squish).not_to include 'Change conditions'
+      end
+    end
   end
 
   context 'Unconditional offer' do
