@@ -26,6 +26,7 @@ AllCops:
     - 'config/initializers/nationalities.rb'
     - 'features/support/env.rb'
     - 'vendor/**/*'
+    - 'jmeter/**/*'
 
 Bundler/OrderedGems:
   Enabled: false
