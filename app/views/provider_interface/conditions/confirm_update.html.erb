@@ -1,18 +1,18 @@
-<% content_for :browser_title, title_with_error_prefix('Confirm conditions', @conditions_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Confirm conditions', @form_object.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
     <%= form_with(
-      model: @conditions_form,
+      model: @form_object,
       url: provider_interface_application_choice_update_conditions_path(@application_choice.id),
       method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <% if @conditions_form.conditions_met? %>
+        <% if @form_object.conditions_met? %>
           Check and confirm conditions have been met
         <% else %>
           Check and confirm conditions have not been met
@@ -34,7 +34,7 @@
 
       <%= f.hidden_field :conditions_met %>
 
-      <% if @conditions_form.conditions_met? %>
+      <% if @form_object.conditions_met? %>
         <%= f.govuk_submit 'Confirm they have met your conditions' %>
       <% else %>
         <%= f.govuk_submit 'Confirm they have not met your conditions', warning: true %>
