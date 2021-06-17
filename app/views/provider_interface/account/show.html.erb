@@ -38,7 +38,7 @@
       </ul>
     <% end %>
 
-    <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider? %>
+    <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
       <h2 class="govuk-heading-m">
         <%= govuk_link_to t('page_titles.provider.org_permissions'), provider_interface_organisations_path %>
       </h2>
