@@ -20,15 +20,18 @@ class ProviderAuthorisation
     )
   end
 
-  def providers_that_actor_can_manage_organisations_for
-    provider_ids = ProviderRelationshipPermissions
-      .where(training_provider: @actor.providers)
-      .or(
-        ProviderRelationshipPermissions.where(
-          ratifying_provider_id: @actor.providers,
-        ),
-      )
-      .pluck(:ratifying_provider_id, :training_provider_id).flatten
+  def providers_that_actor_can_manage_organisations_for(with_set_up_permissions: false)
+    scope = ProviderRelationshipPermissions
+     .where(training_provider: @actor.providers)
+     .or(
+       ProviderRelationshipPermissions.where(
+         ratifying_provider_id: @actor.providers,
+       ),
+     )
+
+    scope = scope.where.not(setup_at: nil) if with_set_up_permissions
+
+    provider_ids = scope.pluck(:ratifying_provider_id, :training_provider_id).flatten
 
     manageable_provider_ids = ProviderPermissions
       .where(provider_id: provider_ids, provider_user: @actor, manage_organisations: true)
@@ -63,6 +66,10 @@ class ProviderAuthorisation
 
   def can_manage_organisations_for_at_least_one_provider?
     providers_that_actor_can_manage_organisations_for.any?
+  end
+
+  def can_manage_organisations_for_at_least_one_setup_provider?
+    providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true).any?
   end
 
   def can_view_safeguarding_information?(course:)

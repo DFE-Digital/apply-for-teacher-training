@@ -519,5 +519,39 @@ RSpec.describe ProviderAuthorisation do
       expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for)
         .to eq([training_provider])
     end
+
+    it 'only returns permissions that do not have setup_at set to nil' do
+      a_provider = create(:provider)
+      training_provider = create(:provider)
+      ratifying_provider = create(:provider)
+
+      provider_user = create(:provider_user, providers: [training_provider, ratifying_provider, a_provider])
+
+      # The user will have manage_organisations for a_provider but it has
+      # no relationships so it should not be returned.
+      ProviderPermissions.find_by(
+        provider_user: provider_user,
+        provider: a_provider,
+        ).update!(
+        manage_organisations: true,
+        )
+
+      # there is a relationship to manage between these two providers...
+      create(:provider_relationship_permissions,
+             training_provider: training_provider,
+             ratifying_provider: ratifying_provider,
+             setup_at: nil)
+
+      # ...but the user only has manage_organisations permissions for the training_provider.
+      ProviderPermissions.find_by(
+        provider_user: provider_user,
+        provider: training_provider,
+        ).update!(
+        manage_organisations: true,
+        )
+
+      expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
+        .to eq([])
+    end
   end
 end
