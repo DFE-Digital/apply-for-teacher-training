@@ -5,6 +5,8 @@ RSpec.feature 'Confirm conditions not met' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
+  before { FeatureFlag.deactivate(:individual_offer_conditions) }
+
   scenario 'Provider user confirms offer conditions have not been met by the candidate' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user

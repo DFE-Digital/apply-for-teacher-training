@@ -3,6 +3,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :redirect_back_if_application_terminated
     before_action :requires_make_decisions_permission
+    before_action :redirect_if_new_feature_flag_enabled
 
     def edit
       @form_object = ConfirmConditionsForm.new
@@ -48,9 +49,17 @@ module ProviderInterface
       end
     end
 
+  private
+
     def redirect_back_if_application_terminated
       if ApplicationStateChange::TERMINAL_STATES.include?(@application_choice.status.to_sym)
         redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
+      end
+    end
+
+    def redirect_if_new_feature_flag_enabled
+      if FeatureFlag.active?(:individual_offer_conditions)
+        redirect_to provider_interface_application_choice_path(@application_choice)
       end
     end
   end
