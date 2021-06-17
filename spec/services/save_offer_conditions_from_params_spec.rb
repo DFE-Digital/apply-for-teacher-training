@@ -44,6 +44,19 @@ RSpec.describe SaveOfferConditionsFromParams do
       end
     end
 
+    context 'when there is an existing offer with non-pending conditions' do
+      let!(:application_choice) { create(:application_choice, :with_offer, offer: offer) }
+      let(:offer) do
+        build(:offer, conditions: [build(:offer_condition, text: MakeOffer::STANDARD_CONDITIONS.first, status: :met),
+                                   build(:offer_condition, text: 'Red hair')])
+      end
+
+      it 'raises a validation error' do
+        expect { service.save }.to raise_error(ValidationException)
+                                     .and change(offer.conditions, :count).by(0)
+      end
+    end
+
     context 'when we have standard and further conditions' do
       context 'when we make changes to further conditions' do
         let!(:application_choice) { create(:application_choice, :with_offer, offer: offer) }

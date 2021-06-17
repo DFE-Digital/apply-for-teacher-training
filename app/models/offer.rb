@@ -11,6 +11,10 @@ class Offer < ApplicationRecord
     conditions.none?
   end
 
+  def has_non_pending_conditions?
+    conditions.not_pending.any?
+  end
+
   def conditions_text
     conditions.pluck(:text)
   end

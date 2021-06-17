@@ -100,12 +100,17 @@ module SupportInterface
       conditions = application_choice.offer.conditions
       return if conditions.empty?
 
-      {
+      conditions_row = {
         key: 'Conditions',
         value: render(SupportInterface::ConditionsComponent.new(conditions: conditions)),
+      }
+
+      return conditions_row if application_choice.offer.has_non_pending_conditions?
+
+      conditions_row.merge({
         action: 'conditions',
         change_path: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
-      }
+      })
     end
 
     def sent_to_provider_at_row
