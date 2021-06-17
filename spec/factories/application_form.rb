@@ -29,6 +29,8 @@ FactoryBot.define do
       transient do
         references_state { :feedback_provided }
       end
+
+      references_completed { true }
     end
 
     trait :with_feedback_completed do
