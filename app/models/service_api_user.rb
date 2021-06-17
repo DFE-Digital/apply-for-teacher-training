@@ -13,6 +13,7 @@ class ServiceAPIUser < ActiveHash::Base
     { id: 1, name: 'User for testing, not used in production', authorized_api: 'TestAPI' },
     { id: 2, name: 'DfE TAD', authorized_api: 'DataAPI' },
     { id: 3, name: 'DfE Register', authorized_api: 'RegisterAPI' },
+    { id: 4, name: 'DfE Candidate', authorized_api: 'CandidateAPI' },
   ]
 
   def self.test_data_user
@@ -25,6 +26,10 @@ class ServiceAPIUser < ActiveHash::Base
 
   def self.register_user
     find(3)
+  end
+
+  def self.candidate_user
+    find(4)
   end
 
   # Fix a bug in ActiveHash that causes the user_type in a AuthenticationToken to

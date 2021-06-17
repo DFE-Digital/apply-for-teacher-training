@@ -19,7 +19,7 @@ class Candidate < ApplicationRecord
   belongs_to :course_from_find, class_name: 'Course', optional: true
 
   after_create do
-    self.candidate_api_updated_at = Time.zone.now
+    update!(candidate_api_updated_at: Time.zone.now)
   end
 
   def self.for_email(email)
