@@ -137,8 +137,8 @@ module CandidateHelper
     visit candidate_interface_application_form_path
     click_link 'Select your references'
     application_form = ApplicationForm.last
-    first_reference = application_form.application_references.first
-    second_reference = application_form.application_references.second
+    first_reference = application_form.application_references.feedback_provided.first
+    second_reference = application_form.application_references.feedback_provided.second
     check first_reference.name
     check second_reference.name
     click_button t('save_and_continue')

@@ -70,6 +70,7 @@ RSpec.feature 'Review references' do
 
   def when_enough_references_have_been_provided_and_selected
     create(:reference, :feedback_provided, application_form: current_candidate.current_application)
+    select_references_and_complete_section
   end
 
   def and_i_mark_the_section_complete
