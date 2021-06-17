@@ -38,8 +38,8 @@ private
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
       .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
-      .where.not(feedback_satisfaction_level: '').where.not(feedback_suggestions: '')
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
+      .where.not(feedback_satisfaction_level: '')
+      .where(recruitment_cycle_year: RecruitmentCycle.current_year).select(:candidate_id).distinct
   end
 
   def application_forms_with_no_feedback(start_time, end_time)
@@ -49,7 +49,6 @@ private
       )
       .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
       .where(feedback_satisfaction_level: nil).or(ApplicationForm.where(feedback_satisfaction_level: ''))
-      .where(feedback_suggestions: nil).or(ApplicationForm.where(feedback_suggestions: ''))
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
+      .where(recruitment_cycle_year: RecruitmentCycle.current_year).select(:candidate_id).distinct
   end
 end
