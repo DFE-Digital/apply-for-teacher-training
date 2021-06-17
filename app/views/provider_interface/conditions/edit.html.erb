@@ -1,11 +1,11 @@
-<% content_for :browser_title, title_with_error_prefix('Confirm conditions', @conditions_form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Confirm conditions', @form_object.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
     <%= form_with(
-      model: @conditions_form,
+      model: @form_object,
       url: provider_interface_application_choice_confirm_update_conditions_path(@application_choice.id),
       method: :patch,
     ) do |f| %>
