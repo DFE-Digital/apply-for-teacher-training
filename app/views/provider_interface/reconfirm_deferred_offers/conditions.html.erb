@@ -12,7 +12,7 @@
       </h1>
 
       <div class="app-offer-panel govuk-!-margin-bottom-7">
-        <%= render ProviderInterface::ConditionsComponent.new(application_choice: @wizard.modified_application_choice) %>
+        <%= render ProviderInterface::ConditionsListComponent.new(@wizard.modified_application_choice.offer&.conditions) %>
       </div>
 
       <% met = @wizard.modified_application_choice.recruited? ? 'still met' : 'met' %>

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::DeferredOfferDetailsComponent do
-  let(:application_choice) { instance_double(ApplicationChoice, offer: false) }
+  let(:application_choice) { instance_double(ApplicationChoice, offer: nil) }
   let(:provider) { build(:provider, name: 'Best Training') }
   let(:course_option) { build(:course_option) }
 

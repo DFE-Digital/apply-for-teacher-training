@@ -61,7 +61,7 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
 
   describe 'validation errors' do
     let!(:application_choice) do
-      create(:application_choice, :pending_conditions,
+      create(:application_choice, :with_accepted_offer,
              application_form: application_form,
              course_option: course_option)
     end

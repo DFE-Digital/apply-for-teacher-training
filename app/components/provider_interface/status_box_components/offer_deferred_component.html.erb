@@ -5,5 +5,5 @@
   <%= render SummaryListComponent.new(rows: rows) %>
 
   <h3 class="govuk-heading-m">Conditions</h3>
-  <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+  <%= render ProviderInterface::ConditionsListComponent.new(application_choice.offer&.conditions) %>
 </div>

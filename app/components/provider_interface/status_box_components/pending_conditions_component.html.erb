@@ -18,5 +18,5 @@
   </p>
   <% end %>
 
-  <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+  <%= render ProviderInterface::ConditionsListComponent.new(application_choice.offer&.conditions) %>
 </div>
