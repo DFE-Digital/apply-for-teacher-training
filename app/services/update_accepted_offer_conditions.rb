@@ -9,7 +9,6 @@ class UpdateAcceptedOfferConditions
     ActiveRecord::Base.transaction do
       conditions = @update_conditions_service.conditions
       @application_choice.update(
-        offer: { conditions: conditions },
         audit_comment: "Change offer condition Zendesk request: #{@audit_comment_ticket}",
       )
       @update_conditions_service.save

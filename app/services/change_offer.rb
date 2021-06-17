@@ -24,7 +24,6 @@ class ChangeOffer
           update_conditions_service.save
 
           application_choice.current_course_option = course_option
-          application_choice.offer = { 'conditions' => update_conditions_service.conditions }
           application_choice.offer_changed_at = Time.zone.now
           application_choice.save!
 
