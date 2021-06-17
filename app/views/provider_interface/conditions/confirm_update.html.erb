@@ -3,46 +3,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-    <%= form_with(
-      model: @form_object,
-      url: provider_interface_application_choice_update_conditions_path(@application_choice.id),
-      method: :patch,
-    ) do |f| %>
-      <%= f.govuk_error_summary %>
-
-      <h1 class="govuk-heading-xl">
-        <% if @form_object.conditions_met? %>
-          Check and confirm conditions have been met
-        <% else %>
-          Check and confirm conditions have not been met
-        <% end %>
-      </h1>
-
-      <%= render SummaryListComponent.new(rows: [
-        { key: 'Candidate name', value: @application_choice.application_form.full_name },
-        { key: 'Course', value: @application_choice.course.name_and_code },
-        { key: 'Preferred location', value: @application_choice.site.name },
-        { key: 'Provider', value: @application_choice.course.provider.name_and_code },
-      ]) %>
-
-      <h2 class="govuk-heading-l">
-        Conditions
-      </h2>
-
-      <%= render ProviderInterface::ConditionsComponent.new(application_choice: @application_choice) %>
-
-      <%= f.hidden_field :conditions_met %>
-
-      <% if @form_object.conditions_met? %>
-        <%= f.govuk_submit 'Confirm they have met your conditions' %>
-      <% else %>
-        <%= f.govuk_submit 'Confirm they have not met your conditions', warning: true %>
-      <% end %>
-
-      <p class="govuk-body">
-        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
-      </p>
-    <% end %>
+    <%= render ProviderInterface::ConditionStatusBulkReviewPageComponent.new(form_object: @form_object, application_choice: @application_choice) %>
   </div>
 </div>
