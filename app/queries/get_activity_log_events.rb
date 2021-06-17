@@ -35,6 +35,7 @@ class GetActivityLogEvents
         ) OR (
           associated_type = 'ApplicationChoice'
           AND associated_id = ac.id
+          AND NOT auditable_type = 'OfferCondition'
         )
     COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE_AND_FILTER
 
