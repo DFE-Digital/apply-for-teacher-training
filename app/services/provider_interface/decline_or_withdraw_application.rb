@@ -9,7 +9,7 @@ module ProviderInterface
     def save!
       return false unless declining? || withdrawing?
 
-      auth.assert_can_make_decisions!(application_choice: @application_choice, course_option: @application_choice.course_option)
+      auth.assert_can_make_decisions!(application_choice: @application_choice, course_option: @application_choice.current_course_option)
 
       transition = declining? ? :declined : :withdrawn
 
@@ -31,6 +31,8 @@ module ProviderInterface
       # TODO: Email candidate.
 
       ResolveUCASMatch.new(application_choice: @application_choice).call if resolve_ucas_match?
+
+      true
     end
 
   private
