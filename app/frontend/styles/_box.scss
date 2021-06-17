@@ -1,0 +1,19 @@
+.app-box {
+  border: 5px solid govuk-colour('mid-grey');
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  .govuk-summary-list:last-child {
+    margin-bottom: 0;
+  }
+
+  .govuk-summary-list__row:last-child .govuk-summary-list__key,
+  .govuk-summary-list__row:last-child .govuk-summary-list__value,
+  .govuk-summary-list__row:last-child .govuk-summary-list__actions {
+    border-bottom: none;
+  }
+}
