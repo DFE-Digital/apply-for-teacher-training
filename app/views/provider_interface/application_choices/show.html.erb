@@ -11,6 +11,13 @@
     <%= render ProviderInterface::ApplicationSummaryComponent.new(application_form: @application_choice.application_form) %>
 
     <p class="govuk-body govuk-!-display-none-print">
+      <% if FeatureFlag.active?(:withdraw_at_candidates_request) && @provider_can_respond %>
+        <%= govuk_link_to(
+          "Withdraw at candidate's request",
+          provider_interface_decline_or_withdraw_edit_path(@application_choice),
+          class: 'govuk-!-margin-right-2',
+        ) %>
+      <% end %>
       <%= govuk_link_to(
         'Download application (PDF)',
         provider_interface_application_choice_path(@application_choice.id, format: :pdf),
