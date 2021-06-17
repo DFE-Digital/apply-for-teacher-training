@@ -115,7 +115,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
         # --- 999
         create(:application_choice, :offer, status: 'offer_withdrawn'),
         # --- 10
-        create(:application_choice, :with_deferred_offer),
+        create(:application_choice, :offer_deferred),
         # --- 9
         create(:application_choice, :recruited),
         # --- 8
@@ -135,7 +135,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now), # has more recent updated_at, will appear first
         # --- 1
-        create(:application_choice, :with_deferred_offer, :previous_year),
+        create(:application_choice, :offer_deferred, :previous_year),
       ]
     end
 

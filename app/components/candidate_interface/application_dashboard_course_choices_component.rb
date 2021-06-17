@@ -205,6 +205,7 @@ module CandidateInterface
       @application_form
         .application_choices
         .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+        .includes(offer: :conditions)
         .order(id: :asc)
         .select { |ac| ac.status.to_sym.in?(ApplicationStateChange::ACCEPTED_STATES) }
     end
@@ -213,6 +214,7 @@ module CandidateInterface
       @application_form
         .application_choices
         .includes(:course, :site, :provider, :current_course, :current_course_option, :interviews)
+        .includes(offer: :conditions)
         .order(id: :asc)
     end
 

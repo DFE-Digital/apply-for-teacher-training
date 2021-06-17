@@ -24,6 +24,7 @@ module VendorAPI
           providers: current_provider,
           vendor_api: true,
           includes: [
+            :offer,
             application_form: %i[candidate application_qualifications application_work_experiences application_work_history_breaks application_volunteering_experiences english_proficiency],
             course_option: [{ course: %i[provider] }, :site],
             current_course_option: [{ course: %i[provider] }, :site],

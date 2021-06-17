@@ -17,6 +17,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :current_course, through: :current_course_option, source: :course
   has_one :current_provider, through: :current_course, source: :provider
   has_one :current_accredited_provider, through: :current_course, source: :accredited_provider
+  has_one :offer
 
   has_many :notes, dependent: :destroy
   has_many :interviews, dependent: :destroy
@@ -76,10 +77,6 @@ class ApplicationChoice < ApplicationRecord
     if offer? && dbd && dbd > Time.zone.now
       ((dbd - Time.zone.now) / 1.day).floor
     end
-  end
-
-  def offer
-    @offer ||= Offer.find_by(application_choice: self)
   end
 
   delegate :course_not_available?, to: :course_option
