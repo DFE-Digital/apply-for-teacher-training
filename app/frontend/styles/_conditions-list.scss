@@ -1,0 +1,35 @@
+.app-conditions-list {
+  .govuk-summary-list__key {
+    @include govuk-media-query($from: tablet) {
+      width: 60%;
+    }
+    font-weight: normal;
+  }
+
+  .govuk-summary-list__value {
+    @include govuk-media-query($from: tablet) {
+      width: 15%;
+    }
+  }
+
+  .govuk-summary-list__actions {
+    @include govuk-media-query($from: tablet) {
+      width: 25%;
+    }
+  }
+
+}
+
+.app-condition-list--combined {
+  .govuk-summary-list__row dd:last-of-type {
+    @include govuk-media-query($from: tablet) {
+      text-align: right;
+    }
+  }
+}
+
+.app-conditions-list__tag {
+  @include govuk-media-query($from: tablet) {
+    text-align: right;
+  }
+}
