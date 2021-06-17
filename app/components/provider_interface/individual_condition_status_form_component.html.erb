@@ -1,0 +1,30 @@
+<%= form_with(
+  model: form_object,
+  url: provider_interface_application_choice_confirm_update_conditions_path(application_choice),
+  method: :patch,
+) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <span class="govuk-caption-l"><%= application_choice.application_form.full_name %></span>
+  <h1 class="govuk-heading-l">Update status of conditions</h1>
+
+  <div class="app-box govuk-!-margin-bottom-7">
+    <%= render ProviderInterface::ConditionsListComponent.new(application_choice.offer.conditions) %>
+  </div>
+
+  <% form_object.conditions.each do |condition| %>
+    <%= f.fields_for 'statuses[]', condition do |sf| %>
+      <%= sf.govuk_radio_buttons_fieldset :status, legend: { text: "Status of ‘#{condition.text.truncate_words(6)}’", size: 'm' } do %>
+        <%= sf.govuk_radio_button :status, 'pending', label: { text: 'Pending' }, link_errors: true %>
+        <%= sf.govuk_radio_button :status, 'unmet', label: { text: 'Not met' } %>
+        <%= sf.govuk_radio_button :status, 'met', label: { text: 'Met' } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+
+  <p class="govuk-body">
+    <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
+  </p>
+<% end %>
