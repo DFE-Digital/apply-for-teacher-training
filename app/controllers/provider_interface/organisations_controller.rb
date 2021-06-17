@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :render_403_unless_organisation_valid_for_user, only: :show
 
     def index
-      @manageable_providers = manageable_providers
+      @manageable_providers = current_provider_user.authorisation.providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true)
     end
 
     def show
