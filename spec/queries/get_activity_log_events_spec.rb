@@ -138,6 +138,19 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       expect(result).not_to include(excluded)
       expect(result).to include(included)
     end
+
+    it 'excludes audits for OfferConditions' do
+      choice = create_application_choice_for_course course_provider_a
+
+      offer = create(:offer, application_choice: choice)
+      offer.conditions.first.update!(status: :met)
+
+      excluded = offer.conditions.first.audits.last
+
+      result = service_call
+
+      expect(result).not_to include(excluded)
+    end
   end
 
   context 'sorts events in reverse chronological order' do
