@@ -74,7 +74,6 @@ FactoryBot.define do
       feedback_provided_at { Time.zone.now }
       safeguarding_concerns { '' }
       relationship_correction { '' }
-      selected { true }
     end
 
     trait :feedback_provided_with_completed_referee_questionnaire do
@@ -91,6 +90,10 @@ FactoryBot.define do
       end
       safeguarding_concerns { '' }
       relationship_correction { '' }
+    end
+
+    factory :selected_reference do
+      feedback_provided
       selected { true }
     end
   end

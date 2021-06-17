@@ -135,15 +135,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            start_date: 10.months.ago,
            end_date: nil)
 
-    create(:reference,
-           :feedback_provided,
+    create(:selected_reference,
            application_form: application_form,
            name: 'R2D2',
            email_address: 'r2d2@rebellion.org',
            relationship: 'Astromech droid',
            feedback: 'beep boop beep')
 
-    create(:reference,
+    create(:selected_reference,
            :feedback_provided,
            application_form: application_form,
            name: 'C3PO',

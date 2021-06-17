@@ -34,6 +34,7 @@ RSpec.feature 'Candidate with unsuccessful application can review rejection reas
       references_count: 2,
       candidate: @candidate,
     )
+    application.application_references.update_all(selected: true)
     choice = create(:application_choice, :with_structured_rejection_reasons, application_form: application)
 
     choice.update!(
