@@ -685,15 +685,13 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns only references with feedback which were selected by the candidate' do
       with_feedback_and_selected = create(
-        :reference,
-        :feedback_provided,
+        :selected_reference,
         application_form: application_choice.application_form,
       )
 
       with_feedback_but_not_selected = create(
         :reference,
         :feedback_provided,
-        selected: false,
         application_form: application_choice.application_form,
       )
 
@@ -711,8 +709,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns application references with their respective ids' do
       reference = create(
-        :reference,
-        :feedback_provided,
+        :selected_reference,
         application_form: application_choice.application_form,
       )
       presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
@@ -721,15 +718,13 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'includes safeguarding concerns' do
       create(
-        :reference,
-        :feedback_provided,
+        :selected_reference,
         safeguarding_concerns_status: 'has_safeguarding_concerns_to_declare',
         application_form: application_choice.application_form,
       )
 
       create(
-        :reference,
-        :feedback_provided,
+        :selected_reference,
         safeguarding_concerns_status: 'no_safeguarding_concerns_to_declare',
         application_form: application_choice.application_form,
       )
