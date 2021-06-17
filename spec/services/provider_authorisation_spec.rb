@@ -521,21 +521,11 @@ RSpec.describe ProviderAuthorisation do
     end
 
     context 'when filtering out training provider permissions that have not been set up' do
+      let(:training_provider) { create(:provider) }
+      let(:ratifying_provider) { create(:provider) }
+
       it 'only returns providers with permissions that do not have setup_at set to nil' do
-        a_provider = create(:provider)
-        training_provider = create(:provider)
-        ratifying_provider = create(:provider)
-
-        provider_user = create(:provider_user, providers: [training_provider, ratifying_provider, a_provider])
-
-        # The user will have manage_organisations for a_provider but it has
-        # no relationships so it should not be returned.
-        ProviderPermissions.find_by(
-          provider_user: provider_user,
-          provider: a_provider,
-        ).update!(
-          manage_organisations: true,
-        )
+        provider_user = create(:provider_user, providers: [training_provider])
 
         # there is a relationship to manage between these two providers...
         create(:provider_relationship_permissions,
@@ -556,9 +546,6 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'does not filter out ratifying provider relationships which are not set up' do
-        training_provider = create(:provider)
-        ratifying_provider = create(:provider)
-
         provider_user = create(:provider_user, providers: [ratifying_provider])
 
         ProviderPermissions.find_by(
