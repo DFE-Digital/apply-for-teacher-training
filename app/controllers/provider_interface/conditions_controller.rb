@@ -5,27 +5,27 @@ module ProviderInterface
     before_action :requires_make_decisions_permission
 
     def edit
-      @conditions_form = ConfirmConditionsForm.new
+      @form_object = ConfirmConditionsForm.new
     end
 
     def confirm_update
-      @conditions_form = ConfirmConditionsForm.new(
+      @form_object = ConfirmConditionsForm.new(
         conditions_met: params.dig(:provider_interface_confirm_conditions_form, :conditions_met),
       )
 
-      unless @conditions_form.valid?
-        track_validation_error(@conditions_form)
+      unless @form_object.valid?
+        track_validation_error(@form_object)
         render action: :edit
       end
     end
 
     def update
-      @conditions_form = ConfirmConditionsForm.new(
+      @form_object = ConfirmConditionsForm.new(
         conditions_met: params.dig(:provider_interface_confirm_conditions_form, :conditions_met),
       )
 
-      if @conditions_form.valid?
-        if @conditions_form.conditions_met?
+      if @form_object.valid?
+        if @form_object.conditions_met?
           ConfirmOfferConditions.new(
             actor: current_provider_user,
             application_choice: @application_choice,
@@ -43,7 +43,7 @@ module ProviderInterface
 
         redirect_to provider_interface_application_choice_path(@application_choice.id)
       else
-        track_validation_error(@conditions_form)
+        track_validation_error(@form_object)
         redirect_to action: :edit
       end
     end
