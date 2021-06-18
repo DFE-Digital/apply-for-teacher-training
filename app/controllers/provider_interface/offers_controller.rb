@@ -52,13 +52,17 @@ module ProviderInterface
     def update
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?(:save)
-        ChangeOffer.new(actor: current_provider_user,
-                        application_choice: @application_choice,
-                        course_option: @wizard.course_option,
-                        update_conditions_service: update_conditions_service).save!
-        @wizard.clear_state!
-
-        flash[:success] = t('.success')
+        begin
+          ChangeOffer.new(actor: current_provider_user,
+                          application_choice: @application_choice,
+                          course_option: @wizard.course_option,
+                          update_conditions_service: update_conditions_service).save!
+          @wizard.clear_state!
+          flash[:success] = t('.success')
+        rescue IdenticalOfferError
+          @wizard.clear_state!
+          flash[:success] = t('.success')
+        end
       else
         @wizard.clear_state!
         track_validation_error(@wizard)
