@@ -33,12 +33,12 @@ module ProviderInterface
         },
         {
           key: 'Additional details',
-          value: get_additional_details,
+          value: additional_details,
         },
       ]
     end
 
-    def get_additional_details
+    def additional_details
       interview.additional_details.presence || 'None'
     end
   end

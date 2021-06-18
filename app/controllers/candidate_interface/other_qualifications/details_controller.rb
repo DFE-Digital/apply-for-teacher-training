@@ -8,7 +8,7 @@ module CandidateInterface
       )
 
       unless @form.qualification_type
-        @form.set_qualification_type_fields(params)
+        @form.configure_qualification_type_fields(params)
         @form.save_intermediate!
       end
 

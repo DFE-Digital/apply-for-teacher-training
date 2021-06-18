@@ -35,7 +35,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
   describe '#call! if API response is successful' do
     before do
-      set_dsi_api_response(success: true)
+      dsi_api_response(success: true)
       InviteProviderUser.new(provider_user: provider_user).call!
     end
 
@@ -47,7 +47,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
   describe '#call! if API response is not successful' do
     before do
       allow(SlackNotificationWorker).to receive(:perform_async)
-      set_dsi_api_response(success: false)
+      dsi_api_response(success: false)
     end
 
     it 'raises DfeSignInAPIError with errors from the API' do

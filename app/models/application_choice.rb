@@ -160,7 +160,7 @@ class ApplicationChoice < ApplicationRecord
     [provider, accredited_provider].compact.uniq
   end
 
-  def set_initial_course_choice!(course_option)
+  def configure_initial_course_choice!(course_option)
     update!(
       course_option: course_option,
       current_course_option: course_option,

@@ -65,7 +65,7 @@ module CandidateInterface
     def subject_row(qualification)
       {
         key: subject_set_key(qualification),
-        value: set_rows_value(qualification.subject),
+        value: rows_value(qualification.subject),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
@@ -92,7 +92,7 @@ module CandidateInterface
       if non_uk_qualification?(qualification) && qualification.institution_country.present?
         COUNTRIES[qualification.institution_country].to_s
       else
-        set_rows_value(qualification.institution_country)
+        rows_value(qualification.institution_country)
       end
     end
 
@@ -103,7 +103,7 @@ module CandidateInterface
     def award_year_row(qualification)
       {
         key: t('application_form.other_qualification.award_year.review_label'),
-        value: set_rows_value(qualification.award_year),
+        value: rows_value(qualification.award_year),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
@@ -112,7 +112,7 @@ module CandidateInterface
     def grade_row(qualification)
       {
         key: grade_set_key(qualification),
-        value: set_rows_value(qualification.grade),
+        value: rows_value(qualification.grade),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
@@ -126,7 +126,7 @@ module CandidateInterface
       end
     end
 
-    def set_rows_value(value)
+    def rows_value(value)
       value || 'Not entered'
     end
 

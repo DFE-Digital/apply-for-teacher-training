@@ -5,7 +5,7 @@ class DfESignInController < ActionController::Base
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
     @target_path = session['post_dfe_sign_in_path']
-    @local_user = get_local_user
+    @local_user = local_user
 
     if @local_user
       DsiProfile.update_profile_from_dfe_sign_in(dfe_user: @dfe_sign_in_user, local_user: @local_user)
@@ -83,15 +83,15 @@ private
     ).deliver_later
   end
 
-  def get_local_user
-    target_path_is_support_path ? get_support_user : get_provider_user
+  def local_user
+    target_path_is_support_path ? support_user : provider_user
   end
 
-  def get_support_user
+  def support_user
     !@support_user.nil? ? @support_user : @support_user = (SupportUser.load_from_session(session) || false)
   end
 
-  def get_provider_user
+  def provider_user
     !@provider_user.nil? ? @provider_user : @provider_user = (ProviderUser.load_from_session(session) || false)
   end
 

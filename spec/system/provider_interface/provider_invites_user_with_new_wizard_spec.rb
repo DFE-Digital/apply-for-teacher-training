@@ -210,7 +210,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_commit_changes
-    set_dsi_api_response(success: true)
+    dsi_api_response(success: true)
     click_button 'Invite user'
   end
 

@@ -91,7 +91,7 @@ module CandidateInterface
       self.choice = 'no'
     end
 
-    def set_qualification_type_fields(params)
+    def configure_qualification_type_fields(params)
       self.qualification_type = params[:qualification_type]
       self.other_uk_qualification_type = params[:other_uk_qualification_type] if qualification_type == OtherQualificationTypeForm::OTHER_TYPE
       self.non_uk_qualification_type = params[:non_uk_qualification_type] if qualification_type == OtherQualificationTypeForm::NON_UK_TYPE

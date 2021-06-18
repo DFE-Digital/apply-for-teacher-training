@@ -1,5 +1,5 @@
 module DsiAPIHelper
-  def set_dsi_api_response(success:)
+  def dsi_api_response(success:)
     if success
       stub_request(:post, "#{ENV.fetch('DSI_API_URL')}/services/apply/invitations").to_return(status: 202)
     else
