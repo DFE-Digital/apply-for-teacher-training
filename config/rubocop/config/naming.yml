@@ -13,8 +13,7 @@ Naming/AccessorMethodName:
     - app/controllers/candidate_interface/candidate_interface_controller.rb
 
 Naming/PredicateName:
-  Enabled: false
-
+  Enabled: true
 
 Naming/VariableNumber:
   Enabled: false

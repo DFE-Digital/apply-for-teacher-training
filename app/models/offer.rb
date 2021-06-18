@@ -11,7 +11,7 @@ class Offer < ApplicationRecord
     conditions.none?
   end
 
-  def has_non_pending_conditions?
+  def non_pending_conditions?
     conditions.not_pending.any?
   end
 

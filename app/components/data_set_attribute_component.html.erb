@@ -6,11 +6,11 @@
   <dd class="govuk-summary-list__value">
     <p class="govuk-hint govuk-!-margin-top-0"><%= type_description %></p>
 
-    <% if has_description? %>
+    <% if description? %>
       <p class="govuk-body"><%= description %></p>
     <% end %>
 
-    <% if has_example? %>
+    <% if example? %>
       <p class="govuk-body">Example: <code><%= example %></code></p>
     <% end %>
 

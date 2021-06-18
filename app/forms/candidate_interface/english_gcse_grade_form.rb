@@ -26,9 +26,9 @@ module CandidateInterface
 
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
-    validate :validate_grade_format, on: :grade, unless: :is_multiple_gcse? || :new_record?
-    validate :validate_grades_format, on: :constituent_grades, if: :is_multiple_gcse?, unless: :new_record?
-    validate :gcse_selected, on: :constituent_grades, if: :is_multiple_gcse?
+    validate :validate_grade_format, on: :grade, unless: :multiple_gcse? || :new_record?
+    validate :validate_grades_format, on: :constituent_grades, if: :multiple_gcse?, unless: :new_record?
+    validate :gcse_selected, on: :constituent_grades, if: :multiple_gcse?
 
     class << self
       def build_from_qualification(qualification)
@@ -112,7 +112,7 @@ module CandidateInterface
     end
 
     def assign_values(params)
-      if is_multiple_gcse?
+      if multiple_gcse?
         english_gcses = params[:english_gcses]
         self.english_gcses = english_gcses
 
@@ -145,7 +145,7 @@ module CandidateInterface
     end
 
     def save
-      result = is_multiple_gcse? ? save_grades : save_grade
+      result = multiple_gcse? ? save_grades : save_grade
       return false unless result
 
       reset_missing_explanation!(qualification)
@@ -294,7 +294,7 @@ module CandidateInterface
       end
     end
 
-    def is_multiple_gcse?
+    def multiple_gcse?
       qualification.qualification_type == 'gcse'
     end
   end

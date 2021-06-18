@@ -5,9 +5,9 @@ class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
   end
 
   def subtitle
-    if has_work_history? && !has_unpaid_experience?
+    if work_history? && !unpaid_experience?
       'Details of work history'
-    elsif !has_work_history? && has_unpaid_experience?
+    elsif !work_history? && unpaid_experience?
       'Details of unpaid experience'
     end
   end
@@ -26,24 +26,24 @@ private
   end
 
   def work_history_text
-    if !has_work_history? && full_time_education?
+    if !work_history? && full_time_education?
       ' No, I have always been in full time education'
     else
-      has_work_history? ? 'Yes' : 'No'
+      work_history? ? 'Yes' : 'No'
     end
   end
 
   def unpaid_experience_text
-    has_unpaid_experience? ? 'Yes' : 'No'
+    unpaid_experience? ? 'Yes' : 'No'
   end
 
   delegate :full_time_education?, to: :application_form
 
-  def has_work_history?
+  def work_history?
     work_history_with_breaks.work_history.any?
   end
 
-  def has_unpaid_experience?
+  def unpaid_experience?
     work_history_with_breaks.unpaid_work.any?
   end
 end

@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :right_to_work_or_study, :right_to_work_or_study_details
 
     validates :right_to_work_or_study, presence: true
-    validates :right_to_work_or_study_details, presence: true, if: :has_right_to_work_or_study?
+    validates :right_to_work_or_study_details, presence: true, if: :right_to_work_or_study?
     validates :right_to_work_or_study_details, word_count: { maximum: 200 }
 
     def self.build_from_application(application_form)
@@ -26,12 +26,12 @@ module CandidateInterface
 
   private
 
-    def has_right_to_work_or_study?
+    def right_to_work_or_study?
       right_to_work_or_study == 'yes'
     end
 
     def set_right_to_work_or_study_details
-      has_right_to_work_or_study? ? right_to_work_or_study_details : nil
+      right_to_work_or_study? ? right_to_work_or_study_details : nil
     end
   end
 end

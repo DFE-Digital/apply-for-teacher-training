@@ -35,7 +35,7 @@
           data: { max_conditions: ProviderInterface::OfferWizard::MAX_FURTHER_CONDITIONS },
           value: 'add_another_condition',
           class: 'govuk-button govuk-button--secondary app-add-condition__add-button govuk-!-margin-bottom-4',
-          style: "display: #{form_object.has_max_number_of_further_conditions? ? 'none' : 'block'};",
+          style: "display: #{form_object.max_number_of_further_conditions? ? 'none' : 'block'};",
         ) do %>
           <%= t('.add_another') %>
         <% end %>

@@ -10,7 +10,7 @@ module CandidateInterface
 
     def self.build_from_qualification(qualification)
       new(
-        have_enic_reference: qualification.have_enic_reference,
+        have_enic_reference: qualification.enic_reference?,
         enic_reference: qualification.enic_reference,
         comparable_uk_qualification: qualification.comparable_uk_qualification,
       )

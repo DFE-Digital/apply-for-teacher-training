@@ -5,9 +5,9 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
   let(:form_object_class) do
     Class.new do
       include ActiveModel::Model
-      attr_accessor :standard_conditions, :further_condition_models, :has_max_number_of_further_conditions
+      attr_accessor :standard_conditions, :further_condition_models, :max_number_of_further_conditions
 
-      alias_method :has_max_number_of_further_conditions?, :has_max_number_of_further_conditions
+      alias_method :max_number_of_further_conditions?, :max_number_of_further_conditions
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
   end
   let(:max_conditions) { false }
 
-  let(:form_object) { FormObjectClass.new(further_condition_models: further_condition_models, has_max_number_of_further_conditions: max_conditions) }
+  let(:form_object) { FormObjectClass.new(further_condition_models: further_condition_models, max_number_of_further_conditions: max_conditions) }
 
   let(:component) do
     described_class.new(

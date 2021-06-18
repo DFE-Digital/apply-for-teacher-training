@@ -12,7 +12,7 @@ module ProviderInterface
 
     validate :validate_step,
              :validate_application_choice,
-             :is_course_option_still_available
+             :course_option_still_available
 
     validates :conditions_status, presence: true, on: %i[conditions check]
     validates :course_option_id, presence: true, on: %i[check]
@@ -46,7 +46,7 @@ module ProviderInterface
       @course_option_in_new_cycle ||= application_choice&.current_course_option&.in_next_cycle
     end
 
-    def is_course_option_still_available
+    def course_option_still_available
       if current_step != 'start'
         errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless course_option_in_new_cycle
         errors.add(:course_option_in_new_cycle, 'New course option is not open on Apply') unless course_option_in_new_cycle&.course&.open_on_apply == true

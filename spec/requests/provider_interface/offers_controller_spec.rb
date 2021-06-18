@@ -130,7 +130,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
 
     context 'POST to (conditions) create' do
       let(:trait) { :awaiting_provider_decision }
-      let(:wizard_attrs) { { previous_step: :locations, standard_conditions: [], persisted?: true, further_condition_models: [], has_max_number_of_further_conditions?: false } }
+      let(:wizard_attrs) { { previous_step: :locations, standard_conditions: [], persisted?: true, further_condition_models: [], max_number_of_further_conditions?: false } }
 
       subject do
         post provider_interface_application_choice_offer_conditions_path(application_choice),
@@ -141,7 +141,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'PATCH to (conditions) update' do
-      let(:wizard_attrs) { { previous_step: :locations, standard_conditions: [], persisted?: true, further_condition_models: [], has_max_number_of_further_conditions?: false } }
+      let(:wizard_attrs) { { previous_step: :locations, standard_conditions: [], persisted?: true, further_condition_models: [], max_number_of_further_conditions?: false } }
 
       subject do
         patch provider_interface_application_choice_offer_conditions_path(application_choice),

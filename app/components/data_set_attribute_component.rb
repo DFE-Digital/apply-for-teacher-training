@@ -24,7 +24,7 @@ class DataSetAttributeComponent < ViewComponent::Base
     markdown_to_html(column['description'])
   end
 
-  def has_description?
+  def description?
     column['description']
   end
 
@@ -32,7 +32,7 @@ class DataSetAttributeComponent < ViewComponent::Base
     column['example'].is_a?(Array) ? column['example'].join('|').inspect : column['example'].inspect
   end
 
-  def has_example?
+  def example?
     column['example']
   end
 end
