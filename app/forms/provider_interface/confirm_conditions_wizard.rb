@@ -20,6 +20,14 @@ module ProviderInterface
       end
     end
 
+    def all_conditions_met?
+      conditions.all?(&:met?)
+    end
+
+    def any_condition_not_met?
+      conditions.any?(&:unmet?)
+    end
+
     def save_state!
       @state_store.write(state)
     end
