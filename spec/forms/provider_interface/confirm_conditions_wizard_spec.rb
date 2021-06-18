@@ -54,4 +54,58 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
       end
     end
   end
+
+  describe '#all_conditions_met?' do
+    context 'all of the conditions are marked as met' do
+      let(:statuses) do
+        conditions.to_h do |condition|
+          [condition.id.to_s, { 'status' => 'met' }]
+        end
+      end
+
+      it 'returns true' do
+        expect(wizard.all_conditions_met?).to eq(true)
+      end
+    end
+
+    context 'one of the conditions is not marked as met' do
+      let(:statuses) do
+        {
+          conditions.first.id.to_s => { 'status' => 'pending' },
+          conditions.last.id.to_s => { 'status' => 'met' },
+        }
+      end
+
+      it 'returns false' do
+        expect(wizard.all_conditions_met?).to eq(false)
+      end
+    end
+  end
+
+  describe '#any_condition_not_met?' do
+    context 'at least one of the conditions is marked as not met' do
+      let(:statuses) do
+        {
+          conditions.first.id.to_s => { 'status' => %w[pending met unmet].sample },
+          conditions.last.id.to_s => { 'status' => 'unmet' },
+        }
+      end
+
+      it 'returns true' do
+        expect(wizard.any_condition_not_met?).to eq(true)
+      end
+    end
+
+    context 'none of the conditions are marked as not met' do
+      let(:statuses) do
+        conditions.to_h do |condition|
+          [condition.id.to_s, { 'status' => %w[pending met].sample }]
+        end
+      end
+
+      it 'returns false' do
+        expect(wizard.any_condition_not_met?).to eq(false)
+      end
+    end
+  end
 end
