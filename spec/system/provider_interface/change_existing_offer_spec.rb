@@ -66,6 +66,14 @@ RSpec.feature 'Provider changes an existing offer' do
 
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfully_updated
+
+    when_i_choose_to_change_the_conditions
+    and_i_click_continue
+
+    then_the_review_page_is_loaded
+    when_i_send_the_offer
+
+    then_i_see_that_the_offer_was_successfully_updated
   end
 
   def given_i_am_a_provider_user
@@ -209,5 +217,9 @@ RSpec.feature 'Provider changes an existing offer' do
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('New offer sent')
     end
+  end
+
+  def when_i_choose_to_change_the_conditions
+    click_on 'Add or change conditions'
   end
 end
