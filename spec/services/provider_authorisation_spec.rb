@@ -561,7 +561,7 @@ RSpec.describe ProviderAuthorisation do
                setup_at: nil)
 
         expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
-          .to eq([ratifying_provider])
+          .to eq([])
       end
     end
   end
