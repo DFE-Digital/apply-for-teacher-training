@@ -2,7 +2,6 @@ DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillCandidateAPIUpdatedAt',
   'DataMigrations::BackfillNoneHesaDisabilitiesCodes',
-  'DataMigrations::SetMissingProviderRelationshipPermissions',
   'DataMigrations::RemoveApplicationChoicesInTheIncorrectCycle',
   'DataMigrations::DeleteUuidlessCourses',
   'DataMigrations::RemovePreviousCyclesCoursesFromApplicationsInTheCurrentCycle',
