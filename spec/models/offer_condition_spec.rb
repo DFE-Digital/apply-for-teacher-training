@@ -17,4 +17,18 @@ RSpec.describe OfferCondition do
       expect(offer.conditions_text).to eq(conditions.map(&:text))
     end
   end
+
+  describe '#standard_condition?' do
+    it 'returns true if the condition is part of the standard conditions' do
+      condition = build(:offer_condition, text: 'Fitness to train to teach check')
+
+      expect(condition.standard_condition?).to be true
+    end
+
+    it 'returns false if the condition is part of the standard conditions' do
+      condition = build(:offer_condition, text: 'You must receive your deegree')
+
+      expect(condition.standard_condition?).to be false
+    end
+  end
 end

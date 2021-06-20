@@ -212,7 +212,7 @@ RSpec.describe SupportInterface::ConditionsForm do
     end
 
     it 'reads standard and further conditions' do
-      conditions = [build(:offer_condition, text: MakeOffer::STANDARD_CONDITIONS.sample),
+      conditions = [build(:offer_condition, text: OfferCondition::STANDARD_CONDITIONS.sample),
                     build(:offer_condition, text: 'Get a haircut')]
       application_choice = create(:application_choice,
                                   :with_offer,

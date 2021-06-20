@@ -79,15 +79,13 @@ module SupportInterface
       return [] if offer.blank?
 
       conditions = offer.conditions_text
-      conditions & MakeOffer::STANDARD_CONDITIONS
+      conditions & OfferCondition::STANDARD_CONDITIONS
     end
 
     def self.further_condition_attrs_from(offer)
       return {} if offer.blank?
 
-      further_conditions = offer.conditions.reject do |condition|
-        MakeOffer::STANDARD_CONDITIONS.include?(condition.text)
-      end
+      further_conditions = offer.conditions.reject(&:standard_condition?)
 
       further_conditions.each_with_index.to_h do |condition, index|
         [index.to_s, { 'text' => condition.text, 'condition_id' => condition.id }]
