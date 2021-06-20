@@ -21,24 +21,26 @@ private
 
   def notify_of_new_course!(provider, accredited_provider, auto_open)
     notification = [":seedling: #{provider.name}, which has courses open on Apply, added #{@course.name_and_code}"]
-
-    if auto_open
-      notification << 'We opened it automatically'
-    else
-      notification << 'We didn’t automatically open it'
-    end
-
-    if accredited_provider&.onboarded?
-      notification << "It’s ratified by #{accredited_provider.name}, who have signed the DSA"
-    elsif accredited_provider.present?
-      notification << "It’s ratified by #{accredited_provider.name}, who have NOT signed the DSA"
-    else
-      notification << 'There’s no separate accredited body for this course'
-    end
+    notification << auto_open_message(auto_open)
+    notification << accredited_body_message(accredited_provider)
 
     SlackNotificationWorker.perform_async(
       notification.join('. ') + '.',
       support_interface_course_url(@course),
     )
+  end
+
+  def auto_open_message(auto_open)
+    auto_open ? 'We opened it automatically' : 'We didn’t automatically open it'
+  end
+
+  def accredited_body_message(accredited_provider)
+    if accredited_provider&.onboarded?
+      "It’s ratified by #{accredited_provider.name}, who have signed the DSA"
+    elsif accredited_provider.present?
+      "It’s ratified by #{accredited_provider.name}, who have NOT signed the DSA"
+    else
+      'There’s no separate accredited body for this course'
+    end
   end
 end

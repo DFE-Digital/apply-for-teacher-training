@@ -53,12 +53,8 @@ private
   def qualifications
     return {} unless reasons.qualifications_y_n.eql?('Yes')
 
-    qualifications = reasons.qualifications_which_qualifications.inject([]) do |qualification_reasons, reason|
-      if reason == 'other'
-        qualification_reasons << reasons.qualifications_other_details
-      else
-        qualification_reasons << I18n.t("reasons_for_rejection.qualifications_which_qualifications.#{reason}")
-      end
+    qualifications = reasons.qualifications_which_qualifications.map do |reason|
+      reason == 'other' ? reasons.qualifications_other_details : I18n.t("reasons_for_rejection.qualifications_which_qualifications.#{reason}")
     end
 
     reason_details('qualifications', qualifications)

@@ -77,11 +77,16 @@ class NavigationItems
         items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile provider_users organisations provider_relationship_permissions]))
       end
 
-      if current_provider_user.impersonator
-        items << NavigationItem.new('Return to support', support_interface_provider_user_path(current_provider_user), false)
-      else
-        items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)
-      end
+      sign_out_navigation = if current_provider_user.impersonator
+                              NavigationItem.new('Return to support',
+                                                 support_interface_provider_user_path(current_provider_user),
+                                                 false)
+                            else
+                              NavigationItem.new('Sign out',
+                                                 provider_interface_sign_out_path,
+                                                 false)
+                            end
+      items << sign_out_navigation
     end
 
     def for_vendor_api_docs(current_controller)

@@ -2,6 +2,7 @@ Naming/MethodParameterName:
   AllowedNames:
     - e
     - to
+
 Naming/MemoizedInstanceVariableName:
   Enabled: false
 

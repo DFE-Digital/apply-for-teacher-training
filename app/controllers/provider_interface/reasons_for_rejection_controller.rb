@@ -120,11 +120,7 @@ module ProviderInterface
 
     def redirect_if_application_rejected_and_feedback_provided
       if @application_choice&.rejected? && !@application_choice.no_feedback?
-        if @application_choice.rejected_by_default?
-          flash[:warning] = 'The feedback for this application has already been provided.'
-        else
-          flash[:warning] = 'This application has already been rejected.'
-        end
+        flash[:warning] = @application_choice.rejected_by_default? ? rbd_message : already_rejected_message
 
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       end
@@ -146,6 +142,14 @@ module ProviderInterface
       return if @application_choice.rejected_by_default?
 
       render_404
+    end
+
+    def rbd_message
+      'The feedback for this application has already been provided.'
+    end
+
+    def already_rejected_message
+      'This application has already been rejected.'
     end
   end
 end

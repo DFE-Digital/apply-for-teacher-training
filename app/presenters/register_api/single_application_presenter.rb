@@ -157,11 +157,7 @@ module RegisterAPI
       grade = nil
 
       if qualification.grade
-        if qualification.predicted_grade
-          grade = "#{qualification.grade} (Predicted)"
-        else
-          grade = qualification.grade
-        end
+        grade = qualification.predicted_grade ? "#{qualification.grade} (Predicted)" : qualification.grade
       end
 
       constituent_grades = qualification.constituent_grades

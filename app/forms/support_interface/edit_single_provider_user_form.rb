@@ -13,19 +13,18 @@ module SupportInterface
     end
 
     def forms_for_possible_permissions
-      all_possible_permissions.map do |p|
-        ProviderPermissionsForm.new(active: p.persisted?, provider_permission: p)
+      all_possible_permissions.map do |permission|
+        ProviderPermissionsForm.new(active: permission.persisted?, provider_permission: permission)
       end
     end
 
     def all_possible_permissions
       if provider_user
-        existing_permissions_for_user = ProviderPermissions.includes(:provider, :provider_user).where(provider_user_id: provider_user.id)
+        ProviderPermissions.includes(:provider, :provider_user)
+          .where(provider_user_id: provider_user.id)
       else
-        existing_permissions_for_user = []
+        []
       end
-
-      existing_permissions_for_user
     end
 
     def provider_permissions=(attributes)
