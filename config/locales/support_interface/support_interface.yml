@@ -66,6 +66,10 @@ en:
               blank: Enter a last name
             provider_permissions:
               blank: Please specify a provider
+        support_interface/multiple_provider_users_wizard:
+          attributes:
+            provider_users:
+              blank: Enter the users' details
         support_interface/conditions_form:
           attributes:
             base:

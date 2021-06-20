@@ -1,0 +1,31 @@
+<ul class="govuk-list">
+  <% if permissions['manage_organisations'] %>
+    <li><%= render IconComponent.new(type: 'check') %> Manage organisational permissions</li>
+  <% else %>
+    <li><%= render IconComponent.new(type: 'cross') %> Manage organisational permissions</li>
+  <% end %>
+
+  <% if permissions['manage_users'] %>
+    <li><%= render IconComponent.new(type: 'check') %> Manage users</li>
+  <% else %>
+    <li><%= render IconComponent.new(type: 'cross') %> Manage users</li>
+  <% end %>
+
+  <% if permissions['make_decisions'] %>
+    <li><%= render IconComponent.new(type: 'check') %> Make decisions</li>
+  <% else %>
+    <li><%= render IconComponent.new(type: 'cross') %> Make decisions</li>
+  <% end %>
+
+  <% if permissions['view_safeguarding_information'] %>
+    <li><%= render IconComponent.new(type: 'check') %> Access safeguarding information</li>
+  <% else %>
+    <li><%= render IconComponent.new(type: 'cross') %> Access safeguarding information</li>
+  <% end %>
+
+  <% if permissions['view_diversity_information'] %>
+    <li><%= render IconComponent.new(type: 'check') %> Access diversity information</li>
+  <% else %>
+    <li><%= render IconComponent.new(type: 'cross') %> Access diversity information</li>
+  <% end %>
+</ul>

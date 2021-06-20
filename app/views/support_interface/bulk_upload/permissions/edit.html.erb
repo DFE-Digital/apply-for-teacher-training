@@ -1,0 +1,27 @@
+<% content_for :browser_title,
+  title_with_error_prefix("Add user (#{@position_and_count[:position]} of #{@position_and_count[:count]})",
+    @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@backlink_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: support_interface_bulk_upload_permissions_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l"><%= @provider.name %></span>
+        Add user (<%= @position_and_count[:position] %> of <%= @position_and_count[:count] %>)
+      </h1>
+
+      <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 's' }, class: 'govuk-!-width-two-thirds' %>
+      <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 's' }, class: 'govuk-!-width-two-thirds' %>
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 's' }, class: 'govuk-!-width-two-thirds' %>
+      <%= f.hidden_field :provider_id %>
+      <%= f.hidden_field :index %>
+
+      <%= render 'provider_permissions', f: f %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<% content_for :browser_title, title_with_error_prefix('Check details and add users', @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@backlink_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= @provider.name %></span> Check details and add users
+    </h1>
+
+    <%= form_with model: @wizard, url: support_interface_bulk_upload_provider_users_path do |f| %>
+      <% f.object.stored_provider_users.each_with_index do |provider_user, index| %>
+        <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
+          {
+            key: 'First name',
+            value: provider_user['first_name'],
+          },
+          {
+            key: 'Last name',
+            value: provider_user['last_name'],
+          },
+          {
+            key: 'Email address',
+            value: provider_user['email_address'],
+          },
+          {
+            key: 'Permissions',
+            value: render(SupportInterface::PermissionsListReviewComponent.new(provider_user['permissions'])),
+          },
+        ].compact) do %>
+          <%= render SummaryCardHeaderComponent.new(title: "User #{index + 1}", heading_level: 2) do %>
+            <div class="app-summary-card__actions">
+              <%= govuk_link_to 'Change', edit_support_interface_bulk_upload_permissions_path(position: index + 1) %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= f.govuk_submit 'Add users' %>
+    <% end %>
+  </div>
+</div>
