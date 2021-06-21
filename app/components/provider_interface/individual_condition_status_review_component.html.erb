@@ -14,7 +14,7 @@
   </p>
 <% end %>
 
-<%= govuk_button_to confirm_button_text, provider_interface_application_choice_update_conditions_path(application_choice), method: :patch, class: confirm_button_class %>
+<%= govuk_button_to confirm_button_text, provider_interface_condition_statuses_path(application_choice), method: :patch, class: confirm_button_class %>
 
 <p class="govuk-body">
   <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
