@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
   include DfESignInHelpers
+  include ModelWithErrorsStubHelper
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
@@ -80,11 +81,12 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
     end
 
     it 'tracks errors on update' do
-      condition_id = application_choice.offer.conditions.first.id.to_s
+      stub_model_instance_with_errors(ProviderInterface::ConfirmConditionsWizard, { valid?: false })
+
       expect {
         patch(
           provider_interface_condition_statuses_path(application_choice),
-          params: { provider_interface_confirm_conditions_wizard: { statuses: { condition_id => { test: :test } } } },
+          params: {},
         )
       }.to change(ValidationError, :count).by(1)
     end
