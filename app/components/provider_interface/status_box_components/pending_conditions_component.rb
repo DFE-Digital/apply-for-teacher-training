@@ -20,6 +20,14 @@ module ProviderInterface
       def rows
         course_rows(course_option: application_choice.current_course_option)
       end
+
+      def update_conditions_path
+        if FeatureFlag.active?(:individual_offer_conditions)
+          edit_provider_interface_condition_statuses_path(application_choice)
+        else
+          provider_interface_application_choice_edit_conditions_path(application_choice)
+        end
+      end
     end
   end
 end

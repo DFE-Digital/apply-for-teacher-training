@@ -170,8 +170,16 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       context 'when application is in condititions_pending state' do
         let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
 
-        it 'displays the update condition link' do
+        it 'displays the update condition link when the individual_conditions feature flag is off' do
+          FeatureFlag.deactivate(:individual_offer_conditions)
+
           expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(provider_interface_application_choice_edit_conditions_path(application_choice))
+        end
+
+        it 'displays the update condition link when the individual_conditions feature flag is on' do
+          FeatureFlag.activate(:individual_offer_conditions)
+
+          expect(render.css('.govuk-body').css('a').first.attr('href')).to eq(edit_provider_interface_condition_statuses_path(application_choice))
         end
       end
     end
