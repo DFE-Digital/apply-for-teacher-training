@@ -4,22 +4,27 @@ module DataMigrations
     MANUAL_RUN = false
 
     def change
-      selected_reference_counts =
-        ApplicationForm.joins(:application_references)
-        .where(references: { selected: true })
-        .group('id')
-        .select('"application_forms".id, COUNT("references".id) AS ref_count')
+      unsubmitted_apps = retrieve_apps_with_surplus_reference_selections.select do |app|
+        app.application_choices.map(&:status).all? { |s| s == 'unsubmitted' }
+      end
 
-      applications_with_surplus_selections =
-        ApplicationForm.where(
-          id: selected_reference_counts.select { |c| c.ref_count > 2 }.map(&:id),
-        )
+      unsubmitted_apps.each { |a| a.application_references.update_all(selected: false) }
 
-      applications_with_surplus_selections.each do |application|
+      remaining_apps = retrieve_apps_with_surplus_reference_selections
+      remaining_apps.each do |application|
         selected_references = application.application_references.selected
         surplus_count = selected_references.size - 2
         selected_references.limit(surplus_count).update_all(selected: false)
       end
+    end
+
+  private
+
+    def retrieve_apps_with_surplus_reference_selections
+      ApplicationForm.joins(:application_references)
+        .where(references: { selected: true })
+        .group('"application_forms".id')
+        .having('COUNT("references".id) > 2')
     end
   end
 end
