@@ -10,13 +10,12 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   end
 
   def application_form
-    @application_form ||= begin
+    @application_form ||=
       Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
         Audited.audit_class.as_user(candidate) do
           create(:application_form, candidate: candidate, first_name: 'Robert')
         end
       end
-    end
   end
 
   subject(:component) { described_class.new(audited_thing: application_form) }

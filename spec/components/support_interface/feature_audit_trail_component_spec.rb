@@ -17,13 +17,10 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
 
   context 'with a feature that was created with a false value' do
     def feature
-      @feature ||= begin
+      @feature ||=
         Timecop.freeze(Time.zone.local(2020, 5, 1, 12, 0, 0)) do
-          Audited.audit_class.as_user(bob_support_user) do
-            create(:feature)
-          end
+          Audited.audit_class.as_user(bob_support_user) { create(:feature) }
         end
-      end
     end
 
     it 'renders the create audit entry' do
@@ -34,11 +31,8 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
 
   context 'with a feature that was created with a true value and updated to false' do
     def feature
-      @feature ||= begin
-        Timecop.freeze(Time.zone.local(2020, 5, 1, 12, 0, 0)) do
-          create(:feature, active: true)
-        end
-      end
+      @feature ||= Timecop.freeze(Time.zone.local(2020, 5, 1, 12, 0, 0)) { create(:feature, active: true) }
+
       Timecop.freeze(Time.zone.local(2020, 5, 3, 15, 30, 0)) do
         Audited.audit_class.as_user(alice_support_user) do
           @feature.update!(active: false)

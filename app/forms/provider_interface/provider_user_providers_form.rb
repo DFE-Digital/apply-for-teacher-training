@@ -12,9 +12,7 @@ module ProviderInterface
     end
 
     def providers_that_actor_can_manage_users_for
-      @providers_that_actor_can_manage_users_for ||= begin
-        current_provider_user.authorisation.providers_that_actor_can_manage_users_for
-      end
+      @providers_that_actor_can_manage_users_for ||= current_provider_user.authorisation.providers_that_actor_can_manage_users_for
     end
 
     def persisted?

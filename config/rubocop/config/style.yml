@@ -121,7 +121,7 @@ Style/SingleArgumentDig:
   Enabled: false
 
 Style/RedundantBegin:
-  Enabled: false
+  Enabled: true
 
 Style/HashAsLastArrayItem:
   Enabled: false
