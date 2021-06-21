@@ -18,15 +18,15 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       permission_model = create_permission_model
       result = render_inline(described_class.new(permission_model))
 
-      expect(result.css('li').text).to include('Manage organisational permissions - Yes')
+      expect(result.css('li').text).to include('Manage organisational permissions – Yes')
       expect(result.css('path')[0].attribute('d').value).to eq(tick_svg_path_shape)
-      expect(result.css('li').text).to include('Manage users - Yes')
+      expect(result.css('li').text).to include('Manage users – Yes')
       expect(result.css('path')[1].attribute('d').value).to eq(tick_svg_path_shape)
-      expect(result.css('li').text).to include('Make decisions - Yes')
+      expect(result.css('li').text).to include('Make decisions – Yes')
       expect(result.css('path')[2].attribute('d').value).to eq(tick_svg_path_shape)
-      expect(result.css('li').text).to include('Access safeguarding information - Yes')
+      expect(result.css('li').text).to include('Access safeguarding information – Yes')
       expect(result.css('path')[3].attribute('d').value).to eq(tick_svg_path_shape)
-      expect(result.css('li').text).to include('Access diversity information - Yes')
+      expect(result.css('li').text).to include('Access diversity information – Yes')
       expect(result.css('path')[4].attribute('d').value).to eq(tick_svg_path_shape)
     end
 
@@ -34,7 +34,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       permission_model = create_permission_model(manage_organisations: false)
       result = render_inline(described_class.new(permission_model))
 
-      expect(result.css('li').text).to include('Manage organisational permissions - No')
+      expect(result.css('li').text).to include('Manage organisational permissions – No')
       expect(result.css('path')[0].attribute('d').value).to eq(cross_svg_path_shape)
     end
 
@@ -42,7 +42,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       permission_model = create_permission_model(manage_users: false)
       result = render_inline(described_class.new(permission_model))
 
-      expect(result.css('li').text).to include('Manage users - No')
+      expect(result.css('li').text).to include('Manage users – No')
       expect(result.css('path')[1].attribute('d').value).to eq(cross_svg_path_shape)
     end
 
@@ -50,7 +50,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       permission_model = create_permission_model(make_decisions: false)
       result = render_inline(described_class.new(permission_model))
 
-      expect(result.css('li').text).to include('Make decisions - No')
+      expect(result.css('li').text).to include('Make decisions – No')
       expect(result.css('path')[2].attribute('d').value).to eq(cross_svg_path_shape)
     end
 
@@ -58,7 +58,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       permission_model = create_permission_model(view_safeguarding_information: false)
       result = render_inline(described_class.new(permission_model))
 
-      expect(result.css('li').text).to include('Access safeguarding information - No')
+      expect(result.css('li').text).to include('Access safeguarding information – No')
       expect(result.css('path')[3].attribute('d').value).to eq(cross_svg_path_shape)
     end
 
@@ -66,7 +66,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       permission_model = create_permission_model(view_diversity_information: false)
       result = render_inline(described_class.new(permission_model))
 
-      expect(result.css('li').text).to include('Access diversity information - No')
+      expect(result.css('li').text).to include('Access diversity information – No')
       expect(result.css('path')[4].attribute('d').value).to eq(cross_svg_path_shape)
     end
   end
