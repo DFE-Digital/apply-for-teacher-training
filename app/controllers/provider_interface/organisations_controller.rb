@@ -6,15 +6,7 @@ module ProviderInterface
       @manageable_providers = manageable_providers
     end
 
-    def show
-      @training_permissions = ProviderRelationshipPermissions.where(training_provider_id: params[:id])
-        .or(ProviderRelationshipPermissions.where(training_provider_id: manageable_providers, ratifying_provider_id: params[:id]))
-        .where.not(setup_at: nil)
-        .includes(:training_provider)
-
-      @ratifying_permissions = ProviderRelationshipPermissions.where(ratifying_provider_id: params[:id])
-        .includes(:training_provider, :ratifying_provider) - @training_permissions
-    end
+    def show; end
 
   private
 
