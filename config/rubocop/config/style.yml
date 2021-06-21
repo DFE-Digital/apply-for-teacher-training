@@ -60,8 +60,6 @@ Style/Documentation:
 
 Style/FormatStringToken:
   EnforcedStyle: template
-  Exclude:
-    - app/helpers/geocode_helper.rb
 
 Style/Alias:
   Enabled: false
@@ -81,8 +79,7 @@ Style/ClassAndModuleChildren:
   Enabled: false
 
 Style/FormatString:
-  Exclude:
-    - app/helpers/geocode_helper.rb
+  Enabled: true
 
 Style/AccessorGrouping:
   Enabled: false
