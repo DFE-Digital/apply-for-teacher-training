@@ -666,6 +666,10 @@ Rails.application.routes.draw do
       patch '/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
       patch '/conditions' => 'conditions#update', as: :application_choice_update_conditions
 
+      resource :condition_statuses, only: %i[edit update], path: 'condition-statuses' do
+        patch :confirm, on: :collection
+      end
+
       get '/offer/new_withdraw' => redirect('/offer/withdraw')
       post '/offer/confirm_withdraw' => redirect('/offer/confirm-withdraw')
       get '/offer/withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
