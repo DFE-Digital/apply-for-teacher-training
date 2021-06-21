@@ -12,6 +12,8 @@ class OfferCondition < ApplicationRecord
     unmet: 'unmet',
   }
 
+  validates :status, presence: true
+
   def standard_condition?
     STANDARD_CONDITIONS.include?(text)
   end
