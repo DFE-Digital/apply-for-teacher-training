@@ -4,7 +4,7 @@ module DataMigrations
     MANUAL_RUN = false
 
     def change
-      candidates = Candidate.select(:candidate_api_updated_at).where(candidate_api_updated_at: nil)
+      candidates = Candidate.where(candidate_api_updated_at: nil)
 
       candidates.find_in_batches(batch_size: 10) do |batch|
         batch.each { |candidate| candidate.update!(candidate_api_updated_at: candidate.created_at) }
