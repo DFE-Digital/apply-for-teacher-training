@@ -14,7 +14,7 @@ module SupportInterface
   private
 
     def find_url(find_feedback)
-      'https://www.find-postgraduate-teacher-training.service.gov.uk' + find_feedback.path
+      "https://www.find-postgraduate-teacher-training.service.gov.uk#{find_feedback.path}"
     end
   end
 end

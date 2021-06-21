@@ -26,7 +26,7 @@ private
 
   def formatted_validation_errors
     validator = JSON::Validator.fully_validate(schema, item)
-    validator.map { |message| '- ' + humanized_error(message) }.join("\n")
+    validator.map { |message| "- #{humanized_error(message)}" }.join("\n")
   end
 
   def formatted_item
