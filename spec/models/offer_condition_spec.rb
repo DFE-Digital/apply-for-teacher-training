@@ -9,6 +9,10 @@ RSpec.describe OfferCondition do
     end
   end
 
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:status) }
+  end
+
   describe '#conditions_text' do
     it 'returns an array with the text of all the offer conditions' do
       conditions = build_list(:offer_condition, 4)

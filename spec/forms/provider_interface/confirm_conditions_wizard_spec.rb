@@ -16,6 +16,15 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
 
   before { allow(store).to receive(:read) }
 
+  describe 'validations' do
+    let(:statuses) { { conditions.last.id.to_s => { 'status' => 'met' } } }
+
+    it 'validates that all conditions have a status set' do
+      expect(wizard).to be_invalid
+      expect(wizard.errors.first.message).to eq('Select a status')
+    end
+  end
+
   describe '#conditions' do
     context 'when built from an offer' do
       it 'returns the conditions of the offer' do

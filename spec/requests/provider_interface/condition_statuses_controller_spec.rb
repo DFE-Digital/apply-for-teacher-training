@@ -61,4 +61,32 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
       end
     end
   end
+
+  describe 'validation errors' do
+    let!(:application_choice) do
+      create(:application_choice, :with_accepted_offer,
+             application_form: application_form,
+             course_option: course_option)
+    end
+
+    it 'tracks errors on confirm_update' do
+      condition_id = application_choice.offer.conditions.first.id.to_s
+      expect {
+        patch(
+          confirm_provider_interface_condition_statuses_path(application_choice),
+          params: { provider_interface_confirm_conditions_wizard: { statuses: { condition_id => { test: :test } } } },
+        )
+      }.to change(ValidationError, :count).by(1)
+    end
+
+    it 'tracks errors on update' do
+      condition_id = application_choice.offer.conditions.first.id.to_s
+      expect {
+        patch(
+          provider_interface_condition_statuses_path(application_choice),
+          params: { provider_interface_confirm_conditions_wizard: { statuses: { condition_id => { test: :test } } } },
+        )
+      }.to change(ValidationError, :count).by(1)
+    end
+  end
 end
