@@ -1,0 +1,15 @@
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+    <h1 class="govuk-heading-l">Confirm that the candidate wants to withdraw their application</h1>
+
+    <p class="govuk-body">The candidate will be told that their application has been withdrawn.</p>
+
+    <%= form_with url: provider_interface_decline_or_withdraw_update_path(@application_choice), method: :put do |f| %>
+      <%= f.govuk_submit 'Withdraw application' %>
+    <% end %>
+    <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice) %></p>
+  </div>
+</div>
