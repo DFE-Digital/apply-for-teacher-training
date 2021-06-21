@@ -14,6 +14,7 @@ module VendorAPI
     end
 
     def call
+      raise 'This is not meant to be run in production' if HostingEnvironment.production?
       raise ParameterInvalid, 'Parameter is invalid (cannot be zero): courses_per_application' if courses_per_application.zero?
 
       application_count.times do
