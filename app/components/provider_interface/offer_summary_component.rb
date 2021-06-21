@@ -57,6 +57,14 @@ module ProviderInterface
       course.full_time_or_part_time? ? new_provider_interface_application_choice_offer_study_modes_path(application_choice) : nil
     end
 
+    def update_conditions_path
+      if FeatureFlag.active?(:individual_offer_conditions)
+        edit_provider_interface_condition_statuses_path(application_choice)
+      else
+        provider_interface_application_choice_edit_conditions_path(application_choice)
+      end
+    end
+
   private
 
     def accredited_body_details(course_option)
