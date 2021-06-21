@@ -165,31 +165,18 @@ FactoryBot.define do
       decline_by_default_at { 10.business_days.from_now }
       decline_by_default_days { 10 }
       offered_at { Time.zone.now }
-
-      after(:build) do |application_choice, _evaluator|
-        condition = build(:offer_condition, text: 'Be cool')
-        build(:offer, application_choice: application_choice, conditions: [condition])
-      end
+      association :offer
 
       after(:stub) do |application_choice, evaluator|
         if evaluator.offer.present?
           allow(application_choice).to receive(:offer).and_return(evaluator.offer)
+          allow(evaluator.offer).to receive(:conditions_text).and_return(evaluator.offer.conditions.map(&:text))
         else
           condition = build(:offer_condition, text: 'Be cool')
           offer = build(:offer, application_choice: application_choice, conditions: [condition])
           allow(application_choice).to receive(:offer).and_return(offer)
           allow(offer).to receive(:conditions_text).and_return(offer.conditions.map(&:text))
         end
-      end
-
-      after(:create) do |application_choice, evaluator|
-        if evaluator.offer.present?
-          evaluator.offer.update(application_choice: application_choice)
-        else
-          condition = build(:offer_condition, text: 'Be cool')
-          create(:offer, application_choice: application_choice, conditions: [condition])
-        end
-        application_choice
       end
     end
 

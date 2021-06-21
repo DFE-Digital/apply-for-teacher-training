@@ -67,7 +67,7 @@ FactoryBot.define do
     trait :with_multiple_acceptances do
       scheme { %w[U D] }
       application_form do
-        create(:completed_application_form, application_choices: [create(:application_choice, :with_accepted_offer)])
+        create(:completed_application_form, application_choices: [create(:application_choice, :pending_conditions)])
       end
       ucas_status { :pending_conditions }
     end

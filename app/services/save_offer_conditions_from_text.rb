@@ -1,14 +1,12 @@
 class SaveOfferConditionsFromText
-  attr_reader :application_choice, :conditions
+  attr_reader :offer, :conditions
 
   def initialize(application_choice:, conditions:)
-    @application_choice = application_choice
+    @offer = application_choice.offer || application_choice.build_offer
     @conditions = conditions
   end
 
   def save
-    offer = Offer.find_or_create_by(application_choice: application_choice)
-
     offer_conditions = conditions.map do |condition_text|
       offer.conditions.find_or_initialize_by(text: condition_text)
     end

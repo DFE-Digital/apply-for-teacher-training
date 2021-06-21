@@ -1,16 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ReinstatePendingConditions do
+  subject(:service) { described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option) }
+
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
   let(:original_course) { create(:course, :open_on_apply, :previous_year_but_still_available, provider: provider) }
   let(:previous_course_option) { create(:course_option, course: original_course) }
   let(:new_course_option) { create(:course_option, course: original_course.in_next_cycle) }
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
-
-  def service
-    described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
-  end
 
   it 'changes application status to \'pending_conditions\'' do
     expect { service.save }.to change(application_choice, :status).to('pending_conditions')
@@ -32,19 +30,16 @@ RSpec.describe ReinstatePendingConditions do
   end
 
   it 'updates the status of all conditions to pending' do
-    offer = Offer.find_by(application_choice: application_choice)
-    offer.conditions.update(status: :met)
+    application_choice.offer.conditions.update(status: :met)
 
-    expect { service.save }.to change { offer.reload.conditions.first.status }.from('met').to('pending')
+    expect { service.save }.to change { application_choice.offer.conditions.first.status }.from('met').to('pending')
   end
 
   context 'when the application does not have an offer object associated' do
-    let(:conditions) { [build(:offer_condition, text: 'Be cool')] }
     let(:application_choice) do
       create(:application_choice,
              :with_offer,
              :offer_deferred,
-             offer: build(:offer, conditions: conditions),
              status_before_deferral: :pending_conditions,
              course_option: previous_course_option)
     end
@@ -52,9 +47,8 @@ RSpec.describe ReinstatePendingConditions do
     it 'creates an offer object' do
       service.save
 
-      offer = Offer.find_by(application_choice: application_choice)
-      expect(offer).not_to be_nil
-      expect(offer.conditions.first.status).to eq('pending')
+      expect(application_choice.offer).not_to be_nil
+      expect(application_choice.offer.conditions.first.status).to eq('pending')
     end
   end
 
