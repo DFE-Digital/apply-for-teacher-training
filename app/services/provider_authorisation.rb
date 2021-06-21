@@ -21,22 +21,16 @@ class ProviderAuthorisation
   end
 
   def providers_that_actor_can_manage_organisations_for(with_set_up_permissions: false)
-    scope = ProviderRelationshipPermissions
-     .where(training_provider: @actor.providers)
-
-    scope = scope.where.not(setup_at: nil) if with_set_up_permissions
-
-    provider_ids = scope.or(
+    scope = ProviderRelationshipPermissions.where(training_provider: @actor.providers).or(
       ProviderRelationshipPermissions.where(
         ratifying_provider_id: @actor.providers,
       ),
-    ).pluck(:ratifying_provider_id, :training_provider_id).flatten
+    )
 
-    manageable_provider_ids = ProviderPermissions
-      .where(provider_id: provider_ids, provider_user: @actor, manage_organisations: true)
-      .pluck(:provider_id)
+    scope = scope.where.not(setup_at: nil) if with_set_up_permissions
 
-    Provider.where(id: manageable_provider_ids).order(:name)
+    provider_ids = scope.pluck(:ratifying_provider_id, :training_provider_id).flatten
+    manageable_providers_from(provider_ids)
   end
 
   def training_provider_relationships_that_actor_can_manage_organisations_for
@@ -212,5 +206,13 @@ private
     @errors.flat_map do |permission, msg_keys|
       msg_keys.map { |key| I18n.t("provider_authorisation.errors.#{permission}.#{key}") }
     end
+  end
+
+  def manageable_providers_from(provider_ids)
+    manageable_provider_ids = ProviderPermissions
+     .where(provider_id: provider_ids, provider_user: @actor, manage_organisations: true)
+     .pluck(:provider_id)
+
+    Provider.where(id: manageable_provider_ids).order(:name)
   end
 end

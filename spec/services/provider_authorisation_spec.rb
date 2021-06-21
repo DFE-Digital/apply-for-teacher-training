@@ -545,7 +545,7 @@ RSpec.describe ProviderAuthorisation do
           .to eq([])
       end
 
-      it 'does not filter out ratifying provider relationships which are not set up' do
+      it 'filters out ratifying provider relationships which are not set up' do
         provider_user = create(:provider_user, providers: [ratifying_provider])
 
         ProviderPermissions.find_by(
@@ -561,7 +561,7 @@ RSpec.describe ProviderAuthorisation do
                setup_at: nil)
 
         expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
-          .to eq([ratifying_provider])
+          .to eq([])
       end
     end
   end

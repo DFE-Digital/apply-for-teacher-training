@@ -22,6 +22,10 @@ RSpec.feature 'Viewing organisational permissions' do
 
     when_i_go_to_the_training_provider_permissions
     then_i_can_only_see_permissions_that_have_been_set_up
+
+    when_i_go_to_organisational_permissions
+    then_i_go_to_the_ratifying_provider_permissions
+    then_i_can_only_see_permissions_that_have_been_set_up
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -35,7 +39,7 @@ RSpec.feature 'Viewing organisational permissions' do
     @another_ratifying_provider = create(:provider, :with_signed_agreement, code: 'GHI')
     create(:provider_user,
            :with_notifications_enabled,
-           providers: [@training_provider],
+           providers: [@training_provider, @ratifying_provider],
            dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
            email_address: 'email@provider.ac.uk')
   end
@@ -71,6 +75,7 @@ RSpec.feature 'Viewing organisational permissions' do
 
   def then_i_can_see_organisations_with_setup_permissions
     expect(page).to have_content(@training_provider.name.to_s)
+    expect(page).to have_content(@ratifying_provider.name.to_s)
   end
 
   def when_i_set_up_permissions_for_a_provider
@@ -87,6 +92,10 @@ RSpec.feature 'Viewing organisational permissions' do
 
   def when_i_go_to_the_training_provider_permissions
     click_on @training_provider.name.to_s
+  end
+
+  def then_i_go_to_the_ratifying_provider_permissions
+    click_on @ratifying_provider.name.to_s
   end
 
   def then_i_can_only_see_permissions_that_have_been_set_up
