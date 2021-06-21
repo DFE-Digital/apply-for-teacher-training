@@ -4,4 +4,6 @@
 
 <%= render 'provider_user_navigation', title: 'Details', provider_user: @provider_user %>
 
-<%= render SupportInterface::ProviderUserSummaryComponent.new(@provider_user) %>
+<div id="provider-user-summary">
+  <%= render SupportInterface::ProviderUserSummaryComponent.new(@provider_user) %>
+</div>

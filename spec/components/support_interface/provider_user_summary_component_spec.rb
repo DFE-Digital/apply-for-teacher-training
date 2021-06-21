@@ -18,16 +18,15 @@ RSpec.describe SupportInterface::ProviderUserSummaryComponent do
     ).text
   end
 
-  it 'renders all the rows' do
+  it "renders the provider user's details" do
     expect(rendered_component).to include('John')
     expect(rendered_component).to include('Smith')
     expect(rendered_component).to include('provider@example.com')
     expect(rendered_component).to include('ABC-UID')
     expect(rendered_component).to include('15 March 2021')
-    expect(rendered_component).to include('The Provider')
   end
 
-  it 'renders configurable provider notifications' do
+  it "renders the provider user's notifications" do
     ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |notification_preference|
       expect(rendered_component.squish).to include(t("provider_user_notification_preferences.#{notification_preference}.legend"))
     end
