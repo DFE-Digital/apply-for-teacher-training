@@ -134,6 +134,14 @@ RSpec.describe VendorAPI::GenerateTestApplicationsForProvider, sidekiq: true do
           ).call
         }.to raise_error ParameterInvalid, 'Parameter is invalid (cannot be greater than number of available courses): courses_per_application'
       end
+
+      it 'when the service is run in production' do
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          expect {
+            described_class.new(service_params).call
+          }.to raise_error('This is not meant to be run in production')
+        end
+      end
     end
   end
 end

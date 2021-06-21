@@ -68,5 +68,11 @@ RSpec.describe VendorAPI::ClearApplicationDataForProvider do
 
       expect { described_class.call(provider) }.to change { ApplicationForm.count }.from(1).to(0)
     end
+
+    it 'does not work in production' do
+      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+        expect { described_class.call(provider) }.to raise_error('This is not meant to be run in production')
+      end
+    end
   end
 end
