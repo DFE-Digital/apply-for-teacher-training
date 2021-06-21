@@ -6,7 +6,11 @@ You have enough references to send your application to training providers.
 You’ve selected 2 references to submit with your application already, but you can change your selection if you want.
 
 Sign in to complete your application:
-<% elsif FeatureFlag.active?(:reference_selection) && @provided_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% elsif FeatureFlag.active?(:reference_selection) && @provided_references.count > ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+You have more than enough references to send your application to training providers.
+
+Sign in to complete your application:
+<% elsif FeatureFlag.active?(:reference_selection) && @provided_references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
 You have enough references to send your application to training providers.
 
 Sign in to complete your application:

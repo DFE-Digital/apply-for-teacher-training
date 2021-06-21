@@ -66,7 +66,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    context 'when an additional reference is received but none are selected' do
+    context 'when a second reference is received but none are selected' do
       let(:email) { mailer.send(:reference_received, reference) }
 
       let(:application_form) { build(:application_form) }
@@ -82,6 +82,26 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'You have a reference from Scott Knowles',
         'request other' => 'You have enough references to send your application to training providers.',
+      )
+    end
+
+    context 'when a third reference is received but none are selected' do
+      let(:email) { mailer.send(:reference_received, reference) }
+
+      let(:application_form) { build(:application_form) }
+      let(:reference) { build(:reference, :feedback_provided, name: 'Scott Knowles', application_form: application_form) }
+      let(:second_reference) { build(:reference, :feedback_provided, name: 'William Adama', application_form: application_form) }
+      let(:third_reference) { build(:reference, :feedback_provided, name: 'Kara Thrace', application_form: application_form) }
+
+      before do
+        application_form.application_references = [reference, second_reference, third_reference]
+        FeatureFlag.activate(:reference_selection)
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'You have a reference from Scott Knowles',
+        'request other' => 'You have more than enough references to send your application to training providers.',
       )
     end
 
