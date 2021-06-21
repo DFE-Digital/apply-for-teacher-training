@@ -1,0 +1,49 @@
+<ul class="govuk-list" id="provider-<%= permission_model.provider.id %>-enabled-permissions">
+  <% if permission_model.view_applications_only? %>
+    <li>The user can only view applications</li>
+  <% else %>
+    <% if permission_model.manage_organisations? %>
+      <li><%= render IconComponent.new(type: 'check') %> Manage organisational permissions - Yes</li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %> Manage organisational permissions - No</li>
+    <% end %>
+
+    <% if permission_model.manage_users? %>
+      <li><%= render IconComponent.new(type: 'check') %> Manage users - Yes</li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %> Manage users - No</li>
+    <% end %>
+
+    <% if permission_model.make_decisions? %>
+      <li>
+        <%= render IconComponent.new(type: 'check') %>
+        Make decisions - Yes
+        <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'make_decisions') %>
+      </li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %>Make decisions - No</li>
+    <% end %>
+
+    <% if permission_model.view_safeguarding_information? %>
+      <li>
+        <%= render IconComponent.new(type: 'check') %>
+        Access safeguarding information - Yes
+        <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_safeguarding_information') %>
+      </li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %>
+      Access safeguarding information - No</li>
+    <% end %>
+
+    <% if permission_model.view_diversity_information? %>
+      <li>
+        <%= render IconComponent.new(type: 'check') %>
+        Access diversity information - Yes
+        <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_diversity_information') %>
+      </li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %>
+      Access diversity information - No</li>
+    <% end %>
+  <% end %>
+</ul>
