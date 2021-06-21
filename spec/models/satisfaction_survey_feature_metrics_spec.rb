@@ -8,7 +8,7 @@ RSpec.describe SatisfactionSurveyFeatureMetrics, with_audited: true do
   end
 
   def create_application_with_feedback
-    create(:completed_application_form, :with_feedback_completed, submitted_at: Time.zone.now)
+    create(:completed_application_form, feedback_satisfaction_level: 'very_satisfied', submitted_at: Time.zone.now)
   end
 
   describe '#formatted_response_rate' do
