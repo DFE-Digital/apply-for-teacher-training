@@ -58,11 +58,11 @@ private
     remaining_months_in_timeline = timeline
 
     entries.each do |entry|
-      if entries.last == entry && entry.is_a?(ApplicationWorkExperience) && entry.end_date.nil?
-        entry_end_date = Time.zone.now
-      else
-        entry_end_date = entry.end_date.nil? ? submitted_at : entry.end_date
-      end
+      entry_end_date = if entries.last == entry && entry.is_a?(ApplicationWorkExperience) && entry.end_date.nil?
+                         Time.zone.now
+                       else
+                         entry.end_date.nil? ? submitted_at : entry.end_date
+                       end
 
       months_in_entry_period = month_range(start_date: entry.start_date, end_date: entry_end_date)
 

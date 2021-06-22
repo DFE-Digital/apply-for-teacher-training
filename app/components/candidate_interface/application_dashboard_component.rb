@@ -10,17 +10,17 @@ module CandidateInterface
 
     def title
       title = t('page_titles.application_dashboard')
-      title = title.pluralize if has_multiple_choices? || has_multiple_applications?
+      title = title.pluralize if multiple_choices? || multiple_applications?
       title
     end
 
   private
 
-    def has_multiple_choices?
+    def multiple_choices?
       @application_form.application_choices.size > 1
     end
 
-    def has_multiple_applications?
+    def multiple_applications?
       @application_form.previous_application_form.present? ||
         @application_form.subsequent_application_form.present?
     end

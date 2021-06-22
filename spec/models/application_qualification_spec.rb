@@ -132,20 +132,20 @@ RSpec.describe ApplicationQualification, type: :model do
     end
   end
 
-  describe '#have_enic_reference' do
+  describe '#enic_reference?' do
     it 'returns No when enic reference is nil and grade is present' do
       qualification = build_stubbed(:application_qualification, enic_reference: nil, grade: 'c')
-      expect(qualification.have_enic_reference).to eq('No')
+      expect(qualification.enic_reference?).to eq('No')
     end
 
     it 'returns Yes when reference number provided' do
       qualification = build_stubbed(:application_qualification, enic_reference: '12345')
-      expect(qualification.have_enic_reference).to eq('Yes')
+      expect(qualification.enic_reference?).to eq('Yes')
     end
 
     it 'returns nil when field not submitted' do
       qualification = build_stubbed(:application_qualification, enic_reference: nil, grade: nil)
-      expect(qualification.have_enic_reference).to eq(nil)
+      expect(qualification.enic_reference?).to eq(nil)
     end
   end
 

@@ -12,19 +12,19 @@ module CandidateInterface
       !successful? && awaiting_decisions?
     end
 
-    def has_multiple_applications?
+    def multiple_applications?
       statuses.count > 1
     end
 
-    def has_multiple_offers_but_awaiting_decisions?
-      has_offers_but_awaiting_decisions? && has_multiple_offers?
+    def multiple_offers_but_awaiting_decisions?
+      offers_but_awaiting_decisions? && multiple_offers?
     end
 
-    def has_single_offer_but_awaiting_decisions?
-      has_offers_but_awaiting_decisions? && !has_multiple_offers?
+    def single_offer_but_awaiting_decisions?
+      offers_but_awaiting_decisions? && !multiple_offers?
     end
 
-    def has_offers_but_awaiting_decisions?
+    def offers_but_awaiting_decisions?
       offered? && awaiting_decisions?
     end
 
@@ -40,7 +40,7 @@ module CandidateInterface
       statuses.include?('recruited')
     end
 
-    def has_multiple_offers?
+    def multiple_offers?
       multiple_choices_with_status?('offer')
     end
 

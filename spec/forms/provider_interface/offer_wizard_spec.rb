@@ -329,12 +329,12 @@ RSpec.describe ProviderInterface::OfferWizard do
     end
   end
 
-  describe '#has_max_number_of_further_conditions?' do
+  describe '#max_number_of_further_conditions?' do
     context 'when there are fewer than 18 conditions already set' do
       let(:further_conditions) { Array.new(17, 'be cool') }
 
       it 'returns false' do
-        expect(wizard.has_max_number_of_further_conditions?).to eq(false)
+        expect(wizard.max_number_of_further_conditions?).to eq(false)
       end
     end
 
@@ -342,7 +342,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_conditions) { Array.new(18, 'be cool') }
 
       it 'returns true' do
-        expect(wizard.has_max_number_of_further_conditions?).to eq(true)
+        expect(wizard.max_number_of_further_conditions?).to eq(true)
       end
     end
 
@@ -350,7 +350,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_conditions) { Array.new(19, 'be cool') }
 
       it 'returns true' do
-        expect(wizard.has_max_number_of_further_conditions?).to eq(true)
+        expect(wizard.max_number_of_further_conditions?).to eq(true)
       end
     end
   end

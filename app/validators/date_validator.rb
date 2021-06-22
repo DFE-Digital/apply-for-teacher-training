@@ -19,7 +19,7 @@ class DateValidator < ActiveModel::EachValidator
   def date_validations(record, attribute, value)
     return record.errors.add(attribute, :blank_date, article: article(attribute), attribute: humanize(attribute)) if options[:presence] && blank?(value)
     return record.errors.add(attribute, :blank_date_fields, attribute: humanize(attribute), fields: blank_fields(value).to_sentence) if !blank?(value) && blank_fields(value).any?
-    return record.errors.add(attribute, invalid_date_locale(options), article: article(attribute), attribute: humanize(attribute)) if is_invalid?(value)
+    return record.errors.add(attribute, invalid_date_locale(options), article: article(attribute), attribute: humanize(attribute)) if invalid?(value)
     return record.errors.add(attribute, :future, article: article(attribute), attribute: humanize(attribute)) if value > Time.zone.today && options[:future]
 
     record.errors.add(attribute, :before, article: article(attribute), attribute: humanize(attribute), compared_attribute: humanize(options[:before])) if options[:before] && !before?(record, value, options[:before])
@@ -31,7 +31,7 @@ private
     Time.zone.today - MIN_AGE.years
   end
 
-  def is_invalid?(value)
+  def invalid?(value)
     !value.is_a?(Date) || outside_acceptable_age_range(value.year)
   end
 

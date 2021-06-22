@@ -1,6 +1,6 @@
 <% if no_offers_awaiting_decisions? %>
 
-  <% if has_multiple_applications? %>
+  <% if multiple_applications? %>
     <p class="govuk-body">Your applications have been submitted and are with the training providers.</p>
   <% else %>
     <p class="govuk-body">Your application has been submitted and is with the training provider.</p>
@@ -8,12 +8,12 @@
 
   <p class="govuk-body">Our <%= govuk_link_to('teacher training advisers', 'https://beta-adviser-getintoteaching.education.gov.uk/') %> can help you prepare for any interviews.</p>
 
-<% elsif has_multiple_offers_but_awaiting_decisions? %>
+<% elsif multiple_offers_but_awaiting_decisions? %>
 
   <p class="govuk-body">2 of your training providers have made a decision on your application.</p>
   <p class="govuk-body">Our <%= govuk_link_to('teacher training advisers', 'https://beta-adviser-getintoteaching.education.gov.uk/') %> can help you prepare for any interviews.</p>
 
-<% elsif has_single_offer_but_awaiting_decisions? %>
+<% elsif single_offer_but_awaiting_decisions? %>
 
   <p class="govuk-body">One of your training providers has made a decision on your application.</p>
   <p class="govuk-body">Our <%= govuk_link_to('teacher training advisers', 'https://beta-adviser-getintoteaching.education.gov.uk/') %> can help you prepare for any interviews.</p>

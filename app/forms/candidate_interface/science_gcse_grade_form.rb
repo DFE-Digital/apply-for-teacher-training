@@ -79,7 +79,7 @@ module CandidateInterface
 
     def assign_values(params)
       self.gcse_science = params[:gcse_science]
-      self.grade = set_grade_from(params)
+      self.grade = grade_from(params)
       self.other_grade = params[:other_grade]
       self.subject = params[:gcse_science] || ApplicationQualification::SCIENCE
       self.biology_grade = params[:biology_grade]
@@ -90,7 +90,7 @@ module CandidateInterface
 
   private
 
-    def set_grade_from(params)
+    def grade_from(params)
       case params[:gcse_science]
       when ApplicationQualification::SCIENCE_SINGLE_AWARD
         params[:single_award_grade]

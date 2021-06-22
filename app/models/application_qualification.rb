@@ -117,7 +117,7 @@ class ApplicationQualification < ApplicationRecord
     end
   end
 
-  def have_enic_reference
+  def enic_reference?
     if enic_reference.present?
       'Yes'
     elsif enic_reference.nil? && grade.present?

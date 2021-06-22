@@ -33,7 +33,9 @@ Style/AsciiComments:
   Enabled: false
 
 Style/ConditionalAssignment:
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - db/migrate/20210119154820_add_request_method_and_response_headers_to_vendor_api_requests.rb
 
 Style/SafeNavigation:
   Enabled: true

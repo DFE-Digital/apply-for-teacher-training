@@ -105,7 +105,7 @@ module SupportInterface
         value: render(SupportInterface::ConditionsComponent.new(conditions: conditions)),
       }
 
-      return conditions_row if application_choice.offer.has_non_pending_conditions?
+      return conditions_row if application_choice.offer.non_pending_conditions?
 
       conditions_row.merge({
         action: 'conditions',

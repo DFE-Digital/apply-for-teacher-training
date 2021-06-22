@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
     let(:form) { subject }
 
     before do
-      allow(form).to receive(:has_right_to_work_or_study?).and_return(true)
+      allow(form).to receive(:right_to_work_or_study?).and_return(true)
     end
 
     it { is_expected.to validate_presence_of(:right_to_work_or_study) }

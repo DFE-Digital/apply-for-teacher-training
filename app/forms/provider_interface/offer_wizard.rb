@@ -90,12 +90,12 @@ module ProviderInterface
       end
     end
 
-    def has_max_number_of_further_conditions?
+    def max_number_of_further_conditions?
       further_condition_attrs.length >= MAX_FURTHER_CONDITIONS
     end
 
     def add_empty_condition
-      return if has_max_number_of_further_conditions?
+      return if max_number_of_further_conditions?
 
       further_condition_attrs.merge!(further_condition_attrs.length.to_s => { 'text' => '' })
       save_state!

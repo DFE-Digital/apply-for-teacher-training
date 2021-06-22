@@ -62,7 +62,7 @@ module ProviderInterface
     end
 
     def set_workflow_flags
-      @provider_can_respond = get_provider_can_respond
+      @provider_can_respond = provider_can_respond
       @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
     end
 
@@ -73,7 +73,7 @@ module ProviderInterface
       ).call
     end
 
-    def get_provider_can_respond
+    def provider_can_respond
       auth = ProviderAuthorisation.new(actor: current_provider_user)
       @provider_can_respond = auth.can_make_decisions?(
         application_choice: @application_choice,

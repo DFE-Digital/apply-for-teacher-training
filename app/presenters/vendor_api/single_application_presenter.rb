@@ -13,7 +13,7 @@ module VendorAPI
     end
 
     def as_json
-      hash = {
+      {
         id: application_choice.id.to_s,
         type: 'application',
         attributes: {
@@ -26,6 +26,7 @@ module VendorAPI
           interview_preferences: application_form.interview_preferences,
           reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
           recruited_at: application_choice.recruited_at,
+          hesa_itt_data: hesa_itt_data,
           candidate: {
             id: application_form.candidate.public_id,
             first_name: application_form.first_name,
@@ -51,21 +52,13 @@ module VendorAPI
             work_history_break_explanation: work_history_breaks,
           },
           offer: offer,
-          rejection: get_rejection,
+          rejection: rejection,
           withdrawal: withdrawal,
           further_information: application_form.further_information,
           safeguarding_issues_status: application_form.safeguarding_issues_status,
           safeguarding_issues_details_url: safeguarding_issues_details_url,
         },
       }
-
-      if ApplicationStateChange::ACCEPTED_STATES.include? application_choice.status.to_sym
-        hash[:attributes][:hesa_itt_data] = hesa_itt_data
-      else
-        hash[:attributes][:hesa_itt_data] = nil
-      end
-
-      hash
     end
 
   private
@@ -84,7 +77,7 @@ module VendorAPI
       end
     end
 
-    def get_rejection
+    def rejection
       if application_choice.rejection_reason? || application_choice.structured_rejection_reasons.present?
         {
           reason: RejectionReasonPresenter.new(application_choice).present,
@@ -290,11 +283,7 @@ module VendorAPI
       grade = nil
 
       if qualification.grade
-        if qualification.predicted_grade
-          grade = "#{qualification.grade} (Predicted)"
-        else
-          grade = qualification.grade
-        end
+        grade = qualification.predicted_grade ? "#{qualification.grade} (Predicted)" : qualification.grade
       end
 
       constituent_grades = qualification.constituent_grades
@@ -361,6 +350,8 @@ module VendorAPI
     end
 
     def hesa_itt_data
+      return nil unless ApplicationStateChange::ACCEPTED_STATES.include? application_choice.status.to_sym
+
       equality_and_diversity_data = application_form&.equality_and_diversity
 
       if equality_and_diversity_data

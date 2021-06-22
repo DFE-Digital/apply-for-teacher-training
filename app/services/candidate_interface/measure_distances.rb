@@ -1,7 +1,7 @@
 module CandidateInterface
   class MeasureDistances
     def average_distance(start, destinations)
-      return nil unless has_coordinates?(start)
+      return nil unless coordinates?(start)
 
       distances = destinations.map { |destination| distance(start, destination) }.compact
       return nil if distances.blank?
@@ -10,7 +10,7 @@ module CandidateInterface
     end
 
     def distance(from, to)
-      return nil unless has_coordinates?(from) && has_coordinates?(to)
+      return nil unless coordinates?(from) && coordinates?(to)
 
       Geocoder::Calculations.distance_between(
         [from.latitude, from.longitude],
@@ -20,7 +20,7 @@ module CandidateInterface
 
   private
 
-    def has_coordinates?(model)
+    def coordinates?(model)
       model&.geocoded?
     end
   end

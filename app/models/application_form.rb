@@ -302,7 +302,7 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
-  def has_the_maximum_number_of_course_choices?
+  def maximum_number_of_course_choices?
     application_choices.count >= maximum_number_of_course_choices
   end
 
