@@ -1,0 +1,35 @@
+Dear <%= @application_form.first_name %>,
+
+# Update on your application
+
+At your request, <%= @course.provider.name %> has withdrawn your application to study <%= @course.name_and_code %>.
+
+If you did not ask them to withdraw the application, contact a Get Into Teaching adviser:
+
+https://getintoteaching.education.gov.uk/#talk-to-us
+
+You can also call for free on 0800 389 2500, Monday to Friday, 8.30am to 5pm (except public holidays).
+
+# Respond to your <%= 'offer'.pluralize(@offers.length) %> by <%= @respond_by_date %>
+
+<% if @offers.length == 1 %>
+
+You’ve received an offer from <%= @offers.first.course_option.course.provider.name %> to study <%= @offers.first.course_option.course.name %>. You’re not waiting for any other decisions.
+
+<% else %>
+
+You’ve received offers from:
+
+<% @offers.each do |offer| %>
+  - <%= offer.course_option.course.provider.name %> to study <%= offer.course_option.course.name %>
+<% end %>
+
+You’re not waiting for any other decisions.
+
+<% end %>
+
+The <%= 'offer'.pluralize(@offers.length) %> will automatically be withdrawn if you do not respond by <%= @respond_by_date %>.
+
+Sign in to your account to respond:
+
+<%= @candidate_magic_link %>

@@ -1,0 +1,19 @@
+Dear <%= @application_form.first_name %>,
+
+# Update on your application
+
+At your request, <%= @course.provider.name %> has withdrawn your application to study <%= @course.name_and_code %>.
+
+If you did not ask them to withdraw the application, contact a Get Into Teaching adviser:
+
+https://getintoteaching.education.gov.uk/#talk-to-us
+
+You can also call for free on 0800 389 2500, Monday to Friday, 8.30am to 5pm (except public holidays).
+
+# You can apply again
+
+<% if @multiple_applications %>
+  You’ve now had decisions about all the courses you applied for. You did not get any offers, so you can apply again.
+<% end %>
+
+<%= render 'still_interested_content' %>
