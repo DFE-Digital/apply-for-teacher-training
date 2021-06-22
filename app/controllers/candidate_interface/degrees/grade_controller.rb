@@ -61,12 +61,10 @@ module CandidateInterface
 
       def set_page_title
         @page_title =
-          begin
-            if current_degree.international?
-              current_degree.completed? ? t('page_titles.degree_grade_international') : t('page_titles.degree_grade_international_predicted')
-            else
-              current_degree.completed? ? t('page_titles.degree_grade') : t('page_titles.degree_grade_predicted')
-            end
+          if current_degree.international?
+            current_degree.completed? ? t('page_titles.degree_grade_international') : t('page_titles.degree_grade_international_predicted')
+          else
+            current_degree.completed? ? t('page_titles.degree_grade') : t('page_titles.degree_grade_predicted')
           end
       end
     end

@@ -10,9 +10,7 @@ module CandidateInterface
     end
 
     def available_providers
-      @available_providers ||= begin
-        Provider.all.order(:name)
-      end
+      @available_providers ||= Provider.all.order(:name)
     end
   end
 end

@@ -10,9 +10,7 @@ module CandidateInterface
     DropdownOption = Struct.new(:id, :name)
 
     def radio_available_courses
-      @radio_available_courses ||= begin
-        courses_for_current_cycle.exposed_in_find.order(:name).includes(:course_options)
-      end
+      @radio_available_courses ||= courses_for_current_cycle.exposed_in_find.order(:name).includes(:course_options)
     end
 
     def dropdown_available_courses

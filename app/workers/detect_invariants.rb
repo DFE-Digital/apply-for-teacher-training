@@ -15,11 +15,10 @@ class DetectInvariants
   end
 
   def detect_application_choices_in_old_states
-    choices_in_wrong_state = begin
+    choices_in_wrong_state =
       ApplicationChoice
-        .where("status IN ('awaiting_references', 'application_complete')")
-        .map(&:id).sort
-    end
+      .where("status IN ('awaiting_references', 'application_complete')")
+      .map(&:id).sort
 
     if choices_in_wrong_state.any?
       urls = choices_in_wrong_state.map { |application_choice_id| helpers.support_interface_application_choice_url(application_choice_id) }

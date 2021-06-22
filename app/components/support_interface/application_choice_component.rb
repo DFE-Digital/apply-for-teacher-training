@@ -160,7 +160,7 @@ module SupportInterface
     end
 
     def rejection_reasons_text
-      @_rejection_reasons_text ||= begin
+      @_rejection_reasons_text ||=
         if application_choice.structured_rejection_reasons.present?
           render(
             ReasonsForRejectionComponent.new(
@@ -172,7 +172,6 @@ module SupportInterface
         elsif application_choice.rejection_reason.present?
           application_choice.rejection_reason
         end
-      end
     end
 
     def visible_over_vendor_api?
