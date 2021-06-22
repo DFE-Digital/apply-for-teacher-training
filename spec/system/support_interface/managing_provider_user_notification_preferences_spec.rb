@@ -63,10 +63,10 @@ RSpec.feature 'Managing provider user notification preferences' do
 
   def then_the_notification_preferences_are_updated
     expect(page).to have_content 'Provider user notifications updated'
-    expect(page).to have_content 'Application received - No'
-    expect(page).to have_content 'Application withdrawn by candidate - No'
-    expect(page).to have_content 'Application automatically rejected - No'
-    expect(page).to have_content 'Offer accepted - No'
-    expect(page).to have_content 'Offer declined - No'
+    expect(page).to have_content 'Application received – No'
+    expect(page).to have_content 'Application withdrawn by candidate – No'
+    expect(page).to have_content 'Application automatically rejected – No'
+    expect(page).to have_content 'Offer accepted – No'
+    expect(page).to have_content 'Offer declined – No'
   end
 end

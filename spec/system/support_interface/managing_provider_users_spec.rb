@@ -4,6 +4,8 @@ RSpec.feature 'Managing provider users' do
   include DfESignInHelpers
   include DsiAPIHelper
 
+  FeatureFlag.deactivate(:new_provider_user_flow)
+
   scenario 'creating a new provider user', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
@@ -203,36 +205,36 @@ RSpec.feature 'Managing provider users' do
 
   def and_they_should_be_able_to_manage_users
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).to have_content('Manage users')
+      expect(page).to have_content('Manage users – Yes')
     end
   end
 
   def and_they_should_be_able_to_manage_organisations
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).to have_content('Manage organisational permissions')
+      expect(page).to have_content('Manage organisational permissions – Yes')
     end
   end
 
   def and_they_should_be_able_to_view_safeguarding_information
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).to have_content('Access safeguarding information')
+      expect(page).to have_content('Access safeguarding information – Yes')
     end
   end
 
   def and_they_should_be_able_to_make_decisions
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).to have_content('Make decisions')
+      expect(page).to have_content('Make decisions – Yes')
     end
   end
 
   def and_they_should_be_able_to_view_diversity_information
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).to have_content('Access diversity information')
+      expect(page).to have_content('Access diversity information – Yes')
     end
   end
 
   def when_i_click_to_change_their_permissions
-    click_on 'Change permissions'
+    click_on 'Change permissions', match: :first
   end
 
   def and_i_remove_manage_users_permissions
@@ -257,13 +259,13 @@ RSpec.feature 'Managing provider users' do
 
   def then_they_should_not_be_able_to_manage_users
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).not_to have_content('Manage users')
+      expect(page).to have_content('Manage users – No')
     end
   end
 
   def and_they_should_not_be_able_to_manage_organisations
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).not_to have_content('Manage organisational permissions')
+      expect(page).to have_content('Manage organisational permissions – No')
     end
   end
 
