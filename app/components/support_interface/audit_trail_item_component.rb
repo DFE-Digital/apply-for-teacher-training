@@ -41,7 +41,11 @@ module SupportInterface
     end
 
     def changes
-      audit.audited_changes.merge(comment_change).reject { |_, values| values.blank? }
+      interesting_changes = audit.audited_changes.merge(comment_change).reject { |_, values| values.blank? }
+
+      interesting_changes.map do |attribute, values|
+        AuditTrailChange.new(attribute: attribute, values: values)
+      end
     end
 
     def comment_change
@@ -91,6 +95,41 @@ module SupportInterface
         "Permission relationship between training provider #{training_provider.name} and ratifying provider #{ratifying_provider.name} created"
       when 'update'
         "Permission relationship between training provider #{training_provider.name} and ratifying provider #{ratifying_provider.name} changed"
+      end
+    end
+
+    class AuditTrailChange
+      REDACTED_ATTRIBUTES = %w[
+        sex disabilities ethnic_group ethnic_background
+        hesa_sex hesa_disabilities hesa_ethnicity
+      ].freeze
+
+      attr_reader :values, :attribute
+
+      def initialize(attribute:, values:)
+        @attribute = attribute
+        @values = values
+      end
+
+      def formatted_values
+        return '[REDACTED]' if REDACTED_ATTRIBUTES.include?(@attribute)
+        return values.map { |v| redact_equality_and_diversity_data(v) || 'nil' }.join(' → ') if values.is_a?(Array)
+
+        (redact_equality_and_diversity_data(values) || 'nil').to_s
+      end
+
+    private
+
+      def redact_equality_and_diversity_data(value)
+        return value unless value.is_a? Hash
+
+        REDACTED_ATTRIBUTES.each do |field|
+          next unless value[field]
+
+          value[field] = '[REDACTED]'
+        end
+
+        value
       end
     end
   end

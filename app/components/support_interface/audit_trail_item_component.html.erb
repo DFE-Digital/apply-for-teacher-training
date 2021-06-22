@@ -7,10 +7,14 @@
       <%= audit_entry_event_label %>
       <span class="govuk-caption-m"><%= audit_entry_user_label %></span>
     </h2>
-    <dl class="govuk-summary-list govuk-!-margin-bottom-2 govuk-!-font-size-16">
-      <% changes.each_with_index do |(attr, values), index| %>
-        <%= render SupportInterface::AuditTrailChangeComponent.new(attribute: attr, values: values, last_change: index + 1 == changes.size) %>
+    <%= govuk_summary_list(classes: 'govuk-!-font-size-16') do |component| %>
+      <% changes.each do |change| %>
+        <%= component.slot(
+          :row,
+          key: change.attribute,
+          value: change.formatted_values,
+        ) %>
       <% end %>
-    </dl>
+    <% end %>
   </td>
 </tr>
