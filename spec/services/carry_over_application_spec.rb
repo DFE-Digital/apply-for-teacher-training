@@ -99,6 +99,17 @@ RSpec.describe CarryOverApplication do
     end
 
     it 'only carries over required attributes' do
+      described_class.new(original_application_form).call
+
+      carried_over_application_form = ApplicationForm.last
+
+      carried_over_application_form.application_work_experiences.each do |experience|
+        expect(experience.working_pattern).to be_nil
+        expect(experience.working_with_children).to be_nil
+        expect(experience.role).to be_present
+        expect(experience.organisation).to be_present
+        expect(experience.details).to be_present
+      end
     end
   end
 end
