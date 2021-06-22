@@ -1,0 +1,9 @@
+<ul class="govuk-list">
+  <% rows.each do |row| %>
+    <% if row[:active] == 'Yes' %>
+      <li><%= render IconComponent.new(type: 'check') %> <%= row[:preference] %> – <%= row[:active] %></li>
+    <% else %>
+      <li><%= render IconComponent.new(type: 'cross') %> <%= row[:preference] %> – <%= row[:active] %></li>
+    <% end %>
+  <% end %>
+</ul>

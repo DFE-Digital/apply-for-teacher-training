@@ -4,4 +4,11 @@
 
 <%= render 'provider_user_navigation', title: 'Details', provider_user: @provider_user %>
 
-<%= render SupportInterface::ProviderUserSummaryComponent.new(@provider_user) %>
+<div id="provider-user-summary">
+  <%= render SupportInterface::ProviderUserSummaryComponent.new(@provider_user) %>
+</div>
+
+<div id="permissions-summary">
+  <h2 class="govuk-heading-m govuk-!-margin-top-0">Permissions</h2>
+  <%= render SupportInterface::ProviderUserPermissionsSummaryComponent.new(@provider_user) %>
+</div>

@@ -63,12 +63,10 @@ RSpec.feature 'Managing provider user notification preferences' do
 
   def then_the_notification_preferences_are_updated
     expect(page).to have_content 'Provider user notifications updated'
-
-    within '.app-summary-card__body' do
-      rows = all('.govuk-summary-list__row')
-      (0..(ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.count - 1)).each do |i|
-        expect(rows[i].text).to include('Off')
-      end
-    end
+    expect(page).to have_content 'Application received – No'
+    expect(page).to have_content 'Application withdrawn by candidate – No'
+    expect(page).to have_content 'Application automatically rejected – No'
+    expect(page).to have_content 'Offer accepted – No'
+    expect(page).to have_content 'Offer declined – No'
   end
 end
