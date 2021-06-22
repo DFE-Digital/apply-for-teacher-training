@@ -29,7 +29,7 @@ Lint/SymbolConversion:
   Enabled: false
 
 Lint/DuplicateBranch:
-  Enabled: false
+  Enabled: true
 
 Lint/EmptyBlock:
   Enabled: true

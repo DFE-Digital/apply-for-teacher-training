@@ -1,4 +1,9 @@
 module ApplicationHelper
+  SERVICES = { candidate_interface: 'apply',
+               provider_interface: 'manage',
+               support_interface: 'support',
+               api_docs: 'api' }.stringify_keys.freeze
+
   def browser_title
     page_browser_title = content_for(:browser_title).presence || content_for(:title)
     [page_browser_title, service_name, 'GOV.UK'].select(&:present?).join(' - ')
@@ -9,18 +14,9 @@ module ApplicationHelper
   end
 
   def service_key
-    case current_namespace
-    when 'candidate_interface'
-      'apply'
-    when 'provider_interface'
-      'manage'
-    when 'support_interface'
-      'support'
-    when 'api_docs'
-      'api'
-    else
-      'apply'
-    end
+    return SERVICES[current_namespace] if SERVICES.key?(current_namespace)
+
+    'apply'
   end
 
   def service_link

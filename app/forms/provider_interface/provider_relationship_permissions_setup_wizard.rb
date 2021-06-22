@@ -72,27 +72,21 @@ module ProviderInterface
     # 2. permissions (repeated per relationship)
     # 3. check
     def next_step
-      if checking_answers.present?
-        [:check]
-      elsif current_step == 'organisations'
-        [:permissions, next_provider_relationship_id]
-      elsif current_step == 'permissions' && next_provider_relationship_id.present?
-        [:permissions, next_provider_relationship_id]
-      else
-        [:check]
-      end
+      return [:permissions, next_provider_relationship_id] if next_step_is_permissions? && checking_answers.blank?
+
+      [:check]
     end
 
     def previous_step
       if checking_answers.present?
-        [:check]
+        return [:check]
       elsif current_step == 'permissions'
-        previous_provider_relationship_id.present? ? [:permissions, previous_provider_relationship_id] : [:organisations]
+        return previous_provider_relationship_id.present? ? [:permissions, previous_provider_relationship_id] : [:organisations]
       elsif current_step == 'check'
-        [:permissions, provider_relationships.last]
-      else
-        [:check]
+        return [:permissions, provider_relationships.last]
       end
+
+      [:check]
     end
 
     def save_state!
@@ -110,6 +104,10 @@ module ProviderInterface
     end
 
   private
+
+    def next_step_is_permissions?
+      current_step == 'organisations' || (current_step == 'permissions' && next_provider_relationship_id.present?)
+    end
 
     def state
       as_json(except: %w[state_store errors validation_context _current_permissions_form current_step]).to_json

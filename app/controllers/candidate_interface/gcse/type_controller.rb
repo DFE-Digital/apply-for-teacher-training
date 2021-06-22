@@ -17,9 +17,7 @@ module CandidateInterface
     def create
       @type_form = GcseQualificationTypeForm.new(qualification_params)
 
-      if current_qualification && @type_form.update(current_qualification)
-        redirect_to next_gcse_path
-      elsif @type_form.save(current_application)
+      if (current_qualification && @type_form.update(current_qualification)) || @type_form.save(current_application)
         redirect_to next_gcse_path
       else
         track_validation_error(@type_form)

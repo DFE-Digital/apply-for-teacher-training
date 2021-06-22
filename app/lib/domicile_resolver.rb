@@ -20,7 +20,6 @@ class DomicileResolver
     when *POSTCODE_PREFIXES['Scotland'] then 'XH'
     when *POSTCODE_PREFIXES['Northern Ireland'] then 'XG'
     when *POSTCODE_PREFIXES['Channel Islands'] then 'XL'
-    when *POSTCODE_PREFIXES['Spanning Two Countries'] then 'XK'
     else
       'XK'
     end

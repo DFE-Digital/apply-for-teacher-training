@@ -13,11 +13,7 @@ module CandidateInterface
         degree_type_params = current_degree ? update_params : create_params
         @degree_type_form = DegreeTypeForm.new(degree_type_params)
 
-        if current_degree && @degree_type_form.update
-          redirect_to candidate_interface_degree_subject_path(
-            @degree_type_form.degree,
-          )
-        elsif @degree_type_form.save
+        if (current_degree && @degree_type_form.update) || @degree_type_form.save
           redirect_to candidate_interface_degree_subject_path(
             @degree_type_form.degree,
           )
