@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
            course_option: course_option,
            application_form: application_form)
   end
-  let(:find_closes) { EndOfCycleTimetable::CYCLE_DATES.dig(Time.zone.now.year, :find_closes) }
+  let(:find_closes) { CycleTimetableQuery::CYCLE_DATES.dig(Time.zone.now.year, :find_closes) }
 
   it 'renders component with correct values for the provider' do
     result = render_inline(described_class.new(course_choice: application_choice))

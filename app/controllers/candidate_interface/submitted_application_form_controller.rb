@@ -19,7 +19,7 @@ module CandidateInterface
     end
 
     def start_carry_over
-      render EndOfCycleTimetable.between_cycles_apply_2? ? :start_carry_over_between_cycles : :start_carry_over
+      render CycleTimetableQuery.between_cycles_apply_2? ? :start_carry_over_between_cycles : :start_carry_over
     end
 
     def carry_over

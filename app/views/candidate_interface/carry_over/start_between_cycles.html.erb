@@ -18,7 +18,7 @@
 
     <% if CandidateInterface::EndOfCyclePolicy.before_apply_reopens? %>
       <p class="govuk-body">
-        You can submit your application from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+        You can submit your application from <%= CycleTimetableQuery.apply_reopens.to_s(:govuk_date) %>.
       </p>
     <% end %>
 

@@ -5,7 +5,7 @@ module RecruitmentCycle
   }.freeze
 
   def self.current_year
-    if Time.zone.today < EndOfCycleTimetable.find_reopens
+    if Time.zone.today < CycleTimetableQuery.find_reopens
       2020
     else
       2021

@@ -47,7 +47,7 @@ module CandidateInterface
     end
 
     def course_row_value
-      if EndOfCycleTimetable.find_down?
+      if CycleTimetableQuery.find_down?
         tag.p(@course_choice.current_course.name_and_code, class: 'govuk-!-margin-bottom-0') +
           tag.p(@course_choice.current_course.description, class: 'govuk-body')
       else

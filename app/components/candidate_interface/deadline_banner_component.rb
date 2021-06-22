@@ -19,13 +19,13 @@ private
 
   def show_apply_1_deadline_banner?
     apply_1? &&
-      EndOfCycleTimetable.show_apply_1_deadline_banner? &&
+      CycleTimetableQuery.show_apply_1_deadline_banner? &&
       FeatureFlag.active?(:deadline_notices)
   end
 
   def show_apply_2_deadline_banner?
     apply_2? &&
-      EndOfCycleTimetable.show_apply_2_deadline_banner? &&
+      CycleTimetableQuery.show_apply_2_deadline_banner? &&
       FeatureFlag.active?(:deadline_notices)
   end
 
@@ -38,10 +38,10 @@ private
   end
 
   def apply_1_deadline
-    EndOfCycleTimetable.date(:apply_1_deadline).strftime('%d %B')
+    CycleTimetableQuery.date(:apply_1_deadline).strftime('%d %B')
   end
 
   def apply_2_deadline
-    EndOfCycleTimetable.date(:apply_2_deadline).strftime('%d %B')
+    CycleTimetableQuery.date(:apply_2_deadline).strftime('%d %B')
   end
 end

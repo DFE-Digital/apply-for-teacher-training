@@ -9,8 +9,8 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       application_form.phase = phase
       FeatureFlag.activate(:deadline_notices)
       allow(flash).to receive(:empty?).and_return true
-      allow(EndOfCycleTimetable).to receive(:between_cycles_apply_1?).and_return(true)
-      allow(EndOfCycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
+      allow(CycleTimetableQuery).to receive(:between_cycles_apply_1?).and_return(true)
+      allow(CycleTimetableQuery).to receive(:between_cycles_apply_2?).and_return(true)
     end
 
     it 'renders the banner for an Apply 1 app' do
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
 
     it 'does not render when we are not between cycles' do
       set_conditions_for_rendering_banner('apply_1')
-      allow(EndOfCycleTimetable).to receive(:between_cycles_apply_1?).and_return(false)
+      allow(CycleTimetableQuery).to receive(:between_cycles_apply_1?).and_return(false)
 
       result = render_inline(
         described_class.new(

@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
     context 'when Find is down' do
       it 'removes the link to Find' do
-        Timecop.travel(EndOfCycleTimetable.find_closes.end_of_day + 1.hour) do
+        Timecop.travel(CycleTimetableQuery.find_closes.end_of_day + 1.hour) do
           application_choice = application_form.application_choices.first
           result = render_inline(described_class.new(application_form: application_form))
 

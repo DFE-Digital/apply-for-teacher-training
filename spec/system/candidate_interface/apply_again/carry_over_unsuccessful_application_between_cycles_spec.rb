@@ -55,7 +55,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_on_start_now
-    expect(page).to have_content "You can submit your application from #{EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)}."
+    expect(page).to have_content "You can submit your application from #{CycleTimetableQuery.apply_reopens.to_s(:govuk_date)}."
     expect(page).to have_content 'Your courses have been removed. You can add them again later.'
     click_button 'Apply again'
   end
@@ -72,7 +72,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet
-    expect(page).to have_content "You’ll be able to find courses in #{(EndOfCycleTimetable.find_reopens - Time.zone.today).to_i} days (#{EndOfCycleTimetable.find_reopens.to_s(:govuk_date)}). You can keep making changes to the rest of your application until then."
+    expect(page).to have_content "You’ll be able to find courses in #{(CycleTimetableQuery.find_reopens - Time.zone.today).to_i} days (#{CycleTimetableQuery.find_reopens.to_s(:govuk_date)}). You can keep making changes to the rest of your application until then."
     expect(page).not_to have_link 'Course choice'
   end
 

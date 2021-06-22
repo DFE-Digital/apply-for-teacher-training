@@ -34,7 +34,7 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
   end
 
   def and_there_are_candidates_and_application_forms_in_the_system
-    allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
+    allow(CycleTimetableQuery).to receive(:apply_reopens).and_return(60.days.ago)
     @application_choice1 = create(:application_choice, :awaiting_provider_decision)
     @application_choice2 = create(:application_choice, :awaiting_provider_decision)
     @application_choice3 = create(:application_choice, :awaiting_provider_decision)

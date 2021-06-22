@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is after the apply1 submission deadline' do
         it 'returns false' do
-          Timecop.travel(EndOfCycleTimetable.apply_1_deadline + 1.day) do
+          Timecop.travel(CycleTimetableQuery.apply_1_deadline + 1.day) do
             expect(execute_service).to eq false
           end
         end
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is before the apply1 submission deadline' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.apply_1_deadline) do
+          Timecop.travel(CycleTimetableQuery.apply_1_deadline) do
             expect(execute_service).to eq true
           end
         end
@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.find_reopens) do
+          Timecop.travel(CycleTimetableQuery.find_reopens) do
             expect(execute_service).to eq true
           end
         end
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is after the apply again submission deadline' do
         it 'returns false' do
-          Timecop.travel(EndOfCycleTimetable.apply_2_deadline + 1.day) do
+          Timecop.travel(CycleTimetableQuery.apply_2_deadline + 1.day) do
             expect(execute_service).to eq false
           end
         end
@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is before the apply again submission deadline' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.apply_2_deadline) do
+          Timecop.travel(CycleTimetableQuery.apply_2_deadline) do
             expect(execute_service).to eq true
           end
         end
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.apply_reopens) do
+          Timecop.travel(CycleTimetableQuery.apply_reopens) do
             expect(execute_service).to eq true
           end
         end

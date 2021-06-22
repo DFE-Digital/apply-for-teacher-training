@@ -202,12 +202,12 @@ private
   end
 
   def date_range_query_for_recruitment_cycle_year(cycle_year)
-    start_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year][:apply_reopens]
+    start_date = CycleTimetableQuery::CYCLE_DATES[cycle_year][:apply_reopens]
 
     query = "created_at >= '#{start_date}'"
 
-    if EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1].present?
-      end_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1][:apply_reopens]
+    if CycleTimetableQuery::CYCLE_DATES[cycle_year + 1].present?
+      end_date = CycleTimetableQuery::CYCLE_DATES[cycle_year + 1][:apply_reopens]
 
       query += " AND created_at <= '#{end_date}'"
     end

@@ -54,7 +54,7 @@ module CandidateInterface
     end
 
     def redirect_to_application_if_between_cycles
-      if EndOfCycleTimetable.between_cycles?(current_application.phase)
+      if CycleTimetableQuery.between_cycles?(current_application.phase)
         redirect_to candidate_interface_application_form_path and return false
       end
 

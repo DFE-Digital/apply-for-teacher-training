@@ -1,4 +1,4 @@
-<% find_down = EndOfCycleTimetable.find_down? %>
+<% find_down = CycleTimetableQuery.find_down? %>
 
 <% courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
   <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= label_for(region_code) %></h2>

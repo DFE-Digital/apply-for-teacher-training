@@ -43,7 +43,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">End-of-cycle: Cancel unsubmitted applications</h2>
       <p class="govuk-body">This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
-      <p class="govuk-body">It should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
+      <p class="govuk-body">It should be run shortly after the Apply 2 deadline closes at midnight on <%= CycleTimetableQuery.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <%= govuk_link_to 'Cancel applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, button: true, class: 'govuk-button--warning' %>

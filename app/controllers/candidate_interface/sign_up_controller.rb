@@ -5,13 +5,13 @@ module CandidateInterface
     before_action :show_pilot_holding_page_if_not_open
 
     def new
-      redirect_to candidate_interface_applications_closed_path and return if EndOfCycleTimetable.between_cycles_apply_1?
+      redirect_to candidate_interface_applications_closed_path and return if CycleTimetableQuery.between_cycles_apply_1?
 
       @sign_up_form = CandidateInterface::SignUpForm.new
     end
 
     def create
-      redirect_to candidate_interface_applications_closed_path and return if EndOfCycleTimetable.between_cycles_apply_1?
+      redirect_to candidate_interface_applications_closed_path and return if CycleTimetableQuery.between_cycles_apply_1?
 
       @sign_up_form = CandidateInterface::SignUpForm.new(candidate_sign_up_form_params)
 
