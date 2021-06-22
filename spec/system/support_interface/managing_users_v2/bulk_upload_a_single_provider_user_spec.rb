@@ -58,7 +58,7 @@ RSpec.feature 'bulk upload provider users' do
   end
 
   def given_dfe_signin_is_configured
-    set_dsi_api_response(success: true)
+    dsi_api_response(success: true)
   end
 
   def and_i_am_a_support_user
