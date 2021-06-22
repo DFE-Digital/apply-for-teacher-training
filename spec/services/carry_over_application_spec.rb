@@ -9,7 +9,6 @@ RSpec.describe CarryOverApplication do
         :completed_application_form,
         :with_gcses,
         application_choices_count: 1,
-        work_experiences_count: 1,
         volunteering_experiences_count: 1,
         full_work_history: true,
       )
@@ -75,6 +74,31 @@ RSpec.describe CarryOverApplication do
 
       expect(ApplicationForm.last.application_references.count).to eq 2
       expect(ApplicationForm.last.application_references.map(&:name)).to eq ['Carrie Over', 'Nixt Cycle']
+    end
+  end
+
+  context 'when application form has unstructured work history' do
+    before do
+      original_application_form.update(feature_restructured_work_history: false)
+      FeatureFlag.activate(:restructured_work_history)
+    end
+
+    it 'carries over history and sets feature_structured_work_history to true' do
+      described_class.new(original_application_form).call
+      carried_over_application_form = ApplicationForm.last
+
+      expect(carried_over_application_form.application_work_experiences.count).to eq(2)
+      expect(carried_over_application_form.feature_restructured_work_history).to be(true)
+    end
+
+    it 'sets the work history section to incomplete' do
+      described_class.new(original_application_form).call
+      carried_over_application_form = ApplicationForm.last
+
+      expect(carried_over_application_form.work_history_completed).to be(false)
+    end
+
+    it 'only carries over required attributes' do
     end
   end
 end
