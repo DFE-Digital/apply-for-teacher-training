@@ -519,5 +519,50 @@ RSpec.describe ProviderAuthorisation do
       expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for)
         .to eq([training_provider])
     end
+
+    context 'when filtering out training provider permissions that have not been set up' do
+      let(:training_provider) { create(:provider) }
+      let(:ratifying_provider) { create(:provider) }
+
+      it 'only returns providers with permissions that do not have setup_at set to nil' do
+        provider_user = create(:provider_user, providers: [training_provider])
+
+        # there is a relationship to manage between these two providers...
+        create(:provider_relationship_permissions,
+               training_provider: training_provider,
+               ratifying_provider: ratifying_provider,
+               setup_at: nil)
+
+        # ...but the user only has manage_organisations permissions for the training_provider.
+        ProviderPermissions.find_by(
+          provider_user: provider_user,
+          provider: training_provider,
+        ).update!(
+          manage_organisations: true,
+        )
+
+        expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
+          .to eq([])
+      end
+
+      it 'filters out ratifying provider relationships which are not set up' do
+        provider_user = create(:provider_user, providers: [ratifying_provider])
+
+        ProviderPermissions.find_by(
+          provider_user: provider_user,
+          provider: ratifying_provider,
+        ).update!(
+          manage_organisations: true,
+        )
+
+        create(:provider_relationship_permissions,
+               training_provider: training_provider,
+               ratifying_provider: ratifying_provider,
+               setup_at: nil)
+
+        expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
+          .to eq([])
+      end
+    end
   end
 end
