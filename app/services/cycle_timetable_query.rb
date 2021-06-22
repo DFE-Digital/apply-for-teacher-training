@@ -1,5 +1,5 @@
 class CycleTimetableQuery
-  CURRENT_YEAR_FOR_SCHEDULE = 2021
+  RECRUITMENT_CYCLE_YEAR = 2021
 
   # These dates are configuration for when the previous cycle ends and the next cycle starts
   # The 2020 dates are made up so we can generate sensible test data
