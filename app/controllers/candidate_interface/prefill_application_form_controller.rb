@@ -1,5 +1,7 @@
 module CandidateInterface
   class PrefillApplicationFormController < CandidateInterfaceController
+    before_action :redirect_if_application_form_present
+
     def new
       @prefill_application_or_not_form = PrefillApplicationOrNotForm.new
     end
@@ -21,6 +23,15 @@ module CandidateInterface
       end
     end
 
+  private
+
+    def redirect_if_application_form_present
+      application_form = current_candidate.application_forms.first
+      return if application_form.nil? || application_form.blank_application?
+
+      redirect_to candidate_interface_application_form_path
+    end
+
     def prefill_candidate_application_form
       example_application_choices = TestApplications.new.create_application(
         recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -34,8 +45,6 @@ module CandidateInterface
       example_application_form = example_application_choices.first.application_form
       current_candidate.application_forms << example_application_form
     end
-
-  private
 
     def prefill_application_or_not_params
       params.fetch(:candidate_interface_prefill_application_or_not_form, {}).permit(:prefill)
