@@ -28,7 +28,7 @@ module ProviderInterface
         StateChangeNotifier.new(transition, @application_choice).application_outcome_notification
       end
 
-      # TODO: Email candidate.
+      SendCandidateWithdrawnOnRequestEmail.new(application_choice: application_choice).call
 
       ResolveUCASMatch.new(application_choice: @application_choice).call if resolve_ucas_match?
 
