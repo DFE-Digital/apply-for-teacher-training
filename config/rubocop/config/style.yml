@@ -109,7 +109,7 @@ Style/SlicingWithRange:
   Enabled: true
 
 Style/StringConcatenation:
-  Enabled: false
+  Enabled: true
 
 Style/KeywordParametersOrder:
   Enabled: false

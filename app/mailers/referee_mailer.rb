@@ -64,6 +64,7 @@ class RefereeMailer < ApplicationMailer
 
 private
 
+  # rubocop:disable  Style/StringConcatenation
   def google_form_url_for(candidate_name, reference)
     # `to_query` replaces spaces with `+`, but a Google Form with a prefilled parameter
     # shows a `+` in the actual form, eg "Jane Doe" becomes "Jane+Doe", so we need to
@@ -80,4 +81,5 @@ private
         t('referee_mailer.reference_request.referee_name_entry') => reference.name,
       }.to_query.gsub('+', '%20')
   end
+  # rubocop:enable  Style/StringConcatenation
 end

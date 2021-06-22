@@ -25,7 +25,7 @@ private
     notification << accredited_body_message(accredited_provider)
 
     SlackNotificationWorker.perform_async(
-      notification.join('. ') + '.',
+      "#{notification.join('. ')}.",
       support_interface_course_url(@course),
     )
   end

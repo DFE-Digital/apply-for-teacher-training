@@ -16,7 +16,7 @@
             <li>
               <% email_name = email_id.gsub('-', ' ').gsub('candidate_mailer', 'To candidate: ').gsub('referee_mailer', 'To referee: ').gsub('provider_mailer', 'To provider: ') %>
               <% if Rails.application.config.action_mailer.show_previews %>
-                <%= govuk_link_to email_name, '/rails/mailers/' + email_id.gsub('-', '/') %>
+                <%= govuk_link_to email_name, "/rails/mailers/#{email_id.gsub('-', '/')}" %>
               <% else %>
                 <%= email_name %>
               <% end %>
@@ -35,7 +35,7 @@
               <% email_name = email_id.gsub('-', ' ').gsub('candidate_mailer', 'To candidate: ').gsub('referee_mailer', 'To referee: ').gsub('provider_mailer', 'To provider: ') %>
               <li>
                 <% if Rails.application.config.action_mailer.show_previews %>
-                  <%= govuk_link_to email_name, '/rails/mailers/' + email_id.gsub('-', '/') %>
+                  <%= govuk_link_to email_name, "/rails/mailers/#{email_id.gsub('-', '/')}" %>
                 <% else %>
                   <%= email_name %>
                 <% end %>

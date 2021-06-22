@@ -15,7 +15,7 @@ class StateDiagram
         graph.add_edges(
           state.name.to_s,
           event.transitions_to.to_s,
-          label: event_emoji(state.name, event, namespace) + ' ' + event_name(state.name, event, namespace),
+          label: "#{event_emoji(state.name, event, namespace)} #{event_name(state.name, event, namespace)}",
           fontname: 'GDS Transport", arial, sans-serif',
           color: '#0b0c0c',
           fontcolor: '#0b0c0c',

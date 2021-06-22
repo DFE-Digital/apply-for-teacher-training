@@ -25,8 +25,8 @@ module SupportInterface
       def provider_users(state_store)
         state = state_store.read
         stored_provider_users = JSON.parse(state)['provider_users'] if state
-        create_csv_row = ->(pu) { [pu['first_name'], pu['last_name'], pu['email_address']].compact.join(',') + "\n" }
-        stored_provider_users&.map { |pu| create_csv_row.call(pu) }&.join
+        create_csv_row = ->(user) { "#{[user['first_name'], user['last_name'], user['email_address']].compact.join(',')}\n" }
+        stored_provider_users&.map { |user| create_csv_row.call(user) }&.join
       end
     end
 

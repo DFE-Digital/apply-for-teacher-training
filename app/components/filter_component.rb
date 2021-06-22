@@ -25,14 +25,14 @@ class FilterComponent < ViewComponent::Base
     params = filters_to_params(filters)
     params[name].reject! { |val| val == value }
     params[:remove] = true # for removing last filter
-    '?' + params.to_query
+    to_query(params)
   end
 
   def remove_search_tag_link(name)
     params = filters_to_params(filters)
     params.delete(name)
     params[:remove] = true # for removing last filter
-    '?' + params.to_query
+    to_query(params)
   end
 
   def active_filters
@@ -50,7 +50,7 @@ class FilterComponent < ViewComponent::Base
   def clear_filters_link
     link_params = { remove: true }
     link_params.merge!(filters_to_params([primary_filter])) if primary_filter.present?
-    '?' + link_params.to_query
+    to_query(link_params)
   end
 
   def filter_active?(filter)
@@ -71,5 +71,11 @@ class FilterComponent < ViewComponent::Base
         hash[filter[:name]] = filter[:options].select { |o| o[:checked] }.map { |o| o[:value] }
       end
     end
+  end
+
+private
+
+  def to_query(params)
+    "?#{params.to_query}"
   end
 end
