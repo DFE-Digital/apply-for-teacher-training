@@ -8,7 +8,7 @@ class SummaryListComponent < ViewComponent::Base
 
   def value(row)
     if row[:value].is_a?(Array)
-      row[:value].join('<br>').html_safe
+      row[:value].map { |s| ERB::Util.html_escape(s) }.join('<br>').html_safe
     elsif row[:value].html_safe?
       row[:value]
     else
