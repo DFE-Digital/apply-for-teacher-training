@@ -9,10 +9,10 @@
           <p class="govuk-body-l">Try our new service to see how easy it is to use. It’s free for providers and candidates.</p>
         </div>
         <%= govuk_start_now_button(
-          text: 'Get started',
-          href: @pilot_enrolment_form_url,
-          classes: 'govuk-!-margin-bottom-0 app-button--inverted',
-        ) %>
+              text: 'Get started',
+              href: @pilot_enrolment_form_url,
+              classes: 'govuk-!-margin-bottom-0 app-button--inverted',
+            ) %>
         <span class="app-masthead__alternative-action">or <%= govuk_link_to 'sign in', provider_interface_sign_in_path %> if you’ve used it before</span>
       </div>
       <div class="govuk-grid-column-one-third">
@@ -27,6 +27,7 @@
 <div class="govuk-width-container">
   <section class="app-section">
     <%= render ServiceInformationBanner.new(namespace: :provider) %>
+    <%= render ProviderInterface::SummerRecruitmentBanner.new %>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
