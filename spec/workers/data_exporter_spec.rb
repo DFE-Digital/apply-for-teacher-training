@@ -1,13 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe DataExporter, with_audited: true do
-  # rubocop:disable RSpec/LeakyConstantDeclaration
-  class ExporterThatFails
-    def data_for_export
-      raise 'the level of debate in this country'
+  let(:failing_exporter) do
+    Class.new do
+      def data_for_export
+        raise 'the level of debate in this country'
+      end
     end
   end
-  # rubocop:enable RSpec/LeakyConstantDeclaration
+
+  before do
+    stub_const('ExporterThatFails', failing_exporter)
+  end
 
   describe '#perform' do
     it 'adds a comment to the audit log if the export fails' do

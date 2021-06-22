@@ -23,7 +23,7 @@ Lint/MissingSuper:
   Enabled: false
 
 Lint/ConstantDefinitionInBlock:
-  Enabled: false
+  Enabled: true
 
 Lint/SymbolConversion:
   Enabled: true
