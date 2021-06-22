@@ -1,0 +1,31 @@
+Dear <%= @application_form.first_name %>,
+
+# Update on your application
+
+At your request, <%= @course.provider.name %> has withdrawn your application to study <%= @course.name_and_code %>.
+
+If you did not ask them to withdraw the application, contact a Get Into Teaching adviser:
+
+https://getintoteaching.education.gov.uk/#talk-to-us
+
+You can also call for free on 0800 389 2500, Monday to Friday, 8.30am to 5pm (except public holidays).
+
+<% if @awaiting_decision.length == 1 %>
+
+# You’re waiting for a decision
+
+You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.first.course_option.course.name %>. They should do this by <%= @awaiting_decision.first.reject_by_default_at.to_s(:govuk_date) %>.
+
+<% else %>
+
+# You’re waiting for decisions
+
+You're waiting for decisions about your applications to:
+
+<% @awaiting_decision.each do |awaiting_decision| %>
+  - <%= awaiting_decision.course_option.course.provider.name %> to study <%= awaiting_decision.course_option.course.name %>
+<% end %>
+
+They should make their decisions by <%= @awaiting_decisions_by %>.
+
+<% end %>

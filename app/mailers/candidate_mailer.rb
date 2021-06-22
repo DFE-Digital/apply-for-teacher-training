@@ -124,6 +124,48 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def application_withdrawn_on_request_all_applications_withdrawn(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+    @multiple_applications = application_choice.self_and_siblings.count > 1
+
+    email_for_candidate(application_choice.application_form)
+  end
+
+  def application_withdrawn_on_request_one_offer_one_awaiting_decision(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = application_choice
+    @offer = application_choice.self_and_siblings.find(&:offer?)
+    @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
+    @awaiting_decision_by = @awaiting_decision.reject_by_default_at.to_s(:govuk_date)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+
+    email_for_candidate(application_choice.application_form)
+  end
+
+  def application_withdrawn_on_request_awaiting_decision_only(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = application_choice
+    @awaiting_decision = application_choice.self_and_siblings.select(&:decision_pending?)
+    @awaiting_decisions_by = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last.to_s(:govuk_date)
+
+    email_for_candidate(application_choice.application_form)
+  end
+
+  def application_withdrawn_on_request_offers_only(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = application_choice
+    @offers = application_choice.self_and_siblings.select(&:offer?)
+    @respond_by_date = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first.to_s(:govuk_date)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_withdrawn_on_request_offers_only.subject', date: @respond_by_date),
+    )
+  end
+
   def feedback_received_for_application_rejected_by_default(application_choice)
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course = @application_choice.current_course_option.course

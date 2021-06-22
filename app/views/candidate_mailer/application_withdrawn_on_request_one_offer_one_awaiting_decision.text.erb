@@ -1,0 +1,21 @@
+Dear <%= @application_form.first_name %>,
+
+# Update on your application
+
+At your request, <%= @course.provider.name %> has withdrawn your application to study <%= @course.name_and_code %>.
+
+If you did not ask them to withdraw the application, contact a Get Into Teaching adviser:
+
+https://getintoteaching.education.gov.uk/#talk-to-us
+
+You can also call for free on 0800 389 2500, Monday to Friday, 8.30am to 5pm (except public holidays).
+
+# You have an offer and are waiting for a decision about another course
+
+You have an offer from <%= @offer.course_option.course.provider.name %> to study <%= @offer.course_option.course.name %>.
+
+<%= @awaiting_decision.course_option.course.provider.name %> has until <%= @awaiting_decision_by %> to make a decision about your application to study <%= @awaiting_decision.course_option.course.name %>.
+
+You can wait until you’ve received both decisions before you respond. Alternatively you can sign in to your account and accept the offer you’ve already got:
+
+<%= @candidate_magic_link %>
