@@ -16,8 +16,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'awaiting_provider_decision',
       )
       request_body = {
-        "data": {
-          "conditions": [
+        data: {
+          conditions: [
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
           ],
@@ -47,8 +47,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'awaiting_provider_decision',
       )
       request_body = {
-        "data": {
-          "conditions": [
+        data: {
+          conditions: [
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
           ],
@@ -71,8 +71,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'awaiting_provider_decision',
       )
       request_body = {
-        'data': {
-          'conditions': [
+        data: {
+          conditions: [
             'Completion of subject knowledge enhancement°',
             'Completion of professional skills test',
           ],
@@ -222,8 +222,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
     it 'returns a not found error if the application cannot be found' do
       request_body = {
-        "data": {
-          "conditions": [
+        data: {
+          conditions: [
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
           ],
@@ -293,8 +293,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       )
 
       request_body = {
-        "data": {
-          "conditions": [
+        data: {
+          conditions: [
             'DBS Check',
           ],
         },
@@ -306,13 +306,13 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       new_course_option = course_option_for_provider(provider: currently_authenticated_provider)
 
       request_body = {
-        "data": {
-          "conditions": [
+        data: {
+          conditions: [
             'DBS Check',
             'Completion of subject knowledge enhancement',
             'Completion of professional skills test',
           ],
-          "course": course_option_to_course_payload(new_course_option),
+          course: course_option_to_course_payload(new_course_option),
         },
       }
 
@@ -336,7 +336,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         status: 'rejected',
       )
 
-      request_body = { "data": { "conditions": ['DBS Check'] } }
+      request_body = { data: { conditions: ['DBS Check'] } }
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
@@ -351,8 +351,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       )
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-        "data": {
-          "conditions": [],
+        data: {
+          conditions: [],
         },
       }
 
@@ -377,8 +377,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
                       course_option: course_option_for_provider(provider: currently_authenticated_provider))
 
       request_body = {
-        "data": {
-          "conditions": [
+        data: {
+          conditions: [
             'Change your sheets',
             'Wash your clothes',
           ],
@@ -407,9 +407,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
                       course_option: course_option_for_provider(provider: currently_authenticated_provider))
 
       request_body = {
-        "data": {
-          "conditions": choice.offer.conditions_text,
-          "course": course_option_to_course_payload(choice.course_option),
+        data: {
+          conditions: choice.offer.conditions_text,
+          course: course_option_to_course_payload(choice.course_option),
         },
       }
 

@@ -4,10 +4,10 @@
 
 <% content_for :before_content do %>
   <%= breadcrumbs({
-    'Performance': support_interface_performance_path,
+    Performance: support_interface_performance_path,
     'Data directory': support_interface_data_directory_path,
     @data_export.name => support_interface_view_export_information_path(@data_export.export_type),
-    'History': support_interface_view_history_path(@data_export.export_type),
+    History: support_interface_view_history_path(@data_export.export_type),
     "Export #{@data_export.id}": nil,
   }) %>
 <% end %>

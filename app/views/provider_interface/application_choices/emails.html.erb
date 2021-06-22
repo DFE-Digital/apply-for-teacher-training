@@ -2,9 +2,9 @@
 
 <% content_for :before_content do %>
   <%= breadcrumbs({
-    'Applications': provider_interface_applications_path,
+    Applications: provider_interface_applications_path,
     @application_choice.application_form.full_name => provider_interface_application_choice_path(@application_choice),
-    'Timeline': nil,
+    Timeline: nil,
   }) %>
 <% end %>
 

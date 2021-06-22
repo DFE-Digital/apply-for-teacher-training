@@ -26,7 +26,7 @@ Lint/ConstantDefinitionInBlock:
   Enabled: false
 
 Lint/SymbolConversion:
-  Enabled: false
+  Enabled: true
 
 Lint/DuplicateBranch:
   Enabled: true

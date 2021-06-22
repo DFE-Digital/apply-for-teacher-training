@@ -39,14 +39,14 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   end
 
   it 'returns an error if the token is incorrect' do
-    get "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", headers: { "Authorization": 'invalid-token' }
+    get "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", headers: { Authorization: 'invalid-token' }
 
     expect(response).to have_http_status(401)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
   end
 
   it 'returns an error if no API token is present' do
-    get "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", headers: { "Authorization": nil }
+    get "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", headers: { Authorization: nil }
 
     expect(response).to have_http_status(401)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')

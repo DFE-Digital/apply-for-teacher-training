@@ -9,7 +9,7 @@ module SupportInterface
 
     def breadcrumb_items
       breadcrumb_items = {
-        'Performance': support_interface_performance_path,
+        Performance: support_interface_performance_path,
         'Structured reasons for rejection': support_interface_reasons_for_rejection_dashboard_path,
       }
       if top_level_reason?

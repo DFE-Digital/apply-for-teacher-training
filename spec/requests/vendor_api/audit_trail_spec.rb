@@ -9,8 +9,8 @@ RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
       status: 'awaiting_provider_decision',
     )
     request_body = {
-      "data": {
-        "reason": 'Does not meet minimum GCSE requirements',
+      data: {
+        reason: 'Does not meet minimum GCSE requirements',
       },
     }
 
@@ -41,8 +41,8 @@ RSpec.describe 'Vendor API - audit trail', type: :request, with_audited: true do
       vendor_api_token_id: VendorAPIToken.find_by_unhashed_token(api_token).id,
     )
     request_body = {
-      "data": {
-        "reason": 'Does not meet minimum GCSE requirements',
+      data: {
+        reason: 'Does not meet minimum GCSE requirements',
       },
     }
 

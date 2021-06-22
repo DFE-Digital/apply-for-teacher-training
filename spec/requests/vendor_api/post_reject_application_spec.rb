@@ -12,8 +12,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
         status: 'awaiting_provider_decision',
       )
       request_body = {
-        "data": {
-          "reason": 'Does not meet minimum GCSE requirements',
+        data: {
+          reason: 'Does not meet minimum GCSE requirements',
         },
       }
 
@@ -31,7 +31,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   end
 
   describe 'rejecting an application with a decision' do
-    let(:request_body) { { 'data': { 'reason': 'Course is over-subscribed' } } }
+    let(:request_body) { { data: { reason: 'Course is over-subscribed' } } }
 
     it 'can reject an already offered application' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
@@ -54,8 +54,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
   it 'returns an error when trying to transition to an invalid state' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'rejected')
     request_body = {
-      "data": {
-        "reason": 'Does not meet minimum GCSE requirements',
+      data: {
+        reason: 'Does not meet minimum GCSE requirements',
       },
     }
 
