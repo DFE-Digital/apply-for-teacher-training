@@ -1,4 +1,4 @@
-<div class="app-offer-panel app-banner app-banner--details <%= border_class %>">
+<div class="app-banner app-banner--details app-offer-panel <%= border_class %>">
   <h2 class="govuk-heading-m">Course details</h2>
   <%= render SummaryCardComponent.new(rows: rows, border: false) %>
 
@@ -19,10 +19,10 @@
   <% end %>
 
   <% if conditions.any? %>
-    <table class="govuk-table govuk-!-margin-bottom-2 conditions">
+    <table class="govuk-table app-table--no-bottom-border" data-qa="conditions">
       <tbody class="govuk-table__body">
         <% conditions.each do |condition| %>
-          <tr class="govuk-table__row conditions-row">
+          <tr class="govuk-table__row">
             <td class="govuk-table__cell"><%= condition.text %></td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
               <%= render ProviderInterface::ConditionStatusTagComponent.new(condition) %>
@@ -32,8 +32,8 @@
       </tbody>
     </table>
   <% else %>
-    <div class='govuk-body'>
+    <p class="govuk-body">
       No conditions have been set for this offer
-    </div>
+    </p>
   <% end %>
 </div>

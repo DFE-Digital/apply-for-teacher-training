@@ -1,20 +1,20 @@
-<table class="govuk-table govuk-!-margin-bottom-2">
+<table class="govuk-table app-table--no-bottom-border">
   <tbody class="govuk-table__body">
     <% if conditions.none? %>
-      <tr class="govuk-table__row conditions-row">
+      <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           No conditions have been set for this offer.
         </td>
       </tr>
     <% else %>
-        <% conditions.each do |condition| %>
-          <tr class="govuk-table__row conditions-row">
-            <td class="govuk-table__cell"><%= condition.text %></td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= render ProviderInterface::ConditionStatusTagComponent.new(condition) %>
-            </td>
-          </tr>
-        <% end %>
+      <% conditions.each do |condition| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= condition.text %></td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <%= render ProviderInterface::ConditionStatusTagComponent.new(condition) %>
+          </td>
+        </tr>
       <% end %>
+    <% end %>
   </tbody>
 </table>

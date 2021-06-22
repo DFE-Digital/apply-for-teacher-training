@@ -131,7 +131,7 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
     ] + conditions
 
     within('.app-offer-panel') do
-      expect(all('.conditions-row > td:first-child').map(&:text)).to eq expected_conditions
+      expect(all('.govuk-table__row > td:first-child').map(&:text)).to eq expected_conditions
     end
   end
 
