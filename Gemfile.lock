@@ -96,7 +96,7 @@ GEM
       html_tokenizer (~> 0.0.6)
       parser (>= 2.4)
       smart_properties
-    bindata (2.4.8)
+    bindata (2.4.10)
     bindex (0.8.1)
     blazer (2.4.2)
       activerecord (>= 5)
