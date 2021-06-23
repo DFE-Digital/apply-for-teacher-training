@@ -12,6 +12,7 @@ class DetectInvariants
     detect_course_sync_not_succeeded_for_an_hour
     detect_high_sidekiq_retries_queue_length
     detect_application_choices_with_courses_from_the_incorrect_cycle
+    detect_submitted_applications_with_more_than_two_selected_references
   end
 
   def detect_application_choices_in_old_states
@@ -184,6 +185,29 @@ class DetectInvariants
     end
   end
 
+  def detect_submitted_applications_with_more_than_two_selected_references
+    applications_with_more_than_two_selected_references = ApplicationForm
+    .joins(:application_references)
+    .where.not(submitted_at: nil)
+    .where(references: { selected: true })
+    .group('references.application_form_id')
+    .having('COUNT("references".id) > 2')
+    .pluck(:application_form_id).uniq
+    .sort
+
+    if applications_with_more_than_two_selected_references.any?
+      urls = applications_with_more_than_two_selected_references.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
+
+      message = <<~MSG
+        The following applications have been submitted with more than two selected references
+
+        #{urls.join("\n")}
+      MSG
+
+      Raven.capture_exception(ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(message))
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
@@ -193,6 +217,7 @@ class DetectInvariants
   class CourseSyncNotSucceededForAnHour < StandardError; end
   class SidekiqRetriesQueueHigh < StandardError; end
   class ApplicationWithADifferentCyclesCourse < StandardError; end
+  class ApplicationSubmittedWithMoreThanTwoSelectedReferences < StandardError; end
 
 private
 

@@ -233,5 +233,30 @@ RSpec.describe DetectInvariants do
         ),
       )
     end
+
+    it 'detects when a submitted application has more than 2 selected references' do
+      application_form_with_three_selected_references = create(:completed_application_form, :with_completed_references)
+      create(:submitted_application_choice, application_form: application_form_with_three_selected_references)
+      create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
+      create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
+      create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
+
+      valid_application_form = create(:completed_application_form, :with_completed_references)
+      create(:submitted_application_choice, application_form: valid_application_form)
+      create(:reference, :feedback_provided, selected: true, application_form: valid_application_form)
+      create(:reference, :feedback_provided, selected: true, application_form: valid_application_form)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(
+          <<~MSG,
+            The following applications have been submitted with more than two selected references
+
+            #{HostingEnvironment.application_url}/support/applications/#{application_form_with_three_selected_references.id}
+          MSG
+        ),
+      )
+    end
   end
 end
