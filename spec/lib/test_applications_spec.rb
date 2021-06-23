@@ -37,6 +37,19 @@ RSpec.describe TestApplications do
     expect(application_choice.sent_to_provider_at <= application_choice.offered_at).to be true
   end
 
+  it 'changes the course to a valid one if the offer is changed' do
+    provider = create(:provider)
+    ratifying_provider = create(:provider)
+
+    course_to_make_original_offer_for = create(:course_option, course: create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider)).course
+    create(:course_option, course: create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider)).course
+    create(:course_option, course: create(:course, :open_on_apply, provider: provider))
+
+    application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2020, states: %i[offer_changed], courses_to_apply_to: [course_to_make_original_offer_for]).first
+
+    expect(application_choice.current_course.ratifying_provider).to eq(ratifying_provider)
+  end
+
   it 'attributes actions to candidates', with_audited: true do
     courses_we_want = create_list(:course_option, 1, course: create(:course, :open_on_apply)).map(&:course)
 

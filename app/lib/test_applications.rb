@@ -390,9 +390,15 @@ private
   def change_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
       fast_forward
-      year = choice.current_course.recruitment_cycle_year
-      new_course = choice.current_course.provider.courses
-                         .in_cycle(year).with_course_options.sample
+      current_course = choice.current_course
+      year = current_course.recruitment_cycle_year
+      other_available_courses = current_course.provider.courses
+                                              .in_cycle(year)
+                                              .with_course_options
+                                              .where(accredited_provider: current_course.accredited_provider)
+
+      new_course = (other_available_courses - [current_course]).sample || current_course
+
       update_conditions_service = SaveOfferConditionsFromText.new(application_choice: choice, conditions: conditions)
       ChangeOffer.new(
         actor: actor,
