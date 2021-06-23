@@ -23,7 +23,7 @@ private
     return 'n/a' if number.blank? && with_units
     return '' if number.blank?
 
-    rounded = format('%.1f', number)
+    rounded = sprintf('%.1f', number) # rubocop:disable Style/FormatString
     with_units ? "#{rounded} miles" : rounded
   end
 end
