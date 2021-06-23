@@ -6,15 +6,8 @@
   <%= t('page_titles.submitted_application') %>
 </h1>
 
-<dl class="govuk-summary-list app-summary">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date submitted
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= submitted_at_date %>
-    </dd>
-  </div>
-</dl>
+<%= govuk_summary_list do |component| %>
+  <%= component.slot(:row, key: 'Date submitted', value: submitted_at_date) %>
+<% end %>
 
 <%= render 'candidate_interface/application_form/review', application_form: @application_form, editable: false %>
