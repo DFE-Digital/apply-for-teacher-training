@@ -3,6 +3,14 @@ RSpec.describe SaveOfferConditionsFromText do
   let(:conditions) { ['Test', 'Test but longer'] }
   let(:application_choice) { create(:application_choice) }
 
+  describe 'initialize' do
+    it 'discards blank conditions' do
+      instance = described_class.new(application_choice: build(:application_choice), conditions: ['Dance', ''])
+
+      expect(instance.conditions).to eq(['Dance'])
+    end
+  end
+
   describe '#save' do
     context 'when the application choice does not have an offer and there are empty conditions' do
       let(:conditions) { [] }
