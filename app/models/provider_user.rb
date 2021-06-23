@@ -1,8 +1,6 @@
 class ProviderUser < ApplicationRecord
   include AuthenticatedUsingMagicLinks
 
-  self.ignored_columns = %w[send_notifications]
-
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
   has_many :notes, dependent: :destroy

@@ -66,7 +66,9 @@ jobs:
 
       # Get all previous enum definitions for changed models from master
       - name: Get previous enum definitions
-        run: bundle exec ruby /tmp/enums_in_models.rb enums_after.log >enums_before.log
+        run: |
+          bundle install
+          bundle exec ruby /tmp/enums_in_models.rb enums_after.log >enums_before.log
         env:
           DB_HOSTNAME: localhost
           DB_USERNAME: postgres
