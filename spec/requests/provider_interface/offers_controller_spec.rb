@@ -6,6 +6,18 @@ RSpec.shared_examples 'an action which tracks validation errors' do |action|
   end
 end
 
+RSpec.shared_examples 'an action that can only happen to applications in the offer state' do
+  context 'when the application is not in the offered state' do
+    let(:trait) { :with_accepted_offer }
+
+    it 'redirects to the application choice path' do
+      subject
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
+    end
+  end
+end
+
 RSpec.describe ProviderInterface::OffersController, type: :request do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
@@ -103,6 +115,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       subject { put provider_interface_application_choice_offer_path(application_choice) }
 
       it_behaves_like 'an action which tracks validation errors', 'PUT to update'
+      it_behaves_like 'an action that can only happen to applications in the offer state'
     end
 
     context 'POST to (providers) create' do
@@ -126,6 +139,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       end
 
       it_behaves_like 'an action which tracks validation errors', 'PUT to (providers) update'
+      it_behaves_like 'an action that can only happen to applications in the offer state'
     end
 
     context 'POST to (conditions) create' do
@@ -149,6 +163,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       end
 
       it_behaves_like 'an action which tracks validation errors', 'PATCH to (conditions) update'
+      it_behaves_like 'an action that can only happen to applications in the offer state'
     end
 
     context 'POST to (courses) create' do
@@ -172,6 +187,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       end
 
       it_behaves_like 'an action which tracks validation errors', 'PATCH to (courses) update'
+      it_behaves_like 'an action that can only happen to applications in the offer state'
     end
 
     context 'POST to (locations) create' do
@@ -195,6 +211,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       end
 
       it_behaves_like 'an action which tracks validation errors', 'PATCH to (locations) update'
+      it_behaves_like 'an action that can only happen to applications in the offer state'
     end
 
     context 'POST to (study_modes) create' do
@@ -218,6 +235,7 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
       end
 
       it_behaves_like 'an action which tracks validation errors', 'PATCH to (study_modes) update'
+      it_behaves_like 'an action that can only happen to applications in the offer state'
     end
   end
 end
