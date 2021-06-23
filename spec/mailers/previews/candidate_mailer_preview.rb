@@ -395,21 +395,21 @@ class CandidateMailerPreview < ActionMailer::Preview
       last_name: 'Wellick',
       candidate: candidate,
       application_choices: [
-        FactoryBot.build_stubbed(
+        FactoryBot.build(
           :application_choice,
           application_form: application_form,
           course_option: course_option,
           status: :withdrawn,
           withdrawn_at: Time.zone.now,
         ),
-        FactoryBot.build_stubbed(
+        FactoryBot.build(
           :application_choice,
           :with_offer,
           application_form: application_form,
           reject_by_default_at: 7.days.since,
           course_option: course_option,
         ),
-        FactoryBot.build_stubbed(
+        FactoryBot.build(
           :application_choice,
           application_form: application_form,
           reject_by_default_at: 9.days.since,
@@ -461,21 +461,21 @@ class CandidateMailerPreview < ActionMailer::Preview
       last_name: 'Wellick',
       candidate: candidate,
       application_choices: [
-        FactoryBot.build_stubbed(
+        FactoryBot.build(
           :application_choice,
           application_form: application_form,
           course_option: course_option,
           status: :withdrawn,
           withdrawn_at: Time.zone.now,
         ),
-        FactoryBot.build_stubbed(
+        FactoryBot.build(
           :application_choice,
           :with_offer,
           application_form: application_form,
           decline_by_default_at: 3.days.from_now,
           course_option: course_option,
         ),
-        FactoryBot.build_stubbed(
+        FactoryBot.build(
           :application_choice,
           :with_offer,
           application_form: application_form,
