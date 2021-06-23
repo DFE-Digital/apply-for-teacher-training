@@ -24,16 +24,16 @@ module CycleTimetableHelper
   end
 
   def after_apply_reopens
-    @_after_apply_reopens ||= rand((current_end_of_cycle_timetable[:apply_reopens])..Date.new(CycleTimetable::RECRUITMENT_CYCLE_YEAR, 12, 31)).midday
+    @_after_apply_reopens ||= rand((current_end_of_cycle_timetable[:apply_reopens])..Date.new(CycleTimetableQuery::RECRUITMENT_CYCLE_YEAR, 12, 31)).midday
   end
 
 private
 
   def previous_end_of_cycle_timetable
-    CycleTimetableQuery::CYCLE_DATES[CycleTimetableQuery::RECRUITMENT_CYCLE_YEAR - 1]
+    RealCycleSchedule.new(CycleTimetableQuery::RECRUITMENT_CYCLE_YEAR - 1).cycle_dates
   end
 
   def current_end_of_cycle_timetable
-    CycleTimetableQuery::CYCLE_DATES[CycleTimetableQuery::RECRUITMENT_CYCLE_YEAR]
+    RealCycleSchedule.new(CycleTimetableQuery::RECRUITMENT_CYCLE_YEAR).cycle_dates
   end
 end

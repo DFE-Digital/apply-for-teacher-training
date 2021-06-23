@@ -202,17 +202,10 @@ private
   end
 
   def date_range_query_for_recruitment_cycle_year(cycle_year)
-    start_date = CycleTimetableQuery::CYCLE_DATES[cycle_year][:apply_reopens]
+    start_date = RealCycleSchedule.new(cycle_year).cycle_dates[:apply_reopens]
+    end_date = RealCycleSchedule.new(cycle_year + 1).cycle_dates[:apply_reopens]
 
-    query = "created_at >= '#{start_date}'"
-
-    if CycleTimetableQuery::CYCLE_DATES[cycle_year + 1].present?
-      end_date = CycleTimetableQuery::CYCLE_DATES[cycle_year + 1][:apply_reopens]
-
-      query += " AND created_at <= '#{end_date}'"
-    end
-
-    query
+    "created_at >= '#{start_date}' AND created_at <= '#{end_date}'"
   end
 
   def application_form_status_total_counts(only: nil)
