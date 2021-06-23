@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         result = render_inline(described_class.new(ucas_match))
 
         expect(result.text).to include('Action needed Request withdrawal from UCAS')
-        expect(result.css('input').attr('value').value).to include('Confirm withdrawal from UCAS was requested')
+        expect(result.css('.govuk-button').text).to include('Confirm withdrawal from UCAS was requested')
         expect(result.css('form').attr('action').value).to include('/record-ucas-withdrawal-requested')
         expect(result.text).to include('We need to contact UCAS')
       end
