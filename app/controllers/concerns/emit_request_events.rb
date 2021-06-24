@@ -14,7 +14,7 @@ module EmitRequestEvents
         .with_response_details(response)
         .with_user_and_namespace(current_user, current_namespace)
 
-      SendRequestEventsToBigquery.perform_async(request_event.as_json)
+      SendEventsToBigquery.perform_async(request_event.as_json)
     end
   end
 end

@@ -30,9 +30,9 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
         get(provider_interface_applications_path,
             params: { page: '1', per_page: '25', array_param: %w[1 2] },
             headers: { 'HTTP_USER_AGENT' => 'Test agent' })
-      }.to change(SendRequestEventsToBigquery.jobs, :size).by(1)
+      }.to change(SendEventsToBigquery.jobs, :size).by(1)
 
-      payload = SendRequestEventsToBigquery.jobs.first['args'].first
+      payload = SendEventsToBigquery.jobs.first['args'].first
 
       expect(payload['request_method']).to eq('GET')
       expect(payload['request_user_agent']).to eq('Test agent')
