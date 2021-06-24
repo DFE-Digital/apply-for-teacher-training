@@ -21,7 +21,7 @@ To create a new environment, clone an existing environment specific variable gro
 
 ## Create a new stage in the deployment pipeline for the new environment
 
-There are two deployment stages defined in `build.yml`, `deploy_qa` and `deploy_devops` to deploy to QA and DevOps environment respectively. `deploy_qa` stage is run only if the build is triggered for the `master` branch and `deploy_devops` stage only if the build is triggered from a branch name defined in `devDeployBranchNameOverride` variable inside the `APPLY - ENV - DevOps` variable group.
+There are two deployment stages defined in `build.yml`, `deploy_qa` and `deploy_devops` to deploy to QA and DevOps environment respectively. `deploy_qa` stage is run only if the build is triggered for the `main` branch and `deploy_devops` stage only if the build is triggered from a branch name defined in `devDeployBranchNameOverride` variable inside the `APPLY - ENV - DevOps` variable group.
 
 To create or deploy to a new environment, create a new stage in the pipeline by cloning an existing stage and modifying the run conditions and variables.
 

@@ -4,7 +4,7 @@
 
 We use pull requests (PRs) for all code changes. All PRs have to be
 reviewed and approved by at least one other developer before being merged into
-`master`.
+`main`.
 
 The main objective of code reviews is to improve the quality of code that
 reaches production, so that our codebase is maintainable and correct. We want
@@ -31,7 +31,7 @@ benefits like knowledge sharing.
   it as requiring two approvals rather than the normal one.
 - Follow general best practice for raising PR e.g. [How to raise a good pull request](https://www.annashipman.co.uk/jfdi/good-pull-requests.html).
   - Aim for each commit to be atomic, introducing a non-breaking change with all tests and linter passing. Consider arranging your commits into appropriate logical chunks with [git's history rewriting features](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History). This can make the PR easier to review and revert.
-  - Try to avoid merge commits and use `git rebase master` instead.
+  - Try to avoid merge commits and use `git rebase main` instead.
 
 ### Reviewing PRs
 

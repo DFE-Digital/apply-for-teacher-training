@@ -8,12 +8,12 @@ This document describes the process of manually deploying a hotfix.
 
 Normally deployments to the `staging`, `sandbox` and `production` environments
 happen on a daily (or more frequent) basis and include all changes that
-have been merged into master. A hotfix is a more urgent deployment
+have been merged into main. A hotfix is a more urgent deployment
 containing typically just one pull request. A hotfix should be performed
 when:
 
 1. The fix is urgent.
-2. There are other changes already merged into master since the last
+2. There are other changes already merged into main since the last
    deployment that we do not want to deploy yet perhaps because they are
    not fully tested.
 
@@ -22,7 +22,7 @@ when:
 We assume that we begin in a situation like this:
 
 ```
-master        ---D--------x-----x--------------x--->
+main          ---D--------x-----x--------------x--->
                   \      /     / \            /
 feature1           -x-x-x     /   \          /
                    \         /     \        /
@@ -32,14 +32,14 @@ feature3                              -x-x
 ```
 
 Since last deployed at `D` we've merged two additional features into
-`master`. We urgently need to create a fix that does not include
+`main`. We urgently need to create a fix that does not include
 features 1, 2 and 3, we just want everything up to `D`.
 
 ### Instructions
 
 1. Inform the team that a hotfix is being prepared by posting a new
    thread in Slack to #twd_apply.
-2. Fetch `master` to your local machine and create a branch called
+2. Fetch `main` to your local machine and create a branch called
    `hotfix` from the last deployed commit (not `HEAD` as we normally
    would). You can specify the last deployed commit using its SHA and
    find out which SHA to use on the
@@ -47,7 +47,7 @@ features 1, 2 and 3, we just want everything up to `D`.
    look for the current production version. Push the new branch to Github.
 
   ```
-  $ git fetch origin master
+  $ git fetch origin main
   $ git checkout -b hotfix <sha-from-ops-dashboard>
   $ git push origin hotfix
   ```
@@ -55,22 +55,22 @@ features 1, 2 and 3, we just want everything up to `D`.
 3. Implement the fix locally, raise a PR and get it approved in the
    normal way. Test it locally or using the Heroku review app that is
    automatically created.
-4. After the PR is approved DO NOT MERGE IT to `master` straight away.
+4. After the PR is approved DO NOT MERGE IT to `main` straight away.
    First deploy the `hotfix` branch using the [normal deployment
    procedure](deployment.md) (except picking `HEAD` of the
-   `hotfix` branch rather than a specific SHA on `master` as we normally
+   `hotfix` branch rather than a specific SHA on `main` as we normally
    do).
-5. Merge the `hotfix` branch back to `master`. At this point the `hotfix`
+5. Merge the `hotfix` branch back to `main`. At this point the `hotfix`
    branch should be automatically deleted.
 
 Here is an example of the process where the last 'normal' deployment was
 at `D` and the hotfix was deployed at `H`. After the `hotfix` branch is
-merged back into `master` it's back to business as usual.
+merged back into `main` it's back to business as usual.
 
 ```
 hotfix             ------------------------------x-x-x-H
                   /                                     \
-master        ---D--------x-----x--------------x----------->
+main          ---D--------x-----x--------------x----------->
                   \      /     / \            /
 feature1           -x-x-x     /   \          /
                    \         /     \        /
@@ -84,7 +84,7 @@ feature3                              -x-x
   ever have one hotfix branch at a time.
 - When starting a hotfix it's important that the rest of the team knows
   about it so that nobody else starts any other kind of deploy until
-  the hotfix is complete and merged back into `master`.
+  the hotfix is complete and merged back into `main`.
 - Pushing the new `hotfix` branch to Github at the start of the
   process (before any fix commits are made) acts as a signal to other
   developers/systems that a hotfix is in progress.
