@@ -60,11 +60,11 @@ jobs:
       - name: Preserve the detection script
         run: cp .github/scripts/enums_in_models.rb /tmp/enums_in_models.rb
 
-      # Check-out master
-      - name: Checkout master branch
-        run: git checkout master
+      # Check-out main
+      - name: Checkout main branch
+        run: git checkout main
 
-      # Get all previous enum definitions for changed models from master
+      # Get all previous enum definitions for changed models from main
       - name: Get previous enum definitions
         run: |
           bundle install
