@@ -1,0 +1,21 @@
+<span class="govuk-caption-l"><%= application_choice.application_form.full_name %></span>
+<h1 class="govuk-heading-l"><%= page_heading %></h1>
+
+<%= render ProviderInterface::ReadOnlyCompletedOfferSummaryComponent.new(
+  application_choice: application_choice,
+  course_option: application_choice.current_course_option,
+  conditions: form_object.conditions,
+  course: application_choice.current_course,
+) %>
+
+<% if form_object.any_condition_not_met? %>
+  <p class="govuk-body">
+    The candidate will be told that their application was unsuccessful.
+  </p>
+<% end %>
+
+<%= govuk_button_to confirm_button_text, provider_interface_application_choice_update_conditions_path(application_choice), method: :patch, class: confirm_button_class %>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
+</p>

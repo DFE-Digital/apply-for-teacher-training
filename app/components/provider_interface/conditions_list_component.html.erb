@@ -1,0 +1,16 @@
+<% if conditions.any? %>
+  <dl class="govuk-summary-list app-conditions-list govuk-!-margin-bottom-0">
+    <% conditions.each_with_index do |condition, index| %>
+      <div class="govuk-summary-list__row<%= ' govuk-summary-list__row--no-border' if index == conditions.length - 1 %>">
+        <dt class="govuk-summary-list__key">
+          <%= condition.text %>
+        </dt>
+        <dd class="govuk-summary-list__value app-conditions-list__tag">
+          <%= render ProviderInterface::ConditionStatusTagComponent.new(condition) %>
+        </dd>
+      </div>
+    <% end %>
+  </dl>
+<% else %>
+  <p class="govuk-body">No conditions have been set for this offer.</p>
+<% end %>
