@@ -12,6 +12,9 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
       application_choice_one = create(
         :application_choice,
         :with_structured_rejection_reasons,
+        rejected_by_default: false,
+        reject_by_default_at: nil,
+        reject_by_default_feedback_sent_at: nil,
         structured_rejection_reasons: {
           course_full_y_n: 'Yes',
           safeguarding_y_n: 'Yes',
@@ -54,6 +57,9 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
       application_choice_two = create(
         :application_choice,
         :with_structured_rejection_reasons,
+        rejected_by_default: true,
+        reject_by_default_at: Time.zone.local(2021, 7, 7),
+        reject_by_default_feedback_sent_at: Time.zone.local(2021, 6, 7),
         structured_rejection_reasons: {
           qualifications_y_n: 'Yes',
           qualifications_other_details: 'Not good',
@@ -69,7 +75,10 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
           phase: application_choice_one.application_form.phase,
           provider_code: application_choice_one.provider.code,
           course_code: application_choice_one.course.code,
-          rejected_at: application_choice_one.rejected_at.strftime('%d/%m/%Y'),
+          rejected_at: application_choice_one.rejected_at.iso8601,
+          rejected_by_default: false,
+          reject_by_default_at: nil,
+          reject_by_default_feedback_sent_at: nil,
           something_you_did: true,
           didn_t_reply_to_our_interview_offer: true,
           didn_t_attend_interview: true,
@@ -120,7 +129,10 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
            phase: application_choice_two.application_form.phase,
            provider_code: application_choice_two.provider.code,
            course_code: application_choice_two.course.code,
-           rejected_at: application_choice_two.rejected_at.strftime('%d/%m/%Y'),
+           rejected_at: application_choice_two.rejected_at.iso8601,
+           rejected_by_default: true,
+           reject_by_default_at: Time.zone.local(2021, 7, 7).iso8601,
+           reject_by_default_feedback_sent_at: Time.zone.local(2021, 6, 7).iso8601,
            something_you_did: false,
            didn_t_reply_to_our_interview_offer: false,
            didn_t_attend_interview: false,

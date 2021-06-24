@@ -13,6 +13,22 @@ custom_columns:
     description: The date when the application choice was rejected
     example: 2020-11-01T00:00:00+00:00
 
+  rejected_by_default:
+    type: boolean
+    description: Was the application rejected by default?
+
+  reject_by_default_at:
+    type: string
+    format: date-time
+    description: The date when the application choice was rejected by default
+    example: 2020-11-01T00:00:00+00:00
+
+  reject_by_default_feedback_sent_at:
+    type: string
+    format: date-time
+    description: The date when feedback was sent about the application rejection
+    example: 2020-11-01T00:00:00+00:00
+
   something_you_did:
     type: boolean
     description: Was the reason for rejection related to candidate behaviour?
