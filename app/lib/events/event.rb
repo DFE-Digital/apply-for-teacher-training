@@ -5,7 +5,7 @@ module Events
     def initialize
       @event_hash = {
         environment: HostingEnvironment.environment_name,
-        timestamp: Time.zone.now.iso8601,
+        occurred_at: Time.zone.now.iso8601,
       }
     end
 
@@ -26,8 +26,20 @@ module Events
     def with_request_details(rack_request)
       @event_hash.merge!(
         request_uuid: rack_request.uuid,
-        request_path: rack_request.path,
+        request_user_agent: rack_request.user_agent,
         request_method: rack_request.method,
+        request_path: rack_request.path,
+        request_query: rack_request.query_string.presence,
+        request_referer: rack_request.referer,
+      )
+
+      self
+    end
+
+    def with_response_details(rack_response)
+      @event_hash.merge!(
+        response_content_type: rack_response.content_type,
+        response_status: rack_response.status,
       )
 
       self
