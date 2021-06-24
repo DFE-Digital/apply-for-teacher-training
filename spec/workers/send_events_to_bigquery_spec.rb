@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SendRequestEventsToBigquery do
+RSpec.describe SendEventsToBigquery do
   describe '#perform' do
     let(:request_event) do
       {
