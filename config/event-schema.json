@@ -26,10 +26,11 @@
       "type": "string"
     },
     "request_query": {
-      "anyOf": [
-        {"type": "string"},
-        {"type": "null"}
-      ]
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "value"]
+      }
     },
     "request_referer": {
       "anyOf": [

@@ -29,7 +29,7 @@ module Events
         request_user_agent: rack_request.user_agent,
         request_method: rack_request.method,
         request_path: rack_request.path,
-        request_query: rack_request.query_string.presence,
+        request_query: query_to_kv_pairs(rack_request.query_string),
         request_referer: rack_request.referer,
       )
 
@@ -52,6 +52,15 @@ module Events
       )
 
       self
+    end
+
+  private
+
+    def query_to_kv_pairs(query_string)
+      vars = Rack::Utils.parse_query(query_string)
+      vars.map do |(key, value)|
+        { 'key' => key, 'value' => Array.wrap(value) }
+      end
     end
   end
 end

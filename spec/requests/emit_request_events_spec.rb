@@ -27,7 +27,9 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
   it 'enqueues request event data with sidekiq worker' do
     Sidekiq::Testing.fake! do
       expect {
-        get provider_interface_applications_path, headers: { 'HTTP_USER_AGENT' => 'Test agent' }
+        get(provider_interface_applications_path,
+            params: { page: '1', per_page: '25', array_param: %w[1 2] },
+            headers: { 'HTTP_USER_AGENT' => 'Test agent' })
       }.to change(SendRequestEventsToBigquery.jobs, :size).by(1)
 
       payload = SendRequestEventsToBigquery.jobs.first['args'].first
@@ -38,6 +40,11 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
       expect(payload['type']).to eq('web_request')
       expect(payload['namespace']).to eq('provider_interface')
       expect(payload['response_status']).to eq(200)
+      expect(payload['request_query']).to eq([
+        { 'key' => 'page', 'value' => ['1'] },
+        { 'key' => 'per_page', 'value' => ['25'] },
+        { 'key' => 'array_param[]', 'value' => %w[1 2] },
+      ])
 
       schema = File.read('config/event-schema.json')
       schema_validator = JSONSchemaValidator.new(schema, payload)
