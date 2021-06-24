@@ -80,6 +80,7 @@ Style/ClassAndModuleChildren:
 
 Style/FormatString:
   Enabled: true
+  EnforcedStyle: sprintf
 
 Style/AccessorGrouping:
   Enabled: false
