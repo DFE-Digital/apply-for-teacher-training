@@ -1,5 +1,7 @@
 module Events
   class Event
+    EVENT_TYPES = %w[web_request].freeze
+
     def initialize
       @event_hash = {
         environment: HostingEnvironment.environment_name,
@@ -9,6 +11,16 @@ module Events
 
     def as_json
       @event_hash.as_json
+    end
+
+    def with_type(type)
+      raise 'Invalid analytics event type' unless EVENT_TYPES.include?(type.to_s)
+
+      @event_hash.merge!(
+        type: type,
+      )
+
+      self
     end
 
     def with_request_details(rack_request)
