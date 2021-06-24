@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["web_request"]
+    },
+    "request_uuid": {
+      "type": "string"
+    },
+    "request_user_agent": {
+      "type": "string"
+    },
+    "request_method": {
+      "type": "string"
+    },
+    "request_path": {
+      "type": "string"
+    },
+    "request_query": {
+      "anyOf": [
+        {"type": "string"},
+        {"type": "null"}
+      ]
+    },
+    "request_referer": {
+      "anyOf": [
+        {"type": "string"},
+        {"type": "null"}
+      ]
+    },
+    "response_content_type": {
+      "type": "string"
+    },
+    "response_status": {
+      "type": "integer"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "environment",
+    "occurred_at",
+    "type"
+  ]
+}

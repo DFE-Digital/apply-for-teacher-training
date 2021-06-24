@@ -37,6 +37,12 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
       expect(payload['environment']).to eq('test')
       expect(payload['type']).to eq('web_request')
       expect(payload['namespace']).to eq('provider_interface')
+      expect(payload['response_status']).to eq(200)
+
+      schema = File.read('config/event-schema.json')
+      schema_validator = JSONSchemaValidator.new(schema, payload)
+
+      expect(schema_validator).to be_valid, schema_validator.failure_message
     end
   end
 end
