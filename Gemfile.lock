@@ -637,7 +637,7 @@ GEM
     yabeda-http_requests (0.2.0)
       sniffer
       yabeda
-    yabeda-prometheus (0.6.1)
+    yabeda-prometheus (0.6.2)
       prometheus-client (>= 0.10, < 3.0)
       rack
       yabeda (~> 0.5)
