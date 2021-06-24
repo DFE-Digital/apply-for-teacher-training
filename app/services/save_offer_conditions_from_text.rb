@@ -3,7 +3,7 @@ class SaveOfferConditionsFromText
 
   def initialize(application_choice:, conditions:)
     @offer = application_choice.offer || application_choice.build_offer
-    @conditions = conditions
+    @conditions = conditions.reject(&:blank?)
   end
 
   def save
