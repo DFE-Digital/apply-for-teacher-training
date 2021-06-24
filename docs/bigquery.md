@@ -5,7 +5,7 @@ This document explains the necessary steps to configure the app to use Google Bi
 ## What do we use BigQuery for?
 
 We've added BigQuery as an external store for event data. At the time of writing we will be pushing a common set of request data events from Apply to BigQuery.
-[The data is sent asynchronously using Sidekiq](https://github.com/DFE-Digital/apply-for-teacher-training/blob/master/app/workers/send_request_events_to_bigquery.rb).
+[The data is sent asynchronously using Sidekiq](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/workers/send_request_events_to_bigquery.rb).
 
 
 ## Credentials

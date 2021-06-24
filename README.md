@@ -13,7 +13,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 | Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                             | `bat-prod`    | `apply-prod`     |
 | Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API        | `bat-prod`    | `apply-sandbox`  |
 | Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                                 | `bat-staging` | `apply-staging`  |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from master | `bat-qa`      | `apply-qa`       |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from main   | `bat-qa`      | `apply-qa`       |
 
 ## Table of Contents
 

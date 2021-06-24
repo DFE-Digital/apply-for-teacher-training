@@ -1,6 +1,6 @@
 # Frontend development
 
-Our services use the [GOV.UK Design System](https://design-system.service.gov.uk). We implement this by using [GOV.UK Components](https://github.com/dfE-Digital/govuk-components), [GOV.UK Form Builder](https://govuk-form-builder.netlify.app) alongside several [view helpers](https://github.com/DFE-Digital/apply-for-teacher-training/blob/master/app/helpers/view_helper.rb). CSS and JavaScript is provided by [govuk-frontend](https://github.com/alphagov/govuk-frontend).
+Our services use the [GOV.UK Design System](https://design-system.service.gov.uk). We implement this by using [GOV.UK Components](https://github.com/dfE-Digital/govuk-components), [GOV.UK Form Builder](https://govuk-form-builder.netlify.app) alongside several [view helpers](https://github.com/DFE-Digital/apply-for-teacher-training/blob/main/app/helpers/view_helper.rb). CSS and JavaScript is provided by [govuk-frontend](https://github.com/alphagov/govuk-frontend).
 
 Using these components and helpers means that there shouldn’t be a need to write any HTML, CSS or JavaScript. For example, using `f.govuk_submit` for submit buttons (or `govuk_link_to` for links) means these elements use the correct attributes, are styled correctly – and require less code.
 
