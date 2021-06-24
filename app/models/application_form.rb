@@ -374,8 +374,8 @@ class ApplicationForm < ApplicationRecord
     selected_references.count >= MINIMUM_COMPLETE_REFERENCES
   end
 
-  def selected_too_many_references?
-    selected_references.count > MINIMUM_COMPLETE_REFERENCES
+  def selected_incorrect_number_of_references?
+    selected_references.count != MINIMUM_COMPLETE_REFERENCES
   end
 
   def selected_references

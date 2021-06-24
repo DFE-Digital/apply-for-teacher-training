@@ -648,17 +648,32 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     context 'with reference_selection feature on' do
       before { FeatureFlag.activate(:reference_selection) }
 
-      it 'returns an error if the application form has too many selected references' do
-        application_form = instance_double(ApplicationForm, selected_too_many_references?: true)
+      it 'returns an error if a references_completed application form has an invalid number of selected references' do
+        application_form = instance_double(
+          ApplicationForm,
+          references_completed?: true,
+          selected_incorrect_number_of_references?: true,
+        )
         presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
         expect(presenter.reference_section_errors).to eq(
-          [OpenStruct.new(message: 'More than 2 references have been selected', anchor: '#references')],
+          [OpenStruct.new(message: 'You need to have exactly 2 references selected before submitting your application', anchor: '#references')],
         )
       end
 
-      it 'returns an empty array if the application form does not have too many selected references' do
-        application_form = instance_double(ApplicationForm, selected_too_many_references?: false)
+      it 'returns an empty array if a references_completed application form has the required number of reference selections' do
+        application_form = instance_double(
+          ApplicationForm,
+          references_completed?: true,
+          selected_incorrect_number_of_references?: false,
+        )
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter.reference_section_errors).to eq []
+      end
+
+      it 'returns an empty array if the application form is not references_completed' do
+        application_form = instance_double(ApplicationForm, references_completed?: false)
         presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
         expect(presenter.reference_section_errors).to eq []
