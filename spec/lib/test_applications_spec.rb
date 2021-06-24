@@ -163,6 +163,23 @@ RSpec.describe TestApplications do
     end
   end
 
+  describe 'carried over' do
+    it 'generates an application to courses from the year before' do
+      create(:course_option, course: create(:course, :open_on_apply))
+      create(:course_option, course: create(:course, :open_on_apply, :previous_year))
+
+      TestApplications.new.create_application(recruitment_cycle_year: RecruitmentCycle.current_year, states: %i[awaiting_provider_decision], courses_to_apply_to: Course.current_cycle, carry_over: true)
+
+      previous_form = ApplicationForm.where(recruitment_cycle_year: RecruitmentCycle.previous_year).first
+      new_form = ApplicationForm.current_cycle.first
+
+      expect(previous_form).not_to be_nil
+      expect(previous_form.application_choices.first.course.recruitment_cycle_year).to eq(RecruitmentCycle.previous_year)
+      expect(new_form).not_to be_nil
+      expect(new_form.application_choices.first.course.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
+    end
+  end
+
   it 'marks any submitted application choices as just updated', with_audited: true do
     create(:course_option, course: create(:course, :open_on_apply))
 
