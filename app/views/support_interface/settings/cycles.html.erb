@@ -9,7 +9,7 @@
 
       <%= f.govuk_radio_divider %>
 
-      <% (EndOfCycleTimetable.schedules.keys.map(&:to_s) - %w[real]).each_with_index do |option, i | %>
+      <% (EndOfCycleTimetable.schedules(EndOfCycleTimetable.current_year).keys.map(&:to_s) - %w[real]).each_with_index do |option, i | %>
         <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name") }, hint: { text: t("cycles.#{option}.description") }, link_errors: i.zero? %>
       <% end %>
     <% end %>

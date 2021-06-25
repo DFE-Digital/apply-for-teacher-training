@@ -7,6 +7,11 @@ RSpec.describe EndOfCycleTimetable do
   let(:one_hour_after_apply2_deadline) { Time.zone.local(2020, 9, 19, 1, 0, 0) }
   let(:one_hour_after_2021_cycle_opens) { Time.zone.local(2020, 10, 13, 1, 0, 0) }
 
+  before do
+    allow(ENV).to receive(:fetch).with('CURRENT_YEAR_FOR_SCHEDULE').and_return(2020)
+    allow(ENV).to receive(:fetch).with('HOSTING_ENVIRONMENT_NAME', 'unknown-environment').and_return('test')
+  end
+
   describe '.show_apply_1_deadline_banner?' do
     it 'returns true before the configured date' do
       Timecop.travel(one_hour_before_apply1_deadline) do

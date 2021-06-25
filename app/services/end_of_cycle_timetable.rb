@@ -1,62 +1,76 @@
 class EndOfCycleTimetable
-  CURRENT_YEAR_FOR_SCHEDULE = 2021
-
   # These dates are configuration for when the previous cycle ends and the next cycle starts
   # The 2020 dates are made up so we can generate sensible test data
   CYCLE_DATES = {
     2020 => {
-      apply_1_deadline: Date.new(2019, 8, 24),
-      stop_applications_to_unavailable_course_options: Date.new(2019, 9, 7),
-      apply_2_deadline: Date.new(2019, 9, 18),
-      find_closes: Date.new(2019, 10, 3),
       find_reopens: Date.new(2019, 10, 6),
       apply_reopens: Date.new(2019, 10, 13),
-    },
-    2021 => {
       apply_1_deadline: Date.new(2020, 8, 24),
       stop_applications_to_unavailable_course_options: Date.new(2020, 9, 7),
       apply_2_deadline: Date.new(2020, 9, 18),
       find_closes: Date.new(2020, 10, 3),
+    },
+    2021 => {
       find_reopens: Date.new(2020, 10, 6),
       apply_reopens: Date.new(2020, 10, 13),
+      apply_1_deadline: Date.new(2021, 8, 24),
+      stop_applications_to_unavailable_course_options: Date.new(2021, 9, 7),
+      apply_2_deadline: Date.new(2021, 9, 18),
+      find_closes: Date.new(2021, 10, 3),
+    },
+    2022 => {
+      find_reopens: Date.new(2021, 10, 6),
+      apply_reopens: Date.new(2021, 10, 13),
     },
   }.freeze
+
+  def self.current_year
+    ENV.fetch('CURRENT_YEAR_FOR_SCHEDULE').to_i
+  end
+
+  def self.next_year
+    current_year + 1
+  end
+
+  def self.previous_year
+    current_year - 1
+  end
 
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
 
   def self.show_apply_1_deadline_banner?
-    Time.zone.now < date(:apply_1_deadline).end_of_day
+    Time.zone.now < date(:apply_1_deadline, current_year).end_of_day
   end
 
   def self.show_apply_2_deadline_banner?
-    Time.zone.now < date(:apply_2_deadline).end_of_day
+    Time.zone.now < date(:apply_2_deadline, current_year).end_of_day
   end
 
   def self.stop_applications_to_unavailable_course_options?
-    Time.zone.now > date(:stop_applications_to_unavailable_course_options).end_of_day &&
-      Time.zone.now < date(:apply_reopens).beginning_of_day
+    Time.zone.now > date(:stop_applications_to_unavailable_course_options, current_year).end_of_day &&
+      Time.zone.now < date(:apply_reopens, next_year).beginning_of_day
   end
 
   def self.apply_1_deadline
-    date(:apply_1_deadline)
+    date(:apply_1_deadline, current_year)
   end
 
   def self.stop_applications_to_unavailable_course_options
-    date(:stop_applications_to_unavailable_course_options)
+    date(:stop_applications_to_unavailable_course_options, current_year)
   end
 
   def self.apply_2_deadline
-    date(:apply_2_deadline)
+    date(:apply_2_deadline, current_year)
   end
 
   def self.find_closes
-    date(:find_closes)
+    date(:find_closes, current_year)
   end
 
   def self.find_reopens
-    date(:find_reopens)
+    date(:find_reopens, next_year)
   end
 
   def self.find_down?
@@ -64,22 +78,22 @@ class EndOfCycleTimetable
   end
 
   def self.apply_reopens
-    date(:apply_reopens)
+    date(:apply_reopens, next_year)
   end
 
   def self.between_cycles_apply_1?
-    Time.zone.now > date(:apply_1_deadline).end_of_day &&
-      Time.zone.now < date(:apply_reopens).beginning_of_day
+    Time.zone.now > date(:apply_1_deadline, current_year).end_of_day &&
+      Time.zone.now < date(:apply_reopens, next_year).beginning_of_day
   end
 
   def self.between_cycles_apply_2?
-    Time.zone.now > date(:apply_2_deadline).end_of_day &&
-      Time.zone.now < date(:apply_reopens).beginning_of_day
+    Time.zone.now > date(:apply_2_deadline, current_year).end_of_day &&
+      Time.zone.now < date(:apply_reopens, next_year).beginning_of_day
   end
 
-  def self.date(name)
-    schedule = schedules.fetch(current_cycle_schedule)
-    schedule.fetch(name)
+  def self.date(name, year)
+    schedule = schedules(year).fetch(current_cycle_schedule)
+    schedule&.fetch(name)
   end
 
   def self.current_cycle_schedule
@@ -93,9 +107,9 @@ class EndOfCycleTimetable
     RecruitmentCycle.current_year + 1
   end
 
-  def self.schedules
+  def self.schedules(year)
     {
-      real: CYCLE_DATES[CURRENT_YEAR_FOR_SCHEDULE],
+      real: CYCLE_DATES[year],
 
       today_is_mid_cycle: {
         apply_1_deadline: 1.day.from_now.to_date,

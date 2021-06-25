@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
       let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2020) }
 
       it 'returns false' do
-        Timecop.travel('2021-02-03') do
+        Timecop.travel(EndOfCycleTimetable.apply_2_deadline + 1.day) do
           expect(execute_service).to eq false
         end
       end

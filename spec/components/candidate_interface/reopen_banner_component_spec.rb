@@ -9,6 +9,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       application_form.phase = phase
       FeatureFlag.activate(:deadline_notices)
       allow(flash).to receive(:empty?).and_return true
+      allow(EndOfCycleTimetable).to receive(:current_year).and_return(2020)
       allow(EndOfCycleTimetable).to receive(:between_cycles_apply_1?).and_return(true)
       allow(EndOfCycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
     end

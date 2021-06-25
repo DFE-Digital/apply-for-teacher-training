@@ -24,16 +24,16 @@ module CycleTimetableHelper
   end
 
   def after_apply_reopens
-    @_after_apply_reopens ||= rand((current_end_of_cycle_timetable[:apply_reopens])..Date.new(EndOfCycleTimetable::CURRENT_YEAR_FOR_SCHEDULE, 12, 31)).midday
+    @_after_apply_reopens ||= rand((current_end_of_cycle_timetable[:apply_reopens])..Date.new(EndOfCycleTimetable.current_year, 12, 31)).midday
   end
 
 private
 
   def previous_end_of_cycle_timetable
-    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable::CURRENT_YEAR_FOR_SCHEDULE - 1]
+    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable.previous_year]
   end
 
   def current_end_of_cycle_timetable
-    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable::CURRENT_YEAR_FOR_SCHEDULE]
+    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable.current_year]
   end
 end
