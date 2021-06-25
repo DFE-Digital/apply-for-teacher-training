@@ -9,5 +9,6 @@ class ChaserSent < ApplicationRecord
     candidate_decision_request: 'candidate_decision_request',
     course_unavailable_notification: 'course_unavailable_notification',
     course_unavailable_slack_notification: 'course_unavailable_slack_notification',
+    eoc_deadline_reminder: 'eoc_deadline_reminder',
   }
 end
