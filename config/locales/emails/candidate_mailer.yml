@@ -117,3 +117,5 @@ en:
       subject: Interview details updated - %{provider_name}
     interview_cancelled:
       subject: Interview cancelled - %{provider_name}
+    approaching_eoc_deadline:
+      subject: Submit your application before courses fill up
