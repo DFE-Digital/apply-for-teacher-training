@@ -188,7 +188,7 @@ RSpec.describe SaveOfferConditionsFromParams do
         let(:further_condition_attrs) do
           {
             0 => {
-              'conditions_id': '',
+              'conditions_id' => '',
               'text' => 'A valid new condition',
             },
             1 => {

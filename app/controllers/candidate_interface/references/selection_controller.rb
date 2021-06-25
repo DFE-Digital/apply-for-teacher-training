@@ -42,10 +42,7 @@ module CandidateInterface
           render :review and return
         end
 
-        if @section_complete_form.not_completed?
-          @section_complete_form.save(current_application, :references_completed)
-          redirect_to candidate_interface_application_form_path
-        elsif current_application.selected_enough_references?
+        if @section_complete_form.not_completed? || current_application.selected_enough_references?
           @section_complete_form.save(current_application, :references_completed)
           redirect_to candidate_interface_application_form_path
         end

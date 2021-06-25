@@ -165,11 +165,9 @@ private
         # If not, there is something wrong with the setup
         if [training_provider_can, ratifying_provider_can].none?
           add_error(permission, :requires_training_or_ratifying_provider_permission)
-        # Check org-level and user-level permissions match for ratifying provider
-        elsif !training_provider_can && !user_level_can?(permission: permission, provider: ratifying_provider)
-          add_error(permission, :requires_provider_user_permission)
-        # Same for training provider
-        elsif !ratifying_provider_can && !user_level_can?(permission: permission, provider: training_provider)
+        # Check org-level and user-level permissions match for ratifying provider and training_provider
+        elsif (!training_provider_can && !user_level_can?(permission: permission, provider: ratifying_provider)) ||
+              (!ratifying_provider_can && !user_level_can?(permission: permission, provider: training_provider))
           add_error(permission, :requires_provider_user_permission)
         end
         # No additional checks if both providers have org-level access

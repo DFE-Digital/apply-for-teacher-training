@@ -83,22 +83,22 @@ module ProviderInterface
 
     def previous_step
       if checking_answers
-        [:check]
+        return [:check]
       elsif current_step == 'details'
-        [:index]
+        return [:index]
       elsif current_step == 'providers'
-        [:details]
+        return [:details]
       elsif current_step == 'permissions'
         if previous_provider_id.present?
-          [:permissions, previous_provider_id]
+          return [:permissions, previous_provider_id]
         else
-          single_provider ? [:details] : [:providers]
+          return single_provider ? [:details] : [:providers]
         end
       elsif current_step == 'check'
-        [:permissions, providers.last]
-      else
-        [:check]
+        return [:permissions, providers.last]
       end
+
+      [:check]
     end
 
     def save_state!

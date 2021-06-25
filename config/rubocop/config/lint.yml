@@ -23,13 +23,13 @@ Lint/MissingSuper:
   Enabled: false
 
 Lint/ConstantDefinitionInBlock:
-  Enabled: false
+  Enabled: true
 
 Lint/SymbolConversion:
-  Enabled: false
+  Enabled: true
 
 Lint/DuplicateBranch:
-  Enabled: false
+  Enabled: true
 
 Lint/EmptyBlock:
   Enabled: true

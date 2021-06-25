@@ -47,13 +47,13 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
 
   describe '#call on an API path' do
     it 'returns a 503' do
-      get '/api/v1/applications/1', params: { 'foo': 'bar' }
+      get '/api/v1/applications/1', params: { foo: 'bar' }
 
       expect(response.status).to eq(503)
     end
 
     it 'returns the correct content type' do
-      get '/api/v1/applications/1', params: { 'foo': 'bar' }
+      get '/api/v1/applications/1', params: { foo: 'bar' }
 
       expect(response.header['Content-type']).to include('application/json')
     end
@@ -61,7 +61,7 @@ RSpec.describe ServiceUnavailableMiddleware, type: :request do
     context 'when feature flag is off' do
       it 'returns a 200' do
         FeatureFlag.deactivate(:service_unavailable_page)
-        get '/api/v1/applications/1', params: { 'foo': 'bar' }
+        get '/api/v1/applications/1', params: { foo: 'bar' }
 
         expect(response.status).not_to eq(200)
       end

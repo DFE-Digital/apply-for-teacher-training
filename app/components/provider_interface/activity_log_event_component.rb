@@ -93,21 +93,14 @@ module ProviderInterface
     end
 
     def link
-      case event.application_status_at_event
-      when 'offer'
+      if %w[offer pending_conditions].include?(event.application_status_at_event) || (changes['offer_changed_at'].present? && application_choice.offer?)
         offer_link
-      when 'pending_conditions'
-        offer_link
+      elsif changes['reject_by_default_feedback_sent_at'].present?
+        feedback_link
+      elsif event.audit.auditable.is_a?(Interview)
+        interview_link(event.audit)
       else
-        if changes['reject_by_default_feedback_sent_at'].present?
-          feedback_link
-        elsif changes['offer_changed_at'].present? && application_choice.status == 'offer'
-          offer_link
-        elsif event.audit.auditable.is_a?(Interview)
-          interview_link(event.audit)
-        else
-          application_link
-        end
+        application_link
       end
     end
 

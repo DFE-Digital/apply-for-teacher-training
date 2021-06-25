@@ -4,7 +4,7 @@ RSpec.describe DataMigrations::RemoveIncorrectHesaCodes do
   def application_with_ethnicity_code(ethnic_group, ethnic_background, hesa_ethnicity)
     create(
       :application_form,
-      equality_and_diversity: { 'ethnic_group': ethnic_group, 'ethnic_background': ethnic_background, 'hesa_ethnicity': hesa_ethnicity },
+      equality_and_diversity: { ethnic_group: ethnic_group, ethnic_background: ethnic_background, hesa_ethnicity: hesa_ethnicity },
     )
   end
 
