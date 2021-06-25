@@ -1,0 +1,8 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= govuk_notification_banner(title: t('summer_recruitment_banner.title')) do |notification_banner| %>
+      <%= notification_banner.slot(:heading, text: t('summer_recruitment_banner.header')) %>
+      <p class="govuk-body"><%= t('summer_recruitment_banner.body') %></p>
+    <% end %>
+  </div>
+</div>
