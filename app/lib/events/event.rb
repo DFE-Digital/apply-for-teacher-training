@@ -17,7 +17,7 @@ module Events
       raise 'Invalid analytics event type' unless EVENT_TYPES.include?(type.to_s)
 
       @event_hash.merge!(
-        type: type,
+        event_type: type,
       )
 
       self

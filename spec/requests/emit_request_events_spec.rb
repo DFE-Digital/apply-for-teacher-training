@@ -37,7 +37,7 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
       expect(payload['request_method']).to eq('GET')
       expect(payload['request_user_agent']).to eq('Test agent')
       expect(payload['environment']).to eq('test')
-      expect(payload['type']).to eq('web_request')
+      expect(payload['event_type']).to eq('web_request')
       expect(payload['namespace']).to eq('provider_interface')
       expect(payload['response_status']).to eq(200)
       expect(payload['request_query']).to eq([

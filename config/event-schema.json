@@ -9,7 +9,7 @@
       "type": "string",
       "format": "date-time"
     },
-    "type": {
+    "event_type": {
       "type": "string",
       "enum": ["web_request"]
     },
@@ -54,6 +54,6 @@
   "required": [
     "environment",
     "occurred_at",
-    "type"
+    "event_type"
   ]
 }
