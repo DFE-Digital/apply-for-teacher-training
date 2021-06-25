@@ -63,7 +63,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
 
       expect(described_class.new.data_for_export).to eq(
         [{
-          candidate_id: application_choice_one.application_form_id,
+          candidate_id: application_choice_one.application_form.candidate.id,
           application_choice_id: application_choice_one.id,
           recruitment_cycle_year: application_choice_one.course.recruitment_cycle_year,
           phase: application_choice_one.application_form.phase,
@@ -114,7 +114,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
           why_are_you_rejecting_this_application_details: nil,
         },
          {
-           candidate_id: application_choice_two.application_form_id,
+           candidate_id: application_choice_two.application_form.candidate.id,
            application_choice_id: application_choice_two.id,
            recruitment_cycle_year: application_choice_two.course.recruitment_cycle_year,
            phase: application_choice_two.application_form.phase,

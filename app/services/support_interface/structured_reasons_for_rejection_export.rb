@@ -3,7 +3,7 @@ module SupportInterface
     def data_for_export
       application_choices.order(:id).find_each(batch_size: 100).map do |application_choice|
         {
-          candidate_id: application_choice.application_form_id,
+          candidate_id: application_choice.candidate.id,
           application_choice_id: application_choice.id,
           recruitment_cycle_year: application_choice.course.recruitment_cycle_year,
           phase: application_choice.application_form.phase,
