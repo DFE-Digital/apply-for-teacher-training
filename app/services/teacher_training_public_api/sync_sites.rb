@@ -18,6 +18,9 @@ module TeacherTrainingPublicAPI
 
       sites.each do |site_from_api|
         site = provider.sites.create_or_find_by(code: site_from_api.code) do |s|
+          # We need to set the name here so that the record is valid when created.
+          # If it is not valid, it just gets initialised (and is not persisted to the db). When calling save! below, it
+          # is possible for a duplicate record to have already been created by another sidekiq worker.
           s.name = site_from_api.name
         end
 
