@@ -146,6 +146,29 @@ RSpec.describe CandidateMailer, type: :mailer do
           expect(email.body).not_to include('Future applications')
         end
       end
+
+      context 'when it is before the apply_2_deadline' do
+        before do
+          allow(EndOfCycleTimetable).to receive(:between_cycles_apply_2?).and_return(false)
+        end
+
+        it 'informs the candidate they can apply again this year' do
+          expect(email.body).to include('If now’s the right time for you, you can still apply for teacher training again this year.')
+        end
+      end
+
+      context 'when it is after the apply_2_deadline' do
+        before do
+          allow(EndOfCycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
+          allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(Date.new(2021, 10, 13))
+          allow(RecruitmentCycle).to receive(:next_year).and_return(2022)
+        end
+
+        it 'informs the candidate they can apply again next year' do
+          expect(email.body).to include('You can apply again for courses starting in the 2022 to 2023 academic year.')
+          expect(email.body).to include('Your last application has been saved. Make any changes and re-submit from 13 October 2021')
+        end
+      end
     end
 
     describe '.application_rejected_one_offer_one_awaiting_decision' do

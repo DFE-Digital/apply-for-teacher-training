@@ -122,13 +122,35 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'when a candidate has 1 offer that was declined by default and a rejection' do
       let(:application_choices) { [dbd_application, build_stubbed(:application_choice, status: 'rejected')] }
 
-      it_behaves_like(
-        'a mail with subject and content',
-        'You did not respond to your offer: next steps',
-        'heading' => 'Dear Fred',
-        'DBD_days_they_had_to_respond' => '10 working days',
-        'still_interested' => 'If now’s the right time for you',
-      )
+      context 'when it is before the apply_2_deadline' do
+        before do
+          allow(EndOfCycleTimetable).to receive(:between_cycles_apply_2?).and_return(false)
+        end
+
+        it_behaves_like(
+          'a mail with subject and content',
+          'You did not respond to your offer: next steps',
+          'heading' => 'Dear Fred',
+          'DBD_days_they_had_to_respond' => '10 working days',
+          'still_interested' => 'If now’s the right time for you',
+        )
+      end
+
+      context 'when it is after the apply_2_deadline' do
+        before do
+          allow(EndOfCycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
+          allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(Date.new(2021, 10, 13))
+          allow(RecruitmentCycle).to receive(:next_year).and_return(2022)
+        end
+
+        it_behaves_like(
+          'a mail with subject and content',
+          'You did not respond to your offer: next steps',
+          'heading' => 'Dear Fred',
+          'DBD_days_they_had_to_respond' => '10 working days',
+          'apply_next_cycle' => 'You can apply again for courses starting in the 2022 to 2023 academic year.',
+        )
+      end
     end
 
     context 'when a candidate has 2 offers that were declined by default and a rejection' do
