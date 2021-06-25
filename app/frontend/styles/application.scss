@@ -19,6 +19,10 @@ $govuk-breakpoints: (
 
 $moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 
+// Enable new link styles (currently opt-in).
+// TODO: remove this when this becomes the default.
+$govuk-new-link-styles: true;
+
 // Shared (govuk-frontend)
 @import "~govuk-frontend/govuk/all";
 
