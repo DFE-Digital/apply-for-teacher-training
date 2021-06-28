@@ -48,8 +48,10 @@ RSpec.describe AcceptUnconditionalOffer do
 
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
       expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
-      expect(ActionMailer::Base.deliveries.first.to).to eq [training_provider_user.email_address]
-      expect(ActionMailer::Base.deliveries.second.to).to eq [ratifying_provider_user.email_address]
+
+      mailer_recipients = ActionMailer::Base.deliveries.map(&:to).flatten
+      expect(mailer_recipients).to include(training_provider_user.email_address)
+      expect(mailer_recipients).to include(ratifying_provider_user.email_address)
     end
 
     it 'sends a confirmation email to the candidate' do
