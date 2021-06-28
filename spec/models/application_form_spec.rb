@@ -309,6 +309,32 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#selected_incorrect_number_of_references?' do
+    it 'is true when < 2 selections' do
+      application_form = create(:application_form)
+      create(:selected_reference, application_form: application_form)
+
+      expect(application_form.selected_incorrect_number_of_references?).to eq true
+    end
+
+    it 'is true when > 2 selections' do
+      application_form = create(:application_form)
+      create(:selected_reference, application_form: application_form)
+      create(:selected_reference, application_form: application_form)
+      create(:selected_reference, application_form: application_form)
+
+      expect(application_form.selected_incorrect_number_of_references?).to eq true
+    end
+
+    it 'is false when 2 selections' do
+      application_form = create(:application_form)
+      create(:selected_reference, application_form: application_form)
+      create(:selected_reference, application_form: application_form)
+
+      expect(application_form.selected_incorrect_number_of_references?).to eq false
+    end
+  end
+
   describe '#equality_and_diversity_answers_provided?' do
     context 'when minimal expected attributes are present' do
       it 'is true' do

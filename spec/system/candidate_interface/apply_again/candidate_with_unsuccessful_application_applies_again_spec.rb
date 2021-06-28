@@ -43,11 +43,11 @@ RSpec.feature 'Candidate with unsuccessful application' do
     @application_form = create(
       :completed_application_form,
       :with_gcses,
-      :with_completed_references,
-      references_count: 2,
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
+      references_completed: true,
     )
+    create_list(:selected_reference, 2, application_form: @application_form)
     create(:application_choice, status: :rejected, application_form: @application_form)
   end
 

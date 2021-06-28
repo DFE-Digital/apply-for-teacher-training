@@ -22,7 +22,7 @@ RSpec.feature 'Handle applications with too many selected references' do
 
   def and_i_have_a_completed_application_with_more_than_two_selected_references
     create_and_sign_in_candidate
-    candidate_completes_application_form
+    candidate_completes_application_form # Including two reference selections
     create(:reference, :feedback_provided, selected: true, application_form: @application)
     visit candidate_interface_application_form_path
   end
@@ -34,7 +34,7 @@ RSpec.feature 'Handle applications with too many selected references' do
 
   def then_i_see_an_error_message
     within('.govuk-error-summary') do
-      expect(page).to have_content 'More than 2 references have been selected'
+      expect(page).to have_content 'You need to have exactly 2 references selected before submitting your application'
     end
   end
 
