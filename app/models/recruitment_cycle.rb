@@ -5,7 +5,9 @@ module RecruitmentCycle
   }.freeze
 
   def self.current_year
-    if Time.zone.today < EndOfCycleTimetable.find_reopens
+    # EndOfCycle.find_reopens looks to the next cycle so we need
+    # to compare Time.zone.today to Find's reopening date from the current cycle
+    if Time.zone.today < EndOfCycleTimetable::CYCLE_DATES[2021][:find_reopens]
       2020
     else
       2021

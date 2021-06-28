@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe RecruitmentCycle do
   describe '.current_year' do
     it 'is 2020 before the end of cycle' do
+      allow(EndOfCycleTimetable).to receive(:current_year).and_return(2020)
+
       Timecop.travel(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
         expect(RecruitmentCycle.current_year).to eq(2020)
       end
@@ -16,6 +18,10 @@ RSpec.describe RecruitmentCycle do
   end
 
   describe '.cycle_name' do
+    before do
+      allow(EndOfCycleTimetable).to receive(:current_year).and_return(2020)
+    end
+
     it 'defaults to current year to the following year' do
       Timecop.travel(Time.zone.local(2020, 1, 1, 1, 0, 0)) do
         expect(RecruitmentCycle.cycle_name).to eq('2019 to 2020')
