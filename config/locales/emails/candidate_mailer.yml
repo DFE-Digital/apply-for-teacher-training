@@ -59,6 +59,14 @@ en:
       subject: Update on your application
     application_rejected_offers_only:
       subject: Update on your application - respond by %{date}
+    application_withdrawn_on_request_all_applications_withdrawn:
+      subject: Update on your application - all decisions now made
+    application_withdrawn_on_request_one_offer_one_awaiting_decision:
+      subject: Update on your application - decide what to do
+    application_withdrawn_on_request_awaiting_decision_only:
+      subject: Update on your application
+    application_withdrawn_on_request_offers_only:
+      subject: Update on your application - respond by %{date}
     application_withdrawn:
       subject:
         one: "You’ve withdrawn your application: next steps"

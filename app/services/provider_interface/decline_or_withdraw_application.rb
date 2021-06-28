@@ -16,10 +16,10 @@ module ProviderInterface
       ActiveRecord::Base.transaction do
         if declining?
           ApplicationStateChange.new(@application_choice).decline!
-          @application_choice.update!(declined_at: Time.zone.now)
+          @application_choice.update!(declined_at: Time.zone.now, audit_comment: 'Declined on behalf of the candidate')
         elsif withdrawing?
           ApplicationStateChange.new(@application_choice).withdraw!
-          @application_choice.update!(withdrawn_at: Time.zone.now)
+          @application_choice.update!(withdrawn_at: Time.zone.now, audit_comment: 'Withdrawn on behalf of the candidate')
           SetDeclineByDefault.new(application_form: @application_choice.application_form).call
         end
       end
@@ -28,7 +28,7 @@ module ProviderInterface
         StateChangeNotifier.new(transition, @application_choice).application_outcome_notification
       end
 
-      # TODO: Email candidate.
+      SendCandidateWithdrawnOnRequestEmail.new(application_choice: application_choice).call
 
       ResolveUCASMatch.new(application_choice: @application_choice).call if resolve_ucas_match?
 

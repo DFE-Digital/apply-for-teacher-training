@@ -377,6 +377,116 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_offers_only(application_form.application_choices.first)
   end
 
+  def application_withdrawn_on_request_all_applications_withdrawn
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form,
+      course_option: course_option,
+      status: :withdrawn,
+      withdrawn_at: Time.zone.now,
+    )
+    CandidateMailer.application_withdrawn_on_request_all_applications_withdrawn(application_choice)
+  end
+
+  def application_withdrawn_on_request_one_offer_one_awaiting_decision
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      candidate: candidate,
+      application_choices: [
+        FactoryBot.build(
+          :application_choice,
+          application_form: application_form,
+          course_option: course_option,
+          status: :withdrawn,
+          withdrawn_at: Time.zone.now,
+        ),
+        FactoryBot.build(
+          :application_choice,
+          :with_offer,
+          application_form: application_form,
+          reject_by_default_at: 7.days.since,
+          course_option: course_option,
+        ),
+        FactoryBot.build(
+          :application_choice,
+          application_form: application_form,
+          reject_by_default_at: 9.days.since,
+          status: :awaiting_provider_decision,
+          course_option: course_option,
+        ),
+      ],
+    )
+    CandidateMailer.application_withdrawn_on_request_one_offer_one_awaiting_decision(application_form.application_choices.first)
+  end
+
+  def application_withdrawn_on_request_awaiting_decision_only
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      candidate: candidate,
+      application_choices: [
+        FactoryBot.build_stubbed(
+          :application_choice,
+          application_form: application_form,
+          course_option: course_option,
+          status: :withdrawn,
+          withdrawn_at: Time.zone.now,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          status: :awaiting_provider_decision,
+          application_form: application_form,
+          reject_by_default_at: 3.days.from_now,
+          course_option: course_option,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          application_form: application_form,
+          reject_by_default_at: 2.days.from_now,
+          status: :awaiting_provider_decision,
+          course_option: course_option,
+        ),
+      ],
+    )
+    CandidateMailer.application_withdrawn_on_request_awaiting_decision_only(application_form.application_choices.first)
+  end
+
+  def application_withdrawn_on_request_offers_only
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      candidate: candidate,
+      application_choices: [
+        FactoryBot.build(
+          :application_choice,
+          application_form: application_form,
+          course_option: course_option,
+          status: :withdrawn,
+          withdrawn_at: Time.zone.now,
+        ),
+        FactoryBot.build(
+          :application_choice,
+          :with_offer,
+          application_form: application_form,
+          decline_by_default_at: 3.days.from_now,
+          course_option: course_option,
+        ),
+        FactoryBot.build(
+          :application_choice,
+          :with_offer,
+          application_form: application_form,
+          decline_by_default_at: 2.days.from_now,
+          course_option: course_option,
+        ),
+      ],
+    )
+    CandidateMailer.application_withdrawn_on_request_offers_only(application_form.application_choices.first)
+  end
+
   def feedback_received_for_application_rejected_by_default
     application_choice =
       FactoryBot.build(

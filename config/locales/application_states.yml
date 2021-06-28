@@ -234,9 +234,13 @@ en:
       name: Candidate withdraws
       by: candidate
       description: |
-        The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
+        The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
+        - candidate_mailer-application_withdrawn_on_request_offers_only
+        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     awaiting_provider_decision-reject_by_default:
       name: Rejected by default
@@ -279,9 +283,13 @@ en:
       name: Candidate withdraws
       by: candidate
       description: |
-        The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
+        The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time or ask a provider to withdraw an application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
+        - candidate_mailer-application_withdrawn_on_request_offers_only
+        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     interviewing-reject_by_default:
       name: Rejected by default
@@ -355,9 +363,13 @@ en:
     offer-decline:
       name: Candidate declines offer
       by: candidate
-      description: The candidate can decline the offer.
+      description: The candidate can decline the offer or ask the provider to withdraw the offered application on their behalf.
       emails:
         - provider_mailer-declined
+        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
+        - candidate_mailer-application_withdrawn_on_request_offers_only
+        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     pending_conditions-confirm_conditions_met:
       name: Provider confirms conditions are met
@@ -376,16 +388,24 @@ en:
     pending_conditions-withdraw:
       name: Candidate withdraws
       by: candidate
-      description: Candidates can withdraw at any time.
+      description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
+        - candidate_mailer-application_withdrawn_on_request_offers_only
+        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     recruited-withdraw:
       name: Candidate withdraws
       by: candidate
-      description: Candidates can withdraw at any time.
+      description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
       emails:
         - provider_mailer-application_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
+        - candidate_mailer-application_withdrawn_on_request_offers_only
+        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
 
     rejected-give_feedback_for_application_rejected_by_default:
       name: Provider gives feedback for application rejected by default
@@ -564,4 +584,9 @@ en:
     offer_deferred-withdraw:
       name: Withdraw
       by: candidate
-      description: Candidates can withdraw at any time.
+      description: Candidates can withdraw at any time or ask the provider to withdraw the application on their behalf.
+      emails:
+        - candidate_mailer-application_withdrawn_on_request_all_applications_withdrawn
+        - candidate_mailer-application_withdrawn_on_request_awaiting_decision_only
+        - candidate_mailer-application_withdrawn_on_request_offers_only
+        - candidate_mailer-application_withdrawn_on_request_one_offer_one_awaiting_decision
