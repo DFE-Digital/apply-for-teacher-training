@@ -598,6 +598,8 @@ components:
             - B - Irish Citizen
             - C - Candidate needs to apply for permission to work and study in the UK
             - D - Candidate's free text response
+
+            These values do not correspond to the UCAS residency statuses.
           example: 'B'
           enum:
             - 'A'
