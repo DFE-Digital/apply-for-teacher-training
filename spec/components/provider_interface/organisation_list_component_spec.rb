@@ -107,5 +107,18 @@ RSpec.describe ProviderInterface::OrganisationListComponent do
         expect(render.text).not_to include("#{permission.training_provider.name} have not set up permissions yet")
       end
     end
+
+    context 'with multiple relationships' do
+      let(:ratifying_provider1) { create(:provider, name: 'XYZ academy') }
+      let(:ratifying_provider2) { create(:provider, name: 'ABC academy') }
+      let(:permissions1) { create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: ratifying_provider1) }
+      let(:permissions2) { create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: ratifying_provider2) }
+      let!(:permissions) { [permissions1, permissions2] }
+
+      it 'orders relationships consistently' do
+        instance = described_class.new(provider: provider, current_provider_user: provider_user)
+        expect(instance.training_permissions).to eq(permissions.reverse)
+      end
+    end
   end
 end
