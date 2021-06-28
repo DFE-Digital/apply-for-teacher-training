@@ -15,7 +15,7 @@ class Clock
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
-  every(1.hour, 'DetectInvariants', at: '**:30') { DetectInvariants.perform_async }
+  every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
   every(1.hour, 'UpdateFeatureMetricsDashboard', at: '**:45') { UpdateFeatureMetricsDashboard.perform_async }
@@ -26,6 +26,8 @@ class Clock
       UCASMatching::UploadMatchingData.perform_async
     end
   end
+
+  every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
 
   every(1.day, 'UCASMatching::ProcessMatchingData', at: '10:00') do
     if Time.zone.today.weekday?
