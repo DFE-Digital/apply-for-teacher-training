@@ -24,7 +24,7 @@ class DuplicateApplication
 
     original_application_form.application_work_experiences.each do |w|
       new_application_form.application_work_experiences.create!(
-        w.attributes.except(*ignored_work_experience_attributes).merge("currently_working" => infer_currently_working(w))
+        w.attributes.except(*ignored_work_experience_attributes).merge('currently_working' => infer_currently_working(w)),
       )
     end
     if original_application_form.feature_restructured_work_history == false &&
@@ -81,8 +81,8 @@ private
 
   def infer_currently_working(application_experience)
     return application_experience.currently_working unless application_experience.currently_working.nil?
-    
-    application_experience.start_date < Date.today &&
-      (application_experience.end_date.nil? || application_experience.end_date > Date.today)
+
+    application_experience.start_date < Time.zone.today &&
+      (application_experience.end_date.nil? || application_experience.end_date > Time.zone.today)
   end
 end

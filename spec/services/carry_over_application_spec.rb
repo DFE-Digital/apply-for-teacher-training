@@ -113,35 +113,29 @@ RSpec.describe CarryOverApplication do
     end
 
     it 'infers that `currently_working` is false if there is no ongoing work history item' do
-      original_application_form.application_work_experiences.first.update(
-        start_date: 4.years.ago,
-        end_date: 3.years.ago,
-      )
-      original_application_form.application_work_experiences.last.update(
-        start_date: 2.years.ago,
-        end_date: 1.years.ago,
-      )
-      described_class.new(original_application_form.reload).call
-      carried_over_application_form = ApplicationForm.last
+      first_job = original_application_form.application_work_experiences.first
+      first_job.update(start_date: 4.years.ago, end_date: 3.years.ago)
 
-      expect(carried_over_application_form.reload.application_work_experiences.first.currently_working?).to be(false)
-      expect(carried_over_application_form.application_work_experiences.last.currently_working?).to be(false)
+      second_job = original_application_form.application_work_experiences.last
+      second_job.update(start_date: 2.years.ago, end_date: 1.year.ago)
+
+      described_class.new(original_application_form.reload).call
+
+      expect(first_job.reload.currently_working?).to be(false)
+      expect(second_job.reload.currently_working?).to be(false)
     end
 
     it 'infers that `currently_working` is true if there is an ongoing work history item' do
-      original_application_form.application_work_experiences.first.update(
-        start_date: 3.years.ago,
-        end_date: 2.years.ago,
-      )
-      original_application_form.application_work_experiences.last.update(
-        start_date: 1.years.ago,
-        end_date: nil,
-      )
-      described_class.new(original_application_form.reload).call
-      carried_over_application_form = ApplicationForm.last
+      first_job = original_application_form.application_work_experiences.first
+      first_job.update(start_date: 3.years.ago, end_date: 2.years.ago)
 
-      expect(carried_over_application_form.reload.application_work_experiences.first.currently_working?).to be(false)
-      expect(carried_over_application_form.application_work_experiences.last.currently_working?).to be(true)
+      second_job = original_application_form.application_work_experiences.last
+      second_job.update(start_date: 1.year.ago, end_date: nil)
+
+      described_class.new(original_application_form.reload).call
+
+      expect(first_job.reload.currently_working?).to be(false)
+      expect(second_job.reload.currently_working?).to be(true)
     end
   end
 end
