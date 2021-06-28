@@ -11,20 +11,24 @@ module CandidateInterface
     end
 
     def all_candidate_count(
-      start_time = EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      start_time = apply_reopens,
       end_time = Time.zone.now.end_of_day
     )
       all_forms(start_time, end_time).select(:candidate_id).distinct.count
     end
 
     def changed_candidate_count(
-      start_time = EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      start_time = apply_reopens,
       end_time = Time.zone.now.end_of_day
     )
       changed_forms(start_time, end_time).map(&:candidate_id).uniq.count
     end
 
   private
+
+    def apply_reopens
+      EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable.current_year][:apply_reopens].beginning_of_day
+    end
 
     def apply_again_forms(start_time, end_time)
       ApplicationForm
