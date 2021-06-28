@@ -38,10 +38,10 @@ private
   end
 
   def apply_1_deadline
-    EndOfCycleTimetable.date(:apply_1_deadline).strftime('%d %B')
+    EndOfCycleTimetable.apply_1_deadline.strftime('%d %B')
   end
 
   def apply_2_deadline
-    EndOfCycleTimetable.date(:apply_2_deadline).strftime('%d %B')
+    EndOfCycleTimetable.apply_2_deadline.strftime('%d %B')
   end
 end
