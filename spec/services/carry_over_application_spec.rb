@@ -41,7 +41,7 @@ RSpec.describe CarryOverApplication do
       end
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1', 2021
+    it_behaves_like 'duplicates application form', 'apply_1', 2022
   end
 
   context 'when the application_form has references has an application_reference in the cancelled_at_end_of_cycle state' do

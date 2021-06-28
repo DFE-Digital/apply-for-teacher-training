@@ -20,11 +20,11 @@ module CycleTimetableHelper
   end
 
   def after_find_reopens
-    @_after_find_reopens ||= rand((current_end_of_cycle_timetable[:find_reopens])..current_end_of_cycle_timetable[:apply_reopens]).midday
+    @_after_find_reopens ||= rand((next_end_of_cycle_timetable[:find_reopens])..next_end_of_cycle_timetable[:apply_reopens]).midday
   end
 
   def after_apply_reopens
-    @_after_apply_reopens ||= rand((current_end_of_cycle_timetable[:apply_reopens])..Date.new(EndOfCycleTimetable.current_year, 12, 31)).midday
+    @_after_apply_reopens ||= rand((next_end_of_cycle_timetable[:apply_reopens])..Date.new(EndOfCycleTimetable.next_year, 12, 31)).midday
   end
 
 private
