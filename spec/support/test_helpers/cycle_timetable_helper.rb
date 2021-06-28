@@ -16,7 +16,7 @@ module CycleTimetableHelper
   end
 
   def after_find_closes
-    @_after_find_closes ||= rand((current_end_of_cycle_timetable[:find_closes])..current_end_of_cycle_timetable[:find_reopens]).midday
+    @_after_find_closes ||= rand((current_end_of_cycle_timetable[:find_closes])..next_end_of_cycle_timetable[:find_reopens]).midday
   end
 
   def after_find_reopens
@@ -35,5 +35,9 @@ private
 
   def current_end_of_cycle_timetable
     EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable.current_year]
+  end
+
+  def next_end_of_cycle_timetable
+    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable.next_year]
   end
 end
