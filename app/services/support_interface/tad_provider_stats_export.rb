@@ -22,7 +22,7 @@ module SupportInterface
       data_for_export.sort_by { |row| row[:provider_code] }
     end
 
-    alias_method :data_for_export, :call
+    alias data_for_export call
 
   private
 

@@ -74,6 +74,6 @@ module SupportInterface
       results
     end
 
-    alias_method :data_for_export, :applications
+    alias data_for_export applications
   end
 end

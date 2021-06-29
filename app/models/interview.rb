@@ -2,7 +2,7 @@ class Interview < ApplicationRecord
   include Discard::Model
 
   self.discard_column = :cancelled_at
-  alias_method :cancelled?, :discarded?
+  alias cancelled? discarded?
 
   audited associated_with: :application_choice
 

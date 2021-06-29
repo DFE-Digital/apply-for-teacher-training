@@ -27,7 +27,7 @@ module SupportInterface
       @support_user = SupportUser.find(params[:id])
     end
 
-    alias_method :confirm_restore, :confirm_destroy
+    alias confirm_restore confirm_destroy
 
     def destroy
       SupportUser.find(params[:id]).discard

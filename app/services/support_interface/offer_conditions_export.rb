@@ -31,7 +31,7 @@ module SupportInterface
       end
     end
 
-    alias_method :data_for_export, :offers
+    alias data_for_export offers
 
   private
 

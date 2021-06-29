@@ -28,7 +28,7 @@ class DfESignInController < ActionController::Base
     end
   end
 
-  alias_method :bypass_callback, :callback
+  alias bypass_callback callback
 
   # This is called by a redirect from DfE Sign-in after visiting the signout
   # link on DSI. We tell DSI to redirect here using the
