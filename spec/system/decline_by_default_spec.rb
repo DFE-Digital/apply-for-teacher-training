@@ -13,7 +13,7 @@ RSpec.feature 'Decline by default' do
 
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined
-    and_the_candidate_receives_a_decline_by_default_without_rejection_email
+    and_the_candidate_receives_a_decline_by_default_email
     and_the_provider_receives_an_email
 
     when_i_have_an_offer_waiting_for_my_decision
@@ -23,7 +23,7 @@ RSpec.feature 'Decline by default' do
 
     and_when_the_decline_by_default_limit_has_been_exceeded
     then_the_application_choice_is_declined
-    and_the_candidate_receives_a_decline_by_default_with_rejection_email
+    and_the_candidate_receives_a_decline_by_default_email
     and_the_provider_receives_an_email
   end
 
@@ -74,21 +74,14 @@ RSpec.feature 'Decline by default' do
     expect(current_email.subject).to include("Harry Potter’s (#{@application_form.support_reference}) application withdrawn automatically")
   end
 
-  def and_the_candidate_receives_a_decline_by_default_without_rejection_email
+  def and_the_candidate_receives_a_decline_by_default_email
     open_email(@application_form.candidate.email_address)
 
     expect(current_email.subject).to include('You did not respond to your offer: next steps')
-    expect(current_email.text).to include('If now’s the right time for you, you can apply for teacher training again this year.')
+    expect(current_email.text).to include('Your last application has been saved')
   end
 
   def and_i_have_a_rejection
     create(:application_choice, status: :rejected, application_form: @application_form)
-  end
-
-  def and_the_candidate_receives_a_decline_by_default_with_rejection_email
-    open_email(@application_form.candidate.email_address)
-
-    expect(current_email.subject).to include('You did not respond to your offer: next steps')
-    expect(current_email.text).to include('If now’s the right time for you, you can apply for teacher training again this year.')
   end
 end
