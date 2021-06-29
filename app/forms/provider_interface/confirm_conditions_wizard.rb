@@ -13,18 +13,11 @@ module ProviderInterface
     end
 
     def conditions
-      copied_conditions = offer.conditions.map do |condition|
-        updated_condition = condition.dup
-        updated_condition.id = condition.id
-        updated_condition
-      end
+      duplicate_conditions = offer.conditions.map { |condition| duplicate_condition_with_id(condition) }
 
-      return copied_conditions if statuses.blank?
+      return duplicate_conditions if statuses.blank?
 
-      copied_conditions.each do |condition|
-        new_status = statuses&.dig(condition.id.to_s, 'status')
-        condition.status = new_status
-      end
+      duplicate_conditions.each { |condition| update_status_for(condition) }
     end
 
     def all_conditions_met?
@@ -44,6 +37,17 @@ module ProviderInterface
     end
 
   private
+
+    def duplicate_condition_with_id(condition)
+      condition.dup.tap do |duplicate_condition|
+        duplicate_condition.id = condition.id
+      end
+    end
+
+    def update_status_for(condition)
+      new_status = statuses&.dig(condition.id.to_s, 'status')
+      condition.status = new_status
+    end
 
     def all_conditions_have_a_status_selected
       conditions.each do |condition|
