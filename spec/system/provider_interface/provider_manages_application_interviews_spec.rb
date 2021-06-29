@@ -157,7 +157,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_field('Additional details (optional)', with: '')
 
     fill_in 'Day', with: 2.days.from_now.day
+    fill_in 'Month', with: 2.days.from_now.month
+    fill_in 'Year', with: 2.days.from_now.year
     fill_in 'Time', with: '10am'
+
     fill_in 'Address or online meeting details', with: 'Zoom meeting'
     fill_in 'Additional details (optional)', with: 'Business casual'
 
