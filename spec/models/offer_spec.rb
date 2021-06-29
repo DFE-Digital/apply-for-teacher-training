@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Offer do
   describe 'associations' do
-    it '#conditions returns the list of conditions' do
-      condition1 = create(:offer_condition, text: 'Provide evidence of degree qualification')
-      condition2 = create(:offer_condition, text: 'Do a backflip and send us a video')
+    it '#conditions returns the list of conditions ordered by created_at' do
+      condition1 = create(:offer_condition, text: 'Do a backflip and send us a video', created_at: 1.day.ago)
+      condition2 = create(:offer_condition, text: 'Provide evidence of degree qualification', created_at: 2.days.ago)
       offer = create(:offer, conditions: [condition1, condition2])
 
-      expect(offer.conditions.map(&:text)).to contain_exactly('Provide evidence of degree qualification', 'Do a backflip and send us a video')
+      expect(offer.conditions.reload.map(&:text)).to eq(['Provide evidence of degree qualification', 'Do a backflip and send us a video'])
     end
 
     describe '#course_option' do
