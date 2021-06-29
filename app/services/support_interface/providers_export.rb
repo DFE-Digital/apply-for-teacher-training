@@ -13,7 +13,7 @@ module SupportInterface
       end
     end
 
-    alias_method :data_for_export, :providers
+    alias data_for_export providers
 
   private
 

@@ -30,7 +30,7 @@ module SupportInterface
       output
     end
 
-    alias_method :data_for_export, :call
+    alias data_for_export call
 
   private
 

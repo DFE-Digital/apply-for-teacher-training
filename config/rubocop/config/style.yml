@@ -62,7 +62,7 @@ Style/FormatStringToken:
   EnforcedStyle: template
 
 Style/Alias:
-  Enabled: false
+  Enabled: true
 
 Style/RegexpLiteral:
   Enabled: false

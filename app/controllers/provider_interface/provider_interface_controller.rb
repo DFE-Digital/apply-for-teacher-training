@@ -30,7 +30,7 @@ module ProviderInterface
       @current_provider_user ||= ProviderUser.load_from_session(session)
     end
 
-    alias_method :current_user, :current_provider_user
+    alias current_user current_provider_user
 
     def check_cookie_preferences
       if cookies['consented-to-manage-cookies'].eql?('yes')
@@ -40,7 +40,7 @@ module ProviderInterface
       end
     end
 
-    alias_method :audit_user, :current_provider_user
+    alias audit_user current_provider_user
 
   protected
 

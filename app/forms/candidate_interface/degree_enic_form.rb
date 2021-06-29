@@ -6,7 +6,7 @@ module CandidateInterface
 
     delegate :international?, to: :degree, allow_nil: true
 
-    alias_method :have_enic_reference?, :have_enic_reference
+    alias have_enic_reference? have_enic_reference
 
     validates :have_enic_reference, presence: true
     validates :enic_reference, presence: true, if: -> { have_enic_reference == 'yes' }

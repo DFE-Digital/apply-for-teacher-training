@@ -5,7 +5,7 @@ module ProviderInterface
     attr_accessor :view_applications_only, :provider_id
     attr_writer :permissions
 
-    alias_method :id, :provider_id
+    alias id provider_id
 
     validates :view_applications_only, presence: { message: 'Choose whether this user has extra permissions' }
     validate :at_least_one_extra_permission_is_set, if: -> { view_applications_only == 'false' }

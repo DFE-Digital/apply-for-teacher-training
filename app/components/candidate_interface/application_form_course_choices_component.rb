@@ -6,8 +6,8 @@ module CandidateInterface
     end
 
     attr_reader :choices_are_present, :completed
-    alias_method :completed?, :completed
-    alias_method :choices_are_present?, :choices_are_present
+    alias completed? completed
+    alias choices_are_present? choices_are_present
 
     def view_courses_path
       if completed?

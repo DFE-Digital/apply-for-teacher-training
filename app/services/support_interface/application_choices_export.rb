@@ -32,7 +32,7 @@ module SupportInterface
       results
     end
 
-    alias_method :data_for_export, :application_choices
+    alias data_for_export application_choices
 
   private
 

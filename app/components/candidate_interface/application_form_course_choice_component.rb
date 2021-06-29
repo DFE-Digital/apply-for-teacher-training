@@ -5,7 +5,7 @@ module CandidateInterface
     end
 
     attr_reader :completed
-    alias_method :completed?, :completed
+    alias completed? completed
 
     def view_courses_path
       if completed?
