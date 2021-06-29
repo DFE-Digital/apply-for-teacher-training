@@ -2,9 +2,10 @@ module ProviderInterface
   class SaveConditionStatuses
     include ImpersonationAuditHelper
 
-    def initialize(actor:, application_choice:)
+    def initialize(actor:, application_choice:, conditions:)
       @auth = ProviderAuthorisation.new(actor: actor)
       @application_choice = application_choice
+      @conditions = conditions
     end
 
     def save!
@@ -19,7 +20,7 @@ module ProviderInterface
 
   private
 
-    attr_reader :auth, :application_choice
+    attr_reader :auth, :application_choice, :conditions
 
     def save_conditions_and_update_application!
       if conditions_met?
@@ -32,11 +33,11 @@ module ProviderInterface
     end
 
     def conditions_met?
-      application_choice.offer.conditions.all?(&:met?)
+      conditions.all?(&:met?)
     end
 
     def conditions_not_met?
-      application_choice.offer.conditions.any?(&:unmet?)
+      conditions.any?(&:unmet?)
     end
 
     def transition_to_conditions_met!
@@ -55,7 +56,9 @@ module ProviderInterface
     end
 
     def save_conditions
-      application_choice.offer.conditions.each(&:save!)
+      conditions.each do |condition|
+        application_choice.offer.conditions.find(condition.id).update!(status: condition.status)
+      end
     end
   end
 end

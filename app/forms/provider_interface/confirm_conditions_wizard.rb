@@ -13,10 +13,15 @@ module ProviderInterface
     end
 
     def conditions
-      conditions = offer.conditions
-      return conditions if statuses.blank?
+      copied_conditions = offer.conditions.map do |condition|
+        updated_condition = condition.dup
+        updated_condition.id = condition.id
+        updated_condition
+      end
 
-      conditions.each do |condition|
+      return copied_conditions if statuses.blank?
+
+      copied_conditions.each do |condition|
         new_status = statuses&.dig(condition.id.to_s, 'status')
         condition.status = new_status
       end

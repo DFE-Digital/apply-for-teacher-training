@@ -68,6 +68,7 @@ module ProviderInterface
       ProviderInterface::SaveConditionStatuses.new(
         actor: current_provider_user,
         application_choice: @application_choice,
+        conditions: @form_object.conditions,
       ).save!
     end
 
