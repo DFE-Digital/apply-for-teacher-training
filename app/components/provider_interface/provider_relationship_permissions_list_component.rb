@@ -33,7 +33,7 @@ module ProviderInterface
         permission_slug: permission_name.parameterize.dasherize,
         change_path: change_path(permission_name.parameterize),
         permissions_list: permissions_list(permission_name.parameterize.underscore),
-        action: " which organisations can #{permission_name} for courses run by #{training_provider.name} and ratified by #{ratifying_provider.name}",
+        action: "which organisations can #{permission_name} for courses run by #{training_provider.name} and ratified by #{ratifying_provider.name}",
       }
     end
 

@@ -1,3 +1,11 @@
+.govuk-table {
+  .govuk-summary-list__row:last-of-type .govuk-summary-list__key,
+  .govuk-summary-list__row:last-of-type .govuk-summary-list__value,
+  .govuk-summary-list__row:last-of-type .govuk-summary-list__actions {
+    border-bottom-width: 0;
+  }
+}
+
 .app-table--no-bottom-border {
   .govuk-table__row:last-child .govuk-table__cell,
   .govuk-table__row:last-child .govuk-table__header {
