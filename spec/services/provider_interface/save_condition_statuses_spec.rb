@@ -6,9 +6,20 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
   let(:conditions) { create_list(:offer_condition, 3, status: :pending) }
   let(:new_conditions) { conditions }
 
+  let(:statuses_form_object) do
+    all_conditions_met = new_conditions.all?(&:met?)
+    any_condition_not_met = new_conditions.any?(&:unmet?)
+    instance_double(
+      ProviderInterface::ConfirmConditionsWizard,
+      conditions: new_conditions,
+      all_conditions_met?: all_conditions_met,
+      any_condition_not_met?: any_condition_not_met,
+    )
+  end
+
   let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [application_choice.current_course.provider]) }
 
-  let(:service) { described_class.new(actor: provider_user, application_choice: application_choice, conditions: new_conditions) }
+  let(:service) { described_class.new(actor: provider_user, application_choice: application_choice, statuses_form_object: statuses_form_object) }
 
   describe 'save!' do
     context 'provider user does not have make_decisions' do
