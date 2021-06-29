@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ConfirmConditionsWizard do
   let(:store) { instance_double(WizardStateStores::RedisStore) }
-  let(:conditions) { [build_stubbed(:offer_condition, status: :met), build_stubbed(:offer_condition)] }
-  let(:offer) { build_stubbed(:offer, conditions: conditions) }
+  let(:offer) { create(:offer, conditions: [create(:offer_condition, status: :met), create(:offer_condition)]) }
+  let(:conditions) { offer.conditions }
   let(:statuses) { nil }
 
   let(:wizard) do

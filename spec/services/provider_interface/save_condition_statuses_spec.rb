@@ -4,10 +4,11 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
   let(:application_choice) { create(:application_choice, :with_accepted_offer, offer: offer) }
   let(:offer) { create(:offer, conditions: conditions) }
   let(:conditions) { create_list(:offer_condition, 3, status: :pending) }
+  let(:new_conditions) { conditions }
 
   let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [application_choice.current_course.provider]) }
 
-  let(:service) { described_class.new(actor: provider_user, application_choice: application_choice) }
+  let(:service) { described_class.new(actor: provider_user, application_choice: application_choice, conditions: new_conditions) }
 
   describe 'save!' do
     context 'provider user does not have make_decisions' do
@@ -19,7 +20,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
     end
 
     context 'when a condition status is changed' do
-      before { application_choice.offer.conditions.each { |condition| condition.status = 'met' } }
+      let(:new_conditions) { conditions.each { |condition| condition.status = 'met' } }
 
       it 'attributes audits to the actor', with_audited: true do
         expect { service.save! }.to change(offer.conditions.last.audits, :count).by(1)
@@ -29,7 +30,7 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
 
     context 'when none of the conditions are marked as unmet' do
       context 'when all conditions are met' do
-        before { application_choice.offer.conditions.each { |condition| condition.status = 'met' } }
+        let(:new_conditions) { conditions.each { |condition| condition.status = 'met' } }
 
         it 'transitions the application to the recruited state' do
           Timecop.freeze do
@@ -55,8 +56,8 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
       end
 
       context 'when one conditions is still pending' do
-        before do
-          application_choice.offer.conditions.each_with_index do |condition, index|
+        let(:new_conditions) do
+          conditions.each_with_index do |condition, index|
             condition.status = index.zero? ? 'pending' : 'met'
           end
         end
@@ -73,8 +74,8 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
     end
 
     context 'when one of the conditions is marked as unmet' do
-      before do
-        application_choice.offer.conditions.each_with_index do |condition, index|
+      let(:new_conditions) do
+        conditions.each_with_index do |condition, index|
           condition.status = index.zero? ? 'unmet' : 'pending'
         end
       end
