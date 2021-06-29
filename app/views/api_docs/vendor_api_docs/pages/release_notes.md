@@ -1,3 +1,9 @@
+## 28th June
+
+Documentation:
+
+- Add clarification in the description of `uk_residency_status_code` field in the documentation.
+
 ## 15th June
 
 Documentation has been amended to mark the following endpoint as deprecated: `/test-data/regenerate`.
