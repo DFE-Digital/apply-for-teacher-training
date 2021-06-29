@@ -27,4 +27,24 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
       )
     }.not_to raise_error
   end
+
+  describe 'showing Opened on Apply at' do
+    it 'shows the date when the course is open' do
+      course = create(:course, :open_on_apply)
+
+      result = render_inline(
+        described_class.new(course: course),
+      )
+      expect(result.text).to include('Opened on Apply at')
+    end
+
+    it 'does not show the date when the course is not open' do
+      course = create(:course, :ucas_only)
+
+      result = render_inline(
+        described_class.new(course: course),
+      )
+      expect(result.text).not_to include('Opened on Apply at')
+    end
+  end
 end
