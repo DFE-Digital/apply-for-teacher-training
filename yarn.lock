@@ -1584,10 +1584,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@ministryofjustice/frontend@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.4.tgz#88b6a0d03b5ef2f577dddd0e4624deb66821e738"
-  integrity sha512-KmDTogrU0cDBs7Mwa/v2I5jHEdeV67oyHohX2MezQCC8HZnCFh5ZtqYPsdXd3fj0Smb/H9m5NHv5wdWPNkLkrA==
+"@ministryofjustice/frontend@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.5.tgz#d161cf65a9da4655e097b323a4df13bdfaa58bbf"
+  integrity sha512-hcqlQV2vB1uWi/spJ7VZUcMvbqZBlLyq+/buRH6+r9F97Z7+/lRmvNXDj7ktnXqcaUDVhEZlCXyALGaT9T3USw==
   dependencies:
     moment "^2.27.0"
 
