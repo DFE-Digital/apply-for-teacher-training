@@ -29,7 +29,7 @@ module SupportInterface
 
     def change_path
       if FeatureFlag.active?(:new_provider_user_flow)
-        support_interface_edit_permissions_path(provider_user)
+        support_interface_edit_provider_notifications_path(provider_user)
       else
         edit_support_interface_provider_user_path(provider_user, anchor: 'update-email-notifications')
       end
