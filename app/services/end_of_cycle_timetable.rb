@@ -20,6 +20,13 @@ class EndOfCycleTimetable
       find_reopens: Date.new(2020, 10, 6),
       apply_reopens: Date.new(2020, 10, 13),
     },
+    2022 => {
+      apply_1_deadline: Date.new(2021, 9, 6),
+      apply_2_deadline: Date.new(2021, 9, 20),
+      find_closes: Date.new(2021, 10, 3),
+      find_reopens: Date.new(2021, 9, 5),
+      apply_reopens: Date.new(2021, 10, 12),
+    }
   }.freeze
 
   def self.between_cycles?(phase)
