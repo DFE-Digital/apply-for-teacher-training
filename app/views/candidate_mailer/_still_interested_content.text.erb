@@ -1,6 +1,16 @@
-If now’s the right time for you, you can apply for teacher training again this year. 
+<% if EndOfCycleTimetable.between_cycles_apply_2? %>
+
+You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}" %> academic year.
+
+Your last application has been saved. Make any changes and re-submit from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+
+<% else %>
+
+If now’s the right time for you, you can still apply for teacher training again this year.
 
 Your last application has been saved. You can make changes and choose a different course before you submit a new application.
+
+<% end %>
 
 Sign in to apply again:
 
