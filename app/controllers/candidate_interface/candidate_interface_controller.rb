@@ -5,8 +5,8 @@ module CandidateInterface
     before_action :set_user_context
     before_action :check_cookie_preferences
     layout 'application'
-    alias_method :audit_user, :current_candidate
-    alias_method :current_user, :current_candidate
+    alias audit_user current_candidate
+    alias current_user current_candidate
 
     def set_user_context(candidate_id = current_candidate&.id)
       Raven.user_context(id: "candidate_#{candidate_id}")

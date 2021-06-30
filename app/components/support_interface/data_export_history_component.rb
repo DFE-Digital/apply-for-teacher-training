@@ -3,7 +3,7 @@ module SupportInterface
     include ViewHelper
 
     attr_reader :data_exports, :show_name
-    alias_method :show_name?, :show_name
+    alias show_name? show_name
 
     def initialize(data_exports:, show_name:)
       @data_exports = data_exports

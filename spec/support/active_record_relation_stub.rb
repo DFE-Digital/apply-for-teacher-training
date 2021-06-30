@@ -1,6 +1,6 @@
 class ActiveRecordRelationStub
   attr_reader :records
-  alias_method :to_a, :records
+  alias to_a records
 
   # @param model_klass [ActiveRecord::Base] the stubbing association's class
   # @param records [Array] list of records the association holds

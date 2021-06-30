@@ -13,7 +13,7 @@ module SupportInterface
       end
     end
 
-    alias_method :data_for_export, :sites
+    alias data_for_export sites
 
   private
 

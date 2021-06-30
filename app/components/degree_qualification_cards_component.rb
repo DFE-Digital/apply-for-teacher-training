@@ -5,7 +5,7 @@ class DegreeQualificationCardsComponent < ViewComponent::Base
 
   attr_reader :degrees, :application_choice_state, :show_hesa_codes
 
-  alias_method :show_hesa_codes?, :show_hesa_codes
+  alias show_hesa_codes? show_hesa_codes
 
   def initialize(degrees, application_choice_state: nil, show_hesa_codes: false)
     @degrees = degrees
