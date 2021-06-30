@@ -7,7 +7,7 @@
   <% if editable %>
     <% if @application_choice.pending_conditions? %>
       <div class='govuk-body'>
-        <%= govuk_link_to 'Update status of conditions', provider_interface_application_choice_edit_conditions_path(@application_choice) %>
+        <%= govuk_link_to 'Update status of conditions', update_conditions_path %>
       </div>
     <% end %>
 

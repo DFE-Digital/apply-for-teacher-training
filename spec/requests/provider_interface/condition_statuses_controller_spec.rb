@@ -1,7 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ConditionsController, type: :request do
+RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
   include DfESignInHelpers
+  include ModelWithErrorsStubHelper
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
@@ -11,7 +12,7 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
 
   before do
     allow(ProviderUser).to receive(:load_from_session).and_return(provider_user)
-    FeatureFlag.deactivate(:individual_offer_conditions)
+    FeatureFlag.activate(:individual_offer_conditions)
   end
 
   describe 'if application choice is in a recruited state' do
@@ -25,7 +26,7 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
     context 'GET edit' do
       it 'redirects back' do
         get(
-          provider_interface_application_choice_edit_conditions_path(application_choice),
+          edit_provider_interface_condition_statuses_path(application_choice),
           params: nil,
           headers: { 'HTTP_REFERER' => referer },
         )
@@ -38,7 +39,7 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
     context 'PATCH confirm_update' do
       it 'redirects back' do
         patch(
-          provider_interface_application_choice_confirm_update_conditions_path(application_choice),
+          confirm_provider_interface_condition_statuses_path(application_choice),
           params: {},
           headers: { 'HTTP_REFERER' => referer },
         )
@@ -51,7 +52,7 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
     context 'PATCH update' do
       it 'redirects back' do
         patch(
-          provider_interface_application_choice_update_conditions_path(application_choice),
+          provider_interface_condition_statuses_path(application_choice),
           params: {},
           headers: { 'HTTP_REFERER' => referer },
         )
@@ -70,14 +71,23 @@ RSpec.describe ProviderInterface::ConditionsController, type: :request do
     end
 
     it 'tracks errors on confirm_update' do
+      condition_id = application_choice.offer.conditions.first.id.to_s
       expect {
-        patch provider_interface_application_choice_confirm_update_conditions_path(application_choice)
+        patch(
+          confirm_provider_interface_condition_statuses_path(application_choice),
+          params: { provider_interface_confirm_conditions_wizard: { statuses: { condition_id => { test: :test } } } },
+        )
       }.to change(ValidationError, :count).by(1)
     end
 
     it 'tracks errors on update' do
+      stub_model_instance_with_errors(ProviderInterface::ConfirmConditionsWizard, { valid?: false })
+
       expect {
-        patch provider_interface_application_choice_update_conditions_path(application_choice)
+        patch(
+          provider_interface_condition_statuses_path(application_choice),
+          params: {},
+        )
       }.to change(ValidationError, :count).by(1)
     end
   end
