@@ -1,0 +1,31 @@
+<%= form_with(
+  model: provider_relationship_permission,
+  url: form_url,
+  method: form_method,
+) do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <span class="govuk-caption-l"><%= page_caption %></span>
+  <h1 class="govuk-heading-l">
+    <%= page_heading %>
+  </h1>
+
+  <p class="govuk-body"><%= t('.explanation') %></p>
+
+  <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
+    <div class="govuk-form-group">
+      <%= f.govuk_fieldset legend: { text: label_for(permission_name) } do %>
+        <% checkbox_details_for_providers.each_with_index do |checkbox_details, index| %>
+          <%= f.govuk_check_box(
+            "#{checkbox_details[:type]}_provider_can_#{permission_name}",
+            true,
+            label: { text: checkbox_details[:name] },
+            link_errors: index.zero?,
+          ) %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= f.govuk_submit t(".#{mode}.submit_button") %>
+<% end %>
