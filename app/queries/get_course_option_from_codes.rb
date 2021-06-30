@@ -1,7 +1,7 @@
 class GetCourseOptionFromCodes
   include ActiveModel::Validations
-  attr_accessor :provider_code, :course_code, :recruitment_cycle_year, :study_mode, :site_code
-  attr_accessor :provider, :course, :site, :course_option
+  attr_accessor :provider_code, :course_code, :recruitment_cycle_year, :study_mode, :site_code,
+                :provider, :course, :site, :course_option
 
   # Using validates_each because validation for each attribute depends on the values of other attributes
   # The act of validation also performs the relevant lookups and memoizes the results, which are then used

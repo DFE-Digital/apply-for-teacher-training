@@ -4,8 +4,7 @@ module ProviderInterface
 
     STEPS = %w[start conditions check].freeze
 
-    attr_accessor :current_step, :application_choice_id
-    attr_accessor :conditions_status, :course_option_id
+    attr_accessor :current_step, :application_choice_id, :conditions_status, :course_option_id
     attr_writer :state_store
 
     validates :application_choice_id, :current_step, presence: true

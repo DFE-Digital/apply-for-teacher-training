@@ -2,10 +2,7 @@ module CandidateInterface
   class DegreeTypeForm
     include ActiveModel::Model
 
-    attr_accessor :type_description
-    attr_accessor :international_type_description
-    attr_accessor :uk_degree
-    attr_accessor :application_form, :degree
+    attr_accessor :type_description, :international_type_description, :uk_degree, :application_form, :degree
 
     validates :uk_degree, presence: true
     validates :type_description, presence: true, if: -> { uk? }

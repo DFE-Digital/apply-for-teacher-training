@@ -4,9 +4,7 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_reader :degree
-      attr_accessor :award_year
-      attr_accessor :start_year
-      attr_accessor :audit_comment
+      attr_accessor :award_year, :start_year, :audit_comment
 
       validates :start_year, presence: true
       validates :award_year, presence: true

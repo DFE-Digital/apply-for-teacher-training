@@ -83,7 +83,7 @@ Style/FormatString:
   EnforcedStyle: sprintf
 
 Style/AccessorGrouping:
-  Enabled: false
+  Enabled: true
 
 Style/BisectedAttrAccessor:
   Enabled: true

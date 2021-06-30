@@ -1,6 +1,6 @@
 class GetAllChangeOptionsFromOfferedOption
-  attr_accessor :application_choice, :available_providers
-  attr_accessor :available_courses, :available_study_modes, :available_course_options
+  attr_accessor :application_choice, :available_providers, :available_courses,
+                :available_study_modes, :available_course_options
 
   def initialize(application_choice:, available_providers: nil)
     @application_choice = application_choice
