@@ -66,8 +66,8 @@
     <% when 'support_interface' %>
       <%= javascript_pack_tag 'application-support' %>
     <% when 'provider_interface' %>
-      <%= javascript_pack_tag 'application-provider' %>
       <%= render 'shared/zendesk_snippet' if HostingEnvironment.test_environment? %>
+      <%= javascript_pack_tag 'application-provider' %>
     <% when /api_docs/ %>
       <%= javascript_pack_tag 'application-api-docs' %>
     <% else %>

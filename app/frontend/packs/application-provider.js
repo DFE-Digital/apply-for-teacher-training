@@ -5,6 +5,7 @@ import filter from './components/paginated_filter'
 import checkboxSearchFilter from './components/checkbox_search_filter'
 import '../styles/application-provider.scss'
 import cookieBanners from './cookies/cookie-banners'
+import userSupportWebchat from './user-support-webchat'
 
 require.context('govuk-frontend/govuk/assets')
 
@@ -14,3 +15,4 @@ initAddFurtherConditions()
 checkboxSearchFilter('subject', 'Search for subject')
 filter()
 cookieBanners()
+userSupportWebchat()
