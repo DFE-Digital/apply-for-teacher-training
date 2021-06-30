@@ -11,9 +11,7 @@ class GetApplicationChoicesForProviders
     },
   ].freeze
 
-  DEFAULT_RECRUITMENT_CYCLE_YEAR = RecruitmentCycle.years_visible_to_providers
-
-  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: DEFAULT_RECRUITMENT_CYCLE_YEAR)
+  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
     providers = Array.wrap(providers).select(&:present?)
 
     raise MissingProvider if providers.none?
