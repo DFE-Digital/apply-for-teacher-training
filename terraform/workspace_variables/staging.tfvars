@@ -12,9 +12,6 @@ key_vault_name              = "s121t01-shared-kv-01"
 key_vault_app_secret_name   = "APPLY-APP-SECRETS-STAGING"
 key_vault_infra_secret_name = "BAT-INFRA-SECRETS-STAGING"
 
-# Network Policy
-prometheus_app = "prometheus-bat"
-
 # StatusCake
 statuscake_alerts = {
   apply-staging = {
