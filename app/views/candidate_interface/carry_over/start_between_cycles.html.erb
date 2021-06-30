@@ -6,7 +6,7 @@
 
     <h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles') %></h1>
 
-    <% if CandidateInterface::EndOfCyclePolicy.before_find_reopens? %>
+    <% if EndOfCycleTimetable.before_find_reopens? %>
       <p class="govuk-body">
         Applications for courses starting in the 2020 to 2021 academic year are closed.
       </p>
@@ -16,7 +16,7 @@
       Carry on with your application for courses starting in the 2021 to 2022 academic year.
     </p>
 
-    <% if CandidateInterface::EndOfCyclePolicy.before_apply_reopens? %>
+    <% if EndOfCycleTimetable.before_apply_reopens? %>
       <p class="govuk-body">
         You can submit your application from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.
       </p>
@@ -24,7 +24,7 @@
 
     <p class="govuk-body">
       Your courses have been removed.
-      <% if CandidateInterface::EndOfCyclePolicy.before_find_reopens? %>
+      <% if EndOfCycleTimetable.before_find_reopens? %>
         You can add them again later.
       <% else %>
         You can add them again now.
