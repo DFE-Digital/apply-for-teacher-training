@@ -29,6 +29,16 @@ class EndOfCycleTimetable
     }
   }.freeze
 
+  def self.current_year
+    now = Time.zone.today
+
+    CYCLE_DATES.keys.detect do |year|
+      return year if year == CYCLE_DATES.keys.last
+
+      now.between?(CYCLE_DATES[year][:find_reopens], CYCLE_DATES[year + 1][:find_reopens])
+    end
+  end
+
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
