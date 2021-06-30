@@ -50,10 +50,10 @@ module SupportInterface
             'audits.created_at',
             'audits.user_id',
             Arel.sql(
-              "CASE audits.user_type
-              WHEN 'ProviderUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM provider_users WHERE id = audits.user_id)
-              WHEN 'SupportUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM support_users WHERE id = audits.user_id)
-            END".squish,
+              'CASE audits.user_type ' \
+              "WHEN 'ProviderUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM provider_users WHERE id = audits.user_id) " \
+              "WHEN 'SupportUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM support_users WHERE id = audits.user_id) " \
+              'END'.squish,
             ),
             'providers.code',
             'providers.name',
