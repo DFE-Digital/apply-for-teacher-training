@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::EndOfCyclePolicy do
+RSpec.describe EndOfCycleTimetable do
   describe '#can_add_course_choice?' do
     let(:execute_service) { described_class.can_add_course_choice?(application_form) }
 
