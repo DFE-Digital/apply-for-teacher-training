@@ -4,8 +4,7 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_reader :gcse
-      attr_accessor :award_year
-      attr_accessor :audit_comment
+      attr_accessor :award_year, :audit_comment
 
       validates :award_year, presence: true
       validates :audit_comment, presence: true
