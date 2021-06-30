@@ -1,5 +1,8 @@
 en:
   provider_relationship_permissions:
-    make_decisions: This includes making offers, amending offers and rejecting applications
-    view_safeguarding_information: This information is in the ‘criminal convictions and professional misconduct’ section of the application
-    view_diversity_information: This information is in the ‘equality and diversity’ section of the application – it includes sex, ethnicity and disability status
+    make_decisions:
+      hint: This includes making offers, amending offers and rejecting applications
+    view_safeguarding_information:
+      hint: This information is in the ‘criminal convictions and professional misconduct’ section of the application
+    view_diversity_information:
+      hint: This information is in the ‘equality and diversity’ section of the application – it includes sex, ethnicity and disability status
