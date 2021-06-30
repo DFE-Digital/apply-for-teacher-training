@@ -5,10 +5,10 @@ module RecruitmentCycle
   }.freeze
 
   def self.current_year
-    if Time.zone.today < EndOfCycleTimetable.find_reopens
-      2020
-    else
-      2021
+    now = Time.zone.today
+
+    EndOfCycleTimetable::CYCLE_DATES.keys.detect do |year|
+      now.between?(EndOfCycleTimetable::CYCLE_DATES[year][:find_reopens], EndOfCycleTimetable::CYCLE_DATES[year + 1][:find_reopens])
     end
   end
 
