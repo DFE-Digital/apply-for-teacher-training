@@ -12,12 +12,12 @@ module RecruitmentCycle
     end
   end
 
-  def self.previous_year
-    current_year - 1
-  end
-
   def self.next_year
     current_year + 1
+  end
+
+  def self.previous_year
+    current_year - 1
   end
 
   def self.years_visible_to_providers

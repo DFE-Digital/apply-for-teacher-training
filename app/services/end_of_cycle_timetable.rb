@@ -96,10 +96,6 @@ class EndOfCycleTimetable
     SiteSetting.cycle_schedule
   end
 
-  def self.next_cycle_year
-    RecruitmentCycle.current_year + 1
-  end
-
   def self.schedules
     {
       real: CYCLE_DATES[CURRENT_YEAR_FOR_SCHEDULE],

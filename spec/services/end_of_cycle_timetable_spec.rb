@@ -75,14 +75,6 @@ RSpec.describe EndOfCycleTimetable do
     end
   end
 
-  describe '.next_cycle_year' do
-    it 'returns 2021 when in 2020 cycle' do
-      Timecop.travel(Time.zone.local(2020, 8, 24, 23, 0, 0)) do
-        expect(EndOfCycleTimetable.next_cycle_year).to eq 2021
-      end
-    end
-  end
-
   describe '.find_down?' do
     it 'returns false before find closes' do
       Timecop.travel(EndOfCycleTimetable.find_closes.beginning_of_day - 1.hour) do
