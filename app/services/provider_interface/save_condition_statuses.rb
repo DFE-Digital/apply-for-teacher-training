@@ -15,6 +15,7 @@ module ProviderInterface
         ActiveRecord::Base.transaction do
           save_conditions_and_update_application!
         end
+        send_success_notifications
       end
     end
 
@@ -36,20 +37,26 @@ module ProviderInterface
       ApplicationStateChange.new(application_choice).confirm_conditions_met!
       application_choice.update!(recruited_at: Time.zone.now)
       save_conditions
-      CandidateMailer.conditions_met(application_choice).deliver_later
-      StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
     end
 
     def transition_to_conditions_not_met!
       ApplicationStateChange.new(application_choice).conditions_not_met!
       application_choice.update!(conditions_not_met_at: Time.zone.now)
       save_conditions
-      CandidateMailer.conditions_not_met(application_choice).deliver_later
     end
 
     def save_conditions
       statuses_form_object.conditions.each do |condition|
         application_choice.offer.conditions.find(condition.id).update!(status: condition.status)
+      end
+    end
+
+    def send_success_notifications
+      if application_choice.recruited?
+        CandidateMailer.conditions_met(application_choice).deliver_later
+        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
+      elsif application_choice.conditions_not_met?
+        CandidateMailer.conditions_not_met(application_choice).deliver_later
       end
     end
   end
