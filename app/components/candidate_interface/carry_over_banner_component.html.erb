@@ -7,7 +7,7 @@
     <p class="govuk-body">Your application did not lead to a place, but you can <%= govuk_link_to 'apply again', start_path, class: 'govuk-notification-banner__link' %></p>
   <% else %>
     <%= notification_banner.slot(:heading, text: 'Do you want to continue applying?') %>
-    <p class="govuk-body">Applications are open for courses starting academic year 2021 to 2022.</p>
+    <p class="govuk-body">Applications are open for courses starting academic year <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %>.</p>
     <p class="govuk-body"><%= govuk_link_to 'Continue your application', start_path, class: 'govuk-notification-banner__link' %></p>
   <% end %>
 <% end %>
