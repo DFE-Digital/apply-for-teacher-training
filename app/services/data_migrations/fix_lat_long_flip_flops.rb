@@ -5,10 +5,10 @@ module DataMigrations
 
     def change
       audits = Audited::Audit.where(
-        "auditable_type = 'Provider' AND
-        action = 'update' AND
-        audited_changes ?& array['latitude', 'longitude'] AND
-        (audited_changes - 'latitude') - 'longitude' = '{}'",
+        "auditable_type = 'Provider' AND " \
+        "action = 'update' AND " \
+        "audited_changes ?& array['latitude', 'longitude'] AND " \
+        "(audited_changes - 'latitude') - 'longitude' = '{}'",
       ).order(created_at: :asc)
 
       deleted_audit_count = 0
