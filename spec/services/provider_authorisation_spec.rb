@@ -565,4 +565,44 @@ RSpec.describe ProviderAuthorisation do
       end
     end
   end
+
+  describe '#provider_relationships_that_actor_can_manage_organisations_for' do
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+
+    let!(:provider_relationship) do
+      create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
+    end
+
+    it 'returns training provider relationships the user has manage orgs for' do
+      provider_user = create(:provider_user, providers: [training_provider])
+
+      ProviderPermissions.find_by(
+        provider_user: provider_user,
+        provider: training_provider,
+      ).update!(manage_organisations: true)
+
+      expect(ProviderAuthorisation.new(actor: provider_user).provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+    end
+
+    it 'returns ratifying provider relationships the user has manage orgs for' do
+      provider_user = create(:provider_user, providers: [ratifying_provider])
+
+      ProviderPermissions.find_by(
+        provider_user: provider_user,
+        provider: ratifying_provider,
+      ).update!(manage_organisations: true)
+
+      expect(ProviderAuthorisation.new(actor: provider_user).provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+    end
+
+    it 'does not return any relationships if user lacks manage orgs' do
+      provider_user = create(:provider_user, providers: [training_provider, ratifying_provider])
+      expect(ProviderAuthorisation.new(actor: provider_user).provider_relationships_that_actor_can_manage_organisations_for).to be_empty
+    end
+  end
 end
