@@ -4,26 +4,28 @@
 
 <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present || @application_choice.rejected? %>
 
-<section class="app-section">
+<h2 class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Application</h2>
+
+<p class="govuk-body govuk-!-display-none-print">
+  <% if FeatureFlag.active?(:withdraw_at_candidates_request) && application_withdrawable? %>
+    <%= govuk_link_to(
+      "Withdraw at candidate's request",
+      provider_interface_decline_or_withdraw_edit_path(@application_choice),
+      class: 'govuk-!-margin-right-2',
+    ) %>
+  <% end %>
+  <%= govuk_link_to(
+    'Download application (PDF)',
+    provider_interface_application_choice_path(@application_choice.id, format: :pdf),
+    download: @application_choice.application_form.support_reference,
+  ) %>
+</p>
+
+<section class="app-section govuk-!-margin-top-7">
   <h2 class="govuk-heading-m govuk-!-font-size-27">Application details</h2>
 
   <div class="govuk-!-width-two-thirds">
     <%= render ProviderInterface::ApplicationSummaryComponent.new(application_form: @application_choice.application_form) %>
-
-    <p class="govuk-body govuk-!-display-none-print">
-      <% if FeatureFlag.active?(:withdraw_at_candidates_request) && @provider_can_respond %>
-        <%= govuk_link_to(
-          "Withdraw at candidate's request",
-          provider_interface_decline_or_withdraw_edit_path(@application_choice),
-          class: 'govuk-!-margin-right-2',
-        ) %>
-      <% end %>
-      <%= govuk_link_to(
-        'Download application (PDF)',
-        provider_interface_application_choice_path(@application_choice.id, format: :pdf),
-        download: @application_choice.application_form.support_reference,
-      ) %>
-    </p>
   </div>
 </section>
 
