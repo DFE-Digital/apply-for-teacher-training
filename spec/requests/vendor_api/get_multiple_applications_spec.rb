@@ -112,4 +112,36 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     expect(parsed_response['data'].size).to eq(2)
   end
+
+  it 'returns applications ordered by updated_at timestamp' do
+    application_choices = create_list(
+      :submitted_application_choice,
+      3,
+      :with_completed_application_form,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :awaiting_provider_decision,
+    )
+    application_choices.first.update(updated_at: 1.hour.ago)
+    application_choices.second.update(updated_at: 1.minute.ago)
+    application_choices.last.update(updated_at: 10.minutes.ago)
+
+    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+
+    response_data = parsed_response['data']
+    expect(response_data.size).to eq(3)
+
+    expect(response_data.first['id']).to eq(application_choices.second.id.to_s)
+    expect(response_data.second['id']).to eq(application_choices.last.id.to_s)
+    expect(response_data.last['id']).to eq(application_choices.first.id.to_s)
+
+    application_choices.first.update(updated_at: 10.seconds.ago)
+
+    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+
+    response_data = parsed_response['data']
+
+    expect(response_data.first['id']).to eq(application_choices.first.id.to_s)
+    expect(response_data.second['id']).to eq(application_choices.second.id.to_s)
+    expect(response_data.last['id']).to eq(application_choices.last.id.to_s)
+  end
 end
