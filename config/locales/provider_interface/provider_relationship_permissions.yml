@@ -9,3 +9,12 @@ en:
     view_diversity_information:
       description: View sex, disability and ethnicity information
       hint: This information is in the ‘equality and diversity’ section of the application – it includes sex, ethnicity and disability status
+  provider_interface:
+    organisation_permissions_form_component:
+      explanation: All users can view applications.
+      setup:
+        caption: Set up organisation permissions
+        submit_button: Continue
+      edit:
+        heading: Organisation permissions
+        submit_button: Save organisation permissions
