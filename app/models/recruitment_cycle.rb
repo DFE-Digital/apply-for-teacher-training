@@ -5,7 +5,7 @@ module RecruitmentCycle
   }.freeze
 
   def self.current_year
-    EndOfCycleTimetable.current_year
+    CycleTimetable.current_year
   end
 
   def self.next_year

@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_if_already_carried_over
 
     def start
-      if EndOfCycleTimetable.between_cycles_apply_2?
+      if CycleTimetable.between_cycles_apply_2?
         render current_application.submitted? ? :start_between_cycles : :start_between_cycles_unsubmitted
       else
         render :start

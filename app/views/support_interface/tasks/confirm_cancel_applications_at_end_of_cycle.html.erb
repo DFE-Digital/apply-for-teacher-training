@@ -8,7 +8,7 @@
       <h1 class="govuk-heading-l">Are you sure you want to cancel all unsubmitted applications?</h1>
 
       <p class="govuk-body">This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
-      <p class="govuk-body">This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
+      <p class="govuk-body">This should be run shortly after the Apply 2 deadline closes at midnight on <%= CycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
 
       <%= f.govuk_submit 'Yes, I’m sure – cancel all unsubmitted applications', warning: true %>
 

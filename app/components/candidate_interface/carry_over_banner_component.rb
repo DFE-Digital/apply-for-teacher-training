@@ -15,7 +15,7 @@ module CandidateInterface
     end
 
     def between_cycles?
-      EndOfCycleTimetable.between_cycles_apply_2?
+      CycleTimetable.between_cycles_apply_2?
     end
 
     def start_path

@@ -30,10 +30,10 @@ module CycleTimetableHelper
 private
 
   def previous_end_of_cycle_timetable
-    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable::CURRENT_YEAR_FOR_SCHEDULE - 1]
+    CycleTimetable::CYCLE_DATES[CycleTimetable::CURRENT_YEAR_FOR_SCHEDULE - 1]
   end
 
   def current_end_of_cycle_timetable
-    EndOfCycleTimetable::CYCLE_DATES[EndOfCycleTimetable::CURRENT_YEAR_FOR_SCHEDULE]
+    CycleTimetable::CYCLE_DATES[CycleTimetable::CURRENT_YEAR_FOR_SCHEDULE]
   end
 end
