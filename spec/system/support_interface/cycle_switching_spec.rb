@@ -23,7 +23,7 @@ RSpec.feature 'Cycle switching' do
 
   def then_i_see_the_cycle_information
     expect(page).to have_title 'Recruitment cycles'
-    expect(page).to have_content("Find closes on\n#{EndOfCycleTimetable.find_closes.to_s(:govuk_date)}")
+    expect(page).to have_content("Find closes on\n#{CycleTimetable.find_closes.to_s(:govuk_date)}")
   end
 
   def when_i_click_to_choose_a_new_schedule
@@ -32,6 +32,6 @@ RSpec.feature 'Cycle switching' do
   end
 
   def then_the_schedule_is_updated
-    expect(page).to have_content("Appy 1 deadline\n#{EndOfCycleTimetable.apply_1_deadline.to_s(:govuk_date)}")
+    expect(page).to have_content("Appy 1 deadline\n#{CycleTimetable.apply_1_deadline.to_s(:govuk_date)}")
   end
 end

@@ -1,6 +1,6 @@
 <% application_choices.each do |application_choice| %>
   <div class="<%= container_class(application_choice) %>" id="course-choice-<%= application_choice.id %>" data-qa="application-choice-<%= application_choice.id %>">
-  <% if EndOfCycleTimetable.can_add_course_choice?(application_choice.application_form) && @editable %>
+  <% if CycleTimetable.can_add_course_choice?(application_choice.application_form) && @editable %>
     <% if application_choice.course_not_available? %>
       <p class="app-inset-text__title"><%= application_choice.course_not_available_error %>.</p>
       <p class="govuk-body"><%= application_choice.provider.name %> have decided not to run this course.</p>

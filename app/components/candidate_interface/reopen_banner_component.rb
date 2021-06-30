@@ -15,12 +15,12 @@ private
 
   def show_apply_1_reopen_banner?
     apply_1? &&
-      EndOfCycleTimetable.between_cycles_apply_1?
+      CycleTimetable.between_cycles_apply_1?
   end
 
   def show_apply_2_reopen_banner?
     apply_2? &&
-      EndOfCycleTimetable.between_cycles_apply_2?
+      CycleTimetable.between_cycles_apply_2?
   end
 
   def apply_1?
@@ -32,6 +32,6 @@ private
   end
 
   def reopen_date
-    EndOfCycleTimetable.date(:apply_reopens).to_s(:govuk_date)
+    CycleTimetable.date(:apply_reopens).to_s(:govuk_date)
   end
 end

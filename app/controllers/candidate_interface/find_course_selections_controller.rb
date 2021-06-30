@@ -4,7 +4,7 @@ module CandidateInterface
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def confirm_selection
-      redirect_to candidate_interface_application_form_path and return unless EndOfCycleTimetable.can_add_course_choice?(current_application)
+      redirect_to candidate_interface_application_form_path and return unless CycleTimetable.can_add_course_choice?(current_application)
 
       course = Course.find(params[:course_id])
       @course_selection_form = CourseSelectionForm.new(course)

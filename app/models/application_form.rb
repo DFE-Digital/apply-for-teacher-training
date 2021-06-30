@@ -209,9 +209,9 @@ class ApplicationForm < ApplicationRecord
 
   def must_be_carried_over?
     if ended_without_success?
-      recruitment_cycle_year < RecruitmentCycle.current_year || EndOfCycleTimetable.between_cycles_apply_2?
+      recruitment_cycle_year < RecruitmentCycle.current_year || CycleTimetable.between_cycles_apply_2?
     elsif !submitted?
-      recruitment_cycle_year < RecruitmentCycle.current_year && !EndOfCycleTimetable.between_cycles_apply_1?
+      recruitment_cycle_year < RecruitmentCycle.current_year && !CycleTimetable.between_cycles_apply_1?
     end
   end
 

@@ -18,7 +18,7 @@ module CandidateInterface
     end
 
     def render?
-      !EndOfCycleTimetable.between_cycles_apply_2? &&
+      !CycleTimetable.between_cycles_apply_2? &&
         application_form.recruitment_cycle_year == RecruitmentCycle.current_year
     end
 

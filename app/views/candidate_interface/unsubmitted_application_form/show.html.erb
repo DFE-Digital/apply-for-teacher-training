@@ -11,13 +11,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if !EndOfCycleTimetable.can_add_course_choice?(@application_form) %>
+    <% if !CycleTimetable.can_add_course_choice?(@application_form) %>
     <section class="govuk-!-margin-bottom-8">
       <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
 
       <p class="govuk-body">
         You’ll be able to find courses in <%= days_until_find_reopens %> <%= 'day'.pluralize(days_until_find_reopens) %>
-        (<%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date) %>). You can keep making changes to the rest of your application until then.
+        (<%= CycleTimetable.find_reopens.to_s(:govuk_date) %>). You can keep making changes to the rest of your application until then.
       </p>
     </section>
     <% else %>
@@ -249,11 +249,11 @@
     </section>
 
     <section>
-      <% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
+      <% if CycleTimetable.between_cycles?(@application_form.phase) %>
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.review') %></h2>
-        <p class="govuk-body">You cannot submit your application until <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.</p>
+        <p class="govuk-body">You cannot submit your application until <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.</p>
         <%= govuk_link_to 'Review your application', candidate_interface_application_review_path, button: true %>
-      <% elsif EndOfCycleTimetable.can_submit?(@application_form) %>
+      <% elsif CycleTimetable.can_submit?(@application_form) %>
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.check_and_submit') %></h2>
         <%= govuk_link_to t('section_items.check_and_submit'), candidate_interface_application_review_path, button: true %>
       <% end %>

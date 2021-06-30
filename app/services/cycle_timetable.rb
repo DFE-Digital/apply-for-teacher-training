@@ -1,4 +1,4 @@
-class EndOfCycleTimetable
+class CycleTimetable
   CURRENT_YEAR_FOR_SCHEDULE = 2021
 
   # These dates are configuration for when the previous cycle ends and the next cycle starts
