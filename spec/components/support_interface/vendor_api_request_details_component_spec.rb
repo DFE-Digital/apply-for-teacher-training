@@ -16,7 +16,7 @@ RSpec.describe SupportInterface::VendorAPIRequestDetailsComponent do
     link_to_application = component.at_css('a:contains("View in support")')
 
     expect(link_to_application).to be_present
-    expect(link_to_application['href']).to match(%r{/support/application-choices/11})
+    expect(link_to_application['href']).to match(/\/support\/application-choices\/11/)
   end
 
   it 'does not includes a link to the application if the request does not identify a single application' do
