@@ -9,7 +9,7 @@ module SupportInterface
     end
 
     def rows
-      [
+      rows = [
         {
           key: 'Recruitment cycle year',
           value: course.recruitment_cycle_year,
@@ -83,6 +83,15 @@ module SupportInterface
           action_path: candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code),
         },
       ]
+
+      if course.open_on_apply?
+        rows.push({
+          key: 'Opened on Apply at',
+          value: course.opened_on_apply_at.to_s(:govuk_date_and_time),
+        })
+      end
+
+      rows
     end
   end
 end
