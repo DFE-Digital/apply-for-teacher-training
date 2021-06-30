@@ -9,7 +9,7 @@
 <p class="govuk-body govuk-!-display-none-print">
   <% if FeatureFlag.active?(:withdraw_at_candidates_request) && application_withdrawable? %>
     <%= govuk_link_to(
-      "Withdraw at candidate's request",
+      'Withdraw at candidate’s request',
       provider_interface_decline_or_withdraw_edit_path(@application_choice),
       class: 'govuk-!-margin-right-2',
     ) %>
