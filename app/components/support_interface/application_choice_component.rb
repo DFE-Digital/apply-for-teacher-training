@@ -108,8 +108,10 @@ module SupportInterface
       return conditions_row if application_choice.offer.non_pending_conditions?
 
       conditions_row.merge({
-        action: 'conditions',
-        change_path: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+        action: {
+          href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+          visually_hidden_text: 'conditions',
+        },
       })
     end
 
@@ -187,13 +189,17 @@ module SupportInterface
     def status_action_link
       if FeatureFlag.active?(:support_user_reinstate_offer) && application_choice.declined? && !application_choice.declined_by_default
         {
-          action: 'Reinstate offer',
-          action_path: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+          action: {
+            href: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+            text: 'Reinstate offer',
+          },
         }
       elsif application_choice.rejected? && !application_choice.rejected_by_default?
         {
-          action: 'Revert rejection',
-          action_path: support_interface_application_form_revert_rejection_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+          action: {
+            href: support_interface_application_form_revert_rejection_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+            text: 'Revert rejection',
+          },
         }
       else
         {}

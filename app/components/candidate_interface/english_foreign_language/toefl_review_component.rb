@@ -17,23 +17,41 @@ module CandidateInterface
           {
             key: 'TOEFL registration number',
             value: toefl_qualification.registration_number,
-            action: 'registration number',
-            change_path: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
-            data_qa: 'english-as-a-foreign-language-registration-number',
+            action: {
+              href: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
+              visually_hidden_text: 'registration number',
+            },
+            html: {
+              data: {
+                qa: 'english-as-a-foreign-language-registration-number',
+              },
+            },
           },
           {
             key: 'Year completed',
             value: toefl_qualification.award_year,
-            action: 'year completed',
-            change_path: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
-            data_qa: 'english-as-a-foreign-language-year-completed',
+            action: {
+              href: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
+              visually_hidden_text: 'year completed',
+            },
+            html_attributes: {
+              data: {
+                qa: 'english-as-a-foreign-language-year-completed',
+              },
+            },
           },
           {
             key: 'Total score',
             value: toefl_qualification.total_score,
-            action: 'total score',
-            change_path: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
-            data_qa: 'english-as-a-foreign-language-total-score',
+            action: {
+              href: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
+              visually_hidden_text: 'total score',
+            },
+            html_attributes: {
+              data: {
+                qa: 'english-as-a-foreign-language-total-score',
+              },
+            },
           },
         ]
       end

@@ -23,9 +23,15 @@ module CandidateInterface
       {
         key: 'Do you want to share any safeguarding issues?',
         value: @safeguarding.share_safeguarding_issues,
-        action: 'if you want to share any safeguarding issues',
-        change_path: candidate_interface_edit_safeguarding_path(return_to_params),
-        data_qa: 'safeguarding-issues',
+        action: {
+          href: candidate_interface_edit_safeguarding_path(return_to_params),
+          visually_hidden_text: 'if you want to share any safeguarding issues',
+        },
+        html_attributes: {
+          data: {
+            qa: 'safeguarding-issues',
+          },
+        },
       }
     end
 
@@ -35,8 +41,10 @@ module CandidateInterface
       {
         key: 'Relevant information',
         value: @safeguarding.safeguarding_issues || 'Not entered',
-        action: 'relevant information for safeguarding issues',
-        change_path: candidate_interface_edit_safeguarding_path(return_to_params),
+        action: {
+          href: candidate_interface_edit_safeguarding_path(return_to_params),
+          visually_hidden_text: 'relevant information for safeguarding issues',
+        },
       }
     end
 

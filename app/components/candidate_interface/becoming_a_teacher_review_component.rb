@@ -31,9 +31,15 @@ module CandidateInterface
       {
         key: t('application_form.personal_statement.becoming_a_teacher.label'),
         value: @becoming_a_teacher_form.becoming_a_teacher,
-        action: t('application_form.personal_statement.becoming_a_teacher.change_action'),
-        change_path: candidate_interface_edit_becoming_a_teacher_path(return_to_params),
-        data_qa: 'becoming-a-teacher',
+        action: {
+          href: candidate_interface_edit_becoming_a_teacher_path(return_to_params),
+          visually_hidden_text: t('application_form.personal_statement.becoming_a_teacher.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'becoming-a-teacher',
+          },
+        },
       }
     end
 

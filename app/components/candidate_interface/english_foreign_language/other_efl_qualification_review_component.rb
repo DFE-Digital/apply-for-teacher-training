@@ -17,14 +17,18 @@ module CandidateInterface
           {
             key: 'Score or grade',
             value: other_qualification.grade,
-            action: 'Change score or grade',
-            change_path: candidate_interface_edit_other_efl_qualification_path(return_to_params(return_to_application_review)),
+            action: {
+              href: candidate_interface_edit_other_efl_qualification_path(return_to_params(return_to_application_review)),
+              visually_hidden_text: 'score or grade',
+            },
           },
           {
             key: 'Year completed',
             value: other_qualification.award_year,
-            action: 'Change year completed',
-            change_path: candidate_interface_edit_other_efl_qualification_path(return_to_params(return_to_application_review)),
+            action: {
+              href: candidate_interface_edit_other_efl_qualification_path(return_to_params(return_to_application_review)),
+              visually_hidden_text: 'year completed',
+            },
           },
         ]
       end

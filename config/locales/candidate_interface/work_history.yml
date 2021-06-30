@@ -58,7 +58,7 @@ en:
         label: Tell us about any breaks in your work history
         review_label: Breaks in your work history
         enter_action: Enter explanation
-        change_action: Change explanation
+        change_action: explanation
       delete_entry:
         action: Delete entry
         confirm: Yes I’m sure - delete this entry

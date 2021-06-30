@@ -16,8 +16,10 @@ module RefereeInterface
       {
         key: 'Relationship',
         value: relationship_value,
-        action: 'relationship',
-        change_path: referee_interface_reference_relationship_path(token: @token_param),
+        action: {
+          href: referee_interface_reference_relationship_path(token: @token_param),
+          visually_hidden_text: 'relationship',
+        },
       }
     end
 
@@ -33,8 +35,10 @@ module RefereeInterface
       {
         key: 'Concerns about candidate working with children',
         value: concerns,
-        action: 'concerns about candidate working with children',
-        change_path: referee_interface_safeguarding_path(token: @token_param),
+        action: {
+          href: referee_interface_safeguarding_path(token: @token_param),
+          visually_hidden_text: 'concerns about candidate working with children',
+        },
       }
     end
 
@@ -42,8 +46,10 @@ module RefereeInterface
       {
         key: 'Reference',
         value: @reference.feedback || 'Not answered',
-        action: 'reference',
-        change_path: referee_interface_reference_feedback_path(token: @token_param),
+        action: {
+          href: referee_interface_reference_feedback_path(token: @token_param),
+          visually_hidden_text: 'reference',
+        },
       }
     end
 

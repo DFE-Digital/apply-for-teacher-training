@@ -25,13 +25,20 @@ module SupportInterface
             key: permission.provider.name_and_code,
             value: render(SupportInterface::PermissionsListComponent.new(permission)),
             actions: [
-              { verb: 'Change', object: "permissions for #{permission.provider.name_and_code}", path: change_path },
-              { verb: 'Remove access', object: "to #{permission.provider.name_and_code}", path: support_interface_provider_user_removals_path(
-                provider_user_id: permission.provider_user.id,
-                provider_permissions_id: permission.id,
-              ) },
+              {
+                href: change_path,
+                text: 'Change',
+                visually_hidden_text: "permissions for #{permission.provider.name_and_code}",
+              },
+              {
+                href: remove_access_path(permission),
+                text: 'Remove access',
+                visually_hidden_text: "to #{permission.provider.name_and_code}",
+              },
             ],
-            data_qa: "provider-id-#{permission.provider.id}",
+            html_attributes: {
+              data: { qa: "provider-id-#{permission.provider.id}" },
+            },
           }
         end
       end
@@ -41,6 +48,13 @@ module SupportInterface
 
     def change_path
       support_interface_edit_permissions_path(provider_user)
+    end
+
+    def remove_access_path(permission)
+      support_interface_provider_user_removals_path(
+        provider_user_id: permission.provider_user.id,
+        provider_permissions_id: permission.id,
+      )
     end
   end
 end

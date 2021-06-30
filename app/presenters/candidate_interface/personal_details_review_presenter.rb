@@ -36,9 +36,17 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.name.label'),
         value: @personal_details_form.name,
-        action: ('name' if @editable),
-        change_path: candidate_interface_edit_name_and_dob_path(return_to_params),
-        data_qa: 'personal-details-name',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_name_and_dob_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.name.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-name',
+          },
+        },
       }
     end
 
@@ -46,9 +54,17 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
         value: @personal_details_form.date_of_birth.to_s(:govuk_date),
-        action: ('date of birth' if @editable),
-        change_path: candidate_interface_edit_name_and_dob_path(return_to_params),
-        data_qa: 'personal-details-dob',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_name_and_dob_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.date_of_birth.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-dob',
+          },
+        },
       }
     end
 
@@ -56,9 +72,17 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: formatted_nationalities,
-        action: ('nationality' if @editable),
-        change_path: candidate_interface_edit_nationalities_path(return_to_params),
-        data_qa: 'personal-details-nationality',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_nationalities_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.nationality.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-nationality',
+          },
+        },
       }
     end
 
@@ -66,9 +90,17 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.english_main_language.label'),
         value: @languages_form.english_main_language&.titleize,
-        action: ('if English is your main language' if @editable),
-        change_path: candidate_interface_edit_languages_path(return_to_params),
-        data_qa: 'personal-details-english-main-language',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_languages_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.english_main_language.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-english-main-language',
+          },
+        },
       }
     end
 
@@ -84,9 +116,17 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.other_language_details.label'),
         value: @languages_form.other_language_details,
-        action: ('other languages' if @editable),
-        change_path: candidate_interface_edit_languages_path(return_to_params),
-        data_qa: 'personal-details-other-language',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_languages_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.other_language_details.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-other-language',
+          },
+        },
       }
     end
 
@@ -94,9 +134,17 @@ module CandidateInterface
       {
         key: I18n.t('application_form.personal_details.english_language_details.label'),
         value: @languages_form.english_language_details,
-        action: ('English language qualifications' if @editable),
-        change_path: candidate_interface_edit_languages_path(return_to_params),
-        data_qa: 'personal-details-english-details',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_languages_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.english_language_details.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal-details-english-details',
+          },
+        },
       }
     end
 
@@ -104,11 +152,19 @@ module CandidateInterface
       return nil if british_or_irish?
 
       {
-        key: 'Immigration status',
+        key: I18n.t('application_form.personal_details.right_to_work.label'),
         value: formatted_right_to_work_or_study,
-        action: ('Right to work or study' if @editable),
-        change_path: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
-        data_qa: 'personal_details_right_to_work_or_study',
+        action: (if @editable
+                   {
+                     href: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
+                     visually_hidden_text: I18n.t('application_form.personal_details.right_to_work.change_action'),
+                   }
+                 end),
+        html_attributes: {
+          data: {
+            qa: 'personal_details_right_to_work_or_study',
+          },
+        },
       }
     end
 

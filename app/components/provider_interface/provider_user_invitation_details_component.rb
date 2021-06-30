@@ -21,8 +21,9 @@ module ProviderInterface
       {
         key: 'First name',
         value: @wizard.first_name,
-        change_path: provider_interface_update_invitation_basic_details_path(checking_answers: true),
-        action: 'first name',
+        action: {
+          href: provider_interface_update_invitation_basic_details_path(checking_answers: true),
+        },
       }
     end
 
@@ -30,8 +31,9 @@ module ProviderInterface
       {
         key: 'Last name',
         value: @wizard.last_name,
-        change_path: provider_interface_update_invitation_basic_details_path(checking_answers: true),
-        action: 'last name',
+        action: {
+          href: provider_interface_update_invitation_basic_details_path(checking_answers: true),
+        },
       }
     end
 
@@ -39,8 +41,9 @@ module ProviderInterface
       {
         key: 'Email address',
         value: @wizard.email_address,
-        change_path: provider_interface_update_invitation_basic_details_path(checking_answers: true),
-        action: 'email address',
+        action: {
+          href: provider_interface_update_invitation_basic_details_path(checking_answers: true),
+        },
       }
     end
 
@@ -48,8 +51,9 @@ module ProviderInterface
       {
         key: 'Organisations this user will have access to',
         value: render(UserDetailsOrganisationsList.new(providers.values)),
-        change_path: provider_interface_update_invitation_providers_path(checking_answers: true),
-        action: 'organisations this user will have access to',
+        action: {
+          href: provider_interface_update_invitation_providers_path(checking_answers: true),
+        },
       }
     end
 
@@ -64,11 +68,13 @@ module ProviderInterface
               @wizard.provider_permissions[provider.id.to_s].fetch('permissions', []).reject(&:blank?),
             ),
           ),
-          change_path: provider_interface_update_invitation_provider_permissions_path(
-            checking_answers: true,
-            provider_id: provider.id,
-          ),
-          action: "permissions for #{provider.name}",
+          action: {
+            href: provider_interface_update_invitation_provider_permissions_path(
+              checking_answers: true,
+              provider_id: provider.id,
+            ),
+            visually_hidden_text: "permissions for #{provider.name}",
+          },
         }
       end
     end

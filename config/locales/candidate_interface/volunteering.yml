@@ -3,7 +3,7 @@ en:
     volunteering:
       experience:
         label: Do you have any relevant unpaid experience?
-        change_action: Change
+        change_action: relevant unpaid experience
       no_experience:
         summary_card_title: 'Children and young people: no volunteering or experience in school roles entered'
         get_experience: Learn about how to get school experience 
@@ -54,7 +54,6 @@ en:
       end_date_restructured_work_history:
         label: When did you finish this role?
         hint_text: For example, 5 2018. If you cannot remember the exact month or year, enter an estimate.
-
 
   activemodel:
     errors:

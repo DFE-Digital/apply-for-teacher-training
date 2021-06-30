@@ -23,23 +23,26 @@ class SummaryListComponent < ViewComponent::Base
   end
 
   def action(row)
-    if row[:change_path]
-      {
-        href: row[:change_path],
-        visually_hidden_text: row[:action],
-        classes: 'govuk-!-display-none-print',
-        html_attributes: {
-          data: { qa: row[:data_qa] }
-        }
-      }
+    if row[:action]
+      row[:action]['classes'] = 'govuk-!-display-none-print'
+      row[:action]
     elsif row[:actions]
+      # TODO: Add multiple actions using govuk-components method
+      # https://github.com/DFE-Digital/govuk-components/issues/218
       links = row[:actions].map do |action|
-        govuk_link_to(action[:path], class: 'govuk-!-display-none-print') do
-          "#{action[:verb]}<span class=\"govuk-visually-hidden\"> #{action[:object]}</span>".html_safe
+        govuk_link_to(action[:href], class: 'govuk-!-display-none-print') do
+          "#{action[:text]}<span class=\"govuk-visually-hidden\"> #{action[:visually_hidden_text]}</span>".html_safe
         end
       end
-      links.join('<br>').html_safe
+      {
+        text: links.join('<br>').html_safe,
+        href: '#',
+      }
     end
+  end
+
+  def html_attributes(row)
+    row[:html_attributes] || {}
   end
 
 private

@@ -15,8 +15,10 @@ module CandidateInterface
       {
         key: 'Sex',
         value: @application_form.equality_and_diversity['sex'].capitalize,
-        action: 'sex',
-        change_path: candidate_interface_edit_equality_and_diversity_sex_path,
+        action: {
+          href: candidate_interface_edit_equality_and_diversity_sex_path,
+          visually_hidden_text: 'sex',
+        },
       }
     end
 
@@ -32,8 +34,10 @@ module CandidateInterface
       {
         key: 'Disability',
         value: disabilties,
-        action: 'disability',
-        change_path: candidate_interface_edit_equality_and_diversity_disability_status_path,
+        action: {
+          href: candidate_interface_edit_equality_and_diversity_disability_status_path,
+          visually_hidden_text: 'disability',
+        },
       }
     end
 
@@ -49,8 +53,10 @@ module CandidateInterface
       {
         key: 'Ethnicity',
         value: ethnicity,
-        action: 'ethnicity',
-        change_path: candidate_interface_edit_equality_and_diversity_ethnic_group_path,
+        action: {
+          href: candidate_interface_edit_equality_and_diversity_ethnic_group_path,
+          visually_hidden_text: 'ethnicity',
+        },
       }
     end
   end

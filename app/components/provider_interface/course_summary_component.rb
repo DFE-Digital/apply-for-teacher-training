@@ -38,9 +38,10 @@ module ProviderInterface
   private
 
     def accredited_body_details(course_option)
-      { key: 'Accredited body',
+      {
+        key: 'Accredited body',
         value: course_option.course.accredited_provider.name_and_code,
-        change_path: nil }
+      }
     end
   end
 end

@@ -22,9 +22,14 @@ class CandidateInterface::SelectedReferencesComponent < ViewComponent::Base
         key: 'Selected references',
         value: reference_values,
         bulleted_format: true,
-        action: 'Change selected references',
-        change_path: candidate_interface_select_references_path(return_to_params),
-        data_qa: 'selected-references',
+        action: {
+          href: candidate_interface_select_references_path(return_to_params),
+        },
+        html_attributes: {
+          data: {
+            qa: 'selected-references',
+          },
+        },
       },
     ]
   end

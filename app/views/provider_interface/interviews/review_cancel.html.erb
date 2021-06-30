@@ -17,8 +17,10 @@
       {
         key: t('.cancellation_reason'),
         value: @cancellation_wizard.cancellation_reason,
-        action: t('.cancellation_reason').downcase,
-        change_path: cancel_provider_interface_application_choice_interview_path(@application_choice, @interview),
+        action: {
+          href: cancel_provider_interface_application_choice_interview_path(@application_choice, @interview),
+          visually_hidden_text: t('.cancellation_reason').downcase,
+        },
       },
       {},
     ]) %>
