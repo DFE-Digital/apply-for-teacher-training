@@ -73,7 +73,7 @@ private
       value = attr[field]
       if value == '' || value.nil?
         'NULL'
-      elsif value.class == Hash
+      elsif value.instance_of?(Hash)
         # Gracefully switch from Hash syntax to JSON when dealing with json model fields
         "'#{value.to_json}'"
       else
