@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_094255) do
+ActiveRecord::Schema.define(version: 2021_07_01_173512) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_choices_id_seq1"
@@ -652,7 +652,7 @@ ActiveRecord::Schema.define(version: 2021_07_01_094255) do
     t.boolean "make_decisions", default: false, null: false
     t.boolean "manage_organisations", default: false, null: false
     t.boolean "view_diversity_information", default: false, null: false
-    t.boolean "setup_interviews", default: false, null: false
+    t.boolean "set_up_interviews", default: false, null: false
     t.index ["provider_id", "provider_user_id"], name: "index_provider_users_providers_by_provider_and_provider_user", unique: true
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
