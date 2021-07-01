@@ -126,9 +126,6 @@ Style/HashAsLastArrayItem:
 Style/CombinableLoops:
   Enabled: false
 
-Style/HashLikeCase:
-  Enabled: false
-
 Style/CaseLikeIf:
   Enabled: false
 

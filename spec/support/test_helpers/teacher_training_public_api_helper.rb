@@ -1,4 +1,10 @@
 module TeacherTrainingPublicAPIHelper
+  SITE_FIXTURES = {
+    full_time_vacancies: 'site_list_response_with_full_time_vacancies.json',
+    part_time_vacancies: 'site_list_response_with_part_time_vacancies.json',
+    both_full_time_and_part_time_vacancies: 'site_list_response_with_full_time_and_part_time_vacancies.json',
+  }.stringify_keys.freeze
+
   def stub_teacher_training_api_providers(recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [], filter_option: nil)
     scope = stub_request(
       :get,
@@ -181,13 +187,6 @@ private
   end
 
   def site_fixture(vacancy_status)
-    case vacancy_status
-    when 'full_time_vacancies'
-      'site_list_response_with_full_time_vacancies.json'
-    when 'part_time_vacancies'
-      'site_list_response_with_part_time_vacancies.json'
-    when 'both_full_time_and_part_time_vacancies'
-      'site_list_response_with_full_time_and_part_time_vacancies.json'
-    end
+    SITE_FIXTURES[vacancy_status]
   end
 end
