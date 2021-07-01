@@ -46,7 +46,7 @@ module CandidateInterface
             course_choice_id: params[:course_choice_id],
           )
         elsif @pick_course.single_site?
-          course_option = CourseOption.where(course_id: @pick_course.course.id).first
+          course_option = @pick_course.available_course_options.first
           AddOrUpdateCourseChoice.new(
             course_option_id: course_option.id,
             application_form: current_application,

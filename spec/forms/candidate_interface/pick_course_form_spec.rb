@@ -178,6 +178,36 @@ RSpec.describe CandidateInterface::PickCourseForm do
     end
   end
 
+  describe '#available_courses' do
+    let(:provider) { create(:provider, name: 'Royal Academy of Dance', code: 'R55') }
+    let(:course) { create(:course, :open_on_apply, provider: provider) }
+    let(:pick_course_form) { described_class.new(provider_id: provider.id, course_id: course.id) }
+
+    context 'when there are two sites' do
+      let(:site1) { build(:site, provider: provider) }
+      let(:site2) { build(:site, provider: provider) }
+      let(:course_option1) { create(:course_option, site: site1, course: course) }
+      let(:course_option2) { create(:course_option, site: site2, course: course) }
+
+      before do
+        course_option1
+        course_option2
+      end
+
+      it 'returns both sites' do
+        expect(pick_course_form.available_course_options).to eq([course_option1, course_option2])
+      end
+
+      context 'when one site is not longer valid' do
+        let(:course_option2) { create(:course_option, site: site2, course: course, site_still_valid: false) }
+
+        it 'returns only the valid site' do
+          expect(pick_course_form.available_course_options).to eq([course_option1])
+        end
+      end
+    end
+  end
+
   describe '#single_site?' do
     let(:provider) { create(:provider, name: 'Royal Academy of Dance', code: 'R55') }
     let(:course) { create(:course, :open_on_apply, provider: provider) }
