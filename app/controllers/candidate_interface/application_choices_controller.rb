@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def index
-      redirect_to candidate_interface_application_form_path and return unless CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(current_application)
+      redirect_to candidate_interface_application_form_path and return unless EndOfCycleTimetable.can_add_course_choice?(current_application)
 
       @application_choices = current_candidate.current_application.application_choices
 
