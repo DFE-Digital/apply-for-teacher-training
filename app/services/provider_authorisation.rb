@@ -20,13 +20,20 @@ class ProviderAuthorisation
     )
   end
 
-  def providers_that_actor_can_manage_organisations_for(with_set_up_permissions: false)
-    scope = ProviderRelationshipPermissions.where(training_provider: @actor.providers).or(
-      ProviderRelationshipPermissions.where(
-        ratifying_provider_id: @actor.providers,
-      ),
-    )
+  def provider_relationships_for_actor
+    provider_ids = @actor.providers.pluck(:provider_id)
 
+    table = ProviderRelationshipPermissions.arel_table
+    member_of_training_provider = table[:training_provider_id].in(provider_ids)
+    member_of_ratifying_provider = table[:ratifying_provider_id].in(provider_ids)
+
+    ProviderRelationshipPermissions.where(
+      member_of_training_provider.or(member_of_ratifying_provider),
+    )
+  end
+
+  def providers_that_actor_can_manage_organisations_for(with_set_up_permissions: false)
+    scope = provider_relationships_for_actor
     scope = scope.where.not(setup_at: nil) if with_set_up_permissions
 
     provider_ids = scope.pluck(:ratifying_provider_id, :training_provider_id).flatten
@@ -40,6 +47,16 @@ class ProviderAuthorisation
       .where(training_provider: @actor.providers)
       .where("#{ProviderPermissions.table_name}.provider_user_id": @actor.id, "#{ProviderPermissions.table_name}.manage_organisations": true)
       .order(:created_at)
+  end
+
+  def provider_relationships_that_actor_can_manage_organisations_for
+    manageable_provider_ids = ProviderPermissions
+      .where(provider_user: @actor, manage_organisations: true)
+      .select(:provider_id)
+
+    provider_relationships_for_actor
+      .with(provider_ids: manageable_provider_ids)
+      .joins('INNER JOIN provider_ids ON (training_provider_id = provider_id OR ratifying_provider_id = provider_id)')
   end
 
   # Authorisation -------------------------------------------------------------------
