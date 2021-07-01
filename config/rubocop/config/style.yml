@@ -151,9 +151,6 @@ Style/RedundantParentheses:
 Style/NegatedIfElseCondition:
   Enabled: false
 
-Style/IfWithBooleanLiteralBranches:
-  Enabled: false
-
 Style/NilLambda:
   Exclude:
     - app/views/provider_interface/interviews/cancel.html.erb
