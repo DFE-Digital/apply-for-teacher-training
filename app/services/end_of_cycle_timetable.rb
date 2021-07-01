@@ -26,7 +26,7 @@ class EndOfCycleTimetable
       find_closes: Date.new(2021, 10, 3),
       find_reopens: Date.new(2021, 9, 5),
       apply_reopens: Date.new(2021, 10, 12),
-    }
+    },
   }.freeze
 
   def self.current_year
@@ -181,7 +181,7 @@ class EndOfCycleTimetable
   end
 
   def self.current_cycle?(application_form)
-    application_form.recruitment_cycle_year == RecruitmentCycle.current_year
+    application_form.recruitment_cycle_year == current_year
   end
 
   def self.can_add_course_choice?(application_form)
@@ -193,7 +193,7 @@ class EndOfCycleTimetable
   end
 
   def self.can_submit?(application_form)
-    RecruitmentCycle.current_year == application_form.recruitment_cycle_year
+    current_year == application_form.recruitment_cycle_year
   end
 
   def self.before_find_reopens?
