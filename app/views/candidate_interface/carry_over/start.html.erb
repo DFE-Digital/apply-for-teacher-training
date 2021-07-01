@@ -7,7 +7,7 @@
     <h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over') %></h1>
 
     <p class="govuk-body">
-      Carry on with your application for courses starting in the 2021 to 2022 academic year.
+      Carry on with your application for courses starting in the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> academic year.
     </p>
 
     <p class="govuk-body">
