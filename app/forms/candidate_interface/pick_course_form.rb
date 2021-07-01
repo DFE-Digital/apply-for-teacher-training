@@ -28,7 +28,11 @@ module CandidateInterface
     end
 
     def single_site?
-      Course.find(course_id).course_options.available.one?
+      available_course_options.one?
+    end
+
+    def available_course_options
+      Course.find(course_id).course_options.available
     end
 
     def courses_for_current_cycle
