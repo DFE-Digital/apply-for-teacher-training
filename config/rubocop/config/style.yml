@@ -101,7 +101,7 @@ Style/RedundantRegexpCharacterClass:
   Enabled: true
 
 Style/RedundantRegexpEscape:
-  Enabled: false
+  Enabled: true
 
 Style/SlicingWithRange:
   Enabled: true

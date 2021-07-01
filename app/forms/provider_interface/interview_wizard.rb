@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
     include ActiveModel::Attributes
 
-    VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:\.\s]([0-5][0-9]))?([AaPp][Mm])$/.freeze
+    VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:.\s]([0-5][0-9]))?([AaPp][Mm])$/.freeze
 
     attr_accessor :time, :location, :additional_details, :provider_id, :application_choice, :provider_user, :current_step
     attr_writer :date
