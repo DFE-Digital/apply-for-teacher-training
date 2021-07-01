@@ -35,7 +35,8 @@ module ProviderInterface
     end
 
     def label_for(permission_name)
-      "Who can #{t("provider_relationship_permissions.#{permission_name}.description").downcase}?"
+      permission_description = t("provider_relationship_permissions.#{permission_name}.description")
+      t('provider_relationship_permissions.question', permission_description: permission_description.downcase)
     end
 
     def form_method
