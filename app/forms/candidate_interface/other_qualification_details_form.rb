@@ -5,17 +5,9 @@ module CandidateInterface
     include ActiveModel::Attributes
 
     attr_reader :next_step
-    attr_accessor :editing, :id, :current_step
-
-    attr_accessor :qualification_type
-    attr_accessor :other_uk_qualification_type
-    attr_accessor :non_uk_qualification_type
-    attr_accessor :subject
-    attr_accessor :grade
-    attr_accessor :predicted_grade
-    attr_accessor :award_year
-    attr_accessor :institution_country
-    attr_accessor :choice
+    attr_accessor :editing, :id, :current_step,
+                  :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type,
+                  :subject, :grade, :predicted_grade, :award_year, :institution_country, :choice
 
     before_validation :sanitize_grade_where_required
 

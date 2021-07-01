@@ -65,7 +65,7 @@ Style/Alias:
   Enabled: true
 
 Style/RegexpLiteral:
-  Enabled: false
+  Enabled: true
   EnforcedStyle: mixed
   AllowInnerSlashes: true
 
@@ -83,7 +83,7 @@ Style/FormatString:
   EnforcedStyle: sprintf
 
 Style/AccessorGrouping:
-  Enabled: false
+  Enabled: true
 
 Style/BisectedAttrAccessor:
   Enabled: true
@@ -101,7 +101,7 @@ Style/RedundantRegexpCharacterClass:
   Enabled: true
 
 Style/RedundantRegexpEscape:
-  Enabled: false
+  Enabled: true
 
 Style/SlicingWithRange:
   Enabled: true

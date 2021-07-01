@@ -1,7 +1,6 @@
 module TeacherTrainingPublicAPI
   class SyncSites
-    attr_reader :provider
-    attr_reader :course
+    attr_reader :provider, :course
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority

@@ -4,8 +4,8 @@ module ProviderInterface
       include ViewHelper
       include StatusBoxComponents::CourseRows
 
-      attr_reader :application_choice, :provider_can_respond
-      attr_reader :available_providers, :available_courses, :available_study_modes, :available_course_options
+      attr_reader :application_choice, :provider_can_respond, :available_providers,
+                  :available_courses, :available_study_modes, :available_course_options
 
       def initialize(application_choice:, options: {})
         @application_choice = application_choice

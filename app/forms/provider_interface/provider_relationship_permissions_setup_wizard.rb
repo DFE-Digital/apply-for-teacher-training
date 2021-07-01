@@ -8,8 +8,7 @@ module ProviderInterface
 
     class PermissionsForm
       include ActiveModel::Model
-      attr_accessor :id
-      attr_accessor(*ProviderRelationshipPermissions::PERMISSIONS)
+      attr_accessor :id, *ProviderRelationshipPermissions::PERMISSIONS
       validate :at_least_one_organisation_has_permissions
 
       def at_least_one_organisation_has_permissions

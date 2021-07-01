@@ -25,7 +25,7 @@ guard :rspec, cmd: 'bundle exec rspec --format documentation' do
     ]
   end
 
-  watch(%r{^app/presenters/candidate_interface/(.+)\.rb}) { |m| "spec/presenters/candidate_interface/#{m[1]}_spec.rb" }
+  watch(/^app\/presenters\/candidate_interface\/(.+)\.rb/) { |m| "spec/presenters/candidate_interface/#{m[1]}_spec.rb" }
 
   # Rails config changes
   watch(rails.spec_helper)     { rspec.spec_dir }

@@ -3,8 +3,8 @@ module SupportInterface
     class EditApplicantDetailsForm
       include ActiveModel::Model
 
-      attr_accessor :first_name, :last_name, :email_address, :phone_number, :audit_comment
-      attr_accessor :day, :month, :year
+      attr_accessor :first_name, :last_name, :email_address, :phone_number, :audit_comment,
+                    :day, :month, :year
       attr_reader :application_form
 
       validates :first_name, :last_name, presence: true, length: { maximum: 60 }
