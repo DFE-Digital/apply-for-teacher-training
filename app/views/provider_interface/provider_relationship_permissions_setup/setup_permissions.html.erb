@@ -24,7 +24,7 @@
         <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
           <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
             <%= pf.govuk_check_boxes_fieldset permission_name, legend: { text: "Who can #{permission_name.to_s.humanize.downcase}?" } do %>
-              <div id="makedecisions-hint" class="govuk-hint"><%= t("provider_relationship_permissions.#{permission_name}") %></div>
+              <div id="makedecisions-hint" class="govuk-hint"><%= t("provider_relationship_permissions.#{permission_name}.hint") %></div>
               <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '' %>
               <%= pf.govuk_check_box permission_name, 'training',
                                      label: { text: @permissions_model.training_provider.name },
