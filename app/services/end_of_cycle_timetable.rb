@@ -193,7 +193,7 @@ class EndOfCycleTimetable
   end
 
   def self.can_submit?(application_form)
-    current_year == application_form.recruitment_cycle_year
+    current_cycle?(application_form)
   end
 
   def self.before_find_reopens?
