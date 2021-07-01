@@ -2,6 +2,7 @@ module CandidateInterface
   module References
     class BaseController < CandidateInterfaceController
       before_action :render_application_feedback_component, :set_reference
+      before_action :redirect_to_dashboard_if_submitted
 
     private
 
