@@ -154,9 +154,6 @@ Style/QuotedSymbols:
 Style/NegatedIfElseCondition:
   Enabled: false
 
-Style/HashConversion:
-  Enabled: false
-
 Style/IfWithBooleanLiteralBranches:
   Enabled: false
 

@@ -20,7 +20,7 @@ module SupportInterface
           'provider_users_providers.make_decisions',
           'providers.code',
         )
-        .map { |row| Hash[LABELS.zip(row)] }
+        .map { |row| LABELS.zip(row).to_h }
     end
   end
 end
