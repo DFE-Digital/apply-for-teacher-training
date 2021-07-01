@@ -35,6 +35,7 @@ module VendorAPI
     def get_application_choices_for_provider_since(since:)
       application_choices_visible_to_provider
         .where('application_choices.updated_at > ?', since)
+        .order('application_choices.updated_at DESC')
     end
 
     def since_param
