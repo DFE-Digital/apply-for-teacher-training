@@ -22,12 +22,12 @@ module DataMigrations
     end
 
     def disabilities_not_specified?(application_form)
-      disabilities = application_form.equality_and_diversity.dig('disabilities')
+      disabilities = application_form.equality_and_diversity['disabilities']
       disabilities.blank? || disabilities == %w[no] || disabilities == ['Prefer not to say']
     end
 
     def hesa_disabilities_present?(application_form)
-      hesa_disabilities = application_form.equality_and_diversity.dig('hesa_disabilities')
+      hesa_disabilities = application_form.equality_and_diversity['hesa_disabilities']
       !hesa_disabilities.nil? && hesa_disabilities != []
     end
 
@@ -38,12 +38,12 @@ module DataMigrations
     end
 
     def ethnicity_not_specified?(application_form)
-      ethnicity_group = application_form.equality_and_diversity.dig('ethnic_group')
+      ethnicity_group = application_form.equality_and_diversity['ethnic_group']
       ethnicity_group.blank? || ethnicity_group == 'Prefer not to say'
     end
 
     def hesa_ethnicity_present?(application_form)
-      application_form.equality_and_diversity.dig('hesa_ethnicity').present?
+      application_form.equality_and_diversity['hesa_ethnicity'].present?
     end
 
     def reset_ethnicity(application_form)
