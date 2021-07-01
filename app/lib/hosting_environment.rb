@@ -1,6 +1,14 @@
 module HostingEnvironment
   TEST_ENVIRONMENTS = %w[development test qa review research].freeze
   PRODUCTION_URL = 'https://apply-for-teacher-training.service.gov.uk'.freeze
+  ENVIRONMENT_COLOR = {
+    development: 'grey',
+    review: 'purple',
+    research: 'turquoise',
+    qa: 'orange',
+    staging: 'red',
+    'unknown-environment': 'yellow',
+  }.stringify_keys.freeze
 
   def self.application_url
     if Rails.env.production?
@@ -31,20 +39,7 @@ module HostingEnvironment
   def self.phase_colour
     return 'purple' if HostingEnvironment.sandbox_mode?
 
-    case HostingEnvironment.environment_name
-    when 'development'
-      'grey'
-    when 'review'
-      'purple'
-    when 'research'
-      'turquoise'
-    when 'qa'
-      'orange'
-    when 'staging'
-      'red'
-    when 'unknown-environment'
-      'yellow'
-    end
+    ENVIRONMENT_COLOR[HostingEnvironment.environment_name]
   end
 
   def self.environment_name
