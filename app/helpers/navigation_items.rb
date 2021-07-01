@@ -47,7 +47,7 @@ class NavigationItems
       end
     end
 
-    def for_provider_primary_nav(current_provider_user, current_controller, performing_setup = false)
+    def for_provider_primary_nav(current_provider_user, current_controller, performing_setup: false)
       items = []
 
       if current_provider_user && !performing_setup
@@ -66,7 +66,7 @@ class NavigationItems
       items
     end
 
-    def for_provider_account_nav(current_provider_user, current_controller, performing_setup = false)
+    def for_provider_account_nav(current_provider_user, current_controller, performing_setup: false)
       return [] if (active_action?(current_controller, 'new') && !active?(current_controller, 'application_data_export')) || active_action?(current_controller, 'sign_in_by_email')
 
       return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
