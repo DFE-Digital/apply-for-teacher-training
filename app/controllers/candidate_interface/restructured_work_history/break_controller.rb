@@ -59,8 +59,8 @@ module CandidateInterface
       strip_whitespace(
         params.require(:candidate_interface_restructured_work_history_work_history_break_form)
         .permit(
-          :"start_date(3i)", :"start_date(2i)", :"start_date(1i)",
-          :"end_date(3i)", :"end_date(2i)", :"end_date(1i)", :reason
+          :'start_date(3i)', :'start_date(2i)', :'start_date(1i)',
+          :'end_date(3i)', :'end_date(2i)', :'end_date(1i)', :reason
         )
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) },

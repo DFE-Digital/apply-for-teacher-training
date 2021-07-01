@@ -41,7 +41,7 @@ module CandidateInterface
         strip_whitespace(
           params.require(:candidate_interface_personal_details_form).permit(
             :first_name, :last_name,
-            :"date_of_birth(3i)", :"date_of_birth(2i)", :"date_of_birth(1i)"
+            :'date_of_birth(3i)', :'date_of_birth(2i)', :'date_of_birth(1i)'
           ).transform_keys { |key| dob_field_to_attribute(key) },
         )
       end

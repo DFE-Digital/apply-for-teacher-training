@@ -103,7 +103,7 @@ class DetectInvariantsDailyCheck
     applications_with_the_same_choice = ApplicationForm
       .joins(application_choices: [:course_option])
       .where.not(submitted_at: nil)
-      .where.not("application_choices.status": %w[withdrawn rejected])
+      .where.not('application_choices.status': %w[withdrawn rejected])
       .group('application_forms.id', 'course_options.course_id')
       .having('COUNT(DISTINCT course_options.course_id) < COUNT(application_choices.id)')
 

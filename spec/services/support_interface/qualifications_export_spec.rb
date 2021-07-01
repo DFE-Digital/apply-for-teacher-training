@@ -93,7 +93,7 @@ RSpec.describe SupportInterface::QualificationsExport do
              application_form: application_form_two,
              level: 'gcse',
              subject: 'english',
-             constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, "Cockney Rhyming Slang": { grade: 'A*' } })
+             constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, 'Cockney Rhyming Slang': { grade: 'A*' } })
       create(:application_qualification,
              application_form: application_form_two,
              qualification_type: 'A level',

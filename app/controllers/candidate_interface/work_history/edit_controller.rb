@@ -64,8 +64,8 @@ module CandidateInterface
         params.require(:candidate_interface_work_experience_form)
         .permit(
           :role, :organisation, :details, :working_with_children, :commitment,
-          :working_pattern, :"start_date(3i)", :"start_date(2i)", :"start_date(1i)",
-          :"end_date(3i)", :"end_date(2i)", :"end_date(1i)", :add_another_job
+          :working_pattern, :'start_date(3i)', :'start_date(2i)', :'start_date(1i)',
+          :'end_date(3i)', :'end_date(2i)', :'end_date(1i)', :add_another_job
         )
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) },

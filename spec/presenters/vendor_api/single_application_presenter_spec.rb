@@ -1003,7 +1003,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         constituent_grades: {
           english_language: { grade: 'E', public_id: 1 },
           english_literature: { grade: 'E', public_id: 2 },
-          "Cockney Rhyming Slang": { grade: 'A*', public_id: 3 },
+          'Cockney Rhyming Slang': { grade: 'A*', public_id: 3 },
         },
         award_year: 2006,
         predicted_grade: false,
