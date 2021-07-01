@@ -117,9 +117,6 @@ Style/KeywordParametersOrder:
 Style/GlobalStdStream:
   Enabled: false
 
-Style/SingleArgumentDig:
-  Enabled: false
-
 Style/RedundantBegin:
   Enabled: true
 

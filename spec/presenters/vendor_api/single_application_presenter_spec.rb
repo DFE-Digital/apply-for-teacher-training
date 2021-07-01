@@ -1075,7 +1075,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns awaiting_provider_decision when status is interviewing' do
       application_choice = build_stubbed(:application_choice, :with_completed_application_form, status: :interviewing)
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      expect(response.dig(:attributes)[:status]).to eq('awaiting_provider_decision')
+      expect(response[:attributes][:status]).to eq('awaiting_provider_decision')
     end
   end
 
