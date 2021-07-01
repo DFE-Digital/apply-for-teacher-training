@@ -1,5 +1,6 @@
 en:
   provider_relationship_permissions:
+    question: Who can %{permission_description}?
     make_decisions:
       description: Make offers and reject applications
       hint: This includes making offers, amending offers and rejecting applications
