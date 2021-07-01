@@ -104,9 +104,9 @@ module SupportInterface
     end
 
     def build_permissions_string(provider_type, permission)
-      AVAILABLE_PERMISSIONS.inject([]) { |permissions, (rule, rule_text)|
+      AVAILABLE_PERMISSIONS.inject([]) do |permissions, (rule, rule_text)|
         permissions << "#{send(:value_indicator, permission.send("#{provider_type}_can_#{rule}"))} #{rule_text}"
-      }.join(' ')
+      end.join(' ')
     end
   end
 end
