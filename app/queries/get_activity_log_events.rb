@@ -46,9 +46,9 @@ class GetActivityLogEvents
   end
 
   def self.application_choice_audits_filter_sql
-    application_choice_audits_filter = INCLUDE_APPLICATION_CHOICE_CHANGES_TO.map { |f|
-      "jsonb_exists(audited_changes, '#{f}')"
-    }.join(' OR ')
+    application_choice_audits_filter = INCLUDE_APPLICATION_CHOICE_CHANGES_TO.map do |change|
+      "jsonb_exists(audited_changes, '#{change}')"
+    end.join(' OR ')
 
     filtered_statuses = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - IGNORE_STATUS
     status_transitions_to_include = filtered_statuses.map { |status| "'#{status}'" }.join(', ')

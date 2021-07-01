@@ -53,7 +53,9 @@ Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 
 Style/BlockDelimiters:
-  Enabled: false
+  Enabled: true
+  Exclude:
+    - spec/**/**
 
 Style/Documentation:
   Enabled: false

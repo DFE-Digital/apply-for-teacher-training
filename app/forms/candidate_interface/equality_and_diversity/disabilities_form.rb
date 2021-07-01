@@ -48,9 +48,9 @@ module CandidateInterface
   private
 
     def hesa_disability_codes
-      disabilities.map { |disability|
+      disabilities.map do |disability|
         Hesa::Disability.find(disability)&.hesa_code
-      }.compact
+      end.compact
     end
   end
 end

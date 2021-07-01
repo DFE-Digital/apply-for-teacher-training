@@ -41,9 +41,9 @@ class FeatureFlag
     [:interview_permissions, 'Enables a user-level permission for managing interviews', 'Steve Laing'],
   ].freeze
 
-  FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
+  FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map do |name, description, owner|
     [name, FeatureFlag.new(name: name, description: description, owner: owner)]
-  }.to_h.with_indifferent_access.freeze
+  end.to_h.with_indifferent_access.freeze
 
   def self.activate(feature_name)
     raise unless feature_name.in?(FEATURES)

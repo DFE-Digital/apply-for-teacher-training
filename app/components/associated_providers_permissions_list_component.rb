@@ -7,9 +7,9 @@ class AssociatedProvidersPermissionsListComponent < ViewComponent::Base
   end
 
   def training_providers_for_which_this_provider_can(permission_name)
-    @_training_providers_for_which_this_provider_can ||= @provider.ratifying_provider_permissions.map { |permission_relationship|
+    @_training_providers_for_which_this_provider_can ||= @provider.ratifying_provider_permissions.map do |permission_relationship|
       permission_relationship.training_provider if permission_relationship.send("ratifying_provider_can_#{permission_name}?")
-    }.compact
+    end.compact
   end
 
   def training_providers_for_which_this_provider_cannot(permission_name)
@@ -17,9 +17,9 @@ class AssociatedProvidersPermissionsListComponent < ViewComponent::Base
   end
 
   def ratifying_providers_for_which_this_provider_can(permission_name)
-    @_ratifying_providers_for_which_this_provider_can ||= @provider.training_provider_permissions.map { |permission_relationship|
+    @_ratifying_providers_for_which_this_provider_can ||= @provider.training_provider_permissions.map do |permission_relationship|
       permission_relationship.ratifying_provider if permission_relationship.send("training_provider_can_#{permission_name}?")
-    }.compact
+    end.compact
   end
 
   def ratifying_providers_for_which_this_provider_cannot(permission_name)

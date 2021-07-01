@@ -9,14 +9,14 @@ module SupportInterface
     end
 
     def summary_list_rows_for(application_choice)
-      application_choice.structured_rejection_reasons.map { |reason, value|
+      application_choice.structured_rejection_reasons.map do |reason, value|
         next unless top_level_reason?(reason, value)
 
         {
           key: reason_text_for(reason),
           value: reason_detail_text_for(application_choice, reason),
         }
-      }.compact
+      end.compact
     end
 
     def search_title_text
