@@ -54,9 +54,9 @@ RSpec.describe ProviderInterface::OfferWizard do
 
       it 'adds the correct validation error messages to the wizard' do
         expect(wizard.valid?(:conditions)).to eq(false)
-        expect(wizard.errors[:"further_conditions[0][text]"]).to contain_exactly('Condition 1 must be 255 characters or fewer')
-        expect(wizard.errors[:"further_conditions[1][text]"]).to contain_exactly('Condition 2 must be 255 characters or fewer')
-        expect(wizard.errors[:"further_conditions[2][text]"]).to be_blank
+        expect(wizard.errors[:'further_conditions[0][text]']).to contain_exactly('Condition 1 must be 255 characters or fewer')
+        expect(wizard.errors[:'further_conditions[1][text]']).to contain_exactly('Condition 2 must be 255 characters or fewer')
+        expect(wizard.errors[:'further_conditions[2][text]']).to be_blank
       end
 
       it 'creates custom methods with the field name that contain the error value' do

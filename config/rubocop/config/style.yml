@@ -148,9 +148,6 @@ Style/SoleNestedConditional:
 Style/RedundantParentheses:
   Enabled: true
 
-Style/QuotedSymbols:
-  Enabled: false
-
 Style/NegatedIfElseCondition:
   Enabled: false
 
