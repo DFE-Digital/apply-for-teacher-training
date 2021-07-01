@@ -1,30 +1,30 @@
 module CycleTimetableHelper
   def mid_cycle
-    @_mid_cycle ||= rand(previous_end_of_cycle_timetable[:apply_reopens]..current_end_of_cycle_timetable[:apply_1_deadline]).midday
+    previous_end_of_cycle_timetable[:apply_reopens] + 1.day
   end
 
   def after_apply_1_deadline
-    @_after_apply_1_deadline ||= rand((current_end_of_cycle_timetable[:apply_1_deadline] + 1.day)..current_end_of_cycle_timetable[:stop_applications_to_unavailable_course_options]).midday
+    current_end_of_cycle_timetable[:apply_1_deadline] + 1.day
   end
 
   def after_full_course_deadline
-    @_after_full_course_deadline ||= rand((current_end_of_cycle_timetable[:stop_applications_to_unavailable_course_options] + 1.day)..current_end_of_cycle_timetable[:apply_2_deadline]).midday
+    current_end_of_cycle_timetable[:stop_applications_to_unavailable_course_options] + 1.day
   end
 
   def after_apply_2_deadline
-    @_after_apply_2_deadline ||= rand((current_end_of_cycle_timetable[:apply_2_deadline] + 1.day)..current_end_of_cycle_timetable[:find_closes]).midday
+    current_end_of_cycle_timetable[:apply_2_deadline] + 1.day
   end
 
   def after_find_closes
-    @_after_find_closes ||= rand((current_end_of_cycle_timetable[:find_closes])..current_end_of_cycle_timetable[:find_reopens]).midday
+    current_end_of_cycle_timetable[:find_closes] + 1.day
   end
 
   def after_find_reopens
-    @_after_find_reopens ||= rand((current_end_of_cycle_timetable[:find_reopens])..current_end_of_cycle_timetable[:apply_reopens]).midday
+    current_end_of_cycle_timetable[:find_reopens] + 1.day
   end
 
   def after_apply_reopens
-    @_after_apply_reopens ||= rand((current_end_of_cycle_timetable[:apply_reopens])..Date.new(EndOfCycleTimetable::CURRENT_YEAR_FOR_SCHEDULE, 12, 31)).midday
+    current_end_of_cycle_timetable[:apply_reopens] + 1.day
   end
 
 private
