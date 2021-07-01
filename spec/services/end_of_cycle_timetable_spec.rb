@@ -8,23 +8,15 @@ RSpec.describe EndOfCycleTimetable do
   let(:one_hour_after_2021_cycle_opens) { Time.zone.local(2020, 10, 13, 1, 0, 0) }
 
   describe '.current_year' do
-    it 'is 2020 before the end of cycle' do
+    it 'is 2020 if we are in the middle of the 2020 cycle' do
       Timecop.travel(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
         expect(EndOfCycleTimetable.current_year).to eq(2020)
       end
     end
 
-    it 'is 2021 in the new cycle' do
+    it 'is 2021 if we are in the middle of the 2021 cycle' do
       Timecop.travel(Time.zone.local(2020, 11, 1, 12, 0, 0)) do
         expect(EndOfCycleTimetable.current_year).to eq(2021)
-      end
-    end
-  end
-
-  describe '.next_year' do
-    it 'is 2021' do
-      Timecop.travel(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
-        expect(RecruitmentCycle.next_year).to eq(2021)
       end
     end
   end
