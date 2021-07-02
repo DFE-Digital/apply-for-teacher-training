@@ -69,17 +69,17 @@ private
     field_names = attr.keys
 
     field_names_sql = field_names.join(', ')
-    values_to_persist = field_names.map { |f|
-      value = attr[f]
+    values_to_persist = field_names.map do |field|
+      value = attr[field]
       if value == '' || value.nil?
         'NULL'
-      elsif value.class == Hash
+      elsif value.instance_of?(Hash)
         # Gracefully switch from Hash syntax to JSON when dealing with json model fields
         "'#{value.to_json}'"
       else
         "'#{value}'"
       end
-    }.join(', ')
+    end.join(', ')
 
     [field_names_sql, values_to_persist]
   end

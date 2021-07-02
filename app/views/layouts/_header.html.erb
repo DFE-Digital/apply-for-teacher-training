@@ -25,7 +25,7 @@
     classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
     service_link: service_link,
-    navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
+    navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
     navigation_classes: 'govuk-header__navigation--end',
   )) %>
   <% if controller.controller_name == 'start_page' %>
@@ -42,7 +42,7 @@
       feedback_link: ProviderInterface::FEEDBACK_LINK,
     )) %>
     <%= render(PrimaryNavigationComponent.new(
-      items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
+      items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
     )) %>
   <% end %>
 <% when 'vendor_api_docs' %>

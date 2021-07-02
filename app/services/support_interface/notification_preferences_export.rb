@@ -29,7 +29,7 @@ module SupportInterface
         notifications_added, notifications_removed = group_audit_changes(row.pop)
         row[3] = row[3].iso8601
         row << notifications_added << notifications_removed
-        Hash[LABELS.zip(row)]
+        LABELS.zip(row).to_h
       end
     end
 

@@ -27,7 +27,7 @@ def extract_options_from(args)
 end
 
 def generate_plan(host:, thread_count:, token:)
-  test {
+  test do
     threads count: thread_count do
       visit name: 'GET candidate landing page', url: "#{host}/candidate" do
         assert contains: 'Apply for teacher training'
@@ -60,5 +60,5 @@ def generate_plan(host:, thread_count:, token:)
     view_results_tree
     graph_results
     aggregate_graph
-  }.jmx
+  end.jmx
 end

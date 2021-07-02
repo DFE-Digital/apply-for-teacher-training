@@ -90,14 +90,14 @@ module CandidateInterface
             params[:english_studies_double_award] = true
           end
 
-          other_english_gcse_name = constituent_grades.keys.select { |k|
+          other_english_gcse_name = constituent_grades.keys.select do |key|
             %w[
               english_single_award english_double_award
               english_language
               english_literature
               english_studies_single_award english_studies_double_award
-            ].exclude? k
-          }.first
+            ].exclude?(key)
+          end.first
 
           english_gcses << 'other_english_gcse' if other_english_gcse_name
           params[:english_gcses] = english_gcses

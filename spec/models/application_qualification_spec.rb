@@ -264,7 +264,7 @@ RSpec.describe ApplicationQualification, type: :model do
     end
 
     it 'fills in missing public_ids in constituent_grades' do
-      constituent_grades_with_partially_complete_public_ids = constituent_grades_with_public_ids.merge({ "Cockney Rhyming Slang": { grade: 'A*' } })
+      constituent_grades_with_partially_complete_public_ids = constituent_grades_with_public_ids.merge({ 'Cockney Rhyming Slang': { grade: 'A*' } })
       qualification = create(:application_qualification, constituent_grades: constituent_grades_with_partially_complete_public_ids)
 
       expect(qualification.constituent_grades['english_language']['public_id']).to eq(10)

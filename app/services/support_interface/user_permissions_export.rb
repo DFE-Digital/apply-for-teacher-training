@@ -12,7 +12,7 @@ module SupportInterface
           provider_name: row[4],
           user_whose_permissions_have_changed: row[5],
           permissions_added: permissions_changes(audited_changes),
-          permissions_removed: permissions_changes(audited_changes, false),
+          permissions_removed: permissions_changes(audited_changes, enabled: false),
 
         }
       end
@@ -20,7 +20,7 @@ module SupportInterface
 
   private
 
-    def permissions_changes(audited_changes, enabled = true)
+    def permissions_changes(audited_changes, enabled: true)
       changes = audited_changes.select do |k, v|
         ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).include?(k) &&
           (v.is_a?(Array) ? v.last == enabled : v == enabled)

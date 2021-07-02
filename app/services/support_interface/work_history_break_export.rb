@@ -128,9 +128,9 @@ module SupportInterface
     end
 
     def unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
-      degrees.select { |degree|
+      degrees.select do |degree|
         coincides?(Date.new(degree.start_year.to_i, 1, 1), Date.new(degree.award_year.to_i, 12, 31), unexplained_break.start_date, unexplained_break.end_date)
-      }.any?
+      end.any?
     end
 
     def breaks_that_coincide_with_volunteering_experiences(breaks, volunteering_experiences, application_form)

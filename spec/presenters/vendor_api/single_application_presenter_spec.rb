@@ -1003,7 +1003,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         constituent_grades: {
           english_language: { grade: 'E', public_id: 1 },
           english_literature: { grade: 'E', public_id: 2 },
-          "Cockney Rhyming Slang": { grade: 'A*', public_id: 3 },
+          'Cockney Rhyming Slang': { grade: 'A*', public_id: 3 },
         },
         award_year: 2006,
         predicted_grade: false,
@@ -1075,7 +1075,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns awaiting_provider_decision when status is interviewing' do
       application_choice = build_stubbed(:application_choice, :with_completed_application_form, status: :interviewing)
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      expect(response.dig(:attributes)[:status]).to eq('awaiting_provider_decision')
+      expect(response[:attributes][:status]).to eq('awaiting_provider_decision')
     end
   end
 

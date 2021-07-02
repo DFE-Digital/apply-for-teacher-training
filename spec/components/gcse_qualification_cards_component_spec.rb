@@ -166,7 +166,7 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       create(
         :application_form,
         application_qualifications: [
-          create(:gcse_qualification, subject: 'english', constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, "Cockney Rhyming Slang": { grade: 'A*' } }, award_year: 2006),
+          create(:gcse_qualification, subject: 'english', constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, 'Cockney Rhyming Slang': { grade: 'A*' } }, award_year: 2006),
         ],
       )
     end

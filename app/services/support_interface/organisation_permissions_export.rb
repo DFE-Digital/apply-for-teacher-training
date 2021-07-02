@@ -14,19 +14,19 @@ module SupportInterface
           training_provider_code: row[5],
           training_provider_name: row[6],
           training_provider_permissions_added: permissions_changes(audited_changes, 'training'),
-          training_provider_permissions_permissions_removed: permissions_changes(audited_changes, 'training', false),
+          training_provider_permissions_permissions_removed: permissions_changes(audited_changes, 'training', enabled: false),
 
           ratifying_provider_code: row[7],
           ratifying_provider_name: row[8],
           ratifying_provider_permissions_added: permissions_changes(audited_changes, 'ratifying'),
-          ratifying_provider_permissions_permissions_removed: permissions_changes(audited_changes, 'ratifying', false),
+          ratifying_provider_permissions_permissions_removed: permissions_changes(audited_changes, 'ratifying', enabled: false),
         }
       end
     end
 
   private
 
-    def permissions_changes(audited_changes, provider_type, enabled = true)
+    def permissions_changes(audited_changes, provider_type, enabled: true)
       permissions_attr_names = ProviderRelationshipPermissions::PERMISSIONS.map { |p| "#{provider_type}_provider_can_#{p}" }
       changes = audited_changes.select do |k, v|
         permissions_attr_names.include?(k) && (v.is_a?(Array) ? v.last == enabled : v == enabled)
