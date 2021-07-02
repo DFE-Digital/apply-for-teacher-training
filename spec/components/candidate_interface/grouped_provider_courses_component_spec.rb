@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
 
   context 'when find is down' do
     it 'does not include a link to find' do
-      Timecop.travel(EndOfCycleTimetable.find_closes.end_of_day + 1.hour) do
+      Timecop.travel(CycleTimetable.find_closes.end_of_day + 1.hour) do
         result = render_inline(
           described_class.new(courses_by_provider_and_region: @courses_by_provider_and_region),
         )

@@ -10,15 +10,15 @@
 
     <p class="govuk-body">But you can carry on with your application for courses starting in the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> academic year.</p>
 
-    <% if EndOfCycleTimetable.before_apply_reopens? %>
+    <% if CycleTimetable.before_apply_reopens? %>
       <p class="govuk-body">
-        You can submit your application from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+        You can submit your application from <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>.
       </p>
     <% end %>
 
     <p class="govuk-body">
       Your courses have been removed.
-      <% if EndOfCycleTimetable.before_find_reopens? %>
+      <% if CycleTimetable.before_find_reopens? %>
         You can add them again later.
       <% else %>
         You can add them again now.

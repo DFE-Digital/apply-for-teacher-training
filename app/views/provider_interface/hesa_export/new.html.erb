@@ -12,7 +12,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t('page_titles.provider.export_hesa_data', timeframe: "since #{EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)}") %>
+      <%= t('page_titles.provider.export_hesa_data', timeframe: "since #{CycleTimetable.apply_reopens.to_s(:govuk_date)}") %>
     </h1>
     <p class="govuk-body">
       The data will include all candidates who have accepted an offer from any of your organisations.

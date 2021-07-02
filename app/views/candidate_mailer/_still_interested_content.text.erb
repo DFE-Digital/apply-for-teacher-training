@@ -1,8 +1,8 @@
-<% if EndOfCycleTimetable.between_cycles_apply_2? %>
+<% if CycleTimetable.between_cycles_apply_2? %>
 
 You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}" %> academic year.
 
-Your last application has been saved. Make any changes and re-submit from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+Your last application has been saved. Make any changes and re-submit from <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>.
 
 <% else %>
 

@@ -3,7 +3,7 @@ module SupportInterface
     include ActiveModel::Model
 
     def cycle_schedule_name
-      EndOfCycleTimetable.current_cycle_schedule
+      CycleTimetable.current_cycle_schedule
     end
   end
 end

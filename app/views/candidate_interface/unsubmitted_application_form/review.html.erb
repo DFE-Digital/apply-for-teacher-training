@@ -34,6 +34,6 @@
 
 <%= render partial: 'candidate_interface/application_form/review', locals: { application_form: @application_form, editable: true } %>
 
-<% unless EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
+<% unless CycleTimetable.between_cycles?(@application_form.phase) %>
   <%= govuk_link_to t('continue'), candidate_interface_start_equality_and_diversity_path, button: true %>
 <% end %>
