@@ -7,6 +7,20 @@ RSpec.describe EndOfCycleTimetable do
   let(:one_hour_after_apply2_deadline) { Time.zone.local(2020, 9, 19, 1, 0, 0) }
   let(:one_hour_after_2021_cycle_opens) { Time.zone.local(2020, 10, 13, 1, 0, 0) }
 
+  describe '.current_year' do
+    it 'is 2020 if we are in the middle of the 2020 cycle' do
+      Timecop.travel(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
+        expect(EndOfCycleTimetable.current_year).to eq(2020)
+      end
+    end
+
+    it 'is 2021 if we are in the middle of the 2021 cycle' do
+      Timecop.travel(Time.zone.local(2020, 11, 1, 12, 0, 0)) do
+        expect(EndOfCycleTimetable.current_year).to eq(2021)
+      end
+    end
+  end
+
   describe '.show_apply_1_deadline_banner?' do
     it 'returns true before the configured date' do
       Timecop.travel(one_hour_before_apply1_deadline) do
@@ -71,14 +85,6 @@ RSpec.describe EndOfCycleTimetable do
     it 'returns false after the new cycle opens' do
       Timecop.travel(one_hour_after_2021_cycle_opens) do
         expect(EndOfCycleTimetable.between_cycles_apply_2?).to be false
-      end
-    end
-  end
-
-  describe '.next_cycle_year' do
-    it 'returns 2021 when in 2020 cycle' do
-      Timecop.travel(Time.zone.local(2020, 8, 24, 23, 0, 0)) do
-        expect(EndOfCycleTimetable.next_cycle_year).to eq 2021
       end
     end
   end

@@ -8,12 +8,12 @@
 
     <% if EndOfCycleTimetable.before_find_reopens? %>
       <p class="govuk-body">
-        Applications for courses starting in the 2020 to 2021 academic year are closed.
+        Applications for courses starting in the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.current_year) %> academic year are closed.
       </p>
     <% end %>
 
     <p class="govuk-body">
-      Carry on with your application for courses starting in the 2021 to 2022 academic year.
+      Carry on with your application for courses starting in the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> academic year.
     </p>
 
     <% if EndOfCycleTimetable.before_apply_reopens? %>

@@ -4,11 +4,11 @@
 
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles_unsubmitted') %></h1>
+    <h1 class="gov uk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles_unsubmitted') %></h1>
 
-    <p class="govuk-body">You did not submit your application in time to start a course in the 2020 to 2021 academic year.</p>
+    <p class="govuk-body">You did not submit your application in time to start a course in the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.current_year) %> academic year.</p>
 
-    <p class="govuk-body">But you can carry on with your application for courses starting in the 2021 to 2022 academic year.</p>
+    <p class="govuk-body">But you can carry on with your application for courses starting in the <%= RecruitmentCycle.cycle_name(RecruitmentCycle.next_year) %> academic year.</p>
 
     <% if EndOfCycleTimetable.before_apply_reopens? %>
       <p class="govuk-body">

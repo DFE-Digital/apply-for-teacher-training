@@ -20,7 +20,24 @@ class EndOfCycleTimetable
       find_reopens: Date.new(2020, 10, 6),
       apply_reopens: Date.new(2020, 10, 13),
     },
+    2022 => {
+      apply_1_deadline: Date.new(2021, 9, 6),
+      apply_2_deadline: Date.new(2021, 9, 20),
+      find_closes: Date.new(2021, 10, 3),
+      find_reopens: Date.new(2021, 9, 5),
+      apply_reopens: Date.new(2021, 10, 12),
+    },
   }.freeze
+
+  def self.current_year
+    now = Time.zone.today
+
+    CYCLE_DATES.keys.detect do |year|
+      return year if year == CYCLE_DATES.keys.last
+
+      now.between?(CYCLE_DATES[year][:find_reopens], CYCLE_DATES[year + 1][:find_reopens])
+    end
+  end
 
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
@@ -87,10 +104,6 @@ class EndOfCycleTimetable
     return :real if HostingEnvironment.production?
 
     SiteSetting.cycle_schedule
-  end
-
-  def self.next_cycle_year
-    RecruitmentCycle.current_year + 1
   end
 
   def self.schedules
@@ -168,7 +181,7 @@ class EndOfCycleTimetable
   end
 
   def self.current_cycle?(application_form)
-    application_form.recruitment_cycle_year == RecruitmentCycle.current_year
+    application_form.recruitment_cycle_year == current_year
   end
 
   def self.can_add_course_choice?(application_form)
@@ -180,7 +193,7 @@ class EndOfCycleTimetable
   end
 
   def self.can_submit?(application_form)
-    RecruitmentCycle.current_year == application_form.recruitment_cycle_year
+    current_cycle?(application_form)
   end
 
   def self.before_find_reopens?
