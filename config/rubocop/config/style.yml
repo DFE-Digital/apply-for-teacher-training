@@ -111,9 +111,6 @@ Style/SlicingWithRange:
 Style/StringConcatenation:
   Enabled: true
 
-Style/KeywordParametersOrder:
-  Enabled: false
-
 Style/GlobalStdStream:
   Enabled: false
 

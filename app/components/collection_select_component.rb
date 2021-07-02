@@ -6,7 +6,7 @@ class CollectionSelectComponent < ViewComponent::Base
               :form_object, :form_path, :form_method,
               :page_title, :caption
 
-  def initialize(attribute:, collection:, value_method:, text_method:, hint_method:, form_object:, form_path:, form_method: :post, page_title:, caption:)
+  def initialize(attribute:, collection:, value_method:, text_method:, hint_method:, form_object:, form_path:, page_title:, caption:, form_method: :post)
     @attribute = attribute
     @collection = collection
     @value_method = value_method
