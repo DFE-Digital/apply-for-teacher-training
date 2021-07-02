@@ -131,4 +131,31 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       end
     end
   end
+
+  describe '#handle_course_options_with_reinstated_sites' do
+    context 'when site was previously withdrawn' do
+      let(:course) do
+        create(:course, :part_time) do |course|
+          course.course_options = [
+            create(:course_option, :part_time, course: course, site_still_valid: true),
+            create(:course_option, :part_time, course: course, site_still_valid: true),
+            create(:course_option, :part_time, course: course, site_still_valid: false),
+          ]
+        end
+      end
+
+      it 'sets `site_still_valid` to false on any course options with missing sites' do
+        described_class.new.tap do |sync_sites|
+          sync_sites.instance_variable_set(:@course, course)
+        end.send(
+          :handle_course_options_with_reinstated_sites,
+          course.course_options.map { |course_option| OpenStruct.new(code: course_option.site.code) },
+        )
+        course_options = course.course_options.reload
+        expect(course_options[0].site_still_valid).to be(true)
+        expect(course_options[1].site_still_valid).to be(true)
+        expect(course_options[2].site_still_valid).to be(true)
+      end
+    end
+  end
 end

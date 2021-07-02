@@ -31,9 +31,10 @@ module TeacherTrainingPublicAPI
         study_modes.each do |study_mode|
           create_course_options(site, study_mode, site_status)
         end
-
-        handle_course_options_with_invalid_sites(sites)
       end
+
+      handle_course_options_with_invalid_sites(sites)
+      handle_course_options_with_reinstated_sites(sites)
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
@@ -109,6 +110,19 @@ module TeacherTrainingPublicAPI
         next if course_option.site_still_valid == false
 
         course_option.update!(site_still_valid: false)
+      end
+    end
+
+    def handle_course_options_with_reinstated_sites(sites)
+      withdrawn_course_options = @course.course_options.joins(:site).where(site_still_valid: false)
+      site_codes = sites.map(&:code)
+
+      course_options_to_reinstate = withdrawn_course_options.where(
+        sites: { code: site_codes },
+      )
+
+      course_options_to_reinstate.each do |course_option|
+        course_option.update!(site_still_valid: true)
       end
     end
   end
