@@ -3,6 +3,7 @@ class ProviderPermissions < ApplicationRecord
     manage_users
     manage_organisations
     view_safeguarding_information
+    set_up_interviews
     make_decisions
     view_diversity_information
   ].freeze
