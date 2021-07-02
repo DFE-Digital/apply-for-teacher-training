@@ -1,5 +1,5 @@
 class StateDiagram
-  def self.svg(only_from_state: nil, machine:)
+  def self.svg(machine:, only_from_state: nil)
     namespace = machine.i18n_namespace
     graph = GraphViz.new('G', rankdir: 'TB', ratio: 'fill')
 
