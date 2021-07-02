@@ -1,7 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPresenter do
-  let(:provider_relationship_permission) { build_stubbed(:provider_relationship_permissions) }
+  let(:provider_relationship_permission) do
+    build_stubbed(
+      :provider_relationship_permissions,
+      training_provider_can_make_decisions: true,
+      training_provider_can_view_safeguarding_information: false,
+      training_provider_can_view_diversity_information: false,
+      ratifying_provider_can_make_decisions: true,
+      ratifying_provider_can_view_safeguarding_information: true,
+      ratifying_provider_can_view_diversity_information: true,
+    )
+  end
   let(:training_provider) { provider_relationship_permission.training_provider }
   let(:ratifying_provider) { provider_relationship_permission.ratifying_provider }
 
@@ -58,6 +68,34 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
 
       it 'returns the training provider checkbox first' do
         expect(presenter.checkbox_details_for_providers.first[:type]).to eq('training')
+      end
+    end
+  end
+
+  describe '#providers_with_permission' do
+    context 'when the provider user is part of the training provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
+
+      it 'returns the names providers that have the specified permission with the training provider first' do
+        expect(presenter.providers_with_permission(:make_decisions)).to eq([training_provider.name, ratifying_provider.name])
+        expect(presenter.providers_with_permission(:view_safeguarding_information)).to contain_exactly(ratifying_provider.name)
+        expect(presenter.providers_with_permission(:view_diversity_information)).to contain_exactly(ratifying_provider.name)
+      end
+    end
+
+    context 'when the provider user is part of the ratifying provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+
+      it 'returns the names providers that have the specified permission with the ratifying provider firs' do
+        expect(presenter.providers_with_permission(:make_decisions)).to eq([ratifying_provider.name, training_provider.name])
+      end
+    end
+
+    context 'when the provider user is part of both of the providers' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider, ratifying_provider]) }
+
+      it 'returns the names providers that have the specified permission with the ratifying provider firs' do
+        expect(presenter.providers_with_permission(:make_decisions)).to eq([training_provider.name, ratifying_provider.name])
       end
     end
   end

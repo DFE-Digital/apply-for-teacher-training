@@ -19,6 +19,14 @@ module ProviderInterface
       end
     end
 
+    def providers_with_permission(permission_name)
+      provider_types_with_permission = ordered_provider_types.select do |provider_type|
+        provider_relationship_permission.send("#{provider_type}_provider_can_#{permission_name}")
+      end
+
+      provider_types_with_permission.map { |provider_type| name_for_provider_of_type(provider_type) }
+    end
+
   private
 
     attr_reader :provider_relationship_permission, :provider_user
