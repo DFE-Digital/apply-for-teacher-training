@@ -12,10 +12,12 @@ RSpec.describe PermissionsListComponent do
   end
 
   it 'renders permissions' do
-    permission_model = create(:provider_permissions, manage_organisations: true)
+    FeatureFlag.activate(:interview_permissions)
+    permission_model = create(:provider_permissions, manage_organisations: true, set_up_interviews: true)
     result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
     expect(result.css('li').text).to include('Manage organisational permissions')
+    expect(result.css('li').text).to include('Set up interviews')
     expect(result.css('li').text).not_to include('The user can only view applications')
   end
 
