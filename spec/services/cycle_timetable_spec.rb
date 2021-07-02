@@ -127,26 +127,6 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe 'stop_applications_to_unavailable_course_options?' do
-    it 'is true when between "stop_applications_to_unavailable_course_options" and "apply_reopens"' do
-      Timecop.travel(Time.zone.local(2020, 9, 7).end_of_day + 1.minute) do
-        expect(CycleTimetable.stop_applications_to_unavailable_course_options?).to be true
-      end
-    end
-
-    it 'is false when before the window' do
-      Timecop.travel(Time.zone.local(2020, 9, 7).end_of_day - 1.minute) do
-        expect(CycleTimetable.stop_applications_to_unavailable_course_options?).to be false
-      end
-    end
-
-    it 'is false when after the window' do
-      Timecop.travel(Time.zone.local(2020, 10, 13).beginning_of_day) do
-        expect(CycleTimetable.stop_applications_to_unavailable_course_options?).to be false
-      end
-    end
-  end
-
   describe 'can_add_course_choice?' do
     let(:execute_service) { described_class.can_add_course_choice?(application_form) }
 

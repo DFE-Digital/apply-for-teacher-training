@@ -6,7 +6,6 @@ class CycleTimetable
   CYCLE_DATES = {
     2020 => {
       apply_1_deadline: Date.new(2019, 8, 24),
-      stop_applications_to_unavailable_course_options: Date.new(2019, 9, 7),
       apply_2_deadline: Date.new(2019, 9, 18),
       find_closes: Date.new(2019, 10, 3),
       find_reopens: Date.new(2019, 10, 6),
@@ -14,7 +13,6 @@ class CycleTimetable
     },
     2021 => {
       apply_1_deadline: Date.new(2020, 8, 24),
-      stop_applications_to_unavailable_course_options: Date.new(2020, 9, 7),
       apply_2_deadline: Date.new(2020, 9, 18),
       find_closes: Date.new(2020, 10, 3),
       find_reopens: Date.new(2020, 10, 6),
@@ -51,17 +49,8 @@ class CycleTimetable
     Time.zone.now < date(:apply_2_deadline).end_of_day
   end
 
-  def self.stop_applications_to_unavailable_course_options?
-    Time.zone.now > date(:stop_applications_to_unavailable_course_options).end_of_day &&
-      Time.zone.now < date(:apply_reopens).beginning_of_day
-  end
-
   def self.apply_1_deadline
     date(:apply_1_deadline)
-  end
-
-  def self.stop_applications_to_unavailable_course_options
-    date(:stop_applications_to_unavailable_course_options)
   end
 
   def self.apply_2_deadline
@@ -112,7 +101,6 @@ class CycleTimetable
 
       today_is_mid_cycle: {
         apply_1_deadline: 1.day.from_now.to_date,
-        stop_applications_to_unavailable_course_options: 2.days.from_now.to_date,
         apply_2_deadline: 3.days.from_now.to_date,
         find_closes: 4.days.from_now.to_date,
         find_reopens: 5.days.from_now.to_date,
@@ -121,8 +109,6 @@ class CycleTimetable
 
       today_is_after_apply_1_deadline_passed: {
         apply_1_deadline: 1.day.ago.to_date,
-
-        stop_applications_to_unavailable_course_options: 1.day.from_now.to_date,
         apply_2_deadline: 2.days.from_now.to_date,
         find_closes: 3.days.from_now.to_date,
         find_reopens: 4.days.from_now.to_date,
@@ -131,8 +117,6 @@ class CycleTimetable
 
       today_is_after_full_course_deadline_passed: {
         apply_1_deadline: 2.days.ago.to_date,
-        stop_applications_to_unavailable_course_options: 1.day.ago.to_date,
-
         apply_2_deadline: 1.day.from_now.to_date,
         find_closes: 2.days.from_now.to_date,
         find_reopens: 3.days.from_now.to_date,
@@ -141,9 +125,7 @@ class CycleTimetable
 
       today_is_after_apply_2_deadline_passed: {
         apply_1_deadline: 3.days.ago.to_date,
-        stop_applications_to_unavailable_course_options: 2.days.ago.to_date,
         apply_2_deadline: 1.day.ago.to_date,
-
         find_closes: 1.day.from_now.to_date,
         find_reopens: 2.days.from_now.to_date,
         apply_reopens: 3.days.from_now.to_date,
@@ -151,27 +133,22 @@ class CycleTimetable
 
       today_is_after_find_closes: {
         apply_1_deadline: 4.days.ago.to_date,
-        stop_applications_to_unavailable_course_options: 3.days.ago.to_date,
         apply_2_deadline: 2.days.ago.to_date,
         find_closes: 1.day.ago.to_date,
-
         find_reopens: 1.day.from_now.to_date,
         apply_reopens: 2.days.from_now.to_date,
       },
 
       today_is_after_find_reopens: {
         apply_1_deadline: 5.days.ago.to_date,
-        stop_applications_to_unavailable_course_options: 4.days.ago.to_date,
         apply_2_deadline: 3.days.ago.to_date,
         find_closes: 2.days.ago.to_date,
         find_reopens: 1.day.ago.to_date,
-
         apply_reopens: 1.day.from_now.to_date,
       },
 
       today_is_after_apply_reopens: {
         apply_1_deadline: 6.days.ago.to_date,
-        stop_applications_to_unavailable_course_options: 5.days.ago.to_date,
         apply_2_deadline: 4.days.ago.to_date,
         find_closes: 3.days.ago.to_date,
         find_reopens: 2.days.ago.to_date,
