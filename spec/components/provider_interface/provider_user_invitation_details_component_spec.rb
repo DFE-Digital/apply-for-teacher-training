@@ -58,18 +58,34 @@ RSpec.describe ProviderInterface::ProviderUserInvitationDetailsComponent do
         email_address: 'ed@example.com',
         providers: [provider.id.to_s],
         provider_permissions: {
-          provider.id.to_s => { 'provider_id' => provider.id, 'permissions' => %w[manage_users] },
+          provider.id.to_s => { 'provider_id' => provider.id, 'permissions' => %w[manage_users set_up_interviews] },
         },
         single_provider: 'true',
       )
     end
 
-    it 'conditionally hides provider information' do
-      result = render_inline(described_class.new(wizard: wizard))
+    context 'conditionally hides provider information' do
+      it 'when the interview_permissions feature flag is on' do
+        FeatureFlag.activate(:interview_permissions)
 
-      expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
-      expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
-      expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
+        result = render_inline(described_class.new(wizard: wizard))
+
+        expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
+        expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
+        expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
+        expect(result.css('.govuk-summary-list__value')[3].text).to include('Set up interviews')
+      end
+
+      it 'when the interview_permissions feature flag is off' do
+        FeatureFlag.deactivate(:interview_permissions)
+
+        result = render_inline(described_class.new(wizard: wizard))
+
+        expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
+        expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
+        expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
+        expect(result.css('.govuk-summary-list__value')[3].text).not_to include('Set up interviews')
+      end
     end
   end
 

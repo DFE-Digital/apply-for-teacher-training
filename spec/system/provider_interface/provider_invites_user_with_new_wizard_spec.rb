@@ -4,6 +4,10 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   include DfESignInHelpers
   include DsiAPIHelper
 
+  before do
+    FeatureFlag.activate(:interview_permissions)
+  end
+
   scenario 'Provider sends invite to user' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
@@ -154,6 +158,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_select_make_decisions_permission
+    check 'Set up interviews'
     check 'Make decisions'
   end
 
@@ -164,6 +169,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content 'ed@example.com'
     expect(page).not_to have_content 'Example Provider'
     expect(page).to have_content 'Another Provider'
+    expect(page).to have_content 'Set up interviews'
     expect(page).to have_content 'Make decisions'
     expect(page).not_to have_content 'Manage users'
     expect(page).not_to have_content 'Access diversity information'
@@ -205,6 +211,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def then_i_see_the_confirm_page_with_the_new_permissions
     expect(page).to have_content 'Another Provider'
+    expect(page).to have_content 'Set up interviews'
     expect(page).to have_content 'Make decisions'
     expect(page).to have_content 'Manage users'
   end
