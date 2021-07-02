@@ -17,6 +17,7 @@ module CandidateInterface
       @respond_to_offer = CandidateInterface::RespondToOfferForm.new(response: response)
 
       if !@respond_to_offer.valid?
+        @offer_count = @application_choice.self_and_siblings.offer.count
         render :offer
       elsif @respond_to_offer.decline?
         redirect_to candidate_interface_decline_offer_path(@application_choice)
