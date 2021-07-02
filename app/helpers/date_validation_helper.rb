@@ -1,11 +1,11 @@
 module DateValidationHelper
   def valid_or_invalid_date(year, month)
+    raise ArgumentError if year.blank?
+
     date_args = [year, month, 1].map(&:to_i)
-    if year.present? && Date.valid_date?(*date_args)
-      Date.new(*date_args)
-    else
-      Struct.new(:day, :month, :year).new(1, month, year)
-    end
+    Date.new(*date_args)
+  rescue ArgumentError, RangeError
+    Struct.new(:day, :month, :year).new(1, month, year)
   end
 
   def month_and_year_blank?(date)
