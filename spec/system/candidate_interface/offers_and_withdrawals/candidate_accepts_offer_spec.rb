@@ -13,6 +13,9 @@ RSpec.feature 'Candidate accepts an offer' do
     then_i_see_the_offer
     and_i_am_told_my_other_offer_will_be_automatically_declined
 
+    when_i_continue_without_selecting_a_response
+    then_i_see_and_error_message
+
     when_i_accept_one_offer
     and_i_confirm_the_acceptance
 
@@ -39,7 +42,8 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_have_2_offers_on_my_choices
-    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: Time.zone.now, support_reference: '123A')
+    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: Time.zone.now,
+                                                  support_reference: '123A')
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
@@ -85,6 +89,14 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined
     expect(page).to have_content('if you accept this offer, your other offer will be automatically declined')
+  end
+
+  def when_i_continue_without_selecting_a_response
+    click_button t('continue')
+  end
+
+  def then_i_see_and_error_message
+    expect(page).to have_content('Select if you want to accept or decline the offer')
   end
 
   def when_i_accept_one_offer
