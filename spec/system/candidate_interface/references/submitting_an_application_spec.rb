@@ -30,7 +30,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def then_i_can_see_references_are_incomplete
-    expect(page).to have_content('You have to get 2 references back before you can submit your application.')
+    expect(page).to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Incomplete')
       expect(page).to have_link('Add your references')
@@ -39,7 +39,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_references_are_in_progress
     visit candidate_interface_application_form_path
-    expect(page).to have_content('You have to get 2 references back before you can submit your application.')
+    expect(page).to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('In progress')
       expect(page).to have_link('Manage your references')
@@ -50,7 +50,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_references_are_complete
     visit candidate_interface_application_form_path
-    expect(page).not_to have_content('You have to get 2 references back before you can submit your application.')
+    expect(page).not_to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Complete')
       expect(page).to have_link('Review your references')

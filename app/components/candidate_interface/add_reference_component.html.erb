@@ -1,9 +1,9 @@
 <%= govuk_inset_text do %>
   <% if no_viable_references? %>
-    <p class="govuk-body">You need 2 references before you can submit your application.</p>
+    <p class="govuk-body">You need to get 2 references back before you can submit your application.</p>
     <%= govuk_link_to 'Add a referee', candidate_interface_references_start_path, button: true %>
   <% elsif one_viable_reference? %>
-    <p class="govuk-body">You need 2 references before you can submit your application.</p>
+    <p class="govuk-body">You need to get 2 references back before you can submit your application.</p>
     <%= govuk_link_to 'Add a second referee', candidate_interface_references_start_path, button: true %>
   <% else %>
     <% if FeatureFlag.active?(:reference_selection) && @application_form.minimum_references_available_for_selection? %>
