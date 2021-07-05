@@ -1,41 +1,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_panel(title: 'You’ve successfully signed the data sharing agreement', body: nil) %>
-
-    <% if @provider_relationship_pending %>
-      <h2 class="govuk-heading-m">
-        Next steps
-      </h2>
-
-      <p class="govuk-body">
-        You need to set up permissions for your organisation before you do anything else. We’ll guide you through this process.
-      </p>
-
-      <p class="govuk-body">
-        <%= govuk_link_to 'Set up permissions', provider_interface_provider_relationship_permissions_organisations_path, button: true %>
-      </p>
-    <% else %>
-      <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
-        <h2 class="govuk-heading-m">
-          Inviting users
-        </h2>
-
-        <p class="govuk-body govuk-!-margin-bottom-4">
-          Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
-        </p>
-      <% end %>
-
-      <h2 class="govuk-heading-m">
-        Manage your applications
-      </h2>
-
-      <p class="govuk-body">
-        Continue to your applications.
-      </p>
-
-      <p class="govuk-body">
-        <%= govuk_link_to t('continue'), provider_interface_applications_path, button: true %>
-      </p>
-    <% end %>
+    <%= render ProviderInterface::DsaSuccessPageComponent.new(
+      provider_user: current_provider_user,
+      provider_permission_setup_pending: @provider_relationship_pending,
+    ) %>
   </div>
 </div>
