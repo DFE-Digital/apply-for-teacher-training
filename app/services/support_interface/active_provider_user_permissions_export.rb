@@ -11,17 +11,24 @@ module SupportInterface
     def data_for_user(provider_user)
       provider_user.providers.map do |provider|
         permissions = provider_user.provider_permissions
-        {
-          name: provider_user.full_name,
-          email_address: provider_user.email_address,
-          provider: provider.name,
-          last_signed_in_at: provider_user.last_signed_in_at,
-          has_make_decisions: permissions.make_decisions.exists?(provider: provider),
-          has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider: provider),
-          has_view_diversity: permissions.view_diversity_information.exists?(provider: provider),
-          has_manage_users: permissions.manage_users.exists?(provider: provider),
-          has_manage_organisations: permissions.manage_organisations.exists?(provider: provider),
-        }
+        user_data =
+          {
+            name: provider_user.full_name,
+            email_address: provider_user.email_address,
+            provider: provider.name,
+            last_signed_in_at: provider_user.last_signed_in_at,
+            has_make_decisions: permissions.make_decisions.exists?(provider: provider),
+            has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider: provider),
+            has_view_diversity: permissions.view_diversity_information.exists?(provider: provider),
+            has_manage_users: permissions.manage_users.exists?(provider: provider),
+            has_manage_organisations: permissions.manage_organisations.exists?(provider: provider),
+          }
+
+        if FeatureFlag.active?(:interview_permissions)
+          user_data.merge!(has_set_up_interviews: permissions.set_up_interviews.exists?(provider: provider))
+        end
+
+        user_data
       end
     end
   end
