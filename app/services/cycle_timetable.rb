@@ -1,28 +1,30 @@
 class CycleTimetable
-  CURRENT_YEAR_FOR_SCHEDULE = 2021
-
   # These dates are configuration for when the previous cycle ends and the next cycle starts
-  # The 2020 dates are made up so we can generate sensible test data
+  # The 2019 dates are made up so we can generate sensible test data
   CYCLE_DATES = {
-    2020 => {
+    2019 => {
+      find_reopens: Date.new(2018, 10, 6),
+      apply_reopens: Date.new(2018, 10, 13),
       apply_1_deadline: Date.new(2019, 8, 24),
       apply_2_deadline: Date.new(2019, 9, 18),
       find_closes: Date.new(2019, 10, 3),
+    },
+    2020 => {
       find_reopens: Date.new(2019, 10, 6),
       apply_reopens: Date.new(2019, 10, 13),
-    },
-    2021 => {
       apply_1_deadline: Date.new(2020, 8, 24),
       apply_2_deadline: Date.new(2020, 9, 18),
       find_closes: Date.new(2020, 10, 3),
+    },
+    2021 => {
       find_reopens: Date.new(2020, 10, 6),
       apply_reopens: Date.new(2020, 10, 13),
-    },
-    2022 => {
       apply_1_deadline: Date.new(2021, 9, 6),
       apply_2_deadline: Date.new(2021, 9, 20),
       find_closes: Date.new(2021, 10, 3),
-      find_reopens: Date.new(2021, 9, 5),
+    },
+    2022 => {
+      find_reopens: Date.new(2021, 10, 5),
       apply_reopens: Date.new(2021, 10, 12),
     },
   }.freeze
@@ -62,7 +64,7 @@ class CycleTimetable
   end
 
   def self.find_reopens
-    date(:find_reopens)
+    date(:find_reopens, current_year + 1)
   end
 
   def self.find_down?
@@ -75,16 +77,16 @@ class CycleTimetable
 
   def self.between_cycles_apply_1?
     Time.zone.now > date(:apply_1_deadline).end_of_day &&
-      Time.zone.now < date(:apply_reopens).beginning_of_day
+      Time.zone.now < date(:apply_reopens, current_year + 1).beginning_of_day
   end
 
   def self.between_cycles_apply_2?
     Time.zone.now > date(:apply_2_deadline).end_of_day &&
-      Time.zone.now < date(:apply_reopens).beginning_of_day
+      Time.zone.now < date(:apply_reopens, current_year + 1).beginning_of_day
   end
 
-  def self.date(name)
-    schedule = schedules.fetch(current_cycle_schedule)
+  def self.date(name, year = current_year)
+    schedule = schedules(year).fetch(current_cycle_schedule)
     schedule.fetch(name)
   end
 
@@ -95,9 +97,9 @@ class CycleTimetable
     SiteSetting.cycle_schedule
   end
 
-  def self.schedules
+  def self.schedules(year = current_year)
     {
-      real: CYCLE_DATES[CURRENT_YEAR_FOR_SCHEDULE],
+      real: CYCLE_DATES[year],
 
       today_is_mid_cycle: {
         apply_1_deadline: 1.day.from_now.to_date,
