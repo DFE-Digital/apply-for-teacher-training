@@ -67,7 +67,7 @@ module CandidateInterface
       end
 
       def confirm_cancel
-        if @reference.feedback_requested?
+        if @reference&.feedback_requested?
           @application_form = current_application
         else
           redirect_to_review_page
@@ -75,7 +75,7 @@ module CandidateInterface
       end
 
       def cancel
-        if @reference.feedback_requested?
+        if @reference&.feedback_requested?
           CancelReferee.new.call(reference: @reference)
 
           redirect_to_review_page
