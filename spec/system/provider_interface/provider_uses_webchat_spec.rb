@@ -5,6 +5,7 @@ RSpec.feature 'Provider uses webchat' do
 
   scenario 'controlling the widget via a link in the footer', js: true do
     given_i_am_a_provider_user
+    and_chat_support_is_enabled
     and_i_sign_in_to_the_provider_interface
     when_i_visit_the_provider_interface
     and_there_is_no_support_agent_online
@@ -22,6 +23,10 @@ RSpec.feature 'Provider uses webchat' do
   def given_i_am_a_provider_user
     provider_user = create(:provider_user)
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+  end
+
+  def and_chat_support_is_enabled
+    FeatureFlag.activate(:enable_chat_support)
   end
 
   def and_i_sign_in_to_the_provider_interface

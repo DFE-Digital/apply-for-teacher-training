@@ -65,7 +65,7 @@
     <% when 'support_interface' %>
       <%= javascript_pack_tag 'application-support' %>
     <% when 'provider_interface' %>
-      <%= render 'shared/zendesk_snippet' if HostingEnvironment.test_environment? %>
+      <%= render 'shared/zendesk_snippet' if FeatureFlag.active?(:enable_chat_support) %>
       <%= javascript_pack_tag 'application-provider' %>
     <% when /api_docs/ %>
       <%= javascript_pack_tag 'application-api-docs' %>
