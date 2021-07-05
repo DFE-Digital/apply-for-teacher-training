@@ -4,9 +4,12 @@ RSpec.feature 'bulk upload provider users' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  scenario 'bulk upload multiple provider users', with_audited: true do
+  before do
     FeatureFlag.activate(:new_provider_user_flow)
+    FeatureFlag.activate(:interview_permissions)
+  end
 
+  scenario 'bulk upload multiple provider users', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_a_provider_exists
@@ -117,6 +120,7 @@ RSpec.feature 'bulk upload provider users' do
     check 'Manage organisational permissions'
     check 'Access safeguarding information'
     check 'Make decisions'
+    check 'Set up interviews'
     check 'Access diversity information'
   end
 
@@ -168,6 +172,7 @@ RSpec.feature 'bulk upload provider users' do
     expect(find_field('Manage organisational permissions')).to be_checked
     expect(find_field('Access safeguarding information')).to be_checked
     expect(find_field('Make decisions')).to be_checked
+    expect(find_field('Set up interviews')).to be_checked
     expect(find_field('Access diversity information')).to be_checked
   end
 

@@ -24,6 +24,14 @@
             multiple: false,
             label: { text: 'Make decisions' },
           ) %>
+      <% if FeatureFlag.active?(:interview_permissions) %>
+        <%= ppf.govuk_check_box(
+              :set_up_interviews,
+              true,
+              multiple: false,
+              label: { text: 'Set up interviews' },
+            ) %>
+      <% end %>
       <%= ppf.govuk_check_box(
             :view_safeguarding_information,
             true,
