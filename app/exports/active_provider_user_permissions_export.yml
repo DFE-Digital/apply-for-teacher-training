@@ -27,3 +27,6 @@ custom_columns:
 
   has_manage_organisations:
     type: boolean
+
+  has_set_up_interviews:
+    type: boolean

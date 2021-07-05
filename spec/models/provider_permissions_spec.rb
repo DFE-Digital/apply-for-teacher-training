@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe ProviderPermissions do
+  context 'scopes' do
+    describe 'set_up_interviews' do
+      it 'returns all permissions where `set_up_interviews` is set' do
+        create_list(:provider_permissions, 3, set_up_interviews: false)
+        interview_permissions = create_list(:provider_permissions, 2, set_up_interviews: true)
+
+        expect(described_class.set_up_interviews).to eq(interview_permissions)
+      end
+    end
+  end
+
   describe '.possible_permissions' do
     let(:current_provider_user) { create(:provider_user, providers: providers) }
     let(:provider_user) { create(:provider_user, providers: providers << non_visible_provider) }

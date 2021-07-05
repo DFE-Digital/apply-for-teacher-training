@@ -8,6 +8,8 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
   end
 
   before do
+    FeatureFlag.activate(:interview_permissions)
+
     @provider1 = create(:provider)
     @provider2 = create(:provider)
     @provider_user_with_permissions = create(
@@ -40,6 +42,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           has_view_diversity: true,
           has_manage_users: true,
           has_manage_organisations: true,
+          has_set_up_interviews: false,
         },
         {
           name: @provider_user2.full_name,
@@ -51,6 +54,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           has_view_diversity: false,
           has_manage_users: false,
           has_manage_organisations: false,
+          has_set_up_interviews: false,
         },
         {
           name: @provider_user3.full_name,
@@ -62,6 +66,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           has_view_diversity: false,
           has_manage_users: false,
           has_manage_organisations: false,
+          has_set_up_interviews: false,
         },
         {
           name: @provider_user3.full_name,
@@ -73,6 +78,7 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
           has_view_diversity: false,
           has_manage_users: false,
           has_manage_organisations: false,
+          has_set_up_interviews: false,
         },
       ]
 

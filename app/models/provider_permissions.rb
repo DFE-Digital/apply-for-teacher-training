@@ -20,6 +20,7 @@ class ProviderPermissions < ApplicationRecord
   scope :make_decisions, -> { where(make_decisions: true) }
   scope :view_safeguarding_information, -> { where(view_safeguarding_information: true) }
   scope :view_diversity_information, -> { where(view_diversity_information: true) }
+  scope :set_up_interviews, -> { where(set_up_interviews: true) }
 
   def self.possible_permissions(current_provider_user:, provider_user:)
     providers = current_provider_user.authorisation.providers_that_actor_can_manage_users_for.order(:name)
