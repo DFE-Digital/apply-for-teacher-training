@@ -75,7 +75,7 @@ class NavigationItems
 
       unless performing_setup
         if FeatureFlag.active?(:accredited_provider_setting_permissions)
-          if current_provider_user.authorisation.can_manage_users_or_organisations_for_at_least_one_provider?
+          if current_provider_user.authorisation.can_manage_users_or_organisations_for_at_least_one_setup_provider?
             items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisations provider_users]))
           end
 

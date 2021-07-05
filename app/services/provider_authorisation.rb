@@ -32,6 +32,16 @@ class ProviderAuthorisation
     )
   end
 
+  def provider_relationships_that_actor_can_manage_organisations_for
+    manageable_provider_ids = ProviderPermissions
+      .where(provider_user: @actor, manage_organisations: true)
+      .select(:provider_id)
+
+    provider_relationships_for_actor
+      .with(provider_ids: manageable_provider_ids)
+      .joins('INNER JOIN provider_ids ON (training_provider_id = provider_id OR ratifying_provider_id = provider_id)')
+  end
+
   def providers_that_actor_can_manage_organisations_for(with_set_up_permissions: false)
     scope = provider_relationships_for_actor
     scope = scope.where.not(setup_at: nil) if with_set_up_permissions
@@ -47,16 +57,6 @@ class ProviderAuthorisation
       .where(training_provider: @actor.providers)
       .where("#{ProviderPermissions.table_name}.provider_user_id": @actor.id, "#{ProviderPermissions.table_name}.manage_organisations": true)
       .order(:created_at)
-  end
-
-  def provider_relationships_that_actor_can_manage_organisations_for
-    manageable_provider_ids = ProviderPermissions
-      .where(provider_user: @actor, manage_organisations: true)
-      .select(:provider_id)
-
-    provider_relationships_for_actor
-      .with(provider_ids: manageable_provider_ids)
-      .joins('INNER JOIN provider_ids ON (training_provider_id = provider_id OR ratifying_provider_id = provider_id)')
   end
 
   # Authorisation -------------------------------------------------------------------
@@ -99,9 +99,9 @@ class ProviderAuthorisation
     providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true).any?
   end
 
-  def can_manage_users_or_organisations_for_at_least_one_provider?
+  def can_manage_users_or_organisations_for_at_least_one_setup_provider?
     can_manage_users_for_at_least_one_provider? ||
-      can_manage_organisations_for_at_least_one_provider?
+      can_manage_organisations_for_at_least_one_setup_provider?
   end
 
   def can_view_safeguarding_information?(course:)
@@ -246,10 +246,9 @@ private
   end
 
   def manageable_providers_from(provider_ids)
-    manageable_provider_ids = ProviderPermissions
-     .where(provider_id: provider_ids, provider_user: @actor, manage_organisations: true)
-     .pluck(:provider_id)
-
-    Provider.where(id: manageable_provider_ids).order(:name)
+    Provider.joins(:provider_permissions).where(
+      id: provider_ids,
+      provider_permissions: { provider_user: @actor, manage_organisations: true },
+    ).order(:name)
   end
 end
