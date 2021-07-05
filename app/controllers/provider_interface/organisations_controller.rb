@@ -8,9 +8,7 @@ module ProviderInterface
 
     def show; end
 
-    def settings
-      redirect_to action: :index
-    end
+    def settings; end
 
   private
 
