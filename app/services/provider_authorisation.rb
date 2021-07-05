@@ -74,6 +74,16 @@ class ProviderAuthorisation
     @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
   end
 
+  def can_set_up_interviews?(provider:)
+    return true if @actor.is_a?(SupportUser)
+
+    ProviderPermissions.exists?(
+      provider: provider,
+      provider_user: @actor,
+      set_up_interviews: true,
+    )
+  end
+
   def can_manage_organisations_for_at_least_one_provider?
     providers_that_actor_can_manage_organisations_for.any?
   end
