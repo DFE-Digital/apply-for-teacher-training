@@ -15,6 +15,7 @@ RSpec.feature 'Submitting an application' do
     then_i_get_an_error_about_not_having_enough_references
 
     when_most_of_my_references_have_been_provided
+    then_the_copy_is_updated
     and_i_submit_the_application
     then_i_get_an_error_about_not_selecting_enough_references
 
@@ -128,6 +129,11 @@ RSpec.feature 'Submitting an application' do
   def when_most_of_my_references_have_been_provided
     receive_references
     SubmitReference.new(reference: @reference3).save!
+  end
+
+  def then_the_copy_is_updated
+    visit candidate_interface_application_form_path
+    expect(page).to have_content('You need to select 2 references to submit with your application.')
   end
 
   def when_i_select_my_references

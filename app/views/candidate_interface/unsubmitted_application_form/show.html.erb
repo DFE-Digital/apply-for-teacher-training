@@ -40,11 +40,15 @@
       <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.references') %></h2>
 
       <% unless @application_form_presenter.references_completed? %>
-        <p class="govuk-body">Request your references as soon as possible. You need to get 2 references back before you can submit your application. It takes 8 days to get a reference on average.</p>
+        <% if @application_form.application_references.feedback_provided.count > 1 %>
+          <p class="govuk-body">You need to select 2 references to submit with your application.</p>
+        <% else %>
+          <%= govuk_inset_text(classes: 'govuk-!-margin-top-1 govuk-!-margin-bottom-1 govuk-!-margin-right-3') do %>
+            <p class="govuk-body">Request your references as soon as possible. You need to get 2 references back before you can submit your application. It takes 8 days to get a reference on average.</p>
 
-        <p class="govuk-body">You can add as many referees as you like to increase the chances of getting 2 references quickly.</p>
-
-        <p class="govuk-body">Once you’ve received your references, you can select which 2 to submit with your application.</p>
+            <p class="govuk-body">You can add as many referees as you like to increase the chances of getting 2 references quickly. Once you’ve received 2 or more references, you need to select 2 to include in your application.</p>
+          <% end %>
+        <% end %>
       <% end %>
 
       <% if FeatureFlag.active?(:reference_selection) %>

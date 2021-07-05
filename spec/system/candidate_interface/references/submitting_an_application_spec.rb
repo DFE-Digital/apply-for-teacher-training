@@ -11,10 +11,12 @@ RSpec.feature 'Submitting an application' do
     then_i_can_see_references_are_incomplete
 
     when_i_have_added_references
+    and_i_receive_my_first_reference
     then_i_can_see_references_are_in_progress
     and_i_submit_the_application
     then_i_get_an_error_about_my_references
-    when_my_references_have_been_provided
+
+    when_i_receive_my_final_reference
     then_i_can_see_references_are_complete
     and_i_submit_the_application
 
@@ -37,31 +39,24 @@ RSpec.feature 'Submitting an application' do
     end
   end
 
+  def when_i_have_added_references
+    @reference1 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
+    @reference2 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
+  end
+
+  def and_i_receive_my_first_reference
+    SubmitReference.new(reference: @reference1).save!
+  end
+
   def then_i_can_see_references_are_in_progress
     visit candidate_interface_application_form_path
     expect(page).to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('In progress')
       expect(page).to have_link('Manage your references')
-      expect(page).to have_content("#{@reference1.name}: Not sent yet")
+      expect(page).to have_content("#{@reference1.name}: Reference received")
       expect(page).to have_content("#{@reference2.name}: Not sent yet")
     end
-  end
-
-  def then_i_can_see_references_are_complete
-    visit candidate_interface_application_form_path
-    expect(page).not_to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
-    within(all('.app-task-list')[1]) do
-      expect(page).to have_content('Complete')
-      expect(page).to have_link('Review your references')
-      expect(page).to have_content("#{@reference1.name}: Reference received")
-      expect(page).to have_content("#{@reference2.name}: Reference received")
-    end
-  end
-
-  def when_i_have_added_references
-    @reference1 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
-    @reference2 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
   end
 
   def and_i_submit_the_application
@@ -76,9 +71,19 @@ RSpec.feature 'Submitting an application' do
     end
   end
 
-  def when_my_references_have_been_provided
-    application.application_references.each do |reference|
-      SubmitReference.new(reference: reference).save!
+  def when_i_receive_my_final_reference
+    SubmitReference.new(reference: @reference2).save!
+  end
+
+  def then_i_can_see_references_are_complete
+    visit candidate_interface_application_form_path
+    expect(page).not_to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
+    expect(page).not_to have_content('You need to select 2 references to submit with your application.')
+    within(all('.app-task-list')[1]) do
+      expect(page).to have_content('Complete')
+      expect(page).to have_link('Review your references')
+      expect(page).to have_content("#{@reference1.name}: Reference received")
+      expect(page).to have_content("#{@reference2.name}: Reference received")
     end
   end
 
