@@ -768,6 +768,8 @@ Rails.application.routes.draw do
       resource :notifications, only: %i[show update], path: 'notification-settings'
     end
 
+    get '/organisation-settings' => 'organisations#settings', as: :organisation_settings
+
     scope path: '/provider-relationship-permissions' do
       get '/organisations-to-setup' => 'provider_relationship_permissions_setup#organisations',
           as: :provider_relationship_permissions_organisations
