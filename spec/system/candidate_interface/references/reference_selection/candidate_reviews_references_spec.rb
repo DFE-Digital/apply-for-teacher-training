@@ -46,14 +46,14 @@ RSpec.feature 'Review references' do
 
   def then_the_references_section_is_incomplete
     when_i_view_my_application
-    within '#select-your-references-badge-id' do
+    within '#select-2-references-badge-id' do
       expect(page).to have_content 'Incomplete'
     end
   end
 
   def then_the_references_section_is_still_incomplete
     when_i_view_my_application
-    within '#select-your-references-badge-id' do
+    within '#select-2-references-badge-id' do
       expect(page).to have_content 'Incomplete'
     end
   end
@@ -75,14 +75,14 @@ RSpec.feature 'Review references' do
 
   def and_i_mark_the_section_complete
     when_i_view_my_application
-    click_link 'Select your references'
+    click_link 'Select 2 references'
     choose 'Yes'
     click_button t('save_and_continue')
   end
 
   def then_the_references_section_is_complete
     when_i_view_my_application
-    within '#select-your-references-badge-id' do
+    within '#select-2-references-badge-id' do
       expect(page).to have_content 'Complete'
     end
   end

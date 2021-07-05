@@ -64,7 +64,7 @@ RSpec.feature 'References' do
 
   def and_the_section_is_not_marked_as_completed
     visit candidate_interface_application_form_path
-    expect(page).to have_css('#select-your-references-badge-id', text: 'Incomplete')
+    expect(page).to have_css('#select-2-references-badge-id', text: 'Incomplete')
   end
 
   def and_i_am_no_longer_told_i_can_still_change_my_choice
@@ -84,7 +84,7 @@ RSpec.feature 'References' do
   end
 
   def then_the_section_is_marked_as_completed
-    expect(page).to have_css('#select-your-references-badge-id', text: 'Completed')
+    expect(page).to have_css('#select-2-references-badge-id', text: 'Completed')
   end
 
   def when_i_visit_the_select_references_page
@@ -93,6 +93,6 @@ RSpec.feature 'References' do
 
   def then_i_am_presented_with_the_guidance
     expect(page).to have_current_path candidate_interface_select_references_path
-    expect(page).to have_content 'Once you’ve received 2 or more references, you can select which ones to include in your application.'
+    expect(page).to have_content 'Once you’ve received 2 or more references, you need to select 2 to include in your application.'
   end
 end
