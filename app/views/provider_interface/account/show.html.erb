@@ -24,6 +24,8 @@
 
   </div>
 
+  <% unless FeatureFlag.active?(:accredited_provider_setting_permissions) %>
+
   <div class="govuk-grid-column-one-half">
 
     <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
@@ -51,4 +53,6 @@
     <% end %>
 
   </div>
+
+  <% end %>
 </div>

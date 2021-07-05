@@ -74,7 +74,15 @@ class NavigationItems
       items = []
 
       unless performing_setup
-        items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile provider_users organisations provider_relationship_permissions]))
+        if FeatureFlag.active?(:accredited_provider_setting_permissions)
+          if current_provider_user.authorisation.can_manage_users_or_organisations_for_at_least_one_provider?
+            items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisations provider_users]))
+          end
+
+          items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile provider_relationship_permissions]))
+        else
+          items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile provider_users organisations provider_relationship_permissions]))
+        end
       end
 
       sign_out_navigation = if current_provider_user.impersonator

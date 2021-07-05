@@ -1,10 +1,17 @@
 <% content_for :browser_title, t('page_titles.provider.users') %>
 
 <% content_for :before_content do %>
-  <%= breadcrumbs({
-    t('page_titles.provider.account') => provider_interface_account_path,
-    t('page_titles.provider.users') => nil,
-  }) %>
+  <% if FeatureFlag.active?(:accredited_provider_setting_permissions) %>
+    <%= breadcrumbs({
+      t('page_titles.provider.organisation_settings') => provider_interface_organisation_settings_path,
+      t('page_titles.provider.users') => nil,
+    }) %>
+  <% else %>
+    <%= breadcrumbs({
+      t('page_titles.provider.account') => provider_interface_account_path,
+      t('page_titles.provider.users') => nil,
+    }) %>
+  <% end %>
 <% end %>
 
 <h1 class="govuk-heading-xl"><%= t('page_titles.provider.users') %></h1>

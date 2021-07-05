@@ -99,6 +99,11 @@ class ProviderAuthorisation
     providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true).any?
   end
 
+  def can_manage_users_or_organisations_for_at_least_one_provider?
+    can_manage_users_for_at_least_one_provider? ||
+      can_manage_organisations_for_at_least_one_provider?
+  end
+
   def can_view_safeguarding_information?(course:)
     full_authorisation? permission: :view_safeguarding_information, course: course
   end
