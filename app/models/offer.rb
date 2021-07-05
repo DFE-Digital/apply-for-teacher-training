@@ -1,5 +1,5 @@
 class Offer < ApplicationRecord
-  belongs_to :application_choice
+  belongs_to :application_choice, touch: true
   has_many :conditions, -> { order('created_at ASC') }, class_name: 'OfferCondition', dependent: :destroy
 
   has_one :course_option, through: :application_choice, source: :current_course_option

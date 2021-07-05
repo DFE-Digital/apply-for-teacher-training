@@ -9,6 +9,14 @@ RSpec.describe OfferCondition do
     end
   end
 
+  describe 'touching' do
+    it 'changes the updated at timestamp on the offer' do
+      offer_condition = create(:offer_condition, text: 'Provide evidence of degree qualification')
+      expect { offer_condition.update(text: 'different time') }
+        .to(change { offer_condition.offer.application_choice.updated_at })
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:status) }
   end
