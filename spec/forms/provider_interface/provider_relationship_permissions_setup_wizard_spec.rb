@@ -103,17 +103,24 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
   end
 
   describe 'validations' do
-    context 'when no providers are selected for a permission' do
-      it 'is invalid' do
-        wizard = described_class.new(
-          state_store_for({}),
-          'current_provider_relationship_id' => '123',
-          'provider_relationship_permissions' => { '123' => { 'make_decisions' => [''], 'view_safeguarding_information' => %w[training], 'view_diversity_information' => %w[training] } },
-        )
+    let(:wizard) do
+      described_class.new(
+        state_store_for({}),
+        'current_provider_relationship_id' => '123',
+        'provider_relationship_permissions' => {
+          '123' => { 'make_decisions' => [''], 'view_safeguarding_information' => %w[training], 'view_diversity_information' => %w[training] },
+        },
+      )
+    end
 
-        expect(wizard.valid?(:permissions)).to be false
-        expect(wizard.errors.attribute_names).to eq([:'provider_relationship_permissions[123][make_decisions]'])
-      end
+    it 'is invalid when no providers are selected for a permission' do
+      expect(wizard.valid?(:permissions)).to be false
+      expect(wizard.errors.attribute_names).to eq([:'provider_relationship_permissions[123][make_decisions]'])
+    end
+
+    it 'creates custom methods with the field name that contain the error value' do
+      expect(wizard.valid?(:permissions)).to be false
+      expect(wizard.public_send('provider_relationship_permissions[123][make_decisions]')).to eq('Select which organisations can make decisions')
     end
   end
 

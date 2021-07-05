@@ -150,7 +150,13 @@ module ProviderInterface
       return if current_permissions_form.valid?
 
       current_permissions_form.errors.map do |error|
-        errors.add("provider_relationship_permissions[#{current_provider_relationship_id}][#{error.attribute}]", error.message)
+        field_name = "provider_relationship_permissions[#{current_provider_relationship_id}][#{error.attribute}]"
+        # We record these validation errors and call the method named by the error key,
+        # see ApplicationController#track_validation_error
+        # in the case of indexed fields the method doesn't exist, so define this here.
+        self.class.send(:define_method, field_name) { error.message }
+
+        errors.add(field_name, error.message)
       end
     end
   end
