@@ -448,6 +448,44 @@ RSpec.describe ProviderAuthorisation do
     end
   end
 
+  describe '#can_set_up_interviews?' do
+    context 'for a support user' do
+      let(:support_user) { create(:support_user) }
+
+      subject(:auth_context) { ProviderAuthorisation.new(actor: support_user) }
+
+      it 'is true' do
+        expect(auth_context.can_set_up_interviews?(provider: create(:provider))).to be true
+      end
+    end
+
+    context 'for a provider user with permission to set up interviews' do
+      let(:provider_user) { create(:provider_user, :with_provider) }
+
+      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+
+      it 'is true' do
+        provider = provider_user.providers.first
+        provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+
+        expect(auth_context.can_set_up_interviews?(provider: provider)).to be true
+      end
+    end
+
+    context 'for a provider user without permission to set up interviews' do
+      let(:provider_user) { create(:provider_user, :with_provider) }
+
+      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+
+      it 'is false' do
+        provider = provider_user.providers.first
+        provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+
+        expect(auth_context.can_manage_organisation?(provider: create(:provider))).to be false
+      end
+    end
+  end
+
   describe 'can_manage_organisation?' do
     context 'for a support user' do
       let(:support_user) { create(:support_user) }
