@@ -13,11 +13,11 @@ module SupportInterface
       end
 
       if params[:delivery_status]
-        @emails = @emails.where('delivery_status IN (?)', params[:delivery_status])
+        @emails = @emails.where(delivery_status: params[:delivery_status])
       end
 
       if params[:mailer]
-        @emails = @emails.where('mailer IN (?)', params[:mailer])
+        @emails = @emails.where(mailer: params[:mailer])
       end
 
       %w[to subject mail_template notify_reference application_form_id].each do |column|

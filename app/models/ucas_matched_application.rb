@@ -112,7 +112,7 @@ class UCASMatchedApplication
   def application_choice
     @application_choice ||=
       ApplicationChoice.includes(:application_form)
-      .where('application_forms.candidate_id = ?', @matching_data['Apply candidate ID'])
+      .where(application_forms: { candidate_id: @matching_data['Apply candidate ID'] })
       .references(:application_forms)
       .find_by(course_option: course.course_options)
   end

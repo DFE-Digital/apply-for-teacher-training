@@ -94,4 +94,4 @@ Rails/EnvironmentVariableAccess:
   Enabled: false
 
 Rails/WhereEquals:
-  Enabled: false
+  Enabled: true

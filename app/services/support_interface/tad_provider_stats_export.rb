@@ -34,7 +34,7 @@ module SupportInterface
       ApplicationChoice
           .joins(:course)
           .where(courses: { id: course.id })
-          .where('status IN (?)', ApplicationStateChange.states_visible_to_provider_without_deferred)
+          .where(status: ApplicationStateChange.states_visible_to_provider_without_deferred)
           .pluck(:status)
     end
 

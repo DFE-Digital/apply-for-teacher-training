@@ -44,7 +44,7 @@ class GetApplicationChoicesForProviders
           'current_course.recruitment_cycle_year' => recruitment_cycle_year,
         ),
       )
-      .where('status IN (?)', statuses)
+      .where(status: statuses)
 
     applications.includes(*includes)
   end

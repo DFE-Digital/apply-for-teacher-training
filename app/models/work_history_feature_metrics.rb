@@ -20,14 +20,11 @@ private
 
   def time_to_complete(start_time, end_time = Time.zone.now)
     applications = ApplicationForm
-      .where(
-        'application_forms.id IN (:application_form_ids)',
-        application_form_ids: Audited::Audit
-          .select(:auditable_id)
-          .where(auditable_type: 'ApplicationForm')
-          .where("audited_changes#>>'{work_history_completed, 1}' = 'true'")
-          .where('created_at BETWEEN ? AND ?', start_time, end_time),
-      )
+      .where(application_forms: {
+        id: Audited::Audit.select(:auditable_id).where(auditable_type: 'ApplicationForm')
+                                                .where("audited_changes#>>'{work_history_completed, 1}' = 'true'")
+                                                .where('created_at BETWEEN ? AND ?', start_time, end_time),
+      })
     applications.map { |application| time_to_complete_for(application) }.compact
   end
 
