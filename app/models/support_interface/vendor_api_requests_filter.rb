@@ -16,15 +16,15 @@ module SupportInterface
       end
 
       if applied_filters[:status_code]
-        vendor_api_requests = vendor_api_requests.where('status_code IN (?)', applied_filters[:status_code])
+        vendor_api_requests = vendor_api_requests.where(status_code: applied_filters[:status_code])
       end
 
       if applied_filters[:request_method]
-        vendor_api_requests = vendor_api_requests.where('request_method IN (?)', applied_filters[:request_method])
+        vendor_api_requests = vendor_api_requests.where(request_method: applied_filters[:request_method])
       end
 
       if applied_filters[:provider_id]
-        vendor_api_requests = vendor_api_requests.where('provider_id IN (?)', applied_filters[:provider_id])
+        vendor_api_requests = vendor_api_requests.where(provider_id: applied_filters[:provider_id])
       end
 
       %w[created_at request_path].each do |column|

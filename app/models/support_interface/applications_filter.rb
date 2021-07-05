@@ -23,11 +23,11 @@ module SupportInterface
       end
 
       if applied_filters[:application_choice_id].present?
-        application_forms = application_forms.joins(:application_choices).where('application_choices.id = ?', applied_filters[:application_choice_id].to_i)
+        application_forms = application_forms.joins(:application_choices).where(application_choices: { id: applied_filters[:application_choice_id].to_i })
       end
 
       if applied_filters[:phase]
-        application_forms = application_forms.where('phase IN (?)', applied_filters[:phase])
+        application_forms = application_forms.where(phase: applied_filters[:phase])
       end
 
       if applied_filters[:interviews]
@@ -35,7 +35,7 @@ module SupportInterface
       end
 
       if applied_filters[:year]
-        application_forms = application_forms.where('recruitment_cycle_year IN (?)', applied_filters[:year])
+        application_forms = application_forms.where(recruitment_cycle_year: applied_filters[:year])
       end
 
       application_forms

@@ -32,7 +32,7 @@ module ProviderInterface
             ],
           )
           .where('courses.recruitment_cycle_year' => cycle_years)
-          .where('status IN (?)', statuses)
+          .where(status: statuses)
           .where('candidates.hide_in_reporting': false)
 
         csv_data = ApplicationDataExport.call(application_choices: application_choices)

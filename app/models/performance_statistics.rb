@@ -195,7 +195,7 @@ private
       .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
 
     if year
-      choices.where('application_forms.recruitment_cycle_year = ?', year)
+      choices.where(application_forms: { recruitment_cycle_year: year })
     else
       choices
     end

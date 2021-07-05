@@ -8,7 +8,7 @@ module SupportInterface
 
     def filter_records(ucas_matches)
       if applied_filters[:years]
-        ucas_matches = ucas_matches.where('recruitment_cycle_year IN (?)', applied_filters[:years])
+        ucas_matches = ucas_matches.where(recruitment_cycle_year: applied_filters[:years])
       end
 
       if applied_filters[:action_needed]&.include?('yes')
