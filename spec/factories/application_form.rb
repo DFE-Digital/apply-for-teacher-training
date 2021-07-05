@@ -3,6 +3,12 @@ FactoryBot.define do
     candidate
     address_type { 'uk' }
 
+    after(:create) do |application_form, evaluator|
+      if application_form.application_choices.empty? && evaluator.application_choices.any?
+        application_form.application_choices << evaluator.application_choices
+      end
+    end
+
     trait :minimum_info do
       first_name { Faker::Name.first_name }
       last_name { Faker::Name.last_name }
