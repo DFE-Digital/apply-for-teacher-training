@@ -1,16 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe RestructuredWorkHistory::JobComponent do
-  it 'renders the component with the correct values' do
-    work_experience = build_stubbed(
+  def build_stubbed_work_experience(attrs = {})
+    build_stubbed(
       :application_work_experience,
-      role: 'Teaching Assistant',
-      organisation: 'Mallowpond Secondary College',
-      start_date: Time.zone.local(2018, 12, 1),
-      end_date: Time.zone.local(2019, 12, 1),
-      relevant_skills: true,
-      commitment: :full_time,
+      {
+        role: 'Teaching Assistant',
+        organisation: 'Mallowpond Secondary College',
+        start_date: Time.zone.local(2018, 12, 1),
+        end_date: Time.zone.local(2019, 12, 1),
+        relevant_skills: true,
+        commitment: :full_time,
+      }.merge(attrs),
     )
+  end
+
+  it 'renders the component with the correct values' do
+    work_experience = build_stubbed_work_experience
 
     result = render_inline(described_class.new(work_experience: work_experience))
 
@@ -24,13 +30,7 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
 
   context 'when the role is part time' do
     it 'renders the component with the correct values' do
-      work_experience = build_stubbed(
-        :application_work_experience,
-        role: 'Teaching Assistant',
-        organisation: 'Mallowpond Secondary College',
-        start_date: Time.zone.local(2018, 12, 1),
-        end_date: Time.zone.local(2019, 12, 1),
-        relevant_skills: true,
+      work_experience = build_stubbed_work_experience(
         commitment: :part_time,
       )
 
@@ -42,14 +42,8 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
 
   context 'when the role does not have relevant skills' do
     it 'renders the component with the correct values' do
-      work_experience = build_stubbed(
-        :application_work_experience,
-        role: 'Teaching Assistant',
-        organisation: 'Mallowpond Secondary College',
-        start_date: Time.zone.local(2018, 12, 1),
-        end_date: Time.zone.local(2019, 12, 1),
+      work_experience = build_stubbed_work_experience(
         relevant_skills: false,
-        commitment: :full_time,
       )
 
       result = render_inline(described_class.new(work_experience: work_experience))
@@ -58,16 +52,33 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
     end
   end
 
+  context 'when the candidate has not answered the relevant skills question' do
+    it 'renders the component with a call to action and link to edit form' do
+      work_experience = build_stubbed_work_experience(
+        relevant_skills: nil,
+      )
+
+      result = render_inline(described_class.new(work_experience: work_experience))
+
+      relevant_skills_link = result.css("a[href='/candidate/application/restructured-work-history/edit/#{work_experience.id}']").first
+      expect(relevant_skills_link).to be_present
+      expect(relevant_skills_link.text).to include('Select if this role used skills relevant to teaching')
+    end
+
+    it 'does not render the call to action and link to edit form when not editable' do
+      work_experience = build_stubbed_work_experience
+
+      result = render_inline(described_class.new(work_experience: work_experience, editable: false))
+
+      relevant_skills_link = result.css("a[href='/candidate/application/restructured-work-history/edit/#{work_experience.id}']").first
+      expect(relevant_skills_link).not_to be_present
+    end
+  end
+
   context 'when the candidate is currently employed in the role' do
     it 'renders the component with the correct values' do
-      work_experience = build_stubbed(
-        :application_work_experience,
-        role: 'Teaching Assistant',
-        organisation: 'Mallowpond Secondary College',
-        start_date: Time.zone.local(2018, 12, 1),
+      work_experience = build_stubbed_work_experience(
         currently_working: true,
-        relevant_skills: true,
-        commitment: :full_time,
       )
 
       result = render_inline(described_class.new(work_experience: work_experience))
@@ -78,16 +89,9 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
 
   context 'when the candidate does not know start & end dates' do
     it 'renders the component with the correct values' do
-      work_experience = build_stubbed(
-        :application_work_experience,
-        role: 'Teaching Assistant',
-        organisation: 'Mallowpond Secondary College',
-        start_date: Time.zone.local(2018, 12, 1),
+      work_experience = build_stubbed_work_experience(
         start_date_unknown: true,
-        end_date: Time.zone.local(2019, 12, 1),
         end_date_unknown: true,
-        relevant_skills: true,
-        commitment: :full_time,
       )
 
       result = render_inline(described_class.new(work_experience: work_experience))
