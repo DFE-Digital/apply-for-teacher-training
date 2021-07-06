@@ -18,7 +18,7 @@ The following set of permissions are used across the app.
 
   Enables a provider user to manage/change permissions between different organisations.
 
-### Related to application management
+### Related to application management
 
 - Set Up interviews
 
@@ -39,7 +39,7 @@ The following set of permissions are used across the app.
 
 ## Provider User Permissions
 
-![Screenshot of Provider user permission](docs/provider_user_permissions.png)
+![Screenshot of Provider user permission](provider_user_permissions.png)
 <sup id='1'>[1](#footnote-1)</sup> <sup id='2'>[2](#footnote-2)</sup> <sup id='3'>[3](#footnote-3)</sup>
 
 <a name="footnote-1">1</a>:  The blue decision nodes represent user level checks
@@ -71,6 +71,6 @@ So, for example, if Jane is able to **Make decisions** on behalf of _Provider A_
 
 ## Support User Permissions
 
-![Screenshot of Support user permission](docs/support_user_permissions.png)
+![Screenshot of Support user permission](support_user_permissions.png)
 
 A support user is able to perform all actions without any restrictions.
