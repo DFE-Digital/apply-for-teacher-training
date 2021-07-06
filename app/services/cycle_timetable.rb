@@ -168,7 +168,8 @@ class CycleTimetable
   end
 
   def self.can_add_course_choice?(application_form)
-    return true if Time.zone.now.to_date >= find_reopens && !application_form.must_be_carried_over?
+    return false if application_form.must_be_carried_over?
+    return true if Time.zone.now.to_date >= find_reopens
     return true if Time.zone.now.to_date <= apply_1_deadline && application_form.apply_1?
     return true if Time.zone.now.to_date <= apply_2_deadline && application_form.apply_2?
 

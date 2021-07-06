@@ -202,8 +202,8 @@ RSpec.describe CycleTimetable do
 
     context 'application form is from a previous recruitment cycle' do
       let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2020) }
-      # Currently failing. Check business rules
-      xit 'returns false' do
+
+      it 'returns false' do
         Timecop.travel('2021-02-03') do
           expect(execute_service).to eq false
         end
