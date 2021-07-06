@@ -1,14 +1,39 @@
 <h2 class="govuk-heading-m"><%= t('layout.support.title') %></h2>
-<ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16">
-  <li>Email: <%= bat_contact_mail_to(html_options: { class: 'govuk-footer__link' }) %></li>
-  <li><%= t('layout.support.response_time') %></li>
-  <li>Alternatively, <%= link_to 'give feedback through our survey', ProviderInterface::FEEDBACK_LINK, class: 'govuk-footer__link' %></li>
-</ul>
-<p class="govuk-body govuk-list govuk-!-font-size-16 govuk-!-margin-bottom-8">
-  <%= link_to t('layout.support.provider_service_guidance'), provider_interface_service_guidance_path, class: 'govuk-footer__link' %>
-</p>
+
+<div class="govuk-footer__meta-custom">
+  <div class="govuk-grid-row">
+    <% if FeatureFlag.active?(:enable_chat_support) %>
+      <div class="govuk-grid-column-one-half">
+        <div class="govuk-!-padding-right-1">
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+            Online chat
+          </h3>
+
+          <p class="govuk-!-margin-top-0 govuk-!-font-size-16"><span id="app-web-chat">
+            <span class="app-web-chat__unavailable">
+              You cannot use online chat because there’s a problem. Send an email if you keep seeing this message.</span>
+          </span></p>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="govuk-grid-column-one-half">
+      <div class="govuk-!-padding-left-1">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+          Email
+        </h3>
+        <p class="govuk-!-margin-top-0 govuk-!-font-size-16 govuk-!-margin-bottom-1"><%= bat_contact_mail_to(html_options: { class: 'govuk-footer__link' }) %></p>
+        <p class="govuk-!-font-size-16"><%= t('layout.support.response_time') %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <h2 class="govuk-visually-hidden"><%= t('layout.support_links.title') %></h2>
-<ul class="govuk-footer__inline-list govuk-!-margin-bottom-0">
+<ul class="govuk-footer__inline-list">
+  <li class="govuk-footer__inline-list-item">
+    <%= link_to t('layout.support.provider_service_guidance'), provider_interface_service_guidance_path, class: 'govuk-footer__link' %>
+  </li>
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.support_links.accessibility'), provider_interface_accessibility_path, class: 'govuk-footer__link' %>
   </li>

@@ -35,7 +35,9 @@
     ],
     "globals": [
       "$",
-      "history"
+      "history",
+      "zE",
+      "CustomEvent"
     ]
   },
   "stylelint": {
