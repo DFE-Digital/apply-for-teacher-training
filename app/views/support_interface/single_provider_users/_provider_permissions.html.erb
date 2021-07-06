@@ -18,6 +18,14 @@
             multiple: false,
             label: { text: 'Manage organisational permissions' },
           ) %>
+      <% if FeatureFlag.active?(:interview_permissions) %>
+        <%= ppf.govuk_check_box(
+              :set_up_interviews,
+              true,
+              multiple: false,
+              label: { text: 'Set up interviews' },
+            ) %>
+      <% end %>
       <%= ppf.govuk_check_box(
             :make_decisions,
             true,

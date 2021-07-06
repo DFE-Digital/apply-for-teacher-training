@@ -4,9 +4,12 @@ RSpec.feature 'Managing provider users v2' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  scenario 'adding a new provider user', with_audited: true do
+  before do
+    FeatureFlag.activate(:interview_permissions)
     FeatureFlag.activate(:new_provider_user_flow)
+  end
 
+  scenario 'adding a new provider user', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_providers_exist
@@ -26,6 +29,7 @@ RSpec.feature 'Managing provider users v2' do
 
     when_i_enter_the_users_email_and_name
     and_i_check_permission_to_manage_users
+    and_i_check_permission_to_set_up_interviews
     and_i_check_permission_to_manage_organisations
     and_i_check_permission_to_view_safeguarding_information
     and_i_check_permission_to_make_decisions
@@ -87,6 +91,10 @@ RSpec.feature 'Managing provider users v2' do
 
   def and_i_check_permission_to_manage_users
     check 'Manage users'
+  end
+
+  def and_i_check_permission_to_set_up_interviews
+    check 'Set up interviews'
   end
 
   def and_i_check_permission_to_manage_organisations
