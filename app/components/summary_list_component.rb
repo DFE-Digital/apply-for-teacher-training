@@ -28,6 +28,14 @@ class SummaryListComponent < ViewComponent::Base
     end
   end
 
+  def html_attributes(row)
+    if row[:data_qa]
+      { 'data-qa' => row[:data_qa] }
+    else
+      {}
+    end
+  end
+
 private
 
   attr_reader :rows

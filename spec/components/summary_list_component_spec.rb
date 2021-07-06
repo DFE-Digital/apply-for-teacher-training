@@ -63,6 +63,16 @@ RSpec.describe SummaryListComponent do
     expect(result.css('.govuk-summary-list__value p').to_html).to eq('<p class="govuk-body">Unsafe</p>')
   end
 
+  it 'supports adding data_qa to rows' do
+    rows = [{ key: 'Job',
+              value: 'Ice cream man',
+              data_qa: 'ice-cream-man' }]
+
+    result = render_inline(SummaryListComponent.new(rows: rows))
+
+    expect(result.css('[data-qa="ice-cream-man"]')).to be_present
+  end
+
   it 'does not render an extra dd if no row has an action' do
     rows = [{ key: 'Job',
               value: ['Teacher', 'Clearcourt High'] },

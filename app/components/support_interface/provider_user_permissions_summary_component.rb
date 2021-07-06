@@ -18,6 +18,7 @@ module SupportInterface
           value: render(SupportInterface::PermissionsListComponent.new(permission)),
           action: 'permissions',
           change_path: change_path,
+          data_qa: "provider-id-#{permission.provider.id}",
         }
       end
     end
