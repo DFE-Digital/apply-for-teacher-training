@@ -5,6 +5,7 @@ RSpec.feature 'See organisation permissions' do
 
   scenario 'A provider user views the organisations they belong to' do
     given_i_am_a_provider_user_with_dfe_sign_in
+    and_the_accredited_provider_setting_permissions_flag_is_inactive
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
     and_the_ratifying_provider_has_courses_run_by_another_provider
@@ -138,5 +139,9 @@ RSpec.feature 'See organisation permissions' do
 
   def and_i_can_see_permissions_for_the_ratifying_provider
     expect(page).to have_content("The following organisation(s) can view safeguarding information: \n#{@training_provider.name}")
+  end
+
+  def and_the_accredited_provider_setting_permissions_flag_is_inactive
+    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
   end
 end

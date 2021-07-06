@@ -6,6 +6,7 @@ RSpec.feature 'Viewing the provider user account page' do
   scenario 'Provider user visits their account page with various permissions' do
     given_i_am_a_provider_user_with_dfe_sign_in
     given_i_cannot_manage_users_or_organisations
+    and_the_accredited_provider_setting_permissions_flag_is_inactive
 
     and_i_sign_in_to_the_provider_interface
 
@@ -74,5 +75,9 @@ RSpec.feature 'Viewing the provider user account page' do
   def then_i_can_see_the_users_link_and_not_the_organisational_permissions_one
     expect(page).to have_content(t('page_titles.provider.users'))
     expect(page).not_to have_content(t('page_titles.provider.org_permissions'))
+  end
+
+  def and_the_accredited_provider_setting_permissions_flag_is_inactive
+    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
   end
 end

@@ -100,4 +100,8 @@ RSpec.feature 'Provider views organisation settings' do
       expect(page).to have_content('Organisation settings')
     end
   end
+
+  def and_the_accredited_provider_setting_permissions_flag_is_inactive
+    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
+  end
 end
