@@ -81,11 +81,13 @@ module SupportInterface
         end
 
         def redirect_to_application_form_unless_accepted_and_change_offered_course_course_flag_active
-          redirect_to support_interface_application_form_path(@application_form.id) unless FeatureFlag.active?(:support_user_change_offered_course) &&
-            (
-              @application_choice.pending_conditions? ||
-              @application_choice.unconditional_offer_pending_recruitment?
-            )
+          return if FeatureFlag.active?(:support_user_change_offered_course) && application_choice_pending_recruitment?
+
+          redirect_to support_interface_application_form_path(@application_form.id)
+        end
+
+        def application_choice_pending_recruitment?
+          @application_choice.pending_conditions? || @application_choice.unconditional_offer_pending_recruitment?
         end
       end
     end

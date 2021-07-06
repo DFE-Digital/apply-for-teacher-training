@@ -11,7 +11,7 @@ module CandidateInterface
         @section_complete_form = SectionCompleteForm.new(application_form_params)
 
         if @application_form.incomplete_degree_information? &&
-            ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
+           ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
           flash[:warning] = 'You cannot mark this section complete with incomplete degree information.'
           redirect_to candidate_interface_degrees_review_path
         elsif @section_complete_form.save(current_application, :degrees_completed)

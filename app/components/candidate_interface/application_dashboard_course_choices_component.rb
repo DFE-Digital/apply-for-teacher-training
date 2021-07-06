@@ -98,8 +98,7 @@ module CandidateInterface
     attr_reader :application_form
 
     def interview_row(application_choice)
-      return unless application_choice.interviews.kept.any? ||
-        application_choice.decision_pending?
+      return unless application_choice.interviews.kept.any? || application_choice.decision_pending?
 
       {
         key: 'Interview'.pluralize(application_choice.interviews.size),
@@ -109,7 +108,7 @@ module CandidateInterface
 
     def conditions_row(application_choice)
       return unless (application_choice.pending_conditions? || application_choice.offer?) &&
-        (application_choice.offer.present? && application_choice.offer.conditions.any?)
+                    (application_choice.offer.present? && application_choice.offer.conditions.any?)
 
       {
         key: 'Condition'.pluralize(application_choice.offer.conditions.count),

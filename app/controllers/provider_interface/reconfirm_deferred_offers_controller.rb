@@ -80,7 +80,7 @@ module ProviderInterface
 
     def require_deferred_offer_from_previous_cycle
       unless @application_choice.status == 'offer_deferred' &&
-          @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
+             @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
         redirect_to provider_interface_application_choice_path(@application_choice.id) and return
       end
     end

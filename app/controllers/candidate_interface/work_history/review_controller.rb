@@ -2,7 +2,7 @@ module CandidateInterface
   class WorkHistory::ReviewController < WorkHistory::BaseController
     def show
       redirect_to candidate_interface_work_history_length_path if current_application.application_work_experiences.blank? &&
-        current_application.work_history_explanation.nil?
+                                                                  current_application.work_history_explanation.nil?
 
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(completed: current_application.work_history_completed)

@@ -15,6 +15,6 @@ private
 
   def provider_user_notification_preferences
     @provider_user_notification_preferences ||= provider_user.notification_preferences ||
-      ProviderUserNotificationPreferences.create!(provider_user: provider_user)
+                                                ProviderUserNotificationPreferences.create!(provider_user: provider_user)
   end
 end
