@@ -12,8 +12,8 @@ RSpec.describe SetRejectByDefault do
 
   describe 'RBD calculation' do
     submitted_vs_rbd_dates = [
-      ['2 Sept 2019 9:00:00 AM BST', '29 Oct 2019 0:00:00 AM GMT', 'near the BST/GMT boundary'],
-      ['1 Jul 2019 9:00:00 AM BST',  '28 Aug 2019 0:00:00 AM BST', 'safely within BST'],
+      ['2 Sept 2019 9:00:00 AM BST', '01 Oct 2019 0:00:00 AM BST', 'near the BST/GMT boundary'],
+      ['1 Jul 2019 9:00:00 AM BST',  '30 Jul 2019 0:00:00 AM BST', 'safely within BST'],
       ['4 Jan 2019 11:00:00 PM GMT', '2 Mar 2019 0:00:00 AM GMT',  'safely within GMT'],
       ['1 Jul 2020 11:00:00 PM BST', '30 Jul 2020 0:00:00 AM BST', 'during the 20-day summer period'],
       ['21 Nov 2020 12:00:00 PM GMT', '2 Feb 2021 0:00:00 AM GMT', 'near the UCAS winter break'],
