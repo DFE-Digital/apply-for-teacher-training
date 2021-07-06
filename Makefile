@@ -1,3 +1,6 @@
+ifndef VERBOSE
+.SILENT:
+endif
 RSPEC_RESULTS_PATH=/rspec-results
 INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 COVERAGE_RESULT_PATH=/app/coverage
