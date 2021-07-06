@@ -182,7 +182,7 @@ class CycleTimetable
   end
 
   def self.before_apply_reopens?
-    return true if Time.zone.now.to_date <= apply_reopens.beginning_of_day
+    return true if Time.zone.now.to_date <= CYCLE_DATES[current_year + 1][:apply_reopens].beginning_of_day
 
     false
   end
