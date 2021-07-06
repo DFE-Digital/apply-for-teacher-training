@@ -8,6 +8,10 @@ RSpec.feature 'Validation errors provider summary' do
   let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
 
+  before do
+    FeatureFlag.activate(:interview_permissions)
+  end
+
   scenario 'Review validation error summary' do
     given_i_signed_in_as_a_provider_user
     and_i_enter_an_invalid_interview_time
@@ -25,6 +29,7 @@ RSpec.feature 'Validation errors provider summary' do
     provider_exists_in_dfe_sign_in
     provider_user_exists_in_apply_database
     permit_make_decisions!
+    permit_set_up_interviews!
     provider_signs_in_using_dfe_sign_in
     visit provider_interface_application_choice_path(application_choice)
   end

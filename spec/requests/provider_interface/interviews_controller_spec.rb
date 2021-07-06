@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::InterviewsController, type: :request do
   include DfESignInHelpers
 
-  let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
+  let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions, :with_set_up_interviews) }
   let(:provider) { provider_user.providers.first }
   let(:application_form) { build(:application_form, :minimum_info) }
   let(:course) { build(:course, :open_on_apply, provider: provider) }
@@ -11,6 +11,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
   let(:interview) { create(:interview, application_choice: application_choice) }
 
   before do
+    FeatureFlag.activate(:interview_permissions)
     allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
 
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)

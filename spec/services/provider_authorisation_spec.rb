@@ -449,39 +449,68 @@ RSpec.describe ProviderAuthorisation do
   end
 
   describe '#can_set_up_interviews?' do
-    context 'for a support user' do
-      let(:support_user) { create(:support_user) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+    let(:course_option) { create(:course_option, course: course) }
+    let(:course) { create(:course, :open_on_apply) }
 
+    context 'for a support user' do
       subject(:auth_context) { ProviderAuthorisation.new(actor: support_user) }
 
+      let(:support_user) { create(:support_user) }
+
       it 'is true' do
-        expect(auth_context.can_set_up_interviews?(provider: create(:provider))).to be true
+        expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+          .to be true
       end
     end
 
-    context 'for a provider user with permission to set up interviews' do
-      let(:provider_user) { create(:provider_user, :with_provider) }
-
+    context 'for a provider user' do
       subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
 
-      it 'is true' do
-        provider = provider_user.providers.first
-        provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+      let(:provider_user) { create(:provider_user, :with_provider) }
 
-        expect(auth_context.can_set_up_interviews?(provider: provider)).to be true
+      context 'with set_up_interviews permissions for the course training provider' do
+        let(:course) { create(:course, :open_on_apply, provider: provider) }
+        let(:provider) { provider_user.providers.first }
+
+        before do
+          provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+        end
+
+        it 'is true' do
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be true
+        end
       end
-    end
 
-    context 'for a provider user without permission to set up interviews' do
-      let(:provider_user) { create(:provider_user, :with_provider) }
+      context 'with set_up_interviews permissions for the course accredited provider' do
+        let(:course) { create(:course, :open_on_apply, accredited_provider: provider) }
+        let(:provider) { provider_user.providers.first }
 
-      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+        it 'is true' do
+          provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
 
-      it 'is false' do
-        provider = provider_user.providers.first
-        provider_user.provider_permissions.find_by(provider: provider).update(set_up_interviews: true)
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be true
+        end
+      end
 
-        expect(auth_context.can_manage_organisation?(provider: create(:provider))).to be false
+      context 'for an application in a non visible state' do
+        let(:application_choice) { create(:application_choice, :cancelled, course_option: course_option) }
+
+        it 'is false' do
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be false
+          expect(auth_context.errors).to include(:requires_application_choice_visibility)
+        end
+      end
+
+      context 'without set_up_interviews permissions' do
+        it 'is false' do
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be false
+          expect(auth_context.errors).to include(:requires_provider_user_permission)
+        end
       end
     end
   end

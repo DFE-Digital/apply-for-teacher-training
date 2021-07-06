@@ -74,14 +74,21 @@ class ProviderAuthorisation
     @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
   end
 
-  def can_set_up_interviews?(provider:)
+  def can_set_up_interviews?(application_choice:, course_option:)
     return true if @actor.is_a?(SupportUser)
 
-    ProviderPermissions.exists?(
-      provider: provider,
-      provider_user: @actor,
-      set_up_interviews: true,
-    )
+    course = course_option.course
+    add_error(:set_up_interviews, :requires_application_choice_visibility) unless
+    application_choice_visible_to_user?(application_choice: application_choice)
+
+    add_error(:set_up_interviews, :requires_user_course_association) unless
+    course_associated_with_user_providers?(course: course)
+
+    add_error(:set_up_interviews, :requires_provider_user_permission) unless
+    user_level_can?(permission: :set_up_interviews, provider: course.provider) ||
+      user_level_can?(permission: :set_up_interviews, provider: course.accredited_provider)
+
+    errors.blank?
   end
 
   def can_manage_organisations_for_at_least_one_provider?
