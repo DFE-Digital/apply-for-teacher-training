@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Managing provider user permissions' do
   include DfESignInHelpers
 
+  before do
+    FeatureFlag.activate(:interview_permissions)
+  end
+
   scenario 'Provider manages permissions for users' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
@@ -98,6 +102,7 @@ RSpec.feature 'Managing provider user permissions' do
     expect(page).not_to have_checked_field 'Manage users'
     choose 'Extra permissions'
     check 'Manage users'
+    check 'Set up interviews'
     click_on 'Save'
   end
 
@@ -106,19 +111,19 @@ RSpec.feature 'Managing provider user permissions' do
 
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Manage users'
+      expect(page).to have_content 'Set up interviews'
     end
   end
 
   def when_i_remove_manage_users_permissions_from_a_provider_user
-    expect(page).to have_checked_field 'Manage users'
-    uncheck 'Manage users'
-    choose 'View applications only'
+    expect(page).to have_checked_field 'Set up interviews'
+    uncheck 'Set up interviews'
     click_on 'Save'
   end
 
   def then_i_cant_see_the_manage_users_permission_for_the_provider_user
     expect(page).to have_content 'User’s permissions successfully updated'
-    expect(page).not_to have_content 'Manage users'
+    expect(page).not_to have_content 'Set up interviews'
   end
 
   def when_i_add_permission_to_view_safeguarding_for_a_provider_user
@@ -136,14 +141,14 @@ RSpec.feature 'Managing provider user permissions' do
 
   def and_i_add_permission_to_make_decisions_for_a_provider_user
     choose 'Extra permissions'
-    expect(page).not_to have_checked_field 'Make decisions'
-    check 'Make decisions'
+    expect(page).not_to have_checked_field 'Set up interviews'
+    check 'Set up interviews'
     click_on 'Save'
   end
 
   def then_i_can_see_the_make_decisions_permission_for_the_provider_user
     within("#provider-#{@provider.id}-enabled-permissions") do
-      expect(page).to have_content 'Make decisions'
+      expect(page).to have_content 'Set up interviews'
     end
   end
 
