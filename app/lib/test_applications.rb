@@ -537,7 +537,7 @@ private
       earliest_date = 20.days.ago.to_date
       latest_date = Time.zone.now.to_date
     else
-      earliest_date = CycleTimetable::CYCLE_DATES[recruitment_cycle_year][:apply_reopens]
+      earliest_date = CycleTimetable::CYCLE_DATES[recruitment_cycle_year][:apply_opens]
       latest_date = CycleTimetable::CYCLE_DATES[recruitment_cycle_year + 1][:apply_1_deadline]
     end
 

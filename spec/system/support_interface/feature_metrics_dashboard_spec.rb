@@ -97,7 +97,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def and_there_are_candidates_and_application_forms_in_the_system
     ApplicationForm.with_unsafe_application_choice_touches do
-      allow(CycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
+      allow(CycleTimetable).to receive(:apply_opens).and_return(60.days.ago)
       Timecop.freeze(@today - 65.days) do
         @previous_application_form = create_application_form_with_references(recruitment_cycle_year: 2020).first
       end

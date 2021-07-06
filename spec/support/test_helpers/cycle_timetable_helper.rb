@@ -1,6 +1,6 @@
 module CycleTimetableHelper
   def mid_cycle
-    CycleTimetable::CYCLE_DATES.dig(2020, :apply_reopens) + 1.day
+    CycleTimetable::CYCLE_DATES.dig(2020, :apply_opens) + 1.day
   end
 
   def after_apply_1_deadline
@@ -12,6 +12,6 @@ module CycleTimetableHelper
   end
 
   def after_apply_reopens
-    CycleTimetable::CYCLE_DATES.dig(2021, :apply_reopens) + 1.day
+    CycleTimetable::CYCLE_DATES.dig(2021, :apply_opens) + 1.day
   end
 end

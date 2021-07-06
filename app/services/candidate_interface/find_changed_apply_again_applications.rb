@@ -11,14 +11,14 @@ module CandidateInterface
     end
 
     def all_candidate_count(
-      start_time = CycleTimetable.apply_reopens.beginning_of_day,
+      start_time = CycleTimetable.apply_opens.beginning_of_day,
       end_time = Time.zone.now.end_of_day
     )
       all_forms(start_time, end_time).select(:candidate_id).distinct.count
     end
 
     def changed_candidate_count(
-      start_time = CycleTimetable.apply_reopens.beginning_of_day,
+      start_time = CycleTimetable.apply_opens.beginning_of_day,
       end_time = Time.zone.now.end_of_day
     )
       changed_forms(start_time, end_time).map(&:candidate_id).uniq.count

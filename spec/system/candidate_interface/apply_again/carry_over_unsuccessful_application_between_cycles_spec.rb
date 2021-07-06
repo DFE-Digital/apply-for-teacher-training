@@ -55,7 +55,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_on_start_now
-    expect(page).to have_content "You can submit your application from #{CycleTimetable.apply_reopens.to_s(:govuk_date)}."
+    expect(page).to have_content "You can submit your application from #{CycleTimetable.apply_opens.to_s(:govuk_date)}."
     expect(page).to have_content 'Your courses have been removed. You can add them again later.'
     click_button 'Apply again'
   end

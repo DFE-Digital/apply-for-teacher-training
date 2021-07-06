@@ -179,7 +179,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(CycleTimetable.apply_reopens) do
+          Timecop.travel(CycleTimetable.apply_opens) do
             expect(execute_service).to eq true
           end
         end
