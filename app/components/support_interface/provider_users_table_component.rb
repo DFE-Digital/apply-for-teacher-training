@@ -7,7 +7,7 @@ module SupportInterface
     end
 
     def table_rows
-      provider_users.map do |provider_user|
+      provider_users.sort_by(&:last_name).map do |provider_user|
         {
           provider_user: provider_user,
           created_at: provider_user.created_at,
