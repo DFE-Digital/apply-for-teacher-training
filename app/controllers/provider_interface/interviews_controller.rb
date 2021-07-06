@@ -2,6 +2,7 @@ module ProviderInterface
   class InterviewsController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :requires_make_decisions_permission, except: %i[index]
+    before_action :requires_set_up_interviews_permission, except: %i[index], if: :interviews_permission_feature_flag
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
     before_action :redirect_to_index_if_store_cleared, only: %i[check commit]
 
@@ -169,6 +170,10 @@ module ProviderInterface
 
     def redirect_to_index_if_store_cleared
       redirect_to provider_interface_application_choice_interviews_path(@application_choice) if interview_store.read.blank?
+    end
+
+    def interviews_permission_feature_flag
+      FeatureFlag.active?(:interview_permissions)
     end
   end
 end

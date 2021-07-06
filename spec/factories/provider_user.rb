@@ -47,6 +47,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_set_up_interviews do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(set_up_interviews: true)
+      end
+    end
+
     trait :with_make_decisions do
       after(:create) do |user, _evaluator|
         user.provider_permissions.update_all(make_decisions: true)
