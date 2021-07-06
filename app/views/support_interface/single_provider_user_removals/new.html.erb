@@ -1,0 +1,16 @@
+<% content_for :before_content, govuk_back_link_to(support_interface_provider_user_path(@user)) %>
+
+<span class="govuk-caption-xl"><%= @user.display_name %></span>
+<h1 class="govuk-heading-xl">Are you sure you want to remove this user’s access to <%= @provider.name %>?</h1>
+
+<%= govuk_button_to(
+  'Yes I’m sure - remove access',
+  support_interface_remove_provider_user_path(
+    provider_user_id: @user.id,
+    provider_permissions_id: @permissions.id,
+  ),
+  class: 'govuk-button--warning',
+  method: :delete,
+) %>
+
+<%= govuk_link_to 'Cancel', support_interface_provider_user_path(@user) %>
