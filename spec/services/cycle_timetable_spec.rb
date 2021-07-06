@@ -97,7 +97,7 @@ RSpec.describe CycleTimetable do
     end
 
     it 'returns false after find_reopens' do
-      Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_reopens].end_of_day + 1.hour) do
+      Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_opens].end_of_day + 1.hour) do
         expect(CycleTimetable.find_down?).to be false
       end
     end
@@ -151,7 +151,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_reopens] + 1.day) do
+          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_opens] + 1.day) do
             expect(execute_service).to eq true
           end
         end

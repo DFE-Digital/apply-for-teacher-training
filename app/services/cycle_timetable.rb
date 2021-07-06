@@ -3,28 +3,28 @@ class CycleTimetable
   # The 2019 dates are made up so we can generate sensible test data
   CYCLE_DATES = {
     2019 => {
-      find_reopens: Date.new(2018, 10, 6),
+      find_opens: Date.new(2018, 10, 6),
       apply_reopens: Date.new(2018, 10, 13),
       apply_1_deadline: Date.new(2019, 8, 24),
       apply_2_deadline: Date.new(2019, 9, 18),
       find_closes: Date.new(2019, 10, 3),
     },
     2020 => {
-      find_reopens: Date.new(2019, 10, 6),
+      find_opens: Date.new(2019, 10, 6),
       apply_reopens: Date.new(2019, 10, 13),
       apply_1_deadline: Date.new(2020, 8, 24),
       apply_2_deadline: Date.new(2020, 9, 18),
       find_closes: Date.new(2020, 10, 3),
     },
     2021 => {
-      find_reopens: Date.new(2020, 10, 6),
+      find_opens: Date.new(2020, 10, 6),
       apply_reopens: Date.new(2020, 10, 13),
       apply_1_deadline: Date.new(2021, 9, 6),
       apply_2_deadline: Date.new(2021, 9, 20),
       find_closes: Date.new(2021, 10, 3),
     },
     2022 => {
-      find_reopens: Date.new(2021, 10, 5),
+      find_opens: Date.new(2021, 10, 5),
       apply_reopens: Date.new(2021, 10, 12),
     },
   }.freeze
@@ -35,7 +35,7 @@ class CycleTimetable
     CYCLE_DATES.keys.detect do |year|
       return year if year == CYCLE_DATES.keys.last
 
-      now.between?(CYCLE_DATES[year][:find_reopens], CYCLE_DATES[year + 1][:find_reopens])
+      now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
     end
   end
 
@@ -64,7 +64,7 @@ class CycleTimetable
   end
 
   def self.find_reopens
-    date(:find_reopens, current_year + 1)
+    date(:find_opens, current_year + 1)
   end
 
   def self.find_down?
@@ -105,7 +105,7 @@ class CycleTimetable
         apply_1_deadline: 1.day.from_now.to_date,
         apply_2_deadline: 3.days.from_now.to_date,
         find_closes: 4.days.from_now.to_date,
-        find_reopens: 5.days.from_now.to_date,
+        find_opens: 5.days.from_now.to_date,
         apply_reopens: 6.days.from_now.to_date,
       },
 
@@ -113,7 +113,7 @@ class CycleTimetable
         apply_1_deadline: 1.day.ago.to_date,
         apply_2_deadline: 2.days.from_now.to_date,
         find_closes: 3.days.from_now.to_date,
-        find_reopens: 4.days.from_now.to_date,
+        find_opens: 4.days.from_now.to_date,
         apply_reopens: 5.days.from_now.to_date,
       },
 
@@ -121,7 +121,7 @@ class CycleTimetable
         apply_1_deadline: 2.days.ago.to_date,
         apply_2_deadline: 1.day.from_now.to_date,
         find_closes: 2.days.from_now.to_date,
-        find_reopens: 3.days.from_now.to_date,
+        find_opens: 3.days.from_now.to_date,
         apply_reopens: 4.days.from_now.to_date,
       },
 
@@ -129,7 +129,7 @@ class CycleTimetable
         apply_1_deadline: 3.days.ago.to_date,
         apply_2_deadline: 1.day.ago.to_date,
         find_closes: 1.day.from_now.to_date,
-        find_reopens: 2.days.from_now.to_date,
+        find_opens: 2.days.from_now.to_date,
         apply_reopens: 3.days.from_now.to_date,
       },
 
@@ -137,7 +137,7 @@ class CycleTimetable
         apply_1_deadline: 4.days.ago.to_date,
         apply_2_deadline: 2.days.ago.to_date,
         find_closes: 1.day.ago.to_date,
-        find_reopens: 1.day.from_now.to_date,
+        find_opens: 1.day.from_now.to_date,
         apply_reopens: 2.days.from_now.to_date,
       },
 
@@ -145,7 +145,7 @@ class CycleTimetable
         apply_1_deadline: 5.days.ago.to_date,
         apply_2_deadline: 3.days.ago.to_date,
         find_closes: 2.days.ago.to_date,
-        find_reopens: 1.day.ago.to_date,
+        find_opens: 1.day.ago.to_date,
         apply_reopens: 1.day.from_now.to_date,
       },
 
@@ -153,7 +153,7 @@ class CycleTimetable
         apply_1_deadline: 6.days.ago.to_date,
         apply_2_deadline: 4.days.ago.to_date,
         find_closes: 3.days.ago.to_date,
-        find_reopens: 2.days.ago.to_date,
+        find_opens: 2.days.ago.to_date,
         apply_reopens: 1.day.ago.to_date,
       },
     }
