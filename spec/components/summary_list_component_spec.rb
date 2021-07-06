@@ -103,4 +103,25 @@ RSpec.describe SummaryListComponent do
 
     expect(result.to_html).to include('<dd class="govuk-summary-list__actions"></dd>')
   end
+
+  it 'handles rows with multiple actions' do
+    rows = [
+      { key: 'Role',
+        value: 'Chef de partie',
+        actions: [
+          { verb: 'Change', object: 'role', path: '#change-role' },
+          { verb: 'Remove', object: 'this chef', path: '#remove' },
+        ] },
+    ]
+
+    result = render_inline(SummaryListComponent.new(rows: rows))
+
+    links = result.css('.govuk-summary-list__actions a')
+
+    expect(links[0].text).to eq 'Change role'
+    expect(links[0].attr('href')).to eq '#change-role'
+
+    expect(links[1].text).to eq 'Remove this chef'
+    expect(links[1].attr('href')).to eq '#remove'
+  end
 end
