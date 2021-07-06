@@ -20,6 +20,14 @@ RSpec.describe Offer do
     end
   end
 
+  describe 'touching' do
+    it 'changes the updated at timestamp on the application choice' do
+      offer = create(:offer, conditions: [])
+      expect { offer.update(conditions: [build(:offer_condition), build(:offer_condition)]) }
+        .to(change { offer.application_choice.reload.updated_at })
+    end
+  end
+
   describe '#unconditional' do
     it 'returns true when there are no conditions' do
       offer = create(:unconditional_offer)

@@ -72,8 +72,8 @@ RSpec.describe GetRecruitedApplicationChoices do
         :application_choice,
         :with_deferred_offer_previously_recruited,
         application_form: build(:application_form, recruitment_cycle_year: '2021'),
-        updated_at: Time.zone.now + 1.day,
       )
+      deferred_application.update(updated_at: Time.zone.now + 1.day)
 
       application_choices = described_class.call(recruitment_cycle_year: '2021', changed_since: Time.zone.now)
       expect(application_choices).to contain_exactly(deferred_application)
