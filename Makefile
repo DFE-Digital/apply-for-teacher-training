@@ -103,7 +103,7 @@ research:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 
 load-test:
-	$(eval APP_ENV=load-test)
+	$(eval APP_ENV=loadtest)
 	$(eval APP_NAME_SUFFIX=load-test)
 	$(eval SPACE=bat-qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
@@ -123,3 +123,15 @@ edit-app-secrets: install-fetch-config azure-login ## Edit App Secrets, eg: make
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf target -s ${SPACE}
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
+
+deploy-init:
+	$(if $(tag), , $(error Please pass a valid docker image tag; eg: make qa deploy-init tag=5309326123bf6b366deab6cd0668615d11be3e3d))
+	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(tag))
+	az account set -s $(AZURE_SUBSCRIPTION) && az account show \
+	&& cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
+
+deploy-plan: deploy-init
+	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars
+
+deploy: deploy-init
+	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars
