@@ -32,8 +32,8 @@ module "paas" {
   source = "./modules/paas"
 
   cf_api_url                = local.cf_api_url
-  cf_user                   = local.infra_secrets.CF_USER
-  cf_user_password          = local.infra_secrets.CF_PASSWORD
+  cf_user                   = var.paas_sso_code != null ? local.infra_secrets.CF_USER : null
+  cf_user_password          = var.paas_sso_code != null ? local.infra_secrets.CF_PASSWORD : null
   cf_sso_passcode           = var.paas_sso_code
   cf_space                  = var.paas_cf_space
   prometheus_app            = var.prometheus_app

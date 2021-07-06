@@ -127,6 +127,8 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 deploy-init:
 	$(if $(tag), , $(error Please pass a valid docker image tag; eg: make qa deploy-init tag=5309326123bf6b366deab6cd0668615d11be3e3d))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(tag))
+	$(if $(passcode), , $(error Missing environment variable "passcode", retrieve from https://login.london.cloud.service.gov.uk/passcode))
+	$(eval export TF_VAR_paas_sso_code=$(passcode))
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show \
 	&& cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
 
