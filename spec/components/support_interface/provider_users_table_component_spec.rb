@@ -28,4 +28,34 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
 
     it { is_expected.to be_blank }
   end
+
+  describe 'permissions link' do
+    before do
+      FeatureFlag.activate(:new_provider_user_flow)
+    end
+
+    context 'when the provider user has permissions' do
+      let(:provider_users) do
+        [
+          create(:provider_user, :with_provider),
+        ]
+      end
+
+      it 'renders a link to edit permissions' do
+        expect(rendered_component).to include('Update permissions')
+      end
+    end
+
+    context 'when the provider user lacks permissions' do
+      let(:provider_users) do
+        [
+          create(:provider_user),
+        ]
+      end
+
+      it 'renders no link to edit permissions' do
+        expect(rendered_component).not_to include('Update permissions')
+      end
+    end
+  end
 end

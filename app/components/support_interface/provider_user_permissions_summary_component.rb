@@ -12,7 +12,14 @@ module SupportInterface
       permissions = provider_user
         .provider_permissions
         .includes(provider: %i[ratifying_provider_permissions training_provider_permissions])
-      if FeatureFlag.active?(:new_provider_user_flow)
+
+      if permissions.empty?
+        [
+          {
+            key: 'This user does not have access to any providers',
+          },
+        ]
+      elsif FeatureFlag.active?(:new_provider_user_flow)
         permissions.map do |permission|
           {
             key: permission.provider.name_and_code,
@@ -27,7 +34,6 @@ module SupportInterface
             data_qa: "provider-id-#{permission.provider.id}",
           }
         end
-
       else
         permissions.map do |permission|
           {
