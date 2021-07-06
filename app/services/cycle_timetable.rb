@@ -39,6 +39,10 @@ class CycleTimetable
     end
   end
 
+  def self.next_year
+    current_year + 1
+  end
+
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
@@ -64,7 +68,7 @@ class CycleTimetable
   end
 
   def self.find_reopens
-    date(:find_opens, current_year + 1)
+    date(:find_opens, next_year)
   end
 
   def self.find_down?
@@ -77,12 +81,12 @@ class CycleTimetable
 
   def self.between_cycles_apply_1?
     Time.zone.now > date(:apply_1_deadline).end_of_day &&
-      Time.zone.now < date(:apply_opens, current_year + 1).beginning_of_day
+      Time.zone.now < date(:apply_opens, next_year).beginning_of_day
   end
 
   def self.between_cycles_apply_2?
     Time.zone.now > date(:apply_2_deadline).end_of_day &&
-      Time.zone.now < date(:apply_opens, current_year + 1).beginning_of_day
+      Time.zone.now < date(:apply_opens, next_year).beginning_of_day
   end
 
   def self.date(name, year = current_year)
@@ -182,7 +186,7 @@ class CycleTimetable
   end
 
   def self.before_apply_reopens?
-    return true if Time.zone.now.to_date <= CYCLE_DATES[current_year + 1][:apply_opens].beginning_of_day
+    return true if Time.zone.now.to_date <= CYCLE_DATES[next_year][:apply_opens].beginning_of_day
 
     false
   end

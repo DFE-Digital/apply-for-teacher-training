@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RecruitmentCycle do
   describe '.current_year' do
-    it 'delegates to ECycleTimetable' do
+    it 'delegates to CycleTimetable' do
       allow(CycleTimetable).to receive(:current_year)
 
       RecruitmentCycle.current_year
@@ -12,10 +12,12 @@ RSpec.describe RecruitmentCycle do
   end
 
   describe '.next_year' do
-    it 'is 2021 if the current year is 2020' do
-      allow(CycleTimetable).to receive(:current_year).and_return(2020)
+    it 'delegates to CycleTimetable' do
+      allow(CycleTimetable).to receive(:next_year).and_return(2020)
 
-      expect(RecruitmentCycle.next_year).to eq(2021)
+      RecruitmentCycle.next_year
+
+      expect(CycleTimetable).to have_received(:next_year)
     end
   end
 
