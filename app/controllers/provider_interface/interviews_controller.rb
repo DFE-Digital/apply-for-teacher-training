@@ -9,11 +9,17 @@ module ProviderInterface
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
         @application_choice.status.to_sym,
       )
-      @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
-        application_choice: @application_choice,
-        course_option_id: @application_choice.current_course_option.id,
-      )
-      @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_can_make_decisions
+      @provider_can_make_decisions =
+        current_provider_user.authorisation.can_make_decisions?(application_choice: @application_choice,
+                                                                course_option: @application_choice.current_course_option)
+      if FeatureFlag.active?(:interview_permissions)
+        provider_can_set_up_interviews =
+          current_provider_user.authorisation.can_set_up_interviews?(application_choice: @application_choice,
+                                                                     course_option: @application_choice.current_course_option)
+        @interviews_can_be_created_and_edited = application_at_interviewable_stage && provider_can_set_up_interviews
+      else
+        @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_can_make_decisions
+      end
 
       redirect_to provider_interface_application_choice_path if @application_choice.interviews.none?
     end

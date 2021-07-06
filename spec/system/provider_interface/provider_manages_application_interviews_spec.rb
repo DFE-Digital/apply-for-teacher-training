@@ -14,10 +14,15 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     end
   end
 
+  before do
+    FeatureFlag.activate(:interview_permissions)
+  end
+
   scenario 'can view, create and cancel interviews' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
-    and_i_am_permitted_to_make_decisions_for_my_provider
+    and_i_can_see_the_application_actions
+    and_i_am_permitted_to_set_up_interviews_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_that_application_in_the_provider_interface
@@ -92,8 +97,12 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     provider_user_exists_in_apply_database
   end
 
-  def and_i_am_permitted_to_make_decisions_for_my_provider
+  def and_i_can_see_the_application_actions
     permit_make_decisions!
+  end
+
+  def and_i_am_permitted_to_set_up_interviews_for_my_provider
+    permit_set_up_interviews!
   end
 
   def when_i_visit_that_application_in_the_provider_interface
