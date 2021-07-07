@@ -86,7 +86,7 @@ class ProviderAuthorisation
 
     add_error(:set_up_interviews, :requires_provider_user_permission) unless
     user_level_can?(permission: :set_up_interviews, provider: course.provider) ||
-      user_level_can?(permission: :set_up_interviews, provider: course.accredited_provider)
+    user_level_can?(permission: :set_up_interviews, provider: course.accredited_provider)
 
     errors.blank?
   end
@@ -186,8 +186,8 @@ private
     # enforce user-level permissions
     add_error(permission, :requires_provider_user_permission) unless
       @actor.is_a?(VendorApiUser) ||
-        user_level_can?(permission: permission, provider: training_provider) ||
-        user_level_can?(permission: permission, provider: ratifying_provider)
+      user_level_can?(permission: permission, provider: training_provider) ||
+      user_level_can?(permission: permission, provider: ratifying_provider)
 
     # enforce org-level permissions
     if ratifying_provider.present?

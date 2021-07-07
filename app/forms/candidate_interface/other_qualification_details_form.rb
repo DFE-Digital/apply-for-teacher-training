@@ -58,9 +58,9 @@ module CandidateInterface
       @next_step = :check
 
       application_qualification = current_qualification ||
-        @current_application.application_qualifications.build(
-          level: ApplicationQualification.levels[:other],
-        )
+                                  @current_application.application_qualifications.build(
+                                    level: ApplicationQualification.levels[:other],
+                                  )
 
       application_qualification.assign_attributes(attributes_for_persistence)
       @current_application.update!(no_other_qualifications: false)

@@ -6,7 +6,7 @@ module DataMigrations
     def change
       ApplicationQualification.where(level: 'degree').find_each do |application_qualification|
         if /^\s+/ =~ application_qualification.qualification_type ||
-            /\s+$/ =~ application_qualification.qualification_type
+           /\s+$/ =~ application_qualification.qualification_type
           application_qualification.update!(
             qualification_type: application_qualification.qualification_type.strip,
           )

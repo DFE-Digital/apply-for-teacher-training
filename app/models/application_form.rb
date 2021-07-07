@@ -103,7 +103,7 @@ class ApplicationForm < ApplicationRecord
     return unless application_choices.any?
 
     if recruitment_cycle_year < RecruitmentCycle.current_year && \
-        !RequestStore.store[:allow_unsafe_application_choice_touches]
+       !RequestStore.store[:allow_unsafe_application_choice_touches]
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 

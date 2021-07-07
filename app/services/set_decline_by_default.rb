@@ -31,7 +31,7 @@ class SetDeclineByDefault
 
     application_choices.where(status: 'offer').each do |application_choice|
       next if application_choice.decline_by_default_at.to_s == dbd_time.in_time_zone.to_s &&
-        application_choice.decline_by_default_days == dbd_days
+              application_choice.decline_by_default_days == dbd_days
 
       application_choice.update!(
         decline_by_default_at: dbd_time,

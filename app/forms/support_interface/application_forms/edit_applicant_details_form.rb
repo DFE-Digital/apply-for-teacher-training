@@ -54,7 +54,7 @@ module SupportInterface
 
       def email_address_unique
         return if @application_form.persisted? &&
-          @application_form.candidate.email_address == email_address
+                  @application_form.candidate.email_address == email_address
 
         return unless Candidate.exists?(email_address: email_address)
 

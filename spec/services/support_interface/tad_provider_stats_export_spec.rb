@@ -20,7 +20,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
     offered_states = ApplicationStateChange::OFFERED_STATES - states_excluded_from_tad_export
 
     unless accepted_states.count < offered_states.count &&
-        (offered_states & accepted_states) == accepted_states
+           (offered_states & accepted_states) == accepted_states
       raise 'This spec assumes that ApplicationStateChange::ACCEPTED_STATES is a subset of ApplicationStateChange::OFFERED_STATES'
     end
 

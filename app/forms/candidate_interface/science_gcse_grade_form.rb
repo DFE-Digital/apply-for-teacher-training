@@ -104,10 +104,10 @@ module CandidateInterface
     def grade_format
       return if
         qualification.qualification_type.nil? ||
-          qualification.qualification_type == 'other_uk' ||
-          qualification.qualification_type == 'non_uk' ||
-          grade.nil? ||
-          triple_award?
+        qualification.qualification_type == 'other_uk' ||
+        qualification.qualification_type == 'non_uk' ||
+        grade.nil? ||
+        triple_award?
 
       if %w[gce_o_level scottish_national_5 gcse].include?(qualification.qualification_type) && subject == ApplicationQualification::SCIENCE
         qualification_rexp = invalid_grades[qualification.qualification_type.to_sym]

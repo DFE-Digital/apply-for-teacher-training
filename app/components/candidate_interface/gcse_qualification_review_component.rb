@@ -166,7 +166,7 @@ module CandidateInterface
 
     def enic_reference_row
       return nil unless application_qualification.qualification_type == 'non_uk' &&
-        application_qualification.enic_reference
+                        application_qualification.enic_reference
 
       {
         key: t('application_form.gcse.enic_reference.review_label'),
@@ -178,7 +178,7 @@ module CandidateInterface
 
     def comparable_uk_qualification_row
       return nil unless application_qualification.qualification_type == 'non_uk' &&
-        application_qualification.enic_reference
+                        application_qualification.enic_reference
 
       {
         key: t('application_form.gcse.comparable_uk_qualification.review_label'),

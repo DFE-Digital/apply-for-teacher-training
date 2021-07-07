@@ -5,7 +5,7 @@ class SandboxInterceptor
     return unless HostingEnvironment.sandbox_mode?
 
     if message.header['rails_mailer'].value == 'provider_mailer' &&
-        PROVIDER_EMAIL_ALLOWLIST.exclude?(message.header['rails_mail_template'].value)
+       PROVIDER_EMAIL_ALLOWLIST.exclude?(message.header['rails_mail_template'].value)
       message.perform_deliveries = false
     end
   end

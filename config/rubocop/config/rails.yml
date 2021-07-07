@@ -36,9 +36,6 @@ Rails/OutputSafety:
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
-Layout/MultilineOperationIndentation:
-  Enabled: false
-
 Rails/InverseOf:
   Enabled: false
 

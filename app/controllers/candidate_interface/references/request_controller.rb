@@ -28,8 +28,8 @@ module CandidateInterface
 
       def prompt_for_candidate_name_if_not_already_given
         if request_now? &&
-            (@reference.application_form.first_name.blank? ||
-             @reference.application_form.last_name.blank?)
+           (@reference.application_form.first_name.blank? ||
+            @reference.application_form.last_name.blank?)
           redirect_to candidate_interface_references_new_candidate_name_path(@reference.id)
         end
       end
