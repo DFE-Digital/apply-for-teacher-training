@@ -79,14 +79,18 @@ class CycleTimetable
     date(:apply_opens)
   end
 
+  def self.apply_reopens
+    date(:apply_opens, next_year)
+  end
+
   def self.between_cycles_apply_1?
-    Time.zone.now > date(:apply_1_deadline).end_of_day &&
-      Time.zone.now < date(:apply_opens, next_year).beginning_of_day
+    Time.zone.now > apply_1_deadline.end_of_day &&
+      Time.zone.now < apply_reopens.beginning_of_day
   end
 
   def self.between_cycles_apply_2?
-    Time.zone.now > date(:apply_2_deadline).end_of_day &&
-      Time.zone.now < date(:apply_opens, next_year).beginning_of_day
+    Time.zone.now > apply_2_deadline.end_of_day &&
+      Time.zone.now < apply_reopens.beginning_of_day
   end
 
   def self.date(name, year = current_year)
@@ -187,9 +191,7 @@ class CycleTimetable
   end
 
   def self.before_apply_reopens?
-    return true if Time.zone.now.to_date <= CYCLE_DATES[next_year][:apply_opens].beginning_of_day
-
-    false
+    Time.zone.now.to_date <= apply_reopens
   end
 
   def self.last_recruitment_cycle_year?(year)
