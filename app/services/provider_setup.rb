@@ -27,9 +27,20 @@ class ProviderSetup
   end
 
   def relationships_pending
-    auth = ProviderAuthorisation.new(actor: @provider_user)
-    auth.training_provider_relationships_that_actor_can_manage_organisations_for.select do |relationship|
+    manageable_relationships.select do |relationship|
       (relationship.setup_at.blank? || relationship.invalid?) && open_course_for_relationship?(relationship)
+    end
+  end
+
+private
+
+  def manageable_relationships
+    auth = ProviderAuthorisation.new(actor: @provider_user)
+
+    if FeatureFlag.active?(:accredited_provider_setting_permissions)
+      auth.provider_relationships_that_actor_can_manage_organisations_for
+    else
+      auth.training_provider_relationships_that_actor_can_manage_organisations_for
     end
   end
 
