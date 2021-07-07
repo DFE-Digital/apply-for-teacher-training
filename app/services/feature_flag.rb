@@ -22,6 +22,7 @@ class FeatureFlag
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
+    [:sync_next_cycle, 'Sync courses for the next recruitment cycle. Turn on after rollover', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
