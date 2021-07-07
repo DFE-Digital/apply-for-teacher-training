@@ -78,6 +78,7 @@ RSpec.describe FeatureMetricsDashboard do
       allow(carry_over_metrics_double).to receive(:carry_over_count).and_return(20)
       allow(qualifications_metrics_double).to receive(:formatted_a_level_percentage).and_return('30%')
       allow(satisfaction_survey_metrics_double).to receive(:formatted_response_rate).and_return('15.4%')
+      allow(satisfaction_survey_metrics_double).to receive(:formatted_positive_feedback_rate).and_return('95.8%')
       allow(equality_and_diversity_metrics_double).to receive(:formatted_response_rate).and_return('50.7%')
 
       dashboard = described_class.new
@@ -126,6 +127,9 @@ RSpec.describe FeatureMetricsDashboard do
         'satisfaction_survey_response_rate' => '15.4%',
         'satisfaction_survey_response_rate_this_month' => '15.4%',
         'satisfaction_survey_response_rate_last_month' => '15.4%',
+        'satisfaction_survey_positive_feedback_rate' => '95.8%',
+        'satisfaction_survey_positive_feedback_rate_this_month' => '95.8%',
+        'satisfaction_survey_positive_feedback_rate_last_month' => '95.8%',
         'equality_and_diversity_response_rate' => '50.7%',
         'equality_and_diversity_response_rate_this_month' => '50.7%',
         'equality_and_diversity_response_rate_last_month' => '50.7%',
