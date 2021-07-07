@@ -919,6 +919,8 @@ Rails.application.routes.draw do
       patch '/permissions' => 'single_provider_users#update', as: :update_permissions
       get '/notifications/edit' => 'single_provider_user_notifications#edit', as: :edit_provider_notifications
       put '/notifications' => 'single_provider_user_notifications#update', as: :update_provider_notifications
+      get '/permissions/:provider_permissions_id/remove' => 'single_provider_user_removals#new', as: :provider_user_removals
+      delete '/permissions/:provider_permissions_id/remove' => 'single_provider_user_removals#create', as: :remove_provider_user
     end
 
     scope path: '/providers/:provider_id' do

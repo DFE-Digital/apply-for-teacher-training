@@ -63,6 +63,16 @@ RSpec.describe SummaryListComponent do
     expect(result.css('.govuk-summary-list__value p').to_html).to eq('<p class="govuk-body">Unsafe</p>')
   end
 
+  it 'supports adding data_qa to rows' do
+    rows = [{ key: 'Job',
+              value: 'Ice cream man',
+              data_qa: 'ice-cream-man' }]
+
+    result = render_inline(SummaryListComponent.new(rows: rows))
+
+    expect(result.css('[data-qa="ice-cream-man"]')).to be_present
+  end
+
   it 'does not render an extra dd if no row has an action' do
     rows = [{ key: 'Job',
               value: ['Teacher', 'Clearcourt High'] },
@@ -92,5 +102,26 @@ RSpec.describe SummaryListComponent do
     result = render_inline(SummaryListComponent.new(rows: rows))
 
     expect(result.to_html).to include('<dd class="govuk-summary-list__actions"></dd>')
+  end
+
+  it 'handles rows with multiple actions' do
+    rows = [
+      { key: 'Role',
+        value: 'Chef de partie',
+        actions: [
+          { verb: 'Change', object: 'role', path: '#change-role' },
+          { verb: 'Remove', object: 'this chef', path: '#remove' },
+        ] },
+    ]
+
+    result = render_inline(SummaryListComponent.new(rows: rows))
+
+    links = result.css('.govuk-summary-list__actions a')
+
+    expect(links[0].text).to eq 'Change role'
+    expect(links[0].attr('href')).to eq '#change-role'
+
+    expect(links[1].text).to eq 'Remove this chef'
+    expect(links[1].attr('href')).to eq '#remove'
   end
 end

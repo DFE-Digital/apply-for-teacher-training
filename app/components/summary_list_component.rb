@@ -23,8 +23,23 @@ class SummaryListComponent < ViewComponent::Base
       end
     elsif row[:action_path]
       govuk_link_to(row[:action], row[:action_path], class: 'govuk-!-display-none-print')
+    elsif row[:actions]
+      links = row[:actions].map do |action|
+        govuk_link_to(action[:path], class: 'govuk-!-display-none-print') do
+          "#{action[:verb]}<span class=\"govuk-visually-hidden\"> #{action[:object]}</span>".html_safe
+        end
+      end
+      links.join('<br>').html_safe
     elsif any_row_has_action_span?
       tag.dd(class: 'govuk-summary-list__actions')
+    end
+  end
+
+  def html_attributes(row)
+    if row[:data_qa]
+      { 'data-qa' => row[:data_qa] }
+    else
+      {}
     end
   end
 

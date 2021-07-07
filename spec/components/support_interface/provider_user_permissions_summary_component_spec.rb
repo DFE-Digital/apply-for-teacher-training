@@ -12,4 +12,12 @@ RSpec.describe SupportInterface::ProviderUserPermissionsSummaryComponent do
     expect(rendered_component_text).to include('Manage users')
     expect(rendered_component_text).to include('Change')
   end
+
+  it 'renders an empty state when there are no permissions' do
+    provider_user = create(:provider_user)
+
+    rendered_component_text = render_inline(described_class.new(provider_user)).text
+
+    expect(rendered_component_text).to include('This user does not have access to any providers')
+  end
 end
