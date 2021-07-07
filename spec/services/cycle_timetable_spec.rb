@@ -208,4 +208,36 @@ RSpec.describe CycleTimetable do
       expect(described_class.can_submit?(application_form)).to be false
     end
   end
+
+  describe '.need_to_send_deadline_reminder?' do
+    it 'does not return for a non deadline date' do
+      Timecop.travel(CycleTimetable.apply_1_deadline_first_reminder - 1.day) do
+        expect(described_class.need_to_send_deadline_reminder?).to be nil
+      end
+    end
+
+    it 'returns apply_1 when it is the first apply 1 deadline' do
+      Timecop.travel(CycleTimetable.apply_1_deadline_first_reminder) do
+        expect(described_class.need_to_send_deadline_reminder?).to be :apply_1
+      end
+    end
+
+    it 'returns apply_1 when it is the second apply 1 deadline' do
+      Timecop.travel(CycleTimetable.apply_1_deadline_second_reminder) do
+        expect(described_class.need_to_send_deadline_reminder?).to be :apply_1
+      end
+    end
+
+    it 'returns apply_2 when it is the first apply 2 deadline' do
+      Timecop.travel(CycleTimetable.apply_2_deadline_first_reminder) do
+        expect(described_class.need_to_send_deadline_reminder?).to be :apply_2
+      end
+    end
+
+    it 'returns apply_2 when it is the second apply 2 deadline' do
+      Timecop.travel(CycleTimetable.apply_2_deadline_second_reminder) do
+        expect(described_class.need_to_send_deadline_reminder?).to be :apply_2
+      end
+    end
+  end
 end
