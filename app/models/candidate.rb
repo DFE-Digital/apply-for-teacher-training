@@ -1,6 +1,7 @@
 class Candidate < ApplicationRecord
   include Chased
   include AuthenticatedUsingMagicLinks
+  include EntityEvents
 
   # Only Devise's :timeoutable module is enabled to handle session expiry
   devise :timeoutable

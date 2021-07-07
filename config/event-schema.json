@@ -11,7 +11,7 @@
     },
     "event_type": {
       "type": "string",
-      "enum": ["web_request"]
+      "enum": ["web_request", "entity_created"]
     },
     "request_uuid": {
       "type": "string"
@@ -49,8 +49,22 @@
     },
     "user_id": {
       "type": "integer"
+    },
+    "data": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "required": ["key", "value"]
+        }
+      ]
+    },
+    "event_tags": {
+      "type": "array",
+      "items" : [ { "type": "string" } ]
     }
   },
+  "additionalProperties": false,
   "required": [
     "environment",
     "occurred_at",
