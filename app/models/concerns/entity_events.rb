@@ -8,6 +8,11 @@ module EntityEvents
       data = entity_data(attributes)
       send_event('entity_created', data) if data.any?
     end
+
+    after_update do
+      data = entity_data(saved_changes)
+      send_event('entity_updated', data) if data.any?
+    end
   end
 
   def send_event(type, data)

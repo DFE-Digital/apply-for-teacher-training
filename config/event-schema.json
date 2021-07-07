@@ -11,7 +11,7 @@
     },
     "event_type": {
       "type": "string",
-      "enum": ["web_request", "entity_created"]
+      "enum": ["web_request", "entity_created", "entity_updated"]
     },
     "request_uuid": {
       "type": "string"
