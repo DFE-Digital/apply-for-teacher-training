@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::SignUpForm, type: :model do
-  let(:valid_email) { Faker::Internet.email }
-  let(:new_email) { valid_email }
+  let(:new_email) { Faker::Internet.email }
   let(:existing_candidate) { create(:candidate) }
   let(:existing_email) { existing_candidate.email_address }
 
@@ -57,6 +56,15 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       form = new_form(email: new_email, accept_ts_and_cs: true, course_id: 12)
       expect(form.save).to eq(true)
       expect(form.course_from_find_id).to eq(12)
+    end
+
+    it 'includes an event tag for BigQuery' do
+      form = new_form(email: new_email, accept_ts_and_cs: true)
+
+      form.save
+
+      expect(SendEventsToBigquery).to have_received(:perform_async)
+        .with(a_hash_including({ 'event_tags' => ['candidate_sign_up'] }))
     end
   end
 

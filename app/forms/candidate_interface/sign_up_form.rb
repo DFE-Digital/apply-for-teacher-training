@@ -24,6 +24,7 @@ module CandidateInterface
       return false if existing_candidate? || !valid?
 
       candidate.course_from_find_id = course_from_find_id
+      candidate.event_tags = ['candidate_sign_up']
       candidate.save
     end
 
