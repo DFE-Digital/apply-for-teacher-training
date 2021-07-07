@@ -4,10 +4,6 @@ RSpec.feature 'Managing provider users v2' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  before do
-    FeatureFlag.activate(:interview_permissions)
-  end
-
   scenario 'adding provider to an existing provider user', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user

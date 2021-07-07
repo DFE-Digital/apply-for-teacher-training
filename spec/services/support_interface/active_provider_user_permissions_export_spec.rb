@@ -8,8 +8,6 @@ RSpec.describe SupportInterface::ActiveProviderUserPermissionsExport do
   end
 
   before do
-    FeatureFlag.activate(:interview_permissions)
-
     @provider1 = create(:provider)
     @provider2 = create(:provider)
     @provider_user_with_permissions = create(

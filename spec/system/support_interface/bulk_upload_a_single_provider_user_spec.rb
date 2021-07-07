@@ -4,10 +4,6 @@ RSpec.feature 'bulk upload provider users' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  before do
-    FeatureFlag.activate(:interview_permissions)
-  end
-
   scenario 'bulk upload a single provider user', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user

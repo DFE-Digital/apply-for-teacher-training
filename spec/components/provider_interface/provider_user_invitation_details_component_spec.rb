@@ -64,28 +64,13 @@ RSpec.describe ProviderInterface::ProviderUserInvitationDetailsComponent do
       )
     end
 
-    context 'conditionally hides provider information' do
-      it 'when the interview_permissions feature flag is on' do
-        FeatureFlag.activate(:interview_permissions)
+    it 'conditionally hides provider information' do
+      result = render_inline(described_class.new(wizard: wizard))
 
-        result = render_inline(described_class.new(wizard: wizard))
-
-        expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
-        expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
-        expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
-        expect(result.css('.govuk-summary-list__value')[3].text).to include('Set up interviews')
-      end
-
-      it 'when the interview_permissions feature flag is off' do
-        FeatureFlag.deactivate(:interview_permissions)
-
-        result = render_inline(described_class.new(wizard: wizard))
-
-        expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
-        expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
-        expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
-        expect(result.css('.govuk-summary-list__value')[3].text).not_to include('Set up interviews')
-      end
+      expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
+      expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('Set up interviews')
     end
   end
 
