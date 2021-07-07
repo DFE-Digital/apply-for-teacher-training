@@ -1,47 +1,51 @@
 # How to: manually deploy Apply
 
-This document describes the process of manually deploying a new Docker image into the Azure app service.
+This document describes the process of manually deploying a commit to a particular environment.
 
 ## When should this process be used?
 
-In the event that code changes are made to the app but the Azure pipelines fail to complete the deployment stages this process should be followed to deploy the Docker image to the Azure App Service manually. It is anticipated that this process would only be following in response to bug fixes when the deployment pipeline is failing.
+In the event that code changes are made to the app but the pipelines fail to complete the deployment stages this process should be followed to deploy the commit manually.
 
-This process assumes that the build and test stage has completed without error and a Docker image has been uploaded to Dockerhub successfully. This process also assumes that no changes are expected to be made to the configuration of the underlying Azure infrastructure hosting the application.
+These below instructions can also be used to rollback or to deploy an arbitary commit with an build image.
 
-Note that these instructions are for normal deployment. For a hotfix
-deployment, please refer to [Hotfix deployment
-instructions](hotfix-deployment.md).
+This process assumes that the build and test stage has completed without error and a Docker image has been uploaded to the GitHub container registry successfully.
 
-## Instructions
+## Instructions using GitHub Actions
+
+1. Grab the commit sha to be used from either the [Apply ops dashboard](http://apply-ops-dashboard.azurewebsites.net) or the [build workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build.yml), in case of a rollback use the commit sha of the previous commit that needs to be deployed.
+
+2. Go the deploy workflow and click on the "Run workflow" dropdown button, you'll see a list of apply environments like below.
+  ![Apply Workflow Dispatch](apply-workflow-dispatch.jpg)
+3. Now paste the commit sha to be used in the "Commit sha to be deployed" textbox and `true` into the textboxes for the environments you want this commit to be deployed. Eg: if you want to deploy this commit only to `qa` enter `true` into the textbox below the "Deploy to qa?" label and leave the rest as `false`.
+4. Click on the "Run workflow" button, this should trigger a run workflow run and deploy the commit sha to the selected environments.
+
+## Instructions using make commands
 
 **NOTE: Before following the steps below you will need to request an elevation of your rights to the 'contributor' role through PIM in the Azure Portal if working on an app hosted in the test or production subscriptions. Guidance on PIM can be found in the [PIM Guide](pim-guide.md) document. PIM is not required in the development subscription.**
 
-1. Launch the Azure DevOps pages at https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary.
-1. Locate the desired run from that has failed deployment from the list and select it.
-1. Copy the six character hex string at the start of the run name, without the leading '#' as shown in the following diagram, to the clipboard for use later.
-![Manual Deployment - Diagram 1](manual_deployment_dia01.png)
-1. Launch the Azure Portal at https://portal.azure.com and sign in using your normal credentials.
-1. Ensure that you are using the "DfE Platform Identity" directory, this is shown under your username at the top right of the GUI. To change directory click on your username at the top right, click on "Switch directory" and then select "DfE Platform Identity".
-![Manual Deployment - Diagram 2](manual_deployment_dia02.png)
-1. Select the "Resource groups" blade from the menu on the left.
-1. If the "Tags" column is not showing it is recommended that you click the "Edit columns" button and add it.
-1. Select the resource group corresponding to the environment you wish to deploy the new Docker image into. This will open a page showing all the resources associated with the chosen environment.
-1. Select the resource called "staging (s106xxx-apply-as/staging)" where xxx will be a combination of one letter and two numbers that will vary depending upon the environment selected.
-![Manual Deployment - Diagram 3](manual_deployment_dia03.png)
-1. In the new menu that appears select "Container settings"
-1. Locate the "Image and optional tag" field and delete the tag information after the colon, as highlighted in the following diagram.
-![Manual Deployment - Diagram 4](manual_deployment_dia04.png)
-1. Paste in the new tag that you copied to the clipboard in step 3 and click the save button at the bottom of the page.
-1. Once you have received acknowledgement that the changes have been saved, click on the "Overview" button in the menu for the staging container.
-1. Click the "Start" button to launch the app in the staging container.
-![Manual Deployment - Diagram 5](manual_deployment_dia05.png)
-1. Click on the URL link in the block just below the start button launch the app in a new webpage. You must now wait for the app to start and the website to respond before continuing. This will take a couple of minutes and may require you to refresh the page.
-![Manual Deployment - Diagram 6](manual_deployment_dia06.png)
-1. Once the website is responding you can close the webpage that was launched in the previous step to return the the Azure Portal which you can click the "Swap" button at the top of the page.
-![Manual Deployment - Diagram 7](manual_deployment_dia07.png)
-1. This will open the Swap configuration menu, no changes need to be made here, simply click the "Swap" button at the bottom of the menu. The menu will grey out while the swap process runs; it will take about 30 seconds to complete.
-![Manual Deployment - Diagram 8](manual_deployment_dia08.png)
-1. Click the "Close" button on the Swap menu.
-1. Open a new tab in your web browser and verify that the website updates have taken effect on the production slot.
-1. Once you have confirmed that the changes have taken effect return the Azure portal window you previously had open and stop the app running in the staging slot. This now contains the image that was previously running in the production slot.
-![Manual Deployment - Diagram 9](manual_deployment_dia09.png)
+Make commands can be run from the root of the repo to deploy a specific version to one of the environments.
+
+1. Grab the commit sha to be used from either the [Apply ops dashboard](http://apply-ops-dashboard.azurewebsites.net) or the [build workflow](https://github.com/DFE-Digital/apply-for-teacher-training/actions/workflows/build.yml)
+
+2. Copy a passcode for the cf cli from https://login.london.cloud.service.gov.uk/passcode
+3. From the root of the repo you can run the below command to deploy the app.
+  ```
+  make <ENV> deploy tag=<COMMIT_SHA> passcode=<CF_SSO_CODE>
+  eg: make qa deploy tag=4ebb7d13010839b1ab2b7ae0dfef57460a5101f3 passcode=XXXXXX
+  ```
+  This will list the changes about to be deployed and prompt for a confirmation, you can type "yes" to confirm and the changes will be applied.
+
+  Environment | make command          | PIM required |
+  ----------- | --------------------- | -----------  |
+  qa          | make qa deploy        |  no
+  research    | make research deploy  |  no
+  load-test   | make load-test deploy |  no
+  staging     | make staging deploy   |  yes (s121-findpostgraduateteachertraining-test)
+  sandbox     | make sandbox deploy   |  yes (s121-findpostgraduateteachertraining-production)
+  production  | make prod deploy      |  yes (s121-findpostgraduateteachertraining-production)
+  rollover    | make rollover deploy  |  yes (s121-findpostgraduateteachertraining-test)
+
+  You can also just preview the changes by running `deploy-plan` instead of `deploy` in the above command.
+
+4. Check the `#twd_apply_tech` Slack channel for any runtime errors from
+   Sentry or the smoke tests before proceeding to the next environment.
