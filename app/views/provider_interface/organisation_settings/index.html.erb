@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Organisation settings</h1>
+    <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_settings') %></h1>
     <ul class="govuk-list govuk-list--spaced">
       <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
         <li>
