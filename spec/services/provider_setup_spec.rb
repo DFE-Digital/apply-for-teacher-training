@@ -125,5 +125,33 @@ RSpec.describe ProviderSetup do
         expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
       end
     end
+
+    context 'when the provider user is part of the ratifying provider' do
+      let!(:course) { create(:course, :open_on_apply, accredited_provider: provider_for_user, provider: other_provider) }
+      let!(:permission_to_set_up) do
+        create(
+          :provider_relationship_permissions,
+          training_provider: other_provider,
+          ratifying_provider: provider_for_user,
+          setup_at: nil,
+        )
+      end
+
+      context 'when the accredited_provider_setting_permissions is on' do
+        before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
+
+        it 'returns the relationship for which the user is the ratifier' do
+          expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
+        end
+      end
+
+      context 'when the accredited_provider_setting_permissions is off' do
+        before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+
+        it 'does not return the relationship for which the user is the ratifier' do
+          expect(provider_setup.next_relationship_pending).to eq(nil)
+        end
+      end
+    end
   end
 end
