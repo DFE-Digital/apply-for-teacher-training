@@ -33,7 +33,7 @@ class CycleTimetable
     now = Time.zone.today
 
     CYCLE_DATES.keys.detect do |year|
-      return year if year == CYCLE_DATES.keys.last
+      return year if last_recruitment_cycle_year?(year)
 
       now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
     end
@@ -191,4 +191,10 @@ class CycleTimetable
 
     false
   end
+
+  def self.last_recruitment_cycle_year?(year)
+    year == CYCLE_DATES.keys.last
+  end
+
+  private_class_method :last_recruitment_cycle_year?
 end
