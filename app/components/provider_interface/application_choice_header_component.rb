@@ -2,11 +2,12 @@ module ProviderInterface
   class ApplicationChoiceHeaderComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :application_choice, :provider_can_respond
+    attr_reader :application_choice, :provider_can_respond, :provider_can_set_up_interviews
 
-    def initialize(application_choice:, provider_can_respond: false)
+    def initialize(application_choice:, provider_can_respond: false, provider_can_set_up_interviews: false)
       @application_choice = application_choice
       @provider_can_respond = provider_can_respond
+      @provider_can_set_up_interviews = provider_can_set_up_interviews
     end
 
     def sub_navigation_items
@@ -27,12 +28,12 @@ module ProviderInterface
         deferred_offer_wizard_applicable? ||
         rejection_reason_required? ||
         awaiting_decision_but_cannot_respond? ||
-        waiting_for_interview? ||
+        set_up_interview? ||
         offer_will_be_declined_by_default?
     end
 
     def respond_to_application?
-      provider_can_respond && application_choice.awaiting_provider_decision?
+      provider_can_respond && (application_choice.awaiting_provider_decision? || application_choice.interviewing?)
     end
 
     def deferred_offer_wizard_applicable?
@@ -58,6 +59,18 @@ module ProviderInterface
       !provider_can_respond && application_choice.decision_pending?
     end
 
+    def set_up_interview?
+      application_choice.decision_pending? &&
+        (FeatureFlag.active?(:interview_permissions) && provider_can_set_up_interviews ||
+         !FeatureFlag.active?(:interview_permissions) && provider_can_respond)
+    end
+
+    def inset_text_title
+      return 'Set up an interview or make a decision' if set_up_interview? && respond_to_application?
+      return 'Set up an interview' if set_up_interview?
+      return 'Make a decision' if respond_to_application?
+    end
+
     def waiting_for_interview?
       provider_can_respond && application_choice.interviewing?
     end
@@ -75,6 +88,12 @@ module ProviderInterface
         days_remaining = days_until(application_choice.decline_by_default_at.to_date)
         "in #{days_remaining} (#{application_choice.decline_by_default_at.to_s(:govuk_date_and_time)})"
       end
+    end
+
+    def secondary_button_css
+      return '' unless set_up_interview?
+
+      'govuk-button--secondary '
     end
 
   private

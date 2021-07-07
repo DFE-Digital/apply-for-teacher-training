@@ -7,37 +7,26 @@
   <div class="govuk-grid-row govuk-!-display-none-print">
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <%= govuk_inset_text(classes: 'govuk-!-margin-top-0') do %>
-        <% if respond_to_application? -%>
+        <% if set_up_interview? || respond_to_application? || waiting_for_interview? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Set up an interview or make a decision
+            <%= inset_text_title %>
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              This application will be automatically rejected at the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %> if you do not make a decision.
+              This application will be automatically rejected if a decision has not been made by the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %>.
             <% else -%>
-              This application will be automatically rejected in <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>) if you do not make a decision.
+              This application will be automatically rejected if a decision has not been made within <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>).
             <% end -%>
           </p>
 
           <div class="govuk-button-group">
-            <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
-            <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true, class: 'govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+            <% if set_up_interview? %>
+              <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+            <% end %>
+            <% if respond_to_application? %>
+              <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true, class: "#{secondary_button_css}govuk-!-margin-bottom-0 govuk-!-margin-right-2" %>
+            <% end %>
           </div>
-
-        <% elsif waiting_for_interview? %>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Make a decision
-          </h2>
-          <p class="govuk-body">
-            <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
-              This application will be automatically rejected at the end of <%= date_and_time_today_or_tomorrow(application_choice.reject_by_default_at) %> if you do not make a decision.
-            <% else -%>
-              This application will be automatically rejected in <%= days_until(application_choice.reject_by_default_at.to_date) %> (<%= application_choice.reject_by_default_at.to_s(:govuk_date_and_time) %>) if you do not make a decision.
-            <% end -%>
-          </p>
-
-          <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true %>
-
         <% elsif awaiting_decision_but_cannot_respond? -%>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
