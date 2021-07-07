@@ -211,7 +211,6 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
     let(:auth) { instance_double(ProviderAuthorisation, assert_can_set_up_interviews!: true) }
 
     before do
-      FeatureFlag.activate(:interview_permissions)
       allow(ProviderAuthorisation).to receive(:new).and_return(auth)
       CancelInterview.new(
         actor: provider_user,

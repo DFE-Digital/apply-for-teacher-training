@@ -18,37 +18,16 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       )
     end
 
-    context 'when interview permissions feature is not active' do
-      before { FeatureFlag.deactivate(:interview_permissions) }
-
-      context 'when the application is awaiting provider decision and the user can make decisions' do
-        let(:reject_by_default_at) { 1.day.from_now }
-
-        it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
-          expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview or make a decision')
-          expect(result.css('.govuk-button').first.text).to eq('Set up interview')
-          expect(result.css('.govuk-button').last.text).to eq('Make decision')
-          expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
-          )
-        end
-      end
-    end
-
-    context 'when interview permissions feature is active' do
+    context 'when the application is awaiting provider decision and the user can make decisions and set up interviews' do
       let(:reject_by_default_at) { 1.day.from_now }
 
-      before { FeatureFlag.activate(:interview_permissions) }
-
-      context 'when the application is awaiting provider decision and the user can make decisions and set up interviews' do
-        it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
-          expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview or make a decision')
-          expect(result.css('.govuk-button').first.text).to eq('Set up interview')
-          expect(result.css('.govuk-button').last.text).to eq('Make decision')
-          expect(result.css('.govuk-inset-text').text).to include(
-            "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
-          )
-        end
+      it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
+        expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview or make a decision')
+        expect(result.css('.govuk-button').first.text).to eq('Set up interview')
+        expect(result.css('.govuk-button').last.text).to eq('Make decision')
+        expect(result.css('.govuk-inset-text').text).to include(
+          "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
+        )
       end
 
       context 'when the application is awaiting provider decision and the user can only set up interviews' do

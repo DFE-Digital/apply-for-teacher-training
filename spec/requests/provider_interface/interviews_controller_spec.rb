@@ -11,7 +11,6 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
   let(:interview) { create(:interview, application_choice: application_choice) }
 
   before do
-    FeatureFlag.activate(:interview_permissions)
     allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
 
     user_exists_in_dfe_sign_in(email_address: provider_user.email_address)

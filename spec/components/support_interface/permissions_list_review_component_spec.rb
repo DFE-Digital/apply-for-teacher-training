@@ -4,10 +4,6 @@ RSpec.describe SupportInterface::PermissionsListReviewComponent do
   let(:tick_svg_path_shape) { 'M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z' }
   let(:cross_svg_path_shape) { 'M100 0a100 100 0 110 200 100 100 0 010-200zm30 50l-30 30-30-30-20 20 30 30-30 30 20 20 30-30 30 30 20-20-30-30 30-30-20-20z' }
 
-  before do
-    FeatureFlag.activate(:interview_permissions)
-  end
-
   context 'Manage organisational permissions' do
     it 'displays permission has been assigned' do
       permissions = { 'manage_organisations' => true, 'set_up_interviews' => true }

@@ -1,8 +1,7 @@
 module ProviderInterface
   class InterviewsController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :requires_make_decisions_permission, except: %i[index], unless: :interviews_permission_feature_flag
-    before_action :requires_set_up_interviews_permission, except: %i[index], if: :interviews_permission_feature_flag
+    before_action :requires_set_up_interviews_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
     before_action :redirect_to_index_if_store_cleared, only: %i[check commit]
 
@@ -13,14 +12,10 @@ module ProviderInterface
       @provider_can_make_decisions =
         current_provider_user.authorisation.can_make_decisions?(application_choice: @application_choice,
                                                                 course_option: @application_choice.current_course_option)
-      if FeatureFlag.active?(:interview_permissions)
-        provider_can_set_up_interviews =
-          current_provider_user.authorisation.can_set_up_interviews?(application_choice: @application_choice,
-                                                                     course_option: @application_choice.current_course_option)
-        @interviews_can_be_created_and_edited = application_at_interviewable_stage && provider_can_set_up_interviews
-      else
-        @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_can_make_decisions
-      end
+      provider_can_set_up_interviews =
+        current_provider_user.authorisation.can_set_up_interviews?(application_choice: @application_choice,
+                                                                   course_option: @application_choice.current_course_option)
+      @interviews_can_be_created_and_edited = application_at_interviewable_stage && provider_can_set_up_interviews
 
       redirect_to provider_interface_application_choice_path if @application_choice.interviews.none?
     end
@@ -170,10 +165,6 @@ module ProviderInterface
 
     def redirect_to_index_if_store_cleared
       redirect_to provider_interface_application_choice_interviews_path(@application_choice) if interview_store.read.blank?
-    end
-
-    def interviews_permission_feature_flag
-      FeatureFlag.active?(:interview_permissions)
     end
   end
 end

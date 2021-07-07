@@ -28,10 +28,6 @@ RSpec.describe SupportInterface::PermissionsListComponent do
   let(:view_safeguarding_information) { true }
   let(:view_diversity_information) { true }
 
-  before do
-    FeatureFlag.activate(:interview_permissions)
-  end
-
   describe 'rendering permissions' do
     context 'when all permissions have been assigned' do
       it 'displays Yes on all' do

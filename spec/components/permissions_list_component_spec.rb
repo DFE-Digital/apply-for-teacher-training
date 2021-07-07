@@ -12,7 +12,6 @@ RSpec.describe PermissionsListComponent do
   end
 
   it 'renders permissions' do
-    FeatureFlag.activate(:interview_permissions)
     permission_model = create(:provider_permissions, manage_organisations: true, set_up_interviews: true)
     result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 

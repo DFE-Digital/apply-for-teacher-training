@@ -22,11 +22,8 @@ module SupportInterface
             has_view_diversity: permissions.view_diversity_information.exists?(provider: provider),
             has_manage_users: permissions.manage_users.exists?(provider: provider),
             has_manage_organisations: permissions.manage_organisations.exists?(provider: provider),
+            has_set_up_interviews: permissions.set_up_interviews.exists?(provider: provider),
           }
-
-        if FeatureFlag.active?(:interview_permissions)
-          user_data.merge!(has_set_up_interviews: permissions.set_up_interviews.exists?(provider: provider))
-        end
 
         user_data
       end

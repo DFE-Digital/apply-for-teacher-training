@@ -38,13 +38,11 @@
           hint: { text: 'Invite or delete users and set their permissions' },
         ) %>
 
-        <% if FeatureFlag.active?(:interview_permissions) %>
-          <%= pf.govuk_check_box(
-            :permissions,
-            'set_up_interviews',
-            label: { text: 'Set up interviews' },
-          ) %>
-        <% end %>
+        <%= pf.govuk_check_box(
+          :permissions,
+          'set_up_interviews',
+          label: { text: 'Set up interviews' },
+        ) %>
 
         <%= pf.govuk_check_box(
           :permissions,
