@@ -35,7 +35,7 @@ class CycleTimetable
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
 
-      now.between?(date(:find_opens, year), date(:find_opens, year + 1))
+      now.between?(find_opens(year), find_opens(year + 1))
     end
   end
 
@@ -55,32 +55,36 @@ class CycleTimetable
     Time.zone.now < date(:apply_2_deadline).end_of_day
   end
 
-  def self.apply_1_deadline
-    date(:apply_1_deadline)
+  def self.apply_1_deadline(year = current_year)
+    date(:apply_1_deadline, year)
   end
 
-  def self.apply_2_deadline
-    date(:apply_2_deadline)
+  def self.apply_2_deadline(year = current_year)
+    date(:apply_2_deadline, year)
   end
 
-  def self.find_closes
-    date(:find_closes)
+  def self.find_closes(year = current_year)
+    date(:find_closes, year)
   end
 
-  def self.find_reopens
-    date(:find_opens, next_year)
+  def self.find_opens(year = current_year)
+    date(:find_opens, year)
+  end
+
+  def self.find_reopens(year = next_year)
+    date(:find_opens, year)
   end
 
   def self.find_down?
     Time.zone.now.between?(find_closes.end_of_day, find_reopens.beginning_of_day)
   end
 
-  def self.apply_opens
-    date(:apply_opens)
+  def self.apply_opens(year = current_year)
+    date(:apply_opens, year)
   end
 
-  def self.apply_reopens
-    date(:apply_opens, next_year)
+  def self.apply_reopens(year = next_year)
+    date(:apply_opens, year)
   end
 
   def self.between_cycles_apply_1?

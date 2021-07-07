@@ -9,13 +9,13 @@ RSpec.describe CycleTimetable do
 
   describe '.current_year' do
     it 'is 2020 if we are in the middle of the 2020 cycle' do
-      Timecop.travel(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
+      Timecop.travel(CycleTimetable.apply_opens(2020) + 1.day) do
         expect(CycleTimetable.current_year).to eq(2020)
       end
     end
 
     it 'is 2021 if we are in the middle of the 2021 cycle' do
-      Timecop.travel(Time.zone.local(2020, 11, 1, 12, 0, 0)) do
+      Timecop.travel(CycleTimetable.apply_opens(2021) + 1.day) do
         expect(CycleTimetable.current_year).to eq(2021)
       end
     end
@@ -23,13 +23,13 @@ RSpec.describe CycleTimetable do
 
   describe '.next_year' do
     it 'is 2020 if we are in the middle of the 2020 cycle' do
-      Timecop.travel(Time.zone.local(2020, 1, 1, 12, 0, 0)) do
+      Timecop.travel(CycleTimetable.apply_opens(2020) + 1.day) do
         expect(CycleTimetable.next_year).to eq(2021)
       end
     end
 
     it 'is 2021 if we are in the middle of the 2021 cycle' do
-      Timecop.travel(Time.zone.local(2020, 11, 1, 12, 0, 0)) do
+      Timecop.travel(CycleTimetable.apply_opens(2021) + 1.day) do
         expect(CycleTimetable.next_year).to eq(2022)
       end
     end
@@ -105,19 +105,19 @@ RSpec.describe CycleTimetable do
 
   describe '.find_down?' do
     it 'returns false before find closes' do
-      Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_closes].beginning_of_day - 1.hour) do
+      Timecop.travel(CycleTimetable.find_closes(2020).beginning_of_day - 1.hour) do
         expect(CycleTimetable.find_down?).to be false
       end
     end
 
     it 'returns false after find_reopens' do
-      Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_opens].end_of_day + 1.hour) do
+      Timecop.travel(CycleTimetable.find_opens(2020).end_of_day + 1.hour) do
         expect(CycleTimetable.find_down?).to be false
       end
     end
 
     it 'returns true between find_closes and find_reopens' do
-      Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_closes].end_of_day + 1.hour) do
+      Timecop.travel(CycleTimetable.find_closes(2020).end_of_day + 1.hour) do
         expect(CycleTimetable.find_down?).to be true
       end
     end
@@ -149,7 +149,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is after the apply1 submission deadline' do
         it 'returns false' do
-          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:apply_1_deadline] + 1.day) do
+          Timecop.travel(CycleTimetable.apply_1_deadline(2020) + 1.day) do
             expect(execute_service).to eq false
           end
         end
@@ -157,7 +157,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is before the apply1 submission deadline' do
         it 'returns true' do
-          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:apply_1_deadline] - 1.day) do
+          Timecop.travel(CycleTimetable.apply_1_deadline(2020) - 1.day) do
             expect(execute_service).to eq true
           end
         end
@@ -165,7 +165,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:find_opens] + 1.day) do
+          Timecop.travel(CycleTimetable.find_reopens(2021) + 1.day) do
             expect(execute_service).to eq true
           end
         end
@@ -177,7 +177,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is after the apply again submission deadline' do
         it 'returns false' do
-          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:apply_2_deadline] + 1.day) do
+          Timecop.travel(CycleTimetable.apply_2_deadline(2020) + 1.day) do
             expect(execute_service).to eq false
           end
         end
@@ -185,7 +185,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is before the apply again submission deadline' do
         it 'returns true' do
-          Timecop.travel(CycleTimetable::CYCLE_DATES[2020][:apply_2_deadline] - 1.day) do
+          Timecop.travel(CycleTimetable.apply_2_deadline(2020) - 1.day) do
             expect(execute_service).to eq true
           end
         end
@@ -193,7 +193,7 @@ RSpec.describe CycleTimetable do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(CycleTimetable.apply_opens) do
+          Timecop.travel(CycleTimetable.find_reopens(2021) + 1.day) do
             expect(execute_service).to eq true
           end
         end
