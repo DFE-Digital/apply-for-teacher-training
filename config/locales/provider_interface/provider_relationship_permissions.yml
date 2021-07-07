@@ -19,3 +19,17 @@ en:
       edit:
         heading: Organisation permissions
         submit_button: Save organisation permissions
+    dsa_success_page_component:
+      success_message: Data sharing agreement signed
+      setup_permissions_message: Either you or your partner organisations must set up organisation permissions before you can manage teacher training applications.
+      next_steps: Next steps
+      options_list_description: 'You can now:'
+      view_applications: view applications
+      invite_or_manage_users: invite or manage users
+      manage_email_notifications: manage your email notifications
+      old:
+        success_message: You’ve successfully signed the data sharing agreement
+        setup_permissions_message: You need to set up permissions for your organisation before you do anything else. We’ll guide you through this process.
+        setup_permissions_action: Set up permissions
+
+

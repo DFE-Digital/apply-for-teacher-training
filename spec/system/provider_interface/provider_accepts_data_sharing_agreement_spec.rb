@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Accept data sharing agreement' do
   include DfESignInHelpers
 
+  before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+
   scenario 'Provider user cannot access provider_interface without a data sharing agreement in place' do
     given_i_am_an_authorised_provider_user
     and_no_data_sharing_agreement_for_my_provider_has_been_accepted
