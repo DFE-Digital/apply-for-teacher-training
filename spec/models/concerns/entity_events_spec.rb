@@ -67,4 +67,60 @@ RSpec.describe EntityEvents do
       end
     end
   end
+
+  describe 'entity_updated events' do
+    context 'when fields are specified in the analytics file' do
+      let(:interesting_fields) { [:email_address] }
+
+      it 'sends update events for fields we care about' do
+        candidate = create(:candidate, email_address: 'foo@bar.com')
+        candidate.update(email_address: 'bar@baz.com')
+
+        expect(SendEventsToBigquery).to have_received(:perform_async)
+          .with a_hash_including({
+            'event_type' => 'entity_updated',
+            'data' => [
+              { 'key' => 'table_name', 'value' => ['candidates'] },
+              { 'key' => 'email_address', 'value' => ['foo@bar.com', 'bar@baz.com'] },
+            ],
+          })
+      end
+
+      it 'does not send update events for fields we don’t care about' do
+        candidate = create(:candidate)
+        candidate.update(hide_in_reporting: true)
+
+        expect(SendEventsToBigquery).not_to have_received(:perform_async)
+          .with a_hash_including({
+            'event_type' => 'entity_updated',
+          })
+      end
+
+      it 'sends events that are valid according to the schema' do
+        candidate = create(:candidate)
+        candidate.update(email_address: 'bar@baz.com')
+
+        expect(SendEventsToBigquery).to have_received(:perform_async).twice do |payload|
+          schema = File.read('config/event-schema.json')
+          schema_validator = JSONSchemaValidator.new(schema, payload)
+
+          expect(schema_validator).to be_valid, schema_validator.failure_message
+        end
+      end
+    end
+
+    context 'when no fields are specified in the analytics file' do
+      let(:interesting_fields) { [] }
+
+      it 'does not send update events at all' do
+        candidate = create(:candidate)
+        candidate.update(hide_in_reporting: true)
+
+        expect(SendEventsToBigquery).not_to have_received(:perform_async)
+          .with a_hash_including({
+            'event_type' => 'entity_updated',
+          })
+      end
+    end
+  end
 end
