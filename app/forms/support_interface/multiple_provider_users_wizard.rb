@@ -82,8 +82,8 @@ module SupportInterface
       index + 2
     end
 
-    def more_users_to_process?
-      read_state['provider_users'].select { |pu| pu['complete'] == false }.present?
+    def no_more_users_to_process?
+      read_state['provider_users'].count == index + 1
     end
 
     def single_provider_user_form(index)
@@ -121,7 +121,6 @@ module SupportInterface
           first_name: provider_user[0],
           last_name: provider_user[1],
           email_address: provider_user[2],
-          complete: false,
         }
       end
 
@@ -137,7 +136,6 @@ module SupportInterface
         last_name: form.last_name,
         email_address: form.email_address,
         permissions: form.permission_form.provider_permission,
-        complete: true,
       }
 
       state['provider_users'][form.index] = updated_user_details
