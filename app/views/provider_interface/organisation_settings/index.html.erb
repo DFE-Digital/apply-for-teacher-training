@@ -1,4 +1,4 @@
-<%= content_for :browser_title, 'Organisation settings' %>
+<%= content_for :browser_title, t('page_titles.provider.organisation_settings') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -12,7 +12,7 @@
 
       <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
         <li>
-          <%= govuk_link_to t('page_titles.provider.org_permissions'), '#not-linked-yet' %>
+          <%= govuk_link_to t('page_titles.provider.organisation_permissions'), '#not-linked-yet' %>
         </li>
       <% end %>
     </ul>

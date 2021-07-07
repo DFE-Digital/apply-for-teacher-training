@@ -29,40 +29,40 @@ RSpec.describe 'Viewing organisation settings', type: :request do
     end
   end
 
-  describe 'GET index without manage users or manage organisations ' do
-    it 'responds with 302' do
-      FeatureFlag.activate(:accredited_provider_setting_permissions)
-      get provider_interface_organisation_settings_path
-      expect_redirect_to_account_page
-    end
-  end
+  context 'with feature flag on' do
+    before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
 
-  describe 'GET index with manage users' do
-    it 'responds with 200' do
-      FeatureFlag.activate(:accredited_provider_setting_permissions)
-      provider_user.provider_permissions.update_all(manage_users: true)
-      get provider_interface_organisation_settings_path
-      expect(response.status).to eq(200)
+    describe 'GET index without manage users or manage organisations ' do
+      it 'responds with 302' do
+        get provider_interface_organisation_settings_path
+        expect_redirect_to_account_page
+      end
     end
-  end
 
-  describe 'GET index with manage organisations for set up relationships' do
-    it 'responds with 200' do
-      FeatureFlag.activate(:accredited_provider_setting_permissions)
-      provider_user.provider_permissions.update_all(manage_organisations: true)
-      create(:provider_relationship_permissions, ratifying_provider: provider)
-      get provider_interface_organisation_settings_path
-      expect(response.status).to eq(200)
+    describe 'GET index with manage users' do
+      it 'responds with 200' do
+        provider_user.provider_permissions.update_all(manage_users: true)
+        get provider_interface_organisation_settings_path
+        expect(response.status).to eq(200)
+      end
     end
-  end
 
-  describe 'GET index with manage organisations for relationship that has not been set up' do
-    it 'responds with 302' do
-      FeatureFlag.activate(:accredited_provider_setting_permissions)
-      provider_user.provider_permissions.update_all(manage_organisations: true)
-      create(:provider_relationship_permissions, ratifying_provider: provider, setup_at: nil)
-      get provider_interface_organisation_settings_path
-      expect_redirect_to_account_page
+    describe 'GET index with manage organisations for set up relationships' do
+      it 'responds with 200' do
+        provider_user.provider_permissions.update_all(manage_organisations: true)
+        create(:provider_relationship_permissions, ratifying_provider: provider)
+        get provider_interface_organisation_settings_path
+        expect(response.status).to eq(200)
+      end
+    end
+
+    describe 'GET index with manage organisations for relationship that has not been set up' do
+      it 'responds with 302' do
+        provider_user.provider_permissions.update_all(manage_organisations: true)
+        create(:provider_relationship_permissions, ratifying_provider: provider, setup_at: nil)
+        get provider_interface_organisation_settings_path
+        expect_redirect_to_account_page
+      end
     end
   end
 end

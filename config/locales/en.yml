@@ -209,6 +209,7 @@ en:
       account: Your account
       profile: Profile
       organisation_settings: Organisation settings
+      organisation_permissions: Organisation permissions
       org_permissions: Organisational permissions
       users: Users
       export_hesa_data: Export data %{timeframe} for Higher Education Statistics Agency (HESA)
