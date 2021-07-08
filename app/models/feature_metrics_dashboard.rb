@@ -23,6 +23,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_carry_over_counts
     load_qualifications
     load_satisfaction_survey_response_rate
+    load_satisfaction_survey_positive_feedback_rate
     load_equality_and_diversity_response_rate
   end
 
@@ -362,6 +363,28 @@ private
     write_metric(
       :satisfaction_survey_response_rate_last_month,
       satisfaction_survey_statistics.formatted_response_rate(
+        Time.zone.now.beginning_of_month - 1.month,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+  end
+
+  def load_satisfaction_survey_positive_feedback_rate
+    write_metric(
+      :satisfaction_survey_positive_feedback_rate,
+      satisfaction_survey_statistics.formatted_positive_feedback_rate(
+        CycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :satisfaction_survey_positive_feedback_rate_this_month,
+      satisfaction_survey_statistics.formatted_positive_feedback_rate(
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :satisfaction_survey_positive_feedback_rate_last_month,
+      satisfaction_survey_statistics.formatted_positive_feedback_rate(
         Time.zone.now.beginning_of_month - 1.month,
         Time.zone.now.beginning_of_month,
       ),

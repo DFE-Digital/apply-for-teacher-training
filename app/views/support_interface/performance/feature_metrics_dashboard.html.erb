@@ -383,7 +383,7 @@
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:satisfaction_survey_response_rate),
-          label: 'survey response rate',
+          label: 'response rate',
           colour: :blue,
           size: :reduced,
         ) %>
@@ -404,6 +404,30 @@
           </div>
         </div>
       </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @dashboard.read_metric(:satisfaction_survey_positive_feedback_rate),
+          label: 'satisfied or very satisfied',
+          colour: :blue,
+          size: :reduced,
+        ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:satisfaction_survey_positive_feedback_rate_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:satisfaction_survey_positive_feedback_rate_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -414,7 +438,7 @@
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:equality_and_diversity_response_rate),
-          label: 'survey response rate',
+          label: 'response rate',
           colour: :blue,
           size: :reduced,
         ) %>
