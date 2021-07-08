@@ -15,6 +15,7 @@ RSpec.feature 'Submitting an application' do
     then_i_get_an_error_about_not_having_enough_references
 
     when_most_of_my_references_have_been_provided
+    then_the_copy_is_updated
     and_i_submit_the_application
     then_i_get_an_error_about_not_selecting_enough_references
 
@@ -51,7 +52,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_references_are_in_progress
     visit candidate_interface_application_form_path
-    expect(page).to have_content('You have to get 2 references back before you can submit your application.')
+    expect(page).to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content("#{@reference1.name}: Awaiting response")
       expect(page).to have_content("#{@reference2.name}: Awaiting response")
@@ -61,7 +62,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def then_i_can_see_references_are_incomplete
-    expect(page).to have_content('You have to get 2 references back before you can submit your application.')
+    expect(page).to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Incomplete')
     end
@@ -69,7 +70,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_the_references_section_is_complete
     visit candidate_interface_application_form_path
-    expect(page).not_to have_content('You have to get 2 references back before you can submit your application.')
+    expect(page).not_to have_content('Request your references as soon as possible. You need to get 2 references back before you can submit your application.')
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Complete')
       expect(page).to have_content("#{@reference1.name}: Reference received")
@@ -128,6 +129,11 @@ RSpec.feature 'Submitting an application' do
   def when_most_of_my_references_have_been_provided
     receive_references
     SubmitReference.new(reference: @reference3).save!
+  end
+
+  def then_the_copy_is_updated
+    visit candidate_interface_application_form_path
+    expect(page).to have_content('You need to select 2 references to submit with your application.')
   end
 
   def when_i_select_my_references

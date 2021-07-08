@@ -161,7 +161,7 @@ en:
     references_select: Which 2 references do you want to include in your application?
     references_request: Add your references
     references_review: Review your references
-    references_selection: Select your references
+    references_selection: Select 2 references
     application_feedback: How can we improve %{section} section?
     application_feedback_thank_you: Thank you for your feedback
     find_feedback: Help us improve this service

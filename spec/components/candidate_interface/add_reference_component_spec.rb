@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       expect(link_text(result)).to eq 'Add a referee'
       expect(href(result)).to eq '/candidate/application/references/start'
-      expect(body_text(result)).to eq 'You need 2 references before you can submit your application.'
+      expect(body_text(result)).to eq 'You need to get 2 references back before you can submit your application.'
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       expect(link_text(result)).to eq 'Add a second referee'
       expect(href(result)).to eq '/candidate/application/references/start'
-      expect(body_text(result)).to eq 'You need 2 references before you can submit your application.'
+      expect(body_text(result)).to eq 'You need to get 2 references back before you can submit your application.'
     end
   end
 
