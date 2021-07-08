@@ -17,12 +17,11 @@ module CandidateInterface
     end
 
     def destroy
-      current_application
+      application_choice = current_application
         .application_choices
         .find(current_course_choice_id)
-        .destroy!
 
-      current_application.update!(course_choices_completed: nil) if current_application.application_choices.empty?
+      CandidateInterface::DeleteApplicationChoice.new(application_choice: application_choice).call
 
       redirect_to candidate_interface_course_choices_index_path
     end
