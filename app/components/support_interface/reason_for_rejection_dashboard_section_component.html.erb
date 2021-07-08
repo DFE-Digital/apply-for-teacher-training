@@ -7,6 +7,7 @@
       ),
     ) %>
   </h2>
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
       <%= render SupportInterface::TileComponent.new(
@@ -16,7 +17,6 @@
         size: :reduced,
       ) %>
     </div>
-
     <div class="govuk-grid-column-one-quarter">
       <%= render SupportInterface::TileComponent.new(
         count: @total_count,
@@ -24,7 +24,6 @@
         size: :reduced,
       ) %>
     </div>
-
     <div class="govuk-grid-column-one-quarter">
       <%= render SupportInterface::TileComponent.new(
         count: @this_month,

@@ -8,16 +8,18 @@
 <% end %>
 
 <% RecruitmentCycle.years_visible_in_support.each do |year| %>
-  <h2 class="govuk-heading-m"><%= year %></h2>
-  <div class="govuk-grid-row app-grid-row--flex govuk-!-margin-bottom-6">
-    <div class="govuk-grid-column-one-half">
-      <%= render SupportInterface::TileComponent.new(count: Course.in_cycle(year).open_on_apply.count, label: 'courses available on Apply', colour: :blue) %>
+  <section class="app-section">
+    <h2 class="govuk-heading-m"><%= year %></h2>
+    <div class="govuk-grid-row app-grid-row--flex">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(count: Course.in_cycle(year).open_on_apply.count, label: 'courses available on Apply', colour: :blue) %>
+      </div>
+      <div class="govuk-grid-column-one-quarter">
+        <%= render SupportInterface::TileComponent.new(count: Course.in_cycle(year).exposed_in_find.where(open_on_apply: false).count, label: 'courses only on UCAS', size: :reduced) %>
+      </div>
+      <div class="govuk-grid-column-one-quarter">
+        <%= render SupportInterface::TileComponent.new(count: Provider.where(id: Course.in_cycle(year).open_on_apply.select(:provider_id)).count, label: 'providers with open courses', size: :reduced) %>
+      </div>
     </div>
-    <div class="govuk-grid-column-one-quarter">
-      <%= render SupportInterface::TileComponent.new(count: Course.in_cycle(year).exposed_in_find.where(open_on_apply: false).count, label: 'courses only on UCAS', size: :reduced) %>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-      <%= render SupportInterface::TileComponent.new(count: Provider.where(id: Course.in_cycle(year).open_on_apply.select(:provider_id)).count, label: 'providers with open courses', size: :reduced) %>
-    </div>
-  </div>
+  </section>
 <% end %>
