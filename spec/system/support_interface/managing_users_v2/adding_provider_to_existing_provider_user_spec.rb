@@ -6,7 +6,6 @@ RSpec.feature 'Managing provider users v2' do
 
   before do
     FeatureFlag.activate(:interview_permissions)
-    FeatureFlag.activate(:new_provider_user_flow)
   end
 
   scenario 'adding provider to an existing provider user', with_audited: true do

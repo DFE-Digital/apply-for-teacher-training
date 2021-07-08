@@ -5,8 +5,6 @@ RSpec.feature 'Managing provider user notification preferences' do
   include DsiAPIHelper
 
   scenario 'editing the settings' do
-    FeatureFlag.activate(:new_provider_user_flow)
-
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_a_provider_user_exist
