@@ -13,8 +13,8 @@
   <p class="govuk-hint govuk-!-font-size-14 govuk-!-margin-bottom-0"> Last updated on <%= @dashboard.last_updated_at %> </p>
   <p class="govuk-hint govuk-!-font-size-14 govuk-!-margin-top-0"> Next update expected on <%= @dashboard.next_update_exepected_at %> </p>
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
-  <div id="references_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h2 id="references" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-references">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -70,8 +70,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Work history</h3>
-  <div id="work_history_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="work-history" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Work history</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-work-history">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -100,9 +100,9 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Accessing the service</h3>
-  <div id="accessing_the_service_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div id="accessing_the_service_to_unsubmitted_dashboard_section" class="govuk-grid-column-one-third">
+  <h3 id="accessing-the-service" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Accessing the service</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-accessing-the-service">
+    <div class="govuk-grid-column-one-third">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_sign_ins_before_submitting),
@@ -128,7 +128,7 @@
         </div>
       </div>
     </div>
-    <div id="accessing_the_service_to_offer_dashboard_section" class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-one-third">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_sign_ins_before_offer),
@@ -154,7 +154,7 @@
         </div>
       </div>
     </div>
-    <div id="accessing_the_service_to_recruitment_dashboard_section" class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-one-third">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_sign_ins_before_recruitment),
@@ -182,8 +182,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h3>
-  <div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="reasons-for-rejection" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-reasons-for-rejection">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -212,8 +212,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Apply again</h3>
-  <div id="apply_again_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="apply-again" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Apply again</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-apply-again">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -294,8 +294,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Carry over</h3>
-  <div id="carry_over_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="carry-over" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Carry over</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-carry-over">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -324,8 +324,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Qualifications</h3>
-  <div id="qualifications_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="qualifications" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Qualifications</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -380,8 +380,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Satisfaction Survey</h3>
-  <div id="satisfaction_survey_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="satisfaction-survey" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Satisfaction Survey</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-satisfaction-survey">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
@@ -410,8 +410,8 @@
     </div>
   </div>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Equality and Diversity</h3>
-  <div id="equality_and_diversity_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <h3 id="equality-and-diversity" class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Equality and Diversity</h3>
+  <div class="govuk-grid-row govuk-!-margin-bottom-4" data-qa="section-equality-and-diversity">
     <div class="govuk-grid-column-one-half">
       <div class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
