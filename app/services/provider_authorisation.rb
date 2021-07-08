@@ -38,6 +38,7 @@ class ProviderAuthorisation
       .select(:provider_id)
 
     provider_relationships_for_actor
+      .includes(:ratifying_provider, :training_provider)
       .with(provider_ids: manageable_provider_ids)
       .joins('INNER JOIN provider_ids ON (training_provider_id = provider_id OR ratifying_provider_id = provider_id)')
   end

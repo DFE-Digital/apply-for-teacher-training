@@ -46,83 +46,111 @@ RSpec.describe ProviderSetup do
   end
 
   describe '#next_relationship_pending' do
-    let(:training_provider_user) { create(:provider_user, :with_provider, :with_manage_organisations) }
-    let(:training_provider) { training_provider_user.providers.first }
-    let(:ratifying_provider) { create(:provider) }
-    let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider: training_provider) }
+    let(:provider_user) { create(:provider_user, :with_provider, :with_manage_organisations) }
+    let(:provider_for_user) { provider_user.providers.first }
+    let(:other_provider) { create(:provider) }
+    let!(:course) { create(:course, :open_on_apply, accredited_provider: other_provider, provider: provider_for_user) }
 
-    def next_relationship_pending
-      ProviderSetup.new(provider_user: training_provider_user).next_relationship_pending
-    end
+    let(:provider_setup) { described_class.new(provider_user: provider_user) }
 
-    it 'returns a ProviderRelationshipPermissions record in need of setup' do
-      create(
-        :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-        setup_at: nil,
-      )
-
-      expect(next_relationship_pending).to be_a(ProviderRelationshipPermissions)
-    end
-
-    it 'provides all relationships pending setup for the user when called multiple times' do
-      second_ratifying_provider = create(:provider)
-      create(:course, :open_on_apply, accredited_provider: second_ratifying_provider, provider: training_provider)
-      first_relationship = create(
-        :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-        setup_at: nil,
-      )
-      second_relationship = create(
-        :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: second_ratifying_provider,
-        setup_at: nil,
-      )
-      create(:provider_relationship_permissions, setup_at: nil) # pending setup but unrelated
-
-      expect(next_relationship_pending).to eq(first_relationship)
-      first_relationship.update(setup_at: Time.zone.now)
-      expect(next_relationship_pending).to eq(second_relationship)
-      second_relationship.update(setup_at: Time.zone.now)
-
-      expect(next_relationship_pending).to be_nil
-    end
-
-    it 'provides the next invalid ProviderRelationshipPermissions record to set up' do
-      relationship = create(
-        :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-        training_provider_can_view_safeguarding_information: false,
-        ratifying_provider_can_view_safeguarding_information: false,
-        setup_at: nil,
-      )
-      relationship.setup_at = Time.zone.now
-      relationship.save(validate: false)
-
-      expect(next_relationship_pending).to eq(relationship)
-    end
-
-    it 'returns nil if no relationships exist' do
-      expect(next_relationship_pending).to be_nil
-    end
-
-    context 'when the provider has no courses open on apply' do
-      let!(:course) { create(:course, accredited_provider: ratifying_provider, provider: training_provider, open_on_apply: false) }
-
+    context 'when there are no relationships' do
       it 'returns nil' do
+        expect(provider_setup.next_relationship_pending).to be_nil
+      end
+    end
+
+    context 'when there is a permission that has not been set up' do
+      let!(:permission_to_set_up) do
         create(
           :provider_relationship_permissions,
-          training_provider: training_provider,
-          ratifying_provider: ratifying_provider,
+          training_provider: provider_for_user,
+          ratifying_provider: other_provider,
+          setup_at: nil,
+        )
+      end
+
+      it 'returns a ProviderRelationshipPermissions' do
+        expect(provider_setup.next_relationship_pending).to be_a(ProviderRelationshipPermissions)
+      end
+
+      context 'when there is another relationship to set up' do
+        let(:other_ratifying_provider) { create(:provider) }
+        let!(:other_course) { create(:course, :open_on_apply, accredited_provider: other_ratifying_provider, provider: provider_for_user) }
+        let!(:other_permission_to_set_up) do
+          create(
+            :provider_relationship_permissions,
+            training_provider: provider_for_user,
+            ratifying_provider: other_ratifying_provider,
+            setup_at: nil,
+          )
+        end
+        let!(:unrelated_permission) { create(:provider_relationship_permissions, setup_at: nil) }
+
+        it 'provides all relationships pending setup for the user when called multiple times' do
+          expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
+          permission_to_set_up.update(setup_at: Time.zone.now)
+
+          expect(provider_setup.next_relationship_pending).to eq(other_permission_to_set_up)
+          other_permission_to_set_up.update(setup_at: Time.zone.now)
+
+          expect(provider_setup.next_relationship_pending).to be_nil
+        end
+      end
+
+      context 'when the provider has no courses open on apply' do
+        let!(:course) { create(:course, accredited_provider: other_provider, provider: provider_for_user, open_on_apply: false) }
+
+        it 'returns nil' do
+          expect(provider_setup.next_relationship_pending).to eq(nil)
+        end
+      end
+    end
+
+    context 'when all permissions are set up already' do
+      let!(:permission_to_set_up) do
+        permission = create(
+          :provider_relationship_permissions,
+          training_provider: provider_for_user,
+          ratifying_provider: other_provider,
           training_provider_can_view_safeguarding_information: false,
           ratifying_provider_can_view_safeguarding_information: false,
           setup_at: nil,
         )
-        expect(next_relationship_pending).to eq(nil)
+        permission.setup_at = 1.day.ago
+        permission.save(validate: false)
+        permission
+      end
+
+      it 'returns the first invalid manageable permission' do
+        expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
+      end
+    end
+
+    context 'when the provider user is part of the ratifying provider' do
+      let!(:course) { create(:course, :open_on_apply, accredited_provider: provider_for_user, provider: other_provider) }
+      let!(:permission_to_set_up) do
+        create(
+          :provider_relationship_permissions,
+          training_provider: other_provider,
+          ratifying_provider: provider_for_user,
+          setup_at: nil,
+        )
+      end
+
+      context 'when the accredited_provider_setting_permissions is on' do
+        before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
+
+        it 'returns the relationship for which the user is the ratifier' do
+          expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
+        end
+      end
+
+      context 'when the accredited_provider_setting_permissions is off' do
+        before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+
+        it 'does not return the relationship for which the user is the ratifier' do
+          expect(provider_setup.next_relationship_pending).to eq(nil)
+        end
       end
     end
   end

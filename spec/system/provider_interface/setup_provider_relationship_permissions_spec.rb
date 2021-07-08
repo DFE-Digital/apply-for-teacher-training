@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Setting up provider relationship permissions' do
   include DfESignInHelpers
 
+  before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+
   scenario 'Provider user sets up permissions for their organisation' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_organisations
