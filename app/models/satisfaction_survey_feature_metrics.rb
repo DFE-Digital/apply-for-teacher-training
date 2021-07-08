@@ -17,8 +17,9 @@ class SatisfactionSurveyFeatureMetrics
     end_time = Time.zone.now.end_of_day
   )
     feedback_count = application_forms_with_feedback(start_time, end_time).count.to_f
-    positive_feedback_count = application_forms_with_positive_feedback(start_time, end_time).count.to_f
     return nil if feedback_count.zero?
+
+    positive_feedback_count = application_forms_with_positive_feedback(start_time, end_time).count.to_f
 
     positive_feedback_count / feedback_count
   end
@@ -52,31 +53,28 @@ private
 
   def application_forms_with_feedback(start_time, end_time)
     ApplicationForm
+      .where.not(feedback_satisfaction_level: '')
       .where(
         recruitment_cycle_year: RecruitmentCycle.current_year,
+        application_forms: { submitted_at: start_time..end_time },
       )
-      .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
-      .where.not(feedback_satisfaction_level: '')
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 
   def application_forms_with_positive_feedback(start_time, end_time)
     ApplicationForm
       .where(
+        feedback_satisfaction_level: %w[very_satisfied satisfied],
         recruitment_cycle_year: RecruitmentCycle.current_year,
+        application_forms: { submitted_at: start_time..end_time },
       )
-      .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
-      .where(feedback_satisfaction_level: 'very_satisfied').or(ApplicationForm.where(feedback_satisfaction_level: 'satisfied'))
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 
   def application_forms_with_no_feedback(start_time, end_time)
     ApplicationForm
       .where(
+        feedback_satisfaction_level: [nil, ''],
         recruitment_cycle_year: RecruitmentCycle.current_year,
+        application_forms: { submitted_at: start_time..end_time },
       )
-      .where('application_forms.submitted_at BETWEEN ? AND ?', start_time, end_time)
-      .where(feedback_satisfaction_level: nil).or(ApplicationForm.where(feedback_satisfaction_level: ''))
-      .where(recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 end
