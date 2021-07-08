@@ -1,6 +1,10 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code}" %>
 
-<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(
+  application_choice: @application_choice,
+  provider_can_respond: @provider_can_respond,
+  provider_can_set_up_interviews: @provider_can_set_up_interviews,
+) %>
 
 <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present || @application_choice.rejected? %>
 

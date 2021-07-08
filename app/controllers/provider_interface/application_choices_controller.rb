@@ -56,7 +56,7 @@ module ProviderInterface
     end
 
     def application_withdrawable?
-      provider_can_respond && !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(@application_choice.status.to_sym)
+      @provider_can_respond && !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(@application_choice.status.to_sym)
     end
     helper_method :application_withdrawable?
 
@@ -67,7 +67,14 @@ module ProviderInterface
     end
 
     def set_workflow_flags
-      @provider_can_respond = provider_can_respond
+      @provider_can_respond = auth.can_make_decisions?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.current_course_option.id,
+      )
+      @provider_can_set_up_interviews = auth.can_set_up_interviews?(
+        application_choice: @application_choice,
+        course_option: @application_choice.current_course_option,
+      )
       @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
     end
 
@@ -78,12 +85,8 @@ module ProviderInterface
       ).call
     end
 
-    def provider_can_respond
-      auth = ProviderAuthorisation.new(actor: current_provider_user)
-      @provider_can_respond = auth.can_make_decisions?(
-        application_choice: @application_choice,
-        course_option_id: @application_choice.current_course_option.id,
-      )
+    def auth
+      ProviderAuthorisation.new(actor: current_provider_user)
     end
   end
 end
