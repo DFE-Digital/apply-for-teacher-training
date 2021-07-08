@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
       result = render_inline(described_class.new(phase: application_form.phase, flash_empty: flash.empty?))
 
-      expect(result.text).to include("The deadline for applying to courses starting this academic year is #{CycleTimetable.apply_1_deadline.strftime('%d %B')}")
+      expect(result.text).to include("The deadline for applying to courses starting this academic year is #{CycleTimetable.apply_1_deadline.to_s(:day_and_month)}")
     end
 
     it 'renders the Apply 2 banner when the right conditions are met' do
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
       result = render_inline(described_class.new(phase: application_form.phase, flash_empty: flash.empty?))
 
-      expect(result.text).to include("The deadline for applying to courses starting this academic year is #{CycleTimetable.apply_2_deadline.strftime('%d %B')}")
+      expect(result.text).to include("The deadline for applying to courses starting this academic year is #{CycleTimetable.apply_2_deadline.to_s(:day_and_month)}")
     end
 
     it 'renders nothing if feature flag is inactive' do
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::DeadlineBannerComponent, type: :component do
 
       result = render_inline(described_class.new(phase: application_form.phase, flash_empty: flash.empty?))
 
-      expect(result.text).to include("The deadline for applying to courses starting this academic year is #{CycleTimetable.apply_2_deadline.strftime('%d %B')}")
+      expect(result.text).to include("The deadline for applying to courses starting this academic year is #{CycleTimetable.apply_2_deadline.to_s(:day_and_month)}")
     end
   end
 end
