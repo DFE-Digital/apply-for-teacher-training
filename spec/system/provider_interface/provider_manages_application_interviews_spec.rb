@@ -21,7 +21,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   scenario 'can view, create and cancel interviews' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
-    and_i_can_see_the_application_actions
     and_i_am_permitted_to_set_up_interviews_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
@@ -57,6 +56,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_set_up_another_interview(days_in_future: 4)
     then_another_interview_has_been_created(4.days.from_now.to_s(:govuk_date))
 
+    when_i_can_make_decisions_for_my_provider
+    and_i_visit_that_application_in_the_provider_interface
     when_i_click_make_decision
     and_i_make_an_offer
     then_i_should_see_the_interview_on_the_interview_tab(4.days.from_now.to_s(:govuk_date))
@@ -97,7 +98,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     provider_user_exists_in_apply_database
   end
 
-  def and_i_can_see_the_application_actions
+  def when_i_can_make_decisions_for_my_provider
     permit_make_decisions!
   end
 
@@ -108,6 +109,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def when_i_visit_that_application_in_the_provider_interface
     visit provider_interface_application_choice_path(application_choice)
   end
+
+  alias_method :and_i_visit_that_application_in_the_provider_interface, :when_i_visit_that_application_in_the_provider_interface
 
   def and_i_click_set_up_an_interview
     click_on 'Set up interview'
