@@ -10,8 +10,11 @@ module EntityEvents
     end
 
     after_update do
-      data = entity_data(saved_changes)
-      send_event('entity_updated', data) if data.any?
+      interesting_changes = entity_data(saved_changes)
+
+      if interesting_changes.any?
+        send_event('entity_updated', entity_data(attributes).merge(interesting_changes))
+      end
     end
   end
 

@@ -70,7 +70,7 @@ RSpec.describe EntityEvents do
 
   describe 'entity_updated events' do
     context 'when fields are specified in the analytics file' do
-      let(:interesting_fields) { [:email_address] }
+      let(:interesting_fields) { %i[email_address hide_in_reporting] }
 
       it 'sends update events for fields we care about' do
         candidate = create(:candidate, email_address: 'foo@bar.com')
@@ -82,13 +82,14 @@ RSpec.describe EntityEvents do
             'data' => [
               { 'key' => 'table_name', 'value' => ['candidates'] },
               { 'key' => 'email_address', 'value' => ['foo@bar.com', 'bar@baz.com'] },
+              { 'key' => 'hide_in_reporting', 'value' => [false] },
             ],
           })
       end
 
       it 'does not send update events for fields we don’t care about' do
         candidate = create(:candidate)
-        candidate.update(hide_in_reporting: true)
+        candidate.update(course_from_find_id: 1)
 
         expect(SendEventsToBigquery).not_to have_received(:perform_async)
           .with a_hash_including({
