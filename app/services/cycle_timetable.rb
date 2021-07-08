@@ -153,7 +153,7 @@ class CycleTimetable
         apply_opens: 2.days.from_now.to_date,
       },
 
-      today_is_after_find_reopens: {
+      today_is_after_find_opens: {
         apply_1_deadline: 5.days.ago.to_date,
         apply_2_deadline: 3.days.ago.to_date,
         find_closes: 2.days.ago.to_date,
@@ -161,7 +161,7 @@ class CycleTimetable
         apply_opens: 1.day.from_now.to_date,
       },
 
-      today_is_after_apply_reopens: {
+      today_is_after_apply_opens: {
         apply_1_deadline: 6.days.ago.to_date,
         apply_2_deadline: 4.days.ago.to_date,
         find_closes: 3.days.ago.to_date,

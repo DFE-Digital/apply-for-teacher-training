@@ -18,9 +18,9 @@ en:
     today_is_after_find_closes:
       name: Find has closed
       description: Candidates can no longer browse courses on Find
-    today_is_after_find_reopens:
+    today_is_after_find_opens:
       name: Find has reopened
       description: Candidates can browse courses on Find
-    today_is_after_apply_reopens:
+    today_is_after_apply_opens:
       name: Apply has reopened
       description: Candidates can apply for courses
