@@ -1,21 +1,21 @@
-<ul class='govuk-list'>
-  <li><span class='govuk-!-font-weight-bold'><%= candidates_on_apply_count %></span> candidates on Apply with submitted application</li>
-  <li><span class='govuk-!-font-weight-bold'><%= candidates_matched_with_ucas_count_and_percentage %></span> candidates matched with UCAS, of which</li>
-  <li class='govuk-!-margin-left-5'>
-    <span class='govuk-!-font-weight-bold'><%= applied_for_the_same_course_on_both_services %></span> have applied for the same course on both services
-  </li>
-  <li class='govuk-!-margin-left-5'>
-    <span class='govuk-!-font-weight-bold'><%= accepted_offers_on_both_services %></span> have accepted offers on both services
+<ul class="govuk-list">
+  <li><b><%= candidates_on_apply_count %></b> candidates on Apply with submitted application</li>
+  <li>
+    <b><%= candidates_matched_with_ucas_count_and_percentage %></b> candidates matched with UCAS, of which</li>
+    <ul class="govuk-list govuk-!-margin-left-4">
+      <li><b><%= applied_for_the_same_course_on_both_services %></b> have applied for the same course on both services</li>
+      <li><b><%= accepted_offers_on_both_services %></b> have accepted offers on both services</li>
+    </ul>
   </li>
 </ul>
 
-<div class="govuk-grid-row app-grid-row--flex govuk-!-margin-bottom-6">
+<div class="govuk-grid-row app-grid-row--flex">
   <div class="govuk-grid-column-full">
     <%= render SupportInterface::TileComponent.new(count: candidates_with_dual_applications_or_dual_acceptance || '0', label: 'candidates with dual application or multiple acceptances', colour: :blue) %>
   </div>
 </div>
 
-<div class="govuk-grid-row app-grid-row--flex govuk-!-margin-bottom-6">
+<div class="govuk-grid-row app-grid-row--flex">
   <div class="govuk-grid-column-one-quarter">
     <%= render SupportInterface::TileComponent.new(count: unresolved_count || '0', label: 'unresolved', colour: :blue) %>
   </div>
@@ -38,9 +38,9 @@
   </div>
 <% end %>
 
-<p class='govuk-body'>For the matches which have not been resolved yet, we have taken the following actions</p>
+<p class="govuk-body">For the matches which have not been resolved yet, we have taken the following actions</p>
 
-<div class="govuk-grid-row app-grid-row--flex govuk-!-margin-bottom-6">
+<div class="govuk-grid-row app-grid-row--flex">
   <div class="govuk-grid-column-one-third">
     <%= render SupportInterface::TileComponent.new(count: action_taken_count['initial_emails_sent'] || '0', label: "#{'set'.pluralize(action_taken_count['initial_emails_sent'])} of initial emails sent", size: :reduced) %>
   </div>

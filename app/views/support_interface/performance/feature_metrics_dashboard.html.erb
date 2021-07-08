@@ -8,435 +8,433 @@
 <% end %>
 
 <% if @dashboard.nil? %>
-  <p class="govuk-body">No dashboard data available. Ask a dev to run the UpdateFeatureMetricsDashboard worker.</p>
+  <p class="govuk-body">No dashboard data available. Ask a dev to run the <code>UpdateFeatureMetricsDashboard</code> worker.</p>
 <% else %>
-  <p class="govuk-hint govuk-!-font-size-14 govuk-!-margin-bottom-0"> Last updated on <%= @dashboard.last_updated_at %> </p>
-  <p class="govuk-hint govuk-!-font-size-14 govuk-!-margin-top-0"> Next update expected on <%= @dashboard.next_update_exepected_at %> </p>
+  <p class="govuk-caption-m">
+    Last updated on <%= @dashboard.last_updated_at %><br>
+    Next update expected on <%= @dashboard.next_update_exepected_at %>
+  </p>
 
-  <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
-  <div id="references_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="references" class="govuk-heading-m govuk-!-font-size-27">References</h2>
+
+    <div class="govuk-grid-row" data-qa="section-references">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_time_to_get_references),
           label: 'average time to get reference back',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_time_to_get_references_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_time_to_get_references_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_time_to_get_references_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_time_to_get_references_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
-        </div>
       </div>
-    </div>
-
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:pct_references_completed_within_30_days),
           label: 'completed within 30 days',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:pct_references_completed_within_30_days_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:pct_references_completed_within_30_days_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:pct_references_completed_within_30_days_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:pct_references_completed_within_30_days_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Work history</h3>
-  <div id="work_history_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="work-history" class="govuk-heading-m govuk-!-font-size-27">Work history</h2>
+
+    <div class="govuk-grid-row" data-qa="section-work-history">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_time_to_complete_work_history),
           label: 'time to complete',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_time_to_complete_work_history_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_time_to_complete_work_history_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_time_to_complete_work_history_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_time_to_complete_work_history_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Accessing the service</h3>
-  <div id="accessing_the_service_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div id="accessing_the_service_to_unsubmitted_dashboard_section" class="govuk-grid-column-one-third">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="accessing-the-service" class="govuk-heading-m govuk-!-font-size-27">Accessing the service</h2>
+
+    <div class="govuk-grid-row" data-qa="section-accessing-the-service">
+      <div class="govuk-grid-column-one-third">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_sign_ins_before_submitting),
           label: 'average number of sign-ins before submitting application',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_sign_ins_before_submitting_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_sign_ins_before_submitting_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_sign_ins_before_submitting_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_sign_ins_before_submitting_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
-        </div>
       </div>
-    </div>
-    <div id="accessing_the_service_to_offer_dashboard_section" class="govuk-grid-column-one-third">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-third">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_sign_ins_before_offer),
           label: 'average number of sign-ins before offer',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_sign_ins_before_offer_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_sign_ins_before_offer_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_sign_ins_before_offer_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_sign_ins_before_offer_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
-        </div>
       </div>
-    </div>
-    <div id="accessing_the_service_to_recruitment_dashboard_section" class="govuk-grid-column-one-third">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-third">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:avg_sign_ins_before_recruitment),
           label: 'average number of sign-ins before recruitment',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_sign_ins_before_recruitment_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:avg_sign_ins_before_recruitment_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_sign_ins_before_recruitment_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:avg_sign_ins_before_recruitment_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h3>
-  <div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="reasons-for-rejection" class="govuk-heading-m govuk-!-font-size-27">Reasons for rejection</h2>
+
+    <div class="govuk-grid-row" data-qa="section-reasons-for-rejection">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:num_rejections_due_to_qualifications),
           label: 'rejections due to qualifications',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:num_rejections_due_to_qualifications_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:num_rejections_due_to_qualifications_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:num_rejections_due_to_qualifications_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:num_rejections_due_to_qualifications_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Apply again</h3>
-  <div id="apply_again_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="apply-again" class="govuk-heading-m govuk-!-font-size-27">Apply again</h2>
+
+    <div class="govuk-grid-row" data-qa="section-apply-again">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:apply_again_success_rate),
           label: 'apply again success rate',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_success_rate_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:apply_again_success_rate_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:apply_again_success_rate_upto_this_month),
+              label: 'upto this month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_success_rate_upto_this_month),
-            label: 'upto this month',
-            size: :reduced,
-          ) %>
-        </div>
       </div>
-    </div>
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:apply_again_change_rate),
           label: 'candidates made changes to their application when applying again',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_change_rate_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:apply_again_change_rate_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:apply_again_change_rate_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_change_rate_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
-        </div>
       </div>
-    </div>
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:apply_again_application_rate),
           label: 'candidates applied again after an unsuccessful first application',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_application_rate_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_application_rate_upto_this_month),
-            label: 'upto this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:apply_again_application_rate_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:apply_again_application_rate_upto_this_month),
+              label: 'upto this month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Carry over</h3>
-  <div id="carry_over_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="carry-over" class="govuk-heading-m govuk-!-font-size-27">Carry over</h2>
+
+    <div class="govuk-grid-row" data-qa="section-carry-over">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:carry_over_count),
           label: 'candidates carried over applications from previous cycle',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:carry_over_count_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:carry_over_count_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:carry_over_count_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:carry_over_count_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Qualifications</h3>
-  <div id="qualifications_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="qualifications" class="govuk-heading-m govuk-!-font-size-27">Qualifications</h2>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:pct_applications_with_one_a_level),
           label: 'candidates added 1 or more AS or A level',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:pct_applications_with_one_a_level_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:pct_applications_with_one_a_level_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:pct_applications_with_one_a_level_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:pct_applications_with_one_a_level_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
-        </div>
       </div>
-    </div>
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:pct_applications_with_three_a_levels),
           label: 'candidates added 3 or more AS or A level',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:pct_applications_with_three_a_levels_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:pct_applications_with_three_a_levels_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:pct_applications_with_three_a_levels_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:pct_applications_with_three_a_levels_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Satisfaction Survey</h3>
-  <div id="satisfaction_survey_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="satisfaction-survey" class="govuk-heading-m govuk-!-font-size-27">Satisfaction survey</h2>
+
+    <div class="govuk-grid-row" data-qa="section-satisfaction-survey">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:satisfaction_survey_response_rate),
-          label: 'Satisfaction Survey Response Rate',
+          label: 'survey response rate',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:satisfaction_survey_response_rate_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:satisfaction_survey_response_rate_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:satisfaction_survey_response_rate_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:satisfaction_survey_response_rate_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Equality and Diversity</h3>
-  <div id="equality_and_diversity_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-    <div class="govuk-grid-column-one-half">
-      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+  <section class="app-section">
+    <h2 id="equality-and-diversity" class="govuk-heading-m govuk-!-font-size-27">Equality and diversity</h2>
+
+    <div class="govuk-grid-row" data-qa="section-equality-and-diversity">
+      <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:equality_and_diversity_response_rate),
-          label: 'Equality and Diversity Survey Response Rate',
+          label: 'survey response rate',
           colour: :blue,
           size: :reduced,
         ) %>
-      </div>
-      <div class="govuk-grid-row govuk-!-margin-bottom-4">
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:equality_and_diversity_response_rate_this_month),
-            label: 'this month',
-            size: :reduced,
-          ) %>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:equality_and_diversity_response_rate_last_month),
-            label: 'last month',
-            size: :reduced,
-          ) %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:equality_and_diversity_response_rate_this_month),
+              label: 'this month',
+              size: :reduced,
+            ) %>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <%= render SupportInterface::TileComponent.new(
+              count: @dashboard.read_metric(:equality_and_diversity_response_rate_last_month),
+              label: 'last month',
+              size: :reduced,
+            ) %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 <% end %>

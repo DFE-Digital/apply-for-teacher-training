@@ -150,7 +150,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def then_i_should_see_reference_metrics
     expect(page).to have_content('Feature metrics')
-    within('#references_dashboard_section') do
+    within('[data-qa="section-references"]') do
       expect(page).to have_content('24 days average time to get reference back')
       expect(page).to have_content('10 days last month')
       expect(page).to have_content('28.7 days this month')
@@ -161,7 +161,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_work_history_metrics
-    within('#work_history_dashboard_section') do
+    within('[data-qa="section-work-history"]') do
       expect(page).to have_content('16.8 days time to complete')
       expect(page).to have_content('19 days this month')
       expect(page).to have_content('10 days last month')
@@ -169,7 +169,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_accessing_the_service_metrics
-    within('#accessing_the_service_to_unsubmitted_dashboard_section') do
+    within('[data-qa="section-accessing-the-service"]') do
       expect(page).to have_content('0.8 average number of sign-ins before submitting application')
       expect(page).to have_content('0 this month')
       expect(page).to have_content('1 last month')
@@ -177,7 +177,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_reasons_for_rejection_metrics
-    within('#reasons_for_rejection_dashboard_section') do
+    within('[data-qa="section-reasons-for-rejection"]') do
       expect(page).to have_content('2 rejections due to qualifications')
       expect(page).to have_content('1 last month')
       expect(page).to have_content('1 this month')
@@ -185,7 +185,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_apply_again_metrics
-    within('#apply_again_dashboard_section') do
+    within('[data-qa="section-apply-again"]') do
       expect(page).to have_content('50% apply again success rate')
       expect(page).to have_content('n/a upto this month')
       expect(page).to have_content('50% this month')
@@ -193,7 +193,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_carry_over_metrics
-    within('#carry_over_dashboard_section') do
+    within('[data-qa="section-carry-over"]') do
       expect(page).to have_content('1 candidates carried over applications from previous cycle')
       expect(page).to have_content('0 last month')
       expect(page).to have_content('1 this month')
@@ -201,16 +201,16 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_satisfaction_survey_metrics
-    within('#satisfaction_survey_dashboard_section') do
-      expect(page).to have_content('n/a Satisfaction Survey Response Rate')
+    within('[data-qa="section-satisfaction-survey"]') do
+      expect(page).to have_content('n/a survey response rate')
       expect(page).to have_content('n/a last month')
       expect(page).to have_content('n/a this month')
     end
   end
 
   def and_i_should_see_equality_and_diversity_metrics
-    within('#equality_and_diversity_dashboard_section') do
-      expect(page).to have_content('n/a Equality and Diversity Survey Response Rate')
+    within('[data-qa="section-equality-and-diversity"]') do
+      expect(page).to have_content('n/a survey response rate')
       expect(page).to have_content('n/a last month')
       expect(page).to have_content('n/a this month')
     end

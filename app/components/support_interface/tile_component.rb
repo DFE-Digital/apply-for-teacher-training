@@ -11,7 +11,7 @@ module SupportInterface
     end
 
     def card_classes
-      colour == :default ? 'app-card' : "app-card app-card--#{colour}"
+      colour == :default ? 'app-card govuk-!-margin-bottom-4' : "app-card app-card--#{colour} govuk-!-margin-bottom-4"
     end
 
     def count_class
