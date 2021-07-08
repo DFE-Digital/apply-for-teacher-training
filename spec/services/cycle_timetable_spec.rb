@@ -162,14 +162,6 @@ RSpec.describe CycleTimetable do
           end
         end
       end
-
-      context 'when the date is post find reopening' do
-        it 'returns true' do
-          Timecop.travel(CycleTimetable.find_reopens(2021) + 1.day) do
-            expect(execute_service).to eq true
-          end
-        end
-      end
     end
 
     context 'application form is in the apply again state' do
@@ -186,14 +178,6 @@ RSpec.describe CycleTimetable do
       context 'when the date is before the apply again submission deadline' do
         it 'returns true' do
           Timecop.travel(CycleTimetable.apply_2_deadline(2020) - 1.day) do
-            expect(execute_service).to eq true
-          end
-        end
-      end
-
-      context 'when the date is post find reopening' do
-        it 'returns true' do
-          Timecop.travel(CycleTimetable.find_reopens(2021) + 1.day) do
             expect(execute_service).to eq true
           end
         end

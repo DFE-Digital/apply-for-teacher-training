@@ -176,12 +176,7 @@ class CycleTimetable
   end
 
   def self.can_add_course_choice?(application_form)
-    return false if application_form.must_be_carried_over?
-    return true if Time.zone.now.to_date >= find_reopens
-    return true if Time.zone.now.to_date <= apply_1_deadline && application_form.apply_1?
-    return true if Time.zone.now.to_date <= apply_2_deadline && application_form.apply_2?
-
-    false
+    currently_mid_cycle?(application_form) && current_cycle?(application_form)
   end
 
   def self.can_submit?(application_form)
@@ -202,5 +197,13 @@ class CycleTimetable
     year == CYCLE_DATES.keys.last
   end
 
-  private_class_method :last_recruitment_cycle_year?
+  def self.currently_mid_cycle?(application_form)
+    if application_form.apply_1?
+      Time.zone.now.between?(find_opens, apply_1_deadline)
+    else
+      Time.zone.now.between?(find_opens, apply_2_deadline)
+    end
+  end
+
+  private_class_method :last_recruitment_cycle_year?, :currently_mid_cycle?
 end
