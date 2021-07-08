@@ -1,0 +1,20 @@
+<%= content_for :browser_title, @provider.name %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    t('page_titles.provider.organisation_settings') => provider_interface_account_path,
+    t('page_titles.provider.organisation_permissions') => provider_interface_organisation_settings_organisation_permissions_path,
+    @provider.name => nil,
+  }) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l"><%= t('page_titles.provider.organisation_permissions') %></span>
+    <h1 class="govuk-heading-l"><%= @provider.name %></h1>
+
+    <% @provider_relationships.each do |relationship| %>
+      <%= render ProviderInterface::OrganisationPermissionsReviewCardComponent.new(provider_user: current_provider_user, provider_relationship_permission: relationship, change_path: nil) %>
+    <% end %>
+  </div>
+</div>

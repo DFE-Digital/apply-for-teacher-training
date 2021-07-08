@@ -21,15 +21,7 @@ class ProviderAuthorisation
   end
 
   def provider_relationships_for_actor
-    provider_ids = @actor.providers.pluck(:provider_id)
-
-    table = ProviderRelationshipPermissions.arel_table
-    member_of_training_provider = table[:training_provider_id].in(provider_ids)
-    member_of_ratifying_provider = table[:ratifying_provider_id].in(provider_ids)
-
-    ProviderRelationshipPermissions.where(
-      member_of_training_provider.or(member_of_ratifying_provider),
-    )
+    ProviderRelationshipPermissions.all_relationships_for_providers(@actor.providers)
   end
 
   def provider_relationships_that_actor_can_manage_organisations_for
