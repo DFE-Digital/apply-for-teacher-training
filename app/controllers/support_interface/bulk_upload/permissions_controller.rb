@@ -72,7 +72,9 @@ module SupportInterface
       end
 
       def backlink_path
-        if index.zero?
+        if params[:change]
+          support_interface_bulk_upload_checks_path
+        elsif index.zero?
           new_support_interface_bulk_upload_provider_users_details_path
         else
           edit_support_interface_bulk_upload_permissions_path(position: index)

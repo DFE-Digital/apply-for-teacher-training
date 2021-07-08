@@ -53,7 +53,11 @@ RSpec.feature 'bulk upload provider users' do
     then_i_should_see_the_edit_permissions_form_for_the_second_user
     and_the_permissions_i_selected_are_checked
 
-    when_i_edit_permissions_for_the_second_user
+    when_i_click_back
+    then_i_can_see_the_check_users_page
+
+    when_i_click_change_within_the_second_user_summary
+    and_i_edit_permissions_for_the_second_user
     and_i_click_continue
     then_i_can_see_the_check_users_page
 
@@ -147,6 +151,10 @@ RSpec.feature 'bulk upload provider users' do
   def when_i_edit_permissions_for_the_second_user
     check 'Manage users'
     check 'Manage organisational permissions'
+  end
+
+  def and_i_edit_permissions_for_the_second_user
+    when_i_edit_permissions_for_the_second_user
   end
 
   def when_i_click_back
