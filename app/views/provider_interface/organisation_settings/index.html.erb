@@ -1,0 +1,20 @@
+<%= content_for :browser_title, t('page_titles.provider.organisation_settings') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_settings') %></h1>
+    <ul class="govuk-list govuk-list--spaced">
+      <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.users'), provider_interface_provider_users_path %>
+        </li>
+      <% end %>
+
+      <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.organisation_permissions'), '#not-linked-yet' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
