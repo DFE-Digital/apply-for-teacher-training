@@ -208,7 +208,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
   context 'with a cancelled interview' do
     let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
-    let(:auth) { instance_double(ProviderAuthorisation, assert_can_make_decisions!: true) }
+    let(:auth) { instance_double(ProviderAuthorisation, assert_can_set_up_interviews!: true) }
 
     before do
       allow(ProviderAuthorisation).to receive(:new).and_return(auth)

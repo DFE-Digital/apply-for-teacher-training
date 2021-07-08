@@ -3,6 +3,20 @@ require 'rails_helper'
 RSpec.describe ProviderAuthorisation do
   include CourseOptionHelpers
 
+  describe '#assert_can_set_up_interviews!' do
+    let(:auth_context) { ProviderAuthorisation.new(actor: nil) }
+
+    it 'raises a ValidationException if a course_option is not provided' do
+      expect { auth_context.assert_can_set_up_interviews!(application_choice: nil) }.to raise_error(ValidationException, 'Please provide a course_option')
+    end
+
+    it 'raises an error if the actor cannot set up interviews' do
+      allow(auth_context).to receive(:can_set_up_interviews?).and_return(false)
+
+      expect { auth_context.assert_can_set_up_interviews!(application_choice: nil, course_option: build_stubbed(:course_option)) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+    end
+  end
+
   describe '#assert_can_make_decisions!' do
     let(:auth_context) { ProviderAuthorisation.new(actor: nil) }
 

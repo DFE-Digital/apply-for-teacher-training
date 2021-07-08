@@ -132,6 +132,15 @@ class ProviderAuthorisation
     errors.blank?
   end
 
+  def assert_can_set_up_interviews!(application_choice:, course_option: nil)
+    if course_option.blank?
+      raise ValidationException, ['Please provide a course_option']
+    end
+    return if can_set_up_interviews?(application_choice: application_choice, course_option: course_option)
+
+    raise NotAuthorisedError, full_error_messages.join(' ')
+  end
+
   def assert_can_make_decisions!(application_choice:, course_option_id: nil, course_option: nil)
     if course_option_id.blank? && course_option.blank?
       raise ValidationException, ['Please provide a course_option or course_option_id']

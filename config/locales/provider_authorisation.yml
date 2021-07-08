@@ -8,6 +8,10 @@ en:
         requires_ratifying_provider_permission: You do not have the required organisation level permissions as a ratifying provider to make decisions on applications.
         requires_application_choice_visibility: You are not permitted to view this application.
         requires_user_course_association: The specified course is not associated with any of your organisations.
+      set_up_interviews:
+        requires_provider_user_permission: You do not have the required user level permissions to set up interviews on applications for this provider.
+        requires_application_choice_visibility: You are not permitted to view this application.
+        requires_user_course_association: The specified course is not associated with any of your organisations.
       view_diversity_information:
         requires_provider_user_permission: You do not have the required user level permissions to view diversity information for this provider.
         requires_training_or_ratifying_provider_permission: You do not have the required organisation level permissions as a training or ratifying provider to view diversity information.
