@@ -377,13 +377,13 @@
   </section>
 
   <section class="app-section">
-    <h2 id="satisfaction-survey" class="govuk-heading-m govuk-!-font-size-27">Satisfaction Survey</h2>
+    <h2 id="satisfaction-survey" class="govuk-heading-m govuk-!-font-size-27">Satisfaction survey</h2>
 
     <div class="govuk-grid-row" data-qa="section-satisfaction-survey">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:satisfaction_survey_response_rate),
-          label: 'Satisfaction Survey Response Rate',
+          label: 'survey response rate',
           colour: :blue,
           size: :reduced,
         ) %>
@@ -408,13 +408,13 @@
   </section>
 
   <section class="app-section">
-    <h2 id="equality-and-diversity" class="govuk-heading-m govuk-!-font-size-27">Equality and Diversity</h2>
+    <h2 id="equality-and-diversity" class="govuk-heading-m govuk-!-font-size-27">Equality and diversity</h2>
 
     <div class="govuk-grid-row" data-qa="section-equality-and-diversity">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:equality_and_diversity_response_rate),
-          label: 'Equality and Diversity Survey Response Rate',
+          label: 'survey response rate',
           colour: :blue,
           size: :reduced,
         ) %>

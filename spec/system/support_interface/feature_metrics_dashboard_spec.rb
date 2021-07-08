@@ -169,7 +169,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def and_i_should_see_accessing_the_service_metrics
-    within('[data-qa="#section-accessing-the-service]') do
+    within('[data-qa="section-accessing-the-service"]') do
       expect(page).to have_content('0.8 average number of sign-ins before submitting application')
       expect(page).to have_content('0 this month')
       expect(page).to have_content('1 last month')
@@ -202,7 +202,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def and_i_should_see_satisfaction_survey_metrics
     within('[data-qa="section-satisfaction-survey"]') do
-      expect(page).to have_content('n/a Satisfaction Survey Response Rate')
+      expect(page).to have_content('n/a survey response rate')
       expect(page).to have_content('n/a last month')
       expect(page).to have_content('n/a this month')
     end
@@ -210,7 +210,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def and_i_should_see_equality_and_diversity_metrics
     within('[data-qa="section-equality-and-diversity"]') do
-      expect(page).to have_content('n/a Equality and Diversity Survey Response Rate')
+      expect(page).to have_content('n/a survey response rate')
       expect(page).to have_content('n/a last month')
       expect(page).to have_content('n/a this month')
     end
