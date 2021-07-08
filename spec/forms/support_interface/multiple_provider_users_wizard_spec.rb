@@ -20,13 +20,11 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
             'first_name' => 'Bob',
             'last_name' => 'Smith',
             'email_address' => 'bob@foo.com',
-            'complete' => false,
           },
           {
             'first_name' => 'Fred',
             'last_name' => 'Jones',
             'email_address' => 'fred@bar.com',
-            'complete' => false,
           },
         ],
       }
@@ -53,7 +51,6 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
             first_name: 'Bob',
             last_name: 'Smith',
             email_address: 'bob@foo.com',
-            complete: false,
             permissions: { manage_users: 'true' },
           },
         ],
@@ -90,7 +87,6 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
             first_name: 'Bob',
             last_name: 'Smith',
             email_address: 'bob@foo.com',
-            complete: false,
             permissions: { manage_users: true },
           },
         ],
@@ -110,13 +106,11 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
             first_name: 'Bob',
             last_name: 'Smith',
             email_address: 'bob@foo.com',
-            complete: false,
           },
           {
             first_name: 'Fred',
             last_name: 'Jones',
             email_address: 'fred@bar.com',
-            complete: false,
           },
         ],
       }
@@ -140,7 +134,6 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
             first_name: 'Bob',
             last_name: 'Smith',
             email_address: 'bob@foo.com',
-            complete: false,
           },
         ],
       }
@@ -151,8 +144,8 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
     end
   end
 
-  describe '#more_users_to_process?' do
-    context 'there are more users to process' do
+  describe '#no_more_users_to_process?' do
+    context 'there are no more users to process' do
       it 'returns true' do
         stored_users = {
           provider_users: [
@@ -160,7 +153,6 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
               first_name: 'Bob',
               last_name: 'Smith',
               email_address: 'bob@foo.com',
-              complete: false,
             },
           ],
         }
@@ -168,13 +160,13 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
         allow(store).to receive(:read).and_return(stored_users.to_json)
 
         expect(
-          described_class.new(state_store: store).more_users_to_process?,
+          described_class.new(state_store: store, index: 0).no_more_users_to_process?,
         )
         .to eq(true)
       end
     end
 
-    context 'there are no more users to process' do
+    context 'there are more users to process' do
       it 'returns false' do
         stored_users = {
           provider_users: [
@@ -182,7 +174,11 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
               first_name: 'Bob',
               last_name: 'Smith',
               email_address: 'bob@foo.com',
-              complete: true,
+            },
+            {
+              first_name: 'Melanie',
+              last_name: 'Jones',
+              email_address: 'melanie@jones.com',
             },
           ],
         }
@@ -190,7 +186,7 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
         allow(store).to receive(:read).and_return(stored_users.to_json)
 
         expect(
-          described_class.new(state_store: store).more_users_to_process?,
+          described_class.new(state_store: store, index: 0).no_more_users_to_process?,
         ).to eq(false)
       end
     end
@@ -208,7 +204,6 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
             first_name: first_name,
             last_name: last_name,
             email_address: email_address,
-            complete: false,
           },
         ],
       }

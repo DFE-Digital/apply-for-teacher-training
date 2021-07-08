@@ -30,10 +30,10 @@ module SupportInterface
         if @form.valid?
           multiple_provider_users_wizard.save_user_to_state_store!(@form)
 
-          if multiple_provider_users_wizard.more_users_to_process?
-            redirect_to edit_support_interface_bulk_upload_permissions_path(position: multiple_provider_users_wizard.next_position)
-          else
+          if multiple_provider_users_wizard.no_more_users_to_process?
             redirect_to support_interface_bulk_upload_checks_path
+          else
+            redirect_to edit_support_interface_bulk_upload_permissions_path(position: multiple_provider_users_wizard.next_position)
           end
         else
           render :edit
@@ -72,7 +72,9 @@ module SupportInterface
       end
 
       def backlink_path
-        if index.zero?
+        if params[:change]
+          support_interface_bulk_upload_checks_path
+        elsif index.zero?
           new_support_interface_bulk_upload_provider_users_details_path
         else
           edit_support_interface_bulk_upload_permissions_path(position: index)
