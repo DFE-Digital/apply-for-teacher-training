@@ -54,7 +54,7 @@ class ProviderUser < ApplicationRecord
   end
 
   def authorisation
-    @authorisation ||= ProviderAuthorisation.new(actor: self)
+    @authorisation = ProviderAuthorisation.new(actor: self)
   end
 
   def can_manage_organisations?
