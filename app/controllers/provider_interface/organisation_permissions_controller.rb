@@ -8,6 +8,11 @@ module ProviderInterface
       @manageable_providers = manageable_providers
     end
 
+    def show
+      @provider = current_provider_user.providers.find(params[:id])
+      @provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([@provider])
+    end
+
     # per provider
     def edit
       @form = ProviderRelationshipPermissionsForm.new(permissions_model: permissions_model)

@@ -769,7 +769,7 @@ Rails.application.routes.draw do
     end
 
     resource :organisation_settings, path: '/organisation-settings' do
-      resources :organisation_permissions, path: '/organisation-permissions', only: :index
+      resources :organisation_permissions, path: '/organisation-permissions', only: %i[index show]
     end
 
     scope path: 'setup' do
