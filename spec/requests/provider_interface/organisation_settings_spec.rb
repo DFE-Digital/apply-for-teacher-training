@@ -21,7 +21,7 @@ RSpec.describe 'Viewing organisation settings', type: :request do
     expect(response.redirect_url).to eq(provider_interface_account_url)
   end
 
-  describe 'GET index with feature flag off' do
+  describe 'GET show with feature flag off' do
     it 'responds with 302' do
       FeatureFlag.deactivate(:accredited_provider_setting_permissions)
       get provider_interface_organisation_settings_path
@@ -32,14 +32,14 @@ RSpec.describe 'Viewing organisation settings', type: :request do
   context 'with feature flag on' do
     before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
 
-    describe 'GET index without manage users or manage organisations ' do
+    describe 'GET show without manage users or manage organisations ' do
       it 'responds with 302' do
         get provider_interface_organisation_settings_path
         expect_redirect_to_account_page
       end
     end
 
-    describe 'GET index with manage users' do
+    describe 'GET show with manage users' do
       it 'responds with 200' do
         provider_user.provider_permissions.update_all(manage_users: true)
         get provider_interface_organisation_settings_path
@@ -47,7 +47,7 @@ RSpec.describe 'Viewing organisation settings', type: :request do
       end
     end
 
-    describe 'GET index with manage organisations for set up relationships' do
+    describe 'GET show with manage organisations for set up relationships' do
       it 'responds with 200' do
         provider_user.provider_permissions.update_all(manage_organisations: true)
         create(:provider_relationship_permissions, ratifying_provider: provider)
@@ -56,7 +56,7 @@ RSpec.describe 'Viewing organisation settings', type: :request do
       end
     end
 
-    describe 'GET index with manage organisations for relationship that has not been set up' do
+    describe 'GET show with manage organisations for relationship that has not been set up' do
       it 'responds with 302' do
         provider_user.provider_permissions.update_all(manage_organisations: true)
         create(:provider_relationship_permissions, ratifying_provider: provider, setup_at: nil)
