@@ -5,8 +5,6 @@ RSpec.feature 'Managing provider users v2' do
   include DsiAPIHelper
 
   scenario 'editing permissions for a provider user', with_audited: true do
-    FeatureFlag.activate(:new_provider_user_flow)
-
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_synced_providers_exist

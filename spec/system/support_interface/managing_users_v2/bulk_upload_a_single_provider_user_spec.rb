@@ -5,7 +5,6 @@ RSpec.feature 'bulk upload provider users' do
   include DsiAPIHelper
 
   before do
-    FeatureFlag.activate(:new_provider_user_flow)
     FeatureFlag.activate(:interview_permissions)
   end
 

@@ -1,9 +1,6 @@
 <%= render 'support_interface/providers/providers_navigation', title: 'Provider users' %>
 
 <div class="govuk-button-group">
-  <% unless FeatureFlag.active?(:new_provider_user_flow) %>
-    <%= govuk_link_to 'Add provider user', new_support_interface_provider_user_path, button: true %>
-  <% end %>
   <%= govuk_link_to 'Download active provider users (CSV)', "#{new_support_interface_data_export_path}#providers_export", button: true, class: 'govuk-button--secondary' %>
 </div>
 
