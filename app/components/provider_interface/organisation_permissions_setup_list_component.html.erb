@@ -1,0 +1,41 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('provider_interface.organisation_permissions_setup.index.title') %>
+    </h1>
+
+    <% if multiple_providers_to_set_up? %>
+      <p class="govuk-body">
+        <%= t('.multiple.introduction') %>
+      </p>
+      <p class="govuk-body">
+        <%= t('.multiple.cannot_manage_rules') %>
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        <%= t('.single.introduction', provider_name: grouped_provider_names.keys.first) %>
+      </p>
+    <% end %>
+
+    <% grouped_provider_names.each do |main_provider_name, other_provider_list| %>
+      <% if multiple_providers_to_set_up? %>
+        <p class="govuk-body">
+          <%= t('.multiple.provider_list_heading', provider_name: main_provider_name) %>
+        </p>
+      <% end %>
+      <ul class="govuk-list govuk-list--bullet">
+        <% other_provider_list.each do |other_provider_name| %>
+          <li><%= other_provider_name %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% unless multiple_providers_to_set_up? %>
+      <p class="govuk-body">
+        <%= t('.single.cannot_manage_rules') %>
+      </p>
+    <% end %>
+
+    <%= govuk_button_to t('.continue_button'), continue_button_path %>
+  </div>
+</div>

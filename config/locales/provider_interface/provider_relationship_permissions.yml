@@ -19,6 +19,18 @@ en:
       edit:
         heading: Organisation permissions
         submit_button: Save organisation permissions
+    organisation_permissions_setup:
+      index:
+        title: Set up organisation permissions
+    organisation_permissions_setup_list_component:
+      single:
+        introduction: 'Candidates can now apply through GOV.UK for courses %{provider_name} works on with:'
+        cannot_manage_rules: You cannot manage applications to these courses until you set up organisation permissions.
+      multiple:
+        introduction: Candidates can now apply through GOV.UK for courses you work on with partner organisations.
+        cannot_manage_rules: You cannot manage applications to these courses until either you or your partner organisations have set up organisation permissions.
+        provider_list_heading: 'For %{provider_name}, you need to set up permissions for courses you work on with:'
+      continue_button: Set up organisation permissions
     dsa_success_page_component:
       success_message: Data sharing agreement signed
       setup_permissions_message: Either you or your partner organisations must set up organisation permissions before you can manage teacher training applications.
