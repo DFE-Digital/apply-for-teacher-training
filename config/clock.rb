@@ -9,7 +9,7 @@ class Clock
   error_handler { |error| Raven.capture_exception(error) if defined? Raven }
 
   # More-than-hourly jobs
-  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker.perform_async }
+  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
 
   # Hourly jobs
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
@@ -49,5 +49,5 @@ class Clock
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
 
-  every(3.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') { TeacherTrainingPublicAPI::FullSyncAllProvidersAndCoursesWorker.perform_async }
+  every(3.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false) }
 end
