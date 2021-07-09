@@ -18,9 +18,9 @@ class UpdateInterview
   end
 
   def save!
-    auth.assert_can_make_decisions!(
+    auth.assert_can_set_up_interviews!(
       application_choice: interview.application_choice,
-      course_option_id: interview.application_choice.current_course_option.id,
+      course_option: interview.application_choice.current_course_option,
     )
 
     interview.provider = provider

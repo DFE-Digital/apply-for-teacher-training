@@ -7,7 +7,7 @@ RSpec.describe UpdateInterview do
   let(:interview) { application_choice.interviews.first }
   let(:course_option) { course_option_for_provider(provider: provider) }
   let(:provider) { create(:provider) }
-  let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
+  let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
   let(:amended_date_and_time) { 1.day.since(interview.date_and_time) }
   let(:service_params) do
     {

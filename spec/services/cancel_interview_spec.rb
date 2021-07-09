@@ -7,7 +7,7 @@ RSpec.describe CancelInterview do
   let(:interview) { create(:interview, application_choice: application_choice) }
   let(:course_option) { course_option_for_provider(provider: provider) }
   let(:provider) { create(:provider) }
-  let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
+  let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
   let(:service_params) do
     {
       actor: provider_user,

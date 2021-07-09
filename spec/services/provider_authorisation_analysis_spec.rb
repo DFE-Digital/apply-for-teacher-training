@@ -10,48 +10,26 @@ RSpec.describe ProviderAuthorisationAnalysis do
       create(:provider_permissions, provider: ratifying_provider, manage_users: true),
     ].map(&:provider_user)
   end
-
   let(:ratifying_provider) { provider_user.providers.first }
-  let(:course) do
-    create(
-      :course,
-      provider: create(:provider),
-      accredited_provider: ratifying_provider,
-    )
-  end
+  let(:course) { create(:course, accredited_provider: ratifying_provider) }
   let(:course_option) { create(:course_option, course: course) }
-
-  let(:application_choice) do
-    create(
-      :application_choice,
-      :awaiting_provider_decision,
-      course_option: course_option,
-    )
-  end
-
-  let(:auth) do
-    create(
-      :provider_relationship_permissions,
-      :not_set_up_yet,
-      training_provider: course.provider,
-      ratifying_provider: ratifying_provider,
-    )
-
-    provider_user.authorisation.can_make_decisions?(
-      application_choice: application_choice,
-      course_option_id: course_option.id,
-    )
-
-    provider_user.authorisation
-  end
+  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+  let(:auth) { ProviderAuthorisation.new(actor: provider_user) }
 
   let(:analysis) do
-    ProviderAuthorisationAnalysis.new(
-      permission: :make_decisions,
-      auth: auth,
-      application_choice: application_choice,
-      course_option_id: application_choice.course_option_id,
-    )
+    ProviderAuthorisationAnalysis.new(permission: :make_decisions,
+                                      auth: auth,
+                                      application_choice: application_choice,
+                                      course_option_id: application_choice.course_option_id)
+  end
+
+  before do
+    create(:provider_relationship_permissions,
+           :not_set_up_yet,
+           training_provider: course.provider,
+           ratifying_provider: ratifying_provider)
+
+    auth.can_make_decisions?(application_choice: application_choice, course_option: course_option)
   end
 
   it '#ratified_course?' do

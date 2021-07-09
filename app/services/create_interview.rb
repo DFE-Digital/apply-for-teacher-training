@@ -18,9 +18,9 @@ class CreateInterview
   end
 
   def save!
-    auth.assert_can_make_decisions!(
+    auth.assert_can_set_up_interviews!(
       application_choice: application_choice,
-      course_option_id: application_choice.current_course_option.id,
+      course_option: application_choice.current_course_option,
     )
 
     ActiveRecord::Base.transaction do
