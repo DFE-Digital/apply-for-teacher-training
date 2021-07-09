@@ -1,0 +1,6 @@
+<% content_for :browser_title, t('.title') %>
+
+<%= render ProviderInterface::OrganisationPermissionsSetupListComponent.new(
+  grouped_provider_names: @sorted_and_grouped_provider_names,
+  continue_button_path: edit_provider_interface_organisation_permissions_setup_path(@sorted_permission_ids.first),
+) %>
