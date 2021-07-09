@@ -8,3 +8,5 @@
 <% end %>
 
 <%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course_options)) %>
+
+<%= render(PaginatorComponent.new(scope: @course_options)) %>
