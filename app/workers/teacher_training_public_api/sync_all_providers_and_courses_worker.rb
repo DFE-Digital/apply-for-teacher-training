@@ -8,7 +8,7 @@ module TeacherTrainingPublicAPI
       SyncAllProvidersAndCourses.call(incremental_sync: incremental)
 
       if FeatureFlag.active?(:sync_next_cycle)
-        SyncAllProvidersAndCourses.call(recruitment_cycle_year: RecruitmentCycle.next_year, incremental_sync: incremental)
+        SyncAllProvidersAndCourses.call(recruitment_cycle_year: ::RecruitmentCycle.next_year, incremental_sync: incremental)
       end
     end
   end
