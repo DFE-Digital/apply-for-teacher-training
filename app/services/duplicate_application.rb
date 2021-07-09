@@ -80,7 +80,7 @@ private
   def infer_currently_working(application_experience)
     return application_experience.currently_working unless application_experience.currently_working.nil?
 
-    application_experience.start_date < Time.zone.today &&
-      (application_experience.end_date.nil? || application_experience.end_date > Time.zone.today)
+    application_experience.start_date <= Time.zone.today &&
+      (application_experience.end_date.nil? || application_experience.end_date >= Time.zone.today)
   end
 end
