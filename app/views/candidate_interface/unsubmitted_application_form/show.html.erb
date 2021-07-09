@@ -256,7 +256,7 @@
     <section>
       <% if CycleTimetable.between_cycles?(@application_form.phase) %>
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.review') %></h2>
-        <p class="govuk-body">You cannot submit your application until <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.</p>
+        <p class="govuk-body">You cannot submit your application until <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.</p>
         <%= govuk_link_to 'Review your application', candidate_interface_application_review_path, button: true %>
       <% elsif CycleTimetable.can_submit?(@application_form) %>
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.check_and_submit') %></h2>

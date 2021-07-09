@@ -537,8 +537,8 @@ private
       earliest_date = 20.days.ago.to_date
       latest_date = Time.zone.now.to_date
     else
-      earliest_date = CycleTimetable::CYCLE_DATES[recruitment_cycle_year][:apply_reopens]
-      latest_date = CycleTimetable::CYCLE_DATES[recruitment_cycle_year + 1][:apply_1_deadline]
+      earliest_date = CycleTimetable.apply_opens(recruitment_cycle_year)
+      latest_date = CycleTimetable.apply_1_deadline(recruitment_cycle_year + 1)
     end
 
     @time = rand(earliest_date..latest_date)

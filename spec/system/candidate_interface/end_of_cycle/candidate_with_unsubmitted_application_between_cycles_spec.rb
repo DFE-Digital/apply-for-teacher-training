@@ -45,7 +45,7 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
 
   def then_i_can_only_review_my_application
     expect(page).not_to have_link 'Check and submit your application'
-    expect(page).to have_content "You cannot submit your application until #{CycleTimetable.apply_reopens.to_s(:govuk_date)}. You can keep making changes to the rest of your application until then."
+    expect(page).to have_content "You cannot submit your application until #{CycleTimetable.apply_opens.to_s(:govuk_date)}. You can keep making changes to the rest of your application until then."
     click_link 'Review your application'
   end
 

@@ -76,7 +76,7 @@ private
   def load_avg_time_to_get_references
     write_metric(
       :avg_time_to_get_references,
-      reference_statistics.average_time_to_get_references(CycleTimetable.apply_reopens.beginning_of_day),
+      reference_statistics.average_time_to_get_references(CycleTimetable.apply_opens.beginning_of_day),
     )
     write_metric(
       :avg_time_to_get_references_this_month,
@@ -94,7 +94,7 @@ private
     write_metric(
       :pct_references_completed_within_30_days,
       reference_statistics.percentage_references_within(
-        30, CycleTimetable.apply_reopens.beginning_of_day
+        30, CycleTimetable.apply_opens.beginning_of_day
       ),
     )
     write_metric(
@@ -114,7 +114,7 @@ private
   def load_avg_time_to_complete_work_history
     write_metric(
       :avg_time_to_complete_work_history,
-      work_history_statistics.average_time_to_complete(CycleTimetable.apply_reopens.beginning_of_day),
+      work_history_statistics.average_time_to_complete(CycleTimetable.apply_opens.beginning_of_day),
     )
     write_metric(
       :avg_time_to_complete_work_history_this_month,
@@ -132,7 +132,7 @@ private
     write_metric(
       :avg_sign_ins_before_submitting,
       magic_link_statistics.average_magic_link_requests_upto(
-        :created_at, CycleTimetable.apply_reopens.beginning_of_day
+        :created_at, CycleTimetable.apply_opens.beginning_of_day
       ),
     )
     write_metric(
@@ -153,7 +153,7 @@ private
     write_metric(
       :avg_sign_ins_before_offer,
       magic_link_statistics.average_magic_link_requests_upto(
-        :offered_at, CycleTimetable.apply_reopens.beginning_of_day
+        :offered_at, CycleTimetable.apply_opens.beginning_of_day
       ),
     )
     write_metric(
@@ -174,7 +174,7 @@ private
     write_metric(
       :avg_sign_ins_before_recruitment,
       magic_link_statistics.average_magic_link_requests_upto(
-        :recruited_at, CycleTimetable.apply_reopens.beginning_of_day
+        :recruited_at, CycleTimetable.apply_opens.beginning_of_day
       ),
     )
     write_metric(
@@ -195,7 +195,7 @@ private
     write_metric(
       :num_rejections_due_to_qualifications,
       reasons_for_rejection_statistics.rejections_due_to(
-        :qualifications_y_n, CycleTimetable.apply_reopens.beginning_of_day
+        :qualifications_y_n, CycleTimetable.apply_opens.beginning_of_day
       ),
     )
     write_metric(
@@ -216,7 +216,7 @@ private
     write_metric(
       :apply_again_success_rate,
       apply_again_statistics.formatted_success_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -228,7 +228,7 @@ private
     write_metric(
       :apply_again_success_rate_upto_this_month,
       apply_again_statistics.formatted_success_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),
     )
@@ -238,7 +238,7 @@ private
     write_metric(
       :apply_again_change_rate,
       apply_again_statistics.formatted_change_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -260,7 +260,7 @@ private
     write_metric(
       :apply_again_application_rate,
       apply_again_statistics.formatted_application_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -272,7 +272,7 @@ private
     write_metric(
       :apply_again_application_rate_upto_this_month,
       apply_again_statistics.formatted_application_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),
     )
@@ -282,7 +282,7 @@ private
     write_metric(
       :carry_over_count,
       carry_over_statistics.carry_over_count(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -294,7 +294,7 @@ private
     write_metric(
       :carry_over_count_last_month,
       carry_over_statistics.carry_over_count(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),
     )
@@ -305,7 +305,7 @@ private
       :pct_applications_with_one_a_level,
       qualifications_statistics.formatted_a_level_percentage(
         1,
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -327,7 +327,7 @@ private
       :pct_applications_with_three_a_levels,
       qualifications_statistics.formatted_a_level_percentage(
         3,
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -351,7 +351,7 @@ private
     write_metric(
       :satisfaction_survey_response_rate,
       satisfaction_survey_statistics.formatted_response_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
@@ -395,7 +395,7 @@ private
     write_metric(
       :equality_and_diversity_response_rate,
       equality_and_diversity_statistics.formatted_response_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(

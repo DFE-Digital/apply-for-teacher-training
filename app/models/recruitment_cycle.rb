@@ -9,7 +9,7 @@ module RecruitmentCycle
   end
 
   def self.next_year
-    current_year + 1
+    CycleTimetable.next_year
   end
 
   def self.previous_year

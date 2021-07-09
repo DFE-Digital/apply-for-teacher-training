@@ -12,7 +12,7 @@
 
     <% if CycleTimetable.before_apply_reopens? %>
       <p class="govuk-body">
-        You can submit your application from <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+        You can submit your application from <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>.
       </p>
     <% end %>
 
