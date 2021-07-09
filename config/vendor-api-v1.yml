@@ -380,7 +380,7 @@ components:
       properties:
         id:
           type: string
-          description: The unique ID of this application
+          description: The unique ID of this application. This identifies an application to a single course, also known as an application choice. Candidates can submit up to three application choices at a time.
           maxLength: 10
           example: 11fc0d3b2f
         type:
@@ -419,7 +419,7 @@ components:
       properties:
         support_reference:
           type: string
-          description: The candidate’s reference number for their application in the Apply system
+          description: The candidate’s reference number for their application form carrying this application choice in the Apply system. Candidates can have multiple application forms. For instance, when a candidate moves from Apply 1 to Apply again their candidate ID will stay the same, but that’s a new application form so the `support_reference` will be different.
           maxLength: 10
           example: AB1234
         status:
@@ -552,7 +552,7 @@ components:
       properties:
         id:
           type: string
-          description: The candidate’s ID in the Apply system
+          description: The candidate’s unique ID in the Apply system.
           maxLength: 10
           example: C5432
         first_name:
