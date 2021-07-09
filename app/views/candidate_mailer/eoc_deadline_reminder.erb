@@ -1,0 +1,18 @@
+Dear <%= @application_form.first_name %>,
+
+# Complete your teacher training application – courses fill up quickly at this time of year
+
+Submit your application as soon as you can to get on a course starting in the <%= RecruitmentCycle.current_year %> to <%= RecruitmentCycle.next_year %> academic year:
+
+<%= candidate_magic_link(@application_form.candidate) %>
+
+<% apply_1_copy =  "The deadline to submit your application is 6pm on #{CycleTimetable.apply_1_deadline.to_s(:govuk_date)} but courses may fill up before then." %>
+<% apply_2_copy =  "The deadline to submit your application is 6pm on #{CycleTimetable.apply_2_deadline.to_s(:govuk_date)} but courses may fill up before then." %>
+
+<%= apply_1_copy if @application_form.phase == 'apply_1' %>
+<%= apply_2_copy if @application_form.phase == 'apply_2' %>
+
+# Get help to complete your application
+
+Talk to a teacher training adviser to get help writing a strong application:
+https://adviser-getintoteaching.education.gov.uk/

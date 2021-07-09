@@ -87,6 +87,22 @@ class CycleTimetable
     date(:apply_opens, year)
   end
 
+  def self.apply_1_deadline_first_reminder
+    (apply_1_deadline - 2.months).beginning_of_week + 1.week
+  end
+
+  def self.apply_1_deadline_second_reminder
+    (apply_1_deadline - 1.month).beginning_of_week + 1.week
+  end
+
+  def self.apply_2_deadline_first_reminder
+    (apply_2_deadline - 2.months).beginning_of_week + 1.week
+  end
+
+  def self.apply_2_deadline_second_reminder
+    (apply_2_deadline - 1.month).beginning_of_week + 1.week
+  end
+
   def self.between_cycles_apply_1?
     Time.zone.now > apply_1_deadline.end_of_day &&
       Time.zone.now < apply_reopens.beginning_of_day
@@ -206,4 +222,9 @@ class CycleTimetable
   end
 
   private_class_method :last_recruitment_cycle_year?, :currently_mid_cycle?
+
+  def self.need_to_send_deadline_reminder?
+    return :apply_1 if Time.zone.now.to_date == apply_1_deadline_first_reminder || Time.zone.now.to_date == apply_1_deadline_second_reminder
+    return :apply_2 if Time.zone.now.to_date == apply_2_deadline_first_reminder || Time.zone.now.to_date == apply_2_deadline_second_reminder
+  end
 end
