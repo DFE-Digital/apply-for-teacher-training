@@ -1,5 +1,5 @@
 class UpdateInterview
-  attr_reader :auth, :interview, :provider, :date_and_time, :location, :additional_details
+  attr_reader :auth, :interview, :provider, :date_and_time, :location, :additional_details, :application_choice
 
   def initialize(
     actor:,
@@ -15,13 +15,21 @@ class UpdateInterview
     @date_and_time = date_and_time
     @location = location
     @additional_details = additional_details
+    @application_choice = interview.application_choice
   end
 
   def save!
-    auth.assert_can_set_up_interviews!(
-      application_choice: interview.application_choice,
-      course_option: interview.application_choice.current_course_option,
-    )
+    if FeatureFlag.active?(:interview_permissions)
+      auth.assert_can_set_up_interviews!(
+        application_choice: application_choice,
+        course_option: application_choice.current_course_option,
+      )
+    else
+      auth.assert_can_make_decisions!(
+        application_choice: application_choice,
+        course_option: application_choice.current_course_option,
+      )
+    end
 
     interview.provider = provider
     interview.date_and_time = date_and_time

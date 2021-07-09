@@ -7,7 +7,6 @@ RSpec.describe CancelInterview do
   let(:interview) { create(:interview, application_choice: application_choice) }
   let(:course_option) { course_option_for_provider(provider: provider) }
   let(:provider) { create(:provider) }
-  let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
   let(:service_params) do
     {
       actor: provider_user,
@@ -17,35 +16,79 @@ RSpec.describe CancelInterview do
     }
   end
 
-  describe '#save!' do
-    describe 'when there are no other interviews' do
-      it 'transitions the application_choice state to `awaiting_provider_decision` if successful' do
-        service = CancelInterview.new(service_params)
-
-        expect { service.save! }.to change { application_choice.status }.to('awaiting_provider_decision')
-      end
+  context 'when the interview_permissions feature_flag is active' do
+    before do
+      FeatureFlag.activate(:interview_permissions)
     end
 
-    describe 'when there are other interviews' do
-      it 'does not change the application_choice state' do
-        create(:interview, application_choice: application_choice)
-        service = CancelInterview.new(service_params)
+    let(:provider_user) { create(:provider_user, :with_set_up_interviews, providers: [provider]) }
 
-        expect { service.save! }.not_to(change { application_choice.status })
+    describe '#save!' do
+      describe 'when there are no other interviews' do
+        it 'transitions the application_choice state to `awaiting_provider_decision` if successful' do
+          service = CancelInterview.new(service_params)
+
+          expect { service.save! }.to change { application_choice.status }.to('awaiting_provider_decision')
+        end
+      end
+
+      describe 'when there are other interviews' do
+        it 'does not change the application_choice state' do
+          create(:interview, application_choice: application_choice)
+          service = CancelInterview.new(service_params)
+
+          expect { service.save! }.not_to(change { application_choice.status })
+        end
+      end
+
+      it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
+        CancelInterview.new(service_params).save!
+
+        associated_audit = application_choice.associated_audits.last
+        expect(associated_audit.auditable).to eq(application_choice.interviews.first)
+        expect(associated_audit.audited_changes.keys).to eq(%w[cancelled_at cancellation_reason])
+        expect(associated_audit.audited_changes['cancellation_reason']).to eq([nil, 'There is a global pandemic going on'])
+
+        expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
       end
     end
+  end
 
-    it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
-      CancelInterview.new(service_params).save!
+  context 'when the interview_permissions feature_flag is inactive' do
+    before do
+      FeatureFlag.deactivate(:interview_permissions)
+    end
 
-      associated_audit = application_choice.associated_audits.last
-      expect(associated_audit.auditable).to eq(application_choice.interviews.first)
-      expect(associated_audit.audited_changes.keys).to eq(%w[
-        cancelled_at cancellation_reason
-      ])
-      expect(associated_audit.audited_changes['cancellation_reason']).to eq([nil, 'There is a global pandemic going on'])
+    let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
 
-      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
+    describe '#save!' do
+      describe 'when there are no other interviews' do
+        it 'transitions the application_choice state to `awaiting_provider_decision` if successful' do
+          service = CancelInterview.new(service_params)
+
+          expect { service.save! }.to change { application_choice.status }.to('awaiting_provider_decision')
+        end
+      end
+
+      describe 'when there are other interviews' do
+        it 'does not change the application_choice state' do
+          create(:interview, application_choice: application_choice)
+          service = CancelInterview.new(service_params)
+
+          expect { service.save! }.not_to(change { application_choice.status })
+        end
+      end
+
+      it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
+        CancelInterview.new(service_params).save!
+
+        associated_audit = application_choice.associated_audits.last
+        expect(associated_audit.auditable).to eq(application_choice.interviews.first)
+        expect(associated_audit.audited_changes.keys).to eq(%w[cancelled_at cancellation_reason])
+        expect(associated_audit.audited_changes['cancellation_reason']).to eq([nil, 'There is a global pandemic going on'])
+
+        expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
+      end
     end
   end
 end

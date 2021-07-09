@@ -18,10 +18,17 @@ class CreateInterview
   end
 
   def save!
-    auth.assert_can_set_up_interviews!(
-      application_choice: application_choice,
-      course_option: application_choice.current_course_option,
-    )
+    if FeatureFlag.active?(:interview_permissions)
+      auth.assert_can_set_up_interviews!(
+        application_choice: application_choice,
+        course_option: application_choice.current_course_option,
+      )
+    else
+      auth.assert_can_make_decisions!(
+        application_choice: application_choice,
+        course_option: application_choice.current_course_option,
+      )
+    end
 
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(application_choice).interview!
