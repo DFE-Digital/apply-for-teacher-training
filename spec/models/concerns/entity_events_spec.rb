@@ -81,7 +81,7 @@ RSpec.describe EntityEvents do
             'event_type' => 'entity_updated',
             'data' => [
               { 'key' => 'table_name', 'value' => ['candidates'] },
-              { 'key' => 'email_address', 'value' => ['foo@bar.com', 'bar@baz.com'] },
+              { 'key' => 'email_address', 'value' => ['bar@baz.com'] },
               { 'key' => 'hide_in_reporting', 'value' => [false] },
             ],
           })

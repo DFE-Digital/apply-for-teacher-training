@@ -10,7 +10,10 @@ module EntityEvents
     end
 
     after_update do
-      interesting_changes = entity_data(saved_changes)
+      # in this after_update hook we don’t have access to the new fields via
+      # #attributes — we need to dig them out of saved_changes which stores
+      # them in the format { attr: ['old', 'new'] }
+      interesting_changes = entity_data(saved_changes.transform_values(&:last))
 
       if interesting_changes.any?
         send_event('entity_updated', entity_data(attributes).merge(interesting_changes))
