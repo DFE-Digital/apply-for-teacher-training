@@ -26,5 +26,19 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker do
       described_class.new.perform(false)
       expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false)
     end
+
+    context 'the sync_next_cycle feature flag is on' do
+      before do
+        FeatureFlag.activate(:sync_next_cycle)
+      end
+
+      it 'calls the SyncAllProvidersAndCourses service passing in the next cycle' do
+        Timecop.travel(2021, 1, 1) do
+          described_class.new.perform
+        end
+
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: 2022)
+      end
+    end
   end
 end
