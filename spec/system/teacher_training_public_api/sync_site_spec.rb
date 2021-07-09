@@ -86,7 +86,7 @@ RSpec.describe 'Sync sites', sidekiq: true do
   end
 
   def when_the_sync_runs
-    TeacherTrainingPublicAPI::IncrementalSyncAllProvidersAndCoursesWorker.perform_async
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 
   def then_it_creates_one_site
