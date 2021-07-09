@@ -1,0 +1,16 @@
+<% content_for :title, title %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    Performance: support_interface_path,
+    'Applications with unavailable choices': support_interface_unavailable_choices_path,
+    title => nil,
+  }) %>
+<% end %>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(
+  application_forms: @application_forms,
+  row_heading_level: 3,
+) %>
+
+<%= render(PaginatorComponent.new(scope: @application_forms)) %>

@@ -37,5 +37,53 @@ module SupportInterface
     def unavailable_choices
       @monitor = SupportInterface::ApplicationMonitor.new
     end
+
+    def unavailable_choices_disabled_courses
+      monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = monitor
+        .applications_to_disabled_courses
+        .page(params[:page] || 1)
+        .per(30)
+      render(
+        :unavailable_choices_detail,
+        locals: { title: 'Applications to courses that are no longer available on Apply' },
+      )
+    end
+
+    def unavailable_choices_hidden_courses
+      monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = monitor
+        .applications_to_hidden_courses
+        .page(params[:page] || 1)
+        .per(30)
+      render(
+        :unavailable_choices_detail,
+        locals: { title: 'Applications to courses that have been removed from Find, but were open on Apply' },
+      )
+    end
+
+    def unavailable_choices_without_vacancies
+      monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = monitor
+        .applications_to_courses_with_sites_without_vacancies
+        .page(params[:page] || 1)
+        .per(30)
+      render(
+        :unavailable_choices_detail,
+        locals: { title: 'Applications to courses that no longer have vacancies' },
+      )
+    end
+
+    def unavailable_choices_removed_sites
+      monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = monitor
+        .applications_to_hidden_courses
+        .page(params[:page] || 1)
+        .per(30)
+      render(
+        :unavailable_choices_detail,
+        locals: { title: 'Applications to sites that no longer exist' },
+      )
+    end
   end
 end

@@ -2,23 +2,36 @@
 
 <% content_for :before_content do %>
   <%= breadcrumbs({
-    Performance: support_interface_performance_path,
+    Performance: support_interface_path,
     'Applications with unavailable choices': nil,
   }) %>
 <% end %>
 
-<h2 class="govuk-heading-m">Applications to courses that no longer are available on Apply</h2>
-
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_disabled_courses, row_heading_level: 3) %>
-
-<h2 class="govuk-heading-m">Applications to courses that have been removed from Find, but were open on Apply</h2>
-
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_hidden_courses, row_heading_level: 3) %>
-
-<h2 class="govuk-heading-m">List of applications that are made to courses that no longer have vacancies</h2>
-
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_courses_with_sites_without_vacancies, row_heading_level: 3) %>
-
-<h2 class="govuk-heading-m">List of applications that are made to sites that no longer exist</h2>
-
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @monitor.applications_to_removed_sites, row_heading_level: 3) %>
+<p class="govuk-body">
+  <%= govuk_link_to(
+    'Applications to courses that are no longer available on Apply',
+    support_interface_unavailable_choices_disabled_courses_path,
+  ) %>
+  (<%= @monitor.applications_to_disabled_courses.count %>)
+</p>
+<p class="govuk-body">
+  <%= govuk_link_to(
+    'Applications to courses that have been removed from Find, but were open on Apply',
+    support_interface_unavailable_choices_hidden_courses_path,
+  ) %>
+  (<%= @monitor.applications_to_hidden_courses.count %>)
+</p>
+<p class="govuk-body">
+  <%= govuk_link_to(
+    'Applications to courses that no longer have vacancies',
+    support_interface_unavailable_choices_without_vacancies_path,
+  ) %>
+  (<%= @monitor.applications_to_courses_with_sites_without_vacancies.count %>)
+</p>
+<p class="govuk-body">
+  <%= govuk_link_to(
+    'Applications to sites that no longer exist',
+    support_interface_unavailable_choices_removed_sites_path,
+  ) %>
+  (<%= @monitor.applications_to_removed_sites.count %>)
+</p>

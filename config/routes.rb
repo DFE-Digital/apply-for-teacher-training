@@ -989,6 +989,10 @@ Rails.application.routes.draw do
 
       get '/course-options', to: 'performance#course_options', as: :course_options
       get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
+      get '/unavailable-choices/disabled-courses' => 'performance#unavailable_choices_disabled_courses', as: :unavailable_choices_disabled_courses
+      get '/unavailable-choices/hidden-courses' => 'performance#unavailable_choices_hidden_courses', as: :unavailable_choices_hidden_courses
+      get '/unavailable-choices/removed-sites' => 'performance#unavailable_choices_removed_sites', as: :unavailable_choices_removed_sites
+      get '/unavailable-choices/without-vacancies' => 'performance#unavailable_choices_without_vacancies', as: :unavailable_choices_without_vacancies
 
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
       get '/data-directory' => 'data_exports#directory', as: :data_directory
