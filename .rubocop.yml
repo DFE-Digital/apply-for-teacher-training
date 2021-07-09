@@ -30,6 +30,10 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
+Style/OptionalBooleanParameter:
+  Exclude:
+    - 'app/workers/**/*'
+
 Govuk:
   Include:
     - 'app/views/**/*'
