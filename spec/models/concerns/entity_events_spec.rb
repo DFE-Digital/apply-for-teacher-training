@@ -21,9 +21,9 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
           .with a_hash_including({
+            'entity_table_name' => 'candidates',
             'event_type' => 'entity_created',
             'data' => [
-              { 'key' => 'table_name', 'value' => ['candidates'] },
               { 'key' => 'id', 'value' => [candidate.id] },
             ],
           })
@@ -34,9 +34,9 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
           .with a_hash_including({
+            'entity_table_name' => 'candidates',
             'event_type' => 'entity_created',
             'data' => [
-              { 'key' => 'table_name', 'value' => ['candidates'] },
               { 'key' => 'id', 'value' => [candidate.id] },
               # ie the same payload as above
             ],
@@ -78,9 +78,9 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
           .with a_hash_including({
+            'entity_table_name' => 'candidates',
             'event_type' => 'entity_updated',
             'data' => [
-              { 'key' => 'table_name', 'value' => ['candidates'] },
               { 'key' => 'email_address', 'value' => ['bar@baz.com'] },
               { 'key' => 'hide_in_reporting', 'value' => [false] },
             ],

@@ -54,6 +54,14 @@ module Events
       self
     end
 
+    def with_entity_table_name(table_name)
+      @event_hash.merge!(
+        entity_table_name: table_name,
+      )
+
+      self
+    end
+
     def with_data(hash)
       @event_hash.deep_merge!({
         data: hash_to_kv_pairs(hash),

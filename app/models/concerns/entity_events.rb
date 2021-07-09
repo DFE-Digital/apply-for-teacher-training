@@ -24,7 +24,8 @@ module EntityEvents
   def send_event(type, data)
     event = Events::Event.new
       .with_type(type)
-      .with_data(default_entity_data.merge(data))
+      .with_entity_table_name(self.class.table_name)
+      .with_data(data)
       .with_tags(event_tags)
 
     SendEventsToBigquery.perform_async(event.as_json)
@@ -33,9 +34,5 @@ module EntityEvents
   def entity_data(changeset)
     exportable_attrs = Rails.configuration.analytics[self.class.table_name.to_sym]
     changeset.slice(*exportable_attrs&.map(&:to_s))
-  end
-
-  def default_entity_data
-    { table_name: self.class.table_name }
   end
 end

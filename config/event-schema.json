@@ -13,6 +13,9 @@
       "type": "string",
       "enum": ["web_request", "entity_created", "entity_updated"]
     },
+    "entity_table_name": {
+      "type": "string"
+    },
     "request_uuid": {
       "type": "string"
     },
