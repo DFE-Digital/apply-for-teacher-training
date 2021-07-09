@@ -122,8 +122,8 @@ RSpec.describe CarryOverApplication do
       described_class.new(original_application_form.reload).call
 
       carried_over_application_form = ApplicationForm.last
-      expect(carried_over_application_form.application_work_experiences.find_by(organisation: first_job.organisation).currently_working?).to be(false)
-      expect(carried_over_application_form.application_work_experiences.find_by(organisation: second_job.organisation).currently_working?).to be(false)
+      expect(carried_over_application_form.application_work_experiences.find_by(start_date: first_job.start_date).currently_working?).to be(false)
+      expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(false)
     end
 
     it 'infers that `currently_working` is true if there is an ongoing work history item' do
@@ -136,8 +136,8 @@ RSpec.describe CarryOverApplication do
       described_class.new(original_application_form.reload).call
 
       carried_over_application_form = ApplicationForm.last
-      expect(carried_over_application_form.application_work_experiences.find_by(organisation: first_job.organisation).currently_working?).to be(false)
-      expect(carried_over_application_form.application_work_experiences.find_by(organisation: second_job.organisation).currently_working?).to be(true)
+      expect(carried_over_application_form.application_work_experiences.find_by(start_date: first_job.start_date).currently_working?).to be(false)
+      expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(true)
     end
   end
 end
