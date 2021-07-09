@@ -19,7 +19,7 @@ class CycleTimetable
     2021 => {
       find_opens: Date.new(2020, 10, 6),
       apply_opens: Date.new(2020, 10, 13),
-      apply_1_deadline: Date.new(2021, 9, 6),
+      apply_1_deadline: Date.new(2021, 9, 7),
       apply_2_deadline: Date.new(2021, 9, 20),
       find_closes: Date.new(2021, 10, 3),
     },
