@@ -12,7 +12,7 @@ class SelectedReferencesComponent < ViewComponent::Base
   end
 
   def show_incomplete_banner?
-    !application_form.references_completed? && show_incomplete
+    !application_form.references_completed? && show_incomplete && editable
   end
 
   def rows
