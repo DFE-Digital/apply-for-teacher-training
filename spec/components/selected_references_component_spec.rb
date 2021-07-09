@@ -20,17 +20,17 @@ RSpec.describe SelectedReferencesComponent, type: :component do
   context 'when references section is not completed' do
     let(:application) { create(:application_form, references_completed: false) }
 
-    context 'and `show_incomplete` is false' do
+    context 'and `editable` and `show_incomplete` are false' do
       it 'simply renders the summary table' do
-        render_inline(described_class.new(application, show_incomplete: false))
+        render_inline(described_class.new(application, editable: false, show_incomplete: false))
 
         expect(page).to have_css '.app-summary-card'
         expect(page).to have_content 'Selected references'
       end
     end
 
-    context 'and `show_incomplete` is true' do
-      let(:render) { render_inline(described_class.new(application, show_incomplete: true)) }
+    context 'and `editable` and `show_incomplete` are true' do
+      let(:render) { render_inline(described_class.new(application, editable: true, show_incomplete: true)) }
 
       context 'and no references exist on the application' do
         it 'warns that not enough references received and links to the appropriate page' do
