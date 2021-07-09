@@ -5,7 +5,11 @@ module SupportInterface
     def index; end
 
     def course_options
-      @course_options = CourseOption.where('vacancy_status != ?', 'vacancies').includes(:course, :site)
+      @course_options = CourseOption
+        .where('vacancy_status != ?', 'vacancies')
+        .includes(:course, :site)
+        .page(params[:page] || 1)
+        .per(30)
     end
 
     def courses_dashboard; end
