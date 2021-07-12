@@ -3,11 +3,9 @@ name: Build
 on:
   push:
     branches:
-      - master
       - main
   pull_request:
     branches:
-      - master
       - main
 
 jobs:
@@ -148,7 +146,7 @@ jobs:
     name: Trigger Deployment
     needs: [build, test]
     runs-on: ubuntu-latest
-    if: ${{ success() && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') }}
+    if: ${{ success() && github.ref == 'refs/heads/main' }}
     steps:
       - name: Trigger Deployment to QA and Staging
         uses: benc-uk/workflow-dispatch@v1.1
