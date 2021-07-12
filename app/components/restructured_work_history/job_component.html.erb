@@ -14,6 +14,13 @@
 
     <% if @work_experience.relevant_skills %>
       <p class="govuk-body-s govuk-!-margin-bottom-1">This role used skills relevant to teaching</p>
+    <% elsif @work_experience.relevant_skills.nil? && @editable %>
+      <%= govuk_inset_text(classes: 'app-inset-text--error') do %>
+        <%= govuk_link_to(
+          'Select if this role used skills relevant to teaching',
+          candidate_interface_edit_restructured_work_history_path(@work_experience.id),
+        ) %>
+      <% end %>
     <% end %>
   </div>
 
