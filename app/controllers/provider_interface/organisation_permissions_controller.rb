@@ -21,7 +21,10 @@ module ProviderInterface
     end
 
     def update
-      if true
+      @permissions = permissions_params
+      @relationship = ProviderRelationshipPermissions.find(params[:id])
+      
+      if @relationship.assign_attributes(new_relationship_permissions)
         flash[:success] = 'Organisation permissions successfully updated'
         redirect_to provider_interface_organisation_settings_organisation_permission_path(Provider.find(params[:provider_id]))
       else
@@ -37,10 +40,22 @@ module ProviderInterface
     end
 
     def permissions_params
-      return {} unless params.key?(:provider_interface_provider_relationship_permissions_form)
+      return {} unless params.key?(:provider_relationship_permissions)
 
-      params.require(:provider_interface_provider_relationship_permissions_form)
-            .permit(make_decisions: [], view_safeguarding_information: [], view_diversity_information: []).to_h
+      params.require(:provider_relationship_permissions)
+            .permit(training_provider_can_make_decisions: [],
+                    ratifying_provider_can_make_decisions: [],
+                    training_provider_can_view_safeguarding_information: [],
+                    ratifying_provider_can_view_safeguarding_information: [],
+                    training_provider_can_view_diversity_information: [],
+                    ratifying_provider_can_view_diversity_information: []).to_h
+    end
+
+    def new_relationship_permissions
+      ProviderRelationshipPermissions.possible_permissions.inject({}) do |hash, permission|
+        hash[permission] = permissions_params[permission].present?
+        hash
+      end
     end
 
     def render_404_unless_permissions_found
