@@ -1,3 +1,9 @@
+## 2nd July
+
+Documentation:
+
+Add clarification in the identifier fields for `support_reference`, `application.id` and `candidate.id` in the documentation.
+
 ## 28th June
 
 Documentation:
