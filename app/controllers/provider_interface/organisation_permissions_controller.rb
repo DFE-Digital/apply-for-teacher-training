@@ -15,15 +15,15 @@ module ProviderInterface
 
     # per provider
     def edit
-      @form = ProviderRelationshipPermissionsForm.new(permissions_model: permissions_model)
+      @relationship = ProviderRelationshipPermissions.find(params[:id])
+      @provider = Provider.find(params[:provider_id])
+      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(@relationship, current_provider_user)
     end
 
     def update
-      @form = ProviderRelationshipPermissionsForm.new(permissions_params.merge(permissions_model: permissions_model))
-
-      if @form.save!
+      if true
         flash[:success] = 'Organisation permissions successfully updated'
-        redirect_to provider_interface_organisation_path(permissions_model.training_provider)
+        redirect_to provider_interface_organisation_settings_organisation_permission_path(Provider.find(params[:provider_id]))
       else
         track_validation_error(@form)
         render :edit
