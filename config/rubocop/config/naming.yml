@@ -18,7 +18,6 @@ Naming/PredicateName:
 
 Naming/VariableNumber:
   Enabled: false
-
 Naming/InclusiveLanguage:
   CheckStrings: false
   CheckSymbols: false
