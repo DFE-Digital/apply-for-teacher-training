@@ -2,7 +2,7 @@
 
 The apply build and release process is split into two separate Azure DevOps pipelines.
 
-- [apply-for-teacher-training](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary): This is the main development CI pipeline which will automatically trigger a build from a commit to any branch within the Apply GitHub code repository. When commits are made to the master branch, this pipeline will also deploy the application to the QA infrastructure environment in Azure automatically.
+- [apply-for-teacher-training](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=49&_a=summary): This is the main development CI pipeline which will automatically trigger a build from a commit to any branch within the Apply GitHub code repository. When commits are made to the main branch, this pipeline will also deploy the application to the QA infrastructure environment in Azure automatically.
 
 - [apply-for-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary): This is the main release pipeline that is used to deploy to all other Azure environments except QA. Releases are triggered manually and the target environments can be chosen prior to deployment.
 
@@ -38,7 +38,7 @@ Once the deployment begins, this will automatically post the list of PRs being d
 Summarise what you're deploying and tell the team in Slack on the `#twd_apply` channel. Use `:ship_it_parrot:` as required.
 1. Load the [apply-for-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
 1. Click the blue "Run pipeline" button (sometimes it says "Queue") at the top right of the page which will open the run pipeline menu.
-1. Ensure the branch is set to "master".
+1. Ensure the branch is set to "main".
 1. Specify the commit
 1. Under the Variables section, make sure only `deploy_staging` is set to true (this should be the default)
 1. Click the Run button to start the deployment.
@@ -56,7 +56,7 @@ Click on the `Deploy` button next to the commit SHA under the Production section
 ### Manually
 1. Load the [apply-for-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
 1. Click the blue "Run pipeline" button (sometimes it says "Queue") at the top right of the page which will open the run pipeline menu.
-1. Ensure the branch is set to "master".
+1. Ensure the branch is set to "main".
 1. Specify the commit again - **do not forget this**
 1. Under the Variables section set `deploy_staging` to `false` and `deploy_production` and `deploy_sandbox` to `true`.
 1. Click the Run button to start the deployment

@@ -9,7 +9,7 @@ if filename
   end
   model_names.compact.uniq.map(&:constantize) rescue nil
 else
-  diff_tree_output = `git diff-tree -r --name-only --no-commit-id --no-renames --diff-filter=d origin/master HEAD app/models`
+  diff_tree_output = `git diff-tree -r --name-only --no-commit-id --no-renames --diff-filter=d origin/main HEAD app/models`
   diff_tree_output.split(/\n/).map do |model_path|
     require "./#{model_path}"
   end
