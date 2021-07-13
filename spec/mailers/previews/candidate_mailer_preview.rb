@@ -725,6 +725,15 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.eoc_deadline_reminder(application_form)
   end
 
+  def eoc_deadline_reminder_with_no_first_name
+    application_form = FactoryBot.build(
+      :application_form,
+      first_name: nil,
+    )
+
+    CandidateMailer.eoc_deadline_reminder(application_form)
+  end
+
   def reinstated_offer_with_conditions
     application_choice = FactoryBot.build(
       :application_choice,
