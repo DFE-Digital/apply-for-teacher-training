@@ -1,0 +1,18 @@
+<% content_for :title, t('page_titles.start_carry_over') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over') %></h1>
+
+    <p class="govuk-body">
+      You started an application for courses starting in the <%= application_form_academic_cycle %> academic year, which have now closed.
+    </p>
+
+    <p class="govuk-body">
+      Continue your application to apply for courses starting in the <%= next_academic_cycle %> academic year instead.
+    </p>
+
+    <%= govuk_button_to 'Continue', candidate_interface_carry_over_path, class: 'govuk-!-margin-bottom-5' %>
+  </div>
+</div>
