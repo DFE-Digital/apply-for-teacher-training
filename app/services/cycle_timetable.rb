@@ -221,6 +221,18 @@ class CycleTimetable
     end
   end
 
+  def self.apply_1_deadline_has_passed?(application_form)
+    recruitment_cycle_year = application_form.recruitment_cycle_year
+
+    Time.zone.now.to_date > apply_1_deadline(recruitment_cycle_year).beginning_of_day
+  end
+
+  def self.apply_2_deadline_has_passed?(application_form)
+    recruitment_cycle_year = application_form.recruitment_cycle_year
+
+    Time.zone.now.to_date > apply_2_deadline(recruitment_cycle_year).beginning_of_day
+  end
+
   private_class_method :last_recruitment_cycle_year?, :currently_mid_cycle?
 
   def self.need_to_send_deadline_reminder?
