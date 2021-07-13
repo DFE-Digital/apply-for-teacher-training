@@ -19,7 +19,7 @@ module SupportInterface
             key: 'This user does not have access to any providers',
           },
         ]
-      elsif FeatureFlag.active?(:new_provider_user_flow)
+      else
         permissions.map do |permission|
           {
             key: permission.provider.name_and_code,
@@ -34,27 +34,13 @@ module SupportInterface
             data_qa: "provider-id-#{permission.provider.id}",
           }
         end
-      else
-        permissions.map do |permission|
-          {
-            key: permission.provider.name_and_code,
-            value: render(SupportInterface::PermissionsListComponent.new(permission)),
-            action: 'permissions',
-            change_path: change_path,
-            data_qa: "provider-id-#{permission.provider.id}",
-          }
-        end
       end
     end
 
   private
 
     def change_path
-      if FeatureFlag.active?(:new_provider_user_flow)
-        support_interface_edit_permissions_path(provider_user)
-      else
-        edit_support_interface_provider_user_path(provider_user)
-      end
+      support_interface_edit_permissions_path(provider_user)
     end
   end
 end

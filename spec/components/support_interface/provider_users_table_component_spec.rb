@@ -30,10 +30,6 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
   end
 
   describe 'permissions link' do
-    before do
-      FeatureFlag.activate(:new_provider_user_flow)
-    end
-
     context 'when the provider user has permissions' do
       let(:provider_users) do
         [

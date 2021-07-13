@@ -26,14 +26,8 @@
           </ul>
         </td>
         <td class="govuk-table__cell">
-          <% if FeatureFlag.active?(:new_provider_user_flow) %>
-            <% if row[:provider_user].provider_permissions.any? %>
-              <%= govuk_link_to(support_interface_edit_permissions_path(row[:provider_user])) do %>
-                Update permissions<span class="govuk-visually-hidden"> for <%= row[:provider_user].display_name %></span>
-              <% end %>
-            <% end %>
-          <% else %>
-            <%= govuk_link_to(edit_support_interface_provider_user_path(row[:provider_user])) do %>
+          <% if row[:provider_user].provider_permissions.any? %>
+            <%= govuk_link_to(support_interface_edit_permissions_path(row[:provider_user])) do %>
               Update permissions<span class="govuk-visually-hidden"> for <%= row[:provider_user].display_name %></span>
             <% end %>
           <% end %>

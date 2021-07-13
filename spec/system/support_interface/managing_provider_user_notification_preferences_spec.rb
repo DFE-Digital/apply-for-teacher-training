@@ -13,6 +13,7 @@ RSpec.feature 'Managing provider user notification preferences' do
     and_i_navigate_to_provider_users_page
     and_i_click_on_the_user
     and_i_click_the_change_link
+
     then_i_can_see_all_notifications_are_on_by_default
 
     when_i_update_all_notifications_to_be_off

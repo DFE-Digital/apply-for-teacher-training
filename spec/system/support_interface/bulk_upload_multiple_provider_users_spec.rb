@@ -5,11 +5,10 @@ RSpec.feature 'bulk upload provider users' do
   include DsiAPIHelper
 
   before do
-    FeatureFlag.activate(:new_provider_user_flow)
     FeatureFlag.activate(:interview_permissions)
   end
 
-  scenario 'bulk upload a single provider user', with_audited: true do
+  scenario 'bulk upload multiple provider users', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
     and_a_provider_exists
@@ -20,44 +19,50 @@ RSpec.feature 'bulk upload provider users' do
     then_i_should_see_the_add_multiple_user_form
 
     when_i_click_continue
-    then_i_should_see_a_user_details_form_validation_error
+    then_i_should_see_a_form_validation_error
 
-    when_i_enter_the_provider_users_details
+    when_i_enter_the_users_details
     and_i_click_continue
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    then_i_should_see_the_permissions_form_for_the_first_user
 
     when_i_click_back
     then_i_should_see_the_add_multiple_user_form
 
     when_i_click_continue
-    then_i_should_see_the_permissions_form_for_the_provider_user
-
-    when_i_remove_the_provider_users_first_name
-    and_i_click_continue
-    then_i_should_see_a_first_name_blank_validation_error
-
-    when_i_enter_a_new_email_address_for_the_first_user
+    and_i_edit_the_email_address_for_the_first_user
     and_i_add_permissions_for_the_first_user
     and_i_click_continue
-    then_i_can_see_the_check_users_page
+    then_i_should_see_the_permissions_form_for_the_second_user
 
     when_i_click_back
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    then_i_should_see_the_permissions_form_for_the_first_user
+
+    when_i_click_continue
+    and_i_add_permissions_for_the_second_user
+    and_i_click_continue
+    then_i_should_see_the_provider_user_review_page
+
+    when_i_click_back
+    then_i_should_see_the_permissions_form_for_the_second_user
 
     when_i_click_continue
     then_i_can_see_the_check_users_page
 
-    when_i_click_change_within_the_provider_user_summary
-    then_i_should_see_the_permissions_form_for_the_provider_user
+    when_i_click_change_within_the_second_user_summary
+    then_i_should_see_the_edit_permissions_form_for_the_second_user
     and_the_permissions_i_selected_are_checked
 
-    when_i_edit_permissions_for_the_first_user
+    when_i_click_back
+    then_i_can_see_the_check_users_page
+
+    when_i_click_change_within_the_second_user_summary
+    and_i_edit_permissions_for_the_second_user
     and_i_click_continue
     then_i_can_see_the_check_users_page
 
     when_i_click_add_users
     then_i_see_the_provider_users_page
-    and_i_see_the_user_has_been_successfully_created
+    and_i_see_two_users_have_been_successfully_created
   end
 
   def given_dfe_signin_is_configured
@@ -90,17 +95,9 @@ RSpec.feature 'bulk upload provider users' do
     expect(page).to have_content("Add users to #{@provider.name}")
   end
 
-  def when_i_enter_the_provider_users_details
-    user_details = 'Natasha,Smith,natasha@smith.com'
+  def when_i_enter_the_users_details
+    user_details = "first_name_one,last_name_one,first_name_one@foo.com\nfirst_name_two\tlast_name_two\tfirst_name_two@foo.com"
     fill_in 'support_interface_multiple_provider_users_wizard[provider_users]', with: user_details
-  end
-
-  def when_i_remove_the_provider_users_first_name
-    fill_in 'support_interface_create_single_provider_user_form[first_name]', with: nil
-  end
-
-  def then_i_should_see_a_first_name_blank_validation_error
-    expect(page).to have_content('Enter a first name')
   end
 
   def and_i_click_continue
@@ -111,14 +108,14 @@ RSpec.feature 'bulk upload provider users' do
     and_i_click_continue
   end
 
-  def then_i_should_see_a_user_details_form_validation_error
+  def then_i_should_see_a_form_validation_error
     expect(page).to have_content("Enter the users' details")
   end
 
-  def then_i_should_see_the_permissions_form_for_the_provider_user
-    expect(page).to have_content('Add user (1 of 1)')
+  def then_i_should_see_the_permissions_form_for_the_first_user
+    expect(page).to have_content('Add user (1 of 2)')
     expect(page).to have_content(@provider.name)
-    expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'Smith')
+    expect(page).to have_field('support_interface_create_single_provider_user_form[first_name]', with: 'first_name_one')
   end
 
   def and_i_add_permissions_for_the_first_user
@@ -130,13 +127,33 @@ RSpec.feature 'bulk upload provider users' do
     check 'Access diversity information'
   end
 
-  def when_i_enter_a_new_email_address_for_the_first_user
-    fill_in('First name', with: 'Henry')
+  def then_i_should_see_the_permissions_form_for_the_second_user
+    expect(page).to have_content('Add user (2 of 2)')
+    expect(page).to have_content(@provider.name)
+    expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'last_name_two')
   end
 
-  def when_i_edit_permissions_for_the_first_user
+  def then_i_should_see_the_edit_permissions_form_for_the_second_user
+    expect(page).to have_content('Add user (2 of 2)')
+    expect(page).to have_content(@provider.name)
+    expect(page).to have_field('support_interface_create_single_provider_user_form[last_name]', with: 'last_name_two')
+  end
+
+  def and_i_edit_the_email_address_for_the_first_user
+    fill_in('Email address', with: 'superfoo@superbar.com')
+  end
+
+  def and_i_add_permissions_for_the_second_user
+    and_i_add_permissions_for_the_first_user
+  end
+
+  def when_i_edit_permissions_for_the_second_user
     check 'Manage users'
     check 'Manage organisational permissions'
+  end
+
+  def and_i_edit_permissions_for_the_second_user
+    when_i_edit_permissions_for_the_second_user
   end
 
   def when_i_click_back
@@ -174,11 +191,11 @@ RSpec.feature 'bulk upload provider users' do
     expect(page).to have_content('Check details and add users')
   end
 
-  def when_i_click_change_within_the_provider_user_summary
+  def when_i_click_change_within_the_second_user_summary
     all(:css, '.govuk-link').last.click
   end
 
-  def and_i_see_the_user_has_been_successfully_created
-    expect(page).to have_content('User Henry Smith added')
+  def and_i_see_two_users_have_been_successfully_created
+    expect(page).to have_content('2 users added')
   end
 end

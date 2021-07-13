@@ -1,11 +1,7 @@
 <%= render 'provider_navigation', title: 'Users' %>
 
-<% if FeatureFlag.active?(:new_provider_user_flow) %>
-  <%= govuk_link_to 'Add user', support_interface_new_single_provider_user_path, button: true %>
-  <%= govuk_link_to 'Add multiple users', new_support_interface_bulk_upload_provider_users_details_path, button: true, class: 'govuk-button--secondary' %>
-<% else %>
-  <%= govuk_link_to 'Add provider user', new_support_interface_provider_user_path, button: true %>
-<% end %>
+<%= govuk_link_to 'Add user', support_interface_new_single_provider_user_path, button: true %>
+<%= govuk_link_to 'Add multiple users', new_support_interface_bulk_upload_provider_users_details_path, button: true, class: 'govuk-button--secondary' %>
 
 <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider.provider_users)) %>
 
