@@ -6,7 +6,7 @@ module EntityEvents
 
     after_create do
       data = entity_data(attributes)
-      send_event('entity_created', data) if data.any?
+      send_event('create_entity', data) if data.any?
     end
 
     after_update do
@@ -16,7 +16,7 @@ module EntityEvents
       interesting_changes = entity_data(saved_changes.transform_values(&:last))
 
       if interesting_changes.any?
-        send_event('entity_updated', entity_data(attributes).merge(interesting_changes))
+        send_event('update_entity', entity_data(attributes).merge(interesting_changes))
       end
     end
   end

@@ -12,7 +12,7 @@ RSpec.describe EntityEvents do
     })
   end
 
-  describe 'entity_created events' do
+  describe 'create_entity events' do
     context 'when fields are specified in the analytics file' do
       let(:interesting_fields) { [:id] }
 
@@ -22,7 +22,7 @@ RSpec.describe EntityEvents do
         expect(SendEventsToBigquery).to have_received(:perform_async)
           .with a_hash_including({
             'entity_table_name' => 'candidates',
-            'event_type' => 'entity_created',
+            'event_type' => 'create_entity',
             'data' => [
               { 'key' => 'id', 'value' => [candidate.id] },
             ],
@@ -35,7 +35,7 @@ RSpec.describe EntityEvents do
         expect(SendEventsToBigquery).to have_received(:perform_async)
           .with a_hash_including({
             'entity_table_name' => 'candidates',
-            'event_type' => 'entity_created',
+            'event_type' => 'create_entity',
             'data' => [
               { 'key' => 'id', 'value' => [candidate.id] },
               # ie the same payload as above
@@ -58,17 +58,17 @@ RSpec.describe EntityEvents do
     context 'when no fields are specified in the analytics file' do
       let(:interesting_fields) { [] }
 
-      it 'does not send entity_created events at all' do
+      it 'does not send create_entity events at all' do
         create(:candidate)
         create(:email) # some other model, for example
 
         expect(SendEventsToBigquery).not_to have_received(:perform_async)
-          .with(a_hash_including({ 'event_type' => 'entity_created' }))
+          .with(a_hash_including({ 'event_type' => 'create_entity' }))
       end
     end
   end
 
-  describe 'entity_updated events' do
+  describe 'update_entity events' do
     context 'when fields are specified in the analytics file' do
       let(:interesting_fields) { %i[email_address hide_in_reporting] }
 
@@ -79,7 +79,7 @@ RSpec.describe EntityEvents do
         expect(SendEventsToBigquery).to have_received(:perform_async)
           .with a_hash_including({
             'entity_table_name' => 'candidates',
-            'event_type' => 'entity_updated',
+            'event_type' => 'update_entity',
             'data' => [
               { 'key' => 'email_address', 'value' => ['bar@baz.com'] },
               { 'key' => 'hide_in_reporting', 'value' => [false] },
@@ -93,7 +93,7 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).not_to have_received(:perform_async)
           .with a_hash_including({
-            'event_type' => 'entity_updated',
+            'event_type' => 'update_entity',
           })
       end
 
@@ -119,7 +119,7 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).not_to have_received(:perform_async)
           .with a_hash_including({
-            'event_type' => 'entity_updated',
+            'event_type' => 'update_entity',
           })
       end
     end
