@@ -8,8 +8,8 @@ module CandidateInterface
 
     def show
       apply_from_find = ApplyFromFindPage.new(
-        provider_code: params[:providerCode],
-        course_code: params[:courseCode],
+        provider_code: params.fetch(:providerCode),
+        course_code: params.fetch(:courseCode),
         current_candidate: current_candidate,
       )
 
@@ -59,8 +59,8 @@ module CandidateInterface
         end
       else
         @course = ApplyFromFindPage.new(
-          provider_code: apply_on_ucas_or_apply_params[:provider_code],
-          course_code: apply_on_ucas_or_apply_params[:course_code],
+          provider_code: apply_on_ucas_or_apply_params.fetch(:provider_code),
+          course_code: apply_on_ucas_or_apply_params.fetch(:course_code),
           current_candidate: current_candidate,
         ).course
 
@@ -70,8 +70,8 @@ module CandidateInterface
 
     def ucas_interstitial
       @course = ApplyFromFindPage.new(
-        provider_code: ucas_interstitial_params[:provider_code],
-        course_code: ucas_interstitial_params[:course_code],
+        provider_code: ucas_interstitial_params.fetch(:provider_code),
+        course_code: ucas_interstitial_params.fetch(:course_code),
         current_candidate: current_candidate,
       ).course
     end
