@@ -102,11 +102,15 @@ module ProviderInterface
     end
 
     def performing_provider_organisation_setup?
-      [
-        ProviderInterface::ProviderAgreementsController,
-        ProviderInterface::ProviderRelationshipPermissionsSetupController,
-        ProviderInterface::OrganisationPermissionsSetupController,
-      ].include?(request.controller_class)
+      setup_controllers = [ProviderInterface::ProviderAgreementsController]
+
+      setup_controllers << if FeatureFlag.active?(:accredited_provider_setting_permissions)
+                             ProviderInterface::OrganisationPermissionsSetupController
+                           else
+                             ProviderInterface::ProviderRelationshipPermissionsSetupController
+                           end
+
+      setup_controllers.include?(request.controller_class)
     end
 
     def setup_organisation_permissions_path

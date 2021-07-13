@@ -16,6 +16,42 @@ RSpec.describe 'Set up ProviderRelationshipPermissions', type: :request do
       )
   end
 
+  describe 'when there are permissions to set up' do
+    let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+
+    before do
+      ratifying_provider = create(:provider)
+      create(
+        :provider_relationship_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: provider,
+        setup_at: nil,
+      )
+      create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider: provider)
+    end
+
+    context 'when the accredited_provider_setting_permissions flag is on' do
+      before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
+
+      it 'redirects to the new setup start page' do
+        get provider_interface_provider_relationship_permissions_organisations_path
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+      end
+    end
+
+    context 'when the accredited_provider_setting_permissions flag is off' do
+      before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+
+      it 'returns a 200 on the setup start page' do
+        get provider_interface_provider_relationship_permissions_organisations_path
+
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
   describe 'invalid provider relationship params' do
     context 'GET edit' do
       it 'responds with 404' do
