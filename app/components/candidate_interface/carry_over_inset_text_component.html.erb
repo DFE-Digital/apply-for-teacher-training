@@ -1,0 +1,10 @@
+<%= govuk_inset_text(classes: 'govuk-!-width-two-thirds govuk-!-margin-top-0') do %>
+  <h2 class="govuk-heading-m">Your application was unsuccessful</h2>
+  <p class="govuk-body">You submitted your application for courses starting in the <%= application_form_academic_cycle %> academic year, which have now closed.</p>
+  <p class="govuk-body">You can apply for courses starting in the <%= next_academic_cycle %> academic year instead.</p>
+  <%= govuk_link_to(
+  'Apply again',
+  start_path,
+  class: 'govuk-button',
+  ) %>
+<% end %>
