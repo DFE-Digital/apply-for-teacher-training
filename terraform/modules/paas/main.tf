@@ -9,10 +9,10 @@ terraform {
 
 provider "cloudfoundry" {
   api_url           = var.cf_api_url
-  user              = var.cf_user
-  password          = var.cf_user_password
-  sso_passcode      = var.cf_sso_passcode
-  store_tokens_path = var.cf_sso_passcode != null ? ".cftoken" : null
+  user              = var.cf_sso_passcode == "" ? var.cf_user : null
+  password          = var.cf_sso_passcode == "" ? var.cf_user_password : null
+  sso_passcode      = var.cf_sso_passcode != "" ? var.cf_sso_passcode : null
+  store_tokens_path = var.cf_sso_passcode != "" ? ".cftoken" : null
 }
 
 resource "cloudfoundry_app" "web_app" {

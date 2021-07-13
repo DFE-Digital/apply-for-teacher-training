@@ -1,5 +1,5 @@
 # PaaS variables
-variable "paas_sso_code" { default = null }
+variable "paas_sso_code" { default = "" }
 
 variable "paas_cf_space" {}
 

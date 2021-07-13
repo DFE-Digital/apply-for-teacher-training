@@ -4,7 +4,7 @@ variable "cf_user" { default = null }
 
 variable "cf_user_password" { default = null }
 
-variable "cf_sso_passcode" { default = null }
+variable "cf_sso_passcode" { default = "" }
 
 variable "cf_space" {}
 
