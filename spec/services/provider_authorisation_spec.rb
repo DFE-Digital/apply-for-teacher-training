@@ -648,42 +648,48 @@ RSpec.describe ProviderAuthorisation do
   end
 
   describe '#provider_relationships_that_actor_can_manage_organisations_for' do
-    let(:training_provider) { create(:provider) }
-    let(:ratifying_provider) { create(:provider) }
+    let(:provider_relationship) { create(:provider_relationship_permissions) }
+    let(:auth) { ProviderAuthorisation.new(actor: provider_user) }
 
-    let!(:provider_relationship) do
-      create(
-        :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-      )
+    context 'when the user belongs to the training provider' do
+      let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [provider_relationship.training_provider]) }
+
+      it 'returns the relationship permissions' do
+        expect(auth.provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+      end
     end
 
-    it 'returns training provider relationships the user has manage orgs for' do
-      provider_user = create(:provider_user, providers: [training_provider])
+    context 'when the user belongs to the ratifying provider' do
+      let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [provider_relationship.ratifying_provider]) }
 
-      ProviderPermissions.find_by(
-        provider_user: provider_user,
-        provider: training_provider,
-      ).update!(manage_organisations: true)
-
-      expect(ProviderAuthorisation.new(actor: provider_user).provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+      it 'returns the relationship permissions' do
+        expect(auth.provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+      end
     end
 
-    it 'returns ratifying provider relationships the user has manage orgs for' do
-      provider_user = create(:provider_user, providers: [ratifying_provider])
+    context 'when the user belongs to both providers' do
+      let(:provider_user) do
+        create(
+          :provider_user,
+          :with_manage_organisations,
+          providers: [
+            provider_relationship.training_provider,
+            provider_relationship.ratifying_provider,
+          ],
+        )
+      end
 
-      ProviderPermissions.find_by(
-        provider_user: provider_user,
-        provider: ratifying_provider,
-      ).update!(manage_organisations: true)
-
-      expect(ProviderAuthorisation.new(actor: provider_user).provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+      it 'returns the relationship permissions without duplicates' do
+        expect(auth.provider_relationships_that_actor_can_manage_organisations_for).to eq([provider_relationship])
+      end
     end
 
-    it 'does not return any relationships if user lacks manage orgs' do
-      provider_user = create(:provider_user, providers: [training_provider, ratifying_provider])
-      expect(ProviderAuthorisation.new(actor: provider_user).provider_relationships_that_actor_can_manage_organisations_for).to be_empty
+    context 'when the user does not have the manage_orgs permission' do
+      let(:provider_user) { create(:provider_user, providers: [provider_relationship.training_provider]) }
+
+      it 'does not return the relationship permissions' do
+        expect(auth.provider_relationships_that_actor_can_manage_organisations_for).to be_empty
+      end
     end
   end
 end
