@@ -3,11 +3,8 @@ module CandidateInterface
     before_action :redirect_if_already_carried_over
 
     def start
-      if CycleTimetable.between_cycles_apply_2?
-        render current_application.submitted? ? :start_between_cycles : :start_between_cycles_unsubmitted
-      else
-        render :start
-      end
+      @application_form = current_application
+      render 'candidate_interface/carry_over/not_submitted/start'
     end
 
     def create
@@ -18,10 +15,15 @@ module CandidateInterface
 
   private
 
+    # How will we know if a form has been carried over?
     def redirect_if_already_carried_over
-      return if current_application.must_be_carried_over?
+      return if must_be_carried_over?
 
       redirect_to candidate_interface_application_form_path
+    end
+
+    def must_be_carried_over?
+      current_application.not_submitted_and_deadline_has_passed? || current_application.unsuccessful_and_apply_2_deadline_has_passed?
     end
   end
 end

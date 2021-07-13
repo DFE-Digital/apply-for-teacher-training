@@ -1,6 +1,6 @@
 <% content_for :title, t('page_titles.application_form') %>
 
-<%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
+<%= render CandidateInterface::CarryOverInsetTextComponent.new(application_form: @application_form) %>
 <%= render(CandidateInterface::DeadlineBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 <%= render(CandidateInterface::ReopenBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 
