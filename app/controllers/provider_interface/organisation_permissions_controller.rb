@@ -1,5 +1,6 @@
 module ProviderInterface
   class OrganisationPermissionsController < ProviderInterfaceController
+    before_action :require_accredited_provider_setting_permissions_flag
     before_action :set_up_relationship_objects, except: %i[index show]
     before_action :provider_id_and_permission_check, except: %i[index show]
 
@@ -10,6 +11,7 @@ module ProviderInterface
 
     # This action will be dropped once #index lists relationships; :id is provider for now
     def show
+      binding.pry
       @provider = current_provider_user.providers.find(params[:id])
       @provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).where.not(setup_at: nil)
     end
@@ -64,6 +66,12 @@ module ProviderInterface
 
       auth = ProviderAuthorisation.new(actor: current_provider_user)
       render_403 unless providers.map { |p| auth.can_manage_organisation?(provider: p) }.any?
+    end
+
+    def require_accredited_provider_setting_permissions_flag
+      unless FeatureFlag.active?(:accredited_provider_setting_permissions)
+        redirect_to(provider_interface_account_path)
+      end
     end
   end
 end
