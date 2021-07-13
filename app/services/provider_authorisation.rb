@@ -41,6 +41,7 @@ class ProviderAuthorisation
       .includes(:ratifying_provider, :training_provider)
       .with(provider_ids: manageable_provider_ids)
       .joins('INNER JOIN provider_ids ON (training_provider_id = provider_id OR ratifying_provider_id = provider_id)')
+      .distinct
   end
 
   def providers_that_actor_can_manage_organisations_for(with_set_up_permissions: false)
