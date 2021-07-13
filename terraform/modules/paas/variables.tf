@@ -48,20 +48,22 @@ locals {
   }
   app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis, cloudfoundry_user_provided_service.logging]
   service_gov_uk_host_names = {
-    qa       = "qa"
-    staging  = "staging"
-    sandbox  = "sandbox"
-    rollover = "rollover"
-    research = "research"
-    prod     = "www"
+    qa        = "qa"
+    staging   = "staging"
+    sandbox   = "sandbox"
+    rollover  = "rollover"
+    research  = "research"
+    load-test = "load-test"
+    prod      = "www"
   }
   assets_host_names = {
-    qa       = "qa-assets"
-    staging  = "staging-assets"
-    sandbox  = "sandbox-assets"
-    rollover = "rollover-assets"
-    research = "research-assets"
-    prod     = "assets"
+    qa        = "qa-assets"
+    staging   = "staging-assets"
+    sandbox   = "sandbox-assets"
+    rollover  = "rollover-assets"
+    research  = "research-assets"
+    load-test = "load-test-assets"
+    prod      = "assets"
   }
   web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route,
   cloudfoundry_route.web_app_education_gov_uk_route, cloudfoundry_route.web_app_internal_route, cloudfoundry_route.web_app_assets_service_gov_uk_route]
