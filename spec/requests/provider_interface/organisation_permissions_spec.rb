@@ -18,27 +18,68 @@ RSpec.describe 'Viewing organisation permissions', type: :request do
       )
   end
 
-  describe 'GET show with feature flag off' do
+  describe 'GET index with feature flag off' do
     it 'responds with 302' do
       FeatureFlag.deactivate(:accredited_provider_setting_permissions)
       get provider_interface_organisation_settings_organisation_permissions_path
-      expect_redirect_to_account_page
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_account_url)
     end
   end
 
   context 'with feature flag on' do
     before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
 
-    describe 'GET show without manage users or manage organisations ' do
-      it 'responds with 302' do
-        get provider_interface_organisation_settings_organisation_permissions_path
-        expect_redirect_to_account_page
+    describe 'without manage organisations' do
+      let(:provider_user) { create(:provider_user, providers: [training_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
+
+      it 'GET show responds with 403' do
+        get provider_interface_organisation_settings_organisation_permission_path(training_provider)
+        expect(response.status).to eq(403)
+      end
+
+      it 'GET edit responds with 403' do
+        get edit_provider_interface_organisation_settings_organisation_permission_path(relationship, provider_id: training_provider.id)
+        expect(response.status).to eq(403)
+      end
+
+      it 'GET edit responds with 404 if no provider_id is specified' do
+        get edit_provider_interface_organisation_settings_organisation_permission_path(relationship)
+        expect(response.status).to eq(404)
+      end
+
+      it 'PATCH update responds with 403' do
+        patch provider_interface_organisation_settings_organisation_permission_path(relationship, provider_id: training_provider)
+        expect(response.status).to eq(403)
       end
     end
 
-    describe 'GET show with a unrelated provider' do
-      it 'responds with 404' do
+    describe 'with a unrelated provider' do
+      it 'GET show responds with 404' do
         get provider_interface_organisation_settings_organisation_permission_path(ratifying_provider)
+        expect(response.status).to eq(404)
+      end
+
+      it 'GET edit responds with 404' do
+        get edit_provider_interface_organisation_settings_organisation_permission_path(relationship, provider_id: ratifying_provider)
+        expect(response.status).to eq(404)
+      end
+
+      it 'PATCH update responds with 404' do
+        patch provider_interface_organisation_settings_organisation_permission_path(training_provider, provider_id: ratifying_provider)
+        expect(response.status).to eq(404)
+      end
+    end
+
+    describe 'with a unrelated relationship' do
+      it 'GET edit responds with 404' do
+        get edit_provider_interface_organisation_settings_organisation_permission_path(create(:provider_relationship_permissions), provider_id: training_provider)
+        expect(response.status).to eq(404)
+      end
+
+      it 'PATCH update responds with 404' do
+        other_relationship = create(:provider_relationship_permissions)
+        patch provider_interface_organisation_settings_organisation_permission_path(other_relationship, provider_id: training_provider)
         expect(response.status).to eq(404)
       end
     end
