@@ -1,5 +1,5 @@
 <% if @application_form.ended_without_success? %>
-  <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
+  <%= render CandidateInterface::CarryOverInsetTextComponent.new(application_form: @application_form) %>
 <% end %>
 
 <h1 class="govuk-heading-xl"><%= title %></h1>
