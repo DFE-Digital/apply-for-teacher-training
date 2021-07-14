@@ -16,7 +16,7 @@
             <%= govuk_tag(text: 'Course no longer offered at this site', colour: 'red') %>
           <% end %>
 
-          <%= govuk_link_to(course_option.course.name_and_code, support_interface_course_path(course_option.course)) %> - <%= course_option.study_mode.humanize %> at <%= course_option.site.name %>
+          <%= govuk_link_to(course_option.course.name_and_code, support_interface_course_path(course_option.course)) %> - <%= course_option.study_mode.humanize %> at <%= course_option.site.name_and_code %>
         </td>
         <td class='govuk-table__cell'>
           <% if course_option.vacancies? %>
