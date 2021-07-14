@@ -25,9 +25,12 @@ RSpec.describe TestProvider do
   describe '.training_courses' do
     let!(:test_provider) { create(:provider, code: 'TEST') }
 
-    context 'when there are 3 or more existing open courses' do
+    context 'when there are 3 or more existing open courses with course options' do
       let!(:test_provider_courses) do
-        create_list(:course, 3, :open_on_apply, provider: test_provider)
+        create_list(:course_option, 3, course: create(:course, :open_on_apply, provider: test_provider)).map(&:course)
+      end
+      let!(:test_provider_courses_without_options) do
+        create(:course, :open_on_apply, provider: test_provider)
       end
 
       it 'returns the list of courses run by the training provider' do
