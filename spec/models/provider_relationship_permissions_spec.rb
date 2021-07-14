@@ -63,4 +63,29 @@ RSpec.describe ProviderRelationshipPermissions do
       expect(provider_relationship_permissions.audits.last.associated).to eq(training_provider)
     end
   end
+
+  describe '#all_relationships_for_providers' do
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let!(:random_relationship) { create(:provider_relationship_permissions) }
+    let!(:relationship) do
+      create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
+    end
+
+    it 'includes training providers' do
+      expect(described_class.all_relationships_for_providers([training_provider])).to eq([relationship])
+    end
+
+    it 'includes ratifying providers' do
+      expect(described_class.all_relationships_for_providers([ratifying_provider])).to eq([relationship])
+    end
+
+    it 'does not include duplicates' do
+      expect(described_class.all_relationships_for_providers([training_provider, ratifying_provider])).to eq([relationship])
+    end
+  end
 end
