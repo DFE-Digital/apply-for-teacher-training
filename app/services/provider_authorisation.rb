@@ -21,7 +21,9 @@ class ProviderAuthorisation
   end
 
   def provider_relationships_for_actor
-    ProviderRelationshipPermissions.all_relationships_for_providers(@actor.providers)
+    ProviderRelationshipPermissions.all_relationships_for_providers(
+      @actor.providers.includes([:provider_permissions]),
+    )
   end
 
   def provider_relationships_that_actor_can_manage_organisations_for
