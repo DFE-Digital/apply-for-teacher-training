@@ -1,19 +1,17 @@
 module ProviderInterface
   class OrganisationPermissionsController < ProviderInterfaceController
     before_action :require_accredited_provider_setting_permissions_flag
-    before_action :set_up_relationship_objects, except: %i[index show]
-    before_action :provider_id_and_permission_check, except: %i[index show]
+    before_action :set_up_relationship_objects, except: %i[organisations index]
+    before_action :organisation_id_and_permission_check, except: %i[organisations index]
 
-    # For now, list providers; next version will list relationships for a provider
-    def index
+    # This action and the relevant route will be removed once Organisation Settings
+    # is broken down into provider sections.
+    def organisations
       @manageable_providers = manageable_providers
     end
 
-    # This action will be dropped once #index lists relationships.
-    # Its temporary nature and reliance of provider ids, rather than relationship ids,
-    # is why it gets it own 403/404 checks and responses.
-    def show
-      @provider = current_provider_user.providers.find(params[:id])
+    def index
+      @provider = current_provider_user.providers.find(params[:organisation_id])
       render_403 unless current_provider_user.authorisation.can_manage_organisation?(provider: @provider)
 
       @provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).where.not(setup_at: nil)
@@ -26,7 +24,7 @@ module ProviderInterface
     def update
       if @relationship.update(new_relationship_permissions)
         flash[:success] = 'Organisation permissions successfully updated'
-        redirect_to provider_interface_organisation_settings_organisation_permission_path(Provider.find(params[:provider_id]))
+        redirect_to provider_interface_organisation_settings_organisation_organisation_permissions_path(params[:organisation_id])
       else
         track_validation_error(@relationship)
         render :edit
@@ -60,13 +58,13 @@ module ProviderInterface
 
     def set_up_relationship_objects
       @relationship = ProviderRelationshipPermissions.find(params[:id])
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params[:organisation_id])
       @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(@relationship, current_provider_user)
     rescue ActiveRecord::RecordNotFound
       render_404
     end
 
-    def provider_id_and_permission_check
+    def organisation_id_and_permission_check
       relationship_providers = [@relationship.training_provider, @relationship.ratifying_provider]
       render_404 and return unless relationship_providers.include?(@provider) &&
                                    current_provider_user.providers.include?(@provider)

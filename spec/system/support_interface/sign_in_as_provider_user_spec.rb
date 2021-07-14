@@ -13,7 +13,7 @@ RSpec.feature 'Sign in as provider user' do
     when_i_try_to_sign_the_data_sharing_agreement
     then_i_am_told_i_am_a_support_user
 
-    when_i_click_on_return_to_support
+    when_i_click_to_return_to_support
     and_i_click_on_stop_impersonating_this_user
     and_i_visit_the_provider_interface
     then_i_am_asked_to_sign_in
@@ -43,7 +43,7 @@ RSpec.feature 'Sign in as provider user' do
 
   def and_i_can_tell_this_is_an_impersonation_from_the_sign_out_link
     expect(page).not_to have_content('Sign out')
-    expect(page).to have_content('Return to support')
+    expect(page).to have_content('Support')
   end
 
   def when_i_try_to_sign_the_data_sharing_agreement
@@ -59,8 +59,8 @@ RSpec.feature 'Sign in as provider user' do
     expect(page).to have_content 'Cannot be signed by a support user'
   end
 
-  def when_i_click_on_return_to_support
-    click_on 'Return to support'
+  def when_i_click_to_return_to_support
+    click_on 'Support'
   end
 
   def and_i_click_on_stop_impersonating_this_user
