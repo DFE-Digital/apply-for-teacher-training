@@ -81,6 +81,8 @@ paths:
         If the application has already received an offer, POSTing a second offer will change that offer.
 
         The replacement offer must be for a different course to that originally offered.
+
+        After changing an offer, the updated course details are included in the Offer object. The Application Course object will always return the original course the candidate applied to.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
