@@ -11,18 +11,22 @@ module CandidateInterface
     end
 
     def application_form_academic_cycle
-      RecruitmentCycle.cycle_name(application_form_recruitment_cycle_year)
+      academic_cycle_name(application_form_recruitment_cycle_year)
     end
 
     def next_academic_cycle
-      RecruitmentCycle.cycle_name(next_recruitment_cycle_year)
+      academic_cycle_name(next_recruitment_cycle_year)
     end
 
-    def start_path
-      candidate_interface_start_carry_over_path
+    def carry_over_path
+      candidate_interface_carry_over_path
     end
 
   private
+
+    def academic_cycle_name(year)
+      "#{year} to #{year + 1}"
+    end
 
     def application_form_recruitment_cycle_year
       @application_form.recruitment_cycle_year
