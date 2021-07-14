@@ -13,7 +13,7 @@ module Integrations
 
       process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
 
-      process_notify_callback.call
+      ProcessNotifyCallbackWorker.perform_async(reference_status_parameters)
 
       if process_notify_callback.not_found?
         render_not_found
