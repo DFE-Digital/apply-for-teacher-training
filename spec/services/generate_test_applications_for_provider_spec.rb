@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::GenerateTestApplicationsForProvider, sidekiq: true do
+RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
   let(:provider) { create(:provider) }
   let(:courses_per_application) { 3 }
   let(:application_count) { 1 }

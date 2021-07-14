@@ -6,7 +6,7 @@ module SupportInterface
     DEFAULT_COURSES_COUNT = 1
 
     def create
-      VendorAPI::GenerateTestApplicationsForProvider.new(
+      GenerateTestApplicationsForProvider.new(
         provider: provider,
         courses_per_application: DEFAULT_COURSES_COUNT,
         count: DEFAULT_APPLICATION_COUNT,
