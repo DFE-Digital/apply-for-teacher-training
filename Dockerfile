@@ -1,5 +1,5 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
-ARG BASE_RUBY_IMAGE=ruby:2.7.2-alpine3.12
+ARG BASE_RUBY_IMAGE=ruby:2.7.4-alpine3.12
 # BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES will default to apply-for-teacher-training-gems-node-modules
 # building all layers above it if a value is not specidied during the build
 ARG BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=apply-for-teacher-training-gems-node-modules
