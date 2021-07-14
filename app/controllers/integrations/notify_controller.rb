@@ -11,15 +11,9 @@ module Integrations
       return render_unprocessable_entity if params.fetch(:status).nil?
       return render json: nil, status: :ok if params.fetch(:reference).nil?
 
-      process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
-
       ProcessNotifyCallbackWorker.perform_async(reference_status_parameters)
 
-      if process_notify_callback.not_found?
-        render_not_found
-      else
-        render json: nil, status: :ok
-      end
+      render json: nil, status: :ok
     end
 
   private
