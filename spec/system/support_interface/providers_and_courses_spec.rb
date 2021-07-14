@@ -245,7 +245,7 @@ RSpec.feature 'Providers and courses' do
 
   def then_i_see_courses_with_vacancies
     expect(page).to have_title 'Primary (ABC1)'
-    expect(page).to have_content 'Primary (ABC1) - Full time at Main site Vacancies'
+    expect(page).to have_content 'Primary (ABC1) - Full time at Main site (X) Vacancies'
   end
 
   def when_i_visit_course
