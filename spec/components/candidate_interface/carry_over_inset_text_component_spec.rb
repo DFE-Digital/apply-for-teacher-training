@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
         application_form = build(:completed_application_form, application_choices: [application_choice])
         result = render_inline(described_class.new(application_form: application_form))
 
-        expect(result.text).to include('Apply again')
+        expect(result.css('.govuk-button').first.attr('value')).to eq('Apply again')
       end
     end
 
@@ -29,13 +29,13 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')
-        expect(result.text).to include('Continue your application to apply for courses starting in the 2022 to 2023 academic year instead.')
+        expect(result.text).to include('You can apply for courses starting in the 2022 to 2023 academic year instead.')
       end
     end
 
     context 'after the apply_2 deadline but before apply reopens' do
       around do |example|
-        Timecop.freeze(CycleTimetable.apply_1_deadline(2021) + 1.day) do
+        Timecop.freeze(CycleTimetable.apply_2_deadline(2021) + 1.day) do
           example.run
         end
       end
@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::CarryOverInsetTextComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.text).to include('You submitted your application for courses starting in the 2021 to 2022 academic year, which have now closed.')
-        expect(result.text).to include('Continue your application to apply for courses starting in the 2022 to 2023 academic year instead.')
+        expect(result.text).to include('You can apply for courses starting in the 2022 to 2023 academic year instead.')
       end
     end
   end
