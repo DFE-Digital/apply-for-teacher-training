@@ -97,7 +97,7 @@ RSpec.feature 'Provider views organisation settings' do
   end
 
   def and_i_see_a_link_to_manage_organisations
-    expect(page).to have_link('Organisation permissions', href: provider_interface_organisation_settings_organisation_permissions_path)
+    expect(page).to have_link('Organisation permissions', href: organisations_provider_interface_organisation_settings_path)
   end
 
   def when_i_click_to_manage_users
@@ -109,7 +109,7 @@ RSpec.feature 'Provider views organisation settings' do
   end
 
   def then_i_see_the_organisation_permissions
-    expect(page).to have_link(@another_provider.name.to_s, href: provider_interface_organisation_settings_organisation_permission_path(@another_provider))
+    expect(page).to have_link(@another_provider.name.to_s, href: provider_interface_organisation_settings_organisation_organisation_permissions_path(@another_provider))
   end
 
   def then_the_breadcrumbs_are_correct_for_this_flow

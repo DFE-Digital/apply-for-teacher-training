@@ -768,8 +768,12 @@ Rails.application.routes.draw do
       resource :notifications, only: %i[show update], path: 'notification-settings'
     end
 
-    resource :organisation_settings, path: '/organisation-settings' do
-      resources :organisation_permissions, path: '/organisation-permissions', only: %i[index show edit update]
+    resource :organisation_settings, path: '/organisation-settings', only: :show do
+      get '/organisations' => 'organisation_permissions#organisations', as: :organisations
+
+      resources :organisations, only: [] do
+        resources :organisation_permissions, path: '/organisation-permissions', only: %i[index edit update]
+      end
     end
 
     scope path: 'setup' do

@@ -78,7 +78,7 @@ RSpec.feature 'Provider edits organisation permissions' do
   end
 
   def then_i_am_redirected_to_the_organisation_relationships_page
-    expect(page).to have_current_path(provider_interface_organisation_settings_organisation_permission_path(@ratifying_provider))
+    expect(page).to have_current_path(provider_interface_organisation_settings_organisation_organisation_permissions_path(@ratifying_provider))
   end
 
   def and_i_see_a_flash_message
