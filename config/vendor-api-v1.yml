@@ -1181,11 +1181,13 @@ components:
           type: string
           nullable: true
           description: The candidate’s description of their disability, if they selected “Other” and entered a value. This corresponds to HESA disability code `96`.
+          maxLength: 10240
           example: "My disability is..."
         other_ethnicity_details:
           type: string
           nullable: true
           description: The candidate’s description of their ethnicity, if they selected “Other” and entered a value.
+          maxLength: 10240
           example: "My ethnicity is..."
     Attribution:
       type: object
