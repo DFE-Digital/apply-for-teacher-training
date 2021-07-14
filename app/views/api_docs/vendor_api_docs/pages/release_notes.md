@@ -3,6 +3,7 @@
 Documentation:
 
 - Add maximum lengths for the following fields: `other_ethnicity_details` and `other_disability_details`.
+- Add clarification on where changed course details can be found when changing on offer.
 
 ## 2nd July
 
