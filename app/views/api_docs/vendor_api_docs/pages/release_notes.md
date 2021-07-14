@@ -1,3 +1,9 @@
+## 15th July
+
+Documentation:
+
+- Add maximum lengths for the following fields: `other_ethnicity_details` and `other_disability_details`.
+
 ## 2nd July
 
 Documentation:
