@@ -26,7 +26,7 @@ UserSupportWebchat.prototype.setupElements = function () {
   this.button = document.createElement('a')
   this.button.href = '#'
   this.button.className = 'govuk-link govuk-footer__link app-web-chat__button'
-  this.button.innerHTML = 'Speak to an advisor now (opens in new window)'
+  this.button.innerHTML = 'Speak to an adviser now (opens in new window)'
   this.enabledContainer.append(this.button)
 
   this.disabledContainer = document.createElement('span')
