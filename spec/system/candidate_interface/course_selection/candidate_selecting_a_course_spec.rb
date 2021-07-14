@@ -23,6 +23,15 @@ RSpec.feature 'Selecting a course' do
     and_i_visit_my_course_choices_page
     then_i_see_my_completed_course_choice
 
+    # attempt to add a course which has no vacancies for one study mode
+    when_i_click_on_add_another_course
+    and_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_a_provider
+    and_i_choose_a_course_with_multiple_study_modes_where_one_is_full
+    and_i_choose_a_location
+    and_i_visit_my_course_choices_page
+    then_i_see_my_completed_course_choice
+
     # attempt to add the same course
     when_i_click_on_add_another_course
     and_i_choose_that_i_know_where_i_want_to_apply
@@ -52,7 +61,7 @@ RSpec.feature 'Selecting a course' do
     and_i_confirm_that_i_want_to_delete_my_choice
     then_i_no_longer_see_my_course_choice
 
-    when_i_delete_my_remaining_course_choice
+    when_i_delete_my_remaining_course_choices
     then_i_should_i_should_see_the_course_choice_index_page
 
     given_the_provider_has_over_twenty_courses
@@ -93,6 +102,15 @@ RSpec.feature 'Selecting a course' do
     @multi_site_course = create(:course, name: 'Primary', code: '2XT2', provider: @provider, exposed_in_find: true, open_on_apply: true)
     create(:course_option, site: first_site, course: @multi_site_course)
     create(:course_option, site: second_site, course: @multi_site_course)
+
+    @mixed_study_mode_course = create(:course, :open_on_apply, :with_both_study_modes, {
+      name: 'Physics',
+      code: '1ABZ',
+      provider: @provider,
+    })
+    create(:course_option, :no_vacancies, site: first_site, course: @mixed_study_mode_course, study_mode: 'full_time')
+    create(:course_option, site: first_site, course: @mixed_study_mode_course, study_mode: 'part_time')
+    create(:course_option, site: second_site, course: @mixed_study_mode_course, study_mode: 'part_time')
 
     another_provider = create(:provider, name: 'Royal Academy of Dance', code: 'R55')
     third_site = create(
@@ -147,6 +165,11 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_choose_a_course
     choose 'Primary (2XT2)'
+    click_button t('continue')
+  end
+
+  def and_i_choose_a_course_with_multiple_study_modes_where_one_is_full
+    choose 'Physics (1ABZ)'
     click_button t('continue')
   end
 
@@ -224,7 +247,10 @@ RSpec.feature 'Selecting a course' do
     expect(page).not_to have_content('Primary (2XT2)')
   end
 
-  def when_i_delete_my_remaining_course_choice
+  def when_i_delete_my_remaining_course_choices
+    and_i_delete_one_of_my_course_choice
+    and_i_confirm_that_i_want_to_delete_my_choice
+
     and_i_delete_one_of_my_course_choice
     and_i_confirm_that_i_want_to_delete_my_choice
   end
