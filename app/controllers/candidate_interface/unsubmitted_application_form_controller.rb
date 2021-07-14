@@ -62,13 +62,13 @@ module CandidateInterface
     end
 
     def redirect_to_carry_over
-      return unless current_application.must_be_carried_over?
+      return unless must_be_carried_over?
 
       redirect_to candidate_interface_start_carry_over_path
     end
 
     def must_be_carried_over?
-      current_application.not_submitted_and_deadline_has_passed? || current_application.unsuccessful_and_apply_2_deadline_has_passed?
+      (RecruitmentCycle.current_year >= current_application.recruitment_cycle_year) && current_application.not_submitted_and_deadline_has_passed? || current_application.unsuccessful_and_apply_2_deadline_has_passed?
     end
   end
 end
