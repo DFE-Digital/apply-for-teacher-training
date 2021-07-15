@@ -44,6 +44,10 @@ class Candidate < ApplicationRecord
     "C#{id}"
   end
 
+  def load_tester?
+    email_address.include?('@loadtest.example.com') && !HostingEnvironment.production?
+  end
+
 private
 
   def downcase_email
