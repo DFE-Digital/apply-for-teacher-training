@@ -8,7 +8,7 @@ class TestProvider
   def self.training_courses
     test_provider = find_or_create
 
-    existing_courses = test_provider.courses.where(
+    existing_courses = test_provider.courses.joins(:course_options).where(
       open_on_apply: true,
       recruitment_cycle_year: RecruitmentCycle.current_year,
     )
