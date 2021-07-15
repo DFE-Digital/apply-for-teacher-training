@@ -11,12 +11,10 @@
     <li><%= render IconComponent.new(type: 'cross') %> Manage users</li>
   <% end %>
 
-  <% if FeatureFlag.active?(:interview_permissions) %>
-    <% if permissions['set_up_interviews'] %>
-      <li><%= render IconComponent.new(type: 'check') %> Set up interviews</li>
-    <% else %>
-      <li><%= render IconComponent.new(type: 'cross') %> Set up interviews</li>
-    <% end %>
+  <% if permissions['set_up_interviews'] %>
+    <li><%= render IconComponent.new(type: 'check') %> Set up interviews</li>
+  <% else %>
+    <li><%= render IconComponent.new(type: 'cross') %> Set up interviews</li>
   <% end %>
 
   <% if permissions['make_decisions'] %>

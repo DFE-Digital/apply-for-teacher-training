@@ -16,15 +16,7 @@ module ProviderInterface
     end
 
     def permissions
-      @permissions.map { |p| readable_permissions.fetch(p.to_s, nil) }.compact
-    end
-
-    def readable_permissions
-      if FeatureFlag.active?(:interview_permissions)
-        HUMAN_READABLE_PERMISSIONS
-      else
-        HUMAN_READABLE_PERMISSIONS.except('set_up_interviews')
-      end
+      @permissions.map { |p| HUMAN_READABLE_PERMISSIONS.fetch(p.to_s, nil) }.compact
     end
   end
 end

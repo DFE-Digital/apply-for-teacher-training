@@ -4,10 +4,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  before do
-    FeatureFlag.activate(:interview_permissions)
-  end
-
   scenario 'Provider sends invite to user' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_accredited_provider_setting_permissions_flag_is_inactive

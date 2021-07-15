@@ -60,9 +60,7 @@ module ProviderInterface
     end
 
     def set_up_interview?
-      application_choice.decision_pending? &&
-        (FeatureFlag.active?(:interview_permissions) && provider_can_set_up_interviews ||
-         !FeatureFlag.active?(:interview_permissions) && provider_can_respond)
+      application_choice.decision_pending? && provider_can_set_up_interviews
     end
 
     def inset_text_title

@@ -14,17 +14,8 @@ class CancelInterview
   end
 
   def save!
-    if FeatureFlag.active?(:interview_permissions)
-      auth.assert_can_set_up_interviews!(
-        application_choice: application_choice,
-        course_option: application_choice.current_course_option,
-      )
-    else
-      auth.assert_can_make_decisions!(
-        application_choice: application_choice,
-        course_option: application_choice.current_course_option,
-      )
-    end
+    auth.assert_can_set_up_interviews!(application_choice: application_choice,
+                                       course_option: application_choice.current_course_option)
 
     if ApplicationStateChange.new(application_choice).can_cancel_interview?
       ActiveRecord::Base.transaction do

@@ -14,10 +14,6 @@ RSpec.feature 'Validation errors Provider' do
     end
   end
 
-  before do
-    FeatureFlag.activate(:interview_permissions)
-  end
-
   scenario 'Review validation errors' do
     given_i_signed_in_as_a_provider_user
     and_i_enter_an_invalid_interview_time
