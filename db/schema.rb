@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_173512) do
+ActiveRecord::Schema.define(version: 2021_07_14_120419) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 2021_07_01_173512) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "delivery_status", default: "unknown", null: false
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
+    t.index ["notify_reference"], name: "index_emails_on_notify_reference", unique: true
   end
 
   create_table "english_proficiencies", force: :cascade do |t|

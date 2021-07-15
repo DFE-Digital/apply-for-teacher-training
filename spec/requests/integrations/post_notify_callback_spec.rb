@@ -39,14 +39,14 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     expect(response).to have_http_status(:unauthorized)
   end
 
-  it 'returns unprocessable entity if Notify reference is not provided' do
+  it 'returns success if Notify reference is not provided' do
     request_body = {
       status: 'permanent-failure',
     }.to_json
 
     post '/integrations/notify/callback', headers: headers, params: request_body
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:success)
   end
 
   it 'returns unprocessable entity if Notify status is not provided' do
@@ -79,22 +79,6 @@ RSpec.describe 'Notify Callback - POST /integrations/notify/callback', type: :re
     post '/integrations/notify/callback', headers: headers, params: request_body
 
     expect(response).to have_http_status(:unprocessable_entity)
-  end
-
-  it 'returns not found if Notify reference includes unknown reference id' do
-    process_notify_callback = instance_double('ProcessNotifyCallback')
-    allow(ProcessNotifyCallback).to receive(:new).and_return(process_notify_callback)
-    allow(process_notify_callback).to receive(:call)
-    allow(process_notify_callback).to receive(:not_found?).and_return(true)
-
-    request_body = {
-      reference: "test-reference_request-#{reference.id}",
-      status: 'permanent-failure',
-    }.to_json
-
-    post '/integrations/notify/callback', headers: headers, params: request_body
-
-    expect(response).to have_http_status(:not_found)
   end
 
   it 'updates the referee status if expected Notify reference and status' do

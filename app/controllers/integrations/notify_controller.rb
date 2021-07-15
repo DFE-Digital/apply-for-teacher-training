@@ -8,18 +8,12 @@ module Integrations
 
     def callback
       return render_unauthorized unless authorized?
-      return render_unprocessable_entity if params.fetch(:status).nil?
-      return render json: nil, status: :ok if params.fetch(:reference).nil?
+      return render_unprocessable_entity if params['status'].nil?
+      return render json: nil, status: :ok if params['reference'].nil?
 
-      process_notify_callback = ProcessNotifyCallback.new(notify_reference: params.fetch(:reference), status: params.fetch(:status))
+      ProcessNotifyCallbackWorker.perform_async(reference_status_parameters)
 
-      process_notify_callback.call
-
-      if process_notify_callback.not_found?
-        render_not_found
-      else
-        render json: nil, status: :ok
-      end
+      render json: nil, status: :ok
     end
 
   private
