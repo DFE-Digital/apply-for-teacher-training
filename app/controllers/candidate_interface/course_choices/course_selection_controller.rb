@@ -57,7 +57,7 @@ module CandidateInterface
           redirect_to candidate_interface_course_choices_site_path(
             @pick_course.provider_id,
             @pick_course.course_id,
-            @pick_course.study_mode,
+            @pick_course.available_study_modes_with_vacancies.first,
             course_choice_id: params[:course_choice_id],
           )
         end
