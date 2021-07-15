@@ -83,7 +83,7 @@ RSpec.describe QualificationTitleComponent do
     expect(result.text.strip).to eq('High School Diploma')
   end
 
-  it 'renders the correct title for an other qualificaiton' do
+  it 'renders the correct title for an other qualification' do
     qualification = build_stubbed(
       :application_qualification,
       level: :other,

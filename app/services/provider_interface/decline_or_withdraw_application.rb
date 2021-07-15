@@ -10,9 +10,6 @@ module ProviderInterface
       return false unless declining? || withdrawing?
 
       auth.assert_can_make_decisions!(application_choice: @application_choice, course_option: @application_choice.current_course_option)
-
-      transition = declining? ? :declined : :withdrawn
-
       ActiveRecord::Base.transaction do
         if declining?
           ApplicationStateChange.new(@application_choice).decline!
@@ -53,6 +50,10 @@ module ProviderInterface
 
     def auth
       @auth ||= ProviderAuthorisation.new(actor: @actor)
+    end
+
+    def transition
+      declining? ? :declined : :withdrawn
     end
   end
 end

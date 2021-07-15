@@ -2,20 +2,7 @@ module ViewHelper
   def govuk_back_link_to(url = :back, body = 'Back')
     classes = 'govuk-!-display-none-print'
 
-    if url == :back
-      referer = controller.request.env['HTTP_REFERER']
-
-      url = if !referer
-              service_link
-            else
-              referer_host = URI(referer).host
-              if referer_host.present? && referer_host != request.host
-                service_link
-              else
-                referer
-              end
-            end
-    end
+    url = back_link_url if url == :back
 
     if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)
       body = 'Back to application'
@@ -133,6 +120,23 @@ module ViewHelper
       yield
     else
       govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: request.fullpath)
+    end
+  end
+
+private
+
+  def back_link_url
+    referer = controller.request.env['HTTP_REFERER']
+
+    if !referer
+      service_link
+    else
+      referer_host = URI(referer).host
+      if referer_host.present? && referer_host != request.host
+        service_link
+      else
+        referer
+      end
     end
   end
 end

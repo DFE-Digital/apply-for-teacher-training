@@ -56,10 +56,7 @@ module ProviderInterface
     end
 
     def course_option
-      current_status = event.application_status_at_event || application_choice.status
-
-      changed_option_id = changes['current_course_option_id']&.second
-      changed_option_id ||= changes['offered_course_option_id']&.second
+      changed_option_id = changes['current_course_option_id']&.second || changes['offered_course_option_id']&.second
       option_at_time = CourseOption.find_by(id: changed_option_id)
 
       @course_option ||= if option_at_time.present?
@@ -145,6 +142,10 @@ module ProviderInterface
         url: routes.provider_interface_application_choice_interviews_path(audit.associated, anchor: "interview-#{audit.auditable.id}"),
         text: 'View interview',
       }
+    end
+
+    def current_status
+      event.application_status_at_event || application_choice.status
     end
   end
 end

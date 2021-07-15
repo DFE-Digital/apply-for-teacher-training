@@ -41,7 +41,7 @@ module CandidateInterface
   private
 
     def validate_grade_format
-      return if errors.present? || qualification_type == 'other_uk' || qualification_type == 'non_uk'
+      return if errors.present? || %w[other_uk non_uk].include?(qualification_type)
 
       if qualification_type == 'gcse'
         errors.add(:grade, :invalid) unless SINGLE_GCSE_GRADES.include?(sanitize(grade))

@@ -193,25 +193,14 @@ module CandidateInterface
     end
 
     def feedback_status_content(reference)
-      text =
-        if reference.feedback_refused?
-          t('application_form.references.info.declined', referee_name: reference.name)
-        elsif reference.cancelled_at_end_of_cycle?
-          t('application_form.references.info.cancelled_at_end_of_cycle')
-        elsif reference.cancelled?
-          t('application_form.references.info.cancelled')
-        elsif reference.feedback_overdue?
-          t('application_form.references.info.feedback_overdue')
-        elsif reference.feedback_requested?
-          t('application_form.references.info.feedback_requested')
-        elsif reference.email_bounced?
-          t('application_form.references.info.email_bounced')
-        end
+      text = feedback_text(reference)
 
       return '' if text.blank?
 
       if text.is_a?(Array)
-        text.each_with_object('') { |line, content| content.concat(tag.p(line, class: 'govuk-body govuk-!-margin-top-2')) }.html_safe
+        text.each_with_object('') do |line, content|
+          content.concat(tag.p(line, class: 'govuk-body govuk-!-margin-top-2'))
+        end.html_safe
       else
         tag.p(text, class: 'govuk-body govuk-!-margin-top-2')
       end
@@ -223,6 +212,22 @@ module CandidateInterface
       end
 
       t("candidate_reference_colours.#{reference.feedback_status}")
+    end
+
+    def feedback_text(reference)
+      if reference.feedback_refused?
+        t('application_form.references.info.declined', referee_name: reference.name)
+      elsif reference.cancelled_at_end_of_cycle?
+        t('application_form.references.info.cancelled_at_end_of_cycle')
+      elsif reference.cancelled?
+        t('application_form.references.info.cancelled')
+      elsif reference.feedback_overdue?
+        t('application_form.references.info.feedback_overdue')
+      elsif reference.feedback_requested?
+        t('application_form.references.info.feedback_requested')
+      elsif reference.email_bounced?
+        t('application_form.references.info.email_bounced')
+      end
     end
   end
 end
