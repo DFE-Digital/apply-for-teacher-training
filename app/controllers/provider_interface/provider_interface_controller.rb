@@ -136,14 +136,6 @@ module ProviderInterface
       end
     end
 
-    def render_404
-      render 'errors/not_found', status: :not_found
-    end
-
-    def render_403
-      render 'errors/forbidden', status: :forbidden
-    end
-
     def current_user_details
       information = {
         dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid,

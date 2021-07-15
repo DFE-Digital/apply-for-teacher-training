@@ -21,7 +21,7 @@ module SupportInterface
     def check_this_is_sandbox
       return if HostingEnvironment.sandbox_mode?
 
-      redirect_to support_interface_provider_applications_path(provider)
+      render_403
     end
 
     def provider
