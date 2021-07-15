@@ -1,4 +1,11 @@
 <%= render 'provider_navigation', title: 'Applications' %>
+<% if HostingEnvironment.sandbox_mode? && @provider.courses.open_on_apply.any? %>
+  <%= render SandboxFeatureComponent.new(
+    description: 'This task generates 100 new applications for the current provider, with one course choice per application.',
+  ) do %>
+    <%= govuk_button_to 'Generate test applications', support_interface_provider_test_data_path(@provider), class: 'govuk-!-margin-bottom-0' %>
+  <% end %>
+<% end %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_forms) do %>
   <%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @application_forms) %>

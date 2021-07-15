@@ -24,6 +24,14 @@ class ApplicationController < ActionController::Base
     Raven.capture_exception(e)
   end
 
+  def render_404
+    render 'errors/not_found', status: :not_found
+  end
+
+  def render_403
+    render 'errors/forbidden', status: :forbidden
+  end
+
 private
 
   def append_info_to_payload(payload)
