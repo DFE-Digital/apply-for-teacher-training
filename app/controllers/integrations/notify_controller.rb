@@ -8,8 +8,8 @@ module Integrations
 
     def callback
       return render_unauthorized unless authorized?
-      return render_unprocessable_entity if params.fetch(:status).nil?
-      return render json: nil, status: :ok if params.fetch(:reference).nil?
+      return render_unprocessable_entity if params['status'].nil?
+      return render json: nil, status: :ok if params['reference'].nil?
 
       ProcessNotifyCallbackWorker.perform_async(reference_status_parameters)
 
