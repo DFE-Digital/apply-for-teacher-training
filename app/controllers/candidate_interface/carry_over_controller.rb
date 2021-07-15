@@ -16,13 +16,9 @@ module CandidateInterface
   private
 
     def redirect_if_already_carried_over
-      return if must_be_carried_over?
+      return if current_application.carry_over?
 
       redirect_to candidate_interface_application_form_path
-    end
-
-    def must_be_carried_over?
-      (RecruitmentCycle.current_year >= current_application.recruitment_cycle_year) && current_application.not_submitted_and_deadline_has_passed? || current_application.unsuccessful_and_apply_2_deadline_has_passed?
     end
   end
 end
