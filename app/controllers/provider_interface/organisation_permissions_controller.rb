@@ -14,7 +14,8 @@ module ProviderInterface
       @provider = current_provider_user.providers.find(params[:organisation_id])
       render_403 unless current_provider_user.authorisation.can_manage_organisation?(provider: @provider)
 
-      @provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).where.not(setup_at: nil)
+      unsorted_provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).where.not(setup_at: nil)
+      @provider_relationships = sort_relationships_by_provider_name(unsorted_provider_relationships, @provider)
     rescue ActiveRecord::RecordNotFound
       render_404
     end
@@ -76,6 +77,12 @@ module ProviderInterface
     def require_accredited_provider_setting_permissions_flag
       unless FeatureFlag.active?(:accredited_provider_setting_permissions)
         redirect_to(provider_interface_account_path)
+      end
+    end
+
+    def sort_relationships_by_provider_name(relationships, provider)
+      relationships.sort_by do |relationship|
+        relationship.training_provider == provider ? relationship.ratifying_provider.name : relationship.training_provider.name
       end
     end
   end
