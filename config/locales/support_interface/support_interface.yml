@@ -149,9 +149,9 @@ en:
           attributes:
             address_line1:
               blank: Enter your building and street
-              too_long: Building and street must be %{count} characters or fewer
+              too_long: Building and street line 1 must be %{count} characters or fewer
             address_line2:
-              too_long: Building and street must be %{count} characters or fewer
+              too_long: Building and street line 2 must be %{count} characters or fewer
             address_line3:
               blank: Enter your town or city
               too_long: Town or city must be %{count} characters or fewer
