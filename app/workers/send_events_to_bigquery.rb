@@ -1,4 +1,4 @@
-class SendRequestEventsToBigquery
+class SendEventsToBigquery
   include Sidekiq::Worker
 
   sidekiq_options retry: 3, queue: :low_priority

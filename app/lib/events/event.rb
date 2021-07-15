@@ -1,6 +1,6 @@
 module Events
   class Event
-    EVENT_TYPES = %w[web_request].freeze
+    EVENT_TYPES = %w[web_request create_entity update_entity].freeze
 
     def initialize
       @event_hash = {
@@ -29,7 +29,7 @@ module Events
         request_user_agent: rack_request.user_agent,
         request_method: rack_request.method,
         request_path: rack_request.path,
-        request_query: query_to_kv_pairs(rack_request.query_string),
+        request_query: hash_to_kv_pairs(Rack::Utils.parse_query(rack_request.query_string)),
         request_referer: rack_request.referer,
       )
 
@@ -54,11 +54,32 @@ module Events
       self
     end
 
+    def with_entity_table_name(table_name)
+      @event_hash.merge!(
+        entity_table_name: table_name,
+      )
+
+      self
+    end
+
+    def with_data(hash)
+      @event_hash.deep_merge!({
+        data: hash_to_kv_pairs(hash),
+      })
+
+      self
+    end
+
+    def with_tags(tags)
+      @event_hash[:event_tags] = tags if tags
+
+      self
+    end
+
   private
 
-    def query_to_kv_pairs(query_string)
-      vars = Rack::Utils.parse_query(query_string)
-      vars.map do |(key, value)|
+    def hash_to_kv_pairs(hash)
+      hash.map do |(key, value)|
         { 'key' => key, 'value' => Array.wrap(value) }
       end
     end
