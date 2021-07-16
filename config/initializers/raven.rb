@@ -30,5 +30,12 @@ Raven.configure do |config|
     # in Sentry.
     'Redis::TimeoutError',
     'Redis::CannotConnectError',
+
+    # Google cloud (ie Bigquery) errors are usually caused by transient network
+    # issues. If there's a genuine problem the queues will stack up and the Sidekiq
+    # latency check will alert. That takes at most 100 seconds to happen, so if
+    # something is actually wrong it's not meaningfully less useful than hearing about
+    # it via Sentry.
+    'Google::Cloud::Error',
   ]
 end
