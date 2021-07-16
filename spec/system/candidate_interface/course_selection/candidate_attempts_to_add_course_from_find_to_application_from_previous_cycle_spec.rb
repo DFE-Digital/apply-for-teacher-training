@@ -42,8 +42,9 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
   end
 
   def then_i_see_that_my_application_must_be_carried_over
-    expect(page).to have_content('Carry on with your application for courses starting in the 2021 to 2022 academic year.')
-    expect(page).to have_content('Your courses have been removed. You can add them again now.')
+    expect(page).to have_content('You started an application for courses starting in the 2020 to 2021 academic year, which have now closed.')
+    expect(page).to have_content('Continue your application to apply for courses starting in the 2021 to 2022 academic year instead.')
+
     # Normally we'd avoid a trip directly to the db in a system spec,
     # this is here to prove a particular bug has been solved.
     expect(@previous_application_form.application_choices).to be_empty
