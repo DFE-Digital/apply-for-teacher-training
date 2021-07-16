@@ -12,6 +12,9 @@ en:
     today_is_after_full_course_deadline_passed:
       name: Full course deadline has passed
       description: Candidates can no longer apply to unavailable courses
+    today_is_after_the_deadline_banners_should_be_displayed:
+      name: Display deadline banners
+      description: Candidates are warned of upcoming deadlines
     today_is_after_apply_2_deadline_passed:
       name: Apply 2 deadline has passed
       description: Candidates can no longer submit any subsequent applications
