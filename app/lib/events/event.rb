@@ -31,6 +31,7 @@ module Events
         request_path: rack_request.path,
         request_query: hash_to_kv_pairs(Rack::Utils.parse_query(rack_request.query_string)),
         request_referer: rack_request.referer,
+        anonymised_user_agent_and_ip: anonymised_user_agent_and_ip(rack_request),
       )
 
       self
@@ -82,6 +83,16 @@ module Events
       hash.map do |(key, value)|
         { 'key' => key, 'value' => Array.wrap(value) }
       end
+    end
+
+    def anonymised_user_agent_and_ip(rack_request)
+      if rack_request.remote_ip.present?
+        anonymise(rack_request.user_agent.to_s + rack_request.remote_ip.to_s)
+      end
+    end
+
+    def anonymise(text)
+      Digest::SHA2.hexdigest(text)
     end
   end
 end
