@@ -58,7 +58,8 @@ gem 'active_hash'
 # in active record queries; may eventually be merged into Rails
 gem 'activerecord-cte'
 
-gem 'sentry-raven'
+gem 'sentry-rails'
+gem 'sentry-sidekiq'
 
 gem 'factory_bot_rails'
 gem 'faker'
