@@ -29,7 +29,7 @@ class DetectInvariantsDailyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(OutstandingReferencesOnSubmittedApplication.new(message))
+      Sentry.capture_exception(OutstandingReferencesOnSubmittedApplication.new(message))
     end
   end
 
@@ -50,7 +50,7 @@ class DetectInvariantsDailyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(ApplicationHasCourseChoiceInPreviousCycle.new(message))
+      Sentry.capture_exception(ApplicationHasCourseChoiceInPreviousCycle.new(message))
     end
   end
 
@@ -72,7 +72,7 @@ class DetectInvariantsDailyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(ApplicationWithADifferentCyclesCourse.new(message))
+      Sentry.capture_exception(ApplicationWithADifferentCyclesCourse.new(message))
     end
   end
 
@@ -95,7 +95,7 @@ class DetectInvariantsDailyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(message))
+      Sentry.capture_exception(ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(message))
     end
   end
 
@@ -116,7 +116,7 @@ class DetectInvariantsDailyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(ApplicationSubmittedWithTheSameCourse.new(message))
+      Sentry.capture_exception(ApplicationSubmittedWithTheSameCourse.new(message))
     end
   end
 
@@ -137,7 +137,7 @@ class DetectInvariantsDailyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(SubmittedApplicationHasMoreThanThreeChoices.new(message))
+      Sentry.capture_exception(SubmittedApplicationHasMoreThanThreeChoices.new(message))
     end
   end
 

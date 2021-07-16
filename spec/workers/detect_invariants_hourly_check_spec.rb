@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DetectInvariantsHourlyCheck do
   before do
-    allow(Raven).to receive(:capture_exception)
+    allow(Sentry).to receive(:capture_exception)
 
     # or unwanted exceptions will be thrown by this check
     TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
@@ -17,7 +17,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::ApplicationInRemovedState.new(
           <<~MSG,
             One or more application choices are still in `awaiting_references` or
@@ -50,7 +50,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::ApplicationEditedByWrongCandidate.new(
           <<~MSG,
             The following application forms have had edits by a candidate who is not the owner of the application:
@@ -74,7 +74,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
 
       described_class.new.perform
 
-      expect(Raven).not_to have_received(:capture_exception)
+      expect(Sentry).not_to have_received(:capture_exception)
     end
 
     it 'detects when the course sync hasn’t succeeded for an hour' do
@@ -82,7 +82,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::CourseSyncNotSucceededForAnHour.new(
           'The course sync via the Teacher training public API has not succeeded for an hour',
         ),
@@ -92,7 +92,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
     it 'doesn’t alert when the course sync has succeeded recently' do
       described_class.new.perform
 
-      expect(Raven).not_to have_received(:capture_exception)
+      expect(Sentry).not_to have_received(:capture_exception)
     end
 
     it 'detects when the sidekiq retries queue is high' do
@@ -100,7 +100,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
       allow(Sidekiq::RetrySet).to receive(:new).and_return(sidekiq_retries)
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::SidekiqRetriesQueueHigh.new(
           'Sidekiq pending retries depth is high (100). Suggests high error rate',
         ),
@@ -112,7 +112,7 @@ RSpec.describe DetectInvariantsHourlyCheck do
       allow(Sidekiq::RetrySet).to receive(:new).and_return(sidekiq_retries)
       described_class.new.perform
 
-      expect(Raven).not_to have_received(:capture_exception)
+      expect(Sentry).not_to have_received(:capture_exception)
     end
   end
 end

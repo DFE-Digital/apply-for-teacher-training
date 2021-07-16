@@ -15,7 +15,7 @@ module AWSIpRanges
       parse_json_for_ips(response.body)
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     []
   end
 

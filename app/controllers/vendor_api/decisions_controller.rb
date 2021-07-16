@@ -57,7 +57,7 @@ module VendorAPI
       render_application
 
       e = Exception.new("Vendor API token ##{@current_vendor_api_token.id} tried to enrol application choice ##{application_choice.id}, but enrolment is not supported")
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
     end
 
   private

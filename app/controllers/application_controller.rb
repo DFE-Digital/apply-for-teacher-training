@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     )
   rescue StandardError => e
     # Never crash validation error tracking
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
   end
 
   def render_404

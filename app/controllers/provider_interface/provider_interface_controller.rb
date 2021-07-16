@@ -45,7 +45,7 @@ module ProviderInterface
   protected
 
     def permission_error(e)
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       @error = e
       render template: 'provider_interface/permission_error', status: :forbidden
     end
@@ -65,7 +65,7 @@ module ProviderInterface
       return unless current_provider_user
 
       Sentry.set_user(id: "provider_#{current_provider_user.id}")
-      Raven.extra_context(current_user_details)
+      Sentry.set_extras(current_user_details)
     end
 
     def append_info_to_payload(payload)
@@ -82,7 +82,7 @@ module ProviderInterface
         providers: current_provider_user.providers,
       ).find(params[:application_choice_id])
 
-      Raven.extra_context(application_support_url)
+      Sentry.set_extras(application_support_url)
     rescue ActiveRecord::RecordNotFound
       render_404
     end

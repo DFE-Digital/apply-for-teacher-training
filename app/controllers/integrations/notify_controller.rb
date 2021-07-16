@@ -49,7 +49,7 @@ module Integrations
     end
 
     def set_context
-      Raven.extra_context(reference_status_parameters)
+      Sentry.set_extras(reference_status_parameters)
     end
 
     def reference_status_parameters

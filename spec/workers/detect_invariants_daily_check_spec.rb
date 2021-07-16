@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DetectInvariantsDailyCheck do
   before do
-    allow(Raven).to receive(:capture_exception)
+    allow(Sentry).to receive(:capture_exception)
 
     # or unwanted exceptions will be thrown by this check
     TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
@@ -24,7 +24,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::OutstandingReferencesOnSubmittedApplication.new(
           <<~MSG,
             One or more references are still pending on these applications,
@@ -50,7 +50,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::ApplicationHasCourseChoiceInPreviousCycle.new(
           <<~MSG,
             The following application forms have course choices from the previous recruitment cycle
@@ -64,7 +64,7 @@ RSpec.describe DetectInvariantsDailyCheck do
     it 'doesn’t alert when the course sync has succeeded recently' do
       described_class.new.perform
 
-      expect(Raven).not_to have_received(:capture_exception)
+      expect(Sentry).not_to have_received(:capture_exception)
     end
 
     it 'detects applications submitted with the same course' do
@@ -78,7 +78,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::ApplicationSubmittedWithTheSameCourse.new(
           <<~MSG,
             The following applications have been submitted containing the same course choice multiple times
@@ -103,7 +103,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::ApplicationSubmittedWithMoreThanTwoSelectedReferences.new(
           <<~MSG,
             The following applications have been submitted with more than two selected references
@@ -130,7 +130,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::ApplicationWithADifferentCyclesCourse.new(
           <<~MSG,
             The following applications have an application choice with a course from a different recruitment cycle
@@ -147,8 +147,8 @@ RSpec.describe DetectInvariantsDailyCheck do
 
       described_class.new.perform
 
-      expect(Raven).to have_received(:capture_exception).once
-      expect(Raven).to have_received(:capture_exception).with(
+      expect(Sentry).to have_received(:capture_exception).once
+      expect(Sentry).to have_received(:capture_exception).with(
         described_class::SubmittedApplicationHasMoreThanThreeChoices.new(
           <<~MSG,
             The following application forms have been submitted with more than three course choices
