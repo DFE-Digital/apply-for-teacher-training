@@ -12,6 +12,7 @@ class CycleTimetable
     2020 => {
       find_opens: Date.new(2019, 10, 6),
       apply_opens: Date.new(2019, 10, 13),
+      show_deadline_banner: Date.new(2020, 8, 1),
       apply_1_deadline: Date.new(2020, 8, 24),
       apply_2_deadline: Date.new(2020, 9, 18),
       find_closes: Date.new(2020, 10, 3),
@@ -141,9 +142,24 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 2.days.from_now.to_date,
           apply_1_deadline: 1.day.from_now.to_date,
           apply_2_deadline: 3.days.from_now.to_date,
           find_closes: 4.days.from_now.to_date,
+        },
+        next_year => {
+          find_opens: 6.days.from_now.to_date,
+          apply_opens: 7.days.from_now.to_date,
+        },
+      },
+      today_is_after_the_deadline_banners_should_be_displayed: {
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 1.day.ago.to_date,
+          apply_1_deadline: 1.day.from_now.to_date,
+          apply_2_deadline: 2.days.from_now.to_date,
+          find_closes: 3.days.from_now.to_date,
         },
         next_year => {
           find_opens: 6.days.from_now.to_date,
@@ -154,6 +170,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 3.days.ago.to_date,
           apply_1_deadline: 1.day.ago.to_date,
           apply_2_deadline: 2.days.from_now.to_date,
           find_closes: 3.days.from_now.to_date,
@@ -168,6 +185,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 4.days.ago.to_date,
           apply_1_deadline: 2.days.ago.to_date,
           apply_2_deadline: 1.day.from_now.to_date,
           find_closes: 2.days.from_now.to_date,
@@ -177,6 +195,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 4.days.ago.to_date,
           apply_1_deadline: 3.days.ago.to_date,
           apply_2_deadline: 1.day.ago.to_date,
           find_closes: 1.day.from_now.to_date,
@@ -191,6 +210,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 5.days.ago.to_date,
           apply_1_deadline: 4.days.ago.to_date,
           apply_2_deadline: 2.days.ago.to_date,
           find_closes: 1.day.ago.to_date,
@@ -205,6 +225,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 3.days.from_now.to_date,
+          show_deadline_banner: 4.days.from_now.to_date,
           apply_1_deadline: 5.days.from_now.to_date,
           apply_2_deadline: 6.days.from_now.to_date,
           find_closes: 7.days.from_now.to_date,
