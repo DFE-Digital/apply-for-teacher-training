@@ -25,7 +25,7 @@ class DetectInvariantsHourlyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(ApplicationInRemovedState.new(message))
+      Sentry.capture_exception(ApplicationInRemovedState.new(message))
     end
   end
 
@@ -47,13 +47,13 @@ class DetectInvariantsHourlyCheck
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(ApplicationEditedByWrongCandidate.new(message))
+      Sentry.capture_exception(ApplicationEditedByWrongCandidate.new(message))
     end
   end
 
   def detect_course_sync_not_succeeded_for_an_hour
     unless TeacherTrainingPublicAPI::SyncCheck.check
-      Raven.capture_exception(
+      Sentry.capture_exception(
         CourseSyncNotSucceededForAnHour.new(
           'The course sync via the Teacher training public API has not succeeded for an hour',
         ),
@@ -64,7 +64,7 @@ class DetectInvariantsHourlyCheck
   def detect_high_sidekiq_retries_queue_length
     retries_queue_length = Sidekiq::RetrySet.new.size
     if retries_queue_length > 50
-      Raven.capture_exception(
+      Sentry.capture_exception(
         SidekiqRetriesQueueHigh.new(
           "Sidekiq pending retries depth is high (#{retries_queue_length}). Suggests high error rate",
         ),

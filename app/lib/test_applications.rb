@@ -411,7 +411,7 @@ private
     end
     choice.audits.last&.update_columns(created_at: time)
   rescue IdenticalOfferError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     nil
   end
 

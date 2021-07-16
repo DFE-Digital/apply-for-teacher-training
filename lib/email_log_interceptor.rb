@@ -22,7 +22,7 @@ class EmailLogInterceptor
   rescue StandardError => e
     # Email logging should not stop the actual email sending
     Rails.logger.info("Exception occured when trying to log email: #{e.message}")
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
   end
 
   def self.generate_reference

@@ -13,7 +13,7 @@ module CandidateInterface
 
       return unless current_candidate
 
-      Raven.tags_context(application_support_url: support_interface_application_form_url(current_application))
+      Sentry.set_tags(application_support_url: support_interface_application_form_url(current_application))
     end
 
     def check_cookie_preferences

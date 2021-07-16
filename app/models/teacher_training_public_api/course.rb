@@ -38,7 +38,7 @@ module TeacherTrainingPublicAPI
     rescue JsonApiClient::Errors::NotFound
       nil
     rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::ConnectionError => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
       nil
     end
   end

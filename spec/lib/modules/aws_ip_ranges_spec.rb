@@ -25,9 +25,9 @@ RSpec.describe AWSIpRanges do
       end
 
       it 'logs a warning to sentry' do
-        allow(Raven).to receive(:capture_exception)
+        allow(Sentry).to receive(:capture_exception)
         AWSIpRanges.cloudfront_ips
-        expect(Raven).to have_received(:capture_exception)
+        expect(Sentry).to have_received(:capture_exception)
       end
     end
 
@@ -41,9 +41,9 @@ RSpec.describe AWSIpRanges do
       end
 
       it 'logs a warning to sentry' do
-        allow(Raven).to receive(:capture_exception)
+        allow(Sentry).to receive(:capture_exception)
         AWSIpRanges.cloudfront_ips
-        expect(Raven).to have_received(:capture_exception)
+        expect(Sentry).to have_received(:capture_exception)
       end
     end
 
@@ -60,9 +60,9 @@ RSpec.describe AWSIpRanges do
       end
 
       it 'logs a warning' do
-        allow(Raven).to receive(:capture_exception)
+        allow(Sentry).to receive(:capture_exception)
         AWSIpRanges.cloudfront_ips
-        expect(Raven).to have_received(:capture_exception)
+        expect(Sentry).to have_received(:capture_exception)
       end
     end
   end

@@ -6,7 +6,7 @@ require 'clockwork'
 class Clock
   include Clockwork
 
-  error_handler { |error| Raven.capture_exception(error) if defined? Raven }
+  error_handler { |error| Sentry.capture_exception(error) if defined? Sentry }
 
   # More-than-hourly jobs
   every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }

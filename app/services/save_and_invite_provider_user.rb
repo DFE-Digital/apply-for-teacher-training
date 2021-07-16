@@ -22,7 +22,7 @@ class SaveAndInviteProviderUser
         :base,
         'A problem occurred inviting this user. Please try again. If problems persist, please contact support.',
       )
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
 
       return false
     end

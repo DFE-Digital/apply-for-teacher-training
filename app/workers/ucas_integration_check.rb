@@ -10,7 +10,7 @@ class UCASIntegrationCheck
     file_download.check
     return if file_download.success?
 
-    Raven.capture_exception(UCASMatchingFileDownloadFailure.new(file_download.message))
+    Sentry.capture_exception(UCASMatchingFileDownloadFailure.new(file_download.message))
   end
 
   class UCASMatchingFileDownloadFailure < StandardError; end
