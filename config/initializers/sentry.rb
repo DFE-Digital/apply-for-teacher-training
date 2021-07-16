@@ -1,4 +1,4 @@
-Raven.configure do |config|
+Sentry.configure do |config|
   config.silence_ready = true
   config.current_environment = HostingEnvironment.environment_name
   config.release = ENV['SHA']
