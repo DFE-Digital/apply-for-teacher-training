@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle between cycles' do
+RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline' do
   include CycleTimetableHelper
 
   around do |example|
@@ -15,9 +15,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     when_the_apply2_deadline_passes
     and_i_visit_my_application_complete_page
-    and_i_click_on_apply_again
-    and_i_click_on_start_now
+    then_i_see_the_carry_over_inset_text
 
+    when_i_click_apply_again
     then_i_can_see_application_details
     and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet
 
@@ -49,19 +49,16 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     visit candidate_interface_application_complete_path
   end
 
-  def and_i_click_on_apply_again
-    expect(page).to have_content "Courses for the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year are now closed"
-    click_link 'apply again'
-  end
-
-  def and_i_click_on_start_now
-    expect(page).to have_content "You can submit your application from #{CycleTimetable.apply_opens.to_s(:govuk_date)}."
-    expect(page).to have_content 'Your courses have been removed. You can add them again later.'
-    click_button 'Apply again'
-  end
-
   def and_i_click_go_to_my_application_form
     click_link 'Go to your application form'
+  end
+
+  def then_i_see_the_carry_over_inset_text
+    expect(page).to have_content 'You can apply for courses starting in the 2021 to 2022 academic year instead.'
+  end
+
+  def when_i_click_apply_again
+    click_button 'Apply again'
   end
 
   def then_i_can_see_application_details

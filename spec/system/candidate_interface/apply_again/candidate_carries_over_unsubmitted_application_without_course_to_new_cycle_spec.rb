@@ -20,9 +20,7 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
     then_i_cannot_submit_my_application
     and_i_am_redirected_to_the_carry_over_interstitial
 
-    when_i_click_on_start_now
-    and_i_click_go_to_my_application_form
-
+    when_i_click_on_continue
     then_i_see_a_copy_of_my_application
 
     when_i_view_referees
@@ -84,15 +82,11 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
   end
 
   def and_i_am_redirected_to_the_carry_over_interstitial
-    expect(page).not_to have_link 'Continue your application'
-    expect(page).to have_content "Carry on with your application for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year."
-    expect(page).to have_content 'Your courses have been removed. You can add them again now.'
+    expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
-  def when_i_click_on_start_now
-    expect(page).to have_content "Carry on with your application for courses starting in the #{RecruitmentCycle.cycle_name(RecruitmentCycle.next_year)} academic year."
-    expect(page).to have_content 'Your courses have been removed. You can add them again now.'
-    click_button 'Apply again'
+  def when_i_click_on_continue
+    click_button 'Continue'
   end
 
   def and_i_click_go_to_my_application_form

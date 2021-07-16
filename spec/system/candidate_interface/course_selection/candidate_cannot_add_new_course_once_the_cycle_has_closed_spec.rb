@@ -20,6 +20,9 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     and_i_am_signed_in
 
     when_i_visit_the_site
+    then_i_am_redirected_to_the_carry_over_interstitial
+
+    when_i_click_continue
     then_i_see_that_i_can_add_new_course_choices_in_october
     and_there_is_not_a_link_to_the_course_choices_section
 
@@ -37,6 +40,8 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     and_it_is_before_the_apply_2_deadline
 
     when_i_visit_the_site
+    # Need to find out if this assertion is still correct given the changes
+    # No link appears because CycleHelper.can_add_course_choice? returns false
     then_there_is_a_link_to_the_apply_again_course_choices_section
   end
 
@@ -101,6 +106,14 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def and_it_is_before_the_apply_2_deadline
-    Timecop.travel(after_apply_1_deadline)
+    Timecop.travel(CycleTimetable.apply_2_deadline(2021) - 1.day)
+  end
+
+  def then_i_am_redirected_to_the_carry_over_interstitial
+    expect(page).to have_current_path candidate_interface_start_carry_over_path
+  end
+
+  def when_i_click_continue
+    click_button 'Continue'
   end
 end

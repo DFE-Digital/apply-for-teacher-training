@@ -80,7 +80,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial
-    expect(page).not_to have_link 'Get your application ready to submit from 13 October 2020'
+    expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
   def when_i_click_on_start_now
