@@ -64,7 +64,7 @@ module ProviderInterface
     def set_user_context
       return unless current_provider_user
 
-      Raven.user_context(id: "provider_#{current_provider_user.id}")
+      Sentry.set_user(id: "provider_#{current_provider_user.id}")
       Raven.extra_context(current_user_details)
     end
 

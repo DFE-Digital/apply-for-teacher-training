@@ -9,7 +9,7 @@ module CandidateInterface
     alias current_user current_candidate
 
     def set_user_context(candidate_id = current_candidate&.id)
-      Raven.user_context(id: "candidate_#{candidate_id}")
+      Sentry.set_user(id: "candidate_#{candidate_id}")
 
       return unless current_candidate
 

@@ -33,7 +33,7 @@ module SupportInterface
     def set_user_context
       return unless current_support_user
 
-      Raven.user_context(id: "support_#{current_support_user.id}")
+      Sentry.set_user(id: "support_#{current_support_user.id}")
     end
 
     def append_info_to_payload(payload)

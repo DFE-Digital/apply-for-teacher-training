@@ -88,7 +88,7 @@ module VendorAPI
     end
 
     def set_user_context
-      Raven.user_context(id: "api_token_#{@current_vendor_api_token&.id}")
+      Sentry.set_user(id: "api_token_#{@current_vendor_api_token&.id}")
     end
 
     def append_info_to_payload(payload)
