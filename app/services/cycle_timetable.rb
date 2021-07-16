@@ -19,6 +19,7 @@ class CycleTimetable
     2021 => {
       find_opens: Date.new(2020, 10, 6),
       apply_opens: Date.new(2020, 10, 13),
+      show_deadline_banner: Date.new(2021, 8, 1),
       apply_1_deadline: Date.new(2021, 9, 7),
       apply_2_deadline: Date.new(2021, 9, 20),
       find_closes: Date.new(2021, 10, 3),
@@ -48,11 +49,11 @@ class CycleTimetable
   end
 
   def self.show_apply_1_deadline_banner?
-    Time.zone.now < date(:apply_1_deadline).end_of_day
+    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_1_deadline).end_of_day)
   end
 
   def self.show_apply_2_deadline_banner?
-    Time.zone.now < date(:apply_2_deadline).end_of_day
+    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_2_deadline).end_of_day)
   end
 
   def self.apply_1_deadline(year = current_year)
