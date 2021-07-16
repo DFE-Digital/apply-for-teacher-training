@@ -1,8 +1,12 @@
-Sentry.configure do |config|
-  config.silence_ready = true
-  config.current_environment = HostingEnvironment.environment_name
+Sentry.init do |config|
+  config.environment = HostingEnvironment.environment_name
   config.release = ENV['SHA']
-  config.sanitize_fields = Rails.application.config.filter_parameters.map(&:to_s)
+  filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
+
+  config.before_send = lambda do |event, _hint|
+    filter.filter(event.to_hash)
+  end
+
   config.inspect_exception_causes_for_exclusion = true
 
   config.excluded_exceptions += [
