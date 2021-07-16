@@ -41,6 +41,9 @@
         {"type": "null"}
       ]
     },
+    "anonymised_user_agent_and_ip": {
+      "type": "string"
+    },
     "response_content_type": {
       "type": "string"
     },
