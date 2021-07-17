@@ -15,8 +15,8 @@ module SupportInterface
           first_name: match['first_name'],
           last_name: match['last_name'],
           date_of_birth: match['date_of_birth'],
-          postcode: match['postcode'],
-          email_address: match['email_address'],
+          postcode: match['btrim'],
+          email_address: govuk_link_to(match['email_address'], support_interface_candidate_path(match['candidate_id'])),
         }
       end
     end
