@@ -5,6 +5,9 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
+    and_i_go_to_duplicate_candidate_matches_page
+    then_i_should_see_a_message_declaring_that_there_are_no_matches
+
     and_there_are_candidates_with_duplicate_applications_in_the_system
     when_i_go_to_duplicate_candidate_matches_page
     then_i_should_see_list_of_duplicate_candidate_matches
@@ -12,6 +15,10 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def then_i_should_see_a_message_declaring_that_there_are_no_matches
+    expect(page).to have_content 'There are currently no duplicate applications matched on these criteria'
   end
 
   def and_there_are_candidates_with_duplicate_applications_in_the_system
@@ -25,6 +32,8 @@ RSpec.feature 'See Duplicate candidate matches' do
   def when_i_go_to_duplicate_candidate_matches_page
     visit support_interface_duplicate_candidate_matches_path
   end
+
+  alias_method :and_i_go_to_duplicate_candidate_matches_page, :when_i_go_to_duplicate_candidate_matches_page
 
   def then_i_should_see_list_of_duplicate_candidate_matches
     expect(page).to have_content 'Jeffrey'

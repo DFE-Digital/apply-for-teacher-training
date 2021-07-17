@@ -1,8 +1,8 @@
 class GetDuplicateCandidateMatches < ApplicationRecord
   def self.call
     ActiveRecord::Base.connection.exec_query(
-      "SELECT a.candidate_id, a.first_name, a.last_name, a.postcode, a.date_of_birth, email_address
-    FROM application_forms a
+      "SELECT application_details.candidate_id, application_details.first_name, application_details.last_name, TRIM(UPPER(application_details.postcode)), application_details.date_of_birth, email_address
+    FROM application_forms application_details
     JOIN(
       SELECT application_forms.last_name, application_forms.date_of_birth, application_forms.postcode
       FROM application_forms
@@ -10,16 +10,16 @@ class GetDuplicateCandidateMatches < ApplicationRecord
       AND application_forms.submitted_at IS NOT NULL
       GROUP BY application_forms.last_name, application_forms.date_of_birth, application_forms.postcode
       HAVING (count(*) > 1)
-    ) b
-    ON a.postcode = b.postcode
-    AND a.date_of_birth = b.date_of_birth
-    AND a.last_name = b.last_name
+    ) duplicate_attributes
+    ON application_details.postcode = duplicate_attributes.postcode
+    AND application_details.date_of_birth = duplicate_attributes.date_of_birth
+    AND application_details.last_name = duplicate_attributes.last_name
     JOIN(
       SELECT candidates.id, candidates.email_address
       FROM candidates
-    ) c
-    ON a.candidate_id = c.id
-    ORDER BY a.date_of_birth",
+    ) candidate_details
+    ON application_details.candidate_id = candidate_details.id
+    ORDER BY application_details.date_of_birth",
     ).to_a
   end
 end
