@@ -10,11 +10,15 @@ module ProviderInterface
       provider_names.join(' and ')
     end
 
-    def checkbox_details_for_providers
+    def checkbox_details_for_providers(permission_name)
       ordered_provider_types.map do |provider_type|
+        field_name = "#{provider_type}_provider_can_#{permission_name}"
+
         {
-          name: name_for_provider_of_type(provider_type),
-          type: provider_type,
+          field_name: field_name,
+          label: name_for_provider_of_type(provider_type),
+          name: "provider_relationship_permissions[#{field_name}][]",
+          checked: provider_relationship_permission.send(field_name),
         }
       end
     end

@@ -14,12 +14,14 @@
 
   <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
     <div class="govuk-form-group">
-      <%= f.govuk_fieldset legend: { text: label_for(permission_name) } do %>
-        <% presenter.checkbox_details_for_providers.each_with_index do |checkbox_details, index| %>
+      <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: label_for(permission_name) } do %>
+        <% presenter.checkbox_details_for_providers(permission_name).each_with_index do |checkbox_details, index| %>
           <%= f.govuk_check_box(
-            "#{checkbox_details[:type]}_provider_can_#{permission_name}",
-            true,
-            label: { text: checkbox_details[:name] },
+            permission_name,
+            checkbox_details[:field_name],
+            label: { text: checkbox_details[:label] },
+            name: checkbox_details[:name],
+            checked: checkbox_details[:checked],
             link_errors: index.zero?,
           ) %>
         <% end %>

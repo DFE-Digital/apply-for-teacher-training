@@ -47,27 +47,65 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
   end
 
   describe '#checkbox_details_for_providers' do
+    let(:permission_name) { 'make_decisions' }
+
     context 'when the provider user is part of the training provider' do
       let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
 
-      it 'returns the training provider checkbox first' do
-        expect(presenter.checkbox_details_for_providers.first[:type]).to eq('training')
+      it 'returns the training provider relationship permission `field_name`' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:field_name]).to eq('training_provider_can_make_decisions')
+      end
+
+      it 'returns the training provider `label`' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:label]).to eq(training_provider.name)
+      end
+
+      it 'returns the training provider checkbox name' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:name]).to eq('provider_relationship_permissions[training_provider_can_make_decisions][]')
+      end
+
+      it 'returns the input checkbox value' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:checked]).to eq(provider_relationship_permission.training_provider_can_make_decisions)
       end
     end
 
     context 'when the provider user is part of the ratifying provider' do
       let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
 
-      it 'returns the ratifying provider checkbox first' do
-        expect(presenter.checkbox_details_for_providers.first[:type]).to eq('ratifying')
+      it 'returns the ratifying provider relationship permission `field_name`' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:field_name]).to eq('ratifying_provider_can_make_decisions')
+      end
+
+      it 'returns the ratifying provider `label`' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:label]).to eq(ratifying_provider.name)
+      end
+
+      it 'returns the ratifying provider checkbox name' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:name]).to eq('provider_relationship_permissions[ratifying_provider_can_make_decisions][]')
+      end
+
+      it 'returns the input checkbox checked value' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:checked]).to eq(provider_relationship_permission.ratifying_provider_can_make_decisions)
       end
     end
 
     context 'when the provider user is part of both of the providers' do
-      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider, ratifying_provider]) }
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider, training_provider]) }
 
-      it 'returns the training provider checkbox first' do
-        expect(presenter.checkbox_details_for_providers.first[:type]).to eq('training')
+      it 'returns the training provider relationship permission `field_name`' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:field_name]).to eq('training_provider_can_make_decisions')
+      end
+
+      it 'returns the training provider `label`' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:label]).to eq(training_provider.name)
+      end
+
+      it 'returns the training provider checkbox name' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:name]).to eq('provider_relationship_permissions[training_provider_can_make_decisions][]')
+      end
+
+      it 'returns the input checkbox checked value' do
+        expect(presenter.checkbox_details_for_providers(permission_name).first[:checked]).to eq(provider_relationship_permission.training_provider_can_make_decisions)
       end
     end
   end
