@@ -9,13 +9,20 @@ class HesaQualificationFieldsPresenter
     hesa_degenddt: { attr: :award_year, pad_to: :iso8601 },
   }.freeze
 
+  # Cyprus, Kosovo and UK have codes different to iso3166
+  HESA_DEGCTRY_MAPPING = {
+    'CY' => 'XC',
+    'GB' => 'XK',
+    'XK' => 'QO',
+  }.freeze
+
   def initialize(qualification)
     @qualification = qualification
   end
 
   def to_hash
     if @qualification.level == 'degree'
-      HESA_MAPPING.keys.index_with do |k|
+      hesa_data = HESA_MAPPING.keys.index_with do |k|
         pad_to = HESA_MAPPING[k][:pad_to]
         value = @qualification.send(HESA_MAPPING[k][:attr])
         case pad_to
@@ -25,8 +32,14 @@ class HesaQualificationFieldsPresenter
           value&.to_s&.rjust(pad_to, '0')
         end
       end
+
+      hesa_data.merge(hesa_degctry)
     else
       HESA_MAPPING.keys.index_with { nil }
     end
+  end
+
+  def hesa_degctry
+    { hesa_degctry: HESA_DEGCTRY_MAPPING.fetch(@qualification.institution_country, @qualification.institution_country) }
   end
 end
