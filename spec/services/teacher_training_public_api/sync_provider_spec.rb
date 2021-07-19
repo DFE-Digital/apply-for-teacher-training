@@ -6,17 +6,23 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
   let(:delay_by) { nil }
 
   describe '.call' do
+    let(:incremental_sync) { true }
+
     before do
       allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_in).and_return(true)
-      described_class.new(
-        provider_from_api: provider_from_api,
-        recruitment_cycle_year: stubbed_recruitment_cycle_year,
-        delay_by: delay_by,
-      ).call(run_in_background: true)
     end
 
     context 'ingesting a brand new provider' do
       let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
+
+      before do
+        described_class.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: stubbed_recruitment_cycle_year,
+          delay_by: delay_by,
+          incremental_sync: incremental_sync,
+        ).call(run_in_background: true)
+      end
 
       it 'creates the provider' do
         provider = Provider.find_by(code: 'ABC')
@@ -28,7 +34,37 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
       end
     end
 
+    context 'ingesting an existing provider when incremental_sync is off' do
+      let(:incremental_sync) { false }
+      let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
+
+      before do
+        allow(Sentry).to receive(:capture_exception)
+      end
+
+      it 'raises a FullSync error' do
+        described_class.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: stubbed_recruitment_cycle_year,
+          delay_by: delay_by,
+          incremental_sync: incremental_sync,
+        ).call(run_in_background: true)
+
+        expect(Sentry).to have_received(:capture_exception)
+                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+      end
+    end
+
     context 'ingesting an existing provider' do
+      before do
+        described_class.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: stubbed_recruitment_cycle_year,
+          delay_by: delay_by,
+          incremental_sync: incremental_sync,
+        ).call(run_in_background: true)
+      end
+
       let!(:existing_provider) do
         create(:provider, code: 'ABC', name: 'Foobar College', region_code: 'london')
       end
@@ -47,6 +83,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
           nil,
           provider_from_api.id,
           stubbed_recruitment_cycle_year,
+          true,
         ).exactly(1).time
       end
 
@@ -58,6 +95,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
             delay_by,
             provider_from_api.id,
             stubbed_recruitment_cycle_year,
+            true,
           ).exactly(1).time
         end
       end

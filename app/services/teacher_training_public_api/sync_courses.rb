@@ -1,13 +1,17 @@
 module TeacherTrainingPublicAPI
   class SyncCourses
+    include FullSyncErrorHandler
+
     attr_reader :provider, :run_in_background
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year, run_in_background: true)
+    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, run_in_background: true)
       @provider = ::Provider.find(provider_id)
       @run_in_background = run_in_background
+      @incremental_sync = incremental_sync
+      @updates = {}
 
       scope = TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
@@ -16,16 +20,18 @@ module TeacherTrainingPublicAPI
 
       scope.each do |course_from_api|
         ActiveRecord::Base.transaction do
-          create_or_update_course(course_from_api, recruitment_cycle_year)
+          create_or_update_course(course_from_api, recruitment_cycle_year, @incremental_sync)
         end
       end
+
+      raise_update_error(@updates)
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
 
   private
 
-    def create_or_update_course(course_from_api, recruitment_cycle_year)
+    def create_or_update_course(course_from_api, recruitment_cycle_year, incremental_sync)
       course = provider.courses.find_or_initialize_by(
         uuid: course_from_api.uuid,
         recruitment_cycle_year: recruitment_cycle_year,
@@ -35,6 +41,8 @@ module TeacherTrainingPublicAPI
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
 
       new_course = course.new_record?
+      @updates.merge!(courses: true) if !incremental_sync && course.changed?
+
       course.save!
 
       if new_course
@@ -42,9 +50,9 @@ module TeacherTrainingPublicAPI
       end
 
       if run_in_background
-        TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id)
+        TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id, incremental_sync)
       else
-        TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id)
+        TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id, incremental_sync)
       end
     end
 
@@ -95,10 +103,17 @@ module TeacherTrainingPublicAPI
     end
 
     def add_provider_relationship(course)
-      ProviderRelationshipPermissions.find_or_create_by!(
+      provider_relationship_permission = ProviderRelationshipPermissions.find_or_initialize_by(
         training_provider: provider,
         ratifying_provider: course.accredited_provider,
       )
+
+      permission_changed = provider_relationship_permission.new_record?
+      provider_relationship_permission.save!
+
+      if !@incremental_sync && permission_changed
+        @updates.merge!(provider_relationship_permission: true)
+      end
     end
 
     def create_new_accredited_provider(accredited_body_code, recruitment_cycle_year)
