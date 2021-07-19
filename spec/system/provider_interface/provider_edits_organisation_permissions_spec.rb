@@ -73,7 +73,7 @@ RSpec.feature 'Provider edits organisation permissions' do
   end
 
   def and_i_give_my_organisation_permission_to_make_decisions
-    check 'provider-relationship-permissions-ratifying-provider-can-make-decisions-true-field'
+    check 'provider-relationship-permissions-make-decisions-ratifying-field'
     click_on 'Save organisation permissions'
   end
 
