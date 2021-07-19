@@ -7,7 +7,11 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
   end
 
   def deadline
-    apply_1? ? apply_1_deadline : apply_2_deadline
+    if apply_1? && !eligible_to_apply_again?
+      apply_1_deadline
+    else
+      apply_2_deadline
+    end
   end
 
   def academic_year
@@ -26,7 +30,7 @@ private
   end
 
   def show_apply_2_deadline_banner?
-    apply_2? && CycleTimetable.show_apply_2_deadline_banner?
+    apply_2? && CycleTimetable.show_apply_2_deadline_banner? || eligible_to_apply_again?
   end
 
   def apply_1?
@@ -35,6 +39,10 @@ private
 
   def apply_2?
     @application_form.phase == 'apply_2'
+  end
+
+  def eligible_to_apply_again?
+    apply_1? && CycleTimetable.show_apply_2_deadline_banner? && @application_form.ended_without_success?
   end
 
   def apply_1_deadline
