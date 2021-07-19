@@ -90,12 +90,6 @@ prod:
 	$(eval SPACE=bat-prod)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 
-rollover:
-	$(eval APP_ENV=rollover)
-	$(eval APP_NAME_SUFFIX=rollover)
-	$(eval SPACE=bat-staging)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
-
 research:
 	$(eval APP_ENV=research)
 	$(eval APP_NAME_SUFFIX=research)
