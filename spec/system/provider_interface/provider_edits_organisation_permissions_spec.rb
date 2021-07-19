@@ -63,7 +63,7 @@ RSpec.feature 'Provider edits organisation permissions' do
   end
 
   def and_i_click_on_an_organisation_i_can_manage
-    within('.app-application-card div h2') do
+    within('.app-application-card h2') do
       click_on @ratifying_provider.name
     end
   end
