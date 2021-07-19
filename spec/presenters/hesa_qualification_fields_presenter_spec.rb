@@ -10,7 +10,6 @@ RSpec.describe HesaQualificationFieldsPresenter do
       hesa_degsbj: { attr: :subject_hesa_code, zeropad: 6 },
       hesa_degclss: { attr: :grade_hesa_code, zeropad: 2 },
       hesa_degest: { attr: :institution_hesa_code, zeropad: 4 },
-      hesa_degctry: { attr: :institution_country, zeropad: 2 },
     }
 
     direct_mappings.each do |hesa_field, data|
@@ -19,6 +18,23 @@ RSpec.describe HesaQualificationFieldsPresenter do
 
       it "#{hesa_field} is #{our_field} zero-padded to #{pad_to} chars" do
         expect(presenter.to_hash[hesa_field]).to eq(qualification.send(our_field)&.to_s&.rjust(pad_to, '0'))
+      end
+    end
+
+    context 'when iso3166 institution country code differs from HESA degctry code' do
+      described_class::HESA_DEGCTRY_MAPPING.each do |iso3166_code, hesa_degctry_code|
+        it "maps #{iso3166_code} to #{hesa_degctry_code}" do
+          presenter = described_class.new(build(:degree_qualification, institution_country: iso3166_code))
+          expect(presenter.to_hash[:hesa_degctry]).to eq(hesa_degctry_code)
+        end
+      end
+    end
+
+    context 'when iso3166 institution country code matches HESA degctry code' do
+      it 'returns the institution country code' do
+        iso3166_code = COUNTRIES.except(described_class::HESA_DEGCTRY_MAPPING.keys).keys.sample
+        presenter = described_class.new(build(:degree_qualification, institution_country: iso3166_code))
+        expect(presenter.to_hash[:hesa_degctry]).to eq(iso3166_code)
       end
     end
 
