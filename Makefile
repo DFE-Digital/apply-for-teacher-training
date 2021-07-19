@@ -99,7 +99,7 @@ research:
 load-test:
 	$(eval APP_ENV=loadtest)
 	$(eval APP_NAME_SUFFIX=load-test)
-	$(eval SPACE=bat-qa)
+	$(eval SPACE=bat-prod)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 
 azure-login:
