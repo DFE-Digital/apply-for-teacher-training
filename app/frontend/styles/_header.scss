@@ -24,6 +24,11 @@
   border-bottom-color: govuk-colour("turquoise");
 }
 
+.app-header--load-test .govuk-header__container,
+.app-header--load-test.app-header--full-border {
+  border-bottom-color: govuk-colour("pink");
+}
+
 .app-header--development .govuk-header__container,
 .app-header--development.app-header--full-border,
 .app-header--unknown-environment .govuk-header__container,
