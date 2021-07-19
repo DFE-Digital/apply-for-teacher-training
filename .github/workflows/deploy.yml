@@ -19,10 +19,6 @@ on:
         description: Deploy to sandbox?
         default: 'false'
         required: true
-      rollover:
-        description: Deploy to rollover?
-        default: 'false'
-        required: true
       research:
         description: Deploy to research?
         default: 'false'
