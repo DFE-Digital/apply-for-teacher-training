@@ -1,10 +1,11 @@
 module HostingEnvironment
-  TEST_ENVIRONMENTS = %w[development test qa review research].freeze
+  TEST_ENVIRONMENTS = %w[development test qa review research load-test].freeze
   PRODUCTION_URL = 'https://apply-for-teacher-training.service.gov.uk'.freeze
   ENVIRONMENT_COLOR = {
     development: 'grey',
     review: 'purple',
     research: 'turquoise',
+    'load-test': 'pink',
     qa: 'orange',
     staging: 'red',
     'unknown-environment': 'yellow',
@@ -60,6 +61,10 @@ module HostingEnvironment
 
   def self.research?
     environment_name == 'research'
+  end
+
+  def self.load_test?
+    environment_name == 'load-test'
   end
 
   def self.staging?
