@@ -125,6 +125,37 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course_option.site.address_line2).to be_nil
       end
 
+      it 'raises a FullSync error when adding missing address info on a full sync' do
+        allow(Sentry).to receive(:capture_exception)
+
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+            name: 'Main site',
+            street_address_1: 'Gorse SCITT',
+            street_address_2: nil,
+            city: 'Morley',
+            county: 'Leeds',
+            postcode: 'LS27 0LZ',
+
+          }],
+        )
+
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+
+        expect(Sentry).to have_received(:capture_exception)
+                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('site and course_option have been updated'))
+      end
+
       it 'correctly updates vacancy status for any existing course options' do
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                    course_code: 'ABC1',
@@ -139,6 +170,25 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
         expect(CourseOption.count).to eq 1
         expect(CourseOption.first.vacancy_status).to eq 'vacancies'
+      end
+
+      it 'raises a FullSync error when update course_option info on a full sync' do
+        allow(Sentry).to receive(:capture_exception)
+
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                   site_code: 'A',
+                                                   vacancy_status: 'full_time_vacancies')
+
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
+        expect(CourseOption.count).to eq 1
+        CourseOption.first.update!(vacancy_status: 'no_vacancies')
+
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+
+        expect(Sentry).to have_received(:capture_exception)
+                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('course_option have been updated'))
       end
 
       it 'correctly updates withdrawn attribute for an existing course' do
@@ -208,6 +258,22 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(permissions.training_provider.code).to eq('ABC')
         expect(permissions.training_provider_can_view_safeguarding_information).to be false
         expect(permissions.ratifying_provider_can_view_safeguarding_information).to be false
+      end
+
+      it 'raises a FullSync error when provider relationships have been created' do
+        allow(Sentry).to receive(:capture_exception)
+        allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_async)
+
+        create :provider, code: 'DEF'
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   course_attributes: [{ accredited_body_code: 'DEF', study_mode: 'full_time' }],
+                                                   site_code: 'A')
+
+        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+
+        expect(Sentry).to have_received(:capture_exception)
+                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('provider_relationship_permission and courses have been updated'))
       end
 
       it 'does not create provider relationships for self ratifying providers' do

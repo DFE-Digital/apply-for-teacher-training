@@ -13,7 +13,7 @@ module TeacherTrainingPublicAPI
         delay_by = calculate_offset(page_number + 1, incremental_sync)
         response = scope.all
 
-        sync_providers(response, recruitment_cycle_year, delay_by)
+        sync_providers(response, recruitment_cycle_year, delay_by, incremental_sync)
 
         is_last_page = true if response.links.links['next'].nil?
       end
@@ -23,12 +23,13 @@ module TeacherTrainingPublicAPI
       raise TeacherTrainingPublicAPI::SyncError
     end
 
-    def self.sync_providers(providers_from_api, recruitment_cycle_year, delay_by)
+    def self.sync_providers(providers_from_api, recruitment_cycle_year, delay_by, incremental_sync)
       providers_from_api.each do |provider_from_api|
         TeacherTrainingPublicAPI::SyncProvider.new(
           provider_from_api: provider_from_api,
           recruitment_cycle_year: recruitment_cycle_year,
           delay_by: delay_by,
+          incremental_sync: incremental_sync,
         ).call
       end
     end
