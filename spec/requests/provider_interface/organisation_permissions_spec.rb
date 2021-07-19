@@ -21,7 +21,7 @@ RSpec.describe 'Viewing organisation permissions', type: :request do
   describe 'GET organisations with feature flag off' do
     it 'responds with 302' do
       FeatureFlag.deactivate(:accredited_provider_setting_permissions)
-      get organisations_provider_interface_organisation_settings_path
+      get provider_interface_organisation_settings_organisations_path
       expect(response.status).to eq(302)
       expect(response.redirect_url).to eq(provider_interface_account_url)
     end

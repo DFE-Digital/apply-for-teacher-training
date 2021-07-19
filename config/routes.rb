@@ -769,9 +769,8 @@ Rails.application.routes.draw do
     end
 
     resource :organisation_settings, path: '/organisation-settings', only: :show do
-      get '/organisations' => 'organisation_permissions#organisations', as: :organisations
-
       resources :organisations, only: [] do
+        get '/' => 'organisation_permissions#organisations', on: :collection
         resources :organisation_permissions, path: '/organisation-permissions', only: %i[index edit update]
       end
     end
