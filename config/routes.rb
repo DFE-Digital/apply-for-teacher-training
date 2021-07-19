@@ -770,11 +770,13 @@ Rails.application.routes.draw do
 
     resources :organisation_settings, path: '/organisation-settings', only: :index
 
-    resources :organisation_permissions_setup, only: %i[index edit update], path: 'organisation-permissions/setup' do
-      collection do
-        get :check
-        post :commit
-        get :success
+    scope path: 'setup' do
+      resources :organisation_permissions_setup, only: %i[index edit update], path: 'organisation-permissions' do
+        collection do
+          get :check
+          post :commit
+          get :success
+        end
       end
     end
 
