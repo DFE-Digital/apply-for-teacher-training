@@ -17,6 +17,7 @@ FactoryBot.define do
       qualification_type { 'gcse' }
       subject { %w[maths english science].sample }
       grade { %w[A B C].sample }
+      predicted_grade { false }
 
       trait :non_uk do
         qualification_type { 'non_uk' }
@@ -30,6 +31,7 @@ FactoryBot.define do
       trait :missing do
         qualification_type { 'missing' }
         grade { nil }
+        predicted_grade { nil }
         missing_explanation { 'I will be taking an equivalency test in a few weeks' }
       end
 
@@ -62,6 +64,7 @@ FactoryBot.define do
       subject { Faker::Educator.subject }
       institution_name { Faker::University.name }
       grade { %w[pass merit distinction].sample }
+      predicted_grade { false }
       institution_country { 'GB' }
 
       trait :non_uk do
