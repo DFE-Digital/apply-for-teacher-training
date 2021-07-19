@@ -48,6 +48,9 @@ class GetChangeOfferOptions
     make_decisions_courses
     .where(recruitment_cycle_year: recruitment_cycle_year)
     .where(ratifying_provider_is_preserved)
+    .joins(:course_options)
+    .where(course_options: { site_still_valid: true })
+    .distinct
   end
 
   def make_decisions_courses
