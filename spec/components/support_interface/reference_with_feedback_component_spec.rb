@@ -45,7 +45,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
       within_summary_row('Selected?') do
-        expect(page).to include '✅'
+        expect(page).to include 'Yes'
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
       within_summary_row('Selected?') do
-        expect(page).to include '❌'
+        expect(page).to include 'No'
       end
     end
   end

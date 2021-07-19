@@ -47,7 +47,7 @@ module SupportInterface
     def selected_row
       {
         key: 'Selected?',
-        value: reference.selected? ? '✅' : '❌',
+        value: reference.selected? ? 'Yes' : 'No',
       }
     end
 
