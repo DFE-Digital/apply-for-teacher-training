@@ -97,7 +97,7 @@ RSpec.feature 'Provider views organisation settings' do
   end
 
   def and_i_see_a_link_to_manage_organisations
-    expect(page).to have_link('Organisation permissions', href: organisations_provider_interface_organisation_settings_path)
+    expect(page).to have_link('Organisation permissions', href: provider_interface_organisation_settings_organisations_path)
   end
 
   def when_i_click_to_manage_users
