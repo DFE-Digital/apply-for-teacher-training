@@ -30,8 +30,6 @@ class SummaryListComponent < ViewComponent::Base
         end
       end
       links.join('<br>').html_safe
-    elsif any_row_has_action_span?
-      tag.dd(class: 'govuk-summary-list__actions')
     end
   end
 
@@ -54,9 +52,5 @@ private
         value: value,
       }
     end
-  end
-
-  def any_row_has_action_span?
-    rows.select { |row| row.key?(:action) }.any?
   end
 end

@@ -73,37 +73,6 @@ RSpec.describe SummaryListComponent do
     expect(result.css('[data-qa="ice-cream-man"]')).to be_present
   end
 
-  it 'does not render an extra dd if no row has an action' do
-    rows = [{ key: 'Job',
-              value: ['Teacher', 'Clearcourt High'] },
-            { key: 'Working pattern',
-              value: "Full time\n Omnis itaque rerum. Velit in ." },
-            { key: 'Description',
-              value: 'Cumque autem veritatis..'  },
-            { key: 'Dates',
-              value: 'May 2003 - November 2019'  }]
-
-    result = render_inline(SummaryListComponent.new(rows: rows))
-
-    expect(result.to_html).not_to include('<dd class="govuk-summary-list__actions"></dd>')
-  end
-
-  it 'does render an extra dd if any row has an action' do
-    rows = [{ key: 'Job',
-              value: ['Teacher', 'Clearcourt High'] },
-            { key: 'Working pattern',
-              value: "Full time\n Omnis itaque rerum. Velit in ." },
-            { key: 'Description',
-              value: 'Cumque autem veritatis..' },
-            { key: 'Dates',
-              value: 'May 2003 - November 2019',
-              action: 'dates for Teacher, Clearcourt High' }]
-
-    result = render_inline(SummaryListComponent.new(rows: rows))
-
-    expect(result.to_html).to include('<dd class="govuk-summary-list__actions"></dd>')
-  end
-
   it 'handles rows with multiple actions' do
     rows = [
       { key: 'Role',
