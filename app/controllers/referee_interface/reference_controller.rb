@@ -148,7 +148,7 @@ module RefereeInterface
     def set_user_context
       return if reference.blank?
 
-      Raven.extra_context(
+      Sentry.set_extras(
         application_support_url: support_interface_application_form_url(reference.application_form),
         reference_id: reference.id,
       )

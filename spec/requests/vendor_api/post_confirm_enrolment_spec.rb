@@ -19,11 +19,11 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
   it 'notifies Sentry' do
     application_choice = create_application_choice_for_currently_authenticated_provider(status: 'recruited')
 
-    allow(Raven).to receive(:capture_exception)
+    allow(Sentry).to receive(:capture_exception)
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 
-    expect(Raven).to have_received(:capture_exception)
+    expect(Sentry).to have_received(:capture_exception)
   end
 
   it 'returns a not found error when the application was not found' do

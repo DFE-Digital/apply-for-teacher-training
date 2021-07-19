@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UCASIntegrationCheck do
-  before { allow(Raven).to receive(:capture_exception) }
+  before { allow(Sentry).to receive(:capture_exception) }
 
   describe '#perform' do
     context 'detect_ucas_match_upload_failure' do
@@ -10,7 +10,7 @@ RSpec.describe UCASIntegrationCheck do
 
         UCASIntegrationCheck.new.perform
 
-        expect(Raven).to have_received(:capture_exception).with(
+        expect(Sentry).to have_received(:capture_exception).with(
           UCASIntegrationCheck::UCASMatchingFileDownloadFailure.new(
             'There was no UCAS file download taking place yesterday',
           ),
@@ -22,7 +22,7 @@ RSpec.describe UCASIntegrationCheck do
 
         UCASIntegrationCheck.new.perform
 
-        expect(Raven).not_to have_received(:capture_exception)
+        expect(Sentry).not_to have_received(:capture_exception)
       end
     end
   end

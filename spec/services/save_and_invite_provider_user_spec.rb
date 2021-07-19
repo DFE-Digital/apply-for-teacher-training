@@ -76,9 +76,9 @@ RSpec.describe SaveAndInviteProviderUser do
       end
 
       it 'notifies Sentry' do
-        allow(Raven).to receive(:capture_exception)
+        allow(Sentry).to receive(:capture_exception)
         service.call
-        expect(Raven).to have_received(:capture_exception)
+        expect(Sentry).to have_received(:capture_exception)
       end
 
       it 'populates form errors' do
