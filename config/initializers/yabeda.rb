@@ -14,3 +14,14 @@ if ENV.key?('VCAP_APPLICATION')
     default_tag :space, space_name
   end
 end
+
+# Custom metrics
+Yabeda.configure do
+  group :apply_db do
+    gauge :application_choices,  comment: "Number of application choices in database"
+  end
+
+  collect do
+    apply_db.application_choices.set({}, ApplicationChoice.count)
+  end
+end
