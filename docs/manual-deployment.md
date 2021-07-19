@@ -43,7 +43,6 @@ Make commands can be run from the root of the repo to deploy a specific version 
   staging     | make staging deploy   |  yes (s121-findpostgraduateteachertraining-test)
   sandbox     | make sandbox deploy   |  yes (s121-findpostgraduateteachertraining-production)
   production  | make prod deploy      |  yes (s121-findpostgraduateteachertraining-production)
-  rollover    | make rollover deploy  |  yes (s121-findpostgraduateteachertraining-test)
 
   You can also just preview the changes by running `deploy-plan` instead of `deploy` in the above command.
 
