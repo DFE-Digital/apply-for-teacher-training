@@ -231,7 +231,11 @@ class CycleTimetable
   end
 
   def self.current_cycle?(application_form)
-    application_form.recruitment_cycle_year == current_year
+    application_form.recruitment_cycle_year == if current_cycle_schedule == :today_is_after_apply_opens || current_cycle_schedule == :today_is_after_find_opens
+                                                 current_year + 1
+                                               else
+                                                 current_year
+                                               end
   end
 
   def self.can_add_course_choice?(application_form)
