@@ -24,6 +24,8 @@ class PhaseBannerComponent < ViewComponent::Base
       'This is a review environment used to test a pull request'
     when 'research'
       'This is the user research environment for the Apply service'
+    when 'load-test'
+      'This is the user load-test environment for the Apply service'
     when 'unknown-environment'
       'This is a unknown version of the Apply service'
     end
