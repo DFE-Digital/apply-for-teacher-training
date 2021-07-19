@@ -17,6 +17,24 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
 
   let(:presenter) { described_class.new(provider_relationship_permission, provider_user) }
 
+  describe '#ordered_providers' do
+    context 'when the user belongs to the training provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
+
+      it 'returns the training provider followed by the ratifying provider' do
+        expect(presenter.ordered_providers).to eq([training_provider, ratifying_provider])
+      end
+    end
+
+    context 'when the user belongs to the ratifying provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+
+      it 'returns the ratifying provider followed by the training provider' do
+        expect(presenter.ordered_providers).to eq([ratifying_provider, training_provider])
+      end
+    end
+  end
+
   describe '#provider_relationship_description_for' do
     context 'when the provider user is part of the training provider' do
       let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }

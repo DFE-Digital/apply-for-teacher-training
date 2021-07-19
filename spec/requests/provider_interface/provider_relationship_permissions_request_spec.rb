@@ -81,6 +81,8 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
     end
     let!(:course) { create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider) }
 
+    before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+
     it 'tracks validation errors on save_permissions' do
       stub_model_instance_with_errors(
         ProviderInterface::ProviderRelationshipPermissionsSetupWizard,

@@ -5,6 +5,10 @@ module ProviderInterface
       @provider_user = provider_user
     end
 
+    def ordered_providers
+      ordered_provider_types.map { |provider_type| send("#{provider_type}_provider") }
+    end
+
     def provider_relationship_description
       provider_names = ordered_provider_types.map { |provider_type| name_for_provider_of_type(provider_type) }
       provider_names.join(' and ')
