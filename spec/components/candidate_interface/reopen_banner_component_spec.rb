@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       )
 
       expect(result.text).to include('Applications for courses starting this academic year have now closed')
-      expect(result.text).to include('Submit your application from 13 October 2020 for courses starting in the next academic year.')
+      expect(result.text).to include('Submit your application from 12 October 2021 for courses starting in the next academic year.')
     end
 
     it 'renders the banner for an Apply 2 app' do
@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       )
 
       expect(result.text).to include('Applications for courses starting this academic year have now closed')
-      expect(result.text).to include('Submit your application from 13 October 2020 for courses starting in the next academic year.')
+      expect(result.text).to include('Submit your application from 12 October 2021 for courses starting in the next academic year.')
     end
 
     it 'does not render when we are not between cycles' do

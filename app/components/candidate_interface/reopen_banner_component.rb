@@ -32,6 +32,6 @@ private
   end
 
   def reopen_date
-    CycleTimetable.date(:apply_opens).to_s(:govuk_date)
+    CycleTimetable.apply_reopens.to_s(:govuk_date)
   end
 end
