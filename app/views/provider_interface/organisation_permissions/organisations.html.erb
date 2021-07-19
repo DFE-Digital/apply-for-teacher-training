@@ -12,11 +12,9 @@
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_permissions') %></h1>
     <% @manageable_providers.each do |provider| %>
       <div class="app-application-card">
-        <div>
-          <h2 class="govuk-heading-m">
-            <%= govuk_link_to provider.name, provider_interface_organisation_settings_organisation_organisation_permissions_path(provider) %>
-          </h2>
-        </div>
+        <h2 class="govuk-heading-m">
+          <%= govuk_link_to provider.name, provider_interface_organisation_settings_organisation_organisation_permissions_path(provider) %>
+        </h2>
       </div>
     <% end %>
   </div>
