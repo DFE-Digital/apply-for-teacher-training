@@ -109,6 +109,10 @@ RSpec.feature 'Providers and courses' do
           name: 'Gorse SCITT',
         },
         {
+          code: 'DOF',
+          name: 'An Unsynced Provider',
+        },
+        {
           code: 'GHI',
           name: 'Somerset SCITT Consortium',
         },
@@ -119,7 +123,6 @@ RSpec.feature 'Providers and courses' do
       ],
       filter_option: { 'filter[updated_since]' => @updated_since },
     )
-
     stub_teacher_training_api_provider(
       provider_code: 'XYZ',
       specified_attributes: {
@@ -142,6 +145,14 @@ RSpec.feature 'Providers and courses' do
                                                course_code: 'GHI1',
                                                course_attributes: [{ accredited_body_code: 'GHI' }],
                                                site_code: 'C')
+    stub_teacher_training_api_course_with_site(provider_code: 'DOF',
+                                               course_code: 'DOF1',
+                                               course_attributes: [{ accredited_body_code: 'DOF' }],
+                                               site_code: 'D')
+    stub_teacher_training_api_course_with_site(provider_code: 'XYZ',
+                                               course_code: 'XYZ1',
+                                               course_attributes: [{ accredited_body_code: 'XYZ' }],
+                                               site_code: 'E')
 
     Sidekiq::Testing.inline! do
       click_button 'Sync providers'
@@ -156,6 +167,8 @@ RSpec.feature 'Providers and courses' do
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Somerset SCITT Consortium')
+    expect(page).to have_content('University of Chester')
+    expect(page).to have_content('An Unsynced Provider')
   end
 
   def when_i_search_a_provider
