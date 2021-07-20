@@ -14,13 +14,11 @@ class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
 private
 
   def show_apply_1_reopen_banner?
-    apply_1? &&
-      CycleTimetable.between_cycles_apply_1?
+    apply_1? && CycleTimetable.between_cycles_apply_1?
   end
 
   def show_apply_2_reopen_banner?
-    apply_2? &&
-      CycleTimetable.between_cycles_apply_2?
+    apply_2? && CycleTimetable.between_cycles_apply_2?
   end
 
   def apply_1?
@@ -32,6 +30,18 @@ private
   end
 
   def reopen_date
-    CycleTimetable.apply_reopens.to_s(:govuk_date)
+    if Time.zone.now < CycleTimetable.date(:apply_opens)
+      CycleTimetable.apply_opens.to_s(:govuk_date)
+    else
+      CycleTimetable.apply_reopens.to_s(:govuk_date)
+    end
+  end
+
+  def cycle_year
+    @_cycle_year ||= if Time.zone.now < CycleTimetable.apply_opens
+                       CycleTimetable.current_year - 1
+                     else
+                       CycleTimetable.current_year
+                     end
   end
 end
