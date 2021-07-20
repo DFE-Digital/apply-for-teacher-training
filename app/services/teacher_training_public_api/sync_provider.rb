@@ -12,24 +12,18 @@ module TeacherTrainingPublicAPI
     end
 
     def sync_courses(run_in_background, provider)
-      if sync_courses?
-        if run_in_background
-          TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
-        else
-          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
-        end
+      if run_in_background
+        TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
+      else
+        TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
       end
     end
 
   private
 
-    def sync_courses?
-      existing_provider&.sync_courses
-    end
-
     def provider_attrs_from(provider_from_api)
       {
-        sync_courses: sync_courses?,
+        sync_courses: true,
         region_code: provider_from_api.region_code&.strip,
         postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,

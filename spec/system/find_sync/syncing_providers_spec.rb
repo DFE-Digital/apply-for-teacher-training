@@ -15,7 +15,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
 
   def given_there_is_an_existing_provider_and_course_in_apply
     @course_uuid = SecureRandom.uuid
-    @existing_provider = create :provider, code: 'ABC', sync_courses: true
+    @existing_provider = create :provider, code: 'ABC'
     create :course, code: 'ABC1', provider: @existing_provider, subjects: %w[], uuid: @course_uuid
   end
 

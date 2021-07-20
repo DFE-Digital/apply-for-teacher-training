@@ -24,7 +24,7 @@ RSpec.describe 'Sync sites' do
   end
 
   def given_there_is_a_provider_and_course_on_apply
-    @provider = create :provider, code: 'ABC', sync_courses: true
+    @provider = create :provider, code: 'ABC'
     @course = create(:course, code: 'ABC1', provider: @provider, name: 'Secondary')
   end
 
