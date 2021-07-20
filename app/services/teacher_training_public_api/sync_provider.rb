@@ -5,17 +5,8 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def call(run_in_background: true, force_sync_courses: false)
-      @force_sync_courses = force_sync_courses
-
-      provider_attrs = if existing_provider
-                         provider_attrs_from(@provider_from_api)
-                       else
-                         provider_attrs_from(@provider_from_api).merge(
-                           sync_courses: force_sync_courses,
-                         )
-                       end
-
+    def call(run_in_background: true)
+      provider_attrs = provider_attrs_from(@provider_from_api)
       provider = create_or_update_provider(provider_attrs)
       sync_courses(run_in_background, provider)
     end
@@ -33,7 +24,7 @@ module TeacherTrainingPublicAPI
   private
 
     def sync_courses?
-      @force_sync_courses || existing_provider&.sync_courses
+      existing_provider&.sync_courses
     end
 
     def provider_attrs_from(provider_from_api)
