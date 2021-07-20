@@ -42,17 +42,15 @@ module ProviderInterface
       return {} unless params.key?(:provider_relationship_permissions)
 
       params.require(:provider_relationship_permissions)
-            .permit(training_provider_can_make_decisions: [],
-                    ratifying_provider_can_make_decisions: [],
-                    training_provider_can_view_safeguarding_information: [],
-                    ratifying_provider_can_view_safeguarding_information: [],
-                    training_provider_can_view_diversity_information: [],
-                    ratifying_provider_can_view_diversity_information: []).to_h
+            .permit(make_decisions: [],
+                    view_safeguarding_information: [],
+                    view_diversity_information: []).to_h
     end
 
     def new_relationship_permissions
-      ProviderRelationshipPermissions.possible_permissions.inject({}) do |hash, permission|
-        hash[permission] = permissions_params[permission].present?
+      ProviderRelationshipPermissions::PERMISSIONS.inject({}) do |hash, permission|
+        hash["training_provider_can_#{permission}"] = permissions_params[permission].include? 'training'
+        hash["ratifying_provider_can_#{permission}"] = permissions_params[permission].include? 'ratifying'
         hash
       end
     end
