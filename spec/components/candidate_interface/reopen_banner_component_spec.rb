@@ -54,5 +54,14 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
 
       expect(result.text).not_to include('Applications for courses starting this academic year have now closed')
     end
+
+    it 'renders nothing if the flash contains something' do
+      configure_conditions_for_rendering_banner('apply_1')
+      allow(flash).to receive(:empty?).and_return false
+
+      result = render_inline(described_class.new(phase: application_form.phase, flash_empty: flash.empty?))
+
+      expect(result.text).to be_blank
+    end
   end
 end
