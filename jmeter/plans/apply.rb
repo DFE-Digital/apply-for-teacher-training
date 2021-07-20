@@ -14,11 +14,18 @@ test do
 
   random_timer 100, 900 * WAIT_FACTOR
   thread_count = 975
+  csv_data_set_config filename: 'jmeter-courses.csv'
 
   threads count: thread_count, continue_forever: true, duration: 900 do
     #-> Sign up
     visit name: 'Account page', url: url('/candidate/account') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+
+      jsr223_preprocessor(
+        name: 'Candidate UUID',
+        script: 'vars.put("candidate_uuid", UUID.randomUUID().toString())',
+        language: 'groovy',
+      )
     end
 
     submit(
@@ -34,11 +41,12 @@ test do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
 
+    # Simulate the candidate arriving from Find by including course params in the url
     submit(
       'DO_MULTIPART_POST': 'true',
-      name: 'Sign up page - submit email', url: url('/candidate/sign-up'),
+      name: 'Sign up page - submit email', url: url('/candidate/sign-up?courseCode=${courseCode}&providerCode=${providerCode}'),
       fill_in: {
-        'candidate_interface_sign_up_form[email_address]': '${__threadNum}' + '@loadtest.example.com',
+        'candidate_interface_sign_up_form[email_address]': '${candidate_uuid}' + '@loadtest.example.com',
         'candidate_interface_sign_up_form[accept_ts_and_cs][]': '',
         'candidate_interface_sign_up_form[accept_ts_and_cs]': 'true',
         'authenticity_token': '${authenticity_token}',
@@ -59,7 +67,65 @@ test do
         'token': '${sign_in_token}',
         'commit': 'Continue',
       }
-    )
+    ) do
+      extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+      extract name: 'course_id', regex: 'application/courses/confirm-selection/(\d+)'
+    end
+
+    #-> Confirm course selection identified by earlier Find params
+    submit(
+      'DO_MULTIPART_POST': 'true',
+      name: 'You selected a course - confirm course selection', url: url('/candidate/application/courses/complete-selection/${course_id}'),
+      fill_in: {
+        'authenticity_token': '${authenticity_token}',
+        "candidate_interface_course_selection_form[confirm]": "true"
+      }
+    ) do
+      extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+      extract name: 'provider_id', regex: 'application/courses/provider/(\d+)/'
+
+      # Extract study mode params if that's the page we're on
+      extract name: 'study_mode_page_title', regex: '(Full time or part time)'
+      extract name: 'study_mode', regex: 'value="(full_time)" name="candidate_interface_pick_study_mode_form\[study_mode\]"'
+
+      # Extract site params if that's the page we're on
+      extract name: 'site_selection_page_title', regex: '(Which location are you applying to)'
+      extract name: 'course_option_id', regex: 'value="(\d+)" name="candidate_interface_pick_site_form\[course_option_id\]"'
+    end
+
+    #-> Choose study mode if on study mode page
+    if_controller(name: 'Choose study mode if present', condition: '${__groovy(vars.get("study_mode_page_title") != null)}') do
+      submit(
+        'DO_MULTIPART_POST': 'true',
+        name: 'Study mode - choose first option', url: url('/candidate/application/courses/provider/${provider_id}/courses/${course_id}'),
+        fill_in: {
+          'authenticity_token': '${authenticity_token}',
+          'candidate_interface_pick_study_mode_form[study_mode]': '${study_mode}',
+        }
+      ) do
+        extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+        extract name: 'provider_id', regex: 'application/courses/provider/(\d+)/'
+
+        extract name: 'site_selection_page_title', regex: '(Which location are you applying to)'
+        extract name: 'course_option_id', regex: 'value="(\d+)" name="candidate_interface_pick_site_form\[course_option_id\]"'
+
+        jsr223_postprocessor name: 'Clear study mode page title var', script: 'vars.remove("study_mode_page_title")', language: 'groovy'
+      end
+    end
+
+    #-> Choose site if on site page
+    if_controller(name: 'Choose site if present', condition: '${__groovy(vars.get("site_selection_page_title") != null)}') do
+      submit(
+        'DO_MULTIPART_POST': 'true',
+        name: 'Site - choose first option', url: url('/candidate/application/courses/provider/${provider_id}/courses/${course_id}/full_time/'),
+        fill_in: {
+          'authenticity_token': '${authenticity_token}',
+          'candidate_interface_pick_site_form[course_option_id]': '${course_option_id}',
+        }
+      ) do
+        jsr223_postprocessor name: 'Clear site selection page title var', script: 'vars.remove("site_selection_page_title")', language: 'groovy'
+      end
+    end
 
     #-> Partially navigate through course choice flow
     visit name: 'Do you know which course?', url: url('/candidate/application/courses/choose') do
