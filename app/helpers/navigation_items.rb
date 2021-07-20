@@ -86,7 +86,7 @@ class NavigationItems
       end
 
       sign_out_navigation = if current_provider_user.impersonator
-                              NavigationItem.new('Return to support',
+                              NavigationItem.new('Support',
                                                  support_interface_provider_user_path(current_provider_user),
                                                  false)
                             else

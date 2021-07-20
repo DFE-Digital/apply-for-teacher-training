@@ -23,6 +23,15 @@ RSpec.feature 'Provider views organisation settings' do
 
     when_i_click_to_manage_users
     then_the_breadcrumbs_are_correct_for_this_flow
+
+    when_i_click_on_the_organisation_settings_link
+
+    when_i_click_to_manage_organisation_permissions
+    then_i_see_the_organisation_permissions
+    and_the_breadcrumbs_are_correct_for_this_flow
+
+    when_i_click_on_an_organisation
+    then_i_see_the_organisations_permissions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -88,17 +97,35 @@ RSpec.feature 'Provider views organisation settings' do
   end
 
   def and_i_see_a_link_to_manage_organisations
-    expect(page).to have_link('Organisation permissions', href: '#not-linked-yet')
+    expect(page).to have_link('Organisation permissions', href: provider_interface_organisation_settings_organisations_path)
   end
 
   def when_i_click_to_manage_users
     click_on('Users')
   end
 
+  def when_i_click_to_manage_organisation_permissions
+    click_on('Organisation permissions')
+  end
+
+  def then_i_see_the_organisation_permissions
+    expect(page).to have_link(@another_provider.name.to_s, href: provider_interface_organisation_settings_organisation_organisation_permissions_path(@another_provider))
+  end
+
   def then_the_breadcrumbs_are_correct_for_this_flow
     within('ol.govuk-breadcrumbs__list') do
       expect(page).to have_content('Organisation settings')
     end
+  end
+
+  alias_method :and_the_breadcrumbs_are_correct_for_this_flow, :then_the_breadcrumbs_are_correct_for_this_flow
+
+  def when_i_click_on_an_organisation
+    click_on(@another_provider.name.to_s)
+  end
+
+  def then_i_see_the_organisations_permissions
+    expect(page).to have_content("#{@example_provider.name} and #{@another_provider.name}")
   end
 
   def and_the_accredited_provider_setting_permissions_flag_is_inactive

@@ -1,0 +1,21 @@
+<%= content_for :browser_title, t('page_titles.provider.organisation_permissions') %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    t('page_titles.provider.organisation_settings') => provider_interface_organisation_settings_path,
+    t('page_titles.provider.organisation_permissions') => nil,
+  }) %>
+<% end %>
+
+<div class="govuk-grid">
+  <div class="govuk-grid-column-two-third">
+    <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_permissions') %></h1>
+    <% @manageable_providers.each do |provider| %>
+      <div class="app-application-card">
+        <h2 class="govuk-heading-m">
+          <%= govuk_link_to provider.name, provider_interface_organisation_settings_organisation_organisation_permissions_path(provider) %>
+        </h2>
+      </div>
+    <% end %>
+  </div>
+</div>

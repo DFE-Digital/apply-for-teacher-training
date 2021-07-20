@@ -12,7 +12,7 @@
 
       <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
         <li>
-          <%= govuk_link_to t('page_titles.provider.organisation_permissions'), '#not-linked-yet' %>
+          <%= govuk_link_to t('page_titles.provider.organisation_permissions'), provider_interface_organisation_settings_organisations_path %>
         </li>
       <% end %>
     </ul>

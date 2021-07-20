@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :require_accredited_provider_setting_permissions_flag
     before_action :require_manage_users_or_manage_organisations_permission
 
-    def index; end
+    def show; end
 
   private
 
