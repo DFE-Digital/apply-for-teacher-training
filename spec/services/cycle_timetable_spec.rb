@@ -36,29 +36,63 @@ RSpec.describe CycleTimetable do
   end
 
   describe '.show_apply_1_deadline_banner?' do
-    it 'returns true before the configured date' do
+    it 'returns true before the configured date and it is an unsuccessful apply_1 application' do
+      application_form = build(:application_form, phase: 'apply_1')
+
       Timecop.travel(one_hour_before_apply1_deadline) do
-        expect(CycleTimetable.show_apply_1_deadline_banner?).to be true
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be true
+      end
+    end
+
+    it 'returns false if it is a apply_2 application' do
+      application_form = build(:application_form, phase: 'apply_2')
+
+      Timecop.travel(one_hour_before_apply1_deadline) do
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be false
+      end
+    end
+
+    it 'returns false if it is a successful application' do
+      application_choice = build(:application_choice, :with_offer)
+      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
+
+      Timecop.travel(one_hour_before_apply1_deadline) do
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be false
       end
     end
 
     it 'returns false after the configured date' do
+      application_form = build(:application_form, phase: 'apply_1')
+
       Timecop.travel(one_hour_after_apply1_deadline) do
-        expect(CycleTimetable.show_apply_1_deadline_banner?).to be false
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be false
       end
     end
   end
 
   describe '.show_apply_2_deadline_banner?' do
-    it 'returns true before the configured date' do
+    it 'returns true before the configured date and it is a phase 2 application' do
+      application_form = build(:application_form, phase: 'apply_2')
+
       Timecop.travel(one_hour_before_apply2_deadline) do
-        expect(CycleTimetable.show_apply_2_deadline_banner?).to be true
+        expect(CycleTimetable.show_apply_2_deadline_banner?(application_form)).to be true
+      end
+    end
+
+    it 'returns false if it is a successful apply_1 application' do
+      application_choice = build(:application_choice, :with_offer)
+      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
+
+      Timecop.travel(one_hour_before_apply2_deadline) do
+        expect(CycleTimetable.show_apply_2_deadline_banner?(application_form)).to be false
       end
     end
 
     it 'returns false after the configured date' do
+      unsuccessful_application_form = build(:application_form, phase: 'apply_2', application_choices: [build(:application_choice, :with_rejection)])
+
       Timecop.travel(one_hour_after_apply2_deadline) do
-        expect(CycleTimetable.show_apply_2_deadline_banner?).to be false
+        expect(CycleTimetable.show_apply_2_deadline_banner?(unsuccessful_application_form)).to be false
       end
     end
   end
