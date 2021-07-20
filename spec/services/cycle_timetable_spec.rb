@@ -280,4 +280,19 @@ RSpec.describe CycleTimetable do
       end
     end
   end
+
+  describe '.cycle_year_range' do
+    context 'with no year passed in' do
+      it 'returns the `current_year to next_year`' do
+        allow(CycleTimetable).to receive(:current_year).and_return(2021)
+        expect(described_class.cycle_year_range).to eq '2021 to 2022'
+      end
+    end
+
+    context 'with a year passed in' do
+      it 'returns `year to year + 1`' do
+        expect(described_class.cycle_year_range(2022)).to eq '2022 to 2023'
+      end
+    end
+  end 
 end
