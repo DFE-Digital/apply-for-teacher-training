@@ -6,8 +6,12 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
     @flash_empty = flash_empty
   end
 
+  def render?
+    flash_empty && render_deadline_banner?
+  end
+
   def deadline
-    if apply_1? && !eligible_to_apply_again?
+    if !CycleTimetable.show_apply_2_deadline_banner?(@application_form)
       apply_1_deadline
     else
       apply_2_deadline
@@ -18,31 +22,10 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
     "#{application_form_recruitment_cycle_year} to #{application_form_recruitment_cycle_year + 1}"
   end
 
-  def render?
-    flash_empty &&
-      (show_apply_1_deadline_banner? || show_apply_2_deadline_banner?)
-  end
-
 private
 
-  def show_apply_1_deadline_banner?
-    apply_1? && CycleTimetable.show_apply_1_deadline_banner?
-  end
-
-  def show_apply_2_deadline_banner?
-    apply_2? && CycleTimetable.show_apply_2_deadline_banner? || eligible_to_apply_again?
-  end
-
-  def apply_1?
-    @application_form.phase == 'apply_1'
-  end
-
-  def apply_2?
-    @application_form.phase == 'apply_2'
-  end
-
-  def eligible_to_apply_again?
-    apply_1? && CycleTimetable.show_apply_2_deadline_banner? && @application_form.ended_without_success?
+  def render_deadline_banner?
+    CycleTimetable.show_apply_1_deadline_banner?(@application_form) || CycleTimetable.show_apply_2_deadline_banner?(@application_form)
   end
 
   def apply_1_deadline

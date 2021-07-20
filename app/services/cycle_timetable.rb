@@ -49,12 +49,15 @@ class CycleTimetable
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
 
-  def self.show_apply_1_deadline_banner?
-    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_1_deadline).end_of_day)
+  def self.show_apply_1_deadline_banner?(application_form)
+    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_1_deadline).end_of_day) &&
+      application_form.phase == 'apply_1' &&
+      !application_form.successful?
   end
 
-  def self.show_apply_2_deadline_banner?
-    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_2_deadline).end_of_day)
+  def self.show_apply_2_deadline_banner?(application_form)
+    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_2_deadline).end_of_day) &&
+      (application_form.phase == 'apply_2' || application_form.phase == 'apply_1' && application_form.ended_without_success?)
   end
 
   def self.apply_1_deadline(year = current_year)
