@@ -26,7 +26,6 @@ prometheus_xml = <<PROMETHEUS_LISTENER_CONFIG
             <collectionProp name="collector.labels">
               <stringProp name="102727412">label</stringProp>
               <stringProp name="3059181">code</stringProp>
-              <stringProp name="102727412">label</stringProp>
               <stringProp name="96801">app</stringProp>
               <stringProp name="96802">guid</stringProp>
               <stringProp name="96803">exported_instance</stringProp>
