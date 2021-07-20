@@ -142,20 +142,6 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
-          show_deadline_banner: 2.days.from_now.to_date,
-          apply_1_deadline: 1.day.from_now.to_date,
-          apply_2_deadline: 3.days.from_now.to_date,
-          find_closes: 4.days.from_now.to_date,
-        },
-        next_year => {
-          find_opens: 6.days.from_now.to_date,
-          apply_opens: 7.days.from_now.to_date,
-        },
-      },
-      today_is_after_the_deadline_banners_should_be_displayed: {
-        current_year => {
-          find_opens: 7.days.ago.to_date,
-          apply_opens: 6.days.ago.to_date,
           show_deadline_banner: 1.day.ago.to_date,
           apply_1_deadline: 1.day.from_now.to_date,
           apply_2_deadline: 2.days.from_now.to_date,
