@@ -19,9 +19,11 @@ end
 Yabeda.configure do
   group :apply_db do
     gauge :application_choices,  comment: "Number of application choices in database"
+    gauge :candidates,  comment: "Number of candidates in database"
   end
 
   collect do
     apply_db.application_choices.set({}, ApplicationChoice.count)
+    apply_db.candidates.set({}, Candidate.count)
   end
 end
