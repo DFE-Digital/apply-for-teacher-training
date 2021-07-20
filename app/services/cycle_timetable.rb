@@ -265,7 +265,11 @@ class CycleTimetable
   end
 
   def self.can_submit?(application_form)
-    current_cycle?(application_form)
+    current_cycle?(application_form) && !before_apply_opens?
+  end
+
+  def self.before_apply_opens?
+    Time.zone.now.to_date < date(:apply_opens)
   end
 
   def self.before_find_reopens?
