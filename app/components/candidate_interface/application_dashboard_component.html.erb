@@ -1,7 +1,3 @@
-<% if @application_form.ended_without_success? %>
-  <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
-<% end %>
-
 <h1 class="govuk-heading-xl"><%= title %></h1>
 
 <div class="govuk-grid-row">
@@ -9,6 +5,7 @@
     <%= render(CandidateInterface::ApplicationDashboardGuidanceComponent.new(application_form: @application_form)) %>
     <% if @application_form.ended_without_success? %>
       <%= render CandidateInterface::ApplyAgainCallToActionComponent.new(application_form: @application_form) %>
+      <%= render CandidateInterface::CarryOverCallToActionComponent.new(application_form: @application_form) %>
     <% elsif offers_received_and_all_providers_responded? %>
       <%= render CandidateInterface::OffersCallToActionComponent.new(application_form: @application_form) %>
     <% end %>
