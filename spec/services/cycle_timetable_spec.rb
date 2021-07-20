@@ -294,5 +294,32 @@ RSpec.describe CycleTimetable do
         expect(described_class.cycle_year_range(2022)).to eq '2022 to 2023'
       end
     end
+  end 
+
+  describe 'cycle switcher' do
+    it 'correctly sets can_add_course_choice? and can_submit? between cycles' do
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_mid_cycle)
+
+      application_form = create(:application_form, phase: 'apply_1')
+
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_1_deadline_passed)
+
+      new_application = CarryOverApplication.new(application_form).call
+
+      expect(described_class.can_add_course_choice?(new_application)).to be false
+      expect(described_class.can_submit?(new_application)).to be false
+
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_find_opens)
+
+      expect(described_class.can_add_course_choice?(new_application)).to be_truthy
+      expect(described_class.can_submit?(new_application)).to be false
+
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_opens)
+
+      expect(described_class.can_add_course_choice?(new_application)).to be_truthy
+      expect(described_class.can_submit?(new_application)).to be true
+    ensure
+      SiteSetting.set(name: 'cycle_schedule', value: nil)
+    end
   end
 end
