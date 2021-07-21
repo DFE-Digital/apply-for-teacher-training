@@ -217,7 +217,7 @@ en:
       export_application_data: Export data
       notifications: Email notifications
     start_apply_again: Do you want to apply again?
-    start_carry_over: Do you want to continue applying?
+    start_carry_over: Continue your application
     start_carry_over_between_cycles: You can apply again
     start_carry_over_between_cycles_unsubmitted: You did not submit your application in time
     pick_choice_to_replace: Some of your choices are not available anymore

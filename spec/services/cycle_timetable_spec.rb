@@ -240,4 +240,44 @@ RSpec.describe CycleTimetable do
       end
     end
   end
+
+  describe 'apply_1_deadline_has_passed?' do
+    context 'it is before the apply 1 deadline' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_opens) do
+          application_form = build(:application_form)
+          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(false)
+        end
+      end
+    end
+
+    context 'it is after the apply 1 deadline' do
+      it 'returns true' do
+        Timecop.travel(CycleTimetable.apply_2_deadline) do
+          application_form = build(:application_form)
+          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(true)
+        end
+      end
+    end
+  end
+
+  describe 'apply_2_deadline_has_passed?' do
+    context 'it is before the apply 2 deadline' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_opens) do
+          application_form = build(:application_form)
+          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(false)
+        end
+      end
+    end
+
+    context 'it is after the apply 1 deadline' do
+      it 'returns true' do
+        Timecop.travel(CycleTimetable.find_closes) do
+          application_form = build(:application_form)
+          expect(described_class.apply_1_deadline_has_passed?(application_form)).to be(true)
+        end
+      end
+    end
+  end
 end

@@ -207,12 +207,16 @@ class ApplicationForm < ApplicationRecord
     apply_2?
   end
 
-  def must_be_carried_over?
-    if ended_without_success?
-      recruitment_cycle_year < RecruitmentCycle.current_year || CycleTimetable.between_cycles_apply_2?
-    elsif !submitted?
-      recruitment_cycle_year < RecruitmentCycle.current_year && !CycleTimetable.between_cycles_apply_1?
-    end
+  def carry_over?
+    previous_recruitment_cycle? && (not_submitted_and_deadline_has_passed? || unsuccessful_and_apply_2_deadline_has_passed?)
+  end
+
+  def not_submitted_and_deadline_has_passed?
+    !submitted? && (apply_1? && CycleTimetable.apply_1_deadline_has_passed?(self) || apply_2? && CycleTimetable.apply_2_deadline_has_passed?(self))
+  end
+
+  def unsuccessful_and_apply_2_deadline_has_passed?
+    ended_without_success? && CycleTimetable.apply_2_deadline_has_passed?(self)
   end
 
   def choices_left_to_make
@@ -463,5 +467,9 @@ private
       self.support_reference = GenerateSupportReference.call
       break unless ApplicationForm.exists?(support_reference: support_reference)
     end
+  end
+
+  def previous_recruitment_cycle?
+    RecruitmentCycle.current_year >= recruitment_cycle_year
   end
 end

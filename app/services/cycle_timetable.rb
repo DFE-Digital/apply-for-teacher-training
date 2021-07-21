@@ -35,7 +35,7 @@ class CycleTimetable
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
 
-      now.between?(find_opens(year), find_opens(year + 1))
+      now.between?(CYCLE_DATES[year][:find_opens], CYCLE_DATES[year + 1][:find_opens])
     end
   end
 
@@ -114,7 +114,12 @@ class CycleTimetable
   end
 
   def self.date(name, year = current_year)
-    schedule = schedules(year).fetch(current_cycle_schedule)
+    schedule = if current_cycle_schedule == :real
+                 real_schedule_for(year)
+               else
+                 fake_schedules.fetch(current_cycle_schedule).fetch(year)
+               end
+
     schedule.fetch(name)
   end
 
@@ -125,70 +130,112 @@ class CycleTimetable
     SiteSetting.cycle_schedule
   end
 
-  def self.schedules(year = current_year)
+  def self.real_schedule_for(year = current_year)
+    CYCLE_DATES[year]
+  end
+
+  def self.fake_schedules
     {
-      real: CYCLE_DATES[year],
-
       today_is_mid_cycle: {
-        apply_1_deadline: 1.day.from_now.to_date,
-        apply_2_deadline: 3.days.from_now.to_date,
-        find_closes: 4.days.from_now.to_date,
-        find_opens: 5.days.from_now.to_date,
-        apply_opens: 6.days.from_now.to_date,
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 6.days.ago.to_date,
+          apply_1_deadline: 1.day.from_now.to_date,
+          apply_2_deadline: 3.days.from_now.to_date,
+          find_closes: 4.days.from_now.to_date,
+        },
+        next_year => {
+          find_opens: 6.days.from_now.to_date,
+          apply_opens: 7.days.from_now.to_date,
+        },
       },
-
       today_is_after_apply_1_deadline_passed: {
-        apply_1_deadline: 1.day.ago.to_date,
-        apply_2_deadline: 2.days.from_now.to_date,
-        find_closes: 3.days.from_now.to_date,
-        find_opens: 4.days.from_now.to_date,
-        apply_opens: 5.days.from_now.to_date,
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 6.days.ago.to_date,
+          apply_1_deadline: 1.day.ago.to_date,
+          apply_2_deadline: 2.days.from_now.to_date,
+          find_closes: 3.days.from_now.to_date,
+        },
+        next_year => {
+          find_opens: 6.days.from_now.to_date,
+          apply_opens: 7.days.from_now.to_date,
+        },
       },
 
       today_is_after_full_course_deadline_passed: {
-        apply_1_deadline: 2.days.ago.to_date,
-        apply_2_deadline: 1.day.from_now.to_date,
-        find_closes: 2.days.from_now.to_date,
-        find_opens: 3.days.from_now.to_date,
-        apply_opens: 4.days.from_now.to_date,
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 6.days.ago.to_date,
+          apply_1_deadline: 2.days.ago.to_date,
+          apply_2_deadline: 1.day.from_now.to_date,
+          find_closes: 2.days.from_now.to_date,
+        },
       },
-
       today_is_after_apply_2_deadline_passed: {
-        apply_1_deadline: 3.days.ago.to_date,
-        apply_2_deadline: 1.day.ago.to_date,
-        find_closes: 1.day.from_now.to_date,
-        find_opens: 2.days.from_now.to_date,
-        apply_opens: 3.days.from_now.to_date,
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 6.days.ago.to_date,
+          apply_1_deadline: 3.days.ago.to_date,
+          apply_2_deadline: 1.day.ago.to_date,
+          find_closes: 1.day.from_now.to_date,
+        },
+        next_year => {
+          find_opens: 6.days.from_now.to_date,
+          apply_opens: 7.days.from_now.to_date,
+        },
       },
 
       today_is_after_find_closes: {
-        apply_1_deadline: 4.days.ago.to_date,
-        apply_2_deadline: 2.days.ago.to_date,
-        find_closes: 1.day.ago.to_date,
-        find_opens: 1.day.from_now.to_date,
-        apply_opens: 2.days.from_now.to_date,
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 6.days.ago.to_date,
+          apply_1_deadline: 4.days.ago.to_date,
+          apply_2_deadline: 2.days.ago.to_date,
+          find_closes: 1.day.ago.to_date,
+        },
+        next_year => {
+          find_opens: 6.days.from_now.to_date,
+          apply_opens: 7.days.from_now.to_date,
+        },
       },
 
       today_is_after_find_opens: {
-        apply_1_deadline: 5.days.ago.to_date,
-        apply_2_deadline: 3.days.ago.to_date,
-        find_closes: 2.days.ago.to_date,
-        find_opens: 1.day.ago.to_date,
-        apply_opens: 1.day.from_now.to_date,
+        current_year => {
+          find_opens: 7.days.ago.to_date,
+          apply_opens: 3.days.from_now.to_date,
+          apply_1_deadline: 5.days.from_now.to_date,
+          apply_2_deadline: 6.days.from_now.to_date,
+          find_closes: 7.days.from_now.to_date,
+        },
+        next_year => {
+          find_opens: 6.days.from_now.to_date,
+          apply_opens: 7.days.from_now.to_date,
+        },
       },
 
       today_is_after_apply_opens: {
-        apply_1_deadline: 6.days.ago.to_date,
-        apply_2_deadline: 4.days.ago.to_date,
-        find_closes: 3.days.ago.to_date,
-        find_opens: 2.days.ago.to_date,
-        apply_opens: 1.day.ago.to_date,
+        current_year => {
+          find_opens: 8.days.ago.to_date,
+          apply_opens: 7.days.ago.to_date,
+          apply_1_deadline: 4.days.ago.to_date,
+          apply_2_deadline: 5.days.ago.to_date,
+          find_closes: 4.days.ago.to_date,
+        },
+        next_year => {
+          find_opens: 2.days.ago.to_date,
+          apply_opens: 1.day.ago.to_date,
+        },
       },
     }
   end
 
   def self.current_cycle?(application_form)
-    application_form.recruitment_cycle_year == current_year
+    application_form.recruitment_cycle_year == if current_cycle_schedule == :today_is_after_apply_opens || current_cycle_schedule == :today_is_after_find_opens
+                                                 current_year + 1
+                                               else
+                                                 current_year
+                                               end
   end
 
   def self.can_add_course_choice?(application_form)
@@ -221,7 +268,19 @@ class CycleTimetable
     end
   end
 
-  private_class_method :last_recruitment_cycle_year?, :currently_mid_cycle?
+  def self.apply_1_deadline_has_passed?(application_form)
+    recruitment_cycle_year = application_form.recruitment_cycle_year
+
+    Time.zone.now.to_date > apply_1_deadline(recruitment_cycle_year).beginning_of_day
+  end
+
+  def self.apply_2_deadline_has_passed?(application_form)
+    recruitment_cycle_year = application_form.recruitment_cycle_year
+
+    Time.zone.now.to_date > apply_2_deadline(recruitment_cycle_year).beginning_of_day
+  end
+
+  private_class_method :last_recruitment_cycle_year?
 
   def self.need_to_send_deadline_reminder?
     return :apply_1 if Time.zone.now.to_date == apply_1_deadline_first_reminder || Time.zone.now.to_date == apply_1_deadline_second_reminder

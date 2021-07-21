@@ -596,4 +596,81 @@ RSpec.describe ApplicationForm do
       expect(application_form.all_provider_decisions_made?).to eq(true)
     end
   end
+
+  describe '#not_submitted_and_apply_1_deadline_has_passed?' do
+    context 'application has been submitted' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_opens + 1.week) do
+          application_form = build(:application_form, submitted_at: Time.zone.now - 1.day)
+
+          expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
+        end
+      end
+    end
+
+    context 'phase 1 application has not been submitted and apply 1 deadline has passed' do
+      it 'returns true' do
+        Timecop.travel(CycleTimetable.apply_1_deadline) do
+          application_form = build(:application_form, phase: 'apply_1')
+
+          expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
+        end
+      end
+    end
+
+    context 'phase 2 application has not been submitted and apply 1 deadline has passed' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_1_deadline) do
+          application_form = build(:application_form, phase: 'apply_2')
+
+          expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
+        end
+      end
+    end
+
+    context 'phase 2 application has not been submitted and apply 2 deadline has passed' do
+      it 'returns true' do
+        Timecop.travel(CycleTimetable.apply_2_deadline) do
+          application_form = build(:application_form, phase: 'apply_2')
+
+          expect(application_form.not_submitted_and_deadline_has_passed?).to be(true)
+        end
+      end
+    end
+  end
+
+  describe '#unsucessful_and_apply_2_deadline_has_passed?' do
+    context 'application ended with success' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_2_deadline) do
+          application_choice = build(:application_choice, :with_offer)
+          application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
+
+          expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(false)
+        end
+      end
+    end
+
+    context 'phase 2 application ended without success and apply 2 deadline has passed' do
+      it 'returns true' do
+        Timecop.travel(CycleTimetable.apply_2_deadline) do
+          application_choice = build(:application_choice, :with_rejection)
+          application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
+
+          expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(true)
+        end
+      end
+    end
+
+    context 'phase 2 application ended without success and apply 2 deadline has not passed' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_1_deadline) do
+          application_choice = build(:application_choice, :with_rejection)
+          application_form = build(:application_form, phase: 'apply_2', application_choices: [application_choice])
+
+          expect(application_form.unsuccessful_and_apply_2_deadline_has_passed?).to be(false)
+        end
+      end
+    end
+  end
 end

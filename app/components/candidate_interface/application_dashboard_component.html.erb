@@ -1,15 +1,11 @@
-<% if @application_form.ended_without_success? %>
-  <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
-<% end %>
-
 <h1 class="govuk-heading-xl"><%= title %></h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(CandidateInterface::ApplicationDashboardGuidanceComponent.new(application_form: @application_form)) %>
-    <% if @application_form.ended_without_success? %>
-      <%= render CandidateInterface::ApplyAgainCallToActionComponent.new(application_form: @application_form) %>
-    <% elsif offers_received_and_all_providers_responded? %>
+    <%= render CandidateInterface::CarryOverInsetTextComponent.new(application_form: @application_form) %>
+    <%= render CandidateInterface::ApplyAgainCallToActionComponent.new(application_form: @application_form) %>
+    <% if offers_received_and_all_providers_responded? %>
       <%= render CandidateInterface::OffersCallToActionComponent.new(application_form: @application_form) %>
     <% end %>
     <%= render(CandidateInterface::ApplicationDashboardCourseChoicesComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true, render_link_to_find_when_rejected_on_qualifications: true, display_accepted_application_choices: true)) %>

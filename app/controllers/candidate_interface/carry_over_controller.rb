@@ -3,23 +3,20 @@ module CandidateInterface
     before_action :redirect_if_already_carried_over
 
     def start
-      if CycleTimetable.between_cycles_apply_2?
-        render current_application.submitted? ? :start_between_cycles : :start_between_cycles_unsubmitted
-      else
-        render :start
-      end
+      @application_form = current_application
+      render 'candidate_interface/carry_over/not_submitted/start'
     end
 
     def create
       CarryOverApplication.new(current_application).call
       flash[:success] = 'Your application is ready for editing'
-      redirect_to candidate_interface_before_you_start_path
+      redirect_to candidate_interface_application_form_path
     end
 
   private
 
     def redirect_if_already_carried_over
-      return if current_application.must_be_carried_over?
+      return if current_application.carry_over?
 
       redirect_to candidate_interface_application_form_path
     end
