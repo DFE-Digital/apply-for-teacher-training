@@ -12,6 +12,7 @@ class CycleTimetable
     2020 => {
       find_opens: Date.new(2019, 10, 6),
       apply_opens: Date.new(2019, 10, 13),
+      show_deadline_banner: Date.new(2020, 8, 1),
       apply_1_deadline: Date.new(2020, 8, 24),
       apply_2_deadline: Date.new(2020, 9, 18),
       find_closes: Date.new(2020, 10, 3),
@@ -19,6 +20,7 @@ class CycleTimetable
     2021 => {
       find_opens: Date.new(2020, 10, 6),
       apply_opens: Date.new(2020, 10, 13),
+      show_deadline_banner: Date.new(2021, 8, 1),
       apply_1_deadline: Date.new(2021, 9, 7),
       apply_2_deadline: Date.new(2021, 9, 20),
       find_closes: Date.new(2021, 10, 3),
@@ -47,12 +49,15 @@ class CycleTimetable
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
 
-  def self.show_apply_1_deadline_banner?
-    Time.zone.now < date(:apply_1_deadline).end_of_day
+  def self.show_apply_1_deadline_banner?(application_form)
+    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_1_deadline).end_of_day) &&
+      application_form.phase == 'apply_1' &&
+      !application_form.successful?
   end
 
-  def self.show_apply_2_deadline_banner?
-    Time.zone.now < date(:apply_2_deadline).end_of_day
+  def self.show_apply_2_deadline_banner?(application_form)
+    Time.zone.now.between?(date(:show_deadline_banner), date(:apply_2_deadline).end_of_day) &&
+      (application_form.phase == 'apply_2' || application_form.phase == 'apply_1' && application_form.ended_without_success?)
   end
 
   def self.apply_1_deadline(year = current_year)
@@ -140,9 +145,10 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 1.day.ago.to_date,
           apply_1_deadline: 1.day.from_now.to_date,
-          apply_2_deadline: 3.days.from_now.to_date,
-          find_closes: 4.days.from_now.to_date,
+          apply_2_deadline: 2.days.from_now.to_date,
+          find_closes: 3.days.from_now.to_date,
         },
         next_year => {
           find_opens: 6.days.from_now.to_date,
@@ -153,6 +159,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 3.days.ago.to_date,
           apply_1_deadline: 1.day.ago.to_date,
           apply_2_deadline: 2.days.from_now.to_date,
           find_closes: 3.days.from_now.to_date,
@@ -162,20 +169,11 @@ class CycleTimetable
           apply_opens: 7.days.from_now.to_date,
         },
       },
-
-      today_is_after_full_course_deadline_passed: {
-        current_year => {
-          find_opens: 7.days.ago.to_date,
-          apply_opens: 6.days.ago.to_date,
-          apply_1_deadline: 2.days.ago.to_date,
-          apply_2_deadline: 1.day.from_now.to_date,
-          find_closes: 2.days.from_now.to_date,
-        },
-      },
       today_is_after_apply_2_deadline_passed: {
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 4.days.ago.to_date,
           apply_1_deadline: 3.days.ago.to_date,
           apply_2_deadline: 1.day.ago.to_date,
           find_closes: 1.day.from_now.to_date,
@@ -190,6 +188,7 @@ class CycleTimetable
         current_year => {
           find_opens: 7.days.ago.to_date,
           apply_opens: 6.days.ago.to_date,
+          show_deadline_banner: 5.days.ago.to_date,
           apply_1_deadline: 4.days.ago.to_date,
           apply_2_deadline: 2.days.ago.to_date,
           find_closes: 1.day.ago.to_date,
@@ -202,23 +201,25 @@ class CycleTimetable
 
       today_is_after_find_opens: {
         current_year => {
-          find_opens: 7.days.ago.to_date,
-          apply_opens: 3.days.from_now.to_date,
-          apply_1_deadline: 5.days.from_now.to_date,
-          apply_2_deadline: 6.days.from_now.to_date,
-          find_closes: 7.days.from_now.to_date,
+          find_opens: 9.days.ago.to_date,
+          apply_opens: 8.days.from_now.to_date,
+          show_deadline_banner: 7.days.ago.to_date,
+          apply_1_deadline: 6.days.ago.to_date,
+          apply_2_deadline: 5.days.ago.to_date,
+          find_closes: 4.days.ago.to_date,
         },
         next_year => {
-          find_opens: 6.days.from_now.to_date,
-          apply_opens: 7.days.from_now.to_date,
+          find_opens: 1.day.ago.to_date,
+          apply_opens: 2.days.from_now.to_date,
         },
       },
 
       today_is_after_apply_opens: {
         current_year => {
-          find_opens: 8.days.ago.to_date,
-          apply_opens: 7.days.ago.to_date,
-          apply_1_deadline: 4.days.ago.to_date,
+          find_opens: 9.days.ago.to_date,
+          apply_opens: 8.days.ago.to_date,
+          show_deadline_banner: 7.days.ago.to_date,
+          apply_1_deadline: 6.days.ago.to_date,
           apply_2_deadline: 5.days.ago.to_date,
           find_closes: 4.days.ago.to_date,
         },
@@ -230,7 +231,7 @@ class CycleTimetable
     }
   end
 
-  def self.current_cycle?(application_form)
+  def self.valid_cycle?(application_form)
     application_form.recruitment_cycle_year == if current_cycle_schedule == :today_is_after_apply_opens || current_cycle_schedule == :today_is_after_find_opens
                                                  current_year + 1
                                                else
@@ -239,11 +240,15 @@ class CycleTimetable
   end
 
   def self.can_add_course_choice?(application_form)
-    currently_mid_cycle?(application_form) && current_cycle?(application_form)
+    valid_cycle?(application_form) && currently_mid_cycle?(application_form)
   end
 
   def self.can_submit?(application_form)
-    current_cycle?(application_form)
+    valid_cycle?(application_form) && !before_apply_opens?
+  end
+
+  def self.before_apply_opens?
+    Time.zone.now.to_date < date(:apply_opens)
   end
 
   def self.before_find_reopens?
@@ -261,11 +266,8 @@ class CycleTimetable
   end
 
   def self.currently_mid_cycle?(application_form)
-    if application_form.apply_1?
-      Time.zone.now.between?(find_opens, apply_1_deadline)
-    else
-      Time.zone.now.between?(find_opens, apply_2_deadline)
-    end
+    application_form.apply_1? && !Time.zone.now.between?(apply_1_deadline, find_reopens) ||
+      application_form.apply_2? && !Time.zone.now.between?(apply_2_deadline, find_reopens)
   end
 
   def self.apply_1_deadline_has_passed?(application_form)

@@ -1,47 +1,42 @@
 class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
   attr_accessor :phase, :flash_empty
 
-  def initialize(phase:, flash_empty:)
-    @phase = phase
+  def initialize(application_form:, flash_empty:)
+    @application_form = application_form
     @flash_empty = flash_empty
   end
 
-  def deadline
-    apply_1? ? apply_1_deadline : apply_2_deadline
+  def render?
+    flash_empty && render_deadline_banner?
   end
 
-  def render?
-    flash_empty &&
-      (show_apply_1_deadline_banner? || show_apply_2_deadline_banner?)
+  def deadline
+    if !CycleTimetable.show_apply_2_deadline_banner?(@application_form)
+      apply_1_deadline
+    else
+      apply_2_deadline
+    end
+  end
+
+  def academic_year
+    "#{application_form_recruitment_cycle_year} to #{application_form_recruitment_cycle_year + 1}"
   end
 
 private
 
-  def show_apply_1_deadline_banner?
-    apply_1? &&
-      CycleTimetable.show_apply_1_deadline_banner? &&
-      FeatureFlag.active?(:deadline_notices)
-  end
-
-  def show_apply_2_deadline_banner?
-    apply_2? &&
-      CycleTimetable.show_apply_2_deadline_banner? &&
-      FeatureFlag.active?(:deadline_notices)
-  end
-
-  def apply_1?
-    phase == 'apply_1'
-  end
-
-  def apply_2?
-    phase == 'apply_2'
+  def render_deadline_banner?
+    CycleTimetable.show_apply_1_deadline_banner?(@application_form) || CycleTimetable.show_apply_2_deadline_banner?(@application_form)
   end
 
   def apply_1_deadline
-    CycleTimetable.date(:apply_1_deadline).to_s(:day_and_month)
+    CycleTimetable.date(:apply_1_deadline).to_s(:govuk_date)
   end
 
   def apply_2_deadline
-    CycleTimetable.date(:apply_2_deadline).to_s(:day_and_month)
+    CycleTimetable.date(:apply_2_deadline).to_s(:govuk_date)
+  end
+
+  def application_form_recruitment_cycle_year
+    @application_form.recruitment_cycle_year
   end
 end

@@ -11,7 +11,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_before_you_start_page
-    and_i_should_see_an_account_created_flash_message
     when_i_click_choose_a_course
     then_i_should_see_the_course_choices_choose_page
 
@@ -21,11 +20,9 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_before_you_start_page
-    and_i_should_not_see_an_account_created_flash_message
 
     when_i_click_on_go_to_my_application
     then_i_should_see_the_application_page
-    and_i_should_not_see_an_account_created_flash_message
 
     when_i_amend_my_application
     when_i_sign_out
@@ -35,7 +32,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_application_page
-    and_i_should_not_see_an_account_created_flash_message
   end
 
   def given_the_pilot_is_open
@@ -68,10 +64,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     expect(page).to have_current_path(candidate_interface_before_you_start_path)
   end
 
-  def and_i_should_see_an_account_created_flash_message
-    expect(page).to have_content(t('apply_from_find.account_created_message'))
-  end
-
   def when_i_click_choose_a_course
     click_link 'Choose a course'
   end
@@ -90,10 +82,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def then_i_should_see_the_application_page
     expect(page).to have_current_path(candidate_interface_application_form_path)
-  end
-
-  def and_i_should_not_see_an_account_created_flash_message
-    expect(page).not_to have_content(t('apply_from_find.account_created_message'))
   end
 
   def when_i_amend_my_application

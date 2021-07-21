@@ -40,13 +40,3 @@
   'Find reopens on' => CycleTimetable.find_reopens.to_s(:govuk_date),
   'Apply reopens on' => CycleTimetable.apply_reopens.to_s(:govuk_date),
 }) %>
-
-<h2 class="govuk-heading-m">Flags</h2>
-
-<%= render SummaryListComponent.new(rows: {
-  'Show Apply 1 deadline banner?' => boolean_to_word(CycleTimetable.show_apply_1_deadline_banner?),
-  'Show Apply 2 deadline banner?' => boolean_to_word(CycleTimetable.show_apply_2_deadline_banner?),
-  'Are we between cycles for Apply 1?' => boolean_to_word(CycleTimetable.between_cycles_apply_1?),
-  'Are we between cycles for Apply 2?' => boolean_to_word(CycleTimetable.between_cycles_apply_2?),
-  'Is find down?' => boolean_to_word(CycleTimetable.find_down?),
-}) %>

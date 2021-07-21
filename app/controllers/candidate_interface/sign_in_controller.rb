@@ -47,8 +47,7 @@ module CandidateInterface
 
       if authentication_token&.still_valid?
         candidate = authentication_token.user
-        first_sign_in = candidate.last_signed_in_at.nil?
-        flash[:success] = t('apply_from_find.account_created_message') if first_sign_in
+        candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)
         set_user_context(candidate.id)
         authentication_token.use!

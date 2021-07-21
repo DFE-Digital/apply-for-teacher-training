@@ -13,7 +13,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_course_selection_page
-    and_i_should_see_an_account_created_flash_message
 
     when_i_say_yes
     then_i_should_see_the_courses_review_page
@@ -25,7 +24,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_multi_site_course_selection_page
-    and_i_should_see_an_account_created_flash_message
 
     when_i_say_yes
     then_i_should_see_the_course_choices_site_page
@@ -138,10 +136,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
         @course_with_multiple_sites.study_mode,
       ),
     )
-  end
-
-  def and_i_should_see_an_account_created_flash_message
-    expect(page).to have_content(t('apply_from_find.account_created_message'))
   end
 
   def and_my_last_signed_in_at_should_be_now

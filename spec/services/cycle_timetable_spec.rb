@@ -36,29 +36,63 @@ RSpec.describe CycleTimetable do
   end
 
   describe '.show_apply_1_deadline_banner?' do
-    it 'returns true before the configured date' do
+    it 'returns true before the configured date and it is an unsuccessful apply_1 application' do
+      application_form = build(:application_form, phase: 'apply_1')
+
       Timecop.travel(one_hour_before_apply1_deadline) do
-        expect(CycleTimetable.show_apply_1_deadline_banner?).to be true
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be true
+      end
+    end
+
+    it 'returns false if it is a apply_2 application' do
+      application_form = build(:application_form, phase: 'apply_2')
+
+      Timecop.travel(one_hour_before_apply1_deadline) do
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be false
+      end
+    end
+
+    it 'returns false if it is a successful application' do
+      application_choice = build(:application_choice, :with_offer)
+      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
+
+      Timecop.travel(one_hour_before_apply1_deadline) do
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be false
       end
     end
 
     it 'returns false after the configured date' do
+      application_form = build(:application_form, phase: 'apply_1')
+
       Timecop.travel(one_hour_after_apply1_deadline) do
-        expect(CycleTimetable.show_apply_1_deadline_banner?).to be false
+        expect(CycleTimetable.show_apply_1_deadline_banner?(application_form)).to be false
       end
     end
   end
 
   describe '.show_apply_2_deadline_banner?' do
-    it 'returns true before the configured date' do
+    it 'returns true before the configured date and it is a phase 2 application' do
+      application_form = build(:application_form, phase: 'apply_2')
+
       Timecop.travel(one_hour_before_apply2_deadline) do
-        expect(CycleTimetable.show_apply_2_deadline_banner?).to be true
+        expect(CycleTimetable.show_apply_2_deadline_banner?(application_form)).to be true
+      end
+    end
+
+    it 'returns false if it is a successful apply_1 application' do
+      application_choice = build(:application_choice, :with_offer)
+      application_form = build(:application_form, phase: 'apply_1', application_choices: [application_choice])
+
+      Timecop.travel(one_hour_before_apply2_deadline) do
+        expect(CycleTimetable.show_apply_2_deadline_banner?(application_form)).to be false
       end
     end
 
     it 'returns false after the configured date' do
+      unsuccessful_application_form = build(:application_form, phase: 'apply_2', application_choices: [build(:application_choice, :with_rejection)])
+
       Timecop.travel(one_hour_after_apply2_deadline) do
-        expect(CycleTimetable.show_apply_2_deadline_banner?).to be false
+        expect(CycleTimetable.show_apply_2_deadline_banner?(unsuccessful_application_form)).to be false
       end
     end
   end
@@ -123,20 +157,20 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.current_cycle?' do
+  describe '.valid_cycle?' do
     def create_application_for(recruitment_cycle_year)
       create :application_form, recruitment_cycle_year: recruitment_cycle_year
     end
 
     it 'returns true for an application for courses in the current cycle' do
       expect(
-        described_class.current_cycle?(create_application_for(RecruitmentCycle.current_year)),
+        described_class.valid_cycle?(create_application_for(RecruitmentCycle.current_year)),
       ).to be true
     end
 
     it 'returns false for an application for courses in the previous cycle' do
       expect(
-        described_class.current_cycle?(create_application_for(RecruitmentCycle.previous_year)),
+        described_class.valid_cycle?(create_application_for(RecruitmentCycle.previous_year)),
       ).to be false
     end
   end
@@ -188,7 +222,7 @@ RSpec.describe CycleTimetable do
       let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2020) }
 
       it 'returns false' do
-        Timecop.travel('2021-02-03') do
+        Timecop.travel(CycleTimetable.apply_opens) do
           expect(execute_service).to eq false
         end
       end
@@ -293,6 +327,33 @@ RSpec.describe CycleTimetable do
       it 'returns `year to year + 1`' do
         expect(described_class.cycle_year_range(2022)).to eq '2022 to 2023'
       end
+    end
+  end
+
+  describe 'cycle switcher' do
+    it 'correctly sets can_add_course_choice? and can_submit? between cycles' do
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_mid_cycle)
+
+      application_form = create(:application_form, phase: 'apply_1')
+
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_1_deadline_passed)
+
+      new_application = CarryOverApplication.new(application_form).call
+
+      expect(described_class.can_add_course_choice?(new_application)).to be false
+      expect(described_class.can_submit?(new_application)).to be false
+
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_find_opens)
+
+      expect(described_class.can_add_course_choice?(new_application)).to be_truthy
+      expect(described_class.can_submit?(new_application)).to be false
+
+      SiteSetting.set(name: 'cycle_schedule', value: :today_is_after_apply_opens)
+
+      expect(described_class.can_add_course_choice?(new_application)).to be_truthy
+      expect(described_class.can_submit?(new_application)).to be true
+    ensure
+      SiteSetting.set(name: 'cycle_schedule', value: nil)
     end
   end
 end
