@@ -40,9 +40,9 @@ RSpec.feature 'Unavailable choices' do
   end
 
   def then_i_can_see_a_summary_of_unavailable_choices
-    expect(page).to have_content('Applications to courses that are no longer available on Apply')
-    expect(page).to have_content('Courses removed from Apply (3)')
-    expect(page).to have_content('Courses removed from Find (1)')
+    expect(page).to have_content('Applications with unavailable choices')
+    expect(page).to have_content('Course removed from Apply (3)')
+    expect(page).to have_content('Course removed from Find (1)')
     expect(page).to have_content('Course has no vacancies (1)')
     expect(page).to have_content('Site no longer exists (1)')
   end

@@ -48,7 +48,7 @@ module SupportInterface
     def unavailable_choices_hidden_courses
       unavailable_choices_detail(
         :applications_to_hidden_courses,
-        'Applications to courses that have been removed from Find, but were open on Apply',
+        'Applications to courses removed from Find, but open on Apply',
       )
     end
 
