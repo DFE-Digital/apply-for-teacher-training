@@ -157,20 +157,20 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.current_cycle?' do
+  describe '.valid_cycle?' do
     def create_application_for(recruitment_cycle_year)
       create :application_form, recruitment_cycle_year: recruitment_cycle_year
     end
 
     it 'returns true for an application for courses in the current cycle' do
       expect(
-        described_class.current_cycle?(create_application_for(RecruitmentCycle.current_year)),
+        described_class.valid_cycle?(create_application_for(RecruitmentCycle.current_year)),
       ).to be true
     end
 
     it 'returns false for an application for courses in the previous cycle' do
       expect(
-        described_class.current_cycle?(create_application_for(RecruitmentCycle.previous_year)),
+        described_class.valid_cycle?(create_application_for(RecruitmentCycle.previous_year)),
       ).to be false
     end
   end
@@ -222,7 +222,7 @@ RSpec.describe CycleTimetable do
       let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2020) }
 
       it 'returns false' do
-        Timecop.travel('2021-02-03') do
+        Timecop.travel(CycleTimetable.apply_opens) do
           expect(execute_service).to eq false
         end
       end

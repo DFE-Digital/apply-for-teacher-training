@@ -241,7 +241,7 @@ class CycleTimetable
     }
   end
 
-  def self.current_cycle?(application_form)
+  def self.valid_cycle?(application_form)
     application_form.recruitment_cycle_year == if current_cycle_schedule == :today_is_after_apply_opens || current_cycle_schedule == :today_is_after_find_opens
                                                  current_year + 1
                                                else
@@ -250,11 +250,12 @@ class CycleTimetable
   end
 
   def self.can_add_course_choice?(application_form)
-    currently_mid_cycle?(application_form) && current_cycle?(application_form)
+    valid_cycle?(application_form) &&
+      (application_form.apply_1? && !Time.zone.now.between?(apply_1_deadline, find_reopens) || application_form.apply_2? && !Time.zone.now.between?(apply_2_deadline, find_reopens))
   end
 
   def self.can_submit?(application_form)
-    current_cycle?(application_form) && !before_apply_opens?
+    valid_cycle?(application_form) && !before_apply_opens?
   end
 
   def self.before_apply_opens?
