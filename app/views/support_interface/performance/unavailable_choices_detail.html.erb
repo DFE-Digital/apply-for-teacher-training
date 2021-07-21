@@ -3,10 +3,16 @@
 <% content_for :before_content do %>
   <%= breadcrumbs({
     Performance: support_interface_path,
-    'Applications with unavailable choices': support_interface_unavailable_choices_path,
     title => nil,
   }) %>
 <% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: "Courses removed from Apply (#{@monitor.applications_to_disabled_courses.count})", url: support_interface_unavailable_choices_disabled_courses_path },
+  { name: "Courses removed from Find (#{@monitor.applications_to_hidden_courses.count})", url: support_interface_unavailable_choices_hidden_courses_path },
+  { name: "Course has no vacancies (#{@monitor.applications_to_courses_with_sites_without_vacancies.count})", url: support_interface_unavailable_choices_without_vacancies_path },
+  { name: "Site no longer exists (#{@monitor.applications_to_removed_sites.count})", url: support_interface_unavailable_choices_removed_sites_path },
+]) %>
 
 <%= render SupportInterface::ApplicationsTableComponent.new(
   application_forms: @application_forms,
