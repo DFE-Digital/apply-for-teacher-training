@@ -169,17 +169,6 @@ class CycleTimetable
           apply_opens: 7.days.from_now.to_date,
         },
       },
-
-      today_is_after_full_course_deadline_passed: {
-        current_year => {
-          find_opens: 7.days.ago.to_date,
-          apply_opens: 6.days.ago.to_date,
-          show_deadline_banner: 4.days.ago.to_date,
-          apply_1_deadline: 2.days.ago.to_date,
-          apply_2_deadline: 1.day.from_now.to_date,
-          find_closes: 2.days.from_now.to_date,
-        },
-      },
       today_is_after_apply_2_deadline_passed: {
         current_year => {
           find_opens: 7.days.ago.to_date,
