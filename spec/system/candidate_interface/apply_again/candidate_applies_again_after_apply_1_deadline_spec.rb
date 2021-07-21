@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate can carry over unsuccessful application to a new recruitment cycle after the apply 2 deadline' do
+RSpec.describe "when a candidate's application is rejected before the apply 2 deadline" do
   include CycleTimetableHelper
 
   around do |example|
@@ -9,14 +9,14 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     end
   end
 
-  scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
+  scenario 'they can apply again' do
     given_i_am_signed_in
     and_i_have_an_application_with_a_rejection
 
     when_the_apply1_deadline_passes
     and_i_visit_my_application_complete_page
-    then_i_see_the_deadline_banner
-    and_i_see_the_carry_over_inset_text
+    then_i_should_see_the_apply_again_banner
+    and_i_should_see_the_deadline_banner
 
     when_i_click_apply_again
     then_i_can_see_application_details
@@ -50,12 +50,12 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     click_link 'Go to your application form'
   end
 
-  def then_i_see_the_deadline_banner
-    expect(page).to have_content 'The deadline for applying to courses starting in the 2020 to 2021 academic year is 6pm on 18 September 2020'
+  def then_i_should_see_the_apply_again_banner
+    expect(page).to have_content 'If now’s the right time, you can still apply for courses that start this academic year.'
   end
 
-  def and_i_see_the_carry_over_inset_text
-    expect(page).to have_content 'If now’s the right time, you can still apply for courses that start this academic year'
+  def and_i_should_see_the_deadline_banner
+    expect(page).to have_content 'The deadline for applying to courses starting in the 2020 to 2021 academic year is 6pm on 18 September 2020'
   end
 
   def when_i_click_apply_again
