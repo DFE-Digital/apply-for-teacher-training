@@ -3,10 +3,16 @@ require 'rails_helper'
 RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
+  let(:delay_by) { nil }
+
   describe '.call' do
     before do
-      allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_async).and_return(true)
-      described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call(run_in_background: true)
+      allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_in).and_return(true)
+      described_class.new(
+        provider_from_api: provider_from_api,
+        recruitment_cycle_year: stubbed_recruitment_cycle_year,
+        delay_by: delay_by,
+      ).call(run_in_background: true)
     end
 
     context 'ingesting a brand new provider' do
@@ -18,7 +24,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
       end
 
       it 'syncs the provider courses' do
-        expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_async).exactly(1).time
+        expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_in).exactly(1).time
       end
     end
 
@@ -37,10 +43,23 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
       end
 
       it 'calls the Sync Courses job with the correct parameters' do
-        expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_async).with(
+        expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_in).with(
+          nil,
           provider_from_api.id,
           stubbed_recruitment_cycle_year,
         ).exactly(1).time
+      end
+
+      context 'when delay set for running background job' do
+        let(:delay_by) { 2.minutes }
+
+        it 'calls the Sync Courses job with the correct delay time' do
+          expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_in).with(
+            delay_by,
+            provider_from_api.id,
+            stubbed_recruitment_cycle_year,
+          ).exactly(1).time
+        end
       end
     end
   end

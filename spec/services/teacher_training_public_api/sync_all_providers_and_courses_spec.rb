@@ -25,7 +25,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year)
+          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: 6.minutes)
           .and_return(sync_provider)
       end
 
@@ -47,7 +47,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-            .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year)
+            .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: nil)
             .and_return(sync_provider)
         stub_teacher_training_api_providers(
           recruitment_cycle_year: recruitment_cycle_year,

@@ -1,8 +1,9 @@
 module TeacherTrainingPublicAPI
   class SyncProvider
-    def initialize(provider_from_api:, recruitment_cycle_year:)
+    def initialize(provider_from_api:, recruitment_cycle_year:, delay_by: nil)
       @provider_from_api = provider_from_api
       @recruitment_cycle_year = recruitment_cycle_year
+      @delay_by = delay_by
     end
 
     def call(run_in_background: true)
@@ -13,7 +14,7 @@ module TeacherTrainingPublicAPI
 
     def sync_courses(run_in_background, provider)
       if run_in_background
-        TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
+        TeacherTrainingPublicAPI::SyncCourses.perform_in(@delay_by, provider.id, @recruitment_cycle_year)
       else
         TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
       end
