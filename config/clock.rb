@@ -49,5 +49,5 @@ class Clock
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
 
-  every(3.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false) }
+  every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false) }
 end
