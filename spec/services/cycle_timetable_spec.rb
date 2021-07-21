@@ -328,7 +328,7 @@ RSpec.describe CycleTimetable do
         expect(described_class.cycle_year_range(2022)).to eq '2022 to 2023'
       end
     end
-  end 
+  end
 
   describe 'cycle switcher' do
     it 'correctly sets can_add_course_choice? and can_submit? between cycles' do
