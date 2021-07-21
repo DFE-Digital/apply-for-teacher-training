@@ -216,15 +216,15 @@ class CycleTimetable
 
       today_is_after_apply_opens: {
         current_year => {
-          find_opens: 7.days.ago.to_date,
-          apply_opens: 6.days.ago.to_date,
-          apply_1_deadline: 4.days.from_now.to_date,
-          apply_2_deadline: 6.days.from_now.to_date,
-          find_closes: 7.days.from_now.to_date,
+          find_opens: 8.days.ago.to_date,
+          apply_opens: 7.days.ago.to_date,
+          apply_1_deadline: 4.days.ago.to_date,
+          apply_2_deadline: 5.days.ago.to_date,
+          find_closes: 4.days.ago.to_date,
         },
         next_year => {
-          find_opens: 6.days.from_now.to_date,
-          apply_opens: 7.days.from_now.to_date,
+          find_opens: 2.days.ago.to_date,
+          apply_opens: 1.day.ago.to_date,
         },
       },
     }
@@ -280,7 +280,7 @@ class CycleTimetable
     Time.zone.now.to_date > apply_2_deadline(recruitment_cycle_year).beginning_of_day
   end
 
-  private_class_method :last_recruitment_cycle_year?, :currently_mid_cycle?
+  private_class_method :last_recruitment_cycle_year?
 
   def self.need_to_send_deadline_reminder?
     return :apply_1 if Time.zone.now.to_date == apply_1_deadline_first_reminder || Time.zone.now.to_date == apply_1_deadline_second_reminder
