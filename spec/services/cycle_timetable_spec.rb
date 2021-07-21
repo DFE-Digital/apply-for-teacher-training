@@ -294,5 +294,5 @@ RSpec.describe CycleTimetable do
         expect(described_class.cycle_year_range(2022)).to eq '2022 to 2023'
       end
     end
-  end 
+  end
 end

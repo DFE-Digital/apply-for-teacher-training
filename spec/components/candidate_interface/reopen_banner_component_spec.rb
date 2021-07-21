@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
         )
 
         expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
       end
 
       it 'renders the banner for an Apply 2 app' do
@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
         )
 
         expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
         )
 
         expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
       end
 
       it 'renders the banner for an Apply 2 app' do
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
         )
 
         expect(result.text).to include('Applications for courses starting in the 2021 to 2022 academic year are closed')
-        expect(result.text).to include('Submit your application from 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
+        expect(result.text).to include('Submit your application from 9am on 12 October 2021 for courses starting in the 2022 to 2023 academic year.')
       end
     end
 
