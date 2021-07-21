@@ -1,5 +1,7 @@
 <h1 class="govuk-heading-xl"><%= title %></h1>
 
+<%= render(CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form, flash_empty: flash.empty?)) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(CandidateInterface::ApplicationDashboardGuidanceComponent.new(application_form: @application_form)) %>

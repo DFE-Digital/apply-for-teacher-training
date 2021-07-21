@@ -20,7 +20,7 @@ module CandidateInterface
     def render?
       application_form.ended_without_success? &&
         application_form.recruitment_cycle_year == RecruitmentCycle.current_year &&
-        CycleTimetable.currently_mid_cycle?(application_form)
+        Time.zone.now < CycleTimetable.apply_2_deadline
     end
 
   private
