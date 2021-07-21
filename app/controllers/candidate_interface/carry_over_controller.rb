@@ -9,7 +9,6 @@ module CandidateInterface
 
     def create
       CarryOverApplication.new(current_application).call
-      flash[:success] = 'Your application is ready for editing'
       redirect_to candidate_interface_application_form_path
     end
 
