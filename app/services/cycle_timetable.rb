@@ -229,6 +229,7 @@ class CycleTimetable
         current_year => {
           find_opens: 8.days.ago.to_date,
           apply_opens: 7.days.ago.to_date,
+          show_deadline_banner: 5.days.ago.to_date,
           apply_1_deadline: 4.days.ago.to_date,
           apply_2_deadline: 5.days.ago.to_date,
           find_closes: 4.days.ago.to_date,
