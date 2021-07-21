@@ -286,4 +286,8 @@ class CycleTimetable
     return :apply_1 if Time.zone.now.to_date == apply_1_deadline_first_reminder || Time.zone.now.to_date == apply_1_deadline_second_reminder
     return :apply_2 if Time.zone.now.to_date == apply_2_deadline_first_reminder || Time.zone.now.to_date == apply_2_deadline_second_reminder
   end
+
+  def self.cycle_year_range(year = current_year)
+    "#{year} to #{year + 1}"
+  end
 end
