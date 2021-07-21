@@ -251,8 +251,7 @@ class CycleTimetable
   end
 
   def self.can_add_course_choice?(application_form)
-    valid_cycle?(application_form) &&
-      (application_form.apply_1? && !Time.zone.now.between?(apply_1_deadline, find_reopens) || application_form.apply_2? && !Time.zone.now.between?(apply_2_deadline, find_reopens))
+    valid_cycle?(application_form) && currently_mid_cycle?(application_form)
   end
 
   def self.can_submit?(application_form)
@@ -278,11 +277,8 @@ class CycleTimetable
   end
 
   def self.currently_mid_cycle?(application_form)
-    if application_form.apply_1?
-      Time.zone.now.between?(find_opens, apply_1_deadline)
-    else
-      Time.zone.now.between?(find_opens, apply_2_deadline)
-    end
+    application_form.apply_1? && !Time.zone.now.between?(apply_1_deadline, find_reopens) ||
+      application_form.apply_2? && !Time.zone.now.between?(apply_2_deadline, find_reopens)
   end
 
   def self.apply_1_deadline_has_passed?(application_form)
