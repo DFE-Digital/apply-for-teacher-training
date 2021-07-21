@@ -21,7 +21,7 @@ RSpec.describe 'Sync from Teacher Training API' do
   end
 
   def given_there_is_a_full_time_course_on_the_teacher_training_api
-    @provider = create :provider, code: 'ABC', sync_courses: true
+    @provider = create :provider, code: 'ABC'
     stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                course_code: 'ABC1',
                                                course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],

@@ -4,9 +4,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
   describe '.call' do
-    context 'ingesting an existing provider configured to sync courses, sites and course_options' do
+    context 'ingesting an existing provider, sites and course_options' do
       let(:existing_provider) do
-        create(:provider, code: 'ABC', sync_courses: true, provider_type: 'scitt', region_code: 'south_west', postcode: 'SK2 6AA')
+        create(:provider, code: 'ABC', provider_type: 'scitt', region_code: 'south_west', postcode: 'SK2 6AA')
       end
 
       it 'correctly creates all the entities' do
@@ -321,7 +321,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
     end
 
     context 'ingesting a provider when it existed in the previous recruitment cycle' do
-      let(:existing_provider) { create(:provider, code: 'ABC', sync_courses: true) }
+      let(:existing_provider) { create(:provider, code: 'ABC') }
 
       before do
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',

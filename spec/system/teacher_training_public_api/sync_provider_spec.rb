@@ -29,6 +29,14 @@ RSpec.describe 'Sync provider', sidekiq: true do
       ],
       filter_option: { 'filter[updated_since]' => @updated_since },
     )
+    stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                               course_code: 'ABC1',
+                                               course_attributes: [{ accredited_body_code: 'ABC' }],
+                                               site_code: 'D')
+    stub_teacher_training_api_course_with_site(provider_code: 'DEF',
+                                               course_code: 'DEF1',
+                                               course_attributes: [{ accredited_body_code: 'DEF' }],
+                                               site_code: 'E')
   end
 
   def and_the_last_sync_was_two_hours_ago

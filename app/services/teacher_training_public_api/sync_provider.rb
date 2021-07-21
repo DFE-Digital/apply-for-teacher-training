@@ -1,44 +1,30 @@
 module TeacherTrainingPublicAPI
   class SyncProvider
-    def initialize(provider_from_api:, recruitment_cycle_year:)
+    def initialize(provider_from_api:, recruitment_cycle_year:, delay_by: nil)
       @provider_from_api = provider_from_api
       @recruitment_cycle_year = recruitment_cycle_year
+      @delay_by = delay_by
     end
 
-    def call(run_in_background: true, force_sync_courses: false)
-      @force_sync_courses = force_sync_courses
-
-      provider_attrs = if existing_provider
-                         provider_attrs_from(@provider_from_api)
-                       else
-                         provider_attrs_from(@provider_from_api).merge(
-                           sync_courses: force_sync_courses,
-                         )
-                       end
-
+    def call(run_in_background: true)
+      provider_attrs = provider_attrs_from(@provider_from_api)
       provider = create_or_update_provider(provider_attrs)
       sync_courses(run_in_background, provider)
     end
 
     def sync_courses(run_in_background, provider)
-      if sync_courses?
-        if run_in_background
-          TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
-        else
-          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
-        end
+      if run_in_background
+        TeacherTrainingPublicAPI::SyncCourses.perform_in(@delay_by, provider.id, @recruitment_cycle_year)
+      else
+        TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
       end
     end
 
   private
 
-    def sync_courses?
-      @force_sync_courses || existing_provider&.sync_courses
-    end
-
     def provider_attrs_from(provider_from_api)
       {
-        sync_courses: sync_courses?,
+        sync_courses: true,
         region_code: provider_from_api.region_code&.strip,
         postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,
