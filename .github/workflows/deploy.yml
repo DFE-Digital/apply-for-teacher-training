@@ -110,6 +110,15 @@ jobs:
           TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           TF_VAR_paas_docker_image: ${{ env.DOCKER_IMAGE }}
 
+      - name: Trigger Smoke Test
+        uses: benc-uk/workflow-dispatch@v1.1
+        with:
+          workflow: Smoke tests
+          repo: DFE-Digital/apply-for-teacher-training-tests
+          ref: refs/heads/main
+          token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          inputs: '{"environment": "${{ matrix.environment }}"}'
+
       - name: Start Clockwork container
         if: always()
         run: cf start apply-clock-${{ env.SPACE_SUFFIX || matrix.environment }}
