@@ -35,54 +35,48 @@ module SupportInterface
     def ucas_matches_dashboard; end
 
     def unavailable_choices
-      @monitor = SupportInterface::ApplicationMonitor.new
+      redirect_to support_interface_unavailable_choices_disabled_courses_path
     end
 
     def unavailable_choices_disabled_courses
-      monitor = SupportInterface::ApplicationMonitor.new
-      @application_forms = monitor
-        .applications_to_disabled_courses
-        .page(params[:page] || 1)
-        .per(30)
-      render(
-        :unavailable_choices_detail,
-        locals: { title: 'Applications to courses that are no longer available on Apply' },
+      unavailable_choices_detail(
+        :applications_to_disabled_courses,
+        'Applications to courses that are no longer available on Apply',
       )
     end
 
     def unavailable_choices_hidden_courses
-      monitor = SupportInterface::ApplicationMonitor.new
-      @application_forms = monitor
-        .applications_to_hidden_courses
-        .page(params[:page] || 1)
-        .per(30)
-      render(
-        :unavailable_choices_detail,
-        locals: { title: 'Applications to courses that have been removed from Find, but were open on Apply' },
+      unavailable_choices_detail(
+        :applications_to_hidden_courses,
+        'Applications to courses that have been removed from Find, but were open on Apply',
       )
     end
 
     def unavailable_choices_without_vacancies
-      monitor = SupportInterface::ApplicationMonitor.new
-      @application_forms = monitor
-        .applications_to_courses_with_sites_without_vacancies
-        .page(params[:page] || 1)
-        .per(30)
-      render(
-        :unavailable_choices_detail,
-        locals: { title: 'Applications to courses that no longer have vacancies' },
+      unavailable_choices_detail(
+        :applications_to_courses_with_sites_without_vacancies,
+        'Applications to courses that no longer have vacancies',
       )
     end
 
     def unavailable_choices_removed_sites
-      monitor = SupportInterface::ApplicationMonitor.new
-      @application_forms = monitor
-        .applications_to_hidden_courses
+      unavailable_choices_detail(
+        :applications_to_hidden_courses,
+        'Applications to sites that no longer exist',
+      )
+    end
+
+  private
+
+    def unavailable_choices_detail(category, title)
+      @monitor = SupportInterface::ApplicationMonitor.new
+      @application_forms = @monitor
+        .send(category)
         .page(params[:page] || 1)
         .per(30)
       render(
         :unavailable_choices_detail,
-        locals: { title: 'Applications to sites that no longer exist' },
+        locals: { title: title },
       )
     end
   end
