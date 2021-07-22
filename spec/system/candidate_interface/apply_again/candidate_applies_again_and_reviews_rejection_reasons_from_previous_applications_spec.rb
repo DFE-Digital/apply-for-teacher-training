@@ -1,9 +1,16 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate with unsuccessful application can review rejection reasons when applying again' do
+RSpec.feature 'Apply again' do
   include CandidateHelper
+  include CycleTimetableHelper
 
-  scenario 'Apply again and review rejection reasons' do
+  around do |example|
+    Timecop.freeze(mid_cycle) do
+      example.run
+    end
+  end
+
+  scenario 'Candidate applies again and reviews rejection reason from previous cycle' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application_with_rejection_reasons
     when_i_apply_again
