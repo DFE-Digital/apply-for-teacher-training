@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Manually carry over unsubmitted applications that do not have course choices' do
+RSpec.feature 'Carry over' do
   include CandidateHelper
   include CycleTimetableHelper
 
@@ -10,7 +10,7 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
     end
   end
 
-  scenario 'Carry over application when new cycle opens' do
+  scenario 'Candidate carries over unsubmitted application without course to new cycle' do
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_recruitment_cycle_ends

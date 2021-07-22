@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "when a candidate's application is rejected before the apply 2 deadline" do
+RSpec.describe 'Apply again' do
   include CycleTimetableHelper
 
   around do |example|
@@ -9,7 +9,7 @@ RSpec.describe "when a candidate's application is rejected before the apply 2 de
     end
   end
 
-  scenario 'they can apply again' do
+  scenario 'Candidate applies again after apply 1 deadline' do
     given_i_am_signed_in
     and_i_have_an_application_with_a_rejection
 

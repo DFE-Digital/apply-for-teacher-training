@@ -1,9 +1,16 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate with unsuccessful application' do
+RSpec.feature 'Apply again' do
   include CandidateHelper
+  include CycleTimetableHelper
 
-  scenario 'Can apply again' do
+  around do |example|
+    Timecop.freeze(mid_cycle) do
+      example.run
+    end
+  end
+
+  scenario 'Candidate applies again during mid cycle' do
     given_the_pilot_is_open
     and_i_am_signed_in_as_a_candidate
 
