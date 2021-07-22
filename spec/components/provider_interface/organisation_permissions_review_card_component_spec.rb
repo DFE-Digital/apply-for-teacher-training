@@ -17,6 +17,36 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
     )
   end
 
+  describe 'heading levels' do
+    let(:component_attrs) do
+      {
+        provider_user: provider_user,
+        provider_relationship_permission: provider_relationship_permission,
+      }
+    end
+
+    subject!(:render) { render_inline(described_class.new(component_attrs)) }
+
+    it 'renders headings as h2 by default' do
+      expect(page).to have_css('h2.app-summary-card__title')
+    end
+
+    context 'when heading level is specified' do
+      let(:component_attrs) do
+        {
+          provider_user: provider_user,
+          provider_relationship_permission: provider_relationship_permission,
+          summary_card_heading_level: 4,
+        }
+      end
+
+      it 'renders headings at the level specified' do
+        expect(page).to have_css('h4.app-summary-card__title')
+        expect(page).not_to have_css('h2.app-summary-card__title')
+      end
+    end
+  end
+
   describe 'change link' do
     context 'when the change path is not provided' do
       it 'does not render an action link' do
