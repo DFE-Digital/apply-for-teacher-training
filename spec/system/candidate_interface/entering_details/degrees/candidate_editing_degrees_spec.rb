@@ -54,6 +54,7 @@ RSpec.feature 'Editing a degree' do
            qualification_type: 'BSc',
            start_year: '2006',
            award_year: '2009',
+           predicted_grade: false,
            subject: 'Computer Science',
            institution_name: 'MIT',
            application_form: @application_form)
