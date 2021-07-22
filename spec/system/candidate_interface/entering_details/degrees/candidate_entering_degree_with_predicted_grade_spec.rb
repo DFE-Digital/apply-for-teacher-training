@@ -35,8 +35,13 @@ RSpec.feature 'Entering their degrees' do
     choose 'Third-class honours'
     click_on_save_and_continue
 
-    fill_in 'Year started course', with: 2017
-    fill_in 'Graduation year', with: 2020
+    fill_in 'Year started course', with: RecruitmentCycle.previous_year - 3
+    fill_in 'Graduation year', with: RecruitmentCycle.previous_year
+    click_on_save_and_continue
+    expect(page).to have_content('Enter a year that is in the future')
+
+    fill_in 'Year started course', with: RecruitmentCycle.current_year - 3
+    fill_in 'Graduation year', with: RecruitmentCycle.current_year
     click_on_save_and_continue
   end
 
