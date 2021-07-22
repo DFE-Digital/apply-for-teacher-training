@@ -1,19 +1,18 @@
 require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
+WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 
 def url(path)
   BASEURL + path
-end
-
-def think(milliseconds = 500)
-  think_time milliseconds
 end
 
 # 975 concurrent users, 15 minute run time
 test do
   cookies clear_each_iteration: true
   view_results_tree
+
+  random_timer 100, 900 * WAIT_FACTOR
   thread_count = 975
 
   threads count: thread_count, continue_forever: true, duration: 900 do
@@ -21,8 +20,6 @@ test do
     visit name: 'Account page', url: url('/candidate/account') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
-
-    think
 
     submit(
       'DO_MULTIPART_POST': 'true',
@@ -33,13 +30,9 @@ test do
       }
     )
 
-    think
-
     visit name: 'Sign up page', url: url('/candidate/sign-up') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
-
-    think
 
     submit(
       'DO_MULTIPART_POST': 'true',
@@ -57,8 +50,6 @@ test do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
 
-    think
-
     #-> Sign in
     submit(
       'DO_MULTIPART_POST': 'true',
@@ -70,14 +61,10 @@ test do
       }
     )
 
-    think
-
     #-> Partially navigate through course choice flow
     visit name: 'Do you know which course?', url: url('/candidate/application/courses/choose') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
-
-    think
 
     submit(
       'DO_MULTIPART_POST': 'true',
@@ -89,25 +76,15 @@ test do
       }
     )
 
-    think
-
     visit name: 'Which training provider?', url: url('/candidate/application/courses/provider')
-
-    think
 
     #-> View several other sections of the form
     visit name: 'References', url: url('/candidate/application/references/start')
-    think
     visit name: 'Back to application', url: url('/candidate/application')
-    think
     visit name: 'GCSE English', url: url('/candidate/application/gcse/english')
-    think
     visit name: 'Back to application', url: url('/candidate/application')
-    think
     visit name: 'Work history', url: url('/candidate/application/restructured-work-history')
-    think
     visit name: 'Back to application', url: url('/candidate/application')
-    think
     visit name: 'Personal statement', url: url('/candidate/application/personal-statement')
   end
 end.jmx

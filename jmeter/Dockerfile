@@ -36,6 +36,8 @@ COPY plans/ plans/
 
 ENV JMETER_TARGET_BASEURL=
 ENV JMETER_TARGET_PLAN=
+ENV JMETER_WAIT_FACTOR=
+
 COPY add_prometheus_xml.rb ./
 COPY run.sh ./
 
