@@ -230,14 +230,12 @@ RSpec.describe PerformanceStatistics, type: :model do
     let!(:withdrawn_audit) { create(:withdrawn_at_candidates_request_audit, application_choice: withdrawn_choice) }
 
     it '#withdrawn_at_candidates_request_count returns a count of applications which have been declined or withdrawn at the candidates request' do
-      stats = described_class.new(2021)
-
+      stats = PerformanceStatistics.new(2021)
       expect(stats.withdrawn_at_candidates_request_count).to eq(2)
     end
 
     it '#withdrawn_by_candidate_count returns a count of applications which have been declined or withdrawn by the candidate' do
-      stats = described_class.new(2021)
-
+      stats = PerformanceStatistics.new(2021)
       expect(stats.withdrawn_by_candidate_count).to eq(1)
     end
   end
