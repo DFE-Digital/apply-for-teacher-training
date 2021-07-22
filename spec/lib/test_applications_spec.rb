@@ -189,4 +189,35 @@ RSpec.describe TestApplications do
     expect(choices.first.reload.updated_at).to be_within(1.second).of(Time.zone.now)
     expect(choices.first.audits.last.comment).to eq('This application was automatically generated')
   end
+
+  context 'with equality and diversity information' do
+    # TestApplications relies on the ApplicationForm factory trait :with_equality_and_diversity_data to generate
+    # equality_and_diversity attributes, we don't need to test a generated app here, just the factory code pairing logic.
+    let(:application_form) do
+      create(:application_form, :with_equality_and_diversity_data)
+    end
+
+    let(:equality_and_diversity) { application_form.equality_and_diversity }
+
+    it 'assigns the correct hesa code for sex' do
+      if equality_and_diversity['sex'] == 'Prefer not to say'
+        expect(equality_and_diversity['hesa_sex']).to be nil
+      else
+        expect(equality_and_diversity['hesa_sex']).to eq(Hesa::Sex.find(equality_and_diversity['sex'])['hesa_code'])
+      end
+    end
+
+    it 'assigns the correct hesa code for ethnicity' do
+      expect(equality_and_diversity['hesa_ethnicity']).to eq(Hesa::Ethnicity.find(equality_and_diversity['ethnic_background'], 2021)['hesa_code'])
+    end
+
+    it 'assigns the correct hesa codes for disabilities' do
+      if equality_and_diversity['disabilities'] == ['Prefer not to say']
+        expect(equality_and_diversity['hesa_disabilities']).to eq(%w[00])
+      else
+        expected = equality_and_diversity['disabilities'].map { |d| Hesa::Disability.find(d)['hesa_code'] }
+        expect(equality_and_diversity['hesa_disabilities']).to eq(expected)
+      end
+    end
+  end
 end
