@@ -1,0 +1,26 @@
+<% content_for :browser_title, title %>
+<% content_for :title, 'Applications with unavailable choices' %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    Performance: support_interface_path,
+    'Applications with unavailable choices': support_interface_unavailable_choices_path,
+    title => nil,
+  }) %>
+<% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: "Course removed from Apply (#{@monitor.applications_to_disabled_courses.count})", url: support_interface_unavailable_choices_disabled_courses_path },
+  { name: "Course removed from Find (#{@monitor.applications_to_hidden_courses.count})", url: support_interface_unavailable_choices_hidden_courses_path },
+  { name: "Course has no vacancies (#{@monitor.applications_to_courses_with_sites_without_vacancies.count})", url: support_interface_unavailable_choices_without_vacancies_path },
+  { name: "Site no longer exists (#{@monitor.applications_to_removed_sites.count})", url: support_interface_unavailable_choices_removed_sites_path },
+]) %>
+
+<h2 class="govuk-visually-hidden"><%= title %></h2>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(
+  application_forms: @application_forms,
+  row_heading_level: 3,
+) %>
+
+<%= render(PaginatorComponent.new(scope: @application_forms)) %>
