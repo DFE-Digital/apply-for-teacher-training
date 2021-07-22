@@ -187,6 +187,36 @@ class PerformanceStatistics
     [defaults, by_ratifier_type, by_training_provider_type].reduce(:merge)
   end
 
+  def withdrawn_at_candidates_request_count
+    audits_joins_sql = <<-SQL.squish
+      INNER JOIN audits ON audits.auditable_type = 'ApplicationChoice'
+      AND audits.auditable_id = application_choices.id
+      AND audits.user_type = 'ProviderUser'
+      AND audits.comment IN ('Declined on behalf of the candidate', 'Withdrawn on behalf of the candidate')
+    SQL
+
+    @withdrawn_at_candidates_request_count ||= begin
+      scope = ApplicationForm
+        .joins(:application_choices)
+        .joins(audits_joins_sql)
+        .where('application_choices.status': %w[declined withdrawn])
+        .distinct
+
+      scope = scope.where('application_forms.recruitment_cycle_year': year) if year.present?
+      scope.count
+    end
+  end
+
+  def withdrawn_by_candidate_count
+    scope = ApplicationForm
+      .joins(:application_choices)
+      .where('application_choices.status': %w[declined withdrawn])
+      .distinct
+
+    scope = scope.where('application_forms.recruitment_cycle_year': year) if year.present?
+    scope.count - withdrawn_at_candidates_request_count
+  end
+
 private
 
   def application_choices
