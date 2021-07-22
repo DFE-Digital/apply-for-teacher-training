@@ -7,7 +7,6 @@ def url(path)
   BASEURL + path
 end
 
-# 975 concurrent users, 15 minute run time
 test do
   cookies clear_each_iteration: true
   view_results_tree
@@ -16,7 +15,7 @@ test do
   thread_count = 975
   csv_data_set_config filename: 'jmeter-courses.csv'
 
-  threads count: thread_count, continue_forever: true, duration: 900 do
+  threads count: thread_count, continue_forever: true, duration: 3600 do
     #-> Sign up
     visit name: 'Account page', url: url('/candidate/account') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
