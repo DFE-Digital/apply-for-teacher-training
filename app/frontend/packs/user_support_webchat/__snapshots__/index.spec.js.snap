@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`userSupportWebchat should instantiate a user support webchat 1`] = `
+<div
+  id="test-container"
+>
+  
+          
+  <div
+    id="app-web-chat"
+  >
+    
+            
+    <span
+      class="app-web-chat__unavailable"
+    />
+    
+          
+    <span
+      class="moj-hidden"
+    >
+      <a
+        class="govuk-link govuk-footer__link app-web-chat__button"
+        href="#"
+      >
+        Speak to an adviser now (opens in new window)
+      </a>
+    </span>
+    <span
+      class="app-web-chat__offline moj-hidden"
+    >
+      Available Monday to Friday, 10am to midday (except public holidays).
+    </span>
+  </div>
+  
+          
+  <div
+    id="launcher"
+  />
+  
+        
+</div>
+`;

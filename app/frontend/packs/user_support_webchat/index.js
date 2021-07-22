@@ -48,6 +48,7 @@ UserSupportWebchat.prototype.addButtonListener = function () {
 UserSupportWebchat.prototype.addStatusChangeListener = function () {
   zE('webWidget:on', 'chat:status', function (status) {
     this.defaultContainer.classList.add('moj-hidden')
+    this.hideLauncher()
 
     if (status === 'online') {
       this.enableChat()
@@ -65,6 +66,14 @@ UserSupportWebchat.prototype.enableChat = function () {
 UserSupportWebchat.prototype.disableChat = function () {
   this.disabledContainer.classList.remove('moj-hidden')
   this.enabledContainer.classList.add('moj-hidden')
+}
+
+UserSupportWebchat.prototype.hideLauncher = function () {
+  this.launcher = document.getElementById('launcher')
+
+  if (this.launcher != null) {
+    this.launcher.classList.add('moj-hidden')
+  }
 }
 
 const userSupportWebchat = () => new UserSupportWebchat()
