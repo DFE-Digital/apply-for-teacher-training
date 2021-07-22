@@ -33,6 +33,7 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle install
 RUN mkdir plans
 COPY plans/ plans/
+COPY *.csv ./
 
 ENV JMETER_TARGET_BASEURL=
 ENV JMETER_TARGET_PLAN=
