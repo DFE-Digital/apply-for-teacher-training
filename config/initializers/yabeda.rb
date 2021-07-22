@@ -18,8 +18,8 @@ end
 # Custom metrics
 Yabeda.configure do
   group :apply_db do
-    gauge :application_choices,  comment: "Number of application choices in database"
-    gauge :candidates,  comment: "Number of candidates in database"
+    gauge :application_choices, comment: 'Number of application choices in database'
+    gauge :candidates, comment: 'Number of candidates in database'
   end
 
   collect do

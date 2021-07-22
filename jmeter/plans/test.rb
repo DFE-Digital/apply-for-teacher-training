@@ -1,16 +1,17 @@
 require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
+WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 
 test do
+  # Easiest way to adjust the load is adjusting this
+  random_timer 100, 1900 * WAIT_FACTOR
+
   threads count: 1, continue_forever: true, duration: 300 do
     visit name: 'Go to Manage', url: BASEURL + '/provider?jmeter=true'
-    think_time 1000, 1
   end
 
   threads count: 1, continue_forever: true, duration: 300 do
-    think_time 500, 1
     visit name: 'Go to Apply', url: BASEURL + '/candidate/account?jmeter=true'
-    think_time 500, 1
   end
 end.jmx

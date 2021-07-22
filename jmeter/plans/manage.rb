@@ -1,6 +1,7 @@
 require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
+WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 
 def log_in(user_id)
   visit name: 'Provider user signs in', url: BASEURL + '/provider' do
@@ -15,7 +16,7 @@ test do
   cookies clear_each_iteration: true
 
   # Easiest way to adjust the load is adjusting this
-  random_timer 1000, 300000
+  random_timer 1000, 300000 * WAIT_FACTOR
 
   # Expected Oct usage per hour: 50 users, 12 sessions/user, 5 minutes per session
   # Providers on average have 2-3 users, but re-using same user for each provider is ok

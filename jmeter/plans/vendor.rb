@@ -1,6 +1,7 @@
 require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
+WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 
 def set_headers(api_key)
   header [
@@ -12,7 +13,7 @@ end
 # Expected Oct usage per hour:
 #   71 SRS systems polling every hour for 90 days of data
 test do
-  random_timer 1000, 900000 # this is 4x that
+  random_timer 1000, 900000 * WAIT_FACTOR # this is 4x that
 
   # Section below must have 71 api keys, each belonging to a different provider
   %w[
