@@ -22,7 +22,7 @@ class CycleTimetable
       apply_opens: Time.zone.local(2020, 10, 13, 9),
       show_deadline_banner: Time.zone.local(2021, 8, 1, 9),
       apply_1_deadline: Time.zone.local(2021, 9, 7, 18),
-      apply_2_deadline: Time.zone.local(2021, 9, 20, 18),
+      apply_2_deadline: Time.zone.local(2021, 9, 21, 18),
       find_closes: Time.zone.local(2021, 10, 3),
     },
     2022 => {
