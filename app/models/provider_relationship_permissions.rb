@@ -34,8 +34,17 @@ private
   def at_least_one_active_permission_in_pair
     PERMISSIONS.each do |permission|
       if !send("training_provider_can_#{permission}") && !send("ratifying_provider_can_#{permission}")
-        errors.add(permission, "Select which organisations can #{permission.to_s.humanize.downcase}")
+        errors.add(permission, error_message_for_permission(permission))
       end
+    end
+  end
+
+  def error_message_for_permission(permission)
+    if FeatureFlag.active?(:accredited_provider_setting_permissions)
+      permission_description = I18n.t("provider_relationship_permissions.#{permission}.description")
+      "Select who can #{permission_description.downcase}"
+    else
+      "Select which organisations can #{permission.to_s.humanize.downcase}"
     end
   end
 end

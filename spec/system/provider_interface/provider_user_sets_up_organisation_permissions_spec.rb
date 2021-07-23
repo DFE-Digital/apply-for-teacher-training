@@ -113,7 +113,7 @@ RSpec.feature 'Setting up organisation permissions' do
   end
 
   def then_i_see_the_error_message
-    expect(page).to have_content('Select which organisations can make decisions')
+    expect(page).to have_content('Select who can make offers and reject applications')
   end
 
   def when_i_complete_the_permissions_details
