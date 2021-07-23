@@ -1,10 +1,11 @@
 module ProviderInterface
   class OrganisationPermissionsReviewCardComponent < ViewComponent::Base
-    attr_reader :presenter, :provider_relationship_permission, :change_path
+    attr_reader :presenter, :provider_relationship_permission, :summary_card_heading_level, :change_path
 
-    def initialize(provider_user:, provider_relationship_permission:, change_path: nil)
+    def initialize(provider_user:, provider_relationship_permission:, summary_card_heading_level: 2, change_path: nil)
       @provider_relationship_permission = provider_relationship_permission
       @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(provider_relationship_permission, provider_user)
+      @summary_card_heading_level = summary_card_heading_level
       @change_path = change_path
     end
 
