@@ -2,6 +2,7 @@ module ProviderInterface
   class OrganisationPermissionsSetupController < ProviderInterfaceController
     before_action :require_manage_organisations_permission!
     before_action :redirect_unless_permissions_to_setup
+    before_action :restart_if_wizard_store_empty, only: %i[edit update check]
 
     def index
       permission_setup_presenter = ProviderRelationshipPermissionSetupPresenter.new(
@@ -64,6 +65,14 @@ module ProviderInterface
 
     def redirect_unless_permissions_to_setup
       redirect_to provider_interface_applications_path if provider_relationship_permissions_needing_setup.blank?
+    end
+
+    def restart_if_wizard_store_empty
+      wizard_store = organisation_permissions_wizard_store.read
+      hash = wizard_store.present? ? JSON.parse(wizard_store) : {}
+      return if hash['relationship_ids'].present?
+
+      redirect_to provider_interface_organisation_permissions_setup_index_path
     end
 
     def provider_relationship_permissions_needing_setup
