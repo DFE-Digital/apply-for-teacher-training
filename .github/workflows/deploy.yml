@@ -117,7 +117,18 @@ jobs:
           repo: DFE-Digital/apply-for-teacher-training-tests
           ref: refs/heads/main
           token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          inputs: '{"environment": "${{ matrix.environment }}"}'
+          inputs: '{"environment": "${{ matrix.environment }}", "sha": "${{ github.event.inputs.sha }}"}'
+
+      - name: Wait for smoke test
+        id: wait_for_smoke_test
+        uses: vigneshmsft/wait-for-status-check-action@v0.1.0
+        with:
+          sha: ${{ github.event.inputs.sha }}
+          status-checks: smoke-test-${{ matrix.environment }}
+
+      - name: Exit if smoke test failed
+        if: steps.wait_for_smoke_test.outputs.conclusion != 'success'
+        run: exit 1
 
       - name: Start Clockwork container
         if: always()
