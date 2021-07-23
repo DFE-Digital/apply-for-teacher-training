@@ -36,7 +36,11 @@ module ProviderInterface
       )
 
       @current_relationship = wizard.current_relationship
-      render :edit and return if @current_relationship.invalid?(:setup)
+
+      if @current_relationship.invalid?(:setup)
+        track_validation_error(@current_relationship)
+        render :edit and return
+      end
 
       wizard.save_state!
 

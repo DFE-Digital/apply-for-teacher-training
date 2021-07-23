@@ -22,14 +22,22 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
     let!(:permissions) do
       create(
         :provider_relationship_permissions,
+        :not_set_up_yet,
         ratifying_provider: ratifying_provider,
         training_provider: provider,
-        setup_at: nil,
       )
     end
 
     context 'when the accredited_provider_setting_permissions flag is on' do
-      before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
+      let(:store) { instance_double(WizardStateStores::RedisStore) }
+      let(:wizard_store_value) { { 'relationship_ids' => [permissions.id] }.to_json }
+
+      before do
+        FeatureFlag.activate(:accredited_provider_setting_permissions)
+        allow(store).to receive(:read).and_return(wizard_store_value)
+        allow(store).to receive(:write)
+        allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+      end
 
       it 'returns a 200 on the setup index page' do
         get provider_interface_organisation_permissions_setup_index_path
@@ -37,13 +45,20 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
         expect(response.status).to eq(200)
       end
 
-      context 'when the wizard state store has not been set up' do
-        let(:store) { instance_double(WizardStateStores::RedisStore) }
+      it 'tracks validation errors on update' do
+        expect {
+          patch(
+            provider_interface_organisation_permissions_setup_path(permissions),
+            params: {
+              id: permissions.id,
+              provider_relationship_permissions: {},
+            },
+          )
+        }.to change(ValidationError, :count).by(1)
+      end
 
-        before do
-          allow(store).to receive(:read).and_return(nil)
-          allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
-        end
+      context 'when the wizard state store has not been set up' do
+        let(:wizard_store_value) { nil }
 
         it 'redirects edit to the index action' do
           get edit_provider_interface_organisation_permissions_setup_path(permissions)
