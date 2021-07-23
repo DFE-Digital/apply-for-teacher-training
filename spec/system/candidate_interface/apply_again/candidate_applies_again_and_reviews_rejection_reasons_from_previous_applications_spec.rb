@@ -5,7 +5,7 @@ RSpec.feature 'Apply again' do
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
+    Timecop.travel(mid_cycle) do
       example.run
     end
   end

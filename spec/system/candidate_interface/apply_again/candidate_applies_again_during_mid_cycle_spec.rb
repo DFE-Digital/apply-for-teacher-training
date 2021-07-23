@@ -5,7 +5,7 @@ RSpec.feature 'Apply again' do
   include CycleTimetableHelper
 
   around do |example|
-    Timecop.freeze(mid_cycle) do
+    Timecop.travel(mid_cycle) do
       example.run
     end
   end
@@ -64,10 +64,6 @@ RSpec.feature 'Apply again' do
 
   def and_i_click_on_apply_again
     click_on 'Apply again'
-  end
-
-  def and_i_click_go_to_my_application_form
-    click_link 'Go to your application form'
   end
 
   def then_i_am_redirected_to_the_new_application_form
