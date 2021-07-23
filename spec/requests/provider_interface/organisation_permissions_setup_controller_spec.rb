@@ -36,6 +36,36 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
 
         expect(response.status).to eq(200)
       end
+
+      context 'when the wizard state store has not been set up' do
+        let(:store) { instance_double(WizardStateStores::RedisStore) }
+
+        before do
+          allow(store).to receive(:read).and_return(nil)
+          allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+        end
+
+        it 'redirects edit to the index action' do
+          get edit_provider_interface_organisation_permissions_setup_path(permissions)
+
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+        end
+
+        it 'redirects update to the index action' do
+          patch provider_interface_organisation_permissions_setup_path(permissions), params: {}
+
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+        end
+
+        it 'redirects check to the index action' do
+          get check_provider_interface_organisation_permissions_setup_index_path
+
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+        end
+      end
     end
 
     context 'when the accredited_provider_setting_permissions flag is off' do
