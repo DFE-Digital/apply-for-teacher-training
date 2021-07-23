@@ -39,21 +39,49 @@ RSpec.describe Candidate, type: :model do
   describe '#current_application' do
     let(:candidate) { create(:candidate) }
 
-    it 'returns an existing application_form' do
-      application_form = create(:application_form, candidate: candidate)
+    context 'mid cycle' do
+      around do |example|
+        Timecop.travel(CycleTimetable.find_opens + 1.day) do
+          example.run
+        end
+      end
 
-      expect(candidate.current_application).to eq(application_form)
+      it 'returns an existing application_form' do
+        application_form = create(:application_form, candidate: candidate)
+
+        expect(candidate.current_application).to eq(application_form)
+      end
+
+      it 'creates an application_form with the current cycle if there are none' do
+        expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
+        expect(candidate.current_application.recruitment_cycle_year).to eq CycleTimetable.current_year
+      end
+
+      it 'returns the most recent application' do
+        first_application = create(:application_form, candidate: candidate, created_at: 3.days.ago)
+        create(:application_form, candidate: candidate, created_at: 10.days.ago)
+
+        expect(candidate.current_application.created_at).to eq(first_application.created_at)
+      end
     end
 
-    it 'creates an application_form if there are none' do
-      expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
-    end
+    context 'after the apply1 deadline' do
+      around do |example|
+        Timecop.travel(CycleTimetable.apply_1_deadline + 1.day) do
+          example.run
+        end
+      end
 
-    it 'returns the most recent application' do
-      first_application = create(:application_form, candidate: candidate, created_at: 3.days.ago)
-      create(:application_form, candidate: candidate, created_at: 10.days.ago)
+      it 'returns an existing application_form' do
+        application_form = create(:application_form, candidate: candidate)
 
-      expect(candidate.current_application.created_at).to eq(first_application.created_at)
+        expect(candidate.current_application).to eq(application_form)
+      end
+
+      it 'creates an application_form in the next cycle if there are none' do
+        expect { candidate.current_application }.to change { candidate.application_forms.count }.from(0).to(1)
+        expect(candidate.current_application.recruitment_cycle_year).to eq CycleTimetable.next_year
+      end
     end
   end
 
