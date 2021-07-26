@@ -53,4 +53,32 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
       end
     end
   end
+
+  context 'provider withdraws an application choice on behalf of the candidate' do
+    it 'displays additional guidance' do
+      application_choice = create(:application_choice, :with_offer)
+
+      allow(application_choice).to receive(:withdrawn_at_candidates_request?).and_return(true)
+
+      result = render_inline(described_class.new(application_choice: application_choice))
+
+      expect(result.text).to include(
+        'You requested to withdraw your application. If you did not request this, email becomingateacher@digital.education.gov.uk.',
+      )
+    end
+  end
+
+  context 'candidate withdraws their own application' do
+    it 'does not display additional guidance' do
+      application_choice = create(:application_choice, :with_offer)
+
+      allow(application_choice).to receive(:withdrawn_at_candidates_request?).and_return(false)
+
+      result = render_inline(described_class.new(application_choice: application_choice.reload))
+
+      expect(result.text).not_to include(
+        'You requested to withdraw your application. If you did not request this, email becomingateacher@digital.education.gov.uk.',
+      )
+    end
+  end
 end
