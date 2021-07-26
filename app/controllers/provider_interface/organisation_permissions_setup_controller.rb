@@ -2,7 +2,7 @@ module ProviderInterface
   class OrganisationPermissionsSetupController < ProviderInterfaceController
     before_action :require_manage_organisations_permission!
     before_action :redirect_unless_permissions_to_setup, except: :success
-    before_action :restart_if_wizard_store_empty, only: %i[edit update check]
+    before_action :restart_if_wizard_store_empty, only: %i[edit update check commit]
 
     def index
       permission_setup_presenter = ProviderRelationshipPermissionSetupPresenter.new(
@@ -65,8 +65,9 @@ module ProviderInterface
         wizard.clear_state!
         redirect_to success_provider_interface_organisation_permissions_setup_index_path
       else
+        wizard.clear_state!
         redirect_to(
-          check_provider_interface_organisation_permissions_setup_index_path,
+          provider_interface_organisation_permissions_setup_index_path,
           warning: 'Unable to save permissions, please try again. If problems persist please contact support',
         )
       end
