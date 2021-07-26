@@ -1,0 +1,8 @@
+en:
+  activemodel:
+    errors:
+      models:
+        candidate_interface/create_account_or_sign_in_form:
+          attributes:
+            existing_account:
+              blank: Select if you already have an account
