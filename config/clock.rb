@@ -10,7 +10,7 @@ class Clock
 
   # More-than-hourly jobs
   every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
-  every(10.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI') do
+  every(11.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI') do
     if FeatureFlag.active?(:sync_next_cycle)
       TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true, RecruitmentCycle.next_year)
     end
