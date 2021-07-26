@@ -1,0 +1,17 @@
+<p class="govuk-body">
+  <%= t('.options_list_description') %>
+</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>
+    <%= govuk_link_to t('.view_applications'), provider_interface_applications_path %>
+  </li>
+  <% if user_can_manage_users? %>
+    <li>
+      <%= govuk_link_to t('.invite_or_manage_users'), provider_interface_provider_users_path %>
+    </li>
+  <% end %>
+  <li>
+    <%= govuk_link_to t('.manage_email_notifications'), provider_interface_notifications_path %>
+  </li>
+</ul>
