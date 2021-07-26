@@ -4,8 +4,8 @@ RSpec.describe GetChangeOfferOptions do
   include CourseOptionHelpers
 
   let(:ratifying_provider) { create(:provider) }
-  let(:self_ratified_course) { create(:course, :open_on_apply, provider: ratifying_provider) }
-  let(:externally_ratified_course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider) }
+  let(:self_ratified_course) { create(:course, provider: ratifying_provider) }
+  let(:externally_ratified_course) { create(:course, accredited_provider: ratifying_provider) }
   let(:provider_user) { create(:provider_user) }
 
   def service(provider_user, course)
@@ -82,14 +82,6 @@ RSpec.describe GetChangeOfferOptions do
   end
 
   describe '#offerable_courses' do
-    it 'returns only courses which are open on apply and exposed in find' do
-      service = service(provider_user, externally_ratified_course)
-      create(:course, accredited_provider: ratifying_provider)
-      create(:course, accredited_provider: ratifying_provider, open_on_apply: true, exposed_in_find: false)
-      allow(service).to receive(:make_decisions_courses).and_return(Course.all)
-      expect(service.offerable_courses).to eq([externally_ratified_course])
-    end
-
     it 'returns only courses which are in the same recruitment cycle' do
       service = service(provider_user, externally_ratified_course)
       create(:course, :previous_year, accredited_provider: ratifying_provider)
@@ -99,14 +91,14 @@ RSpec.describe GetChangeOfferOptions do
 
     it 'returns all courses ratified by the same ratifying provider as the externally ratified course' do
       service = service(provider_user, externally_ratified_course)
-      create(:course, :open_on_apply)
+      create(:course)
       allow(service).to receive(:make_decisions_courses).and_return(Course.all)
       expect(service.offerable_courses).to match_array([externally_ratified_course, self_ratified_course])
     end
 
     it 'returns externally and self-ratified courses based on an self-ratified course' do
       service = service(provider_user, self_ratified_course)
-      create(:course, :open_on_apply)
+      create(:course)
       allow(service).to receive(:make_decisions_courses).and_return(Course.all)
       expect(service.offerable_courses).to match_array([externally_ratified_course, self_ratified_course])
     end
