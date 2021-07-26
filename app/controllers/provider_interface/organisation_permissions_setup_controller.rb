@@ -58,6 +58,8 @@ module ProviderInterface
       @previous_page_path = previous_page_path(wizard)
     end
 
+    def success; end
+
   private
 
     def require_access_to_manage_provider_relationship_permissions!
