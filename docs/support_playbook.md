@@ -171,11 +171,11 @@ a.application_choices.select(&:conditions_not_met?).first.update!(status: :pendi
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
 
-If less than five working days have passed since the application has been submitted, then the rejection can be reverted via the 
+If less than five working days have passed since the application has been submitted, then the rejection can be reverted via the
 Support UI when viewing the application choice.
 
 If a candidate has had a course rejected in error but wishes to replace their course option with another offered by a _different_ provider,
-then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse), 
+then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse),
 before adding a new course choice via the Support UI.
 
 ### Revert a withdrawn offer
