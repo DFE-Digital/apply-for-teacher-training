@@ -21,7 +21,7 @@ class GetChangeOfferOptions
   def available_study_modes(course:)
     CourseOption
       .selectable
-      .where(course: offerable_courses.find(course.id))
+      .where(course: offerable_courses.find_by(id: course.id))
       .group('study_mode')
       .pluck(:study_mode)
   end
@@ -30,7 +30,7 @@ class GetChangeOfferOptions
     CourseOption
       .selectable
       .where(
-        course: offerable_courses.find(course.id),
+        course: offerable_courses.find_by(id: course.id),
         study_mode: study_mode,
       )
   end
@@ -46,7 +46,6 @@ class GetChangeOfferOptions
 
   def offerable_courses
     make_decisions_courses
-    .open_on_apply
     .where(recruitment_cycle_year: recruitment_cycle_year)
     .where(ratifying_provider_is_preserved)
   end
