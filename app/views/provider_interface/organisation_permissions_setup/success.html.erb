@@ -1,0 +1,17 @@
+<% content_for :browser_title, t('.success_message') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_panel(title: t('.success_message'), body: nil) %>
+
+    <p class="govuk-body">
+      You can change organisation permissions in <%= govuk_link_to 'organisation settings', provider_interface_organisation_settings_path %>.
+    </p>
+
+    <h2 class="govuk-heading-m">
+      <%= t('.next_steps') %>
+    </h2>
+
+    <%= render ProviderInterface::SetupCompleteNextStepsComponent.new(provider_user: current_provider_user) %>
+  </div>
+</div>
