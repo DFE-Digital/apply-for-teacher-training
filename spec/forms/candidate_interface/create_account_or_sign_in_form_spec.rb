@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::CreateAccountOrSignInForm, type: :model do
+  describe '#validations' do
+    it 'validates presence of existing account' do
+      form = described_class.new
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to include 'Existing account Select if you already have an account'
+    end
+
+    it 'validates presence and format of email if they already have an account' do
+      form = described_class.new
+      allow(form).to receive(:existing_account).and_return true
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages).to include 'Email Enter your email address'
+      expect(form.errors.full_messages).to include 'Email Enter an email address in the correct format, like name@example.com'
+    end
+  end
+
   describe '#existing_account?' do
     it "returns false if existing_account is 'false'" do
       form = described_class.new(existing_account: 'false')
