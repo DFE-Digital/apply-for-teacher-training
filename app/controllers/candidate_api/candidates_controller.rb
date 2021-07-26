@@ -30,7 +30,9 @@ module CandidateAPI
   private
 
     def serialized_candidates
-      candidates = Candidate.where('candidate_api_updated_at > ?', updated_since_params)
+      candidates = Candidate.includes(application_forms: :application_choices)
+                            .where('candidate_api_updated_at > ?', updated_since_params)
+                            .order('application_forms.created_at DESC')
 
       candidates.map do |candidate|
         {
@@ -40,6 +42,16 @@ module CandidateAPI
             email_address: candidate.email_address,
             created_at: candidate.created_at,
             updated_at: candidate.candidate_api_updated_at,
+            application_forms: {
+              data: [candidate.application_forms.map do |application|
+                {
+                  id: application.id,
+                  created_at: application.created_at,
+                  application_status: ProcessState.new(application).state,
+                  application_phase: application.phase,
+                }
+              end],
+            },
           },
         }
       end
