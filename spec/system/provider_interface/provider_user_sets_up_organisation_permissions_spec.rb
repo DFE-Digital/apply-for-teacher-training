@@ -32,6 +32,10 @@ RSpec.feature 'Setting up organisation permissions' do
     and_i_change_the_provider_permission
     and_i_click_on_continue
     then_i_see_the_check_relationship_permissions_page
+
+    when_i_click_on_save_organisation_permissions
+    then_i_see_the_success_page
+    and_the_permissions_have_been_set_up_correctly
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -50,25 +54,19 @@ RSpec.feature 'Setting up organisation permissions' do
   end
 
   def and_my_organisations_have_not_had_permissions_setup
-    create(
+    @training_provider_relationship = create(
       :provider_relationship_permissions,
+      :not_set_up_yet,
       ratifying_provider: @another_ratifying_provider,
       training_provider: @training_provider,
-      training_provider_can_make_decisions: false,
-      training_provider_can_view_safeguarding_information: false,
-      training_provider_can_view_diversity_information: false,
-      setup_at: nil,
     )
     create(:course, :open_on_apply, provider: @training_provider, accredited_provider: @another_ratifying_provider)
 
-    create(
+    @ratifying_provider_relationship = create(
       :provider_relationship_permissions,
+      :not_set_up_yet,
       ratifying_provider: @ratifying_provider,
       training_provider: @another_training_provider,
-      training_provider_can_make_decisions: false,
-      training_provider_can_view_safeguarding_information: false,
-      training_provider_can_view_diversity_information: false,
-      setup_at: nil,
     )
     create(:course, :open_on_apply, provider: @another_training_provider, accredited_provider: @ratifying_provider)
   end
@@ -132,5 +130,31 @@ RSpec.feature 'Setting up organisation permissions' do
     within('[data-qa="make-decisions"]') { check @another_training_provider.name }
     within('[data-qa="view-safeguarding-information"]') { check @another_training_provider.name }
     within('[data-qa="view-diversity-information"]') { check @another_training_provider.name }
+  end
+
+  def when_i_click_on_save_organisation_permissions
+    click_on 'Save organisation permissions'
+  end
+
+  def then_i_see_the_success_page
+    expect(page).to have_content('Organisation permissions set up')
+  end
+
+  def and_the_permissions_have_been_set_up_correctly
+    expect(@training_provider_relationship.reload.training_provider_can_make_decisions).to be(false)
+    expect(@training_provider_relationship.ratifying_provider_can_make_decisions).to be(true)
+    expect(@training_provider_relationship.training_provider_can_view_safeguarding_information).to be(true)
+    expect(@training_provider_relationship.ratifying_provider_can_view_safeguarding_information).to be(false)
+    expect(@training_provider_relationship.training_provider_can_view_diversity_information).to be(false)
+    expect(@training_provider_relationship.ratifying_provider_can_view_diversity_information).to be(true)
+    expect(@training_provider_relationship.setup_at).not_to be_nil
+
+    expect(@ratifying_provider_relationship.reload.training_provider_can_make_decisions).to be(true)
+    expect(@ratifying_provider_relationship.ratifying_provider_can_make_decisions).to be(true)
+    expect(@ratifying_provider_relationship.training_provider_can_view_safeguarding_information).to be(true)
+    expect(@ratifying_provider_relationship.ratifying_provider_can_view_safeguarding_information).to be(true)
+    expect(@ratifying_provider_relationship.training_provider_can_view_diversity_information).to be(true)
+    expect(@ratifying_provider_relationship.ratifying_provider_can_view_diversity_information).to be(true)
+    expect(@ratifying_provider_relationship.setup_at).not_to be_nil
   end
 end

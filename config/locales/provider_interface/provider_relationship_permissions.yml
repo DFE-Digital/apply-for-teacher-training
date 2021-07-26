@@ -25,9 +25,9 @@ en:
       check:
         title: Check and save organisation permissions
         caption: Set up organisation permissions
+        submit_button: Save organisation permissions
       success:
         success_message: Organisation permissions set up
-        change_settings_explanation: You can change organisation permissions in %{settings_path}
         next_steps: Next steps
     organisation_permissions_setup_list_component:
       single:
