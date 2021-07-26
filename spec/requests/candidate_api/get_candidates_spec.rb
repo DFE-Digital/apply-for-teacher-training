@@ -27,15 +27,57 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
   it 'returns applications filtered with `updated_since`' do
     Timecop.travel(Time.zone.now - 2.days) do
-      create(:candidate)
+      candidate = create(:candidate)
+      create(:completed_application_form, candidate: candidate)
     end
+
+    second_candidate = create(:candidate)
+    create(:completed_application_form, candidate: second_candidate)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(200)
+    expect(parsed_response['data'].size).to eq(1)
+  end
+
+  it 'can safely return candidates without an application form' do
+    candidate = create(:candidate)
+    create(:completed_application_form, candidate: candidate)
 
     create(:candidate)
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
     expect(response).to have_http_status(200)
-    expect(parsed_response['data'].size).to eq(1)
+    expect(parsed_response['data'].size).to eq(2)
+  end
+
+  it 'returns applications ordered by created_at timestamp' do
+    candidate = create(:candidate)
+    application_forms = create_list(
+      :completed_application_form,
+      2,
+      candidate: candidate,
+    )
+    application_forms.first.update(created_at: 1.hour.ago)
+    application_forms.second.update(created_at: 1.minute.ago)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
+
+    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms', 'data', 0)
+    expect(response_data.size).to eq(2)
+
+    expect(response_data.first['id']).to eq(application_forms.second.id)
+    expect(response_data.second['id']).to eq(application_forms.first.id)
+
+    application_forms.first.update(created_at: 10.seconds.ago)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
+
+    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms', 'data', 0)
+
+    expect(response_data.first['id']).to eq(application_forms.first.id)
+    expect(response_data.second['id']).to eq(application_forms.second.id)
   end
 
   it 'returns an error if the token is incorrect' do
