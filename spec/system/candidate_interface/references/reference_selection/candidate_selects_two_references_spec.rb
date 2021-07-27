@@ -5,7 +5,6 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
 
   scenario 'the candidate has received 4 references and must select 2 before completing the section' do
     given_i_am_signed_in
-    and_the_reference_selection_feature_flag_is_active
 
     when_i_visit_the_select_references_page
     then_i_am_told_i_need_to_receive_references
@@ -52,10 +51,6 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
     @candidate = create(:candidate)
     login_as(@candidate)
     @application = @candidate.current_application
-  end
-
-  def and_the_reference_selection_feature_flag_is_active
-    FeatureFlag.activate('reference_selection')
   end
 
   def when_i_request_my_references
