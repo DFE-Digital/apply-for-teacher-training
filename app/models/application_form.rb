@@ -251,11 +251,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def too_many_complete_references?
-    if FeatureFlag.active?(:reference_selection)
-      false
-    else
-      application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
-    end
+    false
   end
 
   def surplus_references_available_for_selection?
@@ -364,11 +360,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def enough_references_have_been_provided?
-    if FeatureFlag.active?(:reference_selection)
-      false
-    else
-      application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
-    end
+    false
   end
 
   def selected_enough_references?
