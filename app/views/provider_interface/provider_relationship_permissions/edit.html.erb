@@ -39,7 +39,7 @@
       <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
         <div class="govuk-form-group <%= permission_name.to_s.dasherize %>">
           <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: "Which organisations can #{permission_name.to_s.humanize.downcase}?" } do %>
-            <%= hidden_field_tag "#{f.object_name}[#{permission_name}][]", '' %>
+            <%= hidden_field_tag "#{f.object_name}[#{permission_name}][]", '', html: { autocomplete: 'off' } %>
             <%= f.govuk_check_box permission_name, 'training',
                                   label: { text: @form.training_provider.name },
                                   link_errors: true %>
