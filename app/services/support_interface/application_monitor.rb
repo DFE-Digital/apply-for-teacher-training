@@ -28,7 +28,7 @@ module SupportInterface
       ApplicationForm
         .includes(%i[candidate application_choices])
         .joins(application_choices: [:course_option])
-        .where('application_choices.status NOT IN (?)', ApplicationStateChange::TERMINAL_STATES)
+        .where.not(application_choices: { status: ApplicationStateChange::TERMINAL_STATES })
         .order('application_forms.id desc')
         .distinct
     end

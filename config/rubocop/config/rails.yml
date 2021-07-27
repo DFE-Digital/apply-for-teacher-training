@@ -85,7 +85,7 @@ Rails/WhereExists:
   Enabled: true
 
 Rails/WhereNot:
-  Enabled: false
+  Enabled: true
 
 Rails/EnvironmentVariableAccess:
   Enabled: false
