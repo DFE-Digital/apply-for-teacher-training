@@ -315,6 +315,21 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
+  describe '.conditions_not_met' do
+    let(:email) { mailer.conditions_not_met(application_choices.first) }
+    let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+    let(:application_choices) { [application_choice] }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'You have not met your conditions for Forensic Science (E0FO) at Falconholt Technical College: next steps',
+      'heading' => 'Dear Bob',
+      'title' => 'You have not met your conditions',
+      'name and code for course' => 'Forensic Science (E0FO)',
+      'provider name' => 'Falconholt Technical College',
+    )
+  end
+
   describe '.conditions_met' do
     let(:email) { mailer.conditions_met(application_choices.first) }
     let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
