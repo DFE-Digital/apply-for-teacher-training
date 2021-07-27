@@ -14,10 +14,8 @@ class SubmitApplication
     end
 
     # Cancel any outstanding references
-    if FeatureFlag.active?(:reference_selection)
-      application_form.application_references.feedback_requested.each do |reference|
-        CancelReferee.new.call(reference: reference)
-      end
+    application_form.application_references.feedback_requested.each do |reference|
+      CancelReferee.new.call(reference: reference)
     end
 
     if application_form.apply_2?
