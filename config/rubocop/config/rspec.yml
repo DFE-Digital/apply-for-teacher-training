@@ -47,9 +47,6 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/StubbedMock:
   Enabled: true
 
-RSpec/FactoryBot/CreateList:
-  Enabled: false
-
 RSpec/Rails/HttpStatus:
   Enabled: false
 
@@ -57,3 +54,7 @@ RSpec/Capybara/FeatureMethods:
   EnabledMethods:
     - feature
     - scenario
+
+RSpec/FactoryBot/CreateList:
+  Exclude:
+    - 'spec/services/generate_test_applications_for_provider_spec.rb'
