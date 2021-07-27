@@ -1,23 +1,17 @@
 # You have a reference from <%= @reference.name %>
 
-<% if FeatureFlag.active?(:reference_selection) && @selected_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% if @selected_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
 You’ve selected 2 references to submit with your application already, but you can change your selection if you want.
 
 Sign in to complete your application:
-<% elsif FeatureFlag.active?(:reference_selection) && @provided_references.count > ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% elsif @provided_references.count > ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
 You have more than enough references to send your application to training providers.
 
 Sign in and select 2 references to submit with your application:
-<% elsif FeatureFlag.active?(:reference_selection) && @provided_references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% elsif @provided_references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
 You have enough references to send your application to training providers.
 
 Sign in and select 2 references to submit with your application:
-<% elsif @application_form.enough_references_have_been_provided? %>
-You’ve got 2 references back now.
-
-When you’re ready, you can send your application to training providers.
-
-Sign in to continue your application:
 <% else %>
 You need to get another reference back before you can send your application to training providers.
 

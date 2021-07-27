@@ -40,11 +40,7 @@ module CandidateInterface
     end
 
     def references_section_definition
-      if FeatureFlag.active?(:reference_selection)
-        [:references_selected, references_completed?]
-      else
-        [:references_provided, references_completed?]
-      end
+      [:references_selected, references_completed?]
     end
 
     def incomplete_sections
@@ -111,13 +107,9 @@ module CandidateInterface
 
     def reference_section_errors
       [].tap do |errors|
-        if FeatureFlag.active?(:reference_selection)
-          # A defensive check, in case the candidate somehow ends up in this state
-          if @application_form.references_completed? && @application_form.selected_incorrect_number_of_references?
-            errors << OpenStruct.new(message: I18n.t('application_form.references.review.incorrect_number_selected'), anchor: '#references')
-          end
-        elsif @application_form.too_many_complete_references?
-          errors << OpenStruct.new(message: I18n.t('application_form.references.review.more_than_two'), anchor: '#references')
+        # A defensive check, in case the candidate somehow ends up in this state
+        if @application_form.references_completed? && @application_form.selected_incorrect_number_of_references?
+          errors << OpenStruct.new(message: I18n.t('application_form.references.review.incorrect_number_selected'), anchor: '#references')
         end
       end
     end
@@ -156,15 +148,6 @@ module CandidateInterface
         I18n.t('section_items.manage_references')
       else
         I18n.t('section_items.add_references')
-      end
-    end
-
-    # TODO: remove this method when deleting the reference_selection feature flag
-    def references_path
-      if @application_form.application_references.present?
-        Rails.application.routes.url_helpers.candidate_interface_references_review_path
-      else
-        Rails.application.routes.url_helpers.candidate_interface_references_start_path
       end
     end
 
@@ -335,19 +318,7 @@ module CandidateInterface
     end
 
     def references_completed?
-      if FeatureFlag.active?(:reference_selection)
-        @application_form.references_completed
-      else
-        @application_form.enough_references_have_been_provided?
-      end
-    end
-
-    def references_in_progress?
-      if FeatureFlag.active?(:reference_selection)
-        false # Irrelevant to the reference_selection flow
-      else
-        !references_completed? && @application_form.application_references.present?
-      end
+      @application_form.references_completed
     end
 
     def safeguarding_completed?
