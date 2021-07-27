@@ -8,7 +8,7 @@ module TeacherTrainingPublicAPI
 
         scope = TeacherTrainingPublicAPI::Provider
           .where(year: recruitment_cycle_year)
-          .paginate(page: page_number, per_page: 250)
+          .paginate(page: page_number, per_page: 200)
         scope = scope.where(updated_since: TeacherTrainingPublicAPI::SyncCheck.updated_since) if incremental_sync
         delay_by = calculate_offset(page_number + 1, incremental_sync)
         response = scope.all
