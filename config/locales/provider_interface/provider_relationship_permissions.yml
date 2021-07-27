@@ -42,10 +42,6 @@ en:
       success_message: Data sharing agreement signed
       setup_permissions_message: Either you or your partner organisations must set up organisation permissions before you can manage teacher training applications.
       next_steps: Next steps
-      old:
-        success_message: You’ve successfully signed the data sharing agreement
-        setup_permissions_message: You need to set up permissions for your organisation before you do anything else. We’ll guide you through this process.
-        setup_permissions_action: Set up permissions
     setup_complete_next_steps_component:
       options_list_description: 'You can now:'
       view_applications: view applications

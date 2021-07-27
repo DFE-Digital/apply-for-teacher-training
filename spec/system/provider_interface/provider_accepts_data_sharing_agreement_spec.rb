@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Accept data sharing agreement' do
   include DfESignInHelpers
 
-  before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
-
   scenario 'Provider user cannot access provider_interface without a data sharing agreement in place' do
     given_i_am_an_authorised_provider_user
     and_no_data_sharing_agreement_for_my_provider_has_been_accepted
@@ -98,19 +96,18 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page
-    expect(page).to have_content('You’ve successfully signed the data sharing agreement')
-    expect(page).to have_content('Continue to your applications.')
-    expect(page).to have_link(t('continue'))
+    expect(page).to have_content('Data sharing agreement signed')
+    expect(page).to have_link('view applications')
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page_with_organisation_setup_steps
-    expect(page).to have_content('You’ve successfully signed the data sharing agreement')
-    expect(page).to have_content('You need to set up permissions for your organisation before you do anything else')
-    expect(page).to have_link('Set up permissions')
+    expect(page).to have_content('Data sharing agreement signed')
+    expect(page).to have_content('Either you or your partner organisations must set up organisation permissions')
+    expect(page).to have_link('Continue')
   end
 
   def then_i_can_navigate_to_the_provider_interface
-    click_on t('continue')
+    click_on 'view applications'
     expect(page).to have_current_path provider_interface_applications_path
   end
 
@@ -123,8 +120,8 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def and_i_can_proceed_to_set_up_organisation_permissions
-    click_on 'Set up permissions'
+    click_on 'Continue'
 
-    expect(page).to have_content('Set organisational permissions')
+    expect(page).to have_content('Set up organisation permissions')
   end
 end
