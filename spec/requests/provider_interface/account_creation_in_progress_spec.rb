@@ -19,7 +19,7 @@ RSpec.describe 'GET /provider/applications' do
     it 'returns 403 with the email-address-not-recognised page' do
       get '/provider/applications'
 
-      expect(response).to have_http_status 403
+      expect(response).to have_http_status :forbidden
       expect(response.body).to include('Your email address is not recognised')
     end
   end

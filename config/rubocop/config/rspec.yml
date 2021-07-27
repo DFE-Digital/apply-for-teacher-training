@@ -47,9 +47,6 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/StubbedMock:
   Enabled: true
 
-RSpec/Rails/HttpStatus:
-  Enabled: false
-
 RSpec/Capybara/FeatureMethods:
   EnabledMethods:
     - feature

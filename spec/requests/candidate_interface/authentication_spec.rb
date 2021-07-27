@@ -4,13 +4,13 @@ RSpec.describe 'Authentication for candidates', type: :request do
   it 'redirects the user if the token is invalid' do
     get candidate_interface_application_form_url(token: '123')
 
-    expect(response).to have_http_status(302)
+    expect(response).to have_http_status(:found)
   end
 
   it 'redirects the user if the token is missing from the URL' do
     get candidate_interface_application_form_url
 
-    expect(response).to have_http_status(302)
+    expect(response).to have_http_status(:found)
   end
 
   it 'redirects the user if the token is expired' do
@@ -19,6 +19,6 @@ RSpec.describe 'Authentication for candidates', type: :request do
 
     get candidate_interface_application_form_url(token: magic_link_token.raw)
 
-    expect(response).to have_http_status(302)
+    expect(response).to have_http_status(:found)
   end
 end

@@ -9,7 +9,7 @@ RSpec.describe 'Require basic authentication', type: :request do
         get candidate_interface_create_account_or_sign_in_url
       end
 
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'requests without basic auth get 401' do
@@ -17,7 +17,7 @@ RSpec.describe 'Require basic authentication', type: :request do
         get candidate_interface_create_account_or_sign_in_url
       end
 
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'requests with invalid basic auth get 401' do
@@ -25,7 +25,7 @@ RSpec.describe 'Require basic authentication', type: :request do
         get candidate_interface_create_account_or_sign_in_url, headers: basic_auth_headers('wrong', 'auth')
       end
 
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'requests with valid basic auth get 200' do
@@ -33,7 +33,7 @@ RSpec.describe 'Require basic authentication', type: :request do
         get candidate_interface_create_account_or_sign_in_url, headers: basic_auth_headers('foo', 'bar')
       end
 
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end
