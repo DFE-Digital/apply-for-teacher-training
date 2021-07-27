@@ -254,7 +254,7 @@ class CandidateMailer < ApplicationMailer
 
   def conditions_met(application_choice)
     @application_choice = application_choice
-    course = application_choice.course_option.course
+    course = application_choice.current_course_option.course
     course_name = "#{course.name_and_code} at #{course.provider.name}"
 
     email_for_candidate(
