@@ -62,6 +62,7 @@ module ProviderInterface
     def commit
       wizard = OrganisationPermissionsSetupWizard.new(organisation_permissions_wizard_store)
       if SetupProviderRelationshipPermissions.call(wizard.relationships)
+        send_organisation_permissions_emails(wizard.relationships)
         wizard.clear_state!
         redirect_to success_provider_interface_organisation_permissions_setup_index_path
       else
@@ -123,6 +124,14 @@ module ProviderInterface
         check_provider_interface_organisation_permissions_setup_index_path
       else
         provider_interface_organisation_permissions_setup_index_path
+      end
+    end
+
+    def send_organisation_permissions_emails(relationships)
+      relationships.each do |permissions|
+        SendOrganisationPermissionsEmails.new(
+          provider_user: current_provider_user, permissions: permissions, set_up: true,
+        ).call
       end
     end
 
