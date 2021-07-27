@@ -26,6 +26,8 @@ module ProviderInterface
 
     def update
       if @relationship.update(new_relationship_permissions)
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: @relationship).call
+
         flash[:success] = 'Organisation permissions updated'
         redirect_to provider_interface_organisation_settings_organisation_organisation_permissions_path(params[:organisation_id])
       else
