@@ -12,7 +12,6 @@ class SubmitReference
       @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: false)
     else
       @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: true)
-      cancel_feedback_requested_references if enough_references_have_been_provided?
     end
 
     if @send_emails
