@@ -55,11 +55,7 @@ private
   end
 
   def error_message_for_permission(permission)
-    if FeatureFlag.active?(:accredited_provider_setting_permissions)
-      permission_description = I18n.t("provider_relationship_permissions.#{permission}.description")
-      "Select who can #{permission_description.downcase}"
-    else
-      "Select which organisations can #{permission.to_s.humanize.downcase}"
-    end
+    permission_description = I18n.t("provider_relationship_permissions.#{permission}.description")
+    "Select who can #{permission_description.downcase}"
   end
 end
