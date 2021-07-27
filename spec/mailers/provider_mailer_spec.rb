@@ -237,11 +237,11 @@ RSpec.describe ProviderMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       'University of Croydon has set up organisation permissions for teacher training courses you work on with them',
-      'salutation' => 'Dear Johny',
+      'salutation' => 'Dear Johny English',
       'heading' => 'University of Croydon has set up organisation permissions for teacher training courses you work on with them',
-      'make offers' => /Make offers and reject applications:\s+University of Purley/,
-      'view safeguarding' => /View criminal convictions and professional misconduct:\s+University of Croydon\s+University of Purley/,
-      'view diversity' => /View criminal convictions and professional misconduct:\s+University of Croydon\s+University of Purley/,
+      'make offers' => /Make offers and reject applications:\s+- University of Purley/,
+      'view safeguarding' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+      'view diversity' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
     )
   end
 
@@ -263,11 +263,11 @@ RSpec.describe ProviderMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
-      'salutation' => 'Dear Johny',
+      'salutation' => 'Dear Johny English',
       'heading' => 'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
-      'make offers' => /Make offers and reject applications:\s+University of Purley/,
-      'view safeguarding' => /View criminal convictions and professional misconduct:\s+University of Croydon\s+University of Purley/,
-      'view diversity' => /View criminal convictions and professional misconduct:\s+University of Croydon\s+University of Purley/,
+      'make offers' => /Make offers and reject applications:\s+- University of Purley/,
+      'view safeguarding' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+      'view diversity' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
     )
   end
 end

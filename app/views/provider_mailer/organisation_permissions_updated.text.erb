@@ -1,4 +1,4 @@
-Dear <%= @provider_user.first_name %>
+Dear <%= @provider_user.full_name %>
 
 # <%= @partner_organisation.name %> has changed organisation permissions for teacher training courses you work on with them
 
@@ -6,21 +6,21 @@ Dear <%= @provider_user.first_name %>
 
 Make offers and reject applications:
 
-<%= @partner_organisation.name if @permissions.permit?(:make_decisions, @partner_organisation) %>
-<%= @recipient_organisation.name if @permissions.permit?(:make_decisions, @recipient_organisation) %>
+<%= "- #{@recipient_organisation.name}" if @permissions.permit?(:make_decisions, @recipient_organisation) %>
+<%= "- #{@partner_organisation.name}" if @permissions.permit?(:make_decisions, @partner_organisation) %>
 
 View criminal convictions and professional misconduct:
 
-<%= @partner_organisation.name if @permissions.permit?(:view_safeguarding_information, @partner_organisation) %>
-<%= @recipient_organisation.name if @permissions.permit?(:view_safeguarding_information, @recipient_organisation) %>
+<%= "- #{@recipient_organisation.name}" if @permissions.permit?(:view_safeguarding_information, @recipient_organisation) %>
+<%= "- #{@partner_organisation.name}" if @permissions.permit?(:view_safeguarding_information, @partner_organisation) %>
 
 View sex, disability and ethnicity information:
 
-<%= @partner_organisation.name if @permissions.permit?(:view_diversity_information, @partner_organisation) %>
-<%= @recipient_organisation.name if @permissions.permit?(:view_diversity_information, @recipient_organisation) %>
+<%= "- #{@recipient_organisation.name}" if @permissions.permit?(:view_diversity_information, @recipient_organisation) %>
+<%= "- #{@partner_organisation.name}" if @permissions.permit?(:view_diversity_information, @partner_organisation) %>
 
-Change organisation permissions
+# Change organisation permissions
 
 You can change these organisation permissions in your organisation settings:
 
-((link))
+<%= provider_interface_organisation_settings_organisation_organisation_permissions_url(@recipient_organisation) %>
