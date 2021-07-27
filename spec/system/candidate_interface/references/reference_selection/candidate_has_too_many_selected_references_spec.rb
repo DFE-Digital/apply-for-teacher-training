@@ -8,16 +8,11 @@ RSpec.feature 'Handle applications with too many selected references' do
   include CandidateHelper
 
   scenario 'Candidate tries to submit an application with too many references' do
-    given_the_reference_selection_feature_flag_is_active
     and_i_have_a_completed_application_with_more_than_two_selected_references
 
     when_i_try_to_submit_my_application
     then_i_see_an_error_message
     and_my_application_is_not_submitted
-  end
-
-  def given_the_reference_selection_feature_flag_is_active
-    FeatureFlag.activate(:reference_selection)
   end
 
   def and_i_have_a_completed_application_with_more_than_two_selected_references

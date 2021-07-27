@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Review references' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:reference_selection) }
-
   scenario 'Candidate submits and reviews references' do
     given_i_am_signed_in
 

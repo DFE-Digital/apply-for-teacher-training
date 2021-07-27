@@ -5,7 +5,6 @@ RSpec.feature 'Submitting an application' do
 
   scenario 'Candidate submits complete application' do
     given_i_am_signed_in
-    and_the_reference_selection_feature_flag_is_active
     and_i_have_completed_my_application_except_references
     then_i_can_see_references_are_incomplete
 
@@ -33,10 +32,6 @@ RSpec.feature 'Submitting an application' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_reference_selection_feature_flag_is_active
-    FeatureFlag.activate('reference_selection')
   end
 
   def and_i_have_completed_my_application_except_references

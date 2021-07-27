@@ -23,11 +23,7 @@ module CandidateHelper
   end
 
   def application_form_sections
-    if FeatureFlag.active?(:reference_selection)
-      APPLICATION_FORM_SECTIONS
-    else
-      APPLICATION_FORM_SECTIONS - [:references_selected] + [:references_provided]
-    end
+    APPLICATION_FORM_SECTIONS
   end
 
   def candidate_completes_application_form(with_referees: true)
@@ -84,9 +80,7 @@ module CandidateHelper
     if with_referees
       candidate_provides_two_referees
       receive_references
-      if FeatureFlag.active?(:reference_selection)
-        select_references_and_complete_section
-      end
+      select_references_and_complete_section
     end
 
     @application = ApplicationForm.last
