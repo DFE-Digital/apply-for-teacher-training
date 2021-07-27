@@ -49,10 +49,10 @@ module CandidateInterface
     end
 
     def load_course
-      if !provider
-        fetch_course_from_api
-      else
+      if provider
         provider.courses.current_cycle.where(exposed_in_find: true).find_by!(code: @course_code)
+      else
+        fetch_course_from_api
       end
     rescue ActiveRecord::RecordNotFound
       fetch_course_from_api

@@ -88,11 +88,11 @@ private
   end
 
   def support_user
-    !@support_user.nil? ? @support_user : @support_user = (SupportUser.load_from_session(session) || false)
+    @support_user ||= SupportUser.load_from_session(session) || false
   end
 
   def provider_user
-    !@provider_user.nil? ? @provider_user : @provider_user = (ProviderUser.load_from_session(session) || false)
+    @provider_user ||= ProviderUser.load_from_session(session) || false
   end
 
   def default_authenticated_path

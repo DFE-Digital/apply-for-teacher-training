@@ -11,10 +11,10 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
   end
 
   def deadline
-    if !CycleTimetable.show_apply_2_deadline_banner?(@application_form)
-      apply_1_deadline
-    else
+    if CycleTimetable.show_apply_2_deadline_banner?(@application_form)
       apply_2_deadline
+    else
+      apply_1_deadline
     end
   end
 

@@ -124,15 +124,15 @@ private
   def back_link_url
     referer = controller.request.env['HTTP_REFERER']
 
-    if !referer
-      service_link
-    else
+    if referer
       referer_host = URI(referer).host
       if referer_host.present? && referer_host != request.host
         service_link
       else
         referer
       end
+    else
+      service_link
     end
   end
 end
