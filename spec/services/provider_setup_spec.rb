@@ -137,20 +137,8 @@ RSpec.describe ProviderSetup do
         )
       end
 
-      context 'when the accredited_provider_setting_permissions is on' do
-        before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
-
-        it 'returns the relationship for which the user is the ratifier' do
-          expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
-        end
-      end
-
-      context 'when the accredited_provider_setting_permissions is off' do
-        before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
-
-        it 'does not return the relationship for which the user is the ratifier' do
-          expect(provider_setup.next_relationship_pending).to eq(nil)
-        end
+      it 'returns the relationship for which the user is the ratifier' do
+        expect(provider_setup.next_relationship_pending).to eq(permission_to_set_up)
       end
     end
   end
