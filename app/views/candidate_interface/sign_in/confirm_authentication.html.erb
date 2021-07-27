@@ -9,7 +9,7 @@
       <p class="govuk-body">
         Click below to sign in
       </p>
-      <%= hidden_field_tag :token, params[:token] %>
+      <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
       <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>

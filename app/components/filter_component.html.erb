@@ -48,7 +48,7 @@
                     <%= filter[:heading] %>
                   </legend>
                   <% if filter[:type] == :search %>
-                    <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>">
+                    <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" autocomplete="off">
                   <% elsif filter[:type] == :checkboxes %>
                     <% filter[:options].each do |option| %>
                       <div class="govuk-checkboxes govuk-checkboxes--small">
@@ -105,9 +105,9 @@
         <form method="get">
           <% filters_to_params(secondary_filters).each do |name, value| %>
             <% if value.is_a?(Array) %>
-              <% value.each do |v| %><%= hidden_field_tag("#{name}[]", v) %><% end %>
+              <% value.each do |v| %><%= hidden_field_tag "#{name}[]", v, html: { autocomplete: 'off' } %><% end %>
             <% else %>
-              <%= hidden_field_tag name, value %>
+              <%= hidden_field_tag name, value, html: { autocomplete: 'off' } %>
             <% end %>
           <% end %>
           <div class="govuk-form-group">
@@ -115,7 +115,7 @@
               Search by candidate name or reference
             </label>
 
-            <input class="govuk-input <%= primary_filter[:css_classes] %>" id="<%= primary_filter[:name] %>" name="<%= primary_filter[:name] %>" type="text" value="<%= primary_filter[:value] %>" aria-labelledby="filter-legend-<%= primary_filter[:name] %>">
+            <input class="govuk-input <%= primary_filter[:css_classes] %>" id="<%= primary_filter[:name] %>" name="<%= primary_filter[:name] %>" type="text" value="<%= primary_filter[:value] %>" aria-labelledby="filter-legend-<%= primary_filter[:name] %>" autocomplete="off">
           </div>
           <button class="govuk-button app-search__button" data-module="govuk-button">
             Search

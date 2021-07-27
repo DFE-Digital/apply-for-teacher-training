@@ -7,7 +7,7 @@
     <%= form_with model: @wizard, url: provider_interface_save_provider_relationship_permissions_path(@permissions_model) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= hidden_field_tag :checking_answers, params[:checking_answers] %>
+      <%= hidden_field_tag :checking_answers, params[:checking_answers], html: { autocomplete: 'off' } %>
 
       <span class="govuk-caption-l">Set up permissions</span>
       <h1 class="govuk-heading-l"><%= @permissions_model.training_provider.name %> and <%= @permissions_model.ratifying_provider.name %></h1>
@@ -25,7 +25,7 @@
           <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
             <%= pf.govuk_check_boxes_fieldset permission_name, legend: { text: "Who can #{permission_name.to_s.humanize.downcase}?" } do %>
               <div id="makedecisions-hint" class="govuk-hint"><%= t("provider_relationship_permissions.#{permission_name}.hint") %></div>
-              <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '' %>
+              <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '', html: { autocomplete: 'off' } %>
               <%= pf.govuk_check_box permission_name, 'training',
                                      label: { text: @permissions_model.training_provider.name },
                                      link_errors: true %>
