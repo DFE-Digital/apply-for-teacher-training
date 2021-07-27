@@ -28,20 +28,20 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
 
     it 'redirects to Candidate Interface if candidate associated with user’s providers' do
       post provider_interface_impersonate_candidate_path(application_choice.application_form.candidate)
-      expect(response).to have_http_status 302
+      expect(response).to have_http_status :found
 
       get candidate_interface_application_complete_path
-      expect(response).to have_http_status 200 # a 200 response suggests a candidate session
+      expect(response).to have_http_status :ok # a 200 response suggests a candidate session
     end
 
     it 'redirects back to Provider Interface if candidate is not associated with user’s providers' do
       unrelated_application = create(:application_choice, status: 'awaiting_provider_decision')
 
       post provider_interface_impersonate_candidate_path(unrelated_application.application_form.candidate)
-      expect(response).to have_http_status 302
+      expect(response).to have_http_status :found
 
       get candidate_interface_application_form_path
-      expect(response).to have_http_status 302 # no candidate session redirects to candidate_interface_path
+      expect(response).to have_http_status :found # no candidate session redirects to candidate_interface_path
     end
 
     it 'returns 404 on production' do
@@ -49,7 +49,7 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
 
       post provider_interface_impersonate_candidate_path(application_choice.application_form.candidate)
 
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
   end
 end
