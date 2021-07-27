@@ -45,8 +45,8 @@ class Clock
   end
 
   every(1.day, 'UCASIntegrationCheck', at: '11:00') do
-    if HostingEnvironment.production?
-      UCASIntegrationCheck.perform_async if Time.zone.yesterday.weekday?
+    if HostingEnvironment.production? && Time.zone.yesterday.weekday?
+      UCASIntegrationCheck.perform_async
     end
   end
 
