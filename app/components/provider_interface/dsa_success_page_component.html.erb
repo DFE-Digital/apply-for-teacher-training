@@ -1,11 +1,11 @@
 <% if FeatureFlag.active?(:accredited_provider_setting_permissions) %>
   <%= govuk_panel(title: t('.success_message'), body: nil) %>
 
-  <% if provider_permission_setup_pending %>
-    <h2 class="govuk-heading-m">
-      <%= t('.next_steps') %>
-    </h2>
+  <h2 class="govuk-heading-m">
+    <%= t('.next_steps') %>
+  </h2>
 
+  <% if provider_permission_setup_pending %>
     <p class="govuk-body">
       <%= t('.setup_permissions_message') %>
     </p>
@@ -14,27 +14,7 @@
       <%= govuk_link_to t('continue'), provider_interface_organisation_permissions_setup_index_path, button: true %>
     </p>
   <% else %>
-    <h2 class="govuk-heading-m">
-      <%= t('.next_steps') %>
-    </h2>
-
-    <p class="govuk-body">
-      <%= t('.options_list_description') %>
-    </p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <%= govuk_link_to t('.view_applications'), provider_interface_applications_path %>
-      </li>
-      <% if user_can_manage_users? %>
-        <li>
-          <%= govuk_link_to t('.invite_or_manage_users'), provider_interface_provider_users_path %>
-        </li>
-      <% end %>
-      <li>
-        <%= govuk_link_to t('.manage_email_notifications'), provider_interface_notifications_path %>
-      </li>
-    </ul>
+   <%= render ProviderInterface::SetupCompleteNextStepsComponent.new(provider_user: provider_user) %>
   <% end %>
 <% else %>
   <%= govuk_panel(title: t('.old.success_message'), body: nil) %>

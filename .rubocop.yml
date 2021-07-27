@@ -59,3 +59,8 @@ Govuk/GovukLinkTo:
     # link_to for kaminari pagination links
     - 'app/views/kaminari/_next_page.html.erb'
     - 'app/views/kaminari/_prev_page.html.erb'
+
+Style/IdenticalConditionalBranches:
+  Exclude:
+    # wizard.clear_state! duplication in commit method conditional
+    - 'app/controllers/provider_interface/organisation_permissions_setup_controller.rb'

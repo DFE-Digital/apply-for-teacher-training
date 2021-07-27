@@ -80,6 +80,13 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
           expect(response.status).to eq(302)
           expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
         end
+
+        it 'redirects commit to the index action' do
+          patch commit_provider_interface_organisation_permissions_setup_index_path
+
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+        end
       end
     end
 
