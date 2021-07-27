@@ -13,7 +13,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 :minimum_info)
       application_choice = create(:application_choice, status: 'withdrawn', application_form: application_form, withdrawn_at: withdrawn_at)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:withdrawal]).to eq(reason: nil, date: withdrawn_at.iso8601)
@@ -27,7 +27,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 :minimum_info)
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: rejected_at, rejection_reason: 'Course full')
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: rejected_at.iso8601)
@@ -41,7 +41,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 :minimum_info)
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full')
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: withdrawn_at.iso8601)
@@ -55,7 +55,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 :minimum_info)
       application_choice = create(:application_choice, :with_rejection_by_default, application_form: application_form, rejected_at: rejected_at)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:rejection]).to eq(reason: 'Not entered', date: rejected_at.iso8601)
@@ -87,7 +87,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'returns the hesa_itt_data attribute of an application' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
@@ -106,7 +106,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'returns the other disability in the other_disability_details field' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
@@ -124,7 +124,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'returns no the disability or ethnicity details' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
@@ -143,7 +143,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'returns the other ethnicity in the other_ethnicity_details field' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
@@ -162,7 +162,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'does not return the other ethnicity in the other_ethnicity_details field' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
@@ -181,7 +181,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'does not return the other ethnicity in the other_ethnicity_details field' do
         equality_and_diversity_data = application_choice.application_form.equality_and_diversity
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.dig(:attributes, :hesa_itt_data)).to eq(
           disability: equality_and_diversity_data['hesa_disabilities'],
@@ -202,7 +202,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
 
       it 'the hesa_itt_data attribute of an application is nil' do
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response[:attributes][:hesa_itt_data]).to be_nil
       end
@@ -226,7 +226,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         )
         application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.to_json).to be_valid_against_openapi_schema('Application')
         expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('I was sleeping.')
@@ -246,7 +246,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         )
         application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.to_json).to be_valid_against_openapi_schema('Application')
         expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq(
@@ -266,7 +266,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         )
         application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+        response = described_class.new(application_choice).as_json
 
         expect(response.to_json).to be_valid_against_openapi_schema('Application')
         expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('')
@@ -282,7 +282,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 second_nationality: 'Scottish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :nationality)).to eq %w[GB]
     end
@@ -294,7 +294,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 second_nationality: 'American')
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:candidate][:nationality]).to eq(%w[GB US])
@@ -309,7 +309,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 fourth_nationality: 'Welsh')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :nationality)).to eq(%w[GB IE CA ES])
     end
@@ -320,7 +320,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :domicile)).to eq(application_form.domicile)
     end
@@ -334,7 +334,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 second_nationality: 'British')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('UK Citizen')
     end
@@ -346,7 +346,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 second_nationality: 'Irish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Irish Citizen')
     end
@@ -359,7 +359,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 right_to_work_or_study_details: 'I have Settled status')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('I have Settled status')
     end
@@ -371,7 +371,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 right_to_work_or_study: 'no')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
     end
@@ -383,7 +383,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                 right_to_work_or_study: 'decide_later')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
     end
@@ -397,7 +397,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                        second_nationality: 'British')
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('A')
     end
@@ -409,7 +409,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                        second_nationality: 'Irish')
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('B')
     end
@@ -421,7 +421,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                        right_to_work_or_study: 'no')
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('C')
     end
@@ -433,7 +433,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                        right_to_work_or_study: 'decide_later')
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('C')
     end
@@ -446,7 +446,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
                                        right_to_work_or_study_details: 'I have Settled status')
       application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('D')
     end
@@ -457,7 +457,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, first_nationality: 'British')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('02')
     end
@@ -466,7 +466,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('02')
     end
@@ -475,7 +475,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, first_nationality: 'Canadian')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
     end
@@ -484,7 +484,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'no')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
     end
@@ -493,7 +493,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, :international_address, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
     end
@@ -505,7 +505,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
     end
@@ -519,7 +519,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
     end
@@ -532,7 +532,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('I have taken some exams but I do not remember the names')
     end
@@ -560,7 +560,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_form,
       )
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expected_contact_details = application_form_attributes.merge(email: application_form.candidate.email_address)
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
@@ -589,7 +589,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_form,
       )
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response.dig(:attributes, :contact_details)).to eq({
@@ -625,7 +625,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_form,
       )
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response.dig(:attributes, :contact_details)).to eq({
@@ -645,7 +645,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, :with_safeguarding_issues_disclosed)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :safeguarding_issues_status)).to eq('has_safeguarding_issues_to_declare')
     end
@@ -656,7 +656,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, :with_safeguarding_issues_disclosed)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :safeguarding_issues_details_url)).to include("/provider/applications/#{application_choice.id}#criminal-convictions-and-professional-misconduct")
     end
@@ -665,7 +665,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = build(:application_form, :minimum_info)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :safeguarding_issues_details_url)).to eq(nil)
     end
@@ -674,7 +674,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form = create(:application_form, :minimum_info, :with_safeguarding_issues_never_asked)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
 
       expect(response.dig(:attributes, :safeguarding_issues_details_url)).to eq(nil)
     end
@@ -701,7 +701,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_choice.application_form,
       )
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
+      presenter = described_class.new(application_choice)
       expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).to include(with_feedback_and_selected.id)
       expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).not_to include(with_feedback_but_not_selected.id)
       expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).not_to include(refused.id)
@@ -712,7 +712,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         :selected_reference,
         application_form: application_choice.application_form,
       )
-      presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
+      presenter = described_class.new(application_choice)
       expect(presenter.as_json[:attributes][:references].first[:id]).to eq(reference.id)
     end
 
@@ -729,7 +729,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_choice.application_form,
       )
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
+      presenter = described_class.new(application_choice)
       expect(presenter.as_json[:attributes][:references].map { |r| r[:safeguarding_concerns] })
         .to match_array [true, false]
     end
@@ -737,7 +737,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.qualifications' do
     let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
-    let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice) }
+    let(:presenter) { described_class.new(application_choice) }
 
     it 'uses the public_id of a qualification as the id' do
       qualification = create(
@@ -1043,21 +1043,21 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'includes an offer_made_at date for offers' do
       choice = create(:application_choice, :with_completed_application_form, :with_offer)
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      presenter = described_class.new(choice)
       expect(presenter.as_json[:attributes][:offer][:offer_made_at]).to be_present
     end
 
     it 'includes an accepted_at date for accepted offers' do
       choice = create(:application_choice, :with_completed_application_form, :with_accepted_offer)
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      presenter = described_class.new(choice)
       expect(presenter.as_json[:attributes][:offer][:offer_accepted_at]).to be_present
     end
 
     it 'includes a declined_at date for declined offers' do
       choice = create(:application_choice, :with_completed_application_form, :with_declined_offer)
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      presenter = described_class.new(choice)
       expect(presenter.as_json[:attributes][:offer][:offer_declined_at]).to be_present
     end
   end
@@ -1066,7 +1066,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'includes the date the candidate was recruited' do
       choice = create(:application_choice, :with_completed_application_form, :with_recruited)
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      presenter = described_class.new(choice)
       expect(presenter.as_json[:attributes][:recruited_at]).to be_present
     end
   end
@@ -1074,7 +1074,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.status' do
     it 'returns awaiting_provider_decision when status is interviewing' do
       application_choice = build_stubbed(:application_choice, :with_completed_application_form, status: :interviewing)
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      response = described_class.new(application_choice).as_json
       expect(response[:attributes][:status]).to eq('awaiting_provider_decision')
     end
   end
@@ -1101,8 +1101,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         allow(application_choice.application_form).to receive(field).and_call_original
       end
 
-      VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      VendorAPI::SingleApplicationPresenter.new(non_uk_application_choice).as_json
+      described_class.new(application_choice).as_json
+      described_class.new(non_uk_application_choice).as_json
 
       (ApplicationForm::PUBLISHED_FIELDS - %w[postcode equality_and_diversity]).each do |field|
         expect(non_uk_application_form).to have_received(field).at_least(:once)
@@ -1119,8 +1119,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         allow(application_choice.application_form).to receive(field).and_call_original
       end
 
-      VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      VendorAPI::SingleApplicationPresenter.new(non_uk_application_choice).as_json
+      described_class.new(application_choice).as_json
+      described_class.new(non_uk_application_choice).as_json
 
       (ApplicationForm.attribute_names - %w[id] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         expect(non_uk_application_form).not_to have_received(field)

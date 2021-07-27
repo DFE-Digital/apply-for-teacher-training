@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe VendorAPI::AttributionMeta do
-  subject { VendorAPI::AttributionMeta.new({}) }
+  subject { described_class.new({}) }
 
   it { is_expected.to validate_presence_of :full_name }
   it { is_expected.to validate_presence_of :email }

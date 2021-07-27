@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RejectedApplicationChoicePresenter do
   describe '#rejection_reasons' do
     let(:application_choice) { build_stubbed(:application_choice) }
-    let(:rejected_application_choice) { RejectedApplicationChoicePresenter.new(application_choice) }
+    let(:rejected_application_choice) { described_class.new(application_choice) }
 
     describe 'when there is a rejection_reason set' do
       it 'returns that reason only' do
@@ -34,7 +34,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           candidate_behaviour_what_to_improve: 'Do not swear',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Something you did' => ['Bad language',
@@ -52,7 +52,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Quality of application' => ['Do not refer to yourself in the third person',
                                          'Write in the first person'] },
@@ -67,7 +67,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           qualifications_which_qualifications: %w[no_english_gcse no_science_gcse no_degree],
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Qualifications' => ['No English GCSE grade 4 (C) or above, or valid equivalent',
@@ -84,7 +84,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           performance_at_interview_what_to_improve: 'There was no need to do all those pressups',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Performance at interview' => ['There was no need to do all those pressups'] },
@@ -102,7 +102,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           cannot_sponsor_visa_details: 'You misspelled visa as viza',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Course full' => ["We're sorry to tell you the course you applied to was full"],
@@ -120,7 +120,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           honesty_and_professionalism_concerns_references_details: 'The reference email you provided does not exist',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Honesty and professionalism' => ['The year you graduated can not be in the future',
@@ -136,7 +136,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           safeguarding_concerns_other_details: 'Other safeguarding details',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Safeguarding issues' => ['Other safeguarding details'] },
@@ -151,7 +151,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           other_advice_or_feedback_details: 'That zoom background...',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Additional advice' => ['That zoom background...'] },
@@ -169,7 +169,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
           interested_in_future_applications_y_n: 'Yes',
         }
         application_choice.structured_rejection_reasons = reasons_for_rejection
-        rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+        rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
           { 'Future applications' => ['UoG would be interested in future applications from you.'] },

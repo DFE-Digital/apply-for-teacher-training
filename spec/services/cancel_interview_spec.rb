@@ -21,7 +21,7 @@ RSpec.describe CancelInterview do
   describe '#save!' do
     describe 'when there are no other interviews' do
       it 'transitions the application_choice state to `awaiting_provider_decision` if successful' do
-        service = CancelInterview.new(service_params)
+        service = described_class.new(service_params)
 
         expect { service.save! }.to change { application_choice.status }.to('awaiting_provider_decision')
       end
@@ -30,14 +30,14 @@ RSpec.describe CancelInterview do
     describe 'when there are other interviews' do
       it 'does not change the application_choice state' do
         create(:interview, application_choice: application_choice)
-        service = CancelInterview.new(service_params)
+        service = described_class.new(service_params)
 
         expect { service.save! }.not_to(change { application_choice.status })
       end
     end
 
     it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
-      CancelInterview.new(service_params).save!
+      described_class.new(service_params).save!
 
       associated_audit = application_choice.associated_audits.last
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)

@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
 
   ApplicationStateChange.valid_states.each do |state_name|
     it "renders with a #{state_name} application choice" do
-      render_inline CandidateInterface::ApplicationStatusTagComponent.new(application_choice: create(:application_choice, course: course, status: state_name))
+      render_inline described_class.new(application_choice: create(:application_choice, course: course, status: state_name))
     end
 
     context 'when the application choice is in the application_not_sent state' do

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Events::Event do
   it 'can append request details' do
-    event = Events::Event.new
+    event = described_class.new
     output = event.with_request_details(fake_request).as_json
 
     expect(output).to match a_hash_including({
@@ -22,7 +22,7 @@ RSpec.describe Events::Event do
         user_agent: user_agent,
       )
 
-      event = Events::Event.new
+      event = described_class.new
       event.with_request_details(request).as_json['anonymised_user_agent_and_ip']
     end
 
@@ -57,7 +57,7 @@ RSpec.describe Events::Event do
 
   describe 'data pairs' do
     it 'converts booleans to strings' do
-      event = Events::Event.new
+      event = described_class.new
       output = event.with_data(key: true).as_json
       expect(output['data'].first['value']).to eq ['true']
     end

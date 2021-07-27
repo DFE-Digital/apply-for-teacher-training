@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
     it_behaves_like 'a data export'
   end
 
-  subject(:exported_rows) { Bullet.profile { SupportInterface::TADProviderStatsExport.new.call } }
+  subject(:exported_rows) { Bullet.profile { described_class.new.call } }
 
   describe 'calculating offers and acceptances' do
     states_excluded_from_tad_export = [:offer_deferred]

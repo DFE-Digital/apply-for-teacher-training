@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ProviderUsersTableComponent do
   subject(:rendered_component) do
     render_inline(
-      SupportInterface::ProviderUsersTableComponent.new(provider_users: provider_users),
+      described_class.new(provider_users: provider_users),
     ).text
   end
 

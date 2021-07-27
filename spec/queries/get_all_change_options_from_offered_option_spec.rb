@@ -9,7 +9,7 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
   let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
 
   let(:service) do
-    GetAllChangeOptionsFromOfferedOption.new(
+    described_class.new(
       application_choice: application_choice,
       available_providers: available_providers,
     )

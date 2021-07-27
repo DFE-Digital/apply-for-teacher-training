@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::SubjectKnowledgeForm, type: :model do
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
       application_form = ApplicationForm.new(data)
-      subject_knowledge = CandidateInterface::SubjectKnowledgeForm.build_from_application(
+      subject_knowledge = described_class.build_from_application(
         application_form,
       )
 
@@ -26,14 +26,14 @@ RSpec.describe CandidateInterface::SubjectKnowledgeForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      subject_knowledge = CandidateInterface::SubjectKnowledgeForm.new
+      subject_knowledge = described_class.new
 
       expect(subject_knowledge.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = FactoryBot.create(:application_form)
-      subject_knowledge = CandidateInterface::SubjectKnowledgeForm.new(form_data)
+      subject_knowledge = described_class.new(form_data)
 
       expect(subject_knowledge.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)

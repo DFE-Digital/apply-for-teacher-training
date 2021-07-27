@@ -8,7 +8,7 @@ RSpec.describe UCASIntegrationCheck do
       it 'detects a ucas match file upload failure' do
         UCASMatching::FileDownloadCheck.set_last_sync(3.days.ago)
 
-        UCASIntegrationCheck.new.perform
+        described_class.new.perform
 
         expect(Sentry).to have_received(:capture_exception).with(
           UCASIntegrationCheck::UCASMatchingFileDownloadFailure.new(
@@ -20,7 +20,7 @@ RSpec.describe UCASIntegrationCheck do
       it 'does not raise an error if the file wa uploaded successfully' do
         UCASMatching::FileDownloadCheck.set_last_sync(1.hour.ago)
 
-        UCASIntegrationCheck.new.perform
+        described_class.new.perform
 
         expect(Sentry).not_to have_received(:capture_exception)
       end

@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
       application_form = ApplicationForm.new(data)
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.build_from_application(
+      interview_preferences = described_class.build_from_application(
         application_form,
       )
 
@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
       application_form = ApplicationForm.new(
         interview_preferences: '',
       )
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.build_from_application(
+      interview_preferences = described_class.build_from_application(
         application_form,
       )
 
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
 
     it 'returns nil for any preferences if interview preferences is nil' do
       application_form = ApplicationForm.new(interview_preferences: nil)
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.build_from_application(
+      interview_preferences = described_class.build_from_application(
         application_form,
       )
 
@@ -47,14 +47,14 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.new
+      interview_preferences = described_class.new
 
       expect(interview_preferences.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = FactoryBot.build(:application_form)
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.new(form_data)
+      interview_preferences = described_class.new(form_data)
 
       expect(interview_preferences.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
 
     it 'updates the provided ApplicationForm with an empty string if no is selected' do
       application_form = build(:application_form)
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.new(
+      interview_preferences = described_class.new(
         any_preferences: 'no',
         interview_preferences: '',
       )
@@ -84,7 +84,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
     it { is_expected.not_to allow_value(invalid_text).for(:interview_preferences) }
 
     it 'validates the presence of interview preferences if chosen to add any' do
-      interview_preferences = CandidateInterface::InterviewPreferencesForm.new(any_preferences: 'yes')
+      interview_preferences = described_class.new(any_preferences: 'yes')
       error_message = t('activemodel.errors.models.candidate_interface/interview_preferences_form.attributes.interview_preferences.blank')
 
       interview_preferences.validate

@@ -9,8 +9,8 @@ RSpec.describe SubmitReference do
         reference_one = create(:reference, :feedback_requested)
         reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
 
-        SubmitReference.new(reference: reference_one).save!
-        SubmitReference.new(reference: reference_two).save!
+        described_class.new(reference: reference_one).save!
+        described_class.new(reference: reference_two).save!
 
         expect(reference_one).to be_feedback_provided
         expect(reference_one.feedback_provided_at).to eq Time.zone.now
@@ -30,8 +30,8 @@ RSpec.describe SubmitReference do
         reference3 = create(:reference, :feedback_refused, application_form: application_form)
         reference4 = create(:reference, :feedback_requested, application_form: application_form)
 
-        SubmitReference.new(reference: reference1).save!
-        SubmitReference.new(reference: reference2).save!
+        described_class.new(reference: reference1).save!
+        described_class.new(reference: reference2).save!
 
         expect(reference1).to be_feedback_provided
         expect(reference2).to be_feedback_provided

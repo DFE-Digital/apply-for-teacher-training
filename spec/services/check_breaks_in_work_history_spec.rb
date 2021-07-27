@@ -24,7 +24,7 @@ RSpec.describe CheckBreaksInWorkHistory do
       it 'returns false' do
         application_form = build_stubbed(:application_form)
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(false)
       end
@@ -39,7 +39,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(false)
       end
@@ -55,7 +55,7 @@ RSpec.describe CheckBreaksInWorkHistory do
             )
           end
 
-          breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+          breaks_in_work_history = described_class.call(application_form)
 
           expect(breaks_in_work_history).to eq(false)
         end
@@ -72,7 +72,7 @@ RSpec.describe CheckBreaksInWorkHistory do
             )
           end
 
-          breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+          breaks_in_work_history = described_class.call(application_form)
 
           expect(breaks_in_work_history).to eq(true)
         end
@@ -89,7 +89,7 @@ RSpec.describe CheckBreaksInWorkHistory do
             )
           end
 
-          breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+          breaks_in_work_history = described_class.call(application_form)
 
           expect(breaks_in_work_history).to eq(true)
         end
@@ -110,7 +110,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(true)
       end
@@ -128,7 +128,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(true)
       end
@@ -146,7 +146,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(true)
       end
@@ -164,7 +164,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(false)
       end
@@ -182,7 +182,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(true)
       end
@@ -207,7 +207,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(false)
       end
@@ -240,7 +240,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(true)
       end
@@ -268,7 +268,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(false)
       end
@@ -296,7 +296,7 @@ RSpec.describe CheckBreaksInWorkHistory do
           )
         end
 
-        breaks_in_work_history = CheckBreaksInWorkHistory.call(application_form)
+        breaks_in_work_history = described_class.call(application_form)
 
         expect(breaks_in_work_history).to eq(false)
       end

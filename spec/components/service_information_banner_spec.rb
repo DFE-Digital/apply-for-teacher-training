@@ -5,7 +5,7 @@ RSpec.describe ServiceInformationBanner do
 
   before { FeatureFlag.activate('service_information_banner') }
 
-  subject(:result) { render_inline(ServiceInformationBanner.new(namespace: namespace)) }
+  subject(:result) { render_inline(described_class.new(namespace: namespace)) }
 
   context 'in the provider namespace' do
     it 'renders the banner' do

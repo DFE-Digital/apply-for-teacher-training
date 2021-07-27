@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
           level: 'gcse',
         )
       end
-      let(:form) { CandidateInterface::EnglishGcseGradeForm.build_from_qualification(qualification) }
+      let(:form) { described_class.build_from_qualification(qualification) }
 
       it 'returns validation error if no GCSE is selected' do
         form.english_gcses = []
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
 
     context 'when qualification type is GCE O LEVEL' do
       let(:qualification) { build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse', subject: 'english') }
-      let(:form) { CandidateInterface::EnglishGcseGradeForm.build_from_qualification(qualification) }
+      let(:form) { described_class.build_from_qualification(qualification) }
 
       it 'returns no errors if grade is valid' do
         valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C']
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
                       level: 'gcse',
                       subject: 'english')
       end
-      let(:form) { CandidateInterface::EnglishGcseGradeForm.build_from_qualification(qualification) }
+      let(:form) { described_class.build_from_qualification(qualification) }
 
       it 'returns no errors if grade is valid' do
         valid_grades = ['AAA', 'AAB', '765', 'CBD', 'aaa', 'C B D', 'C-B-D']

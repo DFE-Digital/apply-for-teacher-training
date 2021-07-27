@@ -36,7 +36,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks).to eq([])
@@ -53,7 +53,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
@@ -71,7 +71,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
@@ -89,7 +89,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
@@ -107,7 +107,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
@@ -129,7 +129,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
@@ -151,7 +151,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
@@ -173,7 +173,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(4)
@@ -197,7 +197,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
@@ -219,7 +219,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(4)
@@ -243,7 +243,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
@@ -267,7 +267,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(3)
@@ -292,7 +292,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(1)
@@ -316,7 +316,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)
@@ -344,7 +344,7 @@ RSpec.describe RestructuredWorkHistoryWithBreaks do
           submitted_at: submitted_at,
         )
 
-        get_work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(application_form)
+        get_work_history_with_breaks = described_class.new(application_form)
         work_history_with_breaks = get_work_history_with_breaks.timeline
 
         expect(work_history_with_breaks.count).to eq(2)

@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
           safeguarding_issues_status: :not_answered_yet,
         )
 
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+        form = described_class.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq(nil)
         expect(form.safeguarding_issues).to eq(nil)
@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
           safeguarding_issues_status: :has_safeguarding_issues_to_declare,
         )
 
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+        form = described_class.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq('Yes')
         expect(form.safeguarding_issues).to eq(nil)
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
           safeguarding_issues_status: :no_safeguarding_issues_to_declare,
         )
 
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+        form = described_class.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq('No')
         expect(form.safeguarding_issues).to eq(nil)
@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
           safeguarding_issues_status: :has_safeguarding_issues_to_declare,
         )
 
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.build_from_application(application_form)
+        form = described_class.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq('Yes')
         expect(form.safeguarding_issues).to eq('I have a criminal conviction')
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
     context 'when sharing safeguarding issues is blank' do
       it 'returns false' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new
+        form = described_class.new
 
         expect(form.save(application_form)).to be(false)
       end
@@ -76,13 +76,13 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
     context 'when sharing safeguarding issues is "No"' do
       it 'returns true' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(share_safeguarding_issues: 'No')
+        form = described_class.new(share_safeguarding_issues: 'No')
 
         expect(form.save(application_form)).to be(true)
       end
 
       it 'updates safeguarding issues of the application form to "No"' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(share_safeguarding_issues: 'No')
+        form = described_class.new(share_safeguarding_issues: 'No')
 
         form.save(application_form)
 
@@ -93,7 +93,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
     context 'when sharing safeguarding issues is "Yes" but no details provided' do
       it 'returns true' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(
+        form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: '',
         )
@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
       end
 
       it 'updates safeguarding issues of the application form to provided issues if empty string' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(
+        form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: '',
         )
@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
       end
 
       it 'updates safeguarding issues of the application form to provided issues if nil' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(
+        form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: nil,
         )
@@ -128,7 +128,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
     context 'when sharing safeguarding issues is "Yes" and details provided' do
       it 'returns true' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(
+        form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: 'I have a criminal conviction.',
         )
@@ -137,7 +137,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
       end
 
       it 'updates safeguarding issues of the application form to provided issues' do
-        form = CandidateInterface::SafeguardingIssuesDeclarationForm.new(
+        form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: 'I have a criminal conviction.',
         )

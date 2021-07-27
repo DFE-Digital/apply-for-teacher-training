@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Interview, type: :model do
-  subject(:interview) { Interview.new }
+  subject(:interview) { described_class.new }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:application_choice) }

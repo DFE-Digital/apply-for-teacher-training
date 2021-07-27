@@ -7,7 +7,7 @@ RSpec.describe DeclineOffersByDefaultWorker do
       offer_expired = create(:application_choice, status: 'offer', decline_by_default_at: Time.zone.now - 1.day)
       rejected = create(:application_choice, status: 'rejected', decline_by_default_at: Time.zone.now - 1.day)
 
-      DeclineOffersByDefaultWorker.new.perform
+      described_class.new.perform
 
       expect(offer_not_expired.reload.status).to eq('offer')
       expect(offer_expired.reload.status).to eq('declined')

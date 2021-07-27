@@ -5,7 +5,7 @@ RSpec.describe NotificationsList do
     it 'raises an error for an undefined type of event' do
       application_choice = build(:application_choice)
 
-      expect { NotificationsList.for(application_choice, event: 'application_exploded') }.to raise_error('Undefined type of notification event')
+      expect { described_class.for(application_choice, event: 'application_exploded') }.to raise_error('Undefined type of notification event')
     end
 
     it 'returns training provider users for the application choice for a given type of event' do
@@ -14,7 +14,7 @@ RSpec.describe NotificationsList do
 
       create(:provider_user_notification_preferences, :all_off, provider_user: create(:provider_user, providers: [application_choice.course.provider]))
 
-      expect(NotificationsList.for(application_choice, event: :offer_accepted).to_a).to eql([provider_user])
+      expect(described_class.for(application_choice, event: :offer_accepted).to_a).to eql([provider_user])
     end
 
     it 'returns training and ratifying provider users for the application choice for a given type of event' do
@@ -26,7 +26,7 @@ RSpec.describe NotificationsList do
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
 
       create(:provider_user_notification_preferences, :all_off, provider_user: create(:provider_user, providers: [application_choice.course.provider]))
-      expect(NotificationsList.for(application_choice, include_ratifying_provider: true, event: :offer_accepted).to_a).to match_array([training_provider_user, ratifying_provider_user])
+      expect(described_class.for(application_choice, include_ratifying_provider: true, event: :offer_accepted).to_a).to match_array([training_provider_user, ratifying_provider_user])
     end
 
     it 'returns a provider user who is a member of the training and ratifying providers without duplicates' do
@@ -35,7 +35,7 @@ RSpec.describe NotificationsList do
       provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider, ratifying_provider])
       application_choice = create(:application_choice, course_option: create(:course_option, course: create(:course, provider: training_provider, accredited_provider: ratifying_provider)))
 
-      expect(NotificationsList.for(
+      expect(described_class.for(
         application_choice,
         include_ratifying_provider: true,
         event: :offer_accepted,

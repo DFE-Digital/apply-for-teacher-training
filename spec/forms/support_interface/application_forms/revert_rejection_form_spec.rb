@@ -23,7 +23,7 @@ RSpec.describe SupportInterface::ApplicationForms::RevertRejectionForm, type: :m
       Timecop.freeze do
         application_choice = create(:application_choice, :with_rejection)
 
-        form = SupportInterface::ApplicationForms::RevertRejectionForm.new(
+        form = described_class.new(
           audit_comment_ticket: zendesk_ticket,
           accept_guidance: true,
         )
