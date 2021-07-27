@@ -97,28 +97,15 @@ module ProviderInterface
       if @provider_setup.next_agreement_pending
         redirect_to provider_interface_new_data_sharing_agreement_path
       elsif @provider_setup.next_relationship_pending
-        redirect_to setup_organisation_permissions_path
+        redirect_to provider_interface_organisation_permissions_setup_index_path
       end
     end
 
     def performing_provider_organisation_setup?
-      setup_controllers = [ProviderInterface::ProviderAgreementsController]
-
-      setup_controllers << if FeatureFlag.active?(:accredited_provider_setting_permissions)
-                             ProviderInterface::OrganisationPermissionsSetupController
-                           else
-                             ProviderInterface::ProviderRelationshipPermissionsSetupController
-                           end
-
-      setup_controllers.include?(request.controller_class)
-    end
-
-    def setup_organisation_permissions_path
-      if FeatureFlag.active?(:accredited_provider_setting_permissions)
-        provider_interface_organisation_permissions_setup_index_path
-      else
-        provider_interface_provider_relationship_permissions_organisations_path
-      end
+      [
+        ProviderInterface::ProviderAgreementsController,
+        ProviderInterface::OrganisationPermissionsSetupController,
+      ].include?(request.controller_class)
     end
 
     def requires_make_decisions_permission
