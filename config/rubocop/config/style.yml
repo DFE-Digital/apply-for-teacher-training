@@ -132,9 +132,6 @@ Style/ExplicitBlockArgument:
 Style/RedundantParentheses:
   Enabled: true
 
-Style/NegatedIfElseCondition:
-  Enabled: false
-
 Style/NilLambda:
   Exclude:
     - app/views/provider_interface/interviews/cancel.html.erb

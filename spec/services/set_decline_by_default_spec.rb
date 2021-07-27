@@ -23,7 +23,7 @@ RSpec.describe SetDeclineByDefault do
 
         dbd_at = application_choice.decline_by_default_at
 
-        if !expected.nil?
+        if expected
           expect_timestamps_to_match_excluding_milliseconds(dbd_at, expected)
         else
           expect(dbd_at).to be_nil

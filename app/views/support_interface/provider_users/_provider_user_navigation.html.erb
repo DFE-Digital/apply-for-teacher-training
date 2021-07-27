@@ -5,7 +5,7 @@
     Providers: support_interface_providers_path,
     'Provider users': support_interface_provider_users_path,
     provider_user.display_name => support_interface_provider_user_path(provider_user),
-  }.merge(title != 'Details' ? { title => nil } : {})) %>
+  }.merge(title == 'Details' ? {} : { title => nil })) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [
