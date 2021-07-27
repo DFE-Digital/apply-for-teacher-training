@@ -1,0 +1,26 @@
+Dear <%= @provider_user.first_name %>
+
+# <%= @partner_organisation.name %> has changed organisation permissions for teacher training courses you work on with them
+
+<%= @partner_organisation.name %> has set the following organisation permissions.
+
+Make offers and reject applications:
+
+<%= @partner_organisation.name if @permissions.permit?(:make_decisions, @partner_organisation) %>
+<%= @recipient_organisation.name if @permissions.permit?(:make_decisions, @recipient_organisation) %>
+
+View criminal convictions and professional misconduct:
+
+<%= @partner_organisation.name if @permissions.permit?(:view_safeguarding_information, @partner_organisation) %>
+<%= @recipient_organisation.name if @permissions.permit?(:view_safeguarding_information, @recipient_organisation) %>
+
+View sex, disability and ethnicity information:
+
+<%= @partner_organisation.name if @permissions.permit?(:view_diversity_information, @partner_organisation) %>
+<%= @recipient_organisation.name if @permissions.permit?(:view_diversity_information, @recipient_organisation) %>
+
+Change organisation permissions
+
+You can change these organisation permissions in your organisation settings:
+
+((link))

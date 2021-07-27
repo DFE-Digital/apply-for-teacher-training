@@ -76,6 +76,39 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.unconditional_offer_accepted(provider_user, application_choice)
   end
 
+  def organisation_permissions_set_up
+    training_provider = FactoryBot.create(:provider)
+    ratifying_provider = FactoryBot.create(:provider)
+    provider_user = FactoryBot.create(:provider_user, providers: [ratifying_provider])
+    provider_user.provider_permissions.update_all(manage_organisations: true)
+    permissions = FactoryBot.create(
+      :provider_relationship_permissions,
+      training_provider: training_provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+      training_provider_can_view_safeguarding_information: false,
+      ratifying_provider_can_view_safeguarding_information: true,
+      ratifying_provider_can_view_diversity_information: true,
+    )
+    ProviderMailer.organisation_permissions_set_up(provider_user, permissions)
+  end
+
+  def organisation_permissions_updated
+    training_provider = FactoryBot.create(:provider)
+    ratifying_provider = FactoryBot.create(:provider)
+    provider_user = FactoryBot.create(:provider_user, providers: [ratifying_provider])
+    provider_user.provider_permissions.update_all(manage_organisations: true)
+    permissions = FactoryBot.create(
+      :provider_relationship_permissions,
+      training_provider: training_provider,
+      ratifying_provider: ratifying_provider,
+      ratifying_provider_can_make_decisions: true,
+      training_provider_can_make_decisions: false,
+      ratifying_provider_can_view_safeguarding_information: true,
+    )
+    ProviderMailer.organisation_permissions_updated(provider_user, permissions)
+  end
+
 private
 
   def provider
