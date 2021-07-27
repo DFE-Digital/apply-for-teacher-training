@@ -120,14 +120,6 @@ Rails.application.routes.draw do
       end
 
       scope '/personal-statement' do
-        # TODO: Remove redirects from Jan 15 2021
-        get '/becoming-a-teacher', to: redirect('/candidate/application/personal-statement')
-        get '/becoming-a-teacher/review', to: redirect('/candidate/application/personal-statement/review')
-        get '/subject-knowledge', to: redirect('/candidate/application/subject-knowledge')
-        get '/subject-knowledge/review', to: redirect('/candidate/application/subject-knowledge/review')
-        get '/interview-preferences', to: redirect('/candidate/application/interview-needs')
-        get '/interview-preferences/review', to: redirect('/candidate/application/interview-needs/review')
-
         get '/' => 'personal_statement#new', as: :new_becoming_a_teacher
         patch '/' => 'personal_statement#create'
         get '/edit' => 'personal_statement#edit', as: :edit_becoming_a_teacher

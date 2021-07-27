@@ -54,7 +54,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: '/candidate/application/personal-statement/becoming-a-teacher',
+      path: '/candidate/application/personal-statement',
     )
   end
 
@@ -80,7 +80,7 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: '/candidate/application/personal-statement/becoming-a-teacher',
+      path: '/candidate/application/personal-statement',
       created_at: 2.hours.ago,
     )
   end
