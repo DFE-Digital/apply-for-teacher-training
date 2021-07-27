@@ -23,6 +23,7 @@
             <span class="govuk-!-display-block govuk-!-margin-bottom-1">
               <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
             </span>
+            <%= render SupportInterface::ProviderTypeTagComponent.new(provider: provider) %>
             <% if provider.lacks_admin_users? %>
               <span class="govuk-caption-m">No admin user</span>
             <% end %>
