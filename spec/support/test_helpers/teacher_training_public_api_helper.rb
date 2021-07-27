@@ -10,7 +10,7 @@ module TeacherTrainingPublicAPIHelper
       :get,
       "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers",
     ).with(
-      query: { page: { page: 1, per_page: 250 } },
+      query: { page: { page: 1, per_page: 200 } },
     )
 
     scope = scope.with(query: filter_option) if filter_option
@@ -170,7 +170,7 @@ private
       :get,
       "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers",
     ).with(
-      query: { page: { page: page_number, per_page: 250 } },
+      query: { page: { page: page_number, per_page: 200 } },
     ).to_return(
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
