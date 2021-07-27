@@ -25,14 +25,14 @@ RSpec.describe CandidateInterface::WorkExplanationForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      work_explanation_form = CandidateInterface::WorkExplanationForm.new
+      work_explanation_form = described_class.new
 
       expect(work_explanation_form.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'creates a new work experience if valid' do
       application_form = FactoryBot.create(:application_form)
-      work_explanation_form = CandidateInterface::WorkExplanationForm.new(form_data)
+      work_explanation_form = described_class.new(form_data)
 
       work_explanation_form.save(application_form)
       expect(application_form.reload).to have_attributes(data)
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::WorkExplanationForm, type: :model do
   describe '.build_from_application' do
     it 'creates an object based on the provided application form' do
       application_form = ApplicationForm.new(data)
-      work_explanation_form = CandidateInterface::WorkExplanationForm.build_from_application(
+      work_explanation_form = described_class.build_from_application(
         application_form,
       )
 

@@ -44,7 +44,7 @@ RSpec.describe ApplicationForm do
         it 'does not throw an exception' do
           application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 1)
 
-          ApplicationForm.with_unsafe_application_choice_touches do
+          described_class.with_unsafe_application_choice_touches do
             expect { application_form.update(first_name: 'Maria') }
               .not_to raise_error
           end

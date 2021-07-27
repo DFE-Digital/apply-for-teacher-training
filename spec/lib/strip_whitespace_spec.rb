@@ -22,7 +22,7 @@ RSpec.describe StripWhitespace do
   describe '.from_string' do
     it 'removes whitespace characters from the string argument' do
       expect(
-        StripWhitespace.from_string(
+        described_class.from_string(
           "\u180E\u200B\u200C\u200D\u2060\uFEFF test \u180E\u200B\u200C\u200D\u2060\uFEFF",
         ),
       ).to eq('test')

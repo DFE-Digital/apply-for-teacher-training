@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe OfferValidations, type: :model do
-  subject(:offer) { OfferValidations.new(application_choice: application_choice, course_option: course_option, conditions: conditions) }
+  subject(:offer) { described_class.new(application_choice: application_choice, course_option: course_option, conditions: conditions) }
 
   let(:application_choice) { nil }
   let(:course_option) { create(:course_option, course: course) }

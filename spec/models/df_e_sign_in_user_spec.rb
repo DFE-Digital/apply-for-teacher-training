@@ -5,7 +5,7 @@ RSpec.describe DfESignInUser, type: :model do
     it 'returns the DfE User when the user has signed in and has been recently active' do
       session = { 'dfe_sign_in_user' => { 'last_active_at' => Time.zone.now } }
 
-      user = DfESignInUser.load_from_session(session)
+      user = described_class.load_from_session(session)
 
       expect(user).not_to be_nil
     end
@@ -13,7 +13,7 @@ RSpec.describe DfESignInUser, type: :model do
     it 'returns nil when the user has signed in and has not been recently active' do
       session = { 'dfe_sign_in_user' => { 'last_active_at' => Time.zone.now - 1.day } }
 
-      user = DfESignInUser.load_from_session(session)
+      user = described_class.load_from_session(session)
 
       expect(user).to be_nil
     end
@@ -21,7 +21,7 @@ RSpec.describe DfESignInUser, type: :model do
     it 'returns nil when the user has not signed in' do
       session = { 'dfe_sign_in_user' => nil }
 
-      user = DfESignInUser.load_from_session(session)
+      user = described_class.load_from_session(session)
 
       expect(user).to be_nil
     end
@@ -29,7 +29,7 @@ RSpec.describe DfESignInUser, type: :model do
     it 'returns nil when the user does not have a last active timestamp' do
       session = { 'dfe_sign_in_user' => { 'last_active_at' => nil } }
 
-      user = DfESignInUser.load_from_session(session)
+      user = described_class.load_from_session(session)
 
       expect(user).to be_nil
     end
@@ -41,11 +41,11 @@ RSpec.describe DfESignInUser, type: :model do
         'dfe_sign_in_user' => { 'last_active_at' => Time.zone.now },
         'impersonated_provider_user' => { 'provider_user_id' => provider_user.id },
       }
-      user = DfESignInUser.load_from_session(session)
+      user = described_class.load_from_session(session)
       expect(user.impersonated_provider_user).to eq(provider_user)
 
       session = { 'dfe_sign_in_user' => { 'last_active_at' => Time.zone.now } }
-      user = DfESignInUser.load_from_session(session)
+      user = described_class.load_from_session(session)
       expect(user.impersonated_provider_user).to be_nil
     end
   end
@@ -53,7 +53,7 @@ RSpec.describe DfESignInUser, type: :model do
   describe '#begin_impersonation!' do
     let(:provider_user) { create(:provider_user) }
     let(:dsi_user) do
-      DfESignInUser.new(email_address: nil, dfe_sign_in_uid: nil, first_name: nil, last_name: nil)
+      described_class.new(email_address: nil, dfe_sign_in_uid: nil, first_name: nil, last_name: nil)
     end
 
     it 'adds an impersonated_provider_user section to the session' do
@@ -71,7 +71,7 @@ RSpec.describe DfESignInUser, type: :model do
 
   describe '#end_impersonation!' do
     let(:dsi_user) do
-      DfESignInUser.new(email_address: nil, dfe_sign_in_uid: nil, first_name: nil, last_name: nil)
+      described_class.new(email_address: nil, dfe_sign_in_uid: nil, first_name: nil, last_name: nil)
     end
 
     it 'deletes the impersonated_provider_user section' do

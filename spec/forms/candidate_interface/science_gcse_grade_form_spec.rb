@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             level: 'gcse',
           )
         end
-        let(:form) { CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification) }
+        let(:form) { described_class.build_from_qualification(qualification) }
 
         it 'returns no errors if grade is valid' do
           mistyped_grades = %w[a b c]
@@ -72,7 +72,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             level: 'gcse',
           )
         end
-        let(:form) { CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification) }
+        let(:form) { described_class.build_from_qualification(qualification) }
 
         it 'returns no errors if grade is valid' do
           mistyped_grades = ['A a', 'A    a', 'b b', 'A-a', 'B/b', 'C,c']
@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             level: 'gcse',
           )
         end
-        let(:form) { CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification) }
+        let(:form) { described_class.build_from_qualification(qualification) }
 
         it 'returns no errors if all grades are valid' do
           form.subject = ApplicationQualification::SCIENCE_TRIPLE_AWARD
@@ -172,7 +172,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
     context 'when qualification type is GCE O LEVEL' do
       let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse', subject: 'science') }
-      let(:form) { CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification) }
+      let(:form) { described_class.build_from_qualification(qualification) }
 
       it 'returns no errors if grade is valid' do
         valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C']
@@ -198,7 +198,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
     end
 
     context 'when qualification type is Scottish National 5' do
-      let(:form) { CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification) }
+      let(:form) { described_class.build_from_qualification(qualification) }
       let(:qualification) do
         FactoryBot.build_stubbed(:application_qualification,
                                  qualification_type: 'scottish_national_5',
@@ -232,7 +232,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
   context 'when saving qualification details' do
     qualification = ApplicationQualification.new
-    form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+    form = described_class.build_from_qualification(qualification)
 
     describe '#save' do
       it 'return false if not valid' do
@@ -242,7 +242,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       it 'updates qualification details if valid' do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
-        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        details_form = described_class.build_from_qualification(qualification)
 
         details_form.grade = 'AB'
 
@@ -255,7 +255,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       it 'sets grade to other_grade if candidate selected "other"' do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
-        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        details_form = described_class.build_from_qualification(qualification)
 
         details_form.grade = 'other'
         details_form.other_grade = 'D'
@@ -273,7 +273,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           application_form: application_form,
         )
 
-        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        details_form = described_class.build_from_qualification(qualification)
 
         details_form.subject = ApplicationQualification::SCIENCE_SINGLE_AWARD
         details_form.grade = 'a*'
@@ -291,7 +291,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           application_form: application_form,
         )
 
-        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        details_form = described_class.build_from_qualification(qualification)
 
         details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
         details_form.grade = 'a* -/, a*'
@@ -309,7 +309,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           application_form: application_form,
         )
 
-        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        details_form = described_class.build_from_qualification(qualification)
 
         details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
         details_form.grade = '43'
@@ -327,7 +327,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           application_form: application_form,
         )
 
-        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+        details_form = described_class.build_from_qualification(qualification)
 
         details_form.subject = ApplicationQualification::SCIENCE_TRIPLE_AWARD
         details_form.biology_grade = ' a* '
@@ -353,7 +353,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             subject: ApplicationQualification::SCIENCE_SINGLE_AWARD,
             application_form: application_form,
           )
-          details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+          details_form = described_class.build_from_qualification(qualification)
 
           details_form.subject = ApplicationQualification::SCIENCE_TRIPLE_AWARD
           details_form.biology_grade = 'B'
@@ -378,7 +378,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
             application_form: application_form,
           )
-          details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+          details_form = described_class.build_from_qualification(qualification)
 
           details_form.subject = ApplicationQualification::SCIENCE_SINGLE_AWARD
           details_form.grade = 'A'
@@ -396,7 +396,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       context 'when the qualification_type is non_uk and grade is not_applicable' do
         it 'sets grade to not_applicable and other grade to nil' do
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'n/a')
-          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+          gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'not_applicable'
           expect(gcse_details_form.other_grade).to eq nil
@@ -406,7 +406,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       context 'when the grade is unknown' do
         it 'sets grade to not_applicable and other grade to nil' do
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'unknown')
-          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+          gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'unknown'
           expect(gcse_details_form.other_grade).to eq nil
@@ -416,7 +416,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       context 'when the grade is another value' do
         it 'sets grade to other and other grade to grades value' do
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'D')
-          gcse_details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+          gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'other'
           expect(gcse_details_form.other_grade).to eq 'D'

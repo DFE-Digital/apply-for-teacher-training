@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
     it 'creates an object based on the provided ApplicationForm' do
       application_form = ApplicationForm.new(data)
-      nationalities = CandidateInterface::NationalitiesForm.build_from_application(
+      nationalities = described_class.build_from_application(
         application_form,
       )
 
@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   describe '.candidates_nationalties' do
     context 'when other is true' do
       it 'returns a unique array of the candidates selected nationalties' do
-        nationalities = CandidateInterface::NationalitiesForm.new(
+        nationalities = described_class.new(
           british: 'British',
           irish: 'Irish',
           other: 'other',
@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
     context 'when other is nil' do
       it 'returns a unique array of the candidates selected nationalties' do
-        nationalities = CandidateInterface::NationalitiesForm.new(
+        nationalities = described_class.new(
           british: 'British',
           irish: 'Irish',
           other: nil,
@@ -77,7 +77,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      nationalities = CandidateInterface::NationalitiesForm.new
+      nationalities = described_class.new
 
       expect(nationalities.save(ApplicationForm.new)).to eq(false)
     end
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
       it 'updates the provided ApplicationForms nationalities and resets the right to work fields to nil' do
         application_form = FactoryBot.build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
-        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+        nationalities = described_class.new(form_data)
 
         expect(nationalities.save(application_form)).to eq(true)
         expect(application_form.first_nationality).to eq 'British'
@@ -121,7 +121,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
       it 'updates the provided ApplicationForms nationalities and retains the right to work fields' do
         application_form = FactoryBot.build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
-        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+        nationalities = described_class.new(form_data)
 
         expect(nationalities.save(application_form)).to eq(true)
         expect(application_form.first_nationality).to eq 'Belgian'
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   describe 'validations' do
     context 'with no nationality option selected' do
       it 'validates the candidate has provided a nationality' do
-        details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new
+        details_with_invalid_nationality = described_class.new
 
         details_with_invalid_nationality.validate
 
@@ -146,7 +146,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
     context "with 'Other' nationality option selected but first nationality is not selected" do
       it 'validates the candidate has provided a first nationality' do
-        details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(other: 'other')
+        details_with_invalid_nationality = described_class.new(other: 'other')
 
         details_with_invalid_nationality.validate
 
@@ -157,7 +157,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
     context "with 'Other' nationality option and and first nationality selected" do
       it 'is valid' do
-        details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
+        details_with_valid_nationality = described_class.new(
           other: 'other',
           other_nationality1: 'New Zealander',
         )
@@ -167,13 +167,13 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     end
 
     it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
-      details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(
+      details_with_invalid_nationality = described_class.new(
         other_nationality1: 'Tralfamadorian',
         other_nationality2: NATIONALITY_DEMONYMS.sample,
         other_nationality3: 'Tribbel',
       )
 
-      details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
+      details_with_valid_nationality = described_class.new(
         other_nationality1: NATIONALITY_DEMONYMS.sample,
         other_nationality2: NATIONALITY_DEMONYMS.sample,
         other_nationality3: NATIONALITY_DEMONYMS.sample,

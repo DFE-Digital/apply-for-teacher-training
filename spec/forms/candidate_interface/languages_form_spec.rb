@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
         english_language_details: nil,
         other_language_details: 'I speak French',
       )
-      languages_form = CandidateInterface::LanguagesForm.build_from_application(
+      languages_form = described_class.build_from_application(
         application_form,
       )
 
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
 
     it "initialises english_main_language to nil when it's nil in the application form" do
       application_form = ApplicationForm.new(english_main_language: nil)
-      languages_form = CandidateInterface::LanguagesForm.build_from_application(
+      languages_form = described_class.build_from_application(
         application_form,
       )
 
@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      languages_form = CandidateInterface::LanguagesForm.new
+      languages_form = described_class.new
 
       expect(languages_form.save(ApplicationForm.new)).to eq(false)
     end
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
         other_language_details: 'I also speak French',
       }
       application_form = FactoryBot.build(:application_form)
-      languages_form = CandidateInterface::LanguagesForm.new(form_data)
+      languages_form = described_class.new(form_data)
 
       languages_form.save(application_form)
 
@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
         other_language_details: 'I also speak French',
       }
       application_form = FactoryBot.build(:application_form)
-      languages_form = CandidateInterface::LanguagesForm.new(form_data)
+      languages_form = described_class.new(form_data)
 
       languages_form.save(application_form)
 
@@ -82,13 +82,13 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
 
   describe '#english_main_language?' do
     it 'returns true if "yes"' do
-      languages_form = CandidateInterface::LanguagesForm.new(english_main_language: 'yes')
+      languages_form = described_class.new(english_main_language: 'yes')
 
       expect(languages_form).to be_english_main_language
     end
 
     it 'returns false if "no"' do
-      languages_form = CandidateInterface::LanguagesForm.new(english_main_language: 'no')
+      languages_form = described_class.new(english_main_language: 'no')
 
       expect(languages_form).not_to be_english_main_language
     end

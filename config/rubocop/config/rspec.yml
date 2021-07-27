@@ -23,10 +23,6 @@ RSpec/EmptyLineAfterSubject:
 RSpec/LetSetup:
   Enabled: false
 
-# It's better to be explicit about the class that's being tested
-RSpec/DescribedClass:
-  Enabled: false
-
 # This cop wants us to use `expect().to change(Candidate, :count)` instead
 # of `expect().to change { Candidate.count }`, which does not seem better.
 RSpec/ExpectChange:

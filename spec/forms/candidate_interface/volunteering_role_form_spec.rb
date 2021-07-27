@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
         )
       end
 
-      volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(application_form)
+      volunteering_roles = described_class.build_all_from_application(application_form)
 
       expect(volunteering_roles).to match_array([
         have_attributes(form_data),
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     it 'returns a new VolunteeringRoleForm object using an application experience' do
       application_experience = build_stubbed(:application_volunteering_experience, attributes: data)
 
-      volunteering_role = CandidateInterface::VolunteeringRoleForm.build_from_experience(application_experience)
+      volunteering_role = described_class.build_from_experience(application_experience)
 
       expect(volunteering_role).to have_attributes(form_data)
     end
@@ -73,14 +73,14 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      volunteering_role = CandidateInterface::VolunteeringRoleForm.new
+      volunteering_role = described_class.new
 
       expect(volunteering_role.save(ApplicationForm.new)).to eq(false)
     end
 
     context 'when a valid volunteering role' do
       let(:application_form) { create(:application_form, volunteering_experience: false) }
-      let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(form_data) }
+      let(:volunteering_role) { described_class.new(form_data) }
 
       it 'creates a new work experience if valid' do
         expect(volunteering_role.save(application_form)).to eq(true)
@@ -101,7 +101,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     let(:existing_volunteering) do
       application_form.application_volunteering_experiences.create(attributes: data)
     end
-    let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(id: existing_volunteering.id) }
+    let(:volunteering_role) { described_class.new(id: existing_volunteering.id) }
 
     it 'returns false if not valid' do
       expect(volunteering_role.update(ApplicationForm.new)).to eq(false)

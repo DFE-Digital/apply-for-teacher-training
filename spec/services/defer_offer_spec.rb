@@ -5,7 +5,7 @@ RSpec.describe DeferOffer do
     it 'changes the state of an accepted offer to "offer_deferred"' do
       application_choice = create(:application_choice, :with_accepted_offer)
 
-      DeferOffer.new(
+      described_class.new(
         actor: create(:support_user),
         application_choice: application_choice,
       ).save!
@@ -16,7 +16,7 @@ RSpec.describe DeferOffer do
     it 'sets offer_deferred_at' do
       application_choice = create(:application_choice, :with_accepted_offer)
 
-      DeferOffer.new(
+      described_class.new(
         actor: create(:support_user),
         application_choice: application_choice,
       ).save!
@@ -27,7 +27,7 @@ RSpec.describe DeferOffer do
     it 'changes the state of a recruited application choice to "offer_deferred"' do
       application_choice = create(:application_choice, :with_recruited)
 
-      DeferOffer.new(
+      described_class.new(
         actor: create(:support_user),
         application_choice: application_choice,
       ).save!
@@ -40,7 +40,7 @@ RSpec.describe DeferOffer do
       provider_user = create(:provider_user)
       provider_user.providers << application_choice.current_course.provider
 
-      service = DeferOffer.new(
+      service = described_class.new(
         actor: provider_user,
         application_choice: application_choice,
       )
@@ -55,7 +55,7 @@ RSpec.describe DeferOffer do
       deliverer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:deferred_offer).and_return(deliverer)
 
-      DeferOffer.new(actor: create(:support_user), application_choice: application_choice).save!
+      described_class.new(actor: create(:support_user), application_choice: application_choice).save!
 
       expect(CandidateMailer).to have_received(:deferred_offer).once.with(application_choice)
     end
@@ -64,7 +64,7 @@ RSpec.describe DeferOffer do
       application_choice = create(:application_choice, :with_recruited)
       allow(StateChangeNotifier).to receive(:call)
 
-      DeferOffer.new(actor: create(:support_user), application_choice: application_choice).save!
+      described_class.new(actor: create(:support_user), application_choice: application_choice).save!
 
       expect(StateChangeNotifier).to have_received(:call).with(:defer_offer, application_choice: application_choice)
     end

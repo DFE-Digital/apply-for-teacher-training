@@ -14,7 +14,7 @@ RSpec.describe SupportInterface::ProviderUserSummaryComponent do
 
   subject(:rendered_component) do
     render_inline(
-      SupportInterface::ProviderUserSummaryComponent.new(provider_user),
+      described_class.new(provider_user),
     ).text
   end
 

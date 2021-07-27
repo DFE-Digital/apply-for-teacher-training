@@ -5,7 +5,7 @@ RSpec.describe SetDeclineByDefault do
     let(:application_form) { create(:completed_application_form, application_choices_count: 3) }
     let(:choices) { application_form.application_choices }
     let(:now) { Time.zone.now }
-    let(:call_service) { SetDeclineByDefault.new(application_form: application_form).call }
+    let(:call_service) { described_class.new(application_form: application_form).call }
 
     around do |example|
       Timecop.freeze(now) do

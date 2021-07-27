@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
         disability_disclosure: 'I have difficulty climbing stairs',
       }
       application_form = build_stubbed(:application_form, data)
-      disability_form = CandidateInterface::TrainingWithADisabilityForm.build_from_application(application_form)
+      disability_form = described_class.build_from_application(application_form)
 
       expect(disability_form).to have_attributes(
         disclose_disability: 'yes',
@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
   describe '#save' do
     let(:application_form) { build(:application_form) }
     let(:disability_form) do
-      CandidateInterface::TrainingWithADisabilityForm.new(form_data)
+      described_class.new(form_data)
     end
 
     context 'when not valid' do

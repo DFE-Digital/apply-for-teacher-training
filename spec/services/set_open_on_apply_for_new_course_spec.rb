@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SetOpenOnApplyForNewCourse do
   let(:course) { create(:course, open_on_apply: false) }
 
-  subject(:course_opener) { SetOpenOnApplyForNewCourse.new(course) }
+  subject(:course_opener) { described_class.new(course) }
 
   context 'in Sandbox', sandbox: true do
     it 'opens the course' do

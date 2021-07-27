@@ -18,7 +18,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
     end
 
     it 'returns the course for the correct recruitment cycle' do
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, course.recruitment_cycle_year)
+      ucas_matching_application = described_class.new(ucas_matching_data, course.recruitment_cycle_year)
 
       expect(ucas_matching_application.course).to eq(course)
     end
@@ -34,7 +34,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       end
 
       it 'returns the correct course details' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, course.recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, course.recruitment_cycle_year)
 
         expect(ucas_matching_application.course.code).to eq('123')
         expect(ucas_matching_application.course.name).to eq('Not on Apply')
@@ -51,7 +51,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         end
 
         it 'returns a missing data string' do
-          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.course.code).to eq('Missing course code')
           expect(ucas_matching_application.course.name).to eq('Missing course name')
@@ -74,7 +74,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       end
 
       it 'returns the application status' do
-        ucas_matching_application = UCASMatchedApplication.new(apply_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(apply_matching_data, recruitment_cycle_year)
         allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.status).to eq(application_choice.status)
@@ -94,7 +94,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       end
 
       it 'returns the ucas status' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.status).to eq('rejected')
         expect(ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map(&:to_s)).to include(ucas_matching_application.status)
@@ -113,7 +113,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       end
 
       it 'returns the application status' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
         allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.status).to eq(application_choice.status)
@@ -140,7 +140,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:matching_data) { ucas_matching_data }
 
         it 'returns true' do
-          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(true)
         end
@@ -150,7 +150,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:matching_data) { ucas_matching_data.merge('Withdrawns' => '1') }
 
         it 'returns false' do
-          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
         end
@@ -160,7 +160,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:ucas_matching_data) { { 'Scheme' => 'D' } }
 
         it 'returns false' do
-          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
         end
@@ -171,7 +171,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' } }
 
       it 'returns false' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
       end
@@ -193,7 +193,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
 
         it 'returns true' do
-          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
           allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
           expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
@@ -204,7 +204,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:application_choice) { build_stubbed(:application_choice, :with_rejection) }
 
         it 'returns false' do
-          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
           allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
           expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
@@ -216,7 +216,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Scheme' => 'U' } }
 
       it 'returns false' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
       end
@@ -242,7 +242,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:matching_data) { ucas_matching_data.merge('Offers' => '1', 'Unconditional firm' => '1') }
 
         it 'returns true' do
-          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
         end
@@ -252,7 +252,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:matching_data) { ucas_matching_data.merge('Offers' => '1', 'Conditional firm' => '1') }
 
         it 'returns true' do
-          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
         end
@@ -262,7 +262,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:matching_data) { ucas_matching_data.merge('Withdrawns' => '1') }
 
         it 'returns false' do
-          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
           expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
         end
@@ -273,7 +273,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Scheme' => 'D' } }
 
       it 'returns false' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
       end
@@ -283,7 +283,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' } }
 
       it 'returns false' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
       end
@@ -305,7 +305,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:application_choice) { build_stubbed(:application_choice, :pending_conditions) }
 
         it 'returns true' do
-          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
           allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
           expect(ucas_matching_application.application_accepted_on_apply?).to eq(true)
@@ -316,7 +316,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
         let(:application_choice) { build_stubbed(:application_choice, :declined) }
 
         it 'returns false' do
-          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
           allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
           expect(ucas_matching_application.application_accepted_on_apply?).to eq(false)
@@ -328,7 +328,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Scheme' => 'U' } }
 
       it 'returns false' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
       end
@@ -350,7 +350,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
     end
 
     it 'returns the application_choice related with the candidate and course option' do
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+      ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
       expect(ucas_matching_application.application_choice).to eq(application_choice)
     end
@@ -361,7 +361,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Withdrawns' => '1' } }
 
       it 'returns true' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(true)
       end
@@ -371,7 +371,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:ucas_matching_data) { { 'Withdrawns' => '' } }
 
       it 'returns false' do
-        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(false)
       end
@@ -391,7 +391,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       let(:application_choice) { build_stubbed(:application_choice, course_option: course_option, status: 'withdrawn') }
 
       it 'retuns true' do
-        ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
         allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.application_withdrawn_on_apply?).to eq(true)
@@ -408,7 +408,7 @@ RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: 
       end
 
       it 'retuns false' do
-        ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+        ucas_matching_application = described_class.new(matching_data, recruitment_cycle_year)
         allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.application_withdrawn_on_apply?).to eq(false)

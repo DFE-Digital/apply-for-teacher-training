@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::GcseEnicForm do
     describe '#build_from_qualification' do
       it 'creates an object based on the provided ApplicationQualification' do
         qualification = ApplicationQualification.new(qualification_data)
-        enic_form = CandidateInterface::GcseEnicForm.build_from_qualification(
+        enic_form = described_class.build_from_qualification(
           qualification,
         )
 
@@ -48,14 +48,14 @@ RSpec.describe CandidateInterface::GcseEnicForm do
       end
 
       it 'returns false if not valid' do
-        enic_form = CandidateInterface::GcseEnicForm.new
+        enic_form = described_class.new
 
         expect(enic_form.save(ApplicationQualification.new)).to eq(false)
       end
 
       it 'updates the provided ApplicationQualification if valid' do
         qualification = build(:gcse_qualification)
-        enic_form = CandidateInterface::GcseEnicForm.new(form_data)
+        enic_form = described_class.new(form_data)
 
         expect(enic_form.save(qualification)).to eq(true)
         expect(qualification.enic_reference).to eq form_data[:enic_reference]
@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::GcseEnicForm do
 
       it 'updates enic_reference and comparable_uk_qualification to nil if they choose no' do
         qualification = build(:gcse_qualification)
-        enic_form = CandidateInterface::GcseEnicForm.new(
+        enic_form = described_class.new(
           have_enic_reference: 'No',
           enic_reference: '12345',
           comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',

@@ -4,7 +4,7 @@ RSpec.describe RecalculateDates do
   it 'recalculates reject_by_default_at for a submitted application choice' do
     application_choice = create(:submitted_application_choice, sent_to_provider_at: Time.zone.now)
 
-    RecalculateDates.new.perform
+    described_class.new.perform
 
     expect(application_choice.reload.reject_by_default_at).not_to be_nil
   end
@@ -24,7 +24,7 @@ RSpec.describe RecalculateDates do
       offered_at: Time.zone.now,
     )
 
-    RecalculateDates.new.perform
+    described_class.new.perform
 
     expect(application_choice.reload.decline_by_default_at).not_to be_nil
   end

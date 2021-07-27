@@ -255,7 +255,7 @@ RSpec.describe ApplicationChoice, type: :model do
 
     context 'all other statuses' do
       it 'returns false' do
-        statuses = ApplicationChoice.statuses.values.reject { |value| value == 'recruited' }
+        statuses = described_class.statuses.values.reject { |value| value == 'recruited' }
 
         statuses.each do |status|
           application_choice = build_stubbed(:application_choice, status: status)

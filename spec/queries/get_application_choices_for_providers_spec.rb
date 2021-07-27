@@ -5,7 +5,7 @@ RSpec.describe GetApplicationChoicesForProviders do
 
   it 'raises an exception when the provider is nil' do
     expect {
-      GetApplicationChoicesForProviders.call(providers: nil)
+      described_class.call(providers: nil)
     }.to raise_error(MissingProvider)
   end
 
@@ -25,7 +25,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'awaiting_provider_decision',
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
+    returned_applications = described_class.call(providers: current_provider)
     expect(returned_applications.size).to eq(2)
   end
 
@@ -39,7 +39,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'awaiting_provider_decision',
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
+    returned_applications = described_class.call(providers: current_provider)
 
     expect(returned_applications.first.association(:site)).to be_loaded
     expect(returned_applications.first.association(:application_form)).to be_loaded
@@ -68,26 +68,26 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'awaiting_provider_decision',
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: [bat_provider, man_provider])
+    returned_applications = described_class.call(providers: [bat_provider, man_provider])
 
     expect(returned_applications.map(&:id)).to match_array([bat_choice.id, man_choice.id])
   end
 
   it 'raises an error if the provider argument is missing' do
     expect {
-      GetApplicationChoicesForProviders.call(providers: [])
+      described_class.call(providers: [])
     }.to raise_error(MissingProvider)
 
     expect {
-      GetApplicationChoicesForProviders.call(providers: [''])
+      described_class.call(providers: [''])
     }.to raise_error(MissingProvider)
 
     expect {
-      GetApplicationChoicesForProviders.call(providers: '')
+      described_class.call(providers: '')
     }.to raise_error(MissingProvider)
 
     expect {
-      GetApplicationChoicesForProviders.call(providers: nil)
+      described_class.call(providers: nil)
     }.to raise_error(MissingProvider)
   end
 
@@ -115,7 +115,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'offer_deferred',
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
+    returned_applications = described_class.call(providers: current_provider)
     expect(returned_applications.size).to eq(5)
   end
 
@@ -157,7 +157,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       application_form: create(:application_form, first_name: 'Alex'),
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
+    returned_applications = described_class.call(providers: current_provider)
     returned_application_names = returned_applications.map { |a| a.application_form.first_name }
 
     expect(returned_application_names).to include('Aaron', 'Jim', 'Harry')
@@ -195,7 +195,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       course_option: ratified_course_option_for_past_cycle,
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
+    returned_applications = described_class.call(providers: current_provider)
 
     expect(returned_applications.map(&:id)).to include(choice_for_this_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(choice_for_past_cycle.id)
@@ -236,7 +236,7 @@ RSpec.describe GetApplicationChoicesForProviders do
       course_option: ratified_course_option_for_previous_cycle,
     )
 
-    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, recruitment_cycle_year: RecruitmentCycle.current_year)
+    returned_applications = described_class.call(providers: current_provider, recruitment_cycle_year: RecruitmentCycle.current_year)
 
     expect(returned_applications.map(&:id)).to include(choice_for_current_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(choice_for_previous_cycle.id)
@@ -260,7 +260,7 @@ RSpec.describe GetApplicationChoicesForProviders do
         status: 'offer_deferred',
       )
 
-      returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, vendor_api: true)
+      returned_applications = described_class.call(providers: current_provider, vendor_api: true)
       expect(returned_applications.size).to eq(1)
     end
   end
@@ -276,7 +276,7 @@ RSpec.describe GetApplicationChoicesForProviders do
         status: 'awaiting_provider_decision',
       )
 
-      returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, includes: [course_option: :course])
+      returned_applications = described_class.call(providers: current_provider, includes: [course_option: :course])
 
       expect(returned_applications.first.association(:site)).not_to be_loaded
       expect(returned_applications.first.association(:application_form)).not_to be_loaded

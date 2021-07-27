@@ -14,7 +14,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       course_option = create(:course_option, course: course)
       provider = course_option.course.provider
 
-      render_result = render_inline(SupportInterface::ProviderCoursesTableComponent.new(provider: provider, courses: provider.courses))
+      render_result = render_inline(described_class.new(provider: provider, courses: provider.courses))
 
       # Make a mapping colname -> colvalue
       fields = render_result.css('th').map(&:text).zip(
@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
                                             accredited_provider: provider,
                                             name: 'Accredited course'))
 
-      render_result = render_inline(SupportInterface::ProviderCoursesTableComponent.new(provider: provider, courses: provider.accredited_courses))
+      render_result = render_inline(described_class.new(provider: provider, courses: provider.accredited_courses))
 
       expect(render_result.text).to include('Accredited course')
       expect(render_result.text).to include('Other provider')
@@ -75,7 +75,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       end
 
       it 'may include accredited providers' do
-        render_result = render_inline(SupportInterface::ProviderCoursesTableComponent.new(provider: provider, courses: provider.courses))
+        render_result = render_inline(described_class.new(provider: provider, courses: provider.courses))
 
         with_accredited = render_result.at_css("[data-qa=\"course-#{course_with_accredited_provider.id}\"]").text
         expect(with_accredited).to include('No users on Apply')

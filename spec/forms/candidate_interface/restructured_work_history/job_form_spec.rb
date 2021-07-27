@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it 'does not accept negative integers in the year field' do
       form_data[:start_date_year] = -1999
       form_data[:end_date_year]   = -1999
-      job = CandidateInterface::RestructuredWorkHistory::JobForm.new(form_data)
+      job = described_class.new(form_data)
 
       expect(job).not_to be_valid
       errors = job.errors.messages
@@ -85,14 +85,14 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
   describe '#save' do
     it 'returns false if not valid' do
-      job = CandidateInterface::RestructuredWorkHistory::JobForm.new
+      job = described_class.new
 
       expect(job.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'creates a new job if valid' do
       application_form = FactoryBot.create(:application_form)
-      job = CandidateInterface::RestructuredWorkHistory::JobForm.new(form_data)
+      job = described_class.new(form_data)
 
       saved_job = job.save(application_form)
       expect(saved_job).to have_attributes(data)
@@ -102,14 +102,14 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
   describe '#update' do
     it 'returns false if not valid' do
-      job = CandidateInterface::RestructuredWorkHistory::JobForm.new
+      job = described_class.new
 
       expect(job.update(ApplicationWorkExperience.new)).to eq(false)
     end
 
     it 'updates an existing job if valid' do
       application_form = FactoryBot.create(:application_form)
-      job = CandidateInterface::RestructuredWorkHistory::JobForm.new(form_data)
+      job = described_class.new(form_data)
       saved_job = job.save(application_form)
 
       job.role = 'Something else'
@@ -128,7 +128,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       form_data[:start_date_unknown] = data[:start_date_unknown]
       form_data[:end_date_unknown] = data[:end_date_unknown]
       application_work_experience = ApplicationWorkExperience.new(data)
-      job_form = CandidateInterface::RestructuredWorkHistory::JobForm.build_form(application_work_experience)
+      job_form = described_class.build_form(application_work_experience)
 
       expect(job_form).to have_attributes(form_data)
     end
@@ -136,7 +136,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it 'returns an empty string if end date is nil' do
       data[:end_date] = nil
       application_work_experience = ApplicationWorkExperience.new(data)
-      job_form = CandidateInterface::RestructuredWorkHistory::JobForm.build_form(
+      job_form = described_class.build_form(
         application_work_experience,
       )
 

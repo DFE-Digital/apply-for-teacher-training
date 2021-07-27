@@ -6,7 +6,7 @@ RSpec.describe GetCourseOptionFromCodes do
   let(:course_option) { create(:course_option) }
 
   let(:service) do
-    GetCourseOptionFromCodes.new(
+    described_class.new(
       provider_code: course_option.course.provider.code,
       course_code: course_option.course.code,
       study_mode: course_option.course.study_mode,

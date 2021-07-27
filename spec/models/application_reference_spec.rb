@@ -47,7 +47,7 @@ RSpec.describe ApplicationReference, type: :model do
 
     context 'when the unhashed token does not match an unhashed sign in token on a reference' do
       it 'returns nil' do
-        reference = ApplicationReference.find_by_unhashed_token('unhashed_token')
+        reference = described_class.find_by_unhashed_token('unhashed_token')
 
         expect(reference).to eq(nil)
       end
@@ -58,7 +58,7 @@ RSpec.describe ApplicationReference, type: :model do
         chandler = create(:reference, name: 'Chandler Bing')
         create(:reference_token, application_reference: chandler, hashed_token: 'hashed_token')
 
-        reference = ApplicationReference.find_by_unhashed_token('unhashed_token')
+        reference = described_class.find_by_unhashed_token('unhashed_token')
 
         expect(reference.name).to eq('Chandler Bing')
       end
@@ -67,10 +67,10 @@ RSpec.describe ApplicationReference, type: :model do
 
   describe '#pending_feedback_or_failed' do
     it 'returns references in every state except not_requested_yet and feedback_provided' do
-      expected_states = ApplicationReference.feedback_statuses.values - %w[not_requested_yet feedback_provided]
+      expected_states = described_class.feedback_statuses.values - %w[not_requested_yet feedback_provided]
       expected_states.each { |s| create(:reference, feedback_status: s) }
 
-      expect(ApplicationReference.pending_feedback_or_failed.size).to eq expected_states.size
+      expect(described_class.pending_feedback_or_failed.size).to eq expected_states.size
     end
   end
 
