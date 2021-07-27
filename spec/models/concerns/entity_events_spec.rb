@@ -7,6 +7,7 @@ RSpec.describe EntityEvents do
   let(:interesting_fields) { [] }
 
   before do
+    FeatureFlag.activate(:send_request_data_to_bigquery)
     allow(Rails.configuration).to receive(:analytics).and_return({
       candidates: interesting_fields,
     })
