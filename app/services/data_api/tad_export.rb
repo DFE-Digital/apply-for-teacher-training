@@ -11,7 +11,7 @@ module DataAPI
     def self.all
       DataExport
         .where(export_type: :tad_applications)
-        .where('completed_at IS NOT NULL')
+        .where.not(completed_at: nil)
     end
 
     def self.latest
