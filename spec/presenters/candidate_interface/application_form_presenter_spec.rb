@@ -679,26 +679,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         expect(presenter.reference_section_errors).to eq []
       end
     end
-
-    context 'with reference_selection feature off' do
-      before { FeatureFlag.deactivate(:reference_selection) }
-
-      it 'returns an error if the application form has too many references' do
-        application_form = instance_double(ApplicationForm, too_many_complete_references?: true)
-        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-        expect(presenter.reference_section_errors).to eq(
-          [OpenStruct.new(message: 'More than 2 references have been given', anchor: '#references')],
-        )
-      end
-
-      it 'returns an empty array if the application form does not have too many references' do
-        application_form = instance_double(ApplicationForm, too_many_complete_references?: false)
-        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-        expect(presenter.reference_section_errors).to eq []
-      end
-    end
   end
 
   describe '#becoming_a_teacher_completed?' do

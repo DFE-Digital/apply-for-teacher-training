@@ -5,7 +5,6 @@ module CandidateInterface
 
       def show
         set_references
-        @too_many_references = current_application.too_many_complete_references?
       end
 
       def unsubmitted
