@@ -10,8 +10,8 @@
         Sign in links only work once and expire after one hour, so you need to request a new one. We’ll send this by email.
       </p>
 
-      <%= hidden_field_tag :u, params[:u] %>
-      <%= hidden_field_tag :token, params[:token] %>
+      <%= hidden_field_tag :u, params[:u], html: { autocomplete: 'off' } %>
+      <%= hidden_field_tag :token, params[:token], html: { autocomplete: 'off' } %>
 
       <%= f.govuk_submit t('authentication.expired_token.button') %>
     <% end %>
