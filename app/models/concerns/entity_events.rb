@@ -22,6 +22,8 @@ module EntityEvents
   end
 
   def send_event(type, data)
+    return unless FeatureFlag.active?(:send_request_data_to_bigquery)
+
     event = Events::Event.new
       .with_type(type)
       .with_entity_table_name(self.class.table_name)
