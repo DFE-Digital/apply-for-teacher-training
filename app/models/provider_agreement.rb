@@ -15,10 +15,8 @@ class ProviderAgreement < ApplicationRecord
 private
 
   def provider_is_associated_with_the_user
-    if provider && provider_user
-      unless provider.provider_users.pluck(:id).include? provider_user.id
-        errors.add(:provider, 'Provider/user mismatch')
-      end
+    if provider && provider_user && !provider.provider_users.pluck(:id).include?(provider_user.id)
+      errors.add(:provider, 'Provider/user mismatch')
     end
   end
 

@@ -29,8 +29,8 @@ class StateDiagram
     states_to_show.uniq!
 
     machine.workflow_spec.states.each do |state_name, state|
-      if only_from_state
-        next unless only_from_state.to_sym == state.name || state.name.to_sym.in?(states_to_show)
+      if only_from_state && !(only_from_state.to_sym == state.name || state.name.to_sym.in?(states_to_show))
+        next
       end
 
       graph.add_nodes(
