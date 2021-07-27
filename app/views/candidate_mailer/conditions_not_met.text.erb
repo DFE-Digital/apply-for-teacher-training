@@ -2,6 +2,6 @@ Dear <%= @application_form.first_name %>,
 
 # You have not met your conditions
 
-You cannot enrol on <%= @application_choice.course_option.course.name_and_code %> because <%= @application_choice.course_option.course.provider.name %> told us you have not met your conditions.
+You cannot enrol on <%= @application_choice.current_course_option.course.name_and_code %> because <%= @application_choice.current_course_option.course.provider.name %> told us you have not met your conditions.
 
-Get in touch with <%= @application_choice.course_option.course.provider.name %> if you need further advice.
+Get in touch with <%= @application_choice.current_course_option.course.provider.name %> if you need further advice.
