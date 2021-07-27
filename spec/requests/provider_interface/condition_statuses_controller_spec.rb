@@ -12,7 +12,6 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
 
   before do
     allow(ProviderUser).to receive(:load_from_session).and_return(provider_user)
-    FeatureFlag.activate(:individual_offer_conditions)
   end
 
   describe 'if application choice is in a recruited state' do
