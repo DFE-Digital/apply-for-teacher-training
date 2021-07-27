@@ -28,26 +28,11 @@ RSpec.describe ProviderInterface::ProviderInterfaceController do
       )
     end
 
-    context 'when the accredited_provider_setting_permissions flag is on' do
-      before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
+    it 'redirects provider interface requests to the organisation permissions setup controller' do
+      get provider_interface_applications_path
 
-      it 'redirects provider interface requests to the organisation permissions setup controller' do
-        get provider_interface_applications_path
-
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
-      end
-    end
-
-    context 'when the accredited_provider_setting_permissions flag is off' do
-      before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
-
-      it 'redirects provider interface requests to the provider relationship permissions setup controller' do
-        get provider_interface_applications_path
-
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_provider_relationship_permissions_organisations_url)
-      end
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
     end
   end
 end
