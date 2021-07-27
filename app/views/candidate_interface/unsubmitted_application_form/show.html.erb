@@ -82,7 +82,6 @@
               text: @application_form_presenter.references_link_text,
               completed: @application_form_presenter.references_completed?,
               path: @application_form_presenter.references_path,
-              custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil,
             )) %>
             <% if @application_form_presenter.references.present? %>
               <%= render(TaskListItemReferencesComponent.new(
