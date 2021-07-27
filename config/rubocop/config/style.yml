@@ -9,17 +9,6 @@ Style/StringLiterals:
 Style/EachWithObject:
   Enabled: false
 
-# Pending cops
-# These will be enabled by default at Rubocop 1.0
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
-
 # This cop has too many false positives (it also requires underscores for things that are not numbers)
 Style/NumericLiterals:
   Enabled: false
@@ -36,9 +25,6 @@ Style/ConditionalAssignment:
   Enabled: true
   Exclude:
     - db/migrate/20210119154820_add_request_method_and_response_headers_to_vendor_api_requests.rb
-
-Style/SafeNavigation:
-  Enabled: true
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
@@ -63,9 +49,6 @@ Style/Documentation:
 Style/FormatStringToken:
   EnforcedStyle: template
 
-Style/Alias:
-  Enabled: true
-
 Style/RegexpLiteral:
   Enabled: true
   EnforcedStyle: mixed
@@ -84,43 +67,10 @@ Style/FormatString:
   Enabled: true
   EnforcedStyle: sprintf
 
-Style/AccessorGrouping:
-  Enabled: true
-
-Style/BisectedAttrAccessor:
-  Enabled: true
-
-Style/ExponentialNotation:
-  Enabled: true
-
-Style/RedundantAssignment:
-  Enabled: true
-
-Style/RedundantFetchBlock:
-  Enabled: true
-
-Style/RedundantRegexpCharacterClass:
-  Enabled: true
-
-Style/RedundantRegexpEscape:
-  Enabled: true
-
-Style/SlicingWithRange:
-  Enabled: true
-
-Style/StringConcatenation:
-  Enabled: true
-
 Style/GlobalStdStream:
   Enabled: false
 
-Style/RedundantBegin:
-  Enabled: true
-
 Style/HashAsLastArrayItem:
-  Enabled: false
-
-Style/CombinableLoops:
   Enabled: false
 
 Style/CaseLikeIf:
@@ -128,9 +78,6 @@ Style/CaseLikeIf:
 
 Style/ExplicitBlockArgument:
   Enabled: false
-
-Style/RedundantParentheses:
-  Enabled: true
 
 Style/NilLambda:
   Exclude:
