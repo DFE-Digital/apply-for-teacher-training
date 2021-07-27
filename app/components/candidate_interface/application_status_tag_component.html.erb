@@ -1,11 +1,15 @@
 <%= govuk_tag(text: text, colour: colour) %>
 
 <% if @application_choice.application_not_sent? %>
-  <p class="govuk-body govuk-body govuk-!-margin-top-2">
+  <p class="govuk-body govuk-!-margin-top-2">
     Your application was not sent for this course because references were not given before the deadline.
   </p>
+<% elsif @application_choice.withdrawn_at_candidates_request? %>
+  <p class="govuk-body govuk-!-margin-top-2">
+    You requested to withdraw your application. If you did not request this, email <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.
+  </p>
 <% elsif  @application_choice.offer_deferred? %>
-  <p class="govuk-body govuk-body govuk-!-margin-top-2">
+  <p class="govuk-body govuk-!-margin-top-2">
     Your training will now start in <%= (@application_choice.course_option.course.start_date + 1.year).to_s(:month_and_year) %>.
   </p>
 <% elsif @application_choice.pending_conditions? || @application_choice.recruited? || @application_choice.offer? %>
