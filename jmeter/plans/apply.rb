@@ -2,6 +2,7 @@ require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
+THREAD_COUNT = ENV.fetch('JMETER_THREAD_COUNT', 200).to_i
 
 def url(path)
   BASEURL + path
@@ -10,9 +11,8 @@ end
 test do
   cookies clear_each_iteration: true
   view_results_tree
-
-  random_timer 100, 900 * WAIT_FACTOR
-  thread_count = 975
+  thread_count = THREAD_COUNT
+  random_timer 1000, 2000 * WAIT_FACTOR
   csv_data_set_config filename: 'jmeter-courses.csv'
 
   threads count: thread_count, continue_forever: true, duration: 3600 do

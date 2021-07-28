@@ -2,7 +2,7 @@ require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL', 'http://localhost:3002')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
-THREAD_COUNT = ENV.fetch('JMETER_THREAD_COUNT', 200)
+THREAD_COUNT = ENV.fetch('JMETER_THREAD_COUNT', 200).to_i
 
 def url(path)
   BASEURL + path
