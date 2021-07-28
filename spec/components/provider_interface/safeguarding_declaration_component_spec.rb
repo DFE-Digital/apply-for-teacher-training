@@ -170,19 +170,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         user_has_view_safeguarding_information(true)
       end
 
-      it 'when provider user has manage_organisations' do
-        user_has_manage_organisations(true)
-        result = render_component(
-          user: provider_user,
-          safeguarding_issues: 'I have a criminal conviction.',
-          safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-        )
-        expect_user_cannot_see_safeguarding_information(result)
-        fix_it_link = Rails.application.routes.url_helpers.provider_interface_edit_provider_relationship_permissions_path(id: @relationship.id)
-        expect(result.to_html).to include(fix_it_link)
-      end
-
-      it 'when provider user does not have manage_organisations' do
+      it 'shows a list of users to contact' do
         user_has_manage_organisations(false)
         result = render_component(
           user: provider_user,

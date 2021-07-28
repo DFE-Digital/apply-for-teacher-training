@@ -43,12 +43,7 @@
         The candidate has disclosed information related to safeguarding but you cannot see it.
       </p>
 
-      <% if @analysis.provider_user_can_manage_organisations? && @analysis.provider_user_associated_with_training_provider? %>
-        <p class="govuk-body">
-          This is because you have not set up organisational permissions.
-          <%= govuk_link_to 'Set organisational permissions', @analysis.fix_org_permissions_path %>
-        </p>
-      <% elsif @analysis.training_provider_users_who_can_manage_organisations.present? %>
+      <% if @analysis.training_provider_users_who_can_manage_organisations.present? %>
         <% others = @analysis.training_provider_users_who_can_manage_organisations %>
         <p class="govuk-body">
           This is because organisational permissions have not been set up. Contact
