@@ -71,7 +71,6 @@ RUN yarn run lint && \
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
-ARG VERSION
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
@@ -92,6 +91,7 @@ COPY --from=assets-precompile /usr/local/bundle/ /usr/local/bundle/
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
 ENV ENV="/root/.ashrc"
 
+ARG VERSION
 RUN echo ${VERSION} > public/check
 
 # Use this for development testing
