@@ -779,13 +779,6 @@ Rails.application.routes.draw do
       end
     end
 
-    scope path: '/provider-relationship-permissions' do
-      get '/:id/edit' => 'provider_relationship_permissions#edit',
-          as: :edit_provider_relationship_permissions
-      patch '/:id' => 'provider_relationship_permissions#update',
-            as: :update_provider_relationship_permissions
-    end
-
     scope path: '/applications/:application_choice_id/offer/reconfirm' do
       get '/' => 'reconfirm_deferred_offers#start',
           as: :reconfirm_deferred_offer
