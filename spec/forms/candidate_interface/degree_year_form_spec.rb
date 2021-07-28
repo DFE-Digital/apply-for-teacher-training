@@ -10,23 +10,21 @@ RSpec.describe CandidateInterface::DegreeYearForm, type: :model do
       include_examples 'year validations', :award_year
     end
 
-    it 'is invalid if the award year is more than one year into the future' do
-      Timecop.freeze(Time.zone.local(2008, 1, 1)) do
-        degree = build(
-          :degree_qualification,
-          qualification_type: 'BSc',
-          predicted_grade: false,
-          start_year: '2008',
-        )
+    it 'is invalid if the award year is more than ten years into the future' do
+      degree = build(
+        :degree_qualification,
+        qualification_type: 'BSc',
+        predicted_grade: false,
+        start_year: RecruitmentCycle.current_year,
+      )
 
-        degree_form = described_class.new(degree: degree, award_year: '2010')
+      degree_form = described_class.new(degree: degree, award_year: RecruitmentCycle.current_year + 11)
 
-        degree_form.validate(:award_year)
+      degree_form.validate(:award_year)
 
-        expect(degree_form.errors.full_messages_for(:award_year)).to eq(
-          ['Award year Enter a year before 2010'],
-        )
-      end
+      expect(degree_form.errors.full_messages_for(:award_year)).to eq(
+        ["Award year Enter a year before #{RecruitmentCycle.current_year + 10}"],
+      )
     end
 
     it 'is invalid if the degree is incomplete and the award year is in the past' do
