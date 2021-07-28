@@ -755,7 +755,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :organisations, only: %i[index show], path: 'organisational-permissions'
+      # TODO: Revisit whether these redirects are still needed after 1st November 2021
+      get '/organisational-permissions', to: redirect('/provider/organisation-settings/organisations')
+      get '/organisational-permissions/:id', to: redirect { |params, _| "/provider/organisation-settings/organisations/#{params[:id]}/organisation-permissions" }
+
       resource :notifications, only: %i[show update], path: 'notification-settings'
     end
 
