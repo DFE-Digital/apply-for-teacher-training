@@ -33,11 +33,7 @@ module CandidateInterface
     end
 
     def award_year_is_before_the_end_of_next_year
-      upper_year_limit = if degree.predicted_grade? && start_year.present?
-                           start_year.to_i + 4
-                         else
-                           Time.zone.now.year.to_i + 2
-                         end
+      upper_year_limit = RecruitmentCycle.current_year + 10
 
       errors.add(:award_year, :greater_than_limit, date: upper_year_limit) if award_year.to_i >= upper_year_limit
     end
