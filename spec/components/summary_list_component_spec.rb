@@ -16,16 +16,52 @@ RSpec.describe SummaryListComponent do
     expect(result.css('.govuk-summary-list__actions').text).to include('Change Name')
   end
 
-  it 'renders arrays content when passed in' do
-    rows = [
-      key: 'Address:',
-      value: ['Whoa Drive', 'Wewvile', 'London'],
-      action: 'Name',
-      change_path: '/some/url',
-    ]
-    result = render_inline(SummaryListComponent.new(rows: rows))
+  describe 'array content' do
+    it 'renders array content when passed in' do
+      rows = [
+        key: 'Address:',
+        value: ['Whoa Drive', 'Wewvile', 'London'],
+        action: 'Name',
+        change_path: '/some/url',
+      ]
+      result = render_inline(SummaryListComponent.new(rows: rows))
 
-    expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br>Wewvile<br>London')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br>Wewvile<br>London')
+    end
+
+    it 'renders values as bullets if specified for the row' do
+      rows = [
+        key: 'Address:',
+        value: %w[A list of items],
+        bulleted_format: true,
+      ]
+      result = render_inline(SummaryListComponent.new(rows: rows))
+
+      expect(result.to_html).to include(<<~HTML)
+        <ul class="govuk-list govuk-list--bullet">
+        <li>A</li>
+        <li>list</li>
+        <li>of</li>
+        <li>items</li>
+        </ul>
+      HTML
+    end
+
+    it 'safely escapes markup when rendering values as bullets' do
+      rows = [
+        key: 'Address:',
+        value: ['<script></script>', '<br>'],
+        bulleted_format: true,
+      ]
+      result = render_inline(SummaryListComponent.new(rows: rows))
+
+      expect(result.to_html).to include(<<~HTML)
+        <ul class="govuk-list govuk-list--bullet">
+        <li>&lt;script&gt;&lt;/script&gt;</li>
+        <li>&lt;br&gt;</li>
+        </ul>
+      HTML
+    end
   end
 
   it 'renders component with correct struture using action_path' do
