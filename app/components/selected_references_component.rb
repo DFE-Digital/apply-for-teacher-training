@@ -20,20 +20,17 @@ class SelectedReferencesComponent < ViewComponent::Base
       {
         key: 'Selected references',
         value: reference_values,
+        bulleted_format: true,
         action: 'Change selected references',
         change_path: candidate_interface_select_references_path,
       },
     ]
   end
 
-  # TODO: refactor the following, possibly by enhancing SummaryCardComponent to
-  # support rendering of bulleted lists
   def reference_values
-    list = '<ul class="govuk-list govuk-list--bullet">'.html_safe
     selected_references.map do |reference|
-      list << '<li>'.html_safe << "#{reference.referee_type.capitalize.dasherize} reference from #{reference.name}" << '</li>'.html_safe
+      "#{reference.referee_type.capitalize.dasherize} reference from #{reference.name}"
     end
-    list + '</ul>'.html_safe
   end
 
   def incomplete_path
