@@ -25,7 +25,7 @@ private
   def enough_references_have_been_provided?
     (
       application_form.application_references.feedback_provided + [@reference]
-    ).uniq.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+    ).uniq.count == ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
   end
 
   def cancel_feedback_requested_references
