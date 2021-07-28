@@ -9,5 +9,9 @@
       mode: :edit,
       form_url: provider_interface_organisation_settings_organisation_organisation_permission_path(@relationship, organisation_id: @provider.id),
     ) %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_organisation_settings_organisation_organisation_permissions_path(@provider), class: 'govuk-link--no-visited-state' %>
+    </p>
   </div>
 </div>
