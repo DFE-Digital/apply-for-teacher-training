@@ -1,12 +1,6 @@
 name: Build
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [ push, pull_request ]
 
 jobs:
   build:
@@ -108,14 +102,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [unit, integration]
+        tests: [unit, integration, integration-candidate, integration-provider]
         feature-flags: [on, off]
         include:
           - tests: unit
             include-pattern: spec/**/**/*_spec.rb
             exclude-pattern: spec/{system,requests}/**/*_spec.rb
           - tests: integration
-            include-pattern: spec/{system,requests}/**/*_spec.rb
+            include-pattern: spec/{system,requests}/*_spec.rb
+            exclude-pattern: spec/{system,requests}/{provider_interface,candidate_interface}/*_spec.rb
+          - tests: integration-candidate
+            include-pattern: spec/{system,requests}/candidate_interface/*_spec.rb
+            exclude-pattern: ''
+          - tests: integration-provider
+            include-pattern: spec/{system,requests}/provider_interface/*_spec.rb
             exclude-pattern: ''
     services:
       redis:
