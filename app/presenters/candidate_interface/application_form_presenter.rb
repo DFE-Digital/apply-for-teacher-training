@@ -380,11 +380,9 @@ module CandidateInterface
 
     def gcse_completed?(gcse)
       if gcse.present?
-        if gcse.qualification_type != 'missing'
-          gcse.grade.present? && gcse.award_year.present?
-        else
-          true
-        end
+        return gcse.grade.present? && gcse.award_year.present? unless gcse.qualification_type == 'missing'
+
+        true
       end
     end
   end

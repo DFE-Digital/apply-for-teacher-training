@@ -3,7 +3,7 @@
     Candidates: support_interface_applications_path,
     @application_form.candidate.email_address => support_interface_candidate_path(@application_form.candidate),
     @application_form.support_reference => support_interface_application_form_path(@application_form),
-  }.merge(title != 'Details' ? { title => nil } : {})) %>
+  }.merge(title == 'Details' ? {} : { title => nil })) %>
 <% end %>
 
 <div class="govuk-grid-row">

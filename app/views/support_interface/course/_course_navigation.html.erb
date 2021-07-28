@@ -6,7 +6,7 @@
     @course.provider.name => support_interface_provider_path(@course.provider),
     Courses: support_interface_provider_courses_path(@course.provider),
     @course.name => support_interface_course_path(@course),
-  }.merge(title != 'Details' ? { title => nil } : {})) %>
+  }.merge(title == 'Details' ? {} : { title => nil })) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [

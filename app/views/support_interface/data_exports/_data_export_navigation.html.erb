@@ -6,7 +6,7 @@
     Performance: support_interface_performance_path,
     'Data directory': support_interface_data_directory_path,
     params[:data_export_type].humanize => support_interface_view_export_information_path,
-  }.merge(title != 'Details' ? { title => nil } : {})) %>
+  }.merge(title == 'Details' ? {} : { title => nil })) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [

@@ -179,18 +179,20 @@ module CandidateInterface
     end
 
     def sanitize_grade_where_required
-      if qualification_type.in?([
-        OtherQualificationTypeForm::A_LEVEL_TYPE,
-        OtherQualificationTypeForm::AS_LEVEL_TYPE,
-        OtherQualificationTypeForm::GCSE_TYPE,
-      ])
-        self.grade = grade.delete(' ').upcase if grade
+      if qualification_needs_grade_sanitized? && grade
+        self.grade = grade.delete(' ').upcase
       end
     end
 
     def should_validate_grade?
       (qualification_type != OtherQualificationTypeForm::NON_UK_TYPE &&
           qualification_type != OtherQualificationTypeForm::OTHER_TYPE) || btec?
+    end
+
+    def qualification_needs_grade_sanitized?
+      qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE,
+                              OtherQualificationTypeForm::AS_LEVEL_TYPE,
+                              OtherQualificationTypeForm::GCSE_TYPE]
     end
   end
 end

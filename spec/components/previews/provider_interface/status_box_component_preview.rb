@@ -51,7 +51,7 @@ module ProviderInterface
   private
 
     def render_component_for(choices:)
-      if !choices.empty?
+      if choices.any?
         render ProviderInterface::StatusBoxComponent.new(application_choice: choices.order('RANDOM()').first)
       else
         render template: 'support_interface/docs/missing_test_data'
