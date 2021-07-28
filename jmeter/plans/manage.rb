@@ -2,6 +2,7 @@ require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
+THREAD_COUNT_PER_SCENARIO = 1
 
 def log_in(user_id)
   visit name: 'Provider user signs in', url: BASEURL + '/provider' do
@@ -9,7 +10,7 @@ def log_in(user_id)
   end
   visit name: 'Go to sign in', url: BASEURL + '/provider/sign-in'
   submit name: 'Authenticate', url: BASEURL + '/auth/developer/callback',
-    fill_in: { 'uid' => user_id }
+         fill_in: { 'uid' => user_id }
 end
 
 test do
@@ -31,7 +32,7 @@ test do
     # The total number of sessions for each uid (below) should be 6
 
     # See interviewing application and interview information
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: THREAD_COUNT_PER_SCENARIO, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Filter by interviewing', url: BASEURL + '/provider/applications?commit=Apply+filters&status%5B%5D=interviewing' do
         extract name: 'application_id', regex: 'href="/provider/applications/(\d+)"', match_number: 0
@@ -40,27 +41,41 @@ test do
       visit name: 'See application interviews', url: BASEURL + '/provider/applications/${application_id}/interviews'
     end
 
-    # Start making an offer
-    threads count: 1, continue_forever: true, duration: 3600 do
+    # Make an offer
+    threads count: THREAD_COUNT_PER_SCENARIO, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Filter by awaiting_provider_decision', url: BASEURL + '/provider/applications?commit=Apply+filters&status%5B%5D=awaiting_provider_decision' do
         extract name: 'application_id', regex: 'href="/provider/applications/(\d+)"', match_number: 0
       end
       visit name: 'Load received application', url: BASEURL + '/provider/applications/${application_id}'
-      visit name: 'Load make decision page', url: BASEURL + '/provider/applications/${application_id}/decision/new' do
-        extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
-      end
+      visit name: 'Load make decision page', url: BASEURL + '/provider/applications/${application_id}/decision/new'
       submit name: 'Start make offer flow', url: BASEURL + '/provider/applications/${application_id}/decision',
-        'DO_MULTIPART_POST': 'true',
-        fill_in: {
-          'provider_interface_offer_wizard[decision]' => 'make_offer',
-          'authenticity_token' => '${authenticity_token}',
-          commit: 'Continue'
-        }
+         DO_MULTIPART_POST: 'true',
+         fill_in: {
+           'provider_interface_offer_wizard[decision]' => 'make_offer',
+           'authenticity_token' => '${csrf-token}',
+           commit: 'Continue',
+         }
+      visit name: 'Load conditions in offer flow', url: BASEURL + '/provider/applications/${application_id}/offer/conditions/new'
+      submit name: 'Add conditions in offer flow', url: BASEURL + '/provider/applications/${application_id}/offer/conditions',
+         DO_MULTIPART_POST: 'true',
+         fill_in: {
+           'provider_interface_offer_wizard[standard_conditions][]' => 'Fitness to train to teach check',
+           'provider_interface_offer_wizard[standard_conditions][]' => 'Disclosure and Barring Service (DBS) check',
+           'authenticity_token' => '${csrf-token}',
+           commit: 'Continue',
+         }
+      visit name: 'Load submit in offer flow', url: BASEURL + '/provider/applications/${application_id}/offer/check/new'
+      submit name: 'Finish make offer flow', url: BASEURL + '/provider/applications/${application_id}/offers',
+         DO_MULTIPART_POST: 'true',
+         fill_in: {
+           'authenticity_token' => '${csrf-token}',
+           commit: 'Send Offer',
+         }
     end
 
     # See rejected application
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: THREAD_COUNT_PER_SCENARIO, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Filter by rejected', url: BASEURL + '/provider/applications?commit=Apply+filters&status%5B%5D=rejected' do
         extract name: 'application_id', regex: 'href="/provider/applications/(\d+)"', match_number: 0
@@ -71,20 +86,20 @@ test do
     end
 
     # See provider interview schedule
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: THREAD_COUNT_PER_SCENARIO, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'See interview schedule', url: BASEURL + '/provider/interview-schedule'
       visit name: 'See past interview schedule', url: BASEURL + '/provider/interview-schedule/past'
     end
 
     # See provider activity log
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: THREAD_COUNT_PER_SCENARIO, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Load activity log', url: BASEURL + '/provider/activity'
     end
 
     # Data export
-     threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: THREAD_COUNT_PER_SCENARIO, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Load provider data export form', url: BASEURL + '/provider/applications/data-export/new' do
         extract name: 'provider_id', regex: 'value="(\d+)" name="provider_interface_application_data_export_form\[provider_ids\]', match_number: 0
