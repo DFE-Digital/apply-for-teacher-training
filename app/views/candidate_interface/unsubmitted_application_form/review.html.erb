@@ -14,7 +14,7 @@
         <% @incomplete_sections.each do |section| %>
           <li>
             <a href="<%= "#incomplete-#{section.name}-error" %>">
-              <%= t(section.message, minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES) %>
+              <%= t(section.message, minimum_references: ApplicationForm::REQUIRED_REFERENCE_SELECTIONS) %>
             </a>
           </li>
         <% end %>

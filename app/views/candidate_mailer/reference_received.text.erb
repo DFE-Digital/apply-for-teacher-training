@@ -1,14 +1,14 @@
 # You have a reference from <%= @reference.name %>
 
-<% if @selected_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% if @selected_references.count >= ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You’ve selected 2 references to submit with your application already, but you can change your selection if you want.
 
 Sign in to complete your application:
-<% elsif @provided_references.count > ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% elsif @provided_references.count > ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You have more than enough references to send your application to training providers.
 
 Sign in and select 2 references to submit with your application:
-<% elsif @provided_references.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES %>
+<% elsif @provided_references.count == ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You have enough references to send your application to training providers.
 
 Sign in and select 2 references to submit with your application:

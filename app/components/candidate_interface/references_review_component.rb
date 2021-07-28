@@ -67,7 +67,7 @@ module CandidateInterface
     def too_many_references_error
       return if references.blank?
 
-      number_to_delete = references.size - ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      number_to_delete = references.size - ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
       "Delete #{number_to_delete} #{'reference'.pluralize(number_to_delete)}. You can only include 2 with your application"
     end
 

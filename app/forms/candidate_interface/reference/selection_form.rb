@@ -27,7 +27,7 @@ module CandidateInterface
     end
 
     def correct_number_chosen?
-      required = ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      required = ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
       if selected.size < required || selected.size > required
         errors.add(:selected, "Select #{required} references")
       end
