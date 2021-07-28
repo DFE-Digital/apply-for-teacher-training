@@ -102,11 +102,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [unit, integration, integration-candidate, integration-provider]
+        tests: [unit, unit-candidate, unit-provider, integration, integration-candidate, integration-provider]
         feature-flags: [on, off]
         include:
           - tests: unit
             include-pattern: spec/**/**/*_spec.rb
+            exclude-pattern: spec/{system,requests}/**/*_spec.rb,spec/**/{candidate_interface,provider_interface}/*_spec.rb
+          - tests: unit-candidate
+            include-pattern: spec/**/candidate_interface/*_spec.rb
+            exclude-pattern: spec/{system,requests}/**/*_spec.rb
+          - tests: unit-provider
+            include-pattern: spec/**/provider_interface_spec.rb
             exclude-pattern: spec/{system,requests}/**/*_spec.rb
           - tests: integration
             include-pattern: spec/{system,requests}/*_spec.rb
