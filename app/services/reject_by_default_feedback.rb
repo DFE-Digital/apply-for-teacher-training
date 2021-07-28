@@ -17,10 +17,9 @@ class RejectByDefaultFeedback
         application_choice.structured_rejection_reasons = structured_rejection_reasons
         application_choice.reject_by_default_feedback_sent_at = Time.zone.now
         application_choice.save!
-
-        CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
       end
 
+      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
       notify_slack
     end
   end
