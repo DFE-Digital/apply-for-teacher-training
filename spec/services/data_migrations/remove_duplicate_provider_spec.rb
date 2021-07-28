@@ -1,22 +1,42 @@
 require 'rails_helper'
 
 RSpec.describe DataMigrations::RemoveDuplicateProvider do
-  let(:provider) { create(:provider, name: 'Test Provider 001') }
-  let(:duplicate_provider) { create(:provider, name: 'Test Provider 001') }
-  let!(:provider_user) { create(:provider_user, providers: [provider, duplicate_provider]) }
-  let!(:provider_relationship_permissions) { create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: duplicate_provider) }
-  let!(:self_ratified_course) { create(:course, provider: provider, accredited_provider: duplicate_provider) }
-  let!(:other_course) { create(:course, provider: provider, accredited_provider: create(:provider)) }
+  context 'with duplicate providers related via organisation permissions' do
+    let(:provider) { create(:provider, name: 'Test Provider 001') }
+    let(:duplicate_provider) { create(:provider, name: 'Test Provider 001') }
+    let!(:provider_user) { create(:provider_user, providers: [provider, duplicate_provider]) }
+    let!(:provider_relationship_permissions) { create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: duplicate_provider) }
 
-  it 'makes courses accredited by the duplicate provider self-ratified by the training provider' do
-    DataMigrations::RemoveDuplicateProvider.new.change
+    let!(:self_ratified_course) { create(:course, provider: provider, accredited_provider: duplicate_provider) }
+    let!(:other_course) { create(:course, provider: provider, accredited_provider: create(:provider)) }
 
-    expect(self_ratified_course.reload.accredited_provider).to be_nil
-    expect(other_course.reload.accredited_provider).not_to be_nil
+    it 'makes courses accredited by the duplicate provider self-ratified by the training provider' do
+      described_class.new.change
+
+      expect(self_ratified_course.reload.accredited_provider).to be_nil
+      expect(other_course.reload.accredited_provider).not_to be_nil
+    end
+
+    it 'destroys the relationship between the training provider and the duplicate' do
+      expect { described_class.new.change }.to change(ProviderRelationshipPermissions, :count).by(-1)
+    end
+
+    it 'destroys the duplicate provider' do
+      expect { described_class.new.change }.to change(Provider, :count).by(-1)
+    end
   end
 
-  it 'destroys the relationship between the training provider and the duplicate' do
-    expect { DataMigrations::RemoveDuplicateProvider.new.change }.to change(ProviderRelationshipPermissions, :count).by(-1)
+  context 'with duplicate providers and additional permissions for the ratifying provider' do
+    it 'does nothing' do
+      provider = create(:provider, name: 'Test Provider 002')
+      duplicate_provider = create(:provider, name: 'Test Provider 002')
+      course = create(:course, provider: provider, accredited_provider: duplicate_provider)
+      create(:provider_relationship_permissions, training_provider: provider, ratifying_provider: duplicate_provider)
+      create(:provider_relationship_permissions, training_provider: create(:provider), ratifying_provider: duplicate_provider)
+
+      expect { described_class.new.change }.not_to change(ProviderRelationshipPermissions, :count)
+      expect(course.reload.accredited_provider).not_to be_nil
+    end
   end
 
   context 'with unrelated courses ratified by the ratifying provider' do

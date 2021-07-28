@@ -1,6 +1,6 @@
 module DataMigrations
   class RemoveDuplicateProvider
-    TIMESTAMP = 20210505095417
+    TIMESTAMP = 20210828151830
     MANUAL_RUN = false
 
     def change
@@ -11,13 +11,21 @@ module DataMigrations
 
       if permissions.any?
         permissions.each do |permission|
+          # Do nothing if the ratifying provider runs courses
+          next if permission.ratifying_provider.courses.any?
+          # Do nothing if the ratifying provider has additional org relationships
+          next if ProviderRelationshipPermissions
+            .where(ratifying_provider: permission.ratifying_provider)
+            .where.not(training_provider: permission.training_provider).any?
+
+          courses = permission.training_provider.courses.where(accredited_provider: permission.ratifying_provider)
+
+          # Do nothing if the ratifying provider ratifies other courses
+          next if (permission.ratifying_provider.accredited_courses - courses).any?
+
           ActiveRecord::Base.transaction do
-            next if permission.ratifying_provider.courses.any?
-
-            courses = permission.training_provider.courses.where(accredited_provider: permission.ratifying_provider)
-
             courses.each do |course|
-              course.update!(accredited_provider: nil, audit_comment: 'Deduplicating accredited provider, this course is self-ratified')
+              course.update!(accredited_provider: nil)
             end
 
             permission.destroy!
