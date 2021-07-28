@@ -5,7 +5,6 @@ RSpec.describe 'Removing a provider user' do
 
   scenario 'removing a user from all providers', with_audited: true do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_accredited_provider_setting_permissions_flag_is_inactive
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_a_provider_user_with_many_providers_exists
@@ -47,7 +46,7 @@ RSpec.describe 'Removing a provider user' do
   end
 
   def when_i_click_on_the_users_link
-    click_on(t('page_titles.provider.account'))
+    click_on(t('page_titles.provider.organisation_settings'))
     click_on(t('page_titles.provider.users'))
   end
 
@@ -97,9 +96,5 @@ RSpec.describe 'Removing a provider user' do
     expect(page).to have_content('User successfully invited')
 
     expect(page).to have_content(@user_to_remove.full_name)
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_inactive
-    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
   end
 end
