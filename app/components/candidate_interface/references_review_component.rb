@@ -54,16 +54,6 @@ module CandidateInterface
       %w[History]
     end
 
-    def too_many_complete_references?
-      false
-    end
-
-    def container_class
-      if too_many_complete_references?
-        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{is_errored ? 'error' : 'important'}"
-      end
-    end
-
     def too_many_references_error
       return if references.blank?
 

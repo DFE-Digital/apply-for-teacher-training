@@ -1,9 +1,4 @@
-<div class="<%= container_class %>">
-  <% if too_many_complete_references? %>
-    <p class="app-inset-text__title"><%= t('application_form.references.review.more_than_two') %></p>
-    <p class="govuk-body"><%= too_many_references_error %></p>
-  <% end %>
-
+<div>
   <% references.each do |reference| %>
     <%= render(SummaryCardComponent.new(
       rows: reference_rows(reference),

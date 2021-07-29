@@ -250,10 +250,6 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_END_STATES).include?(status) }
   end
 
-  def too_many_complete_references?
-    false
-  end
-
   def surplus_references_available_for_selection?
     application_references.select(&:feedback_provided?).count >= 3
   end
