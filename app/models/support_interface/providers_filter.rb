@@ -3,6 +3,7 @@ module SupportInterface
     attr_reader :applied_filters
     ONBOARDING_STAGES = {
       'synced_only' => 'With synced courses',
+      'dsa_unsigned_only' => 'With unsigned DSAs',
       'dsa_signed_only' => 'With signed DSAs',
     }.freeze
 
@@ -70,6 +71,10 @@ module SupportInterface
 
       if applied_filters[:onboarding_stages]&.include?('dsa_signed_only')
         providers = providers.joins(:provider_agreements)
+      end
+
+      if applied_filters[:onboarding_stages]&.include?('dsa_unsigned_only')
+        providers = providers.left_joins(:provider_agreements).where(provider_agreements: { id: nil })
       end
 
       if applied_filters[:provider_types].present?
