@@ -31,7 +31,7 @@ module ProviderInterface
 
     def recruitment_cycle_year
       {
-        key: 'Cycle',
+        key: 'Year received',
         value: recruitment_cycle_year_name,
       }
     end
