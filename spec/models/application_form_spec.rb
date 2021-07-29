@@ -277,14 +277,6 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#too_many_complete_references?' do
-    it 'returns false' do
-      application_form = create :application_form
-      create_list(:reference, 3, :feedback_provided, application_form: application_form)
-      expect(application_form.too_many_complete_references?).to be false
-    end
-  end
-
   describe '#selected_incorrect_number_of_references?' do
     it 'is true when < 2 selections' do
       application_form = create(:application_form)
