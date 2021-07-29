@@ -44,6 +44,22 @@ RSpec.describe CandidateInterface::DegreeYearForm, type: :model do
         )
       end
     end
+
+    it 'is invalid if the degree is incomplete and the award year is 2 or more years into the future' do
+      degree = build(
+        :degree_qualification,
+        qualification_type: 'BSc',
+        predicted_grade: true,
+      )
+
+      degree_form = described_class.new(degree: degree, start_year: RecruitmentCycle.current_year, award_year: RecruitmentCycle.next_year)
+
+      degree_form.validate(:award_year)
+
+      expect(degree_form.errors.full_messages_for(:award_year)).to eq(
+        ['Award year The date you graduate must be before the start of your teacher training'],
+      )
+    end
   end
 
   describe 'start year' do
