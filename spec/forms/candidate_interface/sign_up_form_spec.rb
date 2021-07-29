@@ -59,6 +59,7 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
     end
 
     it 'includes an event tag for BigQuery' do
+      FeatureFlag.activate(:send_request_data_to_bigquery)
       form = new_form(email: new_email, accept_ts_and_cs: true)
 
       form.save

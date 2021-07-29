@@ -7,6 +7,7 @@ RSpec.describe EntityEvents do
   let(:interesting_fields) { [] }
 
   before do
+    FeatureFlag.activate(:send_request_data_to_bigquery)
     allow(Rails.configuration).to receive(:analytics).and_return({
       candidates: interesting_fields,
     })
@@ -82,7 +83,7 @@ RSpec.describe EntityEvents do
             'event_type' => 'update_entity',
             'data' => [
               { 'key' => 'email_address', 'value' => ['bar@baz.com'] },
-              { 'key' => 'hide_in_reporting', 'value' => [false] },
+              { 'key' => 'hide_in_reporting', 'value' => ['false'] },
             ],
           })
       end
