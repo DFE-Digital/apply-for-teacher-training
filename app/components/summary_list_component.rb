@@ -8,7 +8,11 @@ class SummaryListComponent < ViewComponent::Base
 
   def value(row)
     if row[:value].is_a?(Array)
-      row[:value].map { |s| ERB::Util.html_escape(s) }.join('<br>').html_safe
+      if row[:bulleted_format]
+        format_list_with_bullets(row[:value])
+      else
+        row[:value].map { |s| ERB::Util.html_escape(s) }.join('<br>').html_safe
+      end
     elsif row[:value].html_safe?
       row[:value]
     else
@@ -52,5 +56,13 @@ private
         value: value,
       }
     end
+  end
+
+  def format_list_with_bullets(list)
+    markup = '<ul class="govuk-list govuk-list--bullet">'.html_safe
+    list.map do |list_item|
+      markup << '<li>'.html_safe << list_item << '</li>'.html_safe
+    end
+    markup + '</ul>'.html_safe
   end
 end
