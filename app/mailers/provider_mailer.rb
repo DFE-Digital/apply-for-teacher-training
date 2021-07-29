@@ -163,11 +163,11 @@ class ProviderMailer < ApplicationMailer
     notify_email(to: provider_user.email_address)
   end
 
-  def organisation_permissions_set_up(provider_user, permissions)
+  def organisation_permissions_set_up(provider_user, provider, permissions)
     @provider_user = provider_user
+    @recipient_organisation = provider
     @permissions = permissions
-    @partner_organisation = permissions.partner_organisation(provider_user)
-    @recipient_organisation = provider_user.providers.find { |provider| provider == permissions.training_provider || provider == permissions.ratifying_provider }
+    @partner_organisation = permissions.partner_organisation(provider)
 
     notify_email(
       to: @provider_user.email_address,
@@ -175,11 +175,11 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def organisation_permissions_updated(provider_user, permissions)
+  def organisation_permissions_updated(provider_user, provider, permissions)
     @provider_user = provider_user
+    @recipient_organisation = provider
     @permissions = permissions
-    @partner_organisation = permissions.partner_organisation(provider_user)
-    @recipient_organisation = provider_user.providers.find { |provider| provider == permissions.training_provider || provider == permissions.ratifying_provider }
+    @partner_organisation = permissions.partner_organisation(provider)
 
     notify_email(
       to: @provider_user.email_address,

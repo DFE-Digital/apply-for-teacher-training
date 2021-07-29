@@ -96,7 +96,7 @@ RSpec.describe ProviderRelationshipPermissions do
     end
   end
 
-  describe '#partner_organisation' do
+  describe '#partner_organisations' do
     let(:training_provider) { create(:provider) }
     let(:ratifying_provider) { create(:provider) }
     let!(:relationship) do
@@ -107,19 +107,15 @@ RSpec.describe ProviderRelationshipPermissions do
       )
     end
 
-    context 'for a user from ratifying provider' do
-      let(:provider_user) { create(:provider_user, providers: [ratifying_provider]) }
-
+    context 'for a ratifying provider' do
       it 'is the training provider' do
-        expect(relationship.partner_organisation(provider_user)).to eq(training_provider)
+        expect(relationship.partner_organisation(ratifying_provider)).to eq(training_provider)
       end
     end
 
-    context 'for a user from training provider' do
-      let(:provider_user) { create(:provider_user, providers: [training_provider]) }
-
+    context 'for a training provider' do
       it 'is the ratifying provider' do
-        expect(relationship.partner_organisation(provider_user)).to eq(ratifying_provider)
+        expect(relationship.partner_organisation(training_provider)).to eq(ratifying_provider)
       end
     end
   end

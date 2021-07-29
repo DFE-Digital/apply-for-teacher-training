@@ -29,8 +29,11 @@ class ProviderRelationshipPermissions < ApplicationRecord
     PERMISSIONS.map { |permission| send("ratifying_provider_can_#{permission}") }.all?(false)
   end
 
-  def partner_organisation(provider_user)
-    provider_user.providers.include?(ratifying_provider) ? training_provider : ratifying_provider
+  def partner_organisation(provider)
+    return training_provider if provider == ratifying_provider
+    return ratifying_provider if provider == training_provider
+
+    nil
   end
 
   def permit?(permission, provider)
