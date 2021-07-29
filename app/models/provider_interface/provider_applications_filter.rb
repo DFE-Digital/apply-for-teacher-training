@@ -73,7 +73,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Cycle',
+        heading: 'Year received',
         name: 'recruitment_cycle_year',
         options: cycle_options,
       }
