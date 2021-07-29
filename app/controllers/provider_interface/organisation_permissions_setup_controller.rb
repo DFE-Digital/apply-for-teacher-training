@@ -129,9 +129,7 @@ module ProviderInterface
 
     def send_organisation_permissions_emails(relationships)
       relationships.each do |permissions|
-        SendOrganisationPermissionsEmails.new(
-          provider_user: current_provider_user, permissions: permissions, set_up: true,
-        ).call
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: permissions).call
       end
     end
 

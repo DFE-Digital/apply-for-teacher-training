@@ -232,7 +232,7 @@ RSpec.describe ProviderMailer, type: :mailer do
         ratifying_provider_can_view_diversity_information: true,
       )
     end
-    let(:email) { ProviderMailer.organisation_permissions_set_up(provider_user, permissions) }
+    let(:email) { described_class.organisation_permissions_set_up(provider_user, training_provider, permissions) }
 
     it_behaves_like(
       'a mail with subject and content',
@@ -258,7 +258,7 @@ RSpec.describe ProviderMailer, type: :mailer do
         ratifying_provider_can_view_diversity_information: true,
       )
     end
-    let(:email) { ProviderMailer.organisation_permissions_updated(provider_user, permissions) }
+    let(:email) { described_class.organisation_permissions_updated(provider_user, training_provider, permissions) }
 
     it_behaves_like(
       'a mail with subject and content',
