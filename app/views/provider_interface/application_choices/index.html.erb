@@ -3,7 +3,7 @@
 <%= render ServiceInformationBanner.new(namespace: :provider) %>
 <%= render ProviderInterface::SummerRecruitmentBanner.new %>
 
-<h1 class="govuk-heading-xl">Applications (<%= @application_choices.total_count %>)</h1>
+<h1 class="govuk-heading-l">Applications (<%= @application_choices.total_count %>)</h1>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
   <% if @application_choices.size > 0 %>
