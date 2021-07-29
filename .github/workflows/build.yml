@@ -52,6 +52,7 @@ jobs:
           cache-to: type=inline
           cache-from: |
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
 
       - name: Build Docker Image
         uses: docker/build-push-action@v2
@@ -62,6 +63,7 @@ jobs:
           push: true
           cache-to: type=inline
           cache-from: |
+            type=registry,ref=${{ env.DOCKER_IMAGE }}:main
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.BRANCH_TAG }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
