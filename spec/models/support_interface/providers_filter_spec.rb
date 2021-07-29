@@ -22,6 +22,16 @@ RSpec.describe SupportInterface::ProvidersFilter do
       expect(filter.filter_records(providers)).to eq [provider_with_signed_dsa]
     end
 
+    it 'filters by DSA unsigned' do
+      provider_with_unsigned_dsa = create(:provider)
+      create_list(:provider, 2, :with_signed_agreement)
+
+      providers = Provider.all
+      filter = described_class.new(params: { onboarding_stages: %w[dsa_unsigned_only] })
+
+      expect(filter.filter_records(providers)).to eq [provider_with_unsigned_dsa]
+    end
+
     it 'filters by provider type' do
       lead_school = create(:provider, provider_type: 'lead_school')
       scitt = create(:provider, provider_type: 'scitt')
