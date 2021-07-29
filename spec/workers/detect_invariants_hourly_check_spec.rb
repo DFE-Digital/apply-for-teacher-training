@@ -114,5 +114,29 @@ RSpec.describe DetectInvariantsHourlyCheck do
 
       expect(Sentry).not_to have_received(:capture_exception)
     end
+
+    it 'detects when the sidekiq latency for selected queues is high' do
+      high_latency = described_class::SIDEKIQ_LATENCY_THRESHOLD + 0.9
+      sidekiq_queue = instance_double(Sidekiq::Queue, latency: high_latency)
+      allow(Sidekiq::Queue).to receive(:new).and_return(sidekiq_queue)
+      described_class.new.perform
+
+      described_class::SIDEKIQ_QUEUE_NAMES.each do |queue_name|
+        expect(Sentry).to have_received(:capture_exception).with(
+          described_class::SidekiqHighLatency.new(
+            "Sidekiq queue #{queue_name} latency is high (#{high_latency}).",
+          ),
+        )
+      end
+    end
+
+    it 'doesn’t alert when the sidekiq latency for queues is low' do
+      low_latency = described_class::SIDEKIQ_LATENCY_THRESHOLD - 0.2
+      sidekiq_queue = instance_double(Sidekiq::Queue, latency: low_latency)
+      allow(Sidekiq::Queue).to receive(:new).and_return(sidekiq_queue)
+      described_class.new.perform
+
+      expect(Sentry).not_to have_received(:capture_exception)
+    end
   end
 end
