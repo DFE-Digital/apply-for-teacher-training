@@ -75,6 +75,6 @@ RSpec.feature 'Provider defers an offer' do
   end
 
   def and_i_can_see_the_application_offer_is_deferred
-    expect(page).to have_content 'Offer successfully deferred'
+    expect(page).to have_content 'Offer deferred'
   end
 end
