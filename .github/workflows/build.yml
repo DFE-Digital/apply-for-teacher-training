@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ workers, helpers, validators, tasks, system, system-provider, system-candidate, support, services, requests, queries, presenters, models, middlewear, mailers, lib, forms, errors, decorators, controllers, components ]
+        tests: [ workers, helpers, validators, tasks, system, system-provider, system-candidate, system-support, support, services, requests, queries, presenters, models, middlewear, mailers, lib, forms, errors, decorators, controllers, components ]
         feature-flags: [on, off]
         include:
           - tests: workers
@@ -113,11 +113,13 @@ jobs:
             include-pattern: spec/tasks/**/*_spec.rb
           - tests: system
             include-pattern: spec/system/**/*_spec.rb
-            exclude-pattern: spec/system/{provider_interface,candidate_interface}/*_spec.rb
+            exclude-pattern: spec/system/{provider_interface,candidate_interface,support_interface}/**/*_spec.rb
           - tests: system-provider
-            include-pattern: spec/system/provider_interface/*_spec.rb
+            include-pattern: spec/system/provider_interface/**/*_spec.rb
           - tests: system-candidate
-            include-pattern: spec/system/candidate_interface/*_spec.rb
+            include-pattern: spec/system/candidate_interface/**/*_spec.rb
+          - tests: system-support
+            include-pattern: spec/system/support_interface/**/*_spec.rb
           - tests: support
             include-pattern: spec/support_specs/**/*_spec.rb
           - tests: services
