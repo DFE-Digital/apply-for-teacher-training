@@ -355,10 +355,6 @@ class ApplicationForm < ApplicationRecord
     application_references.any?(&:cancelled_at_end_of_cycle?)
   end
 
-  def enough_references_have_been_provided?
-    false
-  end
-
   def selected_enough_references?
     # For the purposes of this method, we only care that we have at least the
     # minimum selected. Other parts of the system will enforce having no more

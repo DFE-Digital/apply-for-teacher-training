@@ -25,7 +25,6 @@ module CandidateInterface
 
       def can_retry?
         @reference.email_bounced? &&
-          !@reference.application_form.enough_references_have_been_provided? &&
           CandidateInterface::Reference::SubmitRefereeForm.new(
             submit: 'yes',
             reference_id: @reference.id,
