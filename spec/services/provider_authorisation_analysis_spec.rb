@@ -60,13 +60,6 @@ RSpec.describe ProviderAuthorisationAnalysis do
     expect(analysis.provider_user_can_manage_organisations?).to be_falsy
   end
 
-  it '#other_provider_users_who_can_manage_users' do
-    expected = other_users.second
-
-    expect(analysis.other_provider_users_who_can_manage_users.count).to eq(1)
-    expect(analysis.other_provider_users_who_can_manage_users.first.id).to eq(expected.id)
-  end
-
   it '#training_provider_users_who_can_manage_organisations' do
     expected = other_users.first
 

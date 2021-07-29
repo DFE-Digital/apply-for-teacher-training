@@ -1,5 +1,17 @@
 <%= content_for :browser_title, "#{t('page_titles.provider.change_organisation_permissions')} - #{@presenter.provider_relationship_description}" %>
-
 <% content_for :before_content, govuk_back_link_to(provider_interface_organisation_settings_organisation_organisation_permissions_path(@provider)) %>
 
-<%= render ProviderInterface::OrganisationPermissionsFormComponent.new(provider_user: current_provider_user, provider_relationship_permission: @relationship, mode: :edit, form_url: provider_interface_organisation_settings_organisation_organisation_permission_path(@relationship, organisation_id: @provider.id)) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render ProviderInterface::OrganisationPermissionsFormComponent.new(
+      provider_user: current_provider_user,
+      provider_relationship_permission: @relationship,
+      mode: :edit,
+      form_url: provider_interface_organisation_settings_organisation_organisation_permission_path(@relationship, organisation_id: @provider.id),
+    ) %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_organisation_settings_organisation_organisation_permissions_path(@provider), class: 'govuk-link--no-visited-state' %>
+    </p>
+  </div>
+</div>

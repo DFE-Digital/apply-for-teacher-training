@@ -71,56 +71,8 @@ class ProviderAuthorisationAnalysis
     end
   end
 
-  def other_provider_users_who_can_manage_users
-    @_alt_manage_users ||= if provider_user_associated_with_training_provider?
-                             training_provider.provider_permissions.manage_users.where.not(
-                               provider_user: provider_user,
-                             ).map(&:provider_user)
-                           else
-                             ratifying_provider.provider_permissions.manage_users.where.not(
-                               provider_user: provider_user,
-                             ).map(&:provider_user)
-                           end
-  end
-
-  def other_provider_users_who_can_manage_organisations
-    @_alt_manage_orgs ||= if provider_user_associated_with_training_provider?
-                            training_provider.provider_permissions.manage_organisations.where.not(
-                              provider_user: provider_user,
-                            ).map(&:provider_user)
-                          else
-                            ratifying_provider.provider_permissions.manage_organisations.where.not(
-                              provider_user: provider_user,
-                            ).map(&:provider_user)
-                          end
-  end
-
   def training_provider_users_who_can_manage_organisations
     @_training_provider_users_manage_orgs ||=
       training_provider.provider_permissions.manage_organisations.map(&:provider_user)
-  end
-
-  def fix_user_permissions_path
-    if provider_user_associated_with_training_provider?
-      url_helpers.provider_interface_provider_user_edit_permissions_path(
-        provider_id: training_provider.id,
-        provider_user_id: provider_user.id,
-      )
-    else
-      url_helpers.provider_interface_provider_user_edit_permissions_path(
-        provider_id: ratifying_provider.id,
-        provider_user_id: provider_user.id,
-      )
-    end
-  end
-
-  def fix_org_permissions_path
-    url_helpers.provider_interface_edit_provider_relationship_permissions_path(id: relationship.id) if relationship
-  end
-
-private
-
-  def url_helpers
-    Rails.application.routes.url_helpers
   end
 end

@@ -2,7 +2,10 @@
   <%= render SummaryCardHeaderComponent.new(title: presenter.provider_relationship_description, heading_level: summary_card_heading_level) do %>
     <% if change_path %>
       <div class="app-summary-card__actions">
-        <%= govuk_link_to 'Change', change_path %>
+        <%= govuk_link_to change_path do %>
+          Change
+          <span class="govuk-visually-hidden"> <%= presenter.provider_relationship_description %></span>
+        <% end %>
       </div>
     <% end %>
   <% end %>
