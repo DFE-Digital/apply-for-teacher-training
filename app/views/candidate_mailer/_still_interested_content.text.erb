@@ -2,7 +2,7 @@
 
 You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}" %> academic year.
 
-Your last application has been saved. Make any changes and re-submit from <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>.
+Your last application has been saved. Make any changes and re-submit from <%= CycleTimetable.apply_opens.to_s(:govuk_time) %> on <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>.
 
 <% else %>
 
