@@ -369,4 +369,22 @@ RSpec.describe CycleTimetable do
       SiteSetting.set(name: 'cycle_schedule', value: nil)
     end
   end
+
+  describe '.send_new_cycle_has_started_email?' do
+    context 'it is before apply reopens' do
+      it 'returns false' do
+        Timecop.travel(CycleTimetable.apply_reopens - 1.day) do
+          expect(described_class.send_new_cycle_has_started_email?).to be(false)
+        end
+      end
+    end
+
+    context 'it is after apply reopens' do
+      it 'returns true' do
+        Timecop.travel(CycleTimetable.apply_reopens + 1.hour) do
+          expect(described_class.send_new_cycle_has_started_email?).to be(true)
+        end
+      end
+    end
+  end
 end

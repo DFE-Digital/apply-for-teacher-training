@@ -286,14 +286,18 @@ class CycleTimetable
     Time.zone.now > apply_2_deadline(recruitment_cycle_year)
   end
 
-  private_class_method :last_recruitment_cycle_year?
-
   def self.need_to_send_deadline_reminder?
     return :apply_1 if Time.zone.now.to_date == apply_1_deadline_first_reminder.to_date || Time.zone.now.to_date == apply_1_deadline_second_reminder.to_date
     return :apply_2 if Time.zone.now.to_date == apply_2_deadline_first_reminder.to_date || Time.zone.now.to_date == apply_2_deadline_second_reminder.to_date
   end
 
+  def self.send_new_cycle_has_started_email?
+    Time.zone.now.to_date == apply_opens.to_date
+  end
+
   def self.cycle_year_range(year = current_year)
     "#{year} to #{year + 1}"
   end
+
+  private_class_method :last_recruitment_cycle_year?
 end
