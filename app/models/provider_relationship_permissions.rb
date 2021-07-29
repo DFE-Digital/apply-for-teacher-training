@@ -21,14 +21,6 @@ class ProviderRelationshipPermissions < ApplicationRecord
     end
   end
 
-  def training_provider_can_view_applications_only?
-    PERMISSIONS.map { |permission| send("training_provider_can_#{permission}") }.all?(false)
-  end
-
-  def ratifying_provider_can_view_applications_only?
-    PERMISSIONS.map { |permission| send("ratifying_provider_can_#{permission}") }.all?(false)
-  end
-
   def partner_organisation(provider)
     return training_provider if provider == ratifying_provider
     return ratifying_provider if provider == training_provider
