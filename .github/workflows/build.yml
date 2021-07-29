@@ -102,11 +102,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ workers, helpers, validators, tasks, system, system-provider, system-candidate, system-support, support, services, requests, queries, presenters, models, middlewear, mailers, lib, forms, errors, decorators, controllers, components ]
+        tests: [ helpers, validators, tasks, system, system-provider, system-candidate, system-candidate-references, system-support, support, services, queries, presenters, models, middlewear, mailers, lib, forms, controllers, components ]
         feature-flags: [on, off]
         include:
-          - tests: workers
-            include-pattern: spec/workers/**/*_spec.rb
           - tests: validators
             include-pattern: spec/validators/**/*_spec.rb
           - tests: tasks
@@ -118,18 +116,19 @@ jobs:
             include-pattern: spec/system/provider_interface/**/*_spec.rb
           - tests: system-candidate
             include-pattern: spec/system/candidate_interface/**/*_spec.rb
+            exclude-pattern: spec/system/candidate_interface/references/**/*_spec.rb
+          - tests: system-candidate-references
+            include-pattern: spec/system/candidate_interface/references/**/*_spec.rb
           - tests: system-support
             include-pattern: spec/system/support_interface/**/*_spec.rb
           - tests: support
             include-pattern: spec/support_specs/**/*_spec.rb
           - tests: services
-            include-pattern: spec/services/**/*_spec.rb
-          - tests: requests
-            include-pattern: spec/requests/**/*_spec.rb
+            include-pattern: spec/{services,workers}/**/*_spec.rb
           - tests: queries
             include-pattern: spec/queries/**/*_spec.rb
           - tests: presenters
-            include-pattern: spec/presenters/**/*_spec.rb
+            include-pattern: spec/{decorator,presenters/**/*_spec.rb
           - tests: models
             include-pattern: spec/models/**/*_spec.rb
           - tests: middlewear
@@ -137,17 +136,13 @@ jobs:
           - tests: mailers
             include-pattern: spec/mailers/**/*_spec.rb
           - tests: lib
-            include-pattern: spec/lib/**/*_spec.rb
+            include-pattern: spec/{lib,errors}/**/*_spec.rb
           - tests: helpers
             include-pattern: spec/helpers/**/*_spec.rb
           - tests: forms
             include-pattern: spec/forms/**/*_spec.rb
-          - tests: errors
-            include-pattern: spec/errors/**/*_spec.rb
-          - tests: decorators
-            include-pattern: spec/decorators/**/*_spec.rb
           - tests: controllers
-            include-pattern: spec/controllers/**/*_spec.rb
+            include-pattern: spec/{controllers,requests}/**/*_spec.rb
           - tests: components
             include-pattern: spec/components/**/*_spec.rb
     services:
