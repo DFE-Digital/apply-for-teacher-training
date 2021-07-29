@@ -98,7 +98,7 @@ GEM
       smart_properties
     bindata (2.4.10)
     bindex (0.8.1)
-    blazer (2.4.2)
+    blazer (2.4.3)
       activerecord (>= 5)
       chartkick (>= 3.2)
       railties (>= 5)
@@ -124,7 +124,7 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
-    chartkick (3.4.2)
+    chartkick (4.0.5)
     childprocess (3.0.0)
     choice (0.2.0)
     climate_control (1.0.1)
