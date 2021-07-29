@@ -223,6 +223,6 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def then_i_can_see_candidate_applications
-    expect(page).to have_css('h1.govuk-heading-xl', text: 'Applications')
+    expect(page).to have_css('h1.govuk-heading-l', text: 'Applications')
   end
 end
