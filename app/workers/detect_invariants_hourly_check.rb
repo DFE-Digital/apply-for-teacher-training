@@ -1,10 +1,13 @@
 # Detect state that *should* be impossible in the system and report them to Sentry
 class DetectInvariantsHourlyCheck
   include Sidekiq::Worker
+  SIDEKIQ_QUEUE_NAMES = %w[low_priority default mailers].freeze
+  SIDEKIQ_LATENCY_THRESHOLD = 120
 
   def perform
     detect_course_sync_not_succeeded_for_an_hour
     detect_high_sidekiq_retries_queue_length
+    detect_high_sidekiq_latency
     detect_unauthorised_application_form_edits
     detect_application_choices_in_old_states
   end
@@ -72,10 +75,25 @@ class DetectInvariantsHourlyCheck
     end
   end
 
+  def detect_high_sidekiq_latency
+    SIDEKIQ_QUEUE_NAMES.each do |queue_name|
+      latency = Sidekiq::Queue.new(queue_name).latency
+
+      next unless latency >= SIDEKIQ_LATENCY_THRESHOLD
+
+      Sentry.capture_exception(
+        SidekiqHighLatency.new(
+          "Sidekiq queue #{queue_name} latency is high (#{latency}).",
+        ),
+      )
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
   class CourseSyncNotSucceededForAnHour < StandardError; end
   class SidekiqRetriesQueueHigh < StandardError; end
+  class SidekiqHighLatency < StandardError; end
 
 private
 
