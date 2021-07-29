@@ -796,24 +796,31 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#references_path' do
-    context 'no references present' do
-      let(:application_form) { create(:application_form) }
+  describe '#references_selection_path' do
+    let(:application_form) { create(:application_form) }
 
+    context 'no references have been selected' do
       it 'is the references start page' do
+        create_list(:reference, 2, application_form: application_form)
         presenter = described_class.new(application_form)
-        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_references_start_path
+        expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_select_references_path
       end
     end
 
-    context 'references present' do
-      let(:application_form) { create(:application_form) }
-
-      before { create(:reference, application_form: application_form) }
-
-      it 'is the references review page' do
+    context '1 reference (of 2) has been selected' do
+      it 'is the references start page' do
+        create(:reference, application_form: application_form)
+        create(:selected_reference, application_form: application_form)
         presenter = described_class.new(application_form)
-        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_references_review_path
+        expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_select_references_path
+      end
+    end
+
+    context '2 references have been selected' do
+      it 'is the references start page' do
+        create_list(:selected_reference, 2, application_form: application_form)
+        presenter = described_class.new(application_form)
+        expect(presenter.references_selection_path).to eq Rails.application.routes.url_helpers.candidate_interface_review_selected_references_path
       end
     end
   end
