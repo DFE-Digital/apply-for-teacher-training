@@ -161,15 +161,16 @@ FactoryBot.define do
         submitted_application_choices_count { 0 }
         work_experiences_count { 0 }
         volunteering_experiences_count { 0 }
-        references_count { 0 }
-        references_state { :feedback_requested }
+        references_count { 2 }
+        references_state { :feedback_provided }
+        references_selected { true }
         full_work_history { false }
       end
 
       after(:create) do |application_form, evaluator|
         application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
         application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
-        application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state)
+        application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
 
         if evaluator.full_work_history
           current_year = Time.zone.today.year
