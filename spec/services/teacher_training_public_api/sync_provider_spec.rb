@@ -53,6 +53,19 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
         expect(Sentry).to have_received(:capture_exception)
                           .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
       end
+
+      it 'when errors are suppressed it does not raise a FullSync error' do
+        described_class.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: stubbed_recruitment_cycle_year,
+          delay_by: delay_by,
+          incremental_sync: incremental_sync,
+          suppress_sync_update_errors: true,
+        ).call(run_in_background: true)
+
+        expect(Sentry).not_to have_received(:capture_exception)
+          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+      end
     end
 
     context 'ingesting an existing provider' do
@@ -84,6 +97,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
           provider_from_api.id,
           stubbed_recruitment_cycle_year,
           true,
+          false,
         ).exactly(1).time
       end
 
@@ -96,6 +110,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
             provider_from_api.id,
             stubbed_recruitment_cycle_year,
             true,
+            false,
           ).exactly(1).time
         end
       end

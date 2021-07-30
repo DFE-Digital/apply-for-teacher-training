@@ -7,7 +7,7 @@ module TeacherTrainingPublicAPI
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, run_in_background: true)
+    def perform(provider_id, recruitment_cycle_year, incremental_sync = true, suppress_sync_update_errors = false, run_in_background: true)
       @provider = ::Provider.find(provider_id)
       @run_in_background = run_in_background
       @incremental_sync = incremental_sync
@@ -20,18 +20,18 @@ module TeacherTrainingPublicAPI
 
       scope.each do |course_from_api|
         ActiveRecord::Base.transaction do
-          create_or_update_course(course_from_api, recruitment_cycle_year, @incremental_sync)
+          create_or_update_course(course_from_api, recruitment_cycle_year, @incremental_sync, suppress_sync_update_errors)
         end
       end
 
-      raise_update_error(@updates)
+      raise_update_error(@updates) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
 
   private
 
-    def create_or_update_course(course_from_api, recruitment_cycle_year, incremental_sync)
+    def create_or_update_course(course_from_api, recruitment_cycle_year, incremental_sync, suppress_sync_update_errors)
       course = provider.courses.find_or_initialize_by(
         uuid: course_from_api.uuid,
         recruitment_cycle_year: recruitment_cycle_year,
@@ -50,9 +50,9 @@ module TeacherTrainingPublicAPI
       end
 
       if run_in_background
-        TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id, incremental_sync)
+        TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id, incremental_sync, suppress_sync_update_errors)
       else
-        TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id, incremental_sync)
+        TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id, incremental_sync, suppress_sync_update_errors)
       end
     end
 
