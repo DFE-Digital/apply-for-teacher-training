@@ -31,6 +31,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
                           .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
                           .at_least(:once)
       end
+
+      it 'suppresses the error if the flag is set to true' do
+        described_class.call(incremental_sync: false, suppress_sync_update_errors: true)
+
+        expect(Sentry).not_to have_received(:capture_exception)
+                              .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+      end
     end
 
     context 'a previous year recruitment cycle' do
@@ -41,7 +48,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: 6.minutes, incremental_sync: false)
+          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: 6.minutes, incremental_sync: false, suppress_sync_update_errors: false)
           .and_return(sync_provider)
       end
 
@@ -63,7 +70,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-            .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: nil, incremental_sync: true)
+          .with(provider_from_api: anything,
+                recruitment_cycle_year: recruitment_cycle_year,
+                delay_by: nil,
+                incremental_sync: true,
+                suppress_sync_update_errors: false)
             .and_return(sync_provider)
         stub_teacher_training_api_providers(
           recruitment_cycle_year: recruitment_cycle_year,

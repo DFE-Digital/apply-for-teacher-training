@@ -7,7 +7,7 @@ module TeacherTrainingPublicAPI
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year, course_id, incremental_sync = true)
+    def perform(provider_id, recruitment_cycle_year, course_id, incremental_sync = true, suppress_sync_update_errors = false)
       @provider = ::Provider.find(provider_id)
       @course = ::Course.find(course_id)
       @incremental_sync = incremental_sync
@@ -43,7 +43,7 @@ module TeacherTrainingPublicAPI
       handle_course_options_with_invalid_sites(sites)
       handle_course_options_with_reinstated_sites(sites)
 
-      raise_update_error(@updates)
+      raise_update_error(@updates) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
