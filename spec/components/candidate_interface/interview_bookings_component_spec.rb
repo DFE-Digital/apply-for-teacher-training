@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InterviewBookingsComponent, type: :component do
+RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component do
   around do |example|
     Timecop.freeze(2020, 6, 1, 12) do
       example.run

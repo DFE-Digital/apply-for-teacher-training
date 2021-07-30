@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WorkHistoryAndUnpaidExperienceComponent, type: :component do
+RSpec.describe ProviderInterface::WorkHistoryAndUnpaidExperienceComponent, type: :component do
   let(:application_form) do
     instance_double(ApplicationForm,
                     submitted_at: 2.months.ago,

@@ -7,7 +7,7 @@
 
   <h1 class="govuk-heading-xl"> <%= t('page_titles.references') %> </h1>
 
-  <%= render(SelectedReferencesComponent.new(current_application)) %>
+  <%= render(CandidateInterface::SelectedReferencesComponent.new(current_application)) %>
 
   <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
 

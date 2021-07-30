@@ -1,4 +1,4 @@
-class TaskListItemReferencesComponent < ViewComponent::Base
+class CandidateInterface::TaskListItemReferencesComponent < ViewComponent::Base
   include ViewHelper
 
   def initialize(references:)

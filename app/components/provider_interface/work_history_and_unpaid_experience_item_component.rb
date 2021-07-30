@@ -1,4 +1,4 @@
-class WorkHistoryAndUnpaidExperienceItemComponent < WorkHistoryItemComponent
+class ProviderInterface::WorkHistoryAndUnpaidExperienceItemComponent < WorkHistoryItemComponent
   def title
     if item.respond_to?(:role) && item.respond_to?(:working_pattern)
       "#{item.role} - #{working_pattern} #{role_type}"

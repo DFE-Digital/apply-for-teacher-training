@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SelectedReferencesComponent < ViewComponent::Base
+class CandidateInterface::SelectedReferencesComponent < ViewComponent::Base
   attr_reader :application_form, :selected_references, :editable, :show_incomplete, :is_errored
 
   def initialize(application_form, editable: true, show_incomplete: false, is_errored: false)
