@@ -37,6 +37,7 @@ en:
         review_label: Grade
         review_label_predicted: Predicted grade
         change_action: grade
+        inset_text: You must give an academic referee who can agree that you’re aiming for this grade.
         international:
           grade_examples: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
           hint_text: Enter the grade that you think you’ll get. You must give an academic referee who can agree that you’re aiming for this grade.
