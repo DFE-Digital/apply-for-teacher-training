@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WorkHistoryAndUnpaidExperienceItemComponent do
+RSpec.describe ProviderInterface::WorkHistoryAndUnpaidExperienceItemComponent do
   subject(:experience_item) { described_class.new(item: item) }
 
   describe '#title' do

@@ -2,13 +2,13 @@
   <ul class='govuk-list govuk-list--number'>
     <% interviews.each do |interview| %>
       <li>
-        <%= render InterviewBookingsItemComponent.new(interview) %>
+        <%= render CandidateInterface::InterviewBookingsItemComponent.new(interview) %>
       </li>
     <% end %>
   </ul>
 <% elsif interviews.kept.any? %>
   <% interviews.first.tap do |interview| %>
-    <%= render InterviewBookingsItemComponent.new(interview) %>
+    <%= render CandidateInterface::InterviewBookingsItemComponent.new(interview) %>
   <% end %>
 <% elsif @application_choice.awaiting_provider_decision? %>
   <p class="govuk-body">The provider will be in touch if they want to invite you to an interview.</p>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SelectedReferencesComponent, type: :component do
+RSpec.describe CandidateInterface::SelectedReferencesComponent, type: :component do
   context 'when references section is completed' do
     # The component only checks ApplicationForm#references_completed?, and
     # expects that the correct number of reference selections are present if

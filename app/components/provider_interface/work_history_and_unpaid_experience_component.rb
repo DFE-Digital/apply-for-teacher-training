@@ -1,4 +1,4 @@
-class WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
+class ProviderInterface::WorkHistoryAndUnpaidExperienceComponent < WorkHistoryComponent
   def initialize(application_form:)
     @application_form = application_form
     @work_history_with_breaks ||= WorkHistoryWithBreaks.new(application_form, include_unpaid_experience: true)

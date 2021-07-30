@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class InterviewBookingsComponent < ViewComponent::Base
+class CandidateInterface::InterviewBookingsComponent < ViewComponent::Base
   attr_accessor :interview
 
   def initialize(application_choice)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TaskListItemReferencesComponent do
+RSpec.describe CandidateInterface::TaskListItemReferencesComponent do
   def render_component(references: [])
     render_inline(described_class.new(references: references))
   end
