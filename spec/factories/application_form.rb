@@ -34,6 +34,8 @@ FactoryBot.define do
       support_reference { GenerateSupportReference.call }
       transient do
         references_state { :feedback_provided }
+        references_selected { true }
+        references_count { 2 }
       end
 
       references_completed { true }
@@ -163,7 +165,7 @@ FactoryBot.define do
         volunteering_experiences_count { 0 }
         references_count { 2 }
         references_state { :feedback_provided }
-        references_selected { true }
+        references_selected { false }
         full_work_history { false }
       end
 
