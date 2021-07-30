@@ -26,7 +26,7 @@ module ProviderInterface
 
     def update
       if @relationship.update(new_relationship_permissions)
-        flash[:success] = 'Organisation permissions successfully updated'
+        flash[:success] = 'Organisation permissions updated'
         redirect_to provider_interface_organisation_settings_organisation_organisation_permissions_path(params[:organisation_id])
       else
         track_validation_error(@relationship)
