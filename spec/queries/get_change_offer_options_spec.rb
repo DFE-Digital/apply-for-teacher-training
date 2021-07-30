@@ -82,14 +82,6 @@ RSpec.describe GetChangeOfferOptions do
   end
 
   describe '#offerable_courses' do
-    it 'returns only courses which are open on apply and exposed in find' do
-      service = service(provider_user, externally_ratified_course)
-      create(:course, accredited_provider: ratifying_provider)
-      create(:course, accredited_provider: ratifying_provider, open_on_apply: true, exposed_in_find: false)
-      allow(service).to receive(:make_decisions_courses).and_return(Course.all)
-      expect(service.offerable_courses).to eq([externally_ratified_course])
-    end
-
     it 'returns only courses that have valid sites' do
       service = service(provider_user, self_ratified_course)
       create(:course_option, course: self_ratified_course, site_still_valid: false)
