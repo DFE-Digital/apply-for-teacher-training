@@ -211,24 +211,15 @@ private
       # The first reference is declined by the referee
       @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
 
-      if FeatureFlag.active?(:reference_selection)
-        # Cancel 1 reference manually and receive feedback on the remaining 2.
-        # Select the two references with feedback.
-        @application_form.application_references.feedback_requested.first.cancelled!
-        @application_form.application_references.feedback_requested.each do |reference|
-          submit_reference!(reference.reload)
-          reference.update(selected: true)
-          fast_forward
-        end
-        @application_form.update!(references_completed: true)
-      else
-        # The 2 other of the outstanding references come in. However, only the
-        # first two are actually submitted, the last one is automatically cancelled.
-        @application_form.application_references.feedback_requested.each do |reference|
-          submit_reference!(reference.reload)
-          fast_forward
-        end
+      # Cancel 1 reference manually and receive feedback on the remaining 2.
+      # Select the two references with feedback.
+      @application_form.application_references.feedback_requested.first.cancelled!
+      @application_form.application_references.feedback_requested.each do |reference|
+        submit_reference!(reference.reload)
+        reference.update(selected: true)
+        fast_forward
       end
+      @application_form.update!(references_completed: true)
 
       if states.include?(:unsubmitted_with_completed_references)
         return application_choices

@@ -38,22 +38,18 @@ RSpec.describe SubmitApplication do
       expect(action_mailer_double).to have_received(:deliver_later)
     end
 
-    context 'when the reference_selection feature is on' do
-      before { FeatureFlag.activate(:reference_selection) }
+    context 'when the application has requested references' do
+      let(:application_form) { create(:application_form) }
+      let!(:requested_reference_1) { create(:reference, :feedback_requested, application_form: application_form) }
+      let!(:requested_reference_2) { create(:reference, :feedback_requested, application_form: application_form) }
+      let!(:provided_reference) { create(:reference, :feedback_provided, application_form: application_form) }
 
-      context 'when the application has requested references' do
-        let(:application_form) { create(:application_form) }
-        let!(:requested_reference_1) { create(:reference, :feedback_requested, application_form: application_form) }
-        let!(:requested_reference_2) { create(:reference, :feedback_requested, application_form: application_form) }
-        let!(:provided_reference) { create(:reference, :feedback_provided, application_form: application_form) }
+      it 'cancels them' do
+        described_class.new(application_form).call
 
-        it 'cancels them' do
-          described_class.new(application_form).call
-
-          expect(requested_reference_1.reload).to be_cancelled
-          expect(requested_reference_2.reload).to be_cancelled
-          expect(provided_reference.reload).to be_feedback_provided
-        end
+        expect(requested_reference_1.reload).to be_cancelled
+        expect(requested_reference_2.reload).to be_cancelled
+        expect(provided_reference.reload).to be_feedback_provided
       end
     end
 

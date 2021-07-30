@@ -5,7 +5,6 @@ RSpec.feature 'References' do
 
   scenario 'the candidate deletes their selected references' do
     given_i_am_signed_in
-    and_the_reference_selection_feature_flag_is_active
 
     given_i_receive_my_references_and_have_selected_two_of_them
     and_i_have_completed_the_section
@@ -32,10 +31,6 @@ RSpec.feature 'References' do
     @candidate = create(:candidate)
     login_as(@candidate)
     @application = @candidate.current_application
-  end
-
-  def and_the_reference_selection_feature_flag_is_active
-    FeatureFlag.activate('reference_selection')
   end
 
   def given_i_receive_my_references_and_have_selected_two_of_them

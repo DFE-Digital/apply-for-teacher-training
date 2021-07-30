@@ -36,47 +36,22 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
       result = render_inline(described_class.new(application_form))
 
       expected_first_para = 'You can add more referees to increase the chances of getting 2 references quickly.'
-      expected_second_para = 'We’ll cancel any remaining requests when you’ve received 2 references.'
 
       expect(link_text(result)).to eq 'Add another referee'
       expect(href(result)).to eq '/candidate/application/references/start'
-      if FeatureFlag.active?(:reference_selection)
-        expect(body_text(result)).to eq expected_first_para
-      else
-        expect(body_text(result)).to eq expected_first_para + expected_second_para
-      end
+      expect(body_text(result)).to eq expected_first_para
     end
   end
 
-  context 'when reference_selection feature is off' do
-    before { FeatureFlag.deactivate(:reference_selection) }
+  context 'and minimum required references have been provided' do
+    it 'renders the correct content' do
+      create(:reference, :feedback_provided, application_form: application_form)
+      create(:reference, :feedback_provided, application_form: application_form)
 
-    context 'and enough references have been provided' do
-      it 'does not render any content' do
-        create(:reference, :feedback_provided, application_form: application_form)
-        create(:reference, :feedback_provided, application_form: application_form)
-
-        result = render_inline(described_class.new(application_form))
-
-        expect(link(result)).to be_empty
-        expect(body_text(result)).to be_empty
-      end
-    end
-  end
-
-  context 'when reference_selection feature is on' do
-    before { FeatureFlag.activate(:reference_selection) }
-
-    context 'and minimum required references have been provided' do
-      it 'renders the correct content' do
-        create(:reference, :feedback_provided, application_form: application_form)
-        create(:reference, :feedback_provided, application_form: application_form)
-
-        result = render_inline(described_class.new(application_form))
-        expect(link_text(result)).to eq 'Add another referee'
-        expect(href(result)).to eq '/candidate/application/references/start'
-        expect(body_text(result)).to eq 'You can add as many referees as you like but you can only submit 2 with your application.'
-      end
+      result = render_inline(described_class.new(application_form))
+      expect(link_text(result)).to eq 'Add another referee'
+      expect(href(result)).to eq '/candidate/application/references/start'
+      expect(body_text(result)).to eq 'You can add as many referees as you like but you can only submit 2 with your application.'
     end
   end
 

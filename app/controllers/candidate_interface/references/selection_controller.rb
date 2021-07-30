@@ -1,7 +1,6 @@
 module CandidateInterface
   module References
     class SelectionController < BaseController
-      before_action :render_404_unless_feature_enabled
       before_action :redirect_to_select_references_unless_enough_selected, only: %i[review complete]
 
       def new
@@ -63,10 +62,6 @@ module CandidateInterface
 
       def section_complete_params
         strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
-      end
-
-      def render_404_unless_feature_enabled
-        render_404 unless FeatureFlag.active?(:reference_selection)
       end
     end
   end

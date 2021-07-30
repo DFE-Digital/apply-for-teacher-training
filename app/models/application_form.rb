@@ -25,7 +25,7 @@ class ApplicationForm < ApplicationRecord
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
 
-  MINIMUM_COMPLETE_REFERENCES = 2
+  REQUIRED_REFERENCE_SELECTIONS = 2
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
@@ -250,14 +250,6 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_END_STATES).include?(status) }
   end
 
-  def too_many_complete_references?
-    if FeatureFlag.active?(:reference_selection)
-      false
-    else
-      application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
-    end
-  end
-
   def surplus_references_available_for_selection?
     application_references.select(&:feedback_provided?).count >= 3
   end
@@ -363,23 +355,15 @@ class ApplicationForm < ApplicationRecord
     application_references.any?(&:cancelled_at_end_of_cycle?)
   end
 
-  def enough_references_have_been_provided?
-    if FeatureFlag.active?(:reference_selection)
-      false
-    else
-      application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
-    end
-  end
-
   def selected_enough_references?
     # For the purposes of this method, we only care that we have at least the
     # minimum selected. Other parts of the system will enforce having no more
     # than the minimum selected.
-    selected_references.count >= MINIMUM_COMPLETE_REFERENCES
+    selected_references.count >= REQUIRED_REFERENCE_SELECTIONS
   end
 
   def selected_incorrect_number_of_references?
-    selected_references.count != MINIMUM_COMPLETE_REFERENCES
+    selected_references.count != REQUIRED_REFERENCE_SELECTIONS
   end
 
   def selected_references
@@ -387,7 +371,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def minimum_references_available_for_selection?
-    application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
+    application_references.feedback_provided.count >= REQUIRED_REFERENCE_SELECTIONS
   end
 
   def address_formatted_for_geocoding

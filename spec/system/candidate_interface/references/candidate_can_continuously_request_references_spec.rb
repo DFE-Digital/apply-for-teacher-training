@@ -6,7 +6,6 @@ RSpec.feature 'References' do
   scenario 'the candidate can continue to request and add references on an unsubmitted application' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details
-    and_the_select_references_flag_is_active
     and_i_have_three_reference_requests_pending
 
     when_i_receive_two_references
@@ -23,10 +22,6 @@ RSpec.feature 'References' do
 
   def and_i_have_provided_my_personal_details
     @candidate.current_application.update!(first_name: 'Mr', last_name: 'Bot')
-  end
-
-  def and_the_select_references_flag_is_active
-    FeatureFlag.activate(:reference_selection)
   end
 
   def and_i_have_three_reference_requests_pending

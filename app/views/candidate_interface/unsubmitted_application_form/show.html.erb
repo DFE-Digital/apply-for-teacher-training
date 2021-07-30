@@ -49,50 +49,31 @@
         <% end %>
       <% end %>
 
-      <% if FeatureFlag.active?(:reference_selection) %>
-
-        <ol class="app-task-list">
-          <li class="app-task-list__item">
-            <% if @application_form_presenter.references.present? %>
-              <%= render(TaskListItemReferencesComponent.new(
-                references: @application_form_presenter.references,
-              )) %>
-            <% else %>
-              <%= govuk_link_to t('page_titles.references_request'), @application_form_presenter.references_path %>
-            <% end %>
-          </li>
-
-          <li class="app-task-list__item">
-            <%= render(TaskListItemComponent.new(
-              text: t('page_titles.references_selection'),
-              completed: @application_form_presenter.references_completed?,
-              path: @application_form_presenter.references_selection_path,
+      <ol class="app-task-list">
+        <li class="app-task-list__item">
+          <% if @application_form_presenter.references.present? %>
+            <%= render(TaskListItemReferencesComponent.new(
+              references: @application_form_presenter.references,
             )) %>
-            <% if @application_form.selected_enough_references? && @application_form.surplus_references_available_for_selection? %>
-              <p class="govuk-body govuk-!-margin-bottom-2"> You’ve selected 2 references to submit with your application already, but you can change your selection if you want.</p>
-            <% end %>
-          </li>
-        </ol>
+          <% else %>
+            <%= govuk_link_to(
+              t('page_titles.references_request'),
+              Rails.application.routes.url_helpers.candidate_interface_references_start_path,
+            ) %>
+          <% end %>
+        </li>
 
-      <% else %>
-
-        <ol class="app-task-list">
-          <li class="app-task-list__item">
-            <%= render(TaskListItemComponent.new(
-              text: @application_form_presenter.references_link_text,
-              completed: @application_form_presenter.references_completed?,
-              path: @application_form_presenter.references_path,
-              custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil,
-            )) %>
-            <% if @application_form_presenter.references.present? %>
-              <%= render(TaskListItemReferencesComponent.new(
-                references: @application_form_presenter.references,
-              )) %>
-            <% end %>
-          </li>
-        </ol>
-
-      <% end %>
+        <li class="app-task-list__item">
+          <%= render(TaskListItemComponent.new(
+            text: t('page_titles.references_selection'),
+            completed: @application_form_presenter.references_completed?,
+            path: @application_form_presenter.references_selection_path,
+          )) %>
+          <% if @application_form.selected_enough_references? && @application_form.surplus_references_available_for_selection? %>
+            <p class="govuk-body govuk-!-margin-bottom-2"> You’ve selected 2 references to submit with your application already, but you can change your selection if you want.</p>
+          <% end %>
+        </li>
+      </ol>
     </section>
 
     <section class="govuk-!-margin-bottom-8">

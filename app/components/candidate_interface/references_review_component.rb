@@ -54,24 +54,10 @@ module CandidateInterface
       %w[History]
     end
 
-    def too_many_complete_references?
-      if FeatureFlag.active?(:reference_selection)
-        false
-      else
-        references.select(&:feedback_provided?).size > ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-      end
-    end
-
-    def container_class
-      if too_many_complete_references?
-        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{is_errored ? 'error' : 'important'}"
-      end
-    end
-
     def too_many_references_error
       return if references.blank?
 
-      number_to_delete = references.size - ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      number_to_delete = references.size - ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
       "Delete #{number_to_delete} #{'reference'.pluralize(number_to_delete)}. You can only include 2 with your application"
     end
 

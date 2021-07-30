@@ -8,7 +8,7 @@
       url: candidate_interface_destroy_reference_path(@reference),
       method: :delete,
     ) do |f| %>
-      <% if FeatureFlag.active?(:reference_selection) && @reference.selected %>
+      <% if @reference.selected %>
         <h1 class="govuk-heading-xl">
           <span class="govuk-caption-xl"><%= @reference.name %></span>
           <%= t('page_titles.references_delete_selected_reference') %>
