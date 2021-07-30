@@ -2,9 +2,9 @@ class ProviderPermissions < ApplicationRecord
   VALID_PERMISSIONS = %i[
     manage_users
     manage_organisations
-    view_safeguarding_information
     set_up_interviews
     make_decisions
+    view_safeguarding_information
     view_diversity_information
   ].freeze
 
