@@ -82,7 +82,7 @@ RSpec.feature 'Provider edits organisation permissions' do
   end
 
   def and_i_see_a_flash_message
-    expect(page).to have_content('Organisation permissions successfully updated')
+    expect(page).to have_content('Organisation permissions updated')
   end
 
   def and_my_organisation_is_listed_as_able_to_make_decisions
