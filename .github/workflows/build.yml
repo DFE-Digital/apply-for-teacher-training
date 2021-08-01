@@ -45,7 +45,7 @@ jobs:
       - name: Build gems-node-modules Docker Image
         uses: docker/build-push-action@v2
         with:
-          target: apply-for-teacher-training-gems-node-modules
+          target: gems-node-modules
           tags: |
             ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
           push: true
