@@ -33,7 +33,7 @@ RUN apk -U upgrade && \
 
 # Stage 2: apply-for-teacher-training-gems-node-modules, reduce size of gems-node-modules and only keep required files.
 # published as dfedigital/apply-for-teacher-training-gems-node-modules
-FROM ${BASE_RUBY_IMAGE} AS apply-for-teacher-training-gems-node-modules
+FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     RAILS_ENV=production \
@@ -51,9 +51,6 @@ RUN apk -U upgrade && \
 COPY --from=install-gems-node-modules /app /app
 COPY --from=install-gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
-# Stage 3: assets-precompile, precomple assets and remove compile dependencies.
-FROM ${BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES} AS assets-precompile
-
 WORKDIR /app
 COPY . .
 
@@ -65,7 +62,7 @@ RUN yarn run lint && \
     rm -rf yarn.lock && \
     rm -rf tmp/* log/* node_modules /usr/local/share/.cache /tmp/*
 
-# Stage 4: production, copy application code and compiled assets to base ruby image.
+# Stage 3: production, copy application code and compiled assets to base ruby image.
 # Depends on assets-precompile stage which can be cached from a pre-built image
 # by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
@@ -86,8 +83,8 @@ RUN apk -U upgrade && \
 
 WORKDIR /app
 
-COPY --from=assets-precompile /app /app
-COPY --from=assets-precompile /usr/local/bundle/ /usr/local/bundle/
+COPY --from=gems-node-modules /app /app
+COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
 ENV ENV="/root/.ashrc"
 
