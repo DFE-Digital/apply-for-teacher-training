@@ -54,13 +54,8 @@ COPY --from=install-gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 WORKDIR /app
 COPY . .
 
-RUN yarn run lint && \
-    yarn run test && \
-    yarn run stylelint app/frontend/styles && \
-    bundle exec rake assets:precompile && \
-    apk del nodejs yarn && \
-    rm -rf yarn.lock && \
-    rm -rf tmp/* log/* node_modules /usr/local/share/.cache /tmp/*
+RUN bundle exec rake assets:precompile && \
+    rm -rf tmp/* log/* node_modules /tmp/*
 
 # Stage 3: production, copy application code and compiled assets to base ruby image.
 # Depends on assets-precompile stage which can be cached from a pre-built image

@@ -47,6 +47,7 @@ jobs:
         with:
           target: gems-node-modules
           tags: |
+            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.IMAGE_TAG }}
             ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
           push: true
           cache-to: type=inline
@@ -67,9 +68,9 @@ jobs:
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.BRANCH_TAG }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
+            type=register,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
           build-args: |
             VERSION=${{ env.IMAGE_TAG }}
-            BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
 
   lint:
     name: Lint
@@ -79,7 +80,7 @@ jobs:
       run:
         working-directory: /app
     container:
-      image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
+      image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
       options: -a STDOUT -a STDERR -t
       credentials:
         username: ${{ github.actor }}
@@ -93,6 +94,12 @@ jobs:
 
     - run:  bundle exec rake brakeman
       name: Brakeman
+
+    - name: Yarn Lint
+      run: |
+        yarn install
+        yarn run lint && yarn run stylelint app/frontend/styles && \
+        yarn run test
 
   test:
     name: Tests
