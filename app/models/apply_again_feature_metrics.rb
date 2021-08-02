@@ -7,7 +7,7 @@ class ApplyAgainFeatureMetrics
   )
     success_count = 0.0
     fail_count = 0.0
-    application_forms(start_time, end_time).find_each do |application_form|
+    application_forms(start_time, end_time).find_each(batch_size: 100) do |application_form|
       if application_form.successful?
         success_count += 1
       elsif application_form.ended_without_success?
