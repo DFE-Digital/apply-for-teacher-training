@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
       application_form = ApplicationForm.new(data)
-      becoming_a_teacher = CandidateInterface::BecomingATeacherForm.build_from_application(
+      becoming_a_teacher = described_class.build_from_application(
         application_form,
       )
 
@@ -26,14 +26,14 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      becoming_a_teacher = CandidateInterface::BecomingATeacherForm.new
+      becoming_a_teacher = described_class.new
 
       expect(becoming_a_teacher.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = FactoryBot.create(:application_form)
-      becoming_a_teacher = CandidateInterface::BecomingATeacherForm.new(form_data)
+      becoming_a_teacher = described_class.new(form_data)
 
       expect(becoming_a_teacher.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)

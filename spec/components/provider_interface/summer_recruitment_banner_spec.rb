@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::SummerRecruitmentBanner do
   before { FeatureFlag.activate('summer_recruitment_banner') }
 
-  subject(:result) { render_inline(ProviderInterface::SummerRecruitmentBanner.new) }
+  subject(:result) { render_inline(described_class.new) }
 
   context 'when the provider information banner feature flag is on' do
     it 'renders the banner title' do

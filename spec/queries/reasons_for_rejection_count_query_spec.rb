@@ -56,32 +56,32 @@ RSpec.describe ReasonsForRejectionCountQuery do
 
   describe '#reason_counts' do
     it 'returns correct values' do
-      counts = ReasonsForRejectionCountQuery.new.reason_counts
+      counts = described_class.new.reason_counts
       expect(counts[:candidate_behaviour_y_n]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(3, 2, {}),
+        described_class::Result.new(3, 2, {}),
       )
       expect(counts[:qualifications_y_n]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(1, 1, {}),
+        described_class::Result.new(1, 1, {}),
       )
     end
   end
 
   describe '#sub_reason_counts' do
     it 'returns correct values' do
-      counts = ReasonsForRejectionCountQuery.new.sub_reason_counts
+      counts = described_class.new.sub_reason_counts
       expect(counts[:candidate_behaviour_y_n].sub_reasons[:other]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(3, 2, nil),
+        described_class::Result.new(3, 2, nil),
       )
       expect(counts[:quality_of_application_y_n].sub_reasons[:personal_statement]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(2, 1, nil),
+        described_class::Result.new(2, 1, nil),
       )
     end
 
     it 'includes zero values' do
-      counts = ReasonsForRejectionCountQuery.new.sub_reason_counts
+      counts = described_class.new.sub_reason_counts
       expect(counts[:qualifications_y_n].sub_reasons.count).to be(5)
       expect(counts[:qualifications_y_n].sub_reasons[:no_english_gcse]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(0, 0, nil),
+        described_class::Result.new(0, 0, nil),
       )
     end
   end

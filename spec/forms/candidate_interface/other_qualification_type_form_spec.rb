@@ -74,7 +74,7 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
   describe '#initialize' do
     context 'the qualification type is being updated from a non-uk qualification to a uk qualification' do
       it 'assigns an empty string to the non_uk attributes' do
-        form = CandidateInterface::OtherQualificationTypeForm.new(
+        form = described_class.new(
           current_application,
           intermediate_data_service,
           'qualification_type' => 'GCSE',
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
     end
 
     it 'updates the application forms no_other_qualifications to true' do
-      form = CandidateInterface::OtherQualificationTypeForm.new(
+      form = described_class.new(
         current_application,
         intermediate_data_service,
         'qualification_type' => 'no_other_qualifications',

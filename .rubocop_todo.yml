@@ -61,7 +61,3 @@ Rails/ReversibleMigration:
 # Configuration parameters: AllowImplicitReturn, AllowedReceivers.
 Rails/SaveBang:
   Enabled: false
-
-Style/CombinableLoops:
-  Exclude:
-    - 'app/presenters/support_interface/provider_relationships_diagram.rb'

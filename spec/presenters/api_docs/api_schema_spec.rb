@@ -5,7 +5,7 @@ RSpec.describe APIDocs::APISchema do
     let :schema do
       @document = Openapi3Parser.load(VendorAPISpecification.as_hash)
       _schema_name, raw_schema = @document.components.schemas.find { |schema_name, _schema| schema_name == 'ApplicationAttributes' }
-      APIDocs::APISchema.new(raw_schema)
+      described_class.new(raw_schema)
     end
 
     it 'finds the object_schema_name specified with $ref' do

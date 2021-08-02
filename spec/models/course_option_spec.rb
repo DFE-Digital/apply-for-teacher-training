@@ -32,7 +32,7 @@ RSpec.describe CourseOption, type: :model do
       expected_course_option = create(:course_option, site_still_valid: true)
       create(:course_option, site_still_valid: false)
 
-      expect(CourseOption.selectable).to match_array [expected_course_option]
+      expect(described_class.selectable).to match_array [expected_course_option]
     end
   end
 

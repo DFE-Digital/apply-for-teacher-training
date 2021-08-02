@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         postcode: Faker::Address.postcode,
       }
       application_form = build_stubbed(:application_form, data)
-      contact_details = CandidateInterface::ContactDetailsForm.build_from_application(application_form)
+      contact_details = described_class.build_from_application(application_form)
 
       expect(contact_details).to have_attributes(data)
     end
@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
   describe '#save_base' do
     it 'returns false if not valid' do
-      contact_details = CandidateInterface::ContactDetailsForm.new
+      contact_details = described_class.new
 
       expect(contact_details.save_base(ApplicationForm.new)).to eq(false)
     end
@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     it 'updates the provided ApplicationForm if valid' do
       form_data = { phone_number: Faker::PhoneNumber.cell_phone }
       application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+      contact_details = described_class.new(form_data)
 
       expect(contact_details.save_base(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
   describe '#save_address' do
     it 'returns false if not valid' do
-      contact_details = CandidateInterface::ContactDetailsForm.new
+      contact_details = described_class.new
 
       expect(contact_details.save_address(ApplicationForm.new)).to eq(false)
     end
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         postcode: 'bn1 1aa',
       }
       application_form = build(:application_form, international_address: 'some old address')
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+      contact_details = described_class.new(form_data)
 
       form_data[:postcode] = 'BN1 1AA'
 
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_line4: '110006',
       }
       application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+      contact_details = described_class.new(form_data)
 
       expect(contact_details.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_type: 'uk',
       }
       application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+      contact_details = described_class.new(form_data)
 
       expect(contact_details.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
@@ -95,7 +95,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         country: 'India',
       }
       application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+      contact_details = described_class.new(form_data)
 
       expect(contact_details.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(form_data)
@@ -106,7 +106,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         address_type: 'international',
       }
       application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+      contact_details = described_class.new(form_data)
 
       expect(contact_details.save_address_type(application_form)).to eq(false)
     end

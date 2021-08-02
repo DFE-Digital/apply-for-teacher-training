@@ -14,9 +14,9 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     describe 'subject' do
       it 'validates presence except for non-uk and other qualifications' do
-        non_uk_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'non_uk', subject: nil)
-        other_uk_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'Other', subject: nil)
-        gcse = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'GCSE', subject: nil)
+        non_uk_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', subject: nil)
+        other_uk_qualification = described_class.new(nil, nil, qualification_type: 'Other', subject: nil)
+        gcse = described_class.new(nil, nil, qualification_type: 'GCSE', subject: nil)
 
         non_uk_qualification.valid?(:details)
         other_uk_qualification.valid?(:details)
@@ -30,9 +30,9 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     describe 'grade' do
       it 'validates presence except for non-uk and other qualifications' do
-        non_uk_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'non_uk', grade: nil)
-        other_uk_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'Other', grade: nil)
-        gcse = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'GCSE', grade: nil)
+        non_uk_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', grade: nil)
+        other_uk_qualification = described_class.new(nil, nil, qualification_type: 'Other', grade: nil)
+        gcse = described_class.new(nil, nil, qualification_type: 'GCSE', grade: nil)
 
         non_uk_qualification.valid?(:details)
         other_uk_qualification.valid?(:details)
@@ -44,11 +44,11 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
       end
 
       it 'validates grade format for A/AS levels, sanitizing the string in the process' do
-        valid_a_level = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'A level', grade: 'a* a*')
-        valid_as_level = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'AS level', grade: 'b  b')
-        valid_other_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
-        invalid_a_level = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'A level', grade: 'a* a* b')
-        invalid_as_level = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'AS level', grade: '85%')
+        valid_a_level = described_class.new(nil, nil, qualification_type: 'A level', grade: 'a* a*')
+        valid_as_level = described_class.new(nil, nil, qualification_type: 'AS level', grade: 'b  b')
+        valid_other_qualification = described_class.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
+        invalid_a_level = described_class.new(nil, nil, qualification_type: 'A level', grade: 'a* a* b')
+        invalid_as_level = described_class.new(nil, nil, qualification_type: 'AS level', grade: '85%')
 
         [valid_a_level, valid_as_level, invalid_a_level, invalid_as_level, valid_other_qualification].each { |q| q.valid?(:details) }
 
@@ -65,10 +65,10 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
 
     it 'validates grade format for GCSE, sanitizing the string in the process' do
-      valid_gcse_one = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'GCSE', grade: '9 - 8')
-      valid_gcse_two = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'GCSE', grade: 'e   e')
-      valid_other_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
-      invalid_gcse = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'GCSE', grade: '5%')
+      valid_gcse_one = described_class.new(nil, nil, qualification_type: 'GCSE', grade: '9 - 8')
+      valid_gcse_two = described_class.new(nil, nil, qualification_type: 'GCSE', grade: 'e   e')
+      valid_other_qualification = described_class.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
+      invalid_gcse = described_class.new(nil, nil, qualification_type: 'GCSE', grade: '5%')
 
       [valid_gcse_one, valid_gcse_two, valid_other_qualification, invalid_gcse].each { |q| q.valid?(:details) }
 
@@ -88,9 +88,9 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     describe 'institution country' do
       context 'when it is a non-uk qualification' do
         it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
-          valid_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'non_uk', institution_country: 'GB')
-          blank_country_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'non_uk')
-          inavlid_country_qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, qualification_type: 'non_uk', institution_country: 'QQ')
+          valid_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', institution_country: 'GB')
+          blank_country_qualification = described_class.new(nil, nil, qualification_type: 'non_uk')
+          inavlid_country_qualification = described_class.new(nil, nil, qualification_type: 'non_uk', institution_country: 'QQ')
 
           valid_qualification.valid?(:details)
           blank_country_qualification.valid?(:details)
@@ -138,7 +138,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
 
     it 'creates an array of objects based on the provided ApplicationForm' do
-      qualifications = CandidateInterface::OtherQualificationDetailsForm.build_all(application_form)
+      qualifications = described_class.build_all(application_form)
 
       expect(qualifications).to include(
         have_attributes(
@@ -151,13 +151,13 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
 
     it 'only includes other qualifications and not degrees or GCSEs' do
-      qualifications = CandidateInterface::OtherQualificationDetailsForm.build_all(application_form)
+      qualifications = described_class.build_all(application_form)
 
       expect(qualifications.count).to eq(2)
     end
 
     it 'orders other qualifications by created at' do
-      qualifications = CandidateInterface::OtherQualificationDetailsForm.build_all(application_form)
+      qualifications = described_class.build_all(application_form)
 
       expect(qualifications.last).to have_attributes(
         qualification_type: 'BTEC',
@@ -178,7 +178,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
         award_year: '2010',
       )
 
-      qualification = CandidateInterface::OtherQualificationDetailsForm.build_from_qualification(application_qualification)
+      qualification = described_class.build_from_qualification(application_qualification)
 
       expect(qualification).to have_attributes(qualification_type: 'BTEC', subject: 'Being a Sidekick')
     end
@@ -190,7 +190,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
         :application_qualification,
       )
 
-      last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+      last_qualification = described_class.new(
         nil,
         nil,
       )
@@ -202,7 +202,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     context 'blank qualifications' do
       it 'returns nil' do
-        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new
+        last_qualification = described_class.new
         expect(last_qualification.initialize_from_last_qualification([])).to be_nil
       end
     end
@@ -216,7 +216,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
           qualification_type: qualification_type,
         )
 
-        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        last_qualification = described_class.new(
           nil,
           nil,
           qualification_type: qualification_type,
@@ -238,7 +238,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
           qualification_type: non_uk,
         )
 
-        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        last_qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'foo',
@@ -259,7 +259,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
           qualification_type: 'foo',
         )
 
-        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        last_qualification = described_class.new(
           nil,
           nil,
           qualification_type: other,
@@ -275,7 +275,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
   describe '#title' do
     context 'for a non-uk qualification' do
       it 'concatenates the non_uk_qualification_type and subject' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'non_uk',
@@ -289,7 +289,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     context 'for an other uk qualification' do
       it 'concatenates the other_uk_qualification_type and subject' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'Other',
@@ -303,7 +303,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     context 'for other uk qualificaitons and GCSEs and A-levels' do
       it 'concatenates the qualification type and subject' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'BTEC',
@@ -318,7 +318,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
   describe '#qualification_type_name' do
     context 'for a non-uk qualification' do
       it 'returns the non_uk_qualification_type' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'non_uk',
@@ -331,7 +331,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     context 'for an other uk qualification with the qualification type Other' do
       it 'returns the other_uk_qualification_type' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'Other',
@@ -344,7 +344,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     context 'for other uk qualifications and GCSEs and A-levels' do
       it 'returns the qualification type' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        qualification = described_class.new(
           nil,
           nil,
           qualification_type: 'BTEC',

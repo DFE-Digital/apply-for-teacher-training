@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProcessState do
   describe '#state' do
     it 'returns never_signed_in without an application' do
-      state = ProcessState.new(nil).state
+      state = described_class.new(nil).state
 
       expect(state).to be(:never_signed_in)
     end
@@ -11,14 +11,14 @@ RSpec.describe ProcessState do
     it 'returns unsubmitted without choices' do
       application_form = build_stubbed(:application_form)
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:unsubmitted_not_started_form)
     end
 
     it 'returns unsubmitted_not_started_form when unsubmitted choices exist but form has not been updated' do
       application_form = build_stubbed(:application_form, application_choices: build_list(:application_choice, 2, status: 'unsubmitted'))
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:unsubmitted_not_started_form)
     end
@@ -27,7 +27,7 @@ RSpec.describe ProcessState do
       application_form = build_stubbed(:application_form,
                                        application_choices: build_list(:application_choice, 2, status: 'unsubmitted'),
                                        updated_at: Time.zone.now + 1.day)
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:unsubmitted_in_progress)
     end
@@ -37,7 +37,7 @@ RSpec.describe ProcessState do
       create(:application_choice, application_form: application_form, status: 'awaiting_provider_decision')
       create(:application_choice, application_form: application_form, status: 'offer')
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:awaiting_provider_decisions)
     end
@@ -46,7 +46,7 @@ RSpec.describe ProcessState do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'offer')
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:awaiting_candidate_response)
     end
@@ -55,7 +55,7 @@ RSpec.describe ProcessState do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'pending_conditions')
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:pending_conditions)
     end
@@ -64,7 +64,7 @@ RSpec.describe ProcessState do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'recruited')
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:recruited)
     end
@@ -75,7 +75,7 @@ RSpec.describe ProcessState do
       create(:application_choice, application_form: application_form, status: 'rejected')
       create(:application_choice, application_form: application_form, status: 'declined')
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:ended_without_success)
     end
@@ -84,7 +84,7 @@ RSpec.describe ProcessState do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'declined')
 
-      state = ProcessState.new(application_form).state
+      state = described_class.new(application_form).state
 
       expect(state).to be(:ended_without_success)
     end

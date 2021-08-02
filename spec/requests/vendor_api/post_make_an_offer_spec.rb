@@ -137,7 +137,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
       expect(error_response['message']).to match 'The specified course is not associated with any of your organisations.'
     end
@@ -158,7 +158,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         }
       }.to change(VendorAPIRequest, :count)
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
 
       logged_error = VendorAPIRequest.first.response_body['errors'].first['error']
 
@@ -183,7 +183,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
       expect(error_response['message']).to match 'The requested course could not be found'
     end
@@ -195,7 +195,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: { data: { conditions: [] } }
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
       expect(error_response['message']).to eq 'The application is not ready for that action'
     end
@@ -212,7 +212,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
 
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(:not_found)
       expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
       expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
     end
@@ -397,7 +397,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
       }.not_to(change { choice.reload })
 
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 

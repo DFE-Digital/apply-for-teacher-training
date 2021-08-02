@@ -20,12 +20,8 @@ RSpec.describe GenerateTestApplicationsForProvider, sidekiq: true do
 
   before do
     create(:course_option)
-    3.times do
-      create(:course_option, course: create(:course, :open_on_apply, provider: provider))
-    end
-    3.times do
-      create(:course_option, course: create(:course, :open_on_apply, accredited_provider: provider))
-    end
+    3.times { create(:course_option, course: create(:course, :open_on_apply, provider: provider)) }
+    3.times { create(:course_option, course: create(:course, :open_on_apply, accredited_provider: provider)) }
   end
 
   describe '#call' do

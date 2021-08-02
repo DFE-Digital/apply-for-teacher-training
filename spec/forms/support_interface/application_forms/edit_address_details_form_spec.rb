@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         postcode: Faker::Address.postcode,
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
+      details_form = described_class.new(data)
 
       expect(details_form).to have_attributes(data)
     end
@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
 
   describe '#save_address' do
     it 'returns false if not valid' do
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new
+      details_form = described_class.new
 
       expect(details_form.save_address(ApplicationForm.new)).to eq(false)
     end
@@ -35,7 +35,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
       application_form = build(:application_form)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
+      details_form = described_class.new(data)
       data[:postcode] = 'BN1 1AA'
       data.except!(:audit_comment)
 
@@ -52,7 +52,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
       application_form = build(:application_form)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data.merge(address_type: 'international'))
+      details_form = described_class.new(data.merge(address_type: 'international'))
       data.except!(:audit_comment)
 
       expect(details_form.save_address(application_form)).to eq(true)
@@ -68,7 +68,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_type: 'uk',
       }
       application_form = build(:application_form)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
+      details_form = described_class.new(data)
 
       expect(details_form.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
@@ -80,7 +80,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         country: 'India',
       }
       application_form = build(:application_form)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
+      details_form = described_class.new(data)
 
       expect(details_form.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
@@ -91,7 +91,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_type: 'international',
       }
       application_form = build(:application_form)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
+      details_form = described_class.new(data)
 
       expect(details_form.save_address_type(application_form)).to eq(false)
     end

@@ -10,7 +10,7 @@ RSpec.describe UCASMatches::SendUCASMatchReminderEmails do
       ucas_match = create(:ucas_match, action_taken: 'reminder_emails_sent')
 
       expect {
-        UCASMatches::SendUCASMatchReminderEmails.new(ucas_match).call
+        described_class.new(ucas_match).call
       }.to raise_error("Reminder email for UCAS match ##{ucas_match.id} was already sent")
     end
 
@@ -18,7 +18,7 @@ RSpec.describe UCASMatches::SendUCASMatchReminderEmails do
       ucas_match = create(:ucas_match, action_taken: nil)
 
       expect {
-        UCASMatches::SendUCASMatchReminderEmails.new(ucas_match).call
+        described_class.new(ucas_match).call
       }.to raise_error("Cannot send reminder email before sending an initial one for UCAS match ##{ucas_match.id}")
     end
 

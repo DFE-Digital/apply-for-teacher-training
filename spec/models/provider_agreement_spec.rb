@@ -14,7 +14,7 @@ RSpec.describe ProviderAgreement, type: :model do
     it 'is validated in the model' do
       provider = create(:provider)
       provider_user = create(:provider_user)
-      agreement = ProviderAgreement.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
+      agreement = described_class.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
       expect(agreement).not_to be_valid
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe ProviderAgreement, type: :model do
       provider = create(:provider)
       provider_user = create(:provider_user)
       provider.provider_users << provider_user
-      agreement = ProviderAgreement.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
+      agreement = described_class.create(agreement_type: :data_sharing_agreement, provider: provider, provider_user: provider_user, accept_agreement: true)
       expect(agreement.accepted_at).not_to be_nil
     end
   end
@@ -33,8 +33,8 @@ RSpec.describe ProviderAgreement, type: :model do
     it 'returns only data_sharing_agreements' do
       create(:provider_agreement, agreement_type: :data_sharing_agreement)
       create(:provider_agreement, agreement_type: :other_type)
-      expect(ProviderAgreement.count).to eq(2)
-      expect(ProviderAgreement.data_sharing_agreements.count).to eq(1)
+      expect(described_class.count).to eq(2)
+      expect(described_class.data_sharing_agreements.count).to eq(1)
     end
   end
 
@@ -43,8 +43,8 @@ RSpec.describe ProviderAgreement, type: :model do
       data_sharing_agreement = create(:provider_agreement, agreement_type: :data_sharing_agreement)
       other_provider = create(:provider, code: 'ZZZ', name: 'Other')
       create(:provider_agreement, provider: other_provider)
-      expect(ProviderAgreement.count).to eq(2)
-      expect(ProviderAgreement.for_provider(data_sharing_agreement.provider).count).to eq(1)
+      expect(described_class.count).to eq(2)
+      expect(described_class.for_provider(data_sharing_agreement.provider).count).to eq(1)
     end
   end
 end

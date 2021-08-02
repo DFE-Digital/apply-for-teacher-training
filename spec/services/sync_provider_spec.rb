@@ -10,7 +10,7 @@ RSpec.describe SyncProvider, sidekiq: true do
   end
 
   it 'enables course syncing during sync' do
-    SyncProvider.new(provider: provider).call
+    described_class.new(provider: provider).call
 
     expect(provider.reload.sync_courses).to be true
   end
@@ -18,7 +18,7 @@ RSpec.describe SyncProvider, sidekiq: true do
   it 'syncs the provider' do
     expect(provider.courses.count).to be 0
 
-    SyncProvider.new(provider: provider).call
+    described_class.new(provider: provider).call
 
     expect(provider.courses.count).to be 1
   end

@@ -30,7 +30,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send account created email' do
-    let(:email) { ProviderMailer.account_created(provider_user) }
+    let(:email) { described_class.account_created(provider_user) }
 
     it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.account_created.subject'),
@@ -39,7 +39,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send application received email' do
-    let(:email) { ProviderMailer.application_submitted(provider_user, application_choice) }
+    let(:email) { described_class.application_submitted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.application_submitted.subject',
@@ -52,7 +52,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send application rejected by default email' do
-    let(:email) { ProviderMailer.application_rejected_by_default(provider_user, application_choice) }
+    let(:email) { described_class.application_rejected_by_default(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.application_rejected_by_default.subject',
@@ -65,7 +65,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send provider decision chaser email' do
-    let(:email) { ProviderMailer.chase_provider_decision(provider_user, application_choice) }
+    let(:email) { described_class.chase_provider_decision(provider_user, application_choice) }
     let(:application_choice) do
       build_stubbed(:submitted_application_choice, course_option: course_option,
                                                    current_course_option: current_course_option,
@@ -86,7 +86,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.offer_accepted' do
-    let(:email) { ProviderMailer.offer_accepted(provider_user, application_choice) }
+    let(:email) { described_class.offer_accepted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) has accepted your offer',
@@ -105,7 +105,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.unconditional_offer_accepted' do
-    let(:email) { ProviderMailer.unconditional_offer_accepted(provider_user, application_choice) }
+    let(:email) { described_class.unconditional_offer_accepted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) has accepted your offer',
@@ -124,7 +124,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.declined_by_default' do
-    let(:email) { ProviderMailer.declined_by_default(provider_user, application_choice) }
+    let(:email) { described_class.declined_by_default(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter’s (123A) application withdrawn automatically',
@@ -144,7 +144,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send email when the application withdrawn' do
-    let(:email) { ProviderMailer.application_withdrawn(provider_user, application_choice) }
+    let(:email) { described_class.application_withdrawn(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) withdrew their application',
@@ -164,7 +164,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.declined' do
-    let(:email) { ProviderMailer.declined(provider_user, application_choice) }
+    let(:email) { described_class.declined(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) declined an offer',
@@ -174,7 +174,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.ucas_match_initial_email_duplicate_applications' do
-    let(:email) { ProviderMailer.ucas_match_initial_email_duplicate_applications(provider_user, application_choice) }
+    let(:email) { described_class.ucas_match_initial_email_duplicate_applications(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
                     'Duplicate application identified',
@@ -184,7 +184,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.ucas_match_resolved_on_ucas_email' do
-    let(:email) { ProviderMailer.ucas_match_resolved_on_ucas_email(provider_user, application_choice) }
+    let(:email) { described_class.ucas_match_resolved_on_ucas_email(provider_user, application_choice) }
 
     before do
       allow(application_choice).to receive(:course).and_return(course)
@@ -198,7 +198,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.ucas_match_resolved_on_apply_email' do
-    let(:email) { ProviderMailer.ucas_match_resolved_on_apply_email(provider_user, application_choice) }
+    let(:email) { described_class.ucas_match_resolved_on_apply_email(provider_user, application_choice) }
 
     before do
       allow(application_choice).to receive(:course).and_return(course)
@@ -212,7 +212,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.courses_open_on_apply' do
-    let(:email) { ProviderMailer.courses_open_on_apply(provider_user) }
+    let(:email) { described_class.courses_open_on_apply(provider_user) }
 
     it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.courses_open_on_apply.subject'),

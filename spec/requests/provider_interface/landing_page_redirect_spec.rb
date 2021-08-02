@@ -16,7 +16,7 @@ RSpec.describe 'GET /provider' do
     it 'redirects them to the Provider Interface' do
       get '/provider'
 
-      expect(response).to have_http_status 302
+      expect(response).to have_http_status :found
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe 'GET /provider' do
     it 'returns 200' do
       get '/provider'
 
-      expect(response).to have_http_status 200
+      expect(response).to have_http_status :ok
     end
   end
 end

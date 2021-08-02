@@ -13,7 +13,7 @@ RSpec.describe TimeLimitCalculator do
         TimeLimitConfig::Rule.new(nil, nil, 20),
       ],
     )
-    calculator = TimeLimitCalculator.new(
+    calculator = described_class.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
@@ -31,7 +31,7 @@ RSpec.describe TimeLimitCalculator do
         TimeLimitConfig::Rule.new(10.days.ago, nil, 10),
       ],
     )
-    calculator = TimeLimitCalculator.new(
+    calculator = described_class.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
@@ -49,7 +49,7 @@ RSpec.describe TimeLimitCalculator do
         TimeLimitConfig::Rule.new(10.days.from_now, nil, 10),
       ],
     )
-    calculator = TimeLimitCalculator.new(
+    calculator = described_class.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
@@ -68,7 +68,7 @@ RSpec.describe TimeLimitCalculator do
         TimeLimitConfig::Rule.new(5.days.ago, 5.days.from_now, 5),
       ],
     )
-    calculator = TimeLimitCalculator.new(
+    calculator = described_class.new(
       rule: :reject_by_default,
       effective_date: Time.zone.now,
     )
@@ -81,7 +81,7 @@ RSpec.describe TimeLimitCalculator do
 
   it 'returns nil when there is no rule for the given effective date' do
     allow(TimeLimitConfig).to receive(:limits_for).and_return([])
-    calculator = TimeLimitCalculator.new(
+    calculator = described_class.new(
       rule: :reject_by_default,
       effective_date: 20.days.ago,
     )
@@ -93,7 +93,7 @@ RSpec.describe TimeLimitCalculator do
   describe 'configured reject_by_default limits' do
     context 'before 2020-07-01' do
       it 'applies the 40 day rule' do
-        calculator = TimeLimitCalculator.new(
+        calculator = described_class.new(
           rule: :reject_by_default,
           effective_date: Time.zone.local(2020, 6, 15),
         )
@@ -107,7 +107,7 @@ RSpec.describe TimeLimitCalculator do
 
     context 'after 2020-07-01' do
       it 'applies the 20 day rule' do
-        calculator = TimeLimitCalculator.new(
+        calculator = described_class.new(
           rule: :reject_by_default,
           effective_date: Time.zone.local(RecruitmentCycle.current_year, 7, 6),
         )
@@ -123,7 +123,7 @@ RSpec.describe TimeLimitCalculator do
   describe 'configured chase_provider_before_rbd limits' do
     context 'before 2020-07-01' do
       it 'applies the 40 day rule' do
-        calculator = TimeLimitCalculator.new(
+        calculator = described_class.new(
           rule: :chase_provider_before_rbd,
           effective_date: Time.zone.local(2020, 6, 15),
         )
@@ -137,7 +137,7 @@ RSpec.describe TimeLimitCalculator do
 
     context 'after 2020-07-01' do
       it 'applies the 20 day rule' do
-        calculator = TimeLimitCalculator.new(
+        calculator = described_class.new(
           rule: :chase_provider_before_rbd,
           effective_date: Time.zone.local(RecruitmentCycle.current_year, 7, 6),
         )

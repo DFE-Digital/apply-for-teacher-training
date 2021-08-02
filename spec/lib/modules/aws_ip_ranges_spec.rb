@@ -12,7 +12,7 @@ RSpec.describe AWSIpRanges do
     it 'returns the CLOUDFRONT ip in the GLOBAL or eu-west-2 area' do
       expected_result = %w[13.32.0.0/15 13.35.0.0/16 52.56.127.0/25]
 
-      expect(AWSIpRanges.cloudfront_ips).to eq(expected_result)
+      expect(described_class.cloudfront_ips).to eq(expected_result)
     end
 
     context 'when there was any connectivity issue' do
@@ -21,12 +21,12 @@ RSpec.describe AWSIpRanges do
       end
 
       it 'returns an empty array' do
-        expect(AWSIpRanges.cloudfront_ips).to eq([])
+        expect(described_class.cloudfront_ips).to eq([])
       end
 
       it 'logs a warning to sentry' do
         allow(Sentry).to receive(:capture_exception)
-        AWSIpRanges.cloudfront_ips
+        described_class.cloudfront_ips
         expect(Sentry).to have_received(:capture_exception)
       end
     end
@@ -37,12 +37,12 @@ RSpec.describe AWSIpRanges do
       end
 
       it 'returns an empty array' do
-        expect(AWSIpRanges.cloudfront_ips).to eq([])
+        expect(described_class.cloudfront_ips).to eq([])
       end
 
       it 'logs a warning to sentry' do
         allow(Sentry).to receive(:capture_exception)
-        AWSIpRanges.cloudfront_ips
+        described_class.cloudfront_ips
         expect(Sentry).to have_received(:capture_exception)
       end
     end
@@ -56,12 +56,12 @@ RSpec.describe AWSIpRanges do
       end
 
       it 'returns an empty array' do
-        expect(AWSIpRanges.cloudfront_ips).to eq([])
+        expect(described_class.cloudfront_ips).to eq([])
       end
 
       it 'logs a warning' do
         allow(Sentry).to receive(:capture_exception)
-        AWSIpRanges.cloudfront_ips
+        described_class.cloudfront_ips
         expect(Sentry).to have_received(:capture_exception)
       end
     end
