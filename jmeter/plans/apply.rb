@@ -13,7 +13,7 @@ test do
   view_results_tree
 
   random_timer 100, 900 * WAIT_FACTOR
-  thread_count = 975
+  thread_count = 200
   csv_data_set_config filename: 'jmeter-courses.csv'
 
   threads count: thread_count, rampup: RAMPUP, continue_forever: true, duration: 3600 do
