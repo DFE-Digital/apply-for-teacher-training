@@ -2,6 +2,7 @@ require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
+RAMPUP = ENV.fetch('JMETER_RAMPUP', 0).to_i
 
 def set_headers(api_key)
   header [
@@ -38,7 +39,7 @@ test do
   ].each do |api_key|
 
     # Sync applications (last 90 days) once every hour
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       set_headers api_key
 
       params = { since: (Time.now - 7776000).strftime('%Y-%m-%dT%H:%M:%S.%L%z') }
@@ -50,7 +51,7 @@ test do
     end
 
     # Make offer
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       set_headers api_key
 
       params = { since: (Time.now - 7776000).strftime('%Y-%m-%dT%H:%M:%S.%L%z') }
