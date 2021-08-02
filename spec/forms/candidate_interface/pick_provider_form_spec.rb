@@ -14,9 +14,10 @@ RSpec.describe CandidateInterface::PickProviderForm do
   end
 
   describe '#courses_available?' do
-    it 'returns false if there are no exposed courses matched by provider id' do
+    it 'returns false if there are no exposed courses matched by provider id in the current cycle' do
       unexposed_course = create(:course, exposed_in_find: false)
       provider = unexposed_course.provider
+      create(:course, exposed_in_find: true, recruitment_cycle_year: RecruitmentCycle.previous_year, provider: unexposed_course.provider)
 
       form = described_class.new(provider_id: provider.id)
 
