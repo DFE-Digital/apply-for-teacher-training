@@ -20,6 +20,9 @@ class SetOpenOnApplyForNewCourse
 private
 
   def notify_of_new_course!(provider, accredited_provider, auto_open)
+    # TODO: remove after syncing all courses for next cycle
+    return if @course.recruitment_cycle_year == RecruitmentCycle.next_year
+
     notification = [":seedling: #{provider.name}, which has courses open on Apply, added #{@course.name_and_code}"]
     notification << auto_open_message(auto_open)
     notification << accredited_body_message(accredited_provider)
