@@ -2,6 +2,8 @@ require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
+THREAD_COUNT = ENV.fetch('JMETER_THREAD_COUNT', 200).to_i
+RAMPUP = ENV.fetch('JMETER_RAMPUP', 0).to_i
 
 def url(path)
   BASEURL + path
@@ -11,11 +13,11 @@ test do
   cookies clear_each_iteration: true
   view_results_tree
 
-  random_timer 100, 900 * WAIT_FACTOR
-  thread_count = 975
+  thread_count = THREAD_COUNT
+  random_timer 1000, 2000 * WAIT_FACTOR
   csv_data_set_config filename: 'jmeter-courses.csv'
 
-  threads count: thread_count, continue_forever: true, duration: 3600 do
+  threads count: thread_count, rampup: RAMPUP, continue_forever: true, duration: 3600 do
     #-> Sign up
     visit name: 'Account page', url: url('/candidate/account') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'

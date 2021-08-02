@@ -27,7 +27,7 @@ resource "cloudfoundry_app" "jmeter_app" {
   health_check_timeout = 180
   stopped              = true
   instances            = 1
-  memory               = 1024
+  memory               = 4096
   space                = data.cloudfoundry_space.space.id
   environment          = local.app_env_variables
   routes {

@@ -2,6 +2,7 @@ require 'ruby-jmeter'
 
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
+RAMPUP = ENV.fetch('JMETER_RAMPUP', 0).to_i
 
 def log_in(user_id)
   visit name: 'Provider user signs in', url: BASEURL + '/provider' do
@@ -31,7 +32,7 @@ test do
     # The total number of sessions for each uid (below) should be 6
 
     # See interviewing application and interview information
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Filter by interviewing', url: BASEURL + '/provider/applications?commit=Apply+filters&status%5B%5D=interviewing' do
         extract name: 'application_id', regex: 'href="/provider/applications/(\d+)"', match_number: 0
@@ -41,7 +42,7 @@ test do
     end
 
     # Start making an offer
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Filter by awaiting_provider_decision', url: BASEURL + '/provider/applications?commit=Apply+filters&status%5B%5D=awaiting_provider_decision' do
         extract name: 'application_id', regex: 'href="/provider/applications/(\d+)"', match_number: 0
@@ -60,7 +61,7 @@ test do
     end
 
     # See rejected application
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Filter by rejected', url: BASEURL + '/provider/applications?commit=Apply+filters&status%5B%5D=rejected' do
         extract name: 'application_id', regex: 'href="/provider/applications/(\d+)"', match_number: 0
@@ -71,20 +72,20 @@ test do
     end
 
     # See provider interview schedule
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'See interview schedule', url: BASEURL + '/provider/interview-schedule'
       visit name: 'See past interview schedule', url: BASEURL + '/provider/interview-schedule/past'
     end
 
     # See provider activity log
-    threads count: 1, continue_forever: true, duration: 3600 do
+    threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Load activity log', url: BASEURL + '/provider/activity'
     end
 
     # Data export
-     threads count: 1, continue_forever: true, duration: 3600 do
+     threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
       visit name: 'Load provider data export form', url: BASEURL + '/provider/applications/data-export/new' do
         extract name: 'provider_id', regex: 'value="(\d+)" name="provider_interface_application_data_export_form\[provider_ids\]', match_number: 0
