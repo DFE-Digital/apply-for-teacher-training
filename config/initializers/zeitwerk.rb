@@ -3,4 +3,5 @@ Rails.autoloaders.each do |autoloader|
     # should be VendorAPIUser, maintained for backwards compat with the audit log
     'vendor_api_user' => 'VendorApiUser',
   )
+  autoloader.collapse('app/components/shared')
 end
