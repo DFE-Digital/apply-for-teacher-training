@@ -6,7 +6,7 @@ module CandidateInterface
     validates :provider_id, presence: true
 
     def courses_available?
-      Course.exposed_in_find.where(provider_id: provider_id).present?
+      Course.current_cycle.exposed_in_find.where(provider_id: provider_id).present?
     end
 
     def available_providers
