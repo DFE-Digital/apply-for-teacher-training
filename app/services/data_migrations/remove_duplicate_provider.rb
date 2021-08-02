@@ -1,7 +1,7 @@
 module DataMigrations
   class RemoveDuplicateProvider
     TIMESTAMP = 20210828151830
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
       permissions = ProviderRelationshipPermissions
@@ -12,23 +12,35 @@ module DataMigrations
       if permissions.any?
         permissions.each do |permission|
           # Do nothing if the ratifying provider runs courses
-          next if permission.ratifying_provider.courses.any?
-          # Do nothing if the ratifying provider has additional org relationships
-          next if ProviderRelationshipPermissions
+          if permission.ratifying_provider.courses.any?
+            Rails.logger.warn(
+              "Ratifying provider #{permission.ratifying_provider.name_and_code} runs the following courses: " +
+              permission.ratifying_provider.courses.map(&:name_and_code).join(', '),
+            )
+
+            next
+          end
+
+          other_provider_relationships = ProviderRelationshipPermissions
             .where(ratifying_provider: permission.ratifying_provider)
-            .where.not(training_provider: permission.training_provider).any?
+            .where.not(training_provider: permission.training_provider)
+
+          # Do nothing if the ratifying provider has additional org relationships
+          if other_provider_relationships.any?
+            Rails.logger.warn(
+              "Ratifying provider #{permission.ratifying_provider.name_and_code} has other relationships with the following providers: " +
+              other_provider_relationships.map { |r| r.training_provider.name }.join(', '),
+            )
+
+            next
+          end
 
           courses = permission.training_provider.courses.where(accredited_provider: permission.ratifying_provider)
-
-          # Do nothing if the ratifying provider ratifies other courses
-          next if (permission.ratifying_provider.accredited_courses - courses).any?
 
           ActiveRecord::Base.transaction do
             courses.each do |course|
               course.update!(accredited_provider: nil)
             end
-
-            permission.destroy!
 
             # Ensure we don't orphan any users who were only associated with the duplicate provider
             if permission.ratifying_provider.provider_users.select { |user| user.providers.size == 1 }.any?
