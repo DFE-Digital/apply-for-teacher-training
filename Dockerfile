@@ -1,39 +1,15 @@
 # To use or update to a ruby version, change {BASE_RUBY_IMAGE}
 ARG BASE_RUBY_IMAGE=ruby:2.7.4-alpine3.12
-# BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES will default to apply-for-teacher-training-gems-node-modules
-# building all layers above it if a value is not specidied during the build
-ARG BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=apply-for-teacher-training-gems-node-modules
 
-# Stage 1: install-gems-node-modules, download gems and node modules.
-FROM ${BASE_RUBY_IMAGE} AS install-gems-node-modules
-
-ARG BUILD_DEPS="git gcc libc-dev make nodejs yarn postgresql-dev build-base libxml2-dev libxslt-dev ttf-ubuntu-font-family"
-ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine
-
-WORKDIR /app
-
-COPY Gemfile Gemfile.lock package.json yarn.lock ./
+# Stage 1: gems-node-modules, build gems and node modules.
+FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache --virtual .gem-installdeps $BUILD_DEPS && \
-    gem update --system && \
-    find / -wholename '*default/bundler-*.gemspec' -delete && \
-    rm -rf /usr/local/bin/bundle && \
-    gem install bundler -v 2.1.4 && \
-    bundler -v && \
-    bundle config set no-cache 'true' && \
-    bundle config set no-binstubs 'true' && \
-    bundle --retry=5 --jobs=4 --without=development --with=production && \
-    yarn install --check-files && \
-    apk del .gem-installdeps && \
-    rm -rf /usr/local/bundle/cache && \
-    find /usr/local/bundle/gems -name "*.c" -delete && \
-    find /usr/local/bundle/gems -name "*.h" -delete && \
-    find /usr/local/bundle/gems -name "*.o" -delete
+    apk add --update --no-cache git gcc libc-dev make postgresql-dev build-base \
+    libxml2-dev libxslt-dev ttf-ubuntu-font-family nodejs yarn tzdata libpq libxml2 libxslt graphviz
 
-# Stage 2: apply-for-teacher-training-gems-node-modules, reduce size of gems-node-modules and only keep required files.
-# published as dfedigital/apply-for-teacher-training-gems-node-modules
-FROM ${BASE_RUBY_IMAGE} AS gems-node-modules
+RUN echo "Europe/London" > /etc/timezone && \
+    cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     RAILS_ENV=production \
@@ -43,21 +19,27 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     BLAZER_DATABASE_URL=testURL \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey
 
-RUN apk -U upgrade && \
-    apk add --update --no-cache nodejs yarn tzdata libpq libxml2 libxslt graphviz && \
-    echo "Europe/London" > /etc/timezone && \
-    cp /usr/share/zoneinfo/Europe/London /etc/localtime
-
-COPY --from=install-gems-node-modules /app /app
-COPY --from=install-gems-node-modules /usr/local/bundle/ /usr/local/bundle/
-
 WORKDIR /app
+
+COPY Gemfile Gemfile.lock ./
+
+RUN gem update --system && \
+    bundler -v && \
+    bundle config set no-cache 'true' && \
+    bundle config set no-binstubs 'true' && \
+    bundle --retry=5 --jobs=4 --without=development --with=production && \
+    rm -rf /usr/local/bundle/cache
+
+COPY package.json yarn.lock ./
+
+RUN yarn install --check-files
+
 COPY . .
 
 RUN bundle exec rake assets:precompile && \
     rm -rf tmp/* log/* node_modules /tmp/*
 
-# Stage 3: production, copy application code and compiled assets to base ruby image.
+# Stage 2: production, copy application code and compiled assets to base ruby image.
 # Depends on assets-precompile stage which can be cached from a pre-built image
 # by specifying a fully qualified image name or will default to packages-prod thereby rebuilding all 3 stages above.
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
@@ -78,10 +60,11 @@ RUN apk -U upgrade && \
 
 WORKDIR /app
 
-COPY --from=gems-node-modules /app /app
-COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 RUN echo export PATH=/usr/local/bin:\$PATH > /root/.ashrc
 ENV ENV="/root/.ashrc"
+
+COPY --from=gems-node-modules /app /app
+COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
 ARG VERSION
 RUN echo ${VERSION} > public/check
