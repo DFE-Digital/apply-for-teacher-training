@@ -1,0 +1,21 @@
+<% if partners_for_which_permission_applies.any? %>
+  <p class="govuk-body">
+    <%= partners_for_which_permission_applies_text %>
+  </p>
+  <ul id='partners-for-which-permission-applies' class="govuk-list govuk-list--bullet">
+    <% partners_for_which_permission_applies.each do |provider| %>
+      <li><%= provider.name %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if partners_for_which_permission_does_not_apply.any? %>
+  <p class="govuk-body">
+    <%= partners_for_which_permission_does_not_apply_text %>
+  </p>
+  <ul id='partners-for-which-permission-does-not-apply' class="govuk-list govuk-list--bullet">
+    <% partners_for_which_permission_does_not_apply.each do |provider| %>
+      <li><%= provider.name %></li>
+    <% end %>
+  </ul>
+<% end %>
