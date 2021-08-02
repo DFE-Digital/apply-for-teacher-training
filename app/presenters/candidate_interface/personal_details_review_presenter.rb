@@ -3,13 +3,14 @@ module CandidateInterface
     include ActionView::Helpers::TagHelper
     include Rails.application.routes.url_helpers
 
-    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, application_form:, editable: true)
+    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @languages_form = languages_form
       @right_to_work_or_study_form = right_to_work_form
       @application_form = application_form
       @editable = editable
+      @return_to_application_review = return_to_application_review
     end
 
     def rows
@@ -36,7 +37,8 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.name.label'),
         value: @personal_details_form.name,
         action: ('name' if @editable),
-        change_path: candidate_interface_edit_name_and_dob_path,
+        change_path: candidate_interface_edit_name_and_dob_path(return_to_params),
+        data_qa: 'personal-details-name',
       }
     end
 
@@ -45,7 +47,8 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
         value: @personal_details_form.date_of_birth.to_s(:govuk_date),
         action: ('date of birth' if @editable),
-        change_path: candidate_interface_edit_name_and_dob_path,
+        change_path: candidate_interface_edit_name_and_dob_path(return_to_params),
+        data_qa: 'personal-details-dob',
       }
     end
 
@@ -54,7 +57,8 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: formatted_nationalities,
         action: ('nationality' if @editable),
-        change_path: candidate_interface_edit_nationalities_path,
+        change_path: candidate_interface_edit_nationalities_path(return_to_params),
+        data_qa: 'personal-details-nationality',
       }
     end
 
@@ -63,7 +67,8 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.english_main_language.label'),
         value: @languages_form.english_main_language&.titleize,
         action: ('if English is your main language' if @editable),
-        change_path: candidate_interface_edit_languages_path,
+        change_path: candidate_interface_edit_languages_path(return_to_params),
+        data_qa: 'personal-details-english-main-language',
       }
     end
 
@@ -80,7 +85,8 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.other_language_details.label'),
         value: @languages_form.other_language_details,
         action: ('other languages' if @editable),
-        change_path: candidate_interface_edit_languages_path,
+        change_path: candidate_interface_edit_languages_path(return_to_params),
+        data_qa: 'personal-details-other-language',
       }
     end
 
@@ -89,7 +95,8 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.english_language_details.label'),
         value: @languages_form.english_language_details,
         action: ('English language qualifications' if @editable),
-        change_path: candidate_interface_edit_languages_path,
+        change_path: candidate_interface_edit_languages_path(return_to_params),
+        data_qa: 'personal-details-english-details',
       }
     end
 
@@ -100,7 +107,8 @@ module CandidateInterface
         key: 'Immigration status',
         value: formatted_right_to_work_or_study,
         action: ('Right to work or study' if @editable),
-        change_path: candidate_interface_edit_right_to_work_or_study_path,
+        change_path: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
+        data_qa: 'personal_details_right_to_work_or_study',
       }
     end
 
@@ -129,6 +137,10 @@ module CandidateInterface
       else
         'I do not know'
       end
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' } if @return_to_application_review
     end
   end
 end
