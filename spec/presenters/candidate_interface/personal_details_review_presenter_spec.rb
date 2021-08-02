@@ -56,6 +56,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       languages_form: languages_form,
       right_to_work_form: right_to_work_form,
       application_form: application_form,
+      return_to_application_review: true,
     ).rows
   end
 
@@ -71,8 +72,18 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(personal_details_form: personal_details_form)).to include(
-        row_for(:name, 'Max Caulfield', candidate_interface_edit_name_and_dob_path),
-        row_for(:date_of_birth, '21 September 1995', candidate_interface_edit_name_and_dob_path),
+        row_for(
+          :name,
+          'Max Caulfield',
+          candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'),
+          'personal-details-name',
+        ),
+        row_for(
+          :date_of_birth,
+          '21 September 1995',
+          candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'),
+          'personal-details-dob',
+        ),
       )
     end
   end
@@ -86,7 +97,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
-        row_for(:nationality, 'British', candidate_interface_edit_nationalities_path),
+        row_for(
+          :nationality,
+          'British',
+          candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+          'personal-details-nationality',
+        ),
       )
     end
 
@@ -99,7 +115,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
-        row_for(:nationality, 'British and Spanish', candidate_interface_edit_nationalities_path),
+        row_for(
+          :nationality,
+          'British and Spanish',
+          candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+          'personal-details-nationality',
+        ),
       )
     end
 
@@ -114,7 +135,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
-        row_for(:nationality, 'British, French, German, and Spanish', candidate_interface_edit_nationalities_path),
+        row_for(
+          :nationality,
+          'British, French, German, and Spanish',
+          candidate_interface_edit_nationalities_path('return-to' => 'application-review'),
+          'personal-details-nationality',
+        ),
       )
     end
   end
@@ -149,7 +175,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
-        row_for(:right_to_work, 'I have the right to work or study in the UK<br> <p>I have the right.</p>', candidate_interface_edit_right_to_work_or_study_path),
+        row_for(
+          :right_to_work,
+          'I have the right to work or study in the UK<br> <p>I have the right.</p>',
+          candidate_interface_edit_right_to_work_or_study_path('return-to' => 'application-review'),
+          'personal_details_right_to_work_or_study',
+        ),
       )
     end
   end
@@ -173,17 +204,23 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(application_form: application_form, nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
-        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", candidate_interface_edit_right_to_work_or_study_path),
+        row_for(
+          :right_to_work,
+          "I have the right to work or study in the UK \b<br> <p>I have the right.</p>",
+          candidate_interface_edit_right_to_work_or_study_path('return-to' => 'applicaton-review'),
+          'personal_details_right_to_work_or_study',
+        ),
       )
     end
   end
 
-  def row_for(key, value, path)
+  def row_for(key, value, path, data_qa)
     {
       key: t("application_form.personal_details.#{key}.label"),
       value: value,
       action: t("application_form.personal_details.#{key}.change_action"),
       change_path: path,
+      data_qa: data_qa,
     }
   end
 end

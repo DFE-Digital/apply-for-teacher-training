@@ -31,7 +31,7 @@
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_details') %></h2>
   <h3 class="govuk-heading-m"><%= t('page_titles.personal_information') %></h3>
-  <%= render(CandidateInterface::PersonalDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error)) %>
+  <%= render(CandidateInterface::PersonalDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, return_to_application_review: true)) %>
   <h3 class="govuk-heading-m"><%= t('page_titles.contact_information') %></h3>
   <%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 </section>
