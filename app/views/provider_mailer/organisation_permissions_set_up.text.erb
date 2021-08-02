@@ -6,20 +6,13 @@ You can now manage applications made through GOV.UK for the courses you work on 
 
 They have set up the following organisation permissions.
 
-Make offers and reject applications:
+<% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| -%>
+<%= I18n.t("provider_relationship_permissions.#{permission_name}.description") %>:
 
-<%= "- #{@recipient_organisation.name}" if @permissions.permit?(:make_decisions, @recipient_organisation) %>
-<%= "- #{@partner_organisation.name}" if @permissions.permit?(:make_decisions, @partner_organisation) %>
+<%= "- #{@recipient_organisation.name}" if @permissions.permit?(permission_name, @recipient_organisation) %>
+<%= "- #{@partner_organisation.name}" if @permissions.permit?(permission_name, @partner_organisation) %>
 
-View criminal convictions and professional misconduct:
-
-<%= "- #{@recipient_organisation.name}" if @permissions.permit?(:view_safeguarding_information, @recipient_organisation) %>
-<%= "- #{@partner_organisation.name}" if @permissions.permit?(:view_safeguarding_information, @partner_organisation) %>
-
-View sex, disability and ethnicity information:
-
-<%= "- #{@recipient_organisation.name}" if @permissions.permit?(:view_diversity_information, @recipient_organisation) %>
-<%= "- #{@partner_organisation.name}" if @permissions.permit?(:view_diversity_information, @partner_organisation) %>
+<% end -%>
 
 # Change organisation permissions
 
