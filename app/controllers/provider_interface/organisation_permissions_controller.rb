@@ -13,11 +13,10 @@ module ProviderInterface
     end
 
     def index
-      @provider = current_provider_user.providers.find(params[:organisation_id])
-      render_403 unless current_provider_user.authorisation.can_manage_organisation?(provider: @provider)
+      render_403 unless current_provider_user.authorisation.can_manage_organisation?(provider: provider)
 
-      unsorted_provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).where.not(setup_at: nil)
-      @provider_relationships = sort_relationships_by_provider_name(unsorted_provider_relationships, @provider)
+      unsorted_provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([provider]).where.not(setup_at: nil)
+      @provider_relationships = sort_relationships_by_provider_name(unsorted_provider_relationships, provider)
     rescue ActiveRecord::RecordNotFound
       render_404
     end
@@ -26,6 +25,8 @@ module ProviderInterface
 
     def update
       if @relationship.update(new_relationship_permissions)
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, provider: provider, permissions: @relationship).call
+
         flash[:success] = 'Organisation permissions updated'
         redirect_to provider_interface_organisation_settings_organisation_organisation_permissions_path(params[:organisation_id])
       else
@@ -35,6 +36,10 @@ module ProviderInterface
     end
 
   private
+
+    def provider
+      @provider ||= current_provider_user.providers.find(params[:organisation_id])
+    end
 
     def manageable_providers
       @_manageable_providers ||= current_provider_user.authorisation.providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true)

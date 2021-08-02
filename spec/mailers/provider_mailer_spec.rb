@@ -218,4 +218,56 @@ RSpec.describe ProviderMailer, type: :mailer do
                     I18n.t!('provider_mailer.courses_open_on_apply.subject'),
                     'recruitment_cycle_year' => RecruitmentCycle.current_year)
   end
+
+  describe 'organisation_permissions_set_up' do
+    let(:training_provider) { build_stubbed(:provider, name: 'University of Purley') }
+    let(:ratifying_provider) { build_stubbed(:provider, name: 'University of Croydon') }
+    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English', providers: [training_provider]) }
+    let(:permissions) do
+      build_stubbed(
+        :provider_relationship_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: training_provider,
+        ratifying_provider_can_view_safeguarding_information: true,
+        ratifying_provider_can_view_diversity_information: true,
+      )
+    end
+    let(:email) { described_class.organisation_permissions_set_up(provider_user, training_provider, permissions) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'University of Croydon has set up organisation permissions for teacher training courses you work on with them',
+      'salutation' => 'Dear Johny English',
+      'heading' => 'University of Croydon has set up organisation permissions for teacher training courses you work on with them',
+      'make offers' => /Make offers and reject applications:\s+- University of Purley/,
+      'view safeguarding' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+      'view diversity' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+    )
+  end
+
+  describe 'organisation_permissions_updated' do
+    let(:training_provider) { build_stubbed(:provider, name: 'University of Purley') }
+    let(:ratifying_provider) { build_stubbed(:provider, name: 'University of Croydon') }
+    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English', providers: [training_provider]) }
+    let(:permissions) do
+      build_stubbed(
+        :provider_relationship_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: training_provider,
+        ratifying_provider_can_view_safeguarding_information: true,
+        ratifying_provider_can_view_diversity_information: true,
+      )
+    end
+    let(:email) { described_class.organisation_permissions_updated(provider_user, training_provider, permissions) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
+      'salutation' => 'Dear Johny English',
+      'heading' => 'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
+      'make offers' => /Make offers and reject applications:\s+- University of Purley/,
+      'view safeguarding' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+      'view diversity' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+    )
+  end
 end

@@ -163,6 +163,30 @@ class ProviderMailer < ApplicationMailer
     notify_email(to: provider_user.email_address)
   end
 
+  def organisation_permissions_set_up(provider_user, provider, permissions)
+    @provider_user = provider_user
+    @recipient_organisation = provider
+    @permissions = permissions
+    @partner_organisation = permissions.partner_organisation(provider)
+
+    notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.organisation_permissions_set_up.subject', provider: @partner_organisation.name),
+    )
+  end
+
+  def organisation_permissions_updated(provider_user, provider, permissions)
+    @provider_user = provider_user
+    @recipient_organisation = provider
+    @permissions = permissions
+    @partner_organisation = permissions.partner_organisation(provider)
+
+    notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.organisation_permissions_updated.subject', provider: @partner_organisation.name),
+    )
+  end
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})

@@ -1,0 +1,19 @@
+Dear <%= @provider_user.full_name %>
+
+# <%= @partner_organisation.name %> has changed organisation permissions for teacher training courses you work on with them
+
+<%= @partner_organisation.name %> has set the following organisation permissions.
+
+<% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| -%>
+<%= I18n.t("provider_relationship_permissions.#{permission_name}.description") %>:
+
+<%= "- #{@recipient_organisation.name}" if @permissions.permit?(permission_name, @recipient_organisation) %>
+<%= "- #{@partner_organisation.name}" if @permissions.permit?(permission_name, @partner_organisation) %>
+
+<% end -%>
+
+# Change organisation permissions
+
+You can change these organisation permissions in your organisation settings:
+
+<%= provider_interface_organisation_settings_organisation_organisation_permissions_url(@recipient_organisation) %>

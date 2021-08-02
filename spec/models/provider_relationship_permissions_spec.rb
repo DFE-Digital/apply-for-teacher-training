@@ -95,4 +95,55 @@ RSpec.describe ProviderRelationshipPermissions do
       expect(described_class.all_relationships_for_providers([training_provider, ratifying_provider])).to eq([relationship])
     end
   end
+
+  describe '#partner_organisations' do
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let!(:relationship) do
+      create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
+    end
+
+    context 'for a ratifying provider' do
+      it 'is the training provider' do
+        expect(relationship.partner_organisation(ratifying_provider)).to eq(training_provider)
+      end
+    end
+
+    context 'for a training provider' do
+      it 'is the ratifying provider' do
+        expect(relationship.partner_organisation(training_provider)).to eq(ratifying_provider)
+      end
+    end
+  end
+
+  describe '#permit?' do
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let!(:relationship) do
+      create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+        training_provider_can_view_diversity_information: true,
+        ratifying_provider_can_view_diversity_information: false,
+        training_provider_can_view_safeguarding_information: true,
+        ratifying_provider_can_view_safeguarding_information: true,
+        training_provider_can_make_decisions: false,
+        ratifying_provider_can_make_decisions: true,
+      )
+    end
+
+    it 'indicates whether the provider has a specific permission' do
+      expect(relationship.permit?(:make_decisions, ratifying_provider)).to be true
+      expect(relationship.permit?(:make_decisions, training_provider)).to be false
+      expect(relationship.permit?(:view_safeguarding_information, ratifying_provider)).to be true
+      expect(relationship.permit?(:view_safeguarding_information, training_provider)).to be true
+      expect(relationship.permit?(:view_diversity_information, ratifying_provider)).to be false
+      expect(relationship.permit?(:view_diversity_information, training_provider)).to be true
+    end
+  end
 end

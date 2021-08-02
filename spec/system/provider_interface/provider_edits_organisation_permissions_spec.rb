@@ -17,6 +17,7 @@ RSpec.feature 'Provider edits organisation permissions' do
     and_i_click_to_change_one_of_its_relationships
     and_i_give_my_organisation_permission_to_make_decisions
     then_i_am_redirected_to_the_organisation_relationships_page
+    and_an_email_is_sent_to_managing_users_in_the_partner_organisation
     and_i_see_a_flash_message
     and_my_organisation_is_listed_as_able_to_make_decisions
     and_my_organisation_is_able_to_make_decisions
@@ -39,6 +40,9 @@ RSpec.feature 'Provider edits organisation permissions' do
       training_provider: @training_provider,
       ratifying_provider: @ratifying_provider,
     )
+
+    @training_provider_users = create_list(:provider_user, 2, providers: [@training_provider])
+    @training_provider_users.each { |user| user.provider_permissions.where(provider: @training_provider).update_all(manage_organisations: true) }
 
     expect(@relationship.ratifying_provider_can_make_decisions).to be_falsey
   end
@@ -79,6 +83,13 @@ RSpec.feature 'Provider edits organisation permissions' do
 
   def then_i_am_redirected_to_the_organisation_relationships_page
     expect(page).to have_current_path(provider_interface_organisation_settings_organisation_organisation_permissions_path(@ratifying_provider))
+  end
+
+  def and_an_email_is_sent_to_managing_users_in_the_partner_organisation
+    @training_provider_users.each do |user|
+      open_email(user.email_address)
+      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_updated.subject', provider: @ratifying_provider.name)
+    end
   end
 
   def and_i_see_a_flash_message

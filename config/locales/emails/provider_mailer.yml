@@ -29,4 +29,8 @@ en:
     courses_open_on_apply:
       subject: Your courses are live on Apply and you have access to Manage
     confirm_sign_in:
-      subject: New sign in to Manage teacher training applications  
+      subject: New sign in to Manage teacher training applications
+    organisation_permissions_set_up:
+      subject: "%{provider} has set up organisation permissions for teacher training courses you work on with them"
+    organisation_permissions_updated:
+      subject: "%{provider} has changed organisation permissions for teacher training courses you work on with them"

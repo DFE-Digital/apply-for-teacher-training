@@ -35,6 +35,7 @@ RSpec.feature 'Setting up organisation permissions' do
 
     when_i_click_on_save_organisation_permissions
     then_i_see_the_success_page
+    and_an_email_is_sent_to_managing_users_in_the_partner_organisations
     and_the_permissions_have_been_set_up_correctly
   end
 
@@ -49,8 +50,14 @@ RSpec.feature 'Setting up organisation permissions' do
     @ratifying_provider = Provider.find_by(code: 'DEF')
 
     @another_ratifying_provider = create(:provider, :with_signed_agreement)
+    @another_ratifying_provider_users = create_list(:provider_user, 2, providers: [@another_ratifying_provider])
     @another_training_provider = create(:provider, :with_signed_agreement)
+    @another_training_provider_users = create_list(:provider_user, 2, providers: [@another_training_provider])
+
     @provider_user.provider_permissions.update_all(manage_organisations: true)
+    (@another_training_provider_users + @another_ratifying_provider_users).each do |user|
+      user.provider_permissions.update_all(manage_organisations: true)
+    end
   end
 
   def and_my_organisations_have_not_had_permissions_setup
@@ -138,6 +145,18 @@ RSpec.feature 'Setting up organisation permissions' do
 
   def then_i_see_the_success_page
     expect(page).to have_content('Organisation permissions set up')
+  end
+
+  def and_an_email_is_sent_to_managing_users_in_the_partner_organisations
+    @another_training_provider_users.each do |user|
+      open_email(user.email_address)
+      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_set_up.subject', provider: @ratifying_provider.name)
+    end
+
+    @another_ratifying_provider_users.each do |user|
+      open_email(user.email_address)
+      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_set_up.subject', provider: @training_provider.name)
+    end
   end
 
   def and_the_permissions_have_been_set_up_correctly
