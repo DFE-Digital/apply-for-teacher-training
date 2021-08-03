@@ -110,23 +110,6 @@ RSpec.describe SetOpenOnApplyForNewCourse do
       expect_slack_message_with_text('We didn’t automatically open it')
     end
 
-    context 'when the course is in the next cycle' do
-      let(:course) { create(:course, open_on_apply: false, recruitment_cycle_year: RecruitmentCycle.next_year) }
-
-      before do
-        create(:course, :open_on_apply, provider: course.provider, code: course.code)
-        course_opener.call
-      end
-
-      it 'opens the course' do
-        expect(course).to be_open_on_apply
-      end
-
-      it 'does not notify Slack' do
-        expect_no_slack_message
-      end
-    end
-
     context 'when the course has an accredited provider' do
       let(:accredited_provider) { create(:provider, name: 'Canterbury') }
       let(:course) { create(:course, open_on_apply: false, accredited_provider: accredited_provider) }
