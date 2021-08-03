@@ -45,7 +45,8 @@ RSpec.feature 'Managing provider users v2' do
   def and_providers_exist
     @provider = create(:provider, name: 'Example provider', code: 'ABC', sync_courses: true)
     create(:course, :open_on_apply, provider: @provider)
-    create(:provider, name: 'Another provider', code: 'DEF', sync_courses: true)
+    @provider2 = create(:provider, name: 'Another provider', code: 'DEF')
+    create(:course, :open_on_apply, provider: @provider2)
     create(:provider, name: 'Not shown provider', code: 'GHI')
   end
 
@@ -64,7 +65,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_filter_providers_by_synced_courses
-    check 'With synced courses'
+    check 'With courses'
     click_on 'Apply filters'
   end
 
