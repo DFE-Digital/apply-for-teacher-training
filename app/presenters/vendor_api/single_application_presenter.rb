@@ -180,7 +180,8 @@ module VendorAPI
     end
 
     def references
-      application_form.application_references.selected.map do |reference|
+      # Filter selected references programmatically to avoid n+1 queries caused by using the .selected scope.
+      application_form.application_references.select { |r| r.selected && r.feedback_status == 'feedback_provided' }.map do |reference|
         reference_to_hash(reference)
       end
     end
