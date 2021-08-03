@@ -119,3 +119,5 @@ en:
       subject: Interview cancelled - %{provider_name}
     approaching_eoc_deadline:
       subject: Submit your application before courses fill up
+    new_cycle_has_started:
+      subject: Teacher training applications are open - apply for the %{academic_year} academic year

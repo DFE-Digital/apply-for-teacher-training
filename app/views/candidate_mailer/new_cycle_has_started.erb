@@ -1,0 +1,24 @@
+<% if @application_form.first_name.present? %>
+  Dear <%= @application_form.first_name %>,
+<% end %>
+
+<% unless @application_form.submitted? %>
+  # Applications are open - submit your teacher training application
+
+  Complete your application to get on a course starting in the <%= @academic_year %> academic year:
+<% end %>
+
+<% if @application_form.ended_without_success? %>
+  # Applications are open - apply for teacher training again
+
+  You could get on a course starting in the <%= @academic_year %> academic year.
+
+  Make any changes to your previous application and apply again:
+<% end %>
+
+<%= candidate_magic_link(@application_form.candidate) %>
+
+# Get help to complete your application
+
+Talk to a teacher training adviser to get help writing a strong application:
+https://adviser-getintoteaching.education.gov.uk/

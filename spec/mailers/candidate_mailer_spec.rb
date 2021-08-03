@@ -418,4 +418,42 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe '.new_cycle_has_started' do
+    context "when the candidate's application was unsubmitted" do
+      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
+      let(:email) { mailer.new_cycle_has_started(application_form) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+        'greeting' => 'Dear Fred,',
+        'academic_year' => '2022 to 2023',
+        'details' => 'Applications are open - submit your teacher training application',
+      )
+    end
+
+    context "when the candidate's application was unsuccessful" do
+      let(:application_choice) { build_stubbed(:application_choice, :with_rejection) }
+      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', application_choices: [application_choice]) }
+      let(:email) { mailer.new_cycle_has_started(application_form) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Teacher training applications are open - apply for the 2022 to 2023 academic year',
+        'greeting' => 'Dear Fred,',
+        'academic_year' => '2022 to 2023',
+        'details' => 'Applications are open - apply for teacher training again',
+      )
+    end
+
+    context 'when a candidate has not provided a first name' do
+      let(:email) { mailer.new_cycle_has_started(application_form) }
+      let(:application_form) { build_stubbed(:application_form, first_name: nil) }
+
+      it 'does not include a `Dear` heading' do
+        expect(email.body).not_to include('Dear')
+      end
+    end
+  end
 end
