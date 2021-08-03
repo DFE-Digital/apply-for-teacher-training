@@ -373,7 +373,7 @@ RSpec.describe CycleTimetable do
   describe '.send_new_cycle_has_started_email?' do
     context 'it is before apply reopens' do
       it 'returns false' do
-        Timecop.travel(CycleTimetable.apply_reopens - 1.day) do
+        Timecop.travel(described_class.apply_reopens - 1.day) do
           expect(described_class.send_new_cycle_has_started_email?).to be(false)
         end
       end
@@ -381,7 +381,7 @@ RSpec.describe CycleTimetable do
 
     context 'it is after apply reopens' do
       it 'returns true' do
-        Timecop.travel(CycleTimetable.apply_reopens + 1.hour) do
+        Timecop.travel(described_class.apply_reopens + 1.hour) do
           expect(described_class.send_new_cycle_has_started_email?).to be(true)
         end
       end
