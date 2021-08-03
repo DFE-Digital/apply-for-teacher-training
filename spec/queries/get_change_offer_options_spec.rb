@@ -156,14 +156,6 @@ RSpec.describe GetChangeOfferOptions do
           .to match_array(%w[full_time part_time])
       end
 
-      it 'only returns study modes related to a course option whose site is still valid' do
-        create(:course_option, :part_time, course: self_ratified_course)
-        create(:course_option, :full_time, course: self_ratified_course, site_still_valid: false)
-
-        expect(service.available_study_modes(course: self_ratified_course))
-            .to match_array(%w[part_time])
-      end
-
       it 'returns no study modes if there are no offerable courses' do
         create(:course_option, :part_time, course: self_ratified_course)
         allow(service).to receive(:offerable_courses).and_return(Course.none)
@@ -176,14 +168,6 @@ RSpec.describe GetChangeOfferOptions do
       it 'returns a collection of course options for a given course/study_mode' do
         expect(service.available_course_options(course: self_ratified_course, study_mode: 'part_time'))
           .to match_array([course_options.first, course_options.second])
-      end
-
-      it 'only returns course options whose sites are still valid' do
-        valid_course_option = create(:course_option, :part_time, course: self_ratified_course)
-        create(:course_option, :part_time, course: self_ratified_course, site_still_valid: false)
-
-        expect(service.available_course_options(course: self_ratified_course, study_mode: 'part_time'))
-            .to match_array([valid_course_option])
       end
 
       it 'returns no course options if there are no offerable courses' do
