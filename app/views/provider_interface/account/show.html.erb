@@ -5,7 +5,7 @@
 <% if FeatureFlag.active?(:account_and_org_settings_changes) %>
 <ul class="govuk-list govuk-list--spaced">
   <li>
-    <%= govuk_link_to t('page_titles.provider.personal_details'), '#' %>
+    <%= govuk_link_to t('page_titles.provider.personal_details'), provider_interface_personal_details_path %>
   </li>
   <li>
     <%= govuk_link_to t('page_titles.provider.user_permissions'), '#' %>
