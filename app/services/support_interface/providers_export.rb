@@ -23,7 +23,6 @@ module SupportInterface
           :provider_agreements,
           :sites,
         )
-        .where(sync_courses: true)
         .order(:name)
     end
 
