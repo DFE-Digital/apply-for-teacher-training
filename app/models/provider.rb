@@ -76,7 +76,7 @@ class Provider < ApplicationRecord
   end
 
   def lacks_admin_users?
-    sync_courses &&
+    courses.any? &&
       !(provider_permissions.exists?(manage_users: true) &&
         provider_permissions.exists?(manage_organisations: true))
   end
