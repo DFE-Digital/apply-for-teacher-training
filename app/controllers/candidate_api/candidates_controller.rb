@@ -42,16 +42,16 @@ module CandidateAPI
             email_address: candidate.email_address,
             created_at: candidate.created_at,
             updated_at: candidate.candidate_api_updated_at,
-            application_forms: {
-              data: [candidate.application_forms.map do |application|
+            application_forms:
+              candidate.application_forms.map do |application|
                 {
                   id: application.id,
                   created_at: application.created_at,
+                  updated_at: application.updated_at,
                   application_status: ProcessState.new(application).state,
                   application_phase: application.phase,
                 }
-              end],
-            },
+              end,
           },
         }
       end
