@@ -12,3 +12,10 @@ en:
       description: Manage organisation permissions
     set_up_interviews:
       description: Set up interviews
+  provider_interface:
+    personal_permissions:
+      show:
+        permissions_for: Permissions for %{provider_name}
+        access_to_orgs:
+          heading: Access to organisations
+          key: Organisations you have access to
