@@ -11,7 +11,7 @@
           <%= render ProviderInterface::ProviderPartnerPermissionBreakdownComponent.new(provider: provider, permission: permission) %>
         <% end %>
       </dd>
-      <% if can_change_permissions? %>
+      <% if editable %>
         <dd class="govuk-summary-list__actions">
           <%= govuk_link_to(provider_interface_provider_user_edit_permissions_path(provider_user, provider), class: 'govuk-!-display-none-print') do %>
             Change
