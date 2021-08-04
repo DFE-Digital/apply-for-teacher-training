@@ -2,24 +2,18 @@ class SendEocDeadlineReminderEmailToCandidatesWorker
   include Sidekiq::Worker
 
   def perform
-    applications_to_send_reminders_to.each do |application|
+    return unless CycleTimetable.need_to_send_deadline_reminder?
+
+    applications_to_send_reminders_to.find_each(batch_size: 100) do |application|
       SendEocDeadlineReminderEmailToCandidate.call(application_form: application)
     end
   end
 
   def applications_to_send_reminders_to
-    return [] unless CycleTimetable.need_to_send_deadline_reminder?
-
     if CycleTimetable.need_to_send_deadline_reminder? == :apply_1
-      ApplicationForm
-        .current_cycle
-        .where(submitted_at: nil)
-        .where(phase: 'apply_1')
+      ApplicationForm.where(submitted_at: nil, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.current_year)
     elsif CycleTimetable.need_to_send_deadline_reminder? == :apply_2
-      ApplicationForm
-      .current_cycle
-      .where(submitted_at: nil)
-      .where(phase: 'apply_2')
+      ApplicationForm.where(submitted_at: nil, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycle.current_year)
     end
   end
 end
