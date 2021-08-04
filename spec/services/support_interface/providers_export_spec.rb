@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
   describe 'documentation' do
     before do
-      provider = create(:provider, sync_courses: true, name: 'B', latitude: 51.498161, longitude: 0.129900)
+      provider = create(:provider, name: 'B', latitude: 51.498161, longitude: 0.129900)
       create(:site, latitude: 51.482578, longitude: -0.007659, provider: provider)
     end
 
@@ -11,9 +11,8 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
   end
 
   describe '#providers' do
-    it 'returns synced providers and the date they signed the data sharing agreement' do
-      create(:provider, sync_courses: false)
-      provider_without_signed_dsa = create(:provider, sync_courses: true, name: 'B', latitude: 51.498161, longitude: 0.129900)
+    it 'returns providers and the date they signed the data sharing agreement' do
+      provider_without_signed_dsa = create(:provider, name: 'B', latitude: 51.498161, longitude: 0.129900)
       create(:site, latitude: 51.482578, longitude: -0.007659, provider: provider_without_signed_dsa)
       create(:site, latitude: 52.246868, longitude: 0.711190, provider: provider_without_signed_dsa)
 
@@ -22,7 +21,6 @@ RSpec.describe SupportInterface::ProvidersExport, with_audited: true do
         provider_with_signed_dsa = create(
           :provider,
           :with_signed_agreement,
-          sync_courses: true,
           name: 'A',
         )
       end
