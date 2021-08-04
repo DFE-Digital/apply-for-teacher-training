@@ -118,7 +118,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
   end
 
   it 'renders conditions' do
-    expect(render.css('[data-qa="conditions"]').text).to include('condition 1')
-    expect(render.css('[data-qa="conditions"]').text).to include('condition 2')
+    expect(render.css('.app-conditions-list .govuk-summary-list__key')[0].text.squish).to eq('condition 1')
+    expect(render.css('.app-conditions-list .govuk-summary-list__key')[1].text.squish).to eq('condition 2')
   end
 end
