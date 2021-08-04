@@ -20,7 +20,6 @@ module SupportInterface
     def relevant_sites
       Site.joins(:course_options, :provider)
           .where(course_options: { site_still_valid: true })
-          .where(providers: { sync_courses: true })
           .order('providers.code ASC')
     end
   end
