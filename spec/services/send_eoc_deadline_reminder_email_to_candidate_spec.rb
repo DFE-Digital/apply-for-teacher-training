@@ -2,22 +2,15 @@ require 'rails_helper'
 
 RSpec.describe SendEocDeadlineReminderEmailToCandidate do
   describe '#call' do
-    context 'when the candidate is in Apply 1' do
-      let(:application_form) { create(:application_form, phase: 'apply_1') }
+    let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
+    let(:application_form) { create(:application_form) }
 
-      it 'sends a reminder email to the candidate' do
-        described_class.call(application_form: application_form)
-        expect(application_form.chasers_sent.eoc_deadline_reminder.count).to eq(1)
-      end
-    end
+    it 'sends a reminder email to the candidate and creates and EOC chaser' do
+      allow(CandidateMailer).to receive(:eoc_deadline_reminder).and_return(mail)
+      described_class.call(application_form: application_form)
 
-    context 'when the candidate is in Apply 2' do
-      let(:application_form) { create(:application_form, phase: 'apply_2') }
-
-      it 'sends a reminder email to the candidate' do
-        described_class.call(application_form: application_form)
-        expect(application_form.chasers_sent.eoc_deadline_reminder.count).to eq(1)
-      end
+      expect(application_form.chasers_sent.eoc_deadline_reminder.count).to eq(1)
+      expect(CandidateMailer).to have_received(:eoc_deadline_reminder).with(application_form)
     end
   end
 end
