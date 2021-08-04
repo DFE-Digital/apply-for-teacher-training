@@ -46,6 +46,8 @@ gem 'discard'
 
 gem 'json-schema'
 gem 'json_api_client'
+# Oj is faster at rendering JSON than the default Rails JSON serializer
+gem 'oj'
 
 # We use a postgres sequence to generate public_ids for qualifications
 # See adr/0018-public-ids-for-qualifications.md for details on why this is necessary
