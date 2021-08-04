@@ -78,13 +78,6 @@ module ProviderInterface
 
   private
 
-    def require_access_to_manage_provider_relationship_permissions!
-      provider_relationship_permissions = ProviderRelationshipPermissions.find(params[:id])
-      permitted_relationship_permissions = current_provider_user.authorisation.training_provider_relationships_that_actor_can_manage_organisations_for
-
-      render_403 unless permitted_relationship_permissions.include?(provider_relationship_permissions)
-    end
-
     def redirect_unless_permissions_to_setup
       redirect_to provider_interface_applications_path if provider_relationship_permissions_needing_setup.blank?
     end

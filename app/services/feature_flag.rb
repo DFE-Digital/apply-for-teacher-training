@@ -36,7 +36,6 @@ class FeatureFlag
     [:support_user_change_offered_course, 'Allows support users to offer a different course option for an application choice', 'David Gisbey'],
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
-    [:accredited_provider_setting_permissions, 'Allow accredited providers to set org permissions', 'Michael Nacos'],
     [:account_and_org_settings_changes, 'Allows new account and org setting changes', 'Despo Pentara'],
   ].freeze
 

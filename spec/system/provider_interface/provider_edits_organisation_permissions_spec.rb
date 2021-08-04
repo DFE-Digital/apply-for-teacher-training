@@ -8,7 +8,6 @@ RSpec.feature 'Provider edits organisation permissions' do
     and_i_can_view_applications_for_some_providers
     and_their_organisational_permissions_have_already_been_set_up
     and_i_can_manage_organisations_for_my_provider
-    and_the_accredited_provider_setting_permissions_flag_is_active
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_organisation_settings_link
@@ -45,10 +44,6 @@ RSpec.feature 'Provider edits organisation permissions' do
     @training_provider_users.each { |user| user.provider_permissions.where(provider: @training_provider).update_all(manage_organisations: true) }
 
     expect(@relationship.ratifying_provider_can_make_decisions).to be_falsey
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_active
-    FeatureFlag.activate(:accredited_provider_setting_permissions)
   end
 
   def and_i_can_manage_organisations_for_my_provider

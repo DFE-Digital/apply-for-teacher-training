@@ -44,13 +44,7 @@ RSpec.feature 'Managing provider-provider permissions via support' do
   end
 
   def then_i_should_see_an_error
-    error_message = if FeatureFlag.active?(:accredited_provider_setting_permissions)
-                      'Select who can make offers and reject applications'
-                    else
-                      'Select which organisations can make decisions'
-                    end
-
-    expect(page).to have_content error_message
+    expect(page).to have_content 'Select who can make offers and reject applications'
   end
 
   def when_i_set_valid_relationships

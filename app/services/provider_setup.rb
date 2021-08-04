@@ -36,12 +36,7 @@ private
 
   def manageable_relationships
     auth = ProviderAuthorisation.new(actor: @provider_user)
-
-    if FeatureFlag.active?(:accredited_provider_setting_permissions)
-      auth.provider_relationships_that_actor_can_manage_organisations_for
-    else
-      auth.training_provider_relationships_that_actor_can_manage_organisations_for
-    end
+    auth.provider_relationships_that_actor_can_manage_organisations_for
   end
 
   def open_course_for_relationship?(relationship)
