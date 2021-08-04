@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.address'), @contact_details_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_edit_address_type_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @contact_details_form, url: candidate_interface_edit_address_path, method: :patch do |f| %>
+    <%= form_with model: @contact_details_form, url: candidate_interface_edit_address_path(@return_to[:params]), method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= render 'form', f: f %>
