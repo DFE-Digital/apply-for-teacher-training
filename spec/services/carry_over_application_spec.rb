@@ -54,21 +54,22 @@ RSpec.describe CarryOverApplication do
 
     it 'sets the reference to the not_requested state' do
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)
+      create(:reference, feedback_status: :feedback_requested, application_form: application_form)
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: application_form)
 
       described_class.new(application_form).call
 
       expect(ApplicationForm.count).to eq 2
-      expect(ApplicationForm.last.application_references.count).to eq 2
-      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided not_requested_yet]
+      expect(ApplicationForm.last.application_references.count).to eq 3
+      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided feedback_requested not_requested_yet]
     end
 
     it 'does not carry over references whose feedback is overdue' do
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.month.ago)
-      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.month.ago)
+      create(:reference, feedback_status: :feedback_requested, application_form: application_form, requested_at: 1.month.ago)
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 2.days.ago, name: 'Carrie Over')
-      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.day.ago, name: 'Nixt Cycle')
+      create(:reference, feedback_status: :feedback_requested, application_form: application_form, requested_at: 1.day.ago, name: 'Nixt Cycle')
 
       described_class.new(application_form).call
 

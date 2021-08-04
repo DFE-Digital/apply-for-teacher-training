@@ -46,7 +46,7 @@ class DuplicateApplication
       )
     end
 
-    original_application_form.application_references.where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle]).reject(&:feedback_overdue?).each do |w|
+    original_application_form.application_references.where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested]).reject(&:feedback_overdue?).each do |w|
       new_application_form.application_references.create!(
         w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
       )
@@ -56,6 +56,10 @@ class DuplicateApplication
       if references_cancelled_at_eoc.present?
         references_cancelled_at_eoc.each(&:not_requested_yet!)
       end
+    end
+
+    original_application_form.application_references.feedback_requested.each do |reference|
+      reference.update_column(:hashed_sign_in_token, nil)
     end
 
     original_application_form.application_work_history_breaks.each do |w|
