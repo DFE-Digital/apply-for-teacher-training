@@ -18,22 +18,5 @@
     <% end %>
   <% end %>
 
-  <% if conditions.any? %>
-    <table class="govuk-table app-table--no-bottom-border" data-qa="conditions">
-      <tbody class="govuk-table__body">
-        <% conditions.each do |condition| %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell"><%= condition.text %></td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= render ProviderInterface::ConditionStatusTagComponent.new(condition) %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p class="govuk-body">
-      No conditions have been set for this offer
-    </p>
-  <% end %>
+  <%= render ProviderInterface::ConditionsListComponent.new(conditions) %>
 </div>
