@@ -2,15 +2,28 @@ module ProviderInterface
   class UserPermissionSummaryComponentPreview < ViewComponent::Preview
     layout 'previews/provider'
 
-    def user_permission_summary
+    def editable_permission_summary
+      provider_user = example_provider_user
+      render UserPermissionSummaryComponent.new(
+        provider_user: provider_user,
+        provider: provider_user.providers.first,
+        editable: true,
+      )
+    end
+
+    def uneditable_permission_summary
+      provider_user = example_provider_user
+      render UserPermissionSummaryComponent.new(
+        provider_user: provider_user,
+        provider: provider_user.providers.first,
+      )
+    end
+
+  private
+
+    def example_provider_user
       provider = FactoryBot.create(:provider)
       provider_user = FactoryBot.create(:provider_user)
-      current_provider_user = FactoryBot.create(:provider_user)
-
-      FactoryBot.create(:provider_permissions,
-                        provider: provider,
-                        provider_user: current_provider_user,
-                        manage_users: true)
 
       FactoryBot.create(:provider_permissions,
                         provider: provider,
@@ -50,11 +63,7 @@ module ProviderInterface
                           ratifying_provider_can_view_diversity_information: other_random_boolean_value)
       end
 
-      render UserPermissionSummaryComponent.new(
-        provider_user: provider_user,
-        provider: provider,
-        current_user: current_provider_user,
-      )
+      provider_user
     end
   end
 end
