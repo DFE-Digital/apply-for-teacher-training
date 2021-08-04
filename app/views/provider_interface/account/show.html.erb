@@ -1,6 +1,20 @@
 <%= content_for :browser_title, t('page_titles.provider.account') %>
 
 <h1 class="govuk-heading-l"><%= t('page_titles.provider.account') %></h1>
+
+<% if FeatureFlag.active?(:account_and_org_settings_changes) %>
+<ul class="govuk-list govuk-list--spaced">
+  <li>
+    <%= govuk_link_to t('page_titles.provider.personal_details'), '#' %>
+  </li>
+  <li>
+    <%= govuk_link_to t('page_titles.provider.user_permissions'), '#' %>
+  </li>
+  <li>
+    <%= govuk_link_to t('page_titles.provider.email_notifications'), '#' %>
+  </li>
+</ul>
+<% else %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
 
@@ -24,3 +38,4 @@
 
   </div>
 </div>
+<% end %>

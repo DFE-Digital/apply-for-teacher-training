@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Managing notifications' do
   include DfESignInHelpers
 
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider can enable and disable individaul email notifications' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface

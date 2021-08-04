@@ -208,6 +208,9 @@ en:
       select_decision: Select decision
       account: Your account
       profile: Profile
+      personal_details: Your personal details
+      user_permissions: Your user permissions
+      email_notifications: Your email notifications
       organisation_settings: Organisation settings
       organisation_permissions: Organisation permissions
       change_organisation_permissions: Change permissions
