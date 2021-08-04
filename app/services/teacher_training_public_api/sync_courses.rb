@@ -103,16 +103,13 @@ module TeacherTrainingPublicAPI
     end
 
     def add_provider_relationship(course)
-      provider_relationship_permission = ProviderRelationshipPermissions.find_or_initialize_by(
+      ProviderRelationshipPermissions.find_or_create_by(
         training_provider: provider,
         ratifying_provider: course.accredited_provider,
-      )
-
-      permission_changed = provider_relationship_permission.new_record?
-      provider_relationship_permission.save!
-
-      if !@incremental_sync && permission_changed
-        @updates.merge!(provider_relationship_permission: true)
+      ) do |provider_relationship_permission|
+        if !@incremental_sync && provider_relationship_permission.new_record?
+          @updates.merge!(provider_relationship_permission: true)
+        end
       end
     end
 

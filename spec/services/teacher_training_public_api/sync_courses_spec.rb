@@ -260,6 +260,22 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(permissions.ratifying_provider_can_view_safeguarding_information).to be false
       end
 
+      it 'correctly finds existing set up provider relationship permissions' do
+        training_provider = create(:provider, code: 'ABC')
+        ratifying_provider = create(:provider, code: 'DEF')
+        provider_relationship_permission = create(:provider_relationship_permissions, :not_set_up_yet, training_provider: training_provider, ratifying_provider: ratifying_provider)
+        # save without validation to avoid at_least_one_active_permission_in_pair validation
+        provider_relationship_permission.update_attribute(:setup_at, Time.zone.now)
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   course_attributes: [{ accredited_body_code: 'DEF', study_mode: 'full_time' }],
+                                                   site_code: 'A')
+
+        expect {
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
+        }.not_to change(ProviderRelationshipPermissions, :count)
+      end
+
       it 'raises a FullSync error when provider relationships have been created' do
         allow(Sentry).to receive(:capture_exception)
         allow(TeacherTrainingPublicAPI::SyncSites).to receive(:perform_async)
