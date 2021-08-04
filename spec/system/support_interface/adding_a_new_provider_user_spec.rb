@@ -11,10 +11,10 @@ RSpec.feature 'Managing provider users v2' do
 
     when_i_visit_the_support_console
     and_i_navigate_to_provider_users_page
-    and_i_filter_providers_by_synced_courses
-    then_i_see_synced_providers
+    and_i_filter_providers_by_having_courses
+    then_i_see_providers_with_courses
 
-    when_i_click_on_a_synced_provider
+    when_i_click_on_a_provider
     and_i_click_on_users
     and_i_click_add_user
     then_i_should_see_the_add_user_form
@@ -43,14 +43,14 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_providers_exist
-    @provider = create(:provider, name: 'Example provider', code: 'ABC', sync_courses: true)
+    @provider = create(:provider, name: 'Example provider', code: 'ABC')
     create(:course, :open_on_apply, provider: @provider)
     @provider2 = create(:provider, name: 'Another provider', code: 'DEF')
     create(:course, :open_on_apply, provider: @provider2)
     create(:provider, name: 'Not shown provider', code: 'GHI')
   end
 
-  def then_i_see_synced_providers
+  def then_i_see_providers_with_courses
     expect(page).to have_content 'Example provider'
     expect(page).to have_content 'Another provider'
     expect(page).not_to have_content 'Not shown provider'
@@ -64,7 +64,7 @@ RSpec.feature 'Managing provider users v2' do
     click_link 'Providers'
   end
 
-  def and_i_filter_providers_by_synced_courses
+  def and_i_filter_providers_by_having_courses
     check 'With courses'
     click_on 'Apply filters'
   end
@@ -73,7 +73,7 @@ RSpec.feature 'Managing provider users v2' do
     click_on 'Add user'
   end
 
-  def when_i_click_on_a_synced_provider
+  def when_i_click_on_a_provider
     click_on 'Example provider (ABC)'
   end
 

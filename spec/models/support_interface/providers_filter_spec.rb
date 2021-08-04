@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProvidersFilter do
   describe '#filter_records' do
-    it 'filters by having one or more courses open on apply' do
+    it 'filters by having one or more courses' do
       provider_with_course = create(:provider)
       create(:course, :open_on_apply, provider: provider_with_course)
       create(:provider)
