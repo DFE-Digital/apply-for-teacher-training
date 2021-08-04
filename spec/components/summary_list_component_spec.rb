@@ -29,6 +29,36 @@ RSpec.describe SummaryListComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include('Whoa Drive<br>Wewvile<br>London')
     end
 
+    it 'renders values surrounded by <p> tags if specified for the row' do
+      rows = [
+        key: 'Address:',
+        value: %w[A list of items],
+        paragraph_format: true,
+      ]
+      result = render_inline(described_class.new(rows: rows))
+
+      expect(result.to_html).to include(<<~HTML)
+        <p class="govuk-body">A</p>
+        <p class="govuk-body">list</p>
+        <p class="govuk-body">of</p>
+        <p class="govuk-body">items</p>
+      HTML
+    end
+
+    it 'safely escapes markup when rendering values as <p> tags' do
+      rows = [
+        key: 'Address:',
+        value: ['<script></script>', '<br>'],
+        paragraph_format: true,
+      ]
+      result = render_inline(described_class.new(rows: rows))
+
+      expect(result.to_html).to include(<<~HTML)
+        <p class="govuk-body">&lt;script&gt;&lt;/script&gt;</p>
+        <p class="govuk-body">&lt;br&gt;</p>
+      HTML
+    end
+
     it 'renders values as bullets if specified for the row' do
       rows = [
         key: 'Address:',

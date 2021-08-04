@@ -10,6 +10,8 @@ class SummaryListComponent < ViewComponent::Base
     if row[:value].is_a?(Array)
       if row[:bulleted_format]
         format_list_with_bullets(row[:value])
+      elsif row[:paragraph_format]
+        format_list_as_paragraphs(row[:value])
       else
         row[:value].map { |s| ERB::Util.html_escape(s) }.join('<br>').html_safe
       end
@@ -64,5 +66,9 @@ private
       markup << '<li>'.html_safe << list_item << '</li>'.html_safe
     end
     markup + '</ul>'.html_safe
+  end
+
+  def format_list_as_paragraphs(list)
+    list.map { |s| "<p class=\"govuk-body\">#{ERB::Util.html_escape(s)}</p>" }.join.html_safe
   end
 end
