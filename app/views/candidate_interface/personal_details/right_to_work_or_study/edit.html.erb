@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.right_to_work'), @right_to_work_or_study_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_personal_details_complete_path) %>
+<% content_for :before_content, govuk_back_link_to(govuk_back_link_to(@return_to[:back_path])) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @right_to_work_or_study_form, url: candidate_interface_edit_right_to_work_or_study_path, method: :patch do |f| %>
+    <%= form_with model: @right_to_work_or_study_form, url: candidate_interface_edit_right_to_work_or_study_path(@return_to[:params]), method: :patch do |f| %>
       <%= render partial: 'shared_form', locals: { f: f } %>
     <% end %>
   </div>
