@@ -296,6 +296,8 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         },
       }
 
+      Timecop.travel(1.minute.from_now)
+
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: request_body
 
       expect(parsed_response['data']['attributes']['offer']).to eq(
@@ -305,7 +307,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'Completion of professional skills test',
         ],
         'course' => course_option_to_course_payload(new_course_option),
-        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_made_at' => application_choice.reload.offered_at.iso8601(3),
         'offer_accepted_at' => nil,
         'offer_declined_at' => nil,
       )
