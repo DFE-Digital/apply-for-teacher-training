@@ -22,8 +22,6 @@ module CandidateInterface
       end
     end
 
-    def applications_closed; end
-
   private
 
     def create_account_or_sign_in_params
