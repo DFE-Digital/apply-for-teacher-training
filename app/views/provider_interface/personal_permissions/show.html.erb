@@ -10,19 +10,24 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.user_permissions') %></h1>
 
-    <h2 class="govuk-heading-m"><%= t('.access_to_orgs.heading') %></h2>
-    <%= render SummaryListComponent.new(
-      rows: [
-        {
-          key: t('.access_to_orgs.key'),
-          value: @providers.map(&:name),
-          paragraph_format: true,
-        },
-      ],
-    ) %>
+    <% if @providers.length > 1 %>
+      <h2 class="govuk-heading-m"><%= t('.access_to_orgs.heading') %></h2>
+      <%= render SummaryListComponent.new(
+        rows: [
+          {
+            key: t('.access_to_orgs.key'),
+            value: @providers.map(&:name),
+            paragraph_format: true,
+          },
+        ],
+      ) %>
+    <% end %>
 
     <% @providers.each do |provider| %>
-      <h2 class="govuk-heading-m"><%= t('.permissions_for', provider_name: provider.name) %></h2>
+      <% if @providers.length > 1 %>
+        <h2 class="govuk-heading-m"><%= t('.permissions_for', provider_name: provider.name) %></h2>
+      <% end %>
+
       <p class="govuk-body"><%= t('provider_relationship_permissions.view_applications_explanation') %></p>
 
       <%= render ProviderInterface::UserPermissionSummaryComponent.new(
