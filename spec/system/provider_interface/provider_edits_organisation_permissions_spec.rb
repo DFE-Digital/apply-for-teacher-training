@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Provider edits organisation permissions' do
   include DfESignInHelpers
 
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider edits organisation permissions' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_view_applications_for_some_providers
