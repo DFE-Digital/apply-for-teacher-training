@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Managing notifications' do
   include DfESignInHelpers
 
-  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
-
-  scenario 'Provider can enable and disable individaul email notifications' do
+  scenario 'Provider can enable and disable individual email notifications' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface
 
@@ -27,7 +25,12 @@ RSpec.feature 'Managing notifications' do
   end
 
   def and_i_click_on_the_notification_settings_link
-    click_on(t('page_titles.provider.notifications'))
+    link_text = if FeatureFlag.active?(:account_and_org_settings_changes)
+                  t('page_titles.provider.email_notifications')
+                else
+                  t('page_titles.provider.notifications')
+                end
+    click_on(link_text)
   end
 
   def then_i_can_see_all_notifications_are_on_by_default
