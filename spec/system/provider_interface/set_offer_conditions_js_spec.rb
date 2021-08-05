@@ -130,8 +130,8 @@ RSpec.describe 'Provider makes an offer with JS enabled', js: true do
       'Disclosure and Barring Service (DBS) check',
     ] + conditions
 
-    within('.app-offer-panel') do
-      expect(all('.govuk-table__row > td:first-child').map(&:text)).to eq expected_conditions
+    within('.app-conditions-list') do
+      expect(all('.govuk-summary-list__row > .govuk-summary-list__key').map(&:text)).to eq expected_conditions
     end
   end
 

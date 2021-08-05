@@ -153,7 +153,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_new_location_selection
-    within(:xpath, "////div[@class='govuk-summary-list__row'][4]") do
+    within(all('.govuk-summary-list__row')[3]) do
       expect(page).to have_content(@selected_course_option.site.name_and_address)
     end
   end
@@ -163,7 +163,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_new_study_mode_selection
-    within(:xpath, "////div[@class='govuk-summary-list__row'][3]") do
+    within(all('.govuk-summary-list__row')[2]) do
       expect(page).to have_content(@selected_course_option.study_mode.humanize)
     end
   end
@@ -188,7 +188,7 @@ RSpec.feature 'Provider makes an offer' do
     @selected_course = @provider_available_course
     @selected_course_option = @provider_available_course_option
 
-    within(:xpath, "////div[@class='govuk-summary-list__row'][2]") do
+    within(all('.govuk-summary-list__row')[1]) do
       click_on 'Change'
     end
   end
@@ -198,7 +198,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_new_course_selection
-    within(:xpath, "////div[@class='govuk-summary-list__row'][2]") do
+    within(all('.govuk-summary-list__row')[1]) do
       expect(page).to have_content(@selected_course.name_and_code)
     end
   end
@@ -237,7 +237,7 @@ RSpec.feature 'Provider makes an offer' do
     @selected_course = @selected_provider_available_course
     @selected_course_option = @selected_provider_available_course_option
 
-    within(:xpath, "////div[@class='govuk-summary-list__row'][1]") do
+    within(all('.govuk-summary-list__row')[0]) do
       click_on 'Change'
     end
   end
@@ -251,7 +251,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_can_confirm_the_new_provider_selection
-    within(:xpath, "////div[@class='govuk-summary-list__row'][1]") do
+    within(all('.govuk-summary-list__row')[0]) do
       expect(page).to have_content(@selected_provider.name_and_code)
     end
   end
