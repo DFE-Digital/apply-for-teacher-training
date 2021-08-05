@@ -47,6 +47,7 @@ module DataMigrations
               Rails.logger.warn "Skipping deletion of #{permission.ratifying_provider.name}. This organisation has users which do not belong to any other provider."
             else
               permission.destroy!
+              permission.ratifying_provider.provider_agreements.map(&:destroy!)
               permission.ratifying_provider.destroy!
             end
           end
