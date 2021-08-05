@@ -35,9 +35,7 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @type_form.update(current_qualification)
-        return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
-
-        redirect_to candidate_interface_gcse_review_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@type_form)
         render :edit
