@@ -136,11 +136,13 @@ en:
             predicted_grade:
               blank: Enter your predicted grade
               too_long: Your predicted grade must be %{count} characters or fewer
-        candidate_interface/degree_year_form:
+        candidate_interface/degree_start_year_form:
           attributes:
             start_year:
               blank: Enter your start year
               greater_than_award_year: Enter a start year before graduation year
+        candidate_interface/degree_award_year_form:
+          attributes:
             award_year:
               blank: Enter your graduation year
               invalid_year: Enter a real graduation year
