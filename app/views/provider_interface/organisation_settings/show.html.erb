@@ -4,13 +4,13 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_settings') %></h1>
     <ul class="govuk-list govuk-list--spaced">
-      <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
+      <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? || FeatureFlag.active?(:account_and_org_settings_changes) %>
         <li>
           <%= govuk_link_to t('page_titles.provider.users'), provider_interface_provider_users_path %>
         </li>
       <% end %>
 
-      <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
+      <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? || FeatureFlag.active?(:account_and_org_settings_changes) %>
         <li>
           <%= govuk_link_to t('page_titles.provider.organisation_permissions'), provider_interface_organisation_settings_organisations_path %>
         </li>
