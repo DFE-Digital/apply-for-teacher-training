@@ -64,7 +64,8 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
-    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms', 'data', 0)
+    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
+
     expect(response_data.size).to eq(2)
 
     expect(response_data.first['id']).to eq(application_forms.second.id)
@@ -74,7 +75,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
-    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms', 'data', 0)
+    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
 
     expect(response_data.first['id']).to eq(application_forms.first.id)
     expect(response_data.second['id']).to eq(application_forms.second.id)
