@@ -197,7 +197,7 @@
 
 <% if reasons_for_rejection.other_advice_or_feedback_y_n == 'Yes' %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Additional advice', class: 'govuk-heading-s') %>
+    <%= content_tag(subheading_tag_name, 'Additional feedback', class: 'govuk-heading-s') %>
     <p class="govuk-body"><%= reasons_for_rejection.other_advice_or_feedback_details %></p>
     <% if editable? %>
       <p class="app-rejection__actions">
