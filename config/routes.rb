@@ -729,6 +729,8 @@ Rails.application.routes.draw do
     scope path: '/account' do
       get '/profile' => 'profile#show'
 
+      resource :personal_details, only: :show, path: 'personal-details'
+
       scope path: '/users' do
         get '/' => 'provider_users#index', as: :provider_users
 
