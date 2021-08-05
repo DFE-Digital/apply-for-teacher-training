@@ -4,4 +4,5 @@ Rails.autoloaders.each do |autoloader|
     'vendor_api_user' => 'VendorApiUser',
   )
   autoloader.collapse('app/components/shared')
+  autoloader.collapse('app/components/utility')
 end
