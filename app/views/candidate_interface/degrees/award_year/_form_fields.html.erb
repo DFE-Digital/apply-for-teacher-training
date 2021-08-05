@@ -1,0 +1,9 @@
+<%= f.govuk_text_field(
+  :award_year,
+  label: { text: t('application_form.degree.award_year.label'), size: 'm' },
+  type: :number,
+  hint: { text: t('application_form.degree.award_year.hint_text', example_year: Time.zone.today.year) },
+  width: 4,
+) %>
+
+<%= f.govuk_submit t('save_and_continue') %>
