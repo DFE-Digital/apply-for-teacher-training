@@ -346,10 +346,15 @@ Rails.application.routes.draw do
         get '/:id/grade/edit' => 'degrees/grade#edit', as: :edit_degree_grade
         patch '/:id/grade/edit' => 'degrees/grade#update'
 
-        get '/:id/year' => 'degrees/year#new', as: :degree_year
-        post '/:id/year' => 'degrees/year#create'
-        get '/:id/year/edit' => 'degrees/year#edit', as: :edit_degree_year
-        patch '/:id/year/edit' => 'degrees/year#update'
+        get '/:id/start-year' => 'degrees/start_year#new', as: :degree_start_year
+        post '/:id/start-year' => 'degrees/start_year#create'
+        get '/:id/start-year/edit' => 'degrees/start_year#edit', as: :edit_degree_start_year
+        patch '/:id/start-year/edit' => 'degrees/start_year#update'
+
+        get '/:id/graduation-year' => 'degrees/award_year#new', as: :degree_award_year
+        post '/:id/graduation-year' => 'degrees/award_year#create'
+        get '/:id/graduation-year/edit' => 'degrees/award_year#edit', as: :edit_degree_award_year
+        patch '/:id/graduation-year/edit' => 'degrees/award_year#update'
 
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete
