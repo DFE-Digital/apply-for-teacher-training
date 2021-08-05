@@ -23,7 +23,7 @@
 
     <% @providers.each do |provider| %>
       <h2 class="govuk-heading-m"><%= t('.permissions_for', provider_name: provider.name) %></h2>
-      <p class="govuk-body">All users can view applications</p>
+      <p class="govuk-body"><%= t('provider_relationship_permissions.view_applications_explanation') %></p>
 
       <%= render ProviderInterface::UserPermissionSummaryComponent.new(
         provider_user: current_provider_user,

@@ -10,7 +10,7 @@
     <%= page_heading %>
   </h1>
 
-  <p class="govuk-body"><%= t('.explanation') %></p>
+  <p class="govuk-body"><%= t('provider_relationship_permissions.view_applications_explanation') %></p>
 
   <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
     <div class="govuk-form-group" data-qa="<%= permission_name.to_s.dasherize %>">
