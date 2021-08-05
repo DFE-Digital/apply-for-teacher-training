@@ -2,7 +2,11 @@ module ProviderInterface
   class OrganisationSettingsController < ProviderInterfaceController
     before_action :require_manage_users_or_manage_organisations_permission
 
-    def show; end
+    def show
+      if FeatureFlag.active?(:account_and_org_settings_changes)
+        @providers = current_user.providers.order(:name)
+      end
+    end
 
   private
 
