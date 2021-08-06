@@ -19,7 +19,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::SpecifyExportTypeForTADExports',
   'DataMigrations::SpecifyExportTypeForNotificationExports',
   'DataMigrations::FixMisspellingOfCaribbeanEthnicGroupAndSetHesaCodes',
-  'DataMigrations::PrefixNoteSubjectToMessage',
   'DataMigrations::TrimQualificationDegreeTypes',
   'DataMigrations::BackfillExportType',
   'DataMigrations::FixLatLongFlipFlops',
