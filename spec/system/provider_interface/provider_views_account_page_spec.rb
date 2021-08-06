@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Provider views account page' do
   include DfESignInHelpers
 
+  # Behaviour tested here has moved to spec/system/provider_interface/provider_user_personal_details_spec.rb
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'Provider views their account page' do

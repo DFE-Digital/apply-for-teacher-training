@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Managing providers a user has access to' do
   include DfESignInHelpers
 
+  # We are removing this behaviour
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'Provider adds and removes providers from a user' do

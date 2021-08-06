@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Provider views organisation settings' do
   include DfESignInHelpers
 
+  # Behaviour tested here has moved to spec/system/provider_interface/view_organisation_settings_spec.rb
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'Provider views organisation settings' do
