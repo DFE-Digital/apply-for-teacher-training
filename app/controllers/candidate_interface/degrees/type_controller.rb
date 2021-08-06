@@ -25,12 +25,15 @@ module CandidateInterface
 
       def edit
         @degree_type_form = DegreeTypeForm.new(degree: current_degree).assign_form_values
+        @return_to = return_to_after_edit(default: candidate_interface_degrees_review_path)
       end
 
       def update
         @degree_type_form = DegreeTypeForm.new(update_params)
+        @return_to = return_to_after_edit(default: candidate_interface_degrees_review_path)
+
         if @degree_type_form.update
-          redirect_to candidate_interface_degrees_review_path
+          redirect_to @return_to[:back_path]
         else
           track_validation_error(@degree_type_form)
           render :edit

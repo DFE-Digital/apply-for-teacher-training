@@ -47,7 +47,8 @@
     heading_level: 4,
     missing_error: missing_error,
     submitting_application: true,
-    return_to_application_review: true)) %>
+    return_to_application_review: true,
+  )) %>
 
   <% if @application_form.international_applicant? %>
     <h3 class="govuk-heading-m"><%= t('page_titles.efl.start') %></h3>
@@ -80,7 +81,7 @@
       heading_level: 4,
       missing_error: missing_error,
       submitting_application: true,
-      return_to_application_review: true
+      return_to_application_review: true,
     )) %>
   <% end %>
 
@@ -91,11 +92,17 @@
     heading_level: 4,
     missing_error: missing_error,
     submitting_application: true,
-    return_to_application_review: true
+    return_to_application_review: true,
   )) %>
 
   <h3 class="govuk-heading-m"><%= t('page_titles.degree') %></h3>
-  <%= render(CandidateInterface::DegreesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: true, missing_error: missing_error)) %>
+  <%= render(CandidateInterface::DegreesReviewComponent.new(
+    application_form: application_form,
+    editable: editable, heading_level: 4,
+    show_incomplete: true,
+    missing_error: missing_error,
+    return_to_application_review: true
+  )) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">

@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.degree_completion_status'), @completion_status_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_review_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @completion_status_form, url: candidate_interface_edit_degree_completion_status_path(current_degree), method: :patch do |f| %>
+    <%= form_with model: @completion_status_form, url: candidate_interface_edit_degree_completion_status_path(current_degree, @return_to[:params]), method: :patch do |f| %>
       <%= render 'form_fields', f: f %>
     <% end %>
   </div>

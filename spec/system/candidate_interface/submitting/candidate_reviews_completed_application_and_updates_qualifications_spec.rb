@@ -63,6 +63,72 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_update_the_other_qualification_grade
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_qualification_grade
+
+    # Degree type
+    when_i_click_change_degree_type
+    then_i_should_see_the_degree_type_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_degree_type
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_type
+
+    # Degree subject
+    when_i_click_change_degree_subject
+    then_i_should_see_the_degree_subject_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_degree_subject
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_subject
+
+    # Degree institution
+    when_i_click_change_degree_institution
+    then_i_should_see_the_degree_institution_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_degree_institution
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_institution
+
+    # Degree completion status
+    when_i_click_change_degree_completion_status
+    then_i_should_see_the_degree_completion_status_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_degree_completion_status
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_completion_status
+
+    # Degree grade
+    when_i_click_change_degree_grade
+    then_i_should_see_the_degree_grade_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_degree_grade
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_grade
+
+    # Degree start year
+    when_i_click_change_degree_start_year
+    then_i_should_see_the_degree_start_year_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_degree_start_year
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_start_year
   end
 
   def given_i_am_signed_in
@@ -71,9 +137,6 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_have_completed_my_application
     candidate_completes_application_form
-    @current_candidate.current_application.application_references.each do |reference|
-      reference.update!(feedback_status: :feedback_provided)
-    end
   end
 
   def and_i_visit_the_application_form_page
@@ -134,6 +197,42 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
+  def when_i_click_change_degree_type
+    within('[data-qa="degree-type"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_degree_subject
+    within('[data-qa="degree-subject"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_degree_institution
+    within('[data-qa="degree-institution"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_degree_completion_status
+    within('[data-qa="degree-completion-status"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_degree_grade
+    within('[data-qa="degree-grade"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_degree_start_year
+    within('[data-qa="degree-start-year"]') do
+      click_link 'Change'
+    end
+  end
+
   def then_i_should_see_the_gcse_type_form
     expect(page).to have_current_path(candidate_interface_gcse_details_edit_type_path(subject: 'english', 'return-to' => 'application-review'))
   end
@@ -152,6 +251,30 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def then_i_should_see_the_other_qualification_details_form
     expect(page).to have_content('Edit AS level qualification')
+  end
+
+  def then_i_should_see_the_degree_type_form
+    expect(page).to have_content('Edit degree type')
+  end
+
+  def then_i_should_see_the_degree_subject_form
+    expect(page).to have_content('What subject is your degree?')
+  end
+
+  def then_i_should_see_the_degree_institution_form
+    expect(page).to have_content('Which institution did you study at?')
+  end
+
+  def then_i_should_see_the_degree_completion_status_form
+    expect(page).to have_content('Have you completed your degree?')
+  end
+
+  def then_i_should_see_the_degree_grade_form
+    expect(page).to have_content('Did your degree give a grade?')
+  end
+
+  def then_i_should_see_the_degree_start_year_form
+    expect(page).to have_content('When did you study for your degree?')
   end
 
   def when_i_update_english_gcse_qualification
@@ -174,6 +297,14 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button t('save_and_continue')
   end
 
+  def when_i_update_the_degree_type
+    when_i_click_change_degree_type
+    choose 'Non-UK degree'
+    fill_in 'Type of qualification', with: 'Diploma in New Zealand Studies'
+
+    click_button t('save_and_continue')
+  end
+
   def when_i_update_the_other_qualification_type
     when_i_click_change_other_qualification_type
 
@@ -186,6 +317,43 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_click_change_other_qualification_grade
 
     fill_in 'Grade', with: 'C'
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_the_degree_subject
+    when_i_click_change_degree_subject
+
+    fill_in 'What subject is your degree?', with: 'Computer Science'
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_the_degree_institution
+    when_i_click_change_degree_institution
+
+    fill_in 'Institution name', with: 'Otago University'
+    select('New Zealand', from: 'In which country is this institution based?')
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_degree_completion_status
+    when_i_click_change_degree_completion_status
+
+    choose 'Yes'
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_degree_grade
+    when_i_click_change_degree_grade
+
+    choose 'Yes'
+    fill_in 'Enter your degree grade', with: 'First class honours'
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_degree_start_year
+    when_i_click_change_degree_start_year
+
+    fill_in 'Year started course', with: '2000'
     click_button t('save_and_continue')
   end
 
@@ -216,6 +384,42 @@ RSpec.feature 'Candidate is redirected correctly' do
   def and_i_should_see_my_updated_qualification_grade
     within('[data-qa="other-qualifications-grade"]') do
       expect(page).to have_content('C')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_type
+    within('[data-qa="degree-type"]') do
+      expect(page).to have_content('Diploma in New Zealand Studies')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_subject
+    within('[data-qa="degree-subject"]') do
+      expect(page).to have_content('Computer Science')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_institution
+    within('[data-qa="degree-institution"]') do
+      expect(page).to have_content('Otago University')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_completion_status
+    within('[data-qa="degree-completion-status"]') do
+      expect(page).to have_content('Yes')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_grade
+    within('[data-qa="degree-grade"]') do
+      expect(page).to have_content('First class honours')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_start_year
+    within('[data-qa="degree-start-year"]') do
+      expect(page).to have_content('2000')
     end
   end
 end
