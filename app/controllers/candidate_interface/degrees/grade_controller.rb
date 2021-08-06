@@ -14,7 +14,7 @@ module CandidateInterface
         @degree_grade_form = DegreeGradeForm.new(grade_params)
 
         if @degree_grade_form.save
-          redirect_to candidate_interface_degree_year_path(current_degree)
+          redirect_to candidate_interface_degree_start_year_path(current_degree)
         else
           track_validation_error(@degree_grade_form)
           render :new
