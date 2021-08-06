@@ -2,7 +2,7 @@ module CandidateInterface
   class OtherQualificationsReviewComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(application_form:, editable: true, heading_level: 2, missing_error: false, submitting_application: false)
+    def initialize(application_form:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @qualifications =
         CandidateInterface::OtherQualificationDetailsForm.build_all(@application_form)
@@ -10,6 +10,7 @@ module CandidateInterface
       @heading_level = heading_level
       @missing_error = missing_error
       @submitting_application = submitting_application
+      @return_to_application_review = return_to_application_review
     end
 
     def other_qualifications_rows(qualification)
@@ -32,10 +33,11 @@ module CandidateInterface
     end
 
     def no_qualification_row
+      params = { change: true }.merge(return_to_params)
       [{
         key: 'Do you want to add any A levels and other qualifications',
         value: 'No',
-        change_path: candidate_interface_other_qualification_type_path(change: true),
+        change_path: candidate_interface_other_qualification_type_path(params),
       }]
     end
 
@@ -49,6 +51,7 @@ module CandidateInterface
         value: qualification_value(qualification),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
         change_path: edit_other_qualification_type_path(qualification),
+        data_qa: 'other-qualifications-type',
       }
     end
 
@@ -68,6 +71,7 @@ module CandidateInterface
         value: rows_value(qualification.subject),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
+        data_qa: 'other-qualifications-subject',
       }
     end
 
@@ -85,6 +89,7 @@ module CandidateInterface
         value: country_value(qualification),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.country.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
+        data_qa: 'other-qualifications-country',
       }
     end
 
@@ -106,6 +111,7 @@ module CandidateInterface
         value: rows_value(qualification.award_year),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
+        data_qa: 'other-qualifications-year-awarded',
       }
     end
 
@@ -115,6 +121,7 @@ module CandidateInterface
         value: rows_value(qualification.grade),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
+        data_qa: 'other-qualifications-grade',
       }
     end
 
@@ -131,16 +138,24 @@ module CandidateInterface
     end
 
     def edit_other_qualification_details_path(qualification)
-      candidate_interface_edit_other_qualification_details_path(qualification.id)
+      candidate_interface_edit_other_qualification_details_path(qualification.id, return_to_params)
     end
 
     def edit_other_qualification_type_path(qualification)
-      candidate_interface_edit_other_qualification_type_path(qualification.id)
+      candidate_interface_edit_other_qualification_type_path(qualification.id, return_to_params)
     end
 
     def generate_action(qualification:, attribute: '')
       "#{attribute.presence} for #{qualification.qualification_type_name}, #{qualification.subject}, "\
         "#{qualification.award_year}"
+    end
+
+    def return_to_params
+      if @return_to_application_review
+        { 'return-to' => 'application-review' }
+      else
+        {}
+      end
     end
   end
 end
