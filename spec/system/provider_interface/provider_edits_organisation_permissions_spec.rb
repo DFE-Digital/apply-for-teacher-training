@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Provider edits organisation permissions' do
   include DfESignInHelpers
 
-  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
-
   scenario 'Provider edits organisation permissions' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_view_applications_for_some_providers
@@ -13,8 +11,12 @@ RSpec.feature 'Provider edits organisation permissions' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_organisation_settings_link
-    and_i_click_on_organisation_permissions
-    and_i_click_on_an_organisation_i_can_manage
+    if FeatureFlag.active?(:account_and_org_settings_changes)
+      and_i_click_on_a_particular_organisation_permissions_link
+    else
+      and_i_click_on_organisation_permissions
+      and_i_click_on_an_organisation_i_can_manage
+    end
     and_i_click_to_change_one_of_its_relationships
     and_i_give_my_organisation_permission_to_make_decisions
     then_i_am_redirected_to_the_organisation_relationships_page
@@ -41,6 +43,7 @@ RSpec.feature 'Provider edits organisation permissions' do
       training_provider: @training_provider,
       ratifying_provider: @ratifying_provider,
     )
+    create(:course, :open_on_apply, provider: @training_provider, accredited_provider: @ratifying_provider)
 
     @training_provider_users = create_list(:provider_user, 2, providers: [@training_provider])
     @training_provider_users.each { |user| user.provider_permissions.where(provider: @training_provider).update_all(manage_organisations: true) }
@@ -57,6 +60,10 @@ RSpec.feature 'Provider edits organisation permissions' do
 
   def when_i_click_on_the_organisation_settings_link
     click_on 'Organisation settings'
+  end
+
+  def and_i_click_on_a_particular_organisation_permissions_link
+    click_on "Organisation permissions #{@ratifying_provider.name}"
   end
 
   def and_i_click_on_organisation_permissions
