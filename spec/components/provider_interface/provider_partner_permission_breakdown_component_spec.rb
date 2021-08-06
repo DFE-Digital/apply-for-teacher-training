@@ -31,9 +31,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
     end
 
     it 'returns a list of all providers that allow the specified provider to make decisions on their behalf' do
-      (allowed_training_providers + allowed_ratifying_providers).each do |provider|
-        expect(render.css('#partners-for-which-permission-applies').text).to include(provider.name)
-      end
+      expected_provider_names = (allowed_training_providers + allowed_ratifying_providers).map(&:name).sort
+      expect(render.css('#partners-for-which-permission-applies li').map(&:text)).to eq(expected_provider_names)
     end
   end
 
@@ -64,9 +63,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
     end
 
     it 'returns a list of all providers that allow the specified provider to make decisions on their behalf' do
-      (prohibited_training_providers + prohibited_ratifying_providers + non_configured_providers).each do |provider|
-        expect(render.css('#partners-for-which-permission-does-not-apply').text).to include(provider.name)
-      end
+      expected_provider_names = (prohibited_training_providers + prohibited_ratifying_providers + non_configured_providers).map(&:name).sort
+      expect(render.css('#partners-for-which-permission-does-not-apply li').map(&:text)).to eq(expected_provider_names)
     end
   end
 

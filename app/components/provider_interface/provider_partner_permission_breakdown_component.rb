@@ -10,11 +10,13 @@ module ProviderInterface
     def partners_for_which_permission_applies
       @partners_for_which_permission_applies ||= Provider.where(id: training_partners_for_which_permission_applies_ids)
                                                          .or(Provider.where(id: ratifying_partners_for_which_permission_applies_ids))
+                                                         .order(:name)
     end
 
     def partners_for_which_permission_does_not_apply
       @partners_for_which_permission_does_not_apply ||= Provider.where(id: training_partners_for_which_permission_does_not_apply_ids)
                                                                 .or(Provider.where(id: ratifying_partners_for_which_permission_does_not_apply_ids))
+                                                                .order(:name)
     end
 
     def partners_for_which_permission_applies_text

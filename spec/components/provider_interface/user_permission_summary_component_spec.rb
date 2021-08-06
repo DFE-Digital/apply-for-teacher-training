@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :controller do
-  let(:current_provider_user) { create(:provider_user) }
+  let(:editable) { false }
   let(:provider_user) { create(:provider_user) }
   let(:provider) { create(:provider) }
   let!(:permissions) do
@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
   let(:render) do
     render_inline(described_class.new(provider_user: provider_user,
                                       provider: provider,
-                                      current_user: current_provider_user))
+                                      editable: editable))
   end
 
   before do
@@ -113,26 +113,16 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
       end
     end
 
-    context 'when the user can manage users permissions' do
-      let!(:current_user_permissions) do
-        FactoryBot.create(:provider_permissions,
-                          provider: provider,
-                          provider_user: current_provider_user,
-                          manage_users: true)
-      end
+    context 'when editable is true' do
+      let(:editable) { true }
 
       it 'displays a change link' do
         expect(row_text_selector(:view_diversity_information, render)).to include('Change')
       end
     end
 
-    context 'when the user cannot manage users permissions' do
-      let!(:current_user_permissions) do
-        FactoryBot.create(:provider_permissions,
-                          provider: provider,
-                          provider_user: current_provider_user,
-                          manage_users: false)
-      end
+    context 'when editable is false' do
+      let(:editable) { false }
 
       it 'does not display a change link' do
         expect(row_text_selector(:view_diversity_information, render)).not_to include('Change')

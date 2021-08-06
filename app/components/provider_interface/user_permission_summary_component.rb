@@ -1,10 +1,10 @@
 module ProviderInterface
   class UserPermissionSummaryComponent < ViewComponent::Base
-    attr_reader :provider_user, :provider, :current_user
+    attr_reader :provider_user, :provider, :editable
 
-    def initialize(provider_user:, provider:, current_user:)
+    def initialize(provider_user:, provider:, editable: false)
       @provider_user = provider_user
-      @current_user = current_user
+      @editable = editable
       @provider = provider
     end
 
@@ -16,10 +16,6 @@ module ProviderInterface
 
     def can_perform_permission_y_n?(permission)
       can_perform_permission?(permission) ? 'Yes' : 'No'
-    end
-
-    def can_change_permissions?
-      current_user.authorisation.can_manage_users_for?(provider: provider)
     end
 
     def description_for(permission)

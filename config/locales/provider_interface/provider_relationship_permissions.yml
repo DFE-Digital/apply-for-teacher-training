@@ -1,18 +1,15 @@
 en:
   provider_relationship_permissions:
+    view_applications_explanation: All users can view applications.
     question: Who can %{permission_description}?
     make_decisions:
       description: Make offers and reject applications
-      hint: This includes making offers, amending offers and rejecting applications
     view_safeguarding_information:
       description: View criminal convictions and professional misconduct
-      hint: This information is in the ‘criminal convictions and professional misconduct’ section of the application
     view_diversity_information:
       description: View sex, disability and ethnicity information
-      hint: This information is in the ‘equality and diversity’ section of the application – it includes sex, ethnicity and disability status
   provider_interface:
     organisation_permissions_form_component:
-      explanation: All users can view applications.
       setup:
         caption: Set up organisation permissions
         submit_button: Continue
