@@ -1,4 +1,8 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.when_did_you_study_for_your_degree'), @degree_award_year_form.errors.any?) %>
+<% if current_degree.completed? %>
+  <% content_for :title, title_with_error_prefix(t('page_titles.what_year_did_you_graduate'), @degree_award_year_form.errors.any?) %>
+<% else %>
+  <% content_for :title, title_with_error_prefix(t('page_titles.what_year_do_you_graduate'), @degree_award_year_form.errors.any?) %>
+<% end %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_review_path) %>
 
 <div class="govuk-grid-row">
@@ -7,7 +11,11 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <%= t('page_titles.when_did_you_study_for_your_degree') %>
+        <% if current_degree.completed? %>
+          <%= t('page_titles.what_year_did_you_graduate') %>
+        <% else %>
+          <%= t('page_titles.what_year_do_you_graduate') %>
+        <% end %>
       </h1>
 
       <%= render 'form_fields', f: f %>
