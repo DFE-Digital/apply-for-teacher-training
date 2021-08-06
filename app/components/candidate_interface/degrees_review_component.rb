@@ -129,7 +129,7 @@ module CandidateInterface
         key: t('application_form.degree.start_year.review_label'),
         value: degree.start_year,
         action: generate_action(degree: degree, attribute: t('application_form.degree.start_year.change_action')),
-        change_path: candidate_interface_edit_degree_year_path(degree.id),
+        change_path: candidate_interface_edit_degree_start_year_path(degree.id),
       }
     end
 
@@ -138,7 +138,7 @@ module CandidateInterface
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year,
         action: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
-        change_path: candidate_interface_edit_degree_year_path(degree.id),
+        change_path: candidate_interface_edit_degree_award_year_path(degree.id),
       }
     end
 

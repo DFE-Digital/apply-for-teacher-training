@@ -9,7 +9,7 @@ module CandidateInterface
         @degree_start_year_form = DegreeStartYearForm.new(degree_start_year_params)
 
         if @degree_start_year_form.save
-          redirect_to candidate_interface_degrees_award_year_path
+          redirect_to candidate_interface_degree_award_year_path
         else
           track_validation_error(@degree_start_year_form)
           render :new
