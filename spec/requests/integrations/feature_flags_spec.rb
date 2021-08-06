@@ -8,6 +8,7 @@ RSpec.describe 'GET /integrations/feature-flags', type: :request do
 
     expect(parsed_response['feature_flags']['pilot_open']['name']).to eql('Pilot open')
     expect(parsed_response['feature_flags']['pilot_open']['active']).to be(true)
+    expect(parsed_response['feature_flags']['pilot_open']['type']).to eq('Temporary')
   end
 
   it 'tells us when Sandbox mode is on', sandbox: true do
