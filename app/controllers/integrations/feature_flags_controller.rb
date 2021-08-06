@@ -5,7 +5,7 @@ module Integrations
         {
           name: feature_name.humanize,
           active: FeatureFlag.active?(feature_name),
-          type: FeatureFlag::FEATURES[feature_name].type.humanize,
+          type: FeatureFlag::FEATURES[feature_name].type,
         }
       end
 
