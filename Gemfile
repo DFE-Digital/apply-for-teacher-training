@@ -145,7 +145,7 @@ group :test do
   gem 'launchy'
   gem 'timecop'
   gem 'guard-rspec'
-  gem 'webmock', '~> 3.13'
+  gem 'webmock', '~> 3.14'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
   gem 'clockwork-test'
