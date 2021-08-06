@@ -5,7 +5,7 @@ class FeatureFlag
     self.name = name
     self.description = description
     self.owner = owner
-    self.type =  FEATURE_TYPES[name].presence || 'temporary'
+    self.type =  FEATURE_TYPES[name].presence || 'invariant'
   end
 
   def feature
@@ -40,8 +40,12 @@ class FeatureFlag
     [:account_and_org_settings_changes, 'Allows new account and org setting changes', 'Despo Pentara'],
   ].freeze
 
+  # Mark features as `variant` i.e. can be inconsistently marked as active/inactive
+  # across environments and we won't be notified if inconsistent. All other features
+  # will default to `invariant` which means they will need to be consistently marked
+  # as active/inactive across all our environments, and we will be notified about otherwise.
   FEATURE_TYPES = {
-    send_request_data_to_bigquery: 'permanent',
+    send_request_data_to_bigquery: 'variant',
   }.with_indifferent_access.freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map do |name, description, owner|

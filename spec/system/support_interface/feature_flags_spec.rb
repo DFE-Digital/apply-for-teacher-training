@@ -38,7 +38,7 @@ RSpec.feature 'Feature flags', with_audited: true do
       expect(page).to have_content('Pilot open')
       expect(page).to have_content(pilot_open_feature.owner)
       expect(page).to have_content(pilot_open_feature.description)
-      expect(page).to have_content('Temporary')
+      expect(page).to have_content('Invariant')
     end
   end
 
