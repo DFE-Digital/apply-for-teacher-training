@@ -34,9 +34,12 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def then_i_should_see_the_existing_feature_flags
-    expect(page).to have_content('Pilot open')
-    expect(page).to have_content(pilot_open_feature.owner)
-    expect(page).to have_content(pilot_open_feature.description)
+    within('.app-summary-card', text: 'Pilot open') do
+      expect(page).to have_content('Pilot open')
+      expect(page).to have_content(pilot_open_feature.owner)
+      expect(page).to have_content(pilot_open_feature.description)
+      expect(page).to have_content('Temporary')
+    end
   end
 
   def when_i_activate_the_feature

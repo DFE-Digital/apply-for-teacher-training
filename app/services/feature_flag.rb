@@ -1,10 +1,11 @@
 class FeatureFlag
-  attr_accessor :name, :description, :owner
+  attr_accessor :name, :description, :owner, :type
 
   def initialize(name:, description:, owner:)
     self.name = name
     self.description = description
     self.owner = owner
+    self.type =  FEATURE_TYPES[name].presence || 'temporary'
   end
 
   def feature
@@ -38,6 +39,10 @@ class FeatureFlag
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
     [:account_and_org_settings_changes, 'Allows new account and org setting changes', 'Despo Pentara'],
   ].freeze
+
+  FEATURE_TYPES = {
+    send_request_data_to_bigquery: 'permanent',
+  }.with_indifferent_access.freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map do |name, description, owner|
     [name, FeatureFlag.new(name: name, description: description, owner: owner)]
