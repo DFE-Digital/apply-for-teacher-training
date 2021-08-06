@@ -14,6 +14,7 @@ RSpec.feature 'Personal details page' do
 
     when_i_click_on_personal_details
     then_i_can_see_all_my_details
+    and_i_see_a_link_to_change_dsi_details
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -40,5 +41,9 @@ RSpec.feature 'Personal details page' do
     expect(page).to have_content(provider_user.first_name)
     expect(page).to have_content(provider_user.last_name)
     expect(page).to have_content(provider_user.email_address)
+  end
+
+  def and_i_see_a_link_to_change_dsi_details
+    expect(page).to have_link('Change your details or password in DfE Sign-in', href: 'https://profile.signin.education.gov.uk')
   end
 end
