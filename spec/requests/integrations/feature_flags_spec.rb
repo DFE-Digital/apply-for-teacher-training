@@ -8,14 +8,14 @@ RSpec.describe 'GET /integrations/feature-flags', type: :request do
 
     expect(parsed_response['feature_flags']['pilot_open']['name']).to eql('Pilot open')
     expect(parsed_response['feature_flags']['pilot_open']['active']).to be(true)
-    expect(parsed_response['feature_flags']['pilot_open']['type']).to eq('Invariant')
+    expect(parsed_response['feature_flags']['pilot_open']['type']).to eq('invariant')
   end
 
   it 'returns variant feature flags' do
     get '/integrations/feature-flags'
 
     expect(parsed_response['feature_flags']['send_request_data_to_bigquery']['active']).to be(false)
-    expect(parsed_response['feature_flags']['send_request_data_to_bigquery']['type']).to eq('Variant')
+    expect(parsed_response['feature_flags']['send_request_data_to_bigquery']['type']).to eq('variant')
   end
 
   it 'tells us when Sandbox mode is on', sandbox: true do
