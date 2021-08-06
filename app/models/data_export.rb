@@ -117,7 +117,7 @@ class DataExport < ApplicationRecord
     providers_export: {
       name: 'Providers',
       export_type: 'providers_export',
-      description: 'The list of providers from the Find service, along with when they signed the data sharing agreement.',
+      description: 'The list of providers that are being synced from the Find service, along with when they signed the data sharing agreement.',
       class: SupportInterface::ProvidersExport,
     },
     persona_export: {
@@ -141,7 +141,7 @@ class DataExport < ApplicationRecord
     sites_export: {
       name: 'Sites',
       export_type: 'sites_export',
-      description: 'A list of sites from Find, along with distances to their respective providers.',
+      description: 'A list of sites that are being synced from Find, along with distances to their respective providers.',
       class: SupportInterface::SitesExport,
     },
     structured_reasons_for_rejection: {
