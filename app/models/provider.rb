@@ -36,6 +36,10 @@ class Provider < ApplicationRecord
       .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
   end
 
+  def self.with_courses
+    includes(:courses).where.not(courses: { id: nil })
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end
