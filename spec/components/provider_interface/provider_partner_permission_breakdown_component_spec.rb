@@ -43,6 +43,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
     it 'returns a list of all providers that allow the specified provider to make decisions on their behalf' do
       expected_provider_names = (allowed_training_providers + allowed_ratifying_providers).map(&:name).sort
       expect(render.css('#partners-for-which-permission-applies li').map(&:text)).to eq(expected_provider_names)
+      expect(ActiveRecord::Base.connection.collation).to eq('C')
+      expect(ActiveRecord::Base.connection.collation).to eq('something else')
     end
   end
 
