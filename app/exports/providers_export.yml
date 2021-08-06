@@ -3,6 +3,12 @@ common_columns:
   - provider_code
 
 custom_columns:
+  organisation_type:
+    tpye: string
+    format: string
+    description: The type of provider. Possible values, lead_school, scitt, university
+    example: lead_school
+
   agreement_accepted_at:
     type: string
     format: date-time
