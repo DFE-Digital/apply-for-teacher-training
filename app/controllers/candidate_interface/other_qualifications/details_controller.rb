@@ -49,6 +49,7 @@ module CandidateInterface
         current_step: :details,
         editing: true,
       )
+      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
     end
 
     def update
@@ -61,9 +62,10 @@ module CandidateInterface
           editing: true,
         ),
       )
+      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
 
       if @form.save
-        redirect_to candidate_interface_review_other_qualifications_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@form)
         render :edit

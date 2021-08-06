@@ -41,6 +41,28 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_update_english_gcse_year
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_gcse_year
+
+    # Other qualifications type
+    when_i_click_change_other_qualification_type
+    then_i_should_see_the_other_qualification_type_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_other_qualification_type
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_qualification_type
+
+    # Other qualifications grade
+    when_i_click_change_other_qualification_grade
+    then_i_should_see_the_other_qualification_details_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_other_qualification_grade
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_qualification_grade
   end
 
   def given_i_am_signed_in
@@ -100,6 +122,18 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
+  def when_i_click_change_other_qualification_type
+    within('[data-qa="other-qualifications-type"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_other_qualification_grade
+    within('[data-qa="other-qualifications-grade"]') do
+      click_link 'Change'
+    end
+  end
+
   def then_i_should_see_the_gcse_type_form
     expect(page).to have_current_path(candidate_interface_gcse_details_edit_type_path(subject: 'english', 'return-to' => 'application-review'))
   end
@@ -112,6 +146,14 @@ RSpec.feature 'Candidate is redirected correctly' do
     expect(page).to have_current_path(candidate_interface_gcse_details_edit_year_path(subject: 'english', 'return-to' => 'application-review'))
   end
 
+  def then_i_should_see_the_other_qualification_type_form
+    expect(page).to have_content('A levels and other qualifications')
+  end
+
+  def then_i_should_see_the_other_qualification_details_form
+    expect(page).to have_content('Edit AS level qualification')
+  end
+
   def when_i_update_english_gcse_qualification
     when_i_click_change_english_gcse_qualification
 
@@ -122,7 +164,6 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_english_gcse_grade
     when_i_click_change_english_gcse_grade
     fill_in 'Please specify your grade', with: 'C'
-
     click_button t('save_and_continue')
   end
 
@@ -133,21 +174,48 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button t('save_and_continue')
   end
 
+  def when_i_update_the_other_qualification_type
+    when_i_click_change_other_qualification_type
+
+    choose 'AS level'
+    click_button t('continue')
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_the_other_qualification_grade
+    when_i_click_change_other_qualification_grade
+
+    fill_in 'Grade', with: 'C'
+    click_button t('save_and_continue')
+  end
+
   def and_i_should_see_my_updated_gcse_qualification
-    within('[data-qa="gcse-english-grade"]') do
+    within('[data-qa="gcse-english-qualification"]') do
       expect(page).to have_content('O level')
     end
   end
 
   def and_i_should_see_my_updated_gcse_grade
-    within('[data-qa="gcse-english-qualification"]') do
-      expect(page).to have_content('O level')
+    within('[data-qa="gcse-english-grade"]') do
+      expect(page).to have_content('C')
     end
   end
 
   def and_i_should_see_my_updated_gcse_year
     within('[data-qa="gcse-english-award-year"]') do
       expect(page).to have_content('1980')
+    end
+  end
+
+  def and_i_should_see_my_updated_qualification_type
+    within('[data-qa="other-qualifications-type"]') do
+      expect(page).to have_content('AS level')
+    end
+  end
+
+  def and_i_should_see_my_updated_qualification_grade
+    within('[data-qa="other-qualifications-grade"]') do
+      expect(page).to have_content('C')
     end
   end
 end
