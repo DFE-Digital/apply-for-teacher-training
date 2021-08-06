@@ -9,6 +9,7 @@ module CandidateInterface
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_form = current_application
+      @application_cache_key = "#{@application_form.cache_key_with_version}-#{Feature.maximum(:updated_at)}"
     end
 
     def review
