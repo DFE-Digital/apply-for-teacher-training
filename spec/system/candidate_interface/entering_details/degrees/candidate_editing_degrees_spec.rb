@@ -127,13 +127,12 @@ RSpec.feature 'Editing a degree' do
   end
 
   def then_i_see_my_undergraduate_degree_start_year_filled_in
-    expect(page).to have_selector("input[name='candidate_interface_degree_year_form[start_year]'][value='2006']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_start_year_form[start_year]'][value='2006']")
   end
 
   def then_i_see_my_undergraduate_degree_award_year_filled_in
-    expect(page).to have_selector("input[name='candidate_interface_degree_year_form[award_year]'][value='2009']")
+    expect(page).to have_selector("input[name='candidate_interface_degree_award_year_form[award_year]'][value='2009']")
   end
-
 
   def then_i_see_my_undergraduate_degree_subject_filled_in
     expect(page).to have_selector("input[value='Computer Science']")
