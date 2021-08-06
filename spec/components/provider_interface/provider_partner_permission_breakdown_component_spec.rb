@@ -2,11 +2,21 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   let(:provider) { create(:provider) }
-  let(:allowed_training_providers) { create_list(:provider, 3) }
-  let(:allowed_ratifying_providers) { create_list(:provider, 3) }
-  let(:prohibited_training_providers) { create_list(:provider, 2) }
-  let(:prohibited_ratifying_providers) { create_list(:provider, 2) }
-  let(:non_configured_providers) { create_list(:provider, 2) }
+  let(:allowed_training_providers) do
+    ['Hogwarts SCITT', 'University of Typing', 'Great White School'].map { |name| create(:provider, name: name) }
+  end
+  let(:allowed_ratifying_providers) do
+    ['Mars SCITT', 'University of Twix'].map { |name| create(:provider, name: name) }
+  end
+  let(:prohibited_training_providers) do
+    ['Chicken School', 'Egg SCITT'].map { |name| create(:provider, name: name) }
+  end
+  let(:prohibited_ratifying_providers) do
+    ['ABC SCITT', 'University of XYZ'].map { |name| create(:provider, name: name) }
+  end
+  let(:non_configured_providers) do
+    ['School of Rock', 'Musical High School'].map { |name| create(:provider, name: name) }
+  end
   let(:render) do
     render_inline(described_class.new(provider: provider, permission: :make_decisions))
   end
