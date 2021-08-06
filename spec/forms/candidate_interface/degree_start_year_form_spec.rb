@@ -7,6 +7,7 @@ RSpec.describe CandidateInterface::DegreeStartYearForm, type: :model do
         :degree_qualification,
         qualification_type: 'BSc',
         predicted_grade: false,
+        award_year: '2008',
       )
 
       degree_form = described_class.new(degree: degree, start_year: '2009')
