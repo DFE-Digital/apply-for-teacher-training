@@ -146,4 +146,55 @@ RSpec.describe ProviderRelationshipPermissions do
       expect(relationship.permit?(:view_diversity_information, training_provider)).to be true
     end
   end
+
+  describe '#providers_have_open_course?' do
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let!(:relationship) do
+      create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
+    end
+
+    context 'there are no courses' do
+      it 'returns false' do
+        expect(relationship.providers_have_open_course?).to be(false)
+      end
+    end
+
+    context 'there is an unopened course' do
+      let!(:course) { create(:course, provider: training_provider, accredited_provider: ratifying_provider) }
+
+      it 'returns false' do
+        expect(relationship.providers_have_open_course?).to be(false)
+      end
+    end
+
+    context 'there is an open course' do
+      let!(:course) { create(:course, :open_on_apply, provider: training_provider, accredited_provider: ratifying_provider) }
+
+      it 'returns false' do
+        expect(relationship.providers_have_open_course?).to be(true)
+      end
+    end
+  end
+
+  describe '.providers_have_open_course' do
+    def create_relationship_with_course(course_traits: [])
+      relationship = create(:provider_relationship_permissions)
+      create(:course, *course_traits, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
+      relationship
+    end
+
+    let!(:no_course_relationship) { create(:provider_relationship_permissions) }
+    let!(:unopened_course_relationship) { create_relationship_with_course }
+    let!(:open_course_relationship) { create_relationship_with_course(course_traits: [:open_on_apply]) }
+    let!(:open_course_in_previous_cycle_relationship) { create_relationship_with_course(course_traits: %i[open_on_apply previous_year]) }
+
+    it 'only returns the open_course_relationship' do
+      expect(described_class.providers_have_open_course).to eq([open_course_relationship])
+    end
+  end
 end
