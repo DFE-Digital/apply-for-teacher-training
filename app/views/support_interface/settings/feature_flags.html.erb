@@ -18,6 +18,10 @@
       value: feature_flag.owner,
     },
     {
+      key: 'Type',
+      value: feature_flag.type.humanize,
+    },
+    {
       key: 'History',
       value: render(
         SupportInterface::FeatureAuditTrailComponent.new(feature: feature_flag.feature),
