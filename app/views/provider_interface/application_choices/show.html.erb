@@ -50,7 +50,7 @@
 <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
 
 <% if FeatureFlag.active?(:restructured_work_history) %>
-  <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
+  <%= render ProviderInterface::WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
 
   <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 <% else %>

@@ -52,7 +52,7 @@
       <ol class="app-task-list">
         <li class="app-task-list__item">
           <% if @application_form_presenter.references.present? %>
-            <%= render(TaskListItemReferencesComponent.new(
+            <%= render(CandidateInterface::TaskListItemReferencesComponent.new(
               references: @application_form_presenter.references,
             )) %>
           <% else %>
