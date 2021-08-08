@@ -1,6 +1,6 @@
 module CandidateInterface
   class BecomingATeacherReviewComponent < ViewComponent::Base
-    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false)
+    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @becoming_a_teacher_form = CandidateInterface::BecomingATeacherForm.build_from_application(
         @application_form,
@@ -8,6 +8,7 @@ module CandidateInterface
       @editable = editable
       @missing_error = missing_error
       @submitting_application = submitting_application
+      @return_to_application_review = return_to_application_review
     end
 
     def becoming_a_teacher_form_rows
@@ -31,8 +32,13 @@ module CandidateInterface
         key: t('application_form.personal_statement.becoming_a_teacher.label'),
         value: @becoming_a_teacher_form.becoming_a_teacher,
         action: t('application_form.personal_statement.becoming_a_teacher.change_action'),
-        change_path: candidate_interface_edit_becoming_a_teacher_path,
+        change_path: candidate_interface_edit_becoming_a_teacher_path(return_to_params),
+        data_qa: 'becoming-a-teacher',
       }
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' } if @return_to_application_review
     end
   end
 end
