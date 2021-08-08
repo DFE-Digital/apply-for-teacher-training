@@ -84,9 +84,15 @@
     editable: editable,
     missing_error: missing_error,
     submitting_application: true,
-    return_to_application_review: true
+    return_to_application_review: true,
   )) %>
-  <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
+  <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(
+    application_form: application_form,
+    editable: editable,
+    missing_error: missing_error,
+    submitting_application: true,
+    return_to_application_review: true,
+  )) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
