@@ -3,6 +3,7 @@ require 'ruby-jmeter'
 BASEURL = ENV.fetch('JMETER_TARGET_BASEURL', 'http://localhost:3002')
 WAIT_FACTOR = ENV.fetch('JMETER_WAIT_FACTOR', 1).to_f
 THREAD_COUNT = ENV.fetch('JMETER_THREAD_COUNT', 200)
+RAMPUP = ENV.fetch('JMETER_RAMPUP', 0).to_i
 
 def url(path)
   BASEURL + path
@@ -16,9 +17,9 @@ test do
   cookies clear_each_iteration: true
   view_results_tree
   thread_count = THREAD_COUNT
-  random_timer 100, 900 * WAIT_FACTOR
+  random_timer 1000, 2000 * WAIT_FACTOR
 
-  threads count: thread_count, continue_forever: true, duration: 3600 do
+  threads count: thread_count, rampup: RAMPUP, continue_forever: true, duration: 3600 do
     visit name: 'Start page', url: url('/') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
