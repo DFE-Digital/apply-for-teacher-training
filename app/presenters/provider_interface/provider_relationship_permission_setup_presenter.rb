@@ -38,7 +38,7 @@ module ProviderInterface
 
     def grouped_provider_names_with_relationships
       provider_relationship_permissions_list.each_with_object({}) do |prp, h|
-        presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(prp, provider_user)
+        presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(relationship: prp, provider_user: provider_user)
         main_provider = presenter.ordered_providers.first
         other_provider = presenter.ordered_providers.second
         h[main_provider.name] ||= []

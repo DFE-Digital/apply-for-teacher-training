@@ -14,8 +14,15 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
   end
   let(:training_provider) { provider_relationship_permission.training_provider }
   let(:ratifying_provider) { provider_relationship_permission.ratifying_provider }
+  let(:main_provider) { nil }
 
-  let(:presenter) { described_class.new(provider_relationship_permission, provider_user) }
+  let(:presenter) do
+    described_class.new(
+      relationship: provider_relationship_permission,
+      provider_user: provider_user,
+      main_provider: main_provider,
+    )
+  end
 
   describe '#ordered_providers' do
     context 'when the user belongs to the training provider' do
@@ -28,6 +35,24 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
 
     context 'when the user belongs to the ratifying provider' do
       let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+
+      it 'returns the ratifying provider followed by the training provider' do
+        expect(presenter.ordered_providers).to eq([ratifying_provider, training_provider])
+      end
+    end
+
+    context 'when the main_provider is given as the training provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+      let(:main_provider) { training_provider }
+
+      it 'returns the training provider followed by the ratifying provider' do
+        expect(presenter.ordered_providers).to eq([training_provider, ratifying_provider])
+      end
+    end
+
+    context 'when the main_provider is given as the ratifying provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
+      let(:main_provider) { ratifying_provider }
 
       it 'returns the ratifying provider followed by the training provider' do
         expect(presenter.ordered_providers).to eq([ratifying_provider, training_provider])
@@ -62,6 +87,26 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
         expect(presenter.provider_relationship_description).to eq(expected_string)
       end
     end
+
+    context 'when the main_provider is given as the training provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+      let(:main_provider) { training_provider }
+
+      it 'returns the training provider name first' do
+        expected_string = "#{training_provider.name} and #{ratifying_provider.name}"
+        expect(presenter.provider_relationship_description).to eq(expected_string)
+      end
+    end
+
+    context 'when the main_provider is given as the ratifying provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
+      let(:main_provider) { ratifying_provider }
+
+      it 'returns the ratifying provider name first' do
+        expected_string = "#{ratifying_provider.name} and #{training_provider.name}"
+        expect(presenter.provider_relationship_description).to eq(expected_string)
+      end
+    end
   end
 
   describe '#checkbox_details_for_providers' do
@@ -86,6 +131,24 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
 
       it 'returns the training provider checkbox first' do
         expect(presenter.checkbox_details_for_providers.first[:type]).to eq('training')
+      end
+    end
+
+    context 'when the main_provider is given as the training provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+      let(:main_provider) { training_provider }
+
+      it 'returns the training provider checkbox first' do
+        expect(presenter.checkbox_details_for_providers.first[:type]).to eq('training')
+      end
+    end
+
+    context 'when the main_provider is given as the ratifying provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
+      let(:main_provider) { ratifying_provider }
+
+      it 'returns the training provider checkbox first' do
+        expect(presenter.checkbox_details_for_providers.first[:type]).to eq('ratifying')
       end
     end
   end
@@ -114,6 +177,24 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionAsProviderUserPr
 
       it 'returns the names providers that have the specified permission with the ratifying provider firs' do
         expect(presenter.providers_with_permission(:make_decisions)).to eq([training_provider.name, ratifying_provider.name])
+      end
+    end
+
+    context 'when the main_provider is given as the training provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [ratifying_provider]) }
+      let(:main_provider) { training_provider }
+
+      it 'returns the names providers that have the specified permission with the ratifying provider firs' do
+        expect(presenter.providers_with_permission(:make_decisions)).to eq([training_provider.name, ratifying_provider.name])
+      end
+    end
+
+    context 'when the main_provider is given as the ratifying provider' do
+      let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
+      let(:main_provider) { ratifying_provider }
+
+      it 'returns the names providers that have the specified permission with the ratifying provider firs' do
+        expect(presenter.providers_with_permission(:make_decisions)).to eq([ratifying_provider.name, training_provider.name])
       end
     end
   end

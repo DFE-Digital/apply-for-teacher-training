@@ -4,7 +4,7 @@ module ProviderInterface
 
     def initialize(provider_user:, provider_relationship_permission:, mode:, form_url:)
       @permission_model = PermissionFormModel.new(provider_relationship_permission)
-      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(provider_relationship_permission, provider_user)
+      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(relationship: provider_relationship_permission, provider_user: provider_user)
       @mode = mode
       @form_url = form_url
     end
