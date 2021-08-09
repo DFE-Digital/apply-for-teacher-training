@@ -1,6 +1,6 @@
 module CandidateInterface
   class InterviewPreferencesReviewComponent < ViewComponent::Base
-    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false)
+    def initialize(application_form:, editable: true, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @interview_preferences_form = CandidateInterface::InterviewPreferencesForm.build_from_application(
         @application_form,
@@ -8,6 +8,7 @@ module CandidateInterface
       @editable = editable
       @missing_error = missing_error
       @submitting_application = submitting_application
+      @return_to_application_review = return_to_application_review
     end
 
     def interview_preferences_form_rows
@@ -29,8 +30,13 @@ module CandidateInterface
         key: t('application_form.personal_statement.interview_preferences.key'),
         value: preferences,
         action: t('application_form.personal_statement.interview_preferences.change_action'),
-        change_path: candidate_interface_edit_interview_preferences_path,
+        change_path: candidate_interface_edit_interview_preferences_path(return_to_params),
+        data_qa: 'adjustments-interview-preferences',
       }
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' } if @return_to_application_review
     end
   end
 end
