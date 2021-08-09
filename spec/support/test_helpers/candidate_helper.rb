@@ -266,10 +266,10 @@ module CandidateHelper
     click_button t('save_and_continue')
 
     year_with_trailing_space = '2006 '
-    fill_in 'Year started course', with: year_with_trailing_space
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
     click_button t('save_and_continue')
     year_with_preceding_space = ' 2009'
-    fill_in 'Graduation year', with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
     click_button t('save_and_continue')
     choose t('application_form.completed_radio')
     click_button t('continue')

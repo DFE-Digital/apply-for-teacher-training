@@ -151,11 +151,11 @@ RSpec.feature 'Editing a degree' do
   end
 
   def when_i_change_my_undergraduate_degree_start_year
-    fill_in 'Year started course', with: '2008'
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2008'
   end
 
   def when_i_change_my_undergraduate_degree_award_year
-    fill_in 'Graduation year', with: '2011'
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2011'
   end
 
   def when_i_change_my_undergraduate_degree_subject
