@@ -648,6 +648,7 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_choices#index'
 
+    resources :reports, only: :index
     get '/applications/hesa-export/new' => 'hesa_export#new', as: :new_hesa_export
     get '/applications/hesa-export' => 'hesa_export#export', as: :hesa_export
 

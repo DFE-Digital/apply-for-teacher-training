@@ -1,13 +1,9 @@
 <%= content_for :title, t('page_titles.provider.export_hesa_data', timeframe: '') %>
 
-<% if FeatureFlag.active?(:export_application_data) %>
-  <% content_for :before_content do %>
-    <%= breadcrumbs({
-      t('page_titles.provider.export_application_data') => provider_interface_new_application_data_export_path,
-      t('page_titles.provider.export_hesa_data', timeframe: '') => nil,
-    }) %>
-  <% end %>
-<% end %>
+<%= breadcrumbs({
+  t('page_titles.provider.reports') => provider_interface_reports_path,
+  t('page_titles.provider.export_hesa_data', timeframe: '') => nil,
+}) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
