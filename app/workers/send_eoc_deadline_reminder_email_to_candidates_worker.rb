@@ -6,6 +6,7 @@ class SendEocDeadlineReminderEmailToCandidatesWorker
 
     applications_to_send_reminders_to.find_each(batch_size: 100) do |application|
       SendEocDeadlineReminderEmailToCandidate.call(application_form: application)
+      sleep 0.03
     end
   end
 
