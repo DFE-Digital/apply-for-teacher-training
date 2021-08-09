@@ -103,7 +103,7 @@ module CandidateInterface
         value: degree.enic_reference.present? ? 'Yes' : 'No',
         action: generate_action(degree: degree, attribute: t('application_form.degree.enic_statement.change_action')),
         change_path: candidate_interface_edit_degree_enic_path(degree.id, return_to_params),
-        data_qa: 'degree-enic-statement',
+        data_qa: 'degree-enic-comparability',
       }
     end
 

@@ -19,13 +19,15 @@ module CandidateInterface
 
     def edit
       @enic_form = GcseEnicForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update
       @enic_form = GcseEnicForm.new(enic_params)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @enic_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@enic_form)
         render :edit

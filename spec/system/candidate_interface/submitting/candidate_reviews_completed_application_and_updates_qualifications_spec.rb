@@ -9,7 +9,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     and_i_review_my_application
     then_i_should_see_all_sections_are_complete
 
-    # GCSE English qualification
+    # GCSE English equivalent qualification
     when_i_click_change_english_gcse_qualification
     then_i_should_see_the_gcse_type_form
 
@@ -20,7 +20,29 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_gcse_qualification
 
-    # GCSE English grade
+    # GCSE English equivalent country
+    when_i_click_change_english_gcse_country
+    then_i_should_see_the_gcse_country_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_english_gcse_country
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_gcse_country
+
+    # GCSE English equivalent ENIC statement
+    when_i_click_change_enic_statement
+    then_i_should_see_the_gcse_enic_statement_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_enic_statement
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_enic_statement
+
+    # GCSE English equivalent grade
     when_i_click_change_english_gcse_grade
     then_i_should_see_the_gcse_grade_form
 
@@ -31,7 +53,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_gcse_grade
 
-    # GCSE English year awarded
+    # GCSE English equivalent year awarded
     when_i_click_change_english_gcse_year
     then_i_should_see_the_gcse_year_form
 
@@ -74,6 +96,17 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_update_the_degree_type
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_degree_type
+
+    # Degree ENIC comparability
+    when_i_click_change_degree_enic_comparability
+    then_i_should_see_the_degree_enic_comparability_form
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_the_degree_enic_comparability
+    then_i_should_be_redirected_to_the_application_review_page
+    and_i_should_see_my_updated_degree_enic_comparability
 
     # Degree subject
     when_i_click_change_degree_subject
@@ -173,6 +206,18 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
+  def when_i_click_change_english_gcse_country
+    within('[data-qa="gcse-country"]') do
+      click_link 'Change'
+    end
+  end
+
+  def when_i_click_change_enic_statement
+    within('[data-qa="gcse-enic-statement"]') do
+      click_link 'Change'
+    end
+  end
+
   def when_i_click_change_english_gcse_grade
     within('[data-qa="gcse-english-grade"]') do
       click_link 'Change'
@@ -233,8 +278,22 @@ RSpec.feature 'Candidate is redirected correctly' do
     end
   end
 
+  def when_i_click_change_degree_enic_comparability
+    within('[data-qa="degree-enic-comparability"]') do
+      click_link 'Change'
+    end
+  end
+
   def then_i_should_see_the_gcse_type_form
     expect(page).to have_current_path(candidate_interface_gcse_details_edit_type_path(subject: 'english', 'return-to' => 'application-review'))
+  end
+
+  def then_i_should_see_the_gcse_country_form
+    expect(page).to have_current_path(candidate_interface_gcse_details_edit_institution_country_path(subject: 'english', 'return-to' => 'application-review'))
+  end
+
+  def then_i_should_see_the_gcse_enic_statement_form
+    expect(page).to have_current_path(candidate_interface_gcse_details_edit_enic_path(subject: 'english', 'return-to' => 'application-review'))
   end
 
   def then_i_should_see_the_gcse_grade_form
@@ -250,7 +309,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_other_qualification_details_form
-    expect(page).to have_content('Edit AS level qualification')
+    expect(page).to have_content('Edit First Aid Certificate qualification')
   end
 
   def then_i_should_see_the_degree_type_form
@@ -277,22 +336,46 @@ RSpec.feature 'Candidate is redirected correctly' do
     expect(page).to have_content('When did you study for your degree?')
   end
 
+  def then_i_should_see_the_degree_enic_comparability_form
+    expect(page).to have_content('How your degree compares to a UK degree')
+  end
+
   def when_i_update_english_gcse_qualification
     when_i_click_change_english_gcse_qualification
 
-    choose 'O level'
+    choose 'Non-UK qualification'
+
+    within '#candidate-interface-gcse-qualification-type-form-qualification-type-non-uk-conditional' do
+      fill_in 'Qualification name', with: 'School Certificate English'
+    end
+
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_english_gcse_country
+    when_i_click_change_english_gcse_country
+
+    select 'New Zealand'
+    click_button t('save_and_continue')
+  end
+
+  def when_i_update_enic_statement
+    when_i_click_change_enic_statement
+
+    choose 'No'
     click_button t('save_and_continue')
   end
 
   def when_i_update_english_gcse_grade
     when_i_click_change_english_gcse_grade
-    fill_in 'Please specify your grade', with: 'C'
+    choose 'Other'
+    fill_in 'Grade', with: 'C'
     click_button t('save_and_continue')
   end
 
   def when_i_update_english_gcse_year
     when_i_click_change_english_gcse_year
-    fill_in 'Enter year', with: '1980j'
+    fill_in 'Enter year', with: '1980'
 
     click_button t('save_and_continue')
   end
@@ -308,8 +391,12 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_the_other_qualification_type
     when_i_click_change_other_qualification_type
 
-    choose 'AS level'
+    choose 'Non-UK qualification'
+    within '#candidate-interface-other-qualification-type-form-qualification-type-non-uk-conditional' do
+      fill_in 'Qualification name', with: 'First Aid Certificate'
+    end
     click_button t('continue')
+    select 'New Zealand'
     click_button t('save_and_continue')
   end
 
@@ -342,6 +429,13 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button t('save_and_continue')
   end
 
+  def when_i_update_the_degree_enic_comparability
+    when_i_click_change_degree_enic_comparability
+
+    choose 'No'
+    click_button t('save_and_continue')
+  end
+
   def when_i_update_degree_grade
     when_i_click_change_degree_grade
 
@@ -359,7 +453,19 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def and_i_should_see_my_updated_gcse_qualification
     within('[data-qa="gcse-english-qualification"]') do
-      expect(page).to have_content('O level')
+      expect(page).to have_content('School Certificate English')
+    end
+  end
+
+  def and_i_should_see_my_updated_gcse_country
+    within('[data-qa="gcse-country"]') do
+      expect(page).to have_content('New Zealand')
+    end
+  end
+
+  def and_i_should_see_my_updated_enic_statement
+    within('[data-qa="gcse-enic-statement"]') do
+      expect(page).to have_content('No')
     end
   end
 
@@ -377,7 +483,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def and_i_should_see_my_updated_qualification_type
     within('[data-qa="other-qualifications-type"]') do
-      expect(page).to have_content('AS level')
+      expect(page).to have_content('First Aid Certificate')
     end
   end
 
@@ -420,6 +526,12 @@ RSpec.feature 'Candidate is redirected correctly' do
   def and_i_should_see_my_updated_degree_start_year
     within('[data-qa="degree-start-year"]') do
       expect(page).to have_content('2000')
+    end
+  end
+
+  def and_i_should_see_my_updated_degree_enic_comparability
+    within('[data-qa="degree-enic-comparability"]') do
+      expect(page).to have_content('No')
     end
   end
 end
