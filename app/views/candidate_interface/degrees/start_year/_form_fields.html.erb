@@ -1,0 +1,9 @@
+<%= f.govuk_text_field(
+  :start_year,
+  label: { text: t('page_titles.what_year_did_you_start_your_degree'), size: 'xl', tag: 'h1' },
+  type: :number,
+  hint: { text: t('application_form.degree.start_year.hint_text', example_year: (Time.zone.today.year - 3)) },
+  width: 4,
+) %>
+
+<%= f.govuk_submit t('save_and_continue') %>

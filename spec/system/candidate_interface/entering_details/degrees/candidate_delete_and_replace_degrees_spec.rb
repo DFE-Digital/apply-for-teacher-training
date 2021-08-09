@@ -77,11 +77,14 @@ RSpec.feature 'Deleting and replacing a degree' do
     choose 'First class honours'
   end
 
-  def when_i_fill_in_the_start_and_graduation_year
+  def when_i_fill_in_the_start_year
     year_with_trailing_space = '2006 '
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+  end
+
+  def when_i_fill_in_the_graduation_year
     year_with_preceding_space = ' 2009'
-    fill_in 'Year started course', with: year_with_trailing_space
-    fill_in 'Graduation year', with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
   end
 
   def then_i_can_check_my_undergraduate_degree
@@ -101,7 +104,9 @@ RSpec.feature 'Deleting and replacing a degree' do
     and_i_confirm_i_have_completed_my_degree
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
-    when_i_fill_in_the_start_and_graduation_year
+    when_i_fill_in_the_start_year
+    and_i_click_on_save_and_continue
+    when_i_fill_in_the_graduation_year
     and_i_click_on_save_and_continue
   end
 
@@ -135,7 +140,10 @@ RSpec.feature 'Deleting and replacing a degree' do
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
 
-    when_i_fill_in_the_start_and_graduation_year
+    when_i_fill_in_the_start_year
+    and_i_click_on_save_and_continue
+
+    when_i_fill_in_the_graduation_year
     and_i_click_on_save_and_continue
   end
 

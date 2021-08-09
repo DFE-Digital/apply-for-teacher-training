@@ -1,12 +1,10 @@
 module CandidateInterface
-  class DegreeYearForm
+  class DegreeAwardYearForm
     include ActiveModel::Model
 
-    attr_accessor :start_year, :award_year, :degree
+    attr_accessor :award_year, :degree
 
-    validates :start_year, year: true, presence: true
     validates :award_year, year: true, presence: true
-    validate :start_year_is_before_the_award_year, unless: ->(c) { c.errors.attribute_names.include?(:start_year) }
     validate :award_year_is_before_the_end_of_next_year, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
     validate :award_year_is_in_the_future_for_incomplete_degree, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
     validate :award_year_is_before_training_starts, unless: ->(c) { c.errors.attribute_names.include?(:award_year) }
@@ -14,23 +12,18 @@ module CandidateInterface
     def save
       return false unless valid?
 
-      degree.update!(start_year: start_year, award_year: award_year)
+      degree.update!(award_year: award_year)
     end
 
     def assign_form_values
-      self.start_year = degree.start_year
       self.award_year = degree.award_year
       self
     end
 
   private
 
-    def start_year_is_before_the_award_year
-      errors.add(:start_year, :greater_than_award_year, date: award_year) if award_year.present? && award_year.to_i < start_year.to_i
-    end
-
     def award_year_is_in_the_future_for_incomplete_degree
-      errors.add(:award_year, :in_the_future) if start_year.present? && degree.predicted_grade? && award_year.to_i < RecruitmentCycle.current_year
+      errors.add(:award_year, :in_the_future) if degree.start_year.present? && degree.predicted_grade? && award_year.to_i < RecruitmentCycle.current_year
     end
 
     def award_year_is_before_the_end_of_next_year

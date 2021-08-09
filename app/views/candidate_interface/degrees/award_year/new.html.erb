@@ -1,0 +1,16 @@
+<% if current_degree.completed? %>
+  <% content_for :title, title_with_error_prefix(t('page_titles.what_year_did_you_graduate'), @degree_award_year_form.errors.any?) %>
+<% else %>
+  <% content_for :title, title_with_error_prefix(t('page_titles.what_year_will_you_graduate'), @degree_award_year_form.errors.any?) %>
+<% end %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_degree_start_year_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @degree_award_year_form, url: candidate_interface_degree_award_year_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= render 'form_fields', f: f %>
+    <% end %>
+  </div>
+</div>

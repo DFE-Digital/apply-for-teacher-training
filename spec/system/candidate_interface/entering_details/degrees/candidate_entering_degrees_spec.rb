@@ -38,11 +38,18 @@ RSpec.feature 'Entering a degree' do
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
 
-    # Add years
-    then_i_can_see_the_start_and_graduation_year_page
+    # Add start year
+    then_i_can_see_the_start_year_page
     when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_graduation_year
-    when_i_fill_in_the_start_and_graduation_year
+    then_i_see_validation_errors_for_start_year
+    when_i_fill_in_the_start_year
+    and_i_click_on_save_and_continue
+
+    # Add award year
+    then_i_can_see_the_award_year_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_award_year
+    when_i_fill_in_the_award_year
     and_i_click_on_save_and_continue
 
     # Review
@@ -138,19 +145,30 @@ RSpec.feature 'Entering a degree' do
     choose 'First class honours'
   end
 
-  def then_i_can_see_the_start_and_graduation_year_page
-    expect(page).to have_content('When did you study for your degree?')
+  def then_i_can_see_the_start_year_page
+    expect(page).to have_content('What year did you start your degree?')
   end
 
-  def then_i_see_validation_errors_for_graduation_year
-    expect(page).to have_content 'Enter your graduation year'
+  def then_i_see_validation_errors_for_start_year
+    expect_validation_error 'Enter your start year'
   end
 
-  def when_i_fill_in_the_start_and_graduation_year
+  def when_i_fill_in_the_start_year
     year_with_trailing_space = '2006 '
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+  end
+
+  def then_i_can_see_the_award_year_page
+    expect(page).to have_content('What year did you graduate?')
+  end
+
+  def then_i_see_validation_errors_for_award_year
+    expect_validation_error 'Enter your graduation year'
+  end
+
+  def when_i_fill_in_the_award_year
     year_with_preceding_space = ' 2009'
-    fill_in 'Year started course', with: year_with_trailing_space
-    fill_in 'Graduation year', with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
   end
 
   def then_i_can_check_my_undergraduate_degree
