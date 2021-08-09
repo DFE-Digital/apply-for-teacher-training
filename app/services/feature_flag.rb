@@ -38,6 +38,7 @@ class FeatureFlag
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
     [:account_and_org_settings_changes, 'Allows new account and org setting changes', 'Despo Pentara'],
+    [:provider_reports_dashboard, 'Allows rendering of new provider reports dashboard', 'Despo Pentara'],
   ].freeze
 
   # Mark features as `variant` i.e. can be inconsistently marked as active/inactive
