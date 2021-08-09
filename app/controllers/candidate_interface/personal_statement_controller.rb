@@ -21,13 +21,15 @@ module CandidateInterface
       @becoming_a_teacher_form = BecomingATeacherForm.build_from_application(
         current_application,
       )
+      @return_to = return_to_after_edit(default: candidate_interface_becoming_a_teacher_show_path)
     end
 
     def update
       @becoming_a_teacher_form = BecomingATeacherForm.new(becoming_a_teacher_params)
+      @return_to = return_to_after_edit(default: candidate_interface_becoming_a_teacher_show_path)
 
       if @becoming_a_teacher_form.save(current_application)
-        redirect_to candidate_interface_becoming_a_teacher_show_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@becoming_a_teacher_form)
         render :edit

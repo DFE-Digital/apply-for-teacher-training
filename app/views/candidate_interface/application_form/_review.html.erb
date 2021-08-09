@@ -79,8 +79,20 @@
 
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_statement') %></h2>
-  <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
-  <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
+  <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(
+    application_form: application_form,
+    editable: editable,
+    missing_error: missing_error,
+    submitting_application: true,
+    return_to_application_review: true,
+  )) %>
+  <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(
+    application_form: application_form,
+    editable: editable,
+    missing_error: missing_error,
+    submitting_application: true,
+    return_to_application_review: true,
+  )) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
