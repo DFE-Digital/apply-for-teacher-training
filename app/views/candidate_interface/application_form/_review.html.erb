@@ -25,7 +25,7 @@
 
 <section class="govuk-!-margin-bottom-8" id="references">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.references') %></h2>
-  <%= render(CandidateInterface::SelectedReferencesComponent.new(application_form, editable: editable, show_incomplete: true, is_errored: missing_error)) %>
+  <%= render(CandidateInterface::SelectedReferencesComponent.new(application_form, editable: editable, show_incomplete: true, is_errored: missing_error, return_to_application_review: true)) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
