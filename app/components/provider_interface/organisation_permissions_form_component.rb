@@ -2,9 +2,13 @@ module ProviderInterface
   class OrganisationPermissionsFormComponent < ViewComponent::Base
     attr_reader :presenter, :permission_model, :mode, :form_url
 
-    def initialize(provider_user:, provider_relationship_permission:, mode:, form_url:)
+    def initialize(provider_user:, provider_relationship_permission:, mode:, form_url:, main_provider: nil)
       @permission_model = PermissionFormModel.new(provider_relationship_permission)
-      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(relationship: provider_relationship_permission, provider_user: provider_user)
+      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(
+        relationship: provider_relationship_permission,
+        provider_user: provider_user,
+        main_provider: main_provider,
+      )
       @mode = mode
       @form_url = form_url
     end
