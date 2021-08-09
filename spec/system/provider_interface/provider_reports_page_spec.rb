@@ -11,17 +11,18 @@ RSpec.feature 'Provider reports page' do
 
     when_i_visit_the_reports_page
     then_i_should_see_a_link_to_the_hesa_export_page
-    and_the_hesa_export_page_contains_breadcrumbs_including_the_reports_page
+    and_the_page_contains_breadcrumbs_including_the_reports_page
 
     given_the_hesa_export_feature_flag_is_off
 
     when_i_visit_the_reports_page
     then_i_should_not_see_a_link_to_the_hesa_export_page
 
-    given_the_hesa_export_feature_flag_is_on_and_the_application_data_export_feature_flag_is_off
+    given_the_data_export_feature_flag_is_on
 
     when_i_visit_the_reports_page_and_i_click_the_export_data_link
-    then_i_should_be_redirected_to_the_hesa_export_page
+    then_i_should_be_on_the_data_export_page
+    and_the_page_contains_breadcrumbs_including_the_reports_page
   end
 
   def given_the_hesa_and_application_data_export_feature_flags_are_on
@@ -36,11 +37,17 @@ RSpec.feature 'Provider reports page' do
 
   def when_i_visit_the_reports_page_and_i_click_the_export_data_link
     visit provider_interface_reports_path
-    click_on 'Export data'
+    click_on 'Export application data'
   end
 
   def when_i_visit_the_reports_page
     visit provider_interface_reports_path
+  end
+
+  def then_i_should_see_a_link_to_the_data_export_page
+    expect(page).to have_link('Export data for Higher Education Statistics Agency (HESA)')
+    click_on('Export data for Higher Education Statistics Agency (HESA)')
+    then_i_should_be_redirected_to_the_hesa_export_page
   end
 
   def then_i_should_see_a_link_to_the_hesa_export_page
@@ -49,7 +56,7 @@ RSpec.feature 'Provider reports page' do
     then_i_should_be_redirected_to_the_hesa_export_page
   end
 
-  def and_the_hesa_export_page_contains_breadcrumbs_including_the_reports_page
+  def and_the_page_contains_breadcrumbs_including_the_reports_page
     within '.govuk-breadcrumbs' do
       expect(page).to have_link('Reports')
     end
@@ -63,12 +70,17 @@ RSpec.feature 'Provider reports page' do
     expect(page).not_to have_content('Export data for Higher Education Statistics Agency (HESA)')
   end
 
-  def given_the_hesa_export_feature_flag_is_on_and_the_application_data_export_feature_flag_is_off
-    FeatureFlag.deactivate(:export_application_data)
-    FeatureFlag.activate(:export_hesa_data)
+  def given_the_data_export_feature_flag_is_on
+    FeatureFlag.activate(:export_application_data)
   end
 
   def then_i_should_be_redirected_to_the_hesa_export_page
     expect(page).to have_current_path(provider_interface_new_hesa_export_path)
+  end
+
+  def then_i_should_be_on_the_data_export_page
+    expect(page).to have_current_path(provider_interface_new_application_data_export_path)
+    expect(page).to have_content('Export application data (CSV)')
+    expect(page).to have_content('Sex, disability and ethnicity information will be marked as confidential')
   end
 end
