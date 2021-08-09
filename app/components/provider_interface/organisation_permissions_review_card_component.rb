@@ -4,7 +4,7 @@ module ProviderInterface
 
     def initialize(provider_user:, provider_relationship_permission:, summary_card_heading_level: 2, change_path: nil)
       @provider_relationship_permission = provider_relationship_permission
-      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(provider_relationship_permission, provider_user)
+      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(relationship: provider_relationship_permission, provider_user: provider_user)
       @summary_card_heading_level = summary_card_heading_level
       @change_path = change_path
     end
