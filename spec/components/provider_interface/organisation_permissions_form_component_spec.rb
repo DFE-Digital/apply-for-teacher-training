@@ -4,6 +4,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsFormComponent do
   let(:provider_relationship_permission) { build_stubbed(:provider_relationship_permissions) }
   let(:training_provider) { provider_relationship_permission.training_provider }
   let(:ratifying_provider) { provider_relationship_permission.ratifying_provider }
+  let(:main_provider) { nil }
   let(:provider_user) { build_stubbed(:provider_user, providers: [training_provider]) }
   let(:mode) { :setup }
 
@@ -12,6 +13,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsFormComponent do
       described_class.new(
         provider_user: provider_user,
         provider_relationship_permission: provider_relationship_permission,
+        main_provider: main_provider,
         mode: mode,
         form_url: '',
       ),
@@ -87,6 +89,24 @@ RSpec.describe ProviderInterface::OrganisationPermissionsFormComponent do
         expected_heading = "#{training_provider.name} and #{ratifying_provider.name}"
         expect(render.css('.govuk-caption-l').text.squish).to eq(expected_heading)
       end
+    end
+  end
+
+  context 'when the main_provider is given' do
+    let(:main_provider) { training_provider }
+
+    before do
+      expected_params = {
+        relationship: provider_relationship_permission,
+        provider_user: provider_user,
+        main_provider: training_provider,
+      }
+      allow(ProviderInterface::ProviderRelationshipPermissionAsProviderUserPresenter).to receive(:new).with(expected_params).and_call_original
+    end
+
+    it 'initialises a the presenter with the correct parameters' do
+      render
+      expect(ProviderInterface::ProviderRelationshipPermissionAsProviderUserPresenter).to have_received(:new)
     end
   end
 
