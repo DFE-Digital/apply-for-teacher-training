@@ -1,9 +1,19 @@
-<%= f.govuk_text_field(
-  :award_year,
-  label: { text: t('application_form.degree.award_year.label'), size: 'm' },
-  type: :number,
-  hint: { text: t('application_form.degree.award_year.hint_text', example_year: Time.zone.today.year) },
-  width: 4,
-) %>
+<% if current_degree.completed? %>
+  <%= f.govuk_text_field(
+    :award_year,
+    label: { text: t('page_titles.what_year_did_you_graduate'), size: 'xl', tag: 'h1' },
+    type: :number,
+    hint: { text: t('application_form.degree.award_year.hint_text', example_year: Time.zone.today.year) },
+    width: 4,
+  ) %>
+<% else %>
+  <%= f.govuk_text_field(
+    :award_year,
+    label: { text: t('page_titles.what_year_will_you_graduate'), size: 'xl', tag: 'h1' },
+    type: :number,
+    hint: { text: t('application_form.degree.award_year.hint_text', example_year: Time.zone.today.year) },
+    width: 4,
+  ) %>
+<% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

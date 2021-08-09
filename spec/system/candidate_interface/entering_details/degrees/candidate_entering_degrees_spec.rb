@@ -155,7 +155,7 @@ RSpec.feature 'Entering a degree' do
 
   def when_i_fill_in_the_start_year
     year_with_trailing_space = '2006 '
-    fill_in 'Year started course', with: year_with_trailing_space
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
   end
 
   def then_i_can_see_the_award_year_page
@@ -168,7 +168,7 @@ RSpec.feature 'Entering a degree' do
 
   def when_i_fill_in_the_award_year
     year_with_preceding_space = ' 2009'
-    fill_in 'Graduation year', with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
   end
 
   def then_i_can_check_my_undergraduate_degree
