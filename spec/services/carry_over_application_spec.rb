@@ -78,6 +78,35 @@ RSpec.describe CarryOverApplication do
     end
   end
 
+  context 'when the application_form has references has an application_reference in the feedback_requested state' do
+    around do |example|
+      Timecop.freeze(after_apply_2_deadline) do
+        example.run
+      end
+    end
+
+    let(:application_form) { create(:completed_application_form) }
+    let(:reference) { create(:reference, feedback_status: :feedback_requested, application_form: application_form) }
+
+    it 'moves reference tokens from the old to new references' do
+      create(:reference_token, application_reference: reference)
+      create(:reference_token, hashed_token: '1234567891', application_reference: reference)
+
+      described_class.new(application_form).call
+
+      carried_over_application_form = ApplicationForm.last
+
+      application_form.application_references.each do |reference|
+        expect(reference.reference_tokens.count).to eq 0
+        expect(reference.hashed_sign_in_token).to eq nil
+      end
+
+      carried_over_application_form.application_references.each do |reference|
+        expect(reference.reference_tokens.count).to eq 2
+      end
+    end
+  end
+
   context 'when application form has unstructured work history' do
     before do
       original_application_form.update(feature_restructured_work_history: false)
