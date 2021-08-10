@@ -91,10 +91,6 @@ module SupportInterface
       update_provider('Successfully updated all courses') { |provider| OpenProviderCourses.new(provider: provider).call }
     end
 
-    def enable_course_syncing
-      update_provider('Course sync enabled and running') { |provider| SyncProvider.new(provider: provider).call }
-    end
-
   private
 
     def update_provider(success_message)

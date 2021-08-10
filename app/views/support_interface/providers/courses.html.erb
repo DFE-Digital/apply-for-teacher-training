@@ -31,9 +31,6 @@
     <% end %>
   <% end %>
 <% else %>
-  <p class="govuk-body">There aren’t any courses for this provider because the courses aren’t synced yet.</p>
+  <p class="govuk-body">There aren’t any courses for this provider currently.</p>
 
-  <%= form_with model: @provider, url: support_interface_enable_provider_course_syncing_path(@provider), method: :post do |f| %>
-    <%= f.govuk_submit 'Enable course syncing from the Teacher Training API' %>
-  <% end %>
 <% end %>
