@@ -16,7 +16,7 @@ module ProviderInterface
 
         application_choices = GetApplicationChoicesForProviders
           .call(
-            providers: providers,
+            providers: current_provider_user.providers & providers,
             includes: [
               :provider,
               :accredited_provider,
