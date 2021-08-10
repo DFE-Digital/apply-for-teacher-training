@@ -82,9 +82,6 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_have_completed_my_application
     candidate_completes_application_form
-    @current_candidate.current_application.application_references.each do |reference|
-      reference.update!(feedback_status: :feedback_provided)
-    end
   end
 
   def and_i_review_my_application

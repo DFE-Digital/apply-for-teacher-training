@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
 
-  scenario 'Candidate reviews completed application and updates personal details section' do
+  scenario 'Candidate reviews completed application and updates references section' do
     given_i_am_signed_in
     when_i_have_completed_my_application_and_have_3_references
     and_i_review_my_application
@@ -27,9 +27,6 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_have_completed_my_application_and_have_3_references
     candidate_completes_application_form
-    @current_candidate.current_application.application_references.each do |reference|
-      reference.update!(feedback_status: :feedback_provided, selected: true)
-    end
     @first_reference = @current_candidate.current_application.application_references.selected.first
     @second_reference = @current_candidate.current_application.application_references.selected.second
     @third_reference = create(:reference, :feedback_provided, selected: false, application_form: @current_candidate.current_application)
