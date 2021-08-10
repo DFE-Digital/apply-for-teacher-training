@@ -120,6 +120,6 @@ RSpec.feature 'Provider views organisation settings' do
   end
 
   def then_i_see_the_organisations_permissions
-    expect(page).to have_content("#{@example_provider.name} and #{@another_provider.name}")
+    expect(page).to have_content("#{@another_provider.name} and #{@example_provider.name}")
   end
 end
