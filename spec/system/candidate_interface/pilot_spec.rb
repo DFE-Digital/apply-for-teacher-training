@@ -6,9 +6,6 @@ RSpec.feature 'Pilot' do
 
     when_i_visit_the_start_page
     then_i_see_a_page_saying_were_not_open
-
-    when_i_visit_the_sign_up_page
-    then_i_see_a_page_saying_were_not_open
   end
 
   def given_the_pilot_is_not_open
