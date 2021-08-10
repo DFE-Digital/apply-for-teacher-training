@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ interface, system, system-provider, system-candidate, system-candidate-references, system-support, services, services-candidate, services-provider, services-support, queries, models, middlewear, mailers, lib, controllers ]
+        tests: [ interface, system, system-provider, system-candidate, system-candidate-references, services, queries, models, middlewear, mailers, lib, controllers, workers ]
         feature-flags: [on, off]
         include:
           - tests: interface
@@ -113,7 +113,7 @@ jobs:
             include-pattern: spec/{lib,errors,tasks,support_specs}/**/*_spec.rb
           - tests: system
             include-pattern: spec/system/**/*_spec.rb
-            exclude-pattern: spec/system/{provider_interface,candidate_interface,support_interface}/**/*_spec.rb
+            exclude-pattern: spec/system/{provider_interface,candidate_interface}/**/*_spec.rb
           - tests: system-provider
             include-pattern: spec/system/provider_interface/**/*_spec.rb
           - tests: system-candidate
@@ -121,17 +121,8 @@ jobs:
             exclude-pattern: spec/system/candidate_interface/references/**/*_spec.rb
           - tests: system-candidate-references
             include-pattern: spec/system/candidate_interface/references/**/*_spec.rb
-          - tests: system-support
-            include-pattern: spec/system/support_interface/**/*_spec.rb
           - tests: services
             include-pattern: spec/services/**/*_spec.rb
-            exclude-pattern: spec/services/{provider_interface,candidate_interface,support_interface}/**/*_spec.rb
-          - tests: services-candidate
-            include-pattern: spec/services/candidate_interface/**/*_spec.rb
-          - tests: services-provider
-            include-pattern: spec/services/provider_interface/**/*_spec.rb
-          - tests: services-support
-            include-pattern: spec/services/support_interface/**/*_spec.rb
           - tests: workers
             include-pattern: spec/workers/**/*_spec.rb
           - tests: queries
