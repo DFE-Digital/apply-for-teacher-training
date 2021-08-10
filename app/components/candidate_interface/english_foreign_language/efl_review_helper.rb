@@ -7,6 +7,7 @@ module CandidateInterface
           value: value,
           action: 'whether or not you have a qualification',
           change_path: candidate_interface_english_foreign_language_edit_start_path,
+          data_qa: 'english-as-a-foreign-language',
         }
       end
 

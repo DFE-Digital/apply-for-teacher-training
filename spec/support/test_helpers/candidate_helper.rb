@@ -26,7 +26,7 @@ module CandidateHelper
     APPLICATION_FORM_SECTIONS
   end
 
-  def candidate_completes_application_form(with_referees: true, with_restructured_work_history: false)
+  def candidate_completes_application_form(with_referees: true, with_restructured_work_history: false, international: false)
     if with_restructured_work_history
       FeatureFlag.activate(:restructured_work_history)
     else
@@ -41,7 +41,7 @@ module CandidateHelper
     candidate_fills_in_course_choices
 
     click_link t('page_titles.personal_information')
-    candidate_fills_in_personal_details
+    candidate_fills_in_personal_details(international: international)
 
     click_link t('page_titles.contact_information')
     candidate_fills_in_contact_details
@@ -81,7 +81,7 @@ module CandidateHelper
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
 
-    click_link 'A levels and other qualifications'
+    click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
     candidate_fills_in_their_other_qualifications
 
     click_link 'Why do you want to teach'
@@ -92,6 +92,14 @@ module CandidateHelper
 
     click_link t('page_titles.interview_preferences')
     candidate_fills_in_interview_preferences
+
+    if international
+      click_link t('page_titles.efl.review')
+      choose 'No, English is not a foreign language to me'
+      click_button 'Continue'
+      choose 'Yes, I have completed this section'
+      click_button 'Continue'
+    end
 
     if with_referees
       candidate_provides_two_referees
