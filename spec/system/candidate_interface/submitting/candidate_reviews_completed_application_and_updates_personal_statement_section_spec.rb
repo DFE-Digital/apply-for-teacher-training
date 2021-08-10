@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate is redirected correctly' do
   include CandidateHelper
 
-  scenario 'Candidate reviews completed application and updates personal details section' do
+  scenario 'Candidate reviews completed application and updates personal statement section' do
     given_i_am_signed_in
     when_i_have_completed_my_application
     and_i_review_my_application
