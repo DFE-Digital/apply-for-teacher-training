@@ -32,6 +32,6 @@ RSpec.feature 'Cycle switching' do
   end
 
   def then_the_schedule_is_updated
-    expect(page).to have_content("Appy 1 deadline\n#{CycleTimetable.apply_1_deadline.to_s(:govuk_date)}")
+    expect(page).to have_content("Apply 1 deadline\n#{CycleTimetable.apply_1_deadline.to_s(:govuk_date)}")
   end
 end
