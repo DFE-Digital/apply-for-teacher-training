@@ -15,6 +15,7 @@ shared:
     - id
     - offer_changed_at
     - offer_deferred_at
+    - offer_withdrawal_reason
     - offer_withdrawn_at
     - offered_at
     - recruited_at
@@ -23,6 +24,7 @@ shared:
     - reject_by_default_feedback_sent_at
     - rejected_at
     - rejected_by_default
+    - rejection_reason
     - sent_to_provider_at
     - status
     - status_before_deferral
