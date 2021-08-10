@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ unit_shared, unit_candidate, unit_provider, unit_support, unit_referee, integration_shared, integration_provider, integration_candidate ]
+        tests: [ unit_shared, unit_candidate, unit_provider, unit_support_referee, integration_shared, integration_provider, integration_candidate ]
         feature-flags: [on, off]
         include:
           - tests: unit_shared
@@ -114,12 +114,9 @@ jobs:
           - tests: unit_provider
             include-pattern: spec/**/provider_interface/*_spec.rb
             exclude-pattern: spec/system/provider_interface/*_spec.rb
-          - tests: unit_support
-            include-pattern: spec/**/support_interface/*_spec.rb
-            exclude-pattern: spec/system/support_interface/*_spec.rb
-          - tests: unit_referee
-            include-pattern: spec/**/referee_interface/*_spec.rb
-            exclude-pattern: spec/system/referee_interface/*_spec.rb
+          - tests: unit_support_referee
+            include-pattern: spec/**/{support_interface,referee_interface}/*_spec.rb
+            exclude-pattern: spec/system/{support_interface,referee_interface}/*_spec.rb
           - tests: integration_shared
             include-pattern: spec/system/**/*_spec.rb
             exclude-pattern: spec/system/{provider_interface,candidate_interface}/**/*_spec.rb
