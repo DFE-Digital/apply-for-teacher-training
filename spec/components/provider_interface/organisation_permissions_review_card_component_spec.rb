@@ -138,13 +138,26 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
       end
     end
 
+    context 'when the permissions have not been set up' do
+      let(:provider_relationship_permission) { build_stubbed(:provider_relationship_permissions, :not_set_up_yet) }
+
+      it 'displays not set up yet text' do
+        make_decision_row = row_with_key('Make offers and reject applications')
+        safeguarding_row = row_with_key('View criminal convictions and professional misconduct')
+        diversity_row = row_with_key('View sex, disability and ethnicity information')
+        expect(entries_in_row(make_decision_row)).to contain_exactly('Neither organisation can do this')
+        expect(entries_in_row(safeguarding_row)).to contain_exactly('Neither organisation can do this')
+        expect(entries_in_row(diversity_row)).to contain_exactly('Neither organisation can do this')
+      end
+    end
+
     def row_with_key(key)
       rows = render.css('.govuk-summary-list__row')
       rows.find { |row| row.css('.govuk-summary-list__key').text.squish == key }
     end
 
     def entries_in_row(row)
-      row.css('.govuk-summary-list__value > ul > li').map(&:text)
+      row.css('.govuk-summary-list__value > p').map(&:text)
     end
   end
 end
