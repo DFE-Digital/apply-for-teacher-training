@@ -18,6 +18,27 @@ RSpec.describe 'Viewing organisation permissions', type: :request do
       )
   end
 
+  describe 'GET organisations' do
+    context 'with the account_and_org_settings_changes feature flag on' do
+      before { FeatureFlag.activate(:account_and_org_settings_changes) }
+
+      it 'redirects to the organisation settings page' do
+        get provider_interface_organisation_settings_organisations_path
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_settings_url)
+      end
+    end
+
+    context 'with the account_and_org_settings_changes feature flag off' do
+      before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
+      it 'responds with 200' do
+        get provider_interface_organisation_settings_organisations_path
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
   describe 'without manage organisations' do
     let(:provider_user) { create(:provider_user, providers: [training_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
