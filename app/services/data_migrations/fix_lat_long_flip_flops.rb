@@ -60,7 +60,7 @@ module DataMigrations
 
     def providers
       if dry_run?
-        Provider.where(sync_courses: true).limit(50)
+        Provider.with_courses.limit(50)
       else
         Provider.all
       end
