@@ -17,27 +17,20 @@ module ProviderInterface
       ProviderRelationshipPermissions::PERMISSIONS.map do |permission_name|
         {
           key: label_for(permission_name),
-          value: providers_to_render_for(permission_name),
+          value: providers_with_permission(permission_name),
+          paragraph_format: true,
         }
       end
     end
 
   private
 
-    def label_for(permission_name)
-      t("provider_relationship_permissions.#{permission_name}.description")
+    def providers_with_permission(permission_name)
+      presenter.providers_with_permission(permission_name).presence || t('provider_relationship_permissions.no_provider_permitted')
     end
 
-    def providers_to_render_for(permission_name)
-      list_items = presenter.providers_with_permission(permission_name).map do |provider_name|
-        tag.li(provider_name)
-      end
-
-      provider_list = tag.ul(class: 'govuk-list') do
-        list_items.join.html_safe
-      end
-
-      provider_list.html_safe
+    def label_for(permission_name)
+      t("provider_relationship_permissions.#{permission_name}.description")
     end
   end
 end
