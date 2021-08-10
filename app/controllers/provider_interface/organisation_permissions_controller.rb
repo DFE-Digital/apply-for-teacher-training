@@ -8,6 +8,8 @@ module ProviderInterface
     # This action and the relevant route will be removed once Organisation Settings
     # is broken down into provider sections.
     def organisations
+      redirect_to provider_interface_organisation_settings_path if FeatureFlag.active?(:account_and_org_settings_changes)
+
       @manageable_providers = manageable_providers
     end
 
