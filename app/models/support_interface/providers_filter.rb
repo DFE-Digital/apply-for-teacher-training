@@ -66,7 +66,7 @@ module SupportInterface
       end
 
       if applied_filters[:onboarding_stages]&.include?('with_courses')
-        providers = providers.includes(:courses).where.not(courses: { id: nil })
+        providers = providers.with_courses
       end
 
       if applied_filters[:onboarding_stages]&.include?('dsa_signed_only')
