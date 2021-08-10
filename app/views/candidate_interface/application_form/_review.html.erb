@@ -103,5 +103,5 @@
 
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m"><%= t('section_groups.safeguarding') %></h2>
-  <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
+  <%= render(CandidateInterface::SafeguardingReviewComponent.new(application_form: @application_form, editable: editable, missing_error: missing_error, submitting_application: true, return_to_application_review: true)) %>
 </section>
