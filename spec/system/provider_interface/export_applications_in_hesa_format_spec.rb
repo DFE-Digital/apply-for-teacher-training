@@ -40,8 +40,8 @@ RSpec.feature 'Export applications in HESA format' do
   end
 
   def and_i_click_export_data
-    expect(page).to have_content('The data will include all candidates who have accepted an offer from any of your organisations.')
-    expect(page).to have_content('Diversity information will be marked confidential if you do not have permission to view it.')
+    expect(page).to have_content("The data will include all candidates who have accepted an offer since #{CycleTimetable.apply_opens.to_s(:govuk_date)}.")
+    expect(page).to have_content('Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.')
 
     click_button 'Export data'
   end

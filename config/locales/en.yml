@@ -215,7 +215,7 @@ en:
       organisation_permissions: Organisation permissions
       change_organisation_permissions: Change permissions
       users: Users
-      export_hesa_data: Export data %{timeframe} for Higher Education Statistics Agency (HESA)
+      export_hesa_data: Export data for Higher Education Statistics Agency (HESA)
       export_application_data: Export application data
       notifications: Email notifications
       reports: Reports
