@@ -949,8 +949,6 @@ Rails.application.routes.draw do
       end
 
       post '' => 'providers#open_all_courses'
-      post '/enable_course_syncing' => redirect('/enable-course-syncing')
-      post '/enable-course-syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
 
       resource :provider_test_data, path: '/test-data', only: %i[create]
     end
