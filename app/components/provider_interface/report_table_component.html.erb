@@ -1,0 +1,36 @@
+<table class='govuk-table'>
+  <thead class="govuk-table__head">
+    <tr class='govuk-table__row'>
+      <th class='govuk-table__header' scope='col'><%= headers[0] %></th>
+      <% headers[1..].each do |header| %>
+        <th class='govuk-table__row govuk-table__header govuk-table__header--numeric' scope='col' style='width: 12%'><%= header %></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% rows.each do |row| %>
+      <tr class='govuk-table__row'>
+        <th class='govuk-table__header' scope='row'>
+          <%= row[:header] %>
+          <span class='govuk-hint govuk-!-margin-bottom-0'><%= row[:subheader] %></span>
+        </th>
+
+        <% row[:values].each do |value| %>
+          <td class='govuk-table__cell govuk-table__cell--numeric'><%= value %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <% if show_footer %>
+    <tfoot>
+      <tr class='govuk-table__row'>
+        <th class='govuk-table__header' scope='row'>Total</th>
+        <% footer.each do |value| %>
+          <td class='govuk-table__header govuk-table__header--numeric'><%= value %></td>
+        <% end %>
+      </tr>
+    </tfoot>
+  <% end %>
+</table>
