@@ -305,7 +305,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_other_qualification_type_form
-    expect(page).to have_content('A levels and other qualifications')
+    expect(page).to have_content(t('page_titles.other_qualifications'))
   end
 
   def then_i_should_see_the_other_qualification_details_form
@@ -313,23 +313,23 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_degree_type_form
-    expect(page).to have_content('Edit degree type')
+    expect(page).to have_content(t('page_titles.edit_degree_type'))
   end
 
   def then_i_should_see_the_degree_subject_form
-    expect(page).to have_content('What subject is your degree?')
+    expect(page).to have_content(t('page_titles.degree_subject'))
   end
 
   def then_i_should_see_the_degree_institution_form
-    expect(page).to have_content('Which institution did you study at?')
+    expect(page).to have_content(t('page_titles.degree_institution'))
   end
 
   def then_i_should_see_the_degree_completion_status_form
-    expect(page).to have_content('Have you completed your degree?')
+    expect(page).to have_content(t('page_titles.degree_completion_status'))
   end
 
   def then_i_should_see_the_degree_grade_form
-    expect(page).to have_content('Did your degree give a grade?')
+    expect(page).to have_content(t('page_titles.degree_grade_international'))
   end
 
   def then_i_should_see_the_degree_start_year_form
