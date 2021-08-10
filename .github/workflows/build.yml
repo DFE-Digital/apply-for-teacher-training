@@ -107,7 +107,7 @@ jobs:
         include:
           - tests: unit_shared
             include-pattern: spec/**/**/*_spec.rb
-            exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface)/*_spec.rb,spec/system/**/*_spec.rb
+            exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface}/**/*_spec.rb,spec/system/**/*_spec.rb
           - tests: unit_candidate
             include-pattern: spec/**/candidate_interface/*_spec.rb
             exclude-pattern: spec/system/candidate_interface/*_spec.rb
