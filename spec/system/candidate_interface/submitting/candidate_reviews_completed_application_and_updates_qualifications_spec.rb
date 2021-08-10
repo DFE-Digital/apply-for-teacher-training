@@ -333,11 +333,11 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_degree_start_year_form
-    expect(page).to have_content('When did you study for your degree?')
+    expect(page).to have_content(t('page_titles.what_year_did_you_start_your_degree'))
   end
 
   def then_i_should_see_the_degree_enic_comparability_form
-    expect(page).to have_content('How your degree compares to a UK degree')
+    expect(page).to have_content(t('page_titles.degree_enic'))
   end
 
   def when_i_update_english_gcse_qualification
@@ -447,7 +447,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_degree_start_year
     when_i_click_change_degree_start_year
 
-    fill_in 'Year started course', with: '2000'
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2000'
     click_button t('save_and_continue')
   end
 
