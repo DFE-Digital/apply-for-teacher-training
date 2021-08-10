@@ -102,37 +102,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ interface, system, system-provider, system-candidate, system-candidate-references, services, queries, models, middlewear, mailers, lib, controllers, workers ]
+        tests: [ unit_shared, unit_candidate, unit_provider, unit_support, unit_referee, integration_shared, integration_provider, integration_candidate ]
         feature-flags: [on, off]
         include:
-          - tests: interface
-            include-pattern: spec/{helpers, components, decorators, presenters}/**/*_spec.rb
-          - tests: models
-            include-pattern: spec/{models, validators, forms}/**/*_spec.rb
-          - tests: lib
-            include-pattern: spec/{lib,errors,tasks,support_specs}/**/*_spec.rb
-          - tests: system
+          - tests: unit_shared
+            include-pattern: spec/**/**/*_spec.rb
+            exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface)/*_spec.rb,spec/system/**/*_spec.rb
+          - tests: unit_candidate
+            include-pattern: spec/**/candidate_interface/*_spec.rb
+            exclude-pattern: spec/system/candidate_interface/*_spec.rb
+          - tests: unit_provider
+            include-pattern: spec/**/provider_interface/*_spec.rb
+            exclude-pattern: spec/system/provider_interface/*_spec.rb
+          - tests: unit_support
+            include-pattern: spec/**/support_interface/*_spec.rb
+            exclude-pattern: spec/system/support_interface/*_spec.rb
+          - tests: unit_referee
+            include-pattern: spec/**/referee_interface/*_spec.rb
+            exclude-pattern: spec/system/referee_interface/*_spec.rb
+          - tests: integration_shared
             include-pattern: spec/system/**/*_spec.rb
             exclude-pattern: spec/system/{provider_interface,candidate_interface}/**/*_spec.rb
-          - tests: system-provider
+          - tests: integration_provider
             include-pattern: spec/system/provider_interface/**/*_spec.rb
-          - tests: system-candidate
+          - tests: integration_candidate
             include-pattern: spec/system/candidate_interface/**/*_spec.rb
-            exclude-pattern: spec/system/candidate_interface/references/**/*_spec.rb
-          - tests: system-candidate-references
-            include-pattern: spec/system/candidate_interface/references/**/*_spec.rb
-          - tests: services
-            include-pattern: spec/services/**/*_spec.rb
-          - tests: workers
-            include-pattern: spec/workers/**/*_spec.rb
-          - tests: queries
-            include-pattern: spec/queries/**/*_spec.rb
-          - tests: middlewear
-            include-pattern: spec/middlewear/**/*_spec.rb
-          - tests: mailers
-            include-pattern: spec/mailers/**/*_spec.rb
-          - tests: controllers
-            include-pattern: spec/{controllers,requests}/**/*_spec.rb
     services:
       redis:
         image: redis:alpine
