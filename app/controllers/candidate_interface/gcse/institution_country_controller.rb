@@ -17,13 +17,15 @@ module CandidateInterface
 
     def edit
       @institution_country = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update
       @institution_country = GcseInstitutionCountryForm.new(institution_country_params)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @institution_country.save(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@institution_country)
         render :edit
