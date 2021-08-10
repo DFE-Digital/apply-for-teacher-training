@@ -124,14 +124,16 @@ jobs:
           - tests: support
             include-pattern: spec/support_specs/**/*_spec.rb
           - tests: services
-            include-pattern: spec/{services,workers}/**/*_spec.rb
-            exclude-pattern: spec/{services,workers}/{provider_interface,candidate_interface,support_interface}/**/*_spec.rb
+            include-pattern: spec/services/**/*_spec.rb
+            exclude-pattern: spec/services/{provider_interface,candidate_interface,support_interface}/**/*_spec.rb
           - tests: services-candidate
-            include-pattern: spec/{services,workers}/candidate_interface/**/*_spec.rb
+            include-pattern: spec/services/candidate_interface/**/*_spec.rb
           - tests: services-provider
-            include-pattern: spec/{services,workers}/provider_interface/**/*_spec.rb
+            include-pattern: spec/services/provider_interface/**/*_spec.rb
           - tests: services-support
-            include-pattern: spec/{services,workers}/support_interface/**/*_spec.rb
+            include-pattern: spec/services/support_interface/**/*_spec.rb
+          - tests: workers
+            include-pattern: spec/workers/**/*_spec.rb
           - tests: queries
             include-pattern: spec/queries/**/*_spec.rb
           - tests: presenters
