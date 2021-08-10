@@ -1,66 +1,57 @@
+<% heading_text = "Cookies on #{service_name}" %>
 <%= govuk_cookie_banner(
-      title: "Cookies on #{service_name}",
-      classes: 'govuk-!-display-none-print',
-      html_attributes: {
-        hidden: false,
-        aria: {
-          label: "Cookies on #{service_name}",
-        },
-        data: {
-          module: 'govuk-fallback-cookie-banner',
-          qa: 'fallback-cookie-banner',
-        },
+  html_attributes: {
+    aria: {
+      label: heading_text,
+    },
+    classes: 'govuk-!-display-none-print',
+    data: {
+      module: 'govuk-cookie-banner',
+      qa: 'cookie-banner',
+      service: service_name_short,
+    },
+  },
+) do |cookie_banner| %>
+  <% cookie_banner.message(
+    heading_text: heading_text,
+    hidden: true,
+    html_attributes: {
+      data: {
+        module: 'govuk-cookie-banner-choice-message',
+        qa: 'cookie-banner-choice-message',
       },
-    ) do |cookie_banner| %>
-  <%= cookie_banner.body do %>
-    <p class="govuk-body">We use cookies to make this service work and collect analytics information. To accept or
-      reject cookies, turn on JavaScript in your browser settings or reload this page.</p>
+    },
+  ) do |message| %>
+    <p>We use some essential cookies to make this service work.</p>
+    <p>We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+    <% message.action { button_tag('Accept analytics cookies', class: 'govuk-button', data: { 'accept-cookie': 'true' }) } %>
+    <% message.action { button_tag('Reject analytics cookies', class: 'govuk-button', data: { 'accept-cookie': 'false' }) } %>
+    <% message.action { govuk_link_to('View cookies', namespace_cookies_path, data: { qa: 'cookie-banner__preference-link' }) } %>
   <% end %>
-<% end %>
 
-<%= govuk_cookie_banner(
-      title: "Cookies on #{service_name}",
-      classes: 'govuk-!-display-none-print',
-      html_attributes: {
-        hidden: true,
-        data: {
-          module: 'govuk-cookie-banner',
-          service: service_name_short,
-        },
-        aria: {
-          label: "Cookies on #{service_name}",
-        },
+  <%= cookie_banner.message(
+    hidden: true,
+    html_attributes: {
+      data: {
+        module: 'govuk-cookie-banner-confirmation-message',
+        qa: 'cookie-banner-confirmation-message',
       },
-    ) do |cookie_banner| %>
-  <%= cookie_banner.body do %>
-    <p class="govuk-body">We use some essential cookies to make this service work.</p>
-    <p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and
-      make improvements.</p>
+    },
+  ) do |message| %>
+    <p>You’ve <span id="user-answer"></span> analytics cookies. You can <%= govuk_link_to('change your cookie settings', namespace_cookies_path, data: { qa: 'cookie-banner__preference-link' }) %> at any time.</p>
+    <% message.action { button_tag('Hide this message', class: 'govuk-button', data: { 'accept-cookie': 'hide-banner' }) } %>
   <% end %>
-  <%= cookie_banner.actions do %>
-    <button type="button" class="govuk-button" data-accept-cookie="true">Accept analytics cookies</button>
-    <button type="button" class="govuk-button" data-accept-cookie="false">Reject analytics cookies</button>
-    <%= govuk_link_to('View cookies', namespace_cookies_path) %>
-  <% end %>
-<% end %>
 
-<%= govuk_cookie_banner(
-      classes: 'govuk-!-display-none-print',
-      html_attributes: {
-        hidden: true,
-        data: {
-          module: 'govuk-cookie-confirmation-banner',
-        },
-        aria: {
-          label: "Cookies on #{service_name}",
-        },
+  <% cookie_banner.message(
+    heading_text: heading_text,
+    hidden: false,
+    html_attributes: {
+      data: {
+        module: 'govuk-cookie-banner-fallback-message',
+        qa: 'cookie-banner-fallback-message',
       },
-    ) do |cookie_banner| %>
-  <%= cookie_banner.body do %>
-    <p>You’ve <span id="user-answer"></span> analytics cookies. You
-      can <%= govuk_link_to('change your cookie settings', namespace_cookies_path) %> at any time.</p>
-  <% end %>
-  <%= cookie_banner.actions do %>
-    <button type="button" class="govuk-button">Hide this message</button>
+    },
+  ) do |message| %>
+    <p>We use cookies to make this service work and collect analytics information. To accept or reject cookies, turn on JavaScript in your browser settings or reload this page.</p>
   <% end %>
 <% end %>

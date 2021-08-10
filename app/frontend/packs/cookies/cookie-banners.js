@@ -2,56 +2,65 @@ import { setConsentedToCookie, checkConsentedToCookieExists } from './cookie-hel
 
 class CookieBanners {
   constructor () {
-    this.$fallbackBanner = document.querySelector('[data-module="govuk-fallback-cookie-banner"]')
+    this.$fallbackMessageModule = document.querySelector('[data-module="govuk-cookie-banner-fallback-message"]')
 
     // If the page doesn't have the fallback banner then stop
-    if (!this.$fallbackBanner) {
+    if (!this.$fallbackMessageModule) {
       return
     }
 
-    this.$fallbackBanner.hidden = true
-    this.$cookieAcceptRejectBanner = document.querySelector('[data-module="govuk-cookie-banner"]')
-    this.service = this.$cookieAcceptRejectBanner.dataset.service
-    this.$cookieConfirmationBanner = document.querySelector('[data-module="govuk-cookie-confirmation-banner"]')
-    this.acceptButton = this.$cookieAcceptRejectBanner.querySelector('[data-accept-cookie="true"]')
-    this.rejectButton = this.$cookieAcceptRejectBanner.querySelector('[data-accept-cookie="false"]')
-    this.hideMessageButton = this.$cookieConfirmationBanner.querySelector('button')
+    this.$fallbackMessageModule.hidden = true
+
+    this.$cookieBannerModule = document.querySelector('[data-module="govuk-cookie-banner"]')
+    this.service = this.$cookieBannerModule.dataset.service
+    this.$choiceMessageModule = document.querySelector('[data-module="govuk-cookie-banner-choice-message"]')
+    this.$confirmationMessageModule = document.querySelector('[data-module="govuk-cookie-banner-confirmation-message"]')
+    this.acceptButton = this.$choiceMessageModule.querySelector('[data-accept-cookie="true"]')
+    this.rejectButton = this.$choiceMessageModule.querySelector('[data-accept-cookie="false"]')
+    this.hideMessageButton = this.$confirmationMessageModule.querySelector('[data-accept-cookie="hide-banner"]')
 
     // consentCookie is false if user has not accept/rejected cookies
     if (!checkConsentedToCookieExists(this.service)) {
-      this.showCookieAcceptRejectBanner()
+      this.showCookieMessage()
       this.bindEvents()
+    } else {
+      // TODO: Remove this once this is hidden server side
+      this.hideModule(this.$cookieBannerModule)
     }
   }
 
   bindEvents () {
     this.acceptButton.addEventListener('click', () => this.acceptCookie())
-    this.acceptButton.addEventListener('click', () => this.showCookieConfirmationBanner('accepted'))
+    this.acceptButton.addEventListener('click', () => this.showConfirmationMessage('accepted'))
     this.rejectButton.addEventListener('click', () => this.rejectCookie())
-    this.rejectButton.addEventListener('click', () => this.showCookieConfirmationBanner('rejected'))
-    this.hideMessageButton.addEventListener('click', () => this.hideBanner(this.$cookieConfirmationBanner))
+    this.rejectButton.addEventListener('click', () => this.showConfirmationMessage('rejected'))
+    this.hideMessageButton.addEventListener('click', () => this.hideCookieBanner())
   }
 
   acceptCookie () {
-    this.hideBanner(this.$cookieAcceptRejectBanner)
+    this.hideModule(this.$choiceMessageModule)
     setConsentedToCookie({ userAnswer: 'yes', service: this.service })
   }
 
   rejectCookie () {
-    this.hideBanner(this.$cookieAcceptRejectBanner)
+    this.hideModule(this.$choiceMessageModule)
     setConsentedToCookie({ userAnswer: 'no', service: this.service })
   }
 
-  showCookieConfirmationBanner (content) {
-    this.$cookieConfirmationBanner.hidden = false
-    this.$cookieConfirmationBanner.querySelector('[id="user-answer"]').textContent = `${content}`
+  showConfirmationMessage (content) {
+    this.$confirmationMessageModule.hidden = false
+    this.$confirmationMessageModule.querySelector('[id="user-answer"]').textContent = `${content}`
   }
 
-  showCookieAcceptRejectBanner () {
-    this.$cookieAcceptRejectBanner.hidden = false
+  hideCookieBanner () {
+    this.hideModule(this.$cookieBannerModule)
   }
 
-  hideBanner (module) {
+  showCookieMessage () {
+    this.$choiceMessageModule.hidden = false
+  }
+
+  hideModule (module) {
     module.hidden = true
   }
 }
