@@ -89,4 +89,16 @@
       </div>
     </div>
   </section>
+
+    <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Open all courses on Apply</h2>
+        <p class="govuk-body">This task will open all courses on Apply at the start of a new cycle.</p>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= govuk_button_to 'Open all courses on Apply', support_interface_run_task_path('open_all_courses_on_apply'), class: 'govuk-button--secondary' %>
+      </div>
+    </div>
+  </section>
 <% end %>
