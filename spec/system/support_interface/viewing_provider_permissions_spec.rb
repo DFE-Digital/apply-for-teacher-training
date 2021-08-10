@@ -26,8 +26,8 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
   end
 
   def and_there_are_two_providers_in_a_partnership
-    training = create(:provider, :with_signed_agreement, sync_courses: true, name: 'Numan College')
-    ratifying = create(:provider, :with_signed_agreement, sync_courses: true, name: 'Oldman University')
+    training = create(:provider, :with_signed_agreement, name: 'Numan College')
+    ratifying = create(:provider, :with_signed_agreement, name: 'Oldman University')
 
     create(
       :provider_relationship_permissions,
@@ -43,8 +43,8 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
   end
 
   def and_there_are_two_other_providers_in_a_partnership_with_no_permissions_configured
-    training = create(:provider, :with_signed_agreement, sync_courses: true, name: 'City Learning Trust')
-    ratifying = create(:provider, :with_signed_agreement, sync_courses: true, name: 'Staffordshire University (S72)')
+    training = create(:provider, :with_signed_agreement, name: 'City Learning Trust')
+    ratifying = create(:provider, :with_signed_agreement, name: 'Staffordshire University (S72)')
 
     create(
       :provider_relationship_permissions,

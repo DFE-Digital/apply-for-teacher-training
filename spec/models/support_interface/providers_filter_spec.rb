@@ -75,9 +75,9 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'defaults to showing all providers' do
-      create(:provider, :with_signed_agreement, sync_courses: true)
+      create(:provider, :with_signed_agreement)
       create(:provider)
-      create(:provider, sync_courses: true) # only synced
+      create(:provider)
       create(:provider, :with_signed_agreement) # only signed
 
       providers = Provider.all
