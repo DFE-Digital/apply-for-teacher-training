@@ -11,12 +11,6 @@
       <%= t('page_titles.provider.export_application_data') %>
     </h1>
 
-    <% if FeatureFlag.active?(:export_hesa_data) %>
-      <p class="govuk-body">
-        Choose which data to export or <%= govuk_link_to 'export only the data needed by the Higher Education Statistics Agency (HESA)', provider_interface_new_hesa_export_path %>.
-      </p>
-    <% end %>
-
     <%= form_with(
       model: @application_data_export_form,
       url: provider_interface_application_data_export_path,
@@ -45,7 +39,11 @@
         <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to, ->(p) { p.id.to_s }, :name, legend: { text: 'Select applications for certain organisations', size: 'm' } %>
       <% end %>
 
-      <%= f.govuk_submit 'Export data (CSV)' %>
+      <div class="govuk-inset-text">
+        Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it, or if the candidate has not accepted your offer.
+      </div>
+
+      <%= f.govuk_submit 'Export application data (CSV)' %>
     <% end %>
   </div>
 </div>
