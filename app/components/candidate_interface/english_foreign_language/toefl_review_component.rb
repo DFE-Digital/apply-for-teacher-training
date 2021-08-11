@@ -3,16 +3,17 @@ module CandidateInterface
     class ToeflReviewComponent < ViewComponent::Base
       include EflReviewHelper
 
-      attr_reader :toefl_qualification
+      attr_reader :toefl_qualification, :return_to_application_review
 
-      def initialize(toefl_qualification)
+      def initialize(toefl_qualification, return_to_application_review: false)
         @toefl_qualification = toefl_qualification
+        @return_to_application_review = return_to_application_review
       end
 
       def toefl_rows
         [
-          do_you_have_a_qualification_row(value: 'Yes'),
-          type_of_qualification_row(name: 'TOEFL'),
+          do_you_have_a_qualification_row(value: 'Yes', return_to_application_review: return_to_application_review),
+          type_of_qualification_row(name: 'TOEFL', return_to_application_review: return_to_application_review),
           {
             key: 'TOEFL registration number',
             value: toefl_qualification.registration_number,
