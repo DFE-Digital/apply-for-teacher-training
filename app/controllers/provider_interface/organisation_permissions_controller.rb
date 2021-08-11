@@ -14,7 +14,9 @@ module ProviderInterface
     end
 
     def index
-      render_403 unless current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+      unless FeatureFlag.active?(:account_and_org_settings_changes) || current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+        render_403 and return
+      end
 
       unsorted_provider_relationships = provider_relationships_to_display
       @provider_relationships = sort_relationships_by_provider_name(unsorted_provider_relationships, provider)
