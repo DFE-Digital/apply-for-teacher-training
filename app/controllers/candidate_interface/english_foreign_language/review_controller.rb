@@ -10,14 +10,16 @@ module CandidateInterface
         @section_complete_form = SectionCompleteForm.new(
           completed: current_application.efl_completed,
         )
+        @return_to = return_to_after_edit(default: candidate_interface_application_form_path)
       end
 
       def complete
         @component_instance = ChooseEflReviewComponent.call(english_proficiency)
         @section_complete_form = SectionCompleteForm.new(completion_params)
+        @return_to = return_to_after_edit(default: candidate_interface_application_form_path)
 
         if @section_complete_form.save(current_application, :efl_completed)
-          redirect_to candidate_interface_application_form_path
+          redirect_to @return_to[:back_path]
         else
           track_validation_error(@section_complete_form)
           render :show

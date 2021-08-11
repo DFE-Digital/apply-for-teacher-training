@@ -1,7 +1,7 @@
 <% content_for :title, t('page_titles.efl.review') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
-<%= form_with model: @section_complete_form, url: candidate_interface_english_foreign_language_complete_path, method: :patch do |f| %>
+<%= form_with model: @section_complete_form, url: candidate_interface_english_foreign_language_complete_path(@return_to[:params]), method: :patch do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl"><%= t('page_titles.efl.review') %></h1>

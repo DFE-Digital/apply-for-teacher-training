@@ -15,6 +15,9 @@ RSpec.feature 'Candidate is redirected correctly' do
 
     when_i_click_back
     then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_change_efl_response_and_enter_toefl_details
+    then_i_should_be_redirected_to_the_application_review_page
   end
 
   def given_i_am_signed_in
@@ -66,45 +69,17 @@ RSpec.feature 'Candidate is redirected correctly' do
     expect(page).to have_current_path(candidate_interface_application_review_path)
   end
 
-  # def when_i_update_why_i_want_to_become_a_teacher
-  #   when_i_click_change_on_why_i_want_to_become_a_teacher
-  #   fill_in 'Why do you want to be a teacher?', with: 'All the dev jobs were taken.'
-  #   click_button 'Continue'
-  # end
-
-  # def and_i_should_see_my_updated_becoming_a_teacher_response
-  #   within('[data-qa="becoming-a-teacher"]') do
-  #     expect(page).to have_content('All the dev jobs were taken.')
-  #   end
-  # end
-
-  # def when_i_click_change_on_subject_knowledge
-  #   within('[data-qa="subject-knowledge"]') do
-  #     click_link 'Change'
-  #   end
-  # end
-
-  # def then_i_should_see_the_subject_knowledge_form
-  #   expect(page).to have_current_path(candidate_interface_edit_subject_knowledge_path('return-to' => 'application-review'))
-  # end
-
-  # def when_i_click_back
-  #   click_link 'Back'
-  # end
-
-  # def then_i_should_be_redirected_to_the_application_review_page
-  #   expect(page).to have_current_path(candidate_interface_application_review_path)
-  # end
-
-  # def when_i_update_my_subject_knowledge
-  #   when_i_click_change_on_subject_knowledge
-  #   fill_in 'Tell us what you know about the subject you want to teach', with: 'I have a very particular set of skills.'
-  #   click_button 'Continue'
-  # end
-
-  # def and_i_should_see_my_updated_subject_knowledge
-  #   within('[data-qa="subject-knowledge"]') do
-  #     expect(page).to have_content('I have a very particular set of skills.')
-  #   end
-  # end
+  def when_i_change_efl_response_and_enter_toefl_details
+    when_i_click_change_on_efl
+    choose 'Yes'
+    click_button 'Continue'
+    choose 'Test of English as a Foreign Language'
+    click_button 'Continue'
+    fill_in 'Total score', with: '95'
+    fill_in 'TOEFL registration number', with: '0000 0000 1234 5678'
+    fill_in 'When did you complete the assessment?', with: '2010'
+    click_button 'Save and continue'
+    choose 'Yes, I have completed this section'
+    click_button 'Continue'
+  end
 end

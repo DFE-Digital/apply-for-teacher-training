@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.efl.type'), @type_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_english_foreign_language_start_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(model: @type_form, url: candidate_interface_english_foreign_language_type_path) do |f| %>
+    <%= form_with(model: @type_form, url: candidate_interface_english_foreign_language_type_path(@return_to[:params])) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :type,
