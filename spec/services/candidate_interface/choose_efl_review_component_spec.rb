@@ -10,6 +10,15 @@ RSpec.describe CandidateInterface::ChooseEflReviewComponent do
 
         expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent)
         expect(component.ielts_qualification).to eq english_proficiency.efl_qualification
+        expect(component.return_to_application_review).to be false
+      end
+
+      it 'returns an instance of IeltsReviewComponent with `return_to_application_review` set to true' do
+        component = described_class.call(english_proficiency, return_to_application_review: true)
+
+        expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent)
+        expect(component.ielts_qualification).to eq english_proficiency.efl_qualification
+        expect(component.return_to_application_review).to be true
       end
     end
 
@@ -21,6 +30,15 @@ RSpec.describe CandidateInterface::ChooseEflReviewComponent do
 
         expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent)
         expect(component.toefl_qualification).to eq english_proficiency.efl_qualification
+        expect(component.return_to_application_review).to be false
+      end
+
+      it 'returns an instance of ToeflReviewComponent with `return_to_application_review` set to true' do
+        component = described_class.call(english_proficiency, return_to_application_review: true)
+
+        expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent)
+        expect(component.toefl_qualification).to eq english_proficiency.efl_qualification
+        expect(component.return_to_application_review).to be true
       end
     end
 
@@ -32,6 +50,15 @@ RSpec.describe CandidateInterface::ChooseEflReviewComponent do
 
         expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::OtherEflQualificationReviewComponent)
         expect(component.other_qualification).to eq english_proficiency.efl_qualification
+        expect(component.return_to_application_review).to be false
+      end
+
+      it 'returns an instance of OtherEflQualificationReviewComponent with `return_to_application_review` set to true' do
+        component = described_class.call(english_proficiency, return_to_application_review: true)
+
+        expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::OtherEflQualificationReviewComponent)
+        expect(component.other_qualification).to eq english_proficiency.efl_qualification
+        expect(component.return_to_application_review).to be true
       end
     end
 
@@ -43,6 +70,15 @@ RSpec.describe CandidateInterface::ChooseEflReviewComponent do
 
         expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::NoEflQualificationReviewComponent)
         expect(component.english_proficiency).to eq english_proficiency
+        expect(component.return_to_application_review).to be false
+      end
+
+      it 'returns an instance of NoEflQualificationReviewComponent with `return_to_application_review` set to true' do
+        component = described_class.call(english_proficiency, return_to_application_review: true)
+
+        expect(component).to be_instance_of(CandidateInterface::EnglishForeignLanguage::NoEflQualificationReviewComponent)
+        expect(component.english_proficiency).to eq english_proficiency
+        expect(component.return_to_application_review).to be true
       end
     end
   end
