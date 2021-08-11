@@ -3,12 +3,13 @@
 class CandidateInterface::SelectedReferencesComponent < ViewComponent::Base
   attr_reader :application_form, :selected_references, :editable, :show_incomplete, :is_errored
 
-  def initialize(application_form, editable: true, show_incomplete: false, is_errored: false)
+  def initialize(application_form, editable: true, show_incomplete: false, is_errored: false, return_to_application_review: false)
     @application_form = application_form
     @selected_references = application_form.selected_references
     @editable = editable
     @show_incomplete = show_incomplete
     @is_errored = is_errored
+    @return_to_application_review = return_to_application_review
   end
 
   def show_incomplete_banner?
@@ -22,7 +23,8 @@ class CandidateInterface::SelectedReferencesComponent < ViewComponent::Base
         value: reference_values,
         bulleted_format: true,
         action: 'Change selected references',
-        change_path: candidate_interface_select_references_path,
+        change_path: candidate_interface_select_references_path(return_to_params),
+        data_qa: 'selected-references',
       },
     ]
   end
@@ -55,5 +57,11 @@ class CandidateInterface::SelectedReferencesComponent < ViewComponent::Base
 
   def incomplete_message
     'References not marked as complete'
+  end
+
+private
+
+  def return_to_params
+    { 'return-to' => 'application-review' } if @return_to_application_review
   end
 end
