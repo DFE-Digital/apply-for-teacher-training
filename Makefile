@@ -102,12 +102,6 @@ load-test:
 	$(eval SPACE=bat-qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 
-pen: #pen test
-	$(eval APP_ENV=pen)
-	$(eval APP_NAME_SUFFIX=pen)
-	$(eval SPACE=bat-prod)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
-
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 
@@ -137,3 +131,6 @@ deploy-plan: deploy-init
 
 deploy: deploy-init
 	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars
+
+destroy: deploy-init
+	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars
