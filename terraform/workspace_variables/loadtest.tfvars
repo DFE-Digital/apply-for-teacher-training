@@ -1,13 +1,13 @@
 # PaaS
-paas_app_environment       = "load-test"
-paas_cf_space              = "bat-prod"
-paas_web_app_memory        = 4096
-paas_worker_app_memory     = 4096
-paas_clock_app_memory      = 1024
-paas_web_app_instances     = 4
-paas_worker_app_instances  = 2
-paas_postgres_service_plan = "medium-ha-11"
-paas_redis_service_plan    = "micro-ha-5_x"
+paas_app_environment           = "load-test"
+paas_cf_space                  = "bat-prod"
+paas_web_app_memory            = 4096
+paas_worker_app_memory         = 4096
+paas_clock_app_memory          = 1024
+paas_web_app_instances         = 4
+paas_worker_app_instances      = 2
+paas_postgres_service_plan     = "medium-ha-11"
+paas_worker_redis_service_plan = "micro-ha-5_x"
 
 # KeyVault
 key_vault_resource_group    = "s121d01-shared-rg"

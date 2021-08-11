@@ -122,9 +122,14 @@ resource "cloudfoundry_service_instance" "postgres" {
 }
 
 resource "cloudfoundry_service_instance" "redis" {
-  name         = local.redis_service_name
+  name         = local.worker_redis_service_name
   space        = data.cloudfoundry_space.space.id
-  service_plan = data.cloudfoundry_service.redis.service_plans[var.redis_service_plan]
+  service_plan = data.cloudfoundry_service.redis.service_plans[var.worker_redis_service_plan]
+  json_params  = jsonencode(local.noeviction_maxmemory_policy)
+  timeouts {
+    create = "30m"
+    update = "30m"
+  }
 }
 
 resource "cloudfoundry_service_key" "postgres-readonly-key" {
@@ -132,8 +137,8 @@ resource "cloudfoundry_service_key" "postgres-readonly-key" {
   service_instance = cloudfoundry_service_instance.postgres.id
 }
 
-resource "cloudfoundry_service_key" "redis-key" {
-  name             = "${local.redis_service_name}-key"
+resource "cloudfoundry_service_key" "worker_redis_key" {
+  name             = "${local.worker_redis_service_name}-key"
   service_instance = cloudfoundry_service_instance.redis.id
 }
 
