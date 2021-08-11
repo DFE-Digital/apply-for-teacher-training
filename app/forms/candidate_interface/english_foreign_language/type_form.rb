@@ -25,7 +25,7 @@ module CandidateInterface
         end
       end
 
-      private
+    private
 
       def return_to_params
         return_to == 'application-review' ? { 'return-to' => 'application-review' } : {}

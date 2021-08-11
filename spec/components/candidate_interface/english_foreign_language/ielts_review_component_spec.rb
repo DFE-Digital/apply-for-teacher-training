@@ -19,7 +19,6 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent,
     ].each do |row|
       expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])
       expect(result.css('.govuk-summary-list__value')[row[:position]].text).to include(row[:value])
-
     end
 
     expect(result.css('.govuk-summary-list__actions a')[0][:href]).to eq(
@@ -35,7 +34,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent,
       band_score: '8',
     )
     result = render_inline(described_class.new(ielts_qualification, return_to_application_review: true))
-    
+
     expect(result.css('.govuk-summary-list__actions a')[0][:href]).to eq(
       Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_edit_start_path('return-to' => 'application-review'),
     )

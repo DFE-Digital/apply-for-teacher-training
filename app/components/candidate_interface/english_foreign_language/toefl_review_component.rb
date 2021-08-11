@@ -18,19 +18,22 @@ module CandidateInterface
             key: 'TOEFL registration number',
             value: toefl_qualification.registration_number,
             action: 'registration number',
-            change_path: candidate_interface_edit_toefl_path,
+            change_path: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
+            data_qa: 'english-as-a-foreign-language-registration-number',
           },
           {
             key: 'Year completed',
             value: toefl_qualification.award_year,
             action: 'year completed',
-            change_path: candidate_interface_edit_toefl_path,
+            change_path: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
+            data_qa: 'english-as-a-foreign-language-year-completed',
           },
           {
             key: 'Total score',
             value: toefl_qualification.total_score,
             action: 'total score',
-            change_path: candidate_interface_edit_toefl_path,
+            change_path: candidate_interface_edit_toefl_path(return_to_params(return_to_application_review)),
+            data_qa: 'english-as-a-foreign-language-total-score',
           },
         ]
       end

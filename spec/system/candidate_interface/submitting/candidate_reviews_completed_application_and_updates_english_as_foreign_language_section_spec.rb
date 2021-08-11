@@ -18,6 +18,9 @@ RSpec.feature 'Candidate is redirected correctly' do
 
     when_i_change_efl_response_and_enter_toefl_details
     then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_change_toefl_score
+    then_i_should_be_redirected_to_the_application_review_page
   end
 
   def given_i_am_signed_in
@@ -81,5 +84,19 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button 'Save and continue'
     choose 'Yes, I have completed this section'
     click_button 'Continue'
+  end
+
+  def when_i_change_toefl_score
+    when_i_click_change_on_efl_score
+    fill_in 'Total score', with: '85'
+    click_button 'Save and continue'
+    choose 'Yes, I have completed this section'
+    click_button 'Continue'
+  end
+
+  def when_i_click_change_on_efl_score
+    within('[data-qa="english-as-a-foreign-language-total-score"]') do
+      click_link 'Change'
+    end
   end
 end
