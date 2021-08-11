@@ -24,6 +24,8 @@ variable "postgres_service_plan" {}
 
 variable "worker_redis_service_plan" {}
 
+variable "cache_redis_service_plan" {}
+
 variable "clock_app_memory" {}
 
 variable "worker_app_memory" {}

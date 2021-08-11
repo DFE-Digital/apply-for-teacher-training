@@ -15,6 +15,8 @@ variable "paas_postgres_service_plan" {}
 
 variable "paas_worker_redis_service_plan" {}
 
+variable "paas_cache_redis_service_plan" {}
+
 variable "paas_clock_app_memory" { default = 512 }
 
 variable "paas_worker_app_memory" { default = 512 }
