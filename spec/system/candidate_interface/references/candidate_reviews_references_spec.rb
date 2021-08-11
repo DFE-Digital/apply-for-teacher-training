@@ -45,14 +45,14 @@ RSpec.feature 'Review references' do
   def then_the_references_section_is_incomplete
     when_i_view_my_application
     within '#select-2-references-badge-id' do
-      expect(page).to have_content 'Incomplete'
+      expect(page).to have_content 'Cannot start yet'
     end
   end
 
   def then_the_references_section_is_still_incomplete
     when_i_view_my_application
     within '#select-2-references-badge-id' do
-      expect(page).to have_content 'Incomplete'
+      expect(page).to have_content 'Cannot start yet'
     end
   end
 

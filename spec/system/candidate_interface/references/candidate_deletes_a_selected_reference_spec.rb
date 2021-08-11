@@ -21,7 +21,7 @@ RSpec.feature 'References' do
 
     when_i_delete_one_of_the_selected_references
     then_i_am_redirected_to_the_references_review_page
-    and_the_section_is_not_marked_as_completed
+    and_the_section_is_marked_as_cannot_start_yet
 
     when_i_visit_the_select_references_page
     then_i_am_presented_with_the_guidance
@@ -80,6 +80,11 @@ RSpec.feature 'References' do
 
   def then_the_section_is_marked_as_completed
     expect(page).to have_css('#select-2-references-badge-id', text: 'Completed')
+  end
+
+  def and_the_section_is_marked_as_cannot_start_yet
+    visit candidate_interface_application_form_path
+    expect(page).to have_css('#select-2-references-badge-id', text: 'Cannot start yet')
   end
 
   def when_i_visit_the_select_references_page
