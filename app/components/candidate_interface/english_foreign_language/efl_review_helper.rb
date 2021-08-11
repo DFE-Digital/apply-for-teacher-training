@@ -17,6 +17,7 @@ module CandidateInterface
           value: name,
           action: 'type of assessment',
           change_path: candidate_interface_english_foreign_language_type_path(return_to_params(return_to_application_review)),
+          data_qa: 'english-as-a-foreign-language-type',
         }
       end
 

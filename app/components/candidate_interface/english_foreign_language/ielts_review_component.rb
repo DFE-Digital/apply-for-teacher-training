@@ -18,19 +18,19 @@ module CandidateInterface
             key: 'Test report form (TRF) number',
             value: ielts_qualification.trf_number,
             action: 'Change TRF number',
-            change_path: candidate_interface_edit_ielts_path,
+            change_path: candidate_interface_edit_ielts_path(return_to_params(return_to_application_review)),
           },
           {
             key: 'Year completed',
             value: ielts_qualification.award_year,
             action: 'Change year completed',
-            change_path: candidate_interface_edit_ielts_path,
+            change_path: candidate_interface_edit_ielts_path(return_to_params(return_to_application_review)),
           },
           {
             key: 'Overall band score',
             value: ielts_qualification.band_score,
             action: 'Change overall band score',
-            change_path: candidate_interface_edit_ielts_path,
+            change_path: candidate_interface_edit_ielts_path(return_to_params(return_to_application_review)),
           },
         ]
       end

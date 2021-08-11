@@ -12,7 +12,7 @@ module CandidateInterface
 
       def no_qualification_rows
         [
-          do_you_have_a_qualification_row(value: summary, return_to_application_review: return_to_application_review, return_to_application_review: return_to_application_review),
+          do_you_have_a_qualification_row(value: summary, return_to_application_review: return_to_application_review),
         ]
       end
 

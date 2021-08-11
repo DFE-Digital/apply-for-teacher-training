@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent,
   it 'passes the `return-to` param to Change actions' do
     toefl_qualification = build(:toefl_qualification)
     result = render_inline(described_class.new(toefl_qualification, return_to_application_review: true))
-    
+
     expect(result.css('.govuk-summary-list__actions a')[0][:href]).to eq(
       Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_edit_start_path('return-to' => 'application-review'),
     )
