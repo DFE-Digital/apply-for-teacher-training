@@ -84,7 +84,7 @@ module ProviderInterface
 
     def provider_relationships_to_display
       if FeatureFlag.active?(:account_and_org_settings_changes)
-        ProviderRelationshipPermissions.all_relationships_for_providers([provider]).providers_have_open_course
+        ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider).all_relationships_for_providers([provider]).providers_have_open_course
       else
         ProviderRelationshipPermissions.all_relationships_for_providers([provider]).where.not(setup_at: nil)
       end
