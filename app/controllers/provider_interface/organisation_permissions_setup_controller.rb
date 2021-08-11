@@ -104,7 +104,7 @@ module ProviderInterface
     end
 
     def current_relationship_description
-      ProviderRelationshipPermissionAsProviderUserPresenter.new(@current_relationship, current_provider_user).provider_relationship_description
+      ProviderRelationshipPermissionAsProviderUserPresenter.new(relationship: @current_relationship, provider_user: current_provider_user).provider_relationship_description
     end
 
     helper_method :current_relationship_description

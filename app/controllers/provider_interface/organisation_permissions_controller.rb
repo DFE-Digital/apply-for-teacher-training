@@ -60,7 +60,11 @@ module ProviderInterface
     def set_up_relationship_objects
       @relationship = ProviderRelationshipPermissions.find(params[:id])
       @provider = Provider.find(params[:organisation_id])
-      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(@relationship, current_provider_user)
+      @presenter = ProviderRelationshipPermissionAsProviderUserPresenter.new(
+        relationship: @relationship,
+        provider_user: current_provider_user,
+        main_provider: @provider,
+      )
     rescue ActiveRecord::RecordNotFound
       render_404
     end
