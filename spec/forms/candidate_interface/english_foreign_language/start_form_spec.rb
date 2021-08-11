@@ -63,6 +63,14 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::StartForm, type: :mod
       it 'returns path for selecting qualification type' do
         expect(form.next_path).to eq '/candidate/application/english-as-a-foreign-language/type'
       end
+
+      context 'when `return_to` is set' do
+        let(:form) { described_class.new(qualification_status: 'has_qualification', return_to: 'application-review') }
+
+        it 'returns path for selecting qualification type with `return-to` parameter' do
+          expect(form.next_path).to eq '/candidate/application/english-as-a-foreign-language/type?return-to=application-review'
+        end
+      end
     end
 
     context 'when qualification_status is "no_qualification"' do
