@@ -1,16 +1,9 @@
 <div class="app-task-list__content">
-  <p class="govuk-body">
-    <% if references.count > 1 %>
+  <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-margin-top-1">
+    <% if references.feedback_provided.count > 1 %>
       <%= govuk_link_to t('page_titles.references_review'), references_path, 'aria-describedby': "#{t('page_titles.references_review').parameterize}-badge-id" %>
     <% else %>
-      <%= govuk_link_to t('page_titles.references_request'), references_path, 'aria-describedby': "#{t('page_titles.references_review').parameterize}-badge-id" %>
+      <%= govuk_link_to 'Request your references', references_path, 'aria-describedby': "#{t('page_titles.references_review').parameterize}-badge-id" %>
     <% end %>
   </p>
-  <ul class="govuk-list">
-    <% references.each do |reference| %>
-      <li class="govuk-body-s">
-        <span class="app-status-indicator app-status-indicator--<%= colour_for(reference) %>"></span>&nbsp;<b><%= reference.name %></b>: <%= status_label_for(reference) %>
-      </li>
-    <% end %>
-  </ul>
 </div>

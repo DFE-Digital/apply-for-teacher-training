@@ -98,7 +98,7 @@ RSpec.feature 'Carry over' do
   end
 
   def when_i_view_referees
-    click_on 'Review your references'
+    click_on 'Request your references'
   end
 
   def then_i_can_see_the_referees_i_previously_added
