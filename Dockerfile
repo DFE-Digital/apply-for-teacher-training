@@ -17,7 +17,8 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     AUTHORISED_HOSTS=127.0.0.1 \
     SECRET_KEY_BASE=TestKey \
     BLAZER_DATABASE_URL=testURL \
-    GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey
+    GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
+    REDIS_CACHE_URL=redis://127.0.0.1:6379
 
 WORKDIR /app
 
@@ -51,7 +52,8 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     AUTHORISED_HOSTS=127.0.0.1 \
     SECRET_KEY_BASE=TestKey \
     GOVUK_NOTIFY_CALLBACK_API_KEY=TestKey \
-    SHA=${VERSION}
+    SHA=${VERSION} \
+    REDIS_CACHE_URL=redis://127.0.0.1:6379
 
 RUN apk -U upgrade && \
     apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz && \
