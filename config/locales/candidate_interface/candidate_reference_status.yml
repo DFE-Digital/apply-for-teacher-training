@@ -5,6 +5,7 @@ en:
     not_requested_yet: Not sent yet
     feedback_requested: Awaiting response
     feedback_provided: Reference received
+    selected: Reference selected
     feedback_refused: Reference declined
     email_bounced: Request failed
     feedback_overdue: Response overdue
@@ -14,6 +15,7 @@ en:
     not_requested_yet: grey
     feedback_requested: purple
     feedback_provided: green
+    selected: green
     feedback_refused: red
     email_bounced: red
     feedback_overdue: yellow

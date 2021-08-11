@@ -53,7 +53,12 @@
       <ul class="govuk-list">
         <% @application_form_presenter.references.each do |reference| %>
           <li class="govuk-body-s">
-            <span class="app-status-indicator app-status-indicator--<%= I18n.t("candidate_reference_colours.#{reference.feedback_status}") %>"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t("candidate_reference_status.#{reference.feedback_status}") %>
+            <% if reference.selected %>
+              <span class="app-status-indicator app-status-indicator--<%= I18n.t("candidate_reference_colours.selected") %>"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t("candidate_reference_status.selected") %>
+            <% else %>
+              <span class="app-status-indicator app-status-indicator--<%= I18n.t("candidate_reference_colours.#{reference.feedback_status}") %>"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t("candidate_reference_status.#{reference.feedback_status}") %>
+            <% end %>
+
           </li>
         <% end %>
       </ul>

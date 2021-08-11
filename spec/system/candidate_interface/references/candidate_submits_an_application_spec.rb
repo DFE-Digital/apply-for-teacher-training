@@ -67,8 +67,8 @@ RSpec.feature 'Submitting an application' do
     visit candidate_interface_application_form_path
     expect(page).not_to have_content('You have enough references to send your application to training providers.')
     within(all('.govuk-list')[0]) do
-      expect(page).to have_content("#{@reference1.name}: Reference received")
-      expect(page).to have_content("#{@reference2.name}: Reference received")
+      expect(page).to have_content("#{@reference1.name}: Reference selected")
+      expect(page).to have_content("#{@reference2.name}: Reference selected")
       expect(page).to have_content("#{@reference3.name}: Reference received")
       expect(page).to have_content("#{@reference4.name}: Awaiting response")
     end
