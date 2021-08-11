@@ -79,6 +79,7 @@ locals {
     {
       BLAZER_DATABASE_URL = cloudfoundry_service_key.postgres-readonly-key.credentials.uri
       REDIS_URL           = cloudfoundry_service_key.worker_redis_key.credentials.uri
+      REDIS_CACHE_URL     = cloudfoundry_service_key.cache_redis_key.credentials.uri
   })
   web_app_env_variables    = merge(local.app_environment_variables, { SERVICE_TYPE = "web" })
   clock_app_env_variables  = merge(local.app_environment_variables, { SERVICE_TYPE = "clock" })
