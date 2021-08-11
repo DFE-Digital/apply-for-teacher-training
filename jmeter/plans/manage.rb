@@ -87,10 +87,10 @@ test do
     # Data export
      threads count: 1, rampup: RAMPUP, continue_forever: true, duration: 3600 do
       log_in uid
-      visit name: 'Load provider data export form', url: BASEURL + '/provider/applications/data-export/new' do
-        extract name: 'provider_id', regex: 'value="(\d+)" name="provider_interface_application_data_export_form\[provider_ids\]', match_number: 0
+      visit name: 'Load provider data export form', url: BASEURL + '/provider/applications/data-export/new'
+      visit name: 'Download data export', url: BASEURL + '/provider/applications/data-export?provider_interface_application_data_export_form[recruitment_cycle_years][]=&provider_interface_application_data_export_form[recruitment_cycle_years][]=2021&provider_interface_application_data_export_form[recruitment_cycle_years][]=2020&provider_interface_application_data_export_form[application_status_choice]=all&provider_interface_application_data_export_form[statuses][]=' do
+        with_gzip
       end
-      visit name: 'Download data export', url: BASEURL + '/provider/applications/data-export?provider_interface_application_data_export_form[recruitment_cycle_years][]=&provider_interface_application_data_export_form[recruitment_cycle_years][]=2021&provider_interface_application_data_export_form[recruitment_cycle_years][]=2020&provider_interface_application_data_export_form[application_status_choice]=all&provider_interface_application_data_export_form[statuses][]=&provider_interface_application_data_export_form[provider_ids][]=&provider_interface_application_data_export_form[provider_ids][]=${provider_id}&commit=Export+data+(CSV)'
     end
   end
 end.jmx
