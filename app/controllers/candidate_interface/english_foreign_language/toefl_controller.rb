@@ -4,14 +4,16 @@ module CandidateInterface
       include EflRootConcern
 
       def new
-        @toefl_form = EnglishForeignLanguage::ToeflForm.new
+        @toefl_form = EnglishForeignLanguage::ToeflForm.new(toefl_params)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
       def create
         @toefl_form = EnglishForeignLanguage::ToeflForm.new(toefl_params)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
 
         if @toefl_form.save
-          redirect_to candidate_interface_english_foreign_language_review_path
+          redirect_to candidate_interface_english_foreign_language_review_path(@return_to[:params])
         else
           track_validation_error(@toefl_form)
           render :new
@@ -23,13 +25,15 @@ module CandidateInterface
         redirect_to_efl_root and return unless toefl
 
         @toefl_form = EnglishForeignLanguage::ToeflForm.new.fill(toefl: toefl)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
       end
 
       def update
         @toefl_form = EnglishForeignLanguage::ToeflForm.new(toefl_params)
+        @return_to = return_to_after_edit(default: candidate_interface_english_foreign_language_review_path)
 
         if @toefl_form.save
-          redirect_to candidate_interface_english_foreign_language_review_path
+          redirect_to @return_to[:back_path]
         else
           track_validation_error(@toefl_form)
           render :edit
