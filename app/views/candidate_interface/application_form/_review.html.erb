@@ -114,7 +114,7 @@
     <%= render(CandidateInterface::WorkHistoryReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: !application_form.work_history_completed && editable, missing_error: missing_error)) %>
   <% end %>
   <h3 class="govuk-heading-m"><%= t('page_titles.volunteering.short') %></h3>
-  <%= render(CandidateInterface::VolunteeringReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: true, missing_error: missing_error)) %>
+  <%= render(CandidateInterface::VolunteeringReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: true, missing_error: missing_error, return_to_application_review: true)) %>
 </section>
 
 <section class="govuk-!-margin-bottom-8">
