@@ -129,9 +129,9 @@ RSpec.feature 'Candidate is redirected correctly' do
   def then_i_should_see_the_edit_role_form
     expect(page).to have_current_path(
       candidate_interface_edit_volunteering_role_path(
-      current_candidate.application_forms.first.application_volunteering_experiences.first.id,
-      'return-to' => 'application-review'
-      )
+        current_candidate.application_forms.first.application_volunteering_experiences.first.id,
+        'return-to' => 'application-review',
+      ),
     )
   end
 
