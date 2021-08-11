@@ -137,3 +137,6 @@ deploy-plan: deploy-init
 
 deploy: deploy-init
 	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars
+
+destroy: deploy-init
+	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars
