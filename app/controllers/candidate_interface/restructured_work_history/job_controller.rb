@@ -2,12 +2,16 @@ module CandidateInterface
   class RestructuredWorkHistory::JobController < RestructuredWorkHistory::BaseController
     def new
       @job_form = RestructuredWorkHistory::JobForm.new
+      @return_to = return_to
     end
 
     def create
       @job_form = RestructuredWorkHistory::JobForm.new(job_form_params)
+      @return_to = return_to
 
       if @job_form.save(current_application)
+        return redirect_to return_to[:back_path] if redirect_back_to_application_review_page?
+
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@job_form)
@@ -18,13 +22,15 @@ module CandidateInterface
 
     def edit
       @job_form = RestructuredWorkHistory::JobForm.build_form(job)
+      @return_to = return_to
     end
 
     def update
       @job_form = RestructuredWorkHistory::JobForm.new(job_form_params)
+      @return_to = return_to
 
       if @job_form.update(job)
-        redirect_to candidate_interface_restructured_work_history_review_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@job_form)
         @job_form.cast_booleans
@@ -34,12 +40,16 @@ module CandidateInterface
 
     def confirm_destroy
       @job = job
+      @return_to = return_to
     end
 
     def destroy
       job.destroy!
+      current_application.application_work_experiences.reload
 
-      if current_application.application_work_experiences.blank? && current_application.application_work_history_breaks.present?
+      if redirect_back_to_application_review_page?
+        redirect_to candidate_interface_application_review_path
+      elsif current_application.application_work_experiences.blank? && current_application.application_work_history_breaks.present?
         current_application.update!(work_history_completed: nil)
         current_application.application_work_history_breaks.destroy_all
         redirect_to candidate_interface_restructured_work_history_path
@@ -51,6 +61,16 @@ module CandidateInterface
     end
 
   private
+
+    def return_to
+      default_path = if current_application.application_work_experiences.present?
+                       candidate_interface_restructured_work_history_review_path
+                     else
+                       candidate_interface_restructured_work_history_path
+                     end
+
+      return_to_after_edit(default: default_path)
+    end
 
     def job
       current_application
