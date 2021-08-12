@@ -19,7 +19,12 @@
     <%= govuk_inset_text(classes: 'govuk-!-margin-top-0 govuk-!-width-two-thirds') do %>
       <p>The Department for Education have made it easier for teacher training applicants to gain experience in school.</p>
       <p>
-        <%= govuk_link_to t('application_form.volunteering.no_experience.get_experience'), 'https://schoolexperience.education.gov.uk', target: :_blank, rel: 'noopener' %>
+        <%= govuk_link_to(
+          t('application_form.volunteering.no_experience.get_experience'),
+          t('get_into_teaching.url_get_school_experience'),
+          target: :_blank,
+          rel: 'noopener',
+        ) %>
       </p>
     <% end %>
   <% end %>

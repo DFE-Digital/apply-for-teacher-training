@@ -249,7 +249,10 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def then_i_can_see_a_link_to_get_school_experience
-    expect(page).to have_link(t('application_form.volunteering.no_experience.get_experience'), href: 'https://schoolexperience.education.gov.uk')
+    expect(page).to have_link(
+      t('application_form.volunteering.no_experience.get_experience'),
+      href: 'https://getintoteaching.education.gov.uk/get-school-experience',
+    )
   end
 
   def when_i_click_on_change
