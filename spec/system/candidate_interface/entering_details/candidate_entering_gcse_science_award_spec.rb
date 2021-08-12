@@ -61,7 +61,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
 
   def then_i_see_the_multiple_science_gcses_grade_page
     expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'science', qualification_type: 'GCSE')
-    expect(page).to have_content 'Select the GCSEs you did and include your grade'
+    expect(page).to have_content 'Select the GCSE you did and include your grade'
   end
 
   def then_i_select_single_award
