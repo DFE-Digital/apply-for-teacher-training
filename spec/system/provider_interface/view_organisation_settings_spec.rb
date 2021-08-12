@@ -60,7 +60,7 @@ RSpec.feature 'Organisation settings' do
   end
 
   def and_i_see_a_link_to_manage_users_for_my_provider
-    expect(page).to have_link("Users #{@first_provider.name}", href: provider_interface_provider_users_path)
+    expect(page).to have_link("Users #{@first_provider.name}", href: provider_interface_organisation_settings_organisation_users_path(@first_provider))
   end
 
   def and_i_see_a_link_to_manage_organisation_permissions_for_my_provider

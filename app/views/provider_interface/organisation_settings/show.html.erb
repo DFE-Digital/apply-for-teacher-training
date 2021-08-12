@@ -10,7 +10,7 @@
         <% end %>
         <ul class="govuk-list govuk-list--spaced">
           <li>
-            <%= govuk_link_to provider_interface_provider_users_path do %>
+            <%= govuk_link_to provider_interface_organisation_settings_organisation_users_path(provider) do %>
               <%= t('page_titles.provider.users') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
             <% end %>
           </li>
