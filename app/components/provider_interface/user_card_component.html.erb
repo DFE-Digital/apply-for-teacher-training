@@ -1,0 +1,18 @@
+<div class="app-user-card">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+    <%= govuk_link_to provider_user.full_name, provider_interface_organisation_settings_organisation_user_path(provider, provider_user) %>
+    <span class="govuk-!-font-weight-regular"> - <%= provider_user.email_address %></span>
+  </h2>
+  <% if provider_user_permissions.any? %>
+    <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-hint">
+      <%= t('.permissions_list_preamble') %>
+    </p>
+    <ul class="govuk-list govuk-list--bullet govuk-!-margin-top-1 govuk-!-margin-bottom-0 govuk-!-font-size-16 govuk-hint">
+      <% provider_user_permissions.each do |permission| %>
+        <li>
+          <%= t("user_permissions.#{permission}.description").downcase %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

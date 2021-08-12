@@ -1,0 +1,10 @@
+.app-user-card {
+  border-bottom: 1px solid govuk-colour('mid-grey');
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.app-user-card:first-of-type {
+  border-top: 1px solid govuk-colour('mid-grey');
+  padding-top: 10px;
+}
