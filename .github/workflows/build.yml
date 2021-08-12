@@ -116,7 +116,7 @@ jobs:
             exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface,*api*}/**/*_spec.rb,spec/system/**/*_spec.rb
           - tests: unit_candidate-provider
             include-pattern: spec/**/{candidate_interface,provider_interface}/**/*_spec.rb
-            exclude-pattern: spec/system/{candidate_interface,provider_interface}/**/*_spec.rb
+            exclude-pattern: spec/system/**/**/*_spec.rb
           - tests: unit_support-referee-api
             include-pattern: spec/**/{support_interface,referee_interface,*api*}/**/*_spec.rb
             exclude-pattern: spec/system/**/*_spec.rb
