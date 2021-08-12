@@ -77,10 +77,20 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
     context 'when the change path is provided' do
       let(:change_path) { '/path-to-change' }
 
-      it 'renders an action link with hidden text set to the relationship description' do
-        expect(render.css('a').text).to include('Change')
-        expect(render.css('a .govuk-visually-hidden').text).to eq(" #{training_provider.name} and #{ratifying_provider.name}")
-        expect(render.css('a').first.attributes['href'].value).to eq(change_path)
+      context 'when the user can manage the relationship' do
+        let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [training_provider]) }
+
+        it 'renders an action link with hidden text set to the relationship description' do
+          expect(render.css('a').text).to include('Change')
+          expect(render.css('a .govuk-visually-hidden').text).to eq(" #{training_provider.name} and #{ratifying_provider.name}")
+          expect(render.css('a').first.attributes['href'].value).to eq(change_path)
+        end
+      end
+
+      context 'when the user cannot manage the relationship' do
+        it 'does not render an action link' do
+          expect(render.css('a')).to be_empty
+        end
       end
     end
   end

@@ -93,5 +93,17 @@ module ProviderInterface
         relationship.training_provider == provider ? relationship.ratifying_provider.name : relationship.training_provider.name
       end
     end
+
+    def change_link_for_relationship(relationship)
+      relationship_providers = [relationship.training_provider, relationship.ratifying_provider]
+      auth = current_provider_user.authorisation
+      current_user_can_manage_relationship = relationship_providers.any? { |p| auth.can_manage_organisation?(provider: p) }
+
+      if current_user_can_manage_relationship
+        edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: provider.id)
+      end
+    end
+
+    helper_method :change_link_for_relationship
   end
 end
