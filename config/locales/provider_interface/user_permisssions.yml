@@ -19,3 +19,5 @@ en:
         access_to_orgs:
           heading: Access to organisations
           key: Organisations you have access to
+    user_card_component:
+      permissions_list_preamble: 'This user has permission to:'
