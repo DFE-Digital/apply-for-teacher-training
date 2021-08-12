@@ -24,6 +24,8 @@ variable "postgres_service_plan" {}
 
 variable "worker_redis_service_plan" {}
 
+variable "cache_redis_service_plan" {}
+
 variable "clock_app_memory" {}
 
 variable "worker_app_memory" {}
@@ -42,6 +44,7 @@ locals {
   worker_app_name           = "apply-worker-${var.app_environment}"
   postgres_service_name     = "apply-postgres-${var.app_environment}"
   worker_redis_service_name = "apply-worker-redis-${var.app_environment}"
+  cache_redis_service_name  = "apply-cache-redis-${var.app_environment}"
   logging_service_name      = "apply-logit-${var.app_environment}"
   postgres_params = {
     enable_extensions = ["pg_buffercache", "pg_stat_statements", "pgcrypto"]
@@ -49,7 +52,11 @@ locals {
   noeviction_maxmemory_policy = {
     maxmemory_policy = "noeviction"
   }
-  app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis, cloudfoundry_user_provided_service.logging]
+  allkeys_lru_maxmemory_policy = {
+    maxmemory_policy = "allkeys-lru"
+  }
+  app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis,
+  cloudfoundry_service_instance.redis_cache, cloudfoundry_user_provided_service.logging]
   service_gov_uk_host_names = {
     qa        = "qa"
     staging   = "staging"
@@ -72,6 +79,7 @@ locals {
     {
       BLAZER_DATABASE_URL = cloudfoundry_service_key.postgres-readonly-key.credentials.uri
       REDIS_URL           = cloudfoundry_service_key.worker_redis_key.credentials.uri
+      REDIS_CACHE_URL     = cloudfoundry_service_key.cache_redis_key.credentials.uri
   })
   web_app_env_variables    = merge(local.app_environment_variables, { SERVICE_TYPE = "web" })
   clock_app_env_variables  = merge(local.app_environment_variables, { SERVICE_TYPE = "clock" })

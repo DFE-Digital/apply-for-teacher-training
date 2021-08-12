@@ -46,6 +46,7 @@ module "paas" {
   logstash_url              = local.infra_secrets.LOGSTASH_URL
   postgres_service_plan     = var.paas_postgres_service_plan
   worker_redis_service_plan = var.paas_worker_redis_service_plan
+  cache_redis_service_plan  = var.paas_cache_redis_service_plan
   clock_app_memory          = var.paas_clock_app_memory
   worker_app_memory         = var.paas_worker_app_memory
   clock_app_instances       = var.paas_clock_app_instances
