@@ -36,8 +36,8 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_synced_providers_exist
-    @provider_one = create(:provider, name: 'Example provider one', code: 'ABC', sync_courses: true)
-    @provider_two = create(:provider, name: 'Example provider two', code: 'DEF', sync_courses: true)
+    @provider_one = create(:provider, name: 'Example provider one', code: 'ABC')
+    @provider_two = create(:provider, name: 'Example provider two', code: 'DEF')
 
     create(:course, :open_on_apply, provider: @provider_one)
     create(:course, :open_on_apply, provider: @provider_two)

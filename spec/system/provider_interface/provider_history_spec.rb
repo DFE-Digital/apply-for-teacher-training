@@ -18,7 +18,7 @@ RSpec.feature 'Provider history', with_audited: true do
 
   def when_a_course_is_created_and_updated
     @provider = create(:provider)
-    @provider.update!(sync_courses: true)
+    @provider.update!(name: 'New Name')
   end
 
   def and_a_related_record_is_created

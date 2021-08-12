@@ -111,4 +111,23 @@ RSpec.describe Provider, type: :model do
       expect(provider.lacks_admin_users?).to be false
     end
   end
+
+  describe '.with_courses' do
+    let(:provider) { create :provider }
+
+    it 'doesnt return providers with no courses' do
+      expect(described_class.with_courses).to eq([])
+    end
+
+    it 'returns a provider that has a course' do
+      create(:course, provider: provider)
+      expect(described_class.with_courses).to eq([provider])
+    end
+
+    it 'only returns providers with courses' do
+      create(:course, provider: provider)
+      create(:provider)
+      expect(described_class.with_courses).to eq([provider])
+    end
+  end
 end

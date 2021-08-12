@@ -113,10 +113,10 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops, with_audited: true do
     end
 
     it 'logs rather than deleting audits' do
-      # we prefer sync_courses: true providers in the dry run because the impact of breaking one is greater :D
-      provider = create(:provider, sync_courses: true)
+      provider = create(:provider)
       provider.update(latitude: 1, longitude: 1)
       provider.update(latitude: nil, longitude: nil)
+      create(:course, provider: provider)
 
       allow(Rails.logger).to receive(:info).and_call_original
 

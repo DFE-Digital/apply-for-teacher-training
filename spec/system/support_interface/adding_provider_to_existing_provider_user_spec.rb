@@ -7,7 +7,7 @@ RSpec.feature 'Managing provider users v2' do
   scenario 'adding provider to an existing provider user', with_audited: true do
     given_dfe_signin_is_configured
     and_i_am_a_support_user
-    and_synced_providers_exist
+    and_providers_exist
     and_a_provider_user_exists_for_the_first_provider
 
     when_i_visit_the_second_provider_page
@@ -30,9 +30,9 @@ RSpec.feature 'Managing provider users v2' do
     sign_in_as_support_user
   end
 
-  def and_synced_providers_exist
-    @provider_one = create(:provider, name: 'Example provider one', code: 'ABC', sync_courses: true)
-    @provider_two = create(:provider, name: 'Example provider two', code: 'DEF', sync_courses: true)
+  def and_providers_exist
+    @provider_one = create(:provider, name: 'Example provider one', code: 'ABC')
+    @provider_two = create(:provider, name: 'Example provider two', code: 'DEF')
 
     create(:course, :open_on_apply, provider: @provider_one)
     create(:course, :open_on_apply, provider: @provider_two)

@@ -31,7 +31,6 @@ module TeacherTrainingPublicAPI
 
     def provider_attrs_from(provider_from_api)
       {
-        sync_courses: true,
         region_code: provider_from_api.region_code&.strip,
         postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,
