@@ -23,7 +23,17 @@
       "size": "hobby"
     }
   },
-  "addons": ["heroku-postgresql:hobby-basic", "heroku-redis:hobby-dev"],
+  "addons": [
+    "heroku-postgresql:hobby-basic",
+    "heroku-redis:hobby-dev",
+    {
+      "plan": "heroku-redis:hobby-dev",
+      "as": "REDIS_CACHE",
+      "options": {
+        "maxmemory-policy": "allkeys-lru"
+      }
+    }
+  ],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
