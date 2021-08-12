@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Provider views organisation settings' do
   include DfESignInHelpers
 
+  # Behaviour tested here has moved to spec/system/provider_interface/view_organisation_settings_spec.rb
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider views organisation settings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_view_applications_for_some_providers

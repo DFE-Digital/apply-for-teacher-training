@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Managing provider user permissions' do
   include DfESignInHelpers
 
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider manages permissions for users' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
