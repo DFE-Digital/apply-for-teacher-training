@@ -3,9 +3,14 @@ module RestructuredWorkHistory
   class WorkBreakComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(work_break:, editable: true)
+    def initialize(work_break:, editable: true, return_to_application_review: false)
       @work_break = work_break
       @editable = editable
+      @return_to_application_review = return_to_application_review
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' } if @return_to_application_review
     end
 
   private

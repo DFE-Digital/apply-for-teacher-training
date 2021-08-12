@@ -2,12 +2,16 @@ module CandidateInterface
   class RestructuredWorkHistory::BreakController < RestructuredWorkHistory::BaseController
     def new
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.build_from_date_params(date_params)
+      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
     end
 
     def create
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.new(work_history_break_params)
+      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
 
       if @work_break.save(current_application)
+        return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
+
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@work_break)
@@ -17,13 +21,15 @@ module CandidateInterface
 
     def edit
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.build_from_break(current_work_history_break)
+      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
     end
 
     def update
       @work_break = RestructuredWorkHistory::WorkHistoryBreakForm.new(work_history_break_params)
+      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
 
       if @work_break.update(current_work_history_break)
-        redirect_to candidate_interface_restructured_work_history_review_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@work_break)
         render :edit
@@ -32,12 +38,16 @@ module CandidateInterface
 
     def confirm_destroy
       @work_break = current_work_history_break
+      @return_to = return_to_after_edit(default: candidate_interface_restructured_work_history_review_path)
     end
 
     def destroy
       current_work_history_break.destroy!
+      current_application.application_work_experiences.reload
 
-      if current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?
+      if redirect_back_to_application_review_page?
+        redirect_to candidate_interface_application_review_path
+      elsif current_application.application_work_experiences.present? || current_application.application_work_history_breaks.present?
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         current_application.update!(work_history_completed: nil)

@@ -108,7 +108,14 @@
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.work_experience') %></h2>
   <% if FeatureFlag.active?(:restructured_work_history) && @application_form.feature_restructured_work_history %>
-    <%= render(RestructuredWorkHistory::ReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: !application_form.work_history_completed && editable, missing_error: missing_error)) %>
+    <%= render(RestructuredWorkHistory::ReviewComponent.new(
+      application_form: application_form,
+      editable: editable,
+      heading_level: 4,
+      show_incomplete: !application_form.work_history_completed && editable,
+      missing_error: missing_error,
+      return_to_application_review: true,
+    )) %>
   <% else %>
     <h3 class="govuk-heading-m"><%= t('page_titles.work_history') %></h3>
     <%= render(CandidateInterface::WorkHistoryReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, show_incomplete: !application_form.work_history_completed && editable, missing_error: missing_error)) %>

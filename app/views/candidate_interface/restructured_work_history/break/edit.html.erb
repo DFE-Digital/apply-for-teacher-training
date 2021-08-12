@@ -1,9 +1,9 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.work_history_break'), @work_break.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_restructured_work_history_review_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @work_break, url: candidate_interface_edit_restructured_work_history_break_path, method: :patch do |f| %>
+    <%= form_with model: @work_break, url: candidate_interface_edit_restructured_work_history_break_path(@return_to[:params]), method: :patch do |f| %>
       <%= render 'form', f: f %>
     <% end %>
   </div>

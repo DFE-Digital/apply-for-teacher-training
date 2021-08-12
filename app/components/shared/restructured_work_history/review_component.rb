@@ -1,13 +1,14 @@
 # NOTE: This component is used by both provider and support UIs
 module RestructuredWorkHistory
   class ReviewComponent < ViewComponent::Base
-    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
+    def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false, return_to_application_review: false)
       @application_form = application_form
       @editable = editable
       @heading_level = heading_level
       @show_incomplete = show_incomplete
       @missing_error = missing_error
       @work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(@application_form).timeline
+      @return_to_application_review = return_to_application_review
     end
 
     def show_missing_banner?
@@ -38,7 +39,7 @@ module RestructuredWorkHistory
 
   private
 
-    attr_reader :application_form
+    attr_reader :application_form, :return_to_application_review
 
     def no_work_experience_value
       application_form.full_time_education? ? t('application_form.work_history.full_time_education.label') : application_form.work_history_explanation
