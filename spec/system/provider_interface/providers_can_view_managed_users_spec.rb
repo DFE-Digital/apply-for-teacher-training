@@ -4,6 +4,7 @@ RSpec.feature 'Providers can view managed users' do
   include DfESignInHelpers
   include DsiAPIHelper
 
+  # Behaviour tested here has moved to spec/system/provider_interface/view_organisation_users_spec.rb
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'Provider use can see their individual users permissions' do
