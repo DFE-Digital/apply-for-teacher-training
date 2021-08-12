@@ -8,6 +8,7 @@ class TimeLimitCalculator
 
   def call
     days = calculate_days
+
     {
       days: days,
       time_in_future: calculate_time_in_future(days),

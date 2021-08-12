@@ -17,6 +17,11 @@ RSpec.describe SetRejectByDefault do
       ['4 Jan 2019 11:00:00 PM GMT', '2 Mar 2019 0:00:00 AM GMT',  'safely within GMT'],
       ['1 Jul 2020 11:00:00 PM BST', '30 Jul 2020 0:00:00 AM BST', 'during the 20-day summer period'],
       ['21 Nov 2020 12:00:00 PM GMT', '2 Feb 2021 0:00:00 AM GMT', 'near the UCAS winter break'],
+      ['1 Sept 2021 0:00:00 AM BST', '29 Sept 2021 23:59:59 PM BST', 'not beyond the 2021 EoC deadline'],
+      ['7 Sept 2021 0:00:00 AM BST', '1 Oct 2021 23:59:59 PM BST', 'beyond the 2021 EoC deadline'],
+      ['20 Sept 2021 0:00:00 AM BST', '1 Oct 2021 23:59:59 PM BST', 'beyond the 2021 EoC deadline'],
+      ['29 Sept 2021 0:00:00 AM BST', '1 Oct 2021 23:59:59 PM BST', 'beyond the 2021 EoC deadline'],
+      ['28 Sept 2020 0:00:00 AM BST', '2 Oct 2020 23:59:59 PM BST', 'beyond the 2020 EoC deadline'],
     ].freeze
 
     submitted_vs_rbd_dates.each do |submitted, correct_rbd, test_case|
