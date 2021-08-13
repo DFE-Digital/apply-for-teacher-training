@@ -9,8 +9,8 @@ class Clock
   error_handler { |error| Sentry.capture_exception(error) if defined? Sentry }
 
   # More-than-hourly jobs
-  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
-  every(11.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI') do
+  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
+  every(11.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI', skip_first_run: true) do
     if FeatureFlag.active?(:sync_next_cycle)
       TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true, RecruitmentCycle.next_year)
     end
@@ -53,14 +53,15 @@ class Clock
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
+  every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '12:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
 
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') do
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.current_year, true)
   end
 
   every(7.days, 'FullSyncNextCycleFromTeacherTrainingPublicAPI', at: '03:59') do
     if FeatureFlag.active?(:sync_next_cycle)
-      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.next_year)
+      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.next_year, true)
     end
   end
 end

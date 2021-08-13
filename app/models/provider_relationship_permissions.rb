@@ -7,6 +7,15 @@ class ProviderRelationshipPermissions < ApplicationRecord
   validate :at_least_one_active_permission_in_pair, if: -> { setup_at.present? || validation_context == :setup }
   audited associated_with: :training_provider
 
+  scope :providers_have_open_course, lambda {
+    course_joins_sql = <<-SQL
+      JOIN courses
+      ON provider_relationship_permissions.training_provider_id = courses.provider_id
+      AND provider_relationship_permissions.ratifying_provider_id = courses.accredited_provider_id
+    SQL
+    joins(course_joins_sql).merge(Course.current_cycle.open_on_apply).distinct
+  }
+
   def self.all_relationships_for_providers(providers)
     provider_ids = providers.map(&:id)
     table = ProviderRelationshipPermissions.arel_table
@@ -21,12 +30,23 @@ class ProviderRelationshipPermissions < ApplicationRecord
     end
   end
 
-  def training_provider_can_view_applications_only?
-    PERMISSIONS.map { |permission| send("training_provider_can_#{permission}") }.all?(false)
+  def partner_organisation(provider)
+    return training_provider if provider == ratifying_provider
+    return ratifying_provider if provider == training_provider
+
+    nil
   end
 
-  def ratifying_provider_can_view_applications_only?
-    PERMISSIONS.map { |permission| send("ratifying_provider_can_#{permission}") }.all?(false)
+  def permit?(permission, provider)
+    if provider == training_provider
+      send("training_provider_can_#{permission}")
+    else
+      send("ratifying_provider_can_#{permission}")
+    end
+  end
+
+  def providers_have_open_course?
+    Course.current_cycle.open_on_apply.exists?(provider: training_provider, accredited_provider: ratifying_provider)
   end
 
 private
@@ -40,11 +60,7 @@ private
   end
 
   def error_message_for_permission(permission)
-    if FeatureFlag.active?(:accredited_provider_setting_permissions)
-      permission_description = I18n.t("provider_relationship_permissions.#{permission}.description")
-      "Select who can #{permission_description.downcase}"
-    else
-      "Select which organisations can #{permission.to_s.humanize.downcase}"
-    end
+    permission_description = I18n.t("provider_relationship_permissions.#{permission}.description")
+    "Select who can #{permission_description.downcase}"
   end
 end

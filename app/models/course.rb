@@ -17,7 +17,7 @@ class Course < ApplicationRecord
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
   scope :with_subjects, ->(subject_ids) { joins(:subjects).merge(Subject.where(id: subject_ids)) }
 
-  scope :with_course_options, -> { left_outer_joins(:course_options).where('course_options.id IS NOT NULL') }
+  scope :with_course_options, -> { left_outer_joins(:course_options).where.not(course_options: { id: nil }) }
   CODE_LENGTH = 4
 
   # This enum is copied verbatim from Find to maintain consistency

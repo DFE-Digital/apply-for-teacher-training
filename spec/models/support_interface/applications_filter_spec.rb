@@ -65,5 +65,16 @@ RSpec.describe SupportInterface::ApplicationsFilter do
         },
       )
     end
+
+    it 'can filter by status' do
+      expected_form = application_choice_with_offer.application_form
+
+      verify_filtered_applications_for_params(
+        [expected_form],
+        params: {
+          status: %w[offer],
+        },
+      )
+    end
   end
 end

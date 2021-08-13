@@ -1,6 +1,7 @@
 @import "application";
 @import "support/all";
 @import "components/paginated_filter";
+@import "components/checkbox_search_filter";
 
 .app-data-set-documentation--datatype {
   color: $govuk-secondary-text-colour;

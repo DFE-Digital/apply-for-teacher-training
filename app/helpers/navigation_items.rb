@@ -58,31 +58,25 @@ class NavigationItems
           items << NavigationItem.new('Activity log', provider_interface_activity_log_path, active?(current_controller, %w[activity_log]))
         end
 
-        if FeatureFlag.active?(:export_application_data) || FeatureFlag.active?(:export_hesa_data)
-          items << NavigationItem.new('Export data', provider_interface_new_application_data_export_path, active?(current_controller, %w[application_data_export hesa_export]), 'app-primary-navigation__item--align-right')
-        end
+        items << NavigationItem.new('Reports', provider_interface_reports_path, active?(current_controller, %w[reports application_data_export hesa_export]), 'app-primary-navigation__item--align-right')
       end
 
       items
     end
 
     def for_provider_account_nav(current_provider_user, current_controller, performing_setup: false)
-      return [] if (active_action?(current_controller, 'new') && !active?(current_controller, 'application_data_export')) || active_action?(current_controller, 'sign_in_by_email')
+      return [] if (active_action?(current_controller, 'new') && active?(current_controller, 'sessions')) || active_action?(current_controller, 'sign_in_by_email')
 
       return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
 
       items = []
 
       unless performing_setup
-        if FeatureFlag.active?(:accredited_provider_setting_permissions)
-          if current_provider_user.authorisation.can_manage_users_or_organisations_for_at_least_one_setup_provider?
-            items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisation_settings organisations provider_users provider_relationship_permissions]))
-          end
-
-          items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile notifications]))
-        else
-          items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile provider_users organisations provider_relationship_permissions notifications]))
+        if current_provider_user.authorisation.can_manage_users_or_organisations_for_at_least_one_setup_provider? || FeatureFlag.active?(:account_and_org_settings_changes)
+          items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisation_settings organisations provider_users provider_relationship_permissions]))
         end
+
+        items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile notifications]))
       end
 
       sign_out_navigation = if current_provider_user.impersonator

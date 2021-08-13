@@ -1,6 +1,6 @@
 module CandidateInterface
   class GcseQualificationReviewComponent < ViewComponent::Base
-    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false)
+    def initialize(application_form:, application_qualification:, subject:, editable: true, heading_level: 2, missing_error: false, submitting_application: false, return_to_application_review: false)
       @application_form = application_form
       @application_qualification = application_qualification
       @subject = subject
@@ -8,6 +8,7 @@ module CandidateInterface
       @heading_level = heading_level
       @missing_error = missing_error
       @submitting_application = submitting_application
+      @return_to_application_review = return_to_application_review
     end
 
     def gcse_qualification_rows
@@ -54,7 +55,8 @@ module CandidateInterface
         key: t('application_form.gcse.qualification.label'),
         value: gcse_qualification_types[application_qualification.qualification_type.to_sym.downcase],
         action: "qualification for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_type_path(change_path_params),
+        data_qa: "gcse-#{subject}-qualification",
       }
     end
 
@@ -63,7 +65,8 @@ module CandidateInterface
         key: 'Year awarded',
         value: application_qualification.award_year || t('gcse_summary.not_specified'),
         action: "year awarded for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        change_path: candidate_interface_gcse_details_edit_year_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_year_path(change_path_params),
+        data_qa: "gcse-#{subject}-award-year",
       }
     end
 
@@ -73,6 +76,7 @@ module CandidateInterface
         value: present_grades || t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: grade_edit_path,
+        data_qa: "gcse-#{subject}-grade",
       }
     end
 
@@ -83,7 +87,8 @@ module CandidateInterface
         key: 'How I expect to gain this qualification',
         value: application_qualification.missing_explanation,
         action: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
-        change_path: candidate_interface_gcse_details_edit_grade_explanation_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
+        data_qa: 'gcse-failing-grade-explanation',
       }
     end
 
@@ -131,7 +136,8 @@ module CandidateInterface
         key: 'How I expect to gain this qualification',
         value: application_qualification.missing_explanation.presence || t('gcse_summary.not_specified'),
         action: 'how do you expect to gain this qualification',
-        change_path: candidate_interface_gcse_details_edit_type_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_type_path(change_path_params),
+        data_qa: 'gcse-missing-qualification-explanation',
       }
     end
 
@@ -149,7 +155,8 @@ module CandidateInterface
         key: 'Country',
         value: COUNTRIES[application_qualification.institution_country],
         action: 'Change the country that you studied in',
-        change_path: candidate_interface_gcse_details_edit_institution_country_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_institution_country_path(change_path_params),
+        data_qa: 'gcse-country',
       }
     end
 
@@ -160,7 +167,8 @@ module CandidateInterface
         key: t('application_form.gcse.enic_statement.review_label'),
         value: application_qualification.enic_reference ? 'Yes' : 'No',
         action: t('application_form.gcse.enic_statement.change_action'),
-        change_path: candidate_interface_gcse_details_edit_enic_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+        data_qa: 'gcse-enic-statement',
       }
     end
 
@@ -172,7 +180,8 @@ module CandidateInterface
         key: t('application_form.gcse.enic_reference.review_label'),
         value: application_qualification.enic_reference,
         action: t('application_form.gcse.enic_reference.change_action'),
-        change_path: candidate_interface_gcse_details_edit_enic_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+        data_qa: 'gcse-enic-reference',
       }
     end
 
@@ -184,18 +193,32 @@ module CandidateInterface
         key: t('application_form.gcse.comparable_uk_qualification.review_label'),
         value: application_qualification.comparable_uk_qualification,
         action: t('application_form.gcse.comparable_uk_qualification.change_action'),
-        change_path: candidate_interface_gcse_details_edit_enic_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_enic_path(change_path_params),
+        data_qa: 'gcse-comparable-uk-qualification',
       }
+    end
+
+    def return_to_params
+      { 'return-to' => 'application-review' } if @return_to_application_review
+    end
+
+    def change_path_params
+      params = { subject: subject }
+      if @return_to_application_review
+        params.merge(return_to_params)
+      else
+        params
+      end
     end
 
     def grade_edit_path
       case subject
       when 'maths'
-        candidate_interface_edit_gcse_maths_grade_path
+        candidate_interface_edit_gcse_maths_grade_path(return_to_params)
       when 'science'
-        candidate_interface_edit_gcse_science_grade_path
+        candidate_interface_edit_gcse_science_grade_path(return_to_params)
       when 'english'
-        candidate_interface_edit_gcse_english_grade_path
+        candidate_interface_edit_gcse_english_grade_path(return_to_params)
       end
     end
   end

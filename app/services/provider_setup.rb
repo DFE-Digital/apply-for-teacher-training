@@ -28,7 +28,7 @@ class ProviderSetup
 
   def relationships_pending
     manageable_relationships.select do |relationship|
-      (relationship.setup_at.blank? || relationship.invalid?) && open_course_for_relationship?(relationship)
+      (relationship.setup_at.blank? || relationship.invalid?) && relationship.providers_have_open_course?
     end
   end
 
@@ -36,15 +36,6 @@ private
 
   def manageable_relationships
     auth = ProviderAuthorisation.new(actor: @provider_user)
-
-    if FeatureFlag.active?(:accredited_provider_setting_permissions)
-      auth.provider_relationships_that_actor_can_manage_organisations_for
-    else
-      auth.training_provider_relationships_that_actor_can_manage_organisations_for
-    end
-  end
-
-  def open_course_for_relationship?(relationship)
-    Course.current_cycle.open_on_apply.exists?(provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
+    auth.provider_relationships_that_actor_can_manage_organisations_for
   end
 end

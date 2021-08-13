@@ -1,24 +1,20 @@
-<%= content_for :title, t('page_titles.provider.export_hesa_data', timeframe: '') %>
+<%= content_for :title, t('page_titles.provider.export_hesa_data') %>
 
-<% if FeatureFlag.active?(:export_application_data) %>
-  <% content_for :before_content do %>
-    <%= breadcrumbs({
-      t('page_titles.provider.export_application_data') => provider_interface_new_application_data_export_path,
-      t('page_titles.provider.export_hesa_data', timeframe: '') => nil,
-    }) %>
-  <% end %>
-<% end %>
+<%= breadcrumbs({
+  t('page_titles.provider.reports') => provider_interface_reports_path,
+  t('page_titles.provider.export_hesa_data') => nil,
+}) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t('page_titles.provider.export_hesa_data', timeframe: "since #{CycleTimetable.apply_opens.to_s(:govuk_date)}") %>
+      <%= t('page_titles.provider.export_hesa_data') %>
     </h1>
     <p class="govuk-body">
-      The data will include all candidates who have accepted an offer from any of your organisations.
+      The data will include all candidates who have accepted an offer since <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>.
     </p>
     <p class="govuk-body">
-      Diversity information will be marked confidential if you do not have permission to view it.
+      Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.
     </p>
   </div>
 

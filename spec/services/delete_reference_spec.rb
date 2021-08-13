@@ -32,8 +32,6 @@ RSpec.describe DeleteReference do
     end
 
     it 'marks the section as incomplete' do
-      FeatureFlag.activate(:reference_selection)
-
       application_form = create(:application_form, references_completed: true)
       create_list(:reference, 2, :feedback_provided, selected: true, application_form: application_form)
 

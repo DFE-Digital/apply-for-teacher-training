@@ -35,23 +35,25 @@ module CandidateAPI
                             .order('application_forms.created_at DESC')
 
       candidates.map do |candidate|
+        current_application = candidate.application_forms.order(:created_at).last
+
         {
           id: candidate.public_id,
           type: 'candidate',
           attributes: {
-            email_address: candidate.email_address,
             created_at: candidate.created_at,
             updated_at: candidate.candidate_api_updated_at,
-            application_forms: {
-              data: [candidate.application_forms.map do |application|
+            email_address: candidate.email_address,
+            application_status: ProcessState.new(current_application).state,
+            application_phase: current_application&.phase,
+            application_forms:
+              candidate.application_forms.map do |application|
                 {
                   id: application.id,
                   created_at: application.created_at,
-                  application_status: ProcessState.new(application).state,
-                  application_phase: application.phase,
+                  updated_at: application.updated_at,
                 }
-              end],
-            },
+              end,
           },
         }
       end

@@ -46,8 +46,9 @@ jobs:
       - name: Build gems-node-modules Docker Image
         uses: docker/build-push-action@v2
         with:
-          target: apply-for-teacher-training-gems-node-modules
+          target: gems-node-modules
           tags: |
+            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.IMAGE_TAG }}
             ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
           push: true
           cache-to: type=inline
@@ -68,9 +69,9 @@ jobs:
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.BRANCH_TAG }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
+            type=register,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
           build-args: |
             VERSION=${{ env.IMAGE_TAG }}
-            BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
 
   lint:
     name: Lint
@@ -80,7 +81,7 @@ jobs:
       run:
         working-directory: /app
     container:
-      image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
+      image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
       options: -a STDOUT -a STDERR -t
       credentials:
         username: ${{ github.actor }}
@@ -95,6 +96,12 @@ jobs:
     - run:  bundle exec rake brakeman
       name: Brakeman
 
+    - name: Yarn Lint
+      run: |
+        yarn install
+        yarn run lint && yarn run stylelint app/frontend/styles && \
+        yarn run test
+
   test:
     name: Tests
     needs: [build]
@@ -102,15 +109,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [unit, integration]
+        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
         feature-flags: [on, off]
         include:
-          - tests: unit
+          - tests: unit_shared
             include-pattern: spec/**/**/*_spec.rb
-            exclude-pattern: spec/{system,requests}/**/*_spec.rb
-          - tests: integration
-            include-pattern: spec/{system,requests}/**/*_spec.rb
-            exclude-pattern: ''
+            exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface,*api*}/**/*_spec.rb,spec/system/**/*_spec.rb
+          - tests: unit_candidate-provider
+            include-pattern: spec/**/{candidate_interface,provider_interface}/**/*_spec.rb
+            exclude-pattern: spec/system/**/**/*_spec.rb
+          - tests: unit_support-referee-api
+            include-pattern: spec/**/{support_interface,referee_interface,*api*}/**/*_spec.rb
+            exclude-pattern: spec/system/**/*_spec.rb
+          - tests: integration_shared
+            include-pattern: spec/system/**/*_spec.rb
+            exclude-pattern: spec/system/{provider_interface,candidate_interface}/**/*_spec.rb
+          - tests: integration_provider
+            include-pattern: spec/system/provider_interface/**/*_spec.rb
+          - tests: integration_candidate
+            include-pattern: spec/system/candidate_interface/**/*_spec.rb
     services:
       redis:
         image: redis:alpine

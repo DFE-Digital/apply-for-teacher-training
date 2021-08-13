@@ -44,7 +44,7 @@ RSpec.describe ApplicationForm do
         it 'does not throw an exception' do
           application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 1)
 
-          ApplicationForm.with_unsafe_application_choice_touches do
+          described_class.with_unsafe_application_choice_touches do
             expect { application_form.update(first_name: 'Maria') }
               .not_to raise_error
           end
@@ -273,38 +273,6 @@ RSpec.describe ApplicationForm do
         application_form.application_choices.build status: 'rejected'
         application_form.application_choices.build status: 'withdrawn'
         expect(application_form.ended_without_success?).to be true
-      end
-    end
-  end
-
-  describe '#too_many_complete_references?' do
-    context 'when reference_selection feature is on' do
-      before { FeatureFlag.activate(:reference_selection) }
-
-      it 'returns false' do
-        application_form = create :application_form
-        create_list(:reference, 3, :feedback_provided, application_form: application_form)
-        expect(application_form.too_many_complete_references?).to be false
-      end
-    end
-
-    context 'when reference_selection feature is off' do
-      before { FeatureFlag.deactivate(:reference_selection) }
-
-      it 'returns true if there are more than 2 references' do
-        application_form = create :application_form
-        create_list(:reference, 3, :feedback_provided, application_form: application_form)
-
-        expect(application_form.too_many_complete_references?).to be true
-      end
-
-      it 'returns false if there are 2 or fewer references' do
-        application_form = create :application_form
-        expect(application_form.too_many_complete_references?).to be false
-        application_form.application_references << create(:reference)
-        expect(application_form.too_many_complete_references?).to be false
-        application_form.application_references << create(:reference)
-        expect(application_form.too_many_complete_references?).to be false
       end
     end
   end

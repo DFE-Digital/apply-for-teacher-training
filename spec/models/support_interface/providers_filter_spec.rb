@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProvidersFilter do
   describe '#filter_records' do
-    it 'filters by synced courses' do
-      provider_with_synced_courses = create(:provider, sync_courses: true)
-      create(:provider, sync_courses: false)
-
+    it 'filters by having one or more courses' do
+      provider_with_course = create(:provider)
+      create(:course, :open_on_apply, provider: provider_with_course)
+      create(:provider)
       providers = Provider.all
-      filter = described_class.new(params: { onboarding_stages: %w[synced_only] })
+      filter = described_class.new(params: { onboarding_stages: %w[with_courses] })
 
-      expect(filter.filter_records(providers)).to eq [provider_with_synced_courses]
+      expect(filter.filter_records(providers)).to eq [provider_with_course]
     end
 
     it 'filters by DSA signed' do
@@ -75,9 +75,9 @@ RSpec.describe SupportInterface::ProvidersFilter do
     end
 
     it 'defaults to showing all providers' do
-      create(:provider, :with_signed_agreement, sync_courses: true)
+      create(:provider, :with_signed_agreement)
       create(:provider)
-      create(:provider, sync_courses: true) # only synced
+      create(:provider)
       create(:provider, :with_signed_agreement) # only signed
 
       providers = Provider.all

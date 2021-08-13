@@ -13,7 +13,7 @@ RSpec.describe GenerateTestApplications do
     slack_request = stub_request(:post, 'https://example.com')
 
     ClimateControl.modify(STATE_CHANGE_SLACK_URL: 'https://example.com') do
-      GenerateTestApplications.new.perform
+      described_class.new.perform
     end
 
     expect(slack_request).not_to have_been_made

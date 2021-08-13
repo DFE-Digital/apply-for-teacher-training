@@ -68,14 +68,14 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      work_experience = CandidateInterface::WorkExperienceForm.new
+      work_experience = described_class.new
 
       expect(work_experience.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'creates a new work experience if valid' do
       application_form = FactoryBot.create(:application_form)
-      work_experience = CandidateInterface::WorkExperienceForm.new(form_data)
+      work_experience = described_class.new(form_data)
 
       saved_work_experience = work_experience.save(application_form)
       expect(saved_work_experience).to have_attributes(data)
@@ -84,14 +84,14 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
 
   describe '#update' do
     it 'returns false if not valid' do
-      work_experience = CandidateInterface::WorkExperienceForm.new
+      work_experience = described_class.new
 
       expect(work_experience.update(ApplicationWorkExperience.new)).to eq(false)
     end
 
     it 'updates an existing work experience if valid' do
       application_form = FactoryBot.create(:application_form)
-      work_experience = CandidateInterface::WorkExperienceForm.new(form_data)
+      work_experience = described_class.new(form_data)
 
       saved_work_experience = work_experience.save(application_form)
 
@@ -106,7 +106,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
   describe '.build_from_experience' do
     it 'creates an object based on the provided experience' do
       application_work_experience = ApplicationWorkExperience.new(data)
-      work_experience_form = CandidateInterface::WorkExperienceForm.build_from_experience(
+      work_experience_form = described_class.build_from_experience(
         application_work_experience,
       )
 
@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it 'returns an empty string if end date is nil' do
       data[:end_date] = nil
       application_work_experience = ApplicationWorkExperience.new(data)
-      work_experience_form = CandidateInterface::WorkExperienceForm.build_from_experience(
+      work_experience_form = described_class.build_from_experience(
         application_work_experience,
       )
 

@@ -17,10 +17,10 @@ RSpec.describe ProviderAuthorisationAnalysis do
   let(:auth) { ProviderAuthorisation.new(actor: provider_user) }
 
   let(:analysis) do
-    ProviderAuthorisationAnalysis.new(permission: :make_decisions,
-                                      auth: auth,
-                                      application_choice: application_choice,
-                                      course_option_id: application_choice.course_option_id)
+    described_class.new(permission: :make_decisions,
+                        auth: auth,
+                        application_choice: application_choice,
+                        course_option_id: application_choice.course_option_id)
   end
 
   before do

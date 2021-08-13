@@ -1,5 +1,6 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
+  'DataMigrations::RemoveDuplicateProvider',
   'DataMigrations::BackfillReferencesCompleted',
   'DataMigrations::CleanseEocChasersSentData',
   'DataMigrations::BackfillSetupInterviewsPermission',
@@ -18,7 +19,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::SpecifyExportTypeForTADExports',
   'DataMigrations::SpecifyExportTypeForNotificationExports',
   'DataMigrations::FixMisspellingOfCaribbeanEthnicGroupAndSetHesaCodes',
-  'DataMigrations::PrefixNoteSubjectToMessage',
   'DataMigrations::TrimQualificationDegreeTypes',
   'DataMigrations::BackfillExportType',
   'DataMigrations::FixLatLongFlipFlops',

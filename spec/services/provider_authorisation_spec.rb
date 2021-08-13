@@ -4,7 +4,7 @@ RSpec.describe ProviderAuthorisation do
   include CourseOptionHelpers
 
   describe '#assert_can_set_up_interviews!' do
-    let(:auth_context) { ProviderAuthorisation.new(actor: nil) }
+    let(:auth_context) { described_class.new(actor: nil) }
 
     it 'raises a ValidationException if a course_option is not provided' do
       expect { auth_context.assert_can_set_up_interviews!(application_choice: nil) }.to raise_error(ValidationException, 'Please provide a course_option')
@@ -13,12 +13,12 @@ RSpec.describe ProviderAuthorisation do
     it 'raises an error if the actor cannot set up interviews' do
       allow(auth_context).to receive(:can_set_up_interviews?).and_return(false)
 
-      expect { auth_context.assert_can_set_up_interviews!(application_choice: nil, course_option: build_stubbed(:course_option)) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+      expect { auth_context.assert_can_set_up_interviews!(application_choice: nil, course_option: build_stubbed(:course_option)) }.to raise_error(described_class::NotAuthorisedError)
     end
   end
 
   describe '#assert_can_make_decisions!' do
-    let(:auth_context) { ProviderAuthorisation.new(actor: nil) }
+    let(:auth_context) { described_class.new(actor: nil) }
 
     it 'raises a ValidationException if neither a course_option or a course_option_id is provided' do
       expect { auth_context.assert_can_make_decisions!(application_choice: nil) }.to raise_error(ValidationException, 'Please provide a course_option or course_option_id')
@@ -27,7 +27,7 @@ RSpec.describe ProviderAuthorisation do
     it 'raises an error if the actor cannot make decisions' do
       allow(auth_context).to receive(:can_make_decisions?).and_return(false)
 
-      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: build_stubbed(:course_option).id) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: build_stubbed(:course_option).id) }.to raise_error(described_class::NotAuthorisedError)
     end
   end
 
@@ -93,7 +93,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     def can_make_decisions?(actor:, choice: application_choice)
-      auth_context = ProviderAuthorisation.new(actor: actor)
+      auth_context = described_class.new(actor: actor)
       auth_context.can_make_decisions?(
         application_choice: choice,
         course_option_id: choice.course_option.id,
@@ -118,8 +118,8 @@ RSpec.describe ProviderAuthorisation do
       it 'bad data: relationship record is missing' do
         provider_relationship_permissions.destroy
 
-        expect { can_make_decisions?(actor: training_provider_user) }.to raise_error(ProviderAuthorisation::RelationshipNotPresent)
-        expect { can_make_decisions?(actor: ratifying_provider_user) }.to raise_error(ProviderAuthorisation::RelationshipNotPresent)
+        expect { can_make_decisions?(actor: training_provider_user) }.to raise_error(described_class::RelationshipNotPresent)
+        expect { can_make_decisions?(actor: ratifying_provider_user) }.to raise_error(described_class::RelationshipNotPresent)
       end
 
       it 'training_provider for self-ratified course can always decide' do
@@ -468,7 +468,7 @@ RSpec.describe ProviderAuthorisation do
     let(:course) { create(:course, :open_on_apply) }
 
     context 'for a support user' do
-      subject(:auth_context) { ProviderAuthorisation.new(actor: support_user) }
+      subject(:auth_context) { described_class.new(actor: support_user) }
 
       let(:support_user) { create(:support_user) }
 
@@ -479,7 +479,7 @@ RSpec.describe ProviderAuthorisation do
     end
 
     context 'for a provider user' do
-      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+      subject(:auth_context) { described_class.new(actor: provider_user) }
 
       let(:provider_user) { create(:provider_user, :with_provider) }
 
@@ -533,7 +533,7 @@ RSpec.describe ProviderAuthorisation do
     context 'for a support user' do
       let(:support_user) { create(:support_user) }
 
-      subject(:auth_context) { ProviderAuthorisation.new(actor: support_user) }
+      subject(:auth_context) { described_class.new(actor: support_user) }
 
       it 'is true' do
         expect(auth_context.can_manage_organisation?(provider: create(:provider))).to be true
@@ -543,7 +543,7 @@ RSpec.describe ProviderAuthorisation do
     context 'for a provider user with permission to manage an organisation' do
       let(:provider_user) { create(:provider_user, :with_provider) }
 
-      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+      subject(:auth_context) { described_class.new(actor: provider_user) }
 
       it 'is true' do
         provider = provider_user.providers.first
@@ -556,7 +556,7 @@ RSpec.describe ProviderAuthorisation do
     context 'for a provider user without permission to manage an organisation' do
       let(:provider_user) { create(:provider_user, :with_provider) }
 
-      subject(:auth_context) { ProviderAuthorisation.new(actor: provider_user) }
+      subject(:auth_context) { described_class.new(actor: provider_user) }
 
       it 'is false' do
         provider = provider_user.providers.first
@@ -597,7 +597,7 @@ RSpec.describe ProviderAuthorisation do
         manage_organisations: true,
       )
 
-      expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for)
+      expect(described_class.new(actor: provider_user).providers_that_actor_can_manage_organisations_for)
         .to eq([training_provider])
     end
 
@@ -622,7 +622,7 @@ RSpec.describe ProviderAuthorisation do
           manage_organisations: true,
         )
 
-        expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
+        expect(described_class.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
           .to eq([])
       end
 
@@ -641,7 +641,7 @@ RSpec.describe ProviderAuthorisation do
                ratifying_provider: ratifying_provider,
                setup_at: nil)
 
-        expect(ProviderAuthorisation.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
+        expect(described_class.new(actor: provider_user).providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true))
           .to eq([])
       end
     end
@@ -649,7 +649,7 @@ RSpec.describe ProviderAuthorisation do
 
   describe '#provider_relationships_that_actor_can_manage_organisations_for' do
     let(:provider_relationship) { create(:provider_relationship_permissions) }
-    let(:auth) { ProviderAuthorisation.new(actor: provider_user) }
+    let(:auth) { described_class.new(actor: provider_user) }
 
     context 'when the user belongs to the training provider' do
       let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [provider_relationship.training_provider]) }

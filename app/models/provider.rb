@@ -1,4 +1,6 @@
 class Provider < ApplicationRecord
+  self.ignored_columns = %w[sync_courses]
+
   has_many :courses
   has_many :sites
   has_many :course_options, through: :courses
@@ -34,6 +36,10 @@ class Provider < ApplicationRecord
   def self.with_users_manageable_by(provider_user)
     joins(:provider_permissions)
       .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
+  end
+
+  def self.with_courses
+    includes(:courses).where.not(courses: { id: nil })
   end
 
   def name_and_code
@@ -76,7 +82,7 @@ class Provider < ApplicationRecord
   end
 
   def lacks_admin_users?
-    sync_courses &&
+    courses.any? &&
       !(provider_permissions.exists?(manage_users: true) &&
         provider_permissions.exists?(manage_organisations: true))
   end

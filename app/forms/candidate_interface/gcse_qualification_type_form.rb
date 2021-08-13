@@ -12,7 +12,8 @@ module CandidateInterface
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_UK_QUALIFICATION_TYPE }
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_QUALIFICATION_TYPE }
     validates :qualification_type, length: { maximum: 255 }
-    validates :other_uk_qualification_type, :non_uk_qualification_type, length: { maximum: 255 }
+    validates :non_uk_qualification_type, length: { maximum: 255 }
+    validates :other_uk_qualification_type, length: { maximum: 100 }
 
     validates :missing_explanation, word_count: { maximum: 200 }
 

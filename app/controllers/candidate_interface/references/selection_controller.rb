@@ -1,7 +1,6 @@
 module CandidateInterface
   module References
     class SelectionController < BaseController
-      before_action :render_404_unless_feature_enabled
       before_action :redirect_to_select_references_unless_enough_selected, only: %i[review complete]
 
       def new
@@ -9,15 +8,18 @@ module CandidateInterface
           application_form: current_application,
           selected: current_application.application_references.selected.pluck(:id),
         )
+        @return_to = return_to_after_edit(default: candidate_interface_review_selected_references_path)
+
         @enough_references_provided = current_application.minimum_references_available_for_selection?
       end
 
       def create
         @selection_form = CandidateInterface::Reference::SelectionForm.new(selection_params)
         @enough_references_provided = current_application.minimum_references_available_for_selection?
+        @return_to = return_to_after_edit(default: candidate_interface_review_selected_references_path)
 
         if @selection_form.save!
-          redirect_to candidate_interface_review_selected_references_path
+          redirect_to @return_to[:back_path]
         elsif !@enough_references_provided
           flash.now[:warning] = I18n.t('application_form.references.review.need_two')
           render :new and return
@@ -63,10 +65,6 @@ module CandidateInterface
 
       def section_complete_params
         strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
-      end
-
-      def render_404_unless_feature_enabled
-        render_404 unless FeatureFlag.active?(:reference_selection)
       end
     end
   end

@@ -61,11 +61,9 @@ RSpec.feature 'Apply again' do
     click_link 'Choose your course'
     candidate_fills_in_apply_again_course_choice
 
-    if FeatureFlag.active?(:reference_selection)
-      click_link 'Select 2 references'
-      choose 'Yes, I have completed this section'
-      click_button t('save_and_continue')
-    end
+    click_link 'Select 2 references'
+    choose 'Yes, I have completed this section'
+    click_button t('save_and_continue')
   end
 
   def then_subject_knowledge_needs_review

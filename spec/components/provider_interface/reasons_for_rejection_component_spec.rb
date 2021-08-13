@@ -53,7 +53,7 @@ RSpec.describe ReasonsForRejectionComponent do
       expect(result.css('h3.govuk-heading-s').text).to include('Performance at interview')
       expect(html).to include('There was no need to do all those pressups')
 
-      expect(result.css('h3.govuk-heading-s').text).to include('Additional advice')
+      expect(result.css('h3.govuk-heading-s').text).to include('Additional feedback')
       expect(html).to include('That zoom background...')
 
       expect(result.css('h3.govuk-heading-s').text).to include('Future applications')
@@ -72,7 +72,7 @@ RSpec.describe ReasonsForRejectionComponent do
       expect(result.css('h2.govuk-heading-s').text).to include('Quality of application')
       expect(result.css('h2.govuk-heading-s').text).to include('Qualifications')
       expect(result.css('h2.govuk-heading-s').text).to include('Performance at interview')
-      expect(result.css('h2.govuk-heading-s').text).to include('Additional advice')
+      expect(result.css('h2.govuk-heading-s').text).to include('Additional feedback')
       expect(result.css('h2.govuk-heading-s').text).to include('Future applications')
     end
   end

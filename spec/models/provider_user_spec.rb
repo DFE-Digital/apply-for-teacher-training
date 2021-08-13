@@ -17,7 +17,7 @@ RSpec.describe ProviderUser, type: :model do
         first_name: nil,
         last_name: nil,
       )
-      ProviderUser.onboard!(dsi_user)
+      described_class.onboard!(dsi_user)
       expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'
     end
 
@@ -29,7 +29,7 @@ RSpec.describe ProviderUser, type: :model do
         first_name: nil,
         last_name: nil,
       )
-      ProviderUser.onboard!(dsi_user)
+      described_class.onboard!(dsi_user)
       expect(provider_user.reload.dfe_sign_in_uid).to eq 'ABC123'
     end
   end
@@ -86,8 +86,8 @@ RSpec.describe ProviderUser, type: :model do
       user_b = create(:provider_user, providers: [provider])
       create(:provider_permissions, provider_user: user_a, provider: provider, manage_users: true)
 
-      expect(ProviderUser.visible_to(user_a)).to include(user_b)
-      expect(ProviderUser.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b
+      expect(described_class.visible_to(user_a)).to include(user_b)
+      expect(described_class.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b
     end
 
     it 'returns only one record per user' do
@@ -100,8 +100,8 @@ RSpec.describe ProviderUser, type: :model do
       create(:provider_permissions, provider_user: user_a, provider: provider_a, manage_users: true)
       create(:provider_permissions, provider_user: user_a, provider: provider_b, manage_users: true)
 
-      expect(ProviderUser.visible_to(user_a)).to include(user_b)
-      expect(ProviderUser.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b
+      expect(described_class.visible_to(user_a)).to include(user_b)
+      expect(described_class.visible_to(user_a).count).to eq(2) # user_a can see themselves plus user_b
     end
 
     it 'returns only users for providers for which the passed user has manage_users permission' do
@@ -114,8 +114,8 @@ RSpec.describe ProviderUser, type: :model do
       user_b = create(:provider_user, providers: [provider_a])
       user_c = create(:provider_user, providers: [provider_b])
 
-      expect(ProviderUser.visible_to(user_a)).to include(user_b)
-      expect(ProviderUser.visible_to(user_a)).not_to include(user_c)
+      expect(described_class.visible_to(user_a)).to include(user_b)
+      expect(described_class.visible_to(user_a)).not_to include(user_c)
     end
   end
 
@@ -123,13 +123,13 @@ RSpec.describe ProviderUser, type: :model do
     let(:dsi_user) { build(:dfe_sign_in_user) }
 
     it 'returns nil if there is no DfESignInUser session' do
-      provider_user = ProviderUser.load_from_session({})
+      provider_user = described_class.load_from_session({})
       expect(provider_user).to be_nil
     end
 
     it 'returns nil if there is no associated ProviderUser' do
       allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-      provider_user = ProviderUser.load_from_session({})
+      provider_user = described_class.load_from_session({})
       expect(provider_user).to be_nil
     end
 
@@ -142,7 +142,7 @@ RSpec.describe ProviderUser, type: :model do
         first_name: dsi_user.first_name,
         last_name: dsi_user.last_name,
       )
-      expect(ProviderUser.load_from_session({})).to eq(provider_user)
+      expect(described_class.load_from_session({})).to eq(provider_user)
     end
 
     it 'returns impersonated_provider_user from SupportUser, if available' do
@@ -153,7 +153,7 @@ RSpec.describe ProviderUser, type: :model do
       support_user.impersonated_provider_user = provider_user
       allow(SupportUser).to receive(:load_from_session).and_return(support_user)
 
-      loaded_user = ProviderUser.load_from_session({})
+      loaded_user = described_class.load_from_session({})
 
       expect(loaded_user).to eq(provider_user)
       expect(loaded_user.impersonator).to eq(support_user)

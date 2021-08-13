@@ -19,13 +19,15 @@ module CandidateInterface
 
       def edit
         @completion_status_form = DegreeCompletionStatusForm.new(completion_status_params).assign_form_values(current_degree)
+        @return_to = return_to_after_edit(default: candidate_interface_degrees_review_path)
       end
 
       def update
         @completion_status_form = DegreeCompletionStatusForm.new(completion_status_params)
+        @return_to = return_to_after_edit(default: candidate_interface_degrees_review_path)
 
         if @completion_status_form.save(current_degree)
-          redirect_to candidate_interface_degrees_review_path
+          redirect_to @return_to[:back_path]
         else
           track_validation_error(@completion_status_form)
           render :edit

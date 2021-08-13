@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
 
     it 'returns false if not valid' do
       course_choice = create(:application_choice, status: :offer)
-      declined_offer_form = SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm.new
+      declined_offer_form = described_class.new
 
       expect(declined_offer_form.save(course_choice)).to eq(false)
     end
@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
       Timecop.freeze do
         course_choice = create(:application_choice, :with_declined_offer)
 
-        declined_offer_form = SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm.new(
+        declined_offer_form = described_class.new(
           { status: :declined,
             audit_comment_ticket: zendesk_ticket,
             accept_guidance: true },

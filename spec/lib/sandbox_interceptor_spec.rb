@@ -6,7 +6,7 @@ RSpec.describe SandboxInterceptor do
       it 'aborts delivery by default' do
         message = email_with_mailer_and_template_headers('provider_mailer', 'anything')
 
-        SandboxInterceptor.delivering_email(message)
+        described_class.delivering_email(message)
 
         expect(message.perform_deliveries).to be false
       end
@@ -14,7 +14,7 @@ RSpec.describe SandboxInterceptor do
       it 'still permits fallback_sign_in_email' do
         message = email_with_mailer_and_template_headers('provider_mailer', 'fallback_sign_in_email')
 
-        SandboxInterceptor.delivering_email(message)
+        described_class.delivering_email(message)
 
         expect(message.perform_deliveries).to be true
       end
@@ -22,7 +22,7 @@ RSpec.describe SandboxInterceptor do
       it 'still permits account_created' do
         message = email_with_mailer_and_template_headers('provider_mailer', 'account_created')
 
-        SandboxInterceptor.delivering_email(message)
+        described_class.delivering_email(message)
 
         expect(message.perform_deliveries).to be true
       end
@@ -31,7 +31,7 @@ RSpec.describe SandboxInterceptor do
     it 'allows delivery when rails_mailer is not set to provider_mailer' do
       message = email_with_mailer_and_template_headers('authentication_mailer', 'sign_in_email')
 
-      SandboxInterceptor.delivering_email(message)
+      described_class.delivering_email(message)
 
       expect(message.perform_deliveries).to be true
     end
@@ -40,7 +40,7 @@ RSpec.describe SandboxInterceptor do
   it 'does nothing outside sandbox mode' do
     message = email_with_mailer_and_template_headers('provider_mailer', 'anything')
 
-    SandboxInterceptor.delivering_email(message)
+    described_class.delivering_email(message)
 
     expect(message.perform_deliveries).to be true
   end

@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.feature 'Managing providers a user has access to' do
   include DfESignInHelpers
 
+  # We are removing this behaviour
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider adds and removes providers from a user' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_accredited_provider_setting_permissions_flag_is_inactive
     and_i_can_manage_users_for_two_providers
     and_there_is_a_user_with_access_to_one_of_the_providers
     and_i_sign_in_to_the_provider_interface
@@ -43,7 +45,7 @@ RSpec.feature 'Managing providers a user has access to' do
   end
 
   def when_i_click_on_the_users_link
-    click_on(t('page_titles.provider.account'))
+    click_on(t('page_titles.provider.organisation_settings'))
     click_on(t('page_titles.provider.users'))
   end
 
@@ -82,9 +84,5 @@ RSpec.feature 'Managing providers a user has access to' do
 
   def and_unrelated_permissions_have_not_been_changed
     expect(@managed_user.providers).to include(@provider_that_current_user_does_not_have_access_to)
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_inactive
-    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
   end
 end

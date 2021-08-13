@@ -141,7 +141,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, status: 'recruited')
       create(:application_choice, status: 'pending_conditions')
 
-      stats = PerformanceStatistics.new(nil)
+      stats = described_class.new(nil)
 
       expect(stats.total_form_count(only: %i[recruited])).to eq(2)
       expect(stats.total_form_count(except: %i[pending_conditions])).to eq(2)
@@ -155,7 +155,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, status: 'pending_conditions')
       create(:candidate)
 
-      stats = PerformanceStatistics.new(nil)
+      stats = described_class.new(nil)
 
       expect(stats.total_form_count(only: %i[recruited])).to eq(2)
       expect(stats.total_form_count(only: %i[recruited], phase: :apply_1)).to eq(1)
@@ -170,7 +170,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, status: 'recruited', application_form: create(:application_form, recruitment_cycle_year: 2020))
       create(:application_choice, status: 'recruited', application_form: create(:application_form, recruitment_cycle_year: 2021))
 
-      stats = PerformanceStatistics.new(2021)
+      stats = described_class.new(2021)
 
       expect(stats.total_form_count).to eq(1)
     end
@@ -179,16 +179,16 @@ RSpec.describe PerformanceStatistics, type: :model do
   describe '#percentage_of_providers_onboarded' do
     it 'returns the percentage of providers onboarded to the nearest whole number' do
       create(:provider)
-      synced_providers = create_list(:provider, 2, sync_courses: true)
+      synced_providers = create_list(:provider, 2)
       create_list(:course, 3, provider: synced_providers.first, open_on_apply: true)
 
-      stats = PerformanceStatistics.new(2021)
+      stats = described_class.new(2021)
 
       expect(stats.percentage_of_providers_onboarded).to eq('33%')
     end
 
     it 'returns "-" when there are no providers' do
-      stats = PerformanceStatistics.new(2021)
+      stats = described_class.new(2021)
 
       expect(stats.percentage_of_providers_onboarded).to eq('-')
     end
@@ -200,7 +200,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
 
-      stats = PerformanceStatistics.new(nil)
+      stats = described_class.new(nil)
 
       expect(stats.rejected_by_default_count).to eq(2)
     end
@@ -210,7 +210,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
 
-      stats = PerformanceStatistics.new(2021)
+      stats = described_class.new(2021)
 
       expect(stats.rejected_by_default_count).to eq(1)
     end
@@ -230,20 +230,20 @@ RSpec.describe PerformanceStatistics, type: :model do
     let!(:withdrawn_audit) { create(:withdrawn_at_candidates_request_audit, application_choice: withdrawn_choice) }
 
     it '#withdrawn_at_candidates_request_count returns a count of applications which have been declined or withdrawn at the candidates request' do
-      stats = PerformanceStatistics.new(2021)
+      stats = described_class.new(2021)
 
       expect(stats.withdrawn_at_candidates_request_count).to eq(2)
     end
 
     it '#withdrawn_by_candidate_count returns a count of applications which have been declined or withdrawn by the candidate' do
-      stats = PerformanceStatistics.new(2021)
+      stats = described_class.new(2021)
 
       expect(stats.withdrawn_by_candidate_count).to eq(1)
     end
   end
 
   def count_for_process_state(process_state)
-    PerformanceStatistics.new(nil)[process_state]
+    described_class.new(nil)[process_state]
   end
 
   it 'excludes candidates marked as hidden from reporting' do
@@ -252,7 +252,7 @@ RSpec.describe PerformanceStatistics, type: :model do
     create(:application_form, candidate: hidden_candidate)
     create(:application_form, candidate: visible_candidate)
 
-    stats = PerformanceStatistics.new(nil)
+    stats = described_class.new(nil)
 
     expect(stats.total_form_count).to eq(1)
   end
@@ -263,10 +263,10 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, :awaiting_provider_decision, application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:application_choice, :unsubmitted, application_form: create(:application_form, recruitment_cycle_year: 2019)) # should not be counted bc unsubmitted
 
-      expect(PerformanceStatistics.new(2021).total_application_choice_count).to eq 1
-      expect(PerformanceStatistics.new(2020).total_application_choice_count).to eq 1
+      expect(described_class.new(2021).total_application_choice_count).to eq 1
+      expect(described_class.new(2020).total_application_choice_count).to eq 1
 
-      expect(PerformanceStatistics.new(nil).total_application_choice_count).to eq 2
+      expect(described_class.new(nil).total_application_choice_count).to eq 2
     end
   end
 
@@ -308,21 +308,21 @@ RSpec.describe PerformanceStatistics, type: :model do
                                   course_option: sd_scitt_course_2021,
                                   application_form: create(:application_form, recruitment_cycle_year: 2021))
 
-      expect(PerformanceStatistics.new(2021).application_choices_by_provider_type).to eq({
+      expect(described_class.new(2021).application_choices_by_provider_type).to eq({
         'scitt' => 1,
         'university' => 1,
         'lead_school' => 2,
         'ratified_by_scitt' => 1,
         'ratified_by_university' => 1,
       })
-      expect(PerformanceStatistics.new(2020).application_choices_by_provider_type).to eq({
+      expect(described_class.new(2020).application_choices_by_provider_type).to eq({
         'scitt' => 1,
         'university' => 1,
         'lead_school' => 0,
         'ratified_by_scitt' => 0,
         'ratified_by_university' => 0,
       })
-      expect(PerformanceStatistics.new(nil).application_choices_by_provider_type).to eq({
+      expect(described_class.new(nil).application_choices_by_provider_type).to eq({
         'scitt' => 2,
         'university' => 2,
         'lead_school' => 2,

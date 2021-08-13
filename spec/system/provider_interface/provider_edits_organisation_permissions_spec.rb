@@ -8,15 +8,19 @@ RSpec.feature 'Provider edits organisation permissions' do
     and_i_can_view_applications_for_some_providers
     and_their_organisational_permissions_have_already_been_set_up
     and_i_can_manage_organisations_for_my_provider
-    and_the_accredited_provider_setting_permissions_flag_is_active
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_organisation_settings_link
-    and_i_click_on_organisation_permissions
-    and_i_click_on_an_organisation_i_can_manage
+    if FeatureFlag.active?(:account_and_org_settings_changes)
+      and_i_click_on_a_particular_organisation_permissions_link
+    else
+      and_i_click_on_organisation_permissions
+      and_i_click_on_an_organisation_i_can_manage
+    end
     and_i_click_to_change_one_of_its_relationships
     and_i_give_my_organisation_permission_to_make_decisions
     then_i_am_redirected_to_the_organisation_relationships_page
+    and_an_email_is_sent_to_managing_users_in_the_partner_organisation
     and_i_see_a_flash_message
     and_my_organisation_is_listed_as_able_to_make_decisions
     and_my_organisation_is_able_to_make_decisions
@@ -39,12 +43,12 @@ RSpec.feature 'Provider edits organisation permissions' do
       training_provider: @training_provider,
       ratifying_provider: @ratifying_provider,
     )
+    create(:course, :open_on_apply, provider: @training_provider, accredited_provider: @ratifying_provider)
+
+    @training_provider_users = create_list(:provider_user, 2, providers: [@training_provider])
+    @training_provider_users.each { |user| user.provider_permissions.where(provider: @training_provider).update_all(manage_organisations: true) }
 
     expect(@relationship.ratifying_provider_can_make_decisions).to be_falsey
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_active
-    FeatureFlag.activate(:accredited_provider_setting_permissions)
   end
 
   def and_i_can_manage_organisations_for_my_provider
@@ -56,6 +60,10 @@ RSpec.feature 'Provider edits organisation permissions' do
 
   def when_i_click_on_the_organisation_settings_link
     click_on 'Organisation settings'
+  end
+
+  def and_i_click_on_a_particular_organisation_permissions_link
+    click_on "Organisation permissions #{@ratifying_provider.name}"
   end
 
   def and_i_click_on_organisation_permissions
@@ -81,12 +89,19 @@ RSpec.feature 'Provider edits organisation permissions' do
     expect(page).to have_current_path(provider_interface_organisation_settings_organisation_organisation_permissions_path(@ratifying_provider))
   end
 
+  def and_an_email_is_sent_to_managing_users_in_the_partner_organisation
+    @training_provider_users.each do |user|
+      open_email(user.email_address)
+      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_updated.subject', provider: @ratifying_provider.name)
+    end
+  end
+
   def and_i_see_a_flash_message
-    expect(page).to have_content('Organisation permissions successfully updated')
+    expect(page).to have_content('Organisation permissions updated')
   end
 
   def and_my_organisation_is_listed_as_able_to_make_decisions
-    expect(page).to have_content("Make offers and reject applications\n#{@training_provider.name}#{@ratifying_provider.name}")
+    expect(page).to have_content("Make offers and reject applications\n#{@ratifying_provider.name}#{@training_provider.name}")
   end
 
   def and_my_organisation_is_able_to_make_decisions

@@ -25,7 +25,7 @@ en:
     sandbox_url: https://sandbox.find-postgraduate-teacher-training.service.gov.uk/
   get_into_teaching:
     tel: 0800 389 2500
-    opening_times: "Monday to Friday, 8.30am to 5pm (except public\u00A0holidays)"
+    opening_times: "Monday to Friday, 8.30am to 5:30pm (except public\u00A0holidays)"
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_get_an_advisor: https://adviser-getintoteaching.education.gov.uk
@@ -54,7 +54,6 @@ en:
     create_account_or_sign_in: Create an account or sign in
     sign_up: Create an account
     sign_in: Sign in
-    applications_closed: Create an Apply for teacher training account
     email_address_not_recognised: Your email address is not recognised
     external_sign_up_forbidden: Only DfE users can sign into this website
     unauthorized: Your account is not authorized
@@ -99,7 +98,8 @@ en:
     degree_subject: What subject is your degree?
     degree_enic: How your degree compares to a UK degree
     add_undergraduate_degree: Add undergraduate degree
-    when_did_you_study_for_your_degree: When did you study for your degree?
+    what_year_did_you_start_your_degree: What year did you start your degree?
+    what_year_will_you_graduate: What year will you graduate?
     what_year_did_you_graduate: What year did you graduate?
     work_history_destroy: Are you sure you want to delete this entry?
     restructured_work_history_choice: Do you have any work history?
@@ -208,14 +208,17 @@ en:
       select_decision: Select decision
       account: Your account
       profile: Profile
+      personal_details: Your personal details
+      user_permissions: Your user permissions
+      email_notifications: Your email notifications
       organisation_settings: Organisation settings
       organisation_permissions: Organisation permissions
       change_organisation_permissions: Change permissions
-      org_permissions: Organisational permissions
       users: Users
-      export_hesa_data: Export data %{timeframe} for Higher Education Statistics Agency (HESA)
-      export_application_data: Export data
+      export_hesa_data: Export data for Higher Education Statistics Agency (HESA)
+      export_application_data: Export application data
       notifications: Email notifications
+      reports: Reports
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
     start_carry_over_between_cycles: You can apply again

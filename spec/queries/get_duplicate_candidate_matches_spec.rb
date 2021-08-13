@@ -11,7 +11,7 @@ RSpec.describe GetDuplicateCandidateMatches do
   end
 
   describe '#call' do
-    let(:returned_array_of_hashes) { GetDuplicateCandidateMatches.call }
+    let(:returned_array_of_hashes) { described_class.call }
 
     it 'returns an array of hashes with the correct keys' do
       expect(returned_array_of_hashes.count).to eq(2)

@@ -17,7 +17,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications/:application_id', type: :r
   it 'returns a not found error if the application cannot be found' do
     get_api_request '/api/v1/applications/asu7dvt87asd'
 
-    expect(response).to have_http_status(404)
+    expect(response).to have_http_status(:not_found)
 
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
 
@@ -29,7 +29,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications/:application_id', type: :r
 
     get_api_request "/api/v1/applications/#{application_choice.id}"
 
-    expect(response).to have_http_status(404)
+    expect(response).to have_http_status(:not_found)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
     expect(error_response['message']).to eql("Could not find an application with ID #{application_choice.id}")
   end

@@ -27,13 +27,15 @@ module CandidateInterface
 
     def edit
       @type_form = GcseQualificationTypeForm.build_from_qualification(current_qualification)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
     end
 
     def update
       @type_form = GcseQualificationTypeForm.new(qualification_params)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @type_form.update(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@type_form)
         render :edit

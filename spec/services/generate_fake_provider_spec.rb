@@ -17,12 +17,6 @@ RSpec.describe GenerateFakeProvider do
         .to change { Provider.count }.by(2)
     end
 
-    it 'turns on syncing for the provider' do
-      new_provider = generate_provider_call
-
-      expect(new_provider.sync_courses).to be true
-    end
-
     describe 'courses and course options' do
       let(:fake_provider) { Provider.find_by(code: 'FAKE') }
 

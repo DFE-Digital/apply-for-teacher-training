@@ -44,6 +44,7 @@ module CandidateInterface
         }.merge!(type_attributes(current_qualification)),
       )
       @form.save_intermediate!
+      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
     end
 
     def update
@@ -56,6 +57,7 @@ module CandidateInterface
           id: current_qualification.id,
         ),
       )
+      @return_to = return_to_after_edit(default: candidate_interface_review_other_qualifications_path)
 
       if @form.valid?
         @form.save_intermediate!
@@ -63,7 +65,7 @@ module CandidateInterface
         next_step = @form.next_step
 
         if next_step == :details
-          redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification.id)
+          redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification.id, @return_to[:params])
         elsif next_step == :check
           @form.save!
           redirect_to candidate_interface_review_other_qualifications_path

@@ -8,7 +8,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
   let(:provider_user) { create(:provider_user, :with_two_providers) }
   let(:application_choices_for_provider_user) { GetApplicationChoicesForProviders.call(providers: provider_user.providers) }
-  let(:service_call) { GetActivityLogEvents.call(application_choices: application_choices_for_provider_user) }
+  let(:service_call) { described_class.call(application_choices: application_choices_for_provider_user) }
 
   let(:course_provider_a) { create(:course, provider: provider_user.providers.first) }
   let(:course_provider_b) { create(:course, provider: provider_user.providers.second) }
@@ -56,7 +56,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         created_at: 1.day.from_now,
       )
 
-      result = GetActivityLogEvents.call(
+      result = described_class.call(
         application_choices: application_choices_for_provider_user,
         since: 6.hours.from_now,
       )
@@ -199,7 +199,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
     let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
 
     it 'returns events associated with interviews' do
-      result = GetActivityLogEvents.call(application_choices: ApplicationChoice.where(id: application_choice.id))
+      result = described_class.call(application_choices: ApplicationChoice.where(id: application_choice.id))
 
       expect(result.first.auditable).to eq(application_choice.interviews.first)
       expect(result.first.associated).to eq(application_choice)
@@ -225,7 +225,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         auditable: application_choice,
         audited_changes: { status: %w[interviewing awaiting_provider_decision] },
       )
-      result = GetActivityLogEvents.call(application_choices: ApplicationChoice.where(id: application_choice.id))
+      result = described_class.call(application_choices: ApplicationChoice.where(id: application_choice.id))
 
       expect(excluded).to exist
       expect(result).not_to include(excluded)

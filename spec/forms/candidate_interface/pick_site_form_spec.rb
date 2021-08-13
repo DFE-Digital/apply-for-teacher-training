@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
       application_form.application_choices << create(:application_choice)
       application_form.application_choices << create(:application_choice)
 
-      pick_site_form = CandidateInterface::PickSiteForm.new(
+      pick_site_form = described_class.new(
         application_form: application_form,
         course_option_id: create(:course_option).id,
       )
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
 
       pick_site_form.save
 
-      pick_site_form = CandidateInterface::PickSiteForm.new(
+      pick_site_form = described_class.new(
         application_form: application_form,
         course_option_id: create(:course_option).id,
       )
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
       application_form = create(:application_form)
       course_option = create(:course_option)
 
-      CandidateInterface::PickSiteForm.new(
+      described_class.new(
         application_form: application_form,
         course_option_id: course_option.id,
       ).save
@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
 
       expect(application_choice.course_option.id).not_to eq(new_course_option.id)
 
-      CandidateInterface::PickSiteForm.new(
+      described_class.new(
         application_form: application_choice.application_form,
         course_option_id: new_course_option.id,
       ).update(application_choice)

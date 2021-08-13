@@ -1,0 +1,21 @@
+<% content_for :title, t('page_titles.provider.reports') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.provider.reports') %>
+    </h1>
+    <ul class="govuk-list govuk-list--spaced">
+      <% if FeatureFlag.active?(:export_application_data) %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.export_application_data'), provider_interface_new_application_data_export_path %>
+        </li>
+      <% end %>
+      <% if FeatureFlag.active?(:export_hesa_data) %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.export_hesa_data', timeframe: ''), provider_interface_new_hesa_export_path %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

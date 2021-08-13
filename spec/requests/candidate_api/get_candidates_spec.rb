@@ -20,7 +20,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   it 'returns an error if the `updated_since` parameter is missing' do
     get_api_request '/candidate-api/candidates', token: candidate_api_token
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('param is missing or the value is empty: updated_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
   end
@@ -36,7 +36,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(parsed_response['data'].size).to eq(1)
   end
 
@@ -48,7 +48,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(parsed_response['data'].size).to eq(2)
   end
 
@@ -64,7 +64,8 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
-    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms', 'data', 0)
+    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
+
     expect(response_data.size).to eq(2)
 
     expect(response_data.first['id']).to eq(application_forms.second.id)
@@ -74,7 +75,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
-    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms', 'data', 0)
+    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
 
     expect(response_data.first['id']).to eq(application_forms.first.id)
     expect(response_data.second['id']).to eq(application_forms.second.id)
@@ -83,21 +84,21 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   it 'returns an error if the token is incorrect' do
     get "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", headers: { Authorization: 'invalid-token' }
 
-    expect(response).to have_http_status(401)
+    expect(response).to have_http_status(:unauthorized)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
   end
 
   it 'returns an error if no API token is present' do
     get "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", headers: { Authorization: nil }
 
-    expect(response).to have_http_status(401)
+    expect(response).to have_http_status(:unauthorized)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
   end
 
   it 'returns HTTP status 422 given an unparseable `updated_since` date value' do
     get_api_request '/candidate-api/candidates?updated_since=17/07/2020T12:00:42Z', token: candidate_api_token
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): updated_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -105,7 +106,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
     get_api_request '/candidate-api/candidates?updated_since=12936', token: candidate_api_token
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): updated_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
@@ -113,7 +114,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   it 'returns HTTP status 422 given a parseable but nonsensensical `updated_since` date value' do
     get_api_request '/candidate-api/candidates?updated_since=-004713-03-23T11:52:19.448Z', token: candidate_api_token
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(error_response['message']).to eql('Parameter is invalid (date is nonsense): updated_since')
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end

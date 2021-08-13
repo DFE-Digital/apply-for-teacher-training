@@ -734,6 +734,19 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.eoc_deadline_reminder(application_form)
   end
 
+  def new_cycle_has_started_with_no_first_name_and_unsubmitted_application
+    application_form = FactoryBot.build(:application_form, first_name: nil, submitted_at: nil)
+
+    CandidateMailer.new_cycle_has_started(application_form)
+  end
+
+  def new_cycle_has_started_with_unsuccessful_application
+    application_choice = FactoryBot.create(:application_choice, :with_rejection)
+    application_form = FactoryBot.build(:completed_application_form, first_name: 'Tester', application_choices: [application_choice])
+
+    CandidateMailer.new_cycle_has_started(application_form)
+  end
+
   def reinstated_offer_with_conditions
     application_choice = FactoryBot.build(
       :application_choice,

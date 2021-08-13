@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Managing provider user permissions' do
   include DfESignInHelpers
 
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider manages permissions for users' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_accredited_provider_setting_permissions_flag_is_inactive
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
@@ -60,7 +61,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def when_i_click_on_the_users_link
-    click_on(t('page_titles.provider.account'))
+    click_on(t('page_titles.provider.organisation_settings'))
     click_on(t('page_titles.provider.users'))
   end
 
@@ -160,9 +161,5 @@ RSpec.feature 'Managing provider user permissions' do
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Access diversity information'
     end
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_inactive
-    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
   end
 end

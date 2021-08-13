@@ -6,7 +6,7 @@ RSpec.feature 'Providers and courses' do
 
   scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
-    and_providers_are_configured_to_be_synced
+    and_providers_are_configured
     and_the_last_sync_was_two_hours_ago
     when_i_visit_the_tasks_page
     and_i_click_the_sync_button
@@ -66,16 +66,16 @@ RSpec.feature 'Providers and courses' do
     visit support_interface_tasks_path
   end
 
-  def and_providers_are_configured_to_be_synced
-    provider = create :provider, :with_signed_agreement, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
+  def and_providers_are_configured
+    provider = create :provider, :with_signed_agreement, code: 'ABC', name: 'Royal Academy of Dance'
     create(:provider_user, email_address: 'harry@example.com', providers: [provider])
 
     course_option = create(:course_option, course: create(:course, provider: provider))
     create(:application_choice, application_form: create(:application_form, support_reference: 'XYZ123'), course_option: course_option)
 
-    create :provider, :with_signed_agreement, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
-    create :provider, :with_signed_agreement, code: 'DOF', name: 'An Unsynced Provider', sync_courses: false
-    somerset_scitt = create :provider, :with_signed_agreement, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
+    create :provider, :with_signed_agreement, code: 'DEF', name: 'Gorse SCITT'
+    create :provider, :with_signed_agreement, code: 'DOF', name: 'An Unsynced Provider'
+    somerset_scitt = create :provider, :with_signed_agreement, code: 'GHI', name: 'Somerset SCITT Consortium'
 
     create(:course_option, course: create(:course, accredited_provider: provider))
 

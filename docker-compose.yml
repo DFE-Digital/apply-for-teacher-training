@@ -24,6 +24,7 @@ services:
       - DB_DATABASE=bat_apply_dev
       - DB_PORT=5432
       - REDIS_URL=redis://redis:6379/1
+      - REDIS_CACHE_URL=redis://redis:6379/0
     env_file:
       - .env
     command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"
@@ -60,6 +61,6 @@ services:
       - REDIS_URL=redis://redis:6379/1
     env_file:
       - .env
-    command: /bin/sh -c "bundle exec clockwork config/clock.rb"    
+    command: /bin/sh -c "bundle exec clockwork config/clock.rb"
 volumes:
   db_data:

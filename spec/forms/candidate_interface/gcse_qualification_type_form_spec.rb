@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it { is_expected.to validate_presence_of(:subject) }
     it { is_expected.to validate_presence_of(:qualification_type) }
 
-    it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(255) }
+    it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(100) }
     it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
   end
@@ -15,14 +15,14 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it 'return false if not valid' do
       application_form = double
 
-      form = CandidateInterface::GcseQualificationTypeForm.new({})
+      form = described_class.new({})
       expect(form.save(application_form)).to eq(false)
     end
 
     it 'creates a new qualification if valid' do
       application_form = create(:application_form)
 
-      form = CandidateInterface::GcseQualificationTypeForm
+      form = described_class
                                   .new(subject: 'maths', level: 'gcse', qualification_type: 'gcse')
 
       form.save(application_form)
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         non_uk_qualification_type: 'High School Diploma',
       )
 
-      form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+      form = described_class.build_from_qualification(qualification)
       form.save(application_form)
 
       expect(application_form.application_qualifications.first.qualification_type).to eq 'non_uk'
@@ -57,7 +57,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
           qualification_type: 'other_uk',
         )
 
-        form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+        form = described_class.build_from_qualification(qualification)
 
         expect(form.valid?).to eq false
         expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of qualification')
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
           qualification_type: 'non_uk',
         )
 
-        form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+        form = described_class.build_from_qualification(qualification)
 
         expect(form.valid?).to eq false
         expect(form.errors[:non_uk_qualification_type]).to include('Enter the type of qualification')
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         qualification_type: 'gcse',
       )
 
-      form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+      form = described_class.build_from_qualification(qualification)
 
       expect(form.level).to eq 'gcse'
       expect(form.subject).to eq 'maths'
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it 'return false if not valid' do
       application_form = double
 
-      form = CandidateInterface::GcseQualificationTypeForm.new({})
+      form = described_class.new({})
       expect(form.update(application_form)).to eq(false)
     end
 
@@ -115,7 +115,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         qualification_type: 'gcse',
       )
 
-      form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+      form = described_class.build_from_qualification(qualification)
 
       form.qualification_type = 'gce_o_level'
 

@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
 
       it 'creates an object based on the provided ApplicationForm' do
         application_form = ApplicationForm.new(form_data)
-        right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.build_from_application(
+        right_to_work_form = described_class.build_from_application(
           application_form,
         )
         expect(right_to_work_form).to have_attributes(form_data)
@@ -43,14 +43,14 @@ RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
       end
 
       it 'returns false if not valid' do
-        right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.new
+        right_to_work_form = described_class.new
 
         expect(right_to_work_form.save(ApplicationForm.new)).to eq(false)
       end
 
       it 'updates the provided ApplicationForm if valid' do
         application_form = FactoryBot.create(:application_form)
-        right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.new(form_data)
+        right_to_work_form = described_class.new(form_data)
 
         expect(right_to_work_form.save(application_form)).to eq(true)
         expect(application_form.right_to_work_or_study).to eq 'no'

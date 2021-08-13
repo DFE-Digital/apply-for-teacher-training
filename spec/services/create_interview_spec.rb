@@ -21,13 +21,13 @@ RSpec.describe CreateInterview do
 
   describe '#save!' do
     it 'transitions the application_choice state to `interviewing` if successful' do
-      service = CreateInterview.new(service_params)
+      service = described_class.new(service_params)
 
       expect { service.save! }.to change { application_choice.status }.to('interviewing')
     end
 
     it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
-      CreateInterview.new(service_params).save!
+      described_class.new(service_params).save!
 
       associated_audit = application_choice.associated_audits.first
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)

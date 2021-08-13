@@ -195,7 +195,7 @@ RSpec.describe CandidateInterface::PickCourseForm do
       end
 
       it 'returns both sites' do
-        expect(pick_course_form.available_course_options).to eq([course_option1, course_option2])
+        expect(pick_course_form.available_course_options).to contain_exactly(course_option1, course_option2)
       end
 
       context 'when one site is not longer valid' do

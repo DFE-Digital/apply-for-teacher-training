@@ -19,12 +19,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker do
 
     it 'calls the SyncAllProvidersAndCourses service with the correct args for an incremental sync' do
       described_class.new.perform
-      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year)
+      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
     end
 
     it 'calls the SyncAllProvidersAndCourses service with the correct args for a full sync' do
       described_class.new.perform(false)
-      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year)
+      expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
     end
   end
 end

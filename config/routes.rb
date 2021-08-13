@@ -346,10 +346,15 @@ Rails.application.routes.draw do
         get '/:id/grade/edit' => 'degrees/grade#edit', as: :edit_degree_grade
         patch '/:id/grade/edit' => 'degrees/grade#update'
 
-        get '/:id/year' => 'degrees/year#new', as: :degree_year
-        post '/:id/year' => 'degrees/year#create'
-        get '/:id/year/edit' => 'degrees/year#edit', as: :edit_degree_year
-        patch '/:id/year/edit' => 'degrees/year#update'
+        get '/:id/start-year' => 'degrees/start_year#new', as: :degree_start_year
+        post '/:id/start-year' => 'degrees/start_year#create'
+        get '/:id/start-year/edit' => 'degrees/start_year#edit', as: :edit_degree_start_year
+        patch '/:id/start-year/edit' => 'degrees/start_year#update'
+
+        get '/:id/graduation-year' => 'degrees/award_year#new', as: :degree_award_year
+        post '/:id/graduation-year' => 'degrees/award_year#create'
+        get '/:id/graduation-year/edit' => 'degrees/award_year#edit', as: :edit_degree_award_year
+        patch '/:id/graduation-year/edit' => 'degrees/award_year#update'
 
         get '/review' => 'degrees/review#show', as: :degrees_review
         patch '/review' => 'degrees/review#complete', as: :degrees_complete
@@ -643,6 +648,7 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_choices#index'
 
+    resources :reports, only: :index
     get '/applications/hesa-export/new' => 'hesa_export#new', as: :new_hesa_export
     get '/applications/hesa-export' => 'hesa_export#export', as: :hesa_export
 
@@ -729,6 +735,8 @@ Rails.application.routes.draw do
     scope path: '/account' do
       get '/profile' => 'profile#show'
 
+      resource :personal_details, only: :show, path: 'personal-details'
+
       scope path: '/users' do
         get '/' => 'provider_users#index', as: :provider_users
 
@@ -755,7 +763,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :organisations, only: %i[index show], path: 'organisational-permissions'
+      resource :personal_permissions, only: %i[show], path: 'permissions'
+
+      # TODO: Revisit whether these redirects are still needed after 1st November 2021
+      get '/organisational-permissions', to: redirect('/provider/organisation-settings/organisations')
+      get '/organisational-permissions/:id', to: redirect { |params, _| "/provider/organisation-settings/organisations/#{params[:id]}/organisation-permissions" }
+
       resource :notifications, only: %i[show update], path: 'notification-settings'
     end
 
@@ -774,26 +787,6 @@ Rails.application.routes.draw do
           get :success
         end
       end
-    end
-
-    scope path: '/provider-relationship-permissions' do
-      get '/organisations-to-setup' => 'provider_relationship_permissions_setup#organisations',
-          as: :provider_relationship_permissions_organisations
-      get '/:id/setup' => 'provider_relationship_permissions_setup#setup_permissions',
-          as: :setup_provider_relationship_permissions
-      post '/:id/create' => 'provider_relationship_permissions_setup#save_permissions',
-           as: :save_provider_relationship_permissions
-      get '/check' => 'provider_relationship_permissions_setup#check',
-          as: :check_provider_relationship_permissions
-      post '/commit' => 'provider_relationship_permissions_setup#commit',
-           as: :commit_provider_relationship_permissions
-      get '/success' => 'provider_relationship_permissions_setup#success',
-          as: :provider_relationship_permissions_success
-
-      get '/:id/edit' => 'provider_relationship_permissions#edit',
-          as: :edit_provider_relationship_permissions
-      patch '/:id' => 'provider_relationship_permissions#update',
-            as: :update_provider_relationship_permissions
     end
 
     scope path: '/applications/:application_choice_id/offer/reconfirm' do
@@ -956,8 +949,6 @@ Rails.application.routes.draw do
       end
 
       post '' => 'providers#open_all_courses'
-      post '/enable_course_syncing' => redirect('/enable-course-syncing')
-      post '/enable-course-syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
 
       resource :provider_test_data, path: '/test-data', only: %i[create]
     end

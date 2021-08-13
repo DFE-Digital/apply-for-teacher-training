@@ -7,7 +7,7 @@ RSpec.describe TeacherTrainingPublicAPI::Provider do
     it 'returns a provider that exists' do
       stub_teacher_training_api_provider(provider_code: 'MMM')
 
-      provider = TeacherTrainingPublicAPI::Provider.fetch('MMM')
+      provider = described_class.fetch('MMM')
 
       expect(provider).to be_present
     end
@@ -15,7 +15,7 @@ RSpec.describe TeacherTrainingPublicAPI::Provider do
     it 'returns nil when the provider does not exist' do
       stub_teacher_training_api_provider_404(provider_code: 'OOO')
 
-      provider = TeacherTrainingPublicAPI::Provider.fetch('OOO')
+      provider = described_class.fetch('OOO')
 
       expect(provider).to be_nil
     end

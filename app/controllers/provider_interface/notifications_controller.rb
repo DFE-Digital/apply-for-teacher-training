@@ -1,5 +1,13 @@
 module ProviderInterface
   class NotificationsController < ProviderInterfaceController
+    def show
+      @page_title = if FeatureFlag.active?(:account_and_org_settings_changes)
+                      t('page_titles.provider.email_notifications')
+                    else
+                      t('page_titles.provider.notifications')
+                    end
+    end
+
     def update
       provider_user_notifications_service = SaveProviderUserNotificationPreferences.new(provider_user: current_provider_user)
 

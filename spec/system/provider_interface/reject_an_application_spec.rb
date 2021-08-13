@@ -166,7 +166,7 @@ RSpec.describe 'Reject an application' do
     expect(page).not_to have_content('Honesty and professionalism')
     expect(page).not_to have_content('Safeguarding issues')
 
-    expect(page).to have_content('Additional advice')
+    expect(page).to have_content('Additional feedback')
     expect(page).to have_content('While impressive, your parkour skills are not relevant')
 
     expect(page).not_to have_content('Future applications')
@@ -198,7 +198,7 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_submit_the_reasons_for_rejection
-    click_on 'Reject application'
+    click_on 'Send feedback and reject application'
   end
 
   def then_i_can_see_the_reasons_why_the_application_was_rejected

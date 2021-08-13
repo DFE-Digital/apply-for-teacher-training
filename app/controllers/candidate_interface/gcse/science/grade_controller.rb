@@ -27,14 +27,18 @@ module CandidateInterface
     def edit
       @gcse_grade_form = science_gcse_grade_form
       @qualification_type = current_qualification.qualification_type
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       render view_path
     end
 
     def update
       @gcse_grade_form = science_gcse_grade_form.assign_values(science_details_params)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @gcse_grade_form.save
+        return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
+
         if current_qualification.failed_required_gcse?
           candidate_interface_gcse_details_edit_grade_explanation_path(@subject)
         else

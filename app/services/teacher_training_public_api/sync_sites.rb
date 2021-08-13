@@ -1,13 +1,17 @@
 module TeacherTrainingPublicAPI
   class SyncSites
+    include FullSyncErrorHandler
+
     attr_reader :provider, :course
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year, course_id)
+    def perform(provider_id, recruitment_cycle_year, course_id, incremental_sync = true, suppress_sync_update_errors = false)
       @provider = ::Provider.find(provider_id)
       @course = ::Course.find(course_id)
+      @incremental_sync = incremental_sync
+      @updates = {}
 
       sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
@@ -24,6 +28,9 @@ module TeacherTrainingPublicAPI
         end
 
         assign_site_attributes(site, site_from_api)
+
+        @updates.merge!(site: true) if site.changed? && !@incremental_sync
+
         site.save!
 
         site_status = site_from_api.location_status
@@ -35,6 +42,8 @@ module TeacherTrainingPublicAPI
 
       handle_course_options_with_invalid_sites(sites)
       handle_course_options_with_reinstated_sites(sites)
+
+      raise_update_error(@updates) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
@@ -69,7 +78,12 @@ module TeacherTrainingPublicAPI
       )
 
       vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
-      course_option.update!(vacancy_status: vacancy_status) if course_option.vacancy_status != vacancy_status
+
+      if course_option.vacancy_status != vacancy_status.to_s
+        course_option.update!(vacancy_status: vacancy_status)
+
+        @updates.merge!(course_option: true) if !@incremental_sync
+      end
     end
 
     def vacancy_status(vacancy_status_from_api, study_mode)

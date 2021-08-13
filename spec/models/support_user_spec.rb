@@ -41,14 +41,14 @@ RSpec.describe SupportUser, type: :model do
         last_name: dsi_user.last_name,
       )
 
-      support_user = SupportUser.load_from_session({})
+      support_user = described_class.load_from_session({})
       expect(support_user.dfe_sign_in_uid).to eq(dsi_user.dfe_sign_in_uid)
       expect(support_user.impersonated_provider_user).to eq(provider_user)
     end
 
     it 'returns nil if there is no associated SupportUser' do
       allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
-      support_user = SupportUser.load_from_session({})
+      support_user = described_class.load_from_session({})
       expect(support_user).to be_nil
     end
   end

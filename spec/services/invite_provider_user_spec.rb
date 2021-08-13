@@ -16,19 +16,19 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
   describe '#initialize' do
     it 'requires a provider_user:' do
-      expect { InviteProviderUser.new }.to raise_error(ArgumentError)
-      expect { InviteProviderUser.new(provider_user: ProviderUser.new) }.not_to raise_error
+      expect { described_class.new }.to raise_error(ArgumentError)
+      expect { described_class.new(provider_user: ProviderUser.new) }.not_to raise_error
     end
 
     it 'blows up when DSI_API_URL ENV var is missing' do
       ClimateControl.modify(DSI_API_SECRET: 'something', DSI_API_URL: nil) do
-        expect { InviteProviderUser.new(provider_user: ProviderUser.new) }.to raise_error(KeyError, /DSI_API_URL/)
+        expect { described_class.new(provider_user: ProviderUser.new) }.to raise_error(KeyError, /DSI_API_URL/)
       end
     end
 
     it 'blows up when DSI_API_SECRET ENV var is missing' do
       ClimateControl.modify(DSI_API_SECRET: nil, DSI_API_URL: 'something') do
-        expect { InviteProviderUser.new(provider_user: ProviderUser.new) }.to raise_error(KeyError, /DSI_API_SECRET/)
+        expect { described_class.new(provider_user: ProviderUser.new) }.to raise_error(KeyError, /DSI_API_SECRET/)
       end
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
   describe '#call! if API response is successful' do
     before do
       dsi_api_response(success: true)
-      InviteProviderUser.new(provider_user: provider_user).call!
+      described_class.new(provider_user: provider_user).call!
     end
 
     it 'a provider user is created' do
@@ -51,7 +51,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
 
     it 'raises DfeSignInAPIError with errors from the API' do
-      expect { InviteProviderUser.new(provider_user: provider_user).call! }.to raise_error(DfeSignInAPIError)
+      expect { described_class.new(provider_user: provider_user).call! }.to raise_error(DfeSignInAPIError)
     end
 
     it 'does not queue an email' do
@@ -65,7 +65,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
   describe '#notify' do
     before do
-      InviteProviderUser.new(provider_user: provider_user).notify
+      described_class.new(provider_user: provider_user).notify
     end
 
     it 'queues an email' do

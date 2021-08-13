@@ -9,7 +9,7 @@ RSpec.describe ReinstateDeclinedOffer, with_audited: true do
         zendesk_ticket = 'www.becomingateacher.zendesk.com/agent/tickets/example'
 
         DeclineOffer.new(application_choice: course_choice).save!
-        ReinstateDeclinedOffer.new(course_choice: course_choice, zendesk_ticket: zendesk_ticket).save!
+        described_class.new(course_choice: course_choice, zendesk_ticket: zendesk_ticket).save!
 
         expect(course_choice).to eq original_course_choice
         expect(course_choice.audits.last.comment).to include(zendesk_ticket)
@@ -25,7 +25,7 @@ RSpec.describe ReinstateDeclinedOffer, with_audited: true do
         offered_course_choice = create(:application_choice, :with_offer, application_form: application_form)
         course_choice_awaiting_decision = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
 
-        ReinstateDeclinedOffer.new(course_choice: declined_course_choice, zendesk_ticket: zendesk_ticket).save!
+        described_class.new(course_choice: declined_course_choice, zendesk_ticket: zendesk_ticket).save!
 
         expect(declined_course_choice).to have_attributes({
           status: 'offer',

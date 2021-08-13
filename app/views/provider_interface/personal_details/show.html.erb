@@ -1,0 +1,25 @@
+<%= content_for :browser_title, t('page_titles.provider.personal_details') %>
+
+<% content_for :before_content do %>
+  <%= breadcrumbs({
+    t('page_titles.provider.account') => provider_interface_account_path,
+    t('page_titles.provider.personal_details') => nil,
+  }) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('page_titles.provider.personal_details') %></h1>
+    <%= render SummaryListComponent.new(
+      rows: [
+        { key: 'First name', value: current_provider_user.first_name },
+        { key: 'Last name', value: current_provider_user.last_name },
+        { key: 'Email address', value: current_provider_user.email_address },
+      ],
+    ) %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to 'Change your details or password in DfE Sign-in', @dsi_profile_url %>
+    </p>
+  </div>
+</div>

@@ -49,7 +49,7 @@ module SupportInterface
 
     def possible_permissions
       @possible_permissions ||=
-        Provider.where(sync_courses: true).order(:name).map do |provider|
+        Provider.with_courses.order(:name).map do |provider|
           provider_permissions = all_possible_permissions.find { |permission| permission.provider_id == provider.id }
           provider_permissions || ProviderPermissions.new(provider: provider)
         end

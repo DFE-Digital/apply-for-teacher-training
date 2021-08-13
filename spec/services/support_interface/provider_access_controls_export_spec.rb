@@ -2,19 +2,16 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: true do
   describe 'documentation' do
-    before { create(:provider, sync_courses: true) }
+    before { create(:provider) }
 
     it_behaves_like 'a data export'
   end
 
   describe '#data_for_export' do
-    it 'returns access control data for synced providers' do
+    it 'returns access control data for providers' do
       Timecop.freeze(2020, 5, 1, 12, 0, 0) do
-        training_provider = create(:provider, sync_courses: true)
-        ratifying_provider = create(:provider, sync_courses: true)
-
-        # Unsynced provider should not show up in the export
-        create(:provider)
+        training_provider = create(:provider)
+        ratifying_provider = create(:provider)
 
         provider_user1 = create(
           :provider_user,

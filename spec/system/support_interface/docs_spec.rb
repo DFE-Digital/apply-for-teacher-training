@@ -41,6 +41,7 @@ RSpec.feature 'Docs' do
       candidate_mailer-apply_again_call_to_action
       candidate_mailer-course_unavailable_notification
       candidate_mailer-eoc_deadline_reminder
+      candidate_mailer-new_cycle_has_started
       candidate_mailer-ucas_match_initial_email_duplicate_applications
       candidate_mailer-ucas_match_initial_email_multiple_acceptances
       candidate_mailer-ucas_match_reminder_email_duplicate_applications
@@ -54,6 +55,8 @@ RSpec.feature 'Docs' do
       candidate_mailer-unconditional_offer_accepted
       provider_mailer-unconditional_offer_accepted
       provider_mailer-confirm_sign_in
+      provider_mailer-organisation_permissions_set_up
+      provider_mailer-organisation_permissions_updated
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

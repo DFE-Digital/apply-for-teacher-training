@@ -37,6 +37,26 @@ module CandidateInterface
       redirect_to candidate_interface_application_form_path if candidate_signed_in?
     end
 
+    def return_to_after_edit(default:)
+      if redirect_back_to_application_review_page?
+        { back_path: candidate_interface_application_review_path, params: redirect_back_to_application_review_page_params }
+      else
+        { back_path: default, params: {} }
+      end
+    end
+
+    def redirect_back_to_application_review_page_params
+      { 'return-to' => 'application-review' }
+    end
+
+    def redirect_back_to_application_review_page?
+      params['return-to'] == 'application-review'
+    end
+
+    def application_review_path_and_params
+      { path: candidate_interface_application_review_path, params: { 'return-to' => 'application-review' } }
+    end
+
     def show_pilot_holding_page_if_not_open
       return if FeatureFlag.active?('pilot_open')
 

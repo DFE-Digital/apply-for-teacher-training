@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
   describe '#save' do
     it 'returns false if not valid' do
-      further_information = CandidateInterface::FurtherInformationForm.new
+      further_information = described_class.new
 
       expect(further_information.save(ApplicationForm.new)).to eq(false)
     end
@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
         further_information: 'Much wow.',
       }
       application_form = FactoryBot.build(:application_form)
-      further_information = CandidateInterface::FurtherInformationForm.new(form_data)
+      further_information = described_class.new(form_data)
 
       expect(further_information.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
         further_information: '',
       }
       application_form = FactoryBot.build(:application_form)
-      further_information = CandidateInterface::FurtherInformationForm.new(form_data)
+      further_information = described_class.new(form_data)
 
       further_information.save(application_form)
 
@@ -44,7 +44,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
     it { is_expected.to validate_presence_of(:further_information) }
 
     it 'validates further information details if chosen to add further information' do
-      further_information = CandidateInterface::FurtherInformationForm.new(further_information: 'true')
+      further_information = described_class.new(further_information: 'true')
       error_message = t('activemodel.errors.models.candidate_interface/further_information_form.attributes.further_information_details.blank')
 
       further_information.validate

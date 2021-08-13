@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::ApplyOnUCASOrApplyForm, type: :model do
   describe '#apply?' do
     context 'when service is apply' do
       it 'returns true' do
-        form = CandidateInterface::ApplyOnUCASOrApplyForm.new(service: 'apply')
+        form = described_class.new(service: 'apply')
 
         expect(form.apply?).to eq(true)
       end
@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::ApplyOnUCASOrApplyForm, type: :model do
 
     context 'when service is ucas' do
       it 'returns false' do
-        form = CandidateInterface::ApplyOnUCASOrApplyForm.new(service: 'ucas')
+        form = described_class.new(service: 'ucas')
 
         expect(form.apply?).to eq(false)
       end

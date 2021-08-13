@@ -14,7 +14,7 @@ RSpec.describe 'A candidate can view all providers and courses on Apply' do
   end
 
   def and_there_are_providers_with_courses_on_apply
-    @st_ives = create :provider, code: 'SIC', name: 'St Ives College', region_code: :south_west, sync_courses: true
+    @st_ives = create :provider, code: 'SIC', name: 'St Ives College', region_code: :south_west
     create :course, :open_on_apply, name: 'Mathematics', provider: @st_ives
     create :course, :open_on_apply, name: 'Chemistry', provider: @st_ives
     create :course, :open_on_apply, name: 'Physics', provider: @st_ives

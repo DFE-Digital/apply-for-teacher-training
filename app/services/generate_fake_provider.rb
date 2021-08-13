@@ -3,10 +3,6 @@ class GenerateFakeProvider
     raise 'You cannot generate test data in production' if HostingEnvironment.production?
 
     Provider.find_or_create_by(provider) do |new_provider|
-      # turn this on even though there's nothing to sync, because it enables
-      # courses to be opened and lets us assign users
-      new_provider.update!(sync_courses: true)
-
       generate_courses_for(new_provider)
       generate_ratified_courses_for(new_provider) unless new_provider.code == 'TEST'
     end

@@ -21,13 +21,15 @@ module CandidateInterface
       @interview_preferences_form = InterviewPreferencesForm.build_from_application(
         current_application,
       )
+      @return_to = return_to_after_edit(default: candidate_interface_interview_preferences_show_path)
     end
 
     def update
       @interview_preferences_form = InterviewPreferencesForm.new(interview_preferences_params)
+      @return_to = return_to_after_edit(default: candidate_interface_interview_preferences_show_path)
 
       if @interview_preferences_form.save(current_application)
-        redirect_to candidate_interface_interview_preferences_show_path
+        redirect_to @return_to[:back_path]
       else
         track_validation_error(@interview_preferences_form)
         render :edit

@@ -2,23 +2,18 @@ module CandidateInterface
   class SignUpController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
     before_action :redirect_to_application_if_signed_in, except: :external_sign_up_forbidden
-    before_action :show_pilot_holding_page_if_not_open
 
     def new
-      redirect_to candidate_interface_applications_closed_path and return if CycleTimetable.between_cycles_apply_1?
-
       @sign_up_form = CandidateInterface::SignUpForm.new
     end
 
     def create
-      redirect_to candidate_interface_applications_closed_path and return if CycleTimetable.between_cycles_apply_1?
-
       @sign_up_form = CandidateInterface::SignUpForm.new(candidate_sign_up_form_params)
 
       if @sign_up_form.existing_candidate?
         magic_link_token = CandidateInterface::RequestMagicLink.for_sign_in(candidate: @sign_up_form.candidate)
         set_user_context @sign_up_form.candidate.id
-        candidate = Candidate.find(@sign_up_form.candidate.id)
+        candidate = @sign_up_form.candidate
         candidate.update!(course_from_find_id: @sign_up_form.course_from_find_id)
         redirect_after_signup(candidate, magic_link_token)
       elsif @sign_up_form.save
@@ -56,6 +51,8 @@ module CandidateInterface
     end
 
     def course_id
+      return unless params[:providerCode]
+
       @provider = Provider.find_by(code: params[:providerCode])
       @course = @provider.courses.current_cycle.find_by(code: params[:courseCode]) if @provider.present?
       @course.id if @course.present?

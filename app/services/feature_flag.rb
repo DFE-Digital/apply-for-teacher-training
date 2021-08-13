@@ -1,10 +1,11 @@
 class FeatureFlag
-  attr_accessor :name, :description, :owner
+  attr_accessor :name, :description, :owner, :type
 
   def initialize(name:, description:, owner:)
     self.name = name
     self.description = description
     self.owner = owner
+    self.type =  FEATURE_TYPES[name].presence || 'invariant'
   end
 
   def feature
@@ -34,12 +35,19 @@ class FeatureFlag
     [:support_user_reinstate_offer, 'Allows a support users to reinstate a declined course choice offer', 'James Glenn'],
     [:expanded_quals_export, 'Rework the Qualifications export to contain all candidate qualifications', 'Malcolm Baig'],
     [:support_user_change_offered_course, 'Allows support users to offer a different course option for an application choice', 'David Gisbey'],
-    [:reference_selection, 'Allow candidates to receive multiple references and then select which two are added to their application', 'Malcolm Baig'],
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
-    [:accredited_provider_setting_permissions, 'Allow accredited providers to set org permissions', 'Michael Nacos'],
     [:account_and_org_settings_changes, 'Allows new account and org setting changes', 'Despo Pentara'],
+    [:provider_reports_dashboard, 'Allows rendering of new provider reports dashboard', 'Despo Pentara'],
   ].freeze
+
+  # Mark features as `variant` i.e. can be inconsistently marked as active/inactive
+  # across environments and we won't be notified if inconsistent. All other features
+  # will default to `invariant` which means they will need to be consistently marked
+  # as active/inactive across all our environments, and we will be notified about otherwise.
+  FEATURE_TYPES = {
+    send_request_data_to_bigquery: 'variant',
+  }.with_indifferent_access.freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map do |name, description, owner|
     [name, FeatureFlag.new(name: name, description: description, owner: owner)]

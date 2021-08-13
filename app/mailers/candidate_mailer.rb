@@ -488,6 +488,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def new_cycle_has_started(application_form)
+    @academic_year = CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.new_cycle_has_started.subject', academic_year: @academic_year),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

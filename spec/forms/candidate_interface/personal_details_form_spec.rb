@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
 
   describe '#name' do
     it 'concatenates the first name and last name' do
-      personal_details = CandidateInterface::PersonalDetailsForm.new(first_name: 'Bruce', last_name: 'Wayne')
+      personal_details = described_class.new(first_name: 'Bruce', last_name: 'Wayne')
 
       expect(personal_details.name).to eq('Bruce Wayne')
     end
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
       application_form = ApplicationForm.new(data)
-      personal_details = CandidateInterface::PersonalDetailsForm.build_from_application(
+      personal_details = described_class.build_from_application(
         application_form,
       )
 
@@ -40,14 +40,14 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      personal_details = CandidateInterface::PersonalDetailsForm.new
+      personal_details = described_class.new
 
       expect(personal_details.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = FactoryBot.create(:application_form)
-      personal_details = CandidateInterface::PersonalDetailsForm.new(form_data)
+      personal_details = described_class.new(form_data)
 
       expect(personal_details.save(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)

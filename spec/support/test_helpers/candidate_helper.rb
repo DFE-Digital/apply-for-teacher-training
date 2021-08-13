@@ -23,11 +23,7 @@ module CandidateHelper
   end
 
   def application_form_sections
-    if FeatureFlag.active?(:reference_selection)
-      APPLICATION_FORM_SECTIONS
-    else
-      APPLICATION_FORM_SECTIONS - [:references_selected] + [:references_provided]
-    end
+    APPLICATION_FORM_SECTIONS
   end
 
   def candidate_completes_application_form(with_referees: true)
@@ -84,9 +80,7 @@ module CandidateHelper
     if with_referees
       candidate_provides_two_referees
       receive_references
-      if FeatureFlag.active?(:reference_selection)
-        select_references_and_complete_section
-      end
+      select_references_and_complete_section
     end
 
     @application = ApplicationForm.last
@@ -144,7 +138,7 @@ module CandidateHelper
   end
 
   def given_courses_exist
-    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
+    @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
     course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1))
     course2 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1))
@@ -272,9 +266,10 @@ module CandidateHelper
     click_button t('save_and_continue')
 
     year_with_trailing_space = '2006 '
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+    click_button t('save_and_continue')
     year_with_preceding_space = ' 2009'
-    fill_in 'Year started course', with: year_with_trailing_space
-    fill_in 'Graduation year', with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
     click_button t('save_and_continue')
     choose t('application_form.completed_radio')
     click_button t('continue')

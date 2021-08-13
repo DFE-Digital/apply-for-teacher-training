@@ -21,12 +21,16 @@ module CandidateInterface
       @contact_details_form = ContactDetailsForm.build_from_application(
         current_application,
       )
+      @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
     end
 
     def update
       @contact_details_form = ContactDetailsForm.new(address_type_params)
+      @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
 
       if @contact_details_form.save_address_type(current_application)
+        return redirect_to candidate_interface_edit_address_path(redirect_back_to_application_review_page_params) if redirect_back_to_application_review_page?
+
         redirect_to candidate_interface_edit_address_path
       else
         track_validation_error(@contact_details_form)

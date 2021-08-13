@@ -3,11 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Provider views organisation settings' do
   include DfESignInHelpers
 
+  # Behaviour tested here has moved to spec/system/provider_interface/view_organisation_settings_spec.rb
+  before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
   scenario 'Provider views organisation settings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_view_applications_for_some_providers
     and_their_organisational_permissions_have_already_been_set_up
-    and_the_accredited_provider_setting_permissions_flag_is_active
     and_i_sign_in_to_the_provider_interface
 
     when_i_cannot_manage_users_or_organisations
@@ -51,10 +53,6 @@ RSpec.feature 'Provider views organisation settings' do
       training_provider: @example_provider,
       ratifying_provider: @another_provider,
     )
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_active
-    FeatureFlag.activate(:accredited_provider_setting_permissions)
   end
 
   def when_i_cannot_manage_users_or_organisations
@@ -125,10 +123,6 @@ RSpec.feature 'Provider views organisation settings' do
   end
 
   def then_i_see_the_organisations_permissions
-    expect(page).to have_content("#{@example_provider.name} and #{@another_provider.name}")
-  end
-
-  def and_the_accredited_provider_setting_permissions_flag_is_inactive
-    FeatureFlag.deactivate(:accredited_provider_setting_permissions)
+    expect(page).to have_content("#{@another_provider.name} and #{@example_provider.name}")
   end
 end

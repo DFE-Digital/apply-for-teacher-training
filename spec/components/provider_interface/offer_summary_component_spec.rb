@@ -131,8 +131,8 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       let(:conditions) { [build(:offer_condition, :met)] }
 
       it 'renders conditions as met' do
-        expect(render.css('.govuk-table__row .govuk-tag')[0].text).to eq('Met')
-        expect(render.css('.govuk-table__row .govuk-table__cell')[0].text).to eq(conditions.first.text)
+        expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-summary-list__key')[0].text.squish).to eq(conditions.first.text)
+        expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-tag')[0].text).to eq('Met')
       end
     end
 
@@ -140,8 +140,8 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       let(:conditions) { [build(:offer_condition, :unmet)] }
 
       it 'renders conditions as met' do
-        expect(render.css('.govuk-table__row .govuk-tag')[0].text).to eq('Not met')
-        expect(render.css('.govuk-table__row .govuk-table__cell')[0].text).to eq(conditions.first.text)
+        expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-summary-list__key')[0].text.squish).to eq(conditions.first.text)
+        expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-tag')[0].text).to eq('Not met')
       end
     end
 
@@ -149,8 +149,8 @@ RSpec.describe ProviderInterface::OfferSummaryComponent do
       let(:conditions) { [build(:offer_condition, :pending)] }
 
       it 'renders conditions as met' do
-        expect(render.css('.govuk-table__row .govuk-tag')[0].text).to eq('Pending')
-        expect(render.css('.govuk-table__row .govuk-table__cell')[0].text).to eq(conditions.first.text)
+        expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-summary-list__key')[0].text.squish).to eq(conditions.first.text)
+        expect(render.css('.app-conditions-list .govuk-summary-list__row .govuk-tag')[0].text).to eq('Pending')
       end
     end
   end

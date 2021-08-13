@@ -62,6 +62,7 @@ module ProviderInterface
     def commit
       wizard = OrganisationPermissionsSetupWizard.new(organisation_permissions_wizard_store)
       if SetupProviderRelationshipPermissions.call(wizard.relationships)
+        send_organisation_permissions_emails(wizard.relationships)
         wizard.clear_state!
         redirect_to success_provider_interface_organisation_permissions_setup_index_path
       else
@@ -76,13 +77,6 @@ module ProviderInterface
     def success; end
 
   private
-
-    def require_access_to_manage_provider_relationship_permissions!
-      provider_relationship_permissions = ProviderRelationshipPermissions.find(params[:id])
-      permitted_relationship_permissions = current_provider_user.authorisation.training_provider_relationships_that_actor_can_manage_organisations_for
-
-      render_403 unless permitted_relationship_permissions.include?(provider_relationship_permissions)
-    end
 
     def redirect_unless_permissions_to_setup
       redirect_to provider_interface_applications_path if provider_relationship_permissions_needing_setup.blank?
@@ -110,7 +104,7 @@ module ProviderInterface
     end
 
     def current_relationship_description
-      ProviderRelationshipPermissionAsProviderUserPresenter.new(@current_relationship, current_provider_user).provider_relationship_description
+      ProviderRelationshipPermissionAsProviderUserPresenter.new(relationship: @current_relationship, provider_user: current_provider_user).provider_relationship_description
     end
 
     helper_method :current_relationship_description
@@ -123,6 +117,12 @@ module ProviderInterface
         check_provider_interface_organisation_permissions_setup_index_path
       else
         provider_interface_organisation_permissions_setup_index_path
+      end
+    end
+
+    def send_organisation_permissions_emails(relationships)
+      relationships.each do |permissions|
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: permissions).call
       end
     end
 

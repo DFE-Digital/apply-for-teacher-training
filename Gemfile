@@ -12,7 +12,7 @@ gem 'actionmailer', '~> 6.1'
 gem 'railties', '~> 6.1'
 gem 'sprockets-rails'
 
-gem 'puma', '~> 5.3'
+gem 'puma', '~> 5.4'
 gem 'pg', '~> 1.2.3'
 gem 'blazer'
 
@@ -46,6 +46,8 @@ gem 'discard'
 
 gem 'json-schema'
 gem 'json_api_client'
+# Oj is faster at rendering JSON than the default Rails JSON serializer
+gem 'oj'
 
 # We use a postgres sequence to generate public_ids for qualifications
 # See adr/0018-public-ids-for-qualifications.md for details on why this is necessary
@@ -143,7 +145,7 @@ group :test do
   gem 'launchy'
   gem 'timecop'
   gem 'guard-rspec'
-  gem 'webmock', '~> 3.13'
+  gem 'webmock', '~> 3.14'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
   gem 'clockwork-test'

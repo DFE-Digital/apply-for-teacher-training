@@ -1,0 +1,24 @@
+<%= tag.dl(class: 'govuk-summary-list') do %>
+  <% ProviderPermissions::VALID_PERMISSIONS.each do |permission| %>
+    <%= tag.div(class: 'govuk-summary-list__row') do %>
+      <dt class="govuk-summary-list__key">
+        <%= description_for(permission) %>
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= can_perform_permission_y_n?(permission) %>
+        <% if ProviderRelationshipPermissions::PERMISSIONS.include?(permission) && can_perform_permission?(permission) %>
+          <p>This user permission is affected by organisation permissions.</p>
+          <%= render ProviderInterface::ProviderPartnerPermissionBreakdownComponent.new(provider: provider, permission: permission) %>
+        <% end %>
+      </dd>
+      <% if editable %>
+        <dd class="govuk-summary-list__actions">
+          <%= govuk_link_to(provider_interface_provider_user_edit_permissions_path(provider_user, provider), class: 'govuk-!-display-none-print') do %>
+            Change
+            <span class="govuk-visually-hidden"><%= description_for(permission) %></span>
+          <% end %>
+        </dd>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

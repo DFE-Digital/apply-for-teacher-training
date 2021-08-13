@@ -61,7 +61,7 @@ RSpec.feature 'Provider user exports applications to a csv' do
   end
 
   def click_export_data
-    click_button 'Export data'
+    click_button 'Export application data (CSV)'
   end
 
   def and_i_fill_in_the_form_incorrectly

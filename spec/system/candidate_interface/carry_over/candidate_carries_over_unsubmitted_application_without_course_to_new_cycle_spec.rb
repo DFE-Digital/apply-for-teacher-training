@@ -98,11 +98,7 @@ RSpec.feature 'Carry over' do
   end
 
   def when_i_view_referees
-    if FeatureFlag.active?(:reference_selection)
-      click_on 'Review your references'
-    else
-      click_on 'Manage your references'
-    end
+    click_on 'Review your references'
   end
 
   def then_i_can_see_the_referees_i_previously_added
@@ -145,9 +141,7 @@ RSpec.feature 'Carry over' do
 
   def and_i_receive_references
     receive_references
-    if FeatureFlag.active?(:reference_selection)
-      select_references_and_complete_section
-    end
+    select_references_and_complete_section
   end
 
   def and_i_submit_my_application

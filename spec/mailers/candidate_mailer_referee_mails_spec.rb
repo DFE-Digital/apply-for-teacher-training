@@ -75,7 +75,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       before do
         application_form.application_references = [reference, other_reference]
-        FeatureFlag.activate(:reference_selection)
       end
 
       it_behaves_like(
@@ -95,7 +94,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       before do
         application_form.application_references = [reference, second_reference, third_reference]
-        FeatureFlag.activate(:reference_selection)
       end
 
       it_behaves_like(
@@ -116,7 +114,6 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       before do
         application_form.application_references = [first_selected_reference, second_selected_reference]
-        FeatureFlag.activate(:reference_selection)
       end
 
       it_behaves_like(

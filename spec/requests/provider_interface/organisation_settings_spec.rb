@@ -21,18 +21,10 @@ RSpec.describe 'Viewing organisation settings', type: :request do
     expect(response.redirect_url).to eq(provider_interface_account_url)
   end
 
-  describe 'GET show with feature flag off' do
-    it 'responds with 302' do
-      FeatureFlag.deactivate(:accredited_provider_setting_permissions)
-      get provider_interface_organisation_settings_path
-      expect_redirect_to_account_page
-    end
-  end
+  context 'with feature flag off' do
+    before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
-  context 'with feature flag on' do
-    before { FeatureFlag.activate(:accredited_provider_setting_permissions) }
-
-    describe 'GET show without manage users or manage organisations ' do
+    describe 'GET show without manage users or manage organisations' do
       it 'responds with 302' do
         get provider_interface_organisation_settings_path
         expect_redirect_to_account_page
@@ -62,6 +54,17 @@ RSpec.describe 'Viewing organisation settings', type: :request do
         create(:provider_relationship_permissions, ratifying_provider: provider, setup_at: nil)
         get provider_interface_organisation_settings_path
         expect_redirect_to_account_page
+      end
+    end
+  end
+
+  context 'with feature flag on' do
+    before { FeatureFlag.activate(:account_and_org_settings_changes) }
+
+    describe 'GET show without manage users or manage organisations ' do
+      it 'responds with 200' do
+        get provider_interface_organisation_settings_path
+        expect(response.status).to eq(200)
       end
     end
   end

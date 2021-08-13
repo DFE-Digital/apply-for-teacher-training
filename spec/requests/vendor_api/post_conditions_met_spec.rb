@@ -13,7 +13,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met"
 
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
     expect(parsed_response['data']['attributes']['status']).to eq 'recruited'
   end
@@ -23,7 +23,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-conditions-met", params: {}
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
     expect(error_response['message']).to eq 'The application is not ready for that action'
   end
@@ -31,7 +31,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
   it 'returns not found error when the application was not found' do
     post_api_request '/api/v1/applications/non-existent-id/confirm-conditions-met'
 
-    expect(response).to have_http_status(404)
+    expect(response).to have_http_status(:not_found)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
     expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
   end

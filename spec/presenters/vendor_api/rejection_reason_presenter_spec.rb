@@ -49,7 +49,7 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
     let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider: provider)) }
     let(:provider) { build_stubbed(:provider, name: 'UoG') }
 
-    subject(:presenter) { VendorAPI::RejectionReasonPresenter.new(application_choice) }
+    subject(:presenter) { described_class.new(application_choice) }
 
     it 'returns a formatted string from structured rejection reasons field' do
       expect(presenter.present.split("\n\n")).to eq([

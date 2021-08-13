@@ -19,6 +19,8 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
   context 'when there are permissions requiring setup' do
     let(:ratifying_provider) { create(:provider) }
     let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider: provider) }
+    let(:store) { instance_double(WizardStateStores::RedisStore) }
+    let(:wizard_store_value) { { 'relationship_ids' => [permissions.id] }.to_json }
     let!(:permissions) do
       create(
         :provider_relationship_permissions,
@@ -28,76 +30,59 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
       )
     end
 
-    context 'when the accredited_provider_setting_permissions flag is on' do
-      let(:store) { instance_double(WizardStateStores::RedisStore) }
-      let(:wizard_store_value) { { 'relationship_ids' => [permissions.id] }.to_json }
-
-      before do
-        FeatureFlag.activate(:accredited_provider_setting_permissions)
-        allow(store).to receive(:read).and_return(wizard_store_value)
-        allow(store).to receive(:write)
-        allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
-      end
-
-      it 'returns a 200 on the setup index page' do
-        get provider_interface_organisation_permissions_setup_index_path
-
-        expect(response.status).to eq(200)
-      end
-
-      it 'tracks validation errors on update' do
-        expect {
-          patch(
-            provider_interface_organisation_permissions_setup_path(permissions),
-            params: {
-              id: permissions.id,
-              provider_relationship_permissions: {},
-            },
-          )
-        }.to change(ValidationError, :count).by(1)
-      end
-
-      context 'when the wizard state store has not been set up' do
-        let(:wizard_store_value) { nil }
-
-        it 'redirects edit to the index action' do
-          get edit_provider_interface_organisation_permissions_setup_path(permissions)
-
-          expect(response.status).to eq(302)
-          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
-        end
-
-        it 'redirects update to the index action' do
-          patch provider_interface_organisation_permissions_setup_path(permissions), params: {}
-
-          expect(response.status).to eq(302)
-          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
-        end
-
-        it 'redirects check to the index action' do
-          get check_provider_interface_organisation_permissions_setup_index_path
-
-          expect(response.status).to eq(302)
-          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
-        end
-
-        it 'redirects commit to the index action' do
-          patch commit_provider_interface_organisation_permissions_setup_index_path
-
-          expect(response.status).to eq(302)
-          expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
-        end
-      end
+    before do
+      allow(store).to receive(:read).and_return(wizard_store_value)
+      allow(store).to receive(:write)
+      allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
     end
 
-    context 'when the accredited_provider_setting_permissions flag is off' do
-      before { FeatureFlag.deactivate(:accredited_provider_setting_permissions) }
+    it 'returns a 200 on the setup index page' do
+      get provider_interface_organisation_permissions_setup_index_path
 
-      it 'redirects to the old setup start page' do
-        get provider_interface_organisation_permissions_setup_index_path
+      expect(response.status).to eq(200)
+    end
+
+    it 'tracks validation errors on update' do
+      expect {
+        patch(
+          provider_interface_organisation_permissions_setup_path(permissions),
+          params: {
+            id: permissions.id,
+            provider_relationship_permissions: {},
+          },
+        )
+      }.to change(ValidationError, :count).by(1)
+    end
+
+    context 'when the wizard state store has not been set up' do
+      let(:wizard_store_value) { nil }
+
+      it 'redirects edit to the index action' do
+        get edit_provider_interface_organisation_permissions_setup_path(permissions)
 
         expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_provider_relationship_permissions_organisations_url)
+        expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+      end
+
+      it 'redirects update to the index action' do
+        patch provider_interface_organisation_permissions_setup_path(permissions), params: {}
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+      end
+
+      it 'redirects check to the index action' do
+        get check_provider_interface_organisation_permissions_setup_index_path
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
+      end
+
+      it 'redirects commit to the index action' do
+        patch commit_provider_interface_organisation_permissions_setup_index_path
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
       end
     end
   end

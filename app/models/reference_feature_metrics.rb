@@ -43,11 +43,7 @@ private
   end
 
   def time_to_get_for(application, end_time)
-    if FeatureFlag.active?(:reference_selection)
-      return nil unless application.minimum_references_available_for_selection?
-    else
-      return nil unless application.enough_references_have_been_provided?
-    end
+    return nil unless application.minimum_references_available_for_selection?
 
     times = application.application_references.feedback_provided.where(duplicate: false).map do |reference|
       [reference.requested_at, reference.feedback_provided_at]

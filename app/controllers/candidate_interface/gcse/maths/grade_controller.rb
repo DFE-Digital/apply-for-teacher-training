@@ -27,12 +27,16 @@ module CandidateInterface
     def edit
       @gcse_grade_form = MathsGcseGradeForm.build_from_qualification(current_qualification)
       @qualification_type = @gcse_grade_form.qualification_type
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
     end
 
     def update
       @gcse_grade_form = MathsGcseGradeForm.new(maths_params)
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
       if @gcse_grade_form.save(current_qualification)
+        return redirect_to candidate_interface_application_review_path if redirect_back_to_application_review_page?
+
         if current_qualification.failed_required_gcse?
           redirect_to candidate_interface_gcse_details_edit_grade_explanation_path(subject: @subject)
         else

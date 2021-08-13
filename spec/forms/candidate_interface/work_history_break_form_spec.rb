@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
   describe '.build_from_break' do
     it 'creates an object based on the work history break' do
       application_work_history_break = build_stubbed(:application_work_history_break, attributes: data)
-      work_break = CandidateInterface::WorkHistoryBreakForm.build_from_break(
+      work_break = described_class.build_from_break(
         application_work_history_break,
       )
 
@@ -62,14 +62,14 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      work_break = CandidateInterface::WorkHistoryBreakForm.new
+      work_break = described_class.new
 
       expect(work_break.save(ApplicationForm.new)).to eq(false)
     end
 
     it 'creates a new work experience if valid' do
       application_form = create(:application_form)
-      work_break = CandidateInterface::WorkHistoryBreakForm.new(form_data)
+      work_break = described_class.new(form_data)
 
       saved_work_break = work_break.save(application_form)
 
@@ -79,7 +79,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
 
   describe '#update' do
     it 'returns false if not valid' do
-      work_break = CandidateInterface::WorkHistoryBreakForm.new
+      work_break = described_class.new
 
       expect(work_break.save(ApplicationForm.new)).to eq(false)
     end
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
         application_form: create(:application_form),
         attributes: data,
       )
-      work_break = CandidateInterface::WorkHistoryBreakForm.new(form_data)
+      work_break = described_class.new(form_data)
       work_break.reason = 'Updated reason.'
 
       work_break.update(application_work_history_break)

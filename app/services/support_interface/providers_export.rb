@@ -9,6 +9,7 @@ module SupportInterface
           provider_code: provider.code,
           agreement_accepted_at: provider.provider_agreements.where.not(accepted_at: nil).first&.accepted_at,
           average_distance_to_site: average_distance_to_site(provider),
+          organisation_type: provider.provider_type,
         }
       end
     end
@@ -23,7 +24,6 @@ module SupportInterface
           :provider_agreements,
           :sites,
         )
-        .where(sync_courses: true)
         .order(:name)
     end
 

@@ -1,8 +1,6 @@
 <% if @degree_grade_form.international? %>
 
-  <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: @page_title, size: 'xl', tag: 'h1' } do %>
-    <p class="govuk-body"><%= t('application_form.degree.grade.international.grade_examples') %></p>
-
+  <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: @page_title, size: 'xl', tag: 'h1' }, hint: { text: t('application_form.degree.grade.international.grade_examples') } do %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: 'Yes' }, link_errors: true do %>
       <% if degree.predicted_grade? %>
         <% text_field_options = { label: nil, hint: { text: t('application_form.degree.grade.international.hint_text') } } %>
@@ -19,11 +17,11 @@
 
 <% else %>
 
-  <% if degree.predicted_grade? %>
-    <%= govuk_inset_text(text: 'You must give an academic referee who can agree that you’re aiming for this grade.') %>
-  <% end %>
-
   <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: @page_title, size: 'xl', tag: 'h1' } do %>
+    <% if degree.predicted_grade? %>
+      <%= govuk_inset_text(text: t('application_form.degree.grade.inset_text')) %>
+    <% end %>
+
     <% @main_grades.each_with_index do |grade, i| %>
       <%= f.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: i.zero? %>
     <% end %>

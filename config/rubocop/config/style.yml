@@ -82,3 +82,16 @@ Style/ExplicitBlockArgument:
 Style/NilLambda:
   Exclude:
     - app/views/provider_interface/interviews/cancel.html.erb
+
+Style/CombinableLoops:
+  Exclude:
+    - 'app/presenters/support_interface/provider_relationships_diagram.rb'
+
+Style/IdenticalConditionalBranches:
+  Exclude:
+    # wizard.clear_state! duplication in commit method conditional
+    - 'app/controllers/provider_interface/organisation_permissions_setup_controller.rb'
+
+Style/OptionalBooleanParameter:
+  AllowedMethods:
+    - perform

@@ -14,11 +14,17 @@ RSpec.feature 'Editing a degree' do
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_type
 
-    when_i_click_to_change_my_undergraduate_degree_year
-    then_i_see_my_undergraduate_degree_year_filled_in
-    when_i_change_my_undergraduate_degree_year
+    when_i_click_to_change_my_undergraduate_degree_start_year
+    then_i_see_my_undergraduate_degree_start_year_filled_in
+    when_i_change_my_undergraduate_degree_start_year
     and_i_click_on_save_and_continue
-    then_i_can_check_my_revised_undergraduate_degree_year
+    then_i_can_check_my_revised_undergraduate_degree_start_year
+
+    when_i_click_to_change_my_undergraduate_degree_award_year
+    then_i_see_my_undergraduate_degree_award_year_filled_in
+    when_i_change_my_undergraduate_degree_award_year
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_undergraduate_degree_award_year
 
     when_i_click_to_change_my_undergraduate_degree_subject
     then_i_see_my_undergraduate_degree_subject_filled_in
@@ -90,9 +96,16 @@ RSpec.feature 'Editing a degree' do
     click_change_link('qualification')
   end
 
-  def when_i_click_to_change_my_undergraduate_degree_year
+  def when_i_click_to_change_my_undergraduate_degree_start_year
     start_year_row = find('.govuk-summary-list__row', text: 'Start year')
     within start_year_row do
+      click_change_link('year')
+    end
+  end
+
+  def when_i_click_to_change_my_undergraduate_degree_award_year
+    award_year_row = find('.govuk-summary-list__row', text: 'Graduation year')
+    within award_year_row do
       click_change_link('year')
     end
   end
@@ -113,9 +126,12 @@ RSpec.feature 'Editing a degree' do
     expect(page).to have_selector("input[value='BSc']")
   end
 
-  def then_i_see_my_undergraduate_degree_year_filled_in
-    expect(page).to have_selector("input[name='candidate_interface_degree_year_form[start_year]'][value='2006']")
-    expect(page).to have_selector("input[name='candidate_interface_degree_year_form[award_year]'][value='2009']")
+  def then_i_see_my_undergraduate_degree_start_year_filled_in
+    expect(page).to have_selector("input[name='candidate_interface_degree_start_year_form[start_year]'][value='2006']")
+  end
+
+  def then_i_see_my_undergraduate_degree_award_year_filled_in
+    expect(page).to have_selector("input[name='candidate_interface_degree_award_year_form[award_year]'][value='2009']")
   end
 
   def then_i_see_my_undergraduate_degree_subject_filled_in
@@ -134,9 +150,12 @@ RSpec.feature 'Editing a degree' do
     fill_in 'Type of degree', with: 'BA'
   end
 
-  def when_i_change_my_undergraduate_degree_year
-    fill_in 'Year started course', with: '2008'
-    fill_in 'Graduation year', with: '2011'
+  def when_i_change_my_undergraduate_degree_start_year
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2008'
+  end
+
+  def when_i_change_my_undergraduate_degree_award_year
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2011'
   end
 
   def when_i_change_my_undergraduate_degree_subject
@@ -155,8 +174,11 @@ RSpec.feature 'Editing a degree' do
     expect(page).to have_content 'BA'
   end
 
-  def then_i_can_check_my_revised_undergraduate_degree_year
+  def then_i_can_check_my_revised_undergraduate_degree_start_year
     expect(page).to have_content '2008'
+  end
+
+  def then_i_can_check_my_revised_undergraduate_degree_award_year
     expect(page).to have_content '2011'
   end
 

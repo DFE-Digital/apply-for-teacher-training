@@ -21,8 +21,8 @@ RSpec.feature 'Managing provider-provider permissions via support' do
   end
 
   def and_there_are_two_providers_in_a_partnership
-    training = create(:provider, :with_signed_agreement, sync_courses: true, name: 'Numan College')
-    ratifying = create(:provider, :with_signed_agreement, sync_courses: true, name: 'Oldman University')
+    training = create(:provider, :with_signed_agreement, name: 'Numan College')
+    ratifying = create(:provider, :with_signed_agreement, name: 'Oldman University')
 
     create(:provider_relationship_permissions, :not_set_up_yet,
            training_provider: training, ratifying_provider: ratifying)
@@ -44,13 +44,7 @@ RSpec.feature 'Managing provider-provider permissions via support' do
   end
 
   def then_i_should_see_an_error
-    error_message = if FeatureFlag.active?(:accredited_provider_setting_permissions)
-                      'Select who can make offers and reject applications'
-                    else
-                      'Select which organisations can make decisions'
-                    end
-
-    expect(page).to have_content error_message
+    expect(page).to have_content 'Select who can make offers and reject applications'
   end
 
   def when_i_set_valid_relationships

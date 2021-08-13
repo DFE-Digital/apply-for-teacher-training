@@ -6,7 +6,7 @@ module SupportInterface
 
     def course_options
       @course_options = CourseOption
-        .where('vacancy_status != ?', 'vacancies')
+        .where.not('vacancy_status = ?', 'vacancies')
         .includes(:course, :site)
         .page(params[:page] || 1)
         .per(30)

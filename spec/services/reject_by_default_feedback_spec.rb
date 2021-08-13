@@ -29,7 +29,7 @@ RSpec.describe RejectByDefaultFeedback, sidekiq: true do
       candidate_behaviour_other: 'Bad language',
       candidate_behaviour_what_to_improve: 'Do not swear',
     }
-    service = RejectByDefaultFeedback.new(
+    service = described_class.new(
       actor: actor,
       application_choice: application_choice,
       structured_rejection_reasons: ReasonsForRejection.new(reasons_for_rejection_attrs),

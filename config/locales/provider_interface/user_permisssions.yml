@@ -1,0 +1,21 @@
+en:
+  user_permissions:
+    make_decisions:
+      description: Make offers and reject applications
+    view_safeguarding_information:
+      description: View criminal convictions and professional misconduct
+    view_diversity_information:
+      description: View sex, disability and ethnicity information
+    manage_users:
+      description: Manage users
+    manage_organisations:
+      description: Manage organisation permissions
+    set_up_interviews:
+      description: Set up interviews
+  provider_interface:
+    personal_permissions:
+      show:
+        permissions_for: Permissions for %{provider_name}
+        access_to_orgs:
+          heading: Access to organisations
+          key: Organisations you have access to

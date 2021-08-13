@@ -134,7 +134,7 @@ RSpec.feature 'Provider changes an existing offer' do
   end
 
   def when_i_choose_to_change_the_provider
-    within(:xpath, "////div[@class='govuk-summary-list__row'][1]") do
+    within(all('.govuk-summary-list__row')[0]) do
       click_on 'Change'
     end
   end

@@ -55,7 +55,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   it 'returns an error if the `since` parameter is missing' do
     get_api_request '/api/v1/applications'
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
 
     expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
 
@@ -65,7 +65,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   it 'returns HTTP status 422 given an unparseable `since` date value' do
     get_api_request '/api/v1/applications?since=17/07/2020T12:00:42Z'
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
 
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
 
@@ -75,7 +75,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
     get_api_request '/api/v1/applications?since=12936'
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
 
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
 
@@ -85,7 +85,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   it 'returns HTTP status 422 given a parseable but nonsensensical `since` date value' do
     get_api_request '/api/v1/applications?since=-004713-03-23T11:52:19.448Z' # this happened
 
-    expect(response).to have_http_status(422)
+    expect(response).to have_http_status(:unprocessable_entity)
 
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
 

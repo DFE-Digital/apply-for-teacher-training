@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.shared_examples 'a callback that does not change the feedback status of a reference' do
   it 'does not update the feedback status of the reference' do
-    process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+    process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
     process_notify_callback.call
 
@@ -30,7 +30,7 @@ RSpec.describe ProcessNotifyCallback do
       let(:status) { 'permanent-failure' }
 
       it 'updates the feedback status of the reference to email bounced' do
-        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+        process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
         process_notify_callback.call
 
@@ -40,7 +40,7 @@ RSpec.describe ProcessNotifyCallback do
       it 'sets not found to true if reference cannot be found' do
         allow(ApplicationReference).to receive(:find).with(reference.id.to_s).and_raise(ActiveRecord::RecordNotFound)
 
-        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+        process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
         process_notify_callback.call
 
@@ -62,7 +62,7 @@ RSpec.describe ProcessNotifyCallback do
       let(:status) { 'permanent-failure' }
 
       it 'updates sign up email bounced to true for candidate' do
-        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+        process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
         process_notify_callback.call
 
@@ -70,7 +70,7 @@ RSpec.describe ProcessNotifyCallback do
       end
 
       it 'updates hide in reporting to true for candidate' do
-        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+        process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
         process_notify_callback.call
 
@@ -80,7 +80,7 @@ RSpec.describe ProcessNotifyCallback do
       it 'sets not found to true if candidate cannot be found' do
         allow(Candidate).to receive(:find).with(candidate.id.to_s).and_raise(ActiveRecord::RecordNotFound)
 
-        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+        process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
         process_notify_callback.call
 
@@ -107,7 +107,7 @@ RSpec.describe ProcessNotifyCallback do
 
       it 'does not update sign up email bounced and hide in reporting to true for candidate' do
         notify_reference = "example_env-#{email_type}-#{candidate.id}"
-        process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
+        process_notify_callback = described_class.new(notify_reference: notify_reference, status: status)
 
         process_notify_callback.call
 

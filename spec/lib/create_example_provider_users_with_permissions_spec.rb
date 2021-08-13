@@ -7,7 +7,7 @@ RSpec.describe CreateExampleProviderUsersWithPermissions do
     end
 
     expect {
-      CreateExampleProviderUsersWithPermissions.call
+      described_class.call
     }.to(change { ProviderUser.count })
   end
 end

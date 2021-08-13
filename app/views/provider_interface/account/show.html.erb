@@ -1,6 +1,20 @@
 <%= content_for :browser_title, t('page_titles.provider.account') %>
 
 <h1 class="govuk-heading-l"><%= t('page_titles.provider.account') %></h1>
+
+<% if FeatureFlag.active?(:account_and_org_settings_changes) %>
+<ul class="govuk-list govuk-list--spaced">
+  <li>
+    <%= govuk_link_to t('page_titles.provider.personal_details'), provider_interface_personal_details_path %>
+  </li>
+  <li>
+    <%= govuk_link_to t('page_titles.provider.user_permissions'), provider_interface_personal_permissions_path %>
+  </li>
+  <li>
+    <%= govuk_link_to t('page_titles.provider.email_notifications'), provider_interface_notifications_path %>
+  </li>
+</ul>
+<% else %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
 
@@ -23,36 +37,5 @@
     <p class="govuk-body">Use this section to choose whether to receive notifications about applications.</p>
 
   </div>
-
-  <% unless FeatureFlag.active?(:accredited_provider_setting_permissions) %>
-
-  <div class="govuk-grid-column-one-half">
-
-    <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
-      <h2 class="govuk-heading-m">
-        <%= govuk_link_to t('page_titles.provider.users'), provider_interface_provider_users_path %>
-      </h2>
-
-      <p class="govuk-body">Use this section to:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>manage users and their permissions</li>
-        <li>invite users</li>
-      </ul>
-    <% end %>
-
-    <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
-      <h2 class="govuk-heading-m">
-        <%= govuk_link_to t('page_titles.provider.org_permissions'), provider_interface_organisations_path %>
-      </h2>
-
-      <p class="govuk-body">Use this section to:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>set permissions between your organisation and partner organisations</li>
-        <li>check permissions between organisations</li>
-      </ul>
-    <% end %>
-
-  </div>
-
-  <% end %>
 </div>
+<% end %>

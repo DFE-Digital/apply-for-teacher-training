@@ -86,4 +86,48 @@ RSpec.describe Provider, type: :model do
       end
     end
   end
+
+  describe '#lacks_admin_users?' do
+    let(:provider) { create(:provider) }
+
+    it 'is true if there are no admin users and the provider has one course' do
+      create(:course, provider: provider)
+      expect(provider.lacks_admin_users?).to be true
+    end
+
+    it 'is true if there are no users with both manage users and manage organisations and the provider has one course' do
+      create(:course, provider: provider)
+      create(:provider_user, :with_manage_users, providers: [provider])
+      expect(provider.lacks_admin_users?).to be true
+    end
+
+    it 'is false if the provider has no courses' do
+      expect(provider.lacks_admin_users?).to be false
+    end
+
+    it 'is false if there is at least one admin user and the provider has one course' do
+      create(:course, provider: provider)
+      create(:provider_user, :with_manage_users, :with_manage_organisations, providers: [provider])
+      expect(provider.lacks_admin_users?).to be false
+    end
+  end
+
+  describe '.with_courses' do
+    let(:provider) { create :provider }
+
+    it 'doesnt return providers with no courses' do
+      expect(described_class.with_courses).to eq([])
+    end
+
+    it 'returns a provider that has a course' do
+      create(:course, provider: provider)
+      expect(described_class.with_courses).to eq([provider])
+    end
+
+    it 'only returns providers with courses' do
+      create(:course, provider: provider)
+      create(:provider)
+      expect(described_class.with_courses).to eq([provider])
+    end
+  end
 end

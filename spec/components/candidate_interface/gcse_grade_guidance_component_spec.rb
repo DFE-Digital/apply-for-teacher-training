@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'displays the guidance around the expectation of providers' do
       subject = 'maths'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
+      result = render_inline(described_class.new(subject, nil))
 
       expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
     end
@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'does not display the guidance around triple science' do
       subject = 'maths'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
+      result = render_inline(described_class.new(subject, nil))
 
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
     end
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'does not display the guidance around english literature and multiple english qualifications' do
       subject = 'maths'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
+      result = render_inline(described_class.new(subject, nil))
 
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'displays the guidance around the expectation of providers' do
       subject = 'science'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
+      result = render_inline(described_class.new(subject, nil))
 
       expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
     end
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'does not display the guidance around english literature and multiple english qualifications' do
       subject = 'science'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
+      result = render_inline(described_class.new(subject, nil))
 
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
@@ -51,7 +51,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         subject = 'science'
         qualification_type = 'gcse'
 
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
+        result = render_inline(described_class.new(subject, qualification_type))
 
         expect(result.text).to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         subject = 'science'
         qualification_type = 'gce_o_level'
 
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
+        result = render_inline(described_class.new(subject, qualification_type))
 
         expect(result.text).to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
@@ -75,7 +75,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         subject = 'science'
         qualification_type = 'scottish_national_5'
 
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
+        result = render_inline(described_class.new(subject, qualification_type))
 
         expect(result.text).to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         subject = 'science'
         qualification_type = 'other_uk'
 
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
+        result = render_inline(described_class.new(subject, qualification_type))
 
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
@@ -99,7 +99,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'displays the guidance around the expectation of providers for multiple English GCSEs' do
       subject = 'english'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, 'gcse'))
+      result = render_inline(described_class.new(subject, 'gcse'))
 
       expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
       expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
@@ -108,7 +108,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
     it 'does not display the guidance around triple science' do
       subject = 'english'
 
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
+      result = render_inline(described_class.new(subject, nil))
 
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
     end
@@ -118,7 +118,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         subject = 'english'
         qualification_type = 'scottish_national_5'
 
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
+        result = render_inline(described_class.new(subject, qualification_type))
 
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
@@ -130,7 +130,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         subject = 'english'
         qualification_type = 'other_uk'
 
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
+        result = render_inline(described_class.new(subject, qualification_type))
 
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))

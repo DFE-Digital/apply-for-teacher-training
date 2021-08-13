@@ -43,12 +43,10 @@ Govuk:
 Govuk/GovukLinkTo:
   Exclude:
     # link_to in components that use their own link classes
-    - 'app/components/breadcrumb_component.html.erb'
-    - 'app/components/header_component.html.erb'
-    - 'app/components/product_header_component.html.erb'
+    - 'app/components/utility/header_component.html.erb'
     - 'app/components/support_interface/tile_component.html.erb'
     # link_to in filter component
-    - 'app/components/filter_component.html.erb'
+    - 'app/components/utility/filter_component.html.erb'
     # link_to in manual error summaries
     - 'app/views/candidate_interface/references/review/show.html.erb'
     - 'app/views/candidate_interface/unsubmitted_application_form/review.html.erb'
@@ -59,8 +57,3 @@ Govuk/GovukLinkTo:
     # link_to for kaminari pagination links
     - 'app/views/kaminari/_next_page.html.erb'
     - 'app/views/kaminari/_prev_page.html.erb'
-
-Style/IdenticalConditionalBranches:
-  Exclude:
-    # wizard.clear_state! duplication in commit method conditional
-    - 'app/controllers/provider_interface/organisation_permissions_setup_controller.rb'

@@ -3,18 +3,40 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_settings') %></h1>
-    <ul class="govuk-list govuk-list--spaced">
-      <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
-        <li>
-          <%= govuk_link_to t('page_titles.provider.users'), provider_interface_provider_users_path %>
-        </li>
+    <% if FeatureFlag.active?(:account_and_org_settings_changes) %>
+      <% @providers.each do |provider| %>
+        <% if @providers.count > 1 %>
+          <h2 class="govuk-heading-m"><%= provider.name %></h2>
+        <% end %>
+        <ul class="govuk-list govuk-list--spaced">
+          <li>
+            <%= govuk_link_to provider_interface_provider_users_path do %>
+              <%= t('page_titles.provider.users') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
+            <% end %>
+          </li>
+          <% if ProviderRelationshipPermissions.all_relationships_for_providers([provider]).providers_have_open_course.any? %>
+            <li>
+              <%= govuk_link_to provider_interface_organisation_settings_organisation_organisation_permissions_path(provider) do %>
+                <%= t('page_titles.provider.organisation_permissions') %><span class="govuk-visually-hidden"> <%= provider.name %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
       <% end %>
+    <% else %>
+      <ul class="govuk-list govuk-list--spaced">
+        <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
+          <li>
+            <%= govuk_link_to t('page_titles.provider.users'), provider_interface_provider_users_path %>
+          </li>
+        <% end %>
 
-      <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
-        <li>
-          <%= govuk_link_to t('page_titles.provider.organisation_permissions'), provider_interface_organisation_settings_organisations_path %>
-        </li>
-      <% end %>
-    </ul>
+        <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_setup_provider? %>
+          <li>
+            <%= govuk_link_to t('page_titles.provider.organisation_permissions'), provider_interface_organisation_settings_organisations_path %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 </div>

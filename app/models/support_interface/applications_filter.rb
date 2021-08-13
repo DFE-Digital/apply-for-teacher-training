@@ -38,11 +38,15 @@ module SupportInterface
         application_forms = application_forms.where(recruitment_cycle_year: applied_filters[:year])
       end
 
+      if applied_filters[:status]
+        application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
+      end
+
       application_forms
     end
 
     def filters
-      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter]
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter]
     end
 
   private
@@ -113,6 +117,76 @@ module SupportInterface
             value: 'has_interviews',
             label: 'Has interviews',
             checked: applied_filters[:interviews]&.include?('has_interviews'),
+          },
+        ],
+      }
+    end
+
+    def status_filter
+      {
+        type: :checkboxes,
+        heading: 'Status',
+        name: 'status',
+        options: [
+          {
+            value: 'unsubmitted',
+            label: 'Not submitted yet',
+            checked: applied_filters[:status]&.include?('unsubmitted'),
+          },
+          {
+            value: 'awaiting_provider_decision',
+            label: 'Awaiting provider decision',
+            checked: applied_filters[:status]&.include?('awaiting_provider_decision'),
+          },
+          {
+            value: 'interviewing',
+            label: 'Interviewing',
+            checked: applied_filters[:status]&.include?('interviewing'),
+          },
+          {
+            value: 'offer',
+            label: 'Offer made',
+            checked: applied_filters[:status]&.include?('offer'),
+          },
+          {
+            value: 'pending_conditions',
+            label: 'Pending conditions',
+            checked: applied_filters[:status]&.include?('pending_conditions'),
+          },
+          {
+            value: 'conditions_met',
+            label: 'Conditions met',
+            checked: applied_filters[:status]&.include?('conditions_met'),
+          },
+          {
+            value: 'rejected',
+            label: 'Rejected',
+            checked: applied_filters[:status]&.include?('rejected'),
+          },
+          {
+            value: 'declined',
+            label: 'Offer declined',
+            checked: applied_filters[:status]&.include?('declined'),
+          },
+          {
+            value: 'withdrawn',
+            label: 'Withdrawn',
+            checked: applied_filters[:status]&.include?('withdrawn'),
+          },
+          {
+            value: 'conditions_not_met',
+            label: 'Conditions not met',
+            checked: applied_filters[:status]&.include?('conditions_not_met'),
+          },
+          {
+            value: 'offer_withdrawn',
+            label: 'Offer withdrawn',
+            checked: applied_filters[:status]&.include?('offer_withdrawn'),
+          },
+          {
+            value: 'offer_deferred',
+            label: 'Offer deferred',
+            checked: applied_filters[:status]&.include?('offer_deferred'),
           },
         ],
       }

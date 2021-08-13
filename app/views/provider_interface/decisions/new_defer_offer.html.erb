@@ -6,8 +6,8 @@
     <%= form_with model: @defer_offer, url: provider_interface_application_choice_defer_offer_path(@application_choice) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">
         <%= t('page_titles.provider.new_defer_offer') %>
       </h1>
 

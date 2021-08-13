@@ -8,12 +8,7 @@ class SubmitReference
   end
 
   def save!
-    if FeatureFlag.active?(:reference_selection)
-      @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: false)
-    else
-      @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: true)
-      cancel_feedback_requested_references if enough_references_have_been_provided?
-    end
+    @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now, selected: false)
 
     if @send_emails
       CandidateMailer.reference_received(reference).deliver_later
@@ -30,7 +25,7 @@ private
   def enough_references_have_been_provided?
     (
       application_form.application_references.feedback_provided + [@reference]
-    ).uniq.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+    ).uniq.count == ApplicationForm::REQUIRED_REFERENCE_SELECTIONS
   end
 
   def cancel_feedback_requested_references

@@ -17,6 +17,29 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
       end
     end
 
+    context 'when intremental sync is off' do
+      before do
+        allow(Sentry).to receive(:capture_exception)
+        stub_teacher_training_api_providers_with_multiple_pages
+        allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_in)
+      end
+
+      it 'raises an error when there are any updates' do
+        described_class.call(incremental_sync: false)
+
+        expect(Sentry).to have_received(:capture_exception)
+                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+                          .at_least(:once)
+      end
+
+      it 'suppresses the error if the flag is set to true' do
+        described_class.call(incremental_sync: false, suppress_sync_update_errors: true)
+
+        expect(Sentry).not_to have_received(:capture_exception)
+                              .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+      end
+    end
+
     context 'a previous year recruitment cycle' do
       let(:recruitment_cycle_year) { RecruitmentCycle.previous_year }
       let(:sync_provider) { instance_double(TeacherTrainingPublicAPI::SyncProvider) }
@@ -25,7 +48,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: 6.minutes)
+          .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: 6.minutes, incremental_sync: false, suppress_sync_update_errors: false)
           .and_return(sync_provider)
       end
 
@@ -47,7 +70,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
         allow(sync_provider).to receive(:call)
         allow(TeacherTrainingPublicAPI::SyncProvider)
           .to receive(:new)
-            .with(provider_from_api: anything, recruitment_cycle_year: recruitment_cycle_year, delay_by: nil)
+          .with(provider_from_api: anything,
+                recruitment_cycle_year: recruitment_cycle_year,
+                delay_by: nil,
+                incremental_sync: true,
+                suppress_sync_update_errors: false)
             .and_return(sync_provider)
         stub_teacher_training_api_providers(
           recruitment_cycle_year: recruitment_cycle_year,
