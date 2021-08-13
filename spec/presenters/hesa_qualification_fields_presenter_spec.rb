@@ -32,7 +32,7 @@ RSpec.describe HesaQualificationFieldsPresenter do
 
     context 'when iso3166 institution country code matches HESA degctry code' do
       it 'returns the institution country code' do
-        iso3166_code = COUNTRIES.except(described_class::HESA_DEGCTRY_MAPPING.keys).keys.sample
+        iso3166_code = COUNTRIES.except(*described_class::HESA_DEGCTRY_MAPPING.keys).keys.sample
         presenter = described_class.new(build(:degree_qualification, institution_country: iso3166_code))
         expect(presenter.to_hash[:hesa_degctry]).to eq(iso3166_code)
       end
