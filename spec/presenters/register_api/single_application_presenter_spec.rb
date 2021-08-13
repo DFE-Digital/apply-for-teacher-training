@@ -389,6 +389,30 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.course' do
+    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer, :with_recruited, course: course) }
+    let(:training_provider) { create(:provider, provider_type: 'scitt') }
+    let(:accredited_provider) { create(:provider, provider_type: 'university') }
+    let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
+    let(:presenter) { described_class.new(application_choice).as_json }
+
+    it 'returns the course training provider type' do
+      expect(presenter.dig(:attributes, :course, :training_provider_type)).to eq('scitt')
+    end
+
+    it 'returns the course accredited provider type' do
+      expect(presenter.dig(:attributes, :course, :accredited_provider_type)).to eq('university')
+    end
+
+    context 'with a self ratified course' do
+      let(:accredited_provider) { nil }
+
+      it 'returns no accredited provider type' do
+        expect(presenter.dig(:attributes, :course, :accredited_provider_type)).to be_nil
+      end
+    end
+  end
+
   describe 'attributes.qualifications' do
     let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer, :with_recruited) }
     let(:presenter) { described_class.new(application_choice) }

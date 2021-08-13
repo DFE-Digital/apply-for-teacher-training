@@ -92,6 +92,8 @@ module RegisterAPI
         recruitment_cycle_year: course_option.course.recruitment_cycle_year,
         course_code: course_option.course.code,
         training_provider_code: course_option.course.provider.code,
+        training_provider_type: course_option.course.provider.provider_type,
+        accredited_provider_type: course_option.course.accredited_provider&.provider_type,
         site_code: course_option.site.code,
         study_mode: course_option.study_mode,
       }
