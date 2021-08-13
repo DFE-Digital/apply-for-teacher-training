@@ -22,7 +22,12 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     when_i_visit_that_application_in_the_provider_interface
     and_i_click_set_up_an_interview
+    and_i_fill_out_the_interview_form(days_in_future: 1, time: '10pm')
+    then_i_can_check_the_interview_details(time: '10pm')
+
+    and_i_go_back
     and_i_fill_out_the_interview_form(days_in_future: 1, time: '12pm')
+    then_i_can_check_the_interview_details(time: '12pm')
     and_i_click_send_interview_details
     then_i_see_a_success_message
     and_an_interview_has_been_created(1.day.from_now.to_s(:govuk_date))
@@ -137,8 +142,18 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Continue'
   end
 
+  def then_i_can_check_the_interview_details(time:)
+    within all('.govuk-summary-list__row dd p')[1] do
+      expect(page).to have_content(time)
+    end
+  end
+
   def and_i_click_send_interview_details
     click_on 'Send interview details'
+  end
+
+  def and_i_go_back
+    click_on 'Back'
   end
 
   def then_i_see_a_success_message
