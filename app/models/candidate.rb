@@ -7,10 +7,7 @@ class Candidate < ApplicationRecord
   audited last_signed_in_at: true
 
   before_validation :downcase_email
-  validates :email_address, presence: true,
-                            uniqueness: { case_sensitive: false },
-                            length: { maximum: 100 },
-                            valid_for_notify: true
+  validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 
   has_one :ucas_match
   has_many :application_forms
