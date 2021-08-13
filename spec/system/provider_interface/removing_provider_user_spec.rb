@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Removing a provider user' do
   include DfESignInHelpers
 
+  # Behaviour tested here has moved to spec/system/provider_interface/remove_provider_user_spec.rb
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'removing a user from all providers', with_audited: true do
