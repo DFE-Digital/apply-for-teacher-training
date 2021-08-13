@@ -108,15 +108,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [unit, integration]
+        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
         feature-flags: [on, off]
         include:
-          - tests: unit
+          - tests: unit_shared
             include-pattern: spec/**/**/*_spec.rb
-            exclude-pattern: spec/{system,requests}/**/*_spec.rb
-          - tests: integration
-            include-pattern: spec/{system,requests}/**/*_spec.rb
-            exclude-pattern: ''
+            exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface,*api*}/**/*_spec.rb,spec/system/**/*_spec.rb
+          - tests: unit_candidate-provider
+            include-pattern: spec/**/{candidate_interface,provider_interface}/**/*_spec.rb
+            exclude-pattern: spec/system/**/**/*_spec.rb
+          - tests: unit_support-referee-api
+            include-pattern: spec/**/{support_interface,referee_interface,*api*}/**/*_spec.rb
+            exclude-pattern: spec/system/**/*_spec.rb
+          - tests: integration_shared
+            include-pattern: spec/system/**/*_spec.rb
+            exclude-pattern: spec/system/{provider_interface,candidate_interface}/**/*_spec.rb
+          - tests: integration_provider
+            include-pattern: spec/system/provider_interface/**/*_spec.rb
+          - tests: integration_candidate
+            include-pattern: spec/system/candidate_interface/**/*_spec.rb
     services:
       redis:
         image: redis:alpine
