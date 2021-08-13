@@ -85,6 +85,8 @@ RSpec.feature 'Register receives an application data' do
           recruitment_cycle_year: RecruitmentCycle.current_year,
           course_code: '2XT2',
           training_provider_code: '1N1',
+          training_provider_type: 'scitt',
+          accredited_provider_type: nil,
           site_code: '-',
           study_mode: 'full_time',
         },
