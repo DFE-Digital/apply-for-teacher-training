@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :redirect_unless_feature_flag_on
     before_action :set_provider
     before_action :set_provider_user, except: :index
-    before_action :assert_can_manage_users!, only: %i[confirm_destroy]
+    before_action :assert_can_manage_users!, except: %i[index show]
 
     def index; end
 
@@ -12,6 +12,13 @@ module ProviderInterface
     end
 
     def confirm_destroy; end
+
+    def destroy
+      RemoveUserFromProvider.new(current_provider_user: current_provider_user, provider: @provider, user_to_remove: @provider_user).call!
+
+      flash[:success] = 'User deleted'
+      redirect_to provider_interface_organisation_settings_organisation_users_path(@provider)
+    end
 
   private
 
