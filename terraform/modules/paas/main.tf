@@ -48,7 +48,6 @@ resource "cloudfoundry_app" "clock" {
   docker_image         = var.app_docker_image
   health_check_type    = "process"
   health_check_timeout = 180
-  stopped              = true
   command              = "bundle exec clockwork config/clock.rb"
   instances            = var.clock_app_instances
   memory               = var.clock_app_memory
