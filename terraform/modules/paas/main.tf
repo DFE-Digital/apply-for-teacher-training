@@ -53,6 +53,7 @@ resource "cloudfoundry_app" "clock" {
   memory               = var.clock_app_memory
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
+  strategy             = "blue-green-v2"
   environment          = local.clock_app_env_variables
   docker_credentials   = var.docker_credentials
   dynamic "service_binding" {
