@@ -3,7 +3,6 @@ module CandidateInterface
     class ProviderSelectionController < BaseController
       def new
         @pick_provider = PickProviderForm.new
-        @provider_cache_key = "provider-list-#{Provider.maximum(:updated_at)}"
       end
 
       def create

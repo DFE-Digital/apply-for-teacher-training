@@ -10,16 +10,14 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% cache @provider_cache_key do %>
-        <%= f.govuk_collection_select(
-          :provider_id,
-          select_provider_options(@pick_provider.available_providers),
-          :id,
-          :name,
-          label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
-        ) do %>
-          <p class="govuk-body">You can <%= govuk_link_to 'see a list of training providers and courses', candidate_interface_providers_path %> currently available on <%= service_name %>.</p>
-        <% end %>
+      <%= f.govuk_collection_select(
+        :provider_id,
+        select_provider_options(@pick_provider.available_providers),
+        :id,
+        :name,
+        label: { text: t('page_titles.which_provider'), size: 'xl', tag: 'h1' },
+      ) do %>
+        <p class="govuk-body">You can <%= govuk_link_to 'see a list of training providers and courses', candidate_interface_providers_path %> currently available on <%= service_name %>.</p>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
