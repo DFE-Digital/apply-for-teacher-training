@@ -2,7 +2,7 @@ module VendorAPI
   class SingleApplicationPresenter
     include Rails.application.routes.url_helpers
 
-    CACHE_EXPIRES_IN = 30.minutes
+    CACHE_EXPIRES_IN = 1.day
 
     UCAS_FEE_PAYER_CODES = {
       'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
@@ -413,7 +413,7 @@ module VendorAPI
     end
 
     def cache_key(model)
-      "#{model.model_name.param_key}-#{model.id}-#{model.updated_at.iso8601}"
+      "#{model.cache_key_with_version}-#{ENV['SHA']}"
     end
   end
 end

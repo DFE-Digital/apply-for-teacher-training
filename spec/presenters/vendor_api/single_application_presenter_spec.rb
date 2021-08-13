@@ -1128,17 +1128,4 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
     end
   end
-
-  describe 'Caching output of #as_json' do
-    it 'caches the output of #as_json using a compound key' do
-      allow(Rails.cache).to receive(:fetch)
-
-      choice = create(:application_choice, :with_completed_application_form, :with_recruited)
-      expected_cache_key = "application_choice-#{choice.id}-#{choice.updated_at.iso8601}"
-
-      described_class.new(choice).as_json
-
-      expect(Rails.cache).to have_received(:fetch).with(expected_cache_key, { expires_in: 30.minutes })
-    end
-  end
 end
