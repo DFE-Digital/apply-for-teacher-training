@@ -703,6 +703,7 @@ Rails.application.routes.draw do
 
       resources :interviews, only: %i[new edit index], as: :application_choice_interviews do
         collection do
+          get '/new/check', to: 'interviews#check'
           post '/new/check', to: 'interviews#check'
           post '/confirm', to: 'interviews#commit'
         end
