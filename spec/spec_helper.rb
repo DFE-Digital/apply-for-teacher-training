@@ -106,6 +106,7 @@ RSpec.configure do |config|
   end
 
   config.before { Redis.new.flushdb }
+  config.before { Rails.cache.clear }
 
   # If running tests in parallel, use a unique Redis database per test process.
   # This allocates databases from 1 onwards, as it's assumed that 0 is the
