@@ -9,8 +9,8 @@ class Clock
   error_handler { |error| Sentry.capture_exception(error) if defined? Sentry }
 
   # More-than-hourly jobs
-  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI') { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
-  every(11.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI') do
+  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
+  every(11.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI', skip_first_run: true) do
     if FeatureFlag.active?(:sync_next_cycle)
       TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true, RecruitmentCycle.next_year)
     end
