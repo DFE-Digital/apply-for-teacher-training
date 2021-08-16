@@ -5,8 +5,8 @@ RSpec.describe SetRejectByDefault do
     it 'does not update dates when nothing changes', with_audited: true do
       application_choice = create(:application_choice, sent_to_provider_at: Time.zone.now)
 
-      expect { call_service(application_choice) }.to change { Audited::Audit.count }.by(1)
-      expect { call_service(application_choice) }.to change { Audited::Audit.count }.by(0)
+      expect { call_service(application_choice) }.to change { Audited::Audit.where(auditable_type: 'ApplicationChoice').count }.by(1)
+      expect { call_service(application_choice) }.to change { Audited::Audit.where(auditable_type: 'ApplicationChoice').count }.by(0)
     end
   end
 
