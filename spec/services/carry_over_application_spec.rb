@@ -54,26 +54,56 @@ RSpec.describe CarryOverApplication do
 
     it 'sets the reference to the not_requested state' do
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)
+      create(:reference, feedback_status: :feedback_requested, application_form: application_form)
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: application_form)
 
       described_class.new(application_form).call
 
       expect(ApplicationForm.count).to eq 2
-      expect(ApplicationForm.last.application_references.count).to eq 2
-      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided not_requested_yet]
+      expect(ApplicationForm.last.application_references.count).to eq 3
+      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided feedback_requested not_requested_yet]
     end
 
     it 'does not carry over references whose feedback is overdue' do
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.month.ago)
-      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.month.ago)
+      create(:reference, feedback_status: :feedback_requested, application_form: application_form, requested_at: 1.month.ago)
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 2.days.ago, name: 'Carrie Over')
-      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.day.ago, name: 'Nixt Cycle')
+      create(:reference, feedback_status: :feedback_requested, application_form: application_form, requested_at: 1.day.ago, name: 'Nixt Cycle')
 
       described_class.new(application_form).call
 
       expect(ApplicationForm.last.application_references.count).to eq 2
       expect(ApplicationForm.last.application_references.map(&:name)).to eq ['Carrie Over', 'Nixt Cycle']
+    end
+  end
+
+  context 'when the application_form has references has an application_reference in the feedback_requested state' do
+    around do |example|
+      Timecop.freeze(after_apply_2_deadline) do
+        example.run
+      end
+    end
+
+    let(:application_form) { create(:completed_application_form) }
+    let(:reference) { create(:reference, feedback_status: :feedback_requested, application_form: application_form) }
+
+    it 'moves reference tokens from the old to new references' do
+      create(:reference_token, application_reference: reference)
+      create(:reference_token, hashed_token: '1234567891', application_reference: reference)
+
+      described_class.new(application_form).call
+
+      carried_over_application_form = ApplicationForm.last
+
+      application_form.application_references.each do |reference|
+        expect(reference.reference_tokens.count).to eq 0
+        expect(reference.hashed_sign_in_token).to eq nil
+      end
+
+      carried_over_application_form.application_references.each do |reference|
+        expect(reference.reference_tokens.count).to eq 2
+      end
     end
   end
 
