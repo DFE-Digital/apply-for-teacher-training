@@ -13,11 +13,13 @@
     <span class="govuk-caption-l"><%= @provider.name %></span>
     <h1 class="govuk-heading-l"><%= @provider_user.full_name %></h1>
 
-    <% if @current_user_can_manage_users %>
-      <p class="govuk-body">
+    <p class="govuk-body">
+      <% if @current_user_can_manage_users %>
         <%= govuk_link_to 'Delete user', confirm_destroy_provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user) %>
-      </p>
-    <% end %>
+      <% else %>
+        You cannot change these details because you do not have permission to manage users.
+      <% end %>
+    </p>
 
     <h2 class="govuk-heading-m">Personal details</h2>
     <%= render SummaryListComponent.new(
