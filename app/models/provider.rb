@@ -1,6 +1,4 @@
 class Provider < ApplicationRecord
-  self.ignored_columns = %w[sync_courses]
-
   has_many :courses
   has_many :sites
   has_many :course_options, through: :courses
