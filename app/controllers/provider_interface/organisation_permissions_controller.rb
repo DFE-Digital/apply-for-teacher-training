@@ -8,13 +8,17 @@ module ProviderInterface
     # This action and the relevant route will be removed once Organisation Settings
     # is broken down into provider sections.
     def organisations
+      redirect_to provider_interface_organisation_settings_path if FeatureFlag.active?(:account_and_org_settings_changes)
+
       @manageable_providers = manageable_providers
     end
 
     def index
-      render_403 unless current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+      unless FeatureFlag.active?(:account_and_org_settings_changes) || current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+        render_403 and return
+      end
 
-      unsorted_provider_relationships = ProviderRelationshipPermissions.all_relationships_for_providers([provider]).where.not(setup_at: nil)
+      unsorted_provider_relationships = provider_relationships_to_display
       @provider_relationships = sort_relationships_by_provider_name(unsorted_provider_relationships, provider)
     rescue ActiveRecord::RecordNotFound
       render_404
@@ -78,10 +82,30 @@ module ProviderInterface
       render_403 unless relationship_providers.map { |p| auth.can_manage_organisation?(provider: p) }.any?
     end
 
+    def provider_relationships_to_display
+      if FeatureFlag.active?(:account_and_org_settings_changes)
+        ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider).all_relationships_for_providers([provider]).providers_have_open_course
+      else
+        ProviderRelationshipPermissions.all_relationships_for_providers([provider]).where.not(setup_at: nil)
+      end
+    end
+
     def sort_relationships_by_provider_name(relationships, provider)
       relationships.sort_by do |relationship|
         relationship.training_provider == provider ? relationship.ratifying_provider.name : relationship.training_provider.name
       end
     end
+
+    def change_link_for_relationship(relationship)
+      relationship_providers = [relationship.training_provider, relationship.ratifying_provider]
+      auth = current_provider_user.authorisation
+      current_user_can_manage_relationship = relationship_providers.any? { |p| auth.can_manage_organisation?(provider: p) }
+
+      if current_user_can_manage_relationship
+        edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: provider.id)
+      end
+    end
+
+    helper_method :change_link_for_relationship
   end
 end

@@ -8,6 +8,7 @@ en:
       description: View criminal convictions and professional misconduct
     view_diversity_information:
       description: View sex, disability and ethnicity information
+    no_provider_permitted: Neither organisation can do this
   provider_interface:
     organisation_permissions_form_component:
       setup:

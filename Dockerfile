@@ -46,6 +46,7 @@ RUN bundle exec rake assets:precompile && \
 # If a existing base image name is specified Stage 1 & 2 will not be built and gems and dev packages will be used from the supplied image.
 FROM ${BASE_RUBY_IMAGE} AS production
 
+ARG VERSION
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
@@ -68,7 +69,6 @@ ENV ENV="/root/.ashrc"
 COPY --from=gems-node-modules /app /app
 COPY --from=gems-node-modules /usr/local/bundle/ /usr/local/bundle/
 
-ARG VERSION
 RUN echo ${VERSION} > public/check
 
 # Use this for development testing
