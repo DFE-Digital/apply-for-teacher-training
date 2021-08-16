@@ -23,6 +23,7 @@ RSpec.feature 'Organisation permissions' do
     and_i_click_on_organisation_permissions_for_the_provider_i_cannot_manage
     then_i_can_see_the_permissions_that_have_been_set_up_without_change_links
     and_i_can_see_non_set_up_permissions
+    and_i_can_see_information_about_managing_the_organisation
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -99,5 +100,9 @@ RSpec.feature 'Organisation permissions' do
   def and_i_can_see_non_set_up_permissions
     expect(page).to have_selector('h2', text: "#{@read_only_provider.name} and #{@not_set_up_read_only_partner.name}")
     expect(page).to have_selector('.govuk-summary-list__value', text: 'Neither organisation can do this')
+  end
+
+  def and_i_can_see_information_about_managing_the_organisation
+    expect(page).to have_content('You cannot change these permissions because you do not have permission to manage organisations.')
   end
 end

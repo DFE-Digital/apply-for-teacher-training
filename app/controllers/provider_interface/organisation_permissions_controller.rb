@@ -14,7 +14,9 @@ module ProviderInterface
     end
 
     def index
-      unless FeatureFlag.active?(:account_and_org_settings_changes) || current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+      @current_user_can_manage_organisation = current_provider_user.authorisation.can_manage_organisation?(provider: provider)
+
+      unless FeatureFlag.active?(:account_and_org_settings_changes) || @current_user_can_manage_organisation
         render_403 and return
       end
 
@@ -97,11 +99,7 @@ module ProviderInterface
     end
 
     def change_link_for_relationship(relationship)
-      relationship_providers = [relationship.training_provider, relationship.ratifying_provider]
-      auth = current_provider_user.authorisation
-      current_user_can_manage_relationship = relationship_providers.any? { |p| auth.can_manage_organisation?(provider: p) }
-
-      if current_user_can_manage_relationship
+      if @current_user_can_manage_organisation
         edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: provider.id)
       end
     end
