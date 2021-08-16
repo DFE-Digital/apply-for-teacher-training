@@ -1,6 +1,6 @@
 <%= render SummaryCardComponent.new(rows: permission_rows) do %>
   <%= render SummaryCardHeaderComponent.new(title: presenter.provider_relationship_description, heading_level: summary_card_heading_level) do %>
-    <% if change_path %>
+    <% if change_path && user_can_manage_relationship? %>
       <div class="app-summary-card__actions">
         <%= govuk_link_to change_path do %>
           Change

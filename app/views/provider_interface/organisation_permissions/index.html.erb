@@ -1,11 +1,18 @@
 <%= content_for :browser_title, t('page_titles.provider.organisation_permissions') %>
 
 <% content_for :before_content do %>
-  <%= breadcrumbs({
-    t('page_titles.provider.organisation_settings') => provider_interface_organisation_settings_path,
-    t('page_titles.provider.organisation_permissions') => provider_interface_organisation_settings_organisations_path,
-    @provider.name => nil,
-  }) %>
+  <% if FeatureFlag.active?(:account_and_org_settings_changes) %>
+    <%= breadcrumbs({
+      t('page_titles.provider.organisation_settings') => provider_interface_organisation_settings_path,
+      t('page_titles.provider.organisation_permissions') => nil,
+    }) %>
+  <% else %>
+    <%= breadcrumbs({
+      t('page_titles.provider.organisation_settings') => provider_interface_organisation_settings_path,
+      t('page_titles.provider.organisation_permissions') => provider_interface_organisation_settings_organisations_path,
+      @provider.name => nil,
+    }) %>
+  <% end %>
 <% end %>
 
 <div class="govuk-grid-row">

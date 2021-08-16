@@ -77,10 +77,20 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
     context 'when the change path is provided' do
       let(:change_path) { '/path-to-change' }
 
-      it 'renders an action link with hidden text set to the relationship description' do
-        expect(render.css('a').text).to include('Change')
-        expect(render.css('a .govuk-visually-hidden').text).to eq(" #{training_provider.name} and #{ratifying_provider.name}")
-        expect(render.css('a').first.attributes['href'].value).to eq(change_path)
+      context 'when the user can manage the relationship' do
+        let(:provider_user) { create(:provider_user, :with_manage_organisations, providers: [training_provider]) }
+
+        it 'renders an action link with hidden text set to the relationship description' do
+          expect(render.css('a').text).to include('Change')
+          expect(render.css('a .govuk-visually-hidden').text).to eq(" #{training_provider.name} and #{ratifying_provider.name}")
+          expect(render.css('a').first.attributes['href'].value).to eq(change_path)
+        end
+      end
+
+      context 'when the user cannot manage the relationship' do
+        it 'does not render an action link' do
+          expect(render.css('a')).to be_empty
+        end
       end
     end
   end
@@ -138,13 +148,26 @@ RSpec.describe ProviderInterface::OrganisationPermissionsReviewCardComponent do
       end
     end
 
+    context 'when the permissions have not been set up' do
+      let(:provider_relationship_permission) { build_stubbed(:provider_relationship_permissions, :not_set_up_yet) }
+
+      it 'displays not set up yet text' do
+        make_decision_row = row_with_key('Make offers and reject applications')
+        safeguarding_row = row_with_key('View criminal convictions and professional misconduct')
+        diversity_row = row_with_key('View sex, disability and ethnicity information')
+        expect(entries_in_row(make_decision_row)).to contain_exactly('Neither organisation can do this')
+        expect(entries_in_row(safeguarding_row)).to contain_exactly('Neither organisation can do this')
+        expect(entries_in_row(diversity_row)).to contain_exactly('Neither organisation can do this')
+      end
+    end
+
     def row_with_key(key)
       rows = render.css('.govuk-summary-list__row')
       rows.find { |row| row.css('.govuk-summary-list__key').text.squish == key }
     end
 
     def entries_in_row(row)
-      row.css('.govuk-summary-list__value > ul > li').map(&:text)
+      row.css('.govuk-summary-list__value > p').map(&:text)
     end
   end
 end

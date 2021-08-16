@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Viewing organisation permissions' do
   include DfESignInHelpers
 
+  # Behaviour tested here has moved to spec/system/provider_interface/view_organisation_permissions_spec.rb
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'Provider user views their organisation permissions page with various permissions' do
