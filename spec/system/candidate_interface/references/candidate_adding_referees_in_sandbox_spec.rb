@@ -34,7 +34,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     choose 'Yes, send a reference request now'
     click_button t('save_and_continue')
 
-    click_link 'Add a second referee'
+    click_link 'Request a second reference'
     click_link t('continue')
     choose 'Professional'
     click_button t('continue')
