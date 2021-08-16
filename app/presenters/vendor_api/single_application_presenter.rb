@@ -16,58 +16,62 @@ module VendorAPI
 
     def as_json
       Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
-        {
-          id: application_choice.id.to_s,
-          type: 'application',
-          attributes: {
-            support_reference: application_form.support_reference,
-            status: status,
-            phase: application_form.phase,
-            updated_at: application_choice.updated_at.iso8601,
-            submitted_at: application_form.submitted_at.iso8601,
-            personal_statement: personal_statement,
-            interview_preferences: application_form.interview_preferences,
-            reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
-            recruited_at: application_choice.recruited_at,
-            hesa_itt_data: hesa_itt_data,
-            candidate: {
-              id: application_form.candidate.public_id,
-              first_name: application_form.first_name,
-              last_name: application_form.last_name,
-              date_of_birth: application_form.date_of_birth,
-              nationality: application_choice.nationalities,
-              domicile: application_form.domicile,
-              uk_residency_status: uk_residency_status,
-              uk_residency_status_code: uk_residency_status_code,
-              fee_payer: provisional_fee_payer_status,
-              english_main_language: application_form.english_main_language,
-              english_language_qualifications: application_form.english_language_qualification_details,
-              other_languages: application_form.other_language_details,
-              disability_disclosure: application_form.disability_disclosure,
-            },
-            contact_details: contact_details,
-            course: course_info_for(application_choice.course_option),
-            references: references,
-            qualifications: qualifications,
-            work_experience: {
-              jobs: work_experience_jobs,
-              volunteering: work_experience_volunteering,
-              work_history_break_explanation: work_history_breaks,
-            },
-            offer: offer,
-            rejection: rejection,
-            withdrawal: withdrawal,
-            further_information: application_form.further_information,
-            safeguarding_issues_status: application_form.safeguarding_issues_status,
-            safeguarding_issues_details_url: safeguarding_issues_details_url,
-          },
-        }
+        application_as_json
       end
     end
 
   private
 
     attr_reader :application_choice, :application_form
+
+    def application_as_json
+      {
+        id: application_choice.id.to_s,
+        type: 'application',
+        attributes: {
+          support_reference: application_form.support_reference,
+          status: status,
+          phase: application_form.phase,
+          updated_at: application_choice.updated_at.iso8601,
+          submitted_at: application_form.submitted_at.iso8601,
+          personal_statement: personal_statement,
+          interview_preferences: application_form.interview_preferences,
+          reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
+          recruited_at: application_choice.recruited_at,
+          hesa_itt_data: hesa_itt_data,
+          candidate: {
+            id: application_form.candidate.public_id,
+            first_name: application_form.first_name,
+            last_name: application_form.last_name,
+            date_of_birth: application_form.date_of_birth,
+            nationality: application_choice.nationalities,
+            domicile: application_form.domicile,
+            uk_residency_status: uk_residency_status,
+            uk_residency_status_code: uk_residency_status_code,
+            fee_payer: provisional_fee_payer_status,
+            english_main_language: application_form.english_main_language,
+            english_language_qualifications: application_form.english_language_qualification_details,
+            other_languages: application_form.other_language_details,
+            disability_disclosure: application_form.disability_disclosure,
+          },
+          contact_details: contact_details,
+          course: course_info_for(application_choice.course_option),
+          references: references,
+          qualifications: qualifications,
+          work_experience: {
+            jobs: work_experience_jobs,
+            volunteering: work_experience_volunteering,
+            work_history_break_explanation: work_history_breaks,
+          },
+          offer: offer,
+          rejection: rejection,
+          withdrawal: withdrawal,
+          further_information: application_form.further_information,
+          safeguarding_issues_status: application_form.safeguarding_issues_status,
+          safeguarding_issues_details_url: safeguarding_issues_details_url,
+        },
+      }
+    end
 
     # V2: handles backwards compatibility (`offer_withdrawn` state is displayed as `rejected`) and
     #     converting statuses that cannot be handles by Vendor.
