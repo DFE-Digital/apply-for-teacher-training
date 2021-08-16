@@ -1,0 +1,41 @@
+<%= form_with(
+  model: form_model,
+  url: form_path,
+  method: :patch,
+) do |f| %>
+  <% unless provider_has_no_relationships? %>
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= caption_text %></span>
+      <%= t('page_titles.provider.edit_user_permissions') %>
+    </h1>
+
+    <p class="govuk-body">User permissions for courses you work on with partner organisations are affected by organisation permissions.</p>
+    <p class="govuk-body">This means that the permissions you give to users may only apply to courses you work on with certain partner organisations.</p>
+
+    <%= govuk_details(
+      summary: 'Check how user permissions are affected by organisation permissions',
+    ) do %>
+      <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission| %>
+        <h2 class="govuk-heading-s"><%= t("provider_relationship_permissions.#{permission}.description") %></h2>
+        <%= render ProviderInterface::ProviderPartnerPermissionBreakdownComponent.new(provider: provider, permission: permission) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_check_boxes_fieldset(
+    :permissions,
+    caption: form_caption,
+    legend: form_legend,
+    hint: { text: t('provider_relationship_permissions.view_applications_explanation') },
+  ) do %>
+    <% ProviderPermissions::VALID_PERMISSIONS.each do |permission| %>
+      <%= f.govuk_check_box(
+        :permissions,
+        permission.to_s,
+        label: { text: t("user_permissions.#{permission}.description") },
+      ) %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+<% end %>
