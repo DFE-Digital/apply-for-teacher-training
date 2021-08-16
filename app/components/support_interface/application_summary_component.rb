@@ -58,9 +58,15 @@ module SupportInterface
       if submitted?
         {
           key: 'Submitted',
-          value: submitted_at.to_s(:govuk_date_and_time),
+          value: "#{submitted_at.to_s(:govuk_date_and_time)} #{eligible_support_period}".html_safe,
         }
       end
+    end
+
+    def eligible_support_period
+      time_period = submitted_at.to_date.business_days_until(Time.zone.now)
+
+      time_period <= 5 ? govuk_tag(text: 'Less than 5 days ago', colour: 'green') : govuk_tag(text: 'Over 5 days ago', colour: 'red')
     end
 
     def support_reference_row
