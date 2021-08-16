@@ -129,6 +129,9 @@ end
 # Data integration with Bigquery
 gem 'google-cloud-bigquery'
 
+# Faster Redis connection library
+gem 'hiredis'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.7'
