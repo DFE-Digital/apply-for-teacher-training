@@ -54,11 +54,12 @@
         <% @application_form_presenter.references.each do |reference| %>
           <li class="govuk-body-s">
             <% if reference.selected %>
-              <span class="app-status-indicator app-status-indicator--<%= I18n.t("candidate_reference_colours.selected") %>"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t("candidate_reference_status.selected") %>
+              <span class="app-status-indicator app-status-indicator--<%= I18n.t('candidate_reference_colours.selected') %> app-status-indicator--filled"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t('candidate_reference_status.selected') %>
+            <% elsif reference.feedback_provided? %>
+              <span class="app-status-indicator app-status-indicator--<%= I18n.t('candidate_reference_colours.feedback_provided') %>"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t('candidate_reference_status.feedback_provided') %>
             <% else %>
-              <span class="app-status-indicator app-status-indicator--<%= I18n.t("candidate_reference_colours.#{reference.feedback_status}") %>"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t("candidate_reference_status.#{reference.feedback_status}") %>
+              <span class="app-status-indicator app-status-indicator--<%= I18n.t("candidate_reference_colours.#{reference.feedback_status}") %> app-status-indicator--filled"></span>&nbsp;<b><%= reference.name %></b>: <%= I18n.t("candidate_reference_status.#{reference.feedback_status}") %>
             <% end %>
-
           </li>
         <% end %>
       </ul>
