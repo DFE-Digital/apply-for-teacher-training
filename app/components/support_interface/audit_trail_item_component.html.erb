@@ -9,10 +9,10 @@
     </h2>
     <%= govuk_summary_list(classes: 'govuk-!-font-size-16') do |summary_list| %>
       <% changes.each do |change| %>
-        <% summary_list.row(
-          key: change.attribute,
-          value: change.formatted_values,
-        ) %>
+        <% summary_list.row do |summary_list_row| %>
+          <% summary_list_row.key { change.attribute } %>
+          <% summary_list_row.value { change.formatted_values } %>
+        <% end %>
       <% end %>
     <% end %>
   </td>

@@ -1,8 +1,8 @@
 <% content_for :browser_title, 'New API token generated' %>
 
 <%= govuk_panel(
-  title: 'New API token generated',
-  body: "Your token is<br><code>#{@unhashed_token}</code>".html_safe,
+  title_text: 'New API token generated',
+  text: "Your token is<br><code>#{@unhashed_token}</code>".html_safe,
 ) %>
 
 <p class="govuk-body">

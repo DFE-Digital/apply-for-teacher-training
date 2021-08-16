@@ -37,7 +37,7 @@ RSpec.feature 'Provider views account page' do
   end
 
   def then_i_see_the_account_page_with_my_details
-    @rows = find('div .govuk-summary-list').all('dd')
+    @rows = find('.govuk-summary-list').all('.govuk-summary-list__value')
     expect(@rows[0].text).to eq(@user.first_name)
     expect(@rows[1].text).to eq(@user.last_name)
     expect(@rows[2].text).to eq(@user.email_address)

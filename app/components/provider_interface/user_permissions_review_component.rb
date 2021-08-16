@@ -11,8 +11,10 @@ module ProviderInterface
         {
           key: permission_description,
           value: permission_value(permission),
-          action: permission_description,
-          change_path: change_path,
+          action: {
+            visually_hidden_text: permission_description,
+            href: change_path,
+          },
         }
       end
     end

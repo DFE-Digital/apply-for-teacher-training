@@ -100,7 +100,8 @@ RSpec.feature 'See an application' do
 
   def then_i_should_see_a_summary_of_the_unsubmitted_application
     within '[data-qa="personal-details"]' do
-      expect(page).to have_content 'Phone number Not provided'
+      expect(page).to have_content 'Phone number'
+      expect(page).to have_content 'Not provided'
       expect(page).to have_content @unsubmitted_application.candidate.email_address
     end
   end

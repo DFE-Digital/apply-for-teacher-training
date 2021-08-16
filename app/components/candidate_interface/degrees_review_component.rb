@@ -188,8 +188,8 @@ module CandidateInterface
         key: t('application_form.degree.award_year.review_label'),
         value: degree.award_year,
         action: {
-          href: candidate_interface_edit_degree_year_path(degree.id),
-          visually_hidden_text: candidate_interface_edit_degree_award_year_path(degree.id, return_to_params),
+          href: candidate_interface_edit_degree_award_year_path(degree.id, return_to_params),
+          visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),
         },
         html_attributes: {
           data: {

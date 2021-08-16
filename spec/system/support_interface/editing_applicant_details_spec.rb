@@ -63,7 +63,7 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_click_the_change_link_next_to_first_name
-    all('.govuk-summary-list__actions')[0].click_link 'Change'
+    all('[data-qa="personal-details"] .govuk-summary-list__actions')[0].click_link 'Change first name'
   end
 
   def and_i_fill_in_all_fields_with_blank_values

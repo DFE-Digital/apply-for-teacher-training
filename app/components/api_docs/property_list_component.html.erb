@@ -1,45 +1,43 @@
 <%= govuk_summary_list do |summary_list| %>
   <% properties.each do |property| %>
-    <% content_for :value, flush: true do %>
-      <p class="govuk-body">
-        <% if !property.object_schema_name %>
-          <%= property.type_description %>
-        <% elsif property.type == 'array' %>
-          Array of <%= govuk_link_to property.object_schema_name, "##{property.object_schema_name.parameterize}-object" %> objects
-        <% else %>
-          <%= govuk_link_to property.object_schema_name, "##{property.object_schema_name.parameterize}-object" %> object
-        <% end %>
-      </p>
-
-      <% if property.nullable? %>
-        <p class="govuk-body">Optional</p>
-      <% end %>
-
-      <% if property.deprecated? %>
-        <p class="govuk-body"><%= govuk_tag(text: 'Deprecated', colour: 'red') %></p>
-      <% end %>
-
-      <% if property.attributes.description %>
-        <%= markdown_to_html property.attributes.description %>
-      <% end %>
-
-      <% if property.example %>
-        <p class="govuk-body">Example: <code><%= property.example.is_a?(Array) ? json_code_sample(property.example) : property.example.inspect %></code></p>
-      <% end %>
-
-      <% if property.enum %>
-        <p class="govuk-body">Possible values:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <% property.enum.each do |item| %>
-            <li><code><%= item.inspect %></code></li>
+    <% summary_list.row do |summary_list_row| %>
+      <% summary_list_row.key { "<code>#{property.name}</code>".html_safe } %>
+      <% summary_list_row.value do %>
+        <p class="govuk-body">
+          <% if !property.object_schema_name %>
+            <%= property.type_description %>
+          <% elsif property.type == 'array' %>
+            Array of <%= govuk_link_to property.object_schema_name, "##{property.object_schema_name.parameterize}-object" %> objects
+          <% else %>
+            <%= govuk_link_to property.object_schema_name, "##{property.object_schema_name.parameterize}-object" %> object
           <% end %>
-        </ul>
+        </p>
+
+        <% if property.nullable? %>
+          <p class="govuk-body">Optional</p>
+        <% end %>
+
+        <% if property.deprecated? %>
+          <p class="govuk-body"><%= govuk_tag(text: 'Deprecated', colour: 'red') %></p>
+        <% end %>
+
+        <% if property.attributes.description %>
+          <%= markdown_to_html property.attributes.description %>
+        <% end %>
+
+        <% if property.example %>
+          <p class="govuk-body">Example: <code><%= property.example.is_a?(Array) ? json_code_sample(property.example) : property.example.inspect %></code></p>
+        <% end %>
+
+        <% if property.enum %>
+          <p class="govuk-body">Possible values:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <% property.enum.each do |item| %>
+              <li><code><%= item.inspect %></code></li>
+            <% end %>
+          </ul>
+        <% end %>
       <% end %>
     <% end %>
-
-    <% summary_list.row(
-      key: "<code>#{property.name}</code>".html_safe,
-      value: content_for(:value),
-    ) %>
   <% end %>
 <% end %>

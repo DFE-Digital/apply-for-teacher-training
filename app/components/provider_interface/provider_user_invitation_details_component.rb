@@ -23,6 +23,7 @@ module ProviderInterface
         value: @wizard.first_name,
         action: {
           href: provider_interface_update_invitation_basic_details_path(checking_answers: true),
+          visually_hidden_text: 'first name',
         },
       }
     end
@@ -33,6 +34,7 @@ module ProviderInterface
         value: @wizard.last_name,
         action: {
           href: provider_interface_update_invitation_basic_details_path(checking_answers: true),
+          visually_hidden_text: 'last name',
         },
       }
     end
@@ -43,6 +45,7 @@ module ProviderInterface
         value: @wizard.email_address,
         action: {
           href: provider_interface_update_invitation_basic_details_path(checking_answers: true),
+          visually_hidden_text: 'email address',
         },
       }
     end
@@ -53,6 +56,7 @@ module ProviderInterface
         value: render(UserDetailsOrganisationsList.new(providers.values)),
         action: {
           href: provider_interface_update_invitation_providers_path(checking_answers: true),
+          visually_hidden_text: 'organisations this user will have access to',
         },
       }
     end

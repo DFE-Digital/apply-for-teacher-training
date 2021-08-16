@@ -22,7 +22,6 @@
           visually_hidden_text: t('.cancellation_reason').downcase,
         },
       },
-      {},
     ]) %>
 
     <%= form_with model: @cancellation_wizard, url: cancel_confirm_provider_interface_application_choice_interview_path(@application_choice, @interview), method: :post do |f| %>

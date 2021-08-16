@@ -1,4 +1,4 @@
-<%= govuk_panel(title: t('.success_message'), body: nil) %>
+<%= govuk_panel(title_text: t('.success_message')) %>
 
 <h2 class="govuk-heading-m">
   <%= t('.next_steps') %>
@@ -10,7 +10,7 @@
   </p>
 
   <p class="govuk-body">
-    <%= govuk_link_to t('continue'), provider_interface_organisation_permissions_setup_index_path, button: true %>
+    <%= govuk_button_link_to t('continue'), provider_interface_organisation_permissions_setup_index_path %>
   </p>
 <% else %>
  <%= render ProviderInterface::SetupCompleteNextStepsComponent.new(provider_user: provider_user) %>
