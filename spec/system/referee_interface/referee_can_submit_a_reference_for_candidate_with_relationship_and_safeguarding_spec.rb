@@ -51,7 +51,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     then_i_can_review_the_amended_safeguarding_concerns
 
     and_i_click_the_submit_reference_button
-    then_i_see_am_told_i_submittted_my_refernce
+    then_i_see_am_told_i_submitted_my_reference
     then_i_see_the_confirmation_page
     and_i_receive_an_email_confirmation
     and_the_candidate_receives_a_notification
@@ -185,7 +185,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     click_button t('referee.questionnaire.submit')
   end
 
-  def then_i_see_am_told_i_submittted_my_refernce
+  def then_i_see_am_told_i_submitted_my_reference
     expect(page).to have_content("Your reference for #{@application.full_name}")
   end
 

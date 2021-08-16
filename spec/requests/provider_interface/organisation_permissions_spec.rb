@@ -18,22 +18,66 @@ RSpec.describe 'Viewing organisation permissions', type: :request do
       )
   end
 
+  describe 'GET organisations' do
+    context 'with the account_and_org_settings_changes feature flag on' do
+      before { FeatureFlag.activate(:account_and_org_settings_changes) }
+
+      it 'redirects to the organisation settings page' do
+        get provider_interface_organisation_settings_organisations_path
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_settings_url)
+      end
+    end
+
+    context 'with the account_and_org_settings_changes feature flag off' do
+      before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
+
+      it 'responds with 200' do
+        get provider_interface_organisation_settings_organisations_path
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
   describe 'without manage organisations' do
     let(:provider_user) { create(:provider_user, providers: [training_provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
-    it 'GET index responds with 403' do
-      get provider_interface_organisation_settings_organisation_organisation_permissions_path(training_provider)
-      expect(response.status).to eq(403)
+    context 'with the account_and_org_settings_changes feature flag on' do
+      before { FeatureFlag.activate(:account_and_org_settings_changes) }
+
+      it 'GET index responds with 200' do
+        get provider_interface_organisation_settings_organisation_organisation_permissions_path(training_provider)
+        expect(response.status).to eq(200)
+      end
+
+      it 'GET edit responds with 403' do
+        get edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider.id)
+        expect(response.status).to eq(403)
+      end
+
+      it 'PATCH update responds with 403' do
+        patch provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider)
+        expect(response.status).to eq(403)
+      end
     end
 
-    it 'GET edit responds with 403' do
-      get edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider.id)
-      expect(response.status).to eq(403)
-    end
+    context 'with the account_and_org_settings_changes feature flag off' do
+      before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
-    it 'PATCH update responds with 403' do
-      patch provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider)
-      expect(response.status).to eq(403)
+      it 'GET index responds with 403' do
+        get provider_interface_organisation_settings_organisation_organisation_permissions_path(training_provider)
+        expect(response.status).to eq(403)
+      end
+
+      it 'GET edit responds with 403' do
+        get edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider.id)
+        expect(response.status).to eq(403)
+      end
+
+      it 'PATCH update responds with 403' do
+        patch provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: training_provider)
+        expect(response.status).to eq(403)
+      end
     end
   end
 

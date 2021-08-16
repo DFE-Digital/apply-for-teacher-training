@@ -66,7 +66,7 @@ RSpec.feature 'Carry over' do
     )
     @second_reference = create(
       :reference,
-      feedback_status: :not_requested_yet,
+      feedback_status: :feedback_requested,
       application_form: @application_form,
     )
   end

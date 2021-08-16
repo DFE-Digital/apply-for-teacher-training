@@ -172,8 +172,12 @@ module ProviderInterface
                 presence: true,
                 if: :reason_not_captured_by_initial_questions?
 
-      validates_each(:other_advice_or_feedback_details, :why_are_you_rejecting_this_application) do |record, attr, value|
-        record.errors.add(attr, :too_long) if record.excessive_word_count?(value, 200)
+      validates_each(:why_are_you_rejecting_this_application) do |record, attr, value|
+        record.errors.add(attr, :too_long, count: 200) if record.excessive_word_count?(value, 200)
+      end
+
+      validates_each(:other_advice_or_feedback_details) do |record, attr, value|
+        record.errors.add(attr, :too_long, count: 100) if record.excessive_word_count?(value, 100)
       end
     end
 
