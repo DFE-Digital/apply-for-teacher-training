@@ -13,7 +13,10 @@
       </dd>
       <% if editable %>
         <dd class="govuk-summary-list__actions">
-          <%= govuk_link_to(provider_interface_provider_user_edit_permissions_path(provider_user, provider), class: 'govuk-!-display-none-print') do %>
+          <%= govuk_link_to(
+            edit_provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user),
+            class: 'govuk-!-display-none-print',
+          ) do %>
             Change
             <span class="govuk-visually-hidden"><%= description_for(permission) %></span>
           <% end %>
