@@ -122,6 +122,9 @@ gem 'strong_migrations'
 # Rails console colours
 gem 'colorize'
 
+# Performance profiling - keep this below 'pg' gem
+gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
+
 group :production do
   gem 'rails_semantic_logger'
 end

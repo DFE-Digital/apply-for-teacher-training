@@ -3,12 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Entering reasons for their work history breaks' do
   include CandidateHelper
 
-  around do |example|
-    Timecop.freeze do
-      example.run
-    end
-  end
-
   scenario 'Candidate enters a reason for a work break' do
     FeatureFlag.activate(:restructured_work_history)
 
