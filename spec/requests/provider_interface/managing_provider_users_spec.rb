@@ -16,25 +16,29 @@ RSpec.describe 'ProviderUserController actions' do
       )
   end
 
-  context 'when the user is not permitted to manage users' do
-    it 'redirects GET requests to index' do
-      get provider_interface_provider_users_path
+  context 'when the account_and_org_settings_changes feature flag is off' do
+    before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
-      expect(response).to be_forbidden
-    end
+    context 'when the user is not permitted to manage users' do
+      it 'redirects GET requests to index' do
+        get provider_interface_provider_users_path
 
-    it 'redirects GET requests to show' do
-      another_user = create(:provider_user, providers: [provider])
-      get provider_interface_provider_user_path(another_user)
+        expect(response).to be_forbidden
+      end
 
-      expect(response).to be_forbidden
-    end
+      it 'redirects GET requests to show' do
+        another_user = create(:provider_user, providers: [provider])
+        get provider_interface_provider_user_path(another_user)
 
-    it 'redirects GET requests to edit-providers' do
-      another_user = create(:provider_user, providers: [provider])
-      get provider_interface_provider_user_edit_providers_path(another_user)
+        expect(response).to be_forbidden
+      end
 
-      expect(response).to be_forbidden
+      it 'redirects GET requests to edit-providers' do
+        another_user = create(:provider_user, providers: [provider])
+        get provider_interface_provider_user_edit_providers_path(another_user)
+
+        expect(response).to be_forbidden
+      end
     end
   end
 end

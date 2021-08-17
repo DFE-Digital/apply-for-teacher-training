@@ -1,5 +1,6 @@
 module ProviderInterface
   class ProviderUsersController < ProviderInterfaceController
+    before_action :redirect_if_feature_flag_on
     before_action :require_manage_users_permission!
     before_action :find_provider_user, except: %i[index]
 
@@ -80,6 +81,12 @@ module ProviderInterface
     end
 
   private
+
+    def redirect_if_feature_flag_on
+      return unless FeatureFlag.active?(:account_and_org_settings_changes)
+
+      redirect_to provider_interface_organisation_settings_path
+    end
 
     def provider_update_permissions_params
       params.require(:provider_interface_provider_user_edit_permissions_form)
