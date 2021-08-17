@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_interviews_path(@application_choice)) %>
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
