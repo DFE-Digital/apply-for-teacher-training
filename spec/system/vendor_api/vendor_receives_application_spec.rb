@@ -6,11 +6,9 @@ RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
   scenario 'A completed application is submitted with references' do
-    Timecop.freeze do
-      given_a_candidate_has_submitted_their_application
-      when_i_retrieve_the_application_over_the_api
-      then_it_should_include_the_data_from_the_application_form
-    end
+    given_a_candidate_has_submitted_their_application
+    when_i_retrieve_the_application_over_the_api
+    then_it_should_include_the_data_from_the_application_form
   end
 
   def given_a_candidate_has_submitted_their_application
