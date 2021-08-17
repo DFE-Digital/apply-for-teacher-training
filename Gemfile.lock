@@ -105,7 +105,7 @@ GEM
       safely_block (>= 0.1.1)
     brakeman (5.1.1)
     builder (3.2.4)
-    bullet (6.1.4)
+    bullet (6.1.5)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.10.0)
@@ -600,7 +600,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
-    uniform_notifier (1.14.1)
+    uniform_notifier (1.14.2)
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
