@@ -32,9 +32,11 @@ module ProviderInterface
     end
 
     def provider_name(course)
-      provider_name = course.provider_name || provider.name
-      provider_name = Provider.find(course.accredited_provider_id).name if course.provider_id != course.accredited_provider_id
-      provider_name
+      accredited_by_different_provider?(course) ? course.accredited_provider_name : course.provider_name
+    end
+
+    def accredited_by_different_provider?(course)
+      course.accredited_provider_id && provider.id == course.provider_id && course.provider_id != course.accredited_provider_id
     end
   end
 end
