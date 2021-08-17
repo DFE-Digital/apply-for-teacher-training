@@ -25,7 +25,7 @@ en:
     sandbox_url: https://sandbox.find-postgraduate-teacher-training.service.gov.uk/
   get_into_teaching:
     tel: 0800 389 2500
-    opening_times: "Monday to Friday, 8.30am to 5:30pm (except public\u00A0holidays)"
+    opening_times: "Monday to Friday, 8:30am to 5:30pm (except public\u00A0holidays)"
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_get_an_advisor: https://adviser-getintoteaching.education.gov.uk
