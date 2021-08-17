@@ -26,5 +26,21 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker do
       described_class.new.perform(false)
       expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
     end
+
+    context 'when the hosting environment is review' do
+      around do |example|
+        ClimateControl.modify(HOSTING_ENVIRONMENT_NAME: 'review') { example.run }
+      end
+
+      it 'does not call the SyncSubjects service' do
+        described_class.new.perform
+        expect(stubbed_sync_subjects_service).not_to have_received(:perform)
+      end
+
+      it 'does not call the SyncAllProvidersAndCourses' do
+        described_class.new.perform
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).not_to have_received(:call)
+      end
+    end
   end
 end
