@@ -439,7 +439,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
         presenter = described_class.new(application_form)
 
         expect(presenter.work_experience_path).to eq(
-          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path,
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path('return-to' => 'application-review'),
         )
       end
     end

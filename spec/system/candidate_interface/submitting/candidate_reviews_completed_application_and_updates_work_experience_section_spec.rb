@@ -20,6 +20,17 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
     and_i_should_see_my_updated_job
 
+    # section complete
+    when_i_mark_the_work_experience_section_as_incomplete
+    and_i_review_my_application
+    and_i_click_link_complete_your_work_history
+
+    when_i_click_back
+    then_i_should_be_redirected_to_the_application_review_page
+
+    when_i_update_work_history_completed
+    then_i_should_be_redirected_to_the_application_review_page
+
     # delete job
     when_i_click_delete_job
     then_i_should_see_the_delete_job_form
@@ -60,9 +71,20 @@ RSpec.feature 'Candidate is redirected correctly' do
     candidate_completes_application_form(with_restructured_work_history: true)
   end
 
+  def when_i_mark_the_work_experience_section_as_incomplete
+    visit candidate_interface_application_form_path
+    click_link 'Work history'
+    choose t('application_form.incomplete_radio')
+    click_button t('continue')
+  end
+
   def and_i_review_my_application
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
+  end
+
+  def and_i_click_link_complete_your_work_history
+    click_link 'Complete your work history'
   end
 
   def then_i_should_see_all_sections_are_complete
@@ -124,6 +146,13 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_work_break
     when_i_click_change_work_break
     fill_in 'Enter reasons for break in work history', with: 'The Nostromo blew up'
+    click_button t('continue')
+  end
+
+  def when_i_update_work_history_completed
+    and_i_click_link_complete_your_work_history
+
+    choose t('application_form.completed_radio')
     click_button t('continue')
   end
 
