@@ -417,7 +417,7 @@ module VendorAPI
     end
 
     def cache_key(model)
-      "#{model.cache_key_with_version}-#{ENV.fetch('SHA', Digest::SHA1.hexdigest(Time.zone.now.to_s))}"
+      CacheKey.generate(model.cache_key_with_version)
     end
   end
 end
