@@ -268,6 +268,14 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       expect(described_class.new(nil).total_application_choice_count).to eq 2
     end
+
+    it 'does not include candidates excluded from the performance data' do
+      candidate = create(:candidate, hide_in_reporting: true)
+      application_form = create(:completed_application_form, candidate: candidate)
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+
+      expect(described_class.new(nil).total_application_choice_count).to eq 0
+    end
   end
 
   describe '#application_choices_by_provider_type' do
