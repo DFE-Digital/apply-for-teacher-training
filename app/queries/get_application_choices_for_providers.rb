@@ -48,4 +48,26 @@ class GetApplicationChoicesForProviders
 
     applications.includes(*includes)
   end
+
+  def self.new_call(providers:, _vendor_api: false, _includes: DEFAULT_INCLUDES, _recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
+    provider_ids = providers.map(&:id)
+
+    ApplicationChoice
+      .where(
+        combine_with_or(
+          provider_ids.map { |id| id_in_provider_ids(id) },
+        ),
+      )
+  end
+
+  def self.id_in_provider_ids(provider_id)
+    Arel::Nodes::Contains.new(
+      ApplicationChoice.arel_table[:provider_ids],
+      Arel::Nodes.build_quoted("{#{provider_id}}"),
+    )
+  end
+
+  def self.combine_with_or(conditions)
+    conditions.drop(1).inject(conditions[0]) { |a, b| a.or(b) }
+  end
 end
