@@ -15,7 +15,9 @@ module VendorAPI
     end
 
     def as_json
-      application_as_json
+      Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
+        application_as_json
+      end
     end
 
   private
