@@ -21,7 +21,6 @@ RSpec.describe SetRejectByDefault do
       ['7 Sept 2021 0:00:00 AM BST', '1 Oct 2021 23:59:59 PM BST', 'beyond the 2021 EoC deadline'],
       ['20 Sept 2021 0:00:00 AM BST', '1 Oct 2021 23:59:59 PM BST', 'beyond the 2021 EoC deadline'],
       ['29 Sept 2021 0:00:00 AM BST', '1 Oct 2021 23:59:59 PM BST', 'beyond the 2021 EoC deadline'],
-      ['28 Sept 2020 0:00:00 AM BST', '2 Oct 2020 23:59:59 PM BST', 'beyond the 2020 EoC deadline'],
     ].freeze
 
     submitted_vs_rbd_dates.each do |submitted, correct_rbd, test_case|
