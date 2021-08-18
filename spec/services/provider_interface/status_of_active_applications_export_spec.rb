@@ -24,14 +24,14 @@ RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
     it 'outputs the rows in the correct format' do
       parsed_data = CSV.parse(status_of_active_applications_export, headers: true)
       row = parsed_data.first
-      expect(row['name']).to eq(course_with_other_accredited_provider.name)
-      expect(row['code']).to eq(course_with_other_accredited_provider.code)
-      expect(row['partner_organisation']).to eq(course_with_other_accredited_provider.accredited_provider.name)
-      expect(row['received']).to eq('0')
-      expect(row['interviewing']).to eq('10')
-      expect(row['offered']).to eq('0')
-      expect(row['awaiting_conditions']).to eq('5')
-      expect(row['pending_conditions']).to eq('0')
+      expect(row['Name']).to eq(course_with_other_accredited_provider.name)
+      expect(row['Code']).to eq(course_with_other_accredited_provider.code)
+      expect(row['Partner organisation']).to eq(course_with_other_accredited_provider.accredited_provider.name)
+      expect(row['Received']).to eq('0')
+      expect(row['Interviewing']).to eq('10')
+      expect(row['Offered']).to eq('0')
+      expect(row['Awaiting conditions']).to eq('5')
+      expect(row['Pending conditions']).to eq('0')
     end
 
     it 'outputs one row per course' do
@@ -41,7 +41,6 @@ RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
 
     it 'outputs the total of each column' do
       parsed_data = CSV.parse(status_of_active_applications_export)
-      p parsed_data.last
       expect(parsed_data.last[0]).to eq('All courses')
       expect(parsed_data.last[1]).to eq('TOTAL')
       expect(parsed_data.last[2]).to eq('')
