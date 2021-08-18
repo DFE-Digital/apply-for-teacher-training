@@ -105,7 +105,7 @@ GEM
       safely_block (>= 0.1.1)
     brakeman (5.1.1)
     builder (3.2.4)
-    bullet (6.1.4)
+    bullet (6.1.5)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.10.0)
@@ -339,7 +339,7 @@ GEM
       shellany (~> 0.0)
     notifications-ruby-client (5.3.0)
       jwt (>= 1.5, < 3)
-    oj (3.13.1)
+    oj (3.13.2)
     okcomputer (1.18.4)
     omniauth (1.9.1)
       hashie (>= 3.4.6)
@@ -391,6 +391,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
+    rack-mini-profiler (2.3.2)
+      rack (>= 1.2.0)
     rack-oauth2 (1.16.0)
       activesupport
       attr_required
@@ -520,7 +522,7 @@ GEM
     ruby-next-core (0.12.0)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
-    rubyzip (2.3.0)
+    rubyzip (2.3.2)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
     selenium-webdriver (3.142.7)
@@ -600,7 +602,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
-    uniform_notifier (1.14.1)
+    uniform_notifier (1.14.2)
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
@@ -725,6 +727,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (~> 5.4)
+  rack-mini-profiler
   rails-erd
   rails_semantic_logger
   railties (~> 6.1)

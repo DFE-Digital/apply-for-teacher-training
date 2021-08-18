@@ -6,11 +6,9 @@ RSpec.feature 'Register receives an application data' do
   include CandidateHelper
 
   scenario 'A candidate is recruited' do
-    Timecop.freeze do
-      given_a_provider_recruited_a_candidate
-      when_i_retrieve_the_application_over_the_api
-      then_it_should_include_the_data_from_the_application_form
-    end
+    given_a_provider_recruited_a_candidate
+    when_i_retrieve_the_application_over_the_api
+    then_it_should_include_the_data_from_the_application_form
   end
 
   def given_a_provider_recruited_a_candidate

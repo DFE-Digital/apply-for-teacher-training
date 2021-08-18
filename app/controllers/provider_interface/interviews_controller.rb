@@ -38,7 +38,11 @@ module ProviderInterface
         @translation_prefix = '.update'
       end
 
-      @wizard = InterviewWizard.new(interview_store, interview_params.merge(current_step: 'check'))
+      if request.get?
+        @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'check'))
+      elsif request.post?
+        @wizard = InterviewWizard.new(interview_store, interview_params.merge(current_step: 'check'))
+      end
       @wizard.save_state!
 
       unless @wizard.valid?
