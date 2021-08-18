@@ -2,6 +2,8 @@ module VendorAPI
   class SingleApplicationPresenter
     include Rails.application.routes.url_helpers
 
+    CACHE_EXPIRES_IN = 1.day
+
     UCAS_FEE_PAYER_CODES = {
       'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
       'Not Known' => '99',
@@ -13,6 +15,16 @@ module VendorAPI
     end
 
     def as_json
+      Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
+        application_as_json
+      end
+    end
+
+  private
+
+    attr_reader :application_choice, :application_form
+
+    def application_as_json
       {
         id: application_choice.id.to_s,
         type: 'application',
@@ -60,10 +72,6 @@ module VendorAPI
         },
       }
     end
-
-  private
-
-    attr_reader :application_choice, :application_form
 
     # V2: handles backwards compatibility (`offer_withdrawn` state is displayed as `rejected`) and
     #     converting statuses that cannot be handles by Vendor.
@@ -406,6 +414,10 @@ module VendorAPI
 
     def safeguarding_issues_details_url
       application_form.has_safeguarding_issues_to_declare? ? provider_interface_application_choice_url(application_choice, anchor: 'criminal-convictions-and-professional-misconduct') : nil
+    end
+
+    def cache_key(model)
+      CacheKey.generate(model.cache_key_with_version)
     end
   end
 end
