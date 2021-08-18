@@ -36,7 +36,20 @@ RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
 
     it 'outputs one row per course' do
       parsed_data = CSV.parse(status_of_active_applications_export, headers: true)
-      expect(parsed_data.count).to eq(3)
+      expect(parsed_data.count).to eq(4)
+    end
+
+    it 'outputs the total of each column' do
+      parsed_data = CSV.parse(status_of_active_applications_export)
+      p parsed_data.last
+      expect(parsed_data.last[0]).to eq('All courses')
+      expect(parsed_data.last[1]).to eq('TOTAL')
+      expect(parsed_data.last[2]).to eq('')
+      expect(parsed_data.last[3]).to eq('0')
+      expect(parsed_data.last[4]).to eq('18')
+      expect(parsed_data.last[5]).to eq('6')
+      expect(parsed_data.last[6]).to eq('8')
+      expect(parsed_data.last[7]).to eq('4')
     end
   end
 end
