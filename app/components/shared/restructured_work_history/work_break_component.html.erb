@@ -1,7 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Break in work history</h2>
-    <p class="govuk-body govuk-!-margin-bottom-0"><%= @work_break.reason %></p>
+    <p class="govuk-body govuk-!-margin-bottom-0" data-qa="work-break-reason"><%= @work_break.reason %></p>
     <p class="govuk-body">
       <%= formatted_start_date %> to <%= formatted_end_date %>
     </p>
@@ -9,11 +9,11 @@
 
   <% if @editable %>
     <div class="govuk-grid-column-one-third govuk-body app-grid-column-one-third--actions">
-      <%= govuk_link_to(candidate_interface_edit_restructured_work_history_break_path(@work_break.id), class: 'govuk-!-margin-right-2') do %>
+      <%= govuk_link_to(candidate_interface_edit_restructured_work_history_break_path(@work_break.id, return_to_params), class: 'govuk-!-margin-right-2') do %>
         Change <span class="govuk-visually-hidden">entry for break between <%= formatted_start_date %> and <%= formatted_end_date %></span>
       <% end %>
 
-      <%= govuk_link_to(candidate_interface_destroy_restructured_work_history_break_path(@work_break.id)) do %>
+      <%= govuk_link_to(candidate_interface_destroy_restructured_work_history_break_path(@work_break.id, return_to_params)) do %>
         Delete <span class="govuk-visually-hidden">entry for break between <%= formatted_start_date %> and <%= formatted_end_date %></span>
       <% end %>
     </div>
