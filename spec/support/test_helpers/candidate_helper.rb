@@ -26,8 +26,13 @@ module CandidateHelper
     APPLICATION_FORM_SECTIONS
   end
 
-  def candidate_completes_application_form(with_referees: true)
-    FeatureFlag.deactivate(:restructured_work_history)
+  def candidate_completes_application_form(with_referees: true, with_restructured_work_history: false, international: false)
+    if with_restructured_work_history
+      FeatureFlag.activate(:restructured_work_history)
+    else
+      FeatureFlag.deactivate(:restructured_work_history)
+    end
+
     given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
@@ -36,16 +41,27 @@ module CandidateHelper
     candidate_fills_in_course_choices
 
     click_link t('page_titles.personal_information')
-    candidate_fills_in_personal_details
+    candidate_fills_in_personal_details(international: international)
 
     click_link t('page_titles.contact_information')
     candidate_fills_in_contact_details
 
     click_link t('page_titles.work_history')
-    candidate_fills_in_work_experience
+
+    if with_restructured_work_history
+      candidate_fills_in_restructured_work_experience
+      candidate_fills_in_restructured_work_experience_break
+    else
+      candidate_fills_in_work_experience
+    end
 
     click_link t('page_titles.volunteering.short')
-    candidate_fills_in_volunteering_role
+
+    if with_restructured_work_history
+      candidate_fills_in_restructured_volunteering_role
+    else
+      candidate_fills_in_volunteering_role
+    end
 
     click_link t('page_titles.training_with_a_disability')
     candidate_fills_in_disability_info
@@ -65,7 +81,7 @@ module CandidateHelper
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
 
-    click_link 'A levels and other qualifications'
+    click_link(international ? 'Other qualifications' : 'A levels and other qualifications')
     candidate_fills_in_their_other_qualifications
 
     click_link 'Why do you want to teach'
@@ -76,6 +92,14 @@ module CandidateHelper
 
     click_link t('page_titles.interview_preferences')
     candidate_fills_in_interview_preferences
+
+    if international
+      click_link t('page_titles.efl.review')
+      choose 'No, English is not a foreign language to me'
+      click_button 'Continue'
+      choose 'Yes, I have completed this section'
+      click_button 'Continue'
+    end
 
     if with_referees
       candidate_provides_two_referees
@@ -303,6 +327,49 @@ module CandidateHelper
     click_button t('continue')
   end
 
+  def candidate_fills_in_restructured_work_experience
+    choose 'Yes'
+    click_button t('continue')
+
+    click_link 'Add a job'
+
+    with_options scope: 'application_form.restructured_work_history' do |locale|
+      fill_in locale.t('employer.label'), with: 'Weyland-Yutani'
+      fill_in locale.t('role.label'), with: 'Chief Terraforming Officer'
+
+      choose 'Part time'
+
+      within('[data-qa="start-date"]') do
+        fill_in 'Month', with: '5'
+        fill_in 'Year', with: '2014'
+      end
+
+      within('[data-qa="currently-working"]') do
+        choose 'No'
+      end
+
+      within('[data-qa="end-date"]') do
+        fill_in 'Month', with: '1'
+        fill_in 'Year', with: '2019'
+      end
+
+      within('[data-qa="relevant-skills"]') do
+        choose 'Yes'
+      end
+
+      click_button t('save_and_continue')
+    end
+  end
+
+  def candidate_fills_in_restructured_work_experience_break
+    click_link 'add a reason for this break', match: :first
+    fill_in 'Enter reasons for break in work history', with: 'Terraforming is tiring.'
+    click_button t('continue')
+
+    choose t('application_form.completed_radio')
+    click_button t('continue')
+  end
+
   def candidate_fills_in_work_experience
     choose t('application_form.work_history.complete.label')
     click_button t('continue')
@@ -326,6 +393,40 @@ module CandidateHelper
     end
 
     click_button t('save_and_continue')
+    choose t('application_form.completed_radio')
+    click_button t('continue')
+  end
+
+  def candidate_fills_in_restructured_volunteering_role
+    choose 'Yes' # "Do you have any relevant unpaid experience?"
+    click_button t('save_and_continue')
+
+    with_options scope: 'application_form.volunteering' do |locale|
+      fill_in locale.t('organisation.label'), with: 'National Trust'
+      fill_in locale.t('role.label'), with: 'Tour guide'
+
+      within('[data-qa="working-with-children"]') do
+        choose 'Yes'
+      end
+
+      within('[data-qa="start-date"]') do
+        fill_in 'Month', with: '5'
+        fill_in 'Year', with: '2014'
+      end
+
+      within('[data-qa="currently-working"]') do
+        choose 'No'
+      end
+
+      within('[data-qa="end-date"]') do
+        fill_in 'Month', with: '1'
+        fill_in 'Year', with: '2019'
+      end
+
+      fill_in t('application_form.volunteering.details.label'), with: 'I volunteered.'
+      click_button t('save_and_continue')
+    end
+
     choose t('application_form.completed_radio')
     click_button t('continue')
   end

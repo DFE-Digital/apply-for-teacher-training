@@ -19,5 +19,18 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
       expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])
       expect(result.css('.govuk-summary-list__value')[row[:position]].text).to include(row[:value])
     end
+
+    expect(result.css('.govuk-summary-list__actions a')[0][:href]).to eq(
+      Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_edit_start_path,
+    )
+  end
+
+  it 'passes the `return-to` param to Change actions' do
+    other_qualification = build :other_efl_qualification
+    result = render_inline(described_class.new(other_qualification, return_to_application_review: true))
+
+    expect(result.css('.govuk-summary-list__actions a')[0][:href]).to eq(
+      Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_edit_start_path('return-to' => 'application-review'),
+    )
   end
 end

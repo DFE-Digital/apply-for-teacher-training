@@ -1,9 +1,9 @@
 <% content_for :title, t('page_titles.destroy_work_history_break') %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_restructured_work_history_review_path) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @work_break, url: candidate_interface_destroy_restructured_work_history_break_path(@work_break), method: :delete do |f| %>
+    <%= form_with model: @work_break, url: candidate_interface_destroy_restructured_work_history_break_path(@work_break, @return_to[:params]), method: :delete do |f| %>
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl">Work history</span>
         <%= t('page_titles.destroy_work_history_break') %>

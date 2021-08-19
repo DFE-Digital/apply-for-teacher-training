@@ -221,8 +221,9 @@ private
 
   def application_choices
     choices = ApplicationChoice
-      .joins(:application_form)
+      .joins(application_form: :candidate)
       .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+      .where('candidates.hide_in_reporting' => false)
 
     if year
       choices.where(application_forms: { recruitment_cycle_year: year })

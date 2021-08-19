@@ -1,5 +1,6 @@
 en:
   user_permissions:
+    no_permissions_explanation: You cannot change these details because you do not have permission to manage users.
     make_decisions:
       description: Make offers and reject applications
     view_safeguarding_information:
@@ -19,3 +20,5 @@ en:
         access_to_orgs:
           heading: Access to organisations
           key: Organisations you have access to
+    user_card_component:
+      permissions_list_preamble: 'This user has permission to:'
