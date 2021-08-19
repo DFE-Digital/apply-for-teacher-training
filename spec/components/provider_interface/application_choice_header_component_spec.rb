@@ -120,7 +120,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         let(:interviews) { class_double(Interview, kept: [build_stubbed(:interview)]) }
 
         it 'shows the interview tab' do
-          expect(result.css('.app-tab-navigation li:nth-child(2) a').text).to include(
+          expect(result.css('.app-tab-navigation li a').text).to include(
             'Interviews',
           )
         end
