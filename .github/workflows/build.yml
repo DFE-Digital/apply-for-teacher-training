@@ -117,21 +117,21 @@ jobs:
         feature-flags: [on, off]
         include:
           - tests: unit_shared
-            include-pattern: spec/**/**/*_spec.rb
-            exclude-pattern: spec/**/{candidate_interface,support_interface,provider_interface,referee_interface,*api*}/**/*_spec.rb,spec/system/**/*_spec.rb
+            include-pattern: spec/.*/*_spec.rb
+            exclude-pattern: spec/.*(candidate_interface|provider_interface|support_interface|referee_interface|system|.*api.*).*/*_spec.rb
           - tests: unit_candidate-provider
-            include-pattern: spec/**/{candidate_interface,provider_interface}/**/*_spec.rb
-            exclude-pattern: spec/system/**/**/*_spec.rb
+            include-pattern: spec/.*(candidate_interface|provider_interface).*/*_spec.rb
+            exclude-pattern: spec/system/.*/*_spec.rb
           - tests: unit_support-referee-api
-            include-pattern: spec/**/{support_interface,referee_interface,*api*}/**/*_spec.rb
-            exclude-pattern: spec/system/**/*_spec.rb
+            include-pattern: spec/.*(support_interface|referee_interface|.*api.*).*/*_spec.rb
+            exclude-pattern: spec/system/.*/*_spec.rb
           - tests: integration_shared
-            include-pattern: spec/system/**/*_spec.rb
-            exclude-pattern: spec/system/{provider_interface,candidate_interface}/**/*_spec.rb
+            include-pattern: spec/system/.*/*_spec.rb
+            exclude-pattern: spec/system/.*(provider_interface|candidate_interface).*/*_spec.rb
           - tests: integration_provider
-            include-pattern: spec/system/provider_interface/**/*_spec.rb
+            include-pattern: spec/system/provider_interface/.*/*_spec.rb
           - tests: integration_candidate
-            include-pattern: spec/system/candidate_interface/**/*_spec.rb
+            include-pattern: spec/system/candidate_interface/.*/*_spec.rb
     services:
       redis:
         image: redis:alpine
@@ -162,17 +162,17 @@ jobs:
         REDIS_URL: redis://redis:6379/0
         DB_PORT: 5432
     steps:
-      - name: Setup Database
-        run: bundle exec rake db:setup
+      - name: Setup Parallel Database
+        run: bundle exec rake parallel:setup
 
       - name: Install chromedriver
         run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}" --format progress
+        run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
-          EXCLUDE_PATTERN: ${{ matrix.exclude-pattern }}
+          EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
 
   trigger-deployment:
