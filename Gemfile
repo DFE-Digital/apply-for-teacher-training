@@ -93,6 +93,9 @@ gem 'request_store-sidekiq'
 gem 'sidekiq'
 gem 'clockwork'
 
+# Rate limiting
+gem 'rack-attack'
+
 # For outgoing http requests
 gem 'http'
 
