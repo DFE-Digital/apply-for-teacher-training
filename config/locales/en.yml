@@ -217,6 +217,7 @@ en:
       organisation_permissions: Organisation permissions
       change_organisation_permissions: Change permissions
       users: Users
+      confirm_delete_user: Confirm that you want to delete this user from %{provider_name}
       export_hesa_data: Export data for Higher Education Statistics Agency (HESA)
       export_application_data: Export application data
       notifications: Email notifications

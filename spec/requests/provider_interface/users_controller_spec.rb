@@ -15,10 +15,27 @@ RSpec.describe ProviderInterface::UsersController do
   context 'when the account_and_org_settings_changes feature flag is on' do
     before { FeatureFlag.activate(:account_and_org_settings_changes) }
 
-    it 'returns a success response' do
+    it 'returns a success response for GET index' do
       get provider_interface_organisation_settings_organisation_users_path(provider)
 
       expect(response.status).to eq(200)
+    end
+
+    context 'when a user does not have manage orgs permissions' do
+      let(:managing_user) { create(:provider_user, :with_manage_organisations, providers: [provider]) }
+      let(:provider_user) { create(:provider_user, providers: [provider]) }
+
+      it 'responds with a 403 on GET confirm_destroy' do
+        get confirm_destroy_provider_interface_organisation_settings_organisation_user_path(provider, provider_user)
+
+        expect(response.status).to eq(403)
+      end
+
+      it 'responds with a 403 on DELETE' do
+        delete provider_interface_organisation_settings_organisation_user_path(provider, provider_user)
+
+        expect(response.status).to eq(403)
+      end
     end
   end
 
