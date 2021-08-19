@@ -79,6 +79,22 @@ jobs:
     defaults:
       run:
         working-directory: /app
+    strategy:
+      fail-fast: false
+      matrix:
+        tests: [rubocop, erblint, brakeman, yarn_lint]
+        include:
+          - tests: rubocop
+            command: bundle exec rubocop --format clang --parallel
+          - tests: erblint
+            command: bundle exec rake erblint
+          - tests: brakeman
+            command: bundle exec rake brakeman
+          - tests: yarn_lint
+            command: |
+              yarn install
+              yarn run lint && yarn run stylelint app/frontend/styles && \
+              yarn run test
     container:
       image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
       options: -a STDOUT -a STDERR -t
@@ -86,21 +102,10 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
     steps:
-    - run:  bundle exec rubocop --format clang --parallel
-      name: Rubocop
-
-    - run:  bundle exec rake erblint
-      name: ERB Linter
-
-    - run:  bundle exec rake brakeman
-      name: Brakeman
-
-    - name: Yarn Lint
-      run: |
-        yarn install
-        yarn run lint && yarn run stylelint app/frontend/styles && \
-        yarn run test
-
+      - name: ${{ matrix.tests }}
+        run: ${{ env.COMMAND }}
+        env:
+          COMMAND: ${{ matrix.command }}
   test:
     name: Tests
     needs: [build]
