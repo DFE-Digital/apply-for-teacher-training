@@ -20,7 +20,7 @@ en:
       what_to_improve_details: Performance at interview - what to improve
     full_course:
       title: 'Course full'
-      reason: "We're sorry to tell you the course you applied to was full"
+      reason: The course you applied to is full
     offered_on_another_course:
       title: 'They offered you a place on another course'
       other_details: Offered on another course - details

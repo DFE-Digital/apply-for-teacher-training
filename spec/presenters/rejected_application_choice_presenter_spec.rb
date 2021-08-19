@@ -105,7 +105,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
         rejected_application_choice = described_class.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
-          { 'Course full' => ["We're sorry to tell you the course you applied to was full"],
+          { 'Course full' => ['The course you applied to is full'],
             'They offered you a place on another course' => ['You have already been offered the Math course'],
             'Visa application sponsorship' => ['You misspelled visa as viza'] },
         )

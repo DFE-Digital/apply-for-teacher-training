@@ -86,7 +86,7 @@
 <% if reasons_for_rejection.course_full_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, 'Course full', class: 'govuk-heading-s') %>
-    <p>We're sorry to tell you the course you applied to was full</p>
+    <p><%= t('reasons_for_rejection.full_course.reason') %> </p>
 
     <% if editable? %>
       <p class="app-rejection__actions">
