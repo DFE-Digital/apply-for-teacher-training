@@ -1,8 +1,6 @@
 module ProviderInterface
   module Reports
     class HesaExportsController < ProviderInterfaceController
-      before_action :render_404_unless_feature_enabled
-
       def show
         year = params[:year]
         respond_to do |format|
@@ -19,10 +17,6 @@ module ProviderInterface
 
       def csv_filename(year)
         "#{Time.zone.now}.#{year}.applications-export.csv"
-      end
-
-      def render_404_unless_feature_enabled
-        render_404 unless FeatureFlag.active?(:export_hesa_data)
       end
     end
   end
