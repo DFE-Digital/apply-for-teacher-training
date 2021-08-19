@@ -11,11 +11,11 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
     end
 
     it 'renders the banner header' do
-      expect(result.text).to include('Applications will be automatically rejected if you do not make a decision within 20 working days')
+      expect(result.text).to include('The deadline for candidates to apply for the first time in this recruitment cycle is 6pm on 7 September')
     end
 
     it 'renders the banner content' do
-      expect(result.text).to include('This reduced time to make a decision will last until the recruitment cycle ends on 4 October.')
+      expect(result.text).to include('Candidates who apply before the deadline will be able to apply again until 6pm on 21 September.')
     end
   end
 
