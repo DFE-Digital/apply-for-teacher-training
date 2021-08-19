@@ -17,7 +17,7 @@
       <% if @current_user_can_manage_users %>
         <%= govuk_link_to 'Delete user', confirm_destroy_provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user) %>
       <% else %>
-        You cannot change these details because you do not have permission to manage users.
+        <%= t('user_permissions.no_permissions_explanation') %>
       <% end %>
     </p>
 

@@ -1,5 +1,6 @@
 en:
   user_permissions:
+    no_permissions_explanation: You cannot change these details because you do not have permission to manage users.
     make_decisions:
       description: Make offers and reject applications
     view_safeguarding_information:

@@ -20,7 +20,7 @@
     <span class="govuk-caption-l"><%= @provider.name %></span>
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.organisation_permissions') %></h1>
     <% if FeatureFlag.active?(:account_and_org_settings_changes) && !@current_user_can_manage_organisation %>
-      <p class="govuk-body">You cannot change these permissions because you do not have permission to manage organisations.</p>
+      <p class="govuk-body"><%= t('provider_relationship_permissions.no_permissions_explanation') %></p>
     <% end %>
     <% @provider_relationships.each do |relationship| %>
       <%= render ProviderInterface::OrganisationPermissionsReviewCardComponent.new(
