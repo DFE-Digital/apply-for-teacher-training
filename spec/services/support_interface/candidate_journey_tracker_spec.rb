@@ -60,7 +60,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
   describe 'completed references' do
     let!(:application_form) do
-      create(:completed_application_form, application_choices_count: 1)
+      create(:completed_application_form, application_choices_count: 1, references_count: 0)
     end
     let(:application_choice) { application_form.application_choices.first }
     let(:reference_1) { build(:reference, :feedback_provided, requested_at: 4.days.ago - 1.hour, feedback_provided_at: 1.day.ago) }

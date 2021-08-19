@@ -11,6 +11,7 @@ RSpec.describe CarryOverApplication do
         application_choices_count: 1,
         volunteering_experiences_count: 1,
         full_work_history: true,
+        references_count: 0,
       )
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)
       create(:reference, feedback_status: :not_requested_yet, application_form: application_form)
@@ -50,7 +51,7 @@ RSpec.describe CarryOverApplication do
       end
     end
 
-    let(:application_form) { create(:completed_application_form) }
+    let(:application_form) { create(:completed_application_form, references_count: 0) }
 
     it 'sets the reference to the not_requested state' do
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)
@@ -85,7 +86,7 @@ RSpec.describe CarryOverApplication do
       end
     end
 
-    let(:application_form) { create(:completed_application_form) }
+    let(:application_form) { create(:completed_application_form, references_count: 0) }
     let(:reference) { create(:reference, feedback_status: :feedback_requested, application_form: application_form) }
 
     it 'moves reference tokens from the old to new references' do

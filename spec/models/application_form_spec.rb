@@ -27,7 +27,12 @@ RSpec.describe ApplicationForm do
 
     context 'when the form belongs to a previous recruitment cycle' do
       it 'throws an exception rather than touch an application choice' do
-        application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 1)
+        application_form = create(
+          :completed_application_form,
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          application_choices_count: 1,
+          references_count: 0,
+        )
 
         expect { application_form.update(first_name: 'Maria') }
           .to raise_error('Tried to mark an application choice from a previous cycle as changed')
@@ -42,7 +47,12 @@ RSpec.describe ApplicationForm do
 
       context 'when we allow unsafe touches' do
         it 'does not throw an exception' do
-          application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 1)
+          application_form = create(
+            :completed_application_form,
+            recruitment_cycle_year: RecruitmentCycle.previous_year,
+            application_choices_count: 1,
+            references_count: 0,
+          )
 
           described_class.with_unsafe_application_choice_touches do
             expect { application_form.update(first_name: 'Maria') }

@@ -11,6 +11,7 @@ RSpec.describe ApplyAgain do
         volunteering_experiences_count: 1,
         full_work_history: true,
         recruitment_cycle_year: RecruitmentCycle.current_year,
+        references_count: 0,
       )
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)

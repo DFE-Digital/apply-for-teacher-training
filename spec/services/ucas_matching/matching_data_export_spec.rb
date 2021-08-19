@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UCASMatching::MatchingDataExport do
   let(:unsubmitted_form) { create(:application_form) }
-  let(:previous_recruitment_cycle_form) { create(:completed_application_form, application_choices_count: 3, recruitment_cycle_year: RecruitmentCycle.previous_year) }
+  let(:previous_recruitment_cycle_form) { create(:completed_application_form, application_choices_count: 3, recruitment_cycle_year: RecruitmentCycle.previous_year, references_count: 0) }
   let(:submitted_current_recruitment_cycle_form) { create(:completed_application_form, application_choices_count: 3) }
 
   describe '#relevant_applications' do

@@ -8,6 +8,7 @@ RSpec.describe CarryOverFeatureMetrics, with_audited: true do
       :completed_application_form,
       application_choices_count: 3,
       recruitment_cycle_year: RecruitmentCycle.previous_year,
+      references_count: 0,
     )
   end
 
