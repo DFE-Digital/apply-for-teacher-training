@@ -112,8 +112,9 @@ RSpec.configure do |config|
   # This allocates databases from 1 onwards, as it's assumed that 0 is the
   # development database.
   if ENV['TEST_ENV_NUMBER']
+    redis_url_without_database = ENV['REDIS_URL']&.gsub(/\/\d+$/, '') || 'redis://localhost:6379'
     config.around do |example|
-      ClimateControl.modify(REDIS_URL: "redis://localhost:6379/#{ENV['TEST_ENV_NUMBER'].to_i + 1}") do
+      ClimateControl.modify(REDIS_URL: "#{redis_url_without_database}/#{ENV['TEST_ENV_NUMBER'].to_i + 1}") do
         example.run
       end
     end
