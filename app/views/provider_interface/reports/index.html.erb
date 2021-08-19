@@ -13,7 +13,7 @@
       <% end %>
       <% if FeatureFlag.active?(:export_hesa_data) %>
         <li>
-          <%= govuk_link_to t('page_titles.provider.export_hesa_data', timeframe: ''), provider_interface_new_hesa_export_path %>
+          <%= govuk_link_to t('page_titles.provider.export_hesa_data', timeframe: ''), provider_interface_reports_hesa_exports_path %>
         </li>
       <% end %>
     </ul>
