@@ -19,7 +19,6 @@ class FeatureFlag
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Apply team'],
     [:service_information_banner, 'Displays an information banner for both providers and candidates. Text configured in service_information_banner.yml', 'Apply team'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
-    [:export_hesa_data, 'Providers can export applications including HESA data.', 'Apply team'],
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
