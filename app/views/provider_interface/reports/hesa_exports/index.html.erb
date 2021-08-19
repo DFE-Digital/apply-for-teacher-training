@@ -11,26 +11,29 @@
       <%= t('page_titles.provider.export_hesa_data') %>
     </h1>
     <p class="govuk-body">
-      Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.
+      <%= t('provider_interface.reports.hesa.diversity_text') %>
     </p>
 
     <h2 class="govuk-heading-m">
-      <%= RecruitmentCycle.current_year - 1 %> to <%= RecruitmentCycle.current_year %> (current)
+      <%= RecruitmentCycle.cycle_name %> (current)
     </h2>
     <p class="govuk-body">
-      The data will include all candidates who have accepted an offer since <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>.
+      <%= t('provider_interface.reports.hesa.info', date: CycleTimetable.apply_opens.to_s(:govuk_date)) %>
     </p>
     <p class="govuk-body">
-      <%= govuk_link_to "Export data for #{RecruitmentCycle.current_year-1} to #{RecruitmentCycle.current_year} (CSV)", provider_interface_reports_hesa_export_path(RecruitmentCycle.current_year, format: :csv)  %>
+      <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: RecruitmentCycle.cycle_name),
+                         provider_interface_reports_hesa_export_path(RecruitmentCycle.current_year, format: :csv) %>
   </p>
 
     <h2 class="govuk-heading-m">
-      <%= RecruitmentCycle.current_year - 2 %> to <%= RecruitmentCycle.current_year - 1 %>
+      <%= RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year) %>
     </h2>
     <p class="govuk-body">
-      The data will include all candidates who have accepted an offer since <%= CycleTimetable.apply_opens(RecruitmentCycle.current_year-1).to_s(:govuk_date) %>.
+      <%= t('provider_interface.reports.hesa.info', date: CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_s(:govuk_date)) %>
     </p>
     <p class="govuk-body">
-      <%= govuk_link_to "Export data for #{RecruitmentCycle.current_year-2} to #{RecruitmentCycle.current_year-1} (CSV)", provider_interface_reports_hesa_export_path(RecruitmentCycle.current_year-1, format: :csv)  %>
-  </p>
+      <%= govuk_link_to t('provider_interface.reports.hesa.download_link', cycle_name: RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)),
+                        provider_interface_reports_hesa_export_path(RecruitmentCycle.previous_year, format: :csv) %>
+    </p>
+  </div>
 </div>
