@@ -13,8 +13,8 @@ module ProviderInterface
     def sub_navigation_items
       sub_navigation_items = [application_navigation_item]
 
-      sub_navigation_items.push(interviews_navigation_item) if interviews_present?
       sub_navigation_items.push(offer_navigation_item) if offer_present?
+      sub_navigation_items.push(interviews_navigation_item) if interviews_present?
       sub_navigation_items.push(notes_navigation_item)
       sub_navigation_items.push(timeline_navigation_item)
       sub_navigation_items.push(feedback_navigation_item) if application_choice.display_provider_feedback?
