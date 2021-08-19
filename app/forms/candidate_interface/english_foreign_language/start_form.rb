@@ -4,7 +4,7 @@ module CandidateInterface
       include ActiveModel::Model
       include Rails.application.routes.url_helpers
 
-      attr_accessor :qualification_status, :no_qualification_details, :application_form
+      attr_accessor :qualification_status, :no_qualification_details, :application_form, :return_to
 
       validates :qualification_status, presence: true
       validates :no_qualification_details, word_count: { maximum: 200 }
@@ -27,7 +27,9 @@ module CandidateInterface
 
       def next_path
         if qualification_status == 'has_qualification'
-          candidate_interface_english_foreign_language_type_path
+          candidate_interface_english_foreign_language_type_path(return_to_params)
+        elsif return_to == 'application-review'
+          candidate_interface_application_review_path
         else
           candidate_interface_english_foreign_language_review_path
         end
@@ -45,6 +47,10 @@ module CandidateInterface
         if application_form.blank?
           raise MissingApplicationFormError
         end
+      end
+
+      def return_to_params
+        return_to == 'application-review' ? { 'return-to' => 'application-review' } : {}
       end
     end
   end
