@@ -211,6 +211,7 @@ en:
       profile: Profile
       personal_details: Your personal details
       user_permissions: Your user permissions
+      edit_user_permissions: User permissions
       email_notifications: Your email notifications
       organisation_settings: Organisation settings
       organisation_permissions: Organisation permissions
