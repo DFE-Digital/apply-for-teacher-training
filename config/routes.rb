@@ -649,8 +649,9 @@ Rails.application.routes.draw do
     get '/applications' => 'application_choices#index'
 
     resources :reports, only: :index
-    get '/applications/hesa-export/new' => 'hesa_export#new', as: :new_hesa_export
-    get '/applications/hesa-export' => 'hesa_export#export', as: :hesa_export
+
+    get '/applications/hesa-export/new', to: redirect('provider/reports/hesa_exports')
+    get '/applications/hesa-export', to: redirect('provider/reports/hesa_exports')
 
     get 'applications/data-export/new' => 'application_data_export#new', as: :new_application_data_export
     get 'applications/data-export' => 'application_data_export#export', as: :application_data_export
