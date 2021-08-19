@@ -33,6 +33,6 @@ private
   end
 
   def eoc_rbd_date
-    0.business_days.before(CycleTimetable.find_closes).end_of_day
+    1.business_days.before(CycleTimetable.find_closes).end_of_day
   end
 end
