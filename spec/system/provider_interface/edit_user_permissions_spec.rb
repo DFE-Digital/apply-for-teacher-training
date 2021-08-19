@@ -23,7 +23,12 @@ RSpec.feature 'User permissions' do
     when_i_click_change
     and_i_modify_the_selected_permissions
     and_i_click_continue
-    then_i_see_the_modified_permissions
+    then_i_see_the_check_page
+    and_i_see_the_modified_permissions
+
+    when_i_submit_the_modified_permissions
+    then_i_see_the_user_page
+    and_i_see_the_modified_permissions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -104,13 +109,25 @@ RSpec.feature 'User permissions' do
     check 'View sex, disability and ethnicity information'
   end
 
-  def then_i_see_the_modified_permissions
+  def then_i_see_the_check_page
     expect(page).to have_content('Check and save user permissions')
+  end
+
+  def and_i_see_the_modified_permissions
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Set up interviews\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
+  end
+
+  def when_i_submit_the_modified_permissions
+    click_on 'Save user permissions'
+  end
+
+  def then_i_see_the_user_page
+    expect(page).to have_content('User permissions updated')
+    expect(page).to have_selector('h1', text: @manageable_user.full_name)
   end
 end

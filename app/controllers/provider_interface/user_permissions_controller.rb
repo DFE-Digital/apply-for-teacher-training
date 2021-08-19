@@ -17,6 +17,19 @@ module ProviderInterface
       @wizard = EditUserPermissionsWizard.new(edit_user_permissions_store)
     end
 
+    def commit
+      wizard = EditUserPermissionsWizard.new(edit_user_permissions_store)
+      provider_permissions = @provider_user.provider_permissions.find_by!(provider: @provider)
+
+      update_provider_permissions(provider_permissions, wizard)
+
+      if provider_permissions.save
+        wizard.clear_state!
+        flash[:success] = 'User permissions updated'
+        redirect_to provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user)
+      end
+    end
+
   private
 
     def edit_user_permissions_store
@@ -33,6 +46,12 @@ module ProviderInterface
         check_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)
       else
         provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user)
+      end
+    end
+
+    def update_provider_permissions(provider_permissions, wizard)
+      ProviderPermissions::VALID_PERMISSIONS.each do |permission|
+        provider_permissions.send("#{permission}=", wizard.permissions.include?(permission.to_s))
       end
     end
   end

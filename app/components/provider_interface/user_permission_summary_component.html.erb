@@ -5,7 +5,7 @@
         <%= description_for(permission) %>
       </dt>
       <dd class="govuk-summary-list__value">
-        <%= can_perform_permission_y_n?(permission) %>
+        <p class="govuk-body"><%= can_perform_permission_y_n?(permission) %></p>
         <% if ProviderRelationshipPermissions::PERMISSIONS.include?(permission) && can_perform_permission?(permission) %>
           <p>This user permission is affected by organisation permissions.</p>
           <%= render ProviderInterface::ProviderPartnerPermissionBreakdownComponent.new(provider: provider, permission: permission) %>
