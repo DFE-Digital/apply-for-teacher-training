@@ -18,6 +18,14 @@ RSpec.feature 'Provider reports page' do
     when_i_visit_the_reports_page_and_i_click_the_export_data_link
     then_i_should_be_on_the_data_export_page
     and_the_page_contains_breadcrumbs_including_the_reports_page
+
+    given_the_reports_dashboard_feature_flag_is_on
+    when_i_visit_the_reports_page
+    then_i_should_see_links_for_all_the_provider_status_application_records
+
+    given_the_reports_dashboard_feature_flag_is_off
+    when_i_visit_the_reports_page
+    then_i_should_not_see_links_for_any_of_the_provider_status_application_records
   end
 
   def given_the_application_data_export_feature_flag_is_on
@@ -26,7 +34,7 @@ RSpec.feature 'Provider reports page' do
 
   def and_i_am_a_provider_user_with_permissions_to_see_applications_for_my_provider
     provider_exists_in_dfe_sign_in
-    provider_user_exists_in_apply_database
+    @provider_user = provider_user_exists_in_apply_database
   end
 
   def when_i_visit_the_reports_page_and_i_click_the_export_data_link
@@ -56,6 +64,10 @@ RSpec.feature 'Provider reports page' do
     end
   end
 
+  def given_the_reports_dashboard_feature_flag_is_on
+    FeatureFlag.activate(:provider_reports_dashboard)
+  end
+
   def given_the_data_export_feature_flag_is_on
     FeatureFlag.activate(:export_application_data)
   end
@@ -68,5 +80,23 @@ RSpec.feature 'Provider reports page' do
     expect(page).to have_current_path(provider_interface_new_application_data_export_path)
     expect(page).to have_content('Export application data (CSV)')
     expect(page).to have_content('Sex, disability and ethnicity information will be marked as confidential')
+  end
+
+  def then_i_should_see_links_for_all_the_provider_status_application_records
+    @provider_user.providers.each do |provider|
+      expect(page).to have_content(provider.name)
+      expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider))
+    end
+  end
+
+  def given_the_reports_dashboard_feature_flag_is_off
+    FeatureFlag.deactivate(:provider_reports_dashboard)
+  end
+
+  def then_i_should_not_see_links_for_any_of_the_provider_status_application_records
+    @provider_user.providers.each do |provider|
+      expect(page).not_to have_content(provider.name)
+      expect(page).not_to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider))
+    end
   end
 end
