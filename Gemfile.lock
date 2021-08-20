@@ -186,7 +186,7 @@ GEM
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
-    faraday_middleware (1.0.0)
+    faraday_middleware (1.1.0)
       faraday (~> 1.0)
     ffi (1.15.3)
     ffi-compiler (1.0.1)
@@ -276,7 +276,7 @@ GEM
       bindata
     json-schema (2.8.1)
       addressable (>= 2.4)
-    json_api_client (1.18.0)
+    json_api_client (1.19.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       addressable (~> 2.2)
