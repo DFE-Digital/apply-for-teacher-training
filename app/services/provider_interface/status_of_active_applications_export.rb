@@ -18,8 +18,8 @@ module ProviderInterface
           Received: status_count(courses, :awaiting_provider_decision),
           Interviewing: status_count(courses, :interviewing),
           Offered: status_count(courses, :offer),
-          'Awaiting conditions': status_count(courses, :pending_conditions),
-          'Pending conditions': status_count(courses, :recruited),
+          'Conditions pending': status_count(courses, :pending_conditions),
+          Recruited: status_count(courses, :recruited),
         }
       end
       data << totals_row(data)
@@ -37,8 +37,8 @@ module ProviderInterface
         Received: totals_count(rows)[0],
         Interviewing: totals_count(rows)[1],
         Offered: totals_count(rows)[2],
-        'Awaiting conditions': totals_count(rows)[3],
-        'Pending conditions': totals_count(rows)[4],
+        'Conditions pending': totals_count(rows)[3],
+        Recruited: totals_count(rows)[4],
       }
     end
 
@@ -50,8 +50,8 @@ module ProviderInterface
         @totals_count[0] += row[:Received]
         @totals_count[1] += row[:Interviewing]
         @totals_count[2] += row[:Offered]
-        @totals_count[3] += row[:'Awaiting conditions']
-        @totals_count[4] += row[:'Pending conditions']
+        @totals_count[3] += row[:'Conditions pending']
+        @totals_count[4] += row[:Recruited]
       end
       @totals_count
     end

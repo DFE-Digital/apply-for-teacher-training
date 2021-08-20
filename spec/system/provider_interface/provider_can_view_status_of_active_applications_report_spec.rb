@@ -76,7 +76,7 @@ RSpec.feature 'View active status of applications report' do
     click_on 'Export data (CSV)'
 
     csv = CSV.parse(page.body, headers: true)
-    expect(csv.headers).to eq(['Name', 'Code', 'Partner organisation', 'Received', 'Interviewing', 'Offered', 'Awaiting conditions', 'Pending conditions'])
+    expect(csv.headers).to eq(['Name', 'Code', 'Partner organisation', 'Received', 'Interviewing', 'Offered', 'Conditions pending', 'Recruited'])
 
     expect(csv['Name']).to eq(['Archaeology', 'Beekeeping', 'Criminology', 'All courses'])
   end

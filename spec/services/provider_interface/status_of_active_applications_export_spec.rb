@@ -30,8 +30,8 @@ RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
       expect(row['Received']).to eq('0')
       expect(row['Interviewing']).to eq('10')
       expect(row['Offered']).to eq('0')
-      expect(row['Awaiting conditions']).to eq('5')
-      expect(row['Pending conditions']).to eq('0')
+      expect(row['Conditions pending']).to eq('5')
+      expect(row['Recruited']).to eq('0')
     end
 
     it 'outputs one row per course' do
