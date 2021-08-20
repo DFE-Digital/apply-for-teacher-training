@@ -7,6 +7,7 @@ class CycleTimetable
       apply_opens: Time.zone.local(2018, 10, 13, 9),
       apply_1_deadline: Time.zone.local(2019, 8, 24, 18),
       apply_2_deadline: Time.zone.local(2019, 9, 18, 18),
+      reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2019, 10, 3, 23, 59, 59),
     },
     2020 => {
@@ -15,6 +16,7 @@ class CycleTimetable
       show_deadline_banner: Time.zone.local(2020, 8, 1, 9),
       apply_1_deadline: Time.zone.local(2020, 8, 24, 18),
       apply_2_deadline: Time.zone.local(2020, 9, 18, 18),
+      reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2020, 10, 3, 23, 59, 59),
     },
     2021 => {
@@ -23,6 +25,7 @@ class CycleTimetable
       show_deadline_banner: Time.zone.local(2021, 8, 1, 9),
       apply_1_deadline: Time.zone.local(2021, 9, 7, 18),
       apply_2_deadline: Time.zone.local(2021, 9, 21, 18),
+      reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2021, 10, 4, 23, 59, 59),
     },
     2022 => {
@@ -66,6 +69,10 @@ class CycleTimetable
 
   def self.apply_2_deadline(year = current_year)
     date(:apply_2_deadline, year)
+  end
+
+  def self.reject_by_default(year = current_year)
+    date(:reject_by_default, year)
   end
 
   def self.find_closes(year = current_year)
@@ -152,7 +159,8 @@ class CycleTimetable
           show_deadline_banner: 1.day.ago,
           apply_1_deadline: 1.day.from_now,
           apply_2_deadline: 2.days.from_now,
-          find_closes: 3.days.from_now,
+          reject_by_default: 3.days.from_now,
+          find_closes: 4.days.from_now,
         },
         next_year => {
           find_opens: 6.days.from_now,
@@ -166,7 +174,8 @@ class CycleTimetable
           show_deadline_banner: 3.days.ago,
           apply_1_deadline: 1.day.ago,
           apply_2_deadline: 2.days.from_now,
-          find_closes: 3.days.from_now,
+          reject_by_default: 3.days.from_now,
+          find_closes: 4.days.from_now,
         },
         next_year => {
           find_opens: 6.days.from_now,
@@ -180,7 +189,8 @@ class CycleTimetable
           show_deadline_banner: 4.days.ago,
           apply_1_deadline: 3.days.ago,
           apply_2_deadline: 1.day.ago,
-          find_closes: 1.day.from_now,
+          reject_by_default: 1.day.from_now,
+          find_closes: 2.days.from_now,
         },
         next_year => {
           find_opens: 6.days.from_now,
@@ -194,7 +204,8 @@ class CycleTimetable
           apply_opens: 6.days.ago,
           show_deadline_banner: 5.days.ago,
           apply_1_deadline: 4.days.ago,
-          apply_2_deadline: 2.days.ago,
+          apply_2_deadline: 3.days.ago,
+          reject_by_default: 2.days.ago,
           find_closes: 1.day.ago,
         },
         next_year => {
@@ -210,7 +221,8 @@ class CycleTimetable
           show_deadline_banner: 7.days.ago,
           apply_1_deadline: 6.days.ago,
           apply_2_deadline: 5.days.ago,
-          find_closes: 4.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
         next_year => {
           find_opens: 1.day.ago,
@@ -225,7 +237,8 @@ class CycleTimetable
           show_deadline_banner: 7.days.ago,
           apply_1_deadline: 6.days.ago,
           apply_2_deadline: 5.days.ago,
-          find_closes: 4.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
         next_year => {
           find_opens: 2.days.ago,
