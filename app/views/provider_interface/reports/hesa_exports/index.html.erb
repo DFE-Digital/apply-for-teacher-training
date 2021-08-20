@@ -1,9 +1,6 @@
 <%= content_for :title, t('page_titles.provider.export_hesa_data') %>
-
-<%= breadcrumbs({
-  t('page_titles.provider.reports') => provider_interface_reports_path,
-  t('page_titles.provider.export_hesa_data') => nil,
-}) %>
+<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
+                                             t('page_titles.provider.export_hesa_data') => nil) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
