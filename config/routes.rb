@@ -653,6 +653,9 @@ Rails.application.routes.draw do
     namespace :reports do
       resources :hesa_exports, only: :show, path: 'hesa-exports', param: :year, constraints: ValidRecruitmentCycleYear
       resources :hesa_exports, only: :index, path: 'hesa-exports'
+      resources :providers, only: [], path: '' do
+        resource :status_of_active_applications, only: :show, path: 'status-of-active-applications'
+      end
     end
 
     get '/applications/hesa-export/new', to: redirect('provider/reports/hesa-exports')
