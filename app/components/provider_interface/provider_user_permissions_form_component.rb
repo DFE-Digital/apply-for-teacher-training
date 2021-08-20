@@ -17,7 +17,7 @@ module ProviderInterface
 
     def form_legend
       if provider_has_no_relationships?
-        { text: t('page_titles.provider.edit_user_permissions'), size: 'l', tag: 'h1' }
+        { text: t('page_titles.provider.user_permissions'), size: 'l', tag: 'h1' }
       else
         { text: 'Choose user permissions', size: 'm' }
       end

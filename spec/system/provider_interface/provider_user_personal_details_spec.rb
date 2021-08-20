@@ -27,13 +27,13 @@ RSpec.feature 'Personal details page' do
   end
 
   def then_i_can_see_links_to_my_settings_and_details
-    expect(page).to have_content(t('page_titles.provider.personal_details'))
-    expect(page).to have_content(t('page_titles.provider.user_permissions'))
+    expect(page).to have_content(t('page_titles.provider.your_personal_details'))
+    expect(page).to have_content(t('page_titles.provider.your_user_permissions'))
     expect(page).to have_content(t('page_titles.provider.email_notifications'))
   end
 
   def when_i_click_on_personal_details
-    click_on t('page_titles.provider.personal_details')
+    click_on t('page_titles.provider.your_personal_details')
   end
 
   def then_i_can_see_all_my_details
