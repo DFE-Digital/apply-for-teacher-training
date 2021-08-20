@@ -14,6 +14,11 @@
       <li>
         <%= govuk_link_to t('page_titles.provider.export_hesa_data'), provider_interface_reports_hesa_exports_path %>
       </li>
+      <% if @providers.one? %>
+        <li>
+          <%= govuk_link_to t('page_titles.provider.status_of_active_applications'), provider_interface_reports_provider_status_of_active_applications_path(provider_id: @providers.first) %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
