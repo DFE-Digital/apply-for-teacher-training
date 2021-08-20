@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_113249) do
+ActiveRecord::Schema.define(version: 2021_08_20_133333) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -412,6 +412,14 @@ ActiveRecord::Schema.define(version: 2021_08_12_113249) do
     t.boolean "withdrawn"
     t.uuid "uuid"
     t.datetime "opened_on_apply_at"
+    t.string "degree_grade"
+    t.string "degree_subject_requirements"
+    t.boolean "accept_pending_gcse"
+    t.boolean "accept_gcse_equivalency"
+    t.boolean "accept_english_gcse_equivalency"
+    t.boolean "accept_maths_gcse_equivalency"
+    t.boolean "accept_science_gcse_equivalency"
+    t.string "additional_gcse_equivalencies"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id"], name: "index_courses_on_provider_id"
@@ -620,6 +628,8 @@ ActiveRecord::Schema.define(version: 2021_08_12_113249) do
     t.string "provider_type"
     t.float "latitude"
     t.float "longitude"
+    t.boolean "can_sponsor_skilled_worker_visa"
+    t.boolean "can_sponsor_student_visa"
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
