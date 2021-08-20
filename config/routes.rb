@@ -649,8 +649,14 @@ Rails.application.routes.draw do
     get '/applications' => 'application_choices#index'
 
     resources :reports, only: :index
-    get '/applications/hesa-export/new' => 'hesa_export#new', as: :new_hesa_export
-    get '/applications/hesa-export' => 'hesa_export#export', as: :hesa_export
+
+    namespace :reports do
+      resources :hesa_exports, only: :show, path: 'hesa-exports', param: :year, constraints: ValidRecruitmentCycleYear
+      resources :hesa_exports, only: :index, path: 'hesa-exports'
+    end
+
+    get '/applications/hesa-export/new', to: redirect('provider/reports/hesa-exports')
+    get '/applications/hesa-export', to: redirect('provider/reports/hesa-exports')
 
     get 'applications/data-export/new' => 'application_data_export#new', as: :new_application_data_export
     get 'applications/data-export' => 'application_data_export#export', as: :application_data_export

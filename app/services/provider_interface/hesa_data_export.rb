@@ -2,12 +2,15 @@ module ProviderInterface
   class HesaDataExport
     NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
 
-    def initialize(actor:)
+    attr_reader :actor, :recruitment_cycle_year
+
+    def initialize(actor:, recruitment_cycle_year: RecruitmentCycle.current_year)
       @actor = actor
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def call
-      applications = GetApplicationChoicesForProviders.call(providers: @actor.providers, recruitment_cycle_year: RecruitmentCycle.current_year)
+      applications = GetApplicationChoicesForProviders.call(providers: actor.providers, recruitment_cycle_year: recruitment_cycle_year)
                        .where(
                          'candidates.hide_in_reporting' => false,
                          'status' => ApplicationStateChange::ACCEPTED_STATES,
@@ -67,7 +70,7 @@ module ProviderInterface
     def diversity_information(application)
       return { 'sex' => NO_INFORMATION_GIVEN_STRING, 'disabilities' => NO_INFORMATION_GIVEN_STRING, 'ethnicity' => NO_INFORMATION_GIVEN_STRING } if application.application_form.equality_and_diversity.blank?
 
-      return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless @actor.authorisation.can_view_diversity_information?(course: application.course)
+      return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless actor.authorisation.can_view_diversity_information?(course: application.course)
 
       {
         'sex' => application.application_form.equality_and_diversity['hesa_sex'] || NO_INFORMATION_GIVEN_STRING,
