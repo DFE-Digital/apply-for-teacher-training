@@ -25,6 +25,7 @@ RSpec.feature 'View active status of applications report' do
     when_i_visit_the_reports_page
     and_i_click_on_the_status_of_active_applications_report
     then_i_can_view_the_active_course_data_for_my_provider
+    and_i_can_download_the_data_as_a_csv
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -69,5 +70,14 @@ RSpec.feature 'View active status of applications report' do
       expect(page).to have_content(course_without_accredited_provider.name)
       expect(page).to have_content(course_provider_accredits.name)
     end
+  end
+
+  def and_i_can_download_the_data_as_a_csv
+    click_on 'Export data (CSV)'
+
+    csv = CSV.parse(page.body, headers: true)
+    expect(csv.headers).to eq(['Name', 'Code', 'Partner organisation', 'Received', 'Interviewing', 'Offered', 'Awaiting conditions', 'Pending conditions'])
+
+    expect(csv['Name']).to eq(['Archaeology', 'Beekeeping', 'Criminology', 'All courses'])
   end
 end
