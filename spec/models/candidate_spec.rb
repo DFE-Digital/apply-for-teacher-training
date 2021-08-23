@@ -108,4 +108,24 @@ RSpec.describe Candidate, type: :model do
       expect(candidate.encrypted_id).to eq 'encrypted id value'
     end
   end
+
+  describe '#in_apply_2?' do
+    subject(:candidate) { build(:candidate) }
+
+    let!(:application_form) { create(:application_form, candidate: candidate) }
+
+    context 'when the candidate has no applications in apply again' do
+      it 'returns false' do
+        expect(candidate.in_apply_2?).to be false
+      end
+    end
+
+    context 'when the candidate has applications in apply again' do
+      let!(:application_form) { create(:application_form, candidate: candidate, phase: 'apply_2') }
+
+      it 'returns true' do
+        expect(candidate.in_apply_2?).to be true
+      end
+    end
+  end
 end

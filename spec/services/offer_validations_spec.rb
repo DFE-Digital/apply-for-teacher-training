@@ -70,11 +70,30 @@ RSpec.describe OfferValidations, type: :model do
         let(:current_course_option) { create(:course_option, :open_on_apply) }
         let(:course_option) { build(:course_option, :open_on_apply) }
         let(:conditions) { application_choice.offer.conditions_text }
+        let(:application_form) { build_stubbed(:application_form, phase: 'apply_1') }
+        let(:candidate) { build_stubbed(:candidate, application_forms: [application_form]) }
+
+        before do
+          allow(application_choice).to receive(:candidate).and_return(candidate)
+        end
 
         it 'adds a :different_ratifying_provider error' do
           expect(offer).to be_invalid
 
           expect(offer.errors[:base]).to contain_exactly('The offered course\'s ratifying provider must be the same as the one originally requested')
+        end
+      end
+    end
+
+    describe '#restrict_reverting_rejection' do
+      context 'when a provider attempts to revert an apply_1 rejection but other offers have already been accepted' do
+        let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
+        let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }
+        let!(:other_application_choice) { build(:application_choice, :recruited) }
+
+        it 'adds an :other_offer_already_accepted error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the candidate has already accepted one')
         end
       end
     end

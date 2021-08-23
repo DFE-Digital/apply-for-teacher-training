@@ -13,6 +13,7 @@ class OfferValidations
   validate :conditions_length, if: :conditions
   validate :identical_to_existing_offer?, if: %i[application_choice course_option]
   validate :ratifying_provider_changed?, if: %i[application_choice course_option]
+  validate :restrict_reverting_rejection, if: :application_choice
 
   def conditions_count
     return if conditions.count <= MAX_CONDITIONS_COUNT
@@ -40,5 +41,21 @@ class OfferValidations
     if application_choice.current_course.ratifying_provider != course_option.course.ratifying_provider
       errors.add(:base, :different_ratifying_provider)
     end
+  end
+
+  def restrict_reverting_rejection
+    if !candidate_in_apply_2? && application_choice.application_form.apply_1? && any_accepted_offers?
+      errors.add(:base, :other_offer_already_accepted)
+    end
+  end
+
+private
+
+  def any_accepted_offers?
+    ((application_choice.self_and_siblings - [application_choice]).map(&:status).map(&:to_sym) & ApplicationStateChange::ACCEPTED_STATES).any?
+  end
+
+  def candidate_in_apply_2?
+    application_choice.candidate.in_apply_2?
   end
 end

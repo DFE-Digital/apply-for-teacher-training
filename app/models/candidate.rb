@@ -44,6 +44,10 @@ class Candidate < ApplicationRecord
     "C#{id}"
   end
 
+  def in_apply_2?
+    application_forms.exists?(phase: 'apply_2')
+  end
+
 private
 
   def downcase_email
