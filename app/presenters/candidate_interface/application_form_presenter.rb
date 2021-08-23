@@ -336,7 +336,7 @@ module CandidateInterface
     end
 
     def references
-      @application_form.application_references
+      @application_form.application_references.includes(:application_form)
     end
 
   private
