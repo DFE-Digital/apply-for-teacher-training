@@ -38,12 +38,12 @@ RSpec.feature 'View active status of applications report' do
   end
 
   def and_my_organisation_has_courses_with_applications
-    create_list(:application_choice, 10, status: :interviewing, course_option: course_option_with_other_accredited_provider)
-    create_list(:application_choice, 5, status: :pending_conditions, course_option: course_option_with_other_accredited_provider)
-    create_list(:application_choice, 8, status: :interviewing, course_option: course_option_without_accredited_provider)
-    create_list(:application_choice, 3, status: :pending_conditions, course_option: course_option_without_accredited_provider)
-    create_list(:application_choice, 4, status: :recruited, course_option: course_option_provider_accredits)
-    create_list(:application_choice, 6, status: :offer, course_option: course_option_provider_accredits)
+    create(:application_choice, status: :interviewing, course_option: course_option_with_other_accredited_provider)
+    create(:application_choice, status: :pending_conditions, course_option: course_option_with_other_accredited_provider)
+    create(:application_choice, status: :interviewing, course_option: course_option_without_accredited_provider)
+    create(:application_choice, status: :pending_conditions, course_option: course_option_without_accredited_provider)
+    create(:application_choice, status: :recruited, course_option: course_option_provider_accredits)
+    create(:application_choice, status: :offer, course_option: course_option_provider_accredits)
   end
 
   def when_i_visit_the_reports_page
