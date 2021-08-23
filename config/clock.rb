@@ -55,11 +55,11 @@ class Clock
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '12:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
 
-  every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: '00:59') do
+  every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.current_year)
   end
 
-  every(7.days, 'FullSyncNextCycleFromTeacherTrainingPublicAPI', at: '03:59') do
+  every(7.days, 'FullSyncNextCycleFromTeacherTrainingPublicAPI', at: 'Saturday 03:59') do
     if FeatureFlag.active?(:sync_next_cycle)
       TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.next_year)
     end
