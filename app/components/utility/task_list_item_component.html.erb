@@ -1,5 +1,9 @@
 <div class="app-task-list__content">
-  <%= govuk_link_to text, path, class: 'app-task-list__task-name', 'aria-describedby': tag_id %>
+  <% if @path.nil? %>
+    <p class="app-task-list__task-name govuk-!-margin-bottom-0 govuk-!-margin-top-0"><%= text %></p>
+  <% else %>
+    <%= govuk_link_to text, path, class: 'app-task-list__task-name', 'aria-describedby': tag_id %>
+  <% end %>
   <% if custom_status %>
     <%= govuk_tag(text: custom_status, colour: custom_color || 'purple', html_attributes: { id: tag_id }) %>
   <% elsif completed %>

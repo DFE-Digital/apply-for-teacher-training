@@ -3,8 +3,7 @@ class TaskListItemComponent < ViewComponent::Base
 
   def initialize(
     completed:,
-    path:,
-    text:,
+    text:, path: nil,
     show_incomplete: true,
     custom_status: nil,
     custom_color: nil
