@@ -10,6 +10,10 @@ class SafeCSV
     end
   end
 
+  def self.generate_line(values)
+    CSV.generate_line(values&.map { |value| SafeCSV.sanitise(value) })
+  end
+
   def self.sanitise(value)
     return value.map { |v| sanitise_formulae(v) } if value.is_a?(Array)
 

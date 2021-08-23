@@ -26,4 +26,11 @@ RSpec.describe SafeCSV do
       expect(csv).to eq "123,Bob\n456,.=Alice()\n"
     end
   end
+
+  describe '.generate_line' do
+    it 'generates a sanitised line of CSV data' do
+      csv_line = described_class.generate_line([456, '=Alice()'])
+      expect(csv_line).to eq "456,.=Alice()\n"
+    end
+  end
 end
