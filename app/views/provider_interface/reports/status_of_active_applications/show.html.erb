@@ -1,0 +1,22 @@
+<%= content_for :title, t('page_titles.provider.status_of_active_applications') %>
+<%= content_for :before_content, breadcrumbs(t('page_titles.provider.reports') => provider_interface_reports_path,
+                                             t('page_titles.provider.status_of_active_applications') => nil) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"> <%= @provider.name %></span>
+      <%= t('page_titles.provider.status_of_active_applications') %>
+    </h1>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <p class="govuk-body">
+      <%= govuk_link_to 'Export data (CSV)', provider_interface_reports_provider_status_of_active_applications_path(provider_id: @provider, format: :csv) %>
+    </p>
+    <%= render ProviderInterface::ReportTableComponent.new(headers: ['Courses', 'Received', 'Interviewing', 'Offered', 'Conditions pending', 'Recruited'],
+                                                           rows: @active_application_status_data,
+                                                           show_footer: true) %>
+  </div>
+</div>
