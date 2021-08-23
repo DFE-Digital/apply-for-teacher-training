@@ -72,6 +72,14 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.withdrawn = course_from_api.state == 'withdrawn'
       course.qualifications = course_from_api.qualifications
+      course.degree_grade = course_from_api.degree_grade
+      course.degree_subject_requirements = course_from_api.degree_subject_requirements
+      course.accept_pending_gcse = course_from_api.accept_pending_gcse
+      course.accept_gcse_equivalency = course_from_api.accept_gcse_equivalency
+      course.accept_english_gcse_equivalency = course_from_api.accept_english_gcse_equivalency
+      course.accept_maths_gcse_equivalency = course_from_api.accept_maths_gcse_equivalency
+      course.accept_science_gcse_equivalency = course_from_api.accept_science_gcse_equivalency
+      course.additional_gcse_equivalencies = course_from_api.additional_gcse_equivalencies
       course_from_api.subject_codes.each do |code|
         subject = ::Subject.find_or_initialize_by(code: code)
         course.subjects << subject unless course.course_subjects.exists?(subject_id: subject.id)

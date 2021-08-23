@@ -37,6 +37,8 @@ module TeacherTrainingPublicAPI
         provider_type: provider_from_api.provider_type,
         latitude: provider_from_api.try(:latitude),
         longitude: provider_from_api.try(:longitude),
+        can_sponsor_skilled_worker_visa: provider_from_api.can_sponsor_skilled_worker_visa,
+        can_sponsor_student_visa: provider_from_api.can_sponsor_student_visa,
       }
     end
 
