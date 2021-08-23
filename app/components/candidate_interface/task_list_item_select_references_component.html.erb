@@ -1,0 +1,14 @@
+<% if @application_form_presenter.references.feedback_provided.count < ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
+  <%= render(TaskListItemComponent.new(
+    text: t('page_titles.references_selection'),
+    completed: @application_form_presenter.references_completed?,
+    custom_color: 'grey',
+    custom_status: 'Cannot start yet',
+  )) %>
+<% else %>
+  <%= render(TaskListItemComponent.new(
+    text: t('page_titles.references_selection'),
+    completed: @application_form_presenter.references_completed?,
+    path: @application_form_presenter.references_selection_path,
+  )) %>
+<% end %>
