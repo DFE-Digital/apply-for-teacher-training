@@ -8,8 +8,6 @@ RSpec.feature 'References' do
 
     given_i_receive_my_references_and_have_selected_two_of_them
     and_i_have_completed_the_section
-    then_i_am_told_i_can_still_change_my_choice
-
     when_i_delete_one_of_the_selected_references
     then_i_am_redirected_to_the_references_review_page
     and_the_section_is_not_marked_as_completed
@@ -21,7 +19,7 @@ RSpec.feature 'References' do
 
     when_i_delete_one_of_the_selected_references
     then_i_am_redirected_to_the_references_review_page
-    and_the_section_is_not_marked_as_completed
+    and_the_section_is_marked_as_cannot_start_yet
 
     when_i_visit_the_select_references_page
     then_i_am_presented_with_the_guidance
@@ -40,11 +38,6 @@ RSpec.feature 'References' do
 
   def and_i_have_completed_the_section
     @application.update!(references_completed: true)
-  end
-
-  def then_i_am_told_i_can_still_change_my_choice
-    visit candidate_interface_application_form_path
-    expect(page).to have_content 'You’ve selected 2 references to submit with your application already, but you can change your selection if you want.'
   end
 
   def when_i_delete_one_of_the_selected_references
@@ -80,6 +73,11 @@ RSpec.feature 'References' do
 
   def then_the_section_is_marked_as_completed
     expect(page).to have_css('#select-2-references-badge-id', text: 'Completed')
+  end
+
+  def and_the_section_is_marked_as_cannot_start_yet
+    visit candidate_interface_application_form_path
+    expect(page).to have_css('#select-2-references-badge-id', text: 'Cannot start yet')
   end
 
   def when_i_visit_the_select_references_page
