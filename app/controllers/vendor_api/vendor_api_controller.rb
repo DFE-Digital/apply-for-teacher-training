@@ -100,7 +100,7 @@ module VendorAPI
       }
 
       payload.merge!(user_info)
-      payload.merge!(request_query_params)
+      payload.merge!(query_params: request_query_params)
     end
 
     def validate_metadata!

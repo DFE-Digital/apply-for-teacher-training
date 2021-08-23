@@ -158,7 +158,7 @@ module RefereeInterface
       super
 
       payload.merge!({ reference_id: reference.id }) if reference.present?
-      payload.merge!(request_query_params)
+      payload.merge!(query_params: request_query_params)
     end
 
     def reference

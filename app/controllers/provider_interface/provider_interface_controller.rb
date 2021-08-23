@@ -73,7 +73,7 @@ module ProviderInterface
 
       payload.merge!(current_user_details) if current_provider_user
       payload.merge!(application_support_url) if @application_choice
-      payload.merge!(request_query_params)
+      payload.merge!(query_params: request_query_params)
     end
 
     # Set the `@application_choice` instance variable for use in views.

@@ -40,7 +40,7 @@ module SupportInterface
       super
 
       payload.merge!({ support_user_id: current_support_user.id }) if current_support_user
-      payload.merge!(request_query_params)
+      payload.merge!(query_params: request_query_params)
     end
   end
 end
