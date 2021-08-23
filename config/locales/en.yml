@@ -144,7 +144,7 @@ en:
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
     references: References
-    references_start: Choose your referees
+    references_start: Requesting a reference
     references_name: What is the referee’s name?
     references_email_address: What is the referee’s email address?
     references_type: What kind of referee do you want to add?

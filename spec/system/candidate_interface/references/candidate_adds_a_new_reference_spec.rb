@@ -111,7 +111,7 @@ RSpec.feature 'References' do
   end
 
   def when_i_click_through_to_add_my_references
-    click_link 'Add your references'
+    click_link 'Request your references'
   end
 
   def then_i_see_the_start_page
