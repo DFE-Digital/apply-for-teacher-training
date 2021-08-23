@@ -13,6 +13,7 @@ RSpec.describe SupportInterface::DuplicateCandidateMatchesTableComponent do
         'postcode' => 'W6 9BH',
         'date_of_birth' => '1998-08-08',
         'email_address' => 'exemplar1@example.com',
+        'submitted_at' => '2021-08-08',
       },
       {
         'candidate_id' => 26,
@@ -21,6 +22,7 @@ RSpec.describe SupportInterface::DuplicateCandidateMatchesTableComponent do
         'postcode' => 'W6 9BH',
         'date_of_birth' => '1998-08-08',
         'email_address' => 'exemplar2@example.com',
+        'submitted_at' => '2021-08-08',
       },
     ]
   }
@@ -40,12 +42,14 @@ RSpec.describe SupportInterface::DuplicateCandidateMatchesTableComponent do
     expect(result.css('td')[3].text).to include('1998-08-08')
     expect(result.css('td')[4].text).to include('W6 9BH')
     expect(result.css('td')[5].text).to include('exemplar1@example.com')
+    expect(result.css('td')[6].text).to include('2021-08-08')
 
-    expect(result.css('td')[6].text).to include('26')
-    expect(result.css('td')[7].text).to include('Joffrey')
-    expect(result.css('td')[8].text).to include('Thompson')
-    expect(result.css('td')[9].text).to include('1998-08-08')
-    expect(result.css('td')[10].text).to include('W6 9BH')
-    expect(result.css('td')[11].text).to include('exemplar2@example.com')
+    expect(result.css('td')[7].text).to include('26')
+    expect(result.css('td')[8].text).to include('Joffrey')
+    expect(result.css('td')[9].text).to include('Thompson')
+    expect(result.css('td')[10].text).to include('1998-08-08')
+    expect(result.css('td')[11].text).to include('W6 9BH')
+    expect(result.css('td')[12].text).to include('exemplar2@example.com')
+    expect(result.css('td')[13].text).to include('2021-08-08')
   end
 end
