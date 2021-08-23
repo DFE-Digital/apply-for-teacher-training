@@ -798,6 +798,10 @@ Rails.application.routes.draw do
             end
           end
         end
+
+        namespace :user_invitation, path: 'user' do
+          resource :personal_details, path: '', only: %i[new create]
+        end
       end
     end
 
