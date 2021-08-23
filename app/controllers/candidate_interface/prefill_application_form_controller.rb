@@ -33,12 +33,7 @@ module CandidateInterface
     end
 
     def prefill_candidate_application_form
-      example_application_choices = TestApplications.new.create_application(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        states: [:unsubmitted_with_completed_references],
-        courses_to_apply_to: Course.current_cycle.open_on_apply.joins(:course_options).merge(CourseOption.available),
-        candidate: current_candidate,
-      )
+      example_application_choices = TestApplications.new.create_application(test_application_options)
 
       destroy_blank_application
 
@@ -53,6 +48,26 @@ module CandidateInterface
     def destroy_blank_application
       application_form = current_candidate.application_forms.first
       application_form.destroy if application_form.blank_application?
+    end
+
+    def test_application_options
+      test_application_options = {
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+        states: [:unsubmitted_with_completed_references],
+        courses_to_apply_to: Course.current_cycle.open_on_apply.joins(:course_options).merge(CourseOption.available),
+        candidate: current_candidate,
+      }
+
+      store = PrefillApplicationStateStore::RailsCache.new(current_candidate.id)
+      data = store.read
+
+      if data
+        course_from_find = Course.find(data[:course_id])
+        test_application_options.merge!(courses_to_apply_to: [course_from_find])
+        store.clear
+      end
+
+      test_application_options
     end
   end
 end
