@@ -10,6 +10,7 @@ module ProviderInterface
         if @wizard.valid?
           @wizard.save_state!
         else
+          track_validation_error(@wizard)
           render :new
         end
       end

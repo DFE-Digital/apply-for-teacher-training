@@ -1,4 +1,10 @@
 en:
+  helpers:
+    label:
+      provider_interface_invite_user_wizard:
+        first_name: First name
+        last_name: Last name
+        email_address: Email address
   activemodel:
     errors:
       models:
