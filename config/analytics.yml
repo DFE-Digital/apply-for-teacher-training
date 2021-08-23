@@ -1,6 +1,14 @@
 shared:
   candidates:
+    - candidate_api_updated_at
+    - course_from_find_id
     - created_at
+    - hide_in_reporting
+    - id
+    - last_signed_in_at
+    - magic_link_token_sent_at
+    - sign_up_email_bounced
+    - updated_at
   application_choices:
     - created_at
     - accepted_at
@@ -32,3 +40,380 @@ shared:
     - updated_at
     - withdrawal_feedback
     - withdrawn_at
+  application_experiences:
+    - application_form_id
+    - commitment
+    - created_at
+    - currently_working
+    - details
+    - end_date
+    - end_date_unknown
+    - id
+    - organisation
+    - relevant_skills
+    - role
+    - start_date
+    - start_date_unknown
+    - type
+    - updated_at
+    - working_pattern
+    - working_with_children
+  application_feedback:
+    - application_form_id
+    - consent_to_be_contacted
+    - created_at
+    - feedback
+    - id
+    - page_title
+    - path
+    - updated_at
+  application_forms:
+    - becoming_a_teacher
+    - becoming_a_teacher_completed
+    - candidate_id
+    - contact_details_completed
+    - country
+    - course_choices_completed
+    - created_at
+    - date_of_birth
+    - degrees_completed
+    - disability_disclosure
+    - disclose_disability
+    - edit_by
+    - efl_completed
+    - english_gcse_completed
+    - english_language_details
+    - english_main_language
+    - equality_and_diversity
+    - feature_restructured_work_history
+    - feedback_satisfaction_level
+    - feedback_suggestions
+    - fifth_nationality
+    - first_nationality
+    - fourth_nationality
+    - further_information
+    - id
+    - international_address
+    - interview_preferences
+    - interview_preferences_completed
+    - maths_gcse_completed
+    - no_other_qualifications
+    - other_language_details
+    - other_qualifications_completed
+    - personal_details_completed
+    - phase
+    - postcode
+    - previous_application_form_id
+    - recruitment_cycle_year
+    - references_completed
+    - right_to_work_or_study
+    - right_to_work_or_study_details
+    - safeguarding_issues_completed
+    - safeguarding_issues_status
+    - science_gcse_completed
+    - second_nationality
+    - subject_knowledge
+    - subject_knowledge_completed
+    - submitted_at
+    - support_reference
+    - third_nationality
+    - training_with_a_disability_completed
+    - uk_residency_status
+    - updated_at
+    - volunteering_completed
+    - volunteering_experience
+    - work_history_breaks
+    - work_history_completed
+    - work_history_explanation
+    - work_history_status
+  application_qualifications:
+    - application_form_id
+    - award_year
+    - comparable_uk_degree
+    - comparable_uk_qualification
+    - constituent_grades
+    - created_at
+    - enic_reference
+    - equivalency_details
+    - grade
+    - grade_hesa_code
+    - id
+    - institution_country
+    - institution_hesa_code
+    - institution_name
+    - international
+    - level
+    - missing_explanation
+    - non_uk_qualification_type
+    - other_uk_qualification_type
+    - predicted_grade
+    - public_id
+    - qualification_type
+    - qualification_type_hesa_code
+    - start_year
+    - subject
+    - subject_hesa_code
+    - updated_at
+  application_work_history_breaks:
+    - application_form_id
+    - created_at
+    - end_date
+    - id
+    - reason
+    - start_date
+    - updated_at
+  chasers_sent:
+    - chased_id
+    - chased_type
+    - chaser_type
+    - created_at
+    - id
+    - updated_at
+  contact_details:
+    - created_at
+    - id
+    - updated_at
+  course_options:
+    - course_id
+    - created_at
+    - id
+    - site_id
+    - site_still_valid
+    - study_mode
+    - updated_at
+    - vacancy_status
+  course_subjects:
+    - course_id
+    - created_at
+    - id
+    - subject_id
+    - updated_at
+  courses:
+    - accredited_provider_id
+    - age_range
+    - code
+    - course_length
+    - created_at
+    - description
+    - exposed_in_find
+    - financial_support
+    - funding_type
+    - id
+    - level
+    - name
+    - open_on_apply
+    - opened_on_apply_at
+    - program_type
+    - provider_id
+    - qualifications
+    - recruitment_cycle_year
+    - start_date
+    - study_mode
+    - updated_at
+    - uuid
+    - withdrawn
+  degrees:
+    - class_of_degree
+    - created_at
+    - id
+    - institution
+    - subject
+    - type_of_degree
+    - updated_at
+    - year
+  emails:
+    - application_form_id
+    - created_at
+    - delivery_status
+    - id
+    - mail_template
+    - mailer
+    - notify_reference
+    - subject
+    - updated_at
+  english_proficiencies:
+    - application_form_id
+    - created_at
+    - efl_qualification_id
+    - efl_qualification_type
+    - id
+    - qualification_status
+    - updated_at
+  feature_metrics_dashboards:
+    - created_at
+    - id
+    - metrics
+    - updated_at
+  find_feedback:
+    - created_at
+    - feedback
+    - find_controller
+    - path
+    - updated_at
+  ielts_qualifications:
+    - award_year
+    - band_score
+    - created_at
+    - id
+    - trf_number
+    - updated_at
+  interviews:
+    - application_choice_id
+    - cancelled_at
+    - created_at
+    - date_and_time
+    - id
+    - location
+    - provider_id
+    - updated_at
+  interviews:
+    - application_choice_id
+    - created_at
+    - id
+    - message
+    - provider_user_id
+    - updated_at
+  offer_conditions:
+    - created_at
+    - id
+    - offer_id
+    - status
+    - text
+    - updated_at
+  offers:
+    - application_choice_id
+    - created_at
+    - id
+    - updated_at
+  other_efl_qualifications:
+    - award_year
+    - created_at
+    - grade
+    - id
+    - name
+    - updated_at
+  provider_agreements:
+    - accepted_at
+    - agreement_type
+    - created_at
+    - id
+    - provider_id
+    - provider_user_id
+    - updated_at
+  provider_relationship_permissions:
+    - created_at
+    - id
+    - ratifying_provider_can_make_decisions
+    - ratifying_provider_can_view_diversity_information
+    - ratifying_provider_can_view_safeguarding_information
+    - ratifying_provider_id
+    - setup_at
+    - training_provider_can_make_decisions
+    - training_provider_can_view_diversity_information
+    - training_provider_can_view_safeguarding_information
+    - training_provider_id
+    - updated_at
+  provider_user_notifications:
+    - application_received
+    - application_rejected_by_default
+    - application_withdrawn
+    - created_at
+    - id
+    - offer_accepted
+    - offer_declined
+    - provider_user_id
+    - updated_at
+  provider_users:
+    - created_at
+    - dfe_sign_in_uid
+    - id
+    - last_signed_in_at
+    - updated_at
+  provider_users_providers:
+    - created_at
+    - id
+    - make_decisions
+    - manage_organisations
+    - manage_users
+    - provider_id
+    - provider_user_id
+    - set_up_interviews
+    - updated_at
+    - view_diversity_information
+    - view_safeguarding_information
+  providers:
+    - code
+    - created_at
+    - id
+    - latitude
+    - longitude
+    - name
+    - postcode
+    - provider_type
+    - region_code
+    - sync_courses
+    - updated_at
+  qualifications:
+    - created_at
+    - grade
+    - id
+    - institution
+    - subject
+    - type_of_qualification
+    - updated_at
+    - year
+  reference_tokens:
+    - application_reference_id
+    - created_at
+    - hashed_token
+    - id
+    - updated_at
+  references:
+    - application_form_id
+    - cancelled_at
+    - cancelled_at_end_of_cycle_at
+    - consent_to_be_contacted
+    - created_at
+    - duplicate
+    - email_bounced_at
+    - feedback_provided_at
+    - feedback_refused_at
+    - feedback_status
+    - hashed_sign_in_token
+    - id
+    - questionnaire
+    - referee_type
+    - reminder_sent_at
+    - replacement
+    - requested_at
+    - safeguarding_concerns_status
+    - selected
+    - updated_at
+  sites:
+    - address_line1
+    - address_line2
+    - address_line3
+    - address_line4
+    - code
+    - created_at
+    - id
+    - latitude
+    - longitude
+    - name
+    - postcode
+    - provider_id
+    - region
+    - updated_at
+  subjects:
+    - code
+    - created_at
+    - id
+    - name
+    - updated_at
+  toefl_qualifications:
+    - award_year
+    - created_at
+    - id
+    - registration_number
+    - total_score
+    - updated_at
