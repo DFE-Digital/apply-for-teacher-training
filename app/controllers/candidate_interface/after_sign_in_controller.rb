@@ -30,12 +30,7 @@ module CandidateInterface
 
     def redirect_to_prefill_if_sandbox_user_has_blank_application
       if HostingEnvironment.sandbox_mode? && current_application.blank_application?
-        if course_from_find
-          key = "prefill_application_#{current_user.id}"
-          value = { course_id: course_from_find.id }
-
-          Rails.cache.write(key, value, expires_in: 5.minutes)
-        end
+        store_prefill_data if course_from_find
 
         redirect_to candidate_interface_prefill_path
       else
@@ -57,6 +52,12 @@ module CandidateInterface
 
     def course_from_find
       @course_from_find ||= current_candidate.course_from_find
+    end
+
+    def store_prefill_data
+      store = PrefillApplicationStateStore::RailsCache.new(current_user.id)
+      data = { course_id: course_from_find.id }
+      store.write(data)
     end
   end
 end

@@ -58,27 +58,16 @@ module CandidateInterface
         candidate: current_candidate,
       }
 
-      data = read_prefill_application_data
+      store = PrefillApplicationStateStore::RailsCache.new(current_candidate.id)
+      data = store.read
 
       if data
         course_from_find = Course.find(data[:course_id])
         test_application_options.merge!(courses_to_apply_to: [course_from_find])
-        clear_prefill_application_data
+        store.clear
       end
 
       test_application_options
-    end
-
-    def read_prefill_application_data
-      Rails.cache.read(key)
-    end
-
-    def clear_prefill_application_data
-      Rails.cache.clear(key)
-    end
-
-    def key
-      "prefill_application_#{current_candidate.id}"
     end
   end
 end
