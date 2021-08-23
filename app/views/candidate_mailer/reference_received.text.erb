@@ -7,17 +7,17 @@ Sign in to complete your application:
 <% elsif @provided_references.count > ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You have more than enough references to send your application to training providers.
 
-Sign in and select 2 references to submit with your application:
+Sign in and select the 2 references you want to include in your application:
 <% elsif @provided_references.count == ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
 You have enough references to send your application to training providers.
 
-Sign in and select 2 references to submit with your application:
+Sign in and select the 2 references you want to include in your application:
 <% else %>
 You need to get another reference back before you can send your application to training providers.
 
-You can add as many referees as you like to increase the chances of getting 2 references quickly.
+It takes 8 days to get a reference on average. You can request as many references as you like to increase the chances of getting 2 quickly.
 
-Manage your references:
+Sign in to manage your reference requests:
 <% end %>
 
 <%= candidate_magic_link(@application_form.candidate) %>
