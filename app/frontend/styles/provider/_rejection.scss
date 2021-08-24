@@ -3,6 +3,22 @@
   padding-right: 70px;
   position: relative;
 
+  p {
+    margin-bottom: 0;
+  }
+
+  li:last-of-type {
+    margin-bottom: 0;
+  }
+
+  ul:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
   .app-rejection__actions {
     margin: 0;
     position: absolute;
