@@ -1,6 +1,7 @@
 module ProviderInterface
   class ProviderUsersInvitationsController < ProviderInterfaceController
     before_action :require_manage_user_permission!
+    before_action :redirect_if_feature_flag_on
 
     def edit_details
       @wizard = wizard_for(wizard_setup_options)
@@ -155,6 +156,12 @@ module ProviderInterface
 
     def persistence_key_for_current_user
       "provider_user_invitation_wizard_store-#{current_provider_user.id}"
+    end
+
+    def redirect_if_feature_flag_on
+      return unless FeatureFlag.active?(:account_and_org_settings_changes)
+
+      redirect_to provider_interface_organisation_settings_path
     end
   end
 end
