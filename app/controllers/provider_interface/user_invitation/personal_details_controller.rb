@@ -9,6 +9,7 @@ module ProviderInterface
         @wizard = InviteUserWizard.new(invite_user_store, personal_details_params.merge(provider: @provider))
         if @wizard.valid?
           @wizard.save_state!
+          redirect_to new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(@provider)
         else
           track_validation_error(@wizard)
           render :new
