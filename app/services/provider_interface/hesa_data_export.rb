@@ -9,51 +9,44 @@ module ProviderInterface
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def call
-      applications = GetApplicationChoicesForProviders.call(providers: actor.providers, recruitment_cycle_year: recruitment_cycle_year)
-                       .where(
-                         'candidates.hide_in_reporting' => false,
-                         'status' => ApplicationStateChange::ACCEPTED_STATES,
-                       )
+    def export_row(application_choice)
+      return {} if application_choice.blank?
 
-      rows = []
+      application = ApplicationChoiceHesaExportDecorator.new(application_choice)
+      first_degree_start = year_to_iso8601 first_degree_year(application, :start_year)
+      first_degree_end = year_to_iso8601 first_degree_year(application, :award_year)
 
-      applications.each do |application_choice|
-        application = ApplicationChoiceHesaExportDecorator.new(application_choice)
+      {
+        'id' => application.application_form.support_reference,
+        'status' => application.status,
+        'first_name' => application.application_form.first_name,
+        'last_name' => application.application_form.last_name,
+        'date_of_birth' => application.application_form.date_of_birth,
+        'nationality' => application.nationality,
+        'domicile' => application.application_form.domicile,
+        'email' => application.application_form.candidate.email_address,
+        'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
+        'provider_code' => application.provider.code,
+        'accredited_provider_name' => application.accredited_provider&.name,
+        'course_code' => application.course.code,
+        'site_code' => application.site.code,
+        'study_mode' => study_mode(application),
+        'SBJCA' => subject_codes(application),
+        'QLAIM' => qualification_aim(application),
+        'FIRSTDEG' => application.degrees_completed_flag,
+        'DEGTYPE' => pad_hesa_value(application.first_degree, :qualification_type_hesa_code, 3),
+        'DEGSBJ' => pad_hesa_value(application.first_degree, :subject_hesa_code, 4),
+        'DEGCLSS' => pad_hesa_value(application.first_degree, :grade_hesa_code, 2),
+        'institution_country' => application.first_degree.institution_country,
+        'DEGSTDT' => first_degree_start,
+        'DEGENDDT' => first_degree_end,
+        'institution_details' => pad_hesa_value(application.first_degree, :institution_hesa_code, 4),
+      }.merge(diversity_information(application))
+    end
 
-        first_degree_start = year_to_iso8601 first_degree_year(application, :start_year)
-        first_degree_end = year_to_iso8601 first_degree_year(application, :award_year)
-
-        rows << {
-          'id' => application.application_form.support_reference,
-          'status' => application.status,
-          'first_name' => application.application_form.first_name,
-          'last_name' => application.application_form.last_name,
-          'date_of_birth' => application.application_form.date_of_birth,
-          'nationality' => application.nationality,
-          'domicile' => application.application_form.domicile,
-          'email' => application.application_form.candidate.email_address,
-          'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
-          'provider_code' => application.provider.code,
-          'accredited_provider_name' => application.accredited_provider&.name,
-          'course_code' => application.course.code,
-          'site_code' => application.site.code,
-          'study_mode' => study_mode(application),
-          'SBJCA' => subject_codes(application),
-          'QLAIM' => qualification_aim(application),
-          'FIRSTDEG' => application.degrees_completed_flag,
-          'DEGTYPE' => pad_hesa_value(application.first_degree, :qualification_type_hesa_code, 3),
-          'DEGSBJ' => pad_hesa_value(application.first_degree, :subject_hesa_code, 4),
-          'DEGCLSS' => pad_hesa_value(application.first_degree, :grade_hesa_code, 2),
-          'institution_country' => application.first_degree.institution_country,
-          'DEGSTDT' => first_degree_start,
-          'DEGENDDT' => first_degree_end,
-          'institution_details' => pad_hesa_value(application.first_degree, :institution_hesa_code, 4),
-        }.merge(diversity_information(application))
-      end
-
-      header_row ||= rows.first&.keys
-      SafeCSV.generate(rows.map(&:values), header_row)
+    def export_data
+      GetApplicationChoicesForProviders.call(providers: actor.providers, recruitment_cycle_year: recruitment_cycle_year)
+        .where('candidates.hide_in_reporting' => false, 'status' => ApplicationStateChange::ACCEPTED_STATES)
     end
 
   private
@@ -77,15 +70,6 @@ module ProviderInterface
         'disabilities' => Array(application.application_form.equality_and_diversity.fetch('hesa_disabilities', NO_INFORMATION_GIVEN_STRING)).join(' '),
         'ethnicity' => application.application_form.equality_and_diversity['hesa_ethnicity'] || NO_INFORMATION_GIVEN_STRING,
       }
-    end
-
-    def csv_headings
-      [
-        'id', 'status', 'first name', 'last name', 'date of birth', 'nationality', 'domicile', 'email address',
-        'recruitment cycle', 'provider code', 'accredited body', 'course code', 'site code', 'study mode', 'SBJCA',
-        'QLAIM', 'FIRSTDEG', 'DEGTYPE', 'DEGSBJ', 'DEGCLSS', 'institution country', 'DEGSTDT', 'DEGENDDT',
-        'institution details', 'sex', 'disabilities', 'ethnicity'
-      ]
     end
 
     def study_mode(application)
