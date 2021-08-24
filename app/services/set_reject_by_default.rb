@@ -18,7 +18,7 @@ class SetRejectByDefault
     return if application_choice.reject_by_default_at.to_s == time.in_time_zone.to_s &&
               application_choice.reject_by_default_days == days
 
-    rbd_date = beyond_eoc?(time) ? eoc_rbd_date : time
+    rbd_date = beyond_end_of_cycle_reject_by_default_deadline?(time) ? reject_by_default_date : time
 
     application_choice.update!(
       reject_by_default_at: rbd_date,
@@ -28,11 +28,11 @@ class SetRejectByDefault
 
 private
 
-  def beyond_eoc?(date)
-    date >= CycleTimetable.find_closes
+  def beyond_end_of_cycle_reject_by_default_deadline?(date)
+    date >= reject_by_default_date
   end
 
-  def eoc_rbd_date
-    1.business_days.before(CycleTimetable.find_closes).end_of_day
+  def reject_by_default_date
+    0.business_days.before(CycleTimetable.reject_by_default).end_of_day
   end
 end
