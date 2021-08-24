@@ -8,6 +8,8 @@ module ProviderInterface
       def create
         @wizard = InviteUserWizard.new(invite_user_store, permissions_params)
         @wizard.save_state!
+
+        redirect_to provider_interface_organisation_settings_organisation_user_invitation_check_path(@provider)
       end
 
     private
