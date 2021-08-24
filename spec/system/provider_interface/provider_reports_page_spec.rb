@@ -13,19 +13,12 @@ RSpec.feature 'Provider reports page' do
     then_i_should_see_a_link_to_the_hesa_export_page
     and_the_page_contains_breadcrumbs_including_the_reports_page
 
-    given_the_data_export_feature_flag_is_on
-
     when_i_visit_the_reports_page_and_i_click_the_export_data_link
     then_i_should_be_on_the_data_export_page
     and_the_page_contains_breadcrumbs_including_the_reports_page
 
-    given_the_reports_dashboard_feature_flag_is_on
     when_i_visit_the_reports_page
     then_i_should_see_links_for_all_the_provider_status_application_records
-
-    given_the_reports_dashboard_feature_flag_is_off
-    when_i_visit_the_reports_page
-    then_i_should_not_see_links_for_any_of_the_provider_status_application_records
   end
 
   def given_the_application_data_export_feature_flag_is_on
@@ -64,10 +57,6 @@ RSpec.feature 'Provider reports page' do
     end
   end
 
-  def given_the_reports_dashboard_feature_flag_is_on
-    FeatureFlag.activate(:provider_reports_dashboard)
-  end
-
   def given_the_data_export_feature_flag_is_on
     FeatureFlag.activate(:export_application_data)
   end
@@ -86,17 +75,6 @@ RSpec.feature 'Provider reports page' do
     @provider_user.providers.each do |provider|
       expect(page).to have_content(provider.name)
       expect(page).to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider))
-    end
-  end
-
-  def given_the_reports_dashboard_feature_flag_is_off
-    FeatureFlag.deactivate(:provider_reports_dashboard)
-  end
-
-  def then_i_should_not_see_links_for_any_of_the_provider_status_application_records
-    @provider_user.providers.each do |provider|
-      expect(page).not_to have_content(provider.name)
-      expect(page).not_to have_link('Status of active applications', href: provider_interface_reports_provider_status_of_active_applications_path(provider_id: provider))
     end
   end
 end
