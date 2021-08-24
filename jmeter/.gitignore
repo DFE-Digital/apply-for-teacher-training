@@ -3,3 +3,4 @@
 *token*
 !qa.tfvars
 !prod.tfvars
+!find.tfvars

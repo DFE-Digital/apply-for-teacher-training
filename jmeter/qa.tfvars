@@ -1,3 +1,4 @@
+app_name = "apply-jmeter"
 app_env_variables = {
   JMETER_TARGET_PLAN      = "test"
   JMETER_TARGET_BASEURL   = "https://qa.apply-for-teacher-training.service.gov.uk"

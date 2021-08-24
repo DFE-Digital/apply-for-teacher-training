@@ -21,7 +21,7 @@ provider "cloudfoundry" {
 }
 
 resource "cloudfoundry_app" "jmeter_app" {
-  name                 = local.app_name
+  name                 = var.app_name
   docker_image         = local.docker_image
   health_check_type    = "process"
   health_check_timeout = 180
@@ -61,13 +61,13 @@ resource "cloudfoundry_network_policy" "prometheus_policy" {
 resource "cloudfoundry_route" "jmeter_app_internal_route" {
   domain   = data.cloudfoundry_domain.internal.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.app_name
+  hostname = var.app_name
 }
 
 resource "cloudfoundry_route" "jmeter_cloudpps_route" {
   domain   = data.cloudfoundry_domain.london_cloudapps_digital.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.app_name
+  hostname = var.app_name
 }
 
 data "cloudfoundry_org" "org" {

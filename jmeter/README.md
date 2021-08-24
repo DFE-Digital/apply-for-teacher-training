@@ -50,7 +50,7 @@ Then run the below commands from inside the `/jmeter` folder.
 
 ```
 terraform init # Should be required only once.
-terraform apply -var-file qa.tfvars #or -var-file prod.tfvars
+terraform apply -var-file qa.tfvars #or -var-file prod.tfvars #or -var-file find.tfvars for find-jmeter
 ```
 
 The app will be created in a stopped state, you have to manually start and stop the app for testing.
