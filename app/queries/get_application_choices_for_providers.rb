@@ -11,7 +11,7 @@ class GetApplicationChoicesForProviders
     },
   ].freeze
 
-  def self.old_call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
+  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
     providers = Array.wrap(providers).select(&:present?)
 
     raise MissingProvider if providers.none?
@@ -49,7 +49,7 @@ class GetApplicationChoicesForProviders
     applications.includes(*includes)
   end
 
-  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
+  def self.new_call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
     raise MissingProvider if providers.blank? # super important!
 
     provider_ids = providers.map(&:id)

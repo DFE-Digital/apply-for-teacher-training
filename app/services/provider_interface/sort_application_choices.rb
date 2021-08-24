@@ -9,7 +9,7 @@ module ProviderInterface
     def self.for_task_view(application_choices)
       application_choices.from <<~WITH_TASK_VIEW_GROUP.squish
         (
-          SELECT a.*,
+          SELECT a.*, c.recruitment_cycle_year,
             CASE
               WHEN #{deferred_offers_pending_reconfirmation} THEN 1
               WHEN #{about_to_be_rejected_automatically} THEN 2
@@ -26,6 +26,10 @@ module ProviderInterface
             #{pg_days_left_to_respond} AS pg_days_left_to_respond
 
             FROM application_choices a
+            LEFT JOIN course_options option
+              ON option.id = a.current_course_option_id
+            LEFT JOIN courses c
+              ON c.id = option.course_id
         ) AS application_choices
       WITH_TASK_VIEW_GROUP
     end
@@ -34,7 +38,7 @@ module ProviderInterface
       <<~DEFERRED_OFFERS_PENDING_RECONFIRMATION.squish
         (
           status = 'offer_deferred'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.previous_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.previous_year}
         )
       DEFERRED_OFFERS_PENDING_RECONFIRMATION
     end
@@ -43,7 +47,7 @@ module ProviderInterface
       <<~PREVIOUS_CYCLE_PENDING_CONDITIONS.squish
         (
           status = 'pending_conditions'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.previous_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.previous_year}
         )
       PREVIOUS_CYCLE_PENDING_CONDITIONS
     end
@@ -52,7 +56,7 @@ module ProviderInterface
       <<~DEADLINE_APPROACHING.squish
         (
           (status = 'awaiting_provider_decision' OR status = 'interviewing')
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.current_year}
             AND (
               DATE(reject_by_default_at)
               BETWEEN
@@ -102,7 +106,7 @@ module ProviderInterface
       <<~WAITING_ON_CANDIDATE.squish
         (
           status = 'offer'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.current_year}
         )
       WAITING_ON_CANDIDATE
     end
@@ -111,7 +115,7 @@ module ProviderInterface
       <<~CURRENT_CYCLE_PENDING_CONDITIONS.squish
         (
           status = 'pending_conditions'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.current_year}
         )
       CURRENT_CYCLE_PENDING_CONDITIONS
     end
@@ -120,7 +124,7 @@ module ProviderInterface
       <<~SUCCESSFUL_CANDIDATES.squish
         (
           status = 'recruited'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.current_year}
         )
       SUCCESSFUL_CANDIDATES
     end
@@ -129,7 +133,7 @@ module ProviderInterface
       <<~DEFERRED_OFFERS_CURRENT_CYCLE.squish
         (
           status = 'offer_deferred'
-            AND current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+            AND c.recruitment_cycle_year = #{RecruitmentCycle.current_year}
         )
       DEFERRED_OFFERS_CURRENT_CYCLE
     end
