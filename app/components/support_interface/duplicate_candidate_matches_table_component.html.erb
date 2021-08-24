@@ -7,6 +7,7 @@
       <th scope="col" class="govuk-table__header">Date of birth</th>
       <th scope="col" class="govuk-table__header">Postcode</th>
       <th scope="col" class="govuk-table__header">Email address</th>
+      <th scope="col" class="govuk-table__header">Submitted at</th>
     </tr>
   </thead>
 
@@ -35,6 +36,10 @@
 
         <td class="govuk-table__cell">
           <%= table_row[:email_address] %>
+        </td>
+
+        <td class="govuk-table__cell">
+          <%= table_row[:submitted_at] %>
         </td>
       </tr>
     <% end %>
