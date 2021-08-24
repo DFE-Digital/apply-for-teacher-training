@@ -1,15 +1,17 @@
 <% content_for :title, t('page_titles.providers') %>
 
-<h1 class="govuk-heading-xl govuk-!-width-two-thirds">
-  <%= t('page_titles.providers') %>
-</h1>
+<% cache 'courses-grouped-by-region-and-provider', expires_in: 15.minutes do %>
+  <h1 class="govuk-heading-xl govuk-!-width-two-thirds">
+    <%= t('page_titles.providers') %>
+  </h1>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">Use <%= govuk_link_to service_name, candidate_interface_path %> if the courses you want to do are listed on this page.</p>
-    <p class="govuk-body">Otherwise, apply through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %>.</p>
-    <p class="govuk-body">Do not apply for the same courses on both services.<p>
-    <p class="govuk-body">You can apply for up to 3 courses in total.<p>
-    <%= render CandidateInterface::GroupedProviderCoursesComponent.new(courses_by_provider_and_region: @courses_by_provider_and_region) %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">Use <%= govuk_link_to service_name, candidate_interface_path %> if the courses you want to do are listed on this page.</p>
+      <p class="govuk-body">Otherwise, apply through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %>.</p>
+      <p class="govuk-body">Do not apply for the same courses on both services.<p>
+      <p class="govuk-body">You can apply for up to 3 courses in total.<p>
+      <%= render CandidateInterface::GroupedProviderCoursesComponent.new %>
+    </div>
   </div>
-</div>
+<% end %>
