@@ -1,7 +1,6 @@
 en:
   provider_relationship_permissions:
     view_applications_explanation: All users can view applications.
-    no_permissions_explanation: You cannot change these permissions because you do not have permission to manage organisations.
     question: Who can %{permission_description}?
     make_decisions:
       description: Make offers and reject applications
