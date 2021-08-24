@@ -58,7 +58,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_references_are_incomplete
     expect(page).to have_content('It takes 8 days to get a reference on average. You can request as many references as you like to increase the chances of getting 2 quickly.')
-    within(all('.app-task-list')[1]) do
+    within(all('.app-task-list')[2]) do
       expect(page).to have_content('Cannot start yet')
     end
   end
