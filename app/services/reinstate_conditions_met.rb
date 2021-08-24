@@ -19,12 +19,19 @@ class ReinstateConditionsMet
 
     audit(@auth.actor) do
       if valid?
-        attrs = { current_course_option_id: @course_option.id }
-        attrs[:recruited_at] = Time.zone.now unless application_choice.status_before_deferral == 'recruited' # conditions are 'still met'
+        new_recruited_at = if application_choice.status_before_deferral == 'recruited'
+                             application_choice.recruited_at # conditions are 'still met'
+                           else
+                             Time.zone.now
+                           end
 
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).reinstate_conditions_met!
-          application_choice.update(attrs)
+
+          application_choice.update_course_option!(
+            @course_option,
+            other_fields: { recruited_at: new_recruited_at },
+          )
           application_choice.offer.conditions.each(&:met!)
           CandidateMailer.reinstated_offer(application_choice).deliver_later
         end

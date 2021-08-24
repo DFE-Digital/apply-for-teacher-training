@@ -11,7 +11,7 @@ class GetApplicationChoicesForProviders
     },
   ].freeze
 
-  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
+  def self.old_call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
     providers = Array.wrap(providers).select(&:present?)
 
     raise MissingProvider if providers.none?
@@ -49,15 +49,23 @@ class GetApplicationChoicesForProviders
     applications.includes(*includes)
   end
 
-  def self.new_call(providers:, _vendor_api: false, _includes: DEFAULT_INCLUDES, _recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
+  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers)
+    raise MissingProvider if providers.blank? # super important!
+
     provider_ids = providers.map(&:id)
+    statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
 
     ApplicationChoice
-      .where(
-        combine_with_or(
-          provider_ids.map { |id| id_in_provider_ids(id) },
-        ),
-      )
+      .where(provider_ids_check(provider_ids))
+      .where(current_recruitment_cycle_year: recruitment_cycle_year)
+      .where(status: statuses)
+      .includes(*includes)
+  end
+
+  def self.provider_ids_check(provider_ids)
+    combine_with_or(
+      provider_ids.map { |id| id_in_provider_ids(id) },
+    )
   end
 
   def self.id_in_provider_ids(provider_id)

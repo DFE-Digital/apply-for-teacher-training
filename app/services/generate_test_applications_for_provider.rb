@@ -63,6 +63,7 @@ private
                                         .joins(:course_options)
                                         .distinct
                                         .where(provider: provider)
+                                        .includes(%i[provider accredited_provider])
   end
 
   def courses_run_by_test_provider
