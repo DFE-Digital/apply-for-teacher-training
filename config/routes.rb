@@ -802,6 +802,7 @@ Rails.application.routes.draw do
         namespace :user_invitation, path: 'user' do
           resource :personal_details, path: '', only: %i[new create]
           resource :permissions, only: %i[new create]
+          get 'check' => 'review#check', as: :check
         end
       end
     end

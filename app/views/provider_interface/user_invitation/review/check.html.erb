@@ -1,0 +1,32 @@
+<% content_for :browser_title, t('page_titles.provider.check_user_invitation_permissions') %>
+<% content_for :before_content, govuk_back_link_to(new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(@provider)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= "Invite user - #{@provider.name}" %></span>
+      <%= t('page_titles.provider.check_user_invitation_permissions') %>
+    </h1>
+
+    <h2 class="govuk-heading-m"><%= t('page_titles.provider.personal_details') %></h2>
+    <%= render ProviderInterface::UserPersonalDetailsComponent.new(
+      user: @wizard,
+      change_path: new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(@provider, checking_answers: true),
+    ) %>
+
+    <h2 class="govuk-heading-m"><%= t('page_titles.provider.user_permissions') %></h2>
+
+    <p class="govuk-body"><%= t('provider_relationship_permissions.view_applications_explanation') %></p>
+
+    <%= render ProviderInterface::UserPermissionsReviewComponent.new(
+      permissions: @wizard.permissions,
+      change_path: new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(@provider, checking_answers: true),
+    ) %>
+
+    <%= govuk_button_to 'Invite user', provider_interface_organisation_settings_organisation_user_invitation_commit_path(@provider) %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_organisation_settings_organisation_users_path(@provider) %>
+    </p>
+  </div>
+</div>
