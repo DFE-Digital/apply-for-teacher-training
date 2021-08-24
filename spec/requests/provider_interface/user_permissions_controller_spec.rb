@@ -30,6 +30,18 @@ RSpec.describe ProviderInterface::UserPermissionsController do
 
         expect(response.status).to eq(403)
       end
+
+      it 'responds with a 403 on PUT' do
+        put provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user)
+
+        expect(response.status).to eq(403)
+      end
+
+      it 'responds with a 403 on GET check' do
+        get check_provider_interface_organisation_settings_organisation_user_permissions_path(provider, provider_user)
+
+        expect(response.status).to eq(403)
+      end
     end
   end
 

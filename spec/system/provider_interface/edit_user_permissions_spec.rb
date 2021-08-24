@@ -15,6 +15,15 @@ RSpec.feature 'User permissions' do
     and_i_click_on_a_user
     and_i_click_on_the_change_link
     then_i_see_a_permissions_form_page
+
+    when_i_edit_the_permissions
+    and_i_click_continue
+    then_i_see_the_check_page
+
+    when_i_click_change
+    and_i_modify_the_selected_permissions
+    and_i_click_continue
+    then_i_see_the_modified_permissions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -30,7 +39,13 @@ RSpec.feature 'User permissions' do
       dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
     )
 
-    @manageable_user = create(:provider_user, providers: [@manage_users_provider])
+    @manageable_user = create(
+      :provider_user,
+      :with_manage_users,
+      :with_view_safeguarding_information,
+      :with_make_decisions,
+      providers: [@manage_users_provider],
+    )
   end
 
   def when_i_go_to_organisation_settings
@@ -52,5 +67,50 @@ RSpec.feature 'User permissions' do
   def then_i_see_a_permissions_form_page
     expect(page).to have_content("#{@manageable_user.full_name} - #{@manage_users_provider.name}")
     expect(page).to have_content('User permissions')
+    expect(page).to have_field('Manage users', checked: true)
+    expect(page).to have_field('Manage organisation permissions', checked: false)
+    expect(page).to have_field('Set up interviews', checked: false)
+    expect(page).to have_field('Make offers and reject applications', checked: true)
+    expect(page).to have_field('View criminal convictions and professional misconduct', checked: true)
+    expect(page).to have_field('View sex, disability and ethnicity information', checked: false)
+  end
+
+  def when_i_edit_the_permissions
+    uncheck 'Manage users'
+    check 'Set up interviews'
+  end
+
+  def and_i_click_continue
+    click_on 'Continue'
+  end
+
+  def then_i_see_the_check_page
+    expect(page).to have_content('Check and save user permissions')
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nNo")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Set up interviews\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
+  end
+
+  def when_i_click_change
+    click_on 'Change Manage users'
+  end
+
+  def and_i_modify_the_selected_permissions
+    check 'Manage users'
+    uncheck 'Set up interviews'
+    check 'View sex, disability and ethnicity information'
+  end
+
+  def then_i_see_the_modified_permissions
+    expect(page).to have_content('Check and save user permissions')
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Set up interviews\nNo")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")
   end
 end

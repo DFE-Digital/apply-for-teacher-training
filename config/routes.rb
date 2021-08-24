@@ -790,7 +790,12 @@ Rails.application.routes.draw do
           member do
             get :confirm_destroy, path: 'delete'
 
-            resource :user_permissions, path: 'permissions', only: %i[edit]
+            resource :user_permissions, path: 'permissions', only: %i[edit update] do
+              member do
+                get :check
+                put :commit
+              end
+            end
           end
         end
       end
