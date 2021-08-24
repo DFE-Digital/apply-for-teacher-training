@@ -1,13 +1,20 @@
 class ApplicationChoiceExportDecorator < SimpleDelegator
-  def gcse_qualifications_summary
-    gcses = %i[maths_gcse english_gcse science_gcse]
-    summary_string = gcses
-      .map { |gcse| application_form.send(gcse) }
-      .map { |gcse| summary_for_gcse(gcse) }
-      .compact
-      .join(',')
+  RELEVANT_SUBJECTS = [
+    ApplicationQualification::MATHS,
+    ApplicationQualification::ENGLISH,
+    ApplicationQualification::SCIENCE,
+    ApplicationQualification::SCIENCE_SINGLE_AWARD,
+    ApplicationQualification::SCIENCE_DOUBLE_AWARD,
+    ApplicationQualification::SCIENCE_TRIPLE_AWARD,
+  ].freeze
 
-    summary_string.presence
+  def gcse_qualifications_summary
+    application_form
+      .application_qualifications
+      .select { |qualification| qualification.level == 'gcse' && RELEVANT_SUBJECTS.include?(qualification.subject) }
+      .map { |gcse| summary_for_gcse(gcse) }
+      .join(',')
+      .presence
   end
 
   def missing_gcses_explanation(separator_string: ',')
@@ -25,9 +32,10 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
   end
 
   def first_degree
-    application_form.application_qualifications
-                    .order(created_at: :asc)
-                    .find_by(level: 'degree')
+    application_form
+      .application_qualifications
+      .select { |qualification| qualification.level == 'degree' }
+      .min_by(&:created_at)
   end
 
   def nationalities
