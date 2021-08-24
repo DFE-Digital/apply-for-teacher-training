@@ -2,7 +2,7 @@ module ProviderInterface
   class InviteUserWizard
     include ActiveModel::Model
 
-    attr_accessor :first_name, :last_name, :email_address, :provider
+    attr_accessor :first_name, :last_name, :email_address, :provider, :permissions
 
     validates :first_name, presence: true
     validates :last_name, presence: true
