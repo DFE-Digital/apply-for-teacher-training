@@ -111,7 +111,7 @@ module CandidateInterface
       super
 
       payload.merge!({ candidate_id: current_candidate&.id })
-      payload.merge!(request_query_params)
+      payload.merge!(query_params: request_query_params)
     end
   end
 end

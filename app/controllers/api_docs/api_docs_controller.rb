@@ -8,7 +8,7 @@ module APIDocs
     def append_info_to_payload(payload)
       super
 
-      payload.merge!(request_query_params)
+      payload.merge!(query_params: request_query_params)
     end
   end
 end

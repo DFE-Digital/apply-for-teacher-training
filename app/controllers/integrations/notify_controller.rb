@@ -59,7 +59,7 @@ module Integrations
     def append_info_to_payload(payload)
       super
 
-      payload.merge!(reference_status_parameters)
+      payload.merge!(query_params: reference_status_parameters)
     end
   end
 end
