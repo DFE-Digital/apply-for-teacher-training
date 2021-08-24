@@ -63,6 +63,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "428e5a80ad2d4c0fdda6da0225a5a676f25a0e95c0e655344c02a4670ad0e460",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/provider_interface/sort_application_choices.rb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choices.from(\"        (\\n          SELECT a.*,\\n            CASE\\n              WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n              WHEN #{about_to_be_rejected_automatically} THEN 2\\n              WHEN #{give_feedback_for_rbd} THEN 3\\n              WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n              WHEN #{interviewing_non_urgent} THEN 5\\n              WHEN #{pending_conditions_previous_cycle} THEN 6\\n              WHEN #{waiting_on_candidate} THEN 7\\n              WHEN #{pending_conditions_current_cycle} THEN 8\\n              WHEN #{successful_candidates} THEN 9\\n              WHEN #{deferred_offers_current_cycle} THEN 10\\n              ELSE 999\\n            END AS task_view_group,\\n            #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n            FROM application_choices a\\n        ) AS application_choices\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::SortApplicationChoices",
+        "method": "s(:self).for_task_view"
+      },
+      "user_input": "deferred_offers_pending_reconfirmation",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "471859383ef3e9fba03933907e1bb043a8a57520241d275846126e6a2425f2e1",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -127,7 +147,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `ProviderRelationshipPermissions#find`",
       "file": "app/controllers/provider_interface/organisation_permissions_controller.rb",
-      "line": 56,
+      "line": 67,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "ProviderRelationshipPermissions.find(params[:id])",
       "render_path": null,
@@ -137,26 +157,6 @@
         "method": "set_up_relationship_objects"
       },
       "user_input": "params[:id]",
-      "confidence": "Weak",
-      "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "dece053fb978e9b4bae68ab806d70e0c144cd598ab227892133f2d61c790e2b6",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/provider_interface/sort_application_choices.rb",
-      "line": 13,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choices.from(\"        (\\n          SELECT a.*, c.recruitment_cycle_year,\\n            CASE\\n              WHEN #{deferred_offers_pending_reconfirmation} THEN 1\\n              WHEN #{about_to_be_rejected_automatically} THEN 2\\n              WHEN #{give_feedback_for_rbd} THEN 3\\n              WHEN #{awaiting_provider_decision_non_urgent} THEN 4\\n              WHEN #{interviewing_non_urgent} THEN 5\\n              WHEN #{pending_conditions_previous_cycle} THEN 6\\n              WHEN #{waiting_on_candidate} THEN 7\\n              WHEN #{pending_conditions_current_cycle} THEN 8\\n              WHEN #{successful_candidates} THEN 9\\n              WHEN #{deferred_offers_current_cycle} THEN 10\\n              ELSE 999\\n            END AS task_view_group,\\n            #{pg_days_left_to_respond} AS pg_days_left_to_respond\\n\\n            FROM application_choices a\\n            LEFT JOIN course_options option\\n              ON option.id = a.current_course_option_id\\n            LEFT JOIN courses c\\n              ON c.id = option.course_id\\n        ) AS application_choices\\n\".squish)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ProviderInterface::SortApplicationChoices",
-        "method": "s(:self).for_task_view"
-      },
-      "user_input": "deferred_offers_pending_reconfirmation",
       "confidence": "Weak",
       "note": ""
     },
@@ -201,6 +201,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-08-02 10:12:01 +0100",
+  "updated": "2021-08-24 17:21:27 +0100",
   "brakeman_version": "5.1.1"
 }
