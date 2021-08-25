@@ -789,6 +789,13 @@ Rails.application.routes.draw do
         resources :users, path: '/users', only: %i[index show destroy] do
           member do
             get :confirm_destroy, path: 'delete'
+
+            resource :user_permissions, path: 'permissions', only: %i[edit update] do
+              member do
+                get :check
+                put :commit
+              end
+            end
           end
         end
       end
