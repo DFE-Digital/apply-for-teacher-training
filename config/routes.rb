@@ -376,11 +376,21 @@ Rails.application.routes.draw do
 
         get '/provider/:provider_id/courses' => 'course_choices/course_selection#new', as: :course_choices_course
         post '/provider/:provider_id/courses' => 'course_choices/course_selection#create'
+        get '/provider/:provider_id/courses/edit' => 'course_choices/course_selection#edit', as: :edit_course_choices_course
+        patch '/provider/:provider_id/courses/edit' => 'course_choices/course_selection#update'
+
         get '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#new', as: :course_choices_study_mode
         post '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#create'
+        get '/provider/:provider_id/courses/:course_id/edit' => 'course_choices/study_mode_selection#edit', as: :edit_course_choices_study_mode
+        patch '/provider/:provider_id/courses/:course_id/edit' => 'course_choices/study_mode_selection#update'
+
         get '/provider/:provider_id/courses/:course_id/full' => 'course_choices/course_selection#full', as: :course_choices_full
+
         get '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#new', as: :course_choices_site
         post '/provider/:provider_id/courses/:course_id/:study_mode' => 'course_choices/site_selection#create'
+        get '/provider/:provider_id/courses/:course_id/:study_mode/edit' => 'course_choices/site_selection#edit', as: :edit_course_choices_site
+        patch '/provider/:provider_id/courses/:course_id/:study_mode/edit' => 'course_choices/site_selection#update'
+
         get '/another' => 'course_choices/add_another_course#ask', as: :course_choices_add_another_course
         post '/another' => 'course_choices/add_another_course#decide', as: :course_choices_add_another_course_selection
 
