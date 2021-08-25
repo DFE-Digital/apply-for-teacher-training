@@ -98,17 +98,17 @@ RSpec.feature 'Organisation users' do
     expect(page).to have_selector('h2', text: 'User permissions')
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Set up interviews\nNo")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
   end
 
   def and_i_can_see_change_links
-    expect(page).to have_link('Change Set up interviews')
+    expect(page).to have_link('Change Manage interviews')
   end
 
   def and_i_cannot_see_change_links
-    expect(page).not_to have_link('Change Set up interviews')
+    expect(page).not_to have_link('Change Manage interviews')
   end
 end

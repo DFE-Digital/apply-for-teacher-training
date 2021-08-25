@@ -101,7 +101,7 @@ RSpec.feature 'Managing provider user permissions' do
     expect(page).not_to have_checked_field 'Manage users'
     choose 'Extra permissions'
     check 'Manage users'
-    check 'Set up interviews'
+    check 'Manage interviews'
     click_on 'Save'
   end
 
@@ -110,19 +110,19 @@ RSpec.feature 'Managing provider user permissions' do
 
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Manage users'
-      expect(page).to have_content 'Set up interviews'
+      expect(page).to have_content 'Manage interviews'
     end
   end
 
   def when_i_remove_manage_users_permissions_from_a_provider_user
-    expect(page).to have_checked_field 'Set up interviews'
-    uncheck 'Set up interviews'
+    expect(page).to have_checked_field 'Manage interviews'
+    uncheck 'Manage interviews'
     click_on 'Save'
   end
 
   def then_i_cant_see_the_manage_users_permission_for_the_provider_user
     expect(page).to have_content 'User’s permissions successfully updated'
-    expect(page).not_to have_content 'Set up interviews'
+    expect(page).not_to have_content 'Manage interviews'
   end
 
   def when_i_add_permission_to_view_safeguarding_for_a_provider_user
@@ -140,14 +140,14 @@ RSpec.feature 'Managing provider user permissions' do
 
   def and_i_add_permission_to_make_decisions_for_a_provider_user
     choose 'Extra permissions'
-    expect(page).not_to have_checked_field 'Set up interviews'
-    check 'Set up interviews'
+    expect(page).not_to have_checked_field 'Manage interviews'
+    check 'Manage interviews'
     click_on 'Save'
   end
 
   def then_i_can_see_the_make_decisions_permission_for_the_provider_user
     within("#provider-#{@provider.id}-enabled-permissions") do
-      expect(page).to have_content 'Set up interviews'
+      expect(page).to have_content 'Manage interviews'
     end
   end
 

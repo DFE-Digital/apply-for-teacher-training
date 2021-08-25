@@ -69,8 +69,8 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
       expect(row_text_selector(:manage_permissions, render)).to include(y_n(permissions.manage_organisations))
     end
 
-    it 'displays the correct details for Set up interviews' do
-      expect(row_text_selector(:set_up_interviews, render)).to include('Set up interviews')
+    it 'displays the correct details for Manage interviews' do
+      expect(row_text_selector(:set_up_interviews, render)).to include('Manage interviews')
       expect(row_text_selector(:set_up_interviews, render)).to include(y_n(permissions.set_up_interviews))
     end
 

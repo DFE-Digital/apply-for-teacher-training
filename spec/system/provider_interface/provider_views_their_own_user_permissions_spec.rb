@@ -46,7 +46,7 @@ RSpec.feature 'User permissions page' do
     within(element(selector: '.govuk-summary-list', index: 1)) do
       expect(element_text(selector: '.govuk-summary-list__key', index: 0)).to eq('Manage users')
       expect(element_text(selector: '.govuk-summary-list__key', index: 1)).to eq('Manage organisation permissions')
-      expect(element_text(selector: '.govuk-summary-list__key', index: 2)).to eq('Set up interviews')
+      expect(element_text(selector: '.govuk-summary-list__key', index: 2)).to eq('Manage interviews')
       expect(element_text(selector: '.govuk-summary-list__key', index: 3)).to eq('Make offers and reject applications')
       expect(element_text(selector: '.govuk-summary-list__key', index: 4)).to eq('View criminal convictions and professional misconduct')
       expect(element_text(selector: '.govuk-summary-list__key', index: 5)).to eq('View sex, disability and ethnicity information')
@@ -59,7 +59,7 @@ RSpec.feature 'User permissions page' do
     within(element(selector: '.govuk-summary-list', index: 2)) do
       expect(element_text(selector: '.govuk-summary-list__key', index: 0)).to eq('Manage users')
       expect(element_text(selector: '.govuk-summary-list__key', index: 1)).to eq('Manage organisation permissions')
-      expect(element_text(selector: '.govuk-summary-list__key', index: 2)).to eq('Set up interviews')
+      expect(element_text(selector: '.govuk-summary-list__key', index: 2)).to eq('Manage interviews')
       expect(element_text(selector: '.govuk-summary-list__key', index: 3)).to eq('Make offers and reject applications')
       expect(element_text(selector: '.govuk-summary-list__key', index: 4)).to eq('View criminal convictions and professional misconduct')
       expect(element_text(selector: '.govuk-summary-list__key', index: 5)).to eq('View sex, disability and ethnicity information')

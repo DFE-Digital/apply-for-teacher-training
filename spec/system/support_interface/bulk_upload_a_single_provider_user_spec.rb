@@ -121,7 +121,7 @@ RSpec.feature 'bulk upload provider users' do
     check 'Manage organisation permissions'
     check 'Access safeguarding information'
     check 'Make decisions'
-    check 'Set up interviews'
+    check 'Manage interviews'
     check 'Access diversity information'
   end
 
@@ -157,7 +157,7 @@ RSpec.feature 'bulk upload provider users' do
     expect(find_field('Manage organisation permissions')).to be_checked
     expect(find_field('Access safeguarding information')).to be_checked
     expect(find_field('Make decisions')).to be_checked
-    expect(find_field('Set up interviews')).to be_checked
+    expect(find_field('Manage interviews')).to be_checked
     expect(find_field('Access diversity information')).to be_checked
   end
 

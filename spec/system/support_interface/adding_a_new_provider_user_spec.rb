@@ -90,7 +90,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_check_permission_to_set_up_interviews
-    check 'Set up interviews'
+    check 'Manage interviews'
   end
 
   def and_i_check_permission_to_manage_organisations

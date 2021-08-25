@@ -74,7 +74,7 @@ RSpec.feature 'User permissions' do
     expect(page).to have_content('User permissions')
     expect(page).to have_field('Manage users', checked: true)
     expect(page).to have_field('Manage organisation permissions', checked: false)
-    expect(page).to have_field('Set up interviews', checked: false)
+    expect(page).to have_field('Manage interviews', checked: false)
     expect(page).to have_field('Make offers and reject applications', checked: true)
     expect(page).to have_field('View criminal convictions and professional misconduct', checked: true)
     expect(page).to have_field('View sex, disability and ethnicity information', checked: false)
@@ -82,7 +82,7 @@ RSpec.feature 'User permissions' do
 
   def when_i_edit_the_permissions
     uncheck 'Manage users'
-    check 'Set up interviews'
+    check 'Manage interviews'
   end
 
   def and_i_click_continue
@@ -93,7 +93,7 @@ RSpec.feature 'User permissions' do
     expect(page).to have_content('Check and save user permissions')
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Set up interviews\nYes")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nNo")
@@ -105,7 +105,7 @@ RSpec.feature 'User permissions' do
 
   def and_i_modify_the_selected_permissions
     check 'Manage users'
-    uncheck 'Set up interviews'
+    uncheck 'Manage interviews'
     check 'View sex, disability and ethnicity information'
   end
 
@@ -116,7 +116,7 @@ RSpec.feature 'User permissions' do
   def and_i_see_the_modified_permissions
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage users\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Manage organisation permissions\nNo")
-    expect(page).to have_selector('.govuk-summary-list__row', text: "Set up interviews\nNo")
+    expect(page).to have_selector('.govuk-summary-list__row', text: "Manage interviews\nNo")
     expect(page).to have_selector('.govuk-summary-list__row', text: "Make offers and reject applications\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View criminal convictions and professional misconduct\nYes")
     expect(page).to have_selector('.govuk-summary-list__row', text: "View sex, disability and ethnicity information\nYes")

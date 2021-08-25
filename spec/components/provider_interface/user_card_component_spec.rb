@@ -40,7 +40,7 @@ RSpec.describe ProviderInterface::UserCardComponent do
       expect(render.css('li').map(&:text).map(&:squish)).to eq([
         'manage users',
         'manage organisation permissions',
-        'set up interviews',
+        'manage interviews',
         'make offers and reject applications',
         'view criminal convictions and professional misconduct',
         'view sex, disability and ethnicity information',

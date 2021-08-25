@@ -6,7 +6,7 @@ module ProviderInterface
       'view_safeguarding_information' => 'Access safeguarding information',
       'manage_organisations' => 'Manage organisational permissions',
       'manage_users' => 'Manage users',
-      'set_up_interviews' => 'Set up interviews',
+      'set_up_interviews' => 'Manage interviews',
       'make_decisions' => 'Make decisions',
       'view_diversity_information' => 'Access diversity information',
     }.freeze

@@ -9,7 +9,7 @@ en:
         requires_application_choice_visibility: You are not permitted to view this application.
         requires_user_course_association: The specified course is not associated with any of your organisations.
       set_up_interviews:
-        requires_provider_user_permission: You do not have the required user level permissions to set up interviews on applications for this provider.
+        requires_provider_user_permission: You do not have the required user level permissions to manage interviews on applications for this provider.
         requires_application_choice_visibility: You are not permitted to view this application.
         requires_user_course_association: The specified course is not associated with any of your organisations.
       view_diversity_information:

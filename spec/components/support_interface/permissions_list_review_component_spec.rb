@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::PermissionsListReviewComponent do
       result = render_inline(described_class.new(permissions))
 
       expect(result.css('li').text).to include('Manage organisation permissions')
-      expect(result.css('li').text).to include('Set up interviews')
+      expect(result.css('li').text).to include('Manage interviews')
       expect(result.css('path')[0].attribute('d').value).to eq(tick_svg_path_shape)
     end
 
@@ -45,13 +45,13 @@ RSpec.describe SupportInterface::PermissionsListReviewComponent do
     end
   end
 
-  context 'Set up interviews' do
+  context 'Manage interviews' do
     it 'displays permission has been assigned' do
       permissions = { 'set_up_interviews' => true }
 
       result = render_inline(described_class.new(permissions))
 
-      expect(result.css('li').text).to include('Set up interviews')
+      expect(result.css('li').text).to include('Manage interviews')
       expect(result.css('path')[2].attribute('d').value).to eq(tick_svg_path_shape)
     end
 
@@ -60,7 +60,7 @@ RSpec.describe SupportInterface::PermissionsListReviewComponent do
 
       result = render_inline(described_class.new(permissions))
 
-      expect(result.css('li').text).to include('Set up interviews')
+      expect(result.css('li').text).to include('Manage interviews')
       expect(result.css('path')[2].attribute('d').value).to eq(cross_svg_path_shape)
     end
   end

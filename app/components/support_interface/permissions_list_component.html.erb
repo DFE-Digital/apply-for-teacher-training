@@ -15,9 +15,9 @@
     <% end %>
 
     <% if permission_model.set_up_interviews? %>
-      <li><%= render IconComponent.new(type: 'check') %> Set up interviews – Yes</li>
+      <li><%= render IconComponent.new(type: 'check') %> Manage interviews – Yes</li>
     <% else %>
-      <li><%= render IconComponent.new(type: 'cross') %> Set up interviews – No</li>
+      <li><%= render IconComponent.new(type: 'cross') %> Manage interviews – No</li>
     <% end %>
 
     <% if permission_model.make_decisions? %>
