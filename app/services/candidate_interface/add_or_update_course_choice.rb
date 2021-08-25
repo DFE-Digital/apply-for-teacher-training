@@ -2,11 +2,12 @@ module CandidateInterface
   class AddOrUpdateCourseChoice
     attr_reader :course_option_id, :application_form, :controller, :id_of_course_choice_to_replace
 
-    def initialize(course_option_id:, application_form:, controller:, id_of_course_choice_to_replace: nil)
+    def initialize(course_option_id:, application_form:, controller:, return_to: nil, id_of_course_choice_to_replace: nil)
       @course_option_id = course_option_id
       @application_form = application_form
       @controller = controller
       @id_of_course_choice_to_replace = id_of_course_choice_to_replace
+      @return_to = return_to
     end
 
     delegate(
@@ -84,7 +85,11 @@ module CandidateInterface
         flash[:warning] = pick_site_form.errors.full_messages.first
       end
 
-      redirect_to candidate_interface_course_choices_index_path
+      if @return_to == 'application-review'
+        redirect_to '/candidate/application/review'
+      else
+        redirect_to candidate_interface_course_choices_index_path
+      end
     end
   end
 end
