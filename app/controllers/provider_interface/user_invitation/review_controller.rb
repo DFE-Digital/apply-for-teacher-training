@@ -2,7 +2,10 @@ module ProviderInterface
   module UserInvitation
     class ReviewController < BaseController
       def check
-        @wizard = InviteUserWizard.new(invite_user_store)
+        @wizard = InviteUserWizard.new(
+          invite_user_store,
+          current_step: :check,
+        )
       end
 
       def commit

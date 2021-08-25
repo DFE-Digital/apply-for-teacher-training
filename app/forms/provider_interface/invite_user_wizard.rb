@@ -2,7 +2,8 @@ module ProviderInterface
   class InviteUserWizard
     include ActiveModel::Model
 
-    attr_accessor :first_name, :last_name, :email_address, :provider, :permissions
+    attr_accessor :first_name, :last_name, :email_address, :provider, :permissions, :checking_answers
+    attr_writer :current_step
 
     validates :first_name, presence: true
     validates :last_name, presence: true
@@ -14,6 +15,30 @@ module ProviderInterface
       @state_store = state_store
 
       super(last_saved_state.merge(attrs))
+
+      self.checking_answers = false if current_step == :check
+    end
+
+    def current_step
+      @current_step&.to_sym
+    end
+
+    def next_step
+      if checking_answers || current_step == :permissions
+        :check
+      elsif current_step == :personal_details
+        :permissions
+      end
+    end
+
+    def previous_step
+      if checking_answers
+        :check
+      elsif current_step == :check
+        :permissions
+      elsif current_step == :permissions
+        :personal_details
+      end
     end
 
     def save_state!
