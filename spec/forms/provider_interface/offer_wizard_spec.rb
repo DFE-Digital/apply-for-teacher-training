@@ -181,6 +181,45 @@ RSpec.describe ProviderInterface::OfferWizard do
       end
     end
 
+    describe '#available_changes?' do
+      let(:provider_user) { instance_double(ProviderUser) }
+      let(:provider) { instance_double(Provider) }
+      let(:course) { instance_double(Course) }
+      let(:query_service) { instance_double(GetChangeOfferOptions) }
+
+      before do
+        allow(ProviderUser).to receive(:find).and_return(provider_user)
+        allow(GetChangeOfferOptions).to receive(:new).and_return(query_service)
+
+        allow(query_service).to receive(:available_courses).and_return(create_list(:course, 1))
+        allow(query_service).to receive(:available_study_modes).and_return(%w[full_time])
+        allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 1))
+      end
+
+      context 'when there are no available changes for this offer' do
+        before do
+          allow(Provider).to receive(:find).and_return(provider)
+          allow(Course).to receive(:find).and_return(course)
+
+          allow(query_service).to receive(:available_providers).and_return(create_list(:provider, 1))
+        end
+
+        it 'returns false' do
+          expect(wizard.available_changes?).to eq(false)
+        end
+      end
+
+      context 'when there are available changes for this offer' do
+        before do
+          allow(query_service).to receive(:available_providers).and_return(create_list(:provider, 2))
+        end
+
+        it 'returns true' do
+          expect(wizard.available_changes?).to eq(true)
+        end
+      end
+    end
+
     context 'when changing an offer' do
       let(:decision) { :change_offer }
       let(:query_service) { instance_double(GetChangeOfferOptions) }

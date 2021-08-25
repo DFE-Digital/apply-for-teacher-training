@@ -113,6 +113,11 @@ module ProviderInterface
       save_state!
     end
 
+    def available_changes?
+      available_providers.length > 1 || available_courses.length > 1 ||
+        available_study_modes.length > 1 || available_course_options.length > 1
+    end
+
   private
 
     def self.standard_conditions_from(offer)
