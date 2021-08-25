@@ -22,7 +22,6 @@ RSpec.describe 'Organisation users' do
     when_i_click_on_the_users_link_for(@read_only_provider)
     and_i_click_on_the_user_to_remove
     then_i_cannot_see_a_link_to_delete_the_user
-    and_i_can_see_text_about_not_having_permissions
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -77,9 +76,5 @@ RSpec.describe 'Organisation users' do
 
   def then_i_cannot_see_a_link_to_delete_the_user
     expect(page).not_to have_link('Delete user')
-  end
-
-  def and_i_can_see_text_about_not_having_permissions
-    expect(page).to have_content('You cannot change these details because you do not have permission to manage users.')
   end
 end
