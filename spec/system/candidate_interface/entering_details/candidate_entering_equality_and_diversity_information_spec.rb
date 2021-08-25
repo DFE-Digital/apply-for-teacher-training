@@ -216,7 +216,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_the_disabilities_page
-    expect(page).to have_content('Please select all that apply to you')
+    expect(page).to have_content('What disabilities do you have?')
   end
 
   def when_i_try_and_submit_without_ticking_disabilities

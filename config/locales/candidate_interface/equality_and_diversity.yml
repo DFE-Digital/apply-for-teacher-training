@@ -26,7 +26,7 @@ en:
       opt_out:
         label: Prefer not to say
     disabilities:
-      title: Please select all that apply to you
+      title: What disabilities do you have?
       blind:
         label: Blind
         hint_text: (or a serious visual impairment which is not corrected by glasses)
