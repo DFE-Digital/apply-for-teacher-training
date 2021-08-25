@@ -1,17 +1,10 @@
 class ApplicationChoiceExportDecorator < SimpleDelegator
-  RELEVANT_SUBJECTS = [
-    ApplicationQualification::MATHS,
-    ApplicationQualification::ENGLISH,
-    ApplicationQualification::SCIENCE,
-    ApplicationQualification::SCIENCE_SINGLE_AWARD,
-    ApplicationQualification::SCIENCE_DOUBLE_AWARD,
-    ApplicationQualification::SCIENCE_TRIPLE_AWARD,
-  ].freeze
-
   def gcse_qualifications_summary
+    required_subjects = ApplicationQualification::REQUIRED_GCSE_SUBJECTS.reverse
     summary_string = application_form
       .application_qualifications
-      .select { |qualification| qualification.level == 'gcse' && RELEVANT_SUBJECTS.include?(qualification.subject) }
+      .select { |qualification| qualification.level == 'gcse' && required_subjects.include?(qualification.subject) }
+      .sort { |a, b| required_subjects.index(a.subject) <=> required_subjects.index(b.subject) }
       .map { |gcse| summary_for_gcse(gcse) }
       .join(',')
 
