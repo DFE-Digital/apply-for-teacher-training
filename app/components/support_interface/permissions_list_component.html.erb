@@ -3,9 +3,9 @@
     <li>The user can only view applications</li>
   <% else %>
     <% if permission_model.manage_organisations? %>
-      <li><%= render IconComponent.new(type: 'check') %> Manage organisational permissions – Yes</li>
+      <li><%= render IconComponent.new(type: 'check') %> Manage organisation permissions – Yes</li>
     <% else %>
-      <li><%= render IconComponent.new(type: 'cross') %> Manage organisational permissions – No</li>
+      <li><%= render IconComponent.new(type: 'cross') %> Manage organisation permissions – No</li>
     <% end %>
 
     <% if permission_model.manage_users? %>

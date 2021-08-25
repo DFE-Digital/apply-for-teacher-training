@@ -4,13 +4,13 @@ RSpec.describe SupportInterface::PermissionsListReviewComponent do
   let(:tick_svg_path_shape) { 'M100 200a100 100 0 1 1 0-200 100 100 0 0 1 0 200zm-60-85l40 40 80-80-20-20-60 60-20-20-20 20z' }
   let(:cross_svg_path_shape) { 'M100 0a100 100 0 110 200 100 100 0 010-200zm30 50l-30 30-30-30-20 20 30 30-30 30 20 20 30-30 30 30 20-20-30-30 30-30-20-20z' }
 
-  context 'Manage organisational permissions' do
+  context 'Manage organisation permissions' do
     it 'displays permission has been assigned' do
       permissions = { 'manage_organisations' => true, 'set_up_interviews' => true }
 
       result = render_inline(described_class.new(permissions))
 
-      expect(result.css('li').text).to include('Manage organisational permissions')
+      expect(result.css('li').text).to include('Manage organisation permissions')
       expect(result.css('li').text).to include('Set up interviews')
       expect(result.css('path')[0].attribute('d').value).to eq(tick_svg_path_shape)
     end

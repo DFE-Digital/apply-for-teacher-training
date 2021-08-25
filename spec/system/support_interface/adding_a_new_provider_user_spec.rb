@@ -94,7 +94,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def and_i_check_permission_to_manage_organisations
-    check 'Manage organisational permissions'
+    check 'Manage organisation permissions'
   end
 
   def and_i_check_permission_to_view_safeguarding_information

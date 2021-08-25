@@ -103,9 +103,9 @@ class DataExport < ApplicationRecord
       class: SupportInterface::OfferConditionsExport,
     },
     organisation_permissions: {
-      name: 'Organisational permissions changes',
+      name: 'Organisation permissions changes',
       export_type: 'organisation_permissions',
-      description: 'A list of changes to organisational permissions and audit information about the changes.',
+      description: 'A list of changes to organisation permissions and audit information about the changes.',
       class: SupportInterface::OrganisationPermissionsExport,
     },
     provider_access_controls: {
