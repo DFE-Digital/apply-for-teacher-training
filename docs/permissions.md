@@ -2,7 +2,7 @@
 
 ## Background
 
-Due to the complexity of user and organisational permissions, knowledge sharing between members of the team has not been as straightforward. This document is an attempt to rectify that and enable all developers to gain a thorough understanding of how permissions work across the application.
+Due to the complexity of user and organisation permissions, knowledge sharing between members of the team has not been as straightforward. This document is an attempt to rectify that and enable all developers to gain a thorough understanding of how permissions work across the application.
 
 ## Available Permissions
 
@@ -56,7 +56,7 @@ All permissions are configurable and always enforced at user level.
 What that means is that a provider user can only perform a certain action, e.g. _View safeguarding information_, if they have that permission set against their account for either the training or the ratifying provider of the course associated with the application that they are trying to access.
 
 
-### Organisational Permissions
+### Organisation Permissions
 
 Some of the available permissions are enforceable at organisation level. More specifically, these are permissions related to most actions that can be performed on applications, besides _Set Up interviews_.
 
@@ -66,7 +66,7 @@ Some of the available permissions are enforceable at organisation level. More sp
 
 When the course of an application choice is not self ratified, these permissions must also be configured for the provider that the provider user belongs to in order for them to be able to take the relevant action.
 
-So, for example, if Jane is able to **Make decisions** on behalf of _Provider A_ who is the training provider for a course ratified by _Provider B_, she can only use this permission if _Provider A_ is also able to **Make decisions** for any courses ratified by _Provider B_. However if the course is self ratified then she will be able to **Make decisions** for it, as in that instance organisational level permissions will not be relevant.
+So, for example, if Jane is able to **Make decisions** on behalf of _Provider A_ who is the training provider for a course ratified by _Provider B_, she can only use this permission if _Provider A_ is also able to **Make decisions** for any courses ratified by _Provider B_. However if the course is self ratified then she will be able to **Make decisions** for it, as in that instance organisation level permissions will not be relevant.
 
 
 ## Support User Permissions
