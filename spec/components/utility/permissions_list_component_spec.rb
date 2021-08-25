@@ -16,7 +16,7 @@ RSpec.describe PermissionsListComponent do
     result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
     expect(result.css('li').text).to include('Manage organisational permissions')
-    expect(result.css('li').text).to include('Set up interviews')
+    expect(result.css('li').text).to include('Manage interviews')
     expect(result.css('li').text).not_to include('The user can only view applications')
   end
 

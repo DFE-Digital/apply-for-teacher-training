@@ -37,7 +37,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
         expect(result.css('path')[0].attribute('d').value).to eq(tick_svg_path_shape)
         expect(result.css('li').text).to include('Manage users – Yes')
         expect(result.css('path')[1].attribute('d').value).to eq(tick_svg_path_shape)
-        expect(result.css('li').text).to include('Set up interviews – Yes')
+        expect(result.css('li').text).to include('Manage interviews – Yes')
         expect(result.css('path')[2].attribute('d').value).to eq(tick_svg_path_shape)
         expect(result.css('li').text).to include('Make decisions – Yes')
         expect(result.css('path')[3].attribute('d').value).to eq(tick_svg_path_shape)
@@ -70,13 +70,13 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       end
     end
 
-    context 'when Set up interviews has not been assigned' do
+    context 'when Manage interviews has not been assigned' do
       let(:set_up_interviews) { false }
 
       it 'reflects that the permission has not been assigned' do
         result = render_inline(described_class.new(permission_model))
 
-        expect(result.css('li').text).to include('Set up interviews – No')
+        expect(result.css('li').text).to include('Manage interviews – No')
         expect(result.css('path')[2].attribute('d').value).to eq(cross_svg_path_shape)
       end
     end

@@ -70,7 +70,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationDetailsComponent do
       expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
       expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
       expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
-      expect(result.css('.govuk-summary-list__value')[3].text).to include('Set up interviews')
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage interviews')
     end
   end
 

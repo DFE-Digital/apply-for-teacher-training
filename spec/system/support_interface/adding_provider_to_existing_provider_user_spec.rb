@@ -67,7 +67,7 @@ RSpec.feature 'Managing provider users v2' do
   def and_i_check_permissions
     check 'Manage users'
     check 'Manage organisation permissions'
-    check 'Set up interviews'
+    check 'Manage interviews'
   end
 
   def and_i_submit_the_form

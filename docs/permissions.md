@@ -20,7 +20,7 @@ The following set of permissions are used across the app.
 
 ### Related to application management
 
-- Set Up interviews
+- Manage interviews
 
   Enables a provider user to create, edit and delete interviews.
 

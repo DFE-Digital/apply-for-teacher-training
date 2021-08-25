@@ -11,7 +11,7 @@ en:
     manage_organisations:
       description: Manage organisation permissions
     set_up_interviews:
-      description: Set up interviews
+      description: Manage interviews
   provider_interface:
     personal_permissions:
       show:
