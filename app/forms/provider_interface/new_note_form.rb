@@ -1,7 +1,7 @@
 module ProviderInterface
   class NewNoteForm
     include ActiveModel::Model
-    attr_accessor :application_choice, :message, :provider_user
+    attr_accessor :application_choice, :message, :provider_user, :referer
 
     validates :application_choice, :provider_user, presence: true
     validates :message, length: { maximum: 500 }, presence: true
