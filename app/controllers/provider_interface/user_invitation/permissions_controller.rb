@@ -2,14 +2,19 @@ module ProviderInterface
   module UserInvitation
     class PermissionsController < BaseController
       def new
-        @wizard = InviteUserWizard.new(invite_user_store)
+        @wizard = InviteUserWizard.new(
+          invite_user_store,
+          current_step: :permissions,
+          checking_answers: params[:checking_answers] == 'true',
+        )
+        @wizard.save_state!
       end
 
       def create
         @wizard = InviteUserWizard.new(invite_user_store, permissions_params)
         @wizard.save_state!
 
-        redirect_to provider_interface_organisation_settings_organisation_user_invitation_check_path(@provider)
+        redirect_to next_page_path
       end
 
     private
