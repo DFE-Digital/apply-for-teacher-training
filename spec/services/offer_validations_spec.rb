@@ -86,6 +86,21 @@ RSpec.describe OfferValidations, type: :model do
     end
 
     describe '#restrict_reverting_rejection' do
+      context 'when a provider attempts to revert an application rejected by default' do
+        let(:application_choice) { build_stubbed(:application_choice, :rejected, current_course_option: course_option, rejected_by_default: true) }
+        let(:application_form) { build_stubbed(:application_form, phase: 'apply_1', application_choices: [application_choice]) }
+        let(:candidate) { build_stubbed(:candidate, application_forms: [application_form]) }
+
+        before do
+          allow(application_choice).to receive(:candidate).and_return(candidate)
+        end
+
+        it 'adds an :application_rejected_by_default error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the application has been automatically rejected')
+        end
+      end
+
       context 'when a provider attempts to revert an apply_1 rejection but other offers have already been accepted' do
         let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
         let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }

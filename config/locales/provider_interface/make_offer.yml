@@ -88,3 +88,4 @@ en:
               identical_to_existing: The new offer is identical to the current offer
               different_ratifying_provider: The offered course's ratifying provider must be the same as the one originally requested
               other_offer_already_accepted: You cannot make an offer because the candidate has already accepted one
+              application_rejected_by_default: You cannot make an offer because the application has been automatically rejected

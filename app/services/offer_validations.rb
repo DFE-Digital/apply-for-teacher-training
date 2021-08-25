@@ -44,6 +44,10 @@ class OfferValidations
   end
 
   def restrict_reverting_rejection
+    if application_choice.rejected_by_default
+      errors.add(:base, :application_rejected_by_default)
+    end
+
     if !candidate_in_apply_2? && application_choice.application_form.apply_1? && any_accepted_offers?
       errors.add(:base, :other_offer_already_accepted)
     end
