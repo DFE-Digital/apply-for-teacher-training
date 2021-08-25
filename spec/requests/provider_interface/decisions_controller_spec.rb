@@ -70,6 +70,7 @@ RSpec.describe ProviderInterface::DecisionsController, type: :request do
       )
 
       allow(ProviderInterface::OfferWizard).to receive(:new).and_return(wizard)
+      allow(wizard).to receive(:available_changes?).and_return(false)
 
       expect {
         post provider_interface_application_choice_decision_path(application_choice)
