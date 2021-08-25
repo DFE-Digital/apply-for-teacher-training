@@ -9,11 +9,13 @@
           <p class="govuk-body-l">Try our new service to see how easy it is to use. It’s free for providers and candidates.</p>
         </div>
         <%= govuk_start_now_button(
-              text: 'Get started',
-              href: @pilot_enrolment_form_url,
+              text: 'Sign in',
+              href: provider_interface_sign_in_path,
               classes: 'govuk-!-margin-bottom-0 app-button--inverted',
             ) %>
-        <span class="app-masthead__alternative-action">or <%= govuk_link_to 'sign in', provider_interface_sign_in_path %> if you’ve used it before</span>
+        <div class="app-masthead__alternative-action">
+          <p class="govuk-body-m">If your organisation has not been setup to use this service, email <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
+        </div>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="app-masthead__image">
