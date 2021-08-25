@@ -111,6 +111,17 @@ RSpec.describe OfferValidations, type: :model do
           expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the candidate has already accepted one')
         end
       end
+
+      context 'when a provider attempts to revert a rejection on an application that is not the last one on apply_2' do
+        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice]) }
+        let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }
+        let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
+
+        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the last application you rejected')
+        end
+      end
     end
   end
 end
