@@ -1,17 +1,10 @@
 class ApplicationChoiceExportDecorator < SimpleDelegator
-  RELEVANT_SUBJECTS = [
-    ApplicationQualification::MATHS,
-    ApplicationQualification::ENGLISH,
-    ApplicationQualification::SCIENCE,
-    ApplicationQualification::SCIENCE_SINGLE_AWARD,
-    ApplicationQualification::SCIENCE_DOUBLE_AWARD,
-    ApplicationQualification::SCIENCE_TRIPLE_AWARD,
-  ].freeze
-
   def gcse_qualifications_summary
+    required_subjects = ApplicationQualification::REQUIRED_GCSE_SUBJECTS
     summary_string = application_form
       .application_qualifications
-      .select { |qualification| qualification.level == 'gcse' && RELEVANT_SUBJECTS.include?(qualification.subject) }
+      .select { |qualification| qualification.gcse? && required_subjects.include?(qualification.subject) }
+      .sort { |a, b| required_subjects.index(b.subject) <=> required_subjects.index(a.subject) }
       .map { |gcse| summary_for_gcse(gcse) }
       .join(',')
 
@@ -21,7 +14,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
   def missing_gcses_explanation(separator_string: ',')
     application_form
       .application_qualifications
-      .select { |qualification| qualification.level == 'gcse' }
+      .select(&:gcse?)
       .select(&:missing_qualification?)
       .map { |gcse| "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.missing_explanation}" }
       .join(separator_string)
@@ -35,7 +28,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
   def first_degree
     application_form
       .application_qualifications
-      .select { |qualification| qualification.level == 'degree' }
+      .select(&:degree?)
       .min_by(&:created_at)
   end
 

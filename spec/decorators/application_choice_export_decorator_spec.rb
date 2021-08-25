@@ -8,7 +8,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
 
-      expect(summary).to include('Gcse Maths', 'Gcse Science', 'Gcse English')
+      expect(summary).to match(/^Gcse Maths, [ABCD], \d{4}-\d{4},Gcse English, [ABCD], \d{4}-\d{4},Gcse Science, [ABCD], \d{4}-\d{4}$/)
     end
 
     it 'does not include gcses in other subjects' do
