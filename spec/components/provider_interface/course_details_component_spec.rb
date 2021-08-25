@@ -61,11 +61,11 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
   def row_text_selector(row_name, render)
     rows = { provider: 0,
-             accredited_body: 1,
-             course: 2,
-             cycle: 3,
+             course: 1,
+             cycle: 2,
+             full_or_part_time: 3,
              location: 4,
-             full_or_part_time: 5,
+             accredited_body: 5,
              funding_type: 6 }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
@@ -74,7 +74,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   it 'renders the provider name and code' do
     render_text = row_text_selector(:provider, render)
 
-    expect(render_text).to include('Provider')
+    expect(render_text).to include('Training provider')
     expect(render_text).to include('Best Training (B54)')
   end
 
@@ -115,7 +115,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
   it 'renders the preferred location' do
     render_text = row_text_selector(:location, render)
 
-    expect(render_text).to include('Preferred location')
+    expect(render_text).to include('Location')
     expect(render_text).to include('First Road (F34)')
     expect(render_text).to include('Fountain Street, Morley, Leeds')
     expect(render_text).to include('LS27 OPD')
