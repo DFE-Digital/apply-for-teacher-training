@@ -1,8 +1,8 @@
 <ul class="govuk-list">
   <% if permissions['manage_organisations'] %>
-    <li><%= render IconComponent.new(type: 'check') %> Manage organisational permissions</li>
+    <li><%= render IconComponent.new(type: 'check') %> Manage organisation permissions</li>
   <% else %>
-    <li><%= render IconComponent.new(type: 'cross') %> Manage organisational permissions</li>
+    <li><%= render IconComponent.new(type: 'cross') %> Manage organisation permissions</li>
   <% end %>
 
   <% if permissions['manage_users'] %>

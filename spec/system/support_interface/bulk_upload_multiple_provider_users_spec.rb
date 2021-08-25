@@ -116,7 +116,7 @@ RSpec.feature 'bulk upload provider users' do
 
   def and_i_add_permissions_for_the_first_user
     check 'Manage users'
-    check 'Manage organisational permissions'
+    check 'Manage organisation permissions'
     check 'Access safeguarding information'
     check 'Make decisions'
     check 'Set up interviews'
@@ -145,7 +145,7 @@ RSpec.feature 'bulk upload provider users' do
 
   def when_i_edit_permissions_for_the_second_user
     check 'Manage users'
-    check 'Manage organisational permissions'
+    check 'Manage organisation permissions'
   end
 
   def and_i_edit_permissions_for_the_second_user
@@ -172,7 +172,7 @@ RSpec.feature 'bulk upload provider users' do
 
   def and_the_permissions_i_selected_are_checked
     expect(find_field('Manage users')).to be_checked
-    expect(find_field('Manage organisational permissions')).to be_checked
+    expect(find_field('Manage organisation permissions')).to be_checked
     expect(find_field('Access safeguarding information')).to be_checked
     expect(find_field('Make decisions')).to be_checked
     expect(find_field('Set up interviews')).to be_checked

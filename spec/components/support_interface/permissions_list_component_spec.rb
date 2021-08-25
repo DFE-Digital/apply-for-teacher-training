@@ -33,7 +33,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       it 'displays Yes on all' do
         result = render_inline(described_class.new(permission_model))
 
-        expect(result.css('li').text).to include('Manage organisational permissions – Yes')
+        expect(result.css('li').text).to include('Manage organisation permissions – Yes')
         expect(result.css('path')[0].attribute('d').value).to eq(tick_svg_path_shape)
         expect(result.css('li').text).to include('Manage users – Yes')
         expect(result.css('path')[1].attribute('d').value).to eq(tick_svg_path_shape)
@@ -54,7 +54,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       it 'reflects that the permission has not been assigned' do
         result = render_inline(described_class.new(permission_model))
 
-        expect(result.css('li').text).to include('Manage organisational permissions – No')
+        expect(result.css('li').text).to include('Manage organisation permissions – No')
         expect(result.css('path')[0].attribute('d').value).to eq(cross_svg_path_shape)
       end
     end
@@ -121,7 +121,7 @@ RSpec.describe SupportInterface::PermissionsListComponent do
       result = render_inline(described_class.new(permission_model))
 
       expect(result.css('li').text).to include('The user can only view applications')
-      expect(result.css('li').text).not_to include('Manage organisational permissions')
+      expect(result.css('li').text).not_to include('Manage organisation permissions')
       expect(result.css('li').text).not_to include('Make manage users')
       expect(result.css('li').text).not_to include('Make decisions')
       expect(result.css('li').text).not_to include('View safeguarding information')
