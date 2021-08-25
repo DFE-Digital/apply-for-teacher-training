@@ -10,13 +10,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.your_personal_details') %></h1>
-    <%= render SummaryListComponent.new(
-      rows: [
-        { key: 'First name', value: current_provider_user.first_name },
-        { key: 'Last name', value: current_provider_user.last_name },
-        { key: 'Email address', value: current_provider_user.email_address },
-      ],
-    ) %>
+    <%= render ProviderInterface::UserPersonalDetailsComponent.new(user: current_provider_user) %>
 
     <p class="govuk-body">
       <%= govuk_link_to 'Change your details or password in DfE Sign-in', @dsi_profile_url %>
