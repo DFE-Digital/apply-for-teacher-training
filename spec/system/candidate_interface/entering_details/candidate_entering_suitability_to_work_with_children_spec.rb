@@ -48,7 +48,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def then_i_see_declaring_any_safeguarding_issues_form
-    expect(page).to have_content('Do you want to share any safeguarding issues?')
+    expect(page).to have_content('Do you want to declare any safeguarding issues such as a criminal record or professional misconduct?')
   end
 
   def when_i_choose_yes
