@@ -12,6 +12,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_visit_that_application_in_the_provider_interface
     and_i_visit_the_notes_tab
     and_i_click_to_add_a_note
+    and_i_attempt_to_create_a_note_with_no_text
+    then_i_see_an_error_message
+
+    when_i_click_back_i_go_to_the_notes_page
+    and_i_click_to_add_a_note
     and_i_write_a_note_with_some_text
 
     then_i_am_still_on_the_notes_tab
@@ -42,6 +47,22 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_click_to_add_a_note
     click_on 'Add note'
+  end
+
+  def and_i_attempt_to_create_a_note_with_no_text
+    fill_in 'Note', with: ''
+    click_on 'Save note'
+  end
+
+  def then_i_see_an_error_message
+    within '.govuk-error-summary__list' do
+      expect(page).to have_content('Enter a note')
+    end
+  end
+
+  def when_i_click_back_i_go_to_the_notes_page
+    click_on 'Back'
+    expect(page).to have_current_path(provider_interface_application_choice_notes_path(@application_choice))
   end
 
   def and_i_write_a_note_with_some_text
