@@ -1,6 +1,8 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillInvalidProviderRelationshipPermissions',
+  'DataMigrations::PopulateApplicationChoiceCurrentRecruitmentCycleYear',
+  'DataMigrations::PopulateApplicationChoiceProviderIds',
   'DataMigrations::RemoveDuplicateProvider',
   'DataMigrations::BackfillReferencesCompleted',
   'DataMigrations::CleanseEocChasersSentData',
