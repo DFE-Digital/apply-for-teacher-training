@@ -37,10 +37,10 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
   end
 
   describe '#save' do
-    it 'updates the course_option for an existing course choice' do
-      application_form = create(:application_form)
-      course_option = create(:course_option)
+    let(:application_form) { create(:application_form) }
+    let(:course_option) { create(:course_option) }
 
+    it 'sets course_option on the new course choice' do
       described_class.new(
         application_form: application_form,
         course_option_id: course_option.id,
@@ -50,13 +50,23 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
       expect(application_choice.course_option.id).to eq(course_option.id)
       expect(application_choice.current_course_option_id).to eq(course_option.id)
     end
+
+    it 'sets provider_ids when creating the application choice' do
+      described_class.new(
+        application_form: application_form,
+        course_option_id: course_option.id,
+      ).save
+
+      application_choice = application_form.reload.application_choices.first
+      expect(application_choice.provider_ids).not_to be_empty
+    end
   end
 
   describe '#update' do
-    it 'updates the course_option for an existing course choice' do
-      application_choice = create(:application_choice)
-      new_course_option = create(:course_option)
+    let(:application_choice) { create(:application_choice) }
+    let(:new_course_option) { create(:course_option) }
 
+    it 'updates the course_option for an existing course choice' do
       expect(application_choice.course_option.id).not_to eq(new_course_option.id)
 
       described_class.new(
@@ -66,6 +76,17 @@ RSpec.describe CandidateInterface::PickSiteForm, type: :model do
 
       expect(application_choice.course_option.id).to eq(new_course_option.id)
       expect(application_choice.current_course_option_id).to eq(new_course_option.id)
+    end
+
+    it 'updates provider_ids for existing course choice' do
+      expect(application_choice.course_option.id).not_to eq(new_course_option.id)
+
+      expect {
+        described_class.new(
+          application_form: application_choice.application_form,
+          course_option_id: new_course_option.id,
+        ).update(application_choice)
+      }.to change(application_choice, :provider_ids)
     end
   end
 end

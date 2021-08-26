@@ -186,11 +186,13 @@ class ApplicationChoice < ApplicationRecord
     update_course_option!(course_option)
   end
 
-  def update_course_option!(course_option, other_fields: {}, audit_comment: nil)
+  def update_course_option!(new_course_option, other_fields: {}, audit_comment: nil)
+    self.current_course_option = new_course_option # provider_ids_for_access needs this
+
     with_this_hash = {
-      current_course_option: course_option,
+      current_course_option: new_course_option,
       provider_ids: provider_ids_for_access,
-      current_recruitment_cycle_year: course_option.course.recruitment_cycle_year,
+      current_recruitment_cycle_year: new_course_option.course.recruitment_cycle_year,
     }.merge(other_fields)
 
     with_this_hash[:audit_comment] = audit_comment if audit_comment.present?

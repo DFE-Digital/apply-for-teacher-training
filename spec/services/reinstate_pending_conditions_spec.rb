@@ -78,4 +78,12 @@ RSpec.describe ReinstatePendingConditions do
       expect(reinstate.errors[:course_option]).to include('does not belong to the current cycle')
     end
   end
+
+  describe 'other dependencies' do
+    it 'calls update_course_option!' do
+      allow(application_choice).to receive(:update_course_option!)
+      service.save
+      expect(application_choice).to have_received(:update_course_option!)
+    end
+  end
 end

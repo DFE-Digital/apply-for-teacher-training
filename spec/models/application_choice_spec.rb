@@ -297,4 +297,46 @@ RSpec.describe ApplicationChoice, type: :model do
       expect(application_choice.withdrawn_at_candidates_request?).to be true
     end
   end
+
+  describe '#update_course_option!' do
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
+    let(:course) { create(:course, :with_accredited_provider) }
+    let(:course_option) { create(:course_option, course: course) }
+
+    it 'sets current_course_option_id' do
+      expect { application_choice.update_course_option! course_option }
+        .to change(application_choice, :current_course_option_id).to(course_option.id)
+    end
+
+    it 'sets provider_ids' do
+      expected_ids = [
+        application_choice.provider.id,
+        course.provider.id,
+        course.accredited_provider.id,
+      ]
+
+      expect { application_choice.update_course_option! course_option }
+        .to change(application_choice, :provider_ids).to(expected_ids)
+    end
+
+    it 'sets current_recruitment_cycle_year' do
+      expected_year = course.recruitment_cycle_year
+
+      expect { application_choice.update_course_option! course_option }
+        .to change(application_choice, :current_recruitment_cycle_year).to(expected_year)
+    end
+
+    it 'can set additional fields in same operation' do
+      expect {
+        application_choice.update_course_option!(course_option, other_fields: {
+          recruited_at: Time.zone.now,
+        })
+      }.to change(application_choice, :recruited_at)
+    end
+
+    it 'supports setting audit_comment', with_audited: true do
+      application_choice.update_course_option!(course_option, audit_comment: 'zendesk')
+      expect(application_choice.audits.last.comment).to eq('zendesk')
+    end
+  end
 end
