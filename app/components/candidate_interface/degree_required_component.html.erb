@@ -1,0 +1,17 @@
+<% if candidate_degree_grade_below_required_grade? %>
+  <%= govuk_inset_text(classes: 'govuk-inset-text app-inset-text--narrow-border app-inset-text--important govuk-!-margin-top-0 govuk-!-padding-bottom-1') do %>
+    <div class="app-inset-text__title"><%= COURSE_REQUIRED_GRADE_TEXT[@application_choice.course.degree_grade] %><div>
+      <div class="govuk-body">
+        <p>You said you have <%= DEGREE_GRADE_INSUFFICIENT_TEXT[@highest_candidate_degree_grade] %></p>
+        <p>You can:</p>
+
+        <ul class="govuk-list govuk-list--bullet">
+         <li>find a course that has a lower degree requirement</li>
+         <li>contact the provider to see if they will still consider your application</li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <%= COURSE_REQUIRED_GRADE_TEXT[@application_choice.course.degree_grade] %>
+<% end %>
