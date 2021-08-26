@@ -23,7 +23,7 @@ module ProviderInterface
       end
 
       def csv_filename(provider)
-        "#{Time.zone.now},#{provider.name}.status_of_active_applications.csv"
+        "Status of active applications - #{provider.name} - #{RecruitmentCycle.cycle_name} - #{Time.zone.now.strftime('%F-%H_%M_%S')}.csv"
       end
 
       def redirect_if_reports_dashboard_feature_flag_is_off
