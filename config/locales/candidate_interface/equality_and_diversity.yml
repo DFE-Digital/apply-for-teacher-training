@@ -2,11 +2,11 @@ en:
   equality_and_diversity:
     title: Equality and diversity questionnaire
     choice:
-      title: Can you complete a 3-minute questionnaire?
+      title: Do you want to answer a few questions about your sex, disability and ethnicity?
       'yes':
-        label: Yes, continue to the questionnaire
+        label: 'Yes'
       'no':
-        label: No, continue without completing questionnaire
+        label: 'No'
     sex:
       title: What is your sex?
       female:
@@ -26,7 +26,7 @@ en:
       opt_out:
         label: Prefer not to say
     disabilities:
-      title: Please select all that apply to you
+      title: What disabilities do you have?
       blind:
         label: Blind
         hint_text: (or a serious visual impairment which is not corrected by glasses)
