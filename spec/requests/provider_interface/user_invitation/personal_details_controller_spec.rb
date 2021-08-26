@@ -21,6 +21,13 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
       expect(response.status).to eq(200)
     end
 
+    it 'tracks validation errors on POST create' do
+      expect {
+        post provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider),
+             params: { provider_interface_invite_user_wizard: { email_address: managing_user.email_address, first_name: 'First', last_name: 'Last' } }
+      }.to change(ValidationError, :count).by(1)
+    end
+
     context 'when a user does not have manage users permissions' do
       let(:managing_user) { create(:provider_user, :with_manage_organisations, providers: [provider]) }
 
