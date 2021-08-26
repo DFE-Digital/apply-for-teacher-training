@@ -373,7 +373,7 @@ private
     write_metric(
       :satisfaction_survey_positive_feedback_rate,
       satisfaction_survey_statistics.formatted_positive_feedback_rate(
-        CycleTimetable.apply_reopens.beginning_of_day,
+        CycleTimetable.apply_opens.beginning_of_day,
       ),
     )
     write_metric(
