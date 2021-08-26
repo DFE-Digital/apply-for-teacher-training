@@ -27,11 +27,11 @@ RSpec.describe ProviderInterface::StatusOfActiveApplicationsExport do
       expect(row['Name']).to eq(course_with_other_accredited_provider.name)
       expect(row['Code']).to eq(course_with_other_accredited_provider.code)
       expect(row['Partner organisation']).to eq(course_with_other_accredited_provider.accredited_provider.name)
-      expect(row['Received']).to eq('0')
-      expect(row['Interviewing']).to eq('10')
-      expect(row['Offered']).to eq('0')
-      expect(row['Conditions pending']).to eq('5')
-      expect(row['Recruited']).to eq('0')
+      expect(row[I18n.t('provider_application_states.awaiting_provider_decision').to_s]).to eq('0')
+      expect(row[I18n.t('provider_application_states.interviewing').to_s]).to eq('10')
+      expect(row[I18n.t('provider_application_states.offer').to_s]).to eq('0')
+      expect(row[I18n.t('provider_application_states.pending_conditions').to_s]).to eq('5')
+      expect(row[I18n.t('provider_application_states.recruited').to_s]).to eq('0')
     end
 
     it 'outputs one row per course' do

@@ -59,11 +59,11 @@ RSpec.feature 'View active status of applications report' do
     expect(page).to have_content(provider.name)
     within 'table thead tr' do
       expect(page).to have_content('Course')
-      expect(page).to have_content('Received')
-      expect(page).to have_content('Interviewing')
-      expect(page).to have_content('Offered')
-      expect(page).to have_content('Conditions pending')
-      expect(page).to have_content('Recruited')
+      expect(page).to have_content(I18n.t('provider_application_states.awaiting_provider_decision').to_s)
+      expect(page).to have_content(I18n.t('provider_application_states.interviewing').to_s)
+      expect(page).to have_content(I18n.t('provider_application_states.offer').to_s)
+      expect(page).to have_content(I18n.t('provider_application_states.pending_conditions').to_s)
+      expect(page).to have_content(I18n.t('provider_application_states.recruited').to_s)
     end
     within 'table tbody' do
       expect(page).to have_content(course_with_other_accredited_provider.name)
@@ -76,7 +76,14 @@ RSpec.feature 'View active status of applications report' do
     click_on 'Export data (CSV)'
 
     csv = CSV.parse(page.body, headers: true)
-    expect(csv.headers).to eq(['Name', 'Code', 'Partner organisation', 'Received', 'Interviewing', 'Offered', 'Conditions pending', 'Recruited'])
+    expect(csv.headers).to eq(['Name',
+                               'Code',
+                               'Partner organisation',
+                               I18n.t('provider_application_states.awaiting_provider_decision').to_s,
+                               I18n.t('provider_application_states.interviewing').to_s,
+                               I18n.t('provider_application_states.offer').to_s,
+                               I18n.t('provider_application_states.pending_conditions').to_s,
+                               I18n.t('provider_application_states.recruited').to_s])
 
     expect(csv['Name']).to eq(['Archaeology', 'Beekeeping', 'Criminology', 'All courses'])
   end

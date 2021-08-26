@@ -15,11 +15,11 @@ module ProviderInterface
           Name: courses.first.name,
           Code: courses.first.code,
           'Partner organisation': provider_name(courses.first),
-          Received: status_count(courses, :awaiting_provider_decision),
-          Interviewing: status_count(courses, :interviewing),
-          Offered: status_count(courses, :offer),
-          'Conditions pending': status_count(courses, :pending_conditions),
-          Recruited: status_count(courses, :recruited),
+          "#{I18n.t('provider_application_states.awaiting_provider_decision')}": status_count(courses, :awaiting_provider_decision),
+          "#{I18n.t('provider_application_states.interviewing')}": status_count(courses, :interviewing),
+          "#{I18n.t('provider_application_states.offer')}": status_count(courses, :offer),
+          "#{I18n.t('provider_application_states.pending_conditions')}": status_count(courses, :pending_conditions),
+          "#{I18n.t('provider_application_states.recruited')}": status_count(courses, :recruited),
         }
       end
       data << totals_row(data)
@@ -34,11 +34,11 @@ module ProviderInterface
         Name: 'All courses',
         Code: 'TOTAL',
         'Partner organisation': '',
-        Received: totals_count(rows)[0],
-        Interviewing: totals_count(rows)[1],
-        Offered: totals_count(rows)[2],
-        'Conditions pending': totals_count(rows)[3],
-        Recruited: totals_count(rows)[4],
+        "#{I18n.t('provider_application_states.awaiting_provider_decision')}": totals_count(rows)[0],
+        "#{I18n.t('provider_application_states.interviewing')}": totals_count(rows)[1],
+        "#{I18n.t('provider_application_states.offer')}": totals_count(rows)[2],
+        "#{I18n.t('provider_application_states.pending_conditions')}": totals_count(rows)[3],
+        "#{I18n.t('provider_application_states.recruited')}": totals_count(rows)[4],
       }
     end
 
@@ -47,11 +47,11 @@ module ProviderInterface
 
       @totals_count = Array.new(5) { 0 }
       rows.each do |row|
-        @totals_count[0] += row[:Received]
-        @totals_count[1] += row[:Interviewing]
-        @totals_count[2] += row[:Offered]
-        @totals_count[3] += row[:'Conditions pending']
-        @totals_count[4] += row[:Recruited]
+        @totals_count[0] += row[:"#{I18n.t('provider_application_states.awaiting_provider_decision')}"]
+        @totals_count[1] += row[:"#{I18n.t('provider_application_states.interviewing')}"]
+        @totals_count[2] += row[:"#{I18n.t('provider_application_states.offer')}"]
+        @totals_count[3] += row[:"#{I18n.t('provider_application_states.pending_conditions')}"]
+        @totals_count[4] += row[:"#{I18n.t('provider_application_states.recruited')}"]
       end
       @totals_count
     end
