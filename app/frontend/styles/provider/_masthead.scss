@@ -24,10 +24,11 @@
 }
 
 .app-masthead__alternative-action {
-  @include govuk-font($size: 19);
-  white-space: nowrap;
-  position: relative;
-  top: govuk-spacing(2);
+  @include govuk-responsive-margin(6, "top");
+
+  * {
+    color: inherit;
+  }
 
   .govuk-link {
     color: inherit;
