@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_set_up_interviews_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
-    before_action :redirect_to_index_if_store_cleared, only: %i[check commit]
+    before_action :redirect_to_index_if_store_cleared, only: %i[preview create]
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
@@ -21,15 +21,35 @@ module ProviderInterface
     end
 
     def new
-      @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'input'))
+      @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'input', action: action))
+      @wizard.referer ||= request.referer
       @wizard.save_state!
     end
 
     def edit
       @interview = @application_choice.interviews.find(params[:id])
 
-      @wizard = InterviewWizard.from_model(interview_store, @interview, 'input')
+      @wizard = InterviewWizard.from_model(interview_store, @interview, 'edit', action)
+      @wizard.referer ||= request.referer
       @wizard.save_state!
+    end
+
+    def preview
+      @wizard = InterviewWizard.new(interview_store, interview_params)
+      @wizard.save_state!
+
+      if @wizard.valid?
+        if params[:id]
+          @interview = @application_choice.interviews.find(params[:id])
+
+          redirect_to check_provider_interface_application_choice_interview_path(@application_choice, @interview)
+        else
+          redirect_to check_provider_interface_application_choice_interviews_path(@application_choice, @interview)
+        end
+      else
+        track_validation_error(@wizard)
+        render :new
+      end
     end
 
     def check
@@ -38,20 +58,11 @@ module ProviderInterface
         @translation_prefix = '.update'
       end
 
-      if request.get?
-        @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'check'))
-      elsif request.post?
-        @wizard = InterviewWizard.new(interview_store, interview_params.merge(current_step: 'check'))
-      end
+      @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'check', action: action))
       @wizard.save_state!
-
-      unless @wizard.valid?
-        track_validation_error(@wizard)
-        render :new
-      end
     end
 
-    def commit
+    def create
       @wizard = InterviewWizard.new(interview_store, interview_form_context_params)
 
       if @wizard.valid?
@@ -169,6 +180,10 @@ module ProviderInterface
 
     def redirect_to_index_if_store_cleared
       redirect_to provider_interface_application_choice_interviews_path(@application_choice) if interview_store.read.blank?
+    end
+
+    def action
+      'back' if !!params[:back]
     end
   end
 end

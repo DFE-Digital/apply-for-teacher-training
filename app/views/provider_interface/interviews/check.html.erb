@@ -1,5 +1,5 @@
 <% content_for :browser_title, t("#{@translation_prefix}.page_title") %>
-<% content_for :before_content, govuk_back_link_to(request.referer) %>
+<% content_for :before_content, govuk_back_link_to(interview_path_for(@application_choice, @wizard, @interview, @wizard.previous_step, back: true)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -13,7 +13,7 @@
     <% if @interview.present? %>
       <%= govuk_button_to t('.update.confirm'), { action: 'update', id: @interview.id }, method: :put %>
     <% else %>
-      <%= govuk_button_to t('.confirm'), { action: 'commit' }, method: :post %>
+      <%= govuk_button_to t('.confirm'), { action: 'create' }, method: :post %>
     <% end %>
 
     <p class="govuk-body">

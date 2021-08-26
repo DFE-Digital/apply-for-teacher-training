@@ -22,6 +22,13 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     when_i_visit_that_application_in_the_provider_interface
     and_i_click_set_up_an_interview
+    and_i_fill_out_the_interview_form(days_in_future: -1, time: '12pm')
+    then_i_see_an_error_message
+
+    and_i_go_back
+    then_i_should_be_on_the_application_page
+
+    and_i_click_set_up_an_interview
     and_i_fill_out_the_interview_form(days_in_future: 1, time: '10pm')
     then_i_can_check_the_interview_details(time: '10pm')
 
@@ -154,6 +161,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_go_back
     click_on 'Back'
+  end
+
+  def then_i_see_an_error_message
+    expect(page).to have_content 'There is a problem'
+  end
+
+  def then_i_should_be_on_the_application_page
+    expect(page).to have_current_path(provider_interface_application_choice_path(application_choice))
   end
 
   def then_i_see_a_success_message

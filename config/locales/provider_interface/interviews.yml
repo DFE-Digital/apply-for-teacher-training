@@ -15,7 +15,7 @@ en:
           page_title: Change interview details
           title: Check and send new interview details
           confirm: Send new interview details
-      commit:
+      create:
         success: Interview set up
       update:
         success: Interview changed

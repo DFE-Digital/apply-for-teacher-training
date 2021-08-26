@@ -1,12 +1,12 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_interviews_path(@application_choice)) %>
+<% content_for :before_content, govuk_back_link_to(interview_path_for(@application_choice, @wizard, @interview, @wizard.previous_step, back: true)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::InterviewFormComponent.new(
       application_choice: @application_choice,
       form_model: @wizard,
-      form_url: check_provider_interface_application_choice_interview_path(@application_choice, @interview),
+      form_url: preview_provider_interface_application_choice_interview_path(@application_choice, @interview),
       form_heading: t('.title'),
     ) %>
 

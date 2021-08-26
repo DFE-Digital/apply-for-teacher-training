@@ -5,7 +5,8 @@ module ProviderInterface
 
     VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:.\s]([0-5][0-9]))?([AaPp][Mm])$/.freeze
 
-    attr_accessor :time, :location, :additional_details, :provider_id, :application_choice, :provider_user, :current_step
+    attr_accessor :time, :location, :additional_details, :provider_id, :application_choice, :provider_user,
+                  :current_step, :path_history, :wizard_path_history, :action, :referer
     attr_writer :date
 
     attribute 'date(3i)', :string
@@ -27,6 +28,8 @@ module ProviderInterface
       @state_store = state_store
 
       super(last_saved_state.deep_merge(attrs))
+      @path_history ||= [:referer]
+      update_path_history(attrs)
     end
 
     def date
@@ -45,6 +48,12 @@ module ProviderInterface
       Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min) if date.is_a?(Date) && parsed_time.is_a?(Time)
     end
 
+    def previous_step
+      wizard_path_history.previous_step
+    rescue WizardPathHistory::NoSuchStepError
+      :referer
+    end
+
     def provider
       if multiple_application_providers?
         application_providers.find { |provider| provider.id == provider_id.to_i }
@@ -57,12 +66,20 @@ module ProviderInterface
       @state_store.write(state)
     end
 
+    def update_path_history(attrs)
+      @wizard_path_history = WizardPathHistory.new(@path_history,
+                                                   step: attrs[:current_step].presence,
+                                                   action: attrs[:action].presence)
+      @wizard_path_history.update
+      @path_history = @wizard_path_history.path_history
+    end
+
     def clear_state!
       @state_store.delete
     end
 
-    def self.from_model(store, interview, step = 'input')
-      wizard = new(store, { current_step: step })
+    def self.from_model(store, interview, step = 'input', action = nil)
+      wizard = new(store, { current_step: step, action: action })
 
       wizard.additional_details ||= interview.additional_details
       wizard.application_choice = interview.application_choice
@@ -124,7 +141,7 @@ module ProviderInterface
     end
 
     def state
-      as_json(except: %w[state_store errors validation_context]).to_json
+      as_json(except: %w[state_store errors validation_context _application_providers _multiple_application_providers]).to_json
     end
   end
 end
