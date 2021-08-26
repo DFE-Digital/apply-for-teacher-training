@@ -5,10 +5,10 @@
 <% if FeatureFlag.active?(:account_and_org_settings_changes) %>
 <ul class="govuk-list govuk-list--spaced">
   <li>
-    <%= govuk_link_to t('page_titles.provider.personal_details'), provider_interface_personal_details_path %>
+    <%= govuk_link_to t('page_titles.provider.your_personal_details'), provider_interface_personal_details_path %>
   </li>
   <li>
-    <%= govuk_link_to t('page_titles.provider.user_permissions'), provider_interface_personal_permissions_path %>
+    <%= govuk_link_to t('page_titles.provider.your_user_permissions'), provider_interface_personal_permissions_path %>
   </li>
   <li>
     <%= govuk_link_to t('page_titles.provider.email_notifications'), provider_interface_notifications_path %>

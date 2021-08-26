@@ -5,7 +5,9 @@ module ProviderInterface
     before_action :set_provider_user, except: :index
     before_action :assert_can_manage_users!, except: %i[index show]
 
-    def index; end
+    def index
+      @current_user_can_manage_users = current_user_can_manage_users
+    end
 
     def show
       @current_user_can_manage_users = current_user_can_manage_users

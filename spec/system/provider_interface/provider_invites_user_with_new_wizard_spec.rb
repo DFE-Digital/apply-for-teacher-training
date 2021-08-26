@@ -4,6 +4,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   include DfESignInHelpers
   include DsiAPIHelper
 
+  # Behaviour tested here has moved to spec/system/provider_interface/invite_user_spec.rb
   before { FeatureFlag.deactivate(:account_and_org_settings_changes) }
 
   scenario 'Provider sends invite to user' do

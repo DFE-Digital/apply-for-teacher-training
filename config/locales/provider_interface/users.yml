@@ -1,0 +1,19 @@
+en:
+  helpers:
+    label:
+      provider_interface_invite_user_wizard:
+        first_name: First name
+        last_name: Last name
+        email_address: Email address
+  activemodel:
+    errors:
+      models:
+        provider_interface/invite_user_wizard:
+          attributes:
+            email_address:
+              blank: Enter the user’s email address
+              email_already_associated: A user with this email address already has access to %{provider_name}
+            first_name:
+              blank: Enter the user’s first name
+            last_name:
+              blank: Enter the user’s last name

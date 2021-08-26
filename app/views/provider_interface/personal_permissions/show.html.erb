@@ -1,14 +1,14 @@
-<%= content_for :browser_title, t('page_titles.provider.user_permissions') %>
+<%= content_for :browser_title, t('page_titles.provider.your_user_permissions') %>
 <% content_for :before_content do %>
   <%= breadcrumbs({
     t('page_titles.provider.account') => provider_interface_account_path,
-    t('page_titles.provider.user_permissions') => nil,
+    t('page_titles.provider.your_user_permissions') => nil,
   }) %>
 <% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t('page_titles.provider.user_permissions') %></h1>
+    <h1 class="govuk-heading-l"><%= t('page_titles.provider.your_user_permissions') %></h1>
 
     <% if @providers.length > 1 %>
       <h2 class="govuk-heading-m"><%= t('.access_to_orgs.heading') %></h2>
