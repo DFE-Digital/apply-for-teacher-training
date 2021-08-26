@@ -98,10 +98,6 @@ module CandidateInterface
         redirect_to candidate_interface_references_start_path if current_application.application_references.blank?
       end
 
-      def section_complete_params
-        strip_whitespace params.fetch(:candidate_interface_section_complete_form, {}).permit(:completed)
-      end
-
       def set_references
         @references_selected = current_application.application_references.includes(:application_form).selected
         @references_given = current_application.application_references.includes(:application_form).feedback_provided

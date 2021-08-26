@@ -37,10 +37,6 @@ module SupportInterface
         params[:provider_id].to_i
       end
 
-      def position_param
-        params[:position].to_i
-      end
-
       def multiple_provider_user_store
         key = "multiple_provider_user_store_#{provider_id_param}"
         WizardStateStores::RedisStore.new(key: key)

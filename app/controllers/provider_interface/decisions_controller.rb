@@ -89,10 +89,6 @@ module ProviderInterface
 
   private
 
-    def make_an_offer_params
-      params.require(:make_an_offer)
-    end
-
     def confirm_application_is_in_decision_pending_state
       return if @application_choice.decision_pending?
 

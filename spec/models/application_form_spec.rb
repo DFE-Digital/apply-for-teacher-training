@@ -471,33 +471,6 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#all_applications_not_sent?' do
-    let(:application_form) { build(:application_form) }
-
-    it 'returns true if all application choices are in the application_not_sent or withdrawn state' do
-      create(:application_choice, :application_not_sent, application_form: application_form)
-      create(:application_choice, :withdrawn, application_form: application_form)
-
-      expect(application_form.all_applications_not_sent?).to eq true
-    end
-
-    it 'returns false if application choices are in any other state' do
-      create(:application_choice, :withdrawn, application_form: application_form)
-
-      expect(application_form.all_applications_not_sent?).to eq false
-    end
-  end
-
-  describe '#references_did_not_come_back_in_time?' do
-    let(:application_form) { create(:application_form) }
-
-    it 'returns true if all references were cancelled at end of cycle' do
-      create(:reference, application_form: application_form, feedback_status: :cancelled_at_end_of_cycle)
-
-      expect(application_form.references_did_not_come_back_in_time?).to eq true
-    end
-  end
-
   describe '#full_address' do
     it 'returns the candidate address and postcode for UK addresses' do
       application_form = create(

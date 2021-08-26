@@ -15,7 +15,6 @@ class Course < ApplicationRecord
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
-  scope :with_subjects, ->(subject_ids) { joins(:subjects).merge(Subject.where(id: subject_ids)) }
 
   scope :with_course_options, -> { left_outer_joins(:course_options).where.not(course_options: { id: nil }) }
   CODE_LENGTH = 4
@@ -87,14 +86,6 @@ class Course < ApplicationRecord
 
   def currently_has_both_study_modes_available?
     available_study_modes_with_vacancies.count == 2
-  end
-
-  def supports_study_mode?(mode)
-    available_study_modes_from_options.include?(mode)
-  end
-
-  def available_study_modes_from_options
-    course_options.select(&:site_still_valid).pluck(:study_mode).uniq
   end
 
   def available_study_modes_with_vacancies
