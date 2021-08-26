@@ -21,7 +21,7 @@ module VendorAPI
     def application_choices_visible_to_provider
       GetApplicationChoicesForProviders
         .call(
-          providers: current_provider,
+          providers: [current_provider],
           vendor_api: true,
           includes: [
             offer: %i[conditions],
