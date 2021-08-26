@@ -1,16 +1,16 @@
 <%= govuk_inset_text do %>
   <% if no_viable_references? %>
     <p class="govuk-body">You need to get 2 references back before you can submit your application.</p>
-    <%= govuk_link_to 'Add a referee', candidate_interface_references_start_path, button: true %>
+    <%= govuk_link_to 'Request a reference', candidate_interface_references_start_path, button: true %>
   <% elsif one_viable_reference? %>
     <p class="govuk-body">You need to get 2 references back before you can submit your application.</p>
-    <%= govuk_link_to 'Add a second referee', candidate_interface_references_start_path, button: true %>
+    <%= govuk_link_to 'Request a second reference', candidate_interface_references_start_path, button: true %>
   <% else %>
     <% if @application_form.minimum_references_available_for_selection? %>
       <p class="govuk-body">You can add as many referees as you like but you can only submit 2 with your application.</p>
     <% else %>
       <p class="govuk-body">You can add more referees to increase the chances of getting 2 references quickly.</p>
     <% end %>
-    <%= govuk_link_to 'Add another referee', candidate_interface_references_start_path, button: true, class: 'govuk-button--secondary' %>
+    <%= govuk_link_to 'Request another reference', candidate_interface_references_start_path, button: true, class: 'govuk-button--secondary' %>
   <% end %>
 <% end %>

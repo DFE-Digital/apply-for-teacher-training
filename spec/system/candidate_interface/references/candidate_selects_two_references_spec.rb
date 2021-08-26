@@ -39,7 +39,6 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
     when_i_mark_the_section_as_incomplete
     and_i_click_save_and_continue
     then_i_see_the_section_is_incomplete
-    and_that_i_can_still_change_my_choice
 
     when_i_revisit_the_select_references_page
     and_i_mark_the_section_as_completed
@@ -153,10 +152,6 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
 
   def then_i_see_the_section_is_incomplete
     expect(page).to have_css('#select-2-references-badge-id', text: 'Incomplete')
-  end
-
-  def and_that_i_can_still_change_my_choice
-    expect(page).to have_content 'You’ve selected 2 references to submit with your application already, but you can change your selection if you want.'
   end
 
   def then_i_see_the_references_section_is_complete

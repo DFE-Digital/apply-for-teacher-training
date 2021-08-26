@@ -82,7 +82,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_click_add_your_references
-    click_link 'Add your references'
+    click_link 'Request your references'
   end
 
   def and_i_click_to_add_a_reference

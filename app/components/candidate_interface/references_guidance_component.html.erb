@@ -1,0 +1,11 @@
+<% if references.feedback_provided.count > ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
+  <p class="govuk-body">You have more than enough references to send your application to training providers.</p>
+  <p class="govuk-body">Select the 2 references you want to include in your application.</p>
+<% elsif references.feedback_provided.count == ApplicationForm::REQUIRED_REFERENCE_SELECTIONS %>
+  <p class="govuk-body">You have enough references to send your application to training providers.</p>
+  <p class="govuk-body">Select the 2 references you want to include in your application.</p>
+<% else %>
+  <p class="govuk-body">Your application needs to include 2 references.</p>
+  <p class="govuk-body">It takes 8 days to get a reference on average. You can request as many references as you like to increase the chances of getting 2 quickly.</p>
+  <p class="govuk-body">Once you’ve received 2 or more references, you can select the 2 you want to include in your application.</p>
+<% end %>

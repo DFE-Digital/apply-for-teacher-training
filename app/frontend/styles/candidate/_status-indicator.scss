@@ -1,45 +1,50 @@
 .app-status-indicator {
   align-items: center;
+  border: 4px currentColor solid;
   border-radius: 100%;
   display: inline-flex;
-  height: govuk-spacing(2);
+  height: govuk-spacing(1);
   justify-content: center;
-  width: govuk-spacing(2);
+  width: govuk-spacing(1);
   margin-right: govuk-spacing(1);
 }
 
+.app-status-indicator--filled {
+  background-color: currentColor;
+}
+
 .app-status-indicator--grey {
-  background-color: govuk-colour("mid-grey");
+  color: govuk-colour("mid-grey");
 }
 
 .app-status-indicator--purple {
-  background-color: govuk-colour("purple");
+  color: govuk-colour("purple");
 }
 
 .app-status-indicator--turquoise {
-  background-color: govuk-colour("turquoise");
+  color: govuk-colour("turquoise");
 }
 
 .app-status-indicator--blue {
-  background-color: govuk-colour("blue");
+  color: govuk-colour("blue");
 }
 
 .app-status-indicator--yellow {
-  background-color: govuk-colour("yellow");
+  color: govuk-colour("yellow");
 }
 
 .app-status-indicator--orange {
-  background-color: govuk-colour("orange");
+  color: govuk-colour("orange");
 }
 
 .app-status-indicator--red {
-  background-color: govuk-colour("red");
+  color: govuk-colour("red");
 }
 
 .app-status-indicator--pink {
-  background-color: govuk-colour("pink");
+  color: govuk-colour("pink");
 }
 
 .app-status-indicator--green {
-  background-color: govuk-colour("green");
+  color: govuk-colour("green");
 }
