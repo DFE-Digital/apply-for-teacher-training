@@ -5,6 +5,8 @@
       "type": "providers",
       "attributes": {
         "accredited_body": "true",
+        "can_sponsor_skilled_worker_visa": true,
+        "can_sponsor_student_visa": true,
         "city": "London",
         "county": "London",
         "changed_at": "2019-06-13T10:44:31Z",

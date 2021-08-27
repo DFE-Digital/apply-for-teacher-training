@@ -49,6 +49,13 @@ class Course < ApplicationRecord
     pg_teaching_apprenticeship: 'TA',
   }
 
+  enum degree_grade: {
+    two_one: 'two_one',
+    two_two: 'two_two',
+    third_class: 'third_class',
+    not_required: 'not_required',
+  }
+
   def name_and_description
     "#{name} #{description}"
   end
