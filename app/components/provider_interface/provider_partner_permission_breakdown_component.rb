@@ -8,14 +8,14 @@ module ProviderInterface
     end
 
     def partners_for_which_permission_applies
-      @partners_for_which_permission_applies ||= Provider.where(id: training_partners_for_which_permission_applies_ids)
-                                                         .or(Provider.where(id: ratifying_partners_for_which_permission_applies_ids))
+      @partners_for_which_permission_applies ||= Provider.where(id: training_provider_partner_ids_where(permission_applies: true))
+                                                         .or(Provider.where(id: ratifying_provider_partner_ids_where(permission_applies: true)))
                                                          .order(:name)
     end
 
     def partners_for_which_permission_does_not_apply
-      @partners_for_which_permission_does_not_apply ||= Provider.where(id: training_partners_for_which_permission_does_not_apply_ids)
-                                                                .or(Provider.where(id: ratifying_partners_for_which_permission_does_not_apply_ids))
+      @partners_for_which_permission_does_not_apply ||= Provider.where(id: training_provider_partner_ids_where(permission_applies: false))
+                                                                .or(Provider.where(id: ratifying_provider_partner_ids_where(permission_applies: false)))
                                                                 .order(:name)
     end
 
@@ -37,32 +37,18 @@ module ProviderInterface
 
   private
 
-    def training_partners_for_which_permission_applies_ids
-      Provider.joins(:training_provider_permissions)
-              .where(provider_relationship_permissions: { ratifying_provider: provider,
-                                                          "ratifying_provider_can_#{permission}" => true })
-              .pluck(:id)
+    def training_provider_partner_ids_where(permission_applies:)
+      provider.ratifying_provider_permissions
+              .providers_have_open_course
+              .where("ratifying_provider_can_#{permission}" => permission_applies)
+              .pluck(:training_provider_id)
     end
 
-    def ratifying_partners_for_which_permission_applies_ids
-      Provider.joins(:ratifying_provider_permissions)
-              .where(provider_relationship_permissions: { training_provider: provider,
-                                                          "training_provider_can_#{permission}" => true })
-              .pluck(:id)
-    end
-
-    def training_partners_for_which_permission_does_not_apply_ids
-      Provider.joins(:training_provider_permissions)
-              .where(provider_relationship_permissions: { ratifying_provider: provider,
-                                                          "ratifying_provider_can_#{permission}" => false })
-              .pluck(:id)
-    end
-
-    def ratifying_partners_for_which_permission_does_not_apply_ids
-      Provider.joins(:ratifying_provider_permissions)
-              .where(provider_relationship_permissions: { training_provider: provider,
-                                                          "training_provider_can_#{permission}" => false })
-              .pluck(:id)
+    def ratifying_provider_partner_ids_where(permission_applies:)
+      provider.training_provider_permissions
+              .providers_have_open_course
+              .where("training_provider_can_#{permission}" => permission_applies)
+              .pluck(:ratifying_provider_id)
     end
   end
 end
