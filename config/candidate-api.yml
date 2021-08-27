@@ -155,6 +155,31 @@ components:
          format: date-time
          description: Time of last change
          example: 2021-05-20T12:34:00Z
+        application_status:
+         type: string
+         description: The status of the candidates current application form
+         enum:
+          - never_signed_in
+          - unsubmitted_not_started_form
+          - unsubmitted_in_progress
+          - awaiting_provider_decisions
+          - awaiting_candidate_response
+          - recruited
+          - pending_conditions
+          - offer_deferred
+          - ended_without_success
+          - unknown_state
+         example: awaiting_provider_decisions
+        application_phase:
+         type: string
+         description: The phase of the candidates current application. In the first phase, "Apply 1", the
+            candidate can choose up to 3 courses. If all of those choices are rejected,
+            declined, or withdrawn, the user can go into "Apply 2". This means
+            they can choose 1 course at a time.
+         enum:
+          - apply_1
+          - apply_2
+         example: apply_1
     UnauthorizedResponse:
       type: object
       required:

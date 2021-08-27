@@ -69,7 +69,11 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     expect(response_data.size).to eq(2)
 
     expect(response_data.first['id']).to eq(application_forms.second.id)
+    expect(response_data.first['application_phase']).to eq(application_forms.second.phase)
+    expect(response_data.first['application_status']).to eq(ProcessState.new(application_forms.second).state.to_s)
     expect(response_data.second['id']).to eq(application_forms.first.id)
+    expect(response_data.second['application_phase']).to eq(application_forms.first.phase)
+    expect(response_data.second['application_status']).to eq(ProcessState.new(application_forms.first).state.to_s)
 
     application_forms.first.update(created_at: 10.seconds.ago)
 

@@ -52,6 +52,8 @@ module CandidateAPI
                   id: application.id,
                   created_at: application.created_at,
                   updated_at: application.updated_at,
+                  application_status: ProcessState.new(application).state,
+                  application_phase: application.phase,
                 }
               end,
           },
