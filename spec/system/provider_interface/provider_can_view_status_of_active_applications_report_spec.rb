@@ -13,10 +13,6 @@ RSpec.feature 'View active status of applications report' do
   let(:course_provider_accredits) { create(:course, name: 'Criminology', provider: other_provider, accredited_provider: provider) }
   let(:course_option_provider_accredits) { create(:course_option, course: course_provider_accredits) }
 
-  before do
-    FeatureFlag.activate(:provider_reports_dashboard)
-  end
-
   scenario 'a provider can navigate, view and export the active applications status report' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider

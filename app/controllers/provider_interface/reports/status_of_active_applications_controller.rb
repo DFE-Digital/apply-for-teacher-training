@@ -1,8 +1,6 @@
 module ProviderInterface
   module Reports
     class StatusOfActiveApplicationsController < ProviderInterfaceController
-      before_action :redirect_if_reports_dashboard_feature_flag_is_off
-
       def show
         @provider = current_user.providers.find(provider_id)
         respond_to do |format|
@@ -24,12 +22,6 @@ module ProviderInterface
 
       def csv_filename(provider)
         "Status of active applications - #{provider.name} - #{RecruitmentCycle.cycle_name} - #{Time.zone.now.strftime('%F-%H_%M_%S')}.csv"
-      end
-
-      def redirect_if_reports_dashboard_feature_flag_is_off
-        return if FeatureFlag.active?(:provider_reports_dashboard)
-
-        redirect_to provider_interface_reports_path
       end
     end
   end
