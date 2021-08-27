@@ -1,16 +1,19 @@
 class FeatureFlag
-  attr_accessor :name, :description, :owner, :type
+  attr_accessor :name, :description, :owner, :type, :active
 
   def initialize(name:, description:, owner:)
     self.name = name
     self.description = description
     self.owner = owner
     self.type =  FEATURE_TYPES[name].presence || 'invariant'
+    self.active = nil
   end
 
   def feature
     Feature.find_or_initialize_by(name: name)
   end
+
+  REDIS_CACHE_KEY = 'feature_flags'.freeze
 
   PERMANENT_SETTINGS = [
     [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Apply team'],
@@ -68,12 +71,23 @@ class FeatureFlag
   def self.active?(feature_name)
     raise unless feature_name.in?(FEATURES)
 
-    FEATURES[feature_name].feature.active?
+    feature_flag = FEATURES[feature_name]
+
+    return feature_flag.active unless feature_flag.active.nil?
+
+    feature_active = Redis.current.hget(REDIS_CACHE_KEY, feature_name)
+    if feature_active.nil?
+      feature_active = feature_flag.feature.active?.to_s
+      Redis.current.hset(REDIS_CACHE_KEY, feature_name, feature_active)
+    end
+    feature_flag.active = JSON.parse(feature_active)
   end
 
   def self.sync_with_database(feature_name, active)
     feature = Feature.find_or_initialize_by(name: feature_name)
     feature.active = active
+    FEATURES[feature_name].active = active
+    Redis.current.hset(REDIS_CACHE_KEY, feature_name, active)
     feature.save!
   end
 end
