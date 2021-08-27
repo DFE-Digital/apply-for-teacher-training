@@ -8,11 +8,11 @@
         <div class="app-masthead__description">
           <p class="govuk-body-l">Try our new service to see how easy it is to use. It’s free for providers and candidates.</p>
         </div>
-        <%= govuk_start_now_button(
-              text: 'Sign in',
-              href: provider_interface_sign_in_path,
-              classes: 'govuk-!-margin-bottom-0 app-button--inverted',
-            ) %>
+        <%= govuk_start_button(
+          text: 'Get started',
+          href: provider_interface_sign_in_path,
+          classes: 'govuk-!-margin-bottom-0 app-button--inverted',
+        ) %>
         <div class="app-masthead__alternative-action">
           <p class="govuk-body-m">If your organisation has not been setup to use this service, email <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
         </div>
@@ -78,11 +78,11 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
         <dl class="app-count">
-          <%= govuk_link_to candidate_interface_providers_path, class: 'app-count__item govuk-link--no-visited-state' do %>
+          <%= govuk_link_to candidate_interface_providers_path, no_visited_state: true, class: 'app-count__item' do %>
             <dt class="app-count__key">Providers</dt>
             <dd class="app-count__value"><%= number_with_delimiter(@provider_count) %></dd>
           <% end %>
-          <%= govuk_link_to candidate_interface_providers_path, class: 'app-count__item govuk-link--no-visited-state' do %>
+          <%= govuk_link_to candidate_interface_providers_path, no_visited_state: true, class: 'app-count__item' do %>
             <dt class="app-count__key">Courses</dt>
             <dd class="app-count__value"><%= number_with_delimiter(@course_count) %></dd>
           <% end %>

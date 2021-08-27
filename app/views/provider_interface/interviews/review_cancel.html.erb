@@ -17,10 +17,11 @@
       {
         key: t('.cancellation_reason'),
         value: @cancellation_wizard.cancellation_reason,
-        action: t('.cancellation_reason').downcase,
-        change_path: cancel_provider_interface_application_choice_interview_path(@application_choice, @interview),
+        action: {
+          href: cancel_provider_interface_application_choice_interview_path(@application_choice, @interview),
+          visually_hidden_text: t('.cancellation_reason').downcase,
+        },
       },
-      {},
     ]) %>
 
     <%= form_with model: @cancellation_wizard, url: cancel_confirm_provider_interface_application_choice_interview_path(@application_choice, @interview), method: :post do |f| %>
@@ -31,7 +32,7 @@
     <% end %>
 
     <p class="govuk-body">
-      <%= govuk_link_to t('cancel'), provider_interface_application_choice_interviews_path(@application_choice), class: 'govuk-link--no-visited-state' %>
+      <%= govuk_link_to t('cancel'), provider_interface_application_choice_interviews_path(@application_choice), no_visited_state: true %>
     </p>
   </div>
 </div>

@@ -6,7 +6,7 @@
 
   <h1 class="govuk-heading-xl"><%= t('page_titles.volunteering.short') %></h1>
   <% if @application_form.application_volunteering_experiences.any? %>
-    <%= govuk_link_to(t('application_form.volunteering.another.button'), candidate_interface_new_volunteering_role_path, button: true, class: 'govuk-button--secondary') %>
+    <%= govuk_button_link_to(t('application_form.volunteering.another.button'), candidate_interface_new_volunteering_role_path, secondary: true) %>
   <% end %>
 
   <%= render CandidateInterface::VolunteeringReviewComponent.new(application_form: @application_form, show_experience_advice: true) %>

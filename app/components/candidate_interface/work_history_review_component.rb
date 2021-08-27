@@ -28,8 +28,10 @@ module CandidateInterface
         {
           key: t('application_form.work_history.explanation.review_label'),
           value: @application_form.work_history_explanation,
-          action: t('application_form.work_history.explanation.change_action'),
-          change_path: candidate_interface_work_history_explanation_path,
+          action: {
+            href: candidate_interface_work_history_explanation_path,
+            visually_hidden_text: t('application_form.work_history.explanation.change_action'),
+          },
         },
       ]
     end
@@ -63,8 +65,10 @@ module CandidateInterface
       {
         key: t('application_form.work_history.role.review_label'),
         value: work.role,
-        action: generate_action(work: work, attribute: t('application_form.work_history.role.change_action')),
-        change_path: candidate_interface_work_history_edit_path(work.id),
+        action: {
+          href: candidate_interface_work_history_edit_path(work.id),
+          visually_hidden_text: generate_action(work: work, attribute: t('application_form.work_history.role.change_action')),
+        },
       }
     end
 
@@ -72,8 +76,10 @@ module CandidateInterface
       {
         key: t('application_form.work_history.organisation.review_label'),
         value: work.organisation,
-        action: generate_action(work: work, attribute: t('application_form.work_history.organisation.change_action')),
-        change_path: candidate_interface_work_history_edit_path(work.id),
+        action: {
+          href: candidate_interface_work_history_edit_path(work.id),
+          visually_hidden_text: generate_action(work: work, attribute: t('application_form.work_history.organisation.change_action')),
+        },
       }
     end
 
@@ -81,8 +87,10 @@ module CandidateInterface
       {
         key: t('application_form.work_history.working_pattern.review_label'),
         value: working_pattern(work),
-        action: generate_action(work: work, attribute: t('application_form.work_history.working_pattern.change_action')),
-        change_path: candidate_interface_work_history_edit_path(work.id),
+        action: {
+          href: candidate_interface_work_history_edit_path(work.id),
+          visually_hidden_text: generate_action(work: work, attribute: t('application_form.work_history.working_pattern.change_action')),
+        },
       }
     end
 
@@ -90,8 +98,10 @@ module CandidateInterface
       {
         key: t('application_form.work_history.dates.review_label'),
         value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
-        action: generate_action(work: work, attribute: t('application_form.work_history.dates.change_action')),
-        change_path: candidate_interface_work_history_edit_path(work.id),
+        action: {
+          href: candidate_interface_work_history_edit_path(work.id),
+          visually_hidden_text: generate_action(work: work, attribute: t('application_form.work_history.dates.change_action')),
+        },
       }
     end
 
@@ -99,8 +109,10 @@ module CandidateInterface
       {
         key: t('application_form.work_history.details.review_label'),
         value: work.details,
-        action: generate_action(work: work, attribute: t('application_form.work_history.details.change_action')),
-        change_path: candidate_interface_work_history_edit_path(work.id),
+        action: {
+          href: candidate_interface_work_history_edit_path(work.id),
+          visually_hidden_text: generate_action(work: work, attribute: t('application_form.work_history.details.change_action')),
+        },
       }
     end
 
@@ -108,8 +120,10 @@ module CandidateInterface
       {
         key: t('application_form.work_history.working_with_children.review_label'),
         value: work.working_with_children ? t('application_form.work_history.working_with_children.yes.label') : t('application_form.work_history.working_with_children.no.label'),
-        action: generate_action(work: work, attribute: t('application_form.work_history.working_with_children.change_action')),
-        change_path: candidate_interface_work_history_edit_path(work.id),
+        action: {
+          href: candidate_interface_work_history_edit_path(work.id),
+          visually_hidden_text: generate_action(work: work, attribute: t('application_form.work_history.working_with_children.change_action')),
+        },
       }
     end
 

@@ -30,9 +30,15 @@ module CandidateInterface
       {
         key: t('application_form.training_with_a_disability.disclose_disability.label'),
         value: boolean_display_value(@training_with_a_disability_form.disclose_disability),
-        action: t('application_form.training_with_a_disability.disclose_disability.change_action'),
-        change_path: candidate_interface_edit_training_with_a_disability_path(return_to_params),
-        data_qa: 'adjustments-support-confirmation',
+        action: {
+          href: candidate_interface_edit_training_with_a_disability_path(return_to_params),
+          visually_hidden_text: t('application_form.training_with_a_disability.disclose_disability.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'adjustments-support-confirmation',
+          },
+        },
       }
     end
 
@@ -40,9 +46,15 @@ module CandidateInterface
       {
         key: t('application_form.training_with_a_disability.disability_disclosure.review_label'),
         value: @training_with_a_disability_form.disability_disclosure,
-        action: t('application_form.training_with_a_disability.disability_disclosure.change_action'),
-        change_path: candidate_interface_edit_training_with_a_disability_path(return_to_params),
-        data_qa: 'adjustments-support-details',
+        action: {
+          href: candidate_interface_edit_training_with_a_disability_path(return_to_params),
+          visually_hidden_text: t('application_form.training_with_a_disability.disability_disclosure.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'adjustments-support-details',
+          },
+        },
       }
     end
 

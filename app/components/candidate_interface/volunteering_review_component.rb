@@ -31,8 +31,10 @@ module CandidateInterface
         {
           key: t('application_form.volunteering.experience.label'),
           value: 'No',
-          action: t('application_form.volunteering.experience.change_action'),
-          change_path: candidate_interface_volunteering_experience_path,
+          action: {
+            href: candidate_interface_volunteering_experience_path,
+            visually_hidden_text: t('application_form.volunteering.experience.change_action'),
+          },
         },
       ]
     end
@@ -49,9 +51,15 @@ module CandidateInterface
       {
         key: t('application_form.volunteering.role.review_label'),
         value: volunteering_role.role,
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.role.change_action')),
-        change_path: edit_path(volunteering_role, return_to_params),
-        data_qa: 'volunteering-role',
+        action: {
+          href: edit_path(volunteering_role, return_to_params),
+          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.role.change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'volunteering-role',
+          },
+        },
       }
     end
 
@@ -59,9 +67,15 @@ module CandidateInterface
       {
         key: t('application_form.volunteering.organisation.review_label'),
         value: volunteering_role.organisation,
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.organisation.change_action')),
-        change_path: edit_path(volunteering_role, return_to_params),
-        data_qa: 'volunteering-organisation',
+        action: {
+          href: edit_path(volunteering_role, return_to_params),
+          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.organisation.change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'volunteering-organisation',
+          },
+        },
       }
     end
 
@@ -69,9 +83,15 @@ module CandidateInterface
       {
         key: t('application_form.volunteering.working_with_children.review_label'),
         value: volunteering_role.working_with_children ? 'Yes' : 'No',
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.working_with_children.change_action')),
-        change_path: edit_path(volunteering_role, return_to_params),
-        data_qa: 'volunteering-working-with-children',
+        action: {
+          href: edit_path(volunteering_role, return_to_params),
+          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.working_with_children.change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'volunteering-working-with-children',
+          },
+        },
       }
     end
 
@@ -79,9 +99,15 @@ module CandidateInterface
       {
         key: t('application_form.volunteering.length.review_label'),
         value: formatted_length(volunteering_role),
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.length.change_action')),
-        change_path: edit_path(volunteering_role, return_to_params),
-        data_qa: 'volunteering-length',
+        action: {
+          href: edit_path(volunteering_role, return_to_params),
+          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.length.change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'volunteering-length',
+          },
+        },
       }
     end
 
@@ -89,9 +115,15 @@ module CandidateInterface
       {
         key: t('application_form.volunteering.details.review_label'),
         value: formatted_details(volunteering_role),
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.details.change_action')),
-        change_path: edit_path(volunteering_role, return_to_params),
-        data_qa: 'volunteering-details',
+        action: {
+          href: edit_path(volunteering_role, return_to_params),
+          visually_hidden_text: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.details.change_action')),
+        },
+        html_attributes: {
+          data: {
+            qa: 'volunteering-details',
+          },
+        },
       }
     end
 

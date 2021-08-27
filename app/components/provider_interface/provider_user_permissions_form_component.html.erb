@@ -13,7 +13,7 @@
     <p class="govuk-body">This means that the permissions you give to users may only apply to courses you work on with certain partner organisations.</p>
 
     <%= govuk_details(
-      summary: 'Check how user permissions are affected by organisation permissions',
+      summary_text: 'Check how user permissions are affected by organisation permissions',
     ) do %>
       <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission| %>
         <h2 class="govuk-heading-s"><%= t("provider_relationship_permissions.#{permission}.description") %></h2>

@@ -44,8 +44,11 @@ module ProviderInterface
       {
         key: key,
         value: value,
-        action: key.downcase,
-        change_path: editable ? change_path(field) : nil,
+        action: (if editable
+                   {
+                     href: change_path(field),
+                   }
+                 end),
       }
     end
 

@@ -1,7 +1,7 @@
 <div class="app-interview-card">
   <div class="app-interview-card__time">
     <p class="govuk-!-margin-bottom-1 govuk-!-margin-top-0">
-    <%= govuk_link_to provider_interface_application_choice_interviews_path(interview.application_choice, anchor: "interview-#{interview.id}"), class: 'govuk-link--no-visited-state' do %>
+    <%= govuk_link_to provider_interface_application_choice_interviews_path(interview.application_choice, anchor: "interview-#{interview.id}"), no_visited_state: true do %>
       <time datetime="<%= interview.date_and_time %>">
         <%= time %>
       </time>

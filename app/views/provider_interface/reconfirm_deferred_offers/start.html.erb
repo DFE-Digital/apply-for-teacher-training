@@ -19,7 +19,7 @@
         </p>
        <% end %>
       <%= govuk_details(
-        summary: 'Details of deferred offer',
+        summary_text: 'Details of deferred offer',
         classes: 'govuk-!-margin-bottom-0 app-details--no-boder',
       ) do %>
         <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>

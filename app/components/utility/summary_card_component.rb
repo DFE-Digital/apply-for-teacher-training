@@ -19,8 +19,6 @@ private
         next if r[:key].in? ignore_editable
 
         unless editable
-          r.delete(:change_path)
-          r.delete(:action_path)
           r.delete(:action)
         end
       end

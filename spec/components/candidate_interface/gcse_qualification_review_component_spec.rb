@@ -75,10 +75,10 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
       )
 
-      expect(result.text).to match(/Qualification\s+GCSE/)
-      expect(result.text).to match(/Year awarded\s+#{@qualification.award_year}/)
-      expect(result.text).to match(/Grade\s+#{@qualification.grade}/)
-      expect(result.text).not_to match(/Country\s+#{@qualification.institution_country}/)
+      expect(result.text).to match(/Qualification+GCSE/)
+      expect(result.text).to match(/Year awarded+#{@qualification.award_year}/)
+      expect(result.text).to match(/Grade+#{@qualification.grade}/)
+      expect(result.text).not_to match(/Country+#{@qualification.institution_country}/)
     end
   end
 
@@ -98,11 +98,11 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
       )
 
-      expect(result.text).to match(/Qualification\s+GCSE/)
-      expect(result.text).to match(/Year awarded\s+#{@qualification.award_year}/)
-      expect(result.text).to match(/Grade\s+#{@qualification.grade}/)
-      expect(result.text).to match(/How I expect to gain this qualification\s+#{@qualification.missing_explanation}/)
-      expect(result.text).not_to match(/Country\s+#{@qualification.institution_country}/)
+      expect(result.text).to match(/Qualification+GCSE/)
+      expect(result.text).to match(/Year awarded+#{@qualification.award_year}/)
+      expect(result.text).to match(/Grade+#{@qualification.grade}/)
+      expect(result.text).to match(/How I expect to gain this qualification+#{@qualification.missing_explanation}/)
+      expect(result.text).not_to match(/Country+#{@qualification.institution_country}/)
     end
   end
 

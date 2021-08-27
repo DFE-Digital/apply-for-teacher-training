@@ -2,7 +2,7 @@ en:
   application_form:
     personal_statement:
       becoming_a_teacher:
-        change_action: why do you want to be a teacher?
+        change_action: why you want to be a teacher
         label: Why do you want to be a teacher?
         complete_hint_text: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion. Ensure this is all your own work as plagiarism will be penalised.
       subject_knowledge:

@@ -29,14 +29,14 @@ module ProviderInterface
     def add_change_links_to(rows)
       rows.map do |row|
         case row[:key]
-        when 'Provider'
-          row.merge(change_path: @change_provider_path, action: 'training provider')
+        when 'Training provider'
+          row.merge(action: { href: @change_provider_path })
         when 'Course'
-          row.merge(change_path: @change_course_path, action: 'course')
+          row.merge(action: { href: @change_course_path })
         when 'Full time or part time'
-          row.merge(change_path: @change_study_mode_path, action: 'to full time or part time')
+          row.merge(action: { href: @change_study_mode_path, visually_hidden_text: 'if full time or part time' })
         when 'Location'
-          row.merge(change_path: @change_course_option_path, action: 'location')
+          row.merge(action: { href: @change_course_option_path })
         else
           row
         end

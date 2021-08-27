@@ -17,8 +17,10 @@ module SupportInterface
         {
           key: 'Email notifications',
           value: email_notifications_value,
-          action: 'notifications',
-          change_path: change_path,
+          action: {
+            href: change_path,
+            visually_hidden_text: 'email notifications',
+          },
         },
         { key: 'Account created at', value: provider_user.created_at.to_s(:govuk_date_and_time) },
         { key: 'Last sign in at', value: provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet' },

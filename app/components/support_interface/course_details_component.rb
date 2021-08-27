@@ -73,14 +73,18 @@ module SupportInterface
         {
           key: 'Find status',
           value: course.exposed_in_find? ? govuk_tag(text: 'Shown on Find', colour: 'green') : govuk_tag(text: 'Hidden on Find', colour: 'grey'),
-          action: 'Course page on Find',
-          action_path: course.find_url,
+          action: {
+            href: course.find_url,
+            text: 'Course page on Find',
+          },
         },
         {
           key: 'Apply status',
           value: course.open_on_apply? ? govuk_tag(text: 'Open on Apply & UCAS', colour: 'green') : govuk_tag(text: 'Open on UCAS only', colour: 'blue'),
-          action: 'Start page on Apply',
-          action_path: candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code),
+          action: {
+            href: candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code),
+            text: 'Start page on Apply',
+          },
         },
       ]
 

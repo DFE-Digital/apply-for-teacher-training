@@ -29,9 +29,15 @@ module CandidateInterface
       {
         key: t('application_form.personal_statement.interview_preferences.key'),
         value: preferences,
-        action: t('application_form.personal_statement.interview_preferences.change_action'),
-        change_path: candidate_interface_edit_interview_preferences_path(return_to_params),
-        data_qa: 'adjustments-interview-preferences',
+        action: {
+          href: candidate_interface_edit_interview_preferences_path(return_to_params),
+          visually_hidden_text: t('application_form.personal_statement.interview_preferences.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'adjustments-interview-preferences',
+          },
+        },
       }
     end
 

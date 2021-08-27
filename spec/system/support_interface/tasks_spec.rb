@@ -42,7 +42,7 @@ RSpec.feature 'Tasks', sidekiq: false do
   end
 
   def and_i_am_able_to_connect_to_the_api_using_the_token
-    api_token = find('div .govuk-summary-list').all('dd')[2].text
+    api_token = find('.govuk-summary-list').all('.govuk-summary-list__value')[2].text
     page.driver.header 'Authorization', "Bearer #{api_token}"
 
     visit '/api/v1/ping'

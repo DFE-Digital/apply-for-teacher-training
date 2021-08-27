@@ -5,10 +5,8 @@
   <td class="govuk-table__cell govuk-!-padding-top-0">
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
 
-    <%= govuk_details(
-      summary: 'Email body',
-    ) do %>
-      <%= tag.pre(email.body, class: 'app-json-code-sample') %>
+    <%= govuk_details(summary_text: 'Email body') do %>
+      <%= tag.pre(email.body) %>
     <% end %>
   </td>
 </tr>

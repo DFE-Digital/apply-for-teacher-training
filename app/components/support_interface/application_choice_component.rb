@@ -108,8 +108,10 @@ module SupportInterface
       return conditions_row if application_choice.offer.non_pending_conditions?
 
       conditions_row.merge({
-        action: 'conditions',
-        change_path: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+        action: {
+          href: support_interface_edit_application_choice_conditions_path(application_choice_id: @application_choice.id),
+          visually_hidden_text: 'conditions',
+        },
       })
     end
 
@@ -126,7 +128,7 @@ module SupportInterface
         application_json = AllowedCrossNamespaceUsage::VendorAPISingleApplicationPresenter.new(application_choice).as_json
         {
           key: 'Vendor API',
-          value: govuk_details(summary: 'See this application as it appears over the Vendor API') do
+          value: govuk_details(summary_text: 'See this application as it appears over the Vendor API') do
             json_code_sample(application_json)
           end,
         }
@@ -140,7 +142,7 @@ module SupportInterface
         application_json = AllowedCrossNamespaceUsage::RegisterAPISingleApplicationPresenter.new(application_choice).as_json
         {
           key: 'Register API',
-          value: govuk_details(summary: 'See this application as it appears over the Register API') do
+          value: govuk_details(summary_text: 'See this application as it appears over the Register API') do
             json_code_sample(application_json)
           end,
         }
@@ -187,13 +189,17 @@ module SupportInterface
     def status_action_link
       if FeatureFlag.active?(:support_user_reinstate_offer) && application_choice.declined? && !application_choice.declined_by_default
         {
-          action: 'Reinstate offer',
-          action_path: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+          action: {
+            href: support_interface_application_form_application_choice_reinstate_offer_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+            text: 'Reinstate offer',
+          },
         }
       elsif application_choice.rejected? && !application_choice.rejected_by_default?
         {
-          action: 'Revert rejection',
-          action_path: support_interface_application_form_revert_rejection_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+          action: {
+            href: support_interface_application_form_revert_rejection_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+            text: 'Revert rejection',
+          },
         }
       else
         {}

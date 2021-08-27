@@ -46,7 +46,7 @@ RSpec.feature 'Managing provider user notification preferences' do
   end
 
   def and_i_click_the_change_link
-    click_on 'Change notifications'
+    click_on 'Change email notifications'
   end
 
   def then_i_can_see_all_notifications_are_on_by_default

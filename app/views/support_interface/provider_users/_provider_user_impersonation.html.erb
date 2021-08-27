@@ -1,11 +1,11 @@
 <% if current_support_user.impersonated_provider_user == provider_user %>
   <p class="govuk-body">
     You are now signed-in as this user.
-    <%= govuk_link_to 'Visit Manage', provider_interface_applications_path, class: 'govuk-link--no-visited-state' %>
+    <%= govuk_link_to 'Visit Manage', provider_interface_applications_path, no_visited_state: true %>
     to see what they see. Any changes made will be linked to you.
   </p>
 
-  <%= govuk_link_to 'Stop impersonating this user', support_interface_end_impersonation_path, button: true, class: 'govuk-button--secondary' %>
+  <%= govuk_button_link_to 'Stop impersonating this user', support_interface_end_impersonation_path, secondary: true %>
 <% else %>
   <%= govuk_button_to 'Sign in as this provider user', support_interface_provider_user_impersonate_path(provider_user), form_class: 'govuk-!-display-inline-block' %>
 <% end %>

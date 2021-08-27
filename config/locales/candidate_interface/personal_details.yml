@@ -30,10 +30,10 @@ en:
         change_action: English language qualifications
       other_language_details:
         label: Other languages spoken
-        change_action: other languages
+        change_action: other languages spoken
       right_to_work:
         label: Immigration status
-        change_action: Right to work or study
+        change_action: immigration status
 
   activemodel:
     errors:

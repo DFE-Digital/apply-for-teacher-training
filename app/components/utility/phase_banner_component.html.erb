@@ -1,7 +1,7 @@
 <div class="app-phase-banner<%= @no_border ? ' app-phase-banner--no-border' : '' %> govuk-!-display-none-print">
   <div class="govuk-width-container">
     <%= govuk_phase_banner(
-      phase_tag: {
+      tag: {
         text: HostingEnvironment.phase,
         colour: HostingEnvironment.phase_colour,
       },

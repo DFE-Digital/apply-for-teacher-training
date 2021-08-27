@@ -31,9 +31,15 @@ module CandidateInterface
       {
         key: t('application_form.personal_statement.subject_knowledge.key'),
         value: @subject_knowledge_form.subject_knowledge,
-        action: t('application_form.personal_statement.subject_knowledge.change_action'),
-        change_path: candidate_interface_edit_subject_knowledge_path(return_to_params),
-        data_qa: 'subject-knowledge',
+        action: {
+          href: candidate_interface_edit_subject_knowledge_path(return_to_params),
+          visually_hidden_text: t('application_form.personal_statement.subject_knowledge.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'subject-knowledge',
+          },
+        },
       }
     end
 

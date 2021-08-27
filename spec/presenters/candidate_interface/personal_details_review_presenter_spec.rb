@@ -218,9 +218,15 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     {
       key: t("application_form.personal_details.#{key}.label"),
       value: value,
-      action: t("application_form.personal_details.#{key}.change_action"),
-      change_path: path,
-      data_qa: data_qa,
+      action: {
+        href: path,
+        visually_hidden_text: t("application_form.personal_details.#{key}.change_action"),
+      },
+      html_attributes: {
+        data: {
+          qa: data_qa,
+        },
+      },
     }
   end
 end

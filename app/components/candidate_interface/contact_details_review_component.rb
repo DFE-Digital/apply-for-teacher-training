@@ -27,21 +27,31 @@ module CandidateInterface
       {
         key: t('application_form.contact_details.phone_number.label'),
         value: @contact_details_form.phone_number,
-        action: t('application_form.contact_details.phone_number.change_action'),
-        change_path: candidate_interface_edit_phone_number_path(return_to_params),
-        data_qa: 'contact-details-phone-number',
+        action: {
+          href: candidate_interface_edit_phone_number_path(return_to_params),
+          visually_hidden_text: t('application_form.contact_details.phone_number.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'contact-details-phone-number',
+          },
+        },
       }
     end
 
     def address_row
-      change_path = candidate_interface_edit_address_type_path(return_to_params)
-
       {
         key: t('application_form.contact_details.full_address.label'),
         value: full_address,
-        action: t('application_form.contact_details.full_address.change_action'),
-        change_path: change_path,
-        data_qa: 'contact-details-address',
+        action: {
+          href: candidate_interface_edit_address_type_path(return_to_params),
+          visually_hidden_text: t('application_form.contact_details.full_address.change_action'),
+        },
+        html_attributes: {
+          data: {
+            qa: 'contact-details-address',
+          },
+        },
       }
     end
 

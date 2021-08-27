@@ -1,6 +1,4 @@
-<%= govuk_details(
-  summary: 'View diagram of application flow',
-) do %>
+<%= govuk_details(summary_text: 'View diagram of application flow') do %>
   <span class="govuk-visually-hidden">(accessible example presented after diagram)</span>
   <div class="app-diagram">
     <%= StateDiagram.svg(only_from_state: nil, machine: @machine) %>

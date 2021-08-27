@@ -21,10 +21,10 @@
 
           <div class="govuk-button-group">
             <% if set_up_interview? %>
-              <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), button: true, class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+              <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0' %>
             <% end %>
             <% if respond_to_application? %>
-              <%= govuk_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), button: true, class: "#{secondary_button_css}govuk-!-margin-bottom-0 govuk-!-margin-right-2" %>
+              <%= govuk_button_link_to 'Make decision', new_provider_interface_application_choice_decision_path(application_choice), secondary: set_up_interview?, class: 'govuk-!-margin-bottom-0' %>
             <% end %>
           </div>
         <% elsif awaiting_decision_but_cannot_respond? -%>
@@ -58,7 +58,7 @@
             </p>
           <% end %>
 
-          <%= govuk_link_to 'Review deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice), button: true %>
+          <%= govuk_button_link_to 'Review deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
         <% elsif rejection_reason_required? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Give feedback
@@ -67,7 +67,7 @@
           <p class="govuk-body">
             You did not make a decision about the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
           </p>
-          <%= govuk_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice), button: true %>
+          <%= govuk_button_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
         <% end -%>
       <% end %>
     </div>

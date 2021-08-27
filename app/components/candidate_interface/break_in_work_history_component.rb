@@ -28,8 +28,10 @@ module CandidateInterface
       {
         key: 'Description',
         value: @work_break.reason,
-        action: "description for break between #{formatted_start_date} and #{formatted_end_date}",
-        change_path: candidate_interface_edit_work_history_break_path(@work_break),
+        action: {
+          href: candidate_interface_edit_work_history_break_path(@work_break),
+          visually_hidden_text: "description for break between #{formatted_start_date} and #{formatted_end_date}",
+        },
       }
     end
 
@@ -37,8 +39,10 @@ module CandidateInterface
       {
         key: 'Dates',
         value: "#{formatted_start_date} - #{formatted_end_date}",
-        action: "dates for break between #{formatted_start_date} and #{formatted_end_date}",
-        change_path: candidate_interface_edit_work_history_break_path(@work_break),
+        action: {
+          href: candidate_interface_edit_work_history_break_path(@work_break),
+          visually_hidden_text: "dates for break between #{formatted_start_date} and #{formatted_end_date}",
+        },
       }
     end
   end

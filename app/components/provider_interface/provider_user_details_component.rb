@@ -37,8 +37,10 @@ module ProviderInterface
       {
         key: 'Organisations this user has access to',
         value: render(UserDetailsOrganisationsList.new(providers_to_show)),
-        change_path: provider_interface_provider_user_edit_providers_path(@provider_user),
-        action: 'organisations',
+        action: {
+          href: provider_interface_provider_user_edit_providers_path(@provider_user),
+          visually_hidden_text: 'organisations',
+        },
       }
     end
 
@@ -47,8 +49,9 @@ module ProviderInterface
         {
           key: "Permissions: #{permission.provider.name}",
           value: render(PermissionsListComponent.new(permission, user_is_viewing_their_own_permissions: @current_provider_user == @provider_user)),
-          change_path: provider_interface_provider_user_edit_permissions_path(@provider_user, provider_id: permission.provider.id),
-          action: "permissions for #{permission.provider.name}",
+          action: {
+            href: provider_interface_provider_user_edit_permissions_path(@provider_user, provider_id: permission.provider.id),
+          },
         }
       end
     end

@@ -30,21 +30,21 @@
           <%= render 'provider_interface/offer/conditions/further_condition', form: f, model: model, label_text: model.id + 1, disabled: false %>
         <% end %>
 
-        <%= f.button(
+        <%= f.govuk_submit(
+          t('.add_another'),
           name: 'commit',
           data: { max_conditions: ProviderInterface::OfferWizard::MAX_FURTHER_CONDITIONS },
           value: 'add_another_condition',
-          class: 'govuk-button govuk-button--secondary app-add-condition__add-button govuk-!-margin-bottom-4',
+          secondary: true,
+          class: 'app-add-condition__add-button',
           style: "display: #{form_object.max_number_of_further_conditions? ? 'none' : 'block'};",
-        ) do %>
-          <%= t('.add_another') %>
-        <% end %>
+        ) %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>
 
       <p class="govuk-body">
-        <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
+        <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(application_choice), no_visited_state: true %>
       </p>
     </div>
   </div>

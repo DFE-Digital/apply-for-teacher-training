@@ -18,7 +18,7 @@
           <%= table_row[:course_details] %>
           <% if table_row[:course_provider_contacts].any? %>
             <%= govuk_details(
-              summary: 'Contact details',
+              summary_text: 'Contact details',
               classes: 'govuk-!-padding-bottom-0',
             ) do %>
               <% table_row[:course_provider_contacts].each do |provider_contact| %>

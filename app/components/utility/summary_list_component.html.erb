@@ -1,11 +1,12 @@
-<%= govuk_summary_list do |component| %>
+<%= govuk_summary_list do |summary_list| %>
   <% rows.each do |row| %>
-    <%= component.slot(
-      :row,
-      key: row[:key],
-      value: value(row),
-      action: action(row),
-      html_attributes: html_attributes(row),
-    ) %>
+    <% summary_list.row(html_attributes: html_attributes(row)) do |summary_list_row| %>
+      <% summary_list_row.key { row[:key] } %>
+      <% summary_list_row.value { value(row) } %>
+
+      <% Array.wrap(row[:action] || row[:actions] || { href: '' }).each do |action| %>
+        <% summary_list_row.action(classes: 'govuk-!-display-none-print', **action) %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

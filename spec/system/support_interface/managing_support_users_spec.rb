@@ -73,7 +73,8 @@ RSpec.feature 'Managing support users' do
 
   def then_i_can_see_the_audit_history
     expect(page).to have_content('Create Support User')
-    expect(page).to have_content('email_address harrison@example.com')
+    expect(page).to have_content('email_address')
+    expect(page).to have_content('harrison@example.com')
   end
 
   def then_i_see_an_error

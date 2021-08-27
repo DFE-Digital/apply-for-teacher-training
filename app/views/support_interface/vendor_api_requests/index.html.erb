@@ -16,9 +16,7 @@
           </td>
           <td class="govuk-table__cell govuk-!-padding-top-0">
             <%= render SupportInterface::VendorAPIRequestDetailsComponent.new(vendor_api_request) %>
-            <%= govuk_details(
-              summary: 'Details',
-            ) do %>
+            <%= govuk_details(summary_text: 'Details') do %>
               <h3 class="govuk-!-margin-top-0">Headers</h3>
               <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers), class: 'app-json-code-sample') %>
               <% if vendor_api_request.request_body.present? %>

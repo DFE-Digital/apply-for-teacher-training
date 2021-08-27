@@ -10,7 +10,7 @@
         <%= t('page_titles.work_history') %>
       </h1>
 
-      <%= govuk_link_to candidate_interface_new_work_history_path, button: true, class: 'govuk-button--secondary' do %>
+      <%= govuk_button_link_to candidate_interface_new_work_history_path, secondary: true do %>
         <%= @application_form.application_work_experiences.any? ? t('application_form.work_history.another.button') : t('application_form.work_history.add.button') %>
       <% end %>
     </div>

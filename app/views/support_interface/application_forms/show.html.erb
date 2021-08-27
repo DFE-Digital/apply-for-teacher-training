@@ -6,9 +6,9 @@
 
 <div class="govuk-button-group">
   <% if @application_form.candidate.hide_in_reporting? %>
-    <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary' %>
+    <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), secondary: true %>
   <% else %>
-    <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary' %>
+    <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), secondary: true %>
   <% end %>
 </div>
 
