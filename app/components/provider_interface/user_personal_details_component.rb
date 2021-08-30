@@ -24,10 +24,12 @@ module ProviderInterface
 
       return row if change_path.blank?
 
-      row.merge({
-        action: field_label,
-        change_path: change_path,
-      })
+      row.merge(
+        action: {
+          href: change_path,
+          visually_hidden_text: field_label,
+        },
+      )
     end
   end
 end
