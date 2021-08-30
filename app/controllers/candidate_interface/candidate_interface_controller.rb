@@ -53,10 +53,6 @@ module CandidateInterface
       params['return-to'] == 'application-review'
     end
 
-    def application_review_path_and_params
-      { path: candidate_interface_application_review_path, params: { 'return-to' => 'application-review' } }
-    end
-
     def show_pilot_holding_page_if_not_open
       return if FeatureFlag.active?('pilot_open')
 

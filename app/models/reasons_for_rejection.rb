@@ -105,8 +105,4 @@ class ReasonsForRejection
   def safeguarding_concerns
     @safeguarding_concerns || []
   end
-
-  def to_prose
-    safeguarding_y_n.to_s
-  end
 end

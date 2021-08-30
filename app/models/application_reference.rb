@@ -46,10 +46,6 @@ class ApplicationReference < ApplicationRecord
     application_form.application_references
   end
 
-  def single_line_identifier
-    "#{name} (#{referee_type.humanize})"
-  end
-
   def email_address_not_own
     return if application_form.nil?
 

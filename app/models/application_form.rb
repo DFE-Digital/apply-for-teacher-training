@@ -153,36 +153,8 @@ class ApplicationForm < ApplicationRecord
     qualification_in_subject(:gcse, :science)
   end
 
-  def any_recruited?
-    application_choices.map.any?(&:recruited?)
-  end
-
-  def any_deferred?
-    application_choices.map.any?(&:offer_deferred?)
-  end
-
-  def any_accepted_offer?
-    application_choices.map.any?(&:pending_conditions?)
-  end
-
   def all_provider_decisions_made?
     application_choices.decision_pending.none?
-  end
-
-  def all_choices_withdrawn?
-    application_choices.any? &&
-      application_choices.all? { |application_choice| application_choice.status == 'withdrawn' }
-  end
-
-  def any_offers?
-    application_choices.map.any?(&:offer?)
-  end
-
-  def all_applications_not_sent?
-    application_choices.any?(&:application_not_sent?) &&
-      application_choices.all? do |application_choice|
-        application_choice.application_not_sent? || application_choice.withdrawn?
-      end
   end
 
   def science_gcse_needed?
@@ -231,10 +203,6 @@ class ApplicationForm < ApplicationRecord
     choices_left_to_make.positive?
   end
 
-  def unique_provider_list
-    application_choices.includes([:provider]).map(&:provider).uniq
-  end
-
   def successful?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }
@@ -248,10 +216,6 @@ class ApplicationForm < ApplicationRecord
   def provider_decision_made?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).all? { |status| (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::UNSUCCESSFUL_END_STATES).include?(status) }
-  end
-
-  def surplus_references_available_for_selection?
-    application_references.select(&:feedback_provided?).count >= 3
   end
 
   def incomplete_degree_information?
@@ -349,10 +313,6 @@ class ApplicationForm < ApplicationRecord
 
   def english_language_qualification_details
     english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
-  end
-
-  def references_did_not_come_back_in_time?
-    application_references.any?(&:cancelled_at_end_of_cycle?)
   end
 
   def selected_enough_references?

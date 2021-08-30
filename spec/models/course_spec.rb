@@ -8,18 +8,6 @@ RSpec.describe Course, type: :model do
     it { is_expected.to validate_uniqueness_of(:code).scoped_to(%i[recruitment_cycle_year provider_id]) }
   end
 
-  context 'scopes' do
-    describe '#with_subjects' do
-      let(:subjects) { create_list(:subject, 3) }
-      let!(:courses) { [create(:course, subjects: subjects), create(:course, subjects: subjects.sample(1))] }
-      let!(:other_course) { create_list(:course, 2) }
-
-      it 'only returns courses associated with the provided subject_ids' do
-        expect(described_class.with_subjects(subjects.map(&:id)).uniq).to match_array(courses)
-      end
-    end
-  end
-
   describe '#currently_has_both_study_modes_available?' do
     let(:course) { build(:course) }
 
@@ -38,25 +26,6 @@ RSpec.describe Course, type: :model do
     end
   end
 
-  describe '#available_study_modes_from_options' do
-    it 'returns an array of unique study modes for a courses course options' do
-      course_option1 = build_stubbed(:course_option, :full_time)
-      course_option2 = build_stubbed(:course_option, :full_time)
-      course_option3 = build_stubbed(:course_option, :part_time)
-      course = build_stubbed(:course, course_options: [course_option1, course_option2, course_option3])
-
-      expect(course.available_study_modes_from_options).to eq [course_option1.study_mode, course_option3.study_mode]
-    end
-
-    it 'does not return course_options which have been invalidated by the TTAPI' do
-      valid_course_option = build_stubbed(:course_option, :full_time)
-      invalid_course_option = build_stubbed(:course_option, :part_time, site_still_valid: false)
-      course = build_stubbed(:course, course_options: [valid_course_option, invalid_course_option])
-
-      expect(course.available_study_modes_from_options).to eq [valid_course_option.study_mode]
-    end
-  end
-
   describe '#available_study_modes_with_vacancies' do
     let(:course) { build(:course) }
 
@@ -65,13 +34,6 @@ RSpec.describe Course, type: :model do
       create(:course_option, :part_time, course: course)
 
       expect(course.available_study_modes_with_vacancies).to eq %w[part_time]
-    end
-
-    it 'returns an array of unique study modes for course options with valid sites' do
-      create(:course_option, :full_time, course: course)
-      create(:course_option, :part_time, course: course, site_still_valid: false)
-
-      expect(course.available_study_modes_from_options).to eq %w[full_time]
     end
   end
 

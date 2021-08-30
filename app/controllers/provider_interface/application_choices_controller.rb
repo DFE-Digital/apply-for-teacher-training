@@ -78,13 +78,6 @@ module ProviderInterface
       @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
     end
 
-    def get_all_change_options(application_choice)
-      GetAllChangeOptionsFromOfferedOption.new(
-        application_choice: application_choice,
-        available_providers: available_providers,
-      ).call
-    end
-
     def auth
       ProviderAuthorisation.new(actor: current_provider_user)
     end

@@ -41,10 +41,6 @@ class CourseOption < ApplicationRecord
     errors.add(:site, 'must have the same Provider as the course')
   end
 
-  def alternative_study_mode
-    (course.available_study_modes_from_options - [study_mode]).first
-  end
-
   def in_previous_cycle
     equivalent_course = course.in_previous_cycle
 
