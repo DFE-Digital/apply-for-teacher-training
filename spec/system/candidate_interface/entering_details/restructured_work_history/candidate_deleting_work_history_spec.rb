@@ -10,8 +10,6 @@ RSpec.feature 'Entering their work history' do
   end
 
   scenario 'Candidate deleting their only job entry should also remove any breaks entered' do
-    FeatureFlag.activate(:restructured_work_history)
-
     given_i_am_signed_in
     and_i_visit_the_site
 

@@ -26,13 +26,7 @@ module CandidateHelper
     APPLICATION_FORM_SECTIONS
   end
 
-  def candidate_completes_application_form(with_referees: true, with_restructured_work_history: false, international: false)
-    if with_restructured_work_history
-      FeatureFlag.activate(:restructured_work_history)
-    else
-      FeatureFlag.deactivate(:restructured_work_history)
-    end
-
+  def candidate_completes_application_form(with_referees: true, international: false)
     given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
@@ -48,20 +42,12 @@ module CandidateHelper
 
     click_link t('page_titles.work_history')
 
-    if with_restructured_work_history
-      candidate_fills_in_restructured_work_experience
-      candidate_fills_in_restructured_work_experience_break
-    else
-      candidate_fills_in_work_experience
-    end
+    candidate_fills_in_restructured_work_experience
+    candidate_fills_in_restructured_work_experience_break
 
     click_link t('page_titles.volunteering.short')
 
-    if with_restructured_work_history
-      candidate_fills_in_restructured_volunteering_role
-    else
-      candidate_fills_in_volunteering_role
-    end
+    candidate_fills_in_restructured_volunteering_role
 
     click_link t('page_titles.training_with_a_disability')
     candidate_fills_in_disability_info
@@ -370,33 +356,6 @@ module CandidateHelper
     click_button t('continue')
   end
 
-  def candidate_fills_in_work_experience
-    choose t('application_form.work_history.complete.label')
-    click_button t('continue')
-
-    with_options scope: 'application_form.work_history' do |locale|
-      fill_in locale.t('role.label'), with: 'Teacher'
-      fill_in locale.t('organisation.label'), with: 'Oakleaf Primary School'
-      choose 'Part time'
-
-      fill_in 'Give details about your working pattern', with: 'I had a working pattern'
-
-      within('[data-qa="start-date"]') do
-        fill_in 'Month', with: '5'
-        fill_in 'Year', with: '2014'
-      end
-
-      fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
-
-      choose 'No'
-      choose 'No, not at the moment'
-    end
-
-    click_button t('save_and_continue')
-    choose t('application_form.completed_radio')
-    click_button t('continue')
-  end
-
   def candidate_fills_in_restructured_volunteering_role
     choose 'Yes' # "Do you have any relevant unpaid experience?"
     click_button t('save_and_continue')
@@ -427,34 +386,6 @@ module CandidateHelper
       click_button t('save_and_continue')
     end
 
-    choose t('application_form.completed_radio')
-    click_button t('continue')
-  end
-
-  def candidate_fills_in_volunteering_role
-    choose 'Yes' # "Do you have experience volunteering with young people or in school?"
-    click_button t('save_and_continue')
-
-    with_options scope: 'application_form.volunteering' do |locale|
-      fill_in locale.t('role.label'), with: 'Classroom Volunteer'
-      fill_in locale.t('organisation.label'), with: 'A Noice School'
-
-      choose 'Yes'
-
-      within('[data-qa="start-date"]') do
-        fill_in 'Month', with: '5'
-        fill_in 'Year', with: '2018'
-      end
-
-      within('[data-qa="end-date"]') do
-        fill_in 'Month', with: '1'
-        fill_in 'Year', with: '2019'
-      end
-
-      fill_in locale.t('details.label'), with: 'I volunteered.'
-    end
-
-    click_button t('save_and_continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
   end

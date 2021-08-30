@@ -110,7 +110,6 @@ RSpec.describe CarryOverApplication do
   context 'when application form has unstructured work history' do
     before do
       original_application_form.update(feature_restructured_work_history: false)
-      FeatureFlag.activate(:restructured_work_history)
     end
 
     it 'carries over history and sets feature_structured_work_history to true' do

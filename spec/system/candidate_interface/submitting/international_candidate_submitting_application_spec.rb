@@ -5,8 +5,8 @@ RSpec.feature 'International candidate submits the application' do
   include EFLHelper
 
   scenario 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate(:restructured_work_history)
     given_i_am_signed_in
+    and_my_application_form_is_marked_as_having_used_the_existing_flow
 
     when_i_have_completed_everything_except_the_efl_section
     when_i_review_my_application
@@ -34,6 +34,10 @@ RSpec.feature 'International candidate submits the application' do
   def given_i_am_signed_in
     create_and_sign_in_candidate
   end
+
+  def and_my_application_form_is_marked_as_having_used_the_existing_flow
+    current_candidate.current_application.update(feature_restructured_work_history: false)
+  end 
 
   def when_i_have_completed_everything_except_the_efl_section
     # Consider moving some of this into CandidateHelper once International

@@ -4,10 +4,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  before do
-    FeatureFlag.deactivate(:restructured_work_history)
-  end
-
   around do |example|
     Timecop.freeze(Time.zone.local(2020, 3, 1, 12, 0, 0)) do
       example.run
@@ -16,7 +12,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_my_organisation_has_received_an_application
+    and_my_organisation_has_received_an_application_without_restructured_work_history
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
@@ -72,7 +68,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     provider_user_exists_in_apply_database
   end
 
-  def and_my_organisation_has_received_an_application
+  def and_my_organisation_has_received_an_application_without_restructured_work_history
     course_option = course_option_for_provider_code(provider_code: 'ABC')
     application_form = create(
       :application_form,
@@ -91,6 +87,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
                                 'disabilities' => ['Mental health condition'],
                                 'ethnic_group' => 'Asian or Asian British',
                                 'ethnic_background' => 'Chinese' },
+      feature_restructured_work_history: false,
     )
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)

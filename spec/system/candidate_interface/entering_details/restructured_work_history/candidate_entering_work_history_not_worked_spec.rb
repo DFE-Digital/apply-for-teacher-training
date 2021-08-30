@@ -4,8 +4,6 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history when they have none' do
-    FeatureFlag.activate(:restructured_work_history)
-
     given_i_am_signed_in
 
     when_i_try_and_visit_the_old_work_history_flow
