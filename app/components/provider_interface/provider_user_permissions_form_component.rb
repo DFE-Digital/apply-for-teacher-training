@@ -1,11 +1,12 @@
 module ProviderInterface
   class ProviderUserPermissionsFormComponent < ViewComponent::Base
-    attr_reader :form_model, :provider, :form_path, :user_name
+    attr_reader :form_model, :provider, :form_path, :form_method, :user_name
 
-    def initialize(form_model:, form_path:, provider:, user_name: nil)
+    def initialize(form_model:, provider:, form_path:, form_method:, user_name: nil)
       @form_model = form_model
       @provider = provider
       @form_path = form_path
+      @form_method = form_method
       @user_name = user_name
     end
 
