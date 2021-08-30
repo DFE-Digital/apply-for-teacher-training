@@ -27,28 +27,6 @@ module ProviderInterface
 
         redirect_to provider_interface_organisation_settings_path
       end
-
-      def next_page_path
-        case @wizard.next_step
-        when :permissions
-          new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(@provider)
-        when :check
-          provider_interface_organisation_settings_organisation_user_invitation_check_path(@provider)
-        end
-      end
-
-      def previous_page_path
-        case @wizard.previous_step
-        when :personal_details
-          new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(@provider)
-        when :permissions
-          new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(@provider)
-        when :check
-          provider_interface_organisation_settings_organisation_user_invitation_check_path(@provider)
-        end
-      end
-
-      helper_method :previous_page_path
     end
   end
 end

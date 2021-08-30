@@ -5,9 +5,8 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::ProviderUserPermissionsFormComponent.new(
       form_model: @wizard,
-      provider: @provider,
       form_path: provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user),
-      form_method: :patch,
+      provider: @provider,
       user_name: @provider_user.full_name,
     ) %>
     <p class="govuk-body">

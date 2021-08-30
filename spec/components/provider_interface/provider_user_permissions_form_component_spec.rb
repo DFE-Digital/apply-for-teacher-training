@@ -5,9 +5,8 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
   let(:form_model) { double }
   let(:provider) { provider_user.providers.first }
   let(:path) { '/path' }
-  let(:method) { :post }
   let(:user_name) { nil }
-  let(:render) { render_inline(described_class.new(form_model: form_model, provider: provider, form_path: path, form_method: method, user_name: user_name)) }
+  let(:render) { render_inline(described_class.new(form_model: form_model, form_path: path, provider: provider, user_name: user_name)) }
 
   before do
     provider_permissions = provider_user.provider_permissions.first
@@ -23,10 +22,6 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
 
   it 'uses the given path for the form' do
     expect(render.css('form').first.attributes['action'].value).to eq(path)
-  end
-
-  it 'uses the given method for the form' do
-    expect(render.css('form').first.attributes['method'].value).to eq('post')
   end
 
   context 'when the provider has no partner organisations' do

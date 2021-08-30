@@ -214,7 +214,6 @@ en:
       your_user_permissions: Your user permissions
       user_permissions: User permissions
       check_user_permissions: Check and save user permissions
-      check_user_invitation_permissions: Check permissions and invite user
       email_notifications: Your email notifications
       organisation_settings: Organisation settings
       organisation_permissions: Organisation permissions
