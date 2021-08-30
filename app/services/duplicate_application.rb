@@ -27,7 +27,7 @@ class DuplicateApplication
         w.attributes.except(*ignored_work_experience_attributes).merge('currently_working' => infer_currently_working(w)),
       )
     end
-    if original_application_form.feature_restructured_work_history == false && FeatureFlag.active?(:restructured_work_history)
+    if original_application_form.feature_restructured_work_history == false
       new_application_form.update(
         feature_restructured_work_history: true,
         work_history_completed: false,
@@ -76,7 +76,7 @@ class DuplicateApplication
 private
 
   def ignored_work_experience_attributes
-    if original_application_form.feature_restructured_work_history == false && FeatureFlag.active?(:restructured_work_history)
+    if original_application_form.feature_restructured_work_history == false
       IGNORED_CHILD_ATTRIBUTES + IGNORED_LEGACY_WORK_HISTORY_ATTRIBUTES
     else
       IGNORED_CHILD_ATTRIBUTES

@@ -33,7 +33,7 @@
 
 <%= render QualificationsComponent.new(application_form: @application_form, show_hesa_codes: true) %>
 
-<% if FeatureFlag.active?(:restructured_work_history) && @application_form.feature_restructured_work_history %>
+<% if @application_form.feature_restructured_work_history %>
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.work_experience') %></h2>
   <%= render(RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form)) %>
 <% else %>
