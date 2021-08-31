@@ -29,7 +29,7 @@ module CandidateInterface
       when 'degrees', 'gcse', 'other_qualifications'
         'the qualifications'
       when 'personal_statement'
-        'the personal statement and interview'
+        'the personal statement'
       else
         'this'
       end
