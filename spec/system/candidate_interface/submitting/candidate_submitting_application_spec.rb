@@ -104,9 +104,8 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_can_see_my_volunteering_roles
-    expect(page).to have_content 'Classroom Volunteer'
-    expect(page).to have_content 'A Noice School'
-    expect(page).to have_content 'I volunteered.'
+    expect(page).to have_content 'Tour guide'
+    expect(page).to have_content 'National Trust'
   end
 
   def and_i_can_see_my_degree
@@ -210,7 +209,7 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '07700 900 982'
-    expect(page).to have_content 'Classroom Volunteer'
+    expect(page).to have_content 'Tour guide'
     expect(page).to have_content 'BA (Hons) Doge'
     expect(page).to have_content 'A level Believing in the Heart of the Cards'
     expect(page).to have_content 'I believe I would be a first-rate teacher'

@@ -52,7 +52,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_my_application_form_is_marked_as_having_used_the_existing_flow
-    current_candidate.current_application.update(feature_restructured_work_history: false)
+    @candidate.current_application.update!(feature_restructured_work_history: false)
   end 
 
   def when_i_visit_the_application_page
