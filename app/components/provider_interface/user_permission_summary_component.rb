@@ -10,8 +10,16 @@ module ProviderInterface
 
   private
 
+    def display_provider_permissions_text?(permission)
+      ProviderRelationshipPermissions::PERMISSIONS.include?(permission) && can_perform_permission?(permission) && !self_ratifying_provider?
+    end
+
     def can_perform_permission?(permission)
       provider_user.provider_permissions.exists?(provider: provider, permission => true)
+    end
+
+    def self_ratifying_provider?
+      ProviderRelationshipPermissions.all_relationships_for_providers([@provider]).providers_have_open_course.none?
     end
 
     def can_perform_permission_y_n?(permission)

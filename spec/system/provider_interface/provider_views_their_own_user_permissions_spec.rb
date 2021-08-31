@@ -50,7 +50,6 @@ RSpec.feature 'User permissions page' do
       expect(element_text(selector: '.govuk-summary-list__key', index: 3)).to eq('Make offers and reject applications')
       expect(element_text(selector: '.govuk-summary-list__key', index: 4)).to eq('View criminal convictions and professional misconduct')
       expect(element_text(selector: '.govuk-summary-list__key', index: 5)).to eq('View sex, disability and ethnicity information')
-      expect(element_text(selector: '.govuk-summary-list__value', index: 5)).to include('This user permission is affected by organisation permissions.')
     end
   end
 
