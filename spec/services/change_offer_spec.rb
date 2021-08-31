@@ -66,13 +66,13 @@ RSpec.describe ChangeOffer do
         allow(SetDeclineByDefault)
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
-        allow(application_choice).to receive(:update_course_option!)
+        allow(application_choice).to receive(:update_course_option_and_associated_fields!)
 
         change_offer.save!
 
         expect(update_conditions_service).to have_received(:save)
         expect(set_declined_by_default).to have_received(:call)
-        expect(application_choice).to have_received(:update_course_option!)
+        expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
       end
     end
 

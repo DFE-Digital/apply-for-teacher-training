@@ -8,12 +8,12 @@ module SupportInterface
     end
 
     def call
-      application_choice = ApplicationChoice.create!(
+      application_choice = ApplicationChoice.new(
         application_form: application_form,
-        course_option: course_option,
-        current_course_option: course_option,
         status: 'unsubmitted',
       )
+
+      application_choice.configure_initial_course_choice!(course_option)
 
       SendApplicationToProvider.call(application_choice)
 

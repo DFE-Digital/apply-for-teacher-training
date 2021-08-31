@@ -67,14 +67,14 @@ RSpec.describe MakeOffer do
         allow(SendNewOfferEmailToCandidate)
             .to receive(:new).with(application_choice: application_choice)
                     .and_return(send_new_offer_email_to_candidate)
-        allow(application_choice).to receive(:update_course_option!)
+        allow(application_choice).to receive(:update_course_option_and_associated_fields!)
 
         make_offer.save!
 
         expect(set_declined_by_default).to have_received(:call)
         expect(send_new_offer_email_to_candidate).to have_received(:call)
         expect(update_conditions_service).to have_received(:save)
-        expect(application_choice).to have_received(:update_course_option!)
+        expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
       end
     end
 

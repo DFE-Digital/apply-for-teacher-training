@@ -28,7 +28,7 @@ class ReinstateConditionsMet
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).reinstate_conditions_met!
 
-          application_choice.update_course_option!(
+          application_choice.update_course_option_and_associated_fields!(
             @course_option,
             other_fields: { recruited_at: new_recruited_at },
           )

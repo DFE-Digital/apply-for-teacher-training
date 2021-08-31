@@ -23,7 +23,7 @@ class ChangeOffer
 
           update_conditions_service.save
 
-          application_choice.update_course_option!(
+          application_choice.update_course_option_and_associated_fields!(
             course_option,
             other_fields: { offer_changed_at: Time.zone.now },
           )

@@ -13,7 +13,7 @@ module SupportInterface
 
         return false unless valid?
 
-        application_choice.update_course_option!(course_option, audit_comment: audit_comment)
+        application_choice.update_course_option_and_associated_fields!(course_option, audit_comment: audit_comment)
       end
 
       def course_option
