@@ -50,6 +50,13 @@ RSpec.describe ApplicationForm do
           end
         end
       end
+
+      it 'updates the candidates `candidate_api_updated_at` when phase is updated' do
+        application_form = create(:completed_application_form)
+
+        expect { application_form.update(phase: 'apply_2') }
+          .to(change { application_form.candidate.candidate_api_updated_at })
+      end
     end
   end
 

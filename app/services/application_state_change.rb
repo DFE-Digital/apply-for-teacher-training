@@ -100,7 +100,10 @@ class ApplicationStateChange
   end
 
   def persist_workflow_state(new_state)
+    previous_application_form_status = ProcessState.new(application_choice.application_form).state
     application_choice.update!(status: new_state)
+    current_application_form_status = ProcessState.new(application_choice.application_form.reload).state
+    update_candidate_api_updated_at_if_application_forms_state_has_changed(previous_application_form_status, current_application_form_status)
   end
 
   def self.valid_states
@@ -121,5 +124,13 @@ class ApplicationStateChange
 
   def self.state_count(state_name)
     ApplicationChoice.where(status: state_name).count
+  end
+
+private
+
+  def update_candidate_api_updated_at_if_application_forms_state_has_changed(previous_application_form_status, current_application_form_status)
+    if previous_application_form_status != current_application_form_status
+      application_choice.candidate.update!(candidate_api_updated_at: Time.zone.now)
+    end
   end
 end
