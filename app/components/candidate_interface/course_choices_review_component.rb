@@ -112,7 +112,11 @@ module CandidateInterface
           href: course_change_path(application_choice),
           visually_hidden_text: "course choice for #{application_choice.current_course.name_and_code}",
         },
-        data_qa: 'course-choice',
+        html_attributes: {
+          data: {
+            qa: 'course-choice',
+          },
+        },
       }
     end
 
@@ -132,8 +136,11 @@ module CandidateInterface
           href: site_change_path(application_choice),
           visually_hidden_text: "location for #{application_choice.current_course.name_and_code}",
         },
-        action: "location for #{application_choice.current_course.name_and_code}",
-        data_qa: 'course-choice-location',
+        html_attributes: {
+          data: {
+            qa: 'course-choice-location',
+          },
+        },
       }
     end
 
@@ -153,7 +160,11 @@ module CandidateInterface
           href: change_path,
           visually_hidden_text: "study mode for #{application_choice.current_course.name_and_code}",
         },
-        data_qa: 'course-choice-study-mode',
+        html_attributes: {
+          data: {
+            qa: 'course-choice-study-mode',
+          },
+        },
       }
     end
 
