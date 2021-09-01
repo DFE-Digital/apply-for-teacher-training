@@ -11,8 +11,10 @@ module CandidateInterface
       missing_error: false,
       application_choice_error: false,
       render_link_to_find_when_rejected_on_qualifications: false,
-      display_accepted_application_choices: false
+      display_accepted_application_choices: false,
+      return_to_application_review: false
     )
+
       @application_form = application_form
       @editable = editable
       @heading_level = heading_level
@@ -22,6 +24,7 @@ module CandidateInterface
       @application_choice_error = application_choice_error
       @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
       @display_accepted_application_choices = display_accepted_application_choices
+      @return_to_application_review = return_to_application_review
     end
 
     def course_choice_rows(application_choice)
@@ -55,20 +58,20 @@ module CandidateInterface
 
     def course_change_path(application_choice)
       if multiple_courses?(application_choice)
-        candidate_interface_course_choices_course_path(
+        candidate_interface_edit_course_choices_course_path(
           application_choice.provider.id,
-          course_choice_id: application_choice.id,
+          change_path_params(application_choice),
         )
       end
     end
 
     def site_change_path(application_choice)
       if multiple_sites?(application_choice)
-        candidate_interface_course_choices_site_path(
+        candidate_interface_edit_course_choices_site_path(
           application_choice.provider.id,
           application_choice.current_course.id,
           application_choice.current_course_option.study_mode,
-          course_choice_id: application_choice.id,
+          change_path_params(application_choice),
         )
       end
     end
@@ -109,6 +112,11 @@ module CandidateInterface
           href: course_change_path(application_choice),
           visually_hidden_text: "course choice for #{application_choice.current_course.name_and_code}",
         },
+        html_attributes: {
+          data: {
+            qa: 'course-choice',
+          },
+        },
       }
     end
 
@@ -128,16 +136,21 @@ module CandidateInterface
           href: site_change_path(application_choice),
           visually_hidden_text: "location for #{application_choice.current_course.name_and_code}",
         },
+        html_attributes: {
+          data: {
+            qa: 'course-choice-location',
+          },
+        },
       }
     end
 
     def study_mode_row(application_choice)
       return unless application_choice.current_course.full_time_or_part_time?
 
-      change_path = candidate_interface_course_choices_study_mode_path(
+      change_path = candidate_interface_edit_course_choices_study_mode_path(
         application_choice.provider.id,
         application_choice.current_course.id,
-        course_choice_id: application_choice.id,
+        change_path_params(application_choice),
       )
 
       {
@@ -146,6 +159,11 @@ module CandidateInterface
         action: {
           href: change_path,
           visually_hidden_text: "study mode for #{application_choice.current_course.name_and_code}",
+        },
+        html_attributes: {
+          data: {
+            qa: 'course-choice-study-mode',
+          },
         },
       }
     end
@@ -245,6 +263,23 @@ module CandidateInterface
 
     def application_choice_with_accepted_state_present?
       @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+    end
+
+    def change_path_params(application_choice)
+      params = { course_choice_id: application_choice.id }
+      if @return_to_application_review
+        params.merge(return_to_application_review_params)
+      else
+        params.merge(return_to_section_review_params)
+      end
+    end
+
+    def return_to_application_review_params
+      { 'return-to' => 'application-review' }
+    end
+
+    def return_to_section_review_params
+      { 'return-to' => 'section-review' }
     end
   end
 end

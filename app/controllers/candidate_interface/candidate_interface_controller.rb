@@ -50,7 +50,7 @@ module CandidateInterface
     end
 
     def redirect_back_to_application_review_page?
-      params['return-to'] == 'application-review'
+      params['return-to'] == 'application-review' || params[:return_to] == 'application-review'
     end
 
     def show_pilot_holding_page_if_not_open
