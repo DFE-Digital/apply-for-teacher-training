@@ -34,7 +34,7 @@ RSpec.feature 'Entering their work history' do
 
   def and_my_application_form_is_marked_as_having_used_the_existing_flow
     current_candidate.current_application.update(feature_restructured_work_history: false)
-  end 
+  end
 
   def and_i_visit_the_site
     visit candidate_interface_application_form_path

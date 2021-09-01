@@ -40,7 +40,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
 
   def and_my_application_form_is_marked_as_having_used_the_existing_flow
     current_candidate.current_application.update(feature_restructured_work_history: false)
-  end 
+  end
 
   def and_i_have_completed_the_volunteering_section
     @application_form = create(:application_form, candidate: @candidate)
