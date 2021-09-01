@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_26_113813) do
+ActiveRecord::Schema.define(version: 2021_08_31_143624) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(version: 2021_08_26_113813) do
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
+    t.index ["current_recruitment_cycle_year"], name: "index_application_choices_on_current_recruitment_cycle_year"
+    t.index ["provider_ids"], name: "index_application_choices_on_provider_ids", using: :gin
   end
 
   create_table "application_experiences", force: :cascade do |t|
