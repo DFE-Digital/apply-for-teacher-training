@@ -32,6 +32,8 @@ RSpec.describe DataMigrations::PopulateApplicationChoiceProviderIds do
 
     expect(application_choices[3].reload.provider_ids.length).to eq(4)
     expected_arrays = application_choices.map { |a| expected_provider_ids(a) }
-    expect(ApplicationChoice.all.map(&:provider_ids)).to eq(expected_arrays)
+    actual_arrays = ApplicationChoice.order('created_at').all.map(&:provider_ids)
+
+    expect(actual_arrays).to contain_exactly(*expected_arrays)
   end
 end
