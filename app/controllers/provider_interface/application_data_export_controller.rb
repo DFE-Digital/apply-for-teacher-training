@@ -2,7 +2,7 @@ module ProviderInterface
   class ApplicationDataExportController < ProviderInterfaceController
     include StreamableDataExport
 
-    EXPORT_BATCH_SIZE = 150
+    EXPORT_BATCH_SIZE = 300
 
     before_action :redirect_to_hesa_export_unless_feature_enabled
 
