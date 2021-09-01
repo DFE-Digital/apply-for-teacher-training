@@ -12,10 +12,8 @@ class PhaseBannerComponent < ViewComponent::Base
     end
 
     case HostingEnvironment.environment_name
-    when 'production'
-      "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, no_visited_state: true)}".html_safe
-    when 'qa'
-      'This is the QA version of the Apply service'
+    when 'production', 'qa'
+      "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, class: 'govuk-link--no-visited-state')}".html_safe
     when 'staging'
       'This is an internal environment used by DfE to test deploys'
     when 'development'
