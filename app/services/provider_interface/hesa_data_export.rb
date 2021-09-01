@@ -1,6 +1,7 @@
 module ProviderInterface
   class HesaDataExport
     NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
+    BATCH_SIZE = 300
 
     attr_reader :actor, :recruitment_cycle_year
 
@@ -47,6 +48,7 @@ module ProviderInterface
     def export_data
       GetApplicationChoicesForProviders.call(providers: actor.providers, recruitment_cycle_year: recruitment_cycle_year)
         .where('candidates.hide_in_reporting' => false, 'status' => ApplicationStateChange::ACCEPTED_STATES)
+        .find_each(batch_size: BATCH_SIZE)
     end
 
   private

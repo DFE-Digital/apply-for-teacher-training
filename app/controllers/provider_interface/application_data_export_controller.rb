@@ -2,6 +2,8 @@ module ProviderInterface
   class ApplicationDataExportController < ProviderInterfaceController
     include StreamableDataExport
 
+    BATCH_SIZE = 300
+
     before_action :redirect_to_hesa_export_unless_feature_enabled
 
     def new
@@ -36,6 +38,7 @@ module ProviderInterface
           .where('courses.recruitment_cycle_year' => cycle_years)
           .where(status: statuses)
           .where('candidates.hide_in_reporting': false)
+          .find_each(batch_size: BATCH_SIZE)
 
         self.response_body = streamable_response(
           filename: csv_filename,
