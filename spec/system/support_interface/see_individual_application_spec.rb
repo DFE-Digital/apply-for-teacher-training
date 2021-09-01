@@ -33,7 +33,6 @@ RSpec.feature 'See an application' do
     @completed_application = create(
       :completed_application_form,
       :with_gcses,
-      references_count: 2,
       references_state: :feedback_requested,
     )
     SubmitApplication.new(@completed_application).call
@@ -41,7 +40,6 @@ RSpec.feature 'See an application' do
     @application_with_reference = create(
       :completed_application_form,
       :with_gcses,
-      references_count: 2,
       references_state: :feedback_requested,
     )
   end
