@@ -19,7 +19,7 @@ private
   def streamable_response_body(export_data:, export_headings:, item_yielder:)
     Enumerator.new do |yielder|
       yielder << SafeCSV.generate_line(export_headings) if export_headings.present?
-      export_data.map { |item| yielder << SafeCSV.generate_line(item_yielder.call(item)) }
+      export_data.each { |item| yielder << SafeCSV.generate_line(item_yielder.call(item)) }
     end
   end
 end
