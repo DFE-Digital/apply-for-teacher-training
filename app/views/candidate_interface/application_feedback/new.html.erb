@@ -10,10 +10,27 @@
       <%= f.hidden_field :original_controller %>
 
       <span class="govuk-caption-xl"><%= t('application_feedback.caption') %></span>
-      <%= f.govuk_text_area :feedback, label: { text: t('page_titles.application_feedback', section: @application_feedback_form.section_name), size: 'xl', tag: 'h1' }, rows: 5, max_words: 300, threshold: 90 %>
 
-      <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, inline: true, legend: { text: t('application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_feedback.consent_to_be_contacted.yes') }, link_errors: true %>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.application_feedback', section: @application_feedback_form.section_name) %>
+      </h1>
+
+      <div class='govuk-body'>If you’re experiencing a technical issue the quickest way to get help is by emailing <%= bat_contact_mail_to %>.</div>
+      <div class='govuk-body'>For advice about teacher training, <%= govuk_link_to('call us or chat online', t('get_into_teaching.url_online_chat')) %>.</div>
+
+      <%= f.govuk_text_area(
+        :feedback,
+        label: { text: t(
+          'application_section_feedback.details_label',
+          section: @application_feedback_form.section_name,
+        ), size: 'm' },
+        rows: 5,
+        max_words: 300,
+        threshold: 90,
+      ) %>
+
+      <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: t('application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_feedback.consent_to_be_contacted.yes', email_address: current_candidate.email_address) }, link_errors: true %>
         <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('application_feedback.consent_to_be_contacted.no') } %>
       <% end %>
 

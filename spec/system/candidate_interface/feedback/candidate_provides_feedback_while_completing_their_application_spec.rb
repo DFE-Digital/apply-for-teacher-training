@@ -39,8 +39,11 @@ RSpec.feature 'Candidate provides feedback during the application process' do
   end
 
   def when_i_fill_in_my_feedback
-    fill_in t('page_titles.application_feedback', section: 'the references'), with: 'Me no understand.'
-    choose t('application_feedback.consent_to_be_contacted.yes')
+    fill_in(
+      t('application_section_feedback.details_label', section: 'the references'),
+      with: 'Me no understand.',
+    )
+    choose t('application_feedback.consent_to_be_contacted.yes', email_address: @candidate.email_address)
 
     click_button t('application_feedback.submit')
   end

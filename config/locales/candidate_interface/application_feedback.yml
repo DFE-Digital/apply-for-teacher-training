@@ -3,7 +3,9 @@ en:
     caption: Help us improve this service
     feedback_link: How can we improve this section? (Opens in a new tab)
     consent_to_be_contacted:
-      label: Can we contact you about your feedback?
-      'yes': 'Yes'
+      label: Can we contact you by email about your feedback?
+      'yes': 'Yes, you can contact me at %{email_address}'
       'no': 'No'
     submit: Submit feedback
+  application_section_feedback:
+    details_label: 'Your feedback on %{section} section'
