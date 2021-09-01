@@ -20,13 +20,8 @@
       <% end %>
 
     <h2 class="govuk-heading-m">Personal details</h2>
-    <%= render SummaryListComponent.new(
-      rows: [
-        { key: 'First name', value: @provider_user.first_name },
-        { key: 'Last name', value: @provider_user.last_name },
-        { key: 'Email address', value: @provider_user.email_address },
-      ],
-    ) %>
+    <%= render ProviderInterface::UserPersonalDetailsComponent.new(user: @provider_user) %>
+
     <h2 class="govuk-heading-m">User permissions</h2>
     <p class="govuk-body"><%= t('provider_relationship_permissions.view_applications_explanation') %></p>
     <%= render ProviderInterface::UserPermissionSummaryComponent.new(provider_user: @provider_user, provider: @provider, editable: @current_user_can_manage_users) %>

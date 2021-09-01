@@ -2,13 +2,19 @@ module ProviderInterface
   module UserInvitation
     class PersonalDetailsController < BaseController
       def new
-        @wizard = InviteUserWizard.new(invite_user_store)
+        @wizard = InviteUserWizard.new(
+          invite_user_store,
+          current_step: :personal_details,
+          checking_answers: params[:checking_answers] == 'true',
+        )
+        @wizard.save_state!
       end
 
       def create
         @wizard = InviteUserWizard.new(invite_user_store, personal_details_params.merge(provider: @provider))
         if @wizard.valid?
           @wizard.save_state!
+          redirect_to next_page_path
         else
           track_validation_error(@wizard)
           render :new
