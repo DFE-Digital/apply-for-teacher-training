@@ -126,6 +126,19 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
     end
 
+    context 'When a course has a required degree grade' do
+      let(:application_choice) { application_form.application_choices.first }
+      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+
+      before do
+        application_choice.course.update!(degree_grade: 'two_two')
+      end
+
+      it 'renders the degree required row' do
+        expect(result.text).to include('2:2 degree or higher (or equivalent)')
+      end
+    end
+
     context 'when there are multiple site options for course' do
       before do
         create(:course_option, course: application_form.application_choices.first.course)
