@@ -157,13 +157,6 @@ class ApplicationChoice < ApplicationRecord
     [provider, accredited_provider].compact.uniq
   end
 
-  def configure_initial_course_choice!(course_option)
-    update!(
-      course_option: course_option,
-      current_course_option: course_option,
-    )
-  end
-
   def unconditional_offer?
     offer&.unconditional?
   end
@@ -185,9 +178,41 @@ class ApplicationChoice < ApplicationRecord
     )
   end
 
+  def configure_initial_course_choice!(course_option)
+    self.course_option = course_option
+
+    update_course_option_and_associated_fields!(
+      course_option,
+      other_fields: { course_option: course_option },
+    )
+  end
+
+  def update_course_option_and_associated_fields!(new_course_option, other_fields: {}, audit_comment: nil)
+    self.current_course_option = new_course_option # provider_ids_for_access needs this
+
+    attrs = {
+      current_course_option: new_course_option,
+      provider_ids: provider_ids_for_access,
+      current_recruitment_cycle_year: new_course_option.course.recruitment_cycle_year,
+    }.merge(other_fields)
+
+    attrs[:audit_comment] = audit_comment if audit_comment.present?
+
+    update!(attrs)
+  end
+
 private
 
   def set_initial_status
     self.status ||= 'unsubmitted'
+  end
+
+  def provider_ids_for_access
+    [
+      course_option.course.provider.id,
+      course_option.course.accredited_provider&.id,
+      current_course_option.course.provider.id,
+      current_course_option.course.accredited_provider&.id,
+    ].compact.uniq
   end
 end

@@ -63,7 +63,7 @@ module VendorAPI
   private
 
     def application_choice
-      @application_choice ||= GetApplicationChoicesForProviders.call(providers: current_provider, vendor_api: true).find(params[:application_id])
+      @application_choice ||= GetApplicationChoicesForProviders.call(providers: [current_provider], vendor_api: true).find(params[:application_id])
     end
 
     def render_application
