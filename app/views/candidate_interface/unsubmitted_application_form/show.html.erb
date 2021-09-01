@@ -1,8 +1,8 @@
 <% content_for :title, t('page_titles.application_form') %>
 
-<%= render CandidateInterface::CarryOverInsetTextComponent.new(application_form: @application_form) %>
-<%= render CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form, flash_empty: flash.empty?) %>
-<%= render CandidateInterface::ReopenBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?) %>
+<%= render CandidateInterface::CarryOverInsetTextComponent.new(application_form: @application_form_presenter.application_form) %>
+<%= render CandidateInterface::DeadlineBannerComponent.new(application_form: @application_form_presenter.application_form, flash_empty: flash.empty?) %>
+<%= render CandidateInterface::ReopenBannerComponent.new(phase: @application_form_presenter.application_form.phase, flash_empty: flash.empty?) %>
 
 <%= render ServiceInformationBanner.new(namespace: :candidate) %>
 
@@ -17,9 +17,9 @@
       <ol class="app-task-list">
         <li class="app-task-list__item">
           <% all_sections_completed = (
-            @application_form.first_name.present? &&
-            @application_form.first_nationality.present? &&
-            (!@application_form.english_main_language.nil? || @application_form.right_to_work_or_study.present?)
+            @application_form_presenter.application_form.first_name.present? &&
+            @application_form_presenter.application_form.first_nationality.present? &&
+            (!@application_form_presenter.application_form.english_main_language.nil? || @application_form_presenter.application_form.right_to_work_or_study.present?)
           ) %>
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.personal_information'),
@@ -37,7 +37,7 @@
       </ol>
     </section>
 
-    <% if !CycleTimetable.can_add_course_choice?(@application_form) %>
+    <% if !CycleTimetable.can_add_course_choice?(@application_form_presenter.application_form) %>
       <section class="govuk-!-margin-bottom-8">
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
           <p class="govuk-body">
@@ -45,10 +45,10 @@
           </p>
       </section>
     <% else %>
-      <% if @application_form.candidate_has_previously_applied? && @application_form.previous_application_form.application_choices.rejected.any? %>
-        <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
+      <% if @application_form_presenter.application_form.candidate_has_previously_applied? && @application_form_presenter.application_form.previous_application_form.application_choices.rejected.any? %>
+        <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form_presenter.application_form.previous_application_form)) %>
       <% end %>
-      <% if @application_form.candidate_has_previously_applied? && @application_form.apply_2? %>
+      <% if @application_form_presenter.application_form.candidate_has_previously_applied? && @application_form_presenter.application_form.apply_2? %>
         <%= render(CandidateInterface::ApplicationFormCourseChoiceComponent.new(
           completed: @application_form_presenter.course_choices_completed?,
         )) %>
@@ -61,15 +61,15 @@
     <% end %>
 
     <% cache(@application_cache_key, expires_in: 5.minutes) do %>
-      <%= render 'task_list', application_form: @application_form, application_form_presenter: @application_form_presenter %>
+      <%= render 'task_list', application_form: @application_form_presenter.application_form, application_form_presenter: @application_form_presenter %>
     <% end %>
 
     <section>
-      <% if CycleTimetable.between_cycles?(@application_form.phase) %>
+      <% if CycleTimetable.between_cycles?(@application_form_presenter.application_form.phase) %>
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.review') %></h2>
         <p class="govuk-body">You cannot submit your application until 9am on <%= CycleTimetable.apply_opens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.</p>
         <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
-      <% elsif CycleTimetable.can_submit?(@application_form) %>
+      <% elsif CycleTimetable.can_submit?(@application_form_presenter.application_form) %>
         <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.check_and_submit') %></h2>
         <%= govuk_button_link_to t('section_items.check_and_submit'), candidate_interface_application_review_path %>
       <% end %>
@@ -77,11 +77,11 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form.support_reference } %>
+    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form_presenter.application_form.support_reference } %>
 
-    <% if @application_form.candidate_has_previously_applied? %>
+    <% if @application_form_presenter.application_form.candidate_has_previously_applied? %>
       <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
-      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form)) %>
+      <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form_presenter.application_form)) %>
     <% end %>
   </div>
 </div>

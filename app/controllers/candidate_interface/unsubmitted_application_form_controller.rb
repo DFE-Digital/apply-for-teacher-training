@@ -8,8 +8,8 @@ module CandidateInterface
 
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-      @application_form = current_application
-      @application_cache_key = CacheKey.generate(@application_form.cache_key_with_version)
+      # @application_form = current_application
+      @application_cache_key = CacheKey.generate(@application_form_presenter.application_form.cache_key_with_version)
     end
 
     def review
@@ -18,8 +18,8 @@ module CandidateInterface
     end
 
     def submit_show
-      @application_form = current_application
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
+      @application_form = @application_form_presenter.application_form
 
       if @application_form_presenter.ready_to_submit?
         @further_information_form = FurtherInformationForm.new
