@@ -155,7 +155,7 @@ RSpec.feature 'Vendor receives the application' do
               hesa_degtype: nil,
             },
           ],
-          missing_gcses_explanation: 'Science GCSE or equivalent: I will sit the exam at my local college this summer.',
+          missing_gcses_explanation: 'Science GCSE or equivalent: In progress',
         },
         recruited_at: nil,
         references: [

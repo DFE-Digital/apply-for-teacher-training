@@ -50,7 +50,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_not_yet_page
-    expect(page).to have_content 'Are you currently studying for a GCSE in a English, or equivalent?'
+    expect(page).to have_content 'Are you currently studying for a GCSE in English, or equivalent?'
   end
 
   def when_i_select_i_am_not
@@ -62,7 +62,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_enter_the_missing_explanation
-    fill_in 'candidate-interface-gcse-not-completed-form-missing-explanation-field', with: 'I’ve completed a course'
+    fill_in 'candidate-interface-gcse-missing-form-missing-explanation-field', with: 'I’ve completed a course'
   end
 
   def then_i_see_the_review_page_with_correct_details
