@@ -210,6 +210,16 @@ Rails.application.routes.draw do
         get '/edit' => 'gcse/type#edit', as: :gcse_details_edit_type
         patch '/edit' => 'gcse/type#update'
 
+        get '/not-yet-completed' => 'gcse/not_completed_qualification#new', as: :gcse_not_yet_completed
+        post '/not-yet-completed' => 'gcse/not_completed_qualification#create'
+        get 'not-yet-completed/edit' => 'gcse/gcse/not_completed_qualification#edit', as: :gcse_edit_not_yet_completed
+        patch 'no-yet-completed/edit' => 'gcse/gcse/not_completed_qualification#update'
+
+        get '/equivalency' => 'gcse/missing_qualification#new', as: :gcse_missing
+        post '/equivalency' => 'gcse/missing_qualification#create'
+        get 'equivalency/edit' => 'gcse/gcse/missing_qualification#edit', as: :gcse_edit_missing
+        patch 'equivalency/edit' => 'gcse/gcse/missing_qualification#update'
+
         get '/country' => 'gcse/institution_country#new', as: :gcse_details_new_institution_country
         patch '/country' => 'gcse/institution_country#create'
         get '/country/edit' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
