@@ -8,7 +8,7 @@ module SupportInterface
     end
 
     def no_sync_in_24h
-      connected_providers.where.not(
+      @_no_sync_in_24h ||= connected_providers.where.not(
         id: VendorAPIRequest.successful.syncs.select(:provider_id).distinct.where('created_at > ?', 24.hours.ago),
       ).map do |provider|
         ProviderWithAPIUsageStats.new(provider)
@@ -16,7 +16,7 @@ module SupportInterface
     end
 
     def no_decisions_in_7d
-      connected_providers.where.not(
+      @_no_decisions_in_7d ||= connected_providers.where.not(
         id: VendorAPIRequest.successful.decisions.select(:provider_id).distinct.where('created_at > ?', 7.days.ago),
       ).map do |provider|
         ProviderWithAPIUsageStats.new(provider)
@@ -24,7 +24,7 @@ module SupportInterface
     end
 
     def providers_with_errors
-      connected_providers.where(
+      @_providers_with_errors ||= connected_providers.where(
         id: VendorAPIRequest.errors.select(:provider_id).distinct.where('created_at > ?', 7.days.ago),
       ).map do |provider|
         ProviderWithAPIUsageStats.new(provider)

@@ -1,6 +1,41 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Vendor API monitoring' %>
 
-<h2 class="govuk-heading-m">Never connected</h2>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.never_connected.count,
+      label: "#{'provider'.pluralize(@monitor.never_connected.count)} #{'has'.pluralize(@monitor.never_connected.count)} never connected to the API",
+      colour: :blue,
+      href: '#not-connected',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.no_sync_in_24h.count,
+      label: "connected #{'provider'.pluralize(@monitor.no_sync_in_24h.count)} #{'has'.pluralize(@monitor.no_sync_in_24h.count)} not synced for at least 24 hours",
+      colour: :blue,
+      href: '#not-synced',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.no_decisions_in_7d.count,
+      label: "connected #{'provider'.pluralize(@monitor.no_decisions_in_7d.count)} #{'has'.pluralize(@monitor.no_decisions_in_7d.count)} not posted a decision for at least 7 days",
+      colour: :blue,
+      href: '#not-posted-decision',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.providers_with_errors.count,
+      label: "connected #{'provider'.pluralize(@monitor.providers_with_errors.count)} #{'has'.pluralize(@monitor.providers_with_errors.count)} caused an error in the last 7 days",
+      colour: :blue,
+      href: '#received-error-response',
+    ) %>
+  </div>
+</div>
+
+<h2 class="govuk-heading-m" id="not-connected">Never connected</h2>
 
 <% if @monitor.never_connected.any? %>
   <table class="govuk-table" data-qa="not-connected">
@@ -31,7 +66,7 @@
   <p class="govuk-body">🥂 All providers have connected to the API at least once</p>
 <% end %>
 
-<h2 class="govuk-heading-m">No sync in last 24 hours</h2>
+<h2 class="govuk-heading-m" id="not-synced">No sync in last 24 hours</h2>
 
 <% if @monitor.no_sync_in_24h.any? %>
   <table class="govuk-table" data-qa="not-synced">
@@ -62,14 +97,13 @@
   <p class="govuk-body">⚡️ All connected providers have synced in the last 24 hours</p>
 <% end %>
 
-<h2 class="govuk-heading-m">No decisions in last 7 days</h2>
+<h2 class="govuk-heading-m" id="not-posted-decision">No decisions in last 7 days</h2>
 
 <% if @monitor.no_decisions_in_7d.any? %>
   <table class="govuk-table" data-qa="not-posted-decision">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">SRS</th>
         <th class="govuk-table__header govuk-table__header">Last decision</th>
       </tr>
     </thead>
@@ -94,7 +128,7 @@
   <p class="govuk-body">💪 All connected providers have made at least one decision in the last 7 days</p>
 <% end %>
 
-<h2 class="govuk-heading-m">Error rate in last 7 days</h2>
+<h2 class="govuk-heading-m" id="received-error-response">Error rate in last 7 days</h2>
 
 <% if @monitor.providers_with_errors.any? %>
   <table class="govuk-table" data-qa="received-error-response">
