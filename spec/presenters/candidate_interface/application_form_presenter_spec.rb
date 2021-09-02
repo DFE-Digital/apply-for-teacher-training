@@ -1,6 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplicationFormPresenter do
+  describe 'delegating methods to application form' do
+    let(:application_form_spy) { spy }
+
+    %i[
+      apply_2?
+      cache_key_with_version
+      candidate_has_previously_applied?
+      english_main_language
+      first_name
+      first_nationality
+      previous_application_form
+      phase
+      personal_details_completed
+      support_reference
+    ].each do |method|
+      it "delegates '##{method}' to the application form" do
+        described_class.new(application_form_spy).send(method)
+
+        expect(application_form_spy).to have_received(method)
+      end
+    end
+  end
+
   describe '#personal_details_completed?' do
     it 'returns true if personal details section is completed' do
       application_form = FactoryBot.build(:application_form, personal_details_completed: true)
