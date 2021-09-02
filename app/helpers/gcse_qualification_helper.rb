@@ -30,6 +30,10 @@ module GcseQualificationHelper
     t('gcse_edit_year.page_title', subject: subject, qualification_type: get_qualification_type_name(qualification_type))
   end
 
+  def capitalize_english(subject)
+    subject == 'english' ? 'English' : subject
+  end
+
 private
 
   def get_qualification_type_name(qualification_type)
