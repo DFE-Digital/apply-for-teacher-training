@@ -7,6 +7,12 @@ FactoryBot.define do
       if application_choice.current_course_option.blank?
         application_choice.current_course_option = application_choice.course_option
       end
+
+      if application_choice.current_recruitment_cycle_year.blank?
+        application_choice.current_recruitment_cycle_year = application_choice.current_course_option.course.recruitment_cycle_year
+      end
+
+      application_choice.provider_ids = application_choice.send(:provider_ids_for_access)
     end
 
     status { ApplicationStateChange.valid_states.sample }

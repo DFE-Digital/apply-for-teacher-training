@@ -300,7 +300,7 @@ RSpec.describe ApplicationChoice, type: :model do
 
   describe '#update_course_option_and_associated_fields!' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
-    let(:course) { create(:course, :with_accredited_provider) }
+    let(:course) { create(:course, :with_accredited_provider, :previous_year) }
     let(:course_option) { create(:course_option, course: course) }
 
     it 'sets current_course_option_id' do
