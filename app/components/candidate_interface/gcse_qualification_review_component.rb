@@ -13,7 +13,11 @@ module CandidateInterface
 
     def gcse_qualification_rows
       if application_qualification.missing_qualification?
-        [missing_qualification_row]
+        [
+          missing_qualifiation_type_row,
+          missing_qualification_row,
+          equivalency_qualification_row,
+        ].compact
       else
         [
           qualification_row,
@@ -155,17 +159,51 @@ module CandidateInterface
       end
     end
 
-    def missing_qualification_row
+    def missing_qualifiation_type_row
       {
-        key: 'How I expect to gain this qualification',
-        value: application_qualification.missing_explanation.presence || t('gcse_summary.not_specified'),
+        key: "What type of #{capitalize_english(@subject)} qualification do you have?",
+        value: "I don’t have a #{capitalize_english(@subject)} qualification yet",
         action: {
           href: candidate_interface_gcse_details_edit_type_path(change_path_params),
+          visually_hidden_text: 'Change whether you have this qualification',
+        },
+        html_attributes: {
+          data: {
+            qa: 'gcse-missing-qualification-type',
+          },
+        },
+      }
+    end
+
+    def missing_qualification_row
+      {
+        key: 'Are you currently studying for this qualification?',
+        value: application_qualification.not_completed_explanation.presence || 'No',
+        action: {
+          href: candidate_interface_gcse_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
         },
         html_attributes: {
           data: {
             qa: 'gcse-missing-qualification-explanation',
+          },
+        },
+      }
+    end
+
+    def equivalency_qualification_row
+      return nil if application_qualification.missing_explanation.nil?
+
+      {
+        key: 'Other evidence I have the skills required',
+        value: application_qualification.missing_explanation.presence || 'Not provided',
+        action: {
+          href: candidate_interface_gcse_missing_path(change_path_params),
+          visually_hidden_text: 'Change explanation',
+        },
+        html_attributes: {
+          data: {
+            qa: 'gcse-missing-equivalency-explanation',
           },
         },
       }
@@ -274,6 +312,10 @@ module CandidateInterface
       when 'english'
         candidate_interface_edit_gcse_english_grade_path(return_to_params)
       end
+    end
+
+    def capitalize_english(subject)
+      subject == 'english' ? 'English' : subject
     end
   end
 end
