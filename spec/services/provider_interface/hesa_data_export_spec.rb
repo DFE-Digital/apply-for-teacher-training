@@ -1,38 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::HesaDataExport do
-  shared_examples_for 'a full HESA export' do
+  shared_examples_for 'an exported HESA row' do
     it 'includes candidate and HESA data' do
-      exported_data = CSV.parse(export_data, headers: true)
-      row = exported_data.first
-
-      expect(row['id']).to eq(application_with_offer.application_form.support_reference)
-      expect(row['status']).to eq(application_with_offer.status)
-      expect(row['first_name']).to eq(application_with_offer.application_form.first_name)
-      expect(row['last_name']).to eq(application_with_offer.application_form.last_name)
-      expect(row['date_of_birth']).to eq(application_with_offer.application_form.date_of_birth.to_s)
-      expect(row['nationality']).to eq(decorated_application.nationality)
-      expect(row['domicile']).to eq(application_with_offer.application_form.domicile)
-      expect(row['email']).to eq(application_with_offer.application_form.candidate.email_address)
-      expect(row['recruitment_cycle_year']).to eq(application_with_offer.application_form.recruitment_cycle_year.to_s)
-      expect(row['provider_code']).to eq(application_with_offer.provider.code)
-      expect(row['accredited_provider_name']).to eq(application_with_offer.course.accredited_provider.name)
-      expect(row['course_code']).to eq(course.code)
-      expect(row['site_code']).to eq(application_with_offer.site.code)
-      expect(row['study_mode']).to eq('01')
-      expect(row['SBJCA']).to eq('100425 101277')
-      expect(row['QLAIM']).to eq('021')
-      expect(row['FIRSTDEG']).to eq('1')
-      expect(row['DEGTYPE']).to eq('007')
-      expect(row['DEGSBJ']).to eq('100100')
-      expect(row['DEGCLSS']).to eq('02')
-      expect(row['institution_country']).to eq('GB')
-      expect(row['DEGSTDT']).to eq('2010-01-01')
-      expect(row['DEGENDDT']).to eq('2013-01-01')
-      expect(row['institution_details']).to eq('0001')
-      expect(row['sex']).to eq('1')
-      expect(row['disabilities']).to eq('53 55 54')
-      expect(row['ethnicity']).to eq('15')
+      expect(export_row['id']).to eq(application_with_offer.application_form.support_reference)
+      expect(export_row['status']).to eq(application_with_offer.status)
+      expect(export_row['first_name']).to eq(application_with_offer.application_form.first_name)
+      expect(export_row['last_name']).to eq(application_with_offer.application_form.last_name)
+      expect(export_row['date_of_birth']).to eq(application_with_offer.application_form.date_of_birth)
+      expect(export_row['nationality']).to eq(decorated_application.nationality)
+      expect(export_row['domicile']).to eq(application_with_offer.application_form.domicile)
+      expect(export_row['email']).to eq(application_with_offer.application_form.candidate.email_address)
+      expect(export_row['recruitment_cycle_year']).to eq(application_with_offer.application_form.recruitment_cycle_year)
+      expect(export_row['provider_code']).to eq(application_with_offer.provider.code)
+      expect(export_row['accredited_provider_name']).to eq(application_with_offer.course.accredited_provider.name)
+      expect(export_row['course_code']).to eq(course.code)
+      expect(export_row['site_code']).to eq(application_with_offer.site.code)
+      expect(export_row['study_mode']).to eq('01')
+      expect(export_row['SBJCA']).to eq('100425 101277')
+      expect(export_row['QLAIM']).to eq('021')
+      expect(export_row['FIRSTDEG']).to eq(1)
+      expect(export_row['DEGTYPE']).to eq('007')
+      expect(export_row['DEGSBJ']).to eq('100100')
+      expect(export_row['DEGCLSS']).to eq('02')
+      expect(export_row['institution_country']).to eq('GB')
+      expect(export_row['DEGSTDT']).to eq('2010-01-01')
+      expect(export_row['DEGENDDT']).to eq('2013-01-01')
+      expect(export_row['institution_details']).to eq('0001')
+      expect(export_row['sex']).to eq(1)
+      expect(export_row['disabilities']).to eq('53 55 54')
+      expect(export_row['ethnicity']).to eq(15)
     end
   end
 
@@ -61,6 +58,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
            institution_hesa_code: '0001')
   end
   let(:course_option) { create(:course_option, course: course) }
+  let(:course) { create(:course, study_mode: 'full_time', subjects: subjects, provider: training_provider, accredited_provider: accredited_provider) }
 
   before do
     application_with_offer.application_form.application_qualifications << application_qualification
@@ -69,10 +67,8 @@ RSpec.describe ProviderInterface::HesaDataExport do
     })
   end
 
-  describe '#call' do
-    let(:course) { create(:course, study_mode: 'full_time', subjects: subjects, provider: training_provider, accredited_provider: accredited_provider) }
-
-    subject(:export_data) { described_class.new(actor: provider_user).call }
+  describe '#export_row' do
+    subject(:export_row) { described_class.new(actor: provider_user).export_row(application_with_offer) }
 
     context 'for the current recruitment cycle year' do
       let(:course) do
@@ -83,17 +79,9 @@ RSpec.describe ProviderInterface::HesaDataExport do
                accredited_provider: accredited_provider)
       end
 
-      subject(:export_data) { described_class.new(actor: provider_user).call }
+      subject(:export_row) { described_class.new(actor: provider_user).export_row(application_with_offer) }
 
-      it_behaves_like 'a full HESA export'
-
-      it 'generates CSV headers' do
-        csv = CSV.parse(export_data, headers: true)
-        expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
-                                     domicile email recruitment_cycle_year provider_code accredited_provider_name course_code site_code
-                                     study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
-                                     institution_details sex disabilities ethnicity])
-      end
+      it_behaves_like 'an exported HESA row'
     end
 
     context 'for the specified recruitment cycle year' do
@@ -107,18 +95,16 @@ RSpec.describe ProviderInterface::HesaDataExport do
                  recruitment_cycle_year: 2019)
         end
 
-        subject(:export_data) { described_class.new(actor: provider_user, recruitment_cycle_year: 2019).call }
+        subject(:export_row) { described_class.new(actor: provider_user, recruitment_cycle_year: 2019).export_row(application_with_offer) }
 
-        it_behaves_like 'a full HESA export'
+        it_behaves_like 'an exported HESA row'
       end
 
       context 'when the recruitment cycle has no data' do
-        subject(:export_data) { described_class.new(actor: provider_user, recruitment_cycle_year: 2018).call }
+        subject(:export_row) { described_class.new(actor: provider_user, recruitment_cycle_year: 2018).export_row(nil) }
 
         it 'has no data' do
-          exported_data = CSV.parse(export_data, headers: true)
-
-          expect(exported_data).to be_empty
+          expect(export_row).to be_empty
         end
       end
     end
@@ -127,8 +113,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
       let(:hesa_disabilities) { '55' }
 
       it 'exports this value' do
-        exported_data = CSV.parse(export_data, headers: true)
-        expect(exported_data.first['disabilities']).to eq('55')
+        expect(export_row['disabilities']).to eq('55')
       end
     end
 
@@ -136,20 +121,23 @@ RSpec.describe ProviderInterface::HesaDataExport do
       let(:provider_user) { create(:provider_user, providers: [training_provider]) }
 
       it 'shows diversity information as confidential' do
-        exported_data = CSV.parse(export_data, headers: true)
-        row = exported_data.first
-
-        expect(row['sex']).to eq('confidential')
-        expect(row['disabilities']).to eq('confidential')
-        expect(row['ethnicity']).to eq('confidential')
+        expect(export_row['sex']).to eq('confidential')
+        expect(export_row['disabilities']).to eq('confidential')
+        expect(export_row['ethnicity']).to eq('confidential')
       end
     end
 
     context 'when user is from the accredited provider' do
       let(:provider_user) { create(:provider_user, :with_view_diversity_information, providers: [accredited_provider]) }
 
-      it_behaves_like 'a full HESA export'
+      it_behaves_like 'an exported HESA row'
     end
+  end
+
+  describe '#export_data' do
+    let(:exporter) { described_class.new(actor: provider_user, recruitment_cycle_year: RecruitmentCycle.current_year) }
+    let(:exported_data) { exporter.export_data }
+    let(:export_row) { exporter.export_row(exported_data.first) }
 
     context 'when provider has courses in multiple recruitment cycles' do
       it 'only exports current recruitment cycle data' do
@@ -157,9 +145,10 @@ RSpec.describe ProviderInterface::HesaDataExport do
         course_option = create(:course_option, course: previous_cycle_course)
         create(:application_choice, :with_accepted_offer, course_option: course_option)
 
-        exported_data = CSV.parse(export_data, headers: true)
         expect(exported_data.count).to eq 1
       end
     end
+
+    it_behaves_like 'an exported HESA row'
   end
 end

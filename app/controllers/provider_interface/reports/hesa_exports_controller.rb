@@ -1,12 +1,19 @@
 module ProviderInterface
   module Reports
     class HesaExportsController < ProviderInterfaceController
+      include StreamableDataExport
+
       def show
         year = params[:year]
         respond_to do |format|
           format.csv do
-            csv_data = HesaDataExport.new(actor: current_provider_user, recruitment_cycle_year: year).call
-            send_data csv_data, disposition: 'attachment', filename: csv_filename(year)
+            hesa_data_export = HesaDataExport.new(actor: current_provider_user, recruitment_cycle_year: year)
+            self.response_body = streamable_response(
+              filename: csv_filename(year),
+              export_headings: hesa_data_export.export_row(hesa_data_export.export_data.first).keys,
+              export_data: hesa_data_export.export_data,
+              item_yielder: proc { |item| hesa_data_export.export_row(item).values },
+            )
           end
         end
       end
