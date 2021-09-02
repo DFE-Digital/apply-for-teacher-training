@@ -153,6 +153,10 @@ RSpec.describe VendorAPIRequest, type: :model do
 
       expect(described_class.search_validation_errors(params)).to contain_exactly(request)
     end
+
+    it 'does not return requests if none found' do
+      expect(described_class.search_validation_errors({})).to be_empty
+    end
   end
 
   describe '.syncs' do
