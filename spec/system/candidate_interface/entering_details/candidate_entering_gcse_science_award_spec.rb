@@ -44,7 +44,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_add_gcse_science_page
-    expect(page).to have_content 'Add science GCSE grade 4 (C) or above, or equivalent'
+    expect(page).to have_content 'What type of qualification in science do you have?'
   end
 
   def when_i_select_gcse_option

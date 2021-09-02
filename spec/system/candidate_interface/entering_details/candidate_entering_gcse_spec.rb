@@ -98,7 +98,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'Add maths GCSE grade 4 (C) or above, or equivalent'
+    expect(page).to have_content 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_review_page_with_correct_details
@@ -206,7 +206,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_add_gcse_english_page
-    expect(page).to have_content 'Add English GCSE grade 4 (C) or above, or equivalent'
+    expect(page).to have_content 'What type of qualification in English do you have?'
   end
 
   def when_i_choose_to_return_later

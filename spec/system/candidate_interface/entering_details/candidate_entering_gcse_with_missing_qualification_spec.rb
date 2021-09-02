@@ -62,7 +62,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_enter_the_missing_explanation
-    fill_in 'candidate-interface-gcse-not-completed-form-missing-explanation-field', with: 'I’ve completed a course'
+    fill_in 'candidate-interface-gcse-missing-form-missing-explanation-field', with: 'I’ve completed a course'
   end
 
   def then_i_see_the_review_page_with_correct_details
