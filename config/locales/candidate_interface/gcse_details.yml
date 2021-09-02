@@ -1,9 +1,11 @@
 en:
   gcse_edit_type:
     page_titles:
-      maths: Add maths GCSE grade 4 (C) or above, or equivalent
-      english: Add English GCSE grade 4 (C) or above, or equivalent
-      science: Add science GCSE grade 4 (C) or above, or equivalent
+      maths: What type of qualification in maths do you have?
+      english: What type of qualification in English do you have?
+      science: What type of qualification in science do you have?
+      not_yet_completed: Are you currently studying for a GCSE in a %{subject}, or equivalent?
+      equivalency: You need a GCSE in %{subject} at grade 4 (C) or above, or equivalent
   gcse_edit_grade_explanation:
     subject_titles:
       maths: a maths

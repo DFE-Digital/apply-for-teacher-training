@@ -11,7 +11,7 @@ en:
         scottish_national_5: Scottish National 5
         other_uk: Other UK qualification
         non_uk: Non-UK qualification
-        missing: I do not have this qualification yet
+        missing: I do not have a GCSE in %{subject} (or equivalent) yet
       other_uk:
         label: Qualification name
       non_uk:
