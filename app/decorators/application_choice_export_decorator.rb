@@ -16,7 +16,7 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
       .application_qualifications
       .select(&:gcse?)
       .select(&:missing_qualification?)
-      .map { |gcse| "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.not_completed_explanation}" }
+      .map { |gcse| "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse_explanation(gcse)}" }
       .join(separator_string)
       .presence
   end
@@ -45,8 +45,16 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
 
 private
 
+  def gcse_explanation(gcse)
+    gcse.missing_explanation.presence || gcse.not_completed_explanation
+  end
+
   def missing_gcse_explanation(gcse)
+<<<<<<< HEAD
     "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.not_completed_explanation}"
+=======
+    "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse_explanation(gcse)}"
+>>>>>>> 121a995f5 (App choice export decorator returns correct missing GCSE value)
   end
 
   def summary_for_gcse(gcse)
