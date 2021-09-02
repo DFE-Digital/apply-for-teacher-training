@@ -27,15 +27,13 @@ RSpec.describe SendApplicationToProvider do
     expect(application_choice.reload.sent_to_provider_at).not_to be_nil
   end
 
-  it 'sets the `reject_by_default_at` date and `reject_by_default_days`' do
-    reject_by_default_at = 20.business_days.from_now.end_of_day
-    time_limit_calculator = instance_double(TimeLimitCalculator, call: { days: 20, time_in_future: reject_by_default_at })
-    allow(TimeLimitCalculator).to receive(:new).and_return(time_limit_calculator)
+  it 'calls the reject by default service' do
+    set_reject_by_default = instance_double(SetRejectByDefault, call: true)
+    allow(SetRejectByDefault).to receive(:new).with(application_choice).and_return(set_reject_by_default)
 
     described_class.new(application_choice: application_choice).call
 
-    expect(application_choice.reload.reject_by_default_at.round).to eq reject_by_default_at.round
-    expect(application_choice.reject_by_default_days).to eq 20
+    expect(set_reject_by_default).to have_received(:call)
   end
 
   it 'emails the provider’s provider users', sidekiq: true do
