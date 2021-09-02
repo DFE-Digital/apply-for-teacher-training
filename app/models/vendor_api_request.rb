@@ -1,6 +1,10 @@
 class VendorAPIRequest < ApplicationRecord
   belongs_to :provider, optional: true
   scope :unprocessable_entities, -> { where(status_code: 422) }
+  scope :syncs, -> { where(request_path: '/api/v1/applications', request_method: 'GET') }
+  scope :decisions, -> { where(request_method: 'POST') }
+  scope :errors, -> { where.not(status_code: [200, 302, 301]) }
+  scope :successful, -> { where(status_code: [200]) }
 
   def self.list_of_distinct_errors_with_count
     error_messages = unprocessable_entities.flat_map do |request|
