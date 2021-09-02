@@ -39,6 +39,7 @@ module CandidateInterface
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
         interview_row(application_choice),
+        visa_details_row(application_choice),
       ].compact
     end
 
@@ -198,6 +199,20 @@ module CandidateInterface
           value: render(InterviewBookingsComponent.new(application_choice)),
         }
       end
+    end
+
+    def visa_details_row(application_choice)
+      return nil if has_right_to_work_or_study?(application_choice)
+
+      {
+        key: 'Visa sponsorship',
+        value: 'Visas can be sponsored',
+      }
+    end
+
+    def has_right_to_work_or_study?(application_choice)
+      application_choice.application_form.british_or_irish? ||
+        application_choice.application_form.right_to_work_or_study_yes?
     end
 
     def status_row(application_choice)
