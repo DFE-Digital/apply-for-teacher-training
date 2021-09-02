@@ -1,7 +1,7 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
     def index
-      render json: { data: serialized_application_choices }
+      render json: %({ "data": [#{serialized_application_choices.join(',')}] })
     end
 
     def show
