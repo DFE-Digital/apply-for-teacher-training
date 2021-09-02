@@ -206,7 +206,7 @@ module CandidateInterface
 
       {
         key: 'Visa sponsorship',
-        value: 'Visas can be sponsored',
+        value: render(CourseChoicesReviewVisaStatusComponent.new(application_choice: application_choice)),
       }
     end
 
