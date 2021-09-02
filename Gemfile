@@ -21,7 +21,7 @@ gem 'tzinfo-data'
 
 gem 'webpacker'
 gem 'govuk-components', '~> 2.0.1'
-gem 'govuk_design_system_formbuilder', '~> 2.7.2'
+gem 'govuk_design_system_formbuilder', '~> 2.7.3'
 
 # GOV.UK Notify
 gem 'mail-notify'

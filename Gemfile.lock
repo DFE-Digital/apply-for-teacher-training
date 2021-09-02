@@ -230,7 +230,7 @@ GEM
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.36.0)
-    govuk_design_system_formbuilder (2.7.2)
+    govuk_design_system_formbuilder (2.7.3)
       actionview (>= 6.0)
       activemodel (>= 6.0)
       activesupport (>= 6.0)
@@ -703,7 +703,7 @@ DEPENDENCIES
   geocoder
   google-cloud-bigquery
   govuk-components (~> 2.0.1)
-  govuk_design_system_formbuilder (~> 2.7.2)
+  govuk_design_system_formbuilder (~> 2.7.3)
   govuk_markdown
   guard-rspec
   holidays
