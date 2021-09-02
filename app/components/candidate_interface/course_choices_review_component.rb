@@ -202,7 +202,8 @@ module CandidateInterface
     end
 
     def visa_details_row(application_choice)
-      return nil if has_right_to_work_or_study?(application_choice)
+      return nil if has_right_to_work_or_study?(application_choice) ||
+        application_predates_visa_sponsorship_information?(application_choice)
 
       {
         key: 'Visa sponsorship',
@@ -213,6 +214,10 @@ module CandidateInterface
     def has_right_to_work_or_study?(application_choice)
       application_choice.application_form.british_or_irish? ||
         application_choice.application_form.right_to_work_or_study_yes?
+    end
+
+    def application_predates_visa_sponsorship_information?(application_choice)
+      application_choice.application_form.recruitment_cycle_year < 2022
     end
 
     def status_row(application_choice)

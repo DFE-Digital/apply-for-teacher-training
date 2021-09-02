@@ -147,7 +147,6 @@ RSpec.feature 'International candidate submits the application' do
   def then_i_can_see_my_course_choices
     expect(page).to have_content 'Gorse SCITT'
     expect(page).to have_content 'Primary (2XT2)'
-    expect(page).to have_content 'Visa sponsorship'
   end
 
   def and_i_can_see_my_personal_details
