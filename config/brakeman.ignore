@@ -7,7 +7,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/candidate_interface/after_sign_in_controller.rb",
-      "line": 29,
+      "line": 28,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(params[:path])",
       "render_path": null,
@@ -18,6 +18,26 @@
       },
       "user_input": "params[:path]",
       "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "1cee5ab174657cbdebb3e1ac4432c226aef489c6961a8c1512d187d1ff62ed08",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/components/provider_interface/provider_partner_permission_breakdown_component.rb",
+      "line": 43,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "provider.ratifying_provider_permissions.providers_have_open_course.where(\"ratifying_provider_can_#{permission}\" => permission_applies)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::ProviderPartnerPermissionBreakdownComponent",
+        "method": "training_provider_partner_ids_where"
+      },
+      "user_input": "permission",
+      "confidence": "Weak",
       "note": ""
     },
     {
@@ -127,7 +147,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `ProviderRelationshipPermissions#find`",
       "file": "app/controllers/provider_interface/organisation_permissions_controller.rb",
-      "line": 56,
+      "line": 67,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "ProviderRelationshipPermissions.find(params[:id])",
       "render_path": null,
@@ -137,6 +157,26 @@
         "method": "set_up_relationship_objects"
       },
       "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "b55ce37e4d245f02f20918d612a3abfcbff43d41f0a114e8a31907157e65121a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/components/provider_interface/provider_partner_permission_breakdown_component.rb",
+      "line": 50,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "provider.training_provider_permissions.providers_have_open_course.where(\"training_provider_can_#{permission}\" => permission_applies)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ProviderInterface::ProviderPartnerPermissionBreakdownComponent",
+        "method": "ratifying_provider_partner_ids_where"
+      },
+      "user_input": "permission",
       "confidence": "Weak",
       "note": ""
     },
@@ -201,6 +241,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-08-02 10:12:01 +0100",
+  "updated": "2021-08-27 14:54:30 +0100",
   "brakeman_version": "5.1.1"
 }

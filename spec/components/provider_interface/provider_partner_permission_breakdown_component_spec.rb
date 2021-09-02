@@ -2,118 +2,55 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   let(:provider) { create(:provider) }
-  let(:allowed_training_providers) do
-    ['Hogwarts SCITT', 'University of Typing', 'Great White School'].map { |name| create(:provider, name: name) }
-  end
-  let(:allowed_ratifying_providers) do
-    ['Mars SCITT', 'University of Twix'].map { |name| create(:provider, name: name) }
-  end
-  let(:prohibited_training_providers) do
-    ['Chicken School', 'Egg SCITT'].map { |name| create(:provider, name: name) }
-  end
-  let(:prohibited_ratifying_providers) do
-    ['ABC SCITT', 'University of XYZ'].map { |name| create(:provider, name: name) }
-  end
-  let(:non_configured_providers) do
-    ['School of Rock', 'Musical High School'].map { |name| create(:provider, name: name) }
-  end
-  let(:render) do
-    render_inline(described_class.new(provider: provider, permission: :make_decisions))
-  end
+  let(:permission) { :make_decisions }
+  let(:render) { render_inline(described_class.new(provider: provider, permission: permission)) }
 
-  describe '#partners_for_which_permission_applies' do
-    before do
-      allowed_training_providers.each do |training_provider|
-        create(:provider_relationship_permissions,
-               training_provider: training_provider,
-               ratifying_provider: provider,
-               ratifying_provider_can_make_decisions: true,
-               training_provider_can_make_decisions: false)
-      end
+  def create_partner_provider_where(partner_provider_type:, permission_applies:, org_name: nil, course_open: true, relationship_set_up: true)
+    my_provider_type = partner_provider_type == :training ? :ratifying : :training
 
-      allowed_ratifying_providers.each do |training_provider|
-        create(:provider_relationship_permissions,
-               training_provider: provider,
-               ratifying_provider: training_provider,
-               training_provider_can_make_decisions: true,
-               ratifying_provider_can_make_decisions: false)
-      end
+    partner_provider = create(:provider, name: org_name || Faker::University.name)
+
+    relationship_traits = relationship_set_up ? [] : %i[not_set_up_yet]
+
+    relationship = create(
+      :provider_relationship_permissions,
+      *relationship_traits,
+      "#{my_provider_type}_provider": provider,
+      "#{partner_provider_type}_provider": partner_provider,
+      "#{my_provider_type}_provider_can_#{permission}": permission_applies,
+      "#{partner_provider_type}_provider_can_#{permission}": !permission_applies,
+    )
+    if course_open
+      create(:course, :open_on_apply, provider: relationship.training_provider, accredited_provider: relationship.ratifying_provider)
     end
 
-    it 'returns a list of all providers that allow the specified provider to make decisions on their behalf' do
-      expected_provider_names = (allowed_training_providers + allowed_ratifying_providers).map(&:name).sort
+    partner_provider
+  end
+
+  context 'when there are partner organisations for which the permission applies' do
+    let!(:ratifying_partners) { ['University of B', 'SCITT of Rock'].map { |name| create_partner_provider_where(partner_provider_type: :ratifying, org_name: name, permission_applies: true) } }
+    let!(:training_partners) { ['University of A', 'SCITT of Destiny'].map { |name| create_partner_provider_where(partner_provider_type: :training, org_name: name, permission_applies: true) } }
+
+    it 'renders the names of partner organisations for which the given provider has the permission' do
+      expected_provider_names = (ratifying_partners + training_partners).map(&:name).sort
       expect(render.css('#partners-for-which-permission-applies li').map(&:text)).to eq(expected_provider_names)
     end
-  end
 
-  describe '#partners_for_which_permission_does_not_apply' do
-    before do
-      prohibited_training_providers.each do |training_provider|
-        create(:provider_relationship_permissions,
-               training_provider: training_provider,
-               ratifying_provider: provider,
-               training_provider_can_make_decisions: true,
-               ratifying_provider_can_make_decisions: false)
-      end
+    it 'indicates that the permission applies to all partners' do
+      expect(render.css('.govuk-body')[0].text)
+        .to include('It currently applies to courses you work on with all of your partner organisations:')
+    end
 
-      prohibited_ratifying_providers.each do |training_provider|
-        create(:provider_relationship_permissions,
-               training_provider: provider,
-               ratifying_provider: training_provider,
-               training_provider_can_make_decisions: false,
-               ratifying_provider_can_make_decisions: true)
-      end
+    context 'when there is a relationship without an open course' do
+      let!(:no_course_partner) { create_partner_provider_where(partner_provider_type: :training, course_open: false, permission_applies: true) }
 
-      non_configured_providers.each do |training_provider|
-        create(:provider_relationship_permissions,
-               :not_set_up_yet,
-               training_provider: training_provider,
-               ratifying_provider: provider)
+      it 'does not render the name of the partner with no open course' do
+        expect(render.css('#partners-for-which-permission-applies li').map(&:text)).not_to include(no_course_partner.name)
       end
     end
 
-    it 'returns a list of all providers that allow the specified provider to make decisions on their behalf' do
-      expected_provider_names = (prohibited_training_providers + prohibited_ratifying_providers + non_configured_providers).map(&:name).sort
-      expect(render.css('#partners-for-which-permission-does-not-apply li').map(&:text)).to eq(expected_provider_names)
-    end
-  end
-
-  describe '#partners_for_which_permission_applies_text' do
-    context 'when there are only partners where permission applies' do
-      before do
-        allowed_training_providers.each do |training_provider|
-          create(:provider_relationship_permissions,
-                 training_provider: training_provider,
-                 ratifying_provider: provider,
-                 ratifying_provider_can_make_decisions: true,
-                 training_provider_can_make_decisions: false)
-        end
-      end
-
-      it 'indicates that the permission applies to all partners' do
-        expect(render.css('.govuk-body')[0].text)
-          .to include('It currently applies to courses you work on with all of your partner organisations:')
-      end
-    end
-
-    context 'when there are both partners where permission applies and partners where it does not apply' do
-      before do
-        allowed_training_providers.each do |training_provider|
-          create(:provider_relationship_permissions,
-                 training_provider: training_provider,
-                 ratifying_provider: provider,
-                 ratifying_provider_can_make_decisions: true,
-                 training_provider_can_make_decisions: false)
-        end
-
-        prohibited_ratifying_providers.each do |training_provider|
-          create(:provider_relationship_permissions,
-                 training_provider: provider,
-                 ratifying_provider: training_provider,
-                 training_provider_can_make_decisions: false,
-                 ratifying_provider_can_make_decisions: true)
-        end
-      end
+    context 'when there are also partner organisations for which the permission does not apply' do
+      before { create_partner_provider_where(partner_provider_type: :ratifying, permission_applies: false) }
 
       it 'does not indicate that the permission applies to all partners' do
         expect(render.css('.govuk-body')[0].text)
@@ -122,44 +59,33 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
     end
   end
 
-  describe '#partners_for_which_permission_does_not_apply_text' do
-    context 'when there are only partners where permission does not apply' do
-      before do
-        prohibited_ratifying_providers.each do |training_provider|
-          create(:provider_relationship_permissions,
-                 training_provider: provider,
-                 ratifying_provider: training_provider,
-                 training_provider_can_make_decisions: false,
-                 ratifying_provider_can_make_decisions: true)
-        end
-      end
+  context 'when there are partner organisations for which the permission does not apply' do
+    let!(:ratifying_partners) { ['University of X', 'School of Jazz'].map { |name| create_partner_provider_where(partner_provider_type: :ratifying, org_name: name, permission_applies: false) } }
+    let!(:training_partners) { ['University of Z', 'Local school'].map { |name| create_partner_provider_where(partner_provider_type: :training, org_name: name, permission_applies: false) } }
+    let!(:not_set_up_partners) { ['Not Setup College', 'School of Procrastination'].map { |name| create_partner_provider_where(partner_provider_type: :training, org_name: name, permission_applies: false, relationship_set_up: false) } }
 
-      it 'indicates that the permission applies to all partners' do
-        expect(render.css('.govuk-body')[0].text)
-          .to include('It currently does not apply to courses you work on with any of your partner organisations:')
+    it 'renders the names of partner organisations for which the given provider does not have the permission' do
+      expected_provider_names = (ratifying_partners + training_partners + not_set_up_partners).map(&:name).sort
+      expect(render.css('#partners-for-which-permission-does-not-apply li').map(&:text)).to eq(expected_provider_names)
+    end
+
+    it 'indicates that the permission does not apply to any partners' do
+      expect(render.css('.govuk-body')[0].text)
+        .to include('It currently does not apply to courses you work on with any of your partner organisations:')
+    end
+
+    context 'when there is a relationship without an open course' do
+      let!(:no_course_partner) { create_partner_provider_where(partner_provider_type: :training, course_open: false, permission_applies: false) }
+
+      it 'does not render the name of the partner with no open course' do
+        expect(render.css('#partners-for-which-permission-does-not-apply li').map(&:text)).not_to include(no_course_partner.name)
       end
     end
 
-    context 'when there are both partners where permission applies and partners where it does not apply' do
-      before do
-        allowed_training_providers.each do |training_provider|
-          create(:provider_relationship_permissions,
-                 training_provider: training_provider,
-                 ratifying_provider: provider,
-                 ratifying_provider_can_make_decisions: true,
-                 training_provider_can_make_decisions: false)
-        end
+    context 'when there are also partner organisations for which the permission does apply' do
+      before { create_partner_provider_where(partner_provider_type: :ratifying, permission_applies: true) }
 
-        prohibited_ratifying_providers.each do |training_provider|
-          create(:provider_relationship_permissions,
-                 training_provider: provider,
-                 ratifying_provider: training_provider,
-                 training_provider_can_make_decisions: false,
-                 ratifying_provider_can_make_decisions: true)
-        end
-      end
-
-      it 'does not indicate that the permission applies to all partners' do
+      it 'does not indicate that the permission does not apply to any partners' do
         expect(render.css('.govuk-body')[1].text)
           .to include('It currently does not apply to courses you work on with:')
       end
