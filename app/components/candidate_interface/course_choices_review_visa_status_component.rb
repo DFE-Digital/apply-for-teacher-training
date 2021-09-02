@@ -12,8 +12,7 @@ module CandidateInterface
       (
         @application_choice.course.salary? &&
         @application_choice.provider.can_sponsor_skilled_worker_visa?
-      ) ||
-      (
+      ) || (
         !@application_choice.course.salary? &&
         @application_choice.provider.can_sponsor_student_visa?
       )
