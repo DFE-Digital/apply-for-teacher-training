@@ -1054,6 +1054,7 @@ Rails.application.routes.draw do
 
     get '/email-log', to: 'email_log#index', as: :email_log
     get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
+    get '/vendor-api-monitoring', to: 'vendor_api_monitoring#index', as: :vendor_api_monitoring
 
     scope '/settings' do
       get '/' => redirect('/support/settings/feature-flags'), as: :settings

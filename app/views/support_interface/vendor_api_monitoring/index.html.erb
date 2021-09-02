@@ -1,0 +1,130 @@
+<%= render 'support_interface/performance/performance_navigation', title: 'Vendor API monitoring' %>
+
+<h2 class="govuk-heading-m">Never connected</h2>
+
+<% if @monitor.never_connected.any? %>
+  <table class="govuk-table" data-qa="not-connected">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">API token issued</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @monitor.never_connected.each do |provider| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= govuk_link_to provider.name, support_interface_provider_path(provider) %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if token = provider.vendor_api_tokens.first %>
+              <%= token.created_at.to_s(:govuk_date_and_time) %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">🥂 All providers have connected to the API at least once</p>
+<% end %>
+
+<h2 class="govuk-heading-m">No sync in last 24 hours</h2>
+
+<% if @monitor.no_sync_in_24h.any? %>
+  <table class="govuk-table" data-qa="not-synced">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header">Last sync</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @monitor.no_sync_in_24h.each do |provider| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if provider.last_sync %>
+              <%= "#{provider.last_sync.to_s(:govuk_date_and_time)} (#{time_ago_in_words(provider.last_sync)} ago)" %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">⚡️ All connected providers have synced in the last 24 hours</p>
+<% end %>
+
+<h2 class="govuk-heading-m">No decisions in last 7 days</h2>
+
+<% if @monitor.no_decisions_in_7d.any? %>
+  <table class="govuk-table" data-qa="not-posted-decision">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">SRS</th>
+        <th class="govuk-table__header govuk-table__header">Last decision</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @monitor.no_decisions_in_7d.each do |provider| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if provider.last_decision %>
+              <%= "#{provider.last_decision.to_s(:govuk_date_and_time)} (#{time_ago_in_words(provider.last_decision)} ago)" %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">💪 All connected providers have made at least one decision in the last 7 days</p>
+<% end %>
+
+<h2 class="govuk-heading-m">Error rate in last 7 days</h2>
+
+<% if @monitor.providers_with_errors.any? %>
+  <table class="govuk-table" data-qa="received-error-response">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header">Requests</th>
+        <th class="govuk-table__header govuk-table__header">Errors</th>
+        <th class="govuk-table__header govuk-table__header">Error rate</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @monitor.providers_with_errors.each do |provider| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= number_with_delimiter(provider.request_count) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= number_with_delimiter(provider.error_count) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= number_with_delimiter(provider.error_rate) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">🤯 No providers have encountered API errors in the last 7 days</p>
+<% end %>
