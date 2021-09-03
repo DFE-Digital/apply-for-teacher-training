@@ -206,6 +206,12 @@ ActiveRecord::Schema.define(version: 2021_09_09_105834) do
     t.string "work_history_status"
     t.boolean "no_other_qualifications", default: false
     t.boolean "references_completed"
+    t.boolean "immigration_right_to_work"
+    t.string "immigration_status"
+    t.string "immigration_status_details"
+    t.date "immigration_entry_date"
+    t.string "immigration_route"
+    t.string "immigration_route_details"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
