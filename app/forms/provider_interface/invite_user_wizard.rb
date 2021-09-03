@@ -9,7 +9,7 @@ module ProviderInterface
     validates :last_name, presence: true
 
     validates :email_address, presence: true, valid_for_notify: true
-    validate :email_not_already_used_for_provider
+    validate :email_not_already_used_for_provider, if: -> { email_address.present? }
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -61,7 +61,7 @@ module ProviderInterface
     end
 
     def email_not_already_used_for_provider
-      return unless provider.provider_users.exists?(email_address: email_address)
+      return unless provider.provider_users.exists?(email_address: email_address.downcase)
 
       errors.add(:email_address, :email_already_associated, provider_name: provider.name)
     end

@@ -51,6 +51,16 @@ RSpec.describe ProviderInterface::InviteUserWizard do
           expect(wizard).to be_valid
         end
       end
+
+      context 'an email with different capitalisation is already associated with the provider' do
+        let(:email) { 'DifferentlyCased@Alphabet.Com' }
+        let!(:existing_user) { create(:provider_user, email_address: email, providers: [provider]) }
+
+        it 'validates the email address is a duplicate' do
+          expect(wizard).to be_invalid
+          expect(wizard.errors[:email_address]).to contain_exactly("A user with this email address already has access to #{provider.name}")
+        end
+      end
     end
   end
 end
