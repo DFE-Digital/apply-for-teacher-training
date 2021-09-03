@@ -156,6 +156,7 @@ private
         phase: apply_again ? 'apply_2' : 'apply_1',
         work_history_completed: false,
         previous_application_form: previous_application_form,
+        references_count: 0,
       )
 
       @application_form.application_work_experiences.each { |experience| experience.update!(created_at: time) }

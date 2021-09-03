@@ -93,13 +93,9 @@ RSpec.describe DetectInvariantsDailyCheck do
       application_form_with_three_selected_references = create(:completed_application_form, :with_completed_references)
       create(:submitted_application_choice, application_form: application_form_with_three_selected_references)
       create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
-      create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
-      create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
 
       valid_application_form = create(:completed_application_form, :with_completed_references)
       create(:submitted_application_choice, application_form: valid_application_form)
-      create(:reference, :feedback_provided, selected: true, application_form: valid_application_form)
-      create(:reference, :feedback_provided, selected: true, application_form: valid_application_form)
 
       described_class.new.perform
 

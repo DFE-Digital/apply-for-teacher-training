@@ -41,6 +41,7 @@ RSpec.feature 'Carry over' do
       submitted_at: nil,
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
+      references_count: 0,
     )
     @application_choice = create(
       :application_choice,
