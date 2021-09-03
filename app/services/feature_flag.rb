@@ -1,19 +1,16 @@
 class FeatureFlag
-  attr_accessor :name, :description, :owner, :type, :active
+  attr_accessor :name, :description, :owner, :type
 
   def initialize(name:, description:, owner:)
     self.name = name
     self.description = description
     self.owner = owner
     self.type =  FEATURE_TYPES[name].presence || 'invariant'
-    self.active = nil
   end
 
   def feature
     Feature.find_or_initialize_by(name: name)
   end
-
-  REDIS_CACHE_KEY = 'feature_flags'.freeze
 
   PERMANENT_SETTINGS = [
     [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Apply team'],
@@ -44,6 +41,9 @@ class FeatureFlag
     [:provider_reports_dashboard, 'Allows rendering of new provider reports dashboard', 'Despo Pentara'],
   ].freeze
 
+  CACHE_EXPIRES_IN = 1.day
+  FEATURE_FLAG_STATUSES_CACHE_KEY = 'feature-flag-statuses'.freeze
+
   # Mark features as `variant` i.e. can be inconsistently marked as active/inactive
   # across environments and we won't be notified if inconsistent. All other features
   # will default to `invariant` which means they will need to be consistently marked
@@ -71,23 +71,23 @@ class FeatureFlag
   def self.active?(feature_name)
     raise unless feature_name.in?(FEATURES)
 
-    feature_flag = FEATURES[feature_name]
-
-    return feature_flag.active unless feature_flag.active.nil?
-
-    feature_active = Redis.current.hget(REDIS_CACHE_KEY, feature_name)
-    if feature_active.nil?
-      feature_active = feature_flag.feature.active?.to_s
-      Redis.current.hset(REDIS_CACHE_KEY, feature_name, feature_active)
-    end
-    feature_flag.active = JSON.parse(feature_active)
+    feature_statuses[feature_name].presence || false
   end
 
   def self.sync_with_database(feature_name, active)
     feature = Feature.find_or_initialize_by(name: feature_name)
     feature.active = active
-    FEATURES[feature_name].active = active
-    Redis.current.hset(REDIS_CACHE_KEY, feature_name, active)
+
     feature.save!
+  end
+
+  def self.feature_statuses
+    Rails.cache.fetch(cache_key, expires_in: CACHE_EXPIRES_IN) do
+      Feature.where(name: FEATURES.keys).pluck(:name, :active).to_h.with_indifferent_access
+    end
+  end
+
+  def self.cache_key
+    CacheKey.generate(FEATURE_FLAG_STATUSES_CACHE_KEY)
   end
 end
