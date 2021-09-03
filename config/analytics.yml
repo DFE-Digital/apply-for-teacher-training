@@ -169,10 +169,6 @@ shared:
     - created_at
     - id
     - updated_at
-  contact_details:
-    - created_at
-    - id
-    - updated_at
   course_options:
     - course_id
     - created_at
@@ -212,15 +208,6 @@ shared:
     - updated_at
     - uuid
     - withdrawn
-  degrees:
-    - class_of_degree
-    - created_at
-    - id
-    - institution
-    - subject
-    - type_of_degree
-    - updated_at
-    - year
   emails:
     - application_form_id
     - created_at
@@ -266,7 +253,7 @@ shared:
     - location
     - provider_id
     - updated_at
-  interviews:
+  notes:
     - application_choice_id
     - created_at
     - id
@@ -351,17 +338,7 @@ shared:
     - postcode
     - provider_type
     - region_code
-    - sync_courses
     - updated_at
-  qualifications:
-    - created_at
-    - grade
-    - id
-    - institution
-    - subject
-    - type_of_qualification
-    - updated_at
-    - year
   reference_tokens:
     - application_reference_id
     - created_at
