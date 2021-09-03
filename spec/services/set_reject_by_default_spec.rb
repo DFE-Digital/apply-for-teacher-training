@@ -33,6 +33,22 @@ RSpec.describe SetRejectByDefault do
         end
       end
     end
+
+    # we’re going to keep Sandbox open while Apply is closed irl, but we don’t want
+    # to set short RBDs due to the proximity of the deadline when we're using the
+    # cycle switcher
+    specify 'proximity to the deadline is ignored on Sandbox', sandbox: true do
+      submitted = '20 Sept 2021 0:00:00 AM BST'
+      correct_rbd = '18 Oct 2021 23:59:59 PM BST'
+
+      Timecop.freeze(Time.zone.parse(submitted)) do
+        choice = create(:application_choice, sent_to_provider_at: Time.zone.now)
+
+        call_service(choice)
+
+        expect(choice.reload.reject_by_default_at).to be_within(1.second).of(Time.zone.parse(correct_rbd))
+      end
+    end
   end
 
   def call_service(application_choice)

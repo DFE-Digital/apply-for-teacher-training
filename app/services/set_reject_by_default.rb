@@ -29,6 +29,9 @@ class SetRejectByDefault
 private
 
   def beyond_end_of_cycle_reject_by_default_deadline?(date)
+    # keep RBD the same on Sandbox so we can keep Apply open for testing
+    return false if HostingEnvironment.sandbox_mode?
+
     date >= reject_by_default_date
   end
 
