@@ -4,9 +4,8 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
-    FeatureFlag.deactivate(:restructured_work_history)
-
     given_i_am_signed_in
+    and_my_application_form_is_marked_as_having_used_the_existing_flow
     and_i_visit_the_site
 
     when_i_click_on_work_history
@@ -21,6 +20,10 @@ RSpec.feature 'Entering their work history' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_my_application_form_is_marked_as_having_used_the_existing_flow
+    current_candidate.current_application.update(feature_restructured_work_history: false)
   end
 
   def and_i_visit_the_site

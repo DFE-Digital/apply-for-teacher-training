@@ -169,7 +169,7 @@ module CandidateInterface
     end
 
     def work_experience_path
-      if application_form.feature_restructured_work_history && FeatureFlag.active?(:restructured_work_history)
+      if application_form.feature_restructured_work_history
         if application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
           Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path('return-to' => 'application-review')
         else

@@ -5,7 +5,6 @@ RSpec.feature 'International candidate submits the application' do
   include EFLHelper
 
   scenario 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate(:restructured_work_history)
     given_i_am_signed_in
 
     when_i_have_completed_everything_except_the_efl_section
@@ -73,10 +72,11 @@ RSpec.feature 'International candidate submits the application' do
     candidate_fills_in_international_contact_details
 
     click_link t('page_titles.work_history')
-    candidate_fills_in_work_experience
+    candidate_fills_in_restructured_work_experience
+    candidate_fills_in_restructured_work_experience_break
 
     click_link t('page_titles.volunteering.short')
-    candidate_fills_in_volunteering_role
+    candidate_fills_in_restructured_volunteering_role
 
     click_link t('page_titles.training_with_a_disability')
     candidate_fills_in_disability_info

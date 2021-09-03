@@ -4,9 +4,8 @@ RSpec.feature 'Candidate deletes their work history' do
   include CandidateHelper
 
   scenario 'Candidate tries to complete the section with no job, then edits their work history when the section is completed' do
-    FeatureFlag.deactivate(:restructured_work_history)
-
     given_i_am_signed_in
+    and_my_application_form_is_marked_as_having_used_the_existing_flow
 
     when_i_visit_the_application_page
     and_i_click_on_work_history
@@ -50,6 +49,10 @@ RSpec.feature 'Candidate deletes their work history' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_my_application_form_is_marked_as_having_used_the_existing_flow
+    @candidate.current_application.update!(feature_restructured_work_history: false)
   end
 
   def when_i_visit_the_application_page

@@ -158,7 +158,9 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_update_working_with_children
     when_i_click_change_working_with_children
 
-    choose 'No'
+    within('[data-qa="working-with-children"]') do
+      choose 'No'
+    end
     click_button 'Save and continue'
   end
 

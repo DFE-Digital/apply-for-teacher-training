@@ -36,10 +36,6 @@ RSpec.describe ProviderInterface::WorkHistoryAndUnpaidExperienceComponent, type:
   let(:breaks) { [] }
   let(:full_time_education) { false }
 
-  before do
-    FeatureFlag.activate(:restructured_work_history)
-  end
-
   context 'with full work experience including unpaid experience' do
     let(:breaks) do
       [build(:application_work_history_break,

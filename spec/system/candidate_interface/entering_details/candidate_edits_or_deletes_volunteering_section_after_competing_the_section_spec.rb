@@ -3,12 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Candidate edits their volunteering section' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.deactivate('restructured_work_history')
-  end
-
   scenario 'Candidate adds or deletes a role after completing the section' do
     given_i_am_signed_in
+    and_my_application_form_is_marked_as_having_used_the_existing_flow
     and_i_have_completed_the_volunteering_section
 
     when_i_visit_the_application_page
@@ -39,6 +36,10 @@ RSpec.feature 'Candidate edits their volunteering section' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_my_application_form_is_marked_as_having_used_the_existing_flow
+    current_candidate.current_application.update(feature_restructured_work_history: false)
   end
 
   def and_i_have_completed_the_volunteering_section

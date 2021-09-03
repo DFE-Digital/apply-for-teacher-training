@@ -26,13 +26,11 @@ module CandidateInterface
     validates :role, :organisation, length: { maximum: 60 }
     validates :start_date, date: { presence: true, future: true, month_and_year: true, before: :end_date }
 
-    with_options if: :restructured_work_history_flag_active? do |form|
-      form.validates :start_date_unknown, inclusion: { in: %w[true false] }
-      form.validates :end_date_unknown, inclusion: { in: %w[true false] }
-      form.validates :currently_working, presence: true
-      form.validates :currently_working, inclusion: { in: %w[true false] }, if: -> { currently_working.present? }
-      form.validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: -> { currently_working == 'false' }
-    end
+    validates :start_date_unknown, inclusion: { in: %w[true false] }
+    validates :end_date_unknown, inclusion: { in: %w[true false] }
+    validates :currently_working, presence: true
+    validates :currently_working, inclusion: { in: %w[true false] }, if: -> { currently_working.present? }
+    validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: -> { currently_working == 'false' }
 
     validates :end_date, date: { future: true, month_and_year: true }, unless: :dont_validate_end_date
 
@@ -115,11 +113,7 @@ module CandidateInterface
     end
 
     def dont_validate_end_date
-      restructured_work_history_flag_active? || start_date_blank?
-    end
-
-    def restructured_work_history_flag_active?
-      FeatureFlag.active?(:restructured_work_history)
+      start_date_blank?
     end
   end
 end

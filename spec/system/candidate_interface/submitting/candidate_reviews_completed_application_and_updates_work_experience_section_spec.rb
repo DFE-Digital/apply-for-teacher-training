@@ -68,7 +68,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def when_i_have_completed_my_application
-    candidate_completes_application_form(with_restructured_work_history: true)
+    candidate_completes_application_form
   end
 
   def when_i_mark_the_work_experience_section_as_incomplete

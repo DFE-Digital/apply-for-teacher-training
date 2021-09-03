@@ -383,13 +383,14 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#work_experience_path' do
-    context 'with the restructured_work_history flag off' do
-      before do
-        FeatureFlag.deactivate(:restructured_work_history)
-      end
-
+    context 'with the ApplicationForm#feature_restructured_work_history off' do
       it 'returns the length path if no work experience' do
-        application_form = build(:completed_application_form, work_experiences_count: 0, work_history_explanation: '')
+        application_form = build(
+          :completed_application_form,
+          work_experiences_count: 0,
+          work_history_explanation: '',
+          feature_restructured_work_history: false,
+        )
         presenter = described_class.new(application_form)
 
         expect(presenter.work_experience_path).to eq(
@@ -398,7 +399,12 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
 
       it 'returns the review path if work experience' do
-        application_form = create(:completed_application_form, work_experiences_count: 1, work_history_explanation: '')
+        application_form = create(
+          :completed_application_form,
+          work_experiences_count: 1,
+          work_history_explanation: '',
+          feature_restructured_work_history: false,
+        )
         presenter = described_class.new(application_form)
 
         expect(presenter.work_experience_path).to eq(
@@ -407,7 +413,11 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
 
       it 'returns the review path if not recently worked' do
-        application_form = build_stubbed(:application_form, work_history_explanation: 'I was on a career break.')
+        application_form = build_stubbed(
+          :application_form,
+          work_history_explanation: 'I was on a career break.',
+          feature_restructured_work_history: false,
+        )
         presenter = described_class.new(application_form)
 
         expect(presenter.work_experience_path).to eq(
@@ -416,11 +426,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
     end
 
-    context 'with the restructured_work_history flag on' do
-      before do
-        FeatureFlag.activate(:restructured_work_history)
-      end
-
+    context 'with the ApplicationForm#restructured_work_history flag on' do
       it 'returns the length path if no work experience and feature_restructured_work_history is "false"' do
         application_form = build(:completed_application_form, work_experiences_count: 0, work_history_explanation: '', feature_restructured_work_history: false)
         presenter = described_class.new(application_form)
