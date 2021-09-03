@@ -54,6 +54,17 @@ RSpec.describe EntityEvents do
           expect(schema_validator).to be_valid, schema_validator.failure_message
         end
       end
+
+      it 'sends events with the request UUID, if available' do
+        RequestLocals.store[:request_id] = 'example-request-id'
+
+        create(:candidate)
+
+        expect(SendEventsToBigquery).to have_received(:perform_async)
+          .with a_hash_including({
+            'request_uuid' => 'example-request-id',
+          })
+      end
     end
 
     context 'when no fields are specified in the analytics file' do

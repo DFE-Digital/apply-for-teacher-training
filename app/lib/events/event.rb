@@ -77,6 +77,12 @@ module Events
       self
     end
 
+    def with_request_uuid(request_id)
+      @event_hash[:request_uuid] = request_id if request_id
+
+      self
+    end
+
   private
 
     def hash_to_kv_pairs(hash)

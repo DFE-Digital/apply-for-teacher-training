@@ -21,6 +21,7 @@ require './app/lib/hosting_environment'
 require './app/middlewares/redirect_to_service_gov_uk_middleware'
 require './app/middlewares/vendor_api_request_middleware'
 require './app/middlewares/service_unavailable_middleware'
+require './app/middlewares/request_identity_middleware'
 
 require_relative "../lib/modules/aws_ip_ranges"
 
@@ -65,6 +66,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
+    config.middleware.use RequestIdentityMiddleware
     config.middleware.use ServiceUnavailableMiddleware
     config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
     config.middleware.use VendorAPIRequestMiddleware
