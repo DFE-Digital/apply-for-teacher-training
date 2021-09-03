@@ -5,11 +5,16 @@ require 'rails_helper'
 # didn't depend on the db
 RSpec.describe EntityEvents do
   let(:interesting_fields) { [] }
+  let(:pii_fields) { [] }
 
   before do
     FeatureFlag.activate(:send_request_data_to_bigquery)
     allow(Rails.configuration).to receive(:analytics).and_return({
       candidates: interesting_fields,
+    })
+
+    allow(Rails.configuration).to receive(:analytics_pii).and_return({
+      candidates: pii_fields,
     })
   end
 
@@ -64,6 +69,38 @@ RSpec.describe EntityEvents do
           .with a_hash_including({
             'request_uuid' => 'example-request-id',
           })
+      end
+
+      context 'and the specified fields are listed as PII' do
+        let(:interesting_fields) { [:email_address] }
+        let(:pii_fields) { [:email_address] }
+
+        it 'hashes those fields' do
+          create(:candidate, email_address: 'adrienne@example.com')
+
+          expect(SendEventsToBigquery).to have_received(:perform_async)
+            .with a_hash_including({
+              'data' => [
+                { 'key' => 'email_address', 'value' => ['928b126cb77de8a61bf6714b4f6b0147be7f9d5eb60158930c34ef70f4d502d6'] },
+              ],
+            })
+        end
+      end
+
+      context 'and other fields are listed as PII' do
+        let(:interesting_fields) { [:id] }
+        let(:pii_fields) { [:email_address] }
+
+        it 'does not include the fields only listed as PII' do
+          candidate = create(:candidate, email_address: 'adrienne@example.com')
+
+          expect(SendEventsToBigquery).to have_received(:perform_async)
+            .with a_hash_including({
+              'data' => match([ # #match will cause a strict match within hash_including
+                { 'key' => 'id', 'value' => [candidate.id] },
+              ]),
+            })
+        end
       end
     end
 
