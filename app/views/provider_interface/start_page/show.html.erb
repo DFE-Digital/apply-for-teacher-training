@@ -73,26 +73,28 @@
     </div>
   </section>
 
-  <section class="app-section app-section--with-top-border">
-    <h2 class="govuk-heading-m">Who’s using Apply?</h2>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-third">
-        <dl class="app-count">
-          <%= govuk_link_to candidate_interface_providers_path, no_visited_state: true, class: 'app-count__item' do %>
-            <dt class="app-count__key">Providers</dt>
-            <dd class="app-count__value"><%= number_with_delimiter(@provider_count) %></dd>
-          <% end %>
-          <%= govuk_link_to candidate_interface_providers_path, no_visited_state: true, class: 'app-count__item' do %>
-            <dt class="app-count__key">Courses</dt>
-            <dd class="app-count__value"><%= number_with_delimiter(@course_count) %></dd>
-          <% end %>
-        </dl>
+  <% cache @provider_and_courses_cache_key, expires_in: 24.hours do %>
+    <section class="app-section app-section--with-top-border">
+      <h2 class="govuk-heading-m">Who’s using Apply?</h2>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <dl class="app-count">
+            <%= govuk_link_to candidate_interface_providers_path, no_visited_state: true, class: 'app-count__item' do %>
+              <dt class="app-count__key">Providers</dt>
+              <dd class="app-count__value"><%= number_with_delimiter(@open_courses.map(&:provider).uniq.count) %></dd>
+            <% end %>
+            <%= govuk_link_to candidate_interface_providers_path, no_visited_state: true, class: 'app-count__item' do %>
+              <dt class="app-count__key">Courses</dt>
+              <dd class="app-count__value"><%= number_with_delimiter(@open_courses.count) %></dd>
+            <% end %>
+          </dl>
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+          <img src="/provider/providers.png" alt="Logos for Royal Academy of Dance, Shotton Hall SCITT, Suffolk and Norfolk SCITT, Gorse SCITT, Alliance of Leading Learning and SCITTELS.">
+        </div>
       </div>
-      <div class="govuk-grid-column-two-thirds">
-        <img src="/provider/providers.png" alt="Logos for Royal Academy of Dance, Shotton Hall SCITT, Suffolk and Norfolk SCITT, Gorse SCITT, Alliance of Leading Learning and SCITTELS.">
-      </div>
-    </div>
-  </section>
+    </section>
+  <% end %>
 
   <section class="app-section app-section--with-top-border">
     <h2 class="govuk-heading-m">What providers say</h2>
