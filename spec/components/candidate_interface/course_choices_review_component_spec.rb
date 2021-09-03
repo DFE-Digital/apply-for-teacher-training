@@ -402,6 +402,53 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  describe 'Visa sponsorship details' do
+    context 'in 2022 cycle when the candidate does not need a visa' do
+      it 'does NOT render a Visa sponsorship row' do
+        application_form = create(
+          :completed_application_form,
+          recruitment_cycle_year: 2022,
+        )
+        create(:application_choice, application_form: application_form)
+
+        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
+      end
+    end
+
+    context 'in 2022 cycle when the candidate needs a visa' do
+      it 'does render a Visa sponsorship row' do
+        application_form = create(
+          :completed_application_form,
+          first_nationality: 'Indian',
+          second_nationality: nil,
+          right_to_work_or_study: :no,
+          recruitment_cycle_year: 2022,
+        )
+        create(:application_choice, application_form: application_form)
+
+        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
+      end
+    end
+
+    context 'in 2021 cycle when the candidate needs a visa' do
+      it 'does NOT render a Visa sponsorship row' do
+        application_form = create(
+          :completed_application_form,
+          first_nationality: 'Indian',
+          second_nationality: nil,
+          right_to_work_or_study: :no,
+          recruitment_cycle_year: 2021,
+        )
+        create(:application_choice, application_form: application_form)
+
+        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
+      end
+    end
+  end
+
   describe '#application_choices' do
     context "when one or more have an 'ACCEPTED_STATE'" do
       let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions rejected]) }
