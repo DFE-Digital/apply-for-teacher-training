@@ -29,6 +29,7 @@ module EntityEvents
       .with_entity_table_name(self.class.table_name)
       .with_data(data)
       .with_tags(event_tags)
+      .with_request_uuid(RequestLocals.fetch(:request_id) { nil })
 
     SendEventsToBigquery.perform_async(event.as_json)
   end

@@ -35,6 +35,13 @@ Style/OptionalBooleanParameter:
   Exclude:
     - 'app/workers/**/*'
 
+# These files call RequestLocals.fetch. Unlike Hash#fetch it requires the
+# fallback to be passed in a block
+Style/RedundantFetchBlock:
+  Exclude:
+    - 'app/controllers/concerns/emit_request_events.rb'
+    - 'app/models/concerns/entity_events.rb'
+
 Govuk:
   Include:
     - 'app/views/**/*'

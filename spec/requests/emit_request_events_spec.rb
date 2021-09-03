@@ -45,6 +45,7 @@ RSpec.describe EmitRequestEvents, type: :request, with_bigquery: true do
         { 'key' => 'per_page', 'value' => ['25'] },
         { 'key' => 'array_param[]', 'value' => %w[1 2] },
       ])
+      expect(payload['request_uuid']).to be_present
 
       schema = File.read('config/event-schema.json')
       schema_validator = JSONSchemaValidator.new(schema, payload)
