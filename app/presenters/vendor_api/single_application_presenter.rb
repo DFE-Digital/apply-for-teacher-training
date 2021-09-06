@@ -14,6 +14,12 @@ module VendorAPI
       @application_form = application_choice.application_form
     end
 
+    def serialized_json
+      Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
+        application_as_json.to_json
+      end
+    end
+
     def as_json
       Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
         application_as_json

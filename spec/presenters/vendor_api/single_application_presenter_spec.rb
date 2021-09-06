@@ -1128,4 +1128,22 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
     end
   end
+
+  describe '#serialized_json' do
+    let(:application_form) { create(:application_form, :minimum_info) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+
+    it 'returns a valid JSON string' do
+      result = described_class.new(application_choice).serialized_json
+      expect(result).to be_a(String)
+      expect(JSON.parse(result)['attributes']).to be_a(Hash)
+    end
+
+    it 'caches the serialized JSON string' do
+      allow(Rails.cache).to receive(:fetch)
+      described_class.new(application_choice).serialized_json
+
+      expect(Rails.cache).to have_received(:fetch)
+    end
+  end
 end
