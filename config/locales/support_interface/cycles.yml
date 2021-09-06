@@ -3,6 +3,9 @@ en:
     real:
       name: 'Same as production environment'
       description: ''
+    today_is_business_as_usual:
+      name: Mid cycle before deadlines are displayed
+      description: Candidates do not see upcoming application deadlines
     today_is_mid_cycle:
       name: Mid cycle and deadlines should be displayed
       description: Candidates can see upcoming application deadlines
