@@ -85,6 +85,7 @@ RSpec.feature 'Register receives an application data' do
           training_provider_code: '1N1',
           training_provider_type: 'scitt',
           accredited_provider_type: nil,
+          accredited_provider_code: nil,
           site_code: '-',
           study_mode: 'full_time',
         },
