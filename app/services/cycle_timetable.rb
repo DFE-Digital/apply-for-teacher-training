@@ -152,6 +152,21 @@ class CycleTimetable
 
   def self.fake_schedules
     {
+      today_is_business_as_usual: {
+        current_year => {
+          find_opens: 7.days.ago,
+          apply_opens: 6.days.ago,
+          show_deadline_banner: 1.day.from_now,
+          apply_1_deadline: 2.days.from_now,
+          apply_2_deadline: 3.days.from_now,
+          reject_by_default: 4.days.from_now,
+          find_closes: 5.days.from_now,
+        },
+        next_year => {
+          find_opens: 7.days.from_now,
+          apply_opens: 8.days.from_now,
+        },
+      },
       today_is_mid_cycle: {
         current_year => {
           find_opens: 7.days.ago,
