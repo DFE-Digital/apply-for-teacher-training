@@ -19,6 +19,14 @@ module ApplicationHelper
     'apply'
   end
 
+  def find_url
+    if HostingEnvironment.sandbox_mode?
+      t('find_postgraduate_teacher_training.sandbox_url')
+    else
+      t('find_postgraduate_teacher_training.production_url')
+    end
+  end
+
   def service_link
     custom_link = content_for(:service_link)
     return custom_link if custom_link
