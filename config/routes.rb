@@ -115,6 +115,9 @@ Rails.application.routes.draw do
         get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
         patch '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
 
+        get '/immigration-right-to-work' => 'personal_details/immigration_right_to_work#new', as: :immigration_right_to_work
+        patch '/immigration-right-to-work' => 'personal_details/immigration_right_to_work#create'
+
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
       end

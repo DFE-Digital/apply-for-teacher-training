@@ -13,7 +13,7 @@ module CandidateInterface
 
         if @nationalities_form.save(current_application)
           if !british_or_irish?
-            redirect_to candidate_interface_right_to_work_or_study_path
+            redirect_to right_to_work_path(@application_form)
           elsif LanguagesSectionPolicy.hide?(current_application)
             redirect_to candidate_interface_personal_details_show_path
           else
@@ -68,6 +68,14 @@ module CandidateInterface
 
       def british_or_irish?
         (NationalitiesForm::UK_AND_IRISH_NATIONALITIES & current_application.nationalities).present?
+      end
+
+      def right_to_work_path(application_form)
+        if application_form.recruitment_cycle_year >= NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
+          candidate_interface_immigration_right_to_work_path
+        else
+          candidate_interface_right_to_work_or_study_path
+        end
       end
     end
   end
