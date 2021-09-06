@@ -1,0 +1,17 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.immigration_right_to_work') %>
+</h1>
+
+<p class="govuk-body">
+  To get help with student visas and your immigration status, speak to a
+  <%= govuk_link_to 'teacher training advisor', t('get_into_teaching.url_get_an_advisor') %>.
+</p>
+
+<%= f.govuk_radio_buttons_fieldset :immigration_right_to_work do %>
+  <%= f.govuk_radio_button :immigration_right_to_work, true, label: { text: 'Yes' }, link_errors: true %>
+  <%= f.govuk_radio_button :immigration_right_to_work, false, label: { text: 'Not yet' } %>
+<% end %>
+
+<%= f.govuk_submit t('save_and_continue') %>

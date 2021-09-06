@@ -77,3 +77,7 @@ en:
             right_to_work_or_study_details:
               blank: Please provide details of your right to work or study in the UK.
               too_many_words: Your immigration status must be %{count} words or fewer
+        candidate_interface/immigration_right_to_work_form:
+          attributes:
+            immigration_right_to_work:
+              blank: Select if you have the right to work or study in the UK
