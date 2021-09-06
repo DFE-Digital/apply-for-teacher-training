@@ -69,6 +69,15 @@ RSpec.describe ProviderInterface::AddUserToProvider do
       it 'does not create another notification preferences object' do
         expect { service.call! }.not_to change(ProviderUserNotificationPreferences, :count)
       end
+
+      context 'the given email is a differently cased version of the existing provider user' do
+        let(:email_address) { 'EmailAddress@Email.Com' }
+        let!(:existing_user) { create(:provider_user, email_address: email_address.downcase) }
+
+        it "doesn't raise an error" do
+          expect { service.call! }.not_to raise_error
+        end
+      end
     end
 
     context 'when the provider user does not exist yet' do
