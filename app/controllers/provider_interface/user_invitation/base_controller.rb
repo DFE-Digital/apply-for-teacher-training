@@ -45,6 +45,8 @@ module ProviderInterface
           new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(@provider)
         when :check
           provider_interface_organisation_settings_organisation_user_invitation_check_path(@provider)
+        else
+          provider_interface_organisation_settings_organisation_users_path(@provider)
         end
       end
 
