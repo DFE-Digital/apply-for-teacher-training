@@ -1,0 +1,13 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.immigration_status') %>
+</h1>
+
+<%= f.govuk_text_area(
+  :immigration_status,
+  label: { text: 'What is your immigration status?', size: 'l' },
+  hint: { text: 'For example, “I have permanent residence”' },
+) %>
+
+<%= f.govuk_submit t('save_and_continue') %>
