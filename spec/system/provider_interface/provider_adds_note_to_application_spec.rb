@@ -11,7 +11,9 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     when_i_visit_that_application_in_the_provider_interface
     and_i_visit_the_notes_tab
-    and_i_click_to_add_a_note
+    then_i_see_workflow_actions
+
+    when_i_click_to_add_a_note
     and_i_attempt_to_create_a_note_with_no_text
     then_i_see_an_error_message
 
@@ -29,6 +31,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     @provider = create(:provider, :with_signed_agreement)
     provider_user = create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
     provider_user.providers << @provider
+    provider_user.provider_permissions.update_all(make_decisions: true, set_up_interviews: true)
     user_exists_in_dfe_sign_in
   end
 
@@ -45,9 +48,16 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Notes'
   end
 
+  def then_i_see_workflow_actions
+    expect(page).to have_link('Set up interview')
+    expect(page).to have_link('Make decision')
+  end
+
   def and_i_click_to_add_a_note
     click_on 'Add note'
   end
+
+  alias_method :when_i_click_to_add_a_note, :and_i_click_to_add_a_note
 
   def and_i_attempt_to_create_a_note_with_no_text
     fill_in 'Note', with: ''
