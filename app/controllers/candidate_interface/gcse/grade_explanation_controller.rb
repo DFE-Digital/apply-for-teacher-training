@@ -9,7 +9,11 @@ module CandidateInterface
       @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
 
       if @form.save(current_qualification)
-        redirect_to candidate_interface_gcse_details_new_year_path(params[:subject])
+        if update_params[:not_completed_explanation] == 'No'
+          redirect_to candidate_interface_gcse_missing_path
+        else
+          redirect_to candidate_interface_gcse_details_new_year_path(params[:subject])
+        end
       else
         set_previous_path
         track_validation_error(@form)
@@ -26,7 +30,11 @@ module CandidateInterface
       @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
 
       if @form.save(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        if update_params[:not_completed_explanation] == 'No'
+          redirect_to candidate_interface_gcse_missing_path
+        else
+          redirect_to candidate_interface_gcse_review_path
+        end
       else
         track_validation_error(@form)
 
@@ -49,7 +57,7 @@ module CandidateInterface
     def update_params
       strip_whitespace params
         .require(:candidate_interface_gcse_grade_explanation_form)
-        .permit(:missing_explanation)
+        .permit(:missing_explanation, :not_completed_explanation)
     end
   end
 end

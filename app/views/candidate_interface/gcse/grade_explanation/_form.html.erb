@@ -1,18 +1,16 @@
 <%= f.govuk_error_summary %>
 <fieldset class="govuk-fieldset">
-  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l govuk-!-margin-bottom-2">
     <h1 class="govuk-fieldset__heading">
-      You need <%= grade_explanation_subject_title(@subject) %> GCSE at grade 4 (C) or above, or equivalent
+      You need <%= grade_explanation_subject_title(@subject) %> at grade 4 (C) or above, or equivalent
     </h1>
   </legend>
-  <p class="govuk-body">You can still apply for teacher training if you do not have this. However, it will need to be in place by the start of your course.</p>
-  <p class="govuk-body">For advice, contact your chosen training provider or <a href="https://getintoteaching.education.gov.uk/">Get Into Teaching</a>.</p>
-  <%= f.govuk_text_area(
-    :missing_explanation,
-    label: { text: 'If you are working towards this qualification at grade 4 (C) or above, give us details (optional)', size: 'm' },
-    rows: 6,
-    max_words: 200,
-  ) do %>
+  <p class="govuk-body">You can still apply for teacher training if you do not have this. Providers may allow you to sit an equivalency test, or you can retake your GCSE.</p>
+  <p class="govuk-body">For advice, speak to a <a href="https://adviser-getintoteaching.education.gov.uk/">teacher training adviser</a>.</p>
+
+  <%= f.govuk_radio_buttons_fieldset :not_completed_explanation, legend: { size: 'm', text: "Are you currently studying to retake your GCSE in #{capitalize_english(@subject)}?" } do %>
+    <%= f.govuk_radio_button :not_completed_explanation, 'Yes', label: { text: 'Yes' }, hint: { text: 'This must be completed before you start your teacher training course.' } %>
+    <%= f.govuk_radio_button :not_completed_explanation, 'No', label: { text: 'No' } %>
   <% end %>
 </fieldset>
 
