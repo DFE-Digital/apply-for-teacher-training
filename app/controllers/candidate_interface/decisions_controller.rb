@@ -31,7 +31,7 @@ module CandidateInterface
     def confirm_decline
       decline = DeclineOffer.new(application_choice: @application_choice.reload)
       decline.save!
-      flash[:success] = "You have declined your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
+      flash[:success] = "You have declined your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
       redirect_to candidate_interface_application_complete_path
     end
 
@@ -40,7 +40,7 @@ module CandidateInterface
     def confirm_accept
       accept = AcceptOffer.new(application_choice: @application_choice.reload)
       accept.save!
-      flash[:success] = "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
+      flash[:success] = "You have accepted your offer for #{@application_choice.current_course.name_and_code} at #{@application_choice.provider.name}"
       redirect_to candidate_interface_application_complete_path
     end
 
@@ -56,7 +56,7 @@ module CandidateInterface
     def withdrawal_feedback
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
-      @course = @application_choice.course
+      @course = @application_choice.current_course
     end
 
     def confirm_withdrawal_feedback
@@ -69,7 +69,7 @@ module CandidateInterface
       else
         track_validation_error(@withdrawal_feedback_form)
         @provider = @application_choice.provider
-        @course = @application_choice.course
+        @course = @application_choice.current_course
 
         render :withdrawal_feedback
       end
