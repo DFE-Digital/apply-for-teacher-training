@@ -92,6 +92,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         level: 'gcse',
         grade: 'D',
         subject: 'maths',
+        not_completed_explanation: 'No',
         missing_explanation: 'I am going to work harder',
       )
       result = render_inline(
@@ -101,7 +102,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).to match(/Qualification+GCSE/)
       expect(result.text).to match(/Year awarded+#{@qualification.award_year}/)
       expect(result.text).to match(/Grade+#{@qualification.grade}/)
-      expect(result.text).to match(/How I expect to gain this qualification+#{@qualification.missing_explanation}/)
+      expect(result.text).to match(/Are you currently studying to retake this qualification\?#{@qualification.not_completed_explanation}/)
+      expect(result.text).to match(/Other evidence I have the skills required+#{@qualification.missing_explanation}/)
       expect(result.text).not_to match(/Country+#{@qualification.institution_country}/)
     end
   end
