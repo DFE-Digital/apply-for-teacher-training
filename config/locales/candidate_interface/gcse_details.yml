@@ -8,13 +8,13 @@ en:
       equivalency: You need a GCSE in %{subject} at grade 4 (C) or above, or equivalent
   gcse_edit_grade_explanation:
     subject_titles:
-      maths: a maths
-      english: an English
-      science: a science
+      maths: a GCSE in maths
+      english: a GCSE in English
+      science: a GCSE in science
     page_titles:
-      maths: You need a maths GCSE at grade 4 (C) or above, or equivalent
-      english: You need an English GCSE at grade 4 (C) or above, or equivalent
-      science: You need a science GCSE at grade 4 (C) or above, or equivalent
+      maths: You need a GCSE in maths at grade 4 (C) or above, or equivalent
+      english: You need a GCSE in English at grade 4 (C) or above, or equivalent
+      science: You need a GCSE in science at grade 4 (C) or above, or equivalent
   gcse_edit_grade:
     page_title: What grade is your %{subject} %{qualification_type}?
     guidance:
