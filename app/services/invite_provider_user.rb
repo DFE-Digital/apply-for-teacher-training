@@ -56,7 +56,7 @@ private
 
   def lookup_provider_user
     if @provider_user.is_a?(String)
-      @provider_user = ProviderUser.find_by!(email_address: @provider_user)
+      @provider_user = ProviderUser.find_by!(email_address: @provider_user.downcase)
     end
   end
 end

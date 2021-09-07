@@ -4,10 +4,11 @@ RSpec.describe InviteProviderUser, sidekiq: true do
   include DsiAPIHelper
 
   let(:provider) { create(:provider) }
+  let(:email) { 'test+invite_provider_user@example.com' }
   let(:provider_user) do
     create(
       :provider_user,
-      email_address: 'test+invite_provider_user@example.com',
+      email_address: email,
       first_name: 'Firstname',
       last_name: 'Lastname',
       providers: [provider],
@@ -41,6 +42,37 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
     it 'a provider user is created' do
       expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).not_to be_nil
+    end
+  end
+
+  describe '#call! if a string is passed as the provider user param' do
+    let(:service) { described_class.new(provider_user: email) }
+    let(:email) { 'Test.Email@Email.Com' }
+
+    before do
+      dsi_api_response(success: true)
+    end
+
+    context 'when a provider user exists with the email address' do
+      let!(:provider_user) do
+        create(
+          :provider_user,
+          email_address: email.downcase,
+          first_name: 'Firstname',
+          last_name: 'Lastname',
+          providers: [provider],
+        )
+      end
+
+      it 'does not throw an error' do
+        expect { service.call! }.not_to raise_error
+      end
+    end
+
+    context 'when no provider user has a matching email address' do
+      it 'throws an error' do
+        expect { service.call! }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 

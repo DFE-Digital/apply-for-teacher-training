@@ -7,7 +7,7 @@ module ProviderInterface
     def initialize(actor:, provider:, email_address:, first_name:, last_name:, permissions:)
       @actor = actor
       @provider = provider
-      @email_address = email_address
+      @email_address = email_address.downcase
       @first_name = first_name
       @last_name = last_name
       @permissions = permissions
