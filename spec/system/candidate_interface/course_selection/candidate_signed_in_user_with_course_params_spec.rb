@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'An existing candidate arriving from Find with a course and provider code' do
+RSpec.feature 'An existing candidate arriving from Find with a course and provider code' do
   include CourseOptionHelpers
   scenario 'candidate is signed in' do
     given_the_pilot_is_open

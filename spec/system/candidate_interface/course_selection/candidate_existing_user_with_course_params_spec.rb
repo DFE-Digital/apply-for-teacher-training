@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'An existing candidate arriving from Find with a course and provider code (with course selection page)' do
+RSpec.feature 'An existing candidate arriving from Find with a course and provider code (with course selection page)' do
   include CourseOptionHelpers
   include SignInHelper
 

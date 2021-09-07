@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate feedback form' do
+RSpec.feature 'Candidate feedback form' do
   include CandidateHelper
 
   scenario 'Candidate completes the feedback form' do

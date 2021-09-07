@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Add additional courses flow' do
+RSpec.feature 'Add additional courses flow' do
   include CandidateHelper
   include CourseOptionHelpers
 
