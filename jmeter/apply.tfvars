@@ -1,4 +1,5 @@
 cf_space = "bat-prod"
+app_name = "apply-jmeter"
 app_env_variables = {
   JMETER_TARGET_PLAN      = "apply"
   JMETER_THREAD_COUNT     = 200
