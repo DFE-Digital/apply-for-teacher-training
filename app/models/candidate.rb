@@ -32,6 +32,10 @@ class Candidate < ApplicationRecord
                         end
   end
 
+  def current_application_choice
+    current_application.application_choices.order(:created_at).last
+  end
+
   def last_updated_application
     application_forms.max_by(&:updated_at)
   end
@@ -42,6 +46,10 @@ class Candidate < ApplicationRecord
 
   def public_id
     "C#{id}"
+  end
+
+  def in_apply_2?
+    application_forms.exists?(phase: 'apply_2')
   end
 
 private

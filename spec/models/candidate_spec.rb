@@ -84,6 +84,38 @@ RSpec.describe Candidate, type: :model do
     end
   end
 
+  describe '#current_application_choice' do
+    let(:candidate) { create(:candidate) }
+
+    context 'with a single application choice' do
+      let!(:application_choice) { create(:application_choice, candidate: candidate) }
+
+      it 'returns the application choice' do
+        expect(candidate.current_application_choice).to eq(application_choice)
+      end
+    end
+
+    context 'with multiple application choices' do
+      let!(:application_choice) { create(:application_choice, candidate: candidate, created_at: Time.zone.now - 1.week) }
+      let!(:most_recent_application_choice) { create(:application_choice, candidate: candidate) }
+
+      it 'returns the most recent application choice' do
+        expect(candidate.current_application_choice).to eq(most_recent_application_choice)
+      end
+    end
+
+    context 'with multiple application forms' do
+      let(:application_choice) { create(:application_choice, candidate: candidate) }
+      let(:most_recent_application_choice) { create(:application_choice, candidate: candidate) }
+      let!(:application_form_apply_1) { create(:application_form, candidate: candidate, application_choices: [application_choice], created_at: Time.zone.now - 1.week) }
+      let!(:application_form_apply_2) { create(:application_form, candidate: candidate, phase: 'apply_2', application_choices: [most_recent_application_choice]) }
+
+      it 'returns the most recent application choice' do
+        expect(candidate.current_application_choice).to eq(most_recent_application_choice)
+      end
+    end
+  end
+
   describe 'find_from_course' do
     it 'returns the correct course' do
       course = create(:course)
@@ -106,6 +138,26 @@ RSpec.describe Candidate, type: :model do
       allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return 'encrypted id value'
 
       expect(candidate.encrypted_id).to eq 'encrypted id value'
+    end
+  end
+
+  describe '#in_apply_2?' do
+    subject(:candidate) { build(:candidate) }
+
+    let!(:application_form) { create(:application_form, candidate: candidate) }
+
+    context 'when the candidate has no applications in apply again' do
+      it 'returns false' do
+        expect(candidate.in_apply_2?).to be false
+      end
+    end
+
+    context 'when the candidate has applications in apply again' do
+      let!(:application_form) { create(:application_form, candidate: candidate, phase: 'apply_2') }
+
+      it 'returns true' do
+        expect(candidate.in_apply_2?).to be true
+      end
     end
   end
 end

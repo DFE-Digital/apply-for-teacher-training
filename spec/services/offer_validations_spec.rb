@@ -70,11 +70,83 @@ RSpec.describe OfferValidations, type: :model do
         let(:current_course_option) { create(:course_option, :open_on_apply) }
         let(:course_option) { build(:course_option, :open_on_apply) }
         let(:conditions) { application_choice.offer.conditions_text }
+        let(:application_form) { build_stubbed(:application_form, phase: 'apply_1') }
+        let(:candidate) { build_stubbed(:candidate, application_forms: [application_form]) }
+
+        before do
+          allow(application_choice).to receive(:candidate).and_return(candidate)
+        end
 
         it 'adds a :different_ratifying_provider error' do
           expect(offer).to be_invalid
 
           expect(offer.errors[:base]).to contain_exactly('The offered course\'s ratifying provider must be the same as the one originally requested')
+        end
+      end
+    end
+
+    describe '#restrict_reverting_rejection' do
+      context 'when a provider attempts to revert an application rejected by default' do
+        let(:application_choice) { build_stubbed(:application_choice, :rejected, current_course_option: course_option, rejected_by_default: true) }
+        let(:application_form) { build_stubbed(:application_form, phase: 'apply_1', application_choices: [application_choice]) }
+        let(:candidate) { build_stubbed(:candidate, application_forms: [application_form]) }
+
+        before do
+          allow(application_choice).to receive(:candidate).and_return(candidate)
+        end
+
+        it 'adds an :application_rejected_by_default error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the application has been automatically rejected')
+        end
+      end
+
+      context 'when a provider attempts to revert an apply_1 rejection but other offers have already been accepted' do
+        let!(:application_form) { create(:application_form, application_choices: [application_choice, other_application_choice]) }
+        let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }
+        let!(:other_application_choice) { build(:application_choice, :recruited) }
+
+        it 'adds an :other_offer_already_accepted error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the candidate has already accepted one')
+        end
+      end
+
+      context 'when a provider attempts to revert a rejection on an application that is not the last one on apply_2' do
+        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice]) }
+        let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }
+        let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
+
+        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
+        end
+      end
+
+      context 'when a provider attempts to revert an apply_1 rejection but there is an application in apply_2' do
+        let(:candidate) { create(:candidate) }
+        let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
+        let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
+
+        let!(:application_form_apply_1) { create(:application_form, application_choices: [application_choice], candidate: candidate) }
+        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate: candidate) }
+
+        it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
+        end
+      end
+
+      context 'when a provider attempts to revert an apply_2 rejection but there is an application in apply_1' do
+        let(:candidate) { create(:candidate) }
+        let(:other_application_choice) { build(:application_choice, :rejected) }
+        let!(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
+
+        let!(:application_form_apply_1) { create(:application_form, application_choices: [other_application_choice], candidate: candidate) }
+        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [application_choice], candidate: candidate) }
+
+        it 'is valid' do
+          expect(offer).to be_valid
         end
       end
     end

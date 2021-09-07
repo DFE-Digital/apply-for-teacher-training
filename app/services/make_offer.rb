@@ -45,7 +45,8 @@ private
   end
 
   def offer
-    @offer ||= OfferValidations.new(course_option: course_option,
+    @offer ||= OfferValidations.new(application_choice: application_choice,
+                                    course_option: course_option,
                                     conditions: update_conditions_service.conditions)
   end
 end
