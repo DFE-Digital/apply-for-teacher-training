@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Reject by default' do
+RSpec.feature 'Reject by default', mid_cycle: false do
   include CourseOptionHelpers
 
   scenario 'An application is rejected by default', with_audited: true do

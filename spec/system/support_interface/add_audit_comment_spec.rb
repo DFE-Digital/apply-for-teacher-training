@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add comments to the application history', with_audited: true do
+RSpec.feature 'Add comments to the application history', mid_cycle: false, with_audited: true do
   include DfESignInHelpers
 
   scenario 'Support user adds a comment to the application audit page' do

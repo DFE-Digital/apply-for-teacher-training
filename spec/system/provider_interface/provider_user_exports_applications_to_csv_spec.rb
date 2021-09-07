@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider user exports applications to a csv' do
+RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
   include CourseOptionHelpers
   include DfESignInHelpers
 
