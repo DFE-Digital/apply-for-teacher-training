@@ -15,7 +15,14 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
   end
 
   context 'when the account_and_org_settings_changes feature flag is on' do
-    before { FeatureFlag.activate(:account_and_org_settings_changes) }
+    let(:store_data) { { permissions: [] }.to_json }
+
+    before do
+      FeatureFlag.activate(:account_and_org_settings_changes)
+
+      store = instance_double(WizardStateStores::RedisStore, read: store_data)
+      allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+    end
 
     context 'when the wizard is invalid' do
       before do
@@ -35,6 +42,25 @@ RSpec.describe ProviderInterface::UserInvitation::ReviewController do
           post provider_interface_organisation_settings_organisation_user_invitation_commit_path(provider),
                params: {}
         }.to change(ValidationError, :count).by(1)
+      end
+    end
+
+    context 'when there is nothing in the wizard store' do
+      let(:store_data) { nil }
+
+      it 'redirects to the users index page on GET check' do
+        get provider_interface_organisation_settings_organisation_user_invitation_check_path(provider)
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
+      end
+
+      it 'redirects to the users index page on POST commit' do
+        post provider_interface_organisation_settings_organisation_user_invitation_commit_path(provider),
+             params: {}
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
       end
     end
 
