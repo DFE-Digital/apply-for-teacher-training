@@ -159,5 +159,14 @@ RSpec.describe Candidate, type: :model do
         expect(candidate.in_apply_2?).to be true
       end
     end
+
+    context 'when the candidate has applications in apply again in previous cycle' do
+      let!(:application_form_previous_year) { create(:application_form, candidate: candidate, phase: 'apply_2', recruitment_cycle_year: RecruitmentCycle.previous_year) }
+      let!(:application_form) { create(:application_form, candidate: candidate) }
+
+      it 'returns true' do
+        expect(candidate.in_apply_2?).to be false
+      end
+    end
   end
 end
