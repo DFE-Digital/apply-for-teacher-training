@@ -2,7 +2,7 @@ module ProviderInterface
   class ApplicationDataExportController < ProviderInterfaceController
     include StreamableDataExport
 
-    EXPORT_BATCH_SIZE = 300
+    BATCH_SIZE = 300
 
     before_action :redirect_to_hesa_export_unless_feature_enabled
 
@@ -38,13 +38,13 @@ module ProviderInterface
           .where('courses.recruitment_cycle_year' => cycle_years)
           .where(status: statuses)
           .where('candidates.hide_in_reporting': false)
-          .find_each(batch_size: EXPORT_BATCH_SIZE)
+          .find_each(batch_size: BATCH_SIZE)
 
         self.response_body = streamable_response(
           filename: csv_filename,
-          export_headers: ApplicationDataExport::CSV_HEADINGS,
+          export_headings: ApplicationDataExport.export_row(export_data.first).keys,
           export_data: export_data,
-          item_yielder: proc { |item| ApplicationDataExport.export_row(item) },
+          item_yielder: proc { |item| ApplicationDataExport.export_row(item).values },
         )
       else
         render :new

@@ -1,8 +1,8 @@
 module StreamableDataExport
-  def streamable_response(filename:, export_data:, export_headers: nil, item_yielder: proc { |item| item })
+  def streamable_response(filename:, export_data:, export_headings: nil, item_yielder: proc { |item| item })
     streamable_response_headers(filename)
     response.status = 200
-    streamable_response_body(export_headers: export_headers, export_data: export_data, item_yielder: item_yielder)
+    streamable_response_body(export_headings: export_headings, export_data: export_data, item_yielder: item_yielder)
   end
 
 private
@@ -16,10 +16,10 @@ private
     headers['Last-Modified'] = Time.zone.now.ctime.to_s
   end
 
-  def streamable_response_body(export_data:, export_headers:, item_yielder:)
+  def streamable_response_body(export_data:, export_headings:, item_yielder:)
     Enumerator.new do |yielder|
-      yielder << SafeCSV.generate_line(export_headers) if export_headers.present?
-      export_data.map { |item| yielder << SafeCSV.generate_line(item_yielder.call(item)) }
+      yielder << SafeCSV.generate_line(export_headings) if export_headings.present?
+      export_data.each { |item| yielder << SafeCSV.generate_line(item_yielder.call(item)) }
     end
   end
 end
