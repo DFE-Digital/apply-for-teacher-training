@@ -11,11 +11,11 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
     end
 
     it 'renders the banner header' do
-      expect(result.text).to include('The deadline for candidates to apply for the first time in this recruitment cycle is 6pm on 7 September')
+      expect(result.text).to include(t('summer_recruitment_banner.header'))
     end
 
     it 'renders the banner content' do
-      expect(result.text).to include('Candidates who apply before the deadline will be able to apply again until 6pm on 21 September.')
+      expect(result.text).to include(t('summer_recruitment_banner.body'))
     end
   end
 
