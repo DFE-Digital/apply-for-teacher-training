@@ -3,13 +3,10 @@ module Hesa
     EthnicityStruct = Struct.new(:hesa_code, :value)
 
     def self.all(cycle_year)
-      if cycle_year == 2020
-        HESA_ETHNICITIES_2019_2020.map { |ethnicity| EthnicityStruct.new(*ethnicity) }
-      elsif cycle_year == 2021
-        HESA_ETHNICITIES_2020_2021.map { |ethnicity| EthnicityStruct.new(*ethnicity) }
-      else
-        raise ArgumentError, "Do not know Hesa Ethnicities codes for #{cycle_year}"
-      end
+      collection_name = "HESA_ETHNICITIES_#{cycle_year - 1}_#{cycle_year}"
+      HesaEthnicityCollections.const_get(collection_name).map { |ethnicity| EthnicityStruct.new(*ethnicity) }
+    rescue NameError
+      raise ArgumentError, "Do not know Hesa Ethnicities codes for #{cycle_year}"
     end
 
     def self.find(value, cycle_year)

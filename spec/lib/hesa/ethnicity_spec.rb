@@ -29,6 +29,20 @@ RSpec.describe Hesa::Ethnicity do
         expect(chinese.value).to eq HesaEthnicityValues::CHINESE
       end
     end
+
+    context 'Recruitment cycle 2021 - 2022' do
+      it 'returns a list of HESA ethnicity structs' do
+        cycle_year = 2022
+        ethnicity_values = described_class.all(cycle_year)
+
+        expect(ethnicity_values.size).to eq 16
+
+        chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
+
+        expect(chinese.hesa_code).to eq '34'
+        expect(chinese.value).to eq HesaEthnicityValues::CHINESE
+      end
+    end
   end
 
   describe '.find' do
