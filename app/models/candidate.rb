@@ -49,7 +49,7 @@ class Candidate < ApplicationRecord
   end
 
   def in_apply_2?
-    application_forms.exists?(phase: 'apply_2')
+    application_forms.current_cycle.exists?(phase: 'apply_2')
   end
 
 private
