@@ -119,7 +119,7 @@ RSpec.describe OfferValidations, type: :model do
 
         it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
           expect(offer).to be_invalid
-          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the last application you rejected')
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because you can only do so for the most recent application')
         end
       end
     end
