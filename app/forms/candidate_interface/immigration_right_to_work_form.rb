@@ -20,11 +20,11 @@ module CandidateInterface
       )
     end
 
-  private
-
     def right_to_work_or_study?
-      immigration_right_to_work
+      ActiveModel::Type::Boolean.new.cast(immigration_right_to_work)
     end
+
+  private
 
     def set_right_to_work_or_study_details
       right_to_work_or_study? ? right_to_work_or_study_details : nil

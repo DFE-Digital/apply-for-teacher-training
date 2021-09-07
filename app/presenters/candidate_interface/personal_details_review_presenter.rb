@@ -20,7 +20,7 @@ module CandidateInterface
         nationality_row,
       ]
 
-      assembled_rows << right_to_work_row
+      assembled_rows += (right_to_work_rows || [])
 
       unless LanguagesSectionPolicy.hide?(@application_form)
         assembled_rows << english_main_language_row
@@ -148,24 +148,68 @@ module CandidateInterface
       }
     end
 
-    def right_to_work_row
+    def right_to_work_rows
       return nil if british_or_irish?
 
-      {
-        key: I18n.t('application_form.personal_details.right_to_work.label'),
-        value: formatted_right_to_work_or_study,
-        action: (if @editable
-                   {
-                     href: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
-                     visually_hidden_text: I18n.t('application_form.personal_details.right_to_work.change_action'),
-                   }
-                 end),
-        html_attributes: {
-          data: {
-            qa: 'personal_details_right_to_work_or_study',
+      if @application_form.recruitment_cycle_year >= NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
+        @immigration_right_to_work_form = CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
+          @application_form,
+        )
+        @immigration_route_form = CandidateInterface::ImmigrationRouteForm.build_from_application(
+          @application_form,
+        )
+
+        [
+          {
+            key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
+            value: formatted_immigration_right_to_work,
+            action: (if @editable
+                       {
+                         href: candidate_interface_immigration_right_to_work_path(return_to_params),
+                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
+                       }
+                     end),
+            html_attributes: {
+              data: {
+                qa: 'personal_details_immigration_right_to_work',
+              },
+            },
           },
-        },
-      }
+          {
+            key: I18n.t('application_form.personal_details.immigration_route.label'),
+            value: formatted_immigration_route,
+            action: (if @editable
+                       {
+                         href: candidate_interface_immigration_route_path(return_to_params),
+                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_route.change_action'),
+                       }
+                     end),
+            html_attributes: {
+              data: {
+                qa: 'personal_details_immigration_route',
+              },
+            },
+          },
+        ]
+      else
+        [
+          {
+            key: I18n.t('application_form.personal_details.right_to_work.label'),
+            value: formatted_right_to_work_or_study,
+            action: (if @editable
+                       {
+                         href: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
+                         visually_hidden_text: I18n.t('application_form.personal_details.right_to_work.change_action'),
+                       }
+                     end),
+            html_attributes: {
+              data: {
+                qa: 'personal_details_right_to_work_or_study',
+              },
+            },
+          },
+        ]
+      end
     end
 
     def british_or_irish?
@@ -182,6 +226,23 @@ module CandidateInterface
       ]
       .reject(&:blank?)
       .to_sentence
+    end
+
+    def formatted_immigration_right_to_work
+      if @immigration_right_to_work_form.right_to_work_or_study?
+        'Yes'
+      else
+        'Not yet'
+      end
+    end
+
+    def formatted_immigration_route
+      case @immigration_route_form.immigration_route
+      when 'visa_sponsored_by_provider'
+        'A visa sponsored by a course provider.'
+      when 'other'
+        @immigration_route_form.immigration_route.details
+      end
     end
 
     def formatted_right_to_work_or_study
