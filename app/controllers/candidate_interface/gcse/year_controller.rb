@@ -9,7 +9,11 @@ module CandidateInterface
       @year_form = CandidateInterface::GcseYearForm.new(year_params)
 
       if @year_form.save(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        if current_qualification.failed_required_gcse?
+          redirect_to candidate_interface_gcse_details_edit_grade_explanation_path(subject: @subject)
+        else
+          redirect_to candidate_interface_gcse_review_path
+        end
       else
         set_previous_path
         track_validation_error(@year_form)
@@ -46,9 +50,7 @@ module CandidateInterface
     end
 
     def set_previous_path
-      @previous_path = if current_qualification.failed_required_gcse?
-                         candidate_interface_gcse_details_new_grade_explanation_path
-                       elsif current_qualification.subject == 'maths'
+      @previous_path = if current_qualification.subject == 'maths'
                          candidate_interface_new_gcse_maths_grade_path(@subject)
                        elsif current_qualification.subject == 'english'
                          candidate_interface_new_gcse_english_grade_path(@subject)
