@@ -32,6 +32,10 @@ class Candidate < ApplicationRecord
                         end
   end
 
+  def current_application_choice
+    current_application.application_choices.order(:created_at).last
+  end
+
   def last_updated_application
     application_forms.max_by(&:updated_at)
   end
