@@ -26,8 +26,9 @@ module CandidateInterface
           enic_reference_row,
           comparable_uk_qualification_row,
           grade_row,
-          failing_grade_explanation_row,
           award_year_row,
+          failing_grade_explanation_row,
+          equivalency_qualification_row,
         ].compact
       end
     end
@@ -103,10 +104,10 @@ module CandidateInterface
     end
 
     def failing_grade_explanation_row
-      return nil unless application_qualification.failed_required_gcse? && application_qualification.not_completed_explanation.present?
+      return nil unless application_qualification.failed_required_gcse?
 
       {
-        key: 'How I expect to gain this qualification',
+        key: 'Are you currently studying to retake this qualification?',
         value: application_qualification.not_completed_explanation,
         action: {
           href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),

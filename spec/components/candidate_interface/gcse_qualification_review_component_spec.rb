@@ -92,7 +92,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         level: 'gcse',
         grade: 'D',
         subject: 'maths',
-        not_completed_explanation: 'I am going to work harder',
+        not_completed_explanation: 'No',
+        missing_explanation: 'I am going to work harder',
       )
       result = render_inline(
         described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
@@ -101,7 +102,8 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).to match(/Qualification+GCSE/)
       expect(result.text).to match(/Year awarded+#{@qualification.award_year}/)
       expect(result.text).to match(/Grade+#{@qualification.grade}/)
-      expect(result.text).to match(/How I expect to gain this qualification+#{@qualification.not_completed_explanation}/)
+      expect(result.text).to match(/Are you currently studying to retake this qualification\?#{@qualification.not_completed_explanation}/)
+      expect(result.text).to match(/Other evidence I have the skills required+#{@qualification.missing_explanation}/)
       expect(result.text).not_to match(/Country+#{@qualification.institution_country}/)
     end
   end
@@ -155,6 +157,105 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Grade')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('E (English)D (English Literature)A* (Cockney Rhyming Slang)')
+    end
+  end
+
+  context 'when the candidate does not have the GCSE and is not currently studying for it' do
+    it 'renders the correct content' do
+      application_form = build :application_form
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form: application_form,
+        qualification_type: 'missing',
+        level: 'gcse',
+        grade: nil,
+        subject: 'maths',
+        not_completed_explanation: nil,
+        currently_completing_qualification: false,
+        missing_explanation: '',
+      )
+
+      result = render_inline(
+        described_class.new(
+          application_form: application_form,
+          application_qualification: application_qualification,
+          subject: 'maths',
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[0].text).to include('What type of maths qualification do you have?')
+      expect(result.css('.govuk-summary-list__value')[0].text).to include('I don’t have a maths qualification yet')
+      expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('No')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Other evidence I have the skills required (optional)')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('Not provided')
+    end
+  end
+
+  context 'when the candidate does not have the GCSE and they are currently studying for it' do
+    it 'renders the correct content' do
+      application_form = build :application_form
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form: application_form,
+        qualification_type: 'missing',
+        level: 'gcse',
+        grade: nil,
+        subject: 'maths',
+        not_completed_explanation: 'Example text',
+        currently_completing_qualification: true,
+        missing_explanation: nil,
+      )
+
+      result = render_inline(
+        described_class.new(
+          application_form: application_form,
+          application_qualification: application_qualification,
+          subject: 'maths',
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[0].text).to include('What type of maths qualification do you have?')
+      expect(result.css('.govuk-summary-list__value')[0].text).to include('I don’t have a maths qualification yet')
+      expect(result.css('.govuk-summary-list__key')[1].text).to include('Are you currently studying for this qualification?')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('Example text')
+    end
+  end
+
+  context 'when the candidate has a maths GCSE but it is below the required grade' do
+    it 'renders the correct content' do
+      application_form = build :application_form
+      @qualification = application_qualification = build(
+        :application_qualification,
+        application_form: application_form,
+        qualification_type: 'gcse',
+        level: 'gcse',
+        grade: 'D',
+        award_year: '1996',
+        subject: 'maths',
+        not_completed_explanation: 'No',
+        currently_completing_qualification: nil,
+        missing_explanation: '',
+      )
+
+      result = render_inline(
+        described_class.new(
+          application_form: application_form,
+          application_qualification: application_qualification,
+          subject: 'maths',
+        ),
+      )
+
+      expect(result.css('.govuk-summary-list__key')[0].text).to include('Qualification')
+      expect(result.css('.govuk-summary-list__value')[0].text).to include('GCSE')
+      expect(result.css('.govuk-summary-list__key')[1].text).to include('Grade')
+      expect(result.css('.govuk-summary-list__value')[1].text).to include('D')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Year awarded')
+      expect(result.css('.govuk-summary-list__value')[2].text).to include('1996')
+      expect(result.css('.govuk-summary-list__key')[3].text).to include('Are you currently studying to retake this qualification?')
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('No')
+      expect(result.css('.govuk-summary-list__key')[4].text).to include('Other evidence I have the skills required (optional)')
+      expect(result.css('.govuk-summary-list__value')[4].text).to include('Not provided')
     end
   end
 
