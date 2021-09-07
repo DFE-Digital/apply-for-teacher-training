@@ -392,7 +392,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
   describe 'attributes.course' do
     let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer, :with_recruited, course: course) }
     let(:training_provider) { create(:provider, provider_type: 'scitt') }
-    let(:accredited_provider) { create(:provider, provider_type: 'university') }
+    let(:accredited_provider) { create(:provider, provider_type: 'university', code: 'ABC') }
     let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
     let(:presenter) { described_class.new(application_choice).as_json }
 
@@ -401,7 +401,11 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     end
 
     it 'returns the course accredited provider type' do
-      expect(presenter.dig(:attributes, :course, :accredited_provider_type)).to eq('university')
+      expect(presenter.dig(:attributes, :course, :accredited_provider_type)).to eq(accredited_provider.provider_type)
+    end
+
+    it 'returns the course accredited provider code' do
+      expect(presenter.dig(:attributes, :course, :accredited_provider_code)).to eq(accredited_provider.code)
     end
 
     context 'with a self ratified course' do

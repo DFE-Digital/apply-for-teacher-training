@@ -375,6 +375,7 @@ components:
       - training_provider_code
       - training_provider_type
       - accredited_provider_type
+      - accredited_provider_code
       - site_code
       - study_mode
       properties:
@@ -409,6 +410,12 @@ components:
             - university
           example: university
           maxLength: 25
+        accredited_provider_code:
+          type: string
+          nullable: true
+          description: The accredited provider’s code
+          example: 2FR
+          maxLength: 3
         course_code:
           type: string
           description: The course’s code
