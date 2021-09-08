@@ -3,32 +3,32 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
     <%= render SupportInterface::TileComponent.new(
-      count: @monitor.never_connected.count,
-      label: "#{'provider'.pluralize(@monitor.never_connected.count)} #{'has'.pluralize(@monitor.never_connected.count)} never connected to the API",
+      count: @monitor.never_connected.size,
+      label: "#{'provider'.pluralize(@monitor.never_connected.size)} (out of #{@monitor.all_providers.size}) #{'has'.pluralize(@monitor.never_connected.size)} never connected to the API",
       colour: :blue,
       href: '#not-connected',
     ) %>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <%= render SupportInterface::TileComponent.new(
-      count: @monitor.no_sync_in_24h.count,
-      label: "connected #{'provider'.pluralize(@monitor.no_sync_in_24h.count)} #{'has'.pluralize(@monitor.no_sync_in_24h.count)} not synced for at least 24 hours",
+      count: @monitor.no_sync_in_24h.size,
+      label: "connected #{'provider'.pluralize(@monitor.no_sync_in_24h.size)} #{'has'.pluralize(@monitor.no_sync_in_24h.size)} not synced for at least 24 hours",
       colour: :blue,
       href: '#not-synced',
     ) %>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <%= render SupportInterface::TileComponent.new(
-      count: @monitor.no_decisions_in_7d.count,
-      label: "connected #{'provider'.pluralize(@monitor.no_decisions_in_7d.count)} #{'has'.pluralize(@monitor.no_decisions_in_7d.count)} not posted a decision for at least 7 days",
+      count: @monitor.no_decisions_in_7d.size,
+      label: "connected #{'provider'.pluralize(@monitor.no_decisions_in_7d.size)} #{'has'.pluralize(@monitor.no_decisions_in_7d.size)} not posted a decision for at least 7 days",
       colour: :blue,
       href: '#not-posted-decision',
     ) %>
   </div>
   <div class="govuk-grid-column-one-quarter">
     <%= render SupportInterface::TileComponent.new(
-      count: @monitor.providers_with_errors.count,
-      label: "connected #{'provider'.pluralize(@monitor.providers_with_errors.count)} #{'has'.pluralize(@monitor.providers_with_errors.count)} caused an error in the last 7 days",
+      count: @monitor.providers_with_errors.size,
+      label: "connected #{'provider'.pluralize(@monitor.providers_with_errors.size)} #{'has'.pluralize(@monitor.providers_with_errors.size)} caused an error in the last 7 days",
       colour: :blue,
       href: '#received-error-response',
     ) %>
@@ -153,7 +153,7 @@
             <%= number_with_delimiter(provider.error_count) %>
           </td>
           <td class="govuk-table__cell">
-            <%= number_with_delimiter(provider.error_rate) %>
+            <%= provider.error_rate.round(1) %>%
           </td>
         </tr>
       <% end %>

@@ -1,66 +1,39 @@
 module SupportInterface
   class VendorAPIMonitor
+    def providers_with_api_usage_stats
+      Provider.select('providers.id,
+                      providers.name,
+                      last_syncs.last_sync as last_sync,
+                      last_decisions.last_decision as last_decision,
+                      errors.count as error_count,
+                      requests.count as request_count,
+                      all_time_requests.count,
+                      (CAST(errors.count AS FLOAT)/requests.count) * 100 as error_rate')
+        .joins("LEFT JOIN (#{VendorAPIRequest.successful.syncs.select('provider_id, MAX(vendor_api_requests.created_at) as last_sync').group('provider_id').to_sql}) last_syncs on last_syncs.provider_id = providers.id")
+        .joins("LEFT JOIN (#{VendorAPIRequest.successful.decisions.select('provider_id, MAX(vendor_api_requests.created_at) as last_decision').group('provider_id').to_sql}) last_decisions on last_decisions.provider_id = providers.id")
+        .joins("LEFT JOIN (#{VendorAPIRequest.errors.select('provider_id, COUNT(vendor_api_requests.id) as count').where("vendor_api_requests.created_at > current_date - interval '7 days'").group('provider_id').to_sql}) errors on errors.provider_id = providers.id")
+        .joins("LEFT JOIN (#{VendorAPIRequest.select('provider_id, COUNT(vendor_api_requests.id) as count').where("vendor_api_requests.created_at > current_date - interval '7 days'").group('provider_id').to_sql}) requests on requests.provider_id = providers.id").where(provider_type: 'university')
+        .joins("LEFT JOIN (#{VendorAPIRequest.select('provider_id, COUNT(vendor_api_requests.id) as count').group('provider_id').to_sql}) all_time_requests on all_time_requests.provider_id = providers.id").where(provider_type: 'university')
+    end
+
     def never_connected
-      @_never_connected = providers.left_outer_joins(:vendor_api_requests)
+      providers_with_api_usage_stats
         .includes(:vendor_api_tokens)
-        .distinct
-        .where(vendor_api_requests: { id: nil })
+        .where(all_time_requests: { count: nil })
     end
 
     def no_sync_in_24h
-      @_no_sync_in_24h ||= connected_providers.where.not(
-        id: VendorAPIRequest.successful.syncs.select(:provider_id).distinct.where('created_at > ?', 24.hours.ago),
-      ).map do |provider|
-        ProviderWithAPIUsageStats.new(provider)
-      end
+      providers_with_api_usage_stats.where("last_sync < now() - interval '24 hours'").order('last_sync DESC')
     end
 
     def no_decisions_in_7d
-      @_no_decisions_in_7d ||= connected_providers.where.not(
-        id: VendorAPIRequest.successful.decisions.select(:provider_id).distinct.where('created_at > ?', 7.days.ago),
-      ).map do |provider|
-        ProviderWithAPIUsageStats.new(provider)
-      end
+      providers_with_api_usage_stats.where("last_decision < now() - interval '7 days'").order('last_decision DESC')
     end
 
     def providers_with_errors
-      @_providers_with_errors ||= connected_providers.where(
-        id: VendorAPIRequest.errors.select(:provider_id).distinct.where('created_at > ?', 7.days.ago),
-      ).map do |provider|
-        ProviderWithAPIUsageStats.new(provider)
-      end
+      providers_with_api_usage_stats.where.not(errors: { count: nil }).order('error_rate DESC')
     end
 
-  private
-
-    def providers
-      Provider.where(provider_type: 'university')
-    end
-
-    def connected_providers
-      providers.where.not(id: never_connected)
-    end
-  end
-
-  class ProviderWithAPIUsageStats < SimpleDelegator
-    def last_sync
-      vendor_api_requests.syncs.order(created_at: :desc).pick(:created_at)
-    end
-
-    def last_decision
-      vendor_api_requests.decisions.order(created_at: :desc).pick(:created_at)
-    end
-
-    def error_count
-      vendor_api_requests.errors.where('created_at > ?', 7.days.ago).count
-    end
-
-    def request_count
-      vendor_api_requests.where('created_at > ?', 7.days.ago).count
-    end
-
-    def error_rate
-      "#{((error_count.to_f / request_count) * 100).round(1)}%"
-    end
+    alias all_providers providers_with_api_usage_stats
   end
 end
