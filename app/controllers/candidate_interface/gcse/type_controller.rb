@@ -74,6 +74,18 @@ module CandidateInterface
         )
     end
 
+    def qualification_not_completed_params
+      strip_whitespace params
+        .require(:candidate_interface_gcse_not_completed_form)
+        .permit(:not_completed_explanation, :choice)
+    end
+
+    def qualification_missing_params
+      strip_whitespace params
+        .require(:candidate_interface_gcse_missing_form)
+        .permit(:missing_explanation)
+    end
+
     def non_uk_qualification?
       current_qualification.qualification_type == 'non_uk'
     end
