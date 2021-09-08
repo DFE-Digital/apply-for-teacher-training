@@ -71,6 +71,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
       context 'when it is after the rdb date' do
         let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
         let(:day) { 15 }
+        let(:time) { '' }
 
         it 'is invalid with the correct error' do
           Timecop.freeze(2021, 1, 13) do

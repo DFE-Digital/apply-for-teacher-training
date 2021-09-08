@@ -18,7 +18,7 @@ module ProviderInterface
     validate :time_is_valid, unless: -> { time.blank? }
     validate :date_and_time_in_future, if: %i[date_and_time],
                                        unless: ->(c) { %i[date time].any? { |d| c.errors.attribute_names.include?(d) } }
-    validate :date_after_rbd_date, if: %i[date_and_time date_and_time_in_future]
+    validate :date_after_rbd_date, if: %i[date]
     validates :provider_id, presence: true, if: %i[application_choice provider_user multiple_application_providers?]
     validates :location, presence: true, word_count: { maximum: 2000 }
     validates :additional_details, word_count: { maximum: 2000 }
@@ -94,8 +94,11 @@ module ProviderInterface
     end
 
     def date_after_rbd_date
-      rbd_date = application_choice.reject_by_default_at
-      errors.add(:date, :after_rdb, rbd_date: rbd_date.to_s(:govuk_date)) if date > rbd_date
+      rbd_date = application_choice&.reject_by_default_at
+
+      if rbd_date.present? && date.is_a?(Date) && date > rbd_date
+        errors.add(:date, :after_rdb, rbd_date: rbd_date.to_s(:govuk_date))
+      end
     end
 
     def time_in_correct_format?
