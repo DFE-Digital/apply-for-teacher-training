@@ -786,7 +786,7 @@ Rails.application.routes.draw do
       resource :personal_permissions, only: %i[show], path: 'permissions'
 
       # TODO: Revisit whether these redirects are still needed after 1st November 2021
-      get '/organisational-permissions', to: redirect('/provider/organisation-settings/organisations')
+      get '/organisational-permissions', to: redirect('/provider/organisation-settings')
       get '/organisational-permissions/:id', to: redirect { |params, _| "/provider/organisation-settings/organisations/#{params[:id]}/organisation-permissions" }
 
       resource :notifications, only: %i[show update], path: 'notification-settings'
@@ -794,7 +794,7 @@ Rails.application.routes.draw do
 
     resource :organisation_settings, path: '/organisation-settings', only: :show do
       resources :organisations, only: [] do
-        get '/' => 'organisation_permissions#organisations', on: :collection
+        get '/', to: redirect('/provider/organisation-settings'), on: :collection
         resources :organisation_permissions, path: '/organisation-permissions', only: %i[index edit update]
         resources :users, path: '/users', only: %i[index show destroy] do
           member do

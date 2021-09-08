@@ -11,12 +11,7 @@ RSpec.feature 'Provider edits organisation permissions' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_organisation_settings_link
-    if FeatureFlag.active?(:account_and_org_settings_changes)
-      and_i_click_on_a_particular_organisation_permissions_link
-    else
-      and_i_click_on_organisation_permissions
-      and_i_click_on_an_organisation_i_can_manage
-    end
+    and_i_click_on_a_particular_organisation_permissions_link
     and_i_click_to_change_one_of_its_relationships
     and_i_give_my_organisation_permission_to_make_decisions
     then_i_am_redirected_to_the_organisation_relationships_page

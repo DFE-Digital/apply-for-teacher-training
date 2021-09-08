@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Organisation settings' do
   include DfESignInHelpers
 
-  before { FeatureFlag.activate(:account_and_org_settings_changes) }
-
   scenario 'Provider user views organisation settings' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_belong_to_a_single_provider

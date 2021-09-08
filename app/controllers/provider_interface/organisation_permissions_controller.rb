@@ -2,24 +2,10 @@ module ProviderInterface
   class OrganisationPermissionsController < ProviderInterfaceController
     include ProviderRelationshipPermissionsParamsHelper
 
-    before_action :set_up_relationship_objects, except: %i[organisations index]
-    before_action :organisation_id_and_permission_check, except: %i[organisations index]
-
-    # This action and the relevant route will be removed once Organisation Settings
-    # is broken down into provider sections.
-    def organisations
-      redirect_to provider_interface_organisation_settings_path if FeatureFlag.active?(:account_and_org_settings_changes)
-
-      @manageable_providers = manageable_providers
-    end
+    before_action :set_up_relationship_objects, except: :index
+    before_action :organisation_id_and_permission_check, except: :index
 
     def index
-      @current_user_can_manage_organisation = current_provider_user.authorisation.can_manage_organisation?(provider: provider)
-
-      unless FeatureFlag.active?(:account_and_org_settings_changes) || @current_user_can_manage_organisation
-        render_403 and return
-      end
-
       unsorted_provider_relationships = provider_relationships_to_display
       @provider_relationships = sort_relationships_by_provider_name(unsorted_provider_relationships, provider)
     rescue ActiveRecord::RecordNotFound
@@ -44,10 +30,6 @@ module ProviderInterface
 
     def provider
       @provider ||= current_provider_user.providers.find(params[:organisation_id])
-    end
-
-    def manageable_providers
-      @_manageable_providers ||= current_provider_user.authorisation.providers_that_actor_can_manage_organisations_for(with_set_up_permissions: true)
     end
 
     def permissions_params
@@ -85,11 +67,7 @@ module ProviderInterface
     end
 
     def provider_relationships_to_display
-      if FeatureFlag.active?(:account_and_org_settings_changes)
-        ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider).all_relationships_for_providers([provider]).providers_have_open_course
-      else
-        ProviderRelationshipPermissions.all_relationships_for_providers([provider]).where.not(setup_at: nil)
-      end
+      ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider).all_relationships_for_providers([provider]).providers_have_open_course
     end
 
     def sort_relationships_by_provider_name(relationships, provider)
@@ -99,7 +77,7 @@ module ProviderInterface
     end
 
     def change_link_for_relationship(relationship)
-      if @current_user_can_manage_organisation
+      if current_provider_user.authorisation.can_manage_organisation?(provider: provider)
         edit_provider_interface_organisation_settings_organisation_organisation_permission_path(relationship, organisation_id: provider.id)
       end
     end
