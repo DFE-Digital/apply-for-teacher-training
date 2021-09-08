@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Handling duplicate course choices' do
+RSpec.feature 'Viewing course choices' do
   include CandidateHelper
 
   scenario 'candidate can view degree requirements and guidance for selected courses' do
@@ -13,7 +13,7 @@ RSpec.feature 'Handling duplicate course choices' do
 
     when_i_change_my_degree_grade_to_a_pass
     and_i_visit_the_course_choice_review_page
-    then_i_can_course_choices_choices_with_relevant_guidance_for_all_courses
+    then_i_can_view_course_choices_with_relevant_guidance_for_all_courses
   end
 
   def given_i_am_signed_in
@@ -48,7 +48,7 @@ RSpec.feature 'Handling duplicate course choices' do
     visit candidate_interface_new_degree_path
 
     choose 'UK degree'
-    fill_in 'Type of degree', with: 'BA'
+    fill_in 'Type of degree', with: 'Bachelor of Arts'
     click_button t('save_and_continue')
 
     fill_in 'What subject is your degree?', with: 'Doge'
@@ -64,11 +64,9 @@ RSpec.feature 'Handling duplicate course choices' do
     choose 'Lower second-class honours (2:2)'
     click_button t('save_and_continue')
 
-    year_with_trailing_space = '2006 '
-    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: year_with_trailing_space
+    fill_in t('page_titles.what_year_did_you_start_your_degree'), with: '2006'
     click_button t('save_and_continue')
-    year_with_preceding_space = ' 2009'
-    fill_in t('page_titles.what_year_did_you_graduate'), with: year_with_preceding_space
+    fill_in t('page_titles.what_year_did_you_graduate'), with: '2009'
     click_button t('save_and_continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
@@ -108,7 +106,7 @@ RSpec.feature 'Handling duplicate course choices' do
     click_button t('save_and_continue')
   end
 
-  def then_i_can_course_choices_choices_with_relevant_guidance_for_all_courses
+  def then_i_can_view_course_choices_with_relevant_guidance_for_all_courses
     within "#course-choice-#{@choice1.id}" do
       expect(page).to have_content('Degree requirements')
       expect(page).to have_content('2:1 degree or higher (or equivalent)')

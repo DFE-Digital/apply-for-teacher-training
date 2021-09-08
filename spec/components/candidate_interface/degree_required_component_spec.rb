@@ -30,9 +30,6 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
         institution_name: 'University of Doge',
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
-        predicted_grade: false,
-        start_year: '2005',
-        award_year: '2008',
         application_form: application_form,
       )
 
@@ -46,13 +43,9 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       create(
         :degree_qualification,
         qualification_type: 'Bachelor of Arts',
-        subject: 'Woof',
-        institution_name: 'University of Doge',
+        qualification_type_hesa_code: 51,
         institution_country: 'Armenia',
         grade: 'Lower second-class honours (2:2)',
-        predicted_grade: false,
-        start_year: '2005',
-        award_year: '2008',
         application_form: application_form,
       )
 
@@ -66,13 +59,9 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       create(
         :degree_qualification,
         qualification_type: 'Master of Arts',
-        subject: 'Woof',
-        institution_name: 'University of Doge',
         institution_country: nil,
+        qualification_type_hesa_code: 200,
         grade: 'Merit',
-        predicted_grade: false,
-        start_year: '2005',
-        award_year: '2008',
         application_form: application_form,
       )
 
@@ -86,13 +75,9 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       create(
         :degree_qualification,
         qualification_type: 'Bachelor of Arts',
-        subject: 'Woof',
-        institution_name: 'University of Doge',
         institution_country: 'GB',
         grade: 'Upper second-class honours (2:1)',
-        predicted_grade: false,
-        start_year: '2005',
-        award_year: '2008',
+        qualification_type_hesa_code: 51,
         application_form: application_form,
       )
 
@@ -106,13 +91,9 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       create(
         :degree_qualification,
         qualification_type: 'Bachelor of Arts',
-        subject: 'Woof',
-        institution_name: 'University of Doge',
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
-        predicted_grade: false,
-        start_year: '2005',
-        award_year: '2008',
+        qualification_type_hesa_code: 51,
         application_form: application_form,
       )
       result = render_inline(described_class.new(application_choice))
@@ -120,6 +101,34 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       expect(result.text).to include('You said you have a 2:2 degree.')
       expect(result.text).to include('find a course that has a lower degree requirement')
       expect(result.text).to include('contact the provider to see if they will still consider your application')
+    end
+  end
+
+  context 'application has a masters degree and a bachelors degree below requirement' do
+    it 'renders the degree row without guidance' do
+      create(
+        :degree_qualification,
+        qualification_type: 'Bachelor of Arts',
+        institution_country: 'GB',
+        grade: 'Lower second-class honours (2:2)',
+        qualification_type_hesa_code: 51,
+        application_form: application_form,
+      )
+
+      create(
+        :degree_qualification,
+        qualification_type: 'Master of Arts',
+        institution_country: nil,
+        qualification_type_hesa_code: 200,
+        grade: 'Merit',
+        application_form: application_form,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+      expect(result.text).to include('2:1 degree or higher (or equivalent)')
+      expect(result.text).not_to include('You said you have a 2:2 degree.')
+      expect(result.text).not_to include('find a course that has a lower degree requirement')
+      expect(result.text).not_to include('contact the provider to see if they will still consider your application')
     end
   end
 end
