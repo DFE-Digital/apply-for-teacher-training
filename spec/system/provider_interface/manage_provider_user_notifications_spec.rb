@@ -25,12 +25,7 @@ RSpec.feature 'Managing notifications' do
   end
 
   def and_i_click_on_the_notification_settings_link
-    link_text = if FeatureFlag.active?(:account_and_org_settings_changes)
-                  t('page_titles.provider.email_notifications')
-                else
-                  t('page_titles.provider.notifications')
-                end
-    click_on(link_text)
+    click_on(t('page_titles.provider.email_notifications'))
   end
 
   def then_i_can_see_all_notifications_are_on_by_default

@@ -753,7 +753,7 @@ Rails.application.routes.draw do
     get '/account' => 'account#show'
 
     scope path: '/account' do
-      get '/profile' => 'profile#show'
+      get '/profile', to: redirect('/provider/account/personal-details')
 
       resource :personal_details, only: :show, path: 'personal-details'
 
