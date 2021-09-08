@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Non-uk Other qualifications' do
+RSpec.feature 'Non-uk Other qualifications', mid_cycle: false do
   include CandidateHelper
 
   scenario 'International candidate enters their other non-uk qualification' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Service performance' do
+RSpec.feature 'Service performance', mid_cycle: false do
   include DfESignInHelpers
 
   scenario 'View service statistics' do

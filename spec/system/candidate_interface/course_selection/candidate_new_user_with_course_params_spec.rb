@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'A new candidate arriving from Find with a course and provider code' do
+RSpec.feature 'A new candidate arriving from Find with a course and provider code' do
   include SignInHelper
 
   scenario 'retaining their course selection through the sign up process' do

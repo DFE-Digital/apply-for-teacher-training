@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Providers should be able to filter applications' do
+RSpec.feature 'Providers should be able to filter applications', mid_cycle: false do
   include CourseOptionHelpers
   include DfESignInHelpers
 

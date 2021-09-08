@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Providers and courses' do
+RSpec.feature 'Providers and courses', mid_cycle: false do
   include DfESignInHelpers
   include TeacherTrainingPublicAPIHelper
 
