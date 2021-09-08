@@ -1,5 +1,6 @@
 ---
 :queues:
-  - default
-  - mailers
-  - low_priority
+  - [default, 3]
+  - [mailers, 2]
+  - [low_priority, 1]
+  - [big_query, 1]
