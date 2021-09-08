@@ -158,4 +158,32 @@ RSpec.describe VendorAPIRequest, type: :model do
       expect(described_class.search_validation_errors({})).to be_empty
     end
   end
+
+  describe '.syncs' do
+    it 'returns appropriate requests for GET /applications' do
+      sync_request = create(:vendor_api_request, request_method: 'GET', request_path: '/api/v1/applications')
+      create(:vendor_api_request, request_method: 'GET', request_path: '/api/v1/applications/123')
+
+      expect(described_class.syncs).to match_array([sync_request])
+    end
+  end
+
+  describe '.errors' do
+    it 'returns requests which caused errors' do
+      create(:vendor_api_request, status_code: 200)
+      create(:vendor_api_request, status_code: 302)
+      error_response = create(:vendor_api_request, status_code: 422)
+
+      expect(described_class.errors).to match_array([error_response])
+    end
+  end
+
+  describe '.successful' do
+    it 'returns requests which caused errors' do
+      success = create(:vendor_api_request, status_code: 200)
+      create(:vendor_api_request, status_code: 302)
+
+      expect(described_class.successful).to match_array([success])
+    end
+  end
 end
