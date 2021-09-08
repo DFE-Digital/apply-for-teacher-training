@@ -25,6 +25,7 @@ module SupportInterface
         :ratified_by,
         :onboarding_stages,
         :q,
+        :no_provider_users,
       )
     end
 
@@ -53,6 +54,18 @@ module SupportInterface
           heading: 'Ratified by (only applies to providers with synced courses)',
           options: hash_to_checkbox_options(:ratified_by, RATIFIED_BY),
           name: 'ratified_by',
+        },
+        {
+          type: :checkboxes,
+          heading: 'No provider users',
+          name: 'no_provider_users',
+          options: [
+            {
+              value: true,
+              label: 'Has no provider users',
+              checked: applied_filters[:no_provider_users]&.include?('true'),
+            },
+          ],
         },
       ]
     end
@@ -86,6 +99,10 @@ module SupportInterface
         providers = providers.joins(:training_provider_permissions)
           .where(provider_relationship_permissions: { ratifying_provider_id: ratifiers })
           .distinct
+      end
+
+      if applied_filters[:no_provider_users].present?
+        providers = providers.left_outer_joins(:provider_permissions).where(provider_users_providers: { id: nil })
       end
 
       @filtered_count = providers.count
