@@ -1,0 +1,9 @@
+<%= f.govuk_error_summary %>
+
+<%= f.govuk_date_field(
+  :immigration_entry_date,
+  legend: { text: t('page_titles.immigration_entry_date'), size: 'l' },
+  hint: { text: 'For example, 31 3 2020' },
+) %>
+
+<%= f.govuk_submit t('save_and_continue') %>

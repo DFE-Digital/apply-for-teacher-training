@@ -11,11 +11,7 @@ module CandidateInterface
         @form = ImmigrationStatusForm.new(status_params)
 
         if @form.save(current_application)
-          if LanguagesSectionPolicy.hide?(current_application)
-            redirect_to candidate_interface_personal_details_show_path
-          else
-            redirect_to candidate_interface_languages_path
-          end
+          redirect_to candidate_interface_immigration_entry_date_path
         else
           track_validation_error(@form)
           render :new

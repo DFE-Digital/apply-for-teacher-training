@@ -40,6 +40,12 @@ en:
       immigration_route:
         label: How will you get the right to work or study in the UK?
         change_action: immigration route
+      immigration_status:
+        label: Immigration status
+        change_action: immigration status
+      immigration_entry_date:
+        label: Date of entry into the UK
+        change_action: immigration entry date
 
   activemodel:
     errors:
