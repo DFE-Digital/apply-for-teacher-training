@@ -6,7 +6,9 @@ RSpec.describe 'Entering personal details' do
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
     given_i_am_apply_during_the_2022_recruitment_cycle
     and_i_am_signed_in
-    and_i_can_complete_personal_information_with_non_british_or_irish_nationality
+    and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
+    and_i_can_change_state_that_i_have_permanent_residence
+    and_i_can_change_nationality_to_an_eu_country_with_settled_status
     and_i_can_mark_the_section_complete
   end
 
@@ -19,7 +21,7 @@ RSpec.describe 'Entering personal details' do
     visit candidate_interface_application_form_path
   end
 
-  def and_i_can_complete_personal_information_with_non_british_or_irish_nationality
+  def and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
     click_link t('page_titles.personal_information')
 
     # Basic details
@@ -54,6 +56,62 @@ RSpec.describe 'Entering personal details' do
     expect(page).to have_content 'Pakistani'
     expect(page).to have_content "Do you have the right to work or study in the UK?\nNot yet"
     expect(page).to have_content "How will you get the right to work or study in the UK?\nA visa sponsored by a course provider."
+  end
+
+  def and_i_can_change_state_that_i_have_permanent_residence
+    click_change_link('immigration right to work')
+    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
+    choose 'Yes'
+    click_button t('save_and_continue')
+
+    expect(page).to have_content 'What is your immigration status?'
+    fill_in 'What is your immigration status?', with: 'I have permanent residence'
+    click_button t('save_and_continue')
+
+    expect(page).to have_content 'When did you enter the UK?'
+    fill_in 'Day', with: '1'
+    fill_in 'Month', with: '2'
+    fill_in 'Year', with: '2003'
+    click_button t('save_and_continue')
+
+    expect(page).to have_current_path candidate_interface_personal_details_show_path
+    expect(page).to have_content 'Name'
+    expect(page).to have_content 'Lando Calrissian'
+    expect(page).to have_content 'Pakistani'
+    expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
+    expect(page).to have_content "Immigration status\nI have permanent residence"
+    expect(page).to have_content "Date of entry into the UK\n1 February 2003"
+  end
+
+  def and_i_can_change_nationality_to_an_eu_country_with_settled_status
+    click_change_link('nationality')
+
+    check 'Citizen of a different country'
+    within all('.govuk-form-group')[1] do
+      select 'French'
+    end
+    click_button t('save_and_continue')
+
+    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
+    choose 'Yes'
+    click_button t('save_and_continue')
+
+    expect(page).to have_content 'What is your immigration status?'
+    save_and_open_page
+    choose 'EU settled status'
+    click_button t('save_and_continue')
+
+    expect(page).to have_content 'When did you enter the UK?'
+    fill_in 'Day', with: '3'
+    fill_in 'Month', with: '2'
+    fill_in 'Year', with: '2001'
+    click_button t('save_and_continue')
+
+    expect(page).to have_current_path candidate_interface_personal_details_show_path
+    expect(page).to have_content 'Nationality\nFrench'
+    expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
+    expect(page).to have_content "Immigration status\nEU settled status"
+    expect(page).to have_content "Date of entry into the UK\n3 February 2001"
   end
 
   def and_i_can_mark_the_section_complete

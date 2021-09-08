@@ -2,7 +2,7 @@ module CandidateInterface
   class ImmigrationStatusForm
     include ActiveModel::Model
 
-    attr_accessor :immigration_route
+    attr_accessor :immigration_status
 
     validates :immigration_status, presence: true
 

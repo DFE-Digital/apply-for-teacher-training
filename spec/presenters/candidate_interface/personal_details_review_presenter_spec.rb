@@ -185,7 +185,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     end
   end
 
-  context 'when the candidate has selected they have the right to work in 2022' do
+  context 'when the candidate has selected they have the right to work or study in 2022' do
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
 
     it 'renders the right to work row' do
@@ -198,7 +198,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         :application_form,
         recruitment_cycle_year: 2022,
         immigration_right_to_work: true,
-        immigration_route: 'visa_sponsored_by_provider',
+        immigration_status: 'I have permanent residence',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)
@@ -207,6 +207,43 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         row_for(
           :immigration_right_to_work,
           'Yes',
+          candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
+          'personal_details_immigration_right_to_work',
+        ),
+      )
+      expect(rows).to include(
+        row_for(
+          :immigration_status,
+          'I have permanent residence',
+          candidate_interface_immigration_status_path('return-to' => 'application-review'),
+          'personal_details_immigration_status',
+        ),
+      )
+    end
+  end
+
+  context 'when the candidate has selected they do not yet have the right to work or study in 2022' do
+    let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
+
+    it 'renders the right to work row' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: 'Indian',
+      )
+
+      application_form = build(
+        :application_form,
+        recruitment_cycle_year: 2022,
+        immigration_right_to_work: false,
+        immigration_route: 'visa_sponsored_by_provider',
+      )
+
+      rows = rows(nationalities_form: nationalities_form, application_form: application_form)
+
+      expect(rows).to include(
+        row_for(
+          :immigration_right_to_work,
+          'Not yet',
           candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
         ),

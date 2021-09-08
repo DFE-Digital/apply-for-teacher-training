@@ -152,14 +152,8 @@ module CandidateInterface
       return nil if british_or_irish?
 
       if @application_form.recruitment_cycle_year >= NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
-        @immigration_right_to_work_form = CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
-          @application_form,
-        )
-        @immigration_route_form = CandidateInterface::ImmigrationRouteForm.build_from_application(
-          @application_form,
-        )
 
-        [
+        rows = [
           {
             key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
             value: formatted_immigration_right_to_work,
@@ -175,7 +169,9 @@ module CandidateInterface
               },
             },
           },
-          {
+        ]
+        if immigration_route_form.immigration_route
+          rows << {
             key: I18n.t('application_form.personal_details.immigration_route.label'),
             value: formatted_immigration_route,
             action: (if @editable
@@ -189,8 +185,46 @@ module CandidateInterface
                 qa: 'personal_details_immigration_route',
               },
             },
-          },
-        ]
+          }
+        end
+
+        if @application_form.immigration_status
+          rows << {
+            key: I18n.t('application_form.personal_details.immigration_status.label'),
+            value: formatted_immigration_status,
+            action: (if @editable
+                       {
+                         href: candidate_interface_immigration_status_path(return_to_params),
+                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
+                       }
+                     end),
+            html_attributes: {
+              data: {
+                qa: 'personal_details_immigration_status',
+              },
+            },
+          }
+        end
+
+        if @application_form.immigration_entry_date
+          rows << {
+            key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
+            value: formatted_immigration_entry_date,
+            action: (if @editable
+                       {
+                         href: candidate_interface_immigration_entry_date_path(return_to_params),
+                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_entry_date.change_action'),
+                       }
+                     end),
+            html_attributes: {
+              data: {
+                qa: 'personal_details_immigration_entry_date',
+              },
+            },
+          }
+        end
+
+        rows
       else
         [
           {
@@ -229,7 +263,7 @@ module CandidateInterface
     end
 
     def formatted_immigration_right_to_work
-      if @immigration_right_to_work_form.right_to_work_or_study?
+      if immigration_right_to_work_form.right_to_work_or_study?
         'Yes'
       else
         'Not yet'
@@ -237,12 +271,20 @@ module CandidateInterface
     end
 
     def formatted_immigration_route
-      case @immigration_route_form.immigration_route
+      case immigration_route_form.immigration_route
       when 'visa_sponsored_by_provider'
         'A visa sponsored by a course provider.'
       when 'other'
-        @immigration_route_form.immigration_route.details
+        immigration_route_form.immigration_route.details
       end
+    end
+
+    def formatted_immigration_status
+      @application_form.immigration_status
+    end
+
+    def formatted_immigration_entry_date
+      @application_form.immigration_entry_date.to_s(:govuk_date)
     end
 
     def formatted_right_to_work_or_study
@@ -258,6 +300,18 @@ module CandidateInterface
 
     def return_to_params
       { 'return-to' => 'application-review' } if @return_to_application_review
+    end
+
+    def immigration_right_to_work_form
+      @immigration_right_to_work_form ||= CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
+        @application_form,
+      )
+    end
+
+    def immigration_route_form
+      @immigration_route_form ||= CandidateInterface::ImmigrationRouteForm.build_from_application(
+        @application_form,
+      )
     end
   end
 end

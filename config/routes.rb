@@ -121,6 +121,8 @@ Rails.application.routes.draw do
         patch '/immigration-route' => 'personal_details/immigration_route#create'
         get '/immigration-status' => 'personal_details/immigration_status#new', as: :immigration_status
         patch '/immigration-status' => 'personal_details/immigration_status#create'
+        get '/immigration-entry-date' => 'personal_details/immigration_entry_date#new', as: :immigration_entry_date
+        patch '/immigration-entry-date' => 'personal_details/immigration_entry_date#create'
 
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
