@@ -10,6 +10,17 @@ FactoryBot.define do
     response_body { {} }
     created_at { Time.zone.now }
 
+    trait :sync do
+      request_path { '/api/v1/applications' }
+      request_method { 'GET' }
+      status_code { 200 }
+    end
+
+    trait :decision do
+      request_method { 'POST' }
+      status_code { 200 }
+    end
+
     trait :with_validation_error do
       status_code { 422 }
       response_body do
