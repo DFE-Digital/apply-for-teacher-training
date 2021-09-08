@@ -41,8 +41,8 @@
   <table class="govuk-table" data-qa="not-connected">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">API token issued</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">API token issued</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -72,8 +72,9 @@
   <table class="govuk-table" data-qa="not-synced">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
-        <th class="govuk-table__header govuk-table__header">Last sync</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time since last sync</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time of last sync</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -84,7 +85,14 @@
           </td>
           <td class="govuk-table__cell">
             <% if provider.last_sync %>
-              <%= "#{provider.last_sync.to_s(:govuk_date_and_time)} (#{time_ago_in_words(provider.last_sync)} ago)" %>
+              <%= time_ago_in_words(provider.last_sync) %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if provider.last_sync %>
+              <%= provider.last_sync.to_s(:govuk_date_and_time) %>
             <% else %>
               -
             <% end %>
@@ -103,8 +111,9 @@
   <table class="govuk-table" data-qa="not-posted-decision">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
-        <th class="govuk-table__header govuk-table__header">Last decision</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time since last decision</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time of last decision</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -115,7 +124,14 @@
           </td>
           <td class="govuk-table__cell">
             <% if provider.last_decision %>
-              <%= "#{provider.last_decision.to_s(:govuk_date_and_time)} (#{time_ago_in_words(provider.last_decision)} ago)" %>
+              <%= time_ago_in_words(provider.last_decision) %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+          <td class="govuk-table__cell">
+            <% if provider.last_decision %>
+              <%= provider.last_decision.to_s(:govuk_date_and_time) %>
             <% else %>
               -
             <% end %>
@@ -135,9 +151,9 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
-        <th class="govuk-table__header govuk-table__header">Requests</th>
-        <th class="govuk-table__header govuk-table__header">Errors</th>
-        <th class="govuk-table__header govuk-table__header">Error rate</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Requests</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Errors</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error rate</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
