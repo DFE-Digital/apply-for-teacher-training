@@ -53,6 +53,10 @@ class CycleTimetable
     current_year + 1
   end
 
+  def self.previous_year
+    current_year - 1
+  end
+
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
@@ -171,6 +175,10 @@ class CycleTimetable
           find_opens: 7.days.from_now,
           apply_opens: 8.days.from_now,
         },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
+        },
       },
       today_is_mid_cycle: {
         current_year => {
@@ -185,6 +193,10 @@ class CycleTimetable
         next_year => {
           find_opens: 6.days.from_now,
           apply_opens: 7.days.from_now,
+        },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
         },
       },
       today_is_after_apply_1_deadline_passed: {
@@ -201,6 +213,10 @@ class CycleTimetable
           find_opens: 6.days.from_now,
           apply_opens: 7.days.from_now,
         },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
+        },
       },
       today_is_after_apply_2_deadline_passed: {
         current_year => {
@@ -216,8 +232,11 @@ class CycleTimetable
           find_opens: 6.days.from_now,
           apply_opens: 7.days.from_now,
         },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
+        },
       },
-
       today_is_after_find_closes: {
         current_year => {
           find_opens: 7.days.ago,
@@ -232,8 +251,11 @@ class CycleTimetable
           find_opens: 6.days.from_now,
           apply_opens: 7.days.from_now,
         },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
+        },
       },
-
       today_is_after_find_opens: {
         current_year => {
           find_opens: 9.days.ago,
@@ -248,8 +270,11 @@ class CycleTimetable
           find_opens: 1.day.ago,
           apply_opens: 2.days.from_now,
         },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
+        },
       },
-
       today_is_after_apply_opens: {
         current_year => {
           find_opens: 9.days.ago,
@@ -263,6 +288,10 @@ class CycleTimetable
         next_year => {
           find_opens: 2.days.ago,
           apply_opens: 1.day.ago,
+        },
+        previous_year => {
+          find_opens: 9.days.ago,
+          apply_opens: 8.days.ago,
         },
       },
     }
