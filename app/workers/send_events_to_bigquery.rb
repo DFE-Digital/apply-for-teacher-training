@@ -1,7 +1,7 @@
 class SendEventsToBigquery
   include Sidekiq::Worker
 
-  sidekiq_options retry: 3, queue: :low_priority
+  sidekiq_options retry: 3, queue: :big_query
 
   def perform(request_event_json)
     table_name = ENV.fetch('BIG_QUERY_TABLE_NAME', 'events')
