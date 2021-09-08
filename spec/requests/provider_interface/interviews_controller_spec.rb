@@ -89,15 +89,6 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
         expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
       end
     end
-
-    context 'POST to preview' do
-      it 'redirects to the interviews index' do
-        post preview_provider_interface_application_choice_interviews_path(application_choice)
-
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
-      end
-    end
   end
 
   describe 'validation errors' do
@@ -108,13 +99,6 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
     let(:store) { instance_double(WizardStateStores::RedisStore, read: %({ "provider_user" : "#{provider_user.id}" }), write: true) }
 
     before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
-
-    it 'tracks validation errors on preview' do
-      expect {
-        post preview_provider_interface_application_choice_interviews_path(application_choice),
-             params: { provider_interface_interview_wizard: { location: 'here' } }
-      }.to change(ValidationError, :count).by(1)
-    end
 
     it 'tracks validation errors on create' do
       expect {

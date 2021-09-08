@@ -6,7 +6,7 @@
     <%= render ProviderInterface::InterviewFormComponent.new(
       application_choice: @application_choice,
       form_model: @wizard,
-      form_url: preview_provider_interface_application_choice_interviews_path(@application_choice),
+      form_url: provider_interface_interviews_check_path(@application_choice),
       form_heading: t('.title'),
     ) %>
 

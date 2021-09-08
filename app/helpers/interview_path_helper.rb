@@ -8,9 +8,9 @@ module InterviewPathHelper
       edit_provider_interface_application_choice_interview_path(application_choice, interview, params)
     elsif step.to_sym == :check
       if interview
-        check_provider_interface_application_choice_interview_path(application_choice, interview, params)
+        edit_provider_interface_application_choice_interview_check_path(application_choice, interview, params)
       else
-        check_provider_interface_application_choice_interviews_path(application_choice, params)
+        new_provider_interface_interviews_check_path(application_choice, params)
       end
     end
   end
