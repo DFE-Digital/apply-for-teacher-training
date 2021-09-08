@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::Interviews::ChecksController, type: :request d
 
     context 'POST create' do
       it 'redirects to the interviews index' do
-        post provider_interface_interviews_check_path(application_choice)
+        post provider_interface_application_choice_interviews_check_path(application_choice)
 
         expect(response.status).to eq(302)
         expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
@@ -46,7 +46,7 @@ RSpec.describe ProviderInterface::Interviews::ChecksController, type: :request d
 
     it 'tracks validation errors on preview' do
       expect {
-        post provider_interface_interviews_check_path(application_choice),
+        post provider_interface_application_choice_interviews_check_path(application_choice),
              params: { provider_interface_interview_wizard: { location: 'here' } }
       }.to change(ValidationError, :count).by(1)
     end

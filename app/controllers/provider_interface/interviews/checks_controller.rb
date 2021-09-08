@@ -11,7 +11,7 @@ module ProviderInterface
         @wizard.save_state!
 
         if @wizard.valid?
-          redirect_to new_provider_interface_interviews_check_path(@application_choice)
+          redirect_to new_provider_interface_application_choice_interviews_check_path(@application_choice)
         else
           track_validation_error(@wizard)
           render 'provider_interface/interviews/new'

@@ -730,7 +730,7 @@ Rails.application.routes.draw do
         resource :check, only: %i[edit update], controller: 'interviews/checks'
       end
 
-      namespace :interviews do
+      namespace :interviews, as: :application_choice_interviews do
         resource :check, only: %i[new create]
       end
     end

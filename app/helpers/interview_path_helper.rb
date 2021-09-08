@@ -10,7 +10,7 @@ module InterviewPathHelper
       if interview
         edit_provider_interface_application_choice_interview_check_path(application_choice, interview, params)
       else
-        new_provider_interface_interviews_check_path(application_choice, params)
+        new_provider_interface_application_choice_interviews_check_path(application_choice, params)
       end
     end
   end

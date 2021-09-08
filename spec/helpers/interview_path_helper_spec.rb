@@ -24,7 +24,7 @@ RSpec.describe InterviewPathHelper do
       context 'when there is no existing interview' do
         it 'returns the collection check path' do
           expect(helper.interview_path_for(application_choice, wizard, nil, 'check'))
-            .to eq(new_provider_interface_interviews_check_path(application_choice, {}))
+            .to eq(new_provider_interface_application_choice_interviews_check_path(application_choice, {}))
         end
       end
 
