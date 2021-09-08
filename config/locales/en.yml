@@ -225,7 +225,6 @@ en:
       export_hesa_data: Export data for Higher Education Statistics Agency (HESA)
       status_of_active_applications: Status of active applications
       export_application_data: Export application data
-      notifications: Email notifications
       reports: Reports
     start_apply_again: Do you want to apply again?
     start_carry_over: Continue your application
