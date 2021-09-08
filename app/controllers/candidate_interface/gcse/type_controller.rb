@@ -32,6 +32,8 @@ module CandidateInterface
 
     def update
       @type_form = GcseQualificationTypeForm.new(qualification_params)
+      @type_form.constituent_grades = current_qualification&.constituent_grades
+
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @type_form.update(current_qualification)
@@ -47,6 +49,8 @@ module CandidateInterface
     def next_gcse_path
       if non_uk_qualification?
         candidate_interface_gcse_details_new_institution_country_path
+      elsif @type_form.missing_qualification?
+        candidate_interface_gcse_not_yet_completed_path
       elsif !@type_form.missing_qualification?
         resolve_gcse_edit_path(@subject)
       else
@@ -61,6 +65,12 @@ module CandidateInterface
         .merge!(
           subject: subject_param,
           level: ApplicationQualification.levels[:gcse],
+          grade: current_qualification&.grade,
+          award_year: current_qualification&.award_year,
+          institution_name: current_qualification&.institution_name,
+          institution_country: current_qualification&.institution_country,
+          not_completed_explanation: current_qualification&.not_completed_explanation,
+          missing_explanation: current_qualification&.missing_explanation,
         )
     end
 
