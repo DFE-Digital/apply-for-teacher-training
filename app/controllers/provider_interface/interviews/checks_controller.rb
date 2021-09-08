@@ -21,12 +21,13 @@ module ProviderInterface
       def edit
         @interview = @application_choice.interviews.find(interview_id)
 
-        @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'check', action: action))
+        @wizard = InterviewWizard.new(edit_interview_store(interview_id),
+                                      interview_form_context_params.merge(current_step: 'check', action: action))
         @wizard.save_state!
       end
 
       def update
-        @wizard = InterviewWizard.new(interview_store, interview_params)
+        @wizard = InterviewWizard.new(edit_interview_store(interview_id), interview_params)
         @wizard.save_state!
         @interview = @application_choice.interviews.find(interview_id)
 

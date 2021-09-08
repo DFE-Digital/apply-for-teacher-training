@@ -3,7 +3,8 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_set_up_interviews_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
-    before_action :redirect_to_index_if_store_cleared, except: %i[new edit index cancel review_cancel confirm_cancel]
+    before_action :redirect_to_index_if_store_cleared, only: %i[create]
+    before_action :redirect_to_index_if_edit_store_cleared, only: %i[update]
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
@@ -27,9 +28,9 @@ module ProviderInterface
     end
 
     def edit
-      @interview = @application_choice.interviews.find(params[:id])
+      @interview = @application_choice.interviews.find(interview_id)
 
-      @wizard = InterviewWizard.from_model(interview_store, @interview, 'edit', action)
+      @wizard = InterviewWizard.from_model(edit_interview_store(interview_id), @interview, 'edit', action)
       @wizard.referer ||= request.referer
       @wizard.save_state!
     end
@@ -58,8 +59,8 @@ module ProviderInterface
     end
 
     def update
-      @interview = @application_choice.interviews.find(params[:id])
-      @wizard = InterviewWizard.new(interview_store, interview_form_context_params)
+      @interview = @application_choice.interviews.find(interview_id)
+      @wizard = InterviewWizard.new(edit_interview_store(interview_id), interview_form_context_params)
 
       if @wizard.valid?
         UpdateInterview.new(
@@ -82,13 +83,13 @@ module ProviderInterface
     end
 
     def cancel
-      @interview = @application_choice.interviews.find(params[:id])
+      @interview = @application_choice.interviews.find(interview_id)
       @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
       @cancellation_wizard.save_state!
     end
 
     def review_cancel
-      @interview = @application_choice.interviews.find(params[:id])
+      @interview = @application_choice.interviews.find(interview_id)
 
       @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store, cancellation_params)
       @cancellation_wizard.save_state!
@@ -97,7 +98,7 @@ module ProviderInterface
     end
 
     def confirm_cancel
-      @interview = @application_choice.interviews.find(params[:id])
+      @interview = @application_choice.interviews.find(interview_id)
       @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
 
       CancelInterview.new(
@@ -139,6 +140,11 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
+    def edit_interview_store(interview_id)
+      key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
+      WizardStateStores::RedisStore.new(key: key)
+    end
+
     def cancel_interview_store
       key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
@@ -152,6 +158,16 @@ module ProviderInterface
 
     def redirect_to_index_if_store_cleared
       redirect_to provider_interface_application_choice_interviews_path(@application_choice) if interview_store.read.blank?
+    end
+
+    def redirect_to_index_if_edit_store_cleared
+      return if edit_interview_store(interview_id).read.present?
+
+      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+    end
+
+    def interview_id
+      params.permit(:id)[:id]
     end
 
     def action
