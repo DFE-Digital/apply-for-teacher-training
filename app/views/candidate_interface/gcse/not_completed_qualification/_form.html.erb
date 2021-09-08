@@ -1,0 +1,17 @@
+    <%= f.govuk_error_summary %>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <%= f.govuk_radio_buttons_fieldset :not_yet_completed, legend: { size: 'l', text: "Are you currently studying for a GCSE in a #{capitalize_english(@subject)}, or equivalent?" } do %>
+          <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes' }, link_errors: true do %>
+                <%= f.govuk_text_area :not_completed_explanation, label: { text: 'Details of the qualification you’re studying for', size: 's' }, rows: 12, max_words: 200 do %>
+                <% end %>
+          <% end %>
+          <%= f.govuk_radio_button :choice, :no, label: { text: 'No' } %>
+        <% end %>
+
+        <%= f.govuk_submit t('save_and_continue') %>
+
+      </div>
+    </div>
