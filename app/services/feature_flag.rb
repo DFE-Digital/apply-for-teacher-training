@@ -75,6 +75,7 @@ class FeatureFlag
     feature = Feature.find_or_initialize_by(name: feature_name)
     feature.active = active
 
+    clear_cache!
     feature.save!
   end
 
@@ -86,5 +87,9 @@ class FeatureFlag
 
   def self.cache_key
     CacheKey.generate(FEATURE_FLAG_STATUSES_CACHE_KEY)
+  end
+
+  def self.clear_cache!
+    Rails.cache.delete(cache_key)
   end
 end
