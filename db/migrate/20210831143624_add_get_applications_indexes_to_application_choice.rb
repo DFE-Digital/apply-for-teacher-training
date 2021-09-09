@@ -10,6 +10,6 @@ class AddGetApplicationsIndexesToApplicationChoice < ActiveRecord::Migration[6.1
   def down
     safety_assured { execute 'SET statement_timeout = 0' }
     remove_index :application_choices, :provider_ids, if_exists: true, algorithm: :concurrently
-    remove_index :application_choices, :current_recruitment_cycle_year, if__exists: true, algorithm: :concurrently
+    remove_index :application_choices, :current_recruitment_cycle_year, if_exists: true, algorithm: :concurrently
   end
 end
