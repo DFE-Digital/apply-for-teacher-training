@@ -6,7 +6,7 @@ RSpec.feature 'Provider edits organisation permissions' do
   scenario 'Provider edits organisation permissions' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_view_applications_for_some_providers
-    and_their_organisational_permissions_have_already_been_set_up
+    and_their_organisation_permissions_have_already_been_set_up
     and_i_can_manage_organisations_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
@@ -32,7 +32,7 @@ RSpec.feature 'Provider edits organisation permissions' do
     @ratifying_provider = Provider.find_by(code: 'DEF')
   end
 
-  def and_their_organisational_permissions_have_already_been_set_up
+  def and_their_organisation_permissions_have_already_been_set_up
     @relationship = create(
       :provider_relationship_permissions,
       training_provider: @training_provider,
