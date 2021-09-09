@@ -68,6 +68,18 @@ RSpec.describe ProviderInterface::InterviewWizard do
         end
       end
 
+      context 'when it is in the past' do
+        let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
+        let(:day) { 12 }
+
+        it 'is invalid with the correct error' do
+          Timecop.freeze(2021, 2, 13) do
+            expect(wizard).to be_invalid
+            expect(wizard.errors[:date]).to contain_exactly('Interview date must be today or in the future')
+          end
+        end
+      end
+
       context 'when it is after the rdb date' do
         let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
         let(:day) { 15 }

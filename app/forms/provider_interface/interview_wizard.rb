@@ -16,6 +16,7 @@ module ProviderInterface
     validates :date, date: { presence: true }
     validates :time, presence: true
     validate :time_is_valid, unless: -> { time.blank? }
+    validate :date_in_future, if: %i[date]
     validate :date_and_time_in_future, if: %i[date_and_time],
                                        unless: ->(c) { %i[date time].any? { |d| c.errors.attribute_names.include?(d) } }
     validate :date_after_rbd_date, if: %i[date]
@@ -91,6 +92,10 @@ module ProviderInterface
         errors.add(:time, :past) unless errors.added?(:time, :past)
       end
       false
+    end
+
+    def date_in_future
+      errors.add(:date, :past) if date.is_a?(Date) && date.past?
     end
 
     def date_after_rbd_date
