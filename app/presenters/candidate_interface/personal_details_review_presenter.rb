@@ -274,13 +274,15 @@ module CandidateInterface
       case immigration_route_form.immigration_route
       when 'visa_sponsored_by_provider'
         'A visa sponsored by a course provider.'
-      when 'other'
+      when 'other_route'
         immigration_route_form.immigration_route.details
       end
     end
 
     def formatted_immigration_status
-      @application_form.immigration_status
+      immigration_status_form.other_immigration_status? ?
+        @application_form.immigration_status_details :
+        I18n.t("application_form.personal_details.immigration_status.values.#{@application_form.immigration_status}")
     end
 
     def formatted_immigration_entry_date
@@ -310,6 +312,12 @@ module CandidateInterface
 
     def immigration_route_form
       @immigration_route_form ||= CandidateInterface::ImmigrationRouteForm.build_from_application(
+        @application_form,
+      )
+    end
+
+    def immigration_status_form
+      @immigration_status_form ||= CandidateInterface::ImmigrationStatusForm.build_from_application(
         @application_form,
       )
     end

@@ -6,7 +6,7 @@
 
 <%= f.govuk_radio_buttons_fieldset :immigration_route do %>
   <%= f.govuk_radio_button :immigration_route, 'visa_sponsored_by_provider', label: { text: 'A visa sponsored by a course provider' }, link_errors: true %>
-  <%= f.govuk_radio_button :immigration_route, 'other', label: { text: 'Another route' }, legend: { text: 'For example, if you are applying for a Family visa or a Graduate visa' } do %>
+  <%= f.govuk_radio_button :immigration_route, 'other_route', label: { text: 'Another route' }, legend: { text: 'For example, if you are applying for a Family visa or a Graduate visa' } do %>
     <%= f.govuk_text_area :immigration_route_details, label: { text: 'What is your immigration status?' }, hint: { text: 'For example, “I have settled status” or “I have permanent residence”' } %>
   <% end %>
 <% end %>

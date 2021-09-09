@@ -25,7 +25,7 @@ module CandidateInterface
   private
 
     def other_immigration_route?
-      immigration_route == 'other'
+      immigration_route == 'other_route'
     end
   end
 end
