@@ -19,7 +19,8 @@ RSpec.describe FeatureFlag do
 
   describe '.deactivate' do
     it 'deactivates a feature' do
-      described_class.activate('pilot_open')
+      # To avoid flakey tests where activation/deactivation happens at the same time
+      Timecop.travel(Time.zone.now - 5.minutes) { described_class.activate('pilot_open') }
       expect { described_class.deactivate('pilot_open') }.to(
         change { described_class.active?('pilot_open') }.from(true).to(false),
       )
