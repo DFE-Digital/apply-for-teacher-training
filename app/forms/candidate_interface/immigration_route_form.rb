@@ -10,6 +10,7 @@ module CandidateInterface
     def self.build_from_application(application_form)
       new(
         immigration_route: application_form.immigration_route,
+        immigration_route_details: application_form.immigration_route_details,
       )
     end
 
@@ -19,6 +20,9 @@ module CandidateInterface
       application_form.update(
         immigration_route: immigration_route,
         immigration_route_details: other_immigration_route? ? immigration_route_details : nil,
+        immigration_status: nil,
+        immigration_status_details: nil,
+        immigration_entry_date: nil,
       )
     end
 
