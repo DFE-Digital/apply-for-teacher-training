@@ -28,6 +28,8 @@ module CandidateInterface
       application_form.update(
         immigration_status: immigration_status,
         immigration_status_details: other_immigration_status? ? immigration_status_details : nil,
+        immigration_route: nil,
+        immigration_route_details: nil,
       )
     end
 
