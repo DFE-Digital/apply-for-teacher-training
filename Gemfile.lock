@@ -276,7 +276,7 @@ GEM
       bindata
     json-schema (2.8.1)
       addressable (>= 2.4)
-    json_api_client (1.19.0)
+    json_api_client (1.20.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       addressable (~> 2.2)
