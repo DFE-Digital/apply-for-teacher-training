@@ -42,10 +42,8 @@ module HesaEthnicityCollections
     ['98', HesaEthnicityValues::INFORMATION_REFUSED],
   ].freeze
 
-  # Two codes have been dropped in 2020/21
   # https://www.hesa.ac.uk/collection/c20053/e/ethnic
   HESA_ETHNICITIES_2020_2021 = HESA_ETHNICITIES_2019_2020
-                                 .reject { |ethnicity| %w[90 98].include?(ethnicity.first) }
   # Unchanged from 2020-2021
   # https://www.hesa.ac.uk/collection/c21053/e/ethnic
   HESA_ETHNICITIES_2021_2022 = HESA_ETHNICITIES_2020_2021
