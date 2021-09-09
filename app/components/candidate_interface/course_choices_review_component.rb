@@ -35,6 +35,7 @@ module CandidateInterface
         type_row(application_choice),
         course_length_row(application_choice),
         start_date_row(application_choice),
+        degree_required_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
@@ -190,6 +191,15 @@ module CandidateInterface
           value: application_choice.current_course.start_date.to_s(:month_and_year),
         }
       end
+    end
+
+    def degree_required_row(application_choice)
+      return nil unless application_choice.current_course.degree_grade?
+
+      {
+        key: 'Degree requirements',
+        value: render(DegreeRequiredComponent.new(application_choice)),
+      }
     end
 
     def interview_row(application_choice)
