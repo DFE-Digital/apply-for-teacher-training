@@ -13,7 +13,14 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
   end
 
   context 'when the account_and_org_settings_changes feature flag is on' do
-    before { FeatureFlag.activate(:account_and_org_settings_changes) }
+    let(:store_data) { { first_name: 'First' }.to_json }
+
+    before do
+      FeatureFlag.activate(:account_and_org_settings_changes)
+
+      store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil)
+      allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+    end
 
     it 'returns a success response for GET new' do
       get new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider)
@@ -26,6 +33,24 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
         post provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider),
              params: { provider_interface_invite_user_wizard: { email_address: managing_user.email_address, first_name: 'First', last_name: 'Last' } }
       }.to change(ValidationError, :count).by(1)
+    end
+
+    context 'when there is nothing in the wizard store' do
+      let(:store_data) { nil }
+
+      it 'returns a success response for GET new' do
+        get new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider)
+
+        expect(response.status).to eq(200)
+      end
+
+      it 'redirects to the users index page on POST create' do
+        post provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(provider),
+             params: { provider_interface_invite_user_wizard: { email_address: managing_user.email_address, first_name: 'First', last_name: 'Last' } }
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
+      end
     end
 
     context 'when a user does not have manage users permissions' do

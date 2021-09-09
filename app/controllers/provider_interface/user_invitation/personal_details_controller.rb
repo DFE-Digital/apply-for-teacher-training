@@ -1,6 +1,8 @@
 module ProviderInterface
   module UserInvitation
     class PersonalDetailsController < BaseController
+      skip_before_action :redirect_to_index_if_store_cleared, only: :new
+
       def new
         @wizard = InviteUserWizard.new(
           invite_user_store,
