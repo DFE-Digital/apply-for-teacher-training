@@ -1,22 +1,27 @@
 <%= f.govuk_error_summary %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.immigration_status') %>
-</h1>
-
 <% if @form.eu_nationality? %>
-  <%= f.govuk_radio_buttons_fieldset :immigration_status do %>
+  <%= f.govuk_radio_buttons_fieldset(
+    :immigration_status,
+    legend: { text: t('page_titles.immigration_status'), size: 'l' },
+  ) do %>
     <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'EU settled status' }, link_errors: true %>
     <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'EU pre-settled status' } %>
     <%= f.govuk_radio_button :immigration_status, 'other', label: { text: 'Other' } do %>
-      <%= f.govuk_text_area :immigration_status_details, label: { text: 'Give any relevant information' }, hint: { text: 'For example, “I have permanent residence”' } %>
+      <%= f.govuk_text_area(
+        :immigration_status_details,
+        label: { text: 'Give any relevant information', class: 'govuk-label govuk-label--s' },
+        hint: { text: 'For example, “I have permanent residence”' },
+        max_words: 200,
+      ) %>
     <% end %>
   <% end %>
 <% else %>
   <%= f.govuk_text_area(
     :immigration_status_details,
-    label: { text: 'What is your immigration status?', size: 'l' },
+    label: { text: t('page_titles.immigration_status'), size: 'l' },
     hint: { text: 'For example, “I have permanent residence”' },
+    max_words: 200,
   ) %>
 <% end %>
 
