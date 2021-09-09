@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AssociatedProvidersPermissionsListComponent do
+RSpec.describe SupportInterface::AssociatedProvidersPermissionsListComponent do
   let(:ratifying_provider) { create(:provider) }
   let(:training_provider) { create(:provider) }
 

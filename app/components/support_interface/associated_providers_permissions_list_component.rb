@@ -1,4 +1,4 @@
-class AssociatedProvidersPermissionsListComponent < ViewComponent::Base
+class SupportInterface::AssociatedProvidersPermissionsListComponent < ViewComponent::Base
   attr_reader :permission_name
 
   def initialize(provider:, permission_name:)
