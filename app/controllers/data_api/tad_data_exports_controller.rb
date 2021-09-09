@@ -1,6 +1,7 @@
 module DataAPI
   class TADDataExportsController < ActionController::API
     include ServiceAPIUserAuthentication
+    include RemoveBrowserOnlyHeaders
 
     # Makes PG::QueryCanceled statement timeout errors appear in Skylight
     # against the controller action that triggered them

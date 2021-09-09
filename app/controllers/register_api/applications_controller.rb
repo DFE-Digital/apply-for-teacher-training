@@ -1,6 +1,7 @@
 module RegisterAPI
   class ApplicationsController < ActionController::API
     include ServiceAPIUserAuthentication
+    include RemoveBrowserOnlyHeaders
 
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid
