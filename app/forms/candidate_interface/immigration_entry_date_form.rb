@@ -4,9 +4,7 @@ module CandidateInterface
 
     attr_accessor :day, :month, :year
 
-    validates :day, presence: true
-    validates :month, presence: true
-    validates :year, presence: true
+    validates :immigration_entry_date, date: { presence: true }
 
     def self.build_from_application(application_form)
       new(
