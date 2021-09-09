@@ -72,9 +72,7 @@ class NavigationItems
       items = []
 
       unless performing_setup
-        if current_provider_user.authorisation.can_manage_users_or_organisations_for_at_least_one_setup_provider? || FeatureFlag.active?(:account_and_org_settings_changes)
-          items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisation_settings organisations provider_users provider_relationship_permissions]))
-        end
+        items << NavigationItem.new(t('page_titles.provider.organisation_settings'), provider_interface_organisation_settings_path, active?(current_controller, %w[organisation_settings organisations provider_users provider_relationship_permissions]))
 
         items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, active?(current_controller, %w[account profile notifications]))
       end
