@@ -57,7 +57,7 @@ class ApplicationForm < ApplicationRecord
 
   enum immigration_route: {
     visa_sponsored_by_provider: 'visa_sponsored_by_provider',
-    other: 'other',
+    other_route: 'other_route',
   }
 
   enum immigration_status: {

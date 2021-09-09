@@ -97,7 +97,6 @@ RSpec.describe 'Entering personal details' do
     click_button t('save_and_continue')
 
     expect(page).to have_content 'What is your immigration status?'
-    save_and_open_page
     choose 'EU settled status'
     click_button t('save_and_continue')
 
@@ -108,7 +107,7 @@ RSpec.describe 'Entering personal details' do
     click_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_personal_details_show_path
-    expect(page).to have_content 'Nationality\nFrench'
+    expect(page).to have_content "Nationality\nFrench"
     expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
     expect(page).to have_content "Immigration status\nEU settled status"
     expect(page).to have_content "Date of entry into the UK\n3 February 2001"

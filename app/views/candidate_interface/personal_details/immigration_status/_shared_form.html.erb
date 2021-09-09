@@ -4,12 +4,12 @@
   <%= t('page_titles.immigration_status') %>
 </h1>
 
-<% if f.eu_nationality? %>
+<% if @form.eu_nationality? %>
   <%= f.govuk_radio_buttons_fieldset :immigration_status do %>
-    <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'A visa sponsored by a course provider' }, link_errors: true %>
-    <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'Another route' }, legend: { text: 'For example, if you are applying for a Family visa or a Graduate visa' } %>
-    <%= f.govuk_radio_button :immigration_status, 'other', label: { text: 'Another route' }, legend: { text: 'For example, if you are applying for a Family visa or a Graduate visa' } do %>
-      <%= f.govuk_text_area :immigration_status_details, label: { text: 'Give any relevant  information' }, hint: { text: 'For example, “I have permanent residence”' } %>
+    <%= f.govuk_radio_button :immigration_status, 'eu_settled', label: { text: 'EU settled status' }, link_errors: true %>
+    <%= f.govuk_radio_button :immigration_status, 'eu_pre_settled', label: { text: 'EU pre-settled status' } %>
+    <%= f.govuk_radio_button :immigration_status, 'other', label: { text: 'Other' } do %>
+      <%= f.govuk_text_area :immigration_status_details, label: { text: 'Give any relevant information' }, hint: { text: 'For example, “I have permanent residence”' } %>
     <% end %>
   <% end %>
 <% else %>

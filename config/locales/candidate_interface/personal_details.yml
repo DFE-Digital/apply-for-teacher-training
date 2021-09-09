@@ -43,6 +43,10 @@ en:
       immigration_status:
         label: Immigration status
         change_action: immigration status
+        values:
+          eu_settled: EU settled status
+          eu_pre_settled: EU pre-settled status
+          other: Other
       immigration_entry_date:
         label: Date of entry into the UK
         change_action: immigration entry date

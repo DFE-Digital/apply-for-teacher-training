@@ -8,7 +8,9 @@ module CandidateInterface
       end
 
       def create
-        @form = ImmigrationStatusForm.new(status_params)
+        @form = ImmigrationStatusForm.new(
+          status_params.merge(nationalities: current_application.nationalities),
+        )
 
         if @form.save(current_application)
           redirect_to candidate_interface_immigration_entry_date_path
@@ -25,6 +27,7 @@ module CandidateInterface
           :candidate_interface_immigration_status_form,
         ).permit(
           :immigration_status,
+          :immigration_status_details,
         )
       end
     end
