@@ -757,22 +757,7 @@ Rails.application.routes.draw do
 
       resource :personal_details, only: :show, path: 'personal-details'
 
-      scope path: '/users' do
-        get '/' => 'provider_users#index', as: :provider_users
-
-        scope '/:provider_user_id', as: :provider_user do
-          get '/' => 'provider_users#show'
-
-          get '/edit-providers' => 'provider_users#edit_providers', as: :edit_providers
-          patch '/edit-providers' => 'provider_users#update_providers'
-
-          get '/remove' => 'provider_users#confirm_remove', as: :remove_provider_user
-          delete '/remove' => 'provider_users#remove'
-
-          get '/providers/:provider_id/permissions' => 'provider_users#edit_permissions', as: :edit_permissions
-          patch '/providers/:provider_id/permissions' => 'provider_users#update_permissions'
-        end
-      end
+      get '/users', to: redirect('/provider/organisation-settings')
 
       resource :personal_permissions, only: %i[show], path: 'permissions'
 
