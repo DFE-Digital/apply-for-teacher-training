@@ -1,7 +1,7 @@
 <%= form_with(
   model: form_object,
-  url: confirm_provider_interface_condition_statuses_path(application_choice),
-  method: :patch,
+  url: provider_interface_condition_statuses_check_path(application_choice),
+  method: :put,
 ) do |f| %>
   <%= f.govuk_error_summary %>
 

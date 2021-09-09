@@ -1,22 +1,16 @@
 module ProviderInterface
   class ConditionStatusesController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :set_application_choice
     before_action :redirect_unless_application_pending_conditions
     before_action :requires_make_decisions_permission
 
     def edit
+      clear_wizard_if_new_entry(ConfirmConditionsWizard.new(condition_statuses_store, {}))
+
       @form_object = ConfirmConditionsWizard.new(condition_statuses_store, offer: @application_choice.offer)
       @form_object.save_state!
-    end
-
-    def confirm
-      @form_object = ConfirmConditionsWizard.new(condition_statuses_store, attributes_for_wizard)
-      @form_object.save_state!
-
-      unless @form_object.valid?
-        track_validation_error(@form_object)
-        render action: :edit
-      end
     end
 
     def update
@@ -73,6 +67,14 @@ module ProviderInterface
       else
         'Status of conditions updated'
       end
+    end
+
+    def wizard_controller_excluded_paths
+      []
+    end
+
+    def wizard_flow_controllers
+      ['provider_interface/condition_statuses', 'provider_interface/condition_statuses/checks'].freeze
     end
   end
 end
