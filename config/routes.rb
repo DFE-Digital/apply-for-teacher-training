@@ -760,15 +760,6 @@ Rails.application.routes.draw do
       scope path: '/users' do
         get '/' => 'provider_users#index', as: :provider_users
 
-        get '/new' => 'provider_users_invitations#edit_details', as: :edit_invitation_basic_details
-        post '/new' => 'provider_users_invitations#update_details', as: :update_invitation_basic_details
-        get '/new/providers' => 'provider_users_invitations#edit_providers', as: :edit_invitation_providers
-        post '/new/providers' => 'provider_users_invitations#update_providers', as: :update_invitation_providers
-        get '/new/providers/:provider_id/permissions' => 'provider_users_invitations#edit_permissions', as: :edit_invitation_provider_permissions
-        post '/new/providers/:provider_id/permissions' => 'provider_users_invitations#update_permissions', as: :update_invitation_provider_permissions
-        get '/new/check' => 'provider_users_invitations#check', as: :check_invitation
-        post '/new/commit' => 'provider_users_invitations#commit', as: :commit_invitation
-
         scope '/:provider_user_id', as: :provider_user do
           get '/' => 'provider_users#show'
 
