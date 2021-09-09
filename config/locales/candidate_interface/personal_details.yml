@@ -98,8 +98,10 @@ en:
             immigration_route:
               blank: Select how you will get the right to work or study in the UK
             immigration_route_details:
-              blank: Please provide details about how you will get the right to work or study in the UK
+              blank: Provide details about how you will get the right to work or study in the UK
         candidate_interface/immigration_status_form:
           attributes:
             immigration_status:
-              blank: Please provide details how you will get the right to work or study in the UK
+              blank: Select your immigration status
+            immigration_status_details:
+              blank: Provide details about your immigration status
