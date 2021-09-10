@@ -3,15 +3,14 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
+  around do |example|
+    Timecop.freeze(2021, 7, 6, 12) { example.run }
+  end
+
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
-    given_i_am_apply_during_the_2021_recruitment_cycle
     and_i_am_signed_in
     and_i_can_complete_personal_information_with_non_british_or_irish_nationality
     and_i_can_mark_the_section_complete
-  end
-
-  def given_i_am_apply_during_the_2021_recruitment_cycle
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
   end
 
   def and_i_am_signed_in
