@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "jest": "^27.1.1",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.0",
     "standard": "^16.0.3",
     "stylelint": "^13.13.1",
     "stylelint-config-gds": "^0.1.0"
