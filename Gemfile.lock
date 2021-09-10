@@ -176,6 +176,7 @@ GEM
       smart_properties
     errbase (0.2.1)
     erubi (1.10.0)
+    eventmachine (1.2.7)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -698,6 +699,7 @@ DEPENDENCIES
   discard
   dotenv-rails
   erb_lint
+  eventmachine
   factory_bot_rails
   faker
   geocoder
