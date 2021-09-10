@@ -11,7 +11,7 @@ RSpec.describe 'Entering personal details' do
   end
 
   def given_i_am_apply_during_the_2021_recruitment_cycle
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)  
+    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
   end
 
   def and_i_am_signed_in

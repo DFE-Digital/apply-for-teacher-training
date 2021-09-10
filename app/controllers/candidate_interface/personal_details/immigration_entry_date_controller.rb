@@ -25,13 +25,15 @@ module CandidateInterface
     private
 
       def create_params
-        strip_whitespace params.require(
-          :candidate_interface_immigration_entry_date_form,
-        ).permit(
-          :'immigration_entry_date(3i)',
-          :'immigration_entry_date(2i)',
-          :'immigration_entry_date(1i)',
-        ).transform_keys { |key| date_field_to_attribute(key) }
+        strip_whitespace(
+          params.require(
+            :candidate_interface_immigration_entry_date_form,
+          ).permit(
+            :'immigration_entry_date(3i)',
+            :'immigration_entry_date(2i)',
+            :'immigration_entry_date(1i)',
+          ).transform_keys { |key| date_field_to_attribute(key) },
+        )
       end
 
       def date_field_to_attribute(key)

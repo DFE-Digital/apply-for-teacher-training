@@ -7,7 +7,7 @@ module CandidateInterface
     validates :immigration_status, presence: true
     validates :immigration_status_details, presence: true, if: :other_immigration_status?
 
-    DEFAULT_IMMIGRATION_STATUS = 'other'
+    DEFAULT_IMMIGRATION_STATUS = 'other'.freeze
 
     def initialize(*args)
       self.immigration_status = DEFAULT_IMMIGRATION_STATUS

@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :immigration_right_to_work
 
-    validates :immigration_right_to_work, inclusion: { in: [true, false] }
+    validates :immigration_right_to_work, inclusion: { in: [true, false, 'true', 'false'] }
 
     def self.build_from_application(application_form)
       new(

@@ -73,7 +73,6 @@ RSpec.describe CandidateInterface::ImmigrationRightToWorkForm, type: :model do
         expect(application_form.immigration_route).to be_nil
         expect(application_form.immigration_route_details).to be_nil
       end
-
     end
   end
 end
