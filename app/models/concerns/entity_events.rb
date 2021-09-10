@@ -31,7 +31,19 @@ module EntityEvents
       .with_tags(event_tags)
       .with_request_uuid(RequestLocals.fetch(:request_id) { nil })
 
-    SendEventsToBigquery.perform_async(event.as_json)
+    EM.next_tick do
+      attempt_count = 0
+      begin
+        attempt_count += 1
+        SendEventsToBigquery.perform_async(event.as_json)
+      rescue Redis::CommandError
+        abort if attempt_count > 5
+        wait_time = 2 ** (attempt_count + 1)
+        puts "Waiting #{wait_time} seconds to SendEventsToBigquery..."
+        sleep wait_time
+        retry
+      end
+    end
   end
 
   def entity_data(changeset)
