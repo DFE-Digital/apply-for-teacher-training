@@ -280,9 +280,11 @@ module CandidateInterface
     end
 
     def formatted_immigration_status
-      immigration_status_form.other_immigration_status? ?
-        @application_form.immigration_status_details :
+      if immigration_status_form.other_immigration_status?
+        @application_form.immigration_status_details
+      else
         I18n.t("application_form.personal_details.immigration_status.values.#{@application_form.immigration_status}")
+      end
     end
 
     def formatted_immigration_entry_date
