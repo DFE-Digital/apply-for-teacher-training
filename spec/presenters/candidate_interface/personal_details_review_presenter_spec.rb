@@ -198,7 +198,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         :application_form,
         recruitment_cycle_year: 2022,
         immigration_right_to_work: true,
-        immigration_status: 'I have permanent residence',
+        immigration_status: 'other',
+        immigration_status_details: 'I have permanent residence',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)

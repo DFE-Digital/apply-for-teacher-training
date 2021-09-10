@@ -50,8 +50,12 @@ RSpec.describe 'Entering personal details' do
     click_button t('save_and_continue')
 
     # Right to work or study
-    expect(page).to have_content 'Do you already have the right to work or study in the UK?'
-    choose 'Not yet, or not sure'
+    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
+    choose 'Not yet'
+    click_button t('save_and_continue')
+
+    expect(page).to have_content 'How will you get the right to work or study in the UK?'
+    choose 'A visa sponsored by a course provider'
     click_button t('save_and_continue')
 
     # Review
