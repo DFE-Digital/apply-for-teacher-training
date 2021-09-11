@@ -15,7 +15,10 @@ RSpec.feature 'Entering their contact information' do
 
     when_i_fill_in_my_phone_number
     and_i_submit_my_phone_number
-    and_i_select_live_in_uk
+    and_i_submit_no_address_type
+    then_i_should_see_validation_errors_for_my_address_type
+
+    when_i_select_live_in_uk
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
     then_i_should_see_validation_errors_for_my_address
@@ -92,7 +95,15 @@ RSpec.feature 'Entering their contact information' do
     fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
   end
 
-  def and_i_select_live_in_uk
+  def and_i_submit_no_address_type
+    click_button t('save_and_continue')
+  end
+
+  def then_i_should_see_validation_errors_for_my_address_type
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_type.blank')
+  end
+
+  def when_i_select_live_in_uk
     expect(page).to have_content('Where do you live?')
     choose 'In the UK'
     click_button t('save_and_continue')

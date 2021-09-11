@@ -13,7 +13,7 @@ module CandidateInterface
         redirect_to candidate_interface_new_address_path
       else
         track_validation_error(@contact_details_form)
-        render :edit
+        render :new
       end
     end
 
