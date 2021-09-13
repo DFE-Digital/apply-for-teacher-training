@@ -166,7 +166,7 @@ module CandidateInterface
         value: "I don’t have a #{capitalize_english(@subject)} qualification yet",
         action: {
           href: candidate_interface_gcse_details_edit_type_path(change_path_params),
-          visually_hidden_text: 'Change whether you have this qualification',
+          visually_hidden_text: 'whether you have this qualification',
         },
         html_attributes: {
           data: {
@@ -200,7 +200,7 @@ module CandidateInterface
         value: application_qualification.missing_explanation.presence || 'Not provided',
         action: {
           href: candidate_interface_gcse_missing_path(change_path_params),
-          visually_hidden_text: 'Change explanation',
+          visually_hidden_text: 'evidence of meeting the required standard',
         },
         html_attributes: {
           data: {

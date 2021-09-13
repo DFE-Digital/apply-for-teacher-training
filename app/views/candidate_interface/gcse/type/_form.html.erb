@@ -1,14 +1,9 @@
 <%= f.govuk_error_summary %>
 
-<h1 class="govuk-heading-xl">
-  <%= t("gcse_edit_type.page_titles.#{@subject}") %>
-</h1>
+<%= f.govuk_radio_buttons_fieldset :qualification_type,
+  legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), size: 'l' },
+  hint: { text: @subject == 'english' ? 'This should be different from an English as a foreign language qualification.' : '' } do %>
 
-<% if @subject == 'english' %>
-  <span class="govuk-hint govuk-!-font-size-19">This should be different from an English as a foreign language qualification.</span>
-<% end %>
-
-<%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { text: t('application_form.gcse.qualification_type.label'), size: 'm' } do %>
   <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
     <%= f.govuk_radio_divider if i == select_gcse_qualification_type_options.count - 1 %>
     <% if option.id == :other_uk %>
