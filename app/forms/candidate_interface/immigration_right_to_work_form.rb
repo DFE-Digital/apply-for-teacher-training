@@ -15,22 +15,20 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      attrs = {
-        immigration_right_to_work: immigration_right_to_work,
-      }
       if right_to_work_or_study? == true
-        attrs.merge!(
+        application_form.update(
+          immigration_right_to_work: immigration_right_to_work,
           immigration_route: nil,
           immigration_route_details: nil,
         )
       else
-        attrs.merge!(
+        application_form.update(
+          immigration_right_to_work: immigration_right_to_work,
           immigration_status: nil,
           immigration_status_details: nil,
           immigration_entry_date: nil,
         )
       end
-      application_form.update(attrs)
     end
 
     def right_to_work_or_study?

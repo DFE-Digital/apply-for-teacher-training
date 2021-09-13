@@ -4,7 +4,7 @@ RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
   around do |example|
-    Timecop.freeze(2021, 7, 6, 12) { example.run }
+    Timecop.freeze(RecruitmentCycle.current_year, 7, 6, 12) { example.run }
   end
 
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
