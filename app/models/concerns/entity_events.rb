@@ -35,7 +35,17 @@ module EntityEvents
   end
 
   def entity_data(changeset)
-    exportable_attrs = Rails.configuration.analytics[self.class.table_name.to_sym]
-    changeset.slice(*exportable_attrs&.map(&:to_s))
+    exportable_attrs = Rails.configuration.analytics[self.class.table_name.to_sym].presence || []
+    pii_attrs = Rails.configuration.analytics_pii[self.class.table_name.to_sym].presence || []
+    exportable_pii_attrs = exportable_attrs & pii_attrs
+
+    to_send = changeset.slice(*exportable_attrs&.map(&:to_s))
+    to_obfuscate = changeset.slice(*exportable_pii_attrs&.map(&:to_s))
+
+    to_send.deep_merge(to_obfuscate.transform_values { |value| anonymise(value) })
+  end
+
+  def anonymise(value)
+    Digest::SHA2.hexdigest(value.to_s)
   end
 end

@@ -65,6 +65,7 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       form.save
 
       expect(SendEventsToBigquery).to have_received(:perform_async)
+        .at_least(:once)
         .with(a_hash_including({ 'event_tags' => ['candidate_sign_up'] }))
     end
   end

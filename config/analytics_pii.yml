@@ -1,0 +1,20 @@
+shared:
+  application_forms:
+    - support_reference
+    - candidate_id
+  application_choices:
+    - id
+  candidates:
+    - id
+  support_users:
+    - dfe_sign_in_uid
+  provider_users:
+    - dfe_sign_in_uid
+  interviews:
+    - application_choice_id
+  notes:
+    - application_choice_id
+  offers:
+    - application_choice_id
+  ucas_matches:
+    - candidate_id
