@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
+  subject(:form) { described_class.new }
+
   let(:form_data) do
     {
       immigration_status: 'other',
@@ -10,14 +12,16 @@ RSpec.describe CandidateInterface::ImmigrationStatusForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:immigration_status) }
-    
+
     context 'when immigration_status is other' do
-      before { allow(subject).to receive(:immigration_status).and_return('other') }
+      before { form.immigration_status = 'other' }
+
       it { is_expected.to validate_presence_of(:immigration_status_details) }
     end
-    
+
     context 'when immigration_status is NOT other' do
-      before { allow(subject).to receive(:immigration_status).and_return('eu_settled') }
+      before { form.immigration_status = 'eu_settled' }
+
       it { is_expected.not_to validate_presence_of(:immigration_status_details) }
     end
   end

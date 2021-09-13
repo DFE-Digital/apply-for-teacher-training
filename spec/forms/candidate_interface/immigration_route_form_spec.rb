@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ImmigrationRouteForm, type: :model do
+  subject(:form) { described_class.new }
+
   let(:form_data) do
     {
       immigration_route: 'other_route',
@@ -10,14 +12,16 @@ RSpec.describe CandidateInterface::ImmigrationRouteForm, type: :model do
 
   describe '#validations' do
     it { is_expected.to validate_presence_of(:immigration_route) }
-    
-    context 'when immigration_route is other' do
-      before { allow(subject).to receive(:immigration_route).and_return('other') }
+
+    context 'when immigration_route is other_route' do
+      before { form.immigration_route = 'other_route' }
+
       it { is_expected.to validate_presence_of(:immigration_route_details) }
     end
-    
+
     context 'when immigration_route is NOT other' do
-      before { allow(subject).to receive(:immigration_route).and_return('eu_settled') }
+      before { form.immigration_route = 'visa_sponsored_by_provider' }
+
       it { is_expected.not_to validate_presence_of(:immigration_route_details) }
     end
   end
