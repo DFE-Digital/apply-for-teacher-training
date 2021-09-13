@@ -128,6 +128,32 @@ RSpec.describe CarryOverApplication do
       expect(carried_over_application_form.work_history_completed).to be(false)
     end
 
+    describe 'personal_details_completed' do
+      it 'sets the personal details section to incomplete if nationality is not UK/Irish for 2021-22 carry over' do
+        original_application_form.update!(
+          first_nationality: 'Indian',
+          personal_details_completed: true,
+          recruitment_cycle_year: 2021,
+        )
+        described_class.new(original_application_form).call
+        carried_over_application_form = ApplicationForm.last
+
+        expect(carried_over_application_form.personal_details_completed).to be(false)
+      end
+
+      it 'sets the personal details section to incomplete if nationality is not UK/Irish for 2021-22 carry over' do
+        original_application_form.update!(
+          first_nationality: 'British',
+          personal_details_completed: true,
+          recruitment_cycle_year: 2021,
+        )
+        described_class.new(original_application_form).call
+        carried_over_application_form = ApplicationForm.last
+
+        expect(carried_over_application_form.personal_details_completed).to be(true)
+      end
+    end
+
     it 'only carries over required attributes' do
       described_class.new(original_application_form).call
 
