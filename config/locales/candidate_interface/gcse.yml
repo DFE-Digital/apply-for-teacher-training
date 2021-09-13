@@ -142,3 +142,13 @@ en:
               blank: Enter your UK ENIC reference number
             comparable_uk_qualification:
               blank: Choose a comparable UK qualification
+        candidate_interface/gcse_not_completed_form:
+          attributes:
+            currently_completing_qualification:
+              inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
+            not_completed_explanation:
+              blank: Enter details of the qualification you’re studying for
+        candidate_interface/gcse_grade_explanation_form:
+          attributes:
+            not_completed_explanation:
+              blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
