@@ -31,7 +31,11 @@ module CandidateInterface
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @gcse_not_completed_form.save(current_qualification)
-        redirect_to @return_to[:back_path]
+        if !@gcse_not_completed_form.currently_completing_qualification && current_qualification.missing_explanation.blank?
+          redirect_to candidate_interface_gcse_edit_missing_path(return_to: params['return-to'])
+        else
+          redirect_to @return_to[:back_path]
+        end
       else
         track_validation_error(@gcse_not_completed_form)
         render :edit
