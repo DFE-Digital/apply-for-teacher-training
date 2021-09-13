@@ -181,7 +181,7 @@ module CandidateInterface
         key: 'Are you currently studying for this qualification?',
         value: application_qualification.not_completed_explanation.presence || 'No',
         action: {
-          href: candidate_interface_gcse_not_yet_completed_path(change_path_params),
+          href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
         },
         html_attributes: {
@@ -199,7 +199,7 @@ module CandidateInterface
         key: 'Other evidence I have the skills required',
         value: application_qualification.missing_explanation.presence || 'Not provided',
         action: {
-          href: candidate_interface_gcse_missing_path(change_path_params),
+          href: candidate_interface_gcse_edit_missing_path(change_path_params),
           visually_hidden_text: 'evidence of meeting the required standard',
         },
         html_attributes: {
