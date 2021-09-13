@@ -2,11 +2,11 @@ module CandidateInterface
   class Gcse::GradeExplanationController < Gcse::BaseController
     def new
       set_previous_path
-      @form = CandidateInterface::GcseGradeExplanationForm.build_from_qualification(current_qualification)
+      @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
     end
 
     def create
-      @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
+      @form = GcseGradeExplanationForm.new(update_params)
 
       if @form.save(current_qualification)
         if update_params[:not_completed_explanation] == 'No'
@@ -23,11 +23,11 @@ module CandidateInterface
     end
 
     def edit
-      @form = CandidateInterface::GcseGradeExplanationForm.build_from_qualification(current_qualification)
+      @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
     end
 
     def update
-      @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
+      @form = GcseGradeExplanationForm.new(update_params)
 
       if @form.save(current_qualification)
         if update_params[:not_completed_explanation] == 'No'
