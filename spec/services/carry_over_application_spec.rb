@@ -170,4 +170,40 @@ RSpec.describe CarryOverApplication do
       expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(true)
     end
   end
+
+  context 'when the application form has missing gcse explanations' do
+    around do |example|
+      Timecop.freeze(CycleTimetable.apply_2_deadline(2021) + 1.hour) do
+        example.run
+      end
+    end
+
+    it 'sets the desired attrs and sets updated sections to incomplete' do
+      application_form = create(:completed_application_form)
+      create(:gcse_qualification, application_form: application_form, subject: 'maths', grade: 'D', missing_explanation: 'I hate maths')
+      create(:gcse_qualification, application_form: application_form, subject: 'english', grade: 'E', missing_explanation: 'I loathe English')
+      create(:gcse_qualification, application_form: application_form, subject: 'science', grade: 'A', missing_explanation: nil)
+
+      described_class.new(application_form.reload).call
+
+      carried_over_application_form = ApplicationForm.last
+
+      maths_gcse = carried_over_application_form.maths_gcse
+      english_gcse = carried_over_application_form.english_gcse
+      science_gcse = carried_over_application_form.science_gcse
+
+      expect(maths_gcse.currently_completing_qualification).to eq true
+      expect(maths_gcse.not_completed_explanation).to eq 'I hate maths'
+      expect(maths_gcse.missing_explanation).to eq nil
+      expect(carried_over_application_form.maths_gcse_completed).to eq false
+      expect(english_gcse.currently_completing_qualification).to eq true
+      expect(english_gcse.not_completed_explanation).to eq 'I loathe English'
+      expect(english_gcse.missing_explanation).to eq nil
+      expect(carried_over_application_form.english_gcse_completed).to eq false
+      expect(science_gcse.currently_completing_qualification).to eq nil
+      expect(science_gcse.not_completed_explanation).to eq nil
+      expect(science_gcse.missing_explanation).to eq nil
+      expect(carried_over_application_form.science_gcse_completed).to eq true
+    end
+  end
 end

@@ -46,6 +46,8 @@ class DuplicateApplication
       )
     end
 
+    update_missing_gcses_to_use_new_flow_when_carried_over(original_application_form, new_application_form)
+
     original_application_form.application_references.includes([:reference_tokens]).where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested]).reject(&:feedback_overdue?).each do |w|
       new_ref = new_application_form.application_references.create!(
         w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
@@ -88,5 +90,22 @@ private
 
     application_experience.start_date <= Time.zone.today &&
       (application_experience.end_date.nil? || application_experience.end_date >= Time.zone.today)
+  end
+
+  def update_missing_gcses_to_use_new_flow_when_carried_over(original_application_form, new_application_form)
+    return unless original_application_form.recruitment_cycle_year == 2021 && new_application_form.recruitment_cycle_year <= 2022
+
+    maths_gcse = new_application_form.maths_gcse
+    english_gcse = new_application_form.english_gcse
+    science_gcse = new_application_form.science_gcse
+
+    [maths_gcse, english_gcse, science_gcse].compact.each do |gcse|
+      missing_explanation = gcse.missing_explanation
+
+      next if missing_explanation.blank?
+
+      gcse.update!(currently_completing_qualification: true, not_completed_explanation: missing_explanation, missing_explanation: nil)
+      new_application_form.update!("#{gcse.subject}_gcse_completed": false)
+    end
   end
 end
