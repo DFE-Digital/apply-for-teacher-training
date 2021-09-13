@@ -29,14 +29,6 @@ class DegreeQualificationCardsComponent < ViewComponent::Base
     end
   end
 
-  def show_institution?(degree)
-    # Always show the institution if the component has not been made aware of
-    # any application choice state
-    return true if application_choice_state.nil? || degree.international?
-
-    application_choice_state.to_sym.in? ApplicationStateChange::ACCEPTED_STATES
-  end
-
   def formatted_institution(degree)
     degree.international? ? institution_and_country(degree) : institution(degree)
   end

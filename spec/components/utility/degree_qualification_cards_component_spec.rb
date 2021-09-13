@@ -94,23 +94,6 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
         expect(result.text).to include 'Institution'
         expect(result.text).to include 'The University of Oxford'
       end
-
-      it 'is visible when the application_choice state is in one of the ACCEPTED_STATES' do
-        ApplicationStateChange::ACCEPTED_STATES.each do |accepted_state|
-          result = render_inline described_class.new([degree], application_choice_state: accepted_state)
-          expect(result.text).to include 'Institution'
-          expect(result.text).to include 'The University of Oxford'
-        end
-      end
-
-      it 'is not visible when the application_choice state is not one of the ACCEPTED_STATES' do
-        (ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - ApplicationStateChange::ACCEPTED_STATES).each do |state|
-          result = render_inline described_class.new([degree], application_choice_state: state)
-          expect(result.text).to include 'Institution'
-          expect(result.text).not_to include 'The University of Oxford'
-          expect(result.text).to include 'Institution name is withheld at this stage to avoid any unconscious bias in favour of certain institutions.'
-        end
-      end
     end
   end
 
