@@ -1,6 +1,5 @@
 module ProviderInterface
   class UsersController < ProviderInterfaceController
-    before_action :redirect_unless_feature_flag_on
     before_action :set_provider
     before_action :set_provider_user, except: :index
     before_action :assert_can_manage_users!, except: %i[index show]
@@ -23,12 +22,6 @@ module ProviderInterface
     end
 
   private
-
-    def redirect_unless_feature_flag_on
-      return if FeatureFlag.active?(:account_and_org_settings_changes)
-
-      redirect_to provider_interface_organisation_settings_path
-    end
 
     def set_provider
       @provider = current_provider_user.providers.find(params[:organisation_id])
