@@ -10,46 +10,29 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
       include_examples 'year validations', :award_year
     end
 
-    it 'is invalid if the award year is more than ten years into the future' do
-      degree = build(
+    it 'is invalid if they provide a award year that is in the past' do
+      degree = build_stubbed(
         :degree_qualification,
         qualification_type: 'BSc',
-        predicted_grade: false,
-        start_year: RecruitmentCycle.current_year,
+        predicted_grade: true,
+        application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year),
       )
 
-      degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.current_year + 11)
+      degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.previous_year)
 
       degree_award_year_form.validate(:award_year)
 
       expect(degree_award_year_form.errors.full_messages_for(:award_year)).to eq(
-        ["Award year Enter a year before #{RecruitmentCycle.current_year + 10}"],
+        ['Award year Enter a year that is in the future'],
       )
     end
 
-    it 'is invalid if the degree is incomplete and the award year is in the past' do
-      Timecop.freeze(Time.zone.local(2012, 1, 1)) do
-        degree = build(
-          :degree_qualification,
-          qualification_type: 'BSc',
-          predicted_grade: true,
-        )
-
-        degree_award_year_form = described_class.new(degree: degree, award_year: '2009')
-
-        degree_award_year_form.validate(:award_year)
-
-        expect(degree_award_year_form.errors.full_messages_for(:award_year)).to eq(
-          ['Award year Enter a year that is in the future'],
-        )
-      end
-    end
-
-    it 'is invalid if the degree is incomplete and the award year is 2 or more years into the future' do
-      degree = build(
+    it 'is invalid if they do not graduate before the end of the current cycle' do
+      degree = build_stubbed(
         :degree_qualification,
         qualification_type: 'BSc',
         predicted_grade: true,
+        application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year),
       )
 
       degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.next_year)
@@ -59,6 +42,21 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
       expect(degree_award_year_form.errors.full_messages_for(:award_year)).to eq(
         ['Award year The date you graduate must be before the start of your teacher training'],
       )
+    end
+
+    context 'carried over applications' do
+      it 'is valid if the award year is in the same cycle as the application form' do
+        degree = build_stubbed(
+          :degree_qualification,
+          qualification_type: 'BSc',
+          predicted_grade: true,
+          application_form: build_stubbed(:application_form, recruitment_cycle_year: RecruitmentCycle.next_year),
+        )
+
+        degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.next_year)
+
+        expect(degree_award_year_form.valid?).to eq true
+      end
     end
   end
 end
