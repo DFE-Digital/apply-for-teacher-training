@@ -141,7 +141,7 @@ RSpec.describe CarryOverApplication do
         expect(carried_over_application_form.personal_details_completed).to be(false)
       end
 
-      it 'sets the personal details section to incomplete if nationality is not UK/Irish for 2021-22 carry over' do
+      it 'does NOT set the personal details section to incomplete if nationality is UK/Irish for 2021-22 carry over' do
         original_application_form.update!(
           first_nationality: 'British',
           personal_details_completed: true,
