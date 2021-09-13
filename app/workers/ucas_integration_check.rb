@@ -1,5 +1,6 @@
 class UCASIntegrationCheck
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     detect_ucas_match_file_upload_failure

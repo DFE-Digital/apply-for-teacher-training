@@ -1,5 +1,6 @@
 class UpdateFeatureMetricsDashboard
   include Sidekiq::Worker
+  include SafePerformAsync
 
   sidekiq_options retry: 0, queue: :low_priority
 

@@ -1,5 +1,6 @@
 class GeocodeApplicationAddressWorker
   include Sidekiq::Worker
+  include SafePerformAsync
 
   sidekiq_options queue: :low_priority, retry: 5
 

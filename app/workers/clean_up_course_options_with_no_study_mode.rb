@@ -1,5 +1,6 @@
 class CleanUpCourseOptionsWithNoStudyMode
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     CourseOption.where('study_mode IN (\'0\',\'1\')').find_each do |nil_co|

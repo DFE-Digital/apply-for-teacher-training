@@ -1,5 +1,6 @@
 class CancelUnsubmittedApplicationsWorker
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     unsubmitted_applications_from_earlier_cycle.each do |application_form|

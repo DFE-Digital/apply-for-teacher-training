@@ -1,6 +1,8 @@
 module TeacherTrainingPublicAPI
   class SyncAllProvidersAndCoursesWorker
     include Sidekiq::Worker
+    include SafePerformAsync
+
     sidekiq_options retry: 3, queue: :low_priority
 
     def perform(incremental = true, year = ::RecruitmentCycle.current_year, suppress_sync_update_errors = false)

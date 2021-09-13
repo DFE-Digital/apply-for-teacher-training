@@ -1,5 +1,6 @@
 class SendEocDeadlineReminderEmailToCandidatesWorker
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     return unless CycleTimetable.need_to_send_deadline_reminder?

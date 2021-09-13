@@ -1,5 +1,6 @@
 class DataExporter
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform(importer_class, data_export_type)
     RequestLocals.store[:debugging_info] = { data_export_type: data_export_type, importer_class: importer_class }

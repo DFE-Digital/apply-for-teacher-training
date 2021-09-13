@@ -1,5 +1,6 @@
 class SendEventsToBigquery
   include Sidekiq::Worker
+  include SafePerformAsync
 
   sidekiq_options retry: 3, queue: :big_query
 

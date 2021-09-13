@@ -1,5 +1,6 @@
 class GenerateTestApplicationsForCourses
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform(course_ids, courses_per_application, count = nil)
     if count.present?

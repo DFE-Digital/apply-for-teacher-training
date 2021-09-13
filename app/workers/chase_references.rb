@@ -1,5 +1,6 @@
 class ChaseReferences
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     send_7_day_chaser!

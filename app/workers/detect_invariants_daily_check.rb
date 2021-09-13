@@ -1,6 +1,7 @@
 # Detect state that *should* be impossible in the system and report them to Sentry
 class DetectInvariantsDailyCheck
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     detect_outstanding_references_on_submitted_applications

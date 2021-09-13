@@ -1,5 +1,6 @@
 class SendChaseEmailToCandidatesWorker
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     GetApplicationFormsForDeclineByDefaultReminder.call.each do |application|

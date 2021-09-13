@@ -1,5 +1,6 @@
 class SendCandidateRejectionEmailWorker
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform(application_choice_id)
     SendCandidateRejectionEmail.new(

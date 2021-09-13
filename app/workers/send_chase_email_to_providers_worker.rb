@@ -1,5 +1,6 @@
 class SendChaseEmailToProvidersWorker
   include Sidekiq::Worker
+  include SafePerformAsync
 
   def perform
     GetApplicationFormsWaitingForProviderDecision.call.each do |application_choice|
