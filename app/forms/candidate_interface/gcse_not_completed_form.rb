@@ -7,7 +7,7 @@ module CandidateInterface
     validates :not_completed_explanation, presence: true, if: -> { choice == 'yes' }
 
     validates :not_completed_explanation, word_count: { maximum: 200 }
-    validates :choice, presence: true
+    validate :choice_presence
 
     def self.build_from_qualification(qualification)
       new(
@@ -19,6 +19,8 @@ module CandidateInterface
     end
 
     def save(qualification)
+      @subject_name = qualification.subject == 'english' ? qualification.subject.capitalize : qualification.subject
+
       return false unless valid?
 
       qualification.update!(
@@ -30,6 +32,12 @@ module CandidateInterface
         institution_country: nil,
         start_year: nil,
       )
+    end
+
+    private
+
+    def choice_presence
+      errors.add(:choice, :blank, subject: @subject_name) if choice.blank?
     end
   end
 end
