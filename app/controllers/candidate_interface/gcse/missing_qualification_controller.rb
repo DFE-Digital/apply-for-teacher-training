@@ -3,6 +3,7 @@ module CandidateInterface
     include Gcse::ResolveGcseEditPathConcern
 
     def new
+      set_back_link
       @gcse_missing_form = GcseMissingForm.build_from_qualification(current_qualification)
     end
 
@@ -12,6 +13,7 @@ module CandidateInterface
       if @gcse_missing_form.save(current_qualification)
         redirect_to candidate_interface_gcse_review_path
       else
+        set_back_link
         track_validation_error(@gcse_missing_form)
         render :new
       end
@@ -40,6 +42,14 @@ module CandidateInterface
       strip_whitespace params
         .require(:candidate_interface_gcse_missing_form)
         .permit(:missing_explanation)
+    end
+
+    def set_back_link
+      @path = if current_qualification.qualification_type == 'missing'
+                candidate_interface_gcse_not_yet_completed_path
+              else
+                candidate_interface_gcse_details_new_grade_explanation_path
+              end
     end
   end
 end
