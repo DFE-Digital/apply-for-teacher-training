@@ -74,6 +74,17 @@ RSpec.describe SupportInterface::ProvidersFilter do
       ])
     end
 
+    it 'filters by providers with no provider users' do
+      provider_with_provider_user = create(:provider, :with_user)
+      provider_without_provider_user = create(:provider)
+
+      filter = described_class.new(params: { no_provider_users: %w[true] })
+      expect(filter.filter_records(Provider.all)).to eq [provider_without_provider_user]
+
+      filter = described_class.new(params: { remove: true })
+      expect(filter.filter_records(Provider.all)).to match_array [provider_with_provider_user, provider_without_provider_user]
+    end
+
     it 'defaults to showing all providers' do
       create(:provider, :with_signed_agreement)
       create(:provider)
