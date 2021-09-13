@@ -1,0 +1,27 @@
+en:
+  personas:
+    users:
+      self_ratified_user:
+        uid: persona-self-ratified-provider-user
+        providers: This user belongs to a single provider, which has no relationships with other providers.
+        permissions: This user can only view applications.
+      self_ratified_admin:
+        uid: persona-self-ratified-provider-admin
+        providers: This user belongs to a single provider, which has no relationships with other providers.
+        permissions: This user has both `manage_organisations` and `manage_users` permissions.
+      multiple_organisations_user:
+        uid: persona-multiple-providers-user
+        providers: This user belongs to multiple providers.
+        permissions: This user can only view applications.
+      multiple_organisations_admin:
+        uid: persona-multiple-providers-admin
+        providers: This user belongs to multiple providers.
+        permissions: This user has both `manage_organisations` and `manage_users` permissions.
+      no_courses_organisation_user:
+        uid: persona-no-courses-provider-user
+        providers: This user belongs to a single provider which has no open courses.
+        permissions: This user can only view applications.
+      no_courses_organisation_admin:
+        uid: persona-no-courses-provider-admin
+        providers: This user belongs to a single provider which has no open courses.
+        permissions: This user has both `manage_organisations` and `manage_users` permissions.

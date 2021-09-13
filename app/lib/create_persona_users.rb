@@ -11,7 +11,7 @@ class CreatePersonaUsers
     create_provider_user(
       self_ratified_provider,
       {
-        dfe_sign_in_uid: 'persona-self-ratified-provider-user',
+        dfe_sign_in_uid: persona_uid(:self_ratified_user),
         email_address: 'self.ratified.user@example.com',
         first_name: 'Anne',
         last_name: 'Apples',
@@ -21,7 +21,7 @@ class CreatePersonaUsers
     self_ratified_admin = create_provider_user(
       self_ratified_provider,
       {
-        dfe_sign_in_uid: 'persona-self-ratified-provider-admin',
+        dfe_sign_in_uid: persona_uid(:self_ratified_admin),
         email_address: 'self.ratified.admin@example.com',
         first_name: 'Bradley',
         last_name: 'Banana',
@@ -46,7 +46,7 @@ class CreatePersonaUsers
     create_provider_user(
       providers,
       {
-        dfe_sign_in_uid: 'persona-multiple-providers-user',
+        dfe_sign_in_uid: persona_uid(:multiple_organisations_user),
         email_address: 'multiple.providers.user@example.com',
         first_name: 'Cameron',
         last_name: 'Carrot',
@@ -56,7 +56,7 @@ class CreatePersonaUsers
     multiple_providers_admin = create_provider_user(
       providers,
       {
-        dfe_sign_in_uid: 'persona-multiple-providers-admin',
+        dfe_sign_in_uid: persona_uid(:multiple_organisations_admin),
         email_address: 'multiple.providers.admin@example.com',
         first_name: 'Deborah',
         last_name: 'Durian',
@@ -83,7 +83,7 @@ class CreatePersonaUsers
     courseless_user = create_provider_user(
       courseless_provider,
       {
-        dfe_sign_in_uid: 'persona-no-courses-provider-user',
+        dfe_sign_in_uid: persona_uid(:no_courses_organisation_user),
         email_address: 'no.courses.user@example.com',
         first_name: 'Elvis',
         last_name: 'Eggplant',
@@ -93,7 +93,7 @@ class CreatePersonaUsers
     create_provider_user(
       courseless_provider,
       {
-        dfe_sign_in_uid: 'persona-no-courses-provider-admin',
+        dfe_sign_in_uid: persona_uid(:no_courses_organisation_admin),
         email_address: 'no.courses.admin@example.com',
         first_name: 'Fiona',
         last_name: 'Fig',
@@ -121,5 +121,9 @@ class CreatePersonaUsers
     user.provider_permissions.update_all(permissions) if permissions.any?
 
     user
+  end
+
+  def self.persona_uid(persona_type)
+    I18n.t("personas.users.#{persona_type}.uid")
   end
 end
