@@ -8,7 +8,7 @@
 <p class="govuk-body">For advice, speak to a <a href="https://adviser-getintoteaching.education.gov.uk/">teacher training adviser</a>.</p>
 
 <%= f.govuk_radio_buttons_fieldset :not_completed_explanation, legend: { size: 'm', text: "Are you currently studying to retake your GCSE in #{capitalize_english(@subject)}?" } do %>
-  <%= f.govuk_radio_button :not_completed_explanation, 'Yes', label: { text: 'Yes' }, hint: { text: 'This must be completed before you start your teacher training course.' } %>
+  <%= f.govuk_radio_button :not_completed_explanation, 'Yes', label: { text: 'Yes' }, hint: { text: 'This must be completed before you start your teacher training course.' }, link_errors: true %>
   <%= f.govuk_radio_button :not_completed_explanation, 'No', label: { text: 'No' } %>
 <% end %>
 
