@@ -44,6 +44,12 @@ module SupportInterface
         application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
       end
 
+      if applied_filters[:provider_id]
+        application_forms = application_forms
+          .joins(:application_choices)
+          .where('application_choices.provider_ids @> ?', "{#{applied_filters[:provider_id]}}")
+      end
+
       application_forms
     end
 
