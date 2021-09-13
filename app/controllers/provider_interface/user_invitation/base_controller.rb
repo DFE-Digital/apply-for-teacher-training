@@ -3,7 +3,6 @@ module ProviderInterface
     class BaseController < ProviderInterfaceController
       before_action :set_provider
       before_action :assert_can_manage_users!
-      before_action :redirect_unless_feature_flag_on
       before_action :redirect_to_index_if_store_cleared
 
     protected
@@ -21,12 +20,6 @@ module ProviderInterface
 
       def assert_can_manage_users!
         render_403 unless current_provider_user.authorisation.can_manage_users_for?(provider: @provider)
-      end
-
-      def redirect_unless_feature_flag_on
-        return if FeatureFlag.active?(:account_and_org_settings_changes)
-
-        redirect_to provider_interface_organisation_settings_path
       end
 
       def redirect_to_index_if_store_cleared

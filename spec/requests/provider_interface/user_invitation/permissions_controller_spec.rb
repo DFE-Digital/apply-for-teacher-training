@@ -12,31 +12,27 @@ RSpec.describe ProviderInterface::UserInvitation::PermissionsController do
     user_exists_in_dfe_sign_in(email_address: managing_user.email_address)
   end
 
-  context 'when the account_and_org_settings_changes feature flag is on' do
-    before { FeatureFlag.activate(:account_and_org_settings_changes) }
+  context 'when there is nothing in the wizard store' do
+    let(:store_data) { nil }
 
-    context 'when there is nothing in the wizard store' do
-      let(:store_data) { nil }
+    before do
+      store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil)
+      allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
+    end
 
-      before do
-        store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil)
-        allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
-      end
+    it 'redirects to the users index page on GET new' do
+      get new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(provider)
 
-      it 'redirects to the users index page on GET new' do
-        get new_provider_interface_organisation_settings_organisation_user_invitation_permissions_path(provider)
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
+    end
 
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
-      end
+    it 'redirects to the users index page on POST create' do
+      post provider_interface_organisation_settings_organisation_user_invitation_permissions_path(provider),
+           params: { provider_interface_invite_user_wizard: { permissions: [] } }
 
-      it 'redirects to the users index page on POST create' do
-        post provider_interface_organisation_settings_organisation_user_invitation_permissions_path(provider),
-             params: { provider_interface_invite_user_wizard: { permissions: [] } }
-
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
-      end
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_organisation_settings_organisation_users_url(provider))
     end
   end
 end
