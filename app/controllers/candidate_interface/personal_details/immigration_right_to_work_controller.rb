@@ -11,7 +11,7 @@ module CandidateInterface
         @form = ImmigrationRightToWorkForm.new(right_to_work_params)
 
         if @form.save(current_application)
-          if ActiveModel::Type::Boolean.new.cast(@form.immigration_right_to_work)
+          if @form.right_to_work_or_study?
             redirect_to candidate_interface_immigration_status_path
           else
             redirect_to candidate_interface_immigration_route_path
