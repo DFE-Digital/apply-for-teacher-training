@@ -170,7 +170,7 @@ module CandidateInterface
             },
           },
         ]
-        if immigration_route_form.immigration_route
+        if @application_form.immigration_route
           rows << {
             key: I18n.t('application_form.personal_details.immigration_route.label'),
             value: formatted_immigration_route,
@@ -271,16 +271,16 @@ module CandidateInterface
     end
 
     def formatted_immigration_route
-      case immigration_route_form.immigration_route
+      case @application_form.immigration_route
       when 'visa_sponsored_by_provider'
         'A visa sponsored by a course provider.'
       when 'other_route'
-        immigration_route_form.immigration_route.details
+        @application_form.immigration_route_details
       end
     end
 
     def formatted_immigration_status
-      if immigration_status_form.other_immigration_status?
+      if @application_form.immigration_status == 'other'
         @application_form.immigration_status_details
       else
         I18n.t("application_form.personal_details.immigration_status.values.#{@application_form.immigration_status}")
@@ -308,18 +308,6 @@ module CandidateInterface
 
     def immigration_right_to_work_form
       @immigration_right_to_work_form ||= CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
-        @application_form,
-      )
-    end
-
-    def immigration_route_form
-      @immigration_route_form ||= CandidateInterface::ImmigrationRouteForm.build_from_application(
-        @application_form,
-      )
-    end
-
-    def immigration_status_form
-      @immigration_status_form ||= CandidateInterface::ImmigrationStatusForm.build_from_application(
         @application_form,
       )
     end
