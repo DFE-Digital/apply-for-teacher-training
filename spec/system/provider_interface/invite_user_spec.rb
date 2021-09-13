@@ -4,8 +4,6 @@ RSpec.feature 'Provider user invitation' do
   include DfESignInHelpers
   include DsiAPIHelper
 
-  before { FeatureFlag.activate(:account_and_org_settings_changes) }
-
   scenario 'Provider invites user' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_sign_in_to_the_provider_interface

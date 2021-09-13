@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Organisation users' do
   include DfESignInHelpers
 
-  before { FeatureFlag.activate(:account_and_org_settings_changes) }
-
   scenario 'Provider user removes another user from one of their organisations' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_users_for_one_provider
