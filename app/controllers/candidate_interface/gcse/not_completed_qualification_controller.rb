@@ -10,10 +10,10 @@ module CandidateInterface
       @gcse_not_completed_form = GcseNotCompletedForm.new(qualification_not_completed_params)
 
       if @gcse_not_completed_form.save(current_qualification)
-        if params[:candidate_interface_gcse_not_completed_form][:choice] == 'no'
-          redirect_to candidate_interface_gcse_missing_path
-        else
+        if @gcse_not_completed_form.currently_completing_qualification
           redirect_to candidate_interface_gcse_review_path
+        else
+          redirect_to candidate_interface_gcse_missing_path
         end
       else
         track_validation_error(@gcse_not_completed_form)
@@ -43,7 +43,7 @@ module CandidateInterface
     def qualification_not_completed_params
       strip_whitespace params
         .require(:candidate_interface_gcse_not_completed_form)
-        .permit(:not_completed_explanation, :choice)
+        .permit(:not_completed_explanation, :currently_completing_qualification)
     end
   end
 end
