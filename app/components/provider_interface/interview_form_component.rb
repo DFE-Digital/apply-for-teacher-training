@@ -1,12 +1,13 @@
 module ProviderInterface
   class InterviewFormComponent < ViewComponent::Base
-    attr_reader :application_choice, :form_model, :form_url, :form_heading
+    attr_reader :application_choice, :form_model, :form_url, :form_heading, :form_method
 
-    def initialize(application_choice:, form_model:, form_url:, form_heading:)
+    def initialize(application_choice:, form_model:, form_url:, form_heading:, form_method: :post)
       @application_choice = application_choice
       @form_model = form_model
       @form_url = form_url
       @form_heading = form_heading
+      @form_method = form_method
     end
 
     def application_providers

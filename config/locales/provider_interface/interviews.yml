@@ -7,15 +7,16 @@ en:
         title: Set up an interview
       edit:
         title: Change interview details
-      check:
-        page_title: Set up Interview
-        title: Check and send interview details
-        confirm: Send interview details
-        update:
+      checks:
+        new:
+          page_title: Set up Interview
+          title: Check and send interview details
+          confirm: Send interview details
+        edit:
           page_title: Change interview details
           title: Check and send new interview details
           confirm: Send new interview details
-      commit:
+      create:
         success: Interview set up
       update:
         success: Interview changed

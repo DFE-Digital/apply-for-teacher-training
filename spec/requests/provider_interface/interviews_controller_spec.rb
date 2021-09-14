@@ -47,9 +47,9 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       end
     end
 
-    context 'POST commit' do
+    context 'POST create' do
       it 'responds with 302' do
-        post confirm_provider_interface_application_choice_interviews_path(application_choice)
+        post provider_interface_application_choice_interviews_path(application_choice)
 
         expect(response.status).to eq(302)
       end
@@ -57,7 +57,7 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
 
     context 'PUT update' do
       it 'responds with 302' do
-        put update_provider_interface_application_choice_interview_path(application_choice, interview)
+        put provider_interface_application_choice_interview_path(application_choice, interview)
 
         expect(response.status).to eq(302)
       end
@@ -81,18 +81,9 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
 
     before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
 
-    context 'POST to commit' do
+    context 'POST to create' do
       it 'redirects to the interviews index' do
-        post confirm_provider_interface_application_choice_interviews_path(application_choice)
-
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
-      end
-    end
-
-    context 'POST to check' do
-      it 'redirects to the interviews index' do
-        post new_check_provider_interface_application_choice_interviews_path(application_choice)
+        post provider_interface_application_choice_interviews_path(application_choice)
 
         expect(response.status).to eq(302)
         expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
@@ -109,23 +100,16 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
 
     before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
 
-    it 'tracks validation errors on check' do
+    it 'tracks validation errors on create' do
       expect {
-        post new_check_provider_interface_application_choice_interviews_path(application_choice),
-             params: { provider_interface_interview_wizard: { location: 'here' } }
-      }.to change(ValidationError, :count).by(1)
-    end
-
-    it 'tracks validation errors on commit' do
-      expect {
-        post confirm_provider_interface_application_choice_interviews_path(application_choice),
+        post provider_interface_application_choice_interviews_path(application_choice),
              params: { provider_interface_interview_wizard: { location: 'here' } }
       }.to change(ValidationError, :count).by(1)
     end
 
     it 'tracks validation errors on update' do
       expect {
-        put update_provider_interface_application_choice_interview_path(application_choice, interview),
+        put provider_interface_application_choice_interview_path(application_choice, interview),
             params: { provider_interface_interview_wizard: { location: 'here' } }
       }.to change(ValidationError, :count).by(1)
     end
