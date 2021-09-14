@@ -50,11 +50,7 @@ private
   end
 
   def missing_gcse_explanation(gcse)
-<<<<<<< HEAD
-    "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.not_completed_explanation}"
-=======
     "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse_explanation(gcse)}"
->>>>>>> 121a995f5 (App choice export decorator returns correct missing GCSE value)
   end
 
   def summary_for_gcse(gcse)

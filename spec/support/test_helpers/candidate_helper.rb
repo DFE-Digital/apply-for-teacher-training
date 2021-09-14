@@ -448,15 +448,10 @@ module CandidateHelper
   end
 
   def candidate_explains_a_missing_gcse
-<<<<<<< HEAD
-    choose('I do not have this qualification yet')
-    fill_in t('application_form.gcse.not_completed_explanation.label'), with: 'I will sit the exam at my local college this summer.'
-=======
     choose('I do not have a GCSE in science (or equivalent) yet')
     click_button t('save_and_continue')
     choose 'Yes'
     fill_in 'candidate-interface-gcse-not-completed-form-not-completed-explanation-field', with: 'In progress'
->>>>>>> 43378e594 (Update existing specs with new missing GCSE values)
     click_button t('save_and_continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
