@@ -20,6 +20,23 @@ module CandidateInterface
         end
       end
 
+      def edit
+        @form = ImmigrationStatusForm.build_from_application(current_application)
+      end
+
+      def update
+        @form = ImmigrationStatusForm.new(
+          status_params.merge(nationalities: current_application.nationalities),
+        )
+
+        if @form.save(current_application)
+          redirect_to candidate_interface_personal_details_show_path
+        else
+          track_validation_error(@form)
+          render :edit
+        end
+      end
+
     private
 
       def status_params

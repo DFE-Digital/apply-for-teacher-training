@@ -216,7 +216,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         row_for(
           :immigration_status,
           'I have permanent residence',
-          candidate_interface_immigration_status_path('return-to' => 'application-review'),
+          candidate_interface_edit_immigration_status_path('return-to' => 'application-review'),
           'personal_details_immigration_status',
         ),
       )
