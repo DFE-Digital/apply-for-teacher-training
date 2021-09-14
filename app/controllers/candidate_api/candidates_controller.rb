@@ -36,8 +36,6 @@ module CandidateAPI
                             .order('application_forms.created_at DESC')
 
       candidates.map do |candidate|
-        current_application = candidate.application_forms.order(:created_at).last
-
         {
           id: candidate.public_id,
           type: 'candidate',
@@ -45,8 +43,6 @@ module CandidateAPI
             created_at: candidate.created_at,
             updated_at: candidate.candidate_api_updated_at,
             email_address: candidate.email_address,
-            application_status: ProcessState.new(current_application).state,
-            application_phase: current_application&.phase,
             application_forms:
               candidate.application_forms.map do |application|
                 {
