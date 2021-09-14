@@ -1159,6 +1159,8 @@ Rails.application.routes.draw do
   get '/check', to: 'healthcheck#show'
   get '/check/version', to: 'healthcheck#version'
 
+  get '/monthly-statistics', to: 'monthly_statistics#show'
+
   mount Yabeda::Prometheus::Exporter => '/metrics'
 
   scope via: :all do
