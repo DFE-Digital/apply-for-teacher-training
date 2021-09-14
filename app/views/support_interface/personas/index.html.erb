@@ -1,0 +1,5 @@
+<%= render 'support_interface/providers/providers_navigation', title: 'Personas' %>
+
+<% @persona_types.each do |persona_type| %>
+  <%= render SupportInterface::PersonaUserComponent.new(persona_type) %>
+<% end %>
