@@ -194,7 +194,7 @@ module CandidateInterface
             value: formatted_immigration_status,
             action: (if @editable
                        {
-                         href: candidate_interface_immigration_status_path(return_to_params),
+                         href: candidate_interface_edit_immigration_status_path(return_to_params),
                          visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
                        }
                      end),

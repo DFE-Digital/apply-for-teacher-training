@@ -9,6 +9,7 @@ RSpec.describe 'Entering personal details' do
     and_i_can_complete_personal_information_stating_that_i_need_a_visa_sponsorship
     and_i_can_change_state_that_i_have_permanent_residence
     and_i_can_change_nationality_to_an_eu_country_with_settled_status
+    and_i_can_change_immigration_status
     and_i_can_mark_the_section_complete
   end
 
@@ -59,7 +60,7 @@ RSpec.describe 'Entering personal details' do
   end
 
   def and_i_can_change_state_that_i_have_permanent_residence
-    click_change_link('immigration right to work')
+    click_change_link('if you have the right to work or study in the UK')
     expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
     choose 'Yes'
     click_button t('save_and_continue')
@@ -111,6 +112,17 @@ RSpec.describe 'Entering personal details' do
     expect(page).to have_content "Do you have the right to work or study in the UK?\nYes"
     expect(page).to have_content "Immigration status\nEU settled status"
     expect(page).to have_content "Date of entry into the UK\n3 February 2001"
+  end
+
+  def and_i_can_change_immigration_status
+    click_change_link('immigration status')
+
+    expect(page).to have_content 'What is your immigration status?'
+    choose 'EU pre-settled status'
+    click_button t('save_and_continue')
+
+    expect(page).to have_current_path candidate_interface_personal_details_show_path
+    expect(page).to have_content "Immigration status\nEU pre-settled status"
   end
 
   def and_i_can_mark_the_section_complete

@@ -211,10 +211,14 @@ module CandidateHelper
         'What is your immigration status?',
         with: 'I have settled status',
       )
-      click_button t('save_and_continue')
-      fill_in 'Day', with: '24'
-      fill_in 'Month', with: '6'
-      fill_in 'Year', with: '2010'
+
+      application_form = ApplicationForm.last
+      if application_form.recruitment_cycle_year >= CandidateInterface::NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
+        click_button t('save_and_continue')
+        fill_in 'Day', with: '24'
+        fill_in 'Month', with: '6'
+        fill_in 'Year', with: '2010'
+      end
     else
       check 'British'
       check 'Citizen of a different country'
