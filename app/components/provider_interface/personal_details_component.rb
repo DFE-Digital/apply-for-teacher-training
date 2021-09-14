@@ -74,21 +74,57 @@ module ProviderInterface
     end
 
     def right_to_work_or_study_row
-      return if application_form.right_to_work_or_study.blank?
+      return if right_to_work_or_study_blank?
 
       {
         key: 'Has the right to work or study in the UK?',
-        value: RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(application_form.right_to_work_or_study),
+        value: right_to_work_or_study_value,
       }
     end
 
+    def right_to_work_or_study_blank?
+      if application_form.restructured_immigration_status?
+        application_form.immigration_right_to_work?.nil?
+      else
+        application_form.right_to_work_or_study.blank?
+      end
+    end
+
+    def right_to_work_or_study_value
+      if application_form.restructured_immigration_status?
+        application_form.immigration_right_to_work? ? 'Yes' : 'Not yet'
+      else
+        RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(application_form.right_to_work_or_study)
+      end
+    end
+
     def residency_details_row
-      return unless application_form.right_to_work_or_study == 'yes'
+      return unless residency_details_blank?
 
       {
         key: 'Residency details',
-        value: application_form.right_to_work_or_study_details,
+        value: residency_details_value,
       }
+    end
+
+    def residency_details_blank?
+      if application_form.restructured_immigration_status?
+        application_form.immigration_right_to_work?
+      else
+        application_form.right_to_work_or_study == 'yes'
+      end
+    end
+
+    def residency_details_value
+      if application_form.restructured_immigration_status?
+        if application_form.immigration_status == 'other'
+          application_form.immigration_status_details
+        else
+          I18n.t("application_form.personal_details.immigration_status.values.#{application_form.immigration_status}")
+        end
+      else
+        application_form.right_to_work_or_study_details
+      end
     end
 
     def date_of_birth_row

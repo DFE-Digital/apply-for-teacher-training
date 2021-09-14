@@ -53,13 +53,14 @@ RSpec.describe ProviderInterface::PersonalDetailsComponent do
     expect(result.text).not_to include('Residency details')
   end
 
-  context 'a candidate whose nationality is neither British or Irish' do
+  context 'a candidate whose nationality is neither British or Irish before 2022' do
     let(:application_form) do
       build_stubbed(
         :completed_application_form,
         first_nationality: 'Pakistani',
         second_nationality: 'Singaporean',
         third_nationality: 'Spanish',
+        recruitment_cycle_year: 2021,
       )
     end
 
@@ -98,6 +99,66 @@ RSpec.describe ProviderInterface::PersonalDetailsComponent do
       before { application_form.right_to_work_or_study = 'decide_later' }
 
       it 'does not render the residency_details_row' do
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Residency details')
+      end
+    end
+  end
+
+  context 'a candidate whose nationality is neither British or Irish from 2022' do
+    let(:application_form) do
+      build_stubbed(
+        :completed_application_form,
+        first_nationality: 'Pakistani',
+        second_nationality: 'Singaporean',
+        third_nationality: 'Spanish',
+        recruitment_cycle_year: 2022,
+      )
+    end
+
+    context '`immigration_right_to_work` is true' do
+      before do
+        application_form.immigration_right_to_work = true
+        application_form.immigration_status = 'other'
+        application_form.immigration_status_details = 'I have settled status'
+        application_form.immigration_entry_date = Date.new(2000, 6, 24)
+      end
+
+      it 'renders the residency_details_row' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Has the right to work or study in the UK?')
+        expect(result.css('.govuk-summary-list__value').text).to include('Yes')
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
+        expect(result.css('.govuk-summary-list__value').text).to include('I have settled status')
+      end
+    end
+
+    context '`immigration_right_to_work` is true and candidate has EU settled status' do
+      before do
+        application_form.immigration_right_to_work = true
+        application_form.immigration_status = 'eu_settled'
+        application_form.immigration_entry_date = Date.new(2000, 6, 24)
+      end
+
+      it 'renders the residency_details_row' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Has the right to work or study in the UK?')
+        expect(result.css('.govuk-summary-list__value').text).to include('Yes')
+
+        expect(result.css('.govuk-summary-list__key').text).to include('Residency details')
+        expect(result.css('.govuk-summary-list__value').text).to include('EU settled status')
+      end
+    end
+
+    context '`immigration_right_to_work` is false and candidate selected `other` route' do
+      before do
+        application_form.immigration_right_to_work = false
+        application_form.immigration_route = 'other_route'
+        application_form.immigration_route_details = 'I qualify for a family visa'
+      end
+
+      it 'does not render the residency_details_row' do
+        expect(result.css('.govuk-summary-list__key').text).to include('Has the right to work or study in the UK?')
+        expect(result.css('.govuk-summary-list__value').text).to include('Not yet')
+
         expect(result.css('.govuk-summary-list__key').text).not_to include('Residency details')
       end
     end
