@@ -15,8 +15,8 @@ module CandidateInterface
       if application_qualification.missing_qualification?
         [
           missing_qualifiation_type_row,
-          missing_qualification_row,
-          equivalency_qualification_row,
+          not_completed_explanation_row,
+          missing_explanation_for_no_gcse_row,
         ].compact
       else
         [
@@ -28,7 +28,7 @@ module CandidateInterface
           grade_row,
           award_year_row,
           failing_grade_explanation_row,
-          equivalency_qualification_row,
+          missing_explanation_for_gcse_row,
         ].compact
       end
     end
@@ -176,7 +176,7 @@ module CandidateInterface
       }
     end
 
-    def missing_qualification_row
+    def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
         value: application_qualification.not_completed_explanation.presence || 'No',
@@ -192,9 +192,15 @@ module CandidateInterface
       }
     end
 
-    def equivalency_qualification_row
-      return nil if application_qualification.missing_explanation.nil?
+    def missing_explanation_for_no_gcse_row
+      return missing_explanation_row if application_qualification.not_completed_explanation.blank?
+    end
 
+    def missing_explanation_for_gcse_row
+      return missing_explanation_row if application_qualification.failed_required_gcse? && !application_qualification.currently_completing_qualification
+    end
+
+    def missing_explanation_row
       {
         key: 'Other evidence I have the skills required (optional)',
         value: application_qualification.missing_explanation.presence || 'Not provided',

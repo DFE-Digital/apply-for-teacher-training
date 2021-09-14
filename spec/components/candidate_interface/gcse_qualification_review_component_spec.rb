@@ -172,7 +172,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         subject: 'maths',
         not_completed_explanation: nil,
         currently_completing_qualification: false,
-        missing_explanation: '',
+        missing_explanation: nil,
       )
 
       result = render_inline(
