@@ -134,3 +134,13 @@ deploy: deploy-init
 
 destroy: deploy-init
 	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars
+
+.PHONY: set-space-developer
+set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.education.gov.uk
+	$(if $(USER_ID), , $(error Missing environment variable "USER_ID", USER_ID required for this command to run))
+	cf set-space-role $(USER_ID) dfe $(SPACE) SpaceDeveloper
+
+.PHONY: unset-space-developer
+unset-space-developer: ## make qa unset-space-developer USER_ID=first.last@digital.education.gov.uk
+	$(if $(USER_ID), , $(error Missing environment variable "USER_ID", USER_ID required for this command to run))
+	cf unset-space-role $(USER_ID) dfe $(SPACE) SpaceDeveloper
