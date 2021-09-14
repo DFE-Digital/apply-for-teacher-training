@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
 
   context 'application has pending gcse(s) that are not accepted' do
     context 'application has one pending gcse and course does not accept them' do
-      it 'renders the degree row with guidance' do
+      it 'renders the gcse row with guidance' do
         create(
           :gcse_qualification,
           subject: 'english',
@@ -49,12 +49,12 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
         )
 
         result = render_inline(described_class.new(application_choice2))
-        expect(result.text).to include('You said you’re currently studying for a qualification in  English')
+        expect(result.text).to include('You said you’re currently studying for a qualification in English')
       end
     end
 
     context 'application has two pending gcses and course does not accept them' do
-      it 'renders the degree row with guidance' do
+      it 'renders the gcse row with guidance' do
         create(
           :gcse_qualification,
           subject: 'english',
@@ -70,12 +70,12 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
         )
 
         result = render_inline(described_class.new(application_choice2))
-        expect(result.text).to include('You said you’re currently studying for a qualification in  English and maths')
+        expect(result.text).to include('You said you’re currently studying for a qualification in English and maths')
       end
     end
 
     context 'application has three pending gcses and course does not accept them' do
-      it 'renders the degree row with guidance' do
+      it 'renders the gcse row with guidance' do
         create(
           :gcse_qualification,
           subject: 'english',
@@ -96,7 +96,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
         )
 
         result = render_inline(described_class.new(application_choice2))
-        expect(result.text).to include('You said you’re currently studying for a qualification in  English, maths and science')
+        expect(result.text).to include('You said you’re currently studying for a qualification in English, maths and science')
       end
     end
   end

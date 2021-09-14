@@ -14,12 +14,13 @@ private
 
   def pending_gcse_text
     subjects = pending_uk_gcses.map(&:subject)
-    subjects[0] = subjects[0].capitalize
+    subjects[0] = subjects[0].capitalize if subjects[0] == 'english'
     subjects.to_sentence(last_word_connector: ' and ', two_words_connector: ' and ')
   end
 
   def find_pending_uk_gcses(application_choice)
     application_choice.application_form.application_qualifications
       .where(level: 'gcse', other_uk_qualification_type: nil, institution_country: [nil, 'GB'], currently_completing_qualification: true)
+      .sort_by(&:subject)
   end
 end
