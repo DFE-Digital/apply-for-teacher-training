@@ -71,7 +71,7 @@ module CandidateInterface
       end
 
       def right_to_work_path(application_form)
-        if application_form.recruitment_cycle_year >= NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
+        if application_form.restructured_immigration_status?
           candidate_interface_immigration_right_to_work_path
         else
           candidate_interface_right_to_work_or_study_path
