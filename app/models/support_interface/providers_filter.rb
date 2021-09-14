@@ -26,6 +26,7 @@ module SupportInterface
         :onboarding_stages,
         :q,
         :no_provider_users,
+        :accredited_provider,
       )
     end
 
@@ -36,6 +37,12 @@ module SupportInterface
           heading: 'Name or code',
           value: applied_filters[:q],
           name: 'q',
+        },
+        {
+          type: :search,
+          heading: 'Name or code of accredited provider',
+          value: applied_filters[:accredited_provider],
+          name: 'accredited_provider',
         },
         {
           type: :checkboxes,
@@ -103,6 +110,17 @@ module SupportInterface
 
       if applied_filters[:no_provider_users].present?
         providers = providers.left_outer_joins(:provider_permissions).where(provider_users_providers: { id: nil })
+      end
+
+      if applied_filters[:accredited_provider].present?
+        accrediting_provider_ids = Provider
+                                    .where('providers.name ILIKE ? OR providers.code ILIKE ?', "%#{applied_filters[:accredited_provider]}%", "%#{applied_filters[:accredited_provider]}%")
+                                    .map(&:id)
+
+        providers = providers
+                    .distinct
+                    .joins(:courses)
+                    .where(courses: { accredited_provider_id: accrediting_provider_ids, recruitment_cycle_year: RecruitmentCycle.current_year })
       end
 
       @filtered_count = providers.count
