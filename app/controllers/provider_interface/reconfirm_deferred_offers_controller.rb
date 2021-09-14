@@ -1,9 +1,13 @@
 module ProviderInterface
   class ReconfirmDeferredOffersController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :set_application_choice
     before_action :require_deferred_offer_from_previous_cycle
 
-    def start
+    def new
+      clear_wizard_if_new_entry(ReconfirmDeferredOfferWizard.new(deferred_offer_store, {}))
+
       @wizard = wizard_for_step
     end
 
@@ -59,7 +63,7 @@ module ProviderInterface
       if step
         { action: step }
       else
-        provider_interface_application_choice_path(@application_choice.id)
+        provider_interface_application_choice_path(@application_choice)
       end
     end
 
@@ -70,7 +74,7 @@ module ProviderInterface
       if step
         { action: step }
       else
-        provider_interface_application_choice_path(@application_choice.id)
+        provider_interface_application_choice_path(@application_choice)
       end
     end
 
@@ -89,23 +93,34 @@ module ProviderInterface
       return {} unless params.key?(:provider_interface_reconfirm_deferred_offer_wizard)
 
       params.require(:provider_interface_reconfirm_deferred_offer_wizard)
-        .permit(:conditions_status, :course_option_id)
+            .permit(:conditions_status, :course_option_id)
     end
 
     def wizard_for_step(step = nil)
       step ||= action_name.to_s
 
-      ReconfirmDeferredOfferWizard.new(
-        WizardStateStores::SessionStore.new(session: session, key: persistence_key_for_wizard),
-        reconfirm_deferred_offer_params.to_h.merge(
-          application_choice_id: @application_choice.id,
-          current_step: step,
-        ),
-      )
+      ReconfirmDeferredOfferWizard.new(deferred_offer_store,
+                                       reconfirm_deferred_offer_params.to_h.merge(form_context_params(step)))
     end
 
-    def persistence_key_for_wizard
-      "reconfirm_deferred_offer-#{current_provider_user.id}-#{@application_choice.id}"
+    def form_context_params(step)
+      {
+        application_choice_id: @application_choice.id,
+        current_step: step,
+      }
+    end
+
+    def deferred_offer_store
+      key = "reconfirm_deferred_offer-#{current_provider_user.id}-#{@application_choice.id}"
+      WizardStateStores::SessionStore.new(session: session, key: key)
+    end
+
+    def wizard_flow_controllers
+      ['provider_interface/reconfirm_deferred_offers'].freeze
+    end
+
+    def wizard_controller_excluded_paths
+      []
     end
   end
 end

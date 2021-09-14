@@ -20,17 +20,17 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
         wizard = described_class.new(state_store, current_step: 'unknown')
         expect(wizard).not_to be_valid
 
-        wizard = described_class.new(state_store, current_step: 'start')
+        wizard = described_class.new(state_store, current_step: 'new')
         expect(wizard).to be_valid
       end
     end
 
-    context 'step: \'start\'' do
+    context 'step: \'new\'' do
       let(:wrong_status) { create(:application_choice, :previous_year, :with_recruited) }
       let(:wrong_year) { create(:application_choice, :with_deferred_offer) }
 
       def wizard_for(state_store)
-        described_class.new(state_store, current_step: 'start')
+        described_class.new(state_store, current_step: 'new')
       end
 
       it 'crashes without an ApplicationChoice' do
@@ -174,13 +174,13 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
   describe '#next_step' do
     let(:state_store) { state_store_for(application_choice_id: application_choice.id) }
 
-    it 'returns \'start\' step if no other information is present' do
+    it 'returns \'new\' step if no other information is present' do
       wizard = described_class.new(state_store, current_step: nil)
-      expect(wizard.next_step).to eq(:start)
+      expect(wizard.next_step).to eq(:new)
     end
 
-    it 'returns \'conditions\' step if already on the start step' do
-      wizard = described_class.new(state_store, current_step: 'start')
+    it 'returns \'conditions\' step if already on the new step' do
+      wizard = described_class.new(state_store, current_step: 'new')
       expect(wizard.next_step).to eq(:conditions)
     end
 
@@ -198,14 +198,14 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
   describe '#previous_step' do
     let(:state_store) { state_store_for(application_choice_id: application_choice.id) }
 
-    it 'is nil if on \'start\' step' do
-      wizard = described_class.new(state_store, current_step: 'start')
+    it 'is nil if on \'new\' step' do
+      wizard = described_class.new(state_store, current_step: 'new')
       expect(wizard.previous_step).to be_nil
     end
 
-    it 'returns \'start\' step if on the conditions step' do
+    it 'returns \'new\' step if on the conditions step' do
       wizard = described_class.new(state_store, current_step: 'conditions')
-      expect(wizard.previous_step).to eq(:start)
+      expect(wizard.previous_step).to eq(:new)
     end
 
     it 'returns \'conditions\' step if on the check step' do
@@ -217,7 +217,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
   describe 'initializer' do
     it 'deserializes state' do
       state_store = state_store_for(application_choice_id: application_choice.id)
-      wizard = described_class.new(state_store, current_step: 'start')
+      wizard = described_class.new(state_store, current_step: 'new')
       expect(wizard.application_choice_id).to eq application_choice.id
     end
   end
