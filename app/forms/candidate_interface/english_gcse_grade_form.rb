@@ -148,7 +148,7 @@ module CandidateInterface
       result = multiple_gcse? ? save_grades : save_grade
       return false unless result
 
-      reset_missing_explanation!(qualification)
+      reset_missing_and_not_completed_explanations!(qualification)
       result
     end
 
@@ -162,10 +162,10 @@ module CandidateInterface
       qualification.update(grade: set_grade, constituent_grades: nil)
     end
 
-    def reset_missing_explanation!(qualification)
+    def reset_missing_and_not_completed_explanations!(qualification)
       return true unless qualification.pass_gcse?
 
-      qualification.update(missing_explanation: nil)
+      qualification.update(missing_explanation: nil, not_completed_explanation: nil)
     end
 
     def save_grades
