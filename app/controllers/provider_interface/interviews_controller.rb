@@ -1,5 +1,7 @@
 module ProviderInterface
   class InterviewsController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :set_application_choice
     before_action :requires_set_up_interviews_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
@@ -22,12 +24,16 @@ module ProviderInterface
     end
 
     def new
+      clear_wizard_if_new_entry(InterviewWizard.new(interview_store, {}))
+
       @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'input', action: action))
       @wizard.referer ||= request.referer
       @wizard.save_state!
     end
 
     def edit
+      clear_wizard_if_new_entry(InterviewWizard.new(edit_interview_store(interview_id), {}))
+
       @interview = @application_choice.interviews.find(interview_id)
 
       @wizard = InterviewWizard.from_model(edit_interview_store(interview_id), @interview, 'edit', action)
@@ -172,6 +178,14 @@ module ProviderInterface
 
     def action
       'back' if !!params[:back]
+    end
+
+    def wizard_controller_excluded_paths
+      [provider_interface_application_choice_interviews_path]
+    end
+
+    def wizard_flow_controllers
+      ['provider_interface/interviews', 'provider_interface/interviews/checks'].freeze
     end
   end
 end

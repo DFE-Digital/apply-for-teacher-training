@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
+RSpec.describe ProviderInterface::ConditionStatuses::ChecksController, type: :request do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 
@@ -22,23 +22,10 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
     end
     let(:referer) { "http://www.example.com/provider/applications/#{application_choice.id}" }
 
-    context 'GET edit' do
+    context 'PUT update' do
       it 'redirects back' do
-        get(
-          edit_provider_interface_condition_statuses_path(application_choice),
-          params: nil,
-          headers: { 'HTTP_REFERER' => referer },
-        )
-
-        expect(response.status).to eq(302)
-        expect(response.redirect_url).to eq(referer)
-      end
-    end
-
-    context 'PATCH update' do
-      it 'redirects back' do
-        patch(
-          provider_interface_condition_statuses_path(application_choice),
+        put(
+          provider_interface_condition_statuses_check_path(application_choice),
           params: {},
           headers: { 'HTTP_REFERER' => referer },
         )
@@ -57,12 +44,11 @@ RSpec.describe ProviderInterface::ConditionStatusesController, type: :request do
     end
 
     it 'tracks errors on update' do
-      stub_model_instance_with_errors(ProviderInterface::ConfirmConditionsWizard, { valid?: false })
-
+      condition_id = application_choice.offer.conditions.first.id.to_s
       expect {
-        patch(
-          provider_interface_condition_statuses_path(application_choice),
-          params: {},
+        put(
+          provider_interface_condition_statuses_check_path(application_choice),
+          params: { provider_interface_confirm_conditions_wizard: { statuses: { condition_id => { test: :test } } } },
         )
       }.to change(ValidationError, :count).by(1)
     end

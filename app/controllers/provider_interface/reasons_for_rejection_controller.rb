@@ -1,10 +1,14 @@
 module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
+    include ClearWizardCache
+
     before_action :set_application_choice
     before_action :redirect_if_application_rejected_and_feedback_provided
     before_action :check_application_is_rejectable
 
     def edit_initial_questions
+      clear_wizard_if_new_entry(ReasonsForRejectionWizard.new(store, {}))
+
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'initial_questions')
       @wizard.save_state!
     end
@@ -150,6 +154,10 @@ module ProviderInterface
 
     def already_rejected_message
       'This application has already been rejected.'
+    end
+
+    def wizard_entrypoint_paths
+      [new_provider_interface_application_choice_decision_path]
     end
   end
 end

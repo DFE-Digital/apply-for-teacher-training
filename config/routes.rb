@@ -683,7 +683,7 @@ Rails.application.routes.draw do
       get '/conditions', to: redirect('/provider/applications/%{application_choice_id}/condition-statuses/edit')
 
       resource :condition_statuses, only: %i[edit update], path: 'condition-statuses' do
-        patch :confirm, on: :collection
+        resource :check, only: %i[edit update], controller: 'condition_statuses/checks'
       end
 
       get '/offer/new_withdraw' => redirect('/offer/withdraw')
