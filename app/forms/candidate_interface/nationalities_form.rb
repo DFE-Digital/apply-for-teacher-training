@@ -11,7 +11,6 @@ module CandidateInterface
     validate :candidate_provided_nationality
 
     UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English'].freeze
-    NEW_RIGHT_TO_WORK_FLOW_STARTS = 2022
 
     def self.build_from_application(application_form)
       new(

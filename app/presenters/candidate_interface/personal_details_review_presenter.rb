@@ -151,7 +151,7 @@ module CandidateInterface
     def right_to_work_rows
       return nil if british_or_irish?
 
-      if @application_form.recruitment_cycle_year >= NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
+      if @application_form.restructured_immigration_status?
 
         rows = [
           {

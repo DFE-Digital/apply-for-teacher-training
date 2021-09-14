@@ -213,7 +213,7 @@ module CandidateHelper
       )
 
       application_form = ApplicationForm.last
-      if application_form.recruitment_cycle_year >= CandidateInterface::NationalitiesForm::NEW_RIGHT_TO_WORK_FLOW_STARTS
+      if application_form.restructured_immigration_status?
         click_button t('save_and_continue')
         fill_in 'Day', with: '24'
         fill_in 'Month', with: '6'
