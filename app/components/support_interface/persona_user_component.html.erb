@@ -1,0 +1,15 @@
+<h2 class="govuk-heading-m">
+  <%= persona_user.full_name %>
+</h2>
+
+<p class="govuk-body">
+  <%= persona_providers_description %>
+</p>
+
+<p class="govuk-body">
+  <%= persona_permissions_description %>
+</p>
+
+<%= govuk_button_to "Sign in as #{persona_user.full_name}", support_interface_provider_user_impersonate_path(persona_user), form_class: 'govuk-!-display-inline-block' %>
+
+<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
