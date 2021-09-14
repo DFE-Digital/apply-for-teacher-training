@@ -56,7 +56,7 @@ task copy_feature_flags_from_production: :environment do
   puts 'Synchronising feature flags with production...'
 
   FeatureFlag::FEATURES.each_key do |f|
-    if flags.dig(f, 'active')
+    if flags.dig(f, 'active') && flags.dig(f, 'type') != 'variant'
       puts "+ #{f}"
       FeatureFlag.activate(f)
     else
