@@ -26,8 +26,6 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
       create(
         :degree_qualification,
         qualification_type: 'Other Qual',
-        subject: 'Woof',
-        institution_name: 'University of Doge',
         institution_country: 'GB',
         grade: 'Lower second-class honours (2:2)',
         application_form: application_form,
