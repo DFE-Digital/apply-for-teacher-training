@@ -144,3 +144,28 @@ set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.e
 unset-space-developer: ## make qa unset-space-developer USER_ID=first.last@digital.education.gov.uk
 	$(if $(USER_ID), , $(error Missing environment variable "USER_ID", USER_ID required for this command to run))
 	cf unset-space-role $(USER_ID) dfe $(SPACE) SpaceDeveloper
+
+.PHONY: stop-all-apps
+stop-all-apps: ## Stops web, clock and worker apps, make qa stop-all-apps CONFIRM_STOP=1
+	$(if $(CONFIRM_STOP), , $(error stop-all-apps can only run with CONFIRM_STOP))
+	cf target -s ${SPACE}
+	cf stop apply-${APP_NAME_SUFFIX} && \
+	cf stop apply-clock-${APP_NAME_SUFFIX} && \
+	cf stop apply-worker-${APP_NAME_SUFFIX}
+
+.PHONY: get-postgres-instance-guid
+get-postgres-instance-guid: Gets the postgres service instance's guid
+	cf target -s ${SPACE} > /dev/null
+	cf service apply-postgres-${APP_NAME_SUFFIX} --guid
+
+.PHONY: rename-postgres-service
+rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=apply-postgres-qa-backup CONFIRM_RENAME
+	$(if $(CONFIRM_RENAME), , $(error can only run with CONFIRM_RENAME))
+	$(if $(NEW_NAME_SUFFIX), , $(error NEW_NAME_SUFFIX is required))
+	cf target -s ${SPACE} > /dev/null
+	cf rename-service apply-postgres-${APP_NAME_SUFFIX} apply-postgres-${APP_NAME_SUFFIX}-$(NEW_NAME_SUFFIX)
+
+.PHONY: remove-postgres-tf-state
+remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state
+	cd terraform && terraform state rm module.paas.data.cloudfoundry_service.postgres && \
+	  terraform state rm module.paas.cloudfoundry_service_key.postgres-readonly-key
