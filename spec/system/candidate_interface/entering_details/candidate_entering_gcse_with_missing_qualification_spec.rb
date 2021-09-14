@@ -68,7 +68,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   def then_i_see_the_review_page_with_correct_details
     expect(page).to have_content 'What type of English qualification do you have?'
     expect(page).to have_content 'I don’t have a English qualification yet'
-    expect(page).to have_content 'Other evidence I have the skills required'
+    expect(page).to have_content 'Other evidence I have the skills required (optional)'
     expect(page).to have_content 'I’ve completed a course'
     expect(page).to have_content 'Are you currently studying for this qualification'
     expect(page).to have_content 'No'
@@ -91,6 +91,6 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(page).to have_content 'I don’t have a English qualification yet'
     expect(page).to have_content 'Are you currently studying for this qualification'
     expect(page).to have_content 'This is in progress'
-    expect(page).not_to have_content 'Other evidence I have the skills required'
+    expect(page).not_to have_content 'Other evidence I have the skills required (optional)'
   end
 end

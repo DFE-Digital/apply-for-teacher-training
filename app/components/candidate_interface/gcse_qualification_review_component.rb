@@ -196,7 +196,7 @@ module CandidateInterface
       return nil if application_qualification.missing_explanation.nil?
 
       {
-        key: 'Other evidence I have the skills required',
+        key: 'Other evidence I have the skills required (optional)',
         value: application_qualification.missing_explanation.presence || 'Not provided',
         action: {
           href: candidate_interface_gcse_edit_missing_path(change_path_params),
