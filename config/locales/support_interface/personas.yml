@@ -1,27 +1,34 @@
 en:
   personas:
+    permissions:
+      admin: This user has permission to manage both organisations and users.
+      user: This user can only view applications.
+    organisation_membership_explanation:
+      self_ratified: This user belongs to a single provider, which has no relationships with other providers.
+      multiple_organisations: This user belongs to multiple providers.
+      no_courses: This user belongs to a single provider which has no open courses.
     users:
       self_ratified_user:
         uid: persona-self-ratified-provider-user
-        providers: This user belongs to a single provider, which has no relationships with other providers.
-        permissions: This user can only view applications.
+        user_type: user
+        organisation_membership: self_ratified
       self_ratified_admin:
         uid: persona-self-ratified-provider-admin
-        providers: This user belongs to a single provider, which has no relationships with other providers.
-        permissions: This user has both `manage_organisations` and `manage_users` permissions.
+        user_type: admin
+        organisation_membership: self_ratified
       multiple_organisations_user:
         uid: persona-multiple-providers-user
-        providers: This user belongs to multiple providers.
-        permissions: This user can only view applications.
+        user_type: user
+        organisation_membership: multiple_organisations
       multiple_organisations_admin:
         uid: persona-multiple-providers-admin
-        providers: This user belongs to multiple providers.
-        permissions: This user has both `manage_organisations` and `manage_users` permissions.
+        user_type: admin
+        organisation_membership: multiple_organisations
       no_courses_organisation_user:
         uid: persona-no-courses-provider-user
-        providers: This user belongs to a single provider which has no open courses.
-        permissions: This user can only view applications.
+        user_type: user
+        organisation_membership: no_courses
       no_courses_organisation_admin:
         uid: persona-no-courses-provider-admin
-        providers: This user belongs to a single provider which has no open courses.
-        permissions: This user has both `manage_organisations` and `manage_users` permissions.
+        user_type: admin
+        organisation_membership: no_courses

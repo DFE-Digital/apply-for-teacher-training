@@ -19,12 +19,20 @@ module SupportInterface
       end
     end
 
+    def persona_organisation_membership
+      @organisation_membership ||= t("personas.users.#{persona_type}.organisation_membership")
+    end
+
     def persona_providers_description
-      t("personas.users.#{persona_type}.providers")
+      t("personas.organisation_membership_explanation.#{persona_organisation_membership}")
+    end
+
+    def persona_user_type
+      @user_type ||= t("personas.users.#{persona_type}.user_type")
     end
 
     def persona_permissions_description
-      t("personas.users.#{persona_type}.permissions")
+      t("personas.permissions.#{persona_user_type}")
     end
   end
 end
