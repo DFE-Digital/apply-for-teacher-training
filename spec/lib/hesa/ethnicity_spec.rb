@@ -21,7 +21,21 @@ RSpec.describe Hesa::Ethnicity do
         cycle_year = 2021
         ethnicity_values = described_class.all(cycle_year)
 
-        expect(ethnicity_values.size).to eq 16
+        expect(ethnicity_values.size).to eq 18
+
+        chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
+
+        expect(chinese.hesa_code).to eq '34'
+        expect(chinese.value).to eq HesaEthnicityValues::CHINESE
+      end
+    end
+
+    context 'Recruitment cycle 2021 - 2022' do
+      it 'returns a list of HESA ethnicity structs' do
+        cycle_year = 2022
+        ethnicity_values = described_class.all(cycle_year)
+
+        expect(ethnicity_values.size).to eq 18
 
         chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
 
@@ -44,9 +58,9 @@ RSpec.describe Hesa::Ethnicity do
 
     context 'given an unrecognised value' do
       it 'returns nil' do
-        result = described_class.find('Information refused', 2021)
+        result = described_class.find('Dunno', 2021)
 
-        expect(result).to eq nil
+        expect(result.value).to eq HesaEthnicityValues::NOT_KNOWN
       end
     end
   end

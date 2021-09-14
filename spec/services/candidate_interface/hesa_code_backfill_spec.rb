@@ -148,7 +148,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
             'ethnic_group' => 'Prefer not to say',
             'disabilities' => [],
             'hesa_disabilities' => nil,
-            'hesa_ethnicity' => nil,
+            'hesa_ethnicity' => '98',
             'hesa_sex' => nil,
           )
         end
