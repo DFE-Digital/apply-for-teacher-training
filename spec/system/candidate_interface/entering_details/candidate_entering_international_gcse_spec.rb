@@ -73,7 +73,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Enter the type of qualification'
+    expect(page).to have_content 'Select the type of qualification'
   end
 
   def when_i_select_non_uk_qualification

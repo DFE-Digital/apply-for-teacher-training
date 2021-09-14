@@ -120,13 +120,13 @@ en:
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:
-              blank: Enter the type of qualification
+              blank: Select the type of qualification
             other_uk_qualification_type:
-              blank: Enter the type of qualification
+              blank: Enter qualification name
               too_long: Type of degree must be %{count} characters or fewer
             non_uk_qualification_type:
-              blank: Enter the type of qualification
-            not_completed_explanation:
+              blank: Enter qualification name
+            missing_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer
         candidate_interface/gcse_institution_country_form:

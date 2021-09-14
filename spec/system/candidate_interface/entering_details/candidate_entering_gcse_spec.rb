@@ -138,7 +138,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Enter the type of qualification'
+    expect(page).to have_content 'Select the type of qualification'
   end
 
   def then_i_see_the_gcse_option_selected

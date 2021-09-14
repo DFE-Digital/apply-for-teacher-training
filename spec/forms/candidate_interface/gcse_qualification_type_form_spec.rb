@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         form = described_class.build_from_qualification(qualification)
 
         expect(form.valid?).to eq false
-        expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of qualification')
+        expect(form.errors[:other_uk_qualification_type]).to include('Enter qualification name')
       end
 
       context 'missing qualification type with an explanation provided' do
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         form = described_class.build_from_qualification(qualification)
 
         expect(form.valid?).to eq false
-        expect(form.errors[:non_uk_qualification_type]).to include('Enter the type of qualification')
+        expect(form.errors[:non_uk_qualification_type]).to include('Enter qualification name')
       end
     end
   end
