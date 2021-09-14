@@ -6,6 +6,7 @@ module CandidateInterface
 
     validates :immigration_status, presence: true
     validates :immigration_status_details, presence: true, if: :other_immigration_status?
+    validates :immigration_status_details, word_count: { maximum: 200 }
 
     DEFAULT_IMMIGRATION_STATUS = 'other'.freeze
 
