@@ -187,6 +187,14 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def apply_service_is_now_open(provider_user)
+    @provider_user = provider_user
+  end
+
+  def find_service_is_now_open(provider_user)
+    @provider_user = provider_user
+  end
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})
