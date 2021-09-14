@@ -6,6 +6,7 @@ module CandidateInterface
 
     validates :immigration_route, presence: true
     validates :immigration_route_details, presence: true, if: :other_immigration_route?
+    validates :immigration_route_details, word_count: { maximum: 200 }
 
     def self.build_from_application(application_form)
       new(
