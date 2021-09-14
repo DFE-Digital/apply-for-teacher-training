@@ -23,5 +23,13 @@ RSpec.describe SupportInterface::PersonaUserComponent do
     it 'shows a button to sign in as the user' do
       expect(render.css('input').first.attributes['value'].value).to eq("Sign in as #{persona_user.full_name}")
     end
+
+    it 'shows a tag with the organisation membership type' do
+      expect(render.css('.govuk-tag--blue').text).to eq('Self ratified')
+    end
+
+    it 'shows a tag with the user type' do
+      expect(render.css('.govuk-tag--green').text).to eq('User')
+    end
   end
 end
