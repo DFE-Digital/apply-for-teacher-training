@@ -16,11 +16,40 @@ RSpec.describe GetCourseOptionFromCodes do
   end
 
   describe 'validation' do
-    required_attributes = %w[provider_code course_code study_mode site_code recruitment_cycle_year]
+    required_attributes = %w[provider_code course_code study_mode recruitment_cycle_year]
     required_attributes.each do |attr|
       it "complains about missing #{attr}" do
-        service.send("#{attr}=".to_sym, 'random')
+        service.send("#{attr}=", nil)
         expect(service).not_to be_valid
+      end
+    end
+
+    context 'when the site code is given but does not match any course option' do
+      let!(:site_for_another_course) { create(:site, code: 'QQ', provider: course_option.provider) }
+
+      it 'is not valid' do
+        service.site_code = site_for_another_course.code
+        expect(service).to be_invalid
+        expected_message = "cannot find any #{course_option.course.study_mode} options at site #{site_for_another_course.code} for course #{course_option.course.code}"
+        expect(service.errors[:course_option]).to contain_exactly(expected_message)
+      end
+    end
+
+    context 'when the site code is blank but unambiguous' do
+      it 'is valid' do
+        service.site_code = nil
+        expect(service).to be_valid
+      end
+    end
+
+    context 'when the site code is blank and ambiguous' do
+      let!(:another_course_option) { create(:course_option, course: course_option.course) }
+
+      it 'is not valid' do
+        service.site_code = nil
+        expect(service).to be_invalid
+        expected_message = "found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
+        expect(service.errors[:course_option]).to contain_exactly(expected_message)
       end
     end
   end
