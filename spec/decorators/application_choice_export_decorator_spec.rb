@@ -50,7 +50,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
 
       explanation = described_class.new(application_choice).missing_gcses_explanation
 
-      expect(explanation).to include('Maths GCSE or equivalent', missing_gcse.missing_explanation)
+      expect(explanation).to include('Maths GCSE or equivalent', missing_gcse.not_completed_explanation)
     end
 
     it 'returns nil if a form has no missing gcses' do

@@ -32,7 +32,7 @@ FactoryBot.define do
         qualification_type { 'missing' }
         grade { nil }
         predicted_grade { nil }
-        missing_explanation { 'I will be taking an equivalency test in a few weeks' }
+        not_completed_explanation { 'I will be taking an equivalency test in a few weeks' }
       end
 
       trait :multiple_english_gcses do

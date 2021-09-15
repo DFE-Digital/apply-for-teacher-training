@@ -17,7 +17,7 @@ en:
       non_uk:
         label: Qualification name
         hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
-      missing_explanation:
+      not_completed_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
         label: Please specify your grade
@@ -126,7 +126,7 @@ en:
               too_long: Type of degree must be %{count} characters or fewer
             non_uk_qualification_type:
               blank: Enter the type of qualification
-            missing_explanation:
+            not_completed_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer
         candidate_interface/gcse_institution_country_form:

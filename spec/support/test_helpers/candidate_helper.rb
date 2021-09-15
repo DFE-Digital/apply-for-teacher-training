@@ -449,7 +449,7 @@ module CandidateHelper
 
   def candidate_explains_a_missing_gcse
     choose('I do not have this qualification yet')
-    fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
+    fill_in t('application_form.gcse.not_completed_explanation.label'), with: 'I will sit the exam at my local college this summer.'
     click_button t('save_and_continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
