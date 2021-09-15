@@ -79,12 +79,14 @@ staging:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-test)
 
 sandbox:
+	$(if $(CONFIRM_SANDBOX), , $(error Production can only run with CONFIRM_SANDBOX))
 	$(eval APP_ENV=sandbox)
 	$(eval SPACE=bat-prod)
 	$(eval APP_NAME_SUFFIX=sandbox)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 
 prod:
+	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
 	$(eval APP_ENV=production)
 	$(eval APP_NAME_SUFFIX=prod)
 	$(eval SPACE=bat-prod)
