@@ -186,7 +186,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def not_submitted_and_deadline_has_passed?
-    !submitted? && (apply_1? && CycleTimetable.apply_1_deadline_has_passed?(self) || apply_2? && CycleTimetable.apply_2_deadline_has_passed?(self))
+    !submitted? && ((apply_1? && CycleTimetable.apply_1_deadline_has_passed?(self)) || (apply_2? && CycleTimetable.apply_2_deadline_has_passed?(self)))
   end
 
   def unsuccessful_and_apply_2_deadline_has_passed?
