@@ -4,17 +4,18 @@ module ProviderInterface
       skip_before_action :redirect_to_index_if_store_cleared
 
       def new
-        clear_wizard_if_new_entry(CancelInterviewWizard.new(cancel_interview_store, {}))
+        clear_wizard_if_new_entry(CancelInterviewWizard.new(cancel_interview_store(interview_id), {}))
 
         @interview = @application_choice.interviews.find(interview_id)
-        @wizard = CancelInterviewWizard.new(cancel_interview_store)
+        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), { current_step: 'new', action: action })
+        @wizard.referer ||= request.referer
         @wizard.save_state!
       end
 
       def create
         @interview = @application_choice.interviews.find(interview_id)
 
-        @wizard = CancelInterviewWizard.new(cancel_interview_store, cancellation_params)
+        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), cancellation_params)
         @wizard.save_state!
 
         if @wizard.valid?
@@ -27,7 +28,8 @@ module ProviderInterface
 
       def show
         @interview = @application_choice.interviews.find(interview_id)
-        @wizard = CancelInterviewWizard.new(cancel_interview_store)
+        @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id), current_step: 'check', action: action)
+        @wizard.save_state!
       end
 
     private

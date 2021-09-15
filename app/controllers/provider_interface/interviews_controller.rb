@@ -91,7 +91,7 @@ module ProviderInterface
 
     def destroy
       @interview = @application_choice.interviews.find(interview_id)
-      @wizard = CancelInterviewWizard.new(cancel_interview_store)
+      @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id))
 
       CancelInterview.new(
         actor: current_provider_user,
@@ -133,8 +133,8 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
-    def cancel_interview_store
-      key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+    def cancel_interview_store(interview_id)
+      key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
       WizardStateStores::RedisStore.new(key: key)
     end
 

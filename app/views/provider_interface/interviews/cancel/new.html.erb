@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix(t('.page_title'), @wizard.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(request.referer) %>
+<% content_for :before_content, govuk_back_link_to(cancel_interview_path_for(@application_choice, @wizard, @interview, @wizard.previous_step, back: true)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -21,7 +21,7 @@
       </h1>
 
       <div class='govuk-form-group'>
-        <%= f.govuk_text_area :cancellation_reason, label: -> { nil } %>
+        <%= f.govuk_text_area :cancellation_reason, label: -> {} %>
       </div>
       <%= f.govuk_submit 'Continue' %>
     <% end %>

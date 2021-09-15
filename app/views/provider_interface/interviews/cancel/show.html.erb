@@ -1,5 +1,5 @@
 <% content_for :browser_title, t('.title') %>
-<% content_for :before_content, govuk_back_link_to(request.referer) %>
+<% content_for :before_content, govuk_back_link_to(cancel_interview_path_for(@application_choice, @wizard, @interview, @wizard.previous_step, back: true)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
