@@ -38,6 +38,9 @@ class FeatureFlag
     [:account_and_org_settings_changes, 'Allows new account and org setting changes', 'Despo Pentara'],
   ].freeze
 
+  CACHE_EXPIRES_IN = 1.day
+  FEATURE_FLAG_STATUSES_CACHE_KEY = 'feature-flag-statuses'.freeze
+
   # Mark features as `variant` i.e. can be inconsistently marked as active/inactive
   # across environments and we won't be notified if inconsistent. All other features
   # will default to `invariant` which means they will need to be consistently marked
@@ -65,12 +68,28 @@ class FeatureFlag
   def self.active?(feature_name)
     raise unless feature_name.in?(FEATURES)
 
-    FEATURES[feature_name].feature.active?
+    feature_statuses[feature_name].presence || false
   end
 
   def self.sync_with_database(feature_name, active)
     feature = Feature.find_or_initialize_by(name: feature_name)
     feature.active = active
+
+    clear_cache!
     feature.save!
+  end
+
+  def self.feature_statuses
+    Rails.cache.fetch(cache_key, expires_in: CACHE_EXPIRES_IN) do
+      Feature.where(name: FEATURES.keys).pluck(:name, :active).to_h.with_indifferent_access
+    end
+  end
+
+  def self.cache_key
+    CacheKey.generate(FEATURE_FLAG_STATUSES_CACHE_KEY)
+  end
+
+  def self.clear_cache!
+    Rails.cache.delete(cache_key)
   end
 end

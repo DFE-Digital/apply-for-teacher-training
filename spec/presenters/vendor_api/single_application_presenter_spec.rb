@@ -1140,6 +1140,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'caches the serialized JSON string' do
+      allow(FeatureFlag).to receive(:feature_statuses).and_return({})
       allow(Rails.cache).to receive(:fetch)
       described_class.new(application_choice).serialized_json
 
