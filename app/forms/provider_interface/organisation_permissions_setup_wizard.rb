@@ -1,17 +1,17 @@
 module ProviderInterface
   class OrganisationPermissionsSetupWizard
-    include ActiveModel::Model
+    include Wizard
     include ProviderRelationshipPermissionsParamsHelper
 
-    attr_accessor :relationship_ids, :current_relationship_id, :current_step, :checking_answers
-    attr_writer :state_store, :provider_relationship_attrs
+    attr_accessor :relationship_ids, :current_relationship_id, :checking_answers
+    attr_writer :provider_relationship_attrs
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
       super(last_saved_state.deep_merge(attrs))
 
-      self.checking_answers = false if current_step == :check
+      checking_answers = false if current_step == :check
     end
 
     def current_relationship
@@ -30,14 +30,6 @@ module ProviderInterface
       return [:check] if checking_answers
 
       [:relationship, previous_relationship_id] if previous_relationship_id.present?
-    end
-
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
     end
 
     def relationships
@@ -66,20 +58,6 @@ module ProviderInterface
 
     def provider_relationship_attrs
       @provider_relationship_attrs.presence || {}
-    end
-
-    def state
-      as_json(except: %w[state_store errors validation_context]).to_json
-    end
-
-    def last_saved_state
-      state = @state_store.read
-
-      if state
-        JSON.parse(state).with_indifferent_access
-      else
-        {}
-      end
     end
 
     def assign_wizard_attrs_to_relationship(relationship)

@@ -1,6 +1,6 @@
 module ProviderInterface
   class EditUserPermissionsWizard
-    include ActiveModel::Model
+    include Wizard
 
     attr_accessor :permissions
 
@@ -18,25 +18,6 @@ module ProviderInterface
       end
 
       wizard
-    end
-
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
-  private
-
-    def last_saved_state
-      saved_state = @state_store.read
-      saved_state ? JSON.parse(saved_state) : {}
-    end
-
-    def state
-      as_json(except: %w[state_store errors validation_context]).to_json
     end
   end
 end

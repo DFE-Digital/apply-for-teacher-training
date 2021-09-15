@@ -69,7 +69,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
 
       it 'requires confirmed status of conditions' do
         this_state = state_store_for(application_choice_id: application_choice.id)
-        expect(wizard_for(this_state)).not_to be_valid
+        expect(wizard_for(this_state)).not_to be_valid_for_current_step
 
         this_state = state_store_for(
           application_choice_id: application_choice.id,
@@ -89,7 +89,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
           application_choice_id: application_choice.id,
           conditions_status: 'met',
         )
-        expect(wizard_for(this_state)).not_to be_valid
+        expect(wizard_for(this_state)).not_to be_valid_for_current_step
 
         this_state = state_store_for(
           application_choice_id: application_choice.id,

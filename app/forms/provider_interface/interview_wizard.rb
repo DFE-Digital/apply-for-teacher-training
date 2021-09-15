@@ -1,12 +1,12 @@
 module ProviderInterface
   class InterviewWizard
-    include ActiveModel::Model
+    include Wizard
     include ActiveModel::Attributes
 
     VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:.\s]([0-5][0-9]))?([AaPp][Mm])$/.freeze
 
     attr_accessor :time, :location, :additional_details, :provider_id, :application_choice, :provider_user,
-                  :current_step, :path_history, :wizard_path_history, :action, :referer
+                  :path_history, :wizard_path_history
     attr_writer :date
 
     attribute 'date(3i)', :string
@@ -63,20 +63,12 @@ module ProviderInterface
       end
     end
 
-    def save_state!
-      @state_store.write(state)
-    end
-
     def update_path_history(attrs)
       @wizard_path_history = WizardPathHistory.new(@path_history,
                                                    step: attrs[:current_step].presence,
                                                    action: attrs[:action].presence)
       @wizard_path_history.update
       @path_history = @wizard_path_history.path_history
-    end
-
-    def clear_state!
-      @state_store.delete
     end
 
     def self.from_model(store, interview, step = 'input', action = nil)
@@ -143,13 +135,8 @@ module ProviderInterface
       @_application_providers ||= application_choice.associated_providers
     end
 
-    def last_saved_state
-      saved_state = @state_store.read
-      saved_state ? JSON.parse(saved_state) : {}
-    end
-
-    def state
-      as_json(except: %w[state_store errors validation_context _application_providers _multiple_application_providers]).to_json
+    def state_excluded_attributes
+      %w[state_store errors validation_context _application_providers _multiple_application_providers]
     end
   end
 end
