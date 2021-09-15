@@ -1,13 +1,26 @@
 class StartOfCycleNotificationWorker
   include Sidekiq::Worker
 
-  def perform(service, batch_size = 500)
+  def perform(service, batch_size = 100)
     @service = service
 
-    provider_users_scope.find_each(batch_size: batch_size) do |user|
-      # TODO: We may need to pass a provider + permissions here
-      # to avoid the mailer doing additional db work.
-      ProviderMailer.send(mailer_method, user)
+    providers_scope.find_each(batch_size: batch_size) do |provider|
+      provider.provider_users.where.not(Arel.sql(chaser_sent_sql)).each do |provider_user|
+        ProviderMailer.send(mailer_method, provider_user)
+        ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
+
+        next if service == :apply
+        next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
+
+        unset_permissions = provider.training_provider_permissions.where(setup_at: nil)
+        unset_permissions += provider.ratifying_provider_permissions.where(setup_at: nil)
+
+        next if unset_permissions.blank?
+        next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
+
+        ProviderMailer.send(setup_mailer_method, provider_user)
+        ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
+      end
     end
   end
 
@@ -15,39 +28,32 @@ private
 
   attr_reader :service
 
-  def provider_users_scope
-    scope = service == :find ? all_provider_users : provider_users_who_need_to_set_up_org_permissions
-    scope = scope.includes(:providers).order('providers.name', 'provider_users.email_address')
-    scope.where.not(Arel.sql(email_exists_sql)).distinct
+  def providers_scope
+    Provider
+      .joins('INNER JOIN provider_users_providers ON providers.id = provider_users_providers.provider_id')
+      .joins('INNER JOIN provider_users ON provider_users.id = provider_users_providers.provider_user_id')
+      .where.not(Arel.sql(chaser_sent_sql))
+      .order('providers.name')
+      .distinct
   end
 
-  def email_exists_sql
-    <<-SQL.squish
+  def chaser_sent_sql
+    <<-SQL
       EXISTS(
         SELECT 1
-        FROM emails
-        WHERE emails.to = provider_users.email_address
-        AND emails.delivery_status IN ('delivered', 'pending')
-        AND emails.mailer = 'provider_mailer'
-        AND emails.mail_template = '#{mail_template}'
+        FROM chasers_sent
+        WHERE chased_id = provider_users.id
+        AND chased_type = 'ProviderUser'
+        AND chaser_type = '#{mailer_method}'
       )
     SQL
   end
 
-  def all_provider_users
-    ProviderUser.all
-  end
-
-  def provider_users_who_need_to_set_up_org_permissions
-    ProviderUser
-      .joins(provider_permissions: :provider)
-      .joins('LEFT JOIN provider_relationship_permissions tprp ON providers.id = tprp.training_provider_id AND tprp.setup_at IS NULL')
-      .joins('LEFT JOIN provider_relationship_permissions rprp ON providers.id = rprp.ratifying_provider_id AND rprp.setup_at IS NULL')
-      .where(provider_permissions: { manage_organisations: true })
-  end
-
-  def mail_template
+  def mailer_method
     "#{service}_service_is_now_open"
   end
-  alias mailer_method mail_template
+
+  def setup_mailer_method
+    'set_up_organisation_permissions'
+  end
 end

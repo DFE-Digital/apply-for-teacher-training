@@ -195,6 +195,12 @@ class ProviderMailer < ApplicationMailer
     @provider_user = provider_user
   end
 
+  # rubocop:disable Naming/AccessorMethodName
+  def set_up_organisation_permissions(provider_user)
+    @provider_user = provider_user
+  end
+# rubocop:enable Naming/AccessorMethodName
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})
