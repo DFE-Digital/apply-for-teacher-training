@@ -42,7 +42,7 @@ RSpec.feature 'Candidate sends a reference reminder' do
   def and_i_can_send_a_single_reminder_manually
     click_button 'Yes I’m sure - send a reminder'
     open_email(@reference.email_address)
-    expect(current_email.subject).to include 'Jeremy Corbyn is waiting for you to give them a reference'
+    expect(current_email.subject).to include 'Can you give Jeremy Corbyn a reference for their teacher training application?'
     expect(all_emails.size).to eq 1
 
     expect(page).to have_current_path candidate_interface_references_review_path
