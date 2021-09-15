@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
+  before { FeatureFlag.activate(:restructured_immigration_status) }
+
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
     given_i_am_apply_during_the_2022_recruitment_cycle
     and_i_am_signed_in
