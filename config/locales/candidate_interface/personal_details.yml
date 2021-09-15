@@ -111,3 +111,9 @@ en:
             immigration_status_details:
               blank: Enter your immigration status
               too_many_words: Immigration status must be %{count} words or fewer
+        candidate_interface/immigration_entry_date_form:
+          attributes:
+            immigration_entry_date:
+              blank_date: Enter the date you entered the UK
+              invalid_date: The date you entered the UK must be a real date
+              blank_date_fields: The date you entered the UK must include a %{fields}
