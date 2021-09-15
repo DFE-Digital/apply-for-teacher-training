@@ -1,8 +1,8 @@
 module ProviderInterface
   class CancelInterviewWizard
-    include ActiveModel::Model
+    include Wizard
 
-    attr_accessor :cancellation_reason, :path_history, :wizard_path_history, :current_step, :action, :referer
+    attr_accessor :cancellation_reason, :path_history, :wizard_path_history
 
     validates :cancellation_reason, presence: true, word_count: { maximum: 2000 }
 
@@ -12,14 +12,6 @@ module ProviderInterface
       super(last_saved_state.deep_merge(attrs))
       @path_history ||= [:referer]
       update_path_history(attrs)
-    end
-
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
     end
 
     def previous_step
@@ -38,13 +30,5 @@ module ProviderInterface
       @path_history = @wizard_path_history.path_history
     end
 
-    def last_saved_state
-      saved_state = @state_store.read
-      saved_state ? JSON.parse(saved_state) : {}
-    end
-
-    def state
-      as_json(except: %w[state_store errors validation_context]).to_json
-    end
   end
 end

@@ -1,6 +1,7 @@
 module ProviderInterface
   class ReasonsForRejectionWizard
-    include ActiveModel::Model
+    include Wizard
+
     TRANSLATION_KEY_PREFIX = 'activemodel.errors.models.provider_interface/reasons_for_rejection_wizard.attributes'.freeze
 
     class NestedAnswerValidator < ActiveModel::EachValidator
@@ -50,7 +51,7 @@ module ProviderInterface
       end
     end
 
-    attr_accessor :current_step, :checking_answers,
+    attr_accessor :checking_answers,
                   :candidate_behaviour_y_n, :candidate_behaviour_what_to_improve, :candidate_behaviour_other,
                   :quality_of_application_y_n, :quality_of_application_personal_statement_what_to_improve,
                   :quality_of_application_subject_knowledge_what_to_improve, :quality_of_application_other_details,
@@ -80,10 +81,6 @@ module ProviderInterface
       @checking_answers = true if current_step == 'check'
     end
 
-    def valid_for_current_step?
-      valid?(current_step.to_sym)
-    end
-
     def reason_not_captured_by_initial_questions?
       ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.all? { |attr| send(attr) == 'No' }
     end
@@ -98,10 +95,6 @@ module ProviderInterface
       else
         'check'
       end
-    end
-
-    def save!
-      clear_state!
     end
 
     attr_writer :candidate_behaviour_what_did_the_candidate_do, :quality_of_application_which_parts_needed_improvement, :qualifications_which_qualifications, :honesty_and_professionalism_concerns, :safeguarding_concerns
@@ -185,14 +178,6 @@ module ProviderInterface
       value.present? && value.scan(/\w+/).size > count
     end
 
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
     def to_model
       ReasonsForRejection.new(last_saved_state.except('current_step', 'checking_answers'))
     end
@@ -249,12 +234,6 @@ module ProviderInterface
       end
     end
 
-    # The current state of the object, minus some ActiveModel cruft and
-    # state_store, which is received fresh on each .new
-    def state
-      as_json(except: %w[state_store errors validation_context]).to_json
-    end
-
     def last_saved_state
       saved_state = @state_store.read
 
@@ -263,6 +242,10 @@ module ProviderInterface
       else
         {}
       end
+    end
+
+    def state_excluded_attributes
+      %w[state_store errors validation_context interested_in_future_applications_y_n]
     end
   end
 end

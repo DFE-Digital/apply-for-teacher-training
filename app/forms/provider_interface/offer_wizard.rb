@@ -1,14 +1,14 @@
 module ProviderInterface
   class OfferWizard
-    include ActiveModel::Model
+    include Wizard
 
     STEPS = { make_offer: %i[select_option conditions check],
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
-                  :standard_conditions, :further_condition_attrs, :current_step, :decision,
-                  :action, :path_history, :wizard_path_history,
+                  :standard_conditions, :further_condition_attrs, :decision,
+                  :path_history, :wizard_path_history,
                   :provider_user_id, :application_choice_id
 
     validates :decision, presence: true, on: %i[select_option]
@@ -54,18 +54,6 @@ module ProviderInterface
 
     def course_option
       CourseOption.find(course_option_id)
-    end
-
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
-    def valid_for_current_step?
-      valid?(current_step.to_sym)
     end
 
     def next_step(step = current_step)
@@ -201,16 +189,8 @@ module ProviderInterface
       query_service.available_course_options(course: course, study_mode: study_mode)
     end
 
-    def last_saved_state
-      saved_state = @state_store.read
-      state_hash = saved_state ? JSON.parse(saved_state) : {}
-      state_hash.except('further_conditions')
-    end
-
-    def state
-      as_json(
-        except: %w[state_store errors validation_context query_service wizard_path_history _further_condition_models],
-      ).to_json
+    def state_excluded_attributes
+      %w[state_store errors validation_context query_service wizard_path_history _further_condition_models]
     end
 
     def update_path_history(attrs)
