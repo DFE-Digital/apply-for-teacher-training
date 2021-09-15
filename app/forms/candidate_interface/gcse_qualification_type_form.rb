@@ -55,12 +55,18 @@ module CandidateInterface
           institution_country: nil,
           other_uk_qualification_type: nil,
           non_uk_qualification_type: nil,
+          currently_completing_qualification: nil,
+          not_completed_explanation: nil,
+          missing_explanation: nil,
         )
       else
         qualification.update!(
           qualification_type: qualification_type,
           other_uk_qualification_type: other_uk_qualification_type,
           non_uk_qualification_type: non_uk_qualification_type,
+          currently_completing_qualification: nil,
+          not_completed_explanation: nil,
+          missing_explanation: nil,
         )
       end
     end

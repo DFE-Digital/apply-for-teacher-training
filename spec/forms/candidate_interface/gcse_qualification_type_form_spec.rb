@@ -72,6 +72,22 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       expect(form.update(application_form)).to eq(false)
     end
 
+    it 'updates the qualification type and sets the appropriate values to nil' do
+      qualification = create(:gcse_qualification, :missing)
+
+      described_class.new(
+        qualification_type: 'gcse',
+        subject: qualification.qualification_type,
+        level: qualification.level,
+      ).update(qualification)
+
+      expect(qualification.reload.qualification_type).to eq 'gcse'
+      expect(qualification.non_uk_qualification_type).to eq nil
+      expect(qualification.currently_completing_qualification).to eq nil
+      expect(qualification.not_completed_explanation).to eq nil
+      expect(qualification.missing_explanation).to eq nil
+    end
+
     context 'when the qualification_type is updated from non_uk' do
       it 'updates the existing qualification and sets non_uk_qualification_type to nil' do
         qualification = create(:gcse_qualification, :non_uk)
@@ -108,6 +124,8 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
           :gcse_qualification,
           :multiple_english_gcses,
           grade: 'D',
+          currently_completing_qualification: false,
+          missing_explanation: 'I am going to resit',
         )
 
         described_class.new(
@@ -124,6 +142,9 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         expect(qualification.institution_country).to eq nil
         expect(qualification.other_uk_qualification_type).to eq nil
         expect(qualification.non_uk_qualification_type).to eq nil
+        expect(qualification.currently_completing_qualification).to eq nil
+        expect(qualification.not_completed_explanation).to eq nil
+        expect(qualification.missing_explanation).to eq nil
       end
     end
   end
