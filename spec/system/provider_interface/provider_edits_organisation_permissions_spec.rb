@@ -6,17 +6,12 @@ RSpec.feature 'Provider edits organisation permissions' do
   scenario 'Provider edits organisation permissions' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_view_applications_for_some_providers
-    and_their_organisational_permissions_have_already_been_set_up
+    and_their_organisation_permissions_have_already_been_set_up
     and_i_can_manage_organisations_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_organisation_settings_link
-    if FeatureFlag.active?(:account_and_org_settings_changes)
-      and_i_click_on_a_particular_organisation_permissions_link
-    else
-      and_i_click_on_organisation_permissions
-      and_i_click_on_an_organisation_i_can_manage
-    end
+    and_i_click_on_a_particular_organisation_permissions_link
     and_i_click_to_change_one_of_its_relationships
     and_i_give_my_organisation_permission_to_make_decisions
     then_i_am_redirected_to_the_organisation_relationships_page
@@ -37,7 +32,7 @@ RSpec.feature 'Provider edits organisation permissions' do
     @ratifying_provider = Provider.find_by(code: 'DEF')
   end
 
-  def and_their_organisational_permissions_have_already_been_set_up
+  def and_their_organisation_permissions_have_already_been_set_up
     @relationship = create(
       :provider_relationship_permissions,
       training_provider: @training_provider,

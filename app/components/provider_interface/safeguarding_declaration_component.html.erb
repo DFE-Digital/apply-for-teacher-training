@@ -46,7 +46,7 @@
       <% if @analysis.training_provider_users_who_can_manage_organisations.present? %>
         <% others = @analysis.training_provider_users_who_can_manage_organisations %>
         <p class="govuk-body">
-          This is because organisational permissions have not been set up. Contact
+          This is because organisation permissions have not been set up. Contact
           <% if others.one? %>
             <% user = others.first %>
             <%= user.full_name %> at <%= govuk_mail_to user.email_address, user.email_address %>.
@@ -63,7 +63,7 @@
         </p>
       <% else %>
         <p class="govuk-body">
-          This is because organisational permissions have not been set up.
+          This is because organisation permissions have not been set up.
           Contact support at <%= bat_contact_mail_to %>
         </p>
       <% end %>

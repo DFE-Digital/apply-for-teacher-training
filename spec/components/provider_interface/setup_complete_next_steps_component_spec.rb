@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::SetupCompleteNextStepsComponent do
 
     it 'shows a link to the users page' do
       expect(render.css('a')[1].text).to eq('invite or manage users')
-      expect(render.css('a')[1].attributes['href'].value).to eq('/provider/account/users')
+      expect(render.css('a')[1].attributes['href'].value).to eq('/provider/organisation-settings')
     end
   end
 

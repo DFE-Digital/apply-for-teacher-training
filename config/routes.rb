@@ -751,40 +751,16 @@ Rails.application.routes.draw do
     get '/account' => 'account#show'
 
     scope path: '/account' do
-      get '/profile' => 'profile#show'
+      get '/profile', to: redirect('/provider/account/personal-details')
 
       resource :personal_details, only: :show, path: 'personal-details'
 
-      scope path: '/users' do
-        get '/' => 'provider_users#index', as: :provider_users
-
-        get '/new' => 'provider_users_invitations#edit_details', as: :edit_invitation_basic_details
-        post '/new' => 'provider_users_invitations#update_details', as: :update_invitation_basic_details
-        get '/new/providers' => 'provider_users_invitations#edit_providers', as: :edit_invitation_providers
-        post '/new/providers' => 'provider_users_invitations#update_providers', as: :update_invitation_providers
-        get '/new/providers/:provider_id/permissions' => 'provider_users_invitations#edit_permissions', as: :edit_invitation_provider_permissions
-        post '/new/providers/:provider_id/permissions' => 'provider_users_invitations#update_permissions', as: :update_invitation_provider_permissions
-        get '/new/check' => 'provider_users_invitations#check', as: :check_invitation
-        post '/new/commit' => 'provider_users_invitations#commit', as: :commit_invitation
-
-        scope '/:provider_user_id', as: :provider_user do
-          get '/' => 'provider_users#show'
-
-          get '/edit-providers' => 'provider_users#edit_providers', as: :edit_providers
-          patch '/edit-providers' => 'provider_users#update_providers'
-
-          get '/remove' => 'provider_users#confirm_remove', as: :remove_provider_user
-          delete '/remove' => 'provider_users#remove'
-
-          get '/providers/:provider_id/permissions' => 'provider_users#edit_permissions', as: :edit_permissions
-          patch '/providers/:provider_id/permissions' => 'provider_users#update_permissions'
-        end
-      end
+      get '/users', to: redirect('/provider/organisation-settings')
 
       resource :personal_permissions, only: %i[show], path: 'permissions'
 
       # TODO: Revisit whether these redirects are still needed after 1st November 2021
-      get '/organisational-permissions', to: redirect('/provider/organisation-settings/organisations')
+      get '/organisational-permissions', to: redirect('/provider/organisation-settings')
       get '/organisational-permissions/:id', to: redirect { |params, _| "/provider/organisation-settings/organisations/#{params[:id]}/organisation-permissions" }
 
       resource :notifications, only: %i[show update], path: 'notification-settings'
@@ -792,7 +768,7 @@ Rails.application.routes.draw do
 
     resource :organisation_settings, path: '/organisation-settings', only: :show do
       resources :organisations, only: [] do
-        get '/' => 'organisation_permissions#organisations', on: :collection
+        get '/', to: redirect('/provider/organisation-settings'), on: :collection
         resources :organisation_permissions, path: '/organisation-permissions', only: %i[index edit update]
         resources :users, path: '/users', only: %i[index show destroy] do
           member do

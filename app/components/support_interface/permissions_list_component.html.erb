@@ -24,7 +24,7 @@
       <li>
         <%= render IconComponent.new(type: 'check') %>
         Make decisions – Yes
-        <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'make_decisions') %>
+        <%= render SupportInterface::AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'make_decisions') %>
       </li>
     <% else %>
       <li><%= render IconComponent.new(type: 'cross') %>Make decisions – No</li>
@@ -34,7 +34,7 @@
       <li>
         <%= render IconComponent.new(type: 'check') %>
         Access safeguarding information – Yes
-        <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_safeguarding_information') %>
+        <%= render SupportInterface::AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_safeguarding_information') %>
       </li>
     <% else %>
       <li><%= render IconComponent.new(type: 'cross') %>
@@ -45,7 +45,7 @@
       <li>
         <%= render IconComponent.new(type: 'check') %>
         Access diversity information – Yes
-        <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_diversity_information') %>
+        <%= render SupportInterface::AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_diversity_information') %>
       </li>
     <% else %>
       <li><%= render IconComponent.new(type: 'cross') %>
