@@ -24,7 +24,7 @@
       },
     ]) %>
 
-    <%= form_with model: @cancellation_wizard, url: cancel_confirm_provider_interface_application_choice_interview_path(@application_choice, @interview), method: :post do |f| %>
+    <%= form_with model: @cancellation_wizard, url: provider_interface_application_choice_interview_path(@application_choice, @interview), method: :delete do |f| %>
       <div class='govuk-form-group'>
         <%= f.hidden_field :cancellation_reason, value: @cancellation_wizard.cancellation_reason %>
       </div>

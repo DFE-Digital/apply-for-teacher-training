@@ -28,7 +28,7 @@ en:
         page_title: Cancel interview
         title: Check and send interview cancellation
         cancellation_reason: Reason for cancelling interview
-      confirm_cancel:
+      destroy:
         success: Interview cancelled
     interview_form_component:
       interview_preferences: Candidate interview preferences

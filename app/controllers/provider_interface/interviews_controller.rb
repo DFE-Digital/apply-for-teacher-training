@@ -89,6 +89,8 @@ module ProviderInterface
     end
 
     def cancel
+      clear_wizard_if_new_entry(CancelInterviewWizard.new(cancel_interview_store, {}))
+
       @interview = @application_choice.interviews.find(interview_id)
       @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
       @cancellation_wizard.save_state!
@@ -103,7 +105,7 @@ module ProviderInterface
       render :cancel unless @cancellation_wizard.valid?
     end
 
-    def confirm_cancel
+    def destroy
       @interview = @application_choice.interviews.find(interview_id)
       @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
 
