@@ -119,10 +119,10 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
 
 deploy-init:
-	$(if $(tag), , $(error Please pass a valid docker image tag; eg: make qa deploy-init tag=5309326123bf6b366deab6cd0668615d11be3e3d))
-	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(tag))
-	$(if $(passcode), , $(error Missing environment variable "passcode", retrieve from https://login.london.cloud.service.gov.uk/passcode))
-	$(eval export TF_VAR_paas_sso_code=$(passcode))
+	$(if $(IMAGE_TAG), , $(error Please pass a valid docker image tag; eg: make qa deploy-init IMAGE_TAG=5309326123bf6b366deab6cd0668615d11be3e3d))
+	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	$(if $(PASSCODE), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
+	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show \
 	&& cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
 
@@ -171,7 +171,7 @@ remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state
 	  terraform state rm module.paas.cloudfoundry_service_key.postgres-readonly-key
 
 .PHONY: restore-postgres
-restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf service db-name --guid>" BEFORE_TIME=""
+restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf service db-name --guid>" BEFORE_TIME="" IMAGE_TAG=<COMMIT_SHA> PASSCODE=<auth code from https://login.london.cloud.service.gov.uk/passcode>
 	cf target -s ${SPACE} > /dev/null
 	$(if $(DB_INSTANCE_GUID), , $(error can only run with DB_INSTANCE_GUID, get it by running `make ${SPACE} get-postgres-instance-guid`))
 	$(if $(BEFORE_TIME), , $(error can only run with BEFORE_TIME, eg BEFORE_TIME="2021-09-14 16:00"))
