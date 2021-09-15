@@ -17,7 +17,6 @@ module CandidateInterface
       @section_complete_form = SectionCompleteForm.new(completed: application_form_params[:completed])
 
       if @application_qualification.incomplete_gcse_information? &&
-         !@application_qualification.missing_qualification? &&
          ActiveModel::Type::Boolean.new.cast(@section_complete_form.completed)
         flash[:warning] = 'You cannot mark this section complete with incomplete GCSE information.'
         redirect_to candidate_interface_gcse_review_path(subject: @subject)
