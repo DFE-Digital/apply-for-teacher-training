@@ -80,6 +80,6 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(2)
 
-    expect(current_email.subject).to have_content("Will you give #{@application.full_name} a reference?")
+    expect(current_email.subject).to have_content("Can you give #{@application.full_name} a reference for their teacher training application?")
   end
 end

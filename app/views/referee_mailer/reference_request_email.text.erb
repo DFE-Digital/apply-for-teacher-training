@@ -1,23 +1,37 @@
 Dear <%= @reference.name %>,
 
-# Can you give <%= @candidate_name %> a reference?
-
 <%= @candidate_name %> put us in touch with you to get a reference for their teacher training application.
 
-Please give a reference as soon as possible by filling in this short form (it does not take long):
+Please complete the reference form as soon as you can:
 
 <%= referee_interface_reference_relationship_url(token: @unhashed_token) %>
 
 Teacher training courses can become full at any time. The sooner <%= @candidate_name %> gets a reference, the more likely it is that they’ll get a place.
 
-Let us know as soon as possible if you will not give a reference:
+# What’s in the reference form?
+
+You’ll be asked to:
+
+* confirm how you know <%= @candidate_name %>
+* state whether you know of any reason why they should not work with children
+* provide a reference of up to 500 words (you can talk about the candidate’s teaching potential, their reliability and professionalism, their suitability to work with children and transferable skills, for example)
+
+You can start, save and return to your reference at any time.
+
+The candidate will not be able to see what you write. 
+
+# If you decline to give a reference
+
+Let us know as soon as possible:
 
 <%= referee_interface_refuse_feedback_url(token: @unhashed_token) %>
 
+# Get support
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+
 # Your data
 
-We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
+Find out how we use and look after your data:
 
-# Need help?
-
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+<%= candidate_interface_privacy_policy_url %>
