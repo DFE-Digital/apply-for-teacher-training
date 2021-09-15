@@ -6,10 +6,10 @@ module CandidateInterface
     end
 
     def create
-      @form = GcseGradeExplanationForm.new(update_params)
+      @form = GcseGradeExplanationForm.new(grade_explanation_params)
 
       if @form.save(current_qualification)
-        if update_params[:not_completed_explanation] == 'No'
+        if @form.currently_completing_qualification == false
           redirect_to candidate_interface_gcse_missing_path
         else
           redirect_to candidate_interface_gcse_details_new_year_path(params[:subject])
@@ -27,10 +27,10 @@ module CandidateInterface
     end
 
     def update
-      @form = GcseGradeExplanationForm.new(update_params)
+      @form = GcseGradeExplanationForm.new(grade_explanation_params)
 
       if @form.save(current_qualification)
-        if update_params[:not_completed_explanation] == 'No'
+        if @form.currently_completing_qualification == false
           redirect_to candidate_interface_gcse_missing_path
         else
           redirect_to candidate_interface_gcse_review_path
@@ -54,10 +54,10 @@ module CandidateInterface
                        end
     end
 
-    def update_params
-      {
-        not_completed_explanation: params.dig(:candidate_interface_gcse_grade_explanation_form, :not_completed_explanation),
-      }
+    def grade_explanation_params
+      strip_whitespace params
+        .require(:candidate_interface_gcse_grade_explanation_form)
+        .permit(:currently_completing_qualification, :missing_explanation)
     end
   end
 end

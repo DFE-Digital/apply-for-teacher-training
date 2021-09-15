@@ -151,7 +151,7 @@ en:
               too_many_words: Qualification details must be %{count} words or fewer
         candidate_interface/gcse_grade_explanation_form:
           attributes:
-            not_completed_explanation:
+            currently_completing_qualification:
               blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
         candidate_interface/gcse_missing_form:
           attributes:

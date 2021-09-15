@@ -108,7 +108,7 @@ module CandidateInterface
 
       {
         key: 'Are you currently studying to retake this qualification?',
-        value: application_qualification.not_completed_explanation,
+        value: failing_grade_row_value,
         action: {
           href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
           visually_hidden_text: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
@@ -179,7 +179,7 @@ module CandidateInterface
     def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
-        value: application_qualification.not_completed_explanation.presence || 'No',
+        value: application_qualification.not_completed_explanation || 'No',
         action: {
           href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
@@ -193,7 +193,7 @@ module CandidateInterface
     end
 
     def missing_explanation_for_no_gcse_row
-      return missing_explanation_row if application_qualification.not_completed_explanation.blank?
+      return missing_explanation_row if !application_qualification.currently_completing_qualification
     end
 
     def missing_explanation_for_gcse_row
@@ -323,6 +323,17 @@ module CandidateInterface
 
     def capitalize_english(subject)
       subject == 'english' ? 'English' : subject
+    end
+
+    def failing_grade_row_value
+      case application_qualification.currently_completing_qualification
+      when true
+        'Yes'
+      when false
+        'No'
+      when nil
+        'Not provided'
+      end
     end
   end
 end
