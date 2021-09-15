@@ -169,3 +169,13 @@ rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=appl
 remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state
 	cd terraform && terraform state rm module.paas.data.cloudfoundry_service.postgres && \
 	  terraform state rm module.paas.cloudfoundry_service_key.postgres-readonly-key
+
+.PHONY: restore-postgres
+restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf service db-name --guid>" BEFORE_TIME=""
+	cf target -s ${SPACE} > /dev/null
+	$(if $(DB_INSTANCE_GUID), , $(error can only run with DB_INSTANCE_GUID, get it by running `make ${SPACE} get-postgres-instance-guid`))
+	$(if $(BEFORE_TIME), , $(error can only run with BEFORE_TIME, eg BEFORE_TIME="2021-09-14 16:00"))
+	$(eval export TF_VAR_paas_restore_db_from_db_instance=$(DB_INSTANCE_GUID))
+	$(eval export TF_VAR_paas_restore_db_from_point_in_time_before=$(BEFORE_TIME))
+	echo "Restoring apply-postgres-${APP_NAME_SUFFIX} from $(TF_VAR_paas_restore_db_from_db_instance) before $(TF_VAR_paas_restore_db_from_point_in_time_before)"
+	make ${APP_ENV} deploy
