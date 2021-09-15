@@ -115,6 +115,12 @@ RSpec.describe CycleTimetable do
       end
     end
 
+    it 'returns true between find and apply reopening' do
+      Timecop.travel(one_hour_after_find_opens) do
+        expect(described_class.between_cycles_apply_2?).to be true
+      end
+    end
+
     it 'returns false after the new cycle opens' do
       Timecop.travel(one_hour_after_2021_cycle_opens) do
         expect(described_class.between_cycles_apply_1?).to be false
@@ -131,6 +137,12 @@ RSpec.describe CycleTimetable do
 
     it 'returns true after the configured date' do
       Timecop.travel(one_hour_after_apply2_deadline) do
+        expect(described_class.between_cycles_apply_2?).to be true
+      end
+    end
+
+    it 'returns true between find and apply reopening' do
+      Timecop.travel(one_hour_after_find_opens) do
         expect(described_class.between_cycles_apply_2?).to be true
       end
     end

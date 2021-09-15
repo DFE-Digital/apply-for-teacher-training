@@ -37,6 +37,10 @@ class CycleTimetable
       reject_by_default: Time.zone.local(2022, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
       find_closes: Time.zone.local(2022, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
     },
+    2023 => {
+      find_opens: Time.zone.local(2022, 10, 5, 9), # This is a placeholder till we know the real date
+      apply_opens: Time.zone.local(2022, 10, 12, 9), # This is a placeholder till we know the real date
+    },
   }.freeze
 
   def self.current_year
@@ -129,13 +133,15 @@ class CycleTimetable
   end
 
   def self.between_cycles_apply_1?
-    Time.zone.now > apply_1_deadline &&
-      Time.zone.now < apply_reopens
+    (Time.zone.now > apply_1_deadline &&
+      Time.zone.now < apply_reopens) ||
+      Time.zone.now < apply_opens
   end
 
   def self.between_cycles_apply_2?
-    Time.zone.now > apply_2_deadline &&
-      Time.zone.now < apply_reopens
+    (Time.zone.now > apply_2_deadline &&
+      Time.zone.now < apply_reopens) ||
+      Time.zone.now < apply_opens
   end
 
   def self.date(name, year = current_year)
