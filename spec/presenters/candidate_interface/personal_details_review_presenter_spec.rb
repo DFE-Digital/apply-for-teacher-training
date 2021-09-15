@@ -188,6 +188,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   context 'when the candidate has selected they have the right to work or study in 2022' do
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
 
+    before { FeatureFlag.activate(:restructured_immigration_status) }
+
     it 'renders the right to work row' do
       nationalities_form = build(
         :nationalities_form,
@@ -224,6 +226,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when the candidate has selected they do not yet have the right to work or study in 2022' do
+    before { FeatureFlag.activate(:restructured_immigration_status) }
+
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
 
     it 'renders the right to work row' do
