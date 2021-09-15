@@ -1070,6 +1070,8 @@ Rails.application.routes.draw do
 
       get '/provider/end-impersonation' => 'provider_users#end_impersonation', as: :end_impersonation
 
+      resources :personas, only: %i[index]
+
       resources :provider_users, only: %i[show index], path: :provider do
         get '/audits' => 'provider_users#audits'
         put '/update-notifications' => 'provider_user_notification_preferences#update_notifications', as: :update_notifications

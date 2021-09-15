@@ -12,6 +12,7 @@ task _reset_qa: %i[
   restore_support_users
   sync_dev_providers_and_open_courses
   generate_test_applications
+  create_persona_users
 ]
 
 task truncate_qa_database: :environment do

@@ -1,10 +1,6 @@
 <% content_for :browser_title, "#{title} - Providers" %>
 <% content_for :title, 'Providers' %>
 
-<%= render TabNavigationComponent.new(items: [
-  { name: 'Providers', url: support_interface_providers_path },
-  { name: 'API tokens', url: support_interface_api_tokens_path },
-  { name: 'Provider users', url: support_interface_provider_users_path, current: local_assigns[:current] == 'Provider users' },
-]) %>
+<%= render SupportInterface::ProvidersNavigationComponent.new %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>
