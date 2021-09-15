@@ -5,7 +5,8 @@ module Integrations
         {
           name: feature_name.humanize,
           active: FeatureFlag.active?(feature_name),
-          type: FeatureFlag::FEATURES[feature_name].type,
+          type: FeatureFlag::FEATURES[feature_name].type, # deprecated
+          variant: FeatureFlag::VARIANT_FEATURES.include?(feature_name.to_sym),
         }
       end
 
