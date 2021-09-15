@@ -1,11 +1,11 @@
-<% content_for :browser_title, title_with_error_prefix(t('.page_title'), @cancellation_wizard.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('.page_title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-      model: @cancellation_wizard,
-      url: cancel_review_provider_interface_application_choice_interview_path(@application_choice, @interview),
+      model: @wizard,
+      url: provider_interface_application_choice_interview_cancel_path(@application_choice, @interview),
       method: :post,
     ) do |f| %>
 

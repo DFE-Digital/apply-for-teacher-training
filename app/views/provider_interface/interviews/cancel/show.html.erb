@@ -16,17 +16,17 @@
     <%= render SummaryCardComponent.new(editable: true, border: false, rows: [
       {
         key: t('.cancellation_reason'),
-        value: @cancellation_wizard.cancellation_reason,
+        value: @wizard.cancellation_reason,
         action: {
-          href: cancel_provider_interface_application_choice_interview_path(@application_choice, @interview),
+          href: new_provider_interface_application_choice_interview_cancel_path(@application_choice, @interview),
           visually_hidden_text: t('.cancellation_reason').downcase,
         },
       },
     ]) %>
 
-    <%= form_with model: @cancellation_wizard, url: provider_interface_application_choice_interview_path(@application_choice, @interview), method: :delete do |f| %>
+    <%= form_with model: @wizard, url: provider_interface_application_choice_interview_path(@application_choice, @interview), method: :delete do |f| %>
       <div class='govuk-form-group'>
-        <%= f.hidden_field :cancellation_reason, value: @cancellation_wizard.cancellation_reason %>
+        <%= f.hidden_field :cancellation_reason, value: @wizard.cancellation_reason %>
       </div>
       <%= f.govuk_submit 'Send cancellation' %>
     <% end %>
