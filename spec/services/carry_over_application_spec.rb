@@ -129,6 +129,8 @@ RSpec.describe CarryOverApplication do
     end
 
     describe 'personal_details_completed' do
+      before { FeatureFlag.activate(:restructured_immigration_status) }
+
       it 'sets the personal details section to incomplete if nationality is not UK/Irish for 2021-22 carry over' do
         original_application_form.update!(
           first_nationality: 'Indian',

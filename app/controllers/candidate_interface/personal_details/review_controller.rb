@@ -21,6 +21,7 @@ module CandidateInterface
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
         @languages_form = LanguagesForm.build_from_application(current_application)
         @right_to_work_or_study_form = RightToWorkOrStudyForm.build_from_application(current_application)
+        @immigration_right_to_work_form = ImmigrationRightToWorkForm.build_from_application(current_application)
         @section_complete_form = SectionCompleteForm.new(completed: application_form_params[:completed])
         @personal_details_review = PersonalDetailsReviewComponent.new(application_form: current_application)
 
@@ -34,11 +35,21 @@ module CandidateInterface
     private
 
       def all_sections_valid?
-        @personal_details_form.valid? && @nationalities_form.valid? && @right_to_work_or_study_form.valid? && @languages_form.valid?
+        @personal_details_form.valid? && @nationalities_form.valid? && right_to_work_valid? && @languages_form.valid?
+      end
+
+      def right_to_work_valid?
+        return true if current_application.british_or_irish?
+
+        if current_application.restructured_immigration_status?
+          @immigration_right_to_work_form.valid?
+        else
+          @right_to_work_or_study_form.valid?
+        end
       end
 
       def hiding_languages?
-        @personal_details_form.valid? && @nationalities_form.valid? && (hiding_languages_section? || @languages_form.valid?)
+        @personal_details_form.valid? && @nationalities_form.valid? && right_to_work_valid? && (hiding_languages_section? || @languages_form.valid?)
       end
 
       def save_section_complete_form
