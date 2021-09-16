@@ -2,7 +2,7 @@ module ProviderInterface
   class ReconfirmDeferredOfferWizard
     include ActiveModel::Model
 
-    STEPS = %w[start conditions check].freeze
+    STEPS = %w[new conditions check].freeze
 
     attr_accessor :current_step, :application_choice_id, :conditions_status, :course_option_id
     attr_writer :state_store
@@ -46,7 +46,7 @@ module ProviderInterface
     end
 
     def course_option_still_available
-      if current_step != 'start'
+      if current_step != 'new'
         errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless course_option_in_new_cycle
         errors.add(:course_option_in_new_cycle, 'New course option is not open on Apply') unless course_option_in_new_cycle&.course&.open_on_apply == true
       end
@@ -83,22 +83,22 @@ module ProviderInterface
     end
 
     def next_step
-      if current_step == 'start'
+      if current_step == 'new'
         :conditions
       elsif current_step == 'conditions'
         :check
       elsif current_step == 'check'
         nil
       else
-        :start
+        :new
       end
     end
 
     def previous_step
-      if current_step == 'start'
+      if current_step == 'new'
         nil
       elsif current_step == 'conditions'
-        :start
+        :new
       elsif current_step == 'check'
         :conditions
       end

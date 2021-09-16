@@ -13,7 +13,7 @@ private
   end
 
   def referer_in_wizard_flow?(controllers = [], excluded_paths = [])
-    recognised_path = Rails.application.routes.recognize_path(referer_path)
+    recognised_path = referer_path.present? ? Rails.application.routes.recognize_path(referer_path) : {}
 
     excluded_paths.none? { |path| referer_path.eql?(path) } && controllers.include?(recognised_path[:controller])
   end

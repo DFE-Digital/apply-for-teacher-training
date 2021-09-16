@@ -21,14 +21,15 @@ en:
       update:
         success: Interview changed
       cancel:
-        page_title: Cancel Interview
-        title: Reason for cancelling interview
-        success: Interview cancelled
-      review_cancel:
-        page_title: Cancel interview
-        title: Check and send interview cancellation
-        cancellation_reason: Reason for cancelling interview
-      confirm_cancel:
+        new:
+          page_title: Cancel Interview
+          title: Reason for cancelling interview
+          success: Interview cancelled
+        show:
+          page_title: Cancel interview
+          title: Check and send interview cancellation
+          cancellation_reason: Reason for cancelling interview
+      destroy:
         success: Interview cancelled
     interview_form_component:
       interview_preferences: Candidate interview preferences

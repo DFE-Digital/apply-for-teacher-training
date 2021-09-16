@@ -39,14 +39,6 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
       end
     end
 
-    context 'GET cancel' do
-      it 'responds with 302' do
-        get cancel_provider_interface_application_choice_interview_path(application_choice, interview)
-
-        expect(response.status).to eq(302)
-      end
-    end
-
     context 'POST create' do
       it 'responds with 302' do
         post provider_interface_application_choice_interviews_path(application_choice)
@@ -58,14 +50,6 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
     context 'PUT update' do
       it 'responds with 302' do
         put provider_interface_application_choice_interview_path(application_choice, interview)
-
-        expect(response.status).to eq(302)
-      end
-    end
-
-    context 'POST confirm_cancel' do
-      it 'responds with 302' do
-        post cancel_confirm_provider_interface_application_choice_interview_path(application_choice, interview)
 
         expect(response.status).to eq(302)
       end

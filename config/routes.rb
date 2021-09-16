@@ -720,13 +720,8 @@ Rails.application.routes.draw do
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
-      resources :interviews, only: %i[new create update edit index], as: :application_choice_interviews do
-        member do
-          get :cancel
-          post '/cancel/review/', to: 'interviews#review_cancel'
-          post '/cancel/confirm/', to: 'interviews#confirm_cancel'
-        end
-
+      resources :interviews, only: %i[new create update edit index destroy], as: :application_choice_interviews do
+        resource :cancel, only: %i[new create show], controller: 'interviews/cancel'
         resource :check, only: %i[edit update], controller: 'interviews/checks'
       end
 
@@ -803,13 +798,10 @@ Rails.application.routes.draw do
     end
 
     scope path: '/applications/:application_choice_id/offer/reconfirm' do
-      get '/' => 'reconfirm_deferred_offers#start',
-          as: :reconfirm_deferred_offer
-      get '/conditions' => 'reconfirm_deferred_offers#conditions',
-          as: :reconfirm_deferred_offer_conditions
+      get '/' => 'reconfirm_deferred_offers#new', as: :reconfirm_deferred_offer
+      get '/conditions' => 'reconfirm_deferred_offers#conditions', as: :reconfirm_deferred_offer_conditions
       patch '/conditions' => 'reconfirm_deferred_offers#update_conditions'
-      get '/check' => 'reconfirm_deferred_offers#check',
-          as: :reconfirm_deferred_offer_check
+      get '/check' => 'reconfirm_deferred_offers#check', as: :reconfirm_deferred_offer_check
       post '/' => 'reconfirm_deferred_offers#commit'
     end
 

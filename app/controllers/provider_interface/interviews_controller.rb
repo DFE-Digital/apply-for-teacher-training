@@ -7,6 +7,7 @@ module ProviderInterface
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
     before_action :redirect_to_index_if_store_cleared, only: %i[create]
     before_action :redirect_to_index_if_edit_store_cleared, only: %i[update]
+    before_action :redirect_to_index_if_cancel_store_cleared, only: %i[destroy]
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
@@ -88,43 +89,24 @@ module ProviderInterface
       end
     end
 
-    def cancel
+    def destroy
       @interview = @application_choice.interviews.find(interview_id)
-      @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
-      @cancellation_wizard.save_state!
-    end
-
-    def review_cancel
-      @interview = @application_choice.interviews.find(interview_id)
-
-      @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store, cancellation_params)
-      @cancellation_wizard.save_state!
-
-      render :cancel unless @cancellation_wizard.valid?
-    end
-
-    def confirm_cancel
-      @interview = @application_choice.interviews.find(interview_id)
-      @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
+      @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id))
 
       CancelInterview.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         interview: @interview,
-        cancellation_reason: @cancellation_wizard.cancellation_reason,
+        cancellation_reason: @wizard.cancellation_reason,
       ).save!
 
-      @cancellation_wizard.clear_state!
+      @wizard.clear_state!
 
       flash[:success] = t('.success')
       redirect_to provider_interface_application_choice_path(@application_choice)
     end
 
   private
-
-    def cancellation_params
-      params.require(:provider_interface_cancel_interview_wizard).permit(:cancellation_reason)
-    end
 
     def interview_form_context_params
       {
@@ -151,8 +133,8 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
-    def cancel_interview_store
-      key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+    def cancel_interview_store(interview_id)
+      key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}_#{interview_id}"
       WizardStateStores::RedisStore.new(key: key)
     end
 
@@ -168,6 +150,12 @@ module ProviderInterface
 
     def redirect_to_index_if_edit_store_cleared
       return if edit_interview_store(interview_id).read.present?
+
+      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+    end
+
+    def redirect_to_index_if_cancel_store_cleared
+      return if cancel_interview_store(interview_id).read.present?
 
       redirect_to provider_interface_application_choice_interviews_path(@application_choice)
     end

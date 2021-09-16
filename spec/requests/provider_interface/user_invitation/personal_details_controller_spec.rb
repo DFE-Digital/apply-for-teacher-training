@@ -12,7 +12,7 @@ RSpec.describe ProviderInterface::UserInvitation::PersonalDetailsController do
 
     user_exists_in_dfe_sign_in(email_address: managing_user.email_address)
 
-    store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil)
+    store = instance_double(WizardStateStores::RedisStore, read: store_data, write: nil, delete: nil)
     allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
   end
 

@@ -50,9 +50,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_do_not_enter_a_cancellation_reason
     then_i_see_a_validation_error
 
-    when_i_enter_a_valid_cancellation_reason
-    then_i_see_the_check_page_with_working_edit_links
+    and_i_go_back
+    then_i_should_be_on_the_application_interviews_page
 
+    when_i_click_to_cancel_an_interview
+    and_i_enter_a_valid_cancellation_reason
     when_i_confirm_the_cancellation
     i_can_see_the_application_is_still_in_the_interviewing_state
     and_i_can_see_the_second_interview
@@ -171,6 +173,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_current_path(provider_interface_application_choice_path(application_choice))
   end
 
+  def then_i_should_be_on_the_application_interviews_page
+    expect(page).to have_current_path(provider_interface_application_choice_interviews_path(application_choice))
+  end
+
   def then_i_see_a_success_message
     expect(page).to have_content 'Interview set up'
   end
@@ -246,6 +252,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     fill_in 'provider_interface_cancel_interview_wizard[cancellation_reason]', with: 'A cancellation reason'
     click_on 'Continue'
   end
+
+  alias_method :and_i_enter_a_valid_cancellation_reason, :when_i_enter_a_valid_cancellation_reason
 
   def then_i_see_the_check_page_with_working_edit_links
     expect(page).to have_content 'A cancellation reason'
