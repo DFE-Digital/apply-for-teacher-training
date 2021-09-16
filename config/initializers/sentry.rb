@@ -23,18 +23,6 @@ Sentry.init do |config|
     # hours, so we don't need to be notified of individual failures.
     'TeacherTrainingPublicAPI::SyncError',
 
-    # These Postgres errors often occur when Azure has maintenance and drops
-    # connections. Most of the time they aren't actionable. We are able to filter
-    # them because our smoke tests and healthchecks will alert on persistent
-    # database issues.
-    'PG::ConnectionBad',
-    'PG::UnableToSend',
-
-    # Similarly, errors in Redis don't provide us with actionable information
-    # in Sentry.
-    'Redis::TimeoutError',
-    'Redis::CannotConnectError',
-
     # Google cloud (ie Bigquery) errors are usually caused by transient network
     # issues. If there's a genuine problem the queues will stack up and the Sidekiq
     # latency check will alert. That takes at most 100 seconds to happen, so if
