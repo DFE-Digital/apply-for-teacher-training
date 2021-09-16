@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe SafePerformAsync do
+RSpec.describe RescueEnqueueErrors do
   describe '#perform_async' do
     let!(:create_sidekiq_module_ok) do
-      # super() call in SafePerformAsync requires an ancestor,
+      # super() call in RescueEnqueueErrors requires an ancestor,
       # which is only possible with a named module, hence stub_const
       stub_const(
         'DummySidekiqModuleOk',
@@ -18,7 +18,7 @@ RSpec.describe SafePerformAsync do
     let(:worker) do
       Class.new do
         extend DummySidekiqModuleOk
-        include SafePerformAsync
+        include RescueEnqueueErrors
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe SafePerformAsync do
 
   describe 'Redis error handling' do
     let!(:create_sidekiq_module_redis_error) do
-      # super() call in SafePerformAsync requires an ancestor,
+      # super() call in RescueEnqueueErrors requires an ancestor,
       # which is only possible with a named module, hence stub_const
       stub_const(
         'DummySidekiqModuleRedisError',
@@ -50,7 +50,7 @@ RSpec.describe SafePerformAsync do
     let(:worker) do
       Class.new do
         extend DummySidekiqModuleRedisError
-        include SafePerformAsync
+        include RescueEnqueueErrors
       end
     end
 

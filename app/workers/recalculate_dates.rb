@@ -1,6 +1,5 @@
 class RecalculateDates
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform(*)
     Audited.audit_class.as_user('RecalculateDates worker') do

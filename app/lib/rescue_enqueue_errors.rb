@@ -1,4 +1,4 @@
-module SafePerformAsync
+module RescueEnqueueErrors
   module ClassMethods
     def perform_async(*args)
       super(*args)

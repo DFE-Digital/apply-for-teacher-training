@@ -1,7 +1,6 @@
 module TeacherTrainingPublicAPI
   class SyncAllProvidersAndCoursesWorker
     include Sidekiq::Worker
-    include SafePerformAsync
 
     sidekiq_options retry: 3, queue: :low_priority
 

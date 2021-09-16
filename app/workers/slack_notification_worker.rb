@@ -2,7 +2,6 @@ require 'http'
 
 class SlackNotificationWorker
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform(text, url)
     @webhook_url = ENV['STATE_CHANGE_SLACK_URL']

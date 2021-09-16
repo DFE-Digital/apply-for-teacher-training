@@ -1,7 +1,5 @@
 class VendorAPIRequestWorker
   include Sidekiq::Worker
-  require './app/lib/safe_perform_async' # perform_async from middelware context
-  include SafePerformAsync
   include ActionController::HttpAuthentication::Token
 
   sidekiq_options retry: 3, queue: :low_priority

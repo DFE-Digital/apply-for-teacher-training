@@ -1,6 +1,5 @@
 class LaunchMakeDecisionsAndManageUsers
   include Sidekiq::Worker
-  include SafePerformAsync
   sidekiq_options retry: 0
 
   # This class is temporary code to assist with this launch and will be removed

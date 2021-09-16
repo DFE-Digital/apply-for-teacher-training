@@ -1,6 +1,5 @@
 class GenerateTestApplications
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform
     raise 'You cannot generate test data in production' if HostingEnvironment.production?

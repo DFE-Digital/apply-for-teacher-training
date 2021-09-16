@@ -1,6 +1,5 @@
 class SendNewCycleHasStartedEmailToCandidatesWorker
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform
     if CycleTimetable.send_new_cycle_has_started_email?

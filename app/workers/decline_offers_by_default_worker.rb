@@ -1,6 +1,5 @@
 class DeclineOffersByDefaultWorker
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform
     GetApplicationFormsReadyToDeclineByDefault.call.each do |application_form|

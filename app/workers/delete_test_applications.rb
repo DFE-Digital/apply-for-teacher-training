@@ -1,6 +1,5 @@
 class DeleteTestApplications
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform(*)
     raise 'You can only delete test applications in a test environment' unless DeleteTestApplications.can_run_in_this_environment?

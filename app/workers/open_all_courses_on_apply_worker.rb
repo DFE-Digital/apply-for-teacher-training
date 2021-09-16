@@ -1,6 +1,5 @@
 class OpenAllCoursesOnApplyWorker
   include Sidekiq::Worker
-  include SafePerformAsync
 
   def perform
     return unless RecruitmentCycle.current_year == 2022

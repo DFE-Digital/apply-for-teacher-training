@@ -1,6 +1,5 @@
 class ProcessNotifyCallbackWorker
   include Sidekiq::Worker
-  include SafePerformAsync
 
   sidekiq_options queue: :low_priority
 
