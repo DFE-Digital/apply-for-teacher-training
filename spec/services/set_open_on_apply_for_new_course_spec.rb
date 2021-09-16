@@ -13,6 +13,21 @@ RSpec.describe SetOpenOnApplyForNewCourse do
     end
   end
 
+  context 'course is for the next year' do
+    let(:course) { create(:course, open_on_apply: false, recruitment_cycle_year: RecruitmentCycle.next_year) }
+
+    it 'opens the course' do
+      course_opener.call
+      expect(course.open_on_apply).to be true
+    end
+
+    it 'does not send a slack message' do
+      course_opener.call
+
+      expect_no_slack_message
+    end
+  end
+
   context 'the provider has no courses in the current cycle' do
     it 'does not open the course' do
       course_opener.call

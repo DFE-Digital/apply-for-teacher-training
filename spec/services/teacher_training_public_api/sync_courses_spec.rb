@@ -400,6 +400,20 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course.open_on_apply).to be true
         expect(course.opened_on_apply_at).not_to be_nil
       end
+
+      it 'sets courses to open on apply when if they are in the new cycle' do
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                   site_code: 'A',
+                                                   vacancy_status: 'full_time_vacancies',
+                                                   recruitment_cycle_year: RecruitmentCycle.next_year)
+
+        described_class.new.perform(existing_provider.id, RecruitmentCycle.next_year)
+
+        course = Course.find_by(code: 'ABC1')
+        expect(course.reload.open_on_apply).to be true
+      end
     end
 
     context 'ingesting a provider when it existed in the previous recruitment cycle' do

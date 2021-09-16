@@ -41,6 +41,7 @@ module TeacherTrainingPublicAPI
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
 
       new_course = course.new_record?
+
       @updates.merge!(courses: true) if !incremental_sync && course.changed?
 
       course.save!
