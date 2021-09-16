@@ -1,13 +1,15 @@
 module SupportInterface
   class UCASMatchesFilter
+    include FilterParamsHelper
+
     attr_reader :applied_filters
 
     def initialize(params:)
-      @applied_filters = params
+      @applied_filters = compact_params(params)
     end
 
     def filter_records(ucas_matches)
-      if applied_filters[:years]
+      if applied_filters[:years].present?
         ucas_matches = ucas_matches.where(recruitment_cycle_year: applied_filters[:years])
       end
 
@@ -16,7 +18,7 @@ module SupportInterface
         ucas_matches = ucas_matches.where(id: action_needed_ids)
       end
 
-      if applied_filters[:action_taken]
+      if applied_filters[:action_taken].present?
         ucas_matches = ucas_matches.where(action_taken: applied_filters[:action_taken])
       end
 
