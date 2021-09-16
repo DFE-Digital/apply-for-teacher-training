@@ -1,9 +1,11 @@
 module SupportInterface
   class EmailsFilter
+    include FilterParamsHelper
+
     attr_reader :applied_filters
 
     def initialize(params:)
-      @applied_filters = params
+      @applied_filters = compact_params(params)
     end
 
     def filters

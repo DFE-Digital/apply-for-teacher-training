@@ -8,22 +8,22 @@ module SupportInterface
         .includes(:application_form)
         .page(params[:page] || 1).per(30)
 
-      if params[:q]
-        @emails = @emails.where("CONCAT(\"to\", ' ', subject, ' ', notify_reference, ' ', body) ILIKE ?", "%#{params[:q]}%")
+      if @filter.applied_filters[:q].present?
+        @emails = @emails.where("CONCAT(\"to\", ' ', subject, ' ', notify_reference, ' ', body) ILIKE ?", "%#{@filter.applied_filters[:q]}%")
       end
 
-      if params[:delivery_status]
-        @emails = @emails.where(delivery_status: params[:delivery_status])
+      if @filter.applied_filters[:delivery_status].present?
+        @emails = @emails.where(delivery_status: @filter.applied_filters[:delivery_status])
       end
 
-      if params[:mailer]
-        @emails = @emails.where(mailer: params[:mailer])
+      if @filter.applied_filters[:mailer].present?
+        @emails = @emails.where(mailer: @filter.applied_filters[:mailer])
       end
 
       %w[to subject mail_template notify_reference application_form_id].each do |column|
-        next unless params[column]
+        next if @filter.applied_filters[column].blank?
 
-        @emails = @emails.where(column => params[column])
+        @emails = @emails.where(column => @filter.applied_filters[column])
       end
     end
   end
