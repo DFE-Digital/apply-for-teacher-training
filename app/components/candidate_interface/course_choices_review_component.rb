@@ -206,7 +206,7 @@ module CandidateInterface
     def gcse_required_row(application_choice)
       {
         key: 'GCSE requirements',
-        value: render(PendingGcseRequiredComponent.new(application_choice)),
+        value: render(GcseRequirementsComponent.new(application_choice)),
       }
     end
 
