@@ -8,6 +8,9 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
 
     when_a_vendor_makes_an_offer_for_a_course_in_the_current_cycle
     then_the_offer_is_successful
+
+    when_a_vendor_updates_the_conditions_of_the_offer
+    then_the_offer_is_successful
   end
 
   def given_a_candidate_has_submitted_their_application
@@ -20,17 +23,13 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
 
   def when_a_vendor_makes_an_offer_for_a_course_in_the_previous_cycle
     @api_token = VendorAPIToken.create_with_random_token!(provider: @provider)
-    Capybara.current_session.driver.header('Authorization', "Bearer #{@api_token}")
-    Capybara.current_session.driver.header('Content-Type', 'application/json')
 
     @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@provider])
-    uri = "/api/v1/applications/#{@application_choice.id}/offer"
+    @uri = "/api/v1/applications/#{@application_choice.id}/offer"
 
-    @api_response = page.driver.post(uri, offer_payload)
-
-    # Unset session headers
-    Capybara.current_session.driver.header('Authorization', nil)
-    Capybara.current_session.driver.header('Content-Type', nil)
+    make_api_request do
+      @api_response = page.driver.post(@uri, offer_payload)
+    end
   end
 
   def then_i_can_see_a_validation_error
@@ -46,35 +45,46 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
     @course = create(:course, recruitment_cycle_year: @recruitment_cycle_year, provider: @provider)
     @course_option = create(:course_option, course: @course)
 
-    Capybara.current_session.driver.header('Authorization', "Bearer #{@api_token}")
-    Capybara.current_session.driver.header('Content-Type', 'application/json')
+    make_api_request do
+      @api_response = page.driver.post(@uri, offer_payload)
+    end
+  end
 
-    @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@provider])
-    uri = "/api/v1/applications/#{@application_choice.id}/offer"
-
-    @api_response = page.driver.post(uri, offer_payload)
-
-    # Unset session headers
-    Capybara.current_session.driver.header('Authorization', nil)
-    Capybara.current_session.driver.header('Content-Type', nil)
+  def when_a_vendor_updates_the_conditions_of_the_offer
+    make_api_request do
+      @api_response = page.driver.post(@uri, updated_conditions_payload)
+    end
   end
 
   def then_the_offer_is_successful
     parsed_response_body = JSON.parse(@api_response.body)
     expect(@api_response.status).to eq 200
-    expect(parsed_response_body.dig('data', 'attributes', 'status')).to eq('offer')
+    attributes = parsed_response_body.dig('data', 'attributes')
+    expect(attributes['status']).to eq('offer')
+    expect(attributes.dig('offer', 'course', 'course_code')).to eq(@course.code)
+  end
+
+  def make_api_request
+    set_api_headers
+
+    yield
+
+    unset_api_headers
+  end
+
+  def set_api_headers
+    Capybara.current_session.driver.header('Authorization', "Bearer #{@api_token}")
+    Capybara.current_session.driver.header('Content-Type', 'application/json')
+  end
+
+  def unset_api_headers
+    Capybara.current_session.driver.header('Authorization', nil)
+    Capybara.current_session.driver.header('Content-Type', nil)
   end
 
   def offer_payload
     {
-      meta: {
-        attribution: {
-          full_name: 'Jane Smith',
-          email: 'jane.smith@example.com',
-          user_id: '12345',
-        },
-        timestamp: Time.zone.now.iso8601,
-      },
+      meta: meta_attrs,
       data: {
         conditions: ['Example condition'],
         course: {
@@ -86,5 +96,26 @@ RSpec.feature 'Vendor makes an offer for a course in the past recruitment cycle'
         },
       },
     }.to_json
+  end
+
+  def updated_conditions_payload
+    {
+      meta: meta_attrs,
+      data: {
+        conditions: ['Updated conditions'],
+        course: nil,
+      },
+    }.to_json
+  end
+
+  def meta_attrs
+    {
+      attribution: {
+        full_name: 'Jane Smith',
+        email: 'jane.smith@example.com',
+        user_id: '12345',
+      },
+      timestamp: Time.zone.now.iso8601,
+    }
   end
 end

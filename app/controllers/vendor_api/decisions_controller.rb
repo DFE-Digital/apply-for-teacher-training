@@ -132,9 +132,9 @@ module VendorAPI
 
       @course_option ||=
         if course_data.present?
-          retrieve_course(course_data) || raise_no_course_found!
+          retrieve_course!(course_data) || raise_no_course_found!
         else
-          application_choice.course_option
+          application_choice.current_course_option
         end
     end
 
