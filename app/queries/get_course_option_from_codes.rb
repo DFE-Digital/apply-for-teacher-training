@@ -9,7 +9,7 @@ class GetCourseOptionFromCodes
 
   validates_each :provider_code do |record, attr, value|
     record.provider ||= Provider.find_by(code: value)
-    record.errors.add(attr, "provider #{value} does not exist") unless record.provider
+    record.errors.add(attr, "Provider #{value} does not exist") unless record.provider
   end
 
   validates_each :course_code do |record, attr, value|
@@ -21,7 +21,7 @@ class GetCourseOptionFromCodes
       unless record.course
         record.errors.add(
           attr,
-          "course #{value} does not exist for provider #{record.provider.code} and year #{record.recruitment_cycle_year}",
+          "Course #{value} does not exist for provider #{record.provider.code} and year #{record.recruitment_cycle_year}",
         )
       end
     end
@@ -30,7 +30,7 @@ class GetCourseOptionFromCodes
   validates_each :site_code do |record, attr, value|
     if record.provider && value.present?
       record.site ||= record.provider.sites.find_by(code: value)
-      record.errors.add(attr, "site #{value} does not exist for provider #{record.provider.code}") unless record.site
+      record.errors.add(attr, "Site #{value} does not exist for provider #{record.provider.code}") unless record.site
     end
   end
 
@@ -73,7 +73,7 @@ class GetCourseOptionFromCodes
   end
 
   def self.build_course_option_error_message(record, match_count)
-    error_message = match_count.zero? ? 'cannot find any' : 'found multiple'
+    error_message = match_count.zero? ? 'Cannot find any' : 'Found multiple'
 
     error_message << " #{record.study_mode} options"
     error_message << " at site #{record.site.code}" if record.site

@@ -30,7 +30,7 @@ RSpec.describe GetCourseOptionFromCodes do
       it 'is not valid' do
         service.site_code = site_for_another_course.code
         expect(service).to be_invalid
-        expected_message = "cannot find any #{course_option.course.study_mode} options at site #{site_for_another_course.code} for course #{course_option.course.code}"
+        expected_message = "Cannot find any #{course_option.course.study_mode} options at site #{site_for_another_course.code} for course #{course_option.course.code}"
         expect(service.errors[:course_option]).to contain_exactly(expected_message)
       end
     end
@@ -48,7 +48,7 @@ RSpec.describe GetCourseOptionFromCodes do
       it 'is not valid' do
         service.site_code = nil
         expect(service).to be_invalid
-        expected_message = "found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
+        expected_message = "Found multiple #{course_option.course.study_mode} options for course #{course_option.course.code}"
         expect(service.errors[:course_option]).to contain_exactly(expected_message)
       end
     end

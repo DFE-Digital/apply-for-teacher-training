@@ -119,6 +119,31 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       )
     end
 
+    it 'returns an error when required attributes are missing' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      other_course_option = course_option_for_provider(provider: create(:provider))
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => {
+            'provider_code' => other_course_option.course.provider.code,
+          },
+        },
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(parsed_response['errors'].map { |e| e['message'] }).to contain_exactly(
+        'Course code cannot be blank',
+        'Study mode cannot be blank',
+        'Recruitment cycle year cannot be blank',
+      )
+    end
+
     it 'returns an error when specifying a course from a different provider' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
@@ -161,7 +186,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(logged_error).to eq('NotAuthorisedError')
     end
 
-    it 'returns an error when specifying a course that does not exist' do
+    it 'returns an error when specifying a provider that does not exist' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
@@ -181,7 +206,33 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'The requested course could not be found'
+      expect(error_response['message']).to match 'Provider ABC does not exist'
+    end
+
+    it 'returns an error when specifying ambiguous course parameters' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
+
+      course_option_for_provider(
+        provider: currently_authenticated_provider,
+        course: other_course_option.course,
+      )
+
+      course_payload = course_option_to_course_payload(other_course_option).except('site_code')
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => course_payload,
+        },
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+      expect(error_response['message']).to match "Found multiple full_time options for course #{course_payload['course_code']}"
     end
 
     it 'returns an error when trying to transition to an invalid state' do
