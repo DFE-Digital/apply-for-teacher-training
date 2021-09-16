@@ -74,6 +74,7 @@ locals {
     staging   = "staging"
     sandbox   = "sandbox"
     research  = "research"
+    pen       = "pen"
     load-test = "load-test"
     prod      = "www"
   }
@@ -84,6 +85,7 @@ locals {
     research  = "research-assets"
     load-test = "load-test-assets"
     prod      = "assets"
+    pen       = "pen-assets"
   }
   web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route,
   cloudfoundry_route.web_app_education_gov_uk_route, cloudfoundry_route.web_app_internal_route, cloudfoundry_route.web_app_assets_service_gov_uk_route]
