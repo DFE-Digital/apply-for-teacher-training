@@ -156,7 +156,7 @@ stop-all-apps: ## Stops web, clock and worker apps, make qa stop-all-apps CONFIR
 	cf stop apply-worker-${APP_NAME_SUFFIX}
 
 .PHONY: get-postgres-instance-guid
-get-postgres-instance-guid: Gets the postgres service instance's guid
+get-postgres-instance-guid: ## Gets the postgres service instance's guid
 	cf target -s ${SPACE} > /dev/null
 	cf service apply-postgres-${APP_NAME_SUFFIX} --guid
 
@@ -168,15 +168,15 @@ rename-postgres-service: ## make qa rename-postgres-service NEW_NAME_SUFFIX=appl
 	cf rename-service apply-postgres-${APP_NAME_SUFFIX} apply-postgres-${APP_NAME_SUFFIX}-$(NEW_NAME_SUFFIX)
 
 .PHONY: remove-postgres-tf-state
-remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state
-	cd terraform && terraform state rm module.paas.data.cloudfoundry_service.postgres && \
+remove-postgres-tf-state: deploy-init ## make qa remove-postgres-tf-state PASSCODE=
+	cd terraform && terraform state rm module.paas.cloudfoundry_service_instance.postgres && \
 	  terraform state rm module.paas.cloudfoundry_service_key.postgres-readonly-key
 
 .PHONY: restore-postgres
 restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf service db-name --guid>" BEFORE_TIME="" IMAGE_TAG=<COMMIT_SHA> PASSCODE=<auth code from https://login.london.cloud.service.gov.uk/passcode>
 	cf target -s ${SPACE} > /dev/null
 	$(if $(DB_INSTANCE_GUID), , $(error can only run with DB_INSTANCE_GUID, get it by running `make ${SPACE} get-postgres-instance-guid`))
-	$(if $(BEFORE_TIME), , $(error can only run with BEFORE_TIME, eg BEFORE_TIME="2021-09-14 16:00"))
+	$(if $(BEFORE_TIME), , $(error can only run with BEFORE_TIME, eg BEFORE_TIME="2021-09-14 16:00:00"))
 	$(eval export TF_VAR_paas_restore_db_from_db_instance=$(DB_INSTANCE_GUID))
 	$(eval export TF_VAR_paas_restore_db_from_point_in_time_before=$(BEFORE_TIME))
 	echo "Restoring apply-postgres-${APP_NAME_SUFFIX} from $(TF_VAR_paas_restore_db_from_db_instance) before $(TF_VAR_paas_restore_db_from_point_in_time_before)"
