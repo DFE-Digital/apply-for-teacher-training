@@ -6,7 +6,7 @@ class CourseAgeGroupMonthlyStatistics
 private
 
   def table_data
-    formatted_group_query.map do |age_group, statuses|
+    rows = formatted_group_query.map do |age_group, statuses|
       {
         'Age group' => age_group,
         'Recruited' => recruited_count(statuses),
@@ -17,6 +17,20 @@ private
         'Total' => statuses_count(statuses),
       }
     end
+
+    {
+      rows: rows,
+      column_totals: column_totals_for(rows),
+    }
+  end
+
+  def column_totals_for(table_data)
+    _age_group, *statuses = table_data.first.keys
+
+    statuses.map do |column_name|
+      column_total = table_data.inject(0) { |total, hash| total + hash[column_name] }
+      column_total
+    end
   end
 
   def formatted_group_query
@@ -24,7 +38,6 @@ private
       'Primary' => {},
       'Secondary' => {},
       'Further education' => {},
-      # Still need to calculate 'Total' => {}
     }
 
     group_query.map do |item|

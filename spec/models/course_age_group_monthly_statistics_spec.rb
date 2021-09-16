@@ -15,35 +15,37 @@ RSpec.describe CourseAgeGroupMonthlyStatistics do
     create_application_choice(status: :with_rejection, course_level: 'further_education')
 
     expect(statistics).to eq(
-      [
-        {
-          'Age group' => 'Primary',
-          'Recruited' => 1,
-          'Conditions pending' => 0,
-          'Received an offer' => 0,
-          'Awaiting provider decisions' => 1,
-          'Unsuccessful' => 1,
-          'Total' => 3,
-        },
-        {
-          'Age group' => 'Secondary',
-          'Recruited' => 0,
-          'Conditions pending' => 0,
-          'Received an offer' => 1,
-          'Awaiting provider decisions' => 0,
-          'Unsuccessful' => 0,
-          'Total' => 1,
-        },
-        {
-          'Age group' => 'Further education',
-          'Recruited' => 0,
-          'Conditions pending' => 0,
-          'Received an offer' => 1,
-          'Awaiting provider decisions' => 0,
-          'Unsuccessful' => 1,
-          'Total' => 2,
-        },
-      ],
+      { rows:
+        [
+          {
+            'Age group' => 'Primary',
+            'Recruited' => 1,
+            'Conditions pending' => 0,
+            'Received an offer' => 0,
+            'Awaiting provider decisions' => 1,
+            'Unsuccessful' => 1,
+            'Total' => 3,
+          },
+          {
+            'Age group' => 'Secondary',
+            'Recruited' => 0,
+            'Conditions pending' => 0,
+            'Received an offer' => 1,
+            'Awaiting provider decisions' => 0,
+            'Unsuccessful' => 0,
+            'Total' => 1,
+          },
+          {
+            'Age group' => 'Further education',
+            'Recruited' => 0,
+            'Conditions pending' => 0,
+            'Received an offer' => 1,
+            'Awaiting provider decisions' => 0,
+            'Unsuccessful' => 1,
+            'Total' => 2,
+          },
+        ],
+        column_totals: [1, 0, 2, 1, 2, 6] },
     )
   end
 

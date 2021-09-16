@@ -11,7 +11,7 @@
       </thead>
 
       <tbody class="govuk-table__body">
-        <% statistics.map do |row| %>
+        <% rows.map do |row| %>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= name_for(row) %></th>
             <% data_from(row).map do |_status, count| %>
@@ -25,12 +25,9 @@
       <tfoot>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Total</th>
-        <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">700</td>
-        <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">450</td>
-        <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">70</td>
-        <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">1,200</td>
-        <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">1,200</td>
-        <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold">3,220</td>
+        <% totals.map do |total| %>
+          <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold"><%= total %></td>
+        <% end %>
       </tr>
       </tfoot>
     </table>
