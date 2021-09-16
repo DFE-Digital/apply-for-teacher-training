@@ -14,14 +14,14 @@
     <%= tag.div(id: 'other-uk-qualifications-autosuggest', data: { source: OTHER_UK_QUALIFICATIONS }) %>
   <% end %>
   <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::NON_UK_TYPE, label: { text: 'Non-UK qualification' } do %>
-    <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name', size: 's' }, hint: { text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') } %>
+    <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name', size: 's' }, hint: { text: 'New hint text here' } %>
   <% end %>
   <% if (current_application.application_qualifications.other.blank? && params[:change] == 'true') || (current_application.application_qualifications.other.blank? && !current_application.no_other_qualifications) %>
     <%= f.govuk_radio_divider %>
     <%= f.govuk_radio_button :qualification_type,
       'no_other_qualifications',
       label: { text: current_application.international_applicant? ? 'I do not want to add any other qualifications' : 'I do not want to add any A levels and other qualifications' },
-      hint: -> { 'Providers look at A levels and other qualifications for evidence of subject knowledge not covered in your degree or work history' } %>
+      hint: -> { 'Providers look at A levels and  qualifications for evidence of subject knowledge not covered in your degree or work history' } %>
   <% end %>
 <% end %>
 
