@@ -1,9 +1,11 @@
 module SupportInterface
   class VendorAPIRequestsFilter
+    include FilterParamsHelper
+
     attr_reader :applied_filters
 
     def initialize(params:)
-      @applied_filters = params
+      @applied_filters = compact_params(params)
     end
 
     def filters
@@ -11,24 +13,24 @@ module SupportInterface
     end
 
     def filter_records(vendor_api_requests)
-      if applied_filters[:q]
+      if applied_filters[:q].present?
         vendor_api_requests = vendor_api_requests.where("CONCAT(request_path, ' ', request_body, ' ', response_body) ILIKE ?", "%#{applied_filters[:q]}%")
       end
 
-      if applied_filters[:status_code]
+      if applied_filters[:status_code].present?
         vendor_api_requests = vendor_api_requests.where(status_code: applied_filters[:status_code])
       end
 
-      if applied_filters[:request_method]
+      if applied_filters[:request_method].present?
         vendor_api_requests = vendor_api_requests.where(request_method: applied_filters[:request_method])
       end
 
-      if applied_filters[:provider_id]
+      if applied_filters[:provider_id].present?
         vendor_api_requests = vendor_api_requests.where(provider_id: applied_filters[:provider_id])
       end
 
       %w[created_at request_path].each do |column|
-        next unless applied_filters[column]
+        next if applied_filters[column].blank?
 
         vendor_api_requests = vendor_api_requests.where(column => applied_filters[column])
       end

@@ -50,6 +50,7 @@
                   <% if filter[:type] == :search %>
                     <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" autocomplete="off">
                   <% elsif filter[:type] == :checkboxes %>
+                    <input value="" name="<%= filter[:name] %>[]" type="hidden">
                     <% filter[:options].each do |option| %>
                       <div class="govuk-checkboxes govuk-checkboxes--small">
                         <div class="govuk-checkboxes__item">
@@ -78,6 +79,7 @@
                       <% end %>
                       <div class="app-checkbox-filter__container">
                         <div class="govuk-checkboxes govuk-checkboxes--small app-checkbox-filter__container-inner">
+                          <input value="" name="<%= filter[:name] %>[]" type="hidden">
                           <% filter[:options].each do |option| %>
                             <div class="govuk-checkboxes__item">
                               <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= 'checked' if option[:checked] %> value="<%= option[:value] %>">

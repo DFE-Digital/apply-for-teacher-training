@@ -1,5 +1,7 @@
 module ProviderInterface
   class ProviderApplicationsFilter
+    include FilterParamsHelper
+
     attr_accessor :available_filters, :filter_selections, :provider_user
     attr_reader :applied_filters
 
@@ -22,12 +24,13 @@ module ProviderInterface
     end
 
     def filtered?
-      applied_filters.values.any?
+      applied_filters.values.any?(&:present?)
     end
 
     def no_results_message
-      filtering_keys = applied_filters.except(:remove).keys
-      filter_count = applied_filters.except(:candidate_name, :remove).keys.size
+      filters_with_value = applied_filters.select { |_, value| value.present? }
+      filtering_keys = filters_with_value.except(:remove).keys
+      filter_count = filters_with_value.except(:candidate_name, :remove).keys.size
 
       if filtering_keys == %w[candidate_name]
         "There are no results for '#{applied_filters['candidate_name']}'."
@@ -41,7 +44,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: []).to_h
+      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: []).to_h)
     end
 
     def save_filter_state!
@@ -164,7 +167,7 @@ module ProviderInterface
     end
 
     def subject_filter
-      provider_ids = applied_filters[:provider] || ProviderOptionsService.new(provider_user).providers.pluck(:id)
+      provider_ids = applied_filters[:provider].presence || ProviderOptionsService.new(provider_user).providers.pluck(:id)
       provider_courses = Course.where(provider_id: provider_ids)
 
       {

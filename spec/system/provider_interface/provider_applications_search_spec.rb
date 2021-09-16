@@ -39,7 +39,9 @@ RSpec.feature 'Providers should be able to filter applications' do
     then_i_search_for_candidate_name
     then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
 
-    when_i_clear_the_filters
+    when_i_manually_clear_all_filters_and_apply_them
+    then_i_expect_all_applications_to_be_visible
+
     when_i_search_for_a_candidate_that_does_not_exist
     then_i_should_see_the_no_filter_results_error_message
 
@@ -79,7 +81,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_the_relevant_tags_should_be_visible
-    tags = find(:css, '.moj-filter-tags:nth-of-type(2)')
+    tags = find(:css, '.moj-filter-tags:nth-of-type(1)')
     expect(tags).to have_text('Hoth Teacher Training')
     expect(tags).to have_text('Caladan University')
   end
@@ -130,6 +132,14 @@ RSpec.feature 'Providers should be able to filter applications' do
   def then_i_filter_for_withdrawn_and_offered_applications
     find(:css, '#status-withdrawn').set(true)
     find(:css, '#status-offer').set(true)
+    click_button('Apply filters')
+  end
+
+  def when_i_manually_clear_all_filters_and_apply_them
+    fill_in 'Search by candidate name or reference', with: ''
+    click_button('Search')
+    find(:css, '#status-withdrawn').set(false)
+    find(:css, '#status-offer').set(false)
     click_button('Apply filters')
   end
 
@@ -210,7 +220,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_should_see_the_no_filter_results_error_message
-    expect(page).to have_content("There are no results for 'Simon Says' and the selected filter.")
+    expect(page).to have_content("There are no results for 'Simon Says'.")
   end
 
   def when_i_filter_by_provider

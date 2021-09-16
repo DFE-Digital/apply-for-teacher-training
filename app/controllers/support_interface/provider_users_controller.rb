@@ -5,10 +5,10 @@ module SupportInterface
         .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
         .page(params[:page] || 1).per(30)
 
-      @provider_users = scope_by_use_of_service
-      @provider_users = scope_by_search_term
-
       @filter = SupportInterface::ProviderUsersFilter.new(params: params)
+
+      @provider_users = scope_by_use_of_service(@filter)
+      @provider_users = scope_by_search_term(@filter)
     end
 
     def show
@@ -37,23 +37,23 @@ module SupportInterface
 
   private
 
-    def scope_by_use_of_service
-      if params[:use_of_service] == %w[never_signed_in]
+    def scope_by_use_of_service(filter)
+      if filter.applied_filters[:use_of_service] == %w[never_signed_in]
         @provider_users.where(last_signed_in_at: nil)
-      elsif params[:use_of_service] == %w[has_signed_in]
+      elsif filter.applied_filters[:use_of_service] == %w[has_signed_in]
         @provider_users.where.not(last_signed_in_at: nil)
       else
         @provider_users
       end
     end
 
-    def scope_by_search_term
-      return @provider_users if params[:q].blank?
+    def scope_by_search_term(filter)
+      return @provider_users if filter.applied_filters[:q].blank?
 
-      if params[:q] =~ /^\d+$/
-        @provider_users.where(id: params[:q])
+      if filter.applied_filters[:q] =~ /^\d+$/
+        @provider_users.where(id: filter.applied_filters[:q])
       else
-        @provider_users.where("CONCAT(first_name, ' ', last_name, ' ', email_address) ILIKE ?", "%#{params[:q]}%")
+        @provider_users.where("CONCAT(first_name, ' ', last_name, ' ', email_address) ILIKE ?", "%#{filter.applied_filters[:q]}%")
       end
     end
   end
