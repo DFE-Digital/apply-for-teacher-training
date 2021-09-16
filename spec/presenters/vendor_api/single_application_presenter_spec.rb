@@ -364,6 +364,25 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('I have Settled status')
     end
 
+    context 'with restructured immigration status' do
+      before { FeatureFlag.activate(:restructured_immigration_status) }
+
+      it 'returns details of the immigration status if the candidates answered the have the right to work/study in the UK' do
+        application_form = create(:application_form,
+                                  :minimum_info,
+                                  recruitment_cycle_year: 2022,
+                                  first_nationality: 'Canadian',
+                                  immigration_right_to_work: true,
+                                  immigration_status: 'other',
+                                  immigration_status_details: 'I have Settled status')
+        application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+        response = described_class.new(application_choice).as_json
+
+        expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('I have Settled status')
+      end
+    end
+
     it 'returns correct message if the candidates answered they do not yet have the right to work/study in the UK' do
       application_form = create(:application_form,
                                 :minimum_info,

@@ -100,6 +100,7 @@ class ApplicationForm < ApplicationRecord
     international_address country postcode equality_and_diversity
     work_history_breaks first_nationality second_nationality third_nationality
     fourth_nationality fifth_nationality phone_number
+    recruitment_cycle_year
   ].freeze
 
   before_save do |form|

@@ -124,7 +124,7 @@ module VendorAPI
 
       return 'Irish Citizen' if application_choice.nationalities.include?('IE')
 
-      return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
+      return right_to_work_or_study_value if right_to_work_or_study?
 
       'Candidate needs to apply for permission to work and study in the UK'
     end
@@ -132,9 +132,29 @@ module VendorAPI
     def uk_residency_status_code
       return 'A' if application_choice.nationalities.include?('GB')
       return 'B' if application_choice.nationalities.include?('IE')
-      return 'D' if application_form.right_to_work_or_study_yes?
+      return 'D' if right_to_work_or_study?
 
       'C'
+    end
+
+    def right_to_work_or_study?
+      if application_form.restructured_immigration_status?
+        application_form.immigration_right_to_work?
+      else
+        application_form.right_to_work_or_study_yes?
+      end
+    end
+
+    def right_to_work_or_study_value
+      if application_form.restructured_immigration_status?
+        if application_form.immigration_status == 'other'
+          application_form.immigration_status_details
+        else
+          I18n.t("application_form.personal_details.immigration_status.values.#{application_form.immigration_status}")
+        end
+      else
+        application_form.right_to_work_or_study_details
+      end
     end
 
     def provisional_fee_payer_status
