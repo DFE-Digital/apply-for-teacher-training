@@ -1159,7 +1159,9 @@ Rails.application.routes.draw do
   get '/check', to: 'healthcheck#show'
   get '/check/version', to: 'healthcheck#version'
 
-  get '/monthly-statistics', to: 'monthly_statistics#show'
+  if HostingEnvironment.test_environment?
+    get '/monthly-statistics', to: 'monthly_statistics#show'
+  end
 
   mount Yabeda::Prometheus::Exporter => '/metrics'
 
