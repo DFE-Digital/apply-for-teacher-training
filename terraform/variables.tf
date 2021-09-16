@@ -44,6 +44,11 @@ variable "statuscake_alerts" {
   default = {}
 }
 
+# Restore DB variables
+variable "paas_restore_db_from_db_instance" { default = "" }
+
+variable "paas_restore_db_from_point_in_time_before" { default = "" }
+
 locals {
   cf_api_url        = "https://api.london.cloud.service.gov.uk"
   azure_credentials = try(jsondecode(var.azure_credentials), null)

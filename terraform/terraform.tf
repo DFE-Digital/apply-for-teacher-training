@@ -51,6 +51,9 @@ module "paas" {
   worker_app_memory         = var.paas_worker_app_memory
   clock_app_instances       = var.paas_clock_app_instances
   worker_app_instances      = var.paas_worker_app_instances
+
+  restore_db_from_db_instance          = var.paas_restore_db_from_db_instance
+  restore_db_from_point_in_time_before = var.paas_restore_db_from_point_in_time_before
 }
 
 module "statuscake" {
