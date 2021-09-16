@@ -51,44 +51,22 @@ RSpec.describe MonthlyStatisticsReport do
 
       allow(CourseAgeGroupMonthlyStatistics).to receive(:new).and_return(course_age_group_monthly_statistics_double)
 
-      allow(course_age_group_monthly_statistics_double).to receive(:call).and_return({
-        'Primary' => {
-          'recruited' => 1,
-          'rejected' => 1,
-          'total' => 2,
+      allow(course_age_group_monthly_statistics_double).to receive(:call).and_return([
+        {
+          'foo' => 'bar',
         },
-        'Secondary' => {
-          'conditions_not_met' => 1,
-          'offer' => 1,
-          'total' => 2,
-        },
-        'Further education' => {
-          'conditions_not_met' => 1,
-          'total' => 1,
-        },
-      })
+      ])
 
       report = described_class.new
       report.load_updated_statistics
 
-      expect(report.statistics).to eq({
-        'by_course_age_group' => {
-          'Primary' => {
-            'recruited' => 1,
-            'rejected' => 1,
-            'total' => 2,
+      expect(report.statistics).to eq(
+        'by_course_age_group' => [
+          {
+            'foo' => 'bar',
           },
-          'Secondary' => {
-            'conditions_not_met' => 1,
-            'offer' => 1,
-            'total' => 2,
-          },
-          'Further education' => {
-            'conditions_not_met' => 1,
-            'total' => 1,
-          },
-        },
-      })
+        ],
+      )
     end
   end
 end

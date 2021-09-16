@@ -1,3 +1,5 @@
 class MonthlyStatisticsController < ApplicationController
-  def show; end
+  def show
+    @statistics = MonthlyStatisticsReport.last.statistics
+  end
 end

@@ -13,7 +13,7 @@ class MonthlyStatisticsReport < ApplicationRecord
     load_by_course_age_group
   end
 
-  private
+private
 
   def load_by_course_age_group
     write_statistic(
