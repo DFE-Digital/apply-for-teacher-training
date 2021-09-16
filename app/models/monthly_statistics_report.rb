@@ -9,7 +9,7 @@ class MonthlyStatisticsReport < ApplicationRecord
     statistics[key.to_s] || MISSING_VALUE
   end
 
-  def load_updated_statistics
+  def load_table_data
     load_by_course_age_group
   end
 
@@ -18,7 +18,7 @@ private
   def load_by_course_age_group
     write_statistic(
       :by_course_age_group,
-      CourseAgeGroupMonthlyStatistics.new.call,
+      MonthlyStatistics::ByCourseAgeGroup.new.table_data,
     )
   end
 end

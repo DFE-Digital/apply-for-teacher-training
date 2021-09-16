@@ -5,7 +5,7 @@ class UpdateMonthlyStatisticsReport
 
   def perform
     dashboard = MonthlyStatisticsReport.new
-    dashboard.load_updated_statistics
+    dashboard.load_table_data
     dashboard.save!
   end
 end

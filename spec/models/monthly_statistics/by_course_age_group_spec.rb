@@ -1,11 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe CourseAgeGroupMonthlyStatistics do
-  subject(:statistics) { described_class.new.call }
+RSpec.describe MonthlyStatistics::ByCourseAgeGroup do
+  subject(:statistics) { described_class.new.table_data }
 
-  it 'returns a hash of application choice status totals by course age group' do
-    # These statistics specs are going to end up slowing down the entire suite as they have to
-    # create large amounts of records?
+  it "returns table data for 'by course age group'" do
     create_application_choice(status: :with_rejection, course_level: 'primary')
     create_application_choice(status: :awaiting_provider_decision, course_level: 'primary')
     create_application_choice(status: :with_recruited, course_level: 'primary')

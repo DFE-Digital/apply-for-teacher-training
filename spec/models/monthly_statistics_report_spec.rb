@@ -47,18 +47,18 @@ RSpec.describe MonthlyStatisticsReport do
 
   describe '#load_updated_statistics' do
     it 'retrieves all required statistics and current version' do
-      course_age_group_monthly_statistics_double = instance_double(CourseAgeGroupMonthlyStatistics)
+      course_age_group_monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseAgeGroup)
 
-      allow(CourseAgeGroupMonthlyStatistics).to receive(:new).and_return(course_age_group_monthly_statistics_double)
+      allow(MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return(course_age_group_monthly_statistics_double)
 
-      allow(course_age_group_monthly_statistics_double).to receive(:call).and_return([
+      allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return([
         {
           'foo' => 'bar',
         },
       ])
 
       report = described_class.new
-      report.load_updated_statistics
+      report.load_table_data
 
       expect(report.statistics).to eq(
         'by_course_age_group' => [
