@@ -1,9 +1,11 @@
 module SupportInterface
   class ApplicationsFilter
+    include FilterParamsHelper
+
     attr_reader :applied_filters
 
     def initialize(params:)
-      @applied_filters = params
+      @applied_filters = compact_params(params)
     end
 
     def filter_records(application_forms)
@@ -18,7 +20,7 @@ module SupportInterface
         .order(updated_at: :desc)
         .page(applied_filters[:page] || 1).per(30)
 
-      if applied_filters[:q]
+      if applied_filters[:q].present?
         application_forms = application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q]}%")
       end
 
@@ -26,19 +28,19 @@ module SupportInterface
         application_forms = application_forms.joins(:application_choices).where(application_choices: { id: applied_filters[:application_choice_id].to_i })
       end
 
-      if applied_filters[:phase]
+      if applied_filters[:phase].present?
         application_forms = application_forms.where(phase: applied_filters[:phase])
       end
 
-      if applied_filters[:interviews]
+      if applied_filters[:interviews].present?
         application_forms = application_forms.joins(application_choices: [:interviews]).group('id')
       end
 
-      if applied_filters[:year]
+      if applied_filters[:year].present?
         application_forms = application_forms.where(recruitment_cycle_year: applied_filters[:year])
       end
 
-      if applied_filters[:status]
+      if applied_filters[:status].present?
         application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
       end
 
