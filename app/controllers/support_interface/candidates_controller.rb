@@ -8,16 +8,16 @@ module SupportInterface
         .order(updated_at: :desc)
         .page(params[:page] || 1).per(30)
 
-      if params[:q].present?
-        @candidates = @candidates.where('CONCAT(email_address) ILIKE ?', "%#{params[:q]}%")
+      @filter = SupportInterface::CandidatesFilter.new(params: params)
+
+      if @filter.applied_filters[:q].present?
+        @candidates = @candidates.where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:q]}%")
       end
 
-      if params[:candidate_number].present?
-        candidate_number = params[:candidate_number].tr('^0-9', '')
+      if @filter.applied_filters[:candidate_number].present?
+        candidate_number = @filter.applied_filters[:candidate_number].tr('^0-9', '')
         @candidates = @candidates.where(id: candidate_number)
       end
-
-      @filter = SupportInterface::CandidatesFilter.new(params: params)
     end
 
     def show
