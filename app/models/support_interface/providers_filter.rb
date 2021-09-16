@@ -1,5 +1,7 @@
 module SupportInterface
   class ProvidersFilter
+    include FilterParamsHelper
+
     attr_reader :applied_filters
     ONBOARDING_STAGES = {
       'with_courses' => 'With courses',
@@ -19,14 +21,16 @@ module SupportInterface
     }.freeze
 
     def initialize(params:)
-      @applied_filters = params.slice(
-        :remove,
-        :provider_types,
-        :ratified_by,
-        :onboarding_stages,
-        :q,
-        :no_provider_users,
-        :accredited_provider,
+      @applied_filters = compact_params(
+        params.slice(
+          :remove,
+          :provider_types,
+          :ratified_by,
+          :onboarding_stages,
+          :q,
+          :no_provider_users,
+          :accredited_provider,
+        ),
       )
     end
 
