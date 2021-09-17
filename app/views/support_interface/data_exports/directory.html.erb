@@ -24,4 +24,19 @@
       </ul>
     </aside>
   </div>
+
+  <div class="govuk-grid-column-one-third govuk-!-margin-top-5">
+    <aside class="app-card" role="complementary">
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Can’t find what you’re looking for?</h3>
+      <p class="govuk-body">
+        You can request data by completing this
+        <%= govuk_link_to(
+            'google form',
+            'https://docs.google.com/forms/d/e/1FAIpQLSd-J_cFOgmy2TjhFo_cA0kqDoHT8NlcQvH13U2z-AMlR6JoEA/viewform',
+            target: '_blank',
+            rel: 'noopener',
+          ) %>.
+      </p>
+    </aside>
+  </div>
 </div>
