@@ -34,7 +34,7 @@ RSpec.feature 'Referee does not respond in time' do
 
     expect(current_emails.size).to be(1)
 
-    expect(current_email.text).to include('We have not had your reference')
+    expect(current_email.text).to include('Please complete the reference form as soon as you can')
   end
 
   def and_an_email_is_sent_to_the_candidate

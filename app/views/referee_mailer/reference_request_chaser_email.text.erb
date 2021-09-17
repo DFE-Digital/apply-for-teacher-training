@@ -1,23 +1,37 @@
 Dear <%= @reference.name %>,
 
-# Please give a reference for <%= @candidate_name %> as soon as possible
+<%= @candidate_name %> put us in touch with you to get a reference for their teacher training application.
 
-We have not had your reference for <%= @candidate_name %> yet. They put us in touch with you to get a reference for their teacher training application.
+Please complete the reference form as soon as you can:
 
-Give a reference as soon as possible by filling in this short form (it does not take long):
+<%= referee_interface_reference_relationship_url(token: @unhashed_token) %>
 
-<%= referee_interface_reference_relationship_url(token: @token) %>
+Teacher training courses can become full at any time. The sooner <%= @candidate_name %> gets a reference, the more likely it is that they’ll get a place.
 
-Teacher training places can become full at any time. The sooner <%= @candidate_name %> gets a reference, the more likely it is that they’ll get a place.
+# What’s in the reference form?
 
-Let us know as soon as possible if you will not give a reference:
+You’ll be asked to:
 
-<%= referee_interface_refuse_feedback_url(token: @token) %>
+* confirm how you know <%= @candidate_name %>
+* state whether you know of any reason why they should not work with children
+* provide a reference of up to 500 words (you can talk about the candidate’s teaching potential, their reliability and professionalism, their suitability to work with children and transferable skills, for example)
+
+You can start, save and return to your reference at any time.
+
+The candidate will not be able to see what you write. 
+
+# If you decline to give a reference
+
+Let us know as soon as possible:
+
+<%= referee_interface_refuse_feedback_url(token: @unhashed_token) %>
+
+# Get support
+
+Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
 
 # Your data
 
-We’ll only use your data to process the candidate’s application, unless you agree to be contacted by us about your experience of giving a reference. We’ll ask about this before you submit any information.
+Find out how we use and look after your data:
 
-# Need help?
-
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+<%= candidate_interface_privacy_policy_url %>
