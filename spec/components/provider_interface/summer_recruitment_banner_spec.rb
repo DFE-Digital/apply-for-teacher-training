@@ -14,8 +14,28 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
       expect(result.text).to include(t('summer_recruitment_banner.header'))
     end
 
-    it 'renders the banner content' do
-      expect(result.text).to include(t('summer_recruitment_banner.body'))
+    describe 'rendering the banner content' do
+      around do |example|
+        Timecop.freeze(time) { example.run }
+      end
+
+      context 'when the current time is before the 2021 apply 2 deadline' do
+        let(:time) { CycleTimetable.apply_2_deadline(2021) - 1.day }
+
+        it 'renders the banner content' do
+          expect(result.text).to include(t('summer_recruitment_banner.body'))
+          expect(page).to have_selector('.govuk-body')
+        end
+      end
+
+      context 'when the current time is after the 2021 apply 2 deadline' do
+        let(:time) { CycleTimetable.apply_2_deadline(2021) + 1.day }
+
+        it 'does not render the banner content' do
+          expect(result.text).not_to include(t('summer_recruitment_banner.body'))
+          expect(page).not_to have_css('.govuk-body')
+        end
+      end
     end
   end
 
