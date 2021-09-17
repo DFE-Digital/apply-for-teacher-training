@@ -62,6 +62,7 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
         "Safeguarding issues:\nYou seemed very angry",
         "Additional advice:\nTry again soon",
         "Future applications:\nUoG would be interested in future applications from you.",
+        "Reasons why your application was unsuccessful:\nSo many reasons",
       ])
     end
 

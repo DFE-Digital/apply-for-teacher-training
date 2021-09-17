@@ -5,7 +5,8 @@ class RejectedApplicationChoicePresenter < SimpleDelegator
     @rejection_reasons ||= [candidate_behaviour, quality_of_application, qualifications,
                             interview_performance, full_course, offered_other_course,
                             honesty_and_professionalism_reasons, safeguarding_issues, cannot_sponsor_visa,
-                            additional_advice, interested_in_future_applications].reduce({}, :merge)
+                            additional_advice, interested_in_future_applications,
+                            other_reasons_for_rejection].reduce({}, :merge)
   end
 
   def reasons
@@ -119,6 +120,12 @@ private
       [I18n.t("reasons_for_rejection.interested_in_future_applications.reason.#{reasons.interested_in_future_applications_y_n.downcase}",
               provider_name: course_option.course.provider.name)],
     )
+  end
+
+  def other_reasons_for_rejection
+    return {} if reasons.why_are_you_rejecting_this_application.blank?
+
+    reason_details('why_are_you_rejecting_this_application', [reasons.why_are_you_rejecting_this_application])
   end
 
   def reason_details(key, reason = nil)

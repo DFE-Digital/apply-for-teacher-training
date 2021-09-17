@@ -159,6 +159,20 @@ RSpec.describe RejectedApplicationChoicePresenter do
       end
     end
 
+    describe 'why_are_you_rejecting_this_application' do
+      it 'returns a hash with the relevant title and reasons' do
+        reasons_for_rejection = {
+          why_are_you_rejecting_this_application: 'That zoom background...',
+        }
+        application_choice.structured_rejection_reasons = reasons_for_rejection
+        rejected_application_choice = described_class.new(application_choice)
+
+        expect(rejected_application_choice.rejection_reasons).to eq(
+          { 'Reasons why your application was unsuccessful' => ['That zoom background...'] },
+        )
+      end
+    end
+
     describe 'interested_in_future_applications' do
       let(:application_choice) { build_stubbed(:application_choice, course_option: course_option) }
       let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, provider: provider)) }
