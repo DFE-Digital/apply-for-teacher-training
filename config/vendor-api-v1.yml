@@ -700,7 +700,6 @@ components:
       - recruitment_cycle_year
       - provider_code
       - course_code
-      - site_code
       - study_mode
       properties:
         recruitment_cycle_year:
@@ -719,9 +718,10 @@ components:
           maxLength: 4
         site_code:
           type: string
-          description: The site’s code
+          description: The site’s code. If left blank, then a course and site must be uniquely determined by the other attributes.
           example: K
           maxLength: 5
+          nullable: true
         study_mode:
           type: string
           description: Can be `full_time` or `part_time`

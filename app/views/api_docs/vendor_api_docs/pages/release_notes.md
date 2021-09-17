@@ -1,3 +1,9 @@
+## 17th September
+
+The `site_code` attribute of `Course` is now optional when POSTing to `/application/:id/offer`.
+The `site_code` can be left blank if the other provided attributes uniquely define a course.
+If the other provided attributes define a course that is available at multiple sites, then the endpoint will respond with a 422.
+
 ## 15th July
 
 Documentation:
