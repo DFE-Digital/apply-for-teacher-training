@@ -1,0 +1,14 @@
+en:
+  activemodel:
+    errors:
+      models:
+        get_course_option_from_codes:
+          attributes:
+            provider_code:
+              blank: Provider code cannot be blank
+            course_code:
+              blank: Course code cannot be blank
+            study_mode:
+              blank: Study mode cannot be blank
+            recruitment_cycle_year:
+              blank: Recruitment cycle year cannot be blank
