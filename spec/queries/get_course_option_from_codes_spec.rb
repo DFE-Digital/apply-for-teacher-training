@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetCourseOptionFromCodes do
+RSpec.describe GetCourseOptionFromCodes, type: :model do
   include CourseOptionHelpers
 
   let(:course_option) { create(:course_option) }
@@ -16,11 +16,16 @@ RSpec.describe GetCourseOptionFromCodes do
   end
 
   describe 'validation' do
-    required_attributes = %w[provider_code course_code study_mode recruitment_cycle_year]
+    subject { service }
+
+    required_attributes = %i[provider_code course_code study_mode recruitment_cycle_year]
     required_attributes.each do |attr|
-      it "complains about missing #{attr}" do
+      it { is_expected.to validate_presence_of(attr).with_message("#{attr.to_s.humanize} cannot be blank") }
+
+      it "does not add errors to other attributes when #{attr} is blank" do
         service.send("#{attr}=", nil)
-        expect(service).not_to be_valid
+        expect(service).to be_invalid
+        expect(service.errors.keys).to contain_exactly(attr)
       end
     end
 
