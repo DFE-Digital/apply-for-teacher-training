@@ -147,6 +147,26 @@ RSpec.describe CandidateMailer, type: :mailer do
         end
       end
 
+      context 'when no main structured reasons for rejection were given' do
+        let(:rejection_reasons) do
+          {
+            why_are_you_rejecting_this_application: 'You could not correctly guess the number of jelly beans in the jar',
+            other_advice_or_feedback_y_n: 'Yes',
+            other_advice_or_feedback_details: 'There were actually 1567 jelly beans in the jar',
+          }
+        end
+
+        it 'includes the other feedback section' do
+          expect(email.body).to include('Reasons why your application was unsuccessful')
+          expect(email.body).to include(rejection_reasons[:why_are_you_rejecting_this_application])
+        end
+
+        it 'includes the additional advice section' do
+          expect(email.body).to include('Additional advice')
+          expect(email.body).to include(rejection_reasons[:other_advice_or_feedback_details])
+        end
+      end
+
       context 'when it is before the apply_2_deadline' do
         before do
           allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(false)
