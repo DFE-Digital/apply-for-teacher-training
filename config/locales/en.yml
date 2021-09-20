@@ -64,6 +64,7 @@ en:
     start_new_application: Start a new application
     check_your_email: Check your email
     not_found: Page not found
+    monthly_statistics: Monthly statistics
     forbidden: Access denied
     internal_server_error: Sorry, there is a problem with the service
     unprocessable_entity: Sorry, there is a problem with the service

@@ -59,6 +59,8 @@ $govuk-new-link-styles: true;
 @import "section";
 @import "status-box";
 @import "summary-card";
+@import "toc";
+@import "sortable_table";
 
 // Override utilities
 @import "overrides";

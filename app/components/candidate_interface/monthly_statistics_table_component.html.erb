@@ -1,0 +1,34 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <table class="govuk-table govuk-!-font-size-16">
+      <caption class="govuk-table__caption govuk-table__caption--s"><%= caption %></caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+         <% column_names.map do |name| %>
+            <th scope="col" class="govuk-table__header govuk-!-font-weight-regular" aria-sort="ascending"><%= name %></th>
+         <% end %>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <% rows.map do |row| %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= name_for(row) %></th>
+            <% data_from(row).map do |_status, count| %>
+              <td class="govuk-table__cell govuk-table__cell--numeric"><%= count %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+
+      <tfoot>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Total</th>
+        <% totals.map do |total| %>
+          <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-font-weight-bold"><%= total %></td>
+        <% end %>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_13_135632) do
+ActiveRecord::Schema.define(version: 2021_09_15_095847) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2021_09_13_135632) do
   create_sequence "find_feedback_id_seq"
   create_sequence "ielts_qualifications_id_seq"
   create_sequence "interviews_id_seq"
+  create_sequence "monthly_statistics_reports_id_seq"
   create_sequence "notes_id_seq"
   create_sequence "offer_conditions_id_seq"
   create_sequence "offers_id_seq"
@@ -529,6 +530,12 @@ ActiveRecord::Schema.define(version: 2021_09_13_135632) do
     t.datetime "cancelled_at"
     t.index ["application_choice_id"], name: "index_interviews_on_application_choice_id"
     t.index ["provider_id"], name: "index_interviews_on_provider_id"
+  end
+
+  create_table "monthly_statistics_reports", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.json "statistics"
   end
 
   create_table "notes", force: :cascade do |t|
