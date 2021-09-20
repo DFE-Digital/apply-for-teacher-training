@@ -32,6 +32,7 @@ module CandidateInterface
         other_uk_qualification_type: other_uk_qualification_type,
         non_uk_qualification_type: non_uk_qualification_type,
         not_completed_explanation: not_completed_explanation,
+        currently_completing_qualification: not_completed_explanation.present?,
       )
     end
 
@@ -48,6 +49,7 @@ module CandidateInterface
         other_uk_qualification_type: other_uk_qualification_type,
         non_uk_qualification_type: non_uk_qualification_type,
         not_completed_explanation: not_completed_explanation,
+        currently_completing_qualification: not_completed_explanation.present?,
       )
     end
 
