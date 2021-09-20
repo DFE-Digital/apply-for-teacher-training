@@ -1,7 +1,7 @@
-<section class="app-section govuk-!-width-two-thirds">
+<section id="personal-statement-section" class="app-section govuk-!-width-two-thirds">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="personal-statement">Personal statement</h2>
 
-  <h3 class="govuk-heading-s">Vocation</h3>
+  <h3 class="govuk-heading-s">Vocation <%= govuk_link_to 'Change', support_interface_application_form_edit_becoming_a_teacher_path, class: 'govuk-body' %></h3>
   <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
 
   <h3 class="govuk-heading-s">Subject knowledge</h3>
