@@ -77,7 +77,8 @@ RSpec.feature 'Providers and courses', mid_cycle: false do
     create :provider, :with_signed_agreement, code: 'DOF', name: 'An Unsynced Provider'
     somerset_scitt = create :provider, :with_signed_agreement, code: 'GHI', name: 'Somerset SCITT Consortium'
 
-    create(:course_option, course: create(:course, accredited_provider: provider))
+    course_option_with_accredited_provider = create(:course_option, course: create(:course, accredited_provider: provider))
+    create(:application_choice, application_form: create(:application_form, support_reference: 'TUV123'), course_option: course_option_with_accredited_provider)
 
     create(:course_option, course: create(:course, exposed_in_find: true, accredited_provider: somerset_scitt))
     create(:course_option, course: create(:course, exposed_in_find: true, provider: somerset_scitt))
@@ -214,6 +215,7 @@ RSpec.feature 'Providers and courses', mid_cycle: false do
 
   def then_i_see_the_provider_applications
     expect(page).to have_content 'XYZ123'
+    expect(page).to have_content 'TUV123'
   end
 
   def then_i_see_the_provider_courses
