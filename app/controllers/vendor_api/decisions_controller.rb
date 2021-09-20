@@ -4,13 +4,7 @@ module VendorAPI
     rescue_from ValidationException, with: :render_validation_error
 
     def make_offer
-      course_data = params.dig(:data, :course)
-
-      course_option = if course_data.present?
-                        retrieve_course!(course_data)
-                      else
-                        application_choice.course_option
-                      end
+      validate_course_is_in_current_recruitment_cycle!
 
       respond_to_decision(offer_service_for(application_choice, course_option))
     end
@@ -133,6 +127,17 @@ module VendorAPI
       raise ValidationException, course_option_service.errors.messages.values.flatten
     end
 
+    def course_option
+      course_data = params.dig(:data, :course)
+
+      @course_option ||=
+        if course_data.present?
+          retrieve_course!(course_data) || raise_no_course_found!
+        else
+          application_choice.current_course_option
+        end
+    end
+
     def render_validation_error(e)
       render status: :unprocessable_entity, json: e.as_json
     end
@@ -142,6 +147,12 @@ module VendorAPI
         ChangeOffer.new(offer_params(application_choice, course_option))
       else
         MakeOffer.new(offer_params(application_choice, course_option))
+      end
+    end
+
+    def validate_course_is_in_current_recruitment_cycle!
+      if course_option.course.recruitment_cycle_year != RecruitmentCycle.current_year
+        raise ValidationException, ["Course must be in #{RecruitmentCycle.current_year} recruitment cycle"]
       end
     end
   end
