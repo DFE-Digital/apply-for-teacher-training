@@ -12,7 +12,7 @@ gem 'actionmailer', '~> 6.1'
 gem 'railties', '~> 6.1'
 gem 'sprockets-rails'
 
-gem 'puma', '~> 5.4'
+gem 'puma', '~> 5.5'
 gem 'pg', '~> 1.2.3'
 gem 'blazer'
 
