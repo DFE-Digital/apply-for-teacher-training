@@ -157,7 +157,7 @@ module CandidateInterface
           {
             key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
             value: formatted_immigration_right_to_work,
-            action: (if @editable
+            action: (if @editable && !@application_form.immigration_right_to_work.nil?
                        {
                          href: candidate_interface_immigration_right_to_work_path(return_to_params),
                          visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
@@ -264,7 +264,7 @@ module CandidateInterface
 
     def formatted_immigration_right_to_work
       if immigration_right_to_work_form.immigration_right_to_work.nil?
-        ''
+        ApplicationController.render(CandidateInterface::MissingRightToWorkInsetComponent.new(application_form: @application_form), layout: nil)
       elsif immigration_right_to_work_form.right_to_work_or_study?
         'Yes'
       else

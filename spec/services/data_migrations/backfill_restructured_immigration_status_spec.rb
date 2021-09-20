@@ -8,6 +8,7 @@ RSpec.describe DataMigrations::BackfillRestructuredImmigrationStatus do
       recruitment_cycle_year: 2022,
       personal_details_completed: true,
       submitted_at: nil,
+      first_nationality: 'French',
     )
     submitted_2022_application = create(
       :application_form,
@@ -15,6 +16,7 @@ RSpec.describe DataMigrations::BackfillRestructuredImmigrationStatus do
       recruitment_cycle_year: 2022,
       personal_details_completed: true,
       submitted_at: 2.days.ago,
+      first_nationality: 'French',
     )
     unsubmitted_2021_application = create(
       :application_form,
@@ -22,6 +24,15 @@ RSpec.describe DataMigrations::BackfillRestructuredImmigrationStatus do
       recruitment_cycle_year: 2021,
       personal_details_completed: true,
       submitted_at: nil,
+      first_nationality: 'French',
+    )
+    unsubmitted_2022_uk_application = create(
+      :application_form,
+      :minimum_info,
+      recruitment_cycle_year: 2022,
+      personal_details_completed: true,
+      submitted_at: nil,
+      first_nationality: 'British',
     )
 
     described_class.new.change
@@ -29,5 +40,6 @@ RSpec.describe DataMigrations::BackfillRestructuredImmigrationStatus do
     expect(unsubmitted_2022_application.reload.personal_details_completed).to be(false)
     expect(submitted_2022_application.reload.personal_details_completed).to be(true)
     expect(unsubmitted_2021_application.reload.personal_details_completed).to be(true)
+    expect(unsubmitted_2022_uk_application.reload.personal_details_completed).to be(true)
   end
 end
