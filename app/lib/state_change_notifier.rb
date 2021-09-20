@@ -9,6 +9,8 @@ class StateChangeNotifier
   end
 
   def application_outcome_notification
+    return true if FeatureFlag.active?(:disable_application_outcome_notifications)
+
     candidate_name = application_choice.application_form.first_name
 
     other_applications = application_choice.self_and_siblings.where.not(id: application_choice.id)
