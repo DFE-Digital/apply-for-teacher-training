@@ -19,8 +19,8 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
         Timecop.freeze(time) { example.run }
       end
 
-      context 'when the current time is before the 2021 apply 2 deadline' do
-        let(:time) { CycleTimetable.apply_2_deadline(2021) - 1.day }
+      context 'when the current time is before the apply 2 deadline' do
+        let(:time) { CycleTimetable.apply_2_deadline(RecruitmentCycle.current_year) - 1.day }
 
         it 'renders the banner content' do
           expect(result.text).to include(t('summer_recruitment_banner.body'))
@@ -28,8 +28,8 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
         end
       end
 
-      context 'when the current time is after the 2021 apply 2 deadline' do
-        let(:time) { CycleTimetable.apply_2_deadline(2021) + 1.day }
+      context 'when the current time is after the apply 2 deadline' do
+        let(:time) { CycleTimetable.apply_2_deadline(RecruitmentCycle.current_year) + 1.day }
 
         it 'does not render the banner content' do
           expect(result.text).not_to include(t('summer_recruitment_banner.body'))

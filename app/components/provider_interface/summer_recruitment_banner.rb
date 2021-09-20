@@ -7,7 +7,7 @@ module ProviderInterface
   private
 
     def render_body?
-      Time.zone.now < CycleTimetable.apply_2_deadline(2021)
+      Time.zone.now < CycleTimetable.apply_2_deadline(RecruitmentCycle.current_year)
     end
   end
 end
