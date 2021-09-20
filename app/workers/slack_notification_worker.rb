@@ -3,11 +3,11 @@ require 'http'
 class SlackNotificationWorker
   include Sidekiq::Worker
 
-  def perform(text, url)
+  def perform(text, url = nil)
     @webhook_url = ENV['STATE_CHANGE_SLACK_URL']
 
     if @webhook_url.present?
-      message = hyperlink text, url
+      message = url.present? ? hyperlink(text, url) : text
       post_to_slack message
     end
   end
