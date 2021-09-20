@@ -1,5 +1,9 @@
 <%= render 'provider_navigation', title: 'Courses' %>
 
+<% if @provider.courses.current_cycle.any? || @provider.accredited_courses.current_cycle.any? %>
+  <%= govuk_button_link_to "Download #{RecruitmentCycle.current_year} courses and ratified courses as CSV", support_interface_provider_courses_csv_path, secondary: true, class: 'govuk-!-margin-bottom-5' %>
+<% end %>
+
 <% if @provider.courses.any? %>
   <% unless @provider.all_courses_open_in_current_cycle? %>
     <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
