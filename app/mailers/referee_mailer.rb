@@ -17,12 +17,14 @@ class RefereeMailer < ApplicationMailer
   def reference_request_chaser_email(application_form, reference)
     @application_form = application_form
     @reference = reference
-    @candidate_name = application_form.full_name
-    @token = reference.refresh_feedback_token!
+    @candidate_name = @application_form.full_name
+    @unhashed_token = reference.refresh_feedback_token!
 
     notify_email(
       to: reference.email_address,
       subject: t('referee_mailer.reference_request.subject.chaser', candidate_name: @candidate_name),
+      reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
+      template_name: :reference_request_email,
       application_form_id: reference.application_form_id,
     )
   end
@@ -50,14 +52,16 @@ class RefereeMailer < ApplicationMailer
   end
 
   def reference_request_chase_again_email(reference)
-    @name = reference.name
-    @candidate_name = reference.application_form.full_name
     @application_form = reference.application_form
-    @token = reference.refresh_feedback_token!
+    @reference = reference
+    @candidate_name = @application_form.full_name
+    @unhashed_token = reference.refresh_feedback_token!
 
     notify_email(
       to: reference.email_address,
       subject: t('referee_mailer.reference_request.subject.final', candidate_name: @candidate_name),
+      template_name: :reference_request_email,
+      reference: "#{HostingEnvironment.environment_name}-reference_request-#{reference.id}-#{SecureRandom.hex}",
       application_form_id: reference.application_form_id,
     )
   end
