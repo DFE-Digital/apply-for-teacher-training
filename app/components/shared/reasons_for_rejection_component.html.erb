@@ -185,7 +185,7 @@
 
 <% if reasons_for_rejection.why_are_you_rejecting_this_application.present? %>
   <div class="app-rejection">
-    <%= content_tag(subheading_tag_name, 'Reasons why your application was unsuccessful', class: 'govuk-heading-s') %>
+    <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.why_are_you_rejecting_this_application.title'), class: 'govuk-heading-s') %>
     <p class="govuk-body"><%= reasons_for_rejection.why_are_you_rejecting_this_application %></p>
     <% if editable? %>
       <p class="app-rejection__actions">

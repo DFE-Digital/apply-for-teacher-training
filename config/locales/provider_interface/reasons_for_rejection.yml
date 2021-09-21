@@ -47,6 +47,8 @@ en:
       other_details: Cannot sponsor visa - details
     additional_advice:
       title: 'Additional advice'
+    why_are_you_rejecting_this_application:
+      title: 'Reasons why your application was unsuccessful'
     interested_in_future_applications:
       title: 'Future applications'
       reason:
