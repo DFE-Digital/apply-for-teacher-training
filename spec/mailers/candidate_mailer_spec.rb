@@ -156,6 +156,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'when a candidate has 2 offers that were declined by default and a rejection' do
       let(:application_choices) { [dbd_application, dbd_application, build_stubbed(:application_choice, status: 'rejected')] }
 
+      before do
+        allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(false)
+      end
+
       it_behaves_like(
         'a mail with subject and content',
         'You did not respond to your offers: next steps',
