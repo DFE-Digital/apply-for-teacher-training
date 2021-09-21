@@ -58,6 +58,9 @@ RSpec.feature 'Docs' do
       provider_mailer-confirm_sign_in
       provider_mailer-organisation_permissions_set_up
       provider_mailer-organisation_permissions_updated
+      provider_mailer-apply_service_is_now_open
+      provider_mailer-find_service_is_now_open
+      provider_mailer-set_up_organisation_permissions
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
