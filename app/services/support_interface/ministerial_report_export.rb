@@ -64,44 +64,49 @@ module SupportInterface
     def call
       results = subject_mapping(subject_status_count)
 
-      rows = {}
+      export_rows = {}
 
-      Subject::SUBJECTS.each do |subject|
-        rows[subject] = {
-          applications: 0,
-          offer_received: 0,
-          accepted: 0,
-          application_declined: 0,
-          application_rejected: 0,
-          application_withdrawn: 0,
-        }
-      end
+      Subject::SUBJECTS.each { |subject| export_rows[subject] = column_names }
 
       results.each do |key, count|
         subject, status = key
 
         mapped_statuses = STATUS_MAPPING[status]
 
-        mapped_statuses.each do |mapped_status|
-          rows[:stem][mapped_status] += count if Subject::STEM_SUBJECTS.include? subject
-          rows[:ebacc][mapped_status] += count if Subject::EBACC_SUBJECTS.include? subject
-          rows[:secondary][mapped_status] += count if Subject::SECONDARY_SUBJECTS.include? subject
-          rows[subject][mapped_status] += count
-        end
+        mapped_statuses.each { |mapped_status| add_row_values(export_rows, subject, mapped_status, count) }
       end
 
-      rows[:total] = rows[:primary].merge(rows[:secondary]) { |_k, primary_value, secondary_value| primary_value + secondary_value }
+      export_rows[:total] = export_rows[:primary].merge(export_rows[:secondary]) { |_k, primary_value, secondary_value| primary_value + secondary_value }
 
-      rows = rows.map { |subject, value| { subject: subject }.merge!(value) }
+      export_rows = export_rows.map { |subject, value| { subject: subject }.merge!(value) }
     end
 
     alias data_for_export call
 
   private
 
+    def column_names
+      {
+        applications: 0,
+        offer_received: 0,
+        accepted: 0,
+        application_declined: 0,
+        application_rejected: 0,
+        application_withdrawn: 0,
+      }
+    end
+
+    def add_row_values(hash, subject, status, value)
+      hash[:stem][status] += value if Subject::STEM_SUBJECTS.include? subject
+      hash[:ebacc][status] += value if Subject::EBACC_SUBJECTS.include? subject
+      hash[:secondary][status] += value if Subject::SECONDARY_SUBJECTS.include? subject
+      hash[subject][status] += value
+    end
+
     def subject_status_count
       Subject
-        .joins(courses: :application_choices)
+        .joins(courses: { application_choices: :application_form })
+        .where.not('application_forms.submitted_at': nil)
         .group('subjects.code', 'application_choices.status')
         .count
     end
