@@ -78,6 +78,12 @@ class DataExport < ApplicationRecord
       description: 'A list of changes made to interviews for analysis of the Interviews feature',
       class: SupportInterface::InterviewChangesExport,
     },
+    ministerial_report_export: {
+      name: 'Ministerial report',
+      export_type: 'ministerial_report_export',
+      description: 'THE ministerial report',
+      class: SupportInterface::MinisterialReportExport,
+    },
     notes_export: {
       name: 'Notes',
       export_type: 'notes_export',
@@ -221,6 +227,7 @@ class DataExport < ApplicationRecord
     equality_and_diversity: 'equality_and_diversity',
     find_feedback: 'find_feedback',
     interviews_export: 'interview_export',
+    ministerial_report_export: 'ministerial_report_export',
     notifications_export: 'notifications_export',
     notification_preferences_export: 'notification_preferences_export',
     notes_export: 'notes_export',
