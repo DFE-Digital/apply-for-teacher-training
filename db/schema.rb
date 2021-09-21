@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_15_095847) do
+ActiveRecord::Schema.define(version: 2021_09_17_153948) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -510,6 +510,19 @@ ActiveRecord::Schema.define(version: 2021_09_15_095847) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "fraud_matches", force: :cascade do |t|
+    t.bigint "candidates_id", null: false
+    t.datetime "candidate_last_contacted_at"
+    t.integer "recruitment_cycle_year"
+    t.string "last_name"
+    t.datetime "date_of_birth"
+    t.string "postcode"
+    t.boolean "fraudulent?"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["candidates_id"], name: "index_fraud_matches_on_candidates_id"
+  end
+
   create_table "ielts_qualifications", force: :cascade do |t|
     t.string "trf_number", null: false
     t.string "band_score", null: false
@@ -819,6 +832,7 @@ ActiveRecord::Schema.define(version: 2021_09_15_095847) do
   add_foreign_key "course_subjects", "subjects"
   add_foreign_key "courses", "providers"
   add_foreign_key "emails", "application_forms", on_delete: :cascade
+  add_foreign_key "fraud_matches", "candidates", column: "candidates_id"
   add_foreign_key "interviews", "application_choices", on_delete: :cascade
   add_foreign_key "interviews", "providers", on_delete: :cascade
   add_foreign_key "notes", "application_choices", on_delete: :cascade
