@@ -24,8 +24,15 @@ module RegisterAPI
       render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
     end
 
-    def statement_timeout(e)
-      render json: { errors: [{ error: 'QueryCanceled', message: e }] }, status: :internal_server_error
+    def statement_timeout
+      render json: {
+        errors: [
+          {
+            error: 'InternalServerError',
+            message: 'The server encountered an unexpected condition that prevented it from fulfilling the request',
+          },
+        ],
+      }, status: :internal_server_error
     end
 
   private
