@@ -16,6 +16,9 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
   puts 'Generating a Vendor API token...'
   VendorAPIToken.create_with_random_token!(provider: Provider.find_by(code: '1JA'))
 
+  puts 'Generating fake API requests for the Vendor API Monitor...'
+  CreateVendorAPIMonitorDummyData.call
+
   Rake::Task['generate_test_applications'].invoke
 end
 
@@ -23,7 +26,7 @@ desc 'Sync some pilot-enabled providers and open all their courses'
 task sync_dev_providers_and_open_courses: :environment do
   puts 'Syncing data from TTAPI...'
 
-  provider_codes = %w[1JA 24J 24P D39 S72 1JB 4T7 1N1]
+  provider_codes = %w[1JA 24J 24P D39 S72 1JB 4T7 1N1 Y50 L34 D86 K60 H72]
   provider_codes.each do |code|
     provider_from_api = TeacherTrainingPublicAPI::Provider
         .where(year: RecruitmentCycle.current_year)

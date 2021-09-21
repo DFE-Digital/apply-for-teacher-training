@@ -20,27 +20,33 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
     it 'returns only providers who have connected and who have not synced in 24h' do
       _never_connected = create(:provider, name: 'never', provider_type: 'university')
       synced_recently = create(:provider, name: 'recently', provider_type: 'university')
-      synced_over_24h_ago = create(:provider, name: 'stale', provider_type: 'university')
+      failed_recently = create(:provider, name: 'failed', provider_type: 'university')
+      synced_1w_ago = create(:provider, name: '1 week ago', provider_type: 'university')
+      synced_2d_ago = create(:provider, name: '3 hours', provider_type: 'university')
 
       create(:vendor_api_request, provider: synced_recently)
-      create(:vendor_api_request, provider: synced_over_24h_ago, created_at: 2.days.ago)
+      create(:vendor_api_request, provider: failed_recently, status_code: 422)
+      create(:vendor_api_request, provider: synced_1w_ago, created_at: 1.week.ago)
+      create(:vendor_api_request, provider: synced_2d_ago, created_at: 2.days.ago)
 
-      expect(monitor.no_sync_in_24h.count).to eq 1
-      expect(monitor.no_sync_in_24h.first.id).to eq synced_over_24h_ago.id
+      expect(monitor.no_sync_in_24h.map(&:id)).to eq [failed_recently.id, synced_2d_ago.id, synced_1w_ago.id]
     end
   end
 
   describe '#no_decisions_in_7d' do
-    it 'returns only providers who have connected and who have not synced in 7 days' do
+    it 'returns only providers who have connected and who have not made decisions in 7 days' do
       _never_connected = create(:provider, name: 'never', provider_type: 'university')
       decided_recently = create(:provider, name: 'recently', provider_type: 'university')
-      decided_over_7d_ago = create(:provider, name: 'stale', provider_type: 'university')
+      failed_recently = create(:provider, name: 'failed', provider_type: 'university')
+      decided_over_2w_ago = create(:provider, name: '2 weeks', provider_type: 'university')
+      decided_over_7d_ago = create(:provider, name: '7 days', provider_type: 'university')
 
       create(:vendor_api_request, request_method: 'POST', provider: decided_recently)
+      create(:vendor_api_request, request_method: 'POST', provider: failed_recently, status_code: 422)
       create(:vendor_api_request, request_method: 'POST', provider: decided_over_7d_ago, created_at: 8.days.ago)
+      create(:vendor_api_request, request_method: 'POST', provider: decided_over_2w_ago, created_at: 15.days.ago)
 
-      expect(monitor.no_decisions_in_7d.count).to eq 1
-      expect(monitor.no_decisions_in_7d.first.id).to eq decided_over_7d_ago.id
+      expect(monitor.no_decisions_in_7d.map(&:id)).to eq [failed_recently.id, decided_over_7d_ago.id, decided_over_2w_ago.id]
     end
   end
 
@@ -57,11 +63,11 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
 
       create(:vendor_api_request, request_method: 'POST', status_code: 422, provider: errored_over_7d_ago, created_at: 8.days.ago)
 
-      expect(monitor.providers_with_errors.count).to eq 1
+      expect(monitor.providers_with_errors.size).to eq 1
       expect(monitor.providers_with_errors.first.id).to eq errored_recently.id
       expect(monitor.providers_with_errors.first.error_count).to be 1
       expect(monitor.providers_with_errors.first.request_count).to be 2
-      expect(monitor.providers_with_errors.first.error_rate).to eq '50.0%'
+      expect(monitor.providers_with_errors.first.error_rate).to eq 50.0
     end
   end
 end

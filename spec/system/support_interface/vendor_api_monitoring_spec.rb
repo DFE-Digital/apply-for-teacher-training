@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Vendor API monitoring page' do
+RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   include DfESignInHelpers
 
   scenario 'rendering the page' do

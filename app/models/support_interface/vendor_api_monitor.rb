@@ -1,66 +1,41 @@
 module SupportInterface
   class VendorAPIMonitor
-    def never_connected
-      @_never_connected = providers.left_outer_joins(:vendor_api_requests)
-        .includes(:vendor_api_tokens)
-        .distinct
-        .where(vendor_api_requests: { id: nil })
-    end
-
-    def no_sync_in_24h
-      @_no_sync_in_24h ||= connected_providers.where.not(
-        id: VendorAPIRequest.successful.syncs.select(:provider_id).distinct.where('created_at > ?', 24.hours.ago),
-      ).map do |provider|
-        ProviderWithAPIUsageStats.new(provider)
-      end
-    end
-
-    def no_decisions_in_7d
-      @_no_decisions_in_7d ||= connected_providers.where.not(
-        id: VendorAPIRequest.successful.decisions.select(:provider_id).distinct.where('created_at > ?', 7.days.ago),
-      ).map do |provider|
-        ProviderWithAPIUsageStats.new(provider)
-      end
-    end
-
-    def providers_with_errors
-      @_providers_with_errors ||= connected_providers.where(
-        id: VendorAPIRequest.errors.select(:provider_id).distinct.where('created_at > ?', 7.days.ago),
-      ).map do |provider|
-        ProviderWithAPIUsageStats.new(provider)
-      end
-    end
-
-  private
-
-    def providers
+    def all_providers
       Provider.where(provider_type: 'university')
     end
 
-    def connected_providers
-      providers.where.not(id: never_connected)
-    end
-  end
-
-  class ProviderWithAPIUsageStats < SimpleDelegator
-    def last_sync
-      vendor_api_requests.syncs.order(created_at: :desc).pick(:created_at)
+    def connected
+      all_providers.select(:id, :name).where.not(id: never_connected.select(:id))
     end
 
-    def last_decision
-      vendor_api_requests.decisions.order(created_at: :desc).pick(:created_at)
+    def never_connected
+      all_providers
+        .joins("LEFT JOIN (#{VendorAPIRequest.select('provider_id, COUNT(vendor_api_requests.id) as count').group('provider_id').to_sql}) all_time_requests on all_time_requests.provider_id = providers.id")
+        .includes(:vendor_api_tokens).where(all_time_requests: { count: nil })
     end
 
-    def error_count
-      vendor_api_requests.errors.where('created_at > ?', 7.days.ago).count
+    def no_sync_in_24h
+      connected
+        .select('last_syncs.last_sync as last_sync')
+        .joins("LEFT JOIN (#{VendorAPIRequest.successful.syncs.select('provider_id, MAX(vendor_api_requests.created_at) as last_sync').group('provider_id').to_sql}) last_syncs on last_syncs.provider_id = providers.id")
+        .where("last_sync < now() - interval '24 hours' OR last_sync IS NULL").order('last_sync DESC')
     end
 
-    def request_count
-      vendor_api_requests.where('created_at > ?', 7.days.ago).count
+    def no_decisions_in_7d
+      connected
+        .select('last_decisions.last_decision as last_decision')
+        .joins("LEFT JOIN (#{VendorAPIRequest.successful.decisions.select('provider_id, MAX(vendor_api_requests.created_at) as last_decision').group('provider_id').to_sql}) last_decisions on last_decisions.provider_id = providers.id")
+      .where("last_decision < now() - interval '7 days' OR last_decision IS NULL").order('last_decision DESC')
     end
 
-    def error_rate
-      "#{((error_count.to_f / request_count) * 100).round(1)}%"
+    def providers_with_errors
+      connected
+        .select('errors.count as error_count,
+          requests.count as request_count,
+          (CAST(errors.count AS FLOAT)/requests.count) * 100 as error_rate')
+        .joins("LEFT JOIN (#{VendorAPIRequest.errors.select('provider_id, COUNT(vendor_api_requests.id) as count').where("vendor_api_requests.created_at > current_date - interval '7 days'").group('provider_id').to_sql}) errors on errors.provider_id = providers.id")
+        .joins("LEFT JOIN (#{VendorAPIRequest.select('provider_id, COUNT(vendor_api_requests.id) as count').where("vendor_api_requests.created_at > current_date - interval '7 days'").group('provider_id').to_sql}) requests on requests.provider_id = providers.id")
+        .where.not(errors: { count: nil }).order('error_rate DESC')
     end
   end
 end
