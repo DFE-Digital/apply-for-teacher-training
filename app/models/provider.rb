@@ -1,4 +1,5 @@
 class Provider < ApplicationRecord
+  belongs_to :vendor, optional: true
   has_many :courses
   has_many :sites
   has_many :course_options, through: :courses

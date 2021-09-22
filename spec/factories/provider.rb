@@ -15,5 +15,11 @@ FactoryBot.define do
         create(:provider_permissions, provider: provider)
       end
     end
+
+    trait :with_vendor do
+      before(:create) do |provider|
+        provider.vendor = Vendor.find_or_create_by(name: 'in_house')
+      end
+    end
   end
 end

@@ -1,0 +1,68 @@
+tribal:
+  B84: 'SITS'
+  C10: 'SITS'
+  K12: 'SITS'
+  K60: 'SITS'
+  K84: 'SITS'
+  L24: 'SITS'
+  L46: 'SITS'
+  L68: 'SITS'
+  N36: 'SITS'
+  O33: 'SITS'
+  S21: 'SITS'
+  S64: 'SITS'
+  S72: 'SITS'
+  # N/A: 'SITS' # Suffolk - ACCREDITS PGCE FOR SCITTS
+  # N/A: 'SITS' # Teesside University
+  G50: 'SITS'
+  R12: 'SITS'
+  S18: 'SITS'
+  W20: 'SITS'
+  U80: nil
+  B32: 'SITS'
+  B72: 'SITS'
+  B78: 'SITS'
+  C55: 'SITS'
+  C58: 'SITS'
+  C99: 'SITS'
+  E14: 'SITS'
+  E28: 'SITS'
+  E84: 'SITS'
+  H72: 'SITS'
+  L34: 'SITS'
+  N38: 'SITS'
+  N77: 'SITS'
+  P80: 'Quercus'
+  W76: 'SITS'
+  W80: 'SITS'
+  Y75: nil
+
+oracle:
+  L51: 'Peoplesoft Campus'
+  N84: 'Peoplesoft Campus'
+  C05: 'Peoplesoft Campus'
+  D39: 'Peoplesoft Campus'
+  M20: 'Peoplesoft Campus'
+
+ellucian:
+  G70: 'Banner'
+  H36: 'Quercus'
+  S27: 'Banner'
+  B80: 'Banner'
+
+unit4:
+  B38: 'U4SM'
+  L75: 'QLS'
+  R48: 'U4SM'
+  M40: 'U4SM'
+
+capita:
+  G56: 'Unit-e'
+  P63: 'Unit-e'
+  P60: 'Unit-e'
+
+sap:
+  N21: 'In-house'
+
+in_house:
+  L79: 'In-house'
