@@ -21,6 +21,8 @@ class StartOfCycleNotificationWorker
         ProviderMailer.send(setup_mailer_method, provider_user)
         ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
       end
+
+      ChaserSent.create!(chased: provider, chaser_type: provider_chaser_type)
     end
   end
 
@@ -32,9 +34,21 @@ private
     Provider
       .joins('INNER JOIN provider_users_providers ON providers.id = provider_users_providers.provider_id')
       .joins('INNER JOIN provider_users ON provider_users.id = provider_users_providers.provider_user_id')
-      .where.not(Arel.sql(chaser_sent_sql))
+      .where.not(Arel.sql(provider_chaser_sent_sql))
       .order('providers.name')
       .distinct
+  end
+
+  def provider_chaser_sent_sql
+    <<-SQL.squish
+      EXISTS(
+        SELECT 1
+        FROM chasers_sent
+        WHERE chased_type = 'Provider'
+        AND chased_id = providers.id
+        AND chaser_type = '#{provider_chaser_type}'
+      )
+    SQL
   end
 
   def chaser_sent_sql
@@ -55,5 +69,9 @@ private
 
   def setup_mailer_method
     'set_up_organisation_permissions'
+  end
+
+  def provider_chaser_type
+    "#{service}_service_open_organisation_notification"
   end
 end

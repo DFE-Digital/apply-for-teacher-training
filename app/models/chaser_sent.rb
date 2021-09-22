@@ -15,5 +15,7 @@ class ChaserSent < ApplicationRecord
     set_up_organisation_permissions: 'set_up_organisation_permissions',
     apply_service_is_now_open: 'apply_service_is_now_open',
     find_service_is_now_open: 'find_service_is_now_open',
+    apply_service_open_organisation_notification: 'apply_service_open_organisation_notification',
+    find_service_open_organisation_notification: 'find_service_open_organisation_notification',
   }
 end
