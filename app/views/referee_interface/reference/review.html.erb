@@ -14,6 +14,8 @@
         <%= t('page_titles.referee.review') %>
       </h1>
 
+      <p class="govuk-body">If you’re not ready to submit yet, you can return using the link in your email.</p>
+
       <%= render(RefereeInterface::ReferenceReviewComponent.new(reference: @reference_form.reference, token_param: @token_param)) %>
 
       <%= f.govuk_submit t('referee.review.submit') %>

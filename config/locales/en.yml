@@ -173,8 +173,8 @@ en:
       refuse_feedback: Decline to give a reference
       relationship: Confirm how you know %{full_name}
       safeguarding: Do you know of any reason why %{full_name} should not work with children?
-      feedback: Your reference for %{full_name}
-      review: Check your answers before submitting your reference
+      feedback: Does %{full_name} have the potential to teach?
+      review: Your reference for %{full_name}
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
     providers: Courses on this service
