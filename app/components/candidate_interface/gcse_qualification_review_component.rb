@@ -13,7 +13,11 @@ module CandidateInterface
 
     def gcse_qualification_rows
       if application_qualification.missing_qualification?
-        [missing_qualification_row]
+        [
+          missing_qualifiation_type_row,
+          not_completed_explanation_row,
+          missing_explanation_for_no_gcse_row,
+        ].compact
       else
         [
           qualification_row,
@@ -22,8 +26,9 @@ module CandidateInterface
           enic_reference_row,
           comparable_uk_qualification_row,
           grade_row,
-          failing_grade_explanation_row,
           award_year_row,
+          failing_grade_explanation_row,
+          missing_explanation_for_gcse_row,
         ].compact
       end
     end
@@ -99,11 +104,11 @@ module CandidateInterface
     end
 
     def failing_grade_explanation_row
-      return nil unless application_qualification.failed_required_gcse? && application_qualification.not_completed_explanation.present?
+      return nil unless application_qualification.failed_required_gcse?
 
       {
-        key: 'How I expect to gain this qualification',
-        value: application_qualification.not_completed_explanation,
+        key: 'Are you currently studying to retake this qualification?',
+        value: failing_grade_row_value,
         action: {
           href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
           visually_hidden_text: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
@@ -155,17 +160,57 @@ module CandidateInterface
       end
     end
 
-    def missing_qualification_row
+    def missing_qualifiation_type_row
       {
-        key: 'How I expect to gain this qualification',
-        value: application_qualification.not_completed_explanation.presence || t('gcse_summary.not_specified'),
+        key: "What type of #{capitalize_english(@subject)} qualification do you have?",
+        value: "I don’t have a #{capitalize_english(@subject)} qualification yet",
         action: {
           href: candidate_interface_gcse_details_edit_type_path(change_path_params),
+          visually_hidden_text: 'whether you have this qualification',
+        },
+        html_attributes: {
+          data: {
+            qa: 'gcse-missing-qualification-type',
+          },
+        },
+      }
+    end
+
+    def not_completed_explanation_row
+      {
+        key: 'Are you currently studying for this qualification?',
+        value: application_qualification.not_completed_explanation || 'No',
+        action: {
+          href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
         },
         html_attributes: {
           data: {
             qa: 'gcse-missing-qualification-explanation',
+          },
+        },
+      }
+    end
+
+    def missing_explanation_for_no_gcse_row
+      return missing_explanation_row if !application_qualification.currently_completing_qualification
+    end
+
+    def missing_explanation_for_gcse_row
+      return missing_explanation_row if application_qualification.failed_required_gcse? && !application_qualification.currently_completing_qualification
+    end
+
+    def missing_explanation_row
+      {
+        key: 'Other evidence I have the skills required (optional)',
+        value: application_qualification.missing_explanation.presence || 'Not provided',
+        action: {
+          href: candidate_interface_gcse_edit_missing_path(change_path_params),
+          visually_hidden_text: 'evidence of meeting the required standard',
+        },
+        html_attributes: {
+          data: {
+            qa: 'gcse-missing-equivalency-explanation',
           },
         },
       }
@@ -273,6 +318,21 @@ module CandidateInterface
         candidate_interface_edit_gcse_science_grade_path(return_to_params)
       when 'english'
         candidate_interface_edit_gcse_english_grade_path(return_to_params)
+      end
+    end
+
+    def capitalize_english(subject)
+      subject == 'english' ? 'English' : subject
+    end
+
+    def failing_grade_row_value
+      case application_qualification.currently_completing_qualification
+      when true
+        'Yes'
+      when false
+        'No'
+      when nil
+        'Not provided'
       end
     end
   end

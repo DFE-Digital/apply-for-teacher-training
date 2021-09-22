@@ -11,7 +11,7 @@ en:
         scottish_national_5: Scottish National 5
         other_uk: Other UK qualification
         non_uk: Non-UK qualification
-        missing: I do not have this qualification yet
+        missing: I do not have a GCSE in %{subject} (or equivalent) yet
       other_uk:
         label: Qualification name
       non_uk:
@@ -120,13 +120,13 @@ en:
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:
-              blank: Enter the type of qualification
+              blank: Select the type of qualification
             other_uk_qualification_type:
-              blank: Enter the type of qualification
+              blank: Enter qualification name
               too_long: Type of degree must be %{count} characters or fewer
             non_uk_qualification_type:
-              blank: Enter the type of qualification
-            not_completed_explanation:
+              blank: Enter qualification name
+            missing_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer
         candidate_interface/gcse_institution_country_form:
@@ -142,3 +142,18 @@ en:
               blank: Enter your UK ENIC reference number
             comparable_uk_qualification:
               blank: Choose a comparable UK qualification
+        candidate_interface/gcse_not_completed_form:
+          attributes:
+            currently_completing_qualification:
+              inclusion: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
+            not_completed_explanation:
+              blank: Enter details of the qualification you’re studying for
+              too_many_words: Qualification details must be %{count} words or fewer
+        candidate_interface/gcse_grade_explanation_form:
+          attributes:
+            currently_completing_qualification:
+              blank: Select yes if you are currently studying for a GCSE in %{subject}, or equivalent
+        candidate_interface/gcse_missing_form:
+          attributes:
+            missing_explanation:
+              too_many_words: Evidence must be %{count} words or fewer

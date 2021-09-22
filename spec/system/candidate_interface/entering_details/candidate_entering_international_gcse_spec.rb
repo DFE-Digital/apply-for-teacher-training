@@ -69,11 +69,11 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_add_gcse_maths_page
-    expect(page).to have_content 'Add maths GCSE grade 4 (C) or above, or equivalent'
+    expect(page).to have_content 'What type of qualification in maths do you have?'
   end
 
   def then_i_see_the_qualification_type_error
-    expect(page).to have_content 'Enter the type of qualification'
+    expect(page).to have_content 'Select the type of qualification'
   end
 
   def when_i_select_non_uk_qualification

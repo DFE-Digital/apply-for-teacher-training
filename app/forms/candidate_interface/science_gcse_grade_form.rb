@@ -74,7 +74,7 @@ module CandidateInterface
         subject: subject,
       )
 
-      reset_not_completed_explanation!(qualification)
+      reset_missing_and_not_completed_explanations!(qualification)
     end
 
     def assign_values(params)
@@ -240,10 +240,10 @@ module CandidateInterface
       qualification.qualification_type == 'gcse'
     end
 
-    def reset_not_completed_explanation!(qualification)
+    def reset_missing_and_not_completed_explanations!(qualification)
       return true unless qualification.pass_gcse?
 
-      qualification.update(not_completed_explanation: nil)
+      qualification.update(missing_explanation: nil, not_completed_explanation: nil)
     end
 
     def grade_contains_two_numbers?(grade)

@@ -32,6 +32,7 @@ FactoryBot.define do
         qualification_type { 'missing' }
         grade { nil }
         predicted_grade { nil }
+        currently_completing_qualification { true }
         not_completed_explanation { 'I will be taking an equivalency test in a few weeks' }
       end
 

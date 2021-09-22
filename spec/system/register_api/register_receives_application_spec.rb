@@ -172,7 +172,7 @@ RSpec.feature 'Register receives an application data' do
               hesa_degtype: nil,
             },
           ],
-          missing_gcses_explanation: 'Science GCSE or equivalent: I will sit the exam at my local college this summer.',
+          missing_gcses_explanation: 'Science GCSE or equivalent: In progress',
         },
         status: 'recruited',
         recruited_at: @application.application_choices.first.recruited_at.iso8601,

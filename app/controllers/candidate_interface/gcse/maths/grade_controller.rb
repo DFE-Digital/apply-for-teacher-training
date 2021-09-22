@@ -10,11 +10,7 @@ module CandidateInterface
       @gcse_grade_form = MathsGcseGradeForm.new(maths_params)
 
       if @gcse_grade_form.save(current_qualification)
-        if current_qualification.failed_required_gcse?
-          redirect_to candidate_interface_gcse_details_new_grade_explanation_path(subject: @subject)
-        else
-          redirect_to candidate_interface_gcse_details_new_year_path(subject: @subject)
-        end
+        redirect_to candidate_interface_gcse_details_new_year_path(subject: @subject)
       else
         @qualification_type = @gcse_grade_form.qualification_type
         set_previous_path

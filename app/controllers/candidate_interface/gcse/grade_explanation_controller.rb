@@ -2,14 +2,18 @@ module CandidateInterface
   class Gcse::GradeExplanationController < Gcse::BaseController
     def new
       set_previous_path
-      @form = CandidateInterface::GcseGradeExplanationForm.build_from_qualification(current_qualification)
+      @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
     end
 
     def create
-      @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
+      @form = GcseGradeExplanationForm.new(grade_explanation_params)
 
       if @form.save(current_qualification)
-        redirect_to candidate_interface_gcse_details_new_year_path(params[:subject])
+        if @form.currently_completing_qualification == false
+          redirect_to candidate_interface_gcse_missing_path
+        else
+          redirect_to candidate_interface_gcse_details_new_year_path(params[:subject])
+        end
       else
         set_previous_path
         track_validation_error(@form)
@@ -19,14 +23,18 @@ module CandidateInterface
     end
 
     def edit
-      @form = CandidateInterface::GcseGradeExplanationForm.build_from_qualification(current_qualification)
+      @form = GcseGradeExplanationForm.build_from_qualification(current_qualification)
     end
 
     def update
-      @form = CandidateInterface::GcseGradeExplanationForm.new(update_params)
+      @form = GcseGradeExplanationForm.new(grade_explanation_params)
 
       if @form.save(current_qualification)
-        redirect_to candidate_interface_gcse_review_path
+        if @form.currently_completing_qualification == false
+          redirect_to candidate_interface_gcse_missing_path
+        else
+          redirect_to candidate_interface_gcse_review_path
+        end
       else
         track_validation_error(@form)
 
@@ -46,10 +54,10 @@ module CandidateInterface
                        end
     end
 
-    def update_params
+    def grade_explanation_params
       strip_whitespace params
         .require(:candidate_interface_gcse_grade_explanation_form)
-        .permit(:not_completed_explanation)
+        .permit(:currently_completing_qualification, :missing_explanation)
     end
   end
 end

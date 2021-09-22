@@ -47,6 +47,8 @@ module CandidateInterface
     def next_gcse_path
       if non_uk_qualification?
         candidate_interface_gcse_details_new_institution_country_path
+      elsif @type_form.missing_qualification?
+        candidate_interface_gcse_not_yet_completed_path
       elsif !@type_form.missing_qualification?
         resolve_gcse_edit_path(@subject)
       else

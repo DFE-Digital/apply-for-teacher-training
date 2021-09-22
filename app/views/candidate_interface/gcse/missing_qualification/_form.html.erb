@@ -1,0 +1,20 @@
+    <%= f.govuk_error_summary %>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          <%= t('gcse_edit_type.page_titles.equivalency', subject: capitalize_english(@subject)) %>
+        </h1>
+
+        <p class="govuk-body">You can still apply for teacher training if you do not have a qualification which demonstrates this.<p>
+
+        <p class="govuk-body">Some providers may let you sit an equivalency test to show you have the required skills.</p>
+
+        <p class="govuk-body">For advice, contact your chosen training provider or a teacher training adviser.</p>
+
+        <%= f.govuk_text_area :missing_explanation, label: { text: "If you have other evidence of having #{capitalize_english(@subject)} skills at the required standard, give details (optional)", size: 'm' }, rows: 12, max_words: 200, threshold: 90 do %>
+        <% end %>
+
+        <%= f.govuk_submit t('save_and_continue') %>
+      </div>
+    </div>

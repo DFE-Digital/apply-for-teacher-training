@@ -1,0 +1,6 @@
+<% content_for :title, title_with_error_prefix(t('gcse_edit_type.page_titles.not_yet_completed', subject: capitalize_english(@subject)), @gcse_not_completed_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(@return_to[:back_path]) %>
+
+  <%= form_with model: @gcse_not_completed_form, url: candidate_interface_gcse_edit_not_yet_completed_path(@return_to[:params]), method: :patch do |f| %>
+    <%= render 'form', f: f %>
+  <% end %>
