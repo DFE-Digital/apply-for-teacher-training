@@ -57,13 +57,20 @@ module CandidateInterface
     end
 
     def incomplete_sections
-      sections_with_completion
-        .reject(&:second)
-        .map { |sections_with_completion| OpenStruct.new(name: sections_with_completion.first, needs_review?: sections_with_completion.third) }
-        .map do |section|
-          message = section.needs_review? ? "review_application.#{section.name}.not_reviewed" : "review_application.#{section.name}.incomplete"
-          OpenStruct.new(name: section.name, message: message)
-        end
+      section_structs = sections_with_completion
+                          .reject(&:second)
+                          .map do |sections_with_completion|
+                            if sections_with_completion.first == :other_qualifications && application_form.international_applicant?
+                              OpenStruct.new(name: :other_qualifications_international)
+                            else
+                              OpenStruct.new(name: sections_with_completion.first, needs_review?: sections_with_completion.third)
+                            end
+                          end
+
+      section_structs.map do |section|
+        message = section.needs_review? ? "review_application.#{section.name}.not_reviewed" : "review_application.#{section.name}.incomplete"
+        OpenStruct.new(name: section.name, message: message)
+      end
     end
 
     ApplicationChoiceError = Struct.new(:message, :course_choice_id) do
