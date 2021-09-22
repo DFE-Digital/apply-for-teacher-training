@@ -1,6 +1,6 @@
 module Events
   class Event
-    EVENT_TYPES = %w[web_request create_entity update_entity].freeze
+    EVENT_TYPES = %w[web_request create_entity update_entity delete_entity].freeze
 
     def initialize
       @event_hash = {
