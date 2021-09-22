@@ -161,7 +161,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def then_i_see_the_reference_review_page
     expect(page).to have_content("Your reference for #{@application.full_name}")
-    expect(page).to have_content("If you’re not ready to submit yet, you can return using the link in your email.")
+    expect(page).to have_content('If you’re not ready to submit yet, you can return using the link in your email.')
   end
 
   def when_i_click_change_relationship
