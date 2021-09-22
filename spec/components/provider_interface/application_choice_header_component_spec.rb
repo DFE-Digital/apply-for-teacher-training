@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     context 'when the application is awaiting provider decision and the user can make decisions and set up interviews' do
       let(:reject_by_default_at) { 1.day.from_now }
 
-      it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
+      it 'the Make decision and Set up interview buttons are available and RDB info is presented' do
         expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview or make a decision')
         expect(result.css('.govuk-button').first.text).to eq('Set up interview')
         expect(result.css('.govuk-button').last.text).to eq('Make decision')
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       context 'when the application is awaiting provider decision and the user can only set up interviews' do
         let(:provider_can_respond) { false }
 
-        it 'the Set up interview button is available and RDB info is presented ' do
+        it 'the Set up interview button is available and RDB info is presented' do
           expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview')
           expect(result.css('.govuk-button').first.text).to eq('Set up interview')
           expect(result.css('.govuk-inset-text').text).to include(
@@ -45,7 +45,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       context 'when the application is awaiting provider decision and the user can only make decisions' do
         let(:provider_can_set_up_interviews) { false }
 
-        it 'the Set up interview button is available and RDB info is presented ' do
+        it 'the Set up interview button is available and RDB info is presented' do
           expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Make a decision')
           expect(result.css('.govuk-button').first.text).to eq('Make decision')
           expect(result.css('.govuk-inset-text').text).to include(

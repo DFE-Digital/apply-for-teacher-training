@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::CancelInterviewWizard do
   let(:store) { instance_double(WizardStateStores::RedisStore, read: nil) }
-  let(:subject) { described_class.new(store) }
+
+  subject { described_class.new(store) }
 
   describe '.validations' do
     valid_text = Faker::Lorem.sentence(word_count: 2000)

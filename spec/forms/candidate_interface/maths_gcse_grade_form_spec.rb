@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
   describe 'validations' do
-    let(:subject) { form }
+    subject { form }
+
     let(:form) { described_class.new(grade: 'D', qualification_type: 'gcse') }
 
     it { is_expected.to validate_presence_of(:grade) }

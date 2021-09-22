@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::SelectedReferencesComponent, type: :component
           create(:reference, :feedback_provided, selected: false, application_form: application)
         end
 
-        it 'warns that not enough references selected and links to the appropriate page ' do
+        it 'warns that not enough references selected and links to the appropriate page' do
           render
           expect(page).to have_link(
             'You need to select 2 references',

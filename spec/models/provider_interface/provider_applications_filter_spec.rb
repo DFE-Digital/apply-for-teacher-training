@@ -65,7 +65,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     end
 
     describe 'location filter' do
-      context 'when the user belongs to a single provider ' do
+      context 'when the user belongs to a single provider' do
         let(:filter) do
           described_class.new(params: params,
                               provider_user: another_provider_user,
