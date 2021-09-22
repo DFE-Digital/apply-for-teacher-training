@@ -54,7 +54,6 @@ module ProviderInterface
     def send_success_notifications
       if application_choice.recruited?
         CandidateMailer.conditions_met(application_choice).deliver_later
-        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
       elsif application_choice.conditions_not_met?
         CandidateMailer.conditions_not_met(application_choice).deliver_later
       end

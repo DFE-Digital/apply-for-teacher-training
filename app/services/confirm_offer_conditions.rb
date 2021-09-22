@@ -17,7 +17,6 @@ class ConfirmOfferConditions
       application_choice.update!(recruited_at: Time.zone.now)
       application_choice.offer.conditions.each(&:met!)
       CandidateMailer.conditions_met(application_choice).deliver_later
-      StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
     end
 
     true

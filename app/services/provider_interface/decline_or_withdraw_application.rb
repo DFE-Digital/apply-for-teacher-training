@@ -27,10 +27,6 @@ module ProviderInterface
         end
       end
 
-      if @application_choice.application_form.ended_without_success?
-        StateChangeNotifier.new(:withdrawn_at_candidates_request, @application_choice).application_outcome_notification
-      end
-
       SendCandidateWithdrawnOnRequestEmail.new(application_choice: application_choice).call
 
       ResolveUCASMatch.new(application_choice: @application_choice).call if resolve_ucas_match?
