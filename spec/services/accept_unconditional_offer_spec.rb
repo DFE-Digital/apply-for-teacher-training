@@ -14,16 +14,6 @@ RSpec.describe AcceptUnconditionalOffer do
     end
   end
 
-  it 'generates an application outcome message via the state change notifier' do
-    application_choice = build(:application_choice, status: :offer)
-    notifier_double = instance_double(StateChangeNotifier, application_outcome_notification: true)
-    allow(StateChangeNotifier).to receive(:new).with(:recruited, application_choice).and_return(notifier_double)
-
-    described_class.new(application_choice: application_choice).save!
-
-    expect(notifier_double).to have_received(:application_outcome_notification)
-  end
-
   it 'returns false on state transition errors' do
     state_change_double = instance_double(ApplicationStateChange)
     allow(state_change_double).to receive(:accept_unconditional_offer!).and_raise(Workflow::NoTransitionAllowed)

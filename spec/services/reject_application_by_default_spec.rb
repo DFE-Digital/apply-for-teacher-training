@@ -6,9 +6,6 @@ RSpec.describe RejectApplicationByDefault do
   end
 
   it 'updates the application_choice and calls the SetDeclineByDefault service' do
-    notifier = instance_double(StateChangeNotifier, application_outcome_notification: nil)
-    allow(StateChangeNotifier).to receive(:new).and_return(notifier)
-
     service_double = instance_double(SetDeclineByDefault)
     allow(service_double).to receive(:call)
 
@@ -20,8 +17,5 @@ RSpec.describe RejectApplicationByDefault do
     expect(application_choice.rejected_by_default).to be true
     expect(application_choice.rejected_at).not_to be_nil
     expect(service_double).to have_received(:call)
-
-    expect(StateChangeNotifier).to have_received(:new).with(:rejected_by_default, application_choice)
-    expect(notifier).to have_received(:application_outcome_notification)
   end
 end

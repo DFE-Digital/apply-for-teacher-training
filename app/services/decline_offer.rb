@@ -9,7 +9,6 @@ class DeclineOffer
 
     if @application_choice.application_form.ended_without_success?
       CandidateMailer.decline_last_application_choice(@application_choice).deliver_later
-      StateChangeNotifier.new(:declined, @application_choice).application_outcome_notification
     end
 
     NotificationsList.for(@application_choice, event: :declined, include_ratifying_provider: true).each do |provider_user|

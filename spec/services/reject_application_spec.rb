@@ -68,16 +68,6 @@ RSpec.describe RejectApplication do
       expect(email_service).to have_received(:call)
     end
 
-    it 'sends a Slack notification if all candidate applications have ended without success' do
-      notifier = instance_double(StateChangeNotifier, application_outcome_notification: nil)
-      allow(StateChangeNotifier).to receive(:new).and_return(notifier)
-
-      service.save
-
-      expect(StateChangeNotifier).to have_received(:new).with(:rejected, application_choice)
-      expect(notifier).to have_received(:application_outcome_notification)
-    end
-
     it 'returns true if the call was successful' do
       expect(service.save).to be true
     end

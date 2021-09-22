@@ -12,8 +12,6 @@ class AcceptUnconditionalOffer < AcceptOffer
     end
 
     CandidateMailer.unconditional_offer_accepted(@application_choice).deliver_later
-
-    StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
   rescue Workflow::NoTransitionAllowed
     false
   end

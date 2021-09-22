@@ -23,9 +23,5 @@ class DeclineOfferByDefault
     end
 
     CandidateMailer.declined_by_default(application_form).deliver_later
-
-    if application_form.ended_without_success?
-      StateChangeNotifier.new(:declined_by_default, application_choices.first).application_outcome_notification
-    end
   end
 end
