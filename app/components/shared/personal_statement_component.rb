@@ -7,8 +7,9 @@ class PersonalStatementComponent < ViewComponent::Base
            :further_information,
            to: :application_form
 
-  def initialize(application_form:)
+  def initialize(application_form:, editable: false)
     @application_form = application_form
+    @editable = editable
   end
 
 private
