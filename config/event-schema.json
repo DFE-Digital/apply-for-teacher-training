@@ -11,7 +11,7 @@
     },
     "event_type": {
       "type": "string",
-      "enum": ["web_request", "create_entity", "update_entity"]
+      "enum": ["web_request", "create_entity", "update_entity", "delete_entity"]
     },
     "entity_table_name": {
       "type": "string"

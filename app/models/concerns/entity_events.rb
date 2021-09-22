@@ -9,6 +9,11 @@ module EntityEvents
       send_event('create_entity', data) if data.any?
     end
 
+    after_destroy do
+      data = entity_data(attributes)
+      send_event('delete_entity', data) if data.any?
+    end
+
     after_update do
       # in this after_update hook we don’t have access to the new fields via
       # #attributes — we need to dig them out of saved_changes which stores

@@ -173,4 +173,22 @@ RSpec.describe EntityEvents do
       end
     end
   end
+
+  describe 'delete_entity events' do
+    let(:interesting_fields) { [:email_address] }
+
+    it 'sends events when objects are deleted' do
+      candidate = create(:candidate, email_address: 'boo@example.com')
+      candidate.destroy
+
+      expect(SendEventsToBigquery).to have_received(:perform_async)
+        .with a_hash_including({
+          'entity_table_name' => 'candidates',
+          'event_type' => 'delete_entity',
+          'data' => [
+            { 'key' => 'email_address', 'value' => ['boo@example.com'] },
+          ],
+        })
+    end
+  end
 end
