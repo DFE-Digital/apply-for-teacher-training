@@ -12,6 +12,7 @@ class MonthlyStatisticsReport < ApplicationRecord
   def load_table_data
     load_by_course_age_group
     load_applications_by_status
+    load_candidates_by_status
   end
 
 private
@@ -27,6 +28,13 @@ private
     write_statistic(
       :applications_by_status,
       MonthlyStatistics::ApplicationsByStatus.new.table_data,
+    )
+  end
+
+  def load_candidates_by_status
+    write_statistic(
+      :candidates_by_status,
+      MonthlyStatistics::CandidatesByStatus.new.table_data,
     )
   end
 end

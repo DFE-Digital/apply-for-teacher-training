@@ -48,12 +48,16 @@ RSpec.describe MonthlyStatisticsReport do
   describe '#load_updated_statistics' do
     it 'retrieves all required statistics and current version' do
       course_age_group_monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseAgeGroup)
-      candidates_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ApplicationsByStatus)
+      applications_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ApplicationsByStatus)
+      candidates_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::CandidatesByStatus)
       table_data = [{ 'foo' => 'bar' }]
 
       allow(MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return(course_age_group_monthly_statistics_double)
-      allow(MonthlyStatistics::ApplicationsByStatus).to receive(:new).and_return(candidates_by_status_monthly_statistics_double)
+      allow(MonthlyStatistics::ApplicationsByStatus).to receive(:new).and_return(applications_by_status_monthly_statistics_double)
+      allow(MonthlyStatistics::CandidatesByStatus).to receive(:new).and_return(applications_by_status_monthly_statistics_double)
+
       allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
+      allow(applications_by_status_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(candidates_by_status_monthly_statistics_double).to receive(:table_data).and_return(table_data)
 
       report = described_class.new
@@ -61,6 +65,7 @@ RSpec.describe MonthlyStatisticsReport do
 
       expect(report.statistics).to eq(
         'by_course_age_group' => table_data,
+        'applications_by_status' => table_data,
         'candidates_by_status' => table_data,
       )
     end
