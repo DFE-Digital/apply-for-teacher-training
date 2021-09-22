@@ -9,7 +9,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
     and_i_select_i_do_not_have_yet
-    and_i_enter_the_missing_explanation
+    and_i_enter_the_not_completed_explanation
     and_i_click_save_and_continue
 
     then_i_see_the_review_page_with_correct_details
@@ -29,8 +29,8 @@ RSpec.feature 'Candidate entering GCSE details' do
     choose('I do not have this qualification yet')
   end
 
-  def and_i_enter_the_missing_explanation
-    fill_in t('application_form.gcse.missing_explanation.label'),
+  def and_i_enter_the_not_completed_explanation
+    fill_in t('application_form.gcse.not_completed_explanation.label'),
             with: 'I’m expecting to complete my Biology course on next July'
   end
 

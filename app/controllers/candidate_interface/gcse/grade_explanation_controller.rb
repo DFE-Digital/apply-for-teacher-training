@@ -49,7 +49,7 @@ module CandidateInterface
     def update_params
       strip_whitespace params
         .require(:candidate_interface_gcse_grade_explanation_form)
-        .permit(:missing_explanation)
+        .permit(:not_completed_explanation)
     end
   end
 end

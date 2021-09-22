@@ -5,7 +5,7 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :subject, :level, :qualification_type, :other_uk_qualification_type,
-                  :missing_explanation, :qualification_id, :non_uk_qualification_type
+                  :not_completed_explanation, :qualification_id, :non_uk_qualification_type
 
     validates :subject, :level, :qualification_type, presence: true
 
@@ -15,7 +15,7 @@ module CandidateInterface
     validates :non_uk_qualification_type, length: { maximum: 255 }
     validates :other_uk_qualification_type, length: { maximum: 100 }
 
-    validates :missing_explanation, word_count: { maximum: 200 }
+    validates :not_completed_explanation, word_count: { maximum: 200 }
 
     validates :subject, length: { maximum: 255 }
 
@@ -31,7 +31,8 @@ module CandidateInterface
         qualification_type: qualification_type,
         other_uk_qualification_type: other_uk_qualification_type,
         non_uk_qualification_type: non_uk_qualification_type,
-        missing_explanation: missing_explanation,
+        not_completed_explanation: not_completed_explanation,
+        currently_completing_qualification: not_completed_explanation.present?,
       )
     end
 
@@ -47,7 +48,8 @@ module CandidateInterface
         qualification_type: qualification_type,
         other_uk_qualification_type: other_uk_qualification_type,
         non_uk_qualification_type: non_uk_qualification_type,
-        missing_explanation: missing_explanation,
+        not_completed_explanation: not_completed_explanation,
+        currently_completing_qualification: not_completed_explanation.present?,
       )
     end
 
@@ -63,7 +65,7 @@ module CandidateInterface
         other_uk_qualification_type: qualification.other_uk_qualification_type,
         non_uk_qualification_type: qualification.non_uk_qualification_type,
         qualification_id: qualification.id,
-        missing_explanation: qualification.missing_explanation,
+        not_completed_explanation: qualification.not_completed_explanation,
       )
     end
 

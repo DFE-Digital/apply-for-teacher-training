@@ -57,7 +57,7 @@ RSpec.describe QualificationRowComponent do
     expect(result.text).to include('I did my best')
   end
 
-  it 'renders a qualification with a missing_explanation' do
+  it 'renders a qualification with a not_completed_explanation' do
     qualification = build_stubbed(
       :application_qualification,
       level: :gcse,
@@ -65,7 +65,7 @@ RSpec.describe QualificationRowComponent do
       subject: 'Maths',
       grade: nil,
       award_year: nil,
-      missing_explanation: 'I am taking the exam this summer',
+      not_completed_explanation: 'I am taking the exam this summer',
     )
 
     result = render_inline(described_class.new(qualification: qualification))

@@ -22,8 +22,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     it 'creates a new qualification if valid' do
       application_form = create(:application_form)
 
-      form = described_class
-                                  .new(subject: 'maths', level: 'gcse', qualification_type: 'gcse')
+      form = described_class.new(subject: 'maths', level: 'gcse', qualification_type: 'gcse')
 
       form.save(application_form)
 
@@ -61,6 +60,44 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
 
         expect(form.valid?).to eq false
         expect(form.errors[:other_uk_qualification_type]).to include('Enter the type of qualification')
+      end
+
+      context 'missing qualification type with an explanation provided' do
+        it 'creates a new qualification with the correct attrs' do
+          application_form = create(:application_form)
+
+          form = described_class.new(
+            level: 'gcse',
+            subject: 'maths',
+            qualification_type: 'missing',
+            not_completed_explanation: 'I hate maths.',
+          )
+
+          form.save(application_form)
+
+          expect(application_form.application_qualifications.first.qualification_type).to eq 'missing'
+          expect(application_form.application_qualifications.first.not_completed_explanation).to eq 'I hate maths.'
+          expect(application_form.application_qualifications.first.currently_completing_qualification).to eq true
+        end
+      end
+
+      context 'missing qualification type without an explanation provided' do
+        it 'creates a new qualification with the correct attrs' do
+          application_form = create(:application_form)
+
+          form = described_class.new(
+            level: 'gcse',
+            subject: 'maths',
+            qualification_type: 'missing',
+            not_completed_explanation: '',
+          )
+
+          form.save(application_form)
+
+          expect(application_form.application_qualifications.first.qualification_type).to eq 'missing'
+          expect(application_form.application_qualifications.first.not_completed_explanation).to eq ''
+          expect(application_form.application_qualifications.first.currently_completing_qualification).to eq false
+        end
       end
     end
 

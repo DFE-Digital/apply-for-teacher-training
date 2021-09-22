@@ -4,7 +4,7 @@
     <%= render QualificationTitleComponent.new(qualification: qualification) %>
   </td>
   <% if qualification.missing_qualification? %>
-    <td colspan="2" class="govuk-table__cell"><%= qualification.missing_explanation %></td>
+    <td colspan="2" class="govuk-table__cell"><%= qualification.not_completed_explanation %></td>
   <% else %>
     <td class="govuk-table__cell"><%= qualification.award_year %></td>
     <td class="govuk-table__cell"><%= render QualificationGradeComponent.new(qualification: qualification) %></td>

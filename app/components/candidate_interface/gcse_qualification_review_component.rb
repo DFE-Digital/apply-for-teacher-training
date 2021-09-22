@@ -99,11 +99,11 @@ module CandidateInterface
     end
 
     def failing_grade_explanation_row
-      return nil unless application_qualification.failed_required_gcse? && application_qualification.missing_explanation.present?
+      return nil unless application_qualification.failed_required_gcse? && application_qualification.not_completed_explanation.present?
 
       {
         key: 'How I expect to gain this qualification',
-        value: application_qualification.missing_explanation,
+        value: application_qualification.not_completed_explanation,
         action: {
           href: candidate_interface_gcse_details_edit_grade_explanation_path(change_path_params),
           visually_hidden_text: 'if you are working towards this qualification at grade 4 (C) or above, give us details',
@@ -158,7 +158,7 @@ module CandidateInterface
     def missing_qualification_row
       {
         key: 'How I expect to gain this qualification',
-        value: application_qualification.missing_explanation.presence || t('gcse_summary.not_specified'),
+        value: application_qualification.not_completed_explanation.presence || t('gcse_summary.not_specified'),
         action: {
           href: candidate_interface_gcse_details_edit_type_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
