@@ -56,11 +56,7 @@ module RefereeInterface
     def relationship_value
       return 'Not answered' if @reference.relationship_correction.nil?
 
-      if @reference.relationship_correction.blank?
-        'You’ve confirmed your relationship with the candidate'
-      else
-        @reference.relationship_correction
-      end
+      @reference.relationship_correction.presence || 'You’ve confirmed your relationship with the candidate'
     end
   end
 end
