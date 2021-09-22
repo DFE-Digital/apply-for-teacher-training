@@ -100,6 +100,7 @@ module RefereeInterface
         SubmitReference.new(reference: reference).save!
         redirect_to referee_interface_confirmation_path(token: @token_param)
       else
+        @application = reference.application_form
         render :review
       end
     end
