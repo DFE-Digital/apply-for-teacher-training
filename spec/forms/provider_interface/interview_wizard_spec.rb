@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
   describe '.validations' do
     context 'presence checks' do
-      let(:subject) { described_class.new(store) }
+      subject { described_class.new(store) }
 
       it { is_expected.to validate_presence_of(:time) }
       it { is_expected.to validate_presence_of(:provider_user) }
@@ -36,7 +36,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
     end
 
     context 'word count checks' do
-      let(:subject) { described_class.new(store) }
+      subject { described_class.new(store) }
 
       valid_text = Faker::Lorem.sentence(word_count: 2000)
       invalid_text = Faker::Lorem.sentence(word_count: 2001)

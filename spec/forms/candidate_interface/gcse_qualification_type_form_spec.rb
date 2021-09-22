@@ -101,7 +101,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       end
     end
 
-    context 'the type of qualification is non_uk ' do
+    context 'the type of qualification is non_uk' do
       it 'does not save if non_uk_qualification_type is empty' do
         application_form = create(:application_form)
         qualification = application_form.application_qualifications.create!(

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate entering GCSE details' do
   include CandidateHelper
 
-  scenario 'Candidate submits ' do
+  scenario 'Candidate submits' do
     given_i_am_signed_in
 
     when_i_visit_the_candidate_application_page

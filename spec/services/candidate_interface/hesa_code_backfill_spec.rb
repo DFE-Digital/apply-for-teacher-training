@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
     end
 
     context 'ethnicity' do
-      it "populates 'hesa_ethnicity' with hesa code '80' for an unknown ethnicity " do
+      it "populates 'hesa_ethnicity' with hesa code '80' for an unknown ethnicity" do
         application_form = create(:application_form,
                                   equality_and_diversity: {
                                     ethnic_background: 'Maori',

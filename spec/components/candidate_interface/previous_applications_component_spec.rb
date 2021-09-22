@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::PreviousApplicationsComponent do
   let(:candidate) { create(:candidate) }
 
-  describe 'a current application ' do
+  describe 'a current application' do
     context 'with a single application choice with an ACCEPTED state' do
       let(:current_application_form) { create_application_form_with_course_choices(statuses: [status], candidate: candidate) }
 
