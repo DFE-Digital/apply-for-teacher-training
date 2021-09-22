@@ -19,6 +19,8 @@ class UpdateAcceptedOfferConditions
     end
 
     StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
+
+    true
   rescue Workflow::NoTransitionAllowed
     false
   end

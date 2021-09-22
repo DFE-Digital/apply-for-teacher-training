@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe StateChangeNotifier do
   let(:helpers) { Rails.application.routes.url_helpers }
 
-  before { allow(SlackNotificationWorker).to receive(:perform_async) }
+  before do
+    allow(SlackNotificationWorker).to receive(:perform_async)
+    FeatureFlag.deactivate(:disable_application_outcome_notifications)
+  end
 
   describe '#call' do
     let(:candidate)           { create(:candidate) }
@@ -83,6 +86,15 @@ RSpec.describe StateChangeNotifier do
 
         message = /:broken_heart: #{applicant}'s application was rejected by #{provider_name} and #{rejected_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'does not run if the feature flag is off' do
+        FeatureFlag.activate(:disable_application_outcome_notifications)
+
+        rejected_choice
+        described_class.new(:rejected, application_choice).application_outcome_notification
+
+        expect(SlackNotificationWorker).not_to have_received(:perform_async)
       end
     end
 

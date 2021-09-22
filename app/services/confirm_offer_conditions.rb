@@ -19,6 +19,8 @@ class ConfirmOfferConditions
       CandidateMailer.conditions_met(application_choice).deliver_later
       StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
     end
+
+    true
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

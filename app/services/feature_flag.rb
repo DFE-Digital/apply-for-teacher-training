@@ -35,6 +35,7 @@ class FeatureFlag
     [:support_user_change_offered_course, 'Allows support users to offer a different course option for an application choice', 'David Gisbey'],
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
+    [:disable_application_outcome_notifications, 'Suppress Slack notifications about application outcomes', 'Duncan Brown'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

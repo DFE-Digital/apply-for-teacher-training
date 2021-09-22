@@ -8,4 +8,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'chaser_sent', 'chasers_sent'
   inflect.irregular 'provider_permissions', 'provider_permissions'
   inflect.irregular 'has', 'have'
+  inflect.irregular 'was', 'were'
 end
