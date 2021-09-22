@@ -1,5 +1,7 @@
 module SupportInterface
   class ProvidersController < SupportInterfaceController
+    include StreamableDataExport
+
     def index
       @filter = SupportInterface::ProvidersFilter.new(params: params)
 
@@ -91,6 +93,16 @@ module SupportInterface
 
     def open_all_courses
       update_provider('Successfully updated all courses') { |provider| OpenProviderCourses.new(provider: provider).call }
+    end
+
+    def courses_as_csv
+      provider = Provider.find(params[:provider_id])
+      rows = SupportInterface::ProviderCoursesCSVExport.new(provider: provider).rows
+      self.response_body = streamable_response(
+        filename: "#{provider.name_and_code.parameterize}-courses-#{RecruitmentCycle.current_year}.csv",
+        export_data: rows.map(&:values),
+        export_headings: rows.first.keys,
+      )
     end
 
   private

@@ -13,6 +13,10 @@ RSpec.describe SafeCSV do
     it 'sanitises a single value' do
       expect(described_class.sanitise('=(A1,A6)')).to eq('.=(A1,A6)')
     end
+
+    it 'respects the whitelist' do
+      expect(described_class.sanitise('-')).to eq('-')
+    end
   end
 
   describe '.generate' do

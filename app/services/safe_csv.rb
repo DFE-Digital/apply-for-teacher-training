@@ -1,6 +1,10 @@
 require 'csv'
 
 class SafeCSV
+  WHITELISTED_VALUES = [
+    '-', # this is used for course codes and it is not, on its own, a legitimate formula
+  ].freeze
+
   def self.generate(values, header_row = nil)
     CSV.generate do |rows|
       rows << header_row if header_row.present?
@@ -21,6 +25,6 @@ class SafeCSV
   end
 
   def self.sanitise_formulae(value)
-    value.to_s.starts_with?(/[\-+=@]/) ? value.gsub(/^([\-+=@].*)/, '.\1') : value
+    value.to_s.starts_with?(/[\-+=@]/) && !WHITELISTED_VALUES.include?(value) ? value.gsub(/^([\-+=@].*)/, '.\1') : value
   end
 end

@@ -56,6 +56,10 @@ RSpec.feature 'Providers and courses', mid_cycle: false do
     then_all_courses_should_be_open_on_apply
     and_when_i_click_on_ratified_courses
     then_all_ratified_courses_should_be_open_on_apply
+
+    and_i_click_on_courses
+    and_i_click_on_the_csv_button
+    then_i_should_get_a_csv_with_all_the_courses
   end
 
   def given_i_am_a_support_user
@@ -312,5 +316,18 @@ RSpec.feature 'Providers and courses', mid_cycle: false do
 
   def no_ratified_courses_should_be_open_on_apply
     expect(page).to have_content 'ratifies 1 course (0 on DfE Apply)'
+  end
+
+  def and_i_click_on_the_csv_button
+    click_link 'courses as CSV'
+  end
+
+  def then_i_should_get_a_csv_with_all_the_courses
+    rows = CSV.parse(page.html, headers: :first_row).map(&:to_h)
+    expect(rows).to be_present
+    rows.each do |r|
+      bodies = [r['accredited_provider_code'], r['provider_code']]
+      expect(bodies).to include('GHI')
+    end
   end
 end

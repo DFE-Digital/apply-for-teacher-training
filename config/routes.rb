@@ -935,6 +935,7 @@ Rails.application.routes.draw do
       get '/' => 'providers#show', as: :provider
       get '/courses' => 'providers#courses', as: :provider_courses
       get '/ratified-courses' => 'providers#ratified_courses', as: :provider_ratified_courses
+      get '/courses-csv' => 'providers#courses_as_csv', as: :provider_courses_csv
       get '/vacancies' => 'providers#vacancies', as: :provider_vacancies
       get '/sites' => 'providers#sites', as: :provider_sites
       get '/users' => 'providers#users', as: :provider_user_list
