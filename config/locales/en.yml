@@ -1,6 +1,7 @@
 en:
   continue: Continue
   save_and_continue: Save and continue
+  save: Save
   cancel: Cancel
   validation_errors:
     email_address_format: Enter an email address in the correct format, like name@example.com
