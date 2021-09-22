@@ -179,7 +179,7 @@ module CandidateInterface
     def not_completed_explanation_row
       {
         key: 'Are you currently studying for this qualification?',
-        value: application_qualification.not_completed_explanation || 'No',
+        value: not_completed_explanation_value_row,
         action: {
           href: candidate_interface_gcse_edit_not_yet_completed_path(change_path_params),
           visually_hidden_text: 'how you expect to gain this qualification',
@@ -326,6 +326,8 @@ module CandidateInterface
     end
 
     def failing_grade_row_value
+      return application_qualification.not_completed_explanation if application_qualification.not_completed_explanation.present?
+
       case application_qualification.currently_completing_qualification
       when true
         'Yes'
@@ -335,5 +337,6 @@ module CandidateInterface
         'Not provided'
       end
     end
+    alias not_completed_explanation_value_row failing_grade_row_value
   end
 end
