@@ -41,10 +41,7 @@ RSpec.describe StartOfCycleNotificationWorker do
     context 'when the specified service is :find' do
       let(:service) { :find }
 
-      it 'notifies provider users who need to set up permissions for their organisation' do
-        # A provider user without manage organisation permissions
-        create(:provider_user, providers: providers_needing_set_up)
-
+      it 'notifies all provider users that the service is open' do
         described_class.new.perform(service)
 
         expect(ProviderMailer).to have_received(:find_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.first)
@@ -52,10 +49,23 @@ RSpec.describe StartOfCycleNotificationWorker do
         expect(ProviderMailer).to have_received(:find_service_is_now_open).with(other_provider_users.first)
         expect(ProviderMailer).to have_received(:find_service_is_now_open).with(other_provider_users.last)
         expect(ProviderMailer).not_to have_received(:find_service_is_now_open).with(user_who_has_received_mail)
+      end
+
+      it 'notifies provider users who need to set up permissions for their organisation' do
+        allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: [1]))
+        described_class.new.perform(service)
 
         expect(ProviderMailer).to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.first)
         expect(ProviderMailer).to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.last)
         expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions).with(user_who_has_received_mail)
+      end
+
+      it 'omits managing users with no relationships to set up' do
+        allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: []))
+        described_class.new.perform(service)
+
+        expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.first)
+        expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.last)
       end
 
       it 'ignores providers with chasers sent' do
