@@ -133,7 +133,7 @@ module RefereeInterface
         @refuse_feedback_form.save(reference)
         redirect_to referee_interface_thank_you_path(token: @token_param)
       else
-        redirect_to referee_interface_reference_relationship_path(token: @token_param)
+        redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
       end
     end
 
@@ -149,6 +149,8 @@ module RefereeInterface
     def previous_path(previous_path_in_flow:)
       if params[:from] == 'review'
         referee_interface_reference_review_path(token: @token_param)
+      elsif params[:from] == 'refuse'
+        referee_interface_refuse_feedback_path(token: @token_param)
       elsif previous_path_in_flow
         previous_path_in_flow
       end
