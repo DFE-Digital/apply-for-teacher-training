@@ -144,8 +144,8 @@ en:
         support_interface/application_forms/edit_subject_knowledge_form:
           attributes:
             subject_knowledge:
-              blank: Tell us the candidates subject knowledge
-              too_many_words: Tell us about the candidates subject knowledge in %{count} words or fewer
+              blank: Tell us the candidate’s subject knowledge
+              too_many_words: Tell us about the candidate’s subject knowledge in %{count} words or fewer
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/edit_gcse_form:
