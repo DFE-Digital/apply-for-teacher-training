@@ -16,6 +16,8 @@ module RefereeInterface
       @application = reference.application_form
       @relationship = reference.relationship
       @relationship_form = ReferenceRelationshipForm.build_from_reference(reference: reference)
+
+      set_previous_path(previous_path_in_flow: nil)
     end
 
     def confirm_relationship
@@ -40,6 +42,8 @@ module RefereeInterface
     def safeguarding
       @application = reference.application_form
       @safeguarding_form = ReferenceSafeguardingForm.build_from_reference(reference: reference)
+
+      set_previous_path(previous_path_in_flow: referee_interface_reference_relationship_path(token: @token_param))
     end
 
     def confirm_safeguarding
@@ -63,6 +67,8 @@ module RefereeInterface
         reference: reference,
         feedback: reference.feedback,
       )
+
+      set_previous_path(previous_path_in_flow: referee_interface_safeguarding_path(token: @token_param))
     end
 
     def submit_feedback
@@ -79,6 +85,7 @@ module RefereeInterface
     end
 
     def review
+      @application = reference.application_form
       @reference_form = ReferenceReviewForm.new(
         reference: reference,
       )
@@ -138,6 +145,15 @@ module RefereeInterface
     def thank_you; end
 
   private
+
+    # Set previous path to review page or previous page in flow
+    def set_previous_path(previous_path_in_flow:)
+      if params[:from] == 'review'
+        @previous_path = referee_interface_reference_review_path(token: @token_param)
+      elsif previous_path_in_flow
+        @previous_path = previous_path_in_flow
+      end
+    end
 
     def show_finished_page_if_feedback_provided
       return if reference.feedback_requested?

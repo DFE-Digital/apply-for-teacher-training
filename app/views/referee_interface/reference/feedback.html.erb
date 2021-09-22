@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.referee.feedback', full_name: @reference_form.application_form.full_name), @reference_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(referee_interface_safeguarding_path(token: @token_param)) %>
+<% content_for :before_content, govuk_back_link_to(@previous_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

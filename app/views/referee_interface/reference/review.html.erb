@@ -1,5 +1,4 @@
-<% content_for :title, t('page_titles.referee.review') %>
-<% content_for :before_content, govuk_back_link_to(referee_interface_reference_feedback_path(token: @token_param)) %>
+<% content_for :title, t('page_titles.referee.review', full_name: @application.full_name) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -10,8 +9,8 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.referee.review') %>
+      <h1 class="govuk-heading-l">
+        <%= t('page_titles.referee.review', full_name: @application.full_name) %>
       </h1>
 
       <p class="govuk-body">If you’re not ready to submit yet, you can return using the link in your email.</p>
