@@ -488,8 +488,18 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def find_has_opened(application_form)
+    @academic_year = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
+    @apply_opens = CycleTimetable.apply_opens.to_s(:govuk_date)
+
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.find_has_opened.subject'),
+    )
+  end
+
   def new_cycle_has_started(application_form)
-    @academic_year = CycleTimetable.cycle_year_range(RecruitmentCycle.next_year)
+    @academic_year = CycleTimetable.cycle_year_range(RecruitmentCycle.current_year)
 
     email_for_candidate(
       application_form,
