@@ -39,8 +39,15 @@ module DataAPI
       send_data export.data, filename: export.filename
     end
 
-    def statement_timeout(e)
-      render json: { errors: [{ error: 'QueryCanceled', message: e }] }, status: :internal_server_error
+    def statement_timeout
+      render json: {
+        errors: [
+          {
+            error: 'InternalServerError',
+            message: 'The server encountered an unexpected condition that prevented it from fulfilling the request',
+          },
+        ],
+      }, status: :internal_server_error
     end
   end
 end
