@@ -4,7 +4,11 @@ Dear <%= @application_form.first_name %>,
 
 You have an offer from <%= @provider_name %> to study <%= @course_name %>.
 
-<%= render "candidate_mailer/offer_conditions" %>
+<% if @conditions.blank? %>
+  They’ll let you know if they need further information before you can start training.
+<% else %>
+  <%= render "candidate_mailer/offer_conditions" %>
+<% end %>
 
 Contact <%= @provider_name %> if you have any questions about this.
 
