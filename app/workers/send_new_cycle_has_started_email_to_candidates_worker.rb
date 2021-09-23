@@ -3,9 +3,9 @@ class SendNewCycleHasStartedEmailToCandidatesWorker
 
   def perform
     if CycleTimetable.send_new_cycle_has_started_email?
-      GetUnsuccessfulAndUnsubmittedApplicationsFromPreviousCycle
+      GetUnsuccessfulAndUnsubmittedCandidates
         .call
-        .find_each(batch_size: 100) { |application| SendNewCycleHasStartedEmailToCandidate.call(application_form: application) }
+        .find_each(batch_size: 100) { |candidate| SendNewCycleHasStartedEmailToCandidate.call(application_form: candidate.current_application) }
     end
   end
 end
