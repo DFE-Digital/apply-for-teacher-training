@@ -59,7 +59,8 @@ test do
         'lq': 'M1+2WD',
         'rad': '50',
         'sortby': '2',
-        'subjects[]': '00'
+        'subject_codes[]': '00'
+
       },
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
@@ -100,7 +101,7 @@ test do
         'utf8': '✓',
         'authenticity_token' => '${authenticity_token}',
         'l': '2',
-        'subjects[]': '01'
+        'subject_codes[]': '01'
       }
     ) do
       extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
