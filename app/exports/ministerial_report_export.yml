@@ -23,3 +23,7 @@ custom_columns:
   application_rejected:
     type: integer
     description: The number of applications that have been rejected for this subject
+
+  application_withdrawn:
+    type: integer
+    description: The number of applications that have been withdrawn for this subject

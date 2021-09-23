@@ -63,6 +63,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :biology,
@@ -71,6 +72,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :business_studies,
@@ -79,6 +81,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 1,
+          application_withdrawn: 0,
         },
         {
           subject: :chemistry,
@@ -87,6 +90,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 1,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :classics,
@@ -95,6 +99,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :computing,
@@ -103,6 +108,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 1,
           application_declined: 0,
           application_rejected: 1,
+          application_withdrawn: 0,
         },
         {
           subject: :design_and_technology,
@@ -110,7 +116,8 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           offer_received: 0,
           accepted: 0,
           application_declined: 0,
-          application_rejected: 1,
+          application_rejected: 0,
+          application_withdrawn: 1,
         },
         {
           subject: :drama,
@@ -119,6 +126,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :english,
@@ -127,6 +135,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 2,
           application_declined: 1,
           application_rejected: 2,
+          application_withdrawn: 0,
         },
         {
           subject: :geography,
@@ -135,6 +144,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :history,
@@ -142,7 +152,8 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           offer_received: 0,
           accepted: 0,
           application_declined: 1,
-          application_rejected: 2,
+          application_rejected: 1,
+          application_withdrawn: 1,
         },
         {
           subject: :mathematics,
@@ -151,6 +162,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :modern_foreign_languages,
@@ -159,6 +171,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :music,
@@ -167,6 +180,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :other,
@@ -175,6 +189,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :physical_education,
@@ -183,6 +198,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :physics,
@@ -191,6 +207,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
+          application_withdrawn: 0,
         },
         {
           subject: :religious_education,
@@ -199,6 +216,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 0,
           application_declined: 0,
           application_rejected: 1,
+          application_withdrawn: 0,
         },
         {
           subject: :stem,
@@ -207,6 +225,7 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           accepted: 2,
           application_declined: 0,
           application_rejected: 1,
+          application_withdrawn: 0,
         },
         {
           subject: :ebacc,
@@ -214,15 +233,17 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           offer_received: 7,
           accepted: 4,
           application_declined: 2,
-          application_rejected: 5,
+          application_rejected: 4,
+          application_withdrawn: 1,
         },
         {
           subject: :primary,
           applications: 11,
           offer_received: 4,
           accepted: 3,
-          application_declined: 3,
+          application_declined: 1,
           application_rejected: 1,
+          application_withdrawn: 2,
         },
         {
           subject: :secondary,
@@ -230,15 +251,17 @@ RSpec.describe SupportInterface::MinisterialReportExport do
           offer_received: 11,
           accepted: 4,
           application_declined: 2,
-          application_rejected: 8,
+          application_rejected: 6,
+          application_withdrawn: 2,
         },
         {
           subject: :total,
           applications: 40,
           offer_received: 15,
           accepted: 7,
-          application_declined: 5,
-          application_rejected: 9,
+          application_declined: 3,
+          application_rejected: 7,
+          application_withdrawn: 4,
         },
       )
     end
