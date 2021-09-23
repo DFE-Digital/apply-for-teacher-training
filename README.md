@@ -201,9 +201,19 @@ DFE_SIGN_IN_ISSUER=https://oidc.signin.education.gov.uk
 
 ### Local development
 
-Logging in to the Provider interface requires a network connection and a user
+Creating and signing in to the candidate interfaces requires clicking a link
+sent via email using GOV.UK Notify.
+
+In development mode, the contents of the emails sent is saved to a log file, which
+you can see by running:
+
+```
+tail -f log/mail.log
+```
+
+Signing in to the Provider interface requires a network connection and a user
 account on DfE Sign-in. In development you can eliminate this dependency by
-setting `BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the login
+setting `BYPASS_DFE_SIGN_IN=true` in your `.env` file. This replaces the sign in
 flow with a dialog allowing you to specify a DfE Sign-in UID and Email address
 for your current session.
 
