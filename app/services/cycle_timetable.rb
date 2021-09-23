@@ -44,7 +44,7 @@ class CycleTimetable
   }.freeze
 
   def self.current_year
-    now = Time.zone.today
+    now = Time.zone.now
 
     CYCLE_DATES.keys.detect do |year|
       return year if last_recruitment_cycle_year?(year)
@@ -357,6 +357,10 @@ class CycleTimetable
   def self.need_to_send_deadline_reminder?
     return :apply_1 if Time.zone.now.to_date == apply_1_deadline_first_reminder.to_date || Time.zone.now.to_date == apply_1_deadline_second_reminder.to_date
     return :apply_2 if Time.zone.now.to_date == apply_2_deadline_first_reminder.to_date || Time.zone.now.to_date == apply_2_deadline_second_reminder.to_date
+  end
+
+  def self.send_find_has_opened_email?
+    Time.zone.now.to_date == find_opens.to_date
   end
 
   def self.send_new_cycle_has_started_email?
