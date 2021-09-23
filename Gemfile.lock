@@ -532,10 +532,10 @@ GEM
     semantic_logger (4.8.2)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (4.7.2)
+    sentry-rails (4.7.3)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.7.0)
-    sentry-ruby-core (4.7.2)
+    sentry-ruby-core (4.7.3)
       concurrent-ruby
       faraday
     sentry-sidekiq (4.7.2)
