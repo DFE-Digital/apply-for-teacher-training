@@ -1,15 +1,24 @@
 module SupportInterface
   class VendorAPIMonitor
+
+    def initialize(vendor: nil)
+      @vendor = vendor
+    end
+
     def all_providers
       Provider.where(provider_type: 'university')
     end
 
+    def target_providers
+      if @vendor.present? then all_providers.where(vendor: @vendor) else all_providers end
+    end
+
     def connected
-      all_providers.select(:id, :name).where.not(id: never_connected.select(:id))
+      target_providers.select(:id, :name).where.not(id: never_connected.select(:id))
     end
 
     def never_connected
-      all_providers
+      target_providers
         .joins("LEFT JOIN (#{VendorAPIRequest.select('provider_id, COUNT(vendor_api_requests.id) as count').group('provider_id').to_sql}) all_time_requests on all_time_requests.provider_id = providers.id")
         .includes(:vendor_api_tokens).where(all_time_requests: { count: nil })
     end
