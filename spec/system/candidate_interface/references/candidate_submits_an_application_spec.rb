@@ -47,7 +47,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_references_are_in_progress
     visit candidate_interface_application_form_path
-    expect(page).to have_content('It takes 8 days to get a reference on average. You can request as many references as you like to increase the chances of getting 2 quickly.')
+    expect(page).to have_content('You can request as many references as you like to increase the chances of getting 2 quickly.')
     within(all('.govuk-list')[0]) do
       expect(page).to have_content("#{@reference1.name}: Awaiting response")
       expect(page).to have_content("#{@reference2.name}: Awaiting response")
@@ -57,7 +57,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def then_i_can_see_references_are_incomplete
-    expect(page).to have_content('It takes 8 days to get a reference on average. You can request as many references as you like to increase the chances of getting 2 quickly.')
+    expect(page).to have_content('You can request as many references as you like to increase the chances of getting 2 quickly.')
     within(all('.app-task-list')[2]) do
       expect(page).to have_content('Cannot start yet')
     end

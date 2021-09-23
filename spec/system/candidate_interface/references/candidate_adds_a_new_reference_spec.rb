@@ -107,7 +107,7 @@ RSpec.feature 'References' do
   end
 
   def then_i_should_see_the_references_section
-    expect(page).to have_content 'It takes 8 days to get a reference on average.'
+    expect(page).to have_content 'Your application needs to include 2 references.'
   end
 
   def when_i_click_through_to_add_my_references
