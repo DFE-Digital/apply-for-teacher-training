@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_15_095847) do
+ActiveRecord::Schema.define(version: 2021_09_22_141124) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -366,7 +366,9 @@ ActiveRecord::Schema.define(version: 2021_09_15_095847) do
     t.boolean "sign_up_email_bounced", default: false, null: false
     t.datetime "last_signed_in_at"
     t.datetime "candidate_api_updated_at"
+    t.bigint "fraud_match_id"
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
+    t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
   end
 
@@ -506,6 +508,18 @@ ActiveRecord::Schema.define(version: 2021_09_15_095847) do
     t.string "find_controller", null: false
     t.string "feedback", null: false
     t.string "email_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "fraud_matches", force: :cascade do |t|
+    t.datetime "candidate_last_contacted_at"
+    t.integer "recruitment_cycle_year"
+    t.string "last_name"
+    t.date "date_of_birth"
+    t.string "postcode"
+    t.boolean "fraudulent?"
+    t.datetime "submitted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
