@@ -11,10 +11,13 @@ class StartOfCycleNotificationWorker
 
         next if service == :apply
         next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
-        next if ProviderSetup.new(provider_user: provider_user).relationships_pending.blank?
+
+        relationships_pending = ProviderSetup.new(provider_user: provider_user).relationships_pending
+        next if relationships_pending.blank?
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
 
-        ProviderMailer.send(setup_mailer_method, provider_user)
+        partner_organisations = relationships_pending.map { |relationship| relationship.partner_organisation(provider) }
+        ProviderMailer.send(setup_mailer_method, provider_user, partner_organisations)
         ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
       end
 

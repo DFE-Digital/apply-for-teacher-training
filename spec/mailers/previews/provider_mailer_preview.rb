@@ -109,6 +109,23 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.organisation_permissions_updated(provider_user, ratifying_provider, permissions)
   end
 
+  def apply_service_is_now_open
+    provider_user = FactoryBot.create(:provider_user)
+    ProviderMailer.apply_service_is_now_open(provider_user)
+  end
+
+  def find_service_is_now_open
+    provider_user = FactoryBot.create(:provider_user)
+    ProviderMailer.find_service_is_now_open(provider_user)
+  end
+
+  def set_up_organisation_permissions
+    provider1 = FactoryBot.create(:provider)
+    provider2 = FactoryBot.create(:provider)
+    provider_user = FactoryBot.create(:provider_user)
+    ProviderMailer.set_up_organisation_permissions(provider_user, [provider1, provider2])
+  end
+
 private
 
   def provider

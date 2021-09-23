@@ -52,11 +52,16 @@ RSpec.describe StartOfCycleNotificationWorker do
       end
 
       it 'notifies provider users who need to set up permissions for their organisation' do
-        allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: [1]))
+        ratifying_provider = create(:provider)
+        relationship = create(:provider_relationship_permissions,
+                              :not_set_up_yet,
+                              training_provider: providers_needing_set_up.first,
+                              ratifying_provider: ratifying_provider)
+        allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: [relationship]))
         described_class.new.perform(service)
 
-        expect(ProviderMailer).to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.first)
-        expect(ProviderMailer).to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.last)
+        expect(ProviderMailer).to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.first, [relationship.ratifying_provider])
+        expect(ProviderMailer).to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.last, [relationship.ratifying_provider])
         expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions).with(user_who_has_received_mail)
       end
 

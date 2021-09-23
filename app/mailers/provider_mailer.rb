@@ -189,17 +189,31 @@ class ProviderMailer < ApplicationMailer
 
   def apply_service_is_now_open(provider_user)
     @provider_user = provider_user
+
+    notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.apply_service_is_now_open.subject'),
+    )
   end
 
   def find_service_is_now_open(provider_user)
     @provider_user = provider_user
+
+    notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.find_service_is_now_open.subject'),
+    )
   end
 
-  # rubocop:disable Naming/AccessorMethodName
-  def set_up_organisation_permissions(provider_user)
+  def set_up_organisation_permissions(provider_user, partner_organisations)
     @provider_user = provider_user
+    @partner_organisations = partner_organisations
+
+    notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.set_up_organisation_permissions.subject'),
+    )
   end
-# rubocop:enable Naming/AccessorMethodName
 
 private
 
