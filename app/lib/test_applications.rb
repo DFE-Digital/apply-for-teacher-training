@@ -542,7 +542,7 @@ private
 
     # We want to spread out actions that happen on an application over time. This ensures we don't use up
     # the entire time budget in one go, and that we have a good chance of jumping forward a bit
-    time_to_jump = [rand(0..2), rand(1..@time_budget)].min
+    time_to_jump = [rand(1..2), rand(1..@time_budget)].min
 
     @time_budget -= time_to_jump
     @time = time + time_to_jump.days
