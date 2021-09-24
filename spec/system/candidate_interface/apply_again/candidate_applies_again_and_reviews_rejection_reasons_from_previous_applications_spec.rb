@@ -73,7 +73,7 @@ RSpec.feature 'Apply again' do
   end
 
   def then_becoming_a_teacher_needs_review
-    within_task_list_item('Why do you want to teach') do
+    within_task_list_item('Why you want to teach') do
       expect(page).to have_css('.govuk-tag', text: 'Review')
     end
   end
@@ -85,25 +85,25 @@ RSpec.feature 'Apply again' do
   end
 
   def and_i_can_review_becoming_a_teacher
-    click_link 'Why do you want to teach'
+    click_link 'Why you want to teach'
     expect(page).to have_content 'Personal statement needs improving'
     visit candidate_interface_application_form_path
   end
 
   def when_i_confirm_i_have_reviewed_becoming_a_teacher
-    click_link 'Why do you want to teach'
+    click_link 'Why you want to teach'
     choose t('application_form.reviewed_radio')
     click_on t('continue')
   end
 
   def then_becoming_a_teacher_no_longer_needs_review
-    within_task_list_item('Why do you want to teach') do
+    within_task_list_item('Why you want to teach') do
       expect(page).to have_css('.govuk-tag', text: 'Completed')
     end
   end
 
   def and_i_can_set_it_back_to_unreviewed
-    click_link 'Why do you want to teach'
+    click_link 'Why you want to teach'
     choose t('application_form.incomplete_radio')
     click_button t('continue')
   end

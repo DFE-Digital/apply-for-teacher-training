@@ -99,7 +99,7 @@ RSpec.feature 'International candidate submits the application' do
     click_link 'Other qualifications'
     candidate_fills_in_their_other_qualifications
 
-    click_link 'Why do you want to teach'
+    click_link 'Why you want to teach'
     candidate_fills_in_becoming_a_teacher
 
     click_link 'Your suitability to teach a subject or age group'
