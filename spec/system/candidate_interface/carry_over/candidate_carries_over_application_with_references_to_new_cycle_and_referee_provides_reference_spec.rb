@@ -109,11 +109,11 @@ RSpec.feature 'Carry over' do
 
   def when_i_submit_the_outstanding_reference
     choose 'Yes'
-    click_button t('continue')
+    click_button t('save_and_continue')
     choose 'No'
-    click_button t('continue')
+    click_button t('save_and_continue')
     fill_in 'Your reference', with: 'This is a reference for the candidate.'
-    click_button t('continue')
+    click_button t('save')
     click_button t('referee.review.submit')
   end
 

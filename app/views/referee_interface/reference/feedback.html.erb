@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.referee.feedback', full_name: @reference_form.application_form.full_name), @reference_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(referee_interface_safeguarding_path(token: @token_param)) %>
+<% content_for :before_content, govuk_back_link_to(@previous_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -10,7 +10,7 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
+      <h1 class="govuk-heading-l">
         <%= t('page_titles.referee.feedback', full_name: @reference_form.application_form.full_name) %>
       </h1>
 
@@ -18,7 +18,7 @@
 
       <%= f.govuk_text_area :feedback, label: { text: t('referee.feedback.label'), size: 'm' }, max_words: 500, rows: 15 %>
 
-      <%= f.govuk_submit t('continue') %>
+      <%= f.govuk_submit t('save') %>
     <% end %>
   </div>
 </div>

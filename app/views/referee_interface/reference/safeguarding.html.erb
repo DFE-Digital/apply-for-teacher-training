@@ -1,5 +1,6 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.referee.safeguarding', full_name: @application.full_name), @safeguarding_form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(referee_interface_reference_relationship_path(token: @token_param)) %>
+
+<% content_for :before_content, govuk_back_link_to(@previous_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -10,14 +11,14 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :any_safeguarding_concerns, legend: { text: t('page_titles.referee.safeguarding', full_name: @application.full_name), size: 'xl', tag: 'h1' } do %>
+      <%= f.govuk_radio_buttons_fieldset :any_safeguarding_concerns, legend: { text: t('page_titles.referee.safeguarding', full_name: @application.full_name), size: 'l', tag: 'h1' } do %>
         <%= f.govuk_radio_button :any_safeguarding_concerns, :no, label: { text: t('referee.any_safeguarding_concerns.no.label') }, link_errors: true %>
         <%= f.govuk_radio_button :any_safeguarding_concerns, :yes, label: { text: t('referee.any_safeguarding_concerns.yes.label') } do %>
           <%= f.govuk_text_area :safeguarding_concerns, label: { text: t('referee.safeguarding_concerns.label', full_name: @application.full_name) }, max_words: 150, rows: 5 %>
         <% end %>
       <% end %>
 
-      <%= f.govuk_submit t('continue') %>
+      <%= f.govuk_submit t('save_and_continue') %>
     <% end %>
   </div>
 </div>

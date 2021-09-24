@@ -14,42 +14,71 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     when_i_click_on_the_link_within_the_email
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
-    when_i_click_on_continue
+    when_i_click_on_save_and_continue
     then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
 
     when_i_confirm_that_the_described_relationship_is_not_correct
-    and_i_click_on_continue
+    and_i_click_on_save_and_continue
     then_i_see_an_error_to_enter_my_relationship_with_the_candidate
 
     when_i_confirm_that_the_described_relationship_is_correct
-    and_i_click_on_continue
+    and_i_click_on_save_and_continue
     then_i_see_the_safeguarding_page
 
-    when_i_click_on_continue
+    when_i_click_on_save_and_continue
     then_i_see_an_error_to_choose_if_i_know_any_safeguarding_concerns
 
     when_i_choose_the_candidate_is_not_suitable_for_working_with_children
-    and_i_click_on_continue
+    and_i_click_on_save_and_continue
     then_i_see_an_error_to_enter_my_safeguarding_concerns
 
     when_i_choose_the_candidate_is_suitable_for_working_with_children
-    and_i_click_on_continue
+    and_i_click_on_save_and_continue
+    then_i_see_the_reference_comment_page
+
+    # Go backwards
+    when_i_click_back
+    then_i_see_the_safeguarding_page
+    and_i_see_my_previous_safeguarding_answer
+
+    when_i_click_back
+    then_i_am_asked_to_confirm_my_relationship_with_the_candidate
+    and_i_see_my_previous_relationship_answer
+
+    # Go forwards again
+    when_i_click_on_save_and_continue
+    when_i_click_on_save_and_continue
     then_i_see_the_reference_comment_page
 
     when_i_fill_in_the_reference_field
-    and_i_click_on_continue
+    and_i_click_on_save
     then_i_see_the_reference_review_page
 
+    # Changing answers from the review page
     when_i_click_change_relationship
     and_i_amend_the_relationship
-    and_i_click_on_continue
+    and_i_click_on_save_and_continue
     then_i_can_review_the_amended_relationship
 
     when_i_click_change_safeguarding_concerns
     and_i_amend_the_safeguarding_concerns
-    and_i_click_on_continue
+    and_i_click_on_save_and_continue
     then_i_can_review_the_amended_safeguarding_concerns
 
+    # Check back links from review page
+    when_i_click_change_relationship
+    when_i_click_back
+    then_i_see_the_reference_review_page
+
+    when_i_click_change_safeguarding_concerns
+    when_i_click_back
+    then_i_see_the_reference_review_page
+
+    when_i_click_change_reference
+    when_i_click_back
+    then_i_see_the_reference_review_page
+
+    # Submit
     and_i_click_the_submit_reference_button
     then_i_see_am_told_i_submitted_my_reference
     then_i_see_the_confirmation_page
@@ -99,8 +128,12 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     expect(page).to have_content("Confirm how you know #{@application.full_name}")
   end
 
-  def when_i_click_on_continue
-    click_button t('continue')
+  def when_i_click_on_save_and_continue
+    click_button t('save_and_continue')
+  end
+
+  def when_i_click_on_save
+    click_button t('save')
   end
 
   def then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
@@ -108,7 +141,9 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_confirm_that_the_described_relationship_is_not_correct
-    choose 'No'
+    within_fieldset('Is this correct?') do
+      choose 'No'
+    end
   end
 
   def then_i_see_an_error_to_enter_my_relationship_with_the_candidate
@@ -116,7 +151,15 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_confirm_that_the_described_relationship_is_correct
-    choose 'Yes'
+    within_fieldset('Is this correct?') do
+      choose 'Yes'
+    end
+  end
+
+  def and_i_see_my_previous_relationship_answer
+    within_fieldset('Is this correct?') do
+      expect(page).to have_checked_field('Yes')
+    end
   end
 
   def then_i_see_the_safeguarding_page
@@ -139,12 +182,22 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     choose 'No'
   end
 
-  def and_i_click_on_continue
-    click_button t('continue')
+  def and_i_see_my_previous_safeguarding_answer
+    within_fieldset("Do you know of any reason why #{@application.full_name} should not work with children?") do
+      expect(page).to have_checked_field('No')
+    end
+  end
+
+  def and_i_click_on_save_and_continue
+    click_button t('save_and_continue')
+  end
+
+  def and_i_click_on_save
+    click_button t('save')
   end
 
   def then_i_see_the_reference_comment_page
-    expect(page).to have_content("Your reference for #{@application.full_name}")
+    expect(page).to have_content("Does #{@application.full_name} have the potential to teach?")
   end
 
   def when_i_fill_in_the_reference_field
@@ -152,11 +205,20 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_see_the_reference_review_page
-    expect(page).to have_content('Check your answers before submitting your reference')
+    expect(page).to have_content("Your reference for #{@application.full_name}")
+    expect(page).to have_content('If you’re not ready to submit yet, you can return using the link in your email.')
   end
 
   def when_i_click_change_relationship
     click_link 'Change relationship'
+  end
+
+  def when_i_click_change_reference
+    click_link 'Change reference'
+  end
+
+  def when_i_click_back
+    click_link 'Back'
   end
 
   def and_i_amend_the_relationship
@@ -165,8 +227,8 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_can_review_the_amended_relationship
-    click_button t('continue')
-    expect(page).to have_content('Amended by referee to: he is not my friend')
+    click_button t('save_and_continue')
+    expect(page).to have_content('he is not my friend')
   end
 
   def when_i_click_change_safeguarding_concerns

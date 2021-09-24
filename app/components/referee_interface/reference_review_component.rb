@@ -17,7 +17,7 @@ module RefereeInterface
         key: 'Relationship',
         value: relationship_value,
         action: {
-          href: referee_interface_reference_relationship_path(token: @token_param),
+          href: referee_interface_reference_relationship_path(token: @token_param, from: 'review'),
           visually_hidden_text: 'relationship',
         },
       }
@@ -36,7 +36,7 @@ module RefereeInterface
         key: 'Concerns about candidate working with children',
         value: concerns,
         action: {
-          href: referee_interface_safeguarding_path(token: @token_param),
+          href: referee_interface_safeguarding_path(token: @token_param, from: 'review'),
           visually_hidden_text: 'concerns about candidate working with children',
         },
       }
@@ -47,7 +47,7 @@ module RefereeInterface
         key: 'Reference',
         value: @reference.feedback || 'Not answered',
         action: {
-          href: referee_interface_reference_feedback_path(token: @token_param),
+          href: referee_interface_reference_feedback_path(token: @token_param, from: 'review'),
           visually_hidden_text: 'reference',
         },
       }
@@ -55,9 +55,8 @@ module RefereeInterface
 
     def relationship_value
       return 'Not answered' if @reference.relationship_correction.nil?
-      return 'You’ve confirmed your relationship with the candidate' if @reference.relationship_correction.blank?
 
-      "Amended by referee to: #{@reference.relationship_correction}"
+      @reference.relationship_correction.presence || 'You’ve confirmed your relationship with the candidate'
     end
   end
 end

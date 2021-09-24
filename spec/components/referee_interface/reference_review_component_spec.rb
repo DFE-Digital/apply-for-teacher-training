@@ -19,7 +19,7 @@ RSpec.describe RefereeInterface::ReferenceReviewComponent do
       result = render_inline(described_class.new(reference: reference))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Relationship')
-      expect(result.css('.govuk-summary-list__value').text).to include('Amended by referee to: meh')
+      expect(result.css('.govuk-summary-list__value').text).to include('meh')
     end
   end
 
