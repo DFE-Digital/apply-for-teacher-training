@@ -8,7 +8,7 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
     let!(:ratifying_provider_users) { create_list(:provider_user, 3, providers: [ratifying_provider]) }
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
-    subject(:service) { described_class.new(provider_user: provider_user, provider: provider, permissions: permissions) }
+    subject(:service) { described_class.new(provider_user: provider_user, provider: provider, permissions: permissions, email_to_send: email_to_send) }
 
     before do
       allow(ProviderMailer).to receive(:organisation_permissions_set_up).and_return(message_delivery)
@@ -20,12 +20,14 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
     end
 
     context 'when permissions have not been set up' do
+      let(:provider) { nil }
+      let(:email_to_send) { :set_up }
+
       let(:permissions) do
         create(:provider_relationship_permissions, :not_set_up_yet, training_provider: training_provider, ratifying_provider: ratifying_provider)
       end
 
       context 'when the user is setting up permissions on behalf of the training provider' do
-        let(:provider) { nil }
         let(:provider_user) { training_provider_users.first }
 
         it 'sends a set up email to managing users for the ratifying provider' do
@@ -38,7 +40,6 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
       end
 
       context 'when the user is setting up permissions on behalf of the ratifying provider' do
-        let(:provider) { nil }
         let(:provider_user) { ratifying_provider_users.first }
 
         it 'sends a set up email to managing users for the training provider' do
@@ -51,7 +52,6 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
       end
 
       context 'when the user setting up permissions belongs to both orgs in the permissions relationship' do
-        let(:provider) { nil }
         let(:provider_user) { ratifying_provider_users.first }
 
         before do
@@ -72,6 +72,8 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
     end
 
     context 'when permissions have already been set up' do
+      let(:email_to_send) { :updated }
+
       let(:permissions) do
         create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
       end
@@ -104,6 +106,8 @@ RSpec.describe ProviderInterface::SendOrganisationPermissionsEmails do
     end
 
     context 'when the user changing permissions belongs to both orgs in the permissions relationship' do
+      let(:email_to_send) { :updated }
+
       let(:permissions) do
         create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
       end

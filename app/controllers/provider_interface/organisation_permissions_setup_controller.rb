@@ -63,8 +63,11 @@ module ProviderInterface
 
     def commit
       wizard = OrganisationPermissionsSetupWizard.new(organisation_permissions_wizard_store)
+      already_set_up_relationships, new_relationships = wizard.relationships.partition(&:setup_at)
+
       if SetupProviderRelationshipPermissions.call(wizard.relationships)
-        send_organisation_permissions_emails(wizard.relationships)
+        send_organisation_permissions_emails(relationships: new_relationships, email_to_send: :set_up)
+        send_organisation_permissions_emails(relationships: already_set_up_relationships, email_to_send: :updated)
         wizard.clear_state!
         redirect_to success_provider_interface_organisation_permissions_setup_index_path
       else
@@ -125,9 +128,9 @@ module ProviderInterface
       end
     end
 
-    def send_organisation_permissions_emails(relationships)
+    def send_organisation_permissions_emails(relationships:, email_to_send:)
       relationships.each do |relationship|
-        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: relationship).call
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: relationship, email_to_send: email_to_send).call
       end
     end
 
