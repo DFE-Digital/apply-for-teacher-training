@@ -647,4 +647,26 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '.without_subsequent_applications' do
+    it 'only returns applications that do not have a subsequent application' do
+      application_form_without_subsequent_application = create(:application_form, :minimum_info)
+      application_form_with_subsequent_application = create(:application_form, :minimum_info)
+      create(:application_form, :minimum_info, previous_application_form_id: application_form_with_subsequent_application.id)
+
+      expect(described_class.without_subsequent_applications).to include(application_form_without_subsequent_application)
+      expect(described_class.without_subsequent_applications).not_to include(application_form_with_subsequent_application)
+    end
+  end
+
+  describe '#highest_status_application_choice' do
+    it 'returns the status of the highest ranked application choice' do
+      application_form = create(:application_form, :minimum_info)
+      create(:application_choice, :with_recruited, application_form: application_form)
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+      create(:application_choice, :with_rejection, application_form: application_form)
+
+      expect(application_form.top_ranked_application_choice_status).to eq('recruited')
+    end
+  end
 end

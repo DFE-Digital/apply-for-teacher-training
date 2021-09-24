@@ -24,6 +24,7 @@ class ApplicationForm < ApplicationRecord
   has_many :application_feedback
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+  scope :without_subsequent_applications, -> { where('NOT EXISTS (SELECT 1 FROM application_forms as subsequent_application_forms where application_forms.id = subsequent_application_forms.previous_application_form_id)') }
 
   REQUIRED_REFERENCE_SELECTIONS = 2
   MAXIMUM_REFERENCES = 10
@@ -111,6 +112,31 @@ class ApplicationForm < ApplicationRecord
   end
 
   after_commit :geocode_address_if_required
+
+  def top_ranked_application_choice_status
+    order_sql = Arel.sql("
+        case status
+        when 'recruited' then 1
+        when 'pending_conditions' then 2
+        when 'conditions_not_met' then 2
+        when 'offer' then 3
+        when 'awaiting_provider_decision' then 4
+        when 'interviewing' then 4
+        when 'declined' then 5
+        when 'offer_withdrawn' then 6
+        when 'withdrawn' then 7
+        when 'cancelled' then 7
+        when 'rejected' then 7
+        when 'application_not_sent' then 8
+        when 'unsubmitted' then 8
+        when 'offer_deferred' then 8
+        end")
+
+    application_choices
+      .order(order_sql)
+      .limit(1)
+      .pick(:status)
+  end
 
   def touch_choices
     return unless application_choices.any?

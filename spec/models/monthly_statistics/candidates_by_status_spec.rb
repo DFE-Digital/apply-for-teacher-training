@@ -4,34 +4,35 @@ RSpec.describe MonthlyStatistics::CandidatesByStatus do
   subject(:statistics) { described_class.new.table_data }
 
   it "returns table data for 'candidates by status'" do
-    # Recruited
-    create_application_choice(status: :with_recruited, phase: 'apply_1')
+    candidate_one = create(:candidate)
+    candidate_one_apply_one_application = create(:application_form, phase: 'apply_1', candidate: candidate_one)
+    create(:application_choice, :with_recruited, application_form: candidate_one_apply_one_application)
+    create(:application_choice, :awaiting_provider_decision, application_form: candidate_one_apply_one_application)
+    create(:application_choice, :with_rejection, application_form: candidate_one_apply_one_application)
 
-    # Conditions pending
-    create_application_choice(status: :with_conditions_not_met, phase: 'apply_1')
-    create_application_choice(status: :with_deferred_offer, phase: 'apply_1')
+    candidate_two = create(:candidate)
+    candidate_two_apply_one_application = create(:application_form, phase: 'apply_1', candidate: candidate_two)
+    create(:application_choice, :with_rejection, application_form: candidate_two_apply_one_application)
+    create(:application_choice, :with_rejection, application_form: candidate_two_apply_one_application)
+    create(:application_choice, :with_rejection, application_form: candidate_two_apply_one_application)
+    candidate_two_apply_again_application = create(:application_form, phase: 'apply_2', candidate: candidate_two, previous_application_form_id: candidate_two_apply_one_application.id)
+    create(:application_choice, :with_recruited, application_form: candidate_two_apply_again_application)
+    create(:application_choice, :awaiting_provider_decision, application_form: candidate_two_apply_again_application)
+    create(:application_choice, :with_rejection, application_form: candidate_two_apply_again_application)
 
-    # Received an offer but did not respond
-    create_application_choice(status: :with_offer, phase: 'apply_1')
-    create_application_choice(status: :with_offer, phase: 'apply_2')
-    create_application_choice(status: :with_offer, phase: 'apply_2')
-
-    # Awaiting provider decision
-    create_application_choice(status: :awaiting_provider_decision, phase: 'apply_2')
-    create_application_choice(status: :with_scheduled_interview, phase: 'apply_1')
-
-    # Declined an offer
-    create_application_choice(status: :with_declined_offer, phase: 'apply_1')
-
-    # Withdrew an application
-    create_application_choice(status: :withdrawn, phase: 'apply_2')
-
-    # Application rejected
-    create_application_choice(status: :with_rejection, phase: 'apply_1')
-    create_application_choice(status: :with_rejection, phase: 'apply_2')
-
-    # Unsubmitted applications are not considered
-    create(:application_choice, status: :unsubmitted, application_form: create(:application_form, phase: 'apply_1'))
+    candidate_three = create(:candidate)
+    candidate_three_apply_one_application = create(:application_form, phase: 'apply_1', candidate: candidate_three)
+    create(:application_choice, :with_rejection, application_form: candidate_three_apply_one_application)
+    create(:application_choice, :with_rejection, application_form: candidate_three_apply_one_application)
+    create(:application_choice, :with_rejection, application_form: candidate_three_apply_one_application)
+    candidate_three_apply_again_application = create(:application_form, phase: 'apply_2', candidate: candidate_three, previous_application_form_id: candidate_three_apply_one_application.id)
+    create(:application_choice, :with_rejection, application_form: candidate_three_apply_again_application)
+    create(:application_choice, :with_rejection, application_form: candidate_three_apply_again_application)
+    create(:application_choice, :with_rejection, application_form: candidate_three_apply_again_application)
+    candidate_three_second_apply_again_application = create(:application_form, phase: 'apply_2', candidate: candidate_three, previous_application_form_id: candidate_three_apply_again_application.id)
+    create(:application_choice, :with_recruited, application_form: candidate_three_second_apply_again_application)
+    create(:application_choice, :awaiting_provider_decision, application_form: candidate_three_second_apply_again_application)
+    create(:application_choice, :with_rejection, application_form: candidate_three_second_apply_again_application)
 
     expect(statistics).to eq(
       {
@@ -39,65 +40,48 @@ RSpec.describe MonthlyStatistics::CandidatesByStatus do
           {
             'Status' => 'Recruited',
             'First application' => 1,
-            'Apply again' => 0,
-            'Total' => 1,
-          },
-          {
-            'Status' => 'Conditions pending',
-            'First application' => 2,
-            'Apply again' => 0,
-            'Total' => 2,
-          },
-          {
-            'Status' => 'Received an offer but not responded',
-            'First application' => 1,
             'Apply again' => 2,
             'Total' => 3,
           },
           {
+            'Status' => 'Conditions pending',
+            'First application' => 0,
+            'Apply again' => 0,
+            'Total' => 0,
+          },
+          {
+            'Status' => 'Received an offer but not responded',
+            'First application' => 0,
+            'Apply again' => 0,
+            'Total' => 0,
+          },
+          {
             'Status' => 'Awaiting provider decisions',
-            'First application' => 1,
-            'Apply again' => 1,
-            'Total' => 2,
+            'First application' => 0,
+            'Apply again' => 0,
+            'Total' => 0,
           },
           {
             'Status' => 'Declined an offer',
-            'First application' => 1,
+            'First application' => 0,
             'Apply again' => 0,
-            'Total' => 1,
+            'Total' => 0,
           },
           {
             'Status' => 'Withdrew an application',
             'First application' => 0,
-            'Apply again' => 1,
-            'Total' => 1,
+            'Apply again' => 0,
+            'Total' => 0,
           },
           {
             'Status' => 'Application rejected',
-            'First application' => 1,
-            'Apply again' => 1,
-            'Total' => 2,
+            'First application' => 0,
+            'Apply again' => 0,
+            'Total' => 0,
           },
         ],
-        column_totals: [7, 5, 12],
+        column_totals: [1, 2, 3],
       },
     )
-  end
-
-  def create_application_choice(status:, phase:)
-    if phase == 'apply_1'
-      create(
-        :application_choice,
-        status,
-        application_form: create(:application_form, phase: phase),
-      )
-    else
-      previous_application_form = create(:application_form, phase: 'apply_1')
-      create(
-        :application_choice,
-        status,
-        application_form: create(:application_form, phase: 'apply_2', previous_application_form_id: previous_application_form.id),
-      )
-    end
   end
 end
