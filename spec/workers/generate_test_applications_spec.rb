@@ -2,13 +2,19 @@ require 'rails_helper'
 
 RSpec.describe GenerateTestApplications do
   it 'generates test candidates with applications in various states', sidekiq: true do
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2020))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2020))
+    previous_cycle = RecruitmentCycle.previous_year
+    current_cycle = RecruitmentCycle.current_year
+
+    # necessary to test 'cancelled' state
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2020))
 
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2021))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2021))
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2021))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: previous_cycle))
+
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: current_cycle))
 
     slack_request = stub_request(:post, 'https://example.com')
 
