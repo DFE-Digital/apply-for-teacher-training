@@ -15,7 +15,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
     when_i_click_on_the_link_in_my_email
     and_i_confirm_the_sign_in
-    then_i_see_the_before_you_start_page
+    then_i_see_my_application_form
   end
 
   def given_the_pilot_is_open
@@ -57,7 +57,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     confirm_sign_in
   end
 
-  def then_i_see_the_before_you_start_page
-    expect(page).to have_current_path(candidate_interface_before_you_start_path)
+  def then_i_see_my_application_form
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 end

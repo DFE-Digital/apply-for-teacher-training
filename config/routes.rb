@@ -67,7 +67,6 @@ Rails.application.routes.draw do
       get '/prefill', to: 'prefill_application_form#new'
       post '/prefill', to: 'prefill_application_form#create'
 
-      get '/before-you-start', to: 'unsubmitted_application_form#before_you_start'
       get '/' => 'unsubmitted_application_form#show', as: :application_form
       get '/review' => 'unsubmitted_application_form#review', as: :application_review
       get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show

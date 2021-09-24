@@ -24,7 +24,7 @@ module CandidateInterface
 
     def carry_over
       CarryOverApplication.new(current_application).call
-      redirect_to candidate_interface_before_you_start_path
+      redirect_to candidate_interface_application_form_path
     end
   end
 end
