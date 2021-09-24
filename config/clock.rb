@@ -26,17 +26,8 @@ class Clock
   every(1.hour, 'DetectInvariantsHourlyCheck', at: '**:30') { DetectInvariantsHourlyCheck.perform_async }
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
-  every(1.hour, 'UpdateFeatureMetricsDashboard', at: '**:45') { UpdateFeatureMetricsDashboard.perform_async }
 
-  # Daily jobs
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
-
-  every(1.day, 'SendStatsSummaryToSlack', at: '17:00') { SendStatsSummaryToSlack.new.perform }
-
-  every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
-
-  every(1.day, 'MinisterialReportCandidatesExport', at: '23:59') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
-  every(1.day, 'MinisterialReportApplicationsExport', at: '23:59') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
