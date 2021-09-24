@@ -1,7 +1,7 @@
 <% if can_sponsor_visa? %>
   <%= title %>
 <% else %>
-  <%= govuk_inset_text(classes: 'app-inset-text--narrow-border app-inset-text--important govuk-!-margin-top-0 govuk-!-padding-bottom-1') do %>
+  <%= govuk_inset_text(classes: 'app-inset-text--narrow-border app-inset-text--important') do %>
     <p class="govuk-heading-s app-inset-text__title"><%= title %></p>
 
     <p class="govuk-body">

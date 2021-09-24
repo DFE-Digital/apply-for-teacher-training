@@ -2,6 +2,7 @@ DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::BackfillNotCompletedExplanation',
   'DataMigrations::BackfillCoursesForNextCycle',
+  'DataMigrations::BackfillRestructuredImmigrationStatus',
   'DataMigrations::BackfillInvalidProviderRelationshipPermissions',
   'DataMigrations::PopulateApplicationChoiceCurrentRecruitmentCycleYear',
   'DataMigrations::PopulateApplicationChoiceProviderIds',

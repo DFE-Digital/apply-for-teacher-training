@@ -55,6 +55,17 @@ class ApplicationForm < ApplicationRecord
     decide_later: 'decide_later',
   }, _prefix: true
 
+  enum immigration_route: {
+    visa_sponsored_by_provider: 'visa_sponsored_by_provider',
+    other_route: 'other_route',
+  }
+
+  enum immigration_status: {
+    eu_settled: 'eu_settled',
+    eu_pre_settled: 'eu_pre_settled',
+    other: 'other',
+  }
+
   enum address_type: {
     uk: 'uk',
     international: 'international',
@@ -234,6 +245,12 @@ class ApplicationForm < ApplicationRecord
 
   def international_applicant?
     nationalities.present? && !british_or_irish?
+  end
+
+  RESTRUCTURED_IMMIGRATION_STATUS_STARTS = 2022
+  def restructured_immigration_status?
+    recruitment_cycle_year >= RESTRUCTURED_IMMIGRATION_STATUS_STARTS &&
+      FeatureFlag.active?(:restructured_immigration_status)
   end
 
   def build_nationalities_hash

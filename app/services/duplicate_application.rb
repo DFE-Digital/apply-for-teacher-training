@@ -33,6 +33,13 @@ class DuplicateApplication
         work_history_completed: false,
       )
     end
+    if !original_application_form.restructured_immigration_status? &&
+       new_application_form.restructured_immigration_status? &&
+       !new_application_form.british_or_irish?
+      new_application_form.update(
+        personal_details_completed: false,
+      )
+    end
 
     original_application_form.application_volunteering_experiences.each do |w|
       new_application_form.application_volunteering_experiences.create!(

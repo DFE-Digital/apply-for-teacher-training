@@ -3,16 +3,14 @@ require 'rails_helper'
 RSpec.describe 'Entering personal details' do
   include CandidateHelper
 
-  scenario 'The languages page is hidden' do
-    given_the_restructured_immigration_status_feature_flag_is_active
-    and_i_am_signed_in
-    and_my_application_is_in_a_state_where_languages_should_not_be_visible
-    then_i_can_complete_personal_information_without_seeing_the_languages_page
-    and_i_can_mark_the_section_complete
+  around do |example|
+    Timecop.freeze(RecruitmentCycle.current_year, 7, 6, 12) { example.run }
   end
 
-  def given_the_restructured_immigration_status_feature_flag_is_active
-    FeatureFlag.activate(:restructured_immigration_status)
+  scenario 'I can specify that I need to apply for right to work or study in the UK' do
+    and_i_am_signed_in
+    and_i_can_complete_personal_information_with_non_british_or_irish_nationality
+    and_i_can_mark_the_section_complete
   end
 
   def and_i_am_signed_in
@@ -20,16 +18,7 @@ RSpec.describe 'Entering personal details' do
     visit candidate_interface_application_form_path
   end
 
-  def and_my_application_is_in_a_state_where_languages_should_not_be_visible
-    # This is the expected state for Personal Details -> Languages to be
-    # hidden. See LanguagesSectionPolicy and its corresponding spec for more
-    # detail.
-    expect(
-      current_candidate.current_application.english_main_language(fetch_database_value: true),
-    ).to eq nil
-  end
-
-  def then_i_can_complete_personal_information_without_seeing_the_languages_page
+  def and_i_can_complete_personal_information_with_non_british_or_irish_nationality
     click_link t('page_titles.personal_information')
 
     # Basic details
@@ -55,12 +44,8 @@ RSpec.describe 'Entering personal details' do
     click_button t('save_and_continue')
 
     # Right to work or study
-    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
-    choose 'Not yet'
-    click_button t('save_and_continue')
-
-    expect(page).to have_content 'How will you get the right to work or study in the UK?'
-    choose 'A visa sponsored by a course provider'
+    expect(page).to have_content 'Do you already have the right to work or study in the UK?'
+    choose 'Not yet, or not sure'
     click_button t('save_and_continue')
 
     # Review
@@ -68,6 +53,7 @@ RSpec.describe 'Entering personal details' do
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'Pakistani'
+    expect(page).to have_content 'I will need to apply for permission to work or study in the UK'
   end
 
   def and_i_can_mark_the_section_complete
