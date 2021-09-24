@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_141124) do
+ActiveRecord::Schema.define(version: 2021_09_23_154118) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -519,7 +519,6 @@ ActiveRecord::Schema.define(version: 2021_09_22_141124) do
     t.date "date_of_birth"
     t.string "postcode"
     t.boolean "fraudulent?"
-    t.datetime "submitted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
