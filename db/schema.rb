@@ -10,59 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_23_154118) do
+ActiveRecord::Schema.define(version: 2021_09_27_122802) do
 
-  create_sequence "application_choices_id_seq"
-  create_sequence "application_experiences_id_seq"
-  create_sequence "application_feedback_id_seq"
-  create_sequence "application_forms_id_seq"
-  create_sequence "application_qualifications_id_seq"
-  create_sequence "application_work_history_breaks_id_seq"
-  create_sequence "audits_id_seq"
-  create_sequence "authentication_tokens_id_seq"
-  create_sequence "blazer_audits_id_seq"
-  create_sequence "blazer_checks_id_seq"
-  create_sequence "blazer_dashboard_queries_id_seq"
-  create_sequence "blazer_dashboards_id_seq"
-  create_sequence "blazer_queries_id_seq"
-  create_sequence "candidates_id_seq"
-  create_sequence "chasers_sent_id_seq"
-  create_sequence "course_options_id_seq"
-  create_sequence "course_subjects_id_seq"
-  create_sequence "courses_id_seq"
-  create_sequence "data_exports_id_seq"
-  create_sequence "data_migrations_id_seq"
-  create_sequence "emails_id_seq"
-  create_sequence "english_proficiencies_id_seq"
-  create_sequence "feature_metrics_dashboards_id_seq"
-  create_sequence "features_id_seq"
-  create_sequence "find_feedback_id_seq"
-  create_sequence "ielts_qualifications_id_seq"
-  create_sequence "interviews_id_seq"
-  create_sequence "monthly_statistics_reports_id_seq"
-  create_sequence "notes_id_seq"
-  create_sequence "offer_conditions_id_seq"
-  create_sequence "offers_id_seq"
-  create_sequence "other_efl_qualifications_id_seq"
-  create_sequence "provider_agreements_id_seq"
-  create_sequence "provider_relationship_permissions_id_seq"
-  create_sequence "provider_user_notifications_id_seq"
-  create_sequence "provider_users_id_seq"
-  create_sequence "provider_users_providers_id_seq"
-  create_sequence "providers_id_seq"
   create_sequence "qualifications_public_id_seq", start: 120000
-  create_sequence "reference_tokens_id_seq"
-  create_sequence "references_id_seq"
-  create_sequence "site_settings_id_seq"
-  create_sequence "sites_id_seq"
-  create_sequence "subjects_id_seq"
-  create_sequence "support_users_id_seq"
-  create_sequence "toefl_qualifications_id_seq"
-  create_sequence "ucas_matches_id_seq"
-  create_sequence "validation_errors_id_seq"
-  create_sequence "vendor_api_requests_id_seq"
-  create_sequence "vendor_api_tokens_id_seq"
-  create_sequence "vendor_api_users_id_seq"
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -663,7 +613,9 @@ ActiveRecord::Schema.define(version: 2021_09_23_154118) do
     t.float "longitude"
     t.boolean "can_sponsor_skilled_worker_visa"
     t.boolean "can_sponsor_student_visa"
+    t.bigint "vendor_id"
     t.index ["code"], name: "index_providers_on_code", unique: true
+    t.index ["vendor_id"], name: "index_providers_on_vendor_id"
   end
 
   create_table "reference_tokens", force: :cascade do |t|
@@ -816,6 +768,12 @@ ActiveRecord::Schema.define(version: 2021_09_23_154118) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["full_name", "email_address", "vendor_user_id", "vendor_api_token_id"], name: "index_vendor_api_users_on_name_email_userid_token", unique: true
     t.index ["vendor_api_token_id"], name: "index_vendor_api_users_on_vendor_api_token_id"
+  end
+
+  create_table "vendors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "application_choices", "application_forms", on_delete: :cascade
