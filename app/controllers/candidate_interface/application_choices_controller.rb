@@ -2,16 +2,6 @@ module CandidateInterface
   class ApplicationChoicesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
 
-    def index
-      redirect_to candidate_interface_application_form_path and return unless CycleTimetable.can_add_course_choice?(current_application)
-
-      @application_choices = current_candidate.current_application.application_choices
-
-      if @application_choices.any?
-        redirect_to candidate_interface_course_choices_review_path
-      end
-    end
-
     def confirm_destroy
       @course_choice = current_candidate.current_application.application_choices.find(params[:id])
     end
@@ -23,7 +13,11 @@ module CandidateInterface
 
       CandidateInterface::DeleteApplicationChoice.new(application_choice: application_choice).call
 
-      redirect_to candidate_interface_course_choices_index_path
+      if current_application.application_choices.any?
+        redirect_to candidate_interface_course_choices_review_path
+      else
+        redirect_to candidate_interface_course_choices_choose_path
+      end
     end
 
     def review

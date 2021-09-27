@@ -157,7 +157,6 @@ module CandidateHelper
   end
 
   def candidate_fills_in_course_choices
-    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 
@@ -175,7 +174,6 @@ module CandidateHelper
   end
 
   def candidate_fills_in_apply_again_course_choice
-    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 

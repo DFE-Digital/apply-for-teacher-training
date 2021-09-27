@@ -24,7 +24,6 @@ RSpec.feature 'Selecting a full course' do
   def when_i_select_the_full_course
     visit candidate_interface_application_form_path
     click_link 'Choose your courses'
-    click_link t('continue')
 
     choose 'Yes, I know where I want to apply'
     click_button t('continue')

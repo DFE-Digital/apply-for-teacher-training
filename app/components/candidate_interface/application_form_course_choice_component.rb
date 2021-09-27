@@ -1,17 +1,19 @@
 module CandidateInterface
   class ApplicationFormCourseChoiceComponent < ViewComponent::Base
-    def initialize(completed:)
+    def initialize(choices_are_present:, completed:)
+      @choices_are_present = choices_are_present
       @completed = completed
     end
 
-    attr_reader :completed
+    attr_reader :choices_are_present, :completed
     alias completed? completed
+    alias choices_are_present? choices_are_present
 
     def view_courses_path
-      if completed?
+      if completed? || choices_are_present?
         candidate_interface_application_review_path
       else
-        candidate_interface_course_choices_index_path
+        candidate_interface_course_choices_choose_path
       end
     end
   end

@@ -15,7 +15,7 @@ module CandidateInterface
 
       course_selection = CourseSelectionForm.new(course, course_selection_params[:confirm])
       if !course_selection.confirm || current_application.contains_course?(course)
-        redirect_to candidate_interface_course_choices_index_path
+        redirect_to candidate_interface_course_choices_review_path
         return
       end
 
@@ -48,7 +48,11 @@ module CandidateInterface
         flash[:warning] = pick_site.errors.full_messages.first
       end
 
-      redirect_to candidate_interface_course_choices_index_path
+      if current_application.application_choices.any?
+        redirect_to candidate_interface_course_choices_review_path
+      else
+        redirect_to candidate_interface_course_choices_choose_path
+      end
     end
 
     def course_selection_params

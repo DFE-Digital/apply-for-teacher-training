@@ -85,7 +85,6 @@ RSpec.feature 'Candidate is redirected correctly' do
   def when_i_add_a_course_choice
     visit candidate_interface_application_form_path
     click_link 'Choose your courses'
-    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
     select @provider.name_and_code

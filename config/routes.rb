@@ -384,8 +384,6 @@ Rails.application.routes.draw do
       end
 
       scope '/courses' do
-        get '/' => 'application_choices#index', as: :course_choices_index
-
         get '/choose' => 'course_choices/course_decision#ask', as: :course_choices_choose
         post '/choose' => 'course_choices/course_decision#decide'
         get '/find-a-course' => 'course_choices/course_decision#go_to_find', as: :go_to_find

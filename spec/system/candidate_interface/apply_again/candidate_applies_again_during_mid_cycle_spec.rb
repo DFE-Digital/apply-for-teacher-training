@@ -25,10 +25,10 @@ RSpec.feature 'Apply again' do
 
     when_i_click_back
     then_i_see_my_current_application_page
+    and_i_am_informed_i_can_only_select_one_course
 
     when_i_click_through_to_select_a_course
-    then_i_am_informed_i_can_only_select_one_course
-    and_i_can_indeed_only_select_one_course
+    then_i_can_indeed_only_select_one_course
 
     when_i_complete_my_application
     and_i_skip_feedback
@@ -90,18 +90,17 @@ RSpec.feature 'Apply again' do
     expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 
+  def and_i_am_informed_i_can_only_select_one_course
+    expect(page).to have_content('You can only apply to 1 course at a time at this stage of your application')
+  end
+
   def when_i_click_through_to_select_a_course
     click_link 'Choose your course', exact: true
   end
 
-  def then_i_am_informed_i_can_only_select_one_course
-    expect(page).to have_content('You can only apply to 1 course at a time at this stage of your application')
-  end
-
-  def and_i_can_indeed_only_select_one_course
+  def then_i_can_indeed_only_select_one_course
     given_courses_exist
 
-    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 

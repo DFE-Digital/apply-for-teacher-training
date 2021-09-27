@@ -10,10 +10,10 @@ module CandidateInterface
     alias choices_are_present? choices_are_present
 
     def view_courses_path
-      if completed?
+      if completed? || choices_are_present?
         candidate_interface_course_choices_review_path
       else
-        candidate_interface_course_choices_index_path
+        candidate_interface_course_choices_choose_path
       end
     end
   end

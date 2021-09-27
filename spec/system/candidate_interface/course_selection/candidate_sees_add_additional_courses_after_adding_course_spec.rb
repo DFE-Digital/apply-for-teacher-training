@@ -10,7 +10,6 @@ RSpec.feature 'Add additional courses flow' do
 
     when_i_visit_my_application_page
     and_i_click_on_course_choices
-    and_i_click_on_add_course
 
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
@@ -65,10 +64,6 @@ RSpec.feature 'Add additional courses flow' do
     click_link 'Choose your courses'
   end
 
-  def and_i_click_on_add_course
-    click_link t('continue')
-  end
-
   def when_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
@@ -105,6 +100,10 @@ RSpec.feature 'Add additional courses flow' do
     click_on t('continue')
   end
 
+  def then_i_should_see_the_have_you_chosen_a_course_page
+    expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
+  end
+
   def given_i_am_on_the_additional_courses_page
     visit candidate_interface_course_choices_add_another_course_path
   end
@@ -114,7 +113,7 @@ RSpec.feature 'Add additional courses flow' do
     click_on t('continue')
   end
 
-  def then_i_should_see_the_have_you_chosen_a_course_page
+  def then_i_should_see_the_add_another_course_page
     expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
   end
 

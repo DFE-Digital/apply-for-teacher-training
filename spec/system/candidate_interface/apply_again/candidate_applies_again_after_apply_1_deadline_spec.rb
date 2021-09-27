@@ -71,7 +71,6 @@ RSpec.describe 'Apply again' do
 
   def and_i_can_add_course_choices
     expect(page).to have_content('Choose your course Incomplete')
-    click_link 'Choose your course'
     expect(page).to have_content 'You can only apply to 1 course at a time at this stage of your application.'
   end
 end
