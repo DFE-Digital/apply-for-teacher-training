@@ -221,6 +221,11 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::SUCCESSFUL_STATES.include?(status) }
   end
 
+  def any_offer_accepted?
+    application_choices.present? &&
+      application_choices.map(&:status).map(&:to_sym).any? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status) }
+  end
+
   def ended_without_success?
     application_choices.present? &&
       application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
