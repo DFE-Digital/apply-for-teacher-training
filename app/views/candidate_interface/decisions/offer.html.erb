@@ -7,8 +7,6 @@
       model: @respond_to_offer,
       url: candidate_interface_respond_to_offer_path(@application_choice),
     ) do |f| %>
-      <%= render CandidateInterface::UCASDowntimeComponent.new %>
-
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
