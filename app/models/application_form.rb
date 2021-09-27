@@ -302,6 +302,10 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def editable?
+    subsequent_application_form.blank?
+  end
+
   def contains_course?(course)
     potential_course_option_ids = CourseOption.where(course_id: course.id).map(&:id)
     current_course_option_ids = application_choices.map(&:course_option_id)
