@@ -1,5 +1,5 @@
 module SupportInterface
-  class MinisterialReportExport
+  class MinisterialReportApplicationsExport
     SUBJECT_CODE_MAPPINGS = {
       '00' => :primary,
       '01' => :primary,

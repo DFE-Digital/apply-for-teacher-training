@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::MinisterialReportExport do
+RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
   describe '#call' do
     it 'generates the full report with the correct totals' do
       test_subject = described_class.new

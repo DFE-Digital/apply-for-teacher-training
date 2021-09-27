@@ -1,0 +1,29 @@
+custom_columns:
+  subject:
+    type: string
+    description: The course subject
+    example: Criminology
+
+  candidates:
+    type: integer
+    description: The number of applicants for this subject
+
+  candidates_holding_offers:
+    type: integer
+    description: The number of candidates that have received offers for this subject
+
+  candidates_that_have_accepted_offers:
+    type: integer
+    description: The number of candidates that have accepted offers for this subject
+
+  declined_candidates:
+    type: integer
+    description: The number of candidates that have declined offers for this subject
+
+  rejected_candidates:
+    type: integer
+    description: The number of candidates that have been rejected for this subject
+
+  candidates_that_have_withdrawn_offers:
+    type: integer
+    description: The number of candidates that have been withdrawn for this subject
