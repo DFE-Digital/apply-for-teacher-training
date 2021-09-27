@@ -1,24 +1,30 @@
 class StartOfCycleNotificationWorker
   include Sidekiq::Worker
 
-  def perform(service, batch_size = 100)
+  def perform(service, hours_remaining = 1)
     @service = service
+    @hours_remaining = hours_remaining
 
-    providers_scope.find_each(batch_size: batch_size) do |provider|
-      provider.provider_users.where.not(Arel.sql(chaser_sent_sql)).each do |provider_user|
-        ProviderMailer.send(mailer_method, provider_user)
-        ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
+    providers_scope.limit(fetch_limit).each do |provider|
+      provider.provider_users.each do |provider_user|
+        unless ChaserSent.exists?(chased: provider_user, chaser_type: mailer_method)
+          ProviderMailer.send(mailer_method, provider_user)
+          ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
+        end
 
         next if service == :apply
-        next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
 
-        relationships_pending = ProviderSetup.new(provider_user: provider_user).relationships_pending
+        relationships_pending = relationships_user_can_setup(provider_user, provider)
+
         next if relationships_pending.blank?
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
 
-        partner_organisations = relationships_pending.map { |relationship| relationship.partner_organisation(provider) }
-        ProviderMailer.send(setup_mailer_method, provider_user, partner_organisations)
-        ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
+        partner_organisations = relationships_pending.map { |relationship| relationship.partner_organisation(provider) }.compact
+
+        if partner_organisations.any?
+          ProviderMailer.send(setup_mailer_method, provider_user, partner_organisations)
+          ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
+        end
       end
 
       ChaserSent.create!(chased: provider, chaser_type: provider_chaser_type)
@@ -27,7 +33,21 @@ class StartOfCycleNotificationWorker
 
 private
 
-  attr_reader :service
+  attr_reader :service, :hours_remaining
+
+  def fetch_limit
+    (provider_count / hours_remaining).ceil
+  end
+
+  def provider_count
+    providers_scope.count
+  end
+
+  def relationships_user_can_setup(provider_user, provider)
+    return [] unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
+
+    ProviderSetup.new(provider_user: provider_user).relationships_pending
+  end
 
   def providers_scope
     Provider
@@ -46,18 +66,6 @@ private
         WHERE chased_type = 'Provider'
         AND chased_id = providers.id
         AND chaser_type = '#{provider_chaser_type}'
-      )
-    SQL
-  end
-
-  def chaser_sent_sql
-    <<-SQL
-      EXISTS(
-        SELECT 1
-        FROM chasers_sent
-        WHERE chased_id = provider_users.id
-        AND chased_type = 'ProviderUser'
-        AND chaser_type = '#{mailer_method}'
       )
     SQL
   end
