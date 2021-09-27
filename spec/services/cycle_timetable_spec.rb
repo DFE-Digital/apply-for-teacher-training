@@ -382,6 +382,24 @@ RSpec.describe CycleTimetable do
     end
   end
 
+  describe '.send_find_has_opened_email?' do
+    context 'it is before find reopens' do
+      it 'returns false' do
+        Timecop.travel(described_class.find_opens - 1.hour) do
+          expect(described_class.send_find_has_opened_email?).to be(false)
+        end
+      end
+    end
+
+    context 'it is after find reopens' do
+      it 'returns true' do
+        Timecop.travel(described_class.find_opens + 1.hour) do
+          expect(described_class.send_find_has_opened_email?).to be(true)
+        end
+      end
+    end
+  end
+
   describe '.send_new_cycle_has_started_email?' do
     context 'it is before apply reopens' do
       it 'returns false' do

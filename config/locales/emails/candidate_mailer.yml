@@ -121,3 +121,5 @@ en:
       subject: Submit your application before courses fill up
     new_cycle_has_started:
       subject: Teacher training applications are open - apply for the %{academic_year} academic year
+    find_has_opened:
+      subject: Find your teacher training course now

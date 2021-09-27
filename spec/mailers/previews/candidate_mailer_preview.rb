@@ -747,6 +747,18 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.new_cycle_has_started(application_form)
   end
 
+  def find_has_opened
+    application_form = FactoryBot.build(:application_form, first_name: 'Tester', submitted_at: nil)
+
+    CandidateMailer.find_has_opened(application_form)
+  end
+
+  def find_has_opened_no_name
+    application_form = FactoryBot.build(:application_form, first_name: nil, submitted_at: nil)
+
+    CandidateMailer.find_has_opened(application_form)
+  end
+
   def reinstated_offer_with_conditions
     application_choice = FactoryBot.build(
       :application_choice,

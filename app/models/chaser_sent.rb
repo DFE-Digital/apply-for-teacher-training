@@ -10,6 +10,7 @@ class ChaserSent < ApplicationRecord
     course_unavailable_notification: 'course_unavailable_notification',
     course_unavailable_slack_notification: 'course_unavailable_slack_notification',
     eoc_deadline_reminder: 'eoc_deadline_reminder',
+    find_has_opened: 'find_has_opened',
     new_cycle_has_started: 'new_cycle_has_started',
   }
 end

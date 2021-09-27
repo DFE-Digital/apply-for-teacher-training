@@ -424,6 +424,11 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_cycle_has_started' do
+    before do
+      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 13))
+      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
+    end
+
     context "when the candidate's application was unsubmitted" do
       let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
       let(:email) { mailer.new_cycle_has_started(application_form) }
@@ -453,6 +458,35 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     context 'when a candidate has not provided a first name' do
       let(:email) { mailer.new_cycle_has_started(application_form) }
+      let(:application_form) { build_stubbed(:application_form, first_name: nil) }
+
+      it 'does not include a `Dear` heading' do
+        expect(email.body).not_to include('Dear')
+      end
+    end
+  end
+
+  describe '.find_has_opened' do
+    before do
+      allow(CycleTimetable).to receive(:apply_opens).and_return(Date.new(2021, 10, 13))
+      allow(CycleTimetable).to receive(:cycle_year_range).and_return('2022 to 2023')
+    end
+
+    context "when the candidate's application was unsubmitted" do
+      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred', submitted_at: nil) }
+      let(:email) { mailer.find_has_opened(application_form) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Find your teacher training course now',
+        'greeting' => 'Dear Fred,',
+        'academic_year' => '2022 to 2023',
+        'details' => 'Find your course and get your application ready:',
+      )
+    end
+
+    context 'when a candidate has not provided a first name' do
+      let(:email) { mailer.find_has_opened(application_form) }
       let(:application_form) { build_stubbed(:application_form, first_name: nil) }
 
       it 'does not include a `Dear` heading' do

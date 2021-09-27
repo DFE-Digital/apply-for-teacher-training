@@ -48,6 +48,7 @@ RSpec.feature 'Docs' do
       candidate_mailer-ucas_match_reminder_email_multiple_acceptances
       candidate_mailer-ucas_match_resolved_on_ucas_email
       candidate_mailer-ucas_match_resolved_on_ucas_at_our_request_email
+      candidate_mailer-find_has_opened
       provider_mailer-ucas_match_resolved_on_ucas_email
       candidate_mailer-ucas_match_resolved_on_apply_email
       provider_mailer-ucas_match_resolved_on_apply_email
