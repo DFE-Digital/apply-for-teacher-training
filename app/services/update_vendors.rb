@@ -1,13 +1,13 @@
 class UpdateVendors
   def self.call
     vendors = YAML.load_file('config/vendors.yml')
-    binding.pry
-    vendors.each do |vendor_name, data|
-      vendor = Vendor.find_or_create_by(name: vendor_name)
-      data.each do |provider_code, product_name|
-        provider = Provider.find_by(code: provider_code)
+    ActiveRecord::Base.transaction do
+      Provider.where.not(vendor_id: nil).update_all(vendor_id: nil)
 
-        unless provider&.vendor && provider.vendor.name == vendor_name
+      vendors.each do |vendor_name, data|
+        vendor = Vendor.find_or_create_by(name: vendor_name)
+        data.each do |provider_code|
+          provider = Provider.find_by(code: provider_code)
           provider&.update_column(:vendor_id, vendor.id)
         end
       end

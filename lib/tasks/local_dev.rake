@@ -1,5 +1,5 @@
 desc 'Set up your local development environment with data from the Teacher training public API'
-task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses update_vendors] do
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
   SupportUser.create!(
     dfe_sign_in_uid: 'dev-support',

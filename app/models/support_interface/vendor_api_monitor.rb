@@ -1,6 +1,5 @@
 module SupportInterface
   class VendorAPIMonitor
-
     def initialize(vendor: nil)
       @vendor = vendor
     end
@@ -10,7 +9,7 @@ module SupportInterface
     end
 
     def target_providers
-      if @vendor.present? then all_providers.where(vendor: @vendor) else all_providers end
+      @vendor.present? ? all_providers.where(vendor: @vendor) : all_providers
     end
 
     def connected

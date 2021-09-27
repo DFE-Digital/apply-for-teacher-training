@@ -20,8 +20,8 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
     it 'returns only providers with no API request logs ever for a specific vendor when the vendor is provided' do
       provider_who_hasnt_connected_from_correct_vendor = create(:provider, provider_type: 'university', vendor: vendor)
       provider_who_has_connected_from_correct_vendor = create(:provider, provider_type: 'university', vendor: vendor)
-      provider_who_hasnt_connected_from_other_vendor = create(:provider,:with_vendor, provider_type: 'university')
-      provider_who_hasnt_connected_with_no_vendor = create(:provider, provider_type: 'university')
+      _provider_who_hasnt_connected_from_other_vendor = create(:provider, :with_vendor, provider_type: 'university')
+      _provider_who_hasnt_connected_with_no_vendor = create(:provider, provider_type: 'university')
 
       create(:vendor_api_request, provider: provider_who_has_connected_from_correct_vendor)
       expect(monitor(vendor: vendor).never_connected).to match_array [provider_who_hasnt_connected_from_correct_vendor]
@@ -49,8 +49,7 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
       failed_recently = create(:provider, name: 'failed', provider_type: 'university', vendor: vendor)
       synced_1w_ago = create(:provider, name: '1 week ago', provider_type: 'university', vendor: vendor)
       synced_2d_ago = create(:provider, name: '3 hours', provider_type: 'university', vendor: vendor)
-      failed_recently_with_other_vendor = create(:provider,:with_vendor, name: 'failed', provider_type: 'university')
-
+      failed_recently_with_other_vendor = create(:provider, :with_vendor, name: 'failed', provider_type: 'university')
 
       create(:vendor_api_request, provider: synced_recently)
       create(:vendor_api_request, provider: failed_recently, status_code: 422)
@@ -83,8 +82,8 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
       failed_recently = create(:provider, name: 'failed', provider_type: 'university', vendor: vendor)
       decided_over_2w_ago = create(:provider, name: '2 weeks', provider_type: 'university', vendor: vendor)
       decided_over_7d_ago = create(:provider, name: '7 days', provider_type: 'university', vendor: vendor)
-      decided_over_2w_ago_with_other_provider = create(:provider, :with_vendor, name: '2 weeks', provider_type: 'university')
-      decided_over_7d_ago_with_other_provider = create(:provider, :with_vendor, name: '7 days', provider_type: 'university')
+      _decided_over_2w_ago_with_other_provider = create(:provider, :with_vendor, name: '2 weeks', provider_type: 'university')
+      _decided_over_7d_ago_with_other_provider = create(:provider, :with_vendor, name: '7 days', provider_type: 'university')
 
       create(:vendor_api_request, request_method: 'POST', provider: decided_recently)
       create(:vendor_api_request, request_method: 'POST', provider: failed_recently, status_code: 422)
@@ -118,7 +117,7 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
     it 'returns structs with providers who have connected and who have caused errors in the last 7 days for a given vendor' do
       _never_connected = create(:provider, name: 'never', provider_type: 'university')
       errored_recently = create(:provider, name: 'recently', provider_type: 'university', vendor: vendor)
-      errored_recently_with_different_provider = create(:provider, :with_vendor,  name: 'recently', provider_type: 'university')
+      errored_recently_with_different_provider = create(:provider, :with_vendor, name: 'recently', provider_type: 'university')
       errored_over_7d_ago = create(:provider, name: 'stale', provider_type: 'university')
       no_errors = create(:provider, name: 'no-errors', provider_type: 'university')
 
