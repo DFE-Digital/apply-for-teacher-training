@@ -20,54 +20,54 @@ test do
   random_timer 1000, 2000 * WAIT_FACTOR
 
   threads count: thread_count, rampup: RAMPUP, continue_forever: true, duration: 3600 do
-    # visit name: 'Start page', url: url('/') do
-    #   extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
-    # end
+    visit name: 'Start page', url: url('/') do
+      extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+    end
 
-    # submit!(
-    #   'Start page - search by postcode',
-    #   '/results/filter/location',
-    #   {
-    #     'utf8': '✓',
-    #     'authenticity_token' => '${authenticity_token}',
-    #     'prev_l': 'none',
-    #     'prev_loc': 'none',
-    #     'prev_lng': 'none',
-    #     'prev_lat': 'none',
-    #     'prev_rad': 'none',
-    #     'prev_query': 'none',
-    #     'prev_lq': 'none',
-    #     'l': '1',
-    #     'lq': 'M1+2WD',
-    #     'query': ''
-    #   }
-    # ) do
-    #   extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
-    # end
+    submit!(
+      'Start page - search by postcode',
+      '/results/filter/location',
+      {
+        'utf8': '✓',
+        'authenticity_token' => '${authenticity_token}',
+        'prev_l': 'none',
+        'prev_loc': 'none',
+        'prev_lng': 'none',
+        'prev_lat': 'none',
+        'prev_rad': 'none',
+        'prev_query': 'none',
+        'prev_lq': 'none',
+        'l': '1',
+        'lq': 'M1+2WD',
+        'query': ''
+      }
+    ) do
+      extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+    end
 
-    # submit!(
-    #   'Subject page - select Primary',
-    #   '/results/filter/subject',
-    #   {
-    #     'utf8': '✓',
-    #     'authenticity_token' => '${authenticity_token}',
-    #     'c': 'England',
-    #     'l': '1',
-    #     'lat': '53.4787275',
-    #     'lng': '-2.2290767',
-    #     'loc': 'Store+St,+Manchester+M1+2WD,+UK',
-    #     'lq': 'M1+2WD',
-    #     'rad': '50',
-    #     'sortby': '2',
-    #     'subject_codes[]': '00'
+    submit!(
+      'Subject page - select Primary',
+      '/results/filter/subject',
+      {
+        'utf8': '✓',
+        'authenticity_token' => '${authenticity_token}',
+        'c': 'England',
+        'l': '1',
+        'lat': '53.4787275',
+        'lng': '-2.2290767',
+        'loc': 'Store+St,+Manchester+M1+2WD,+UK',
+        'lq': 'M1+2WD',
+        'rad': '50',
+        'sortby': '2',
+        'subject_codes[]': '00'
 
-    #   },
-    # ) do
-    #   extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
-    #   extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
-    # end
+      },
+    ) do
+      extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
+      extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
+    end
 
-    # visit name: 'Course page, via postcode search', url: url('/${course_page}')
+    visit name: 'Course page, via postcode search', url: url('/${course_page}')
 
     visit name: 'Start page', url: url('/') do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
