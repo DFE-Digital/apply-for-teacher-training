@@ -10,9 +10,10 @@ module SupportInterface
              :consent_to_be_contacted,
              to: :reference
 
-    def initialize(reference:, reference_number:)
+    def initialize(reference:, reference_number:, editable:)
       @reference = reference
       @reference_number = reference_number
+      @editable = editable
     end
 
     def rows
@@ -112,44 +113,60 @@ module SupportInterface
     end
 
     def name_row
-      {
+      row = {
         key: 'Name',
         value: name,
+      }
+      return row unless @editable
+
+      row.merge(
         action: {
           href: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
         },
-      }
+      )
     end
 
     def email_address_row
-      {
+      row = {
         key: 'Email address',
         value: email_address,
+      }
+      return row unless @editable
+
+      row.merge(
         action: {
           href: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
         },
-      }
+      )
     end
 
     def relationship_row
-      {
+      row = {
         key: 'Relationship to candidate',
         value: relationship,
+      }
+      return row unless @editable
+
+      row.merge(
         action: {
           href: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
         },
-      }
+      )
     end
 
     def feedback_row
-      {
+      row = {
         key: 'Reference',
         value: feedback,
+      }
+      return row unless @editable
+
+      row.merge(
         action: {
           href: support_interface_application_form_edit_reference_feedback_path(reference.application_form, reference),
           visually_hidden_text: 'feedback',
         },
-      }
+      )
     end
 
     def consent_row
