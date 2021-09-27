@@ -27,14 +27,14 @@ private
   def load_applications_by_status
     write_statistic(
       :applications_by_status,
-      MonthlyStatistics::ApplicationsByStatus.new.table_data,
+      MonthlyStatistics::ByStatus.new.table_data,
     )
   end
 
   def load_candidates_by_status
     write_statistic(
       :candidates_by_status,
-      MonthlyStatistics::CandidatesByStatus.new.table_data,
+      MonthlyStatistics::ByStatus.new(by_candidate: true).table_data,
     )
   end
 end

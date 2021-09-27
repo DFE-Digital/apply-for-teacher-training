@@ -1,5 +1,9 @@
 module MonthlyStatistics
-  class CandidatesByStatus
+  class ByStatus
+    def initialize(by_candidate: false)
+      @by_candidate = by_candidate
+    end
+
     def table_data
       {
         rows: rows,
@@ -30,11 +34,6 @@ module MonthlyStatistics
     end
 
     def formatted_counts
-      raw_tally = {
-        'apply_1' => group_query('apply_1'),
-        'apply_2' => group_query('apply_2'),
-      }
-
       counts = {
         'Recruited' => { 'apply_1' => 0, 'apply_2' => 0 },
         'Conditions pending' => { 'apply_1' => 0, 'apply_2' => 0 },
@@ -45,7 +44,12 @@ module MonthlyStatistics
         'Application rejected' => { 'apply_1' => 0, 'apply_2' => 0 },
       }
 
-      raw_tally.map do |phase, tally|
+      combined_application_choice_states_tally = {
+        'apply_1' => combined_application_choice_states_tally('apply_1'),
+        'apply_2' => combined_application_choice_states_tally('apply_2'),
+      }
+
+      combined_application_choice_states_tally.map do |phase, tally|
         tally.map do |status, count|
           case status
           when 'awaiting_provider_decision', 'interviewing'
@@ -69,13 +73,33 @@ module MonthlyStatistics
       counts
     end
 
-    def group_query(phase)
-      ApplicationForm
+    def combined_application_choice_states_tally(phase)
+      tally_application_choices(phase).merge!(tally_deferred_application_choices(phase)) do |_key, count, deferred_count|
+        [count, deferred_count].inject(:+)
+      end
+    end
+
+    def tally_application_choices(phase)
+      scope = ApplicationForm
         .includes(:application_choices)
         .current_cycle
         .where(phase: phase)
-        .without_subsequent_applications
-        .map(&:top_ranked_application_choice_status)
+
+      scope = scope.without_subsequent_applications if @by_candidate
+
+      scope.map { |application_form| application_form.top_ranked_application_choice_status(:status) }
+        .tally
+    end
+
+    def tally_deferred_application_choices(phase)
+      scope = ApplicationForm
+        .includes(:application_choices)
+        .where(recruitment_cycle_year: RecruitmentCycle.previous_year)
+        .where(phase: phase)
+
+      scope = scope.without_subsequent_applications if @by_candidate
+
+      scope.map { |application_form| application_form.top_ranked_application_choice_status(:status_before_deferral) }
         .tally
     end
 

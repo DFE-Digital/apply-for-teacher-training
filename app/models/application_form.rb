@@ -113,9 +113,9 @@ class ApplicationForm < ApplicationRecord
 
   after_commit :geocode_address_if_required
 
-  def top_ranked_application_choice_status
+  def top_ranked_application_choice_status(field)
     order_sql = Arel.sql("
-        case status
+        case #{field}
         when 'recruited' then 1
         when 'pending_conditions' then 2
         when 'conditions_not_met' then 2
@@ -135,7 +135,7 @@ class ApplicationForm < ApplicationRecord
     application_choices
       .order(order_sql)
       .limit(1)
-      .pick(:status)
+      .pick(field)
   end
 
   def touch_choices
