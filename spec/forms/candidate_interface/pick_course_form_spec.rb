@@ -30,18 +30,6 @@ RSpec.describe CandidateInterface::PickCourseForm do
       expect(form.dropdown_available_courses.map(&:name)).to eql(['English (456) – PGCE with QTS full time – No vacancies', 'English (789) – PGCE full time – No vacancies', 'Maths (123)'])
     end
 
-    it 'displays the ucas status' do
-      provider = create(:provider)
-      maths = create(:course, exposed_in_find: true, open_on_apply: false, name: 'Maths', code: '123', provider: provider)
-      english = create(:course, exposed_in_find: true, open_on_apply: true, name: 'English', code: '456', provider: provider)
-      create(:course_option, course: maths)
-      create(:course_option, course: english)
-
-      form = described_class.new(provider_id: provider.id)
-
-      expect(form.dropdown_available_courses.map(&:name)).to eql(['English (456)', 'Maths (123) – Only on UCAS'])
-    end
-
     it 'respects the current recruitment cycle' do
       provider = create(:provider)
       course = create(:course, :open_on_apply, name: 'This cycle', code: 'A', provider: provider)

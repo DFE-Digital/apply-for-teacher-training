@@ -17,7 +17,6 @@ module CandidateInterface
 
         courses_with_unambiguous_names = courses.map do |course|
           name = unique_name_for(course) || course.name_and_code
-          name += ' – Only on UCAS' if !course.open_on_apply?
           name += ' – No vacancies' if course.course_options.available.blank?
 
           DropdownOption.new(course.id, name)
