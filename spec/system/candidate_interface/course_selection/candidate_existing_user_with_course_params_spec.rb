@@ -85,9 +85,6 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   end
 
   def and_i_go_to_sign_in
-    choose 'Yes, I want to apply using the new service'
-    click_button t('continue')
-
     choose 'Yes, sign in'
     fill_in 'Email', with: @email
     click_button t('continue')

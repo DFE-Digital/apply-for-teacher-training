@@ -7,9 +7,8 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
     given_the_pilot_is_open
     and_i_do_not_have_an_account
     and_a_course_and_course_option_exists
-    and_i_am_on_the_apply_from_find_page_with_a_course_and_provider_code
 
-    when_i_choose_to_apply_through_apply
+    when_i_arrive_on_the_apply_from_find_page_with_a_course_and_provider_code
     and_i_confirm_i_am_not_already_signed_up
     then_i_see_the_sign_up_page
 
@@ -35,14 +34,8 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
     @course_options_on_apply = create_list(:course_option, 3, course: @course_on_apply)
   end
 
-  def and_i_am_on_the_apply_from_find_page_with_a_course_and_provider_code
+  def when_i_arrive_on_the_apply_from_find_page_with_a_course_and_provider_code
     visit candidate_interface_apply_from_find_path providerCode: @course_on_apply.provider.code, courseCode: @course_on_apply.code
-  end
-
-  def when_i_choose_to_apply_through_apply
-    choose 'Yes, I want to apply using the new service'
-
-    click_button t('continue')
   end
 
   def and_i_confirm_i_am_not_already_signed_up

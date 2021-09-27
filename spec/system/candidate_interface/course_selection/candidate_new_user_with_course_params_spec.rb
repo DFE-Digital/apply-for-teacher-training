@@ -8,7 +8,6 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
     and_the_course_i_selected_only_has_one_site
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
-    and_i_choose_to_apply_on_apply
     and_i_choose_i_need_an_account
     when_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -58,11 +57,6 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
       providerCode: @course.provider.code,
       courseCode: @course.code,
     )
-  end
-
-  def and_i_choose_to_apply_on_apply
-    choose 'Yes, I want to apply using the new service'
-    click_on t('continue')
   end
 
   def and_i_choose_i_need_an_account
