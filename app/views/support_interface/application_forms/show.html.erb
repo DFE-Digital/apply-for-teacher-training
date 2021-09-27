@@ -45,7 +45,7 @@
 
 <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
-<%= render PersonalStatementComponent.new(application_form: @application_form, editable: true) %>
+<%= render PersonalStatementComponent.new(application_form: @application_form, editable: @application_form.editable?) %>
 
 <%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
 
