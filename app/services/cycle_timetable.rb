@@ -26,7 +26,7 @@ class CycleTimetable
       apply_1_deadline: Time.zone.local(2021, 8, 7, 18),
       apply_2_deadline: Time.zone.local(2021, 8, 21, 18),
       reject_by_default: Time.zone.local(2021, 8, 29, 23, 59, 59),
-      find_closes: Time.zone.local(2021, 8, 4, 23, 59, 59),
+      find_closes: Time.zone.local(2021, 9, 4, 23, 59, 59),
     },
     2022 => {
       find_opens: Time.zone.local(2021, 9, 28, 11, 40),
