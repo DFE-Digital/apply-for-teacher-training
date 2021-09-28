@@ -1,9 +1,10 @@
 module ProviderInterface
   class SendOrganisationPermissionsEmails
-    def initialize(provider_user:, permissions:, provider: nil)
+    def initialize(provider_user:, permissions:, provider: nil, email_to_send: :updated)
       @provider_user = provider_user
       @permissions = permissions
       @provider = provider
+      @email_to_send = email_to_send
     end
 
     def call
@@ -14,15 +15,11 @@ module ProviderInterface
 
   private
 
-    attr_reader :permissions, :provider, :provider_user
+    attr_reader :permissions, :provider, :provider_user, :email_to_send
 
     def managing_users
       ProviderUser.joins(:provider_permissions)
         .where(ProviderPermissions.table_name => { provider: partner_organisation, manage_organisations: true })
-    end
-
-    def email_to_send
-      provider.nil? ? 'set_up' : 'updated'
     end
 
     def partner_organisation

@@ -1,10 +1,12 @@
 module ProviderInterface
   class OrganisationPermissionsSetupController < ProviderInterfaceController
     before_action :require_manage_organisations_permission!
-    before_action :redirect_unless_permissions_to_setup, except: :success
+    before_action :redirect_unless_permissions_to_setup, only: :index
     before_action :restart_if_wizard_store_empty, only: %i[edit update check commit]
 
     def index
+      OrganisationPermissionsSetupWizard.new(organisation_permissions_wizard_store, {}).clear_state!
+
       permission_setup_presenter = ProviderRelationshipPermissionSetupPresenter.new(
         provider_relationship_permissions_needing_setup,
         current_provider_user,
@@ -61,8 +63,11 @@ module ProviderInterface
 
     def commit
       wizard = OrganisationPermissionsSetupWizard.new(organisation_permissions_wizard_store)
+      already_set_up_relationships, new_relationships = wizard.relationships.partition(&:setup_at)
+
       if SetupProviderRelationshipPermissions.call(wizard.relationships)
-        send_organisation_permissions_emails(wizard.relationships)
+        send_organisation_permissions_emails(relationships: new_relationships, email_to_send: :set_up)
+        send_organisation_permissions_emails(relationships: already_set_up_relationships, email_to_send: :updated)
         wizard.clear_state!
         redirect_to success_provider_interface_organisation_permissions_setup_index_path
       else
@@ -79,7 +84,10 @@ module ProviderInterface
   private
 
     def redirect_unless_permissions_to_setup
-      redirect_to provider_interface_applications_path if provider_relationship_permissions_needing_setup.blank?
+      if provider_relationship_permissions_needing_setup.blank?
+        Sentry.capture_exception(NoPermissionsToSetUp.new)
+        redirect_to provider_interface_applications_path
+      end
     end
 
     def restart_if_wizard_store_empty
@@ -120,9 +128,9 @@ module ProviderInterface
       end
     end
 
-    def send_organisation_permissions_emails(relationships)
-      relationships.each do |permissions|
-        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: permissions).call
+    def send_organisation_permissions_emails(relationships:, email_to_send:)
+      relationships.each do |relationship|
+        SendOrganisationPermissionsEmails.new(provider_user: current_provider_user, permissions: relationship, email_to_send: email_to_send).call
       end
     end
 
@@ -138,5 +146,7 @@ module ProviderInterface
                     view_safeguarding_information: [],
                     view_diversity_information: []).to_h
     end
+
+    class NoPermissionsToSetUp < StandardError; end
   end
 end

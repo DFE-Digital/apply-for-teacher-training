@@ -33,12 +33,14 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
     before do
       allow(store).to receive(:read).and_return(wizard_store_value)
       allow(store).to receive(:write)
+      allow(store).to receive(:delete)
       allow(WizardStateStores::RedisStore).to receive(:new).and_return(store)
     end
 
     it 'returns a 200 on the setup index page' do
       get provider_interface_organisation_permissions_setup_index_path
 
+      expect(store).to have_received(:delete)
       expect(response.status).to eq(200)
     end
 
@@ -84,6 +86,30 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupController do
         expect(response.status).to eq(302)
         expect(response.redirect_url).to eq(provider_interface_organisation_permissions_setup_index_url)
       end
+    end
+  end
+
+  context 'when there are no permissions requiring setup' do
+    let(:ratifying_provider) { create(:provider) }
+    let!(:course) { create(:course, :open_on_apply, accredited_provider: ratifying_provider, provider: provider) }
+    let!(:permissions) do
+      create(
+        :provider_relationship_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: provider,
+      )
+    end
+
+    before do
+      allow(Sentry).to receive(:capture_exception)
+    end
+
+    it 'redirects edit to the applications page' do
+      get provider_interface_organisation_permissions_setup_index_path
+
+      expect(Sentry).to have_received(:capture_exception)
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to eq(provider_interface_applications_url)
     end
   end
 end

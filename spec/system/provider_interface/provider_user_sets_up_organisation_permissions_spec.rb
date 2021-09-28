@@ -31,7 +31,8 @@ RSpec.feature 'Setting up organisation permissions' do
     and_i_click_on_continue
     then_i_see_the_check_relationship_permissions_page
 
-    when_i_click_on_save_organisation_permissions
+    when_a_permission_is_set_up_before_i_save
+    and_i_click_on_save_organisation_permissions
     then_i_see_the_success_page
     and_an_email_is_sent_to_managing_users_in_the_partner_organisations
     and_the_permissions_have_been_set_up_correctly
@@ -137,7 +138,16 @@ RSpec.feature 'Setting up organisation permissions' do
     within('[data-qa="view-diversity-information"]') { check @another_training_provider.name }
   end
 
-  def when_i_click_on_save_organisation_permissions
+  def when_a_permission_is_set_up_before_i_save
+    @training_provider_relationship.update(
+      training_provider_can_make_decisions: true,
+      training_provider_can_view_safeguarding_information: true,
+      training_provider_can_view_diversity_information: true,
+      setup_at: Time.zone.now,
+    )
+  end
+
+  def and_i_click_on_save_organisation_permissions
     click_on 'Save organisation permissions'
   end
 
@@ -153,7 +163,7 @@ RSpec.feature 'Setting up organisation permissions' do
 
     @another_ratifying_provider_users.each do |user|
       open_email(user.email_address)
-      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_set_up.subject', provider: @training_provider.name)
+      expect(current_email.subject).to have_content t('provider_mailer.organisation_permissions_updated.subject', provider: @training_provider.name)
     end
   end
 
