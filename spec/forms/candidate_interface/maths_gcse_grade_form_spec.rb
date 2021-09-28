@@ -55,25 +55,14 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
     context 'when qualification type is GCE O LEVEL' do
       let(:form) { described_class.new(qualification_type: 'gce_o_level') }
 
-      it 'returns no errors if grade is valid' do
-        valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C']
+      it 'allows any value for the grade' do
+        valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C', '6', 'O']
 
         valid_grades.each do |grade|
           form.grade = grade
           form.validate
 
           expect(form.errors[:grade]).to be_empty
-        end
-      end
-
-      it 'return validation error if grade is invalid' do
-        invalid_grades = %w[123 A* XYZ]
-
-        invalid_grades.each do |grade|
-          form.grade = grade
-          form.validate(:grade)
-
-          expect(form.errors[:grade]).to include('Enter a real grade')
         end
       end
     end
