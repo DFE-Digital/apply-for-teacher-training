@@ -8,7 +8,7 @@ class StartOfCycleNotificationWorker
     providers_scope.limit(fetch_limit).each do |provider|
       provider.provider_users.each do |provider_user|
         unless ChaserSent.exists?(chased: provider_user, chaser_type: mailer_method)
-          ProviderMailer.send(mailer_method, provider_user)
+          ProviderMailer.send(mailer_method, provider_user).deliver_later
           ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
         end
 
@@ -22,7 +22,7 @@ class StartOfCycleNotificationWorker
         partner_organisations = relationships_pending.map { |relationship| relationship.partner_organisation(provider) }.compact
 
         if partner_organisations.any?
-          ProviderMailer.send(setup_mailer_method, provider_user, partner_organisations)
+          ProviderMailer.send(setup_mailer_method, provider_user, partner_organisations).deliver_later
           ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
         end
       end
