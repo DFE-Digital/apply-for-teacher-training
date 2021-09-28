@@ -204,6 +204,8 @@ module CandidateInterface
     end
 
     def gcse_required_row(application_choice)
+      return nil unless candidate_has_pending_or_missing_gcses?(application_choice)
+
       {
         key: 'GCSE requirements',
         value: render(GcseRequirementsComponent.new(application_choice)),
@@ -301,6 +303,12 @@ module CandidateInterface
 
     def application_choice_with_accepted_state_present?
       @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+    end
+
+    def candidate_has_pending_or_missing_gcses?(application_choice)
+      application_choice.application_form.application_qualifications
+      .where(level: 'gcse', qualification_type: 'missing')
+      .or(application_choice.application_form.application_qualifications.where(level: 'gcse', currently_completing_qualification: true)).any?
     end
 
     def change_path_params(application_choice)

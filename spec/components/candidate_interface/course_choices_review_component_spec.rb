@@ -16,7 +16,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
       expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.to_s(:month_and_year))
-      expect(result.css('.govuk-summary-list__value').to_html).to include('This provider does not consider candidates with pending GCSEs')
       expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
     end
 
@@ -137,6 +136,36 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
       it 'renders the degree required row' do
         expect(result.text).to include('2:2 degree or higher (or equivalent)')
+      end
+    end
+
+    context 'When a candidate has a missing gcse' do
+      let(:application_choice) { application_form.application_choices.first }
+      let(:application_qualification) { create(:gcse_qualification, :missing, currently_completing_qualification: false) }
+      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+
+      before do
+        application_choice.application_form.application_qualifications << application_qualification
+      end
+
+      it 'renders the GCSE required row' do
+        expect(result.text).to include('GCSE requirements')
+        expect(result.text).to include('This provider will not accept equivalency tests')
+      end
+    end
+
+    context 'When a candidate has a pending gcse' do
+      let(:application_choice) { application_form.application_choices.first }
+      let(:application_qualification) { create(:gcse_qualification, :missing) }
+      let(:result) { render_inline(described_class.new(application_form: application_form)) }
+
+      before do
+        application_choice.application_form.application_qualifications << application_qualification
+      end
+
+      it 'renders the GCSE required row' do
+        expect(result.text).to include('GCSE requirements')
+        expect(result.text).to include('This provider does not consider candidates with pending GCSEs')
       end
     end
 
