@@ -65,6 +65,16 @@ class CycleTimetable
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
 
+  def self.current_sync_year
+    now = Time.zone.now
+
+    CYCLE_DATES.keys.detect do |year|
+      return year if last_recruitment_cycle_year?(year)
+
+      now.before?(CYCLE_DATES[year][:find_closes])
+    end
+  end
+
   def self.show_apply_1_deadline_banner?(application_form)
     Time.zone.now.between?(date(:show_deadline_banner), date(:apply_1_deadline)) &&
       application_form.phase == 'apply_1' &&
