@@ -1,2 +1,6 @@
-<p class="govuk-body"><%= render(CandidateInterface::PendingGcseRequiredComponent.new(application_choice)) %></p>
-<p class="govuk-body"><%= render(CandidateInterface::GcseEquivalencyRequiredComponent.new(application_choice)) %></p>
+<% if candidate_has_pending_gcses? %>
+  <%= render(CandidateInterface::PendingGcseRequiredComponent.new(application_choice, pending_uk_gcses)) %>
+<% end %>
+<% if candidate_has_missing_gcses? %>
+  <%= render(CandidateInterface::GcseEquivalencyRequiredComponent.new(application_choice, missing_uk_gcses)) %>
+<% end %>

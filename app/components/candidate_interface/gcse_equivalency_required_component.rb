@@ -1,13 +1,23 @@
 class CandidateInterface::GcseEquivalencyRequiredComponent < ViewComponent::Base
-  attr_accessor :application_choice, :missing_uk_gcses
+  attr_accessor :application_choice, :missing_uk_gcses, :accept_english_gcse_equivalency, :accept_maths_gcse_equivalency, :accept_science_gcse_equivalency
 
-  def initialize(application_choice)
+  def initialize(application_choice, missing_uk_gcses)
     @application_choice = application_choice
-    @missing_uk_gcses = find_missing_uk_gcses(application_choice)
+    @missing_uk_gcses = missing_uk_gcses
+    @accept_english_gcse_equivalency = application_choice.course.accept_english_gcse_equivalency?
+    @accept_maths_gcse_equivalency = application_choice.course.accept_maths_gcse_equivalency?
+    @accept_science_gcse_equivalency = application_choice.course.accept_science_gcse_equivalency?
   end
 
-  def provider_accepts_equivalencies?
-    application_choice.course.accept_gcse_equivalency?
+  def provider_accepts_equivalencies_and_gcse_is_missing?
+    missing_gcse_subjects = missing_uk_gcses.map(&:subject)
+
+    accepted_equivalency_subjects = []
+    accepted_equivalency_subjects << 'english' if accept_english_gcse_equivalency
+    accepted_equivalency_subjects << 'maths' if accept_maths_gcse_equivalency
+    accepted_equivalency_subjects << 'science' if accept_science_gcse_equivalency
+
+    missing_gcse_subjects == accepted_equivalency_subjects
   end
 
 private
@@ -18,18 +28,12 @@ private
     subjects.to_sentence(last_word_connector: ' and ', two_words_connector: ' and ')
   end
 
-  def course_accepted_equivalencies
+  def course_accepted_equivalencies_text
     subjects = []
-    subjects << 'English' if application_choice.course.accept_english_gcse_equivalency?
-    subjects << 'maths' if application_choice.course.accept_maths_gcse_equivalency?
-    subjects << 'science' if application_choice.course.accept_science_gcse_equivalency?
+    subjects << 'English' if accept_english_gcse_equivalency
+    subjects << 'maths' if accept_maths_gcse_equivalency
+    subjects << 'science' if accept_science_gcse_equivalency
 
     subjects.to_sentence(last_word_connector: ' and ', two_words_connector: ' and ')
-  end
-
-  def find_missing_uk_gcses(application_choice)
-    application_choice.application_form.application_qualifications
-      .where(level: 'gcse', qualification_type: 'missing', other_uk_qualification_type: nil, institution_country: [nil, 'GB'], currently_completing_qualification: false)
-      .sort_by(&:subject)
   end
 end
