@@ -270,4 +270,45 @@ RSpec.describe ProviderMailer, type: :mailer do
       'view diversity' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
     )
   end
+
+  describe 'apply_service_is_now_open' do
+    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+    let(:email) { described_class.apply_service_is_now_open(provider_user) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Candidates can now apply for teacher training courses for 2022 to 2023 - manage teacher training applications',
+      'salutation' => 'Dear Johny English',
+      'main paragraph' => 'Candidates can now apply for teacher training courses on GOV.UK for the 2022 to 2023 recruitment cycle.',
+    )
+  end
+
+  describe 'find_service_is_now_open' do
+    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+    let(:email) { described_class.find_service_is_now_open(provider_user) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Candidates can now find teacher training courses for 2022 to 2023 - manage teacher training applications',
+      'salutation' => 'Dear Johny English',
+      'main paragraph' => 'Candidates can now find teacher training courses on GOV.UK for the 2022 to 2023 recruitment cycle.',
+      'Opening date paragraph' => 'They’ll be able to apply on 12 October 2021 at 9am.',
+    )
+  end
+
+  describe 'set_up_organisation_permissions' do
+    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+    let(:provider1) { build_stubbed(:provider, name: 'University of Purley') }
+    let(:provider2) { build_stubbed(:provider, name: 'University of Croydon') }
+
+    let(:email) { described_class.set_up_organisation_permissions(provider_user, [provider1, provider2]) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Set up organisation permissions - manage teacher training applications',
+      'salutation' => 'Dear Johny English',
+      'main paragraph' => 'Candidates can now find courses on GOV.UK that you work on with:',
+      'partner providers' => "- University of Purley\r\n- University of Croydon",
+    )
+  end
 end
