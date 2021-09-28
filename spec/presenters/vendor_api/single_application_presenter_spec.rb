@@ -1129,6 +1129,19 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe '#as_json' do
+    let(:application_form) { create(:application_form, :minimum_info) }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
+
+    it 'caches the resulting hash with a specific key' do
+      allow(FeatureFlag).to receive(:feature_statuses).and_return({})
+      allow(Rails.cache).to receive(:fetch)
+      described_class.new(application_choice).as_json
+
+      expect(Rails.cache).to have_received(:fetch).with(CacheKey.generate("#{application_choice.cache_key_with_version}as_json"), expires_in: 1.day)
+    end
+  end
+
   describe '#serialized_json' do
     let(:application_form) { create(:application_form, :minimum_info) }
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, application_form: application_form) }
@@ -1144,7 +1157,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       allow(Rails.cache).to receive(:fetch)
       described_class.new(application_choice).serialized_json
 
-      expect(Rails.cache).to have_received(:fetch)
+      expect(Rails.cache).to have_received(:fetch).with(CacheKey.generate(application_choice.cache_key_with_version), expires_in: 1.day)
     end
   end
 end

@@ -21,7 +21,7 @@ module VendorAPI
     end
 
     def as_json
-      Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
+      Rails.cache.fetch(cache_key(application_choice, 'as_json'), expires_in: CACHE_EXPIRES_IN) do
         application_as_json
       end
     end
@@ -422,8 +422,8 @@ module VendorAPI
       application_form.has_safeguarding_issues_to_declare? ? provider_interface_application_choice_url(application_choice, anchor: 'criminal-convictions-and-professional-misconduct') : nil
     end
 
-    def cache_key(model)
-      CacheKey.generate(model.cache_key_with_version)
+    def cache_key(model, method = '')
+      CacheKey.generate("#{model.cache_key_with_version}#{method}")
     end
   end
 end
