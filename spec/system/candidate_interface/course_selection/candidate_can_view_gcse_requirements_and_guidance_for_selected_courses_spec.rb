@@ -9,8 +9,7 @@ RSpec.feature 'Viewing course choices' do
 
     when_i_add_an_english_gcse
     and_i_visit_the_course_choice_review_page
-    then_i_can_view_course_choices_without_pending_guidance_text
-    and_i_can_view_course_choices_without_equivalency_guidance_text
+    then_i_can_view_course_choices_without_gcse_requirements
 
     when_i_change_the_completed_gcse_to_a_pending_gcse
     and_i_visit_the_course_choice_review_page
@@ -61,15 +60,25 @@ RSpec.feature 'Viewing course choices' do
     visit candidate_interface_course_choices_review_path
   end
 
+  def then_i_can_view_course_choices_without_gcse_requirements
+    within "#course-choice-#{@choice1.id}" do
+      expect(page).not_to have_content('GCSE requirements')
+    end
+
+    within "#course-choice-#{@choice2.id}" do
+      expect(page).not_to have_content('GCSE requirements')
+    end
+  end
+
   def then_i_can_view_course_choices_without_pending_guidance_text
     within "#course-choice-#{@choice1.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).to have_content('This provider will consider candidates with pending GCSEs')
+      expect(page).not_to have_content('This provider will consider candidates with pending GCSEs')
     end
 
     within "#course-choice-#{@choice2.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).to have_content('This provider does not consider candidates with pending GCSEs')
+      expect(page).not_to have_content('This provider does not consider candidates with pending GCSEs')
       expect(page).not_to have_content('You said you’re currently studying for a qualification in English')
       expect(page).not_to have_content("You can:\nfind a course that does accept pending GCSEs contact the provider to see if they will still consider your application")
     end
@@ -78,14 +87,14 @@ RSpec.feature 'Viewing course choices' do
   def and_i_can_view_course_choices_without_equivalency_guidance_text
     within "#course-choice-#{@choice1.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).to have_content('This provider will not accept equivalency tests')
+      expect(page).not_to have_content('This provider will not accept equivalency tests')
       expect(page).not_to have_content('You said you do not have a qualification in English')
       expect(page).not_to have_content('You can:\nfind a course that does accept equivalency tests contact the provider to see if they will still consider your application')
     end
 
     within "#course-choice-#{@choice2.id}" do
       expect(page).to have_content('GCSE requirements')
-      expect(page).to have_content('This provider will accept equivalency tests in English')
+      expect(page).not_to have_content('This provider will accept equivalency tests in English')
     end
   end
 

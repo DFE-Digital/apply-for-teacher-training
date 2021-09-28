@@ -26,15 +26,8 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
 
   context 'course accepts pending gcses' do
     it 'renders the correct gcse row content without guidance' do
-      result = render_inline(described_class.new(application_choice1))
+      result = render_inline(described_class.new(application_choice1, application_form.application_qualifications))
       expect(result.text).to include('This provider will consider candidates with pending GCSEs')
-    end
-  end
-
-  context 'application has no pending gcses and course does not accept them' do
-    it 'renders the correct gcse row content without guidance' do
-      result = render_inline(described_class.new(application_choice2))
-      expect(result.text).to include('This provider does not consider candidates with pending GCSEs')
     end
   end
 
@@ -48,7 +41,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
           application_form: application_form,
         )
 
-        result = render_inline(described_class.new(application_choice2))
+        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
         expect(result.text).to include('You said you’re currently studying for a qualification in English')
       end
     end
@@ -69,7 +62,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
           application_form: application_form,
         )
 
-        result = render_inline(described_class.new(application_choice2))
+        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
         expect(result.text).to include('You said you’re currently studying for a qualification in English and maths')
       end
     end
@@ -95,7 +88,7 @@ RSpec.describe CandidateInterface::PendingGcseRequiredComponent, type: :componen
           application_form: application_form,
         )
 
-        result = render_inline(described_class.new(application_choice2))
+        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
         expect(result.text).to include('You said you’re currently studying for a qualification in English, maths and science')
       end
     end
