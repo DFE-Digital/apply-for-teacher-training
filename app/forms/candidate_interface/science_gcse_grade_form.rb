@@ -111,7 +111,8 @@ module CandidateInterface
 
       if %w[gce_o_level scottish_national_5 gcse].include?(qualification.qualification_type) && subject == ApplicationQualification::SCIENCE
         qualification_rexp = invalid_grades[qualification.qualification_type.to_sym]
-        errors.add(:grade, :invalid) if grade.match(qualification_rexp)
+
+        errors.add(:grade, :invalid) if qualification_rexp && grade.match(qualification_rexp)
       end
 
       if gsce_qualification_type? && single_award?
@@ -154,7 +155,6 @@ module CandidateInterface
     def invalid_grades
       {
         gcse: /[^1-9A-GU*\s\-]/i,
-        gce_o_level: /[^A-EU\s\-]/i,
         scottish_national_5: /[^A-D1-7\s\-]/i,
       }
     end

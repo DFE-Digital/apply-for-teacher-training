@@ -174,25 +174,14 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse', subject: 'science') }
       let(:form) { described_class.build_from_qualification(qualification) }
 
-      it 'returns no errors if grade is valid' do
-        valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C']
+      it 'allows any value for the grade' do
+        valid_grades = ['ABC', 'AB', 'AA', 'abc', 'A B C', 'A-B-C', '6', 'O']
 
         valid_grades.each do |grade|
           form.grade = grade
           form.validate
 
           expect(form.errors[:grade]).to be_empty
-        end
-      end
-
-      it 'return validation error if grade is invalid' do
-        invalid_grades = %w[123 A* XYZ]
-
-        invalid_grades.each do |grade|
-          form.grade = grade
-          form.validate
-
-          expect(form.errors[:grade]).to include('Enter a real science grade')
         end
       end
     end
