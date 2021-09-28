@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe StartOfCycleNotificationWorker do
   describe '#perform' do
+    let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
     let(:providers_needing_set_up) { %w[AAA BBB].map { |name| create(:provider, :with_signed_agreement, name: name) } }
     let(:provider_users_who_need_to_set_up_permissions) do
       create_list(:provider_user, 2, providers: providers_needing_set_up)
@@ -30,9 +31,9 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     before do
-      allow(ProviderMailer).to receive(:apply_service_is_now_open)
-      allow(ProviderMailer).to receive(:find_service_is_now_open)
-      allow(ProviderMailer).to receive(:set_up_organisation_permissions)
+      allow(ProviderMailer).to receive(:apply_service_is_now_open).and_return(mailer_delivery)
+      allow(ProviderMailer).to receive(:find_service_is_now_open).and_return(mailer_delivery)
+      allow(ProviderMailer).to receive(:set_up_organisation_permissions).and_return(mailer_delivery)
       provider_users_who_need_to_set_up_permissions.map { |user| user.provider_permissions.update_all(manage_organisations: true) }
       other_provider_users.map { |user| user.provider_permissions.update_all(manage_organisations: true) }
       providers_needing_set_up.each { |provider| create(:provider_relationship_permissions, :not_set_up_yet, training_provider: provider) }
