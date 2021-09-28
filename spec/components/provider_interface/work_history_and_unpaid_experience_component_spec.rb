@@ -12,12 +12,14 @@ RSpec.describe ProviderInterface::WorkHistoryAndUnpaidExperienceComponent, type:
 
   let(:work_experiences) do
     [build(:application_work_experience,
+           :deprecated,
            start_date: 6.years.ago,
            end_date: 2.years.ago,
            role: 'Sheep herder',
            commitment: 'full_time',
            details: 'Livestock management'),
      build(:application_work_experience,
+           :deprecated,
            start_date: 2.months.ago,
            end_date: nil,
            role: 'Pig herder',

@@ -104,7 +104,9 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            working_with_children: false,
            start_date: 36.months.ago,
            end_date: 30.months.ago,
-           commitment: 'part_time')
+           commitment: 'part_time',
+           start_date_unknown: false,
+           end_date_unknown: false)
 
     create(:application_work_experience,
            application_form: application_form,
@@ -115,7 +117,9 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            working_with_children: false,
            start_date: 24.months.ago,
            end_date: 18.months.ago,
-           commitment: 'full_time')
+           commitment: 'full_time',
+           start_date_unknown: false,
+           end_date_unknown: false)
 
     create(:application_work_history_break,
            application_form: application_form,

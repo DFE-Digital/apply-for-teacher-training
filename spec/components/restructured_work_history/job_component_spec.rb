@@ -9,6 +9,8 @@ RSpec.describe RestructuredWorkHistory::JobComponent do
         organisation: 'Mallowpond Secondary College',
         start_date: Time.zone.local(2018, 12, 1),
         end_date: Time.zone.local(2019, 12, 1),
+        start_date_unknown: nil,
+        end_date_unknown: nil,
         relevant_skills: true,
         commitment: :full_time,
       }.merge(attrs),
