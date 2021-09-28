@@ -2,6 +2,10 @@
   <p class="govuk-body">
     This candidate can add <%= application_form.maximum_number_of_course_choices %> course choices to this application.
   </p>
+<% elsif !application_form.editable? %>
+  <p class="govuk-body">
+    This candidate has a subsequent application, so we can't add any more course choices to this application.
+  </p>
 <% elsif application_form.any_offer_accepted? %>
   <p class="govuk-body">
     This application has an accepted offer, so we can't add any more course choices.
