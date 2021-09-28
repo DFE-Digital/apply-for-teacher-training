@@ -60,9 +60,9 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
         "They offered you a place on another course:\nCycling proficiency course",
         "Honesty and professionalism:\nLies\nLies were copied\nReferees cannot be fictional characters\nA lot of problems here",
         "Safeguarding issues:\nYou seemed very angry",
+        "Reasons why your application was unsuccessful:\nSo many reasons",
         "Additional advice:\nTry again soon",
         "Future applications:\nUoG would be interested in future applications from you.",
-        "Reasons why your application was unsuccessful:\nSo many reasons",
       ])
     end
 
