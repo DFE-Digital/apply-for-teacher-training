@@ -40,6 +40,21 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
     end
   end
 
+  context 'application has an accepted offer' do
+    it "does not render the 'add a course' button" do
+      application_form = create(:completed_application_form)
+
+      create_list(:submitted_application_choice, 2, application_form_id: application_form.id)
+      create(:application_choice, :with_accepted_offer, application_form_id: application_form.id)
+
+      application_form.reload
+
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-button').text).not_to include('Add a course')
+    end
+  end
+
   context 'application is unsubmitted and has less than three application choices' do
     it "does not render the 'add a course' button" do
       application_form = create(:application_form)

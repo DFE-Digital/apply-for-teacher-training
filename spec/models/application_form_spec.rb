@@ -541,6 +541,22 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#any_offer_accepted?' do
+    it 'returns false if there is no accepted offer on any of the application choices' do
+      offer_choice = create(:application_choice, :with_offer)
+      other_choice = create(:application_choice, :withdrawn)
+      application_form = create(:completed_application_form, application_choices: [offer_choice, other_choice])
+      expect(application_form.any_offer_accepted?).to eq(false)
+    end
+
+    it 'returns true if there is an application choice with an accepted offer' do
+      accepted_offer_choice = create(:application_choice, :with_accepted_offer)
+      other_choice = create(:application_choice, :with_rejection)
+      application_form = create(:completed_application_form, application_choices: [accepted_offer_choice, other_choice])
+      expect(application_form.any_offer_accepted?).to eq(true)
+    end
+  end
+
   describe '#all_provider_decisions_made?' do
     it 'returns false if the application choices are in awaiting provider decision state' do
       application_choice = create :submitted_application_choice
