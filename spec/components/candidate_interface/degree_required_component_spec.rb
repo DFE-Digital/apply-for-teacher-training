@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
   let(:application_form) { create(:application_form) }
 
-  let(:course_option1) { create(:course_option, course: create(:course, :open_on_apply, degree_grade: 'two_one')) }
+  let(:course_option) { create(:course_option, course: create(:course, :open_on_apply, degree_grade: 'two_one')) }
 
   let(:application_choice) do
     build_stubbed(
       :application_choice,
       status: :unsubmitted,
-      course_option: course_option1,
+      course_option: course_option,
       application_form: application_form,
     )
   end
@@ -18,6 +18,32 @@ RSpec.describe CandidateInterface::DegreeRequiredComponent, type: :component do
     it 'renders the degree row without guidance' do
       result = render_inline(described_class.new(application_choice))
       expect(result.text).to include('2:1 degree or higher (or equivalent)')
+    end
+  end
+
+  context 'application has uk degree and but degree grade marked as not_required' do
+    let(:course_option) { create(:course_option, course: create(:course, :open_on_apply, degree_grade: 'not_required')) }
+    let(:application_choice) do
+      build_stubbed(
+        :application_choice,
+        status: :unsubmitted,
+        course_option: course_option,
+        application_form: application_form,
+      )
+    end
+
+    it 'renders the degree row without guidance' do
+      create(
+        :degree_qualification,
+        qualification_type: 'Bachelor of Arts',
+        institution_country: 'GB',
+        grade: 'Upper second-class honours (2:1)',
+        qualification_type_hesa_code: 51,
+        application_form: application_form,
+      )
+
+      result = render_inline(described_class.new(application_choice))
+      expect(result.text).to include('Any degree grade')
     end
   end
 

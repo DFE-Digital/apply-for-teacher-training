@@ -11,6 +11,7 @@ class CandidateInterface::DegreeRequiredComponent < ViewComponent::Base
     'two_one' => 4,
     'two_two' => 3,
     'third_class' => 2,
+    'not_required' => 1,
   }.freeze
 
   COURSE_REQUIRED_GRADE_TEXT = {
