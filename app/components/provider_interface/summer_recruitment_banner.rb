@@ -6,8 +6,12 @@ module ProviderInterface
 
   private
 
-    def render_body?
-      Time.zone.now < CycleTimetable.apply_2_deadline(RecruitmentCycle.current_year)
+    def time_of_year
+      after_global_rbd? ? 'after_global_rbd' : 'before_global_rbd'
+    end
+
+    def after_global_rbd?
+      Time.zone.now > CycleTimetable.reject_by_default(2021)
     end
   end
 end

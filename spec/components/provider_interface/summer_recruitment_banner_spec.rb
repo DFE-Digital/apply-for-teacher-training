@@ -10,30 +10,24 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
       expect(result.text).to include('Important')
     end
 
-    it 'renders the banner header' do
-      expect(result.text).to include(t('summer_recruitment_banner.header'))
-    end
-
-    describe 'rendering the banner content' do
+    describe 'rendering the banner header' do
       around do |example|
         Timecop.freeze(time) { example.run }
       end
 
-      context 'when the current time is before the apply 2 deadline' do
-        let(:time) { CycleTimetable.apply_2_deadline(RecruitmentCycle.current_year) - 1.day }
+      context 'before the global reject by default date passes' do
+        let(:time) { CycleTimetable.reject_by_default(2021) - 1.hour }
 
-        it 'renders the banner content' do
-          expect(result.text).to include(t('summer_recruitment_banner.body'))
-          expect(page).to have_selector('.govuk-body')
+        it 'renders the before global rbd content' do
+          expect(result.text).to include(t('summer_recruitment_banner.before_global_rbd.header'))
         end
       end
 
-      context 'when the current time is after the apply 2 deadline' do
-        let(:time) { CycleTimetable.apply_2_deadline(RecruitmentCycle.current_year) + 1.day }
+      context 'after the global reject by default date passes' do
+        let(:time) { CycleTimetable.reject_by_default(2021) + 1.hour }
 
-        it 'does not render the banner content' do
-          expect(result.text).not_to include(t('summer_recruitment_banner.body'))
-          expect(page).not_to have_css('.govuk-body')
+        it 'renders the after global rbd content' do
+          expect(result.text).to include(t('summer_recruitment_banner.after_global_rbd.header'))
         end
       end
     end
