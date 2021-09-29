@@ -1,9 +1,10 @@
 class StartOfCycleNotificationWorker
   include Sidekiq::Worker
 
-  def perform(service, hours_remaining = 1)
+  def perform(service)
+    return unless CycleTimetable.service_opens_today?(service, year: RecruitmentCycle.current_year)
+
     @service = service
-    @hours_remaining = hours_remaining
 
     providers_scope.limit(fetch_limit).each do |provider|
       provider.provider_users.each do |provider_user|
@@ -33,7 +34,7 @@ class StartOfCycleNotificationWorker
 
 private
 
-  attr_reader :service, :hours_remaining
+  attr_reader :service
 
   def fetch_limit
     (provider_count / hours_remaining).ceil
@@ -41,6 +42,14 @@ private
 
   def provider_count
     providers_scope.count
+  end
+
+  def hours_remaining
+    notify_until.hour - Time.zone.now.hour
+  end
+
+  def notify_until
+    Time.zone.now.change(hour: 16)
   end
 
   def relationships_user_can_setup(provider_user, provider)
