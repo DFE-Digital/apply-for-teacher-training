@@ -46,7 +46,7 @@ test do
     end
 
     submit!(
-      'Subject page - select Primary',
+      'Subject page - select Primary (after postcode choice)',
       '/results/filter/subject',
       {
         'utf8': '✓',
@@ -95,7 +95,7 @@ test do
     end
 
     submit!(
-      'Subject page - select Primary with English',
+      'Subject page - select Primary with English (after across England choice)',
       '/results/filter/subject',
       {
         'utf8': '✓',
