@@ -9,12 +9,10 @@ RSpec.feature 'Entering their equality and diversity information' do
     and_i_submit_my_application
     then_i_see_the_equality_and_diversity_page
 
-    when_i_choose_not_to_complete_equality_and_diversity
-    then_i_can_submit_my_application
-
     when_i_am_on_the_equality_and_diversity_page
     and_i_can_see_a_link_to_the_privacy_policy
-    and_i_choose_to_complete_equality_and_diversity
+
+    when_i_click_continue
     then_i_am_asked_to_choose_my_sex
 
     when_i_try_and_submit_without_choosing_my_sex
@@ -82,9 +80,6 @@ RSpec.feature 'Entering their equality and diversity information' do
     and_i_click_on_continue
     then_i_can_review_my_updated_ethnicity
 
-    when_i_manually_restart_the_questionnaire
-    then_i_go_straight_to_the_review_page
-
     when_i_click_change_ethnic_group
     when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
     and_i_click_on_continue
@@ -110,13 +105,11 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_the_equality_and_diversity_page
-    expect(page).to have_title 'Equality and diversity questionnaire'
-    expect(page).to have_content 'Do you want to answer a few questions about your sex, disability and ethnicity?'
+    expect(page).to have_title 'Equality and diversity questions'
   end
 
-  def when_i_choose_not_to_complete_equality_and_diversity
-    choose 'No'
-    click_button t('continue')
+  def when_i_click_continue
+    click_link t('continue')
   end
 
   def then_i_can_submit_my_application
@@ -295,15 +288,6 @@ RSpec.feature 'Entering their equality and diversity information' do
   def then_i_can_review_my_updated_ethnicity
     expect(page).to have_content('Check your answers')
     expect(page).to have_content('White (I am Hungarian)')
-  end
-
-  def when_i_manually_restart_the_questionnaire
-    visit candidate_interface_start_equality_and_diversity_path
-    click_button t('continue')
-  end
-
-  def then_i_go_straight_to_the_review_page
-    expect(page).to have_current_path candidate_interface_review_equality_and_diversity_path
   end
 
   def then_the_ethnicity_hesa_code_has_been_reset

@@ -161,10 +161,28 @@ RSpec.feature 'Submitting an application' do
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    choose 'No'
+    click_link t('continue')
+
+    # What is your sex?
+    choose 'Prefer not to say'
     click_button t('continue')
+
+    # Are you disabled?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Review page
+    click_link t('continue')
+
+    # Is there anything else you would like to tell us about your application?
     choose 'No'
     click_button 'Send application'
+
+    # Your feedback
     click_button 'Continue'
     expect(page).to have_content 'Application successfully submitted'
   end

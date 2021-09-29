@@ -26,7 +26,7 @@ RSpec.feature 'Candidate submits the application' do
     and_i_can_see_my_referees
 
     when_i_confirm_my_application
-    and_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    and_i_fill_in_the_diversity_questions
     and_i_choose_to_add_further_information_but_omit_adding_details
     then_i_should_see_validation_errors
 
@@ -156,9 +156,24 @@ RSpec.feature 'Candidate submits the application' do
     click_link t('continue')
   end
 
-  def and_i_choose_not_to_fill_in_the_equality_and_diversity_survey
-    choose 'No'
+  def and_i_fill_in_the_diversity_questions
+    # intro page
+    click_link t('continue')
+
+    # What is your sex?
+    choose 'Prefer not to say'
     click_button t('continue')
+
+    # Are you disabled?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Review page
+    click_link t('continue')
   end
 
   def and_i_choose_to_add_further_information_but_omit_adding_details

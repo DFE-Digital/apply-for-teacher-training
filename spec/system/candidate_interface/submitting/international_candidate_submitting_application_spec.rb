@@ -22,7 +22,7 @@ RSpec.feature 'International candidate submits the application' do
     and_i_can_see_my_efl_qualification
 
     when_i_confirm_my_application
-    when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    when_i_fill_in_the_equality_and_diversity_questions
     when_i_choose_not_to_provide_further_information
     and_i_submit_the_application
     and_i_skip_feedback
@@ -163,9 +163,23 @@ RSpec.feature 'International candidate submits the application' do
     click_link t('continue')
   end
 
-  def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
-    choose 'No'
+  def when_i_fill_in_the_equality_and_diversity_questions
+    click_link t('continue')
+
+    # What is your sex?
+    choose 'Prefer not to say'
     click_button t('continue')
+
+    # Are you disabled?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Review page
+    click_link t('continue')
   end
 
   def when_i_choose_not_to_provide_further_information

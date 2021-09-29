@@ -136,10 +136,29 @@ RSpec.feature 'Apply again' do
     expect(page).not_to have_css becoming_a_teacher_error_container
     expect(page).not_to have_css subject_knowledge_error_container
     click_on t('continue')
+
+    # Equality and diversity questions intro
+    click_link t('continue')
+
+    # What is your sex?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Are you disabled?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Review page
+    click_link t('continue')
+
+    # Is there anything else you would like to tell us about your application?
     choose 'No'
-    click_on t('continue')
-    choose 'No'
-    click_on 'Send application'
+    click_button 'Send application'
+
     click_on t('continue')
 
     expect(page).to have_content 'Application successfully submitted'
