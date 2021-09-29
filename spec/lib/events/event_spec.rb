@@ -61,6 +61,12 @@ RSpec.describe Events::Event do
       output = event.with_data(key: true).as_json
       expect(output['data'].first['value']).to eq ['true']
     end
+
+    it 'converts hashes to strings' do
+      event = described_class.new
+      output = event.with_data(key: { equality_and_diversity: { ethnic_background: 'Irish' } }).as_json
+      expect(output['data'].first['value']).to eq ['{"equality_and_diversity":{"ethnic_background":"Irish"}}']
+    end
   end
 
   def fake_request(overrides = {})
