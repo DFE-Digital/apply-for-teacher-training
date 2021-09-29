@@ -15,11 +15,7 @@
 
     <p class="govuk-body">You can choose not to answer any of the questions.</p>
 
-    <% # TODO: remove this and change submit button to a link styled as a button %>
-    <%= form_with model: @choice_form, url: candidate_interface_start_equality_and_diversity_path do |f| %>
-      <%= hidden_field_tag :choice, "yes" %>
-      <%= f.govuk_submit t('continue') %>
-    <% end %>
+    <%= govuk_link_to "Continue", candidate_interface_edit_equality_and_diversity_sex_path, class: "govuk-button" %>
 
   </div>
 </div>
