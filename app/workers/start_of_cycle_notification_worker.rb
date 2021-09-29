@@ -50,7 +50,7 @@ private
     relationships_pending = ProviderSetup.new(provider_user: provider_user).relationships_pending
     training_providers = relationships_pending.map(&:training_provider) & provider_user.providers
 
-    relationships_pending.each_with_object({}) do |rel, hash|
+    relationships = relationships_pending.each_with_object({}) do |rel, hash|
       if training_providers.include?(rel.training_provider)
         hash[rel.training_provider.name] ||= []
         hash[rel.training_provider.name] << rel.ratifying_provider.name
@@ -59,6 +59,7 @@ private
         hash[rel.ratifying_provider.name] << rel.training_provider.name
       end
     end
+    relationships.sort_by { |k, v| [k, v.sort!] }.to_h
   end
 
   def providers_scope

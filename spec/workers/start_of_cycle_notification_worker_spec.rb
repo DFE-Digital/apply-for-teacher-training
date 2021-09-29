@@ -73,12 +73,12 @@ RSpec.describe StartOfCycleNotificationWorker do
                                :not_set_up_yet,
                                training_provider: providers_needing_set_up.first,
                                ratifying_provider: other_providers.first)
-        allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: [relationship1, relationship2, relationship3]))
+        allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: [relationship2, relationship1, relationship3]))
 
         described_class.new.perform(service)
 
         expected_relationships = {
-          providers_needing_set_up.first.name => [ratifying_provider.name, other_providers.first.name],
+          providers_needing_set_up.first.name => [other_providers.first.name, ratifying_provider.name],
           providers_needing_set_up.last.name => [another_provider.name],
         }
 
