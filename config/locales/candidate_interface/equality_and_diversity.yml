@@ -1,12 +1,6 @@
 en:
   equality_and_diversity:
-    title: Equality and diversity questionnaire
-    choice:
-      title: Do you want to answer a few questions about your sex, disability and ethnicity?
-      'yes':
-        label: 'Yes'
-      'no':
-        label: 'No'
+    title: Equality and diversity questions
     sex:
       title: What is your sex?
       female:
