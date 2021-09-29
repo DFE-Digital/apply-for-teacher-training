@@ -17,7 +17,7 @@ class CandidateInterface::GcseEquivalencyRequiredComponent < ViewComponent::Base
     accepted_equivalency_subjects << 'maths' if accept_maths_gcse_equivalency
     accepted_equivalency_subjects << 'science' if accept_science_gcse_equivalency
 
-    missing_gcse_subjects == accepted_equivalency_subjects
+    missing_gcse_subjects.all? { |missing_subject| accepted_equivalency_subjects.include?(missing_subject) }
   end
 
 private

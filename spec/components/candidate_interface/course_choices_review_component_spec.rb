@@ -141,31 +141,33 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'When a candidate has a missing gcse' do
       let(:application_choice) { application_form.application_choices.first }
-      let(:application_qualification) { create(:gcse_qualification, :missing, currently_completing_qualification: false) }
+      let(:application_qualification) { build(:gcse_qualification, :missing, subject: 'english', currently_completing_qualification: false) }
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
 
       before do
         application_choice.application_form.application_qualifications << application_qualification
+        application_choice.course.update!(accept_gcse_equivalency: true, accept_english_gcse_equivalency: true, accept_pending_gcse: false)
       end
 
       it 'renders the GCSE required row' do
         expect(result.text).to include('GCSE requirements')
-        expect(result.text).to include('This provider will not accept equivalency tests')
+        expect(result.text).to include('This provider will accept equivalency tests in English')
       end
     end
 
     context 'When a candidate has a pending gcse' do
       let(:application_choice) { application_form.application_choices.first }
-      let(:application_qualification) { create(:gcse_qualification, :missing) }
+      let(:application_qualification) { build(:gcse_qualification, :missing) }
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
 
       before do
         application_choice.application_form.application_qualifications << application_qualification
+        application_choice.course.update!(accept_gcse_equivalency: false, accept_pending_gcse: true)
       end
 
       it 'renders the GCSE required row' do
         expect(result.text).to include('GCSE requirements')
-        expect(result.text).to include('This provider does not consider candidates with pending GCSEs')
+        expect(result.text).to include('This provider will consider candidates with pending GCSEs')
       end
     end
 

@@ -204,7 +204,9 @@ module CandidateInterface
     end
 
     def gcse_required_row(application_choice)
-      return nil unless candidate_has_pending_or_missing_gcses?(application_choice)
+      return nil unless candidate_has_pending_or_missing_gcses?(application_choice) &&
+                        !application_choice.current_course.accept_pending_gcse.nil? &&
+                        !application_choice.current_course.accept_gcse_equivalency.nil?
 
       {
         key: 'GCSE requirements',

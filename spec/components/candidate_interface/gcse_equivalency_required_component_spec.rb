@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
     )
   end
 
-  context 'course accepts gcse equivalencies' do
+  context 'course accepts gcse equivalencies and has three missing gcses' do
     it 'renders the correct gcse row content without guidance' do
       create(
         :gcse_qualification,
@@ -58,8 +58,33 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
         application_form: application_form,
       )
 
-      result = render_inline(described_class.new(application_choice1, application_form.application_qualifications))
+      result = render_inline(described_class.new(application_choice1, application_form.application_qualifications.sort_by(&:subject)))
       expect(result.text).to include('This provider will accept equivalency tests in English, maths and science')
+    end
+  end
+
+  context 'course accepts gcse equivalencies and has less than 3 gcses' do
+    it 'renders the correct gcse row content without guidance' do
+      create(
+        :gcse_qualification,
+        subject: 'english',
+        qualification_type: 'missing',
+        currently_completing_qualification: false,
+        application_form: application_form,
+      )
+      create(
+        :gcse_qualification,
+        subject: 'maths',
+        application_form: application_form,
+      )
+      create(
+        :gcse_qualification,
+        subject: 'science',
+        application_form: application_form,
+      )
+
+      result = render_inline(described_class.new(application_choice1, [application_form.application_qualifications.first]))
+      expect(result.text).to include('This provider will accept equivalency tests in English')
     end
   end
 
@@ -74,7 +99,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           application_form: application_form,
         )
 
-        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
+        result = render_inline(described_class.new(application_choice2, [application_form.application_qualifications.first]))
         expect(result.text).to include('This provider will not accept equivalency tests')
         expect(result.text).to include('You said you do not have a qualification in English')
       end
@@ -98,7 +123,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           application_form: application_form,
         )
 
-        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
+        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
         expect(result.text).to include('This provider will not accept equivalency tests')
         expect(result.text).to include('You said you do not have a qualification in English and maths')
       end
@@ -128,7 +153,7 @@ RSpec.describe CandidateInterface::GcseEquivalencyRequiredComponent, type: :comp
           application_form: application_form,
         )
 
-        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications))
+        result = render_inline(described_class.new(application_choice2, application_form.application_qualifications.sort_by(&:subject)))
         expect(result.text).to include('This provider will not accept equivalency tests')
         expect(result.text).to include('You said you do not have a qualification in English, maths and science')
       end
