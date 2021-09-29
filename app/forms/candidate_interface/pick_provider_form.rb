@@ -5,12 +5,8 @@ module CandidateInterface
     attr_accessor :provider_id
     validates :provider_id, presence: true
 
-    def courses_available?
-      Course.current_cycle.exposed_in_find.where(provider_id: provider_id).present?
-    end
-
     def available_providers
-      @available_providers ||= Provider.all.order(:name)
+      @available_providers ||= Provider.joins(:courses).where(courses: { recruitment_cycle_year: RecruitmentCycle.current_year, exposed_in_find: true }).order(:name).distinct
     end
   end
 end
