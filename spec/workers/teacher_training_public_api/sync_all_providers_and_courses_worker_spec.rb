@@ -27,6 +27,36 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker do
       expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: false, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
     end
 
+    context 'when find is not currently closed' do
+      before { allow(CycleTimetable).to receive(:find_down?).and_return(false) }
+
+      it 'calls SyncAllProvidersAndCourses with the current year' do
+        described_class.new.perform
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.current_year, suppress_sync_update_errors: false)
+      end
+
+      it 'uses the supplied year parameter if given' do
+        year = RecruitmentCycle.next_year
+        described_class.new.perform(true, year)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year, suppress_sync_update_errors: false)
+      end
+    end
+
+    context 'when find is currently closed' do
+      before { allow(CycleTimetable).to receive(:find_down?).and_return(true) }
+
+      it 'calls SyncAllProvidersAndCourses with the next year' do
+        described_class.new.perform
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: RecruitmentCycle.next_year, suppress_sync_update_errors: false)
+      end
+
+      it 'uses the supplied year parameter if given' do
+        year = RecruitmentCycle.current_year
+        described_class.new.perform(true, year)
+        expect(TeacherTrainingPublicAPI::SyncAllProvidersAndCourses).to have_received(:call).with(incremental_sync: true, recruitment_cycle_year: year, suppress_sync_update_errors: false)
+      end
+    end
+
     context 'when the hosting environment is review' do
       around do |example|
         ClimateControl.modify(HOSTING_ENVIRONMENT_NAME: 'review') { example.run }

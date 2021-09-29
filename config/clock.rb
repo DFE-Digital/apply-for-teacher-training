@@ -9,11 +9,9 @@ class Clock
   error_handler { |error| Sentry.capture_exception(error) if defined? Sentry }
 
   # More-than-hourly jobs
-  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) { TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async }
-  every(11.minutes, 'IncrementalSyncNextCycleFromTeacherTrainingPublicAPI', skip_first_run: true) do
-    if FeatureFlag.active?(:sync_next_cycle)
-      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true, RecruitmentCycle.next_year)
-    end
+
+  every(10.minutes, 'IncrementalSyncAllFromTeacherTrainingPublicAPI', skip_first_run: true) do
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(true)
   end
 
   # Hourly jobs
@@ -59,12 +57,6 @@ class Clock
   every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '12:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
 
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
-    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.current_year)
-  end
-
-  every(7.days, 'FullSyncNextCycleFromTeacherTrainingPublicAPI', at: 'Saturday 03:59') do
-    if FeatureFlag.active?(:sync_next_cycle)
-      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false, RecruitmentCycle.next_year)
-    end
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
   end
 end
