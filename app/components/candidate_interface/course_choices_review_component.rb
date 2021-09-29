@@ -212,7 +212,7 @@ module CandidateInterface
     end
 
     def visa_details_row(application_choice)
-      return nil if right_to_work_or_study?(application_choice) ||
+      return nil if immigration_right_to_work?(application_choice) ||
                     application_predates_visa_sponsorship_information?(application_choice)
 
       {
@@ -221,9 +221,9 @@ module CandidateInterface
       }
     end
 
-    def right_to_work_or_study?(application_choice)
+    def immigration_right_to_work?(application_choice)
       application_choice.application_form.british_or_irish? ||
-        application_choice.application_form.right_to_work_or_study_yes?
+        application_choice.application_form.immigration_right_to_work?
     end
 
     def application_predates_visa_sponsorship_information?(application_choice)
