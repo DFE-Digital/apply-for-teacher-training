@@ -40,6 +40,11 @@ class CycleTimetable
     2023 => {
       find_opens: Time.zone.local(2022, 10, 5, 9), # This is a placeholder till we know the real date
       apply_opens: Time.zone.local(2022, 10, 12, 9), # This is a placeholder till we know the real date
+      show_deadline_banner: Time.zone.local(2023, 8, 1, 9), # This is a placeholder till we know the real date
+      apply_1_deadline: Time.zone.local(2023, 9, 7, 18), # This is a placeholder till we know the real date
+      apply_2_deadline: Time.zone.local(2023, 9, 21, 18), # This is a placeholder till we know the real date
+      reject_by_default: Time.zone.local(2023, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
+      find_closes: Time.zone.local(2023, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
     },
   }.freeze
 
