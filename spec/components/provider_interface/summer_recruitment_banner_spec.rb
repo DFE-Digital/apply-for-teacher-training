@@ -10,8 +10,26 @@ RSpec.describe ProviderInterface::SummerRecruitmentBanner do
       expect(result.text).to include('Important')
     end
 
-    it 'renders the banner header' do
-      expect(result.text).to include(t('summer_recruitment_banner.header'))
+    describe 'rendering the banner header' do
+      around do |example|
+        Timecop.freeze(time) { example.run }
+      end
+
+      context 'before the global reject by default date passes' do
+        let(:time) { CycleTimetable.reject_by_default(2021) - 1.hour }
+
+        it 'renders the before global rbd content' do
+          expect(result.text).to include(t('summer_recruitment_banner.before_global_rbd.header'))
+        end
+      end
+
+      context 'after the global reject by default date passes' do
+        let(:time) { CycleTimetable.reject_by_default(2021) + 1.hour }
+
+        it 'renders the after global rbd content' do
+          expect(result.text).to include(t('summer_recruitment_banner.after_global_rbd.header'))
+        end
+      end
     end
   end
 

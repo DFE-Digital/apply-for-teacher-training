@@ -1,4 +1,7 @@
 en:
   summer_recruitment_banner:
     title: Important
-    header: Applications awaiting decisions will be automatically rejected on 29 September at 11:59pm, when the current recruitment cycle ends
+    before_global_rbd:
+      header: Applications awaiting decisions will be automatically rejected on 29 September at 11:59pm, when the current recruitment cycle ends
+    after_global_rbd:
+      header: Candidates will be able to apply for courses starting in 2022 to 2023 from 12 October 2021 at 9am
