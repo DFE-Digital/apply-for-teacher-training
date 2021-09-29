@@ -5,7 +5,7 @@ module Events
     def initialize
       @event_hash = {
         environment: HostingEnvironment.environment_name,
-        occurred_at: Time.zone.now.iso8601,
+        occurred_at: Time.zone.now.iso8601(6),
       }
     end
 
