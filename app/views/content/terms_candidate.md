@@ -1,23 +1,20 @@
-Terms are a mixture of rules and things to know, like what we do with your data. Applying for teacher training here means you agree to our terms.
+Applying for teacher training using this service means you agree to our terms.
 
 If you do not follow them your application might be withdrawn.
 
-Other things to know:
+Everything you include in your application form must be truthful and accurate.
 
-- All information you give must be truthful and as accurate as possible.
-- Wherever you’re applying from, you must not use our website for illegal or fraudulent reasons.
-- You must not gather or use data from our website, or use data in a way that is not allowed by our [privacy policy](<%= candidate_interface_privacy_policy_path %>).
-- You must not use abusive language or behaviour towards anyone you come into contact with.
+You must not:
+
+- use our website for illegal or fraudulent reasons
+- gather or use data from our website
+- use abusive language or act abusively towards anyone you come into contact with
 
 ## Applying for teacher training courses
 
 ### Stage 1: Submitting your initial application
 
-You can apply for a total of 3 courses across our service and [UCAS](https://www.ucas.com/teaching-in-the-uk). We share your information between us, and with organisations that provide teacher training.
-
-As long as you use the same email address, you only need to sign up once across our service and [UCAS](https://www.ucas.com/teaching-in-the-uk).
-
-If you apply for a course or accept an offer on both, we’ll get in touch with you to cancel one of your applications.
+You can apply for a total of 3 courses.
 
 ### Stage 2: Apply again if your application was not successful
 
@@ -49,8 +46,6 @@ You have 10 working days to accept or decline an offer from a training provider.
 
 The 10 days starts once you’ve heard back from all of the course providers you have applied to.
 
-If you’re applying through both UCAS and Apply for teacher training, be aware that the 10 days might start at different times.
-
 ## How we check your suitability for working with children
 
 All candidates must have an enhanced DBS check. This will show up any spent or unspent criminal convictions.
@@ -61,15 +56,20 @@ Your name will also be checked against a DBS list of people who have been barred
 
 ## Questions or support
 
-If you need our help, email <%= bat_contact_mail_to %>.
+If you need technical support, email <%= bat_contact_mail_to %>.
 
 We respond within 5 working days, or 1 working day for more urgent queries.
 
-If you’re applying from overseas, you can find out more about becoming a teacher in England in our guidance for overseas graduates.
+For advice on teacher training, [call us or chat online](https://getintoteaching.education.gov.uk/#talk-to-us).
 
-## Changing our service
+[If you’re applying from overseas, find out more about becoming a teacher in England in our guidance for overseas graduates](https://getintoteaching.education.gov.uk/train-to-teach-in-england-as-an-international-student).
 
-Our service is always evolving, and we will make changes from time to time. We will not tell you about the changes beforehand. We will let you know if the website will be unavailable while we’re updating it.
+
+## Changes to this service
+
+We need to make changes to this service from time to time.
+
+We will not tell you about the changes beforehand, but we will let you know if the website is unavailable while we’re updating it.
 
 ## About your online account
 

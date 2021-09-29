@@ -12,30 +12,17 @@ module CandidateInterface
       @current_candidate.current_application.recruitment_cycle_year != RecruitmentCycle.current_year
     end
 
-    def course_available_on_apply_and_candidate_signed_in?
-      course_available_on_apply? && @current_candidate.present?
+    def course_in_apply_database_and_candidate_signed_in?
+      course_in_apply_database? && @current_candidate.present?
     end
 
-    def course_available_on_apply_and_candidate_not_signed_in?
+    def course_in_apply_database_and_candidate_not_signed_in?
       course_available_on_apply? && @current_candidate.blank?
     end
 
-    def course_available_on_apply_and_provider_not_on_ucas?
-      course_available_on_apply? && provider_not_accepting_applications_via_ucas?
-    end
-
     def course_available_on_apply?
-      course_in_apply_database? && \
-        course.open_on_apply? && \
+      course_in_apply_database? &&
         FeatureFlag.active?('pilot_open')
-    end
-
-    def ucas_only?
-      course.present? && !course_available_on_apply?
-    end
-
-    def provider_not_accepting_applications_via_ucas?
-      provider&.not_accepting_appplications_on_ucas?
     end
 
     def course

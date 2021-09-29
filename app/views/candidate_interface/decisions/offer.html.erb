@@ -7,8 +7,6 @@
       model: @respond_to_offer,
       url: candidate_interface_respond_to_offer_path(@application_choice),
     ) do |f| %>
-      <%= render CandidateInterface::UCASDowntimeComponent.new %>
-
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
@@ -20,7 +18,6 @@
       <p class="govuk-body">Before you accept:</p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <li>if you accept this offer, you cannot also accept another offer through UCAS teacher training</li>
         <% if @offer_count > 1 %>
           <li>if you accept this offer, your other <%= 'offer'.pluralize(@offer_count - 1) %> will be automatically declined</li>
         <% end %>
