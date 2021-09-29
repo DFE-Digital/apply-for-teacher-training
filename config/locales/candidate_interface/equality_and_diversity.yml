@@ -83,22 +83,20 @@ en:
         candidate_interface/equality_and_diversity/sex_form:
           attributes:
             sex:
-              blank: Choose your sex
+              blank: Select your sex or ‘Prefer not to say’
         candidate_interface/equality_and_diversity/disability_status_form:
           attributes:
             disability_status:
-              blank: Choose if you have a disability
+              blank: Select if you are disabled or ‘Prefer not to say’
         candidate_interface/equality_and_diversity/disabilities_form:
           attributes:
             disabilities:
-              blank: Select all disabilities that apply to you
-            other_disability:
-              blank: Describe your disability
+              blank: Select the disabilities you have or ‘Other’
         candidate_interface/equality_and_diversity/ethnic_background_form:
           attributes:
             ethnic_background:
-              blank: Choose your ethnic background
+              blank: Select your background or ‘Prefer not to say’
         candidate_interface/equality_and_diversity/ethnic_group_form:
           attributes:
             ethnic_group:
-              blank: Choose your ethnic group
+              blank: Select an ethnic group or ‘Prefer not to say’
