@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       it 'renders expected content' do
         expect(heading(result)).to eq 'Courses'
         expect(link_text(result)).to eq 'Choose your courses'
-        expect(href(result)).to eq '/candidate/application/courses'
+        expect(href(result)).to eq '/candidate/application/courses/choose'
         expect(status_text(result)).to eq 'Incomplete'
         expect(first_paragraph(result).text).to eq 'You can apply for up to 3 courses.'
       end
@@ -75,7 +75,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       it 'renders expected content' do
         expect(heading(result)).to eq 'Courses'
         expect(link_text(result)).to eq 'Choose your courses'
-        expect(href(result)).to eq '/candidate/application/courses'
+        expect(href(result)).to eq '/candidate/application/courses/review'
         expect(status_text(result)).to eq 'Incomplete'
         expect(first_paragraph(result)).not_to be_present
       end

@@ -14,8 +14,9 @@ module CandidateInterface
       :flash,
       :redirect_to,
       :candidate_interface_course_choices_add_another_course_path,
-      :candidate_interface_course_choices_index_path,
+      :candidate_interface_course_choices_choose_path,
       :candidate_interface_application_form_path,
+      :candidate_interface_course_choices_review_path,
       to: :controller,
     )
 
@@ -63,11 +64,16 @@ module CandidateInterface
         if application_form.can_add_more_choices?
           redirect_to candidate_interface_course_choices_add_another_course_path
         else
-          redirect_to candidate_interface_course_choices_index_path
+          redirect_to candidate_interface_course_choices_review_path
         end
       else
         flash[:warning] = pick_site_form.errors.full_messages.first
-        redirect_to candidate_interface_course_choices_index_path
+
+        if current_application.application_choices.any?
+          redirect_to candidate_interface_course_choices_review_path
+        else
+          redirect_to candidate_interface_course_choices_choose_path
+        end
       end
     end
 
@@ -88,7 +94,7 @@ module CandidateInterface
       if @return_to == 'application-review'
         redirect_to '/candidate/application/review'
       else
-        redirect_to candidate_interface_course_choices_index_path
+        redirect_to candidate_interface_course_choices_review_path
       end
     end
   end

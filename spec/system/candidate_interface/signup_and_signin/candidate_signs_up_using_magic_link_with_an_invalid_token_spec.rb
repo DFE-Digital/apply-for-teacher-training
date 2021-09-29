@@ -19,7 +19,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     then_i_receive_an_email_inviting_me_to_sign_in
     and_i_click_on_the_link_in_my_email
     and_i_confirm_the_sign_in
-    then_i_see_the_before_you_start_page
+    then_i_see_my_application_form
 
     when_click_on_the_apply_for_teacher_training_link_in_the_header
     then_i_should_see_the_application_page
@@ -79,8 +79,8 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
   end
 
-  def then_i_see_the_before_you_start_page
-    expect(page).to have_current_path(candidate_interface_before_you_start_path)
+  def then_i_see_my_application_form
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 
   def when_click_on_the_apply_for_teacher_training_link_in_the_header

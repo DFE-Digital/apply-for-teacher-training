@@ -41,9 +41,7 @@ module CandidateInterface
     def redirect_to_application_form_unless_course_from_find_is_present
       return false unless course_from_find.nil?
 
-      if current_application.blank_application?
-        redirect_to candidate_interface_before_you_start_path
-      elsif current_application.submitted?
+      if current_application.submitted?
         redirect_to candidate_interface_application_complete_path
       else
         redirect_to candidate_interface_application_form_path

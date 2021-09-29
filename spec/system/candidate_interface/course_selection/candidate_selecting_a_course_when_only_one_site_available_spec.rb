@@ -9,7 +9,6 @@ RSpec.feature 'Selecting a course when only a single site is available' do
 
     when_i_visit_the_site
     and_i_click_on_course_choices
-    and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
@@ -96,10 +95,6 @@ RSpec.feature 'Selecting a course when only a single site is available' do
 
   def and_i_click_on_course_choices
     click_link 'Choose your courses'
-  end
-
-  def and_i_click_on_add_course
-    click_link t('continue')
   end
 
   def and_i_choose_that_i_know_where_i_want_to_apply

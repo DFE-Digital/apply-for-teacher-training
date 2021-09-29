@@ -4,8 +4,6 @@ module CandidateInterface
     before_action :redirect_to_application_if_between_cycles, except: %w[show review]
     before_action :redirect_to_carry_over, except: %w[review]
 
-    def before_you_start; end
-
     def show
       @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
       @application_cache_key = CacheKey.generate(@application_form_presenter.cache_key_with_version)

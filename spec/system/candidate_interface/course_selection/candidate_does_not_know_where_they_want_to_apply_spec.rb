@@ -8,7 +8,6 @@ RSpec.feature 'Selecting a course' do
 
     when_i_visit_the_site
     and_i_click_on_course_choices
-    and_i_click_on_add_course
     and_i_choose_that_i_do_not_know_where_i_want_to_apply
     then_i_should_be_on_the_find_a_course_page
 
@@ -26,10 +25,6 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_click_on_course_choices
     click_link 'Choose your courses'
-  end
-
-  def and_i_click_on_add_course
-    click_link t('continue')
   end
 
   def and_i_choose_that_i_do_not_know_where_i_want_to_apply

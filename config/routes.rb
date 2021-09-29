@@ -67,7 +67,6 @@ Rails.application.routes.draw do
       get '/prefill', to: 'prefill_application_form#new'
       post '/prefill', to: 'prefill_application_form#create'
 
-      get '/before-you-start', to: 'unsubmitted_application_form#before_you_start'
       get '/' => 'unsubmitted_application_form#show', as: :application_form
       get '/review' => 'unsubmitted_application_form#review', as: :application_review
       get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
@@ -385,8 +384,6 @@ Rails.application.routes.draw do
       end
 
       scope '/courses' do
-        get '/' => 'application_choices#index', as: :course_choices_index
-
         get '/choose' => 'course_choices/course_decision#ask', as: :course_choices_choose
         post '/choose' => 'course_choices/course_decision#decide'
         get '/find-a-course' => 'course_choices/course_decision#go_to_find', as: :go_to_find

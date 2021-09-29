@@ -110,5 +110,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_choose_path, error: @missing_error)) %>
 <% end %>

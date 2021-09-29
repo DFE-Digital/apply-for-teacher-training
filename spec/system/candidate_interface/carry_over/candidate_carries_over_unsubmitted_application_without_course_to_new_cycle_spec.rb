@@ -28,6 +28,7 @@ RSpec.feature 'Carry over' do
 
     when_i_view_courses
     then_i_can_see_that_i_need_to_select_courses
+    then_i_can_see_that_i_need_to_select_courses
 
     and_i_select_a_course
     and_i_complete_the_section
@@ -109,7 +110,6 @@ RSpec.feature 'Carry over' do
 
   def when_i_view_courses
     click_link 'Back to application'
-    click_link 'Choose your course'
   end
 
   def then_i_can_see_that_i_need_to_select_courses
@@ -118,8 +118,8 @@ RSpec.feature 'Carry over' do
 
   def and_i_select_a_course
     given_courses_exist
+    click_link 'Choose your course'
 
-    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 

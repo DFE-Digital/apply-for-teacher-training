@@ -9,7 +9,6 @@ RSpec.feature 'Selecting a course' do
 
     when_i_visit_the_site
     and_i_click_on_course_choices
-    and_i_click_on_add_course
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     then_i_should_see_a_course_and_its_description
@@ -62,11 +61,10 @@ RSpec.feature 'Selecting a course' do
     then_i_no_longer_see_my_course_choice
 
     when_i_delete_my_remaining_course_choices
-    then_i_should_i_should_see_the_course_choice_index_page
+    then_i_should_i_should_see_the_course_choice_choose_page
 
     given_the_provider_has_over_twenty_courses
-    when_i_click_the_continue_link
-    and_i_choose_that_i_know_where_i_want_to_apply
+    when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     then_the_select_box_has_no_value_selected
   end
@@ -136,13 +134,13 @@ RSpec.feature 'Selecting a course' do
     click_link 'Choose your courses'
   end
 
-  def and_i_click_on_add_course
-    click_link t('continue')
-  end
-
   def and_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
+  end
+
+  def when_i_choose_that_i_know_where_i_want_to_apply
+    and_i_choose_that_i_know_where_i_want_to_apply
   end
 
   def and_i_choose_a_provider
@@ -219,7 +217,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_i_mark_this_section_as_completed
-    visit candidate_interface_course_choices_index_path
+    visit candidate_interface_course_choices_review_path
     choose t('application_form.completed_radio')
   end
 
@@ -263,16 +261,12 @@ RSpec.feature 'Selecting a course' do
     when_i_click_continue
   end
 
-  def then_i_should_i_should_see_the_course_choice_index_page
-    expect(page).to have_current_path(candidate_interface_course_choices_index_path)
+  def then_i_should_i_should_see_the_course_choice_choose_page
+    expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
   end
 
   def given_the_provider_has_over_twenty_courses
     create_list(:course, 20, provider: @provider, exposed_in_find: true)
-  end
-
-  def when_i_click_the_continue_link
-    click_link t('continue')
   end
 
   def then_the_select_box_has_no_value_selected

@@ -78,7 +78,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   end
 
   def then_i_see_empty_course_review_page
-    expect(page).to have_current_path(candidate_interface_course_choices_index_path)
+    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
     expect(page).not_to have_content(@course.provider.name)
     expect(page).not_to have_content(@course.name)
   end
