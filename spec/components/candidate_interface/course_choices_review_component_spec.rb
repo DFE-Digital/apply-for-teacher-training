@@ -16,6 +16,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
       expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.to_s(:month_and_year))
+      expect(result.css('.govuk-summary-list__value').to_html).to include('This provider does not consider candidates with pending GCSEs')
       expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
     end
 

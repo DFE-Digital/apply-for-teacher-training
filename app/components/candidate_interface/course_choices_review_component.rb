@@ -36,6 +36,7 @@ module CandidateInterface
         course_length_row(application_choice),
         start_date_row(application_choice),
         degree_required_row(application_choice),
+        gcse_required_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
@@ -199,6 +200,13 @@ module CandidateInterface
       {
         key: 'Degree requirements',
         value: render(DegreeRequiredComponent.new(application_choice)),
+      }
+    end
+
+    def gcse_required_row(application_choice)
+      {
+        key: 'GCSE requirements',
+        value: render(PendingGcseRequiredComponent.new(application_choice)),
       }
     end
 
