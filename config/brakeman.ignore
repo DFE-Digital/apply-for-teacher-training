@@ -263,6 +263,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "ba27be1574bdc4cf397af3590986d186ac5614c657c6face6b77134b89caf45b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/monthly_statistics/by_status.rb",
+      "line": 145,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"SELECT COUNT(application_choices_with_minimum_statuses.id), application_choices_with_minimum_statuses.#{field}\\n                FROM (\\n                  SELECT application_choices.id as id,\\n                         application_choices.status_before_deferral as status_before_deferral,\\n                         application_choices.status as status,\\n                         ROW_NUMBER() OVER (\\n                          PARTITION BY application_forms.id\\n                          ORDER BY\\n                          CASE application_choices.#{field}\\n                          WHEN 'recruited' THEN 1\\n                          WHEN 'pending_conditions' THEN 2\\n                          WHEN 'conditions_not_met' THEN 2\\n                          WHEN 'offer' THEN 3\\n                          WHEN 'awaiting_provider_decision' THEN 4\\n                          WHEN 'interviewing' THEN 4\\n                          WHEN 'declined' THEN 5\\n                          WHEN 'offer_withdrawn' THEN 6\\n                          WHEN 'withdrawn' THEN 7\\n                          WHEN 'cancelled' THEN 7\\n                          WHEN 'rejected' THEN 7\\n                          ELSE 8\\n                          END\\n                        ) AS row_number\\n                        FROM application_forms\\n                        INNER JOIN application_choices\\n                          ON application_choices.application_form_id = application_forms.id\\n                          WHERE application_forms.recruitment_cycle_year = #{cycle}\\n                          AND application_forms.phase = '#{phase}'\\n                          #{(\"AND (\\n                                                  NOT EXISTS (\\n                                                    SELECT 1\\n                                                    FROM application_forms\\n                                                    AS subsequent_application_forms\\n                                                    WHERE application_forms.id = subsequent_application_forms.previous_application_form_id\\n                                                  )\\n                                                )\" or \"\")}\\n                        ) AS application_choices_with_minimum_statuses\\n                WHERE application_choices_with_minimum_statuses.row_number = 1\\n                GROUP BY #{field}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MonthlyStatistics::ByStatus",
+        "method": "tally_application_choices"
+      },
+      "user_input": "field",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "dee8e3d32c167d6090d7a67d1bc9add167f8ef7b154fcc1d1311fc7aad779a84",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -301,6 +321,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-09-23 10:37:49 +0100",
+  "updated": "2021-09-29 11:50:50 +0100",
   "brakeman_version": "5.1.1"
 }
