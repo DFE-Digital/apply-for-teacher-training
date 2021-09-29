@@ -74,33 +74,76 @@ module MonthlyStatistics
     end
 
     def combined_application_choice_states_tally(phase)
-      tally_application_choices(phase).merge!(tally_deferred_application_choices(phase)) do |_key, count, deferred_count|
-        [count, deferred_count].inject(:+)
+      status_for_choices_tally = tally_application_choices(phase: phase, cycle: RecruitmentCycle.current_year, field: 'status')
+      deferral_status_choices_tally = tally_application_choices(phase: phase, cycle: RecruitmentCycle.previous_year, field: 'status_before_deferral')
+
+      format_deferral_status_choices_tally = deferral_status_choices_tally.map do |tally|
+        tally['status'] = tally['status_before_deferral']
+        tally
+      end
+
+      combined_tally = status_for_choices_tally + format_deferral_status_choices_tally
+
+      status_and_count_hash = combined_tally.map do |hash|
+        { hash['status'] => hash['count'] }
+      end
+
+      status_and_count_hash.each_with_object(Hash.new(0)) do |hash, sum|
+        hash.each { |key, value| sum[key] += value }
       end
     end
 
-    def tally_application_choices(phase)
-      scope = ApplicationForm
-        .includes(:application_choices)
-        .current_cycle
-        .where(phase: phase)
+    def tally_application_choices(phase:, cycle:, field:)
+      without_subsequent_applications_query = if @by_candidate
+                                                "AND (
+                                                  NOT EXISTS (
+                                                    SELECT 1
+                                                    FROM application_forms
+                                                    AS subsequent_application_forms
+                                                    WHERE application_forms.id = subsequent_application_forms.previous_application_form_id
+                                                  )
+                                                )"
+                                              else
+                                                ''
+                                              end
 
-      scope = scope.without_subsequent_applications if @by_candidate
+      query = "SELECT COUNT(application_choices_with_minimum_statuses.id), application_choices_with_minimum_statuses.#{field}
+                FROM (
+                  SELECT application_choices.id as id,
+                         application_choices.status_before_deferral as status_before_deferral,
+                         application_choices.status as status,
+                         ROW_NUMBER() OVER (
+                          PARTITION BY application_forms.id
+                          ORDER BY
+                          CASE application_choices.#{field}
+                          WHEN 'recruited' THEN 1
+                          WHEN 'pending_conditions' THEN 2
+                          WHEN 'conditions_not_met' THEN 2
+                          WHEN 'offer' THEN 3
+                          WHEN 'awaiting_provider_decision' THEN 4
+                          WHEN 'interviewing' THEN 4
+                          WHEN 'declined' THEN 5
+                          WHEN 'offer_withdrawn' THEN 6
+                          WHEN 'withdrawn' THEN 7
+                          WHEN 'cancelled' THEN 7
+                          WHEN 'rejected' THEN 7
+                          ELSE 8
+                          END
+                        ) AS row_number
+                        FROM application_forms
+                        INNER JOIN application_choices
+                          ON application_choices.application_form_id = application_forms.id
+                          WHERE application_forms.recruitment_cycle_year = #{cycle}
+                          AND application_forms.phase = '#{phase}'
+                          #{without_subsequent_applications_query}
+                        ) AS application_choices_with_minimum_statuses
+                WHERE application_choices_with_minimum_statuses.row_number = 1
+                GROUP BY #{field}"
 
-      scope.map { |application_form| application_form.top_ranked_application_choice_status(:status) }
-        .tally
-    end
-
-    def tally_deferred_application_choices(phase)
-      scope = ApplicationForm
-        .includes(:application_choices)
-        .where(recruitment_cycle_year: RecruitmentCycle.previous_year)
-        .where(phase: phase)
-
-      scope = scope.without_subsequent_applications if @by_candidate
-
-      scope.map { |application_form| application_form.top_ranked_application_choice_status(:status_before_deferral) }
-        .tally
+      ActiveRecord::Base
+        .connection
+        .execute(query)
+        .to_a
     end
 
     def apply_one_count(phases)

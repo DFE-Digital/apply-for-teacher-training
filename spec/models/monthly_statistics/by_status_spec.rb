@@ -119,9 +119,9 @@ RSpec.describe MonthlyStatistics::ByStatus do
   def setup_test_data
     candidate_one = create(:candidate)
     candidate_one_apply_one_application = create(:application_form, phase: 'apply_1', candidate: candidate_one)
-    create(:application_choice, :with_recruited, application_form: candidate_one_apply_one_application)
-    create(:application_choice, :awaiting_provider_decision, application_form: candidate_one_apply_one_application)
     create(:application_choice, :with_rejection, application_form: candidate_one_apply_one_application)
+    create(:application_choice, :awaiting_provider_decision, application_form: candidate_one_apply_one_application)
+    create(:application_choice, :with_recruited, application_form: candidate_one_apply_one_application)
 
     candidate_two = create(:candidate)
     candidate_two_apply_one_application = create(:application_form, phase: 'apply_1', candidate: candidate_two)
