@@ -52,8 +52,6 @@ Rails.application.routes.draw do
     get '/authenticate', to: 'sign_in#expired'
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
-    post '/apply', to: 'apply_from_find#choose_service'
-    get '/apply/ucas', to: 'apply_from_find#ucas_interstitial', as: :apply_with_ucas_interstitial
 
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
@@ -411,9 +409,6 @@ Rails.application.routes.draw do
 
         get '/another' => 'course_choices/add_another_course#ask', as: :course_choices_add_another_course
         post '/another' => 'course_choices/add_another_course#decide', as: :course_choices_add_another_course_selection
-
-        get '/apply-on-ucas/provider/:provider_id' => 'course_choices/ucas#no_courses', as: :course_choices_ucas_no_courses
-        get '/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices/ucas#with_course', as: :course_choices_ucas_with_course
 
         get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
         get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
