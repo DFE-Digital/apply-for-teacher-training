@@ -1,29 +1,7 @@
 Dear <%= @provider_user.full_name || 'colleague' %>
 
-<% if @multiple_relationships -%>
-Candidates can now find courses on GOV.UK that you work on with the partner organisations listed below.
+<%= render "#{@single_or_multiple}_provider_relationship_set_up" %>
 
-You cannot manage applications to these courses until either you or your partner organisations have set up organisational permissions.
-
-<% @relationships_to_set_up.each do |organisation, partner_organisations| -%>
-
-For <%= organisation %>, you need to set up permissions for courses you work on with:
-
-<% partner_organisations.each do |partner_organisation| -%>
-- <%= partner_organisation %>
-<% end %>
-<% end -%>
-
-<% else -%>
-Candidates can now find courses on GOV.UK that you work on with:
-
-<% @relationships_to_set_up.values.flatten.each do |partner_organisation| -%>
-- <%= partner_organisation %>
-<% end -%>
-
-Either you or these partner organisations must set up organisation permissions before you can manage teacher training applications.
-
-<% end -%>
 You’ll be asked to set up organisation permissions when you sign in, unless your partner organisations set them up first.
 
 <%= provider_interface_sign_in_url %>

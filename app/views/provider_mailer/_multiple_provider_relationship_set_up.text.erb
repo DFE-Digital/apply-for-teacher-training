@@ -1,0 +1,12 @@
+Candidates can now find courses on GOV.UK that you work on with the partner organisations listed below.
+
+You cannot manage applications to these courses until either you or your partner organisations have set up organisational permissions.
+
+<% @relationships_to_set_up.each do |organisation, partner_organisations| -%>
+
+For <%= organisation %>, you need to set up permissions for courses you work on with:
+
+<% partner_organisations.each do |partner_organisation| -%>
+- <%= partner_organisation %>
+<% end %>
+<% end -%>
