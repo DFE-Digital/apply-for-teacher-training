@@ -2,10 +2,11 @@ module SupportInterface
   class ApplicationsFilter
     include FilterParamsHelper
 
-    attr_reader :applied_filters
+    attr_reader :applied_filters, :provider_page
 
-    def initialize(params:)
+    def initialize(params:, provider_page: false)
       @applied_filters = compact_params(params)
+      @provider_page = provider_page
     end
 
     def filter_records(application_forms)
@@ -40,6 +41,12 @@ module SupportInterface
         application_forms = application_forms.where(recruitment_cycle_year: applied_filters[:year])
       end
 
+      if provider_page && applied_filters[:training_provider].present?
+        application_forms = application_forms
+                            .joins(application_choices: { course_option: :site })
+                            .where(application_choices: { course_option: { sites: { provider_id: applied_filters[:training_provider] } } })
+      end
+
       if applied_filters[:status].present?
         application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
       end
@@ -54,7 +61,11 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter]
+      @filters ||= if provider_page
+                     [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, training_provider_filter, status_filter]
+                   else
+                     [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter]
+                   end
     end
 
   private
@@ -127,6 +138,25 @@ module SupportInterface
             checked: applied_filters[:interviews]&.include?('has_interviews'),
           },
         ],
+      }
+    end
+
+    def training_provider_filter
+      providers = Provider.joins(:courses).where(id: @applied_filters['provider_id']).or(Course.where(accredited_provider_id: @applied_filters['provider_id'])).distinct
+
+      provider_options = providers.map do |provider|
+        {
+          value: provider.id,
+          label: provider.name,
+          checked: applied_filters[:training_provider]&.include?(provider.id.to_s),
+        }
+      end
+
+      {
+        type: :checkboxes,
+        heading: 'Training providers',
+        name: 'training_provider',
+        options: provider_options,
       }
     end
 

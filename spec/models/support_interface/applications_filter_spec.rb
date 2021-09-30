@@ -6,9 +6,9 @@ RSpec.describe SupportInterface::ApplicationsFilter do
   end
   let!(:application_choice_with_interview) { create(:application_choice, :with_scheduled_interview) }
 
-  def verify_filtered_applications_for_params(expected_applications, params:)
+  def verify_filtered_applications_for_params(expected_applications, params:, provider_page: false)
     applications = ApplicationForm.all
-    filter = described_class.new(params: params)
+    filter = described_class.new(params: params, provider_page: provider_page)
     expect(filter.filter_records(applications)).to match_array expected_applications
   end
 
@@ -75,6 +75,34 @@ RSpec.describe SupportInterface::ApplicationsFilter do
           status: %w[offer],
         },
       )
+    end
+
+    context 'on the candidates page' do
+      it 'cannot filter by training provider' do
+        expected_form1 = application_choice_with_offer.application_form
+        expected_form2 = application_choice_with_interview.application_form
+
+        verify_filtered_applications_for_params(
+          [expected_form1, expected_form2],
+          params: {
+            training_provider: [application_choice_with_offer.provider.id],
+          },
+        )
+      end
+    end
+
+    context 'on the providers page' do
+      it 'can filter by training provider' do
+        expected_form = application_choice_with_offer.application_form
+
+        verify_filtered_applications_for_params(
+          [expected_form],
+          params: {
+            training_provider: [application_choice_with_offer.provider.id],
+          },
+          provider_page: true,
+        )
+      end
     end
   end
 end
