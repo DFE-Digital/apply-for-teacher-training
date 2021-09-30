@@ -8,7 +8,13 @@ module DataMigrations
       .joins(:application_work_experiences)
       .where(recruitment_cycle_year: 2022, work_history_status: nil)
       .distinct
-      .each(&:can_complete!)
+      .find_each(&:can_complete!)
+
+      ApplicationForm
+      .left_outer_joins(:application_work_experiences)
+      .where(recruitment_cycle_year: 2022, work_history_status: nil, application_work_experiences: { id: nil })
+      .where.not(work_history_explanation: nil)
+      .find_each(&:can_not_complete!)
     end
   end
 end
