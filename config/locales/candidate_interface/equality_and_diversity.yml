@@ -29,25 +29,25 @@ en:
       title: What disabilities do you have?
       blind:
         label: Blind
-        hint_text: (or a serious visual impairment which is not corrected by glasses)
+        hint_text: Or a serious visual impairment which is not corrected by glasses
       deaf:
         label: Deaf
-        hint_text: (or a serious hearing impairment)
+        hint_text: Or a serious hearing impairment
       learning:
         label: Learning difficulty
-        hint_text: (for example, dyslexia, dyspraxia or ADHD)
+        hint_text: For example, dyslexia, dyspraxia or ADHD
       long_standing:
         label: Long-standing illness
-        hint_text: (for example, cancer, HIV, diabetes, chronic heart disease or epilepsy)
+        hint_text: For example, cancer, HIV, diabetes, chronic heart disease or epilepsy
       mental:
         label: Mental health condition
-        hint_text: (for example, depression, schizophrenia or anxiety disorder)
+        hint_text: For example, depression, schizophrenia or anxiety disorder
       physical:
         label: Physical disability or mobility issue
-        hint_text: (for example, impaired use of arms or legs, use of a wheelchair or crutches)
+        hint_text: For example, impaired use of arms or legs, use of a wheelchair or crutches
       social:
         label: Social or communication impairment
-        hint_text: (for example Asperger’s, or another autistic spectrum disorder)
+        hint_text: For example, Asperger’s, or another autistic spectrum disorder
       other:
         label: Other
       other_disability:
@@ -56,19 +56,19 @@ en:
       title: What is your ethnic group?
       asian:
         label: Asian or Asian British
-        hint_text: (includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani)
+        hint_text: Includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani
       black:
         label: Black, African, Black British or Caribbean
-        hint_text: (includes any Black background)
+        hint_text: Includes any Black background
       mixed:
         label: Mixed or multiple ethnic groups
-        hint_text: (includes any Mixed background)
+        hint_text: Includes any Mixed background
       white:
         label: White
-        hint_text: (includes any White background)
+        hint_text: Includes any White background
       other:
         label: Another ethnic group
-        hint_text: (includes any other ethnic group, for example, Arab)
+        hint_text: Includes any other ethnic group, for example, Arab
       opt_out:
         label: Prefer not to say
     ethnic_background:
