@@ -136,11 +136,11 @@ RSpec.describe CarryOverApplication do
     end
 
     it 'does not set `work_history_status`if the candidate has no work history' do
-      application_form = create(:completed_application_form)
+      application_form = create(:completed_application_form, feature_restructured_work_history: false)
       described_class.new(application_form).call
       carried_over_application_form = ApplicationForm.last
 
-      expect(carried_over_application_form.work_history_status).to eq nil
+      expect(carried_over_application_form.work_history_status).to eq 'can_not_complete'
     end
 
     describe 'personal_details_completed' do
