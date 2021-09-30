@@ -26,11 +26,11 @@ class CycleTimetable
       apply_1_deadline: Time.zone.local(2021, 8, 7, 18),
       apply_2_deadline: Time.zone.local(2021, 8, 21, 18),
       reject_by_default: Time.zone.local(2021, 8, 29, 23, 59, 59),
-      find_closes: Time.zone.local(2021, 9, 4, 23, 59, 59),
+      find_closes: Time.zone.local(2021, 10, 2, 15, 40, 59),
     },
     2022 => {
-      find_opens: Time.zone.local(2021, 9, 28, 11, 40),
-      apply_opens: Time.zone.local(2021, 9, 28, 12, 10),
+      find_opens: Time.zone.local(2021, 10, 2, 15, 55),
+      apply_opens: Time.zone.local(2021, 10, 2, 16, 20),
       show_deadline_banner: Time.zone.local(2022, 8, 1, 9), # This is a placeholder till we know the real date
       apply_1_deadline: Time.zone.local(2022, 9, 7, 18), # This is a placeholder till we know the real date
       apply_2_deadline: Time.zone.local(2022, 9, 21, 18), # This is a placeholder till we know the real date
