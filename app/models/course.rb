@@ -116,7 +116,13 @@ class Course < ApplicationRecord
   end
 
   def find_url
-    "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
+    url = if HostingEnvironment.sandbox_mode?
+            I18n.t('find_postgraduate_teacher_training.sandbox_url')
+          else
+            I18n.t('find_postgraduate_teacher_training.production_url')
+          end
+
+    "#{url}course/#{provider.code}/#{code}"
   end
 
   def in_previous_cycle
