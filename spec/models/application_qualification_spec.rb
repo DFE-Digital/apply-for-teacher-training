@@ -80,6 +80,44 @@ RSpec.describe ApplicationQualification, type: :model do
     end
   end
 
+  describe '#incomplete_gcse_information' do
+    context "a GCSE qualification that does not meet grade requirements and 'currently_completing_qualification' is nil" do
+      it 'returns true' do
+        qualification = build(:gcse_qualification, grade: 'D', currently_completing_qualification: nil)
+        expect(qualification.incomplete_gcse_information?).to eq true
+      end
+    end
+
+    context "a GCSE qualification with 'grade' and 'constituent_grades' equal to 'nil'" do
+      it 'returns true' do
+        qualification = build(:gcse_qualification, grade: nil, constituent_grades: nil)
+        expect(qualification.incomplete_gcse_information?).to eq true
+      end
+    end
+
+    context 'a GCSE qualification with missing data' do
+      it 'returns true' do
+        qualification = build(:gcse_qualification, subject: nil)
+        expect(qualification.incomplete_gcse_information?).to eq true
+      end
+    end
+
+    context "a qualification with a 'type' equal to 'missing' and 'currently_completing_qualification' is not nil" do
+      it 'returns false' do
+        qualification = build(:gcse_qualification, qualification_type: 'missing', currently_completing_qualification: true)
+        expect(qualification.incomplete_gcse_information?).to eq false
+      end
+    end
+
+    context 'a complete GCSE qualification' do
+      it 'returns false' do
+        qualification = build(:gcse_qualification)
+
+        expect(qualification.incomplete_gcse_information?).to eq false
+      end
+    end
+  end
+
   describe '#incomplete_other_qualification?' do
     context 'when a non_uk qualification' do
       it 'returns false if not an other_qualification' do
