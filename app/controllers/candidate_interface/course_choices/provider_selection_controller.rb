@@ -12,11 +12,7 @@ module CandidateInterface
         )
         render :new and return unless @pick_provider.valid?
 
-        if @pick_provider.courses_available?
-          redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
-        else
-          redirect_to candidate_interface_course_choices_ucas_no_courses_path(@pick_provider.provider_id)
-        end
+        redirect_to candidate_interface_course_choices_course_path(@pick_provider.provider_id)
       end
     end
   end

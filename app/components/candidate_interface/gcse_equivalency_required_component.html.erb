@@ -1,0 +1,14 @@
+<% if provider_accepts_equivalencies_and_gcse_is_missing? %>
+  This provider will accept equivalency tests in <%= course_accepted_equivalencies_text %>
+<% else %>
+  <%= govuk_inset_text(classes: 'govuk-inset-text app-inset-text--narrow-border app-inset-text--important govuk-!-margin-top-0 govuk-!-padding-bottom-1') do %>
+    <div class="app-inset-text__title">This provider will not accept equivalency tests</div>
+      <p class="govuk-body">You said you do not have a qualification in <%= no_qualifications_text %>.</p>
+      <p class="govuk-body">You can:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+       <li>find a course that does accept equivalency tests</li>
+       <li>contact the provider to see if they will still consider your application</li>
+      </ul>
+  <% end %>
+<% end %>

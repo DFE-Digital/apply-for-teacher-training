@@ -27,7 +27,7 @@
 
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.includes(%i[application_form audits]).each_with_index do |reference, i| %>
-    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: i + 1) %>
+    <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: i + 1, editable: @application_form.editable?) %>
   <% end %>
 <% end %>
 
@@ -45,7 +45,7 @@
 
 <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
-<%= render PersonalStatementComponent.new(application_form: @application_form, editable: true) %>
+<%= render PersonalStatementComponent.new(application_form: @application_form, editable: @application_form.editable?) %>
 
 <%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
 

@@ -1,12 +1,12 @@
 # NOTE: This component is used by both provider and support UIs
 class GcseQualificationCardsComponent < ViewComponent::Base
-  include ApplicationHelper
   include ViewHelper
 
   attr_reader :application_form
 
-  def initialize(application_form)
+  def initialize(application_form, editable: false)
     @application_form = application_form
+    @editable = editable
   end
 
   def maths
@@ -94,7 +94,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
     end
   end
 
-  def in_support_console?
-    current_namespace == 'support_interface'
+  def editable?
+    @editable
   end
 end

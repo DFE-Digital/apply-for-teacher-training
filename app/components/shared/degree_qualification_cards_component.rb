@@ -1,16 +1,16 @@
 # NOTE: This component is used by both provider and support UIs
 class DegreeQualificationCardsComponent < ViewComponent::Base
-  include ApplicationHelper
   include ViewHelper
 
   attr_reader :degrees, :application_choice_state, :show_hesa_codes
 
   alias show_hesa_codes? show_hesa_codes
 
-  def initialize(degrees, application_choice_state: nil, show_hesa_codes: false)
+  def initialize(degrees, application_choice_state: nil, show_hesa_codes: false, editable: false)
     @degrees = degrees
     @application_choice_state = application_choice_state
     @show_hesa_codes = show_hesa_codes
+    @editable = editable
   end
 
   def section_title
@@ -71,7 +71,7 @@ private
     degree.institution_name
   end
 
-  def in_support_console?
-    current_namespace == 'support_interface'
+  def editable?
+    @editable
   end
 end

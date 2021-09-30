@@ -42,6 +42,12 @@ RSpec.describe StartOfCycleNotificationWorker do
     context 'when the specified service is :find' do
       let(:service) { :find }
 
+      around do |example|
+        Timecop.freeze(CycleTimetable.find_opens.change(hour: 15)) do
+          example.run
+        end
+      end
+
       it 'notifies all provider users that the service is open' do
         described_class.new.perform(service)
 
@@ -118,6 +124,12 @@ RSpec.describe StartOfCycleNotificationWorker do
     context 'when the specified service is :apply' do
       let(:service) { :apply }
 
+      around do |example|
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 15)) do
+          example.run
+        end
+      end
+
       it 'notifies all provider users' do
         described_class.new.perform(service)
 
@@ -139,18 +151,40 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { :apply }
 
       it 'divides the providers with users who should be notified across the hours remaining' do
-        described_class.new.perform(service, 2)
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 14)) do
+          described_class.new.perform(service)
 
-        expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.first)
-        expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.last)
+          expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.first)
+          expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.last)
 
-        expect(ProviderMailer).not_to have_received(:apply_service_is_now_open).with(other_provider_users.first)
-        expect(ProviderMailer).not_to have_received(:apply_service_is_now_open).with(other_provider_users.last)
+          expect(ProviderMailer).not_to have_received(:apply_service_is_now_open).with(other_provider_users.first)
+          expect(ProviderMailer).not_to have_received(:apply_service_is_now_open).with(other_provider_users.last)
 
-        described_class.new.perform(service, 2)
+          described_class.new.perform(service)
 
-        expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(other_provider_users.first)
-        expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(other_provider_users.last)
+          expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(other_provider_users.first)
+          expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(other_provider_users.last)
+        end
+      end
+    end
+
+    context 'when called out of hours for the Find service opening' do
+      let(:service) { :find }
+
+      it 'does nothing' do
+        Timecop.freeze(CycleTimetable.find_opens.change(hour: 8, min: 59)) do
+          expect { described_class.new.perform(service) }.not_to change(ChaserSent, :count)
+        end
+      end
+    end
+
+    context 'when called out of hours for the Apply service opening' do
+      let(:service) { :apply }
+
+      it 'does nothing' do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 16, min: 2)) do
+          expect { described_class.new.perform(service) }.not_to change(ChaserSent, :count)
+        end
       end
     end
   end

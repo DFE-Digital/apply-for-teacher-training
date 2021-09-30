@@ -20,6 +20,15 @@
   </div>
 </div>
 
+<% unless @application_form.editable? %>
+  <%= govuk_notification_banner(title_text: t('notification_banner.info')) do |notification_banner| %>
+    <% notification_banner.heading(text: 'Candidate has a more recent application') %>
+    <p class="govuk-body">This application can no longer be edited as the candidate has applied again. Edit the
+      more recent application instead of this one</p>
+    <p class="govuk-body"><%= govuk_link_to 'More recent application', support_interface_application_form_path(@application_form.subsequent_application_form) %></p>
+  <% end %>
+<% end %>
+
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_application_form_path(@application_form) },
   { name: 'History', url: support_interface_application_form_audit_path(@application_form) },

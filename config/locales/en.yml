@@ -49,10 +49,6 @@ en:
     error_prefix: "Error: "
     success_prefix: "Success: "
     course_not_found: Course not found
-    apply_from_find: Apply for this course
-    apply_from_find_with_ucas: Apply for this course with UCAS
-    apply_to_course_on_ucas: You need to apply to this course on UCAS
-    apply_to_provider_on_ucas: You need to apply to this provider on UCAS
     unsubmitted_previous_application: Your previously unsubmitted application
     submitted_application: Your submitted application
     create_account_or_sign_in: Create an account or sign in

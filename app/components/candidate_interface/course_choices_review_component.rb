@@ -36,6 +36,7 @@ module CandidateInterface
         course_length_row(application_choice),
         start_date_row(application_choice),
         degree_required_row(application_choice),
+        gcse_required_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
@@ -202,6 +203,17 @@ module CandidateInterface
       }
     end
 
+    def gcse_required_row(application_choice)
+      return nil unless candidate_has_pending_or_missing_gcses?(application_choice) &&
+                        !application_choice.current_course.accept_pending_gcse.nil? &&
+                        !application_choice.current_course.accept_gcse_equivalency.nil?
+
+      {
+        key: 'GCSE requirements',
+        value: render(GcseRequirementsComponent.new(application_choice)),
+      }
+    end
+
     def interview_row(application_choice)
       if application_choice.interviews.kept.any?
         {
@@ -293,6 +305,12 @@ module CandidateInterface
 
     def application_choice_with_accepted_state_present?
       @application_form.application_choices.any? { |ac| ApplicationStateChange::ACCEPTED_STATES.include?(ac.status.to_sym) }
+    end
+
+    def candidate_has_pending_or_missing_gcses?(application_choice)
+      application_choice.application_form.application_qualifications
+      .where(level: 'gcse', qualification_type: 'missing')
+      .or(application_choice.application_form.application_qualifications.where(level: 'gcse', currently_completing_qualification: true)).any?
     end
 
     def change_path_params(application_choice)

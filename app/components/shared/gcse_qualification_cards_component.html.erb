@@ -49,7 +49,7 @@
               <% end %>
             </dl>
           <% end %>
-          <% if in_support_console? %>
+          <% if editable? %>
             <br>
             <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(gcse_id: qualification.id) %>
           <% end %>

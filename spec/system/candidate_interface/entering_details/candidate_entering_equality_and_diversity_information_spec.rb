@@ -137,7 +137,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_my_sex
-    expect(page).to have_content('Choose your sex')
+    expect(page).to have_content('Select your sex or ‘Prefer not to say’')
   end
 
   def when_i_choose_my_sex
@@ -177,7 +177,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_if_i_have_a_disability
-    expect(page).to have_content('Choose if you have a disability')
+    expect(page).to have_content('Select if you are disabled or ‘Prefer not to say’')
   end
 
   def when_i_choose_no_for_having_a_disability
@@ -193,7 +193,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_my_ethnic_group
-    expect(page).to have_content('Choose your ethnic group')
+    expect(page).to have_content('Select an ethnic group or ‘Prefer not to say’')
   end
 
   def when_i_choose_that_i_prefer_not_to_say_my_ethnic_group
@@ -217,7 +217,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_select_disabilties
-    expect(page).to have_content('Select all disabilities that apply to you')
+    expect(page).to have_content('Select the disabilities you have or ‘Other’')
   end
 
   def when_i_check_my_disabilities
@@ -274,7 +274,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_an_error_to_choose_my_ethnic_background
-    expect(page).to have_content('Choose your ethnic background')
+    expect(page).to have_content('Select your background or ‘Prefer not to say’')
   end
 
   def when_i_choose_my_ethnic_background

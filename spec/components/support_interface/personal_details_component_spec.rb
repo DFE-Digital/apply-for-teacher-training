@@ -53,6 +53,28 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
     expect(result.text).not_to include('Residency details')
   end
 
+  it 'shows change links' do
+    expect(result.css('a').first.text).to eq('Change first name')
+  end
+
+  context 'when the application form has a subsequent application' do
+    let(:application_form) do
+      create(
+        :completed_application_form,
+        support_reference: 'AB123',
+        date_of_birth: Date.new(2000, 1, 1),
+        first_nationality: 'British',
+        second_nationality: 'Irish',
+        third_nationality: 'Spanish',
+      )
+    end
+    let!(:subsequent_application_form) { create(:application_form, previous_application_form: application_form) }
+
+    it 'does not shows change links' do
+      expect(result.css('a').text).not_to include('Change')
+    end
+  end
+
   context 'a candidate whose nationality is neither British or Irish' do
     let(:application_form) do
       build_stubbed(

@@ -5,7 +5,7 @@ module Events
     def initialize
       @event_hash = {
         environment: HostingEnvironment.environment_name,
-        occurred_at: Time.zone.now.iso8601,
+        occurred_at: Time.zone.now.iso8601(6),
       }
     end
 
@@ -89,6 +89,8 @@ module Events
       hash.map do |(key, value)|
         if value.in? [true, false]
           value = value.to_s
+        elsif value.is_a?(Hash)
+          value = value.to_json
         end
 
         { 'key' => key, 'value' => Array.wrap(value) }
