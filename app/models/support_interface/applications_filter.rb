@@ -47,14 +47,20 @@ module SupportInterface
                             .where(application_choices: { course_option: { sites: { provider_id: applied_filters[:training_provider] } } })
       end
 
+      if provider_page && applied_filters[:accredited_provider].present?
+        application_forms = application_forms
+                            .joins(application_choices: { course_option: :course })
+                            .where(application_choices: { course_option: { courses: { accredited_provider_id: applied_filters[:accredited_provider] } } })
+      end
+
       if applied_filters[:status].present?
         application_forms = application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
       end
 
       if applied_filters[:provider_id]
         application_forms = application_forms
-          .joins(:application_choices)
-          .where('application_choices.provider_ids @> ?', "{#{applied_filters[:provider_id]}}")
+                              .joins(:application_choices)
+                              .where('application_choices.provider_ids @> ?', "{#{applied_filters[:provider_id]}}")
       end
 
       application_forms
@@ -62,7 +68,7 @@ module SupportInterface
 
     def filters
       @filters ||= if provider_page
-                     [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, training_provider_filter, status_filter]
+                     [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, training_provider_filter, accredited_provider_filter, status_filter]
                    else
                      [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter]
                    end
@@ -142,7 +148,13 @@ module SupportInterface
     end
 
     def training_provider_filter
-      providers = Provider.joins(:courses).where(id: @applied_filters['provider_id']).or(Course.where(accredited_provider_id: @applied_filters['provider_id'])).distinct
+      providers = Provider
+                  .joins(:courses)
+                  .where(id: @applied_filters['provider_id'], courses: { recruitment_cycle_year: RecruitmentCycle.current_year })
+                  .or(
+                    Course.where(accredited_provider_id: @applied_filters['provider_id'], recruitment_cycle_year: RecruitmentCycle.current_year),
+                  )
+                  .distinct
 
       provider_options = providers.map do |provider|
         {
@@ -156,6 +168,33 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Training providers',
         name: 'training_provider',
+        options: provider_options,
+      }
+    end
+
+    def accredited_provider_filter
+      courses = Course
+                .joins(:provider)
+                .includes([:accredited_provider])
+                .current_cycle
+                .where(provider: { id: @applied_filters['provider_id'] })
+                .or(Course.current_cycle.where(accredited_provider_id: @applied_filters['provider_id']))
+                .distinct
+
+      accredited_providers = courses.map(&:accredited_provider).uniq.compact
+
+      provider_options = accredited_providers.map do |provider|
+        {
+          value: provider.id,
+          label: provider.name,
+          checked: applied_filters[:accredited_provider]&.include?(provider.id.to_s),
+        }
+      end
+
+      {
+        type: :checkboxes,
+        heading: 'Accredited providers',
+        name: 'accredited_provider',
         options: provider_options,
       }
     end

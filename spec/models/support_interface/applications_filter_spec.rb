@@ -89,6 +89,18 @@ RSpec.describe SupportInterface::ApplicationsFilter do
           },
         )
       end
+
+      it 'cannot filter by accredited provider' do
+        expected_form1 = application_choice_with_offer.application_form
+        expected_form2 = application_choice_with_interview.application_form
+
+        verify_filtered_applications_for_params(
+          [expected_form1, expected_form2],
+          params: {
+            accredited_provider: [application_choice_with_offer.provider.id],
+          },
+        )
+      end
     end
 
     context 'on the providers page' do
@@ -99,6 +111,22 @@ RSpec.describe SupportInterface::ApplicationsFilter do
           [expected_form],
           params: {
             training_provider: [application_choice_with_offer.provider.id],
+          },
+          provider_page: true,
+        )
+      end
+
+      it 'can filter by accredited provider' do
+        course = create(:course, :with_accredited_provider)
+        course_option = create(:course_option, course: course)
+        application_choice = create(:application_choice, course_option: course_option)
+
+        expected_form = application_choice.application_form
+
+        verify_filtered_applications_for_params(
+          [expected_form],
+          params: {
+            accredited_provider: [course.accredited_provider.id],
           },
           provider_page: true,
         )
