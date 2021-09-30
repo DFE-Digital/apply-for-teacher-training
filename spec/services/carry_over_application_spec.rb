@@ -128,6 +128,21 @@ RSpec.describe CarryOverApplication do
       expect(carried_over_application_form.work_history_completed).to be(false)
     end
 
+    it 'sets `work_history_status` to `can_complete` if the candidate has a work history' do
+      described_class.new(original_application_form).call
+      carried_over_application_form = ApplicationForm.last
+
+      expect(carried_over_application_form.work_history_status).to eq 'can_complete'
+    end
+
+    it 'does not set `work_history_status`if the candidate has no work history' do
+      application_form = create(:completed_application_form)
+      described_class.new(application_form).call
+      carried_over_application_form = ApplicationForm.last
+
+      expect(carried_over_application_form.work_history_status).to eq nil
+    end
+
     describe 'personal_details_completed' do
       before { FeatureFlag.activate(:restructured_immigration_status) }
 
