@@ -19,4 +19,5 @@
   'Last updated' => @provider.updated_at.to_s(:govuk_date_and_time),
   'Data sharing agreement' => dsa,
   'Average distance to sites' => format_average_distance(@provider, @provider.sites),
+  'Vendor' => @provider.vendor&.name&.humanize,
 })) %>

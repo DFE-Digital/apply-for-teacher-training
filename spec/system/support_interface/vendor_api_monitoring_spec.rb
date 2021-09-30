@@ -28,11 +28,11 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   end
 
   def and_there_is_a_provider_who_has_not_connected_to_the_api
-    create(:provider, provider_type: 'university', name: 'Did not connect')
+    create(:provider, :with_vendor, name: 'Did not connect')
   end
 
   def and_there_is_a_provider_who_has_not_synced
-    provider = create(:provider, provider_type: 'university', name: 'Did not sync')
+    provider = create(:provider, :with_vendor, name: 'Did not sync')
     create(:vendor_api_request,
            provider: provider,
            request_path: '/api/v1/applications',
@@ -41,7 +41,7 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   end
 
   def and_there_is_a_provider_who_has_not_posted_a_decision
-    provider = create(:provider, provider_type: 'university', name: 'Did not post a decision')
+    provider = create(:provider, :with_vendor, name: 'Did not post a decision')
     create(:vendor_api_request,
            provider: provider,
            request_method: 'POST',
@@ -49,7 +49,7 @@ RSpec.feature 'Vendor API monitoring page', mid_cycle: false do
   end
 
   def and_there_is_a_provider_who_has_received_error_responses_from_the_api
-    provider = create(:provider, provider_type: 'university', name: 'Received an error response')
+    provider = create(:provider, :with_vendor, name: 'Received an error response')
     create(:vendor_api_request,
            provider: provider,
            status_code: 422)
