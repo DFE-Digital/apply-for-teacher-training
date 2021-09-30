@@ -31,6 +31,7 @@ class DuplicateApplication
       new_application_form.update(
         feature_restructured_work_history: true,
         work_history_completed: false,
+        work_history_status: new_application_form.application_work_experiences.present? ? 'can_complete' : 'can_not_complete',
       )
     end
     if !original_application_form.restructured_immigration_status? &&
