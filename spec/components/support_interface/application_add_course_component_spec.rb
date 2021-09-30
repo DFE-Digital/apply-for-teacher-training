@@ -40,6 +40,20 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
     end
   end
 
+  context 'candidate has a subsequent application' do
+    it "does not render the 'add a course' button" do
+      application_form = create(:completed_application_form)
+
+      create(:completed_application_form, previous_application_form: application_form)
+
+      application_form.reload
+
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-button').text).not_to include('Add a course')
+    end
+  end
+
   context 'application has an accepted offer' do
     it "does not render the 'add a course' button" do
       application_form = create(:completed_application_form)

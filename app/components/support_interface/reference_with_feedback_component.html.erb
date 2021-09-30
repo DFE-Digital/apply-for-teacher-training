@@ -1,7 +1,7 @@
 <div data-qa="reference">
   <%= render SummaryCardComponent.new(rows: rows, editable: true) do %>
     <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: 3)) do %>
-      <% if reference.feedback_refused? %>
+      <% if @editable && reference.feedback_refused? %>
         <div class='app-summary-card__actions'>
           <%= govuk_link_to support_interface_reinstate_reference_path(reference) do %>
           Undo refusal<span class="govuk-visually-hidden"> for <%= reference.name %></span>

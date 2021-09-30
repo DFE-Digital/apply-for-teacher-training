@@ -187,6 +187,8 @@ module SupportInterface
     end
 
     def status_action_link
+      return {} unless @application_choice.application_form.editable?
+
       if FeatureFlag.active?(:support_user_reinstate_offer) && application_choice.declined? && !application_choice.declined_by_default
         {
           action: {

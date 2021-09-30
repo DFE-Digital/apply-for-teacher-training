@@ -3,58 +3,79 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
   include CandidateHelper
 
+  let(:reference) { create(:reference) }
+  let(:editable) { true }
+
+  subject! { render_inline(described_class.new(reference: reference, reference_number: 1, editable: editable)) }
+
+  context 'when editable' do
+    it 'shows change links' do
+      expect(page).to have_selector('a', text: 'Change')
+    end
+  end
+
+  context 'when not editable' do
+    let(:editable) { false }
+
+    it 'shows change links' do
+      expect(page).not_to have_selector('a', text: 'Change')
+    end
+  end
+
   describe 'Undo refusal link' do
+    let(:reference) { create(:reference, feedback_status: 'feedback_refused') }
+
     it 'is present when the reference is refused' do
-      reference = create(:reference, feedback_status: 'feedback_refused')
-
-      render_inline(described_class.new(reference: reference, reference_number: 1))
-
       expect(rendered_component).to include('Undo refusal')
+    end
+
+    context 'when not editable' do
+      let(:editable) { false }
+
+      it 'is not present' do
+        expect(rendered_component).not_to include('Undo refusal')
+      end
     end
   end
 
   describe 'title' do
     it 'includes the supplied reference number' do
-      reference = create(:reference)
-
-      render_inline(described_class.new(reference: reference, reference_number: 1))
-
       expect(rendered_component).to include('1st reference')
     end
 
-    it 'says if the reference is a replacement' do
-      reference = create(:reference, replacement: true)
-
-      render_inline(described_class.new(reference: reference, reference_number: 1))
-
-      expect(rendered_component).to include('(replacement)')
+    it 'includes the id of the reference' do
+      expect(rendered_component).to include("##{reference.id}")
     end
 
-    it 'includes the id of the reference' do
-      reference = create(:reference)
+    context 'when a reference is a replacement' do
+      let(:reference) { create(:reference, replacement: true) }
 
-      render_inline(described_class.new(reference: reference, reference_number: 1))
-
-      expect(rendered_component).to include("##{reference.id}")
+      it 'says that the reference is a replacement' do
+        expect(rendered_component).to include('(replacement)')
+      end
     end
   end
 
   describe 'selected row' do
-    it 'indicates selected when the reference is selected' do
-      reference = create(:reference, selected: true)
-      render_inline(described_class.new(reference: reference, reference_number: 1))
+    let(:reference) { create(:reference, selected: selected) }
 
-      within_summary_row('Selected?') do
-        expect(page).to include 'Yes'
+    context 'when the reference is selected' do
+      let(:selected) { true }
+
+      it 'indicates selected' do
+        within_summary_row('Selected?') do
+          expect(page).to include 'Yes'
+        end
       end
     end
 
-    it 'indicates not selected when the reference is not selected' do
-      reference = create(:reference, selected: false)
-      render_inline(described_class.new(reference: reference, reference_number: 1))
+    context 'when the reference is not selected' do
+      let(:selected) { false }
 
-      within_summary_row('Selected?') do
-        expect(page).to include 'No'
+      it 'indicates not selected' do
+        within_summary_row('Selected?') do
+          expect(page).to include 'No'
+        end
       end
     end
   end
