@@ -60,6 +60,14 @@ RSpec.describe ProviderInterface::ReportTableComponent do
       expect(render.css('tfoot td')[3].text).to eq('10')
       expect(render.css('tfoot td')[4].text).to eq('10')
     end
+
+    context 'when there are no rows' do
+      let(:data) { { headers: headers, rows: [] } }
+
+      it 'attempt to calculate the totals in the footer' do
+        expect(render.css('tfoot')).to be_empty
+      end
+    end
   end
 
   describe 'when show_footer is set to false' do

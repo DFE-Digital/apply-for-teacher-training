@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def footer
-      [] unless show_footer
+      return [] unless show_footer && rows.any?
 
       @footer = Array.new(rows.first[:values].length) { 0 }
       rows.each do |row|
