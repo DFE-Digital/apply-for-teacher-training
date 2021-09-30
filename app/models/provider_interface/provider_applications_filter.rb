@@ -66,13 +66,15 @@ module ProviderInterface
     end
 
     def recruitment_cycle_filter
-      cycle_options = RecruitmentCycle::CYCLES.map do |year, label|
-        {
-          value: year,
-          label: label,
-          checked: applied_filters[:recruitment_cycle_year]&.include?(year),
-        }
-      end
+      cycle_options = RecruitmentCycle.years_visible_to_providers
+        .map do |year|
+          year_str = year.to_s
+          {
+            value: year_str,
+            label: RecruitmentCycle::CYCLES[year_str],
+            checked: applied_filters[:recruitment_cycle_year]&.include?(year_str),
+          }
+        end
 
       {
         type: :checkboxes,
