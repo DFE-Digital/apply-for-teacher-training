@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GenerateTestApplications do
+RSpec.describe GenerateTestApplications, mid_cycle: true do
   it 'generates test candidates with applications in various states', sidekiq: true do
     previous_cycle = RecruitmentCycle.previous_year
     current_cycle = RecruitmentCycle.current_year
