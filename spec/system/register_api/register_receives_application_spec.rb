@@ -13,6 +13,7 @@ RSpec.feature 'Register receives an application data' do
 
   def given_a_provider_recruited_a_candidate
     candidate_completes_application_form
+    candidate_submits_application
     equality_and_diversity_data = {
       sex: 'male',
       ethnic_group: 'Asian or Asian British',
@@ -23,7 +24,6 @@ RSpec.feature 'Register receives an application data' do
       hesa_ethnicity: '39',
     }
     @application.update!(equality_and_diversity: equality_and_diversity_data)
-    candidate_submits_application
     @application.application_choices.first.update!(
       status: :recruited,
       recruited_at: Time.zone.now,
