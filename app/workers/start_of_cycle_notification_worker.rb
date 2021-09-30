@@ -3,6 +3,7 @@ class StartOfCycleNotificationWorker
 
   def perform(service)
     return unless CycleTimetable.service_opens_today?(service, year: RecruitmentCycle.current_year)
+    return unless hours_remaining.positive?
 
     @service = service
 
@@ -13,7 +14,7 @@ class StartOfCycleNotificationWorker
           ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
         end
 
-        next if service == :apply
+        next if service == 'apply'
 
         next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
@@ -43,7 +44,7 @@ private
   end
 
   def notify_until
-    Time.zone.now.change(hour: 16)
+    Time.zone.now.change(hour: 17)
   end
 
   def relationships_to_set_up(provider_user)

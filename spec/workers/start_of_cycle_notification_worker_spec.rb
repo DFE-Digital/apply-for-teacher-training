@@ -39,11 +39,11 @@ RSpec.describe StartOfCycleNotificationWorker do
       providers_needing_set_up.each { |provider| create(:provider_relationship_permissions, :not_set_up_yet, training_provider: provider) }
     end
 
-    context 'when the specified service is :find' do
-      let(:service) { :find }
+    context 'when the specified service is find' do
+      let(:service) { 'find' }
 
       around do |example|
-        Timecop.freeze(CycleTimetable.find_opens.change(hour: 15)) do
+        Timecop.freeze(CycleTimetable.find_opens.change(hour: 16)) do
           example.run
         end
       end
@@ -137,11 +137,11 @@ RSpec.describe StartOfCycleNotificationWorker do
       end
     end
 
-    context 'when the specified service is :apply' do
-      let(:service) { :apply }
+    context 'when the specified service is apply' do
+      let(:service) { 'apply' }
 
       around do |example|
-        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 15)) do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 16)) do
           example.run
         end
       end
@@ -161,13 +161,21 @@ RSpec.describe StartOfCycleNotificationWorker do
 
         expect { described_class.new.perform(service) }.not_to change(ChaserSent.where(chased: provider_with_chaser_sent), :count)
       end
+
+      it 'does not send permissions set up emails' do
+        allow(ProviderMailer).to receive(:set_up_organisation_permissions).and_return(mailer_delivery)
+
+        described_class.new.perform(service)
+
+        expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions)
+      end
     end
 
     context 'with multiple hours remaining' do
-      let(:service) { :apply }
+      let(:service) { 'apply' }
 
       it 'divides the providers with users who should be notified across the hours remaining' do
-        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 14)) do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 15)) do
           described_class.new.perform(service)
 
           expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.first)
@@ -185,7 +193,7 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'when called out of hours for the Find service opening' do
-      let(:service) { :find }
+      let(:service) { 'find' }
 
       it 'does nothing' do
         Timecop.freeze(CycleTimetable.find_opens.change(hour: 8, min: 59)) do
@@ -195,10 +203,10 @@ RSpec.describe StartOfCycleNotificationWorker do
     end
 
     context 'when called out of hours for the Apply service opening' do
-      let(:service) { :apply }
+      let(:service) { 'apply' }
 
       it 'does nothing' do
-        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 16, min: 2)) do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 17, min: 1)) do
           expect { described_class.new.perform(service) }.not_to change(ChaserSent, :count)
         end
       end

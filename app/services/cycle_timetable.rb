@@ -376,7 +376,7 @@ class CycleTimetable
     "#{year} to #{year + 1}"
   end
 
-  def self.service_opens_today?(service, year: RecruitmentCycle.current_year, end_of_business_day_hour: 16, end_of_business_day_min: 1)
+  def self.service_opens_today?(service, year: RecruitmentCycle.current_year, end_of_business_day_hour: 17, end_of_business_day_min: 0)
     service_opening_date = send("#{service}_opens", year)
 
     Time.zone.now.between?(
