@@ -111,7 +111,7 @@ module CandidateInterface
 
     def grade_hint
       if qualification_type == CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE
-        { text: (I18n.t('gcse_edit_grade.hint.other.gcse_single_and_double') + ' ' + I18n.t('application_form.other_qualification.grade.hint_text')) }
+        { text: "#{I18n.t('gcse_edit_grade.hint.other.gcse_single_and_double')}. #{I18n.t('application_form.other_qualification.grade.hint_text')}" }
       else
         { text: I18n.t('application_form.other_qualification.grade.hint_text') }
       end
