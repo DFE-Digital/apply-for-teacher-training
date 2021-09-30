@@ -15,17 +15,11 @@ class StartOfCycleNotificationWorker
 
         next if service == :apply
 
-        relationships_pending = relationships_user_can_setup(provider_user, provider)
-
-        next if relationships_pending.blank?
+        next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
 
-        partner_organisations = relationships_pending.map { |relationship| relationship.partner_organisation(provider) }.compact
-
-        if partner_organisations.any?
-          ProviderMailer.send(setup_mailer_method, provider_user, partner_organisations).deliver_later
-          ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
-        end
+        ProviderMailer.send(setup_mailer_method, provider_user, relationships_to_set_up(provider_user)).deliver_later
+        ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
       end
 
       ChaserSent.create!(chased: provider, chaser_type: provider_chaser_type)
@@ -52,10 +46,20 @@ private
     Time.zone.now.change(hour: 16)
   end
 
-  def relationships_user_can_setup(provider_user, provider)
-    return [] unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
+  def relationships_to_set_up(provider_user)
+    relationships_pending = ProviderSetup.new(provider_user: provider_user).relationships_pending
+    training_providers = relationships_pending.map(&:training_provider) & provider_user.providers
 
-    ProviderSetup.new(provider_user: provider_user).relationships_pending
+    relationships = relationships_pending.each_with_object({}) do |rel, hash|
+      if training_providers.include?(rel.training_provider)
+        hash[rel.training_provider.name] ||= []
+        hash[rel.training_provider.name] << rel.ratifying_provider.name
+      else
+        hash[rel.ratifying_provider.name] ||= []
+        hash[rel.ratifying_provider.name] << rel.training_provider.name
+      end
+    end
+    relationships.sort_by { |k, v| [k, v.sort!] }.to_h
   end
 
   def providers_scope

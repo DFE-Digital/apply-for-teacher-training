@@ -205,9 +205,10 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def set_up_organisation_permissions(provider_user, partner_organisations)
+  def set_up_organisation_permissions(provider_user, relationships_to_set_up)
     @provider_user = provider_user
-    @partner_organisations = partner_organisations
+    @relationships_to_set_up = relationships_to_set_up
+    @single_or_multiple = @relationships_to_set_up.keys.size > 1 ? 'multiple' : 'single'
 
     notify_email(
       to: @provider_user.email_address,

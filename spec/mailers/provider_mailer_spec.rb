@@ -298,17 +298,41 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   describe 'set_up_organisation_permissions' do
     let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
-    let(:provider1) { build_stubbed(:provider, name: 'University of Purley') }
-    let(:provider2) { build_stubbed(:provider, name: 'University of Croydon') }
+    let(:relationships_to_set_up) do
+      { 'University of Selsdon' => ['University of Croydon', 'University of Purley'] }
+    end
 
-    let(:email) { described_class.set_up_organisation_permissions(provider_user, [provider1, provider2]) }
+    let(:email) { described_class.set_up_organisation_permissions(provider_user, relationships_to_set_up) }
 
     it_behaves_like(
       'a mail with subject and content',
       'Set up organisation permissions - manage teacher training applications',
       'salutation' => 'Dear Johny English',
       'main paragraph' => 'Candidates can now find courses on GOV.UK that you work on with:',
-      'partner providers' => "- University of Purley\r\n- University of Croydon",
+      'partner providers' => "- University of Croydon\r\n- University of Purley",
+    )
+  end
+
+  describe 'set_up_organisation_permissions with multiple organisations' do
+    let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
+    let(:relationships_to_set_up) do
+      {
+        'University of Dundee' => ['University of Broughty Ferry', 'University of Carnoustie'],
+        'University of Selsdon' => ['University of Croydon', 'University of Purley'],
+      }
+    end
+
+    let(:email) { described_class.set_up_organisation_permissions(provider_user, relationships_to_set_up) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Set up organisation permissions - manage teacher training applications',
+      'salutation' => 'Dear Johny English',
+      'main paragraph' => 'Candidates can now find courses on GOV.UK that you work on with the partner organisations listed below.',
+      'first relationship group' => 'For University of Dundee, you need to set up permissions for courses you work on with:',
+      'first group of partner providers' => "- University of Broughty Ferry\r\n- University of Carnoustie",
+      'second relationship group' => 'For University of Selsdon, you need to set up permissions for courses you work on with:',
+      'second group of partner providers' => "- University of Croydon\r\n- University of Purley",
     )
   end
 end
