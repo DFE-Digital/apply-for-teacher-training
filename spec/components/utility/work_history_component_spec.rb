@@ -24,6 +24,7 @@ RSpec.describe WorkHistoryComponent do
       experiences = [
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 6.years.ago,
           end_date: 3.months.ago,
           role: 'Sheep herder',
@@ -35,6 +36,7 @@ RSpec.describe WorkHistoryComponent do
         ),
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 3.months.ago,
           end_date: nil,
           role: 'Pig herder',
@@ -62,17 +64,16 @@ RSpec.describe WorkHistoryComponent do
   context 'with work experiences working with children' do
     it 'renders work experience details and worked with children flag' do
       experiences = [
-        build(
-          :application_work_experience,
-          start_date: 6.years.ago,
-          end_date: nil,
-          role: 'Nursery manager',
-          commitment: 'part_time',
-          working_pattern: '',
-          organisation: 'Bobs Farm',
-          details: 'I run the staff nursery',
-          working_with_children: true,
-        ),
+        build(:application_work_experience,
+              :deprecated,
+              start_date: 6.years.ago,
+              end_date: nil,
+              role: 'Nursery manager',
+              commitment: 'part_time',
+              working_pattern: '',
+              organisation: 'Bobs Farm',
+              details: 'I run the staff nursery',
+              working_with_children: true),
       ]
       allow(application_form).to receive(:application_work_experiences).and_return(experiences)
       allow(application_form).to receive(:application_work_history_breaks).and_return([])
@@ -89,6 +90,7 @@ RSpec.describe WorkHistoryComponent do
       experiences = [
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 6.years.ago,
           end_date: nil,
           role: 'Nursery manager',
@@ -116,6 +118,7 @@ RSpec.describe WorkHistoryComponent do
       experiences = [
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 6.years.ago,
           end_date: 2.years.ago,
           role: 'Sheep herder',
@@ -126,6 +129,7 @@ RSpec.describe WorkHistoryComponent do
         ),
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 2.months.ago,
           end_date: nil,
           role: 'Pig herder',
@@ -160,6 +164,7 @@ RSpec.describe WorkHistoryComponent do
       experiences = [
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 6.years.ago,
           end_date: 26.months.ago,
           role: 'Sheep herder',
@@ -170,6 +175,7 @@ RSpec.describe WorkHistoryComponent do
         ),
         build(
           :application_work_experience,
+          :deprecated,
           start_date: 3.months.ago,
           end_date: nil,
           role: 'Pig herder',
@@ -206,6 +212,7 @@ RSpec.describe WorkHistoryComponent do
       experiences = [
         build(
           :application_work_experience,
+          :deprecated,
           start_date: Date.new(2014, 10, 1),
           end_date: Date.new(2018, 2, 1),
           start_date_unknown: true,
@@ -218,6 +225,7 @@ RSpec.describe WorkHistoryComponent do
         ),
         build(
           :application_work_experience,
+          :deprecated,
           start_date: Date.new(2020, 1, 1),
           end_date: nil,
           start_date_unknown: true,

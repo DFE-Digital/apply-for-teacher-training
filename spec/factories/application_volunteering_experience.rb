@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :application_experience do
+  factory :application_volunteering_experience do
     role { ['Teacher', 'Teaching Assistant'].sample }
     organisation { Faker::Educator.secondary_school }
     details { Faker::Lorem.paragraph_by_chars(number: 300) }
@@ -9,12 +9,4 @@ FactoryBot.define do
     commitment { %w[full_time part_time].sample }
     working_pattern { Faker::Lorem.paragraph_by_chars(number: 30) }
   end
-
-  factory :application_volunteering_experience,
-          parent: :application_experience,
-          class: 'ApplicationVolunteeringExperience'
-
-  factory :application_work_experience,
-          parent: :application_experience,
-          class: 'ApplicationWorkExperience'
 end

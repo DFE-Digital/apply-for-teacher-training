@@ -204,7 +204,7 @@ RSpec.describe CarryOverApplication do
       first_job.update(start_date: 3.years.ago, end_date: 2.years.ago)
 
       second_job = original_application_form.application_work_experiences.last
-      second_job.update(start_date: 1.year.ago, end_date: nil)
+      second_job.update(start_date: 1.year.ago, end_date: nil, currently_working: nil)
 
       described_class.new(original_application_form.reload).call
 
