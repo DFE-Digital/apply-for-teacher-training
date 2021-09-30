@@ -81,14 +81,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     choose 'Prefer not to say'
     click_button t('continue')
 
-    # Are you disabled?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
-    # What is your ethnic group?
-    choose 'Prefer not to say'
-    click_button t('continue')
-
     # Review page
     click_link t('continue')
 

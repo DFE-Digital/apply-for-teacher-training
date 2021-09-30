@@ -133,7 +133,7 @@ private
       traits = [%i[with_safeguarding_issues_disclosed
                    with_safeguarding_issues_never_asked
                    minimum_info]].sample
-      traits << :with_equality_and_diversity_data if rand < 0.55
+      traits << :with_equality_and_diversity_data
 
       simulate_signin(candidate)
 
