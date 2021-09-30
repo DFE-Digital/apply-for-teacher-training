@@ -105,13 +105,16 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
 
     describe 'award year' do
       context 'year validations' do
-        let(:model) do
-          described_class.new(nil, nil, award_year: award_year)
-        end
+        it 'allows award year to be valid for the next recruitment_cycle_year' do
+          valid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: RecruitmentCycle.next_year)
+          invalid_award_year = described_class.new(nil, nil, qualification_type: 'A level', award_year: RecruitmentCycle.next_year + 1)
 
-        include_examples 'year validations',
-                         :award_year,
-                         future: true
+          valid_award_year.valid?(:details)
+          invalid_award_year.valid?(:details)
+
+          expect(valid_award_year.errors.full_messages_for(:award_year)).to be_empty
+          expect(invalid_award_year.errors.full_messages_for(:award_year)).not_to be_empty
+        end
       end
     end
   end
@@ -356,7 +359,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
   end
 
   describe '#grade_hint' do
-    it 'returns a GCSE hint if qualification_type is GCSE_TYPE' do
+    it 'returns a GCSE and predicted grade hint if qualification_type is GCSE_TYPE' do
       qualification = described_class.new(
         nil,
         nil,
@@ -364,10 +367,10 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
         qualification_type: 'GCSE',
       )
 
-      expect(qualification.grade_hint).to eq({ text: 'For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’' })
+      expect(qualification.grade_hint).to eq({ text: 'For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’. If you are studying for your qualification, give your predicted grade.' })
     end
 
-    it 'returns nil for any other qualification_type' do
+    it 'returns predicted grade hint for any other qualification_type' do
       namespace = CandidateInterface::OtherQualificationTypeForm
 
       (namespace::ALL_VALID_TYPES - [namespace::GCSE_TYPE]).each do |qualification_type|
@@ -378,7 +381,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
           qualification_type: qualification_type,
         )
 
-        expect(qualification.grade_hint).to eq nil
+        expect(qualification.grade_hint).to eq({ text: 'If you are studying for your qualification, give your predicted grade.' })
       end
     end
   end

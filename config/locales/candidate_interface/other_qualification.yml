@@ -23,9 +23,10 @@ en:
         label: Grade
         optional_label: Grade (optional)
         change_action: grade
+        hint_text: If you are studying for your qualification, give your predicted grade.
       award_year:
-        label: Year qualification was awarded
-        hint_text: For example, 1998
+        label: Year qualification awarded
+        hint_text: For example, 1998. If you are studying for your qualification, indicate when you’ll acheive it.
         review_label: Year awarded
         change_action: year
       another:
@@ -73,6 +74,6 @@ en:
               too_long: The grade must be %{count} characters or fewer
             award_year:
               blank: Enter the year the qualification was awarded
-              future: Assessment year must be this year or a previous year
+              future: Year qualification awarded must be this year, next year or a previous year
             choice:
               blank: Do you want to add another qualification?
