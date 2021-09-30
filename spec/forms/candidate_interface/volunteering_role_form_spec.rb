@@ -152,13 +152,24 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     it { is_expected.not_to allow_value(long_text).for(:details) }
 
     context 'start_date validations' do
-      let(:model) do
-        described_class.new(start_date_day: start_date_day,
-                            start_date_month: start_date_month,
-                            start_date_year: start_date_year)
-      end
+      it 'allows award year to be valid for the next recruitment_cycle_year' do
+        valid_start_date = described_class.new(
+          start_date_year: CycleTimetable.find_reopens.year,
+          start_date_month: CycleTimetable.find_reopens.month,
+          start_date_day: nil,
+        )
+        invalid_start_date = described_class.new(
+          start_date_year: CycleTimetable.find_reopens.year,
+          start_date_month: CycleTimetable.find_reopens.month + 1,
+          start_date_day: nil,
+        )
 
-      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
+        valid_start_date.valid?
+        invalid_start_date.valid?
+
+        expect(valid_start_date.errors.full_messages_for(:start_date)).to be_empty
+        expect(invalid_start_date.errors.full_messages_for(:start_date)).not_to be_empty
+      end
     end
 
     context 'end_date validations' do

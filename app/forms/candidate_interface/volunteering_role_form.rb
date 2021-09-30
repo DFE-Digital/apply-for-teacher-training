@@ -24,7 +24,8 @@ module CandidateInterface
               presence: true
 
     validates :role, :organisation, length: { maximum: 60 }
-    validates :start_date, date: { presence: true, future: true, month_and_year: true, before: :end_date }
+    validates :start_date, date: { presence: true, month_and_year: true, before: :end_date }
+    validate :start_date_is_before_the_next_cycle, if: -> { start_date.is_a?(Date) }
 
     validates :start_date_unknown, inclusion: { in: %w[true false] }
     validates :end_date_unknown, inclusion: { in: %w[true false] }
@@ -114,6 +115,10 @@ module CandidateInterface
 
     def dont_validate_end_date
       start_date_blank?
+    end
+
+    def start_date_is_before_the_next_cycle
+      errors.add(:start_date, :after_training_starts) if Date.new(start_date_year.to_i, start_date_month.to_i) > CycleTimetable.find_reopens
     end
   end
 end
