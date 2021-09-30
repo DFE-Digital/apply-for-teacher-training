@@ -4,16 +4,15 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-xl"><%= t('equality_and_diversity.title') %></h1>
-    <p class="govuk-body">The Department for Education (DfE) uses equality and diversity data to improve the teacher training application process and make government policy better.</p>
-
-    <p class="govuk-body">We use the information you give us to help prevent discrimination in teacher recruitment</p>
+    <h1 class="govuk-heading-l"><%= t('equality_and_diversity.title') %></h1>
 
     <p class="govuk-body">Your answers will not be shown to training providers as they assess your application. We will share your answers if you accept a place on their course.</p>
 
-    <p class="govuk-body"><%= govuk_link_to 'Find out how we use and look after your data', candidate_interface_privacy_policy_path %></p>
+    <p class="govuk-body">You can select 'Prefer not to say' for any question.</p>
 
-    <p class="govuk-body">You can choose not to answer any of the questions.</p>
+    <p class="govuk-body">We use the information you give us to help prevent discrimination in teacher recruitment.</p>
+
+    <p class="govuk-body govuk-!-margin-bottom-8"><%= govuk_link_to 'Find out how we use and look after your data', candidate_interface_privacy_policy_path %></p>
 
     <%= govuk_link_to 'Continue', candidate_interface_edit_equality_and_diversity_sex_path, class: 'govuk-button' %>
 
