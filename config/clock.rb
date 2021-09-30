@@ -15,6 +15,11 @@ class Clock
   end
 
   # Hourly jobs
+
+  # StartOfCycleNotificationWorker only works the day the service opens. These two jobs won't run at the same time on the same day.
+  every(1.hour, 'SendFindStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async(:find) }
+  every(1.hour, 'SendApplyStartOfCycleProviderEmails', at: '**:05') { StartOfCycleNotificationWorker.perform_async(:apply) }
+
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
