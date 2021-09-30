@@ -127,4 +127,16 @@ RSpec.describe Course, type: :model do
       expect { course.open! }.not_to change(course, :opened_on_apply_at)
     end
   end
+
+  describe '#find_url' do
+    let(:course) { create(:course) }
+
+    it 'returns the sandbox url when in sandbox', sandbox: true do
+      expect(course.find_url).to match(/sandbox/)
+    end
+
+    it 'returns the production url when not in sandbox', sandbox: false do
+      expect(course.find_url).not_to match(/sandbox/)
+    end
+  end
 end
