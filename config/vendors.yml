@@ -35,6 +35,15 @@ tribal:
   - W76
   - W80
   - Y75
+  - B20
+  - B25
+  - B90
+  - Y50
+  - B22
+  - 8N5
+  - H60
+  - S84
+  - W75
 
 ellucian:
   - D86
@@ -46,6 +55,8 @@ ellucian:
   - H36
   - S27
   - B80
+  - M80
+  - C30
 
 oracle:
   - L51
@@ -59,6 +70,7 @@ unit4:
   - L75
   - R48
   - M40
+  - B16
 
 capita:
   - G56
