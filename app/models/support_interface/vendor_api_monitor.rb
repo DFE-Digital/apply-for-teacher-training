@@ -5,7 +5,7 @@ module SupportInterface
     end
 
     def all_providers
-      Provider.where(provider_type: 'university')
+      Provider.joins(:vendor)
     end
 
     def target_providers
