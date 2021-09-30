@@ -13,7 +13,7 @@ class StartOfCycleNotificationWorker
           ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
         end
 
-        next if service == :apply
+        next if service == 'apply'
 
         next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
