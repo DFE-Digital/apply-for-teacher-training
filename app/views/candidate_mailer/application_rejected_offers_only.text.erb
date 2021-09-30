@@ -1,7 +1,5 @@
 Dear <%= @application_form.first_name %>,
 
-# Update on your application
-
 <% if @application_choice.rejected_by_default %>
 
   <%= render 'rejected_by_default_intro' %>
@@ -10,9 +8,9 @@ Dear <%= @application_form.first_name %>,
 
   <%= render 'reasons_for_rejection' %>
 
-<% end %>
+  Contact <%= @course.provider.name %> directly if you have any questions about their feedback.
 
-Contact <%= @course.provider.name %> directly if you have any questions about their feedback.
+<% end %>
 
 # Respond to your <%= 'offer'.pluralize(@offers.length) %> by <%= @respond_by_date %>
 
