@@ -19,9 +19,7 @@
         { key: 'Preferred location', value: @application_choice.site.name },
       ]) %>
 
-      <%= f.govuk_fieldset legend: { text: 'Tell us why you’re withdrawing the offer', size: 'm' } do %>
-        <%= f.govuk_text_area :offer_withdrawal_reason, rows: 5, label: { text: '' }, hint: { text: 'We’ll forward your feedback to the candidate' } %>
-      <% end %>
+      <%= f.govuk_text_area :offer_withdrawal_reason, rows: 5, label: { text: 'Tell us why you’re withdrawing the offer', size: 'm' }, hint: { text: 'We’ll forward your feedback to the candidate' } %>
 
       <%= f.govuk_submit t('continue') %>
 
