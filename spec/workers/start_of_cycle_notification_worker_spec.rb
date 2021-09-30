@@ -43,7 +43,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'find' }
 
       around do |example|
-        Timecop.freeze(CycleTimetable.find_opens.change(hour: 15)) do
+        Timecop.freeze(CycleTimetable.find_opens.change(hour: 16)) do
           example.run
         end
       end
@@ -141,7 +141,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'apply' }
 
       around do |example|
-        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 15)) do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 16)) do
           example.run
         end
       end
@@ -175,7 +175,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'apply' }
 
       it 'divides the providers with users who should be notified across the hours remaining' do
-        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 14)) do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 15)) do
           described_class.new.perform(service)
 
           expect(ProviderMailer).to have_received(:apply_service_is_now_open).with(provider_users_who_need_to_set_up_permissions.first)
@@ -206,7 +206,7 @@ RSpec.describe StartOfCycleNotificationWorker do
       let(:service) { 'apply' }
 
       it 'does nothing' do
-        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 16, min: 2)) do
+        Timecop.freeze(CycleTimetable.apply_opens.change(hour: 17, min: 1)) do
           expect { described_class.new.perform(service) }.not_to change(ChaserSent, :count)
         end
       end

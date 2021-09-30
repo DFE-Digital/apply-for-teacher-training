@@ -3,6 +3,7 @@ class StartOfCycleNotificationWorker
 
   def perform(service)
     return unless CycleTimetable.service_opens_today?(service, year: RecruitmentCycle.current_year)
+    return unless hours_remaining.positive?
 
     @service = service
 
@@ -43,7 +44,7 @@ private
   end
 
   def notify_until
-    Time.zone.now.change(hour: 16)
+    Time.zone.now.change(hour: 17)
   end
 
   def relationships_to_set_up(provider_user)
