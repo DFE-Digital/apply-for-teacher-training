@@ -12,6 +12,12 @@ module CandidateInterface
       degree.update!(predicted_grade: grade_is_predicted?)
     end
 
+    def update(degree)
+      return false unless valid?
+
+      degree.update!(predicted_grade: grade_is_predicted?, award_year: nil)
+    end
+
     def assign_form_values(degree)
       unless degree.predicted_grade.nil?
         self.degree_completed = degree.predicted_grade? ? 'no' : 'yes'

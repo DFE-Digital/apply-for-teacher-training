@@ -186,7 +186,7 @@ module CandidateInterface
     def award_year_row(degree)
       {
         key: t('application_form.degree.award_year.review_label'),
-        value: degree.award_year,
+        value: degree.award_year || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_edit_degree_award_year_path(degree.id, return_to_params),
           visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.award_year.change_action')),

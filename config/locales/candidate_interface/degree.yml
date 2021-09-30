@@ -59,8 +59,10 @@ en:
         hint_text: "For example, %{example_year}"
         review_label: Graduation year
         change_action: year
+
       review:
         complete_hint_text: Check the entry requirements for your chosen course. Providers usually ask for a degree at 2:2 or above. Contact the training provider if you do not have the right degree level.
+        not_specified: Not entered
       another:
         button: Add another degree
       delete: Delete degree

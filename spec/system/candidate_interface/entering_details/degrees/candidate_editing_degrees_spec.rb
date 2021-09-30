@@ -207,6 +207,8 @@ RSpec.feature 'Editing a degree' do
     choose 'No'
     and_i_click_on_save_and_continue
     completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
+    award_year_row = find('.govuk-summary-list__row', text: 'Not entered')
     expect(completion_status_row).to have_content 'No'
+    expect(award_year_row).to have_content t('application_form.degree.review.not_specified')
   end
 end
