@@ -130,10 +130,8 @@ private
   def training_provider_filter
     providers = Provider
                 .joins(:courses)
-                .where(id: applied_filters['provider_id'], courses: { recruitment_cycle_year: RecruitmentCycle.current_year })
-                .or(
-                  Course.where(accredited_provider_id: applied_filters['provider_id'], recruitment_cycle_year: RecruitmentCycle.current_year),
-                )
+                .where(id: applied_filters['provider_id'])
+                .or(Course.where(accredited_provider_id: applied_filters['provider_id']))
                 .distinct
 
     provider_options = providers.map do |provider|
@@ -156,9 +154,8 @@ private
     courses = Course
               .joins(:provider)
               .includes([:accredited_provider])
-              .current_cycle
               .where(provider: { id: applied_filters['provider_id'] })
-              .or(Course.current_cycle.where(accredited_provider_id: applied_filters['provider_id']))
+              .or(Course.where(accredited_provider_id: applied_filters['provider_id']))
               .distinct
 
     accredited_providers = courses.map(&:accredited_provider).uniq.compact
