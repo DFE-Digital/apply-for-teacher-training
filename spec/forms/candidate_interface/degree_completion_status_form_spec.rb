@@ -27,6 +27,28 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
     end
   end
 
+  describe '#update' do
+    it 'sets degree.predicted_grade to false when previously true and sets award year to nil' do
+      degree = build(:degree_qualification, predicted_grade: true, award_year: RecruitmentCycle.next_year)
+      form = described_class.new(degree_completed: 'yes')
+
+      form.update(degree)
+
+      expect(degree.reload.predicted_grade).to eq false
+      expect(degree.award_year).to eq nil
+    end
+
+    it 'sets degree.predicted_grade to true when previously false and sets award year to nil' do
+      degree = build(:degree_qualification, predicted_grade: false, award_year: RecruitmentCycle.current_year)
+      form = described_class.new(degree_completed: 'no')
+
+      form.update(degree)
+
+      expect(degree.reload.predicted_grade).to eq true
+      expect(degree.award_year).to eq nil
+    end
+  end
+
   describe '#assign_form_values(degree)' do
     it 'sets degree_completed to "no" if degree.predicted_grade? is true' do
       degree = build_stubbed(:degree_qualification, predicted_grade: true)
