@@ -5,6 +5,7 @@ IRREGULAR_TABLE_NAMES = {
   provider_user_notifications: 'ProviderUserNotificationPreferences',
   provider_users_providers: 'ProviderPermissions',
   references: 'ApplicationReference',
+  chasers_sent: 'ChaserSent',
 }.freeze
 
 def entity_models
