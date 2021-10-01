@@ -191,11 +191,10 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
         created_at: 3.days.ago,
       )
     end
+    let(:application_choice) { application_choice_with_audits [audit] }
 
     context 'when change was done by a support user' do
       it 'renders Apply support' do
-        application_choice = application_choice_with_audits [audit]
-
         rendered = render_inline(described_class.new(application_choice: application_choice))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
       end
@@ -206,8 +205,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       let(:username) { 'John Smith via the Rails console' }
 
       it 'renders Apply support' do
-        application_choice = application_choice_with_audits [audit]
-
         rendered = render_inline(described_class.new(application_choice: application_choice))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
       end
@@ -218,10 +215,17 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       let(:username) { '(Automated process)' }
 
       it 'renders System' do
-        application_choice = application_choice_with_audits [audit]
-
         rendered = render_inline(described_class.new(application_choice: application_choice))
         expect(rendered.css('.app-timeline__actor_and_date').text).to include 'System'
+      end
+    end
+
+    context 'when change was done by the vendor api' do
+      let(:user) { create(:vendor_api_user) }
+
+      it 'exposes the vendor Api users name' do
+        rendered = render_inline(described_class.new(application_choice: application_choice))
+        expect(rendered.css('.app-timeline__actor_and_date').text).to include "#{user.full_name} (Vendor API)"
       end
     end
   end

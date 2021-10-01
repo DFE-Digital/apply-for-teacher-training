@@ -120,6 +120,8 @@ module ProviderInterface
         provider_name(change.user)
       elsif change_by_support?(change.audit)
         'Apply support'
+      elsif change.user.is_a?(VendorApiUser)
+        "#{change.user.full_name} (Vendor API)"
       else
         'System'
       end
