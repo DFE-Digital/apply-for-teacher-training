@@ -44,9 +44,30 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="applications-by-status">1. By status</h2>
+    <p class='govuk-body'>Applications can be in the following states:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Draft</li>
+      <li>Awaiting provider decision(submitted)</li>
+      <li>Offer made</li>
+      <li>Offer accepted by candidate, with some conditions pending</li>
+      <li>Offer declined by candidate</li>
+      <li>Recruited (once any conditions are met)</li>
+      <li>Application withdrawn (this can be done before an offer is made, or after an offer is accepted)</li>
+    </ul>
+
+    <p class='govuk-body'>In the first table below, candidates are only counted once. If they have to more than one course, they’re counted under the highest row (in the table) which applies.</p>
+    <p class='govuk-body'>For example, if a candidate has received one offer, declined one offer, and is awaiting a provider decision on a third course, they're counted under ‘Received an offer’.</p>
+    <p class='govuk-body'>If a candidate applies again, they are counted only once in the Apply again column.</p>
+    <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by status (multiple applications counted only once)', statistics: @statistics['candidates_by_status']) %>
+    <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by status', statistics: @statistics['applications_by_status']) %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l" id="applications-by-course-age-group">6. By course age group</h2>
     <p class="govuk-body">Something to explain how this is counting applications not applicants...</p>
   </div>
 </div>
-
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by course age group', statistics: @statistics['by_course_age_group']) %>
