@@ -79,7 +79,6 @@ module SupportInterface
       @provider = Provider.find(params[:provider_id])
       @filter = SupportInterface::ProviderApplicationsFilter.new(
         params: params.merge(provider_id: @provider.id),
-        provider_page: true,
       )
       @application_forms = @filter.filter_records(ApplicationForm.all)
     end

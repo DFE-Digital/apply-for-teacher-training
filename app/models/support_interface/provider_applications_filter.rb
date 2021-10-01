@@ -2,11 +2,10 @@ module SupportInterface
   class ProviderApplicationsFilter
     include FilterParamsHelper
 
-    attr_reader :applied_filters, :provider_page
+    attr_reader :applied_filters
 
-    def initialize(params:, provider_page: false)
+    def initialize(params:)
       @applied_filters = compact_params(params)
-      @provider_page = provider_page
     end
 
     def filter_records(application_forms)
@@ -41,13 +40,13 @@ module SupportInterface
         application_forms = application_forms.where(recruitment_cycle_year: applied_filters[:year])
       end
 
-      if provider_page && applied_filters[:training_provider].present?
+      if applied_filters[:training_provider].present?
         application_forms = application_forms
                             .joins(application_choices: { course_option: :site })
                             .where(application_choices: { course_option: { sites: { provider_id: applied_filters[:training_provider] } } })
       end
 
-      if provider_page && applied_filters[:accredited_provider].present?
+      if applied_filters[:accredited_provider].present?
         application_forms = application_forms
                             .joins(application_choices: { course_option: :course })
                             .where(application_choices: { course_option: { courses: { accredited_provider_id: applied_filters[:accredited_provider] } } })
@@ -67,11 +66,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= if provider_page
-                     [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, training_provider_filter, accredited_provider_filter, status_filter]
-                   else
-                     [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, status_filter]
-                   end
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter, training_provider_filter, accredited_provider_filter, status_filter]
     end
 
   private
