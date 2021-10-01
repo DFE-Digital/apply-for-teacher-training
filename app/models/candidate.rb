@@ -16,8 +16,22 @@ class Candidate < ApplicationRecord
   belongs_to :course_from_find, class_name: 'Course', optional: true
   belongs_to :fraud_match, optional: true
 
+  PUBLISHED_FIELDS = %w[email_address].freeze
+
   after_create do
     update!(candidate_api_updated_at: Time.zone.now)
+  end
+
+  before_save do |candidate|
+    if (candidate.changed & PUBLISHED_FIELDS).any?
+      touch_application_choices
+    end
+  end
+
+  def touch_application_choices
+    return unless application_choices.any?
+
+    application_choices.where(current_recruitment_cycle_year: RecruitmentCycle.current_year).touch_all
   end
 
   def self.for_email(email)
