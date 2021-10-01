@@ -1,4 +1,61 @@
 module ApplicationFilterHelper
+  def load_applications(application_forms)
+    application_forms
+      .joins(
+        :candidate,
+      )
+      .preload(
+        :candidate,
+        application_choices: { course_option: { course: :provider } },
+      )
+      .order(updated_at: :desc)
+      .page(applied_filters[:page] || 1).per(30)
+  end
+
+  def apply_name_email_or_reference_filter(application_forms)
+    application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q]}%")
+  end
+
+  def apply_application_choice_id_filter(application_forms)
+    application_forms.joins(:application_choices).where(application_choices: { id: applied_filters[:application_choice_id].to_i })
+  end
+
+  def apply_phase_filter(application_forms)
+    application_forms.where(phase: applied_filters[:phase])
+  end
+
+  def apply_interviews_filter(application_forms)
+    application_forms.joins(application_choices: [:interviews]).group('id')
+  end
+
+  def apply_year_filter(application_forms)
+    application_forms.where(recruitment_cycle_year: applied_filters[:year])
+  end
+
+  def apply_training_provider_filter(application_forms)
+    application_forms
+      .joins(application_choices: { course_option: :site })
+      .where(application_choices: { course_option: { sites: { provider_id: applied_filters[:training_provider] } } })
+  end
+
+  def apply_accrediting_provider_filter(application_forms)
+    application_forms
+      .joins(application_choices: { course_option: :course })
+      .where(application_choices: { course_option: { courses: { accredited_provider_id: applied_filters[:accredited_provider] } } })
+  end
+
+  def apply_status_filter(application_forms)
+    application_forms.joins(:application_choices).where(application_choices: { status: applied_filters[:status] })
+  end
+
+  def apply_provider_id_filter(application_forms)
+    application_forms
+      .joins(:application_choices)
+      .where('application_choices.provider_ids @> ?', "{#{applied_filters[:provider_id]}}")
+  end
+
+private
+
   def year_filter
     cycle_options = RecruitmentCycle::CYCLES.map do |year, label|
       {
@@ -67,6 +124,58 @@ module ApplicationFilterHelper
           checked: applied_filters[:interviews]&.include?('has_interviews'),
         },
       ],
+    }
+  end
+
+  def training_provider_filter
+    providers = Provider
+                .joins(:courses)
+                .where(id: applied_filters['provider_id'], courses: { recruitment_cycle_year: RecruitmentCycle.current_year })
+                .or(
+                  Course.where(accredited_provider_id: applied_filters['provider_id'], recruitment_cycle_year: RecruitmentCycle.current_year),
+                )
+                .distinct
+
+    provider_options = providers.map do |provider|
+      {
+        value: provider.id,
+        label: provider.name,
+        checked: applied_filters[:training_provider]&.include?(provider.id.to_s),
+      }
+    end
+
+    {
+      type: :checkboxes,
+      heading: 'Training providers',
+      name: 'training_provider',
+      options: provider_options,
+    }
+  end
+
+  def accredited_provider_filter
+    courses = Course
+              .joins(:provider)
+              .includes([:accredited_provider])
+              .current_cycle
+              .where(provider: { id: applied_filters['provider_id'] })
+              .or(Course.current_cycle.where(accredited_provider_id: applied_filters['provider_id']))
+              .distinct
+
+    accredited_providers = courses.map(&:accredited_provider).uniq.compact
+
+    provider_options = accredited_providers.map do |provider|
+      {
+        value: provider.id,
+        label: provider.name,
+        checked: applied_filters[:accredited_provider]&.include?(provider.id.to_s),
+      }
+    end
+
+    {
+      type: :checkboxes,
+      heading: 'Accredited providers',
+      name: 'accredited_provider',
+      options: provider_options,
     }
   end
 
