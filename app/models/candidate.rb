@@ -24,14 +24,15 @@ class Candidate < ApplicationRecord
 
   before_save do |candidate|
     if (candidate.changed & PUBLISHED_FIELDS).any?
-      touch_application_choices
+      touch_application_choices_and_forms
     end
   end
 
-  def touch_application_choices
+  def touch_application_choices_and_forms
     return unless application_choices.any?
 
     application_choices.where(current_recruitment_cycle_year: RecruitmentCycle.current_year).touch_all
+    application_forms.where(recruitment_cycle_year: RecruitmentCycle.current_year).touch_all
   end
 
   def self.for_email(email)
