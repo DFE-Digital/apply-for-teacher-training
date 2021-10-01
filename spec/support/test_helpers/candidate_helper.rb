@@ -99,10 +99,29 @@ module CandidateHelper
   def candidate_submits_application
     click_link 'Check and submit your application'
     click_link t('continue')
-    choose 'No'
+
+    # Equality and diversity questions
+    click_link t('continue')
+
+    # What is your sex?
+    choose 'Prefer not to say'
     click_button t('continue')
-    choose 'No' # "Is there anything else you would like to tell us?"
+
+    # Are you disabled?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # What is your ethnic group?
+    choose 'Prefer not to say'
+    click_button t('continue')
+
+    # Review page
+    click_link t('continue')
+
+    # Is there anything else you would like to tell us about your application?
+    choose 'No'
     click_button 'Send application'
+
     @application = ApplicationForm.last
   end
 
