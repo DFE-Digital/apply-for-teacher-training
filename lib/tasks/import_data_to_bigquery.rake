@@ -6,6 +6,7 @@ IRREGULAR_TABLE_NAMES = {
   provider_users_providers: 'ProviderPermissions',
   references: 'ApplicationReference',
   chasers_sent: 'ChaserSent',
+  ucas_matches: 'UCASMatch',
 }.freeze
 
 def entity_models
