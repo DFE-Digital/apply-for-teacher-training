@@ -91,6 +91,7 @@ prod:
 	$(eval APP_NAME_SUFFIX=prod)
 	$(eval SPACE=bat-prod)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
+	$(eval HOSTNAME=www)
 
 research:
 	$(eval APP_ENV=research)
@@ -181,3 +182,19 @@ restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf 
 	$(eval export TF_VAR_paas_restore_db_from_point_in_time_before=$(BEFORE_TIME))
 	echo "Restoring apply-postgres-${APP_NAME_SUFFIX} from $(TF_VAR_paas_restore_db_from_db_instance) before $(TF_VAR_paas_restore_db_from_point_in_time_before)"
 	make ${APP_ENV} deploy
+
+enable-maintenance: ## make qa enable-maintenance / make prod enable-maintenance CONFIRM_PRODUCTION=y
+	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
+	cf target -s ${SPACE}
+	cd service_unavailable_page && cf push
+	cf map-route apply-unavailable apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
+	echo Waiting 5s for route to be registered... && sleep 5
+	cf unmap-route apply-${APP_ENV} apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
+
+disable-maintenance: ## make qa disable-maintenance / make prod disable-maintenance CONFIRM_PRODUCTION=y
+	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
+	cf target -s ${SPACE}
+	cf map-route apply-qa apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
+	echo Waiting 5s for route to be registered... && sleep 5
+	cf unmap-route apply-unavailable apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
+	cf delete -rf apply-unavailable
