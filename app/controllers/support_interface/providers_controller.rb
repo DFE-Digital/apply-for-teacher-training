@@ -77,7 +77,7 @@ module SupportInterface
 
     def applications
       @provider = Provider.find(params[:provider_id])
-      @filter = SupportInterface::ApplicationsFilter.new(
+      @filter = SupportInterface::ProviderApplicationsFilter.new(
         params: params.merge(provider_id: @provider.id),
         provider_page: true,
       )

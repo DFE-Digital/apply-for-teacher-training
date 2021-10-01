@@ -1,5 +1,5 @@
 module SupportInterface
-  class ApplicationsFilter
+  class ProviderApplicationsFilter
     include FilterParamsHelper
 
     attr_reader :applied_filters, :provider_page
