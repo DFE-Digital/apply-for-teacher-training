@@ -168,7 +168,7 @@ NATIONALITIES = [
   ['GB', 'Prydeinig'],
   ['PR', 'Puerto Rican'],
   ['QA', 'Qatari'],
-  ['RP', 'Romanian'],
+  ['RO', 'Romanian'],
   ['RU', 'Russian'],
   ['RW', 'Rwandan'],
   ['SV', 'Salvadorean'],
