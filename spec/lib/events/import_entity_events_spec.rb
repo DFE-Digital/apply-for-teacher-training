@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Events::ImportEntityEvent do
-  let(:candidate) { create(:candidate) }
+RSpec.describe Events::ImportEntityEvents do
+  let(:candidates) { create_list(:candidate, 1) }
   let(:pii_fields) { [] }
   let(:interesting_fields) { [] }
 
@@ -16,7 +16,7 @@ RSpec.describe Events::ImportEntityEvent do
   end
 
   it 'defaults the event type to import_entity' do
-    event = described_class.new(candidate)
+    event = described_class.new(candidates)
 
     expect(event.event_type).to eq('import_entity')
   end
@@ -25,24 +25,24 @@ RSpec.describe Events::ImportEntityEvent do
     let(:interesting_fields) { [:id] }
 
     it 'only includes attributes specified in the settings file' do
-      described_class.new(candidate).send
+      described_class.new(candidates).send
 
       expect(SendEventsToBigquery).to have_received(:perform_async)
-        .with a_hash_including({
+        .with([a_hash_including({
           'entity_table_name' => 'candidates',
           'event_type' => 'import_entity',
           'data' => [
-            { 'key' => 'id', 'value' => [candidate.id] },
+            { 'key' => 'id', 'value' => [candidates.first.id] },
           ],
-        })
+        })])
     end
 
     it 'sends events that are valid according to the schema' do
-      described_class.new(candidate).send
+      described_class.new(candidates).send
 
       expect(SendEventsToBigquery).to have_received(:perform_async) do |payload|
         schema = File.read('config/event-schema.json')
-        schema_validator = JSONSchemaValidator.new(schema, payload)
+        schema_validator = JSONSchemaValidator.new(schema, payload.first)
 
         expect(schema_validator).to be_valid, schema_validator.failure_message
       end
@@ -55,14 +55,14 @@ RSpec.describe Events::ImportEntityEvent do
     let(:candidate) { create(:candidate, email_address: 'adrienne@example.com') }
 
     it 'hashes those fields' do
-      described_class.new(candidate).send
+      described_class.new([candidate]).send
 
       expect(SendEventsToBigquery).to have_received(:perform_async)
-        .with a_hash_including({
+        .with([a_hash_including({
           'data' => [
             { 'key' => 'email_address', 'value' => ['928b126cb77de8a61bf6714b4f6b0147be7f9d5eb60158930c34ef70f4d502d6'] },
           ],
-        })
+        })])
     end
   end
 end

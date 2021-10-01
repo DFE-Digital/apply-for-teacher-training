@@ -40,13 +40,11 @@ namespace :bigquery do
     Rails.logger.info("Processing data for #{model_name} with row count #{model_class.count}")
 
     model_class.order(:id).where('id > ?', start_at_id).find_in_batches(batch_size: batch_size) do |records|
-      records.each do |record|
-        id = record.id
-        Events::ImportEntityEvent.new(record).send
-      end
+      id = records.first.id
+      Events::ImportEntityEvents.new(records).send
       sleep sleep_time
     end
   ensure
-    Rails.logger.info("Process ended while processing #{model_name} with id: #{id}")
+    Rails.logger.info("Process ended while processing #{model_name} within the id range #{id} to #{id + batch_size}")
   end
 end
