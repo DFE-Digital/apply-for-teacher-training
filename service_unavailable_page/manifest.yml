@@ -3,5 +3,5 @@ applications:
 - name: apply-unavailable
   path: web
   buildpacks:
-  - staticfile_buildpack
+  - nginx_buildpack
   instances: 2
