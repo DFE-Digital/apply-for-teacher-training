@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-RSpec.feature 'See Duplicate candidate matches' do
+RSpec.feature 'See Fraud Auditing matches' do
   include DfESignInHelpers
 
-  scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
+  scenario 'Support agent visits Fraud Auditing Dashboard page', sidekiq: true do
     given_i_am_a_support_user
-    and_i_go_to_duplicate_candidate_matches_page
+    and_i_go_to_fraud_auditing_dashboard_page
     then_i_should_see_a_message_declaring_that_there_are_no_matches
 
     and_there_are_candidates_with_duplicate_applications_in_the_system
-    when_i_go_to_duplicate_candidate_matches_page
-    then_i_should_see_list_of_duplicate_candidate_matches
+    when_i_go_to_fraud_auditing_dashboard_page
+    then_i_should_see_list_of_fraud_auditing_matches
   end
 
   def given_i_am_a_support_user
@@ -29,13 +29,13 @@ RSpec.feature 'See Duplicate candidate matches' do
     @application_form_two = create(:application_form, candidate: @candidate_two, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now - 7.days)
   end
 
-  def when_i_go_to_duplicate_candidate_matches_page
-    visit support_interface_duplicate_candidate_matches_path
+  def when_i_go_to_fraud_auditing_dashboard_page
+    visit support_interface_fraud_auditing_matches_path
   end
 
-  alias_method :and_i_go_to_duplicate_candidate_matches_page, :when_i_go_to_duplicate_candidate_matches_page
+  alias_method :and_i_go_to_fraud_auditing_dashboard_page, :when_i_go_to_fraud_auditing_dashboard_page
 
-  def then_i_should_see_list_of_duplicate_candidate_matches
+  def then_i_should_see_list_of_fraud_auditing_matches
     expect(page).to have_content 'Jeffrey'
     expect(page).to have_content 'Joffrey'
     expect(page).to have_content 'Thompson'

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GetDuplicateCandidateMatches do
+RSpec.describe GetFraudMatches do
   let(:candidate1) { create(:candidate, id: '1', email_address: 'exemplar1@example.com') }
   let(:candidate2) { create(:candidate, id: '2', email_address: 'exemplar2@example.com') }
 

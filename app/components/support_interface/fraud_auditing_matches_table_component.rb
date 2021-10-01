@@ -1,5 +1,5 @@
 module SupportInterface
-  class DuplicateCandidateMatchesTableComponent < ViewComponent::Base
+  class FraudAuditingMatchesTableComponent < ViewComponent::Base
     include ViewHelper
 
     attr_reader :matches
