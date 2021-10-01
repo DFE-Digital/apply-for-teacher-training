@@ -26,27 +26,27 @@ RSpec.describe EntityEvents do
         candidate = create(:candidate)
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
-          .with a_hash_including({
+          .with([a_hash_including({
             'entity_table_name' => 'candidates',
             'event_type' => 'create_entity',
             'data' => [
               { 'key' => 'id', 'value' => [candidate.id] },
             ],
-          })
+          })])
       end
 
       it 'does not include attributes not specified in the settings file' do
         candidate = create(:candidate, course_from_find_id: 123)
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
-          .with a_hash_including({
+          .with([a_hash_including({
             'entity_table_name' => 'candidates',
             'event_type' => 'create_entity',
             'data' => [
               { 'key' => 'id', 'value' => [candidate.id] },
               # ie the same payload as above
             ],
-          })
+          })])
       end
 
       it 'sends events that are valid according to the schema' do
@@ -54,7 +54,7 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).to have_received(:perform_async) do |payload|
           schema = File.read('config/event-schema.json')
-          schema_validator = JSONSchemaValidator.new(schema, payload)
+          schema_validator = JSONSchemaValidator.new(schema, payload.first)
 
           expect(schema_validator).to be_valid, schema_validator.failure_message
         end
@@ -66,9 +66,9 @@ RSpec.describe EntityEvents do
         create(:candidate)
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
-          .with a_hash_including({
+          .with([a_hash_including({
             'request_uuid' => 'example-request-id',
-          })
+          })])
       end
 
       context 'and the specified fields are listed as PII' do
@@ -79,11 +79,11 @@ RSpec.describe EntityEvents do
           create(:candidate, email_address: 'adrienne@example.com')
 
           expect(SendEventsToBigquery).to have_received(:perform_async)
-            .with a_hash_including({
+            .with([a_hash_including({
               'data' => [
                 { 'key' => 'email_address', 'value' => ['928b126cb77de8a61bf6714b4f6b0147be7f9d5eb60158930c34ef70f4d502d6'] },
               ],
-            })
+            })])
         end
       end
 
@@ -95,11 +95,11 @@ RSpec.describe EntityEvents do
           candidate = create(:candidate, email_address: 'adrienne@example.com')
 
           expect(SendEventsToBigquery).to have_received(:perform_async)
-            .with a_hash_including({
+            .with([a_hash_including({
               'data' => match([ # #match will cause a strict match within hash_including
                 { 'key' => 'id', 'value' => [candidate.id] },
               ]),
-            })
+            })])
         end
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe EntityEvents do
         create(:email) # some other model, for example
 
         expect(SendEventsToBigquery).not_to have_received(:perform_async)
-          .with(a_hash_including({ 'event_type' => 'create_entity' }))
+          .with([a_hash_including({ 'event_type' => 'create_entity' })])
       end
     end
   end
@@ -126,14 +126,14 @@ RSpec.describe EntityEvents do
         candidate.update(email_address: 'bar@baz.com')
 
         expect(SendEventsToBigquery).to have_received(:perform_async)
-          .with a_hash_including({
+          .with([a_hash_including({
             'entity_table_name' => 'candidates',
             'event_type' => 'update_entity',
             'data' => [
               { 'key' => 'email_address', 'value' => ['bar@baz.com'] },
               { 'key' => 'hide_in_reporting', 'value' => ['false'] },
             ],
-          })
+          })])
       end
 
       it 'does not send update events for fields we don’t care about' do
@@ -152,7 +152,7 @@ RSpec.describe EntityEvents do
 
         expect(SendEventsToBigquery).to have_received(:perform_async).twice do |payload|
           schema = File.read('config/event-schema.json')
-          schema_validator = JSONSchemaValidator.new(schema, payload)
+          schema_validator = JSONSchemaValidator.new(schema, payload.first)
 
           expect(schema_validator).to be_valid, schema_validator.failure_message
         end
@@ -182,13 +182,13 @@ RSpec.describe EntityEvents do
       candidate.destroy
 
       expect(SendEventsToBigquery).to have_received(:perform_async)
-        .with a_hash_including({
+        .with([a_hash_including({
           'entity_table_name' => 'candidates',
           'event_type' => 'delete_entity',
           'data' => [
             { 'key' => 'email_address', 'value' => ['boo@example.com'] },
           ],
-        })
+        })])
     end
   end
 end

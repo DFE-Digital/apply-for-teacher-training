@@ -17,17 +17,37 @@ RSpec.describe SendEventsToBigquery do
     let(:project) { instance_double(Google::Cloud::Bigquery::Project, dataset: dataset) }
     let(:dataset) { instance_double(Google::Cloud::Bigquery::Dataset, table: table) }
     let(:table) { instance_double(Google::Cloud::Bigquery::Table) }
+    let(:response) { instance_double('response', success?: true) }
 
     before do
       allow(Google::Cloud::Bigquery).to receive(:new).and_return(project)
-      allow(table).to receive(:insert)
+      allow(table).to receive(:insert).and_return(response)
     end
 
-    it 'sends request event JSON to Bigquery' do
-      ClimateControl.modify(BIG_QUERY_PROJECT_ID: 'bat-apply-test', BIG_QUERY_DATASET: 'bat-apply-test-events') do
-        described_class.new.perform(request_event.as_json)
+    context 'when the request is successful' do
+      it 'sends the events JSON to Bigquery' do
+        ClimateControl.modify(BIG_QUERY_PROJECT_ID: 'bat-apply-test', BIG_QUERY_DATASET: 'bat-apply-test-events') do
+          described_class.new.perform([request_event.as_json])
 
-        expect(table).to have_received(:insert).with([request_event.as_json])
+          expect(table).to have_received(:insert).with([request_event.as_json])
+        end
+      end
+    end
+
+    context 'when the request is unsuccessful' do
+      let(:response) { instance_double('response', success?: false) }
+
+      before do
+        allow(Sentry).to receive(:capture_message)
+      end
+
+      it 'posts the response and request details to Sentry' do
+        ClimateControl.modify(BIG_QUERY_PROJECT_ID: 'bat-apply-test', BIG_QUERY_DATASET: 'bat-apply-test-events') do
+          described_class.new.perform([request_event.as_json])
+
+          expect(table).to have_received(:insert).with([request_event.as_json])
+          expect(Sentry).to have_received(:capture_message).with("SendEventsToBigquery: #{response} data: #{[request_event.as_json]}")
+        end
       end
     end
   end

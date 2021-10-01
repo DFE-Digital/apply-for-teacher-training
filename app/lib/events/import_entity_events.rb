@@ -1,20 +1,22 @@
 module Events
-  class ImportEntityEvent
-    attr_accessor :table_name, :event_type, :record
+  class ImportEntityEvents
+    attr_accessor :table_name, :event_type, :records
 
-    def initialize(record)
-      @table_name = record.class.table_name
-      @record = record
+    def initialize(records)
+      @table_name = records.first.class.table_name
+      @records = records
       @event_type = 'import_entity'
     end
 
     def send
-      event = Events::Event.new
-        .with_type(event_type)
-        .with_entity_table_name(table_name)
-        .with_data(entity_data(record))
+      events = records.map do |record|
+        Events::Event.new
+          .with_type(event_type)
+          .with_entity_table_name(table_name)
+          .with_data(entity_data(record))
+      end
 
-      SendEventsToBigquery.perform_async(event.as_json)
+      SendEventsToBigquery.perform_async(events.as_json)
     end
 
   private

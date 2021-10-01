@@ -15,7 +15,7 @@ module EmitRequestEvents
         .with_user_and_namespace(current_user, current_namespace)
         .with_request_uuid(RequestLocals.fetch(:request_id) { nil })
 
-      SendEventsToBigquery.perform_async(request_event.as_json)
+      SendEventsToBigquery.perform_async([request_event.as_json])
     end
   end
 end
