@@ -1,5 +1,13 @@
 module SupportInterface
   class MinisterialReportCandidatesExport
+    def self.run_daily
+      data_export = DataExport.create!(
+        name: 'Daily export of the candidates ministerial report',
+        export_type: :ministerial_report_candidates_export,
+      )
+      DataExporter.perform_async(SupportInterface::MinisterialReportCandidatesExport, data_export.id)
+    end
+
     def call
       export_rows = {}
 

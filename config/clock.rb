@@ -35,6 +35,9 @@ class Clock
 
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
+  every(1.day, 'MinisterialReportCandidatesExport', at: '23:59') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
+  every(1.day, 'MinisterialReportApplicationsExport', at: '23:59') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
+
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '12:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }

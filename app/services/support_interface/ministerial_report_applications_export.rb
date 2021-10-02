@@ -1,5 +1,13 @@
 module SupportInterface
   class MinisterialReportApplicationsExport
+    def self.run_daily
+      data_export = DataExport.create!(
+        name: 'Daily export of the applications ministerial report',
+        export_type: :ministerial_report_applications_export,
+      )
+      DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport, data_export.id)
+    end
+
     def call
       results = subject_mapping(subject_status_count)
 
