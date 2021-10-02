@@ -1,71 +1,9 @@
 module SupportInterface
   class MinisterialReportCandidatesExport
-    SUBJECT_CODE_MAPPINGS = {
-      '00' => :primary,
-      '01' => :primary,
-      '02' => :primary,
-      '03' => :primary,
-      '04' => :primary,
-      '06' => :primary,
-      '07' => :primary,
-      'W1' => :art_and_design,
-      'F0' => :physics,
-      'F3' => :physics,
-      'C1' => :biology,
-      '08' => :business_studies,
-      'L1' => :business_studies,
-      'F1' => :chemistry,
-      '09' => :other,
-      'P3' => :other,
-      'L5' => :other,
-      'P1' => :other,
-      'C8' => :other,
-      '14' => :other,
-      '41' => :other,
-      'Q8' => :classics,
-      '11' => :computing,
-      '12' => :physical_education,
-      'C6' => :physical_education,
-      'DT' => :design_and_technology,
-      '13' => :drama,
-      'Q3' => :english,
-      'F8' => :geography,
-      'V1' => :history,
-      'G1' => :mathematics,
-      'W3' => :music,
-      'V6' => :religious_education,
-      '15' => :modern_foreign_languages,
-      '16' => :modern_foreign_languages,
-      '17' => :modern_foreign_languages,
-      '18' => :modern_foreign_languages,
-      '19' => :modern_foreign_languages,
-      '20' => :modern_foreign_languages,
-      '21' => :modern_foreign_languages,
-      '22' => :modern_foreign_languages,
-      '24' => :modern_foreign_languages,
-    }.freeze
-
-    STATUS_MAPPING = {
-      unsubmitted: %i[candidates],
-      application_not_sent: %i[candidates],
-      awaiting_provider_decision: %i[candidates],
-      offer: %i[candidates candidates_holding_offers],
-      pending_conditions: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-      rejected: %i[candidates rejected_candidates],
-      cancelled: %i[candidates declined_candidates],
-      offer_deferred: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-      interviewing: %i[candidates],
-      offer_withdrawn: %i[candidates candidates_that_have_withdrawn_offers],
-      conditions_not_met: %i[candidates candidates_holding_offers],
-      declined: %i[candidates declined_candidates],
-      recruited: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-      withdrawn: %i[candidates],
-    }.freeze
-
     def call
       export_rows = {}
 
-      Subject::SUBJECTS.each { |subject| export_rows[subject] = column_names }
+      MinisterialReport::SUBJECTS.each { |subject| export_rows[subject] = column_names }
 
       export_rows[:split] = column_names
 
@@ -97,28 +35,28 @@ module SupportInterface
       choice_statuses = application.application_choices.map(&:status)
 
       if choice_statuses.any? { |choice_status| ApplicationStateChange::SUCCESSFUL_STATES.include? choice_status.to_sym }
-        STATUS_MAPPING[:recruited]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:recruited]
       elsif choice_statuses.any? { |choice_status| %w[offer conditions_not_met].include? choice_status }
-        STATUS_MAPPING[:offer]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:offer]
       elsif choice_statuses.any? { |choice_status| %w[awaiting_provider_decision interviewing].include? choice_status }
-        STATUS_MAPPING[:awaiting_provider_decision]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:awaiting_provider_decision]
       elsif choice_statuses.any? { |choice_status| %w[offer_withdrawn].include? choice_status }
-        STATUS_MAPPING[:offer_withdrawn]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:offer_withdrawn]
       elsif choice_statuses.any? { |choice_status| %w[cancelled declined].include? choice_status }
-        STATUS_MAPPING[:declined]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:declined]
       elsif choice_statuses.any? { |choice_status| %w[rejected].include? choice_status }
-        STATUS_MAPPING[:rejected]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:rejected]
       elsif choice_statuses.any? { |choice_status| %w[withdrawn].include? choice_status }
-        STATUS_MAPPING[:withdrawn]
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:withdrawn]
       end
     end
 
   private
 
     def add_row_values(hash, subject, state)
-      hash[:stem][state] += 1 if Subject::STEM_SUBJECTS.include? subject
-      hash[:ebacc][state] += 1 if Subject::EBACC_SUBJECTS.include? subject
-      hash[:secondary][state] += 1 if Subject::SECONDARY_SUBJECTS.include? subject
+      hash[:stem][state] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject
+      hash[:ebacc][state] += 1 if MinisterialReport::EBACC_SUBJECTS.include? subject
+      hash[:secondary][state] += 1 if MinisterialReport::SECONDARY_SUBJECTS.include? subject
       hash[subject][state] += 1
     end
 
@@ -135,7 +73,7 @@ module SupportInterface
                            returned_subject = course.subjects.find { |subject| main_subject_name.downcase.in?(subject.name.downcase) }
                            returned_subject.nil? ? course.subjects.find { |subject| subject.name.downcase.in?(course.name.downcase) } : returned_subject
                          end
-      SUBJECT_CODE_MAPPINGS[dominant_subject.code]
+      MinisterialReport::SUBJECT_CODE_MAPPINGS[dominant_subject.code]
     end
 
     def candidate_has_no_dominant_subject?(mapped_subjects)
