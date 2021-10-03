@@ -254,16 +254,14 @@ RSpec.describe CycleTimetable do
     end
   end
 
-  describe '.can_submit?' do
-    before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
-
+  describe '.can_submit?', mid_cycle: true do
     it 'returns true for an application in the current recruitment cycle' do
-      application_form = build :application_form, recruitment_cycle_year: 2021
+      application_form = build :application_form, recruitment_cycle_year: RecruitmentCycle.current_year
       expect(described_class.can_submit?(application_form)).to be true
     end
 
     it 'returns false for an application in the previous recruitment cycle' do
-      application_form = build :application_form, recruitment_cycle_year: 2020
+      application_form = build :application_form, recruitment_cycle_year: RecruitmentCycle.previous_year
       expect(described_class.can_submit?(application_form)).to be false
     end
   end

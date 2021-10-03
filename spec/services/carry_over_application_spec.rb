@@ -123,6 +123,12 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when application form has unstructured work history' do
+    around do |example|
+      Timecop.freeze(CycleTimetable.apply_1_deadline + 1.day) do
+        example.run
+      end
+    end
+
     before do
       original_application_form.update(feature_restructured_work_history: false)
     end
@@ -161,12 +167,14 @@ RSpec.describe CarryOverApplication do
       before { FeatureFlag.activate(:restructured_immigration_status) }
 
       it 'sets the personal details section to incomplete if nationality is not UK/Irish for 2021-22 carry over' do
-        original_application_form.update!(
-          first_nationality: 'Indian',
-          personal_details_completed: true,
-          recruitment_cycle_year: 2021,
-        )
-        described_class.new(original_application_form).call
+        ApplicationForm.with_unsafe_application_choice_touches do
+          original_application_form.update!(
+            first_nationality: 'Indian',
+            personal_details_completed: true,
+            recruitment_cycle_year: 2021,
+          )
+          described_class.new(original_application_form).call
+        end
         carried_over_application_form = ApplicationForm.last
 
         expect(carried_over_application_form.personal_details_completed).to be(false)
@@ -200,31 +208,35 @@ RSpec.describe CarryOverApplication do
     end
 
     it 'infers that `currently_working` is false if there is no ongoing work history item' do
-      first_job = original_application_form.application_work_experiences.first
-      first_job.update(start_date: 4.years.ago, end_date: 3.years.ago)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        first_job = original_application_form.application_work_experiences.first
+        first_job.update(start_date: 4.years.ago, end_date: 3.years.ago)
 
-      second_job = original_application_form.application_work_experiences.last
-      second_job.update(start_date: 2.years.ago, end_date: 1.year.ago)
+        second_job = original_application_form.application_work_experiences.last
+        second_job.update(start_date: 2.years.ago, end_date: 1.year.ago)
 
-      described_class.new(original_application_form.reload).call
+        described_class.new(original_application_form.reload).call
 
-      carried_over_application_form = ApplicationForm.last
-      expect(carried_over_application_form.application_work_experiences.find_by(start_date: first_job.start_date).currently_working?).to be(false)
-      expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(false)
+        carried_over_application_form = ApplicationForm.last
+        expect(carried_over_application_form.application_work_experiences.find_by(start_date: first_job.start_date).currently_working?).to be(false)
+        expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(false)
+      end
     end
 
     it 'infers that `currently_working` is true if there is an ongoing work history item' do
-      first_job = original_application_form.application_work_experiences.first
-      first_job.update(start_date: 3.years.ago, end_date: 2.years.ago)
+      ApplicationForm.with_unsafe_application_choice_touches do
+        first_job = original_application_form.application_work_experiences.first
+        first_job.update(start_date: 3.years.ago, end_date: 2.years.ago)
 
-      second_job = original_application_form.application_work_experiences.last
-      second_job.update(start_date: 1.year.ago, end_date: nil, currently_working: nil)
+        second_job = original_application_form.application_work_experiences.last
+        second_job.update(start_date: 1.year.ago, end_date: nil, currently_working: nil)
 
-      described_class.new(original_application_form.reload).call
+        described_class.new(original_application_form.reload).call
 
-      carried_over_application_form = ApplicationForm.last
-      expect(carried_over_application_form.application_work_experiences.find_by(start_date: first_job.start_date).currently_working?).to be(false)
-      expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(true)
+        carried_over_application_form = ApplicationForm.last
+        expect(carried_over_application_form.application_work_experiences.find_by(start_date: first_job.start_date).currently_working?).to be(false)
+        expect(carried_over_application_form.application_work_experiences.find_by(start_date: second_job.start_date).currently_working?).to be(true)
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::GroupedProviderCoursesComponent, mid_cycle: true do
+RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
   let(:course) { create(:course) }
 
   before do
@@ -23,12 +23,14 @@ RSpec.describe CandidateInterface::GroupedProviderCoursesComponent, mid_cycle: t
   end
 
   it 'renders all the region headings' do
-    result = render_inline(described_class.new)
+    Timecop.travel(CycleTimetable.find_opens + 1.hour) do
+      result = render_inline(described_class.new)
 
-    expect(result.css('h2').text).to include('South East')
-    expect(result.css('h2').text).to include('North West')
-    expect(result.css('h2').text).to include('No region')
-    expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}")
+      expect(result.css('h2').text).to include('South East')
+      expect(result.css('h2').text).to include('North West')
+      expect(result.css('h2').text).to include('No region')
+      expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{course.provider.code}/#{course.code}")
+    end
   end
 
   context 'when find is down' do

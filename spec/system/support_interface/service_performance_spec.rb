@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Service performance', mid_cycle: false do
+RSpec.feature 'Service performance' do
   include DfESignInHelpers
 
   scenario 'View service statistics' do
@@ -35,10 +35,10 @@ RSpec.feature 'Service performance', mid_cycle: false do
   end
 
   def when_there_are_candidates_that_have_never_signed_in
-    Timecop.freeze(2019, 12, 25) do
+    Timecop.freeze(RecruitmentCycle.previous_year - 1, 12, 25) do
       create(:candidate)
     end
-    Timecop.freeze(2021, 1, 5) do
+    Timecop.freeze(RecruitmentCycle.current_year, 1, 5) do
       create_list(:candidate, 2)
     end
   end

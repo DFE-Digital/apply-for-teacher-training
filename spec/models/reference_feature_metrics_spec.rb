@@ -19,7 +19,7 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
 
   context 'with reference data' do
     before do
-      @today = Time.zone.local(2020, 12, 31, 12)
+      @today = Time.zone.local(RecruitmentCycle.current_year, 12, 31, 12)
       Timecop.freeze(@today - 12.days + 2.hours) do
         @application_form1 = create(:application_form)
         @references1 = create_list(:reference, 2, application_form: @application_form1)

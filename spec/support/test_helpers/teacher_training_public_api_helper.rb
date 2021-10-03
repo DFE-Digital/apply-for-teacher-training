@@ -90,7 +90,7 @@ module TeacherTrainingPublicAPIHelper
   end
 
   def stubbed_recruitment_cycle_year
-    @stubbed_recruitment_cycle_year || 2021
+    @stubbed_recruitment_cycle_year || RecruitmentCycle.current_year
   end
 
 private

@@ -40,8 +40,8 @@ RSpec.describe DetectInvariantsDailyCheck do
       this_year_course = create(:course_option)
       last_year_course = create(:course_option, :previous_year)
 
-      bad_form_this_year = create(:completed_application_form, submitted_at: Time.zone.now)
-      good_form_this_year = create(:completed_application_form, submitted_at: Time.zone.now)
+      bad_form_this_year = create(:completed_application_form, submitted_at: Time.zone.local(RecruitmentCycle.current_year, 10, 6, 9), recruitment_cycle_year: RecruitmentCycle.current_year)
+      good_form_this_year = create(:completed_application_form, submitted_at: Time.zone.local(RecruitmentCycle.current_year, 10, 6, 9), recruitment_cycle_year: RecruitmentCycle.current_year)
       good_form_last_year = create(:application_form, submitted_at: 1.year.ago)
 
       create(:application_choice, application_form: bad_form_this_year, course_option: last_year_course)
