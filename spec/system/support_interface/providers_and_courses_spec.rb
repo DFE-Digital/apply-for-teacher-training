@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Providers and courses', mid_cycle: false do
+RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include TeacherTrainingPublicAPIHelper
 
@@ -291,7 +291,7 @@ RSpec.feature 'Providers and courses', mid_cycle: false do
   end
 
   def and_i_choose_to_open_all_courses
-    click_button 'Open all courses for the 2021 cycle'
+    click_button "Open all courses for the #{RecruitmentCycle.current_year} cycle"
   end
 
   def then_all_courses_should_be_open_on_apply
