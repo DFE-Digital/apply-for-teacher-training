@@ -91,8 +91,7 @@ RSpec.describe StartOfCycleNotificationWorker do
         allow(ProviderSetup).to receive(:new).and_return(instance_double(ProviderSetup, relationships_pending: []))
         described_class.new.perform(service)
 
-        expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.first)
-        expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions).with(provider_users_who_need_to_set_up_permissions.last)
+        expect(ProviderMailer).not_to have_received(:set_up_organisation_permissions)
       end
 
       it 'ignores providers with chasers sent' do

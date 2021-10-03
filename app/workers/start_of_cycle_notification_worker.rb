@@ -15,8 +15,7 @@ class StartOfCycleNotificationWorker
         end
 
         next if service == 'apply'
-
-        next unless provider_user.provider_permissions.find_by(provider: provider).manage_organisations
+        next unless relationships_pending_for(provider_user).any?
         next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
 
         ProviderMailer.send(setup_mailer_method, provider_user, relationships_to_set_up(provider_user)).deliver_later
@@ -48,7 +47,7 @@ private
   end
 
   def relationships_to_set_up(provider_user)
-    relationships_pending = ProviderSetup.new(provider_user: provider_user).relationships_pending
+    relationships_pending = relationships_pending_for(provider_user)
     training_providers = relationships_pending.map(&:training_provider) & provider_user.providers
 
     relationships = relationships_pending.each_with_object({}) do |rel, hash|
@@ -61,6 +60,10 @@ private
       end
     end
     relationships.sort_by { |k, v| [k, v.sort!] }.to_h
+  end
+
+  def relationships_pending_for(provider_user)
+    ProviderSetup.new(provider_user: provider_user).relationships_pending
   end
 
   def providers_scope
