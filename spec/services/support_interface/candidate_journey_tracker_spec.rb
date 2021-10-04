@@ -196,7 +196,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       expect(described_class.new(application_choice).new_reference_added).to be_nil
     end
 
-    it 'returns time of the earliest chaser sent' do
+    it 'returns time of the earliest chaser sent', mid_cycle: true do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       create(:reference, :feedback_requested, application_form: application_form)
