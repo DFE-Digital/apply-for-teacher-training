@@ -43,7 +43,7 @@ namespace :bigquery do
 
     model_class.order(:id).where('id > ?', start_at_id).find_in_batches(batch_size: batch_size) do |records|
       id = records.first.id
-      Events::ImportEntityEvents.new(records).send
+      Bigquery::ImportEntityEvents.new(records).call
       sleep sleep_time
     end
   ensure
