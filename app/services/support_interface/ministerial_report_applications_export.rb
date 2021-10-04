@@ -15,8 +15,10 @@ module SupportInterface
 
       MinisterialReport::SUBJECTS.each { |subject| export_rows[subject] = column_names }
 
-      results.each do |key, count|
-        subject, status = key
+      multi_subject_choices = multi_subject_application_ids(results)
+
+      results.each do |(subject, status, id, name), count|
+        next if multi_subject_choices.include?(id) && subject_does_not_appear_first(name, subject)
 
         mapped_statuses = MinisterialReport::APPLICATIONS_REPORT_STATUS_MAPPING[status]
 
@@ -31,6 +33,18 @@ module SupportInterface
     alias data_for_export call
 
   private
+
+    def multi_subject_application_ids(subjects)
+      application_choices_ids = []
+
+      subjects.each { |(_subject, _status, id, _name), _count| application_choices_ids << id }
+
+      application_choices_ids.select { |id| application_choices_ids.count(id) > 1 }.uniq
+    end
+
+    def subject_does_not_appear_first(course_name, subject_name)
+      !course_name.split.first.downcase.in?(subject_name.to_s.downcase)
+    end
 
     def column_names
       {
@@ -54,12 +68,12 @@ module SupportInterface
       Subject
         .joins(courses: { application_choices: :application_form })
         .where.not('application_forms.submitted_at': nil)
-        .group('subjects.code', 'application_choices.status')
+        .group('subjects.code', 'application_choices.status', 'application_choices.id', 'courses.name')
         .count
     end
 
     def subject_mapping(query)
-      query.transform_keys { |subject_code, status| [MinisterialReport::SUBJECT_CODE_MAPPINGS[subject_code], status.to_sym] }
+      query.transform_keys { |subject_code, status, id, name| [MinisterialReport::SUBJECT_CODE_MAPPINGS[subject_code], status.to_sym, id, name] }
     end
   end
 end

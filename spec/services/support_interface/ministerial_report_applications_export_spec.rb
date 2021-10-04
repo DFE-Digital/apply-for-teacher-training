@@ -6,51 +6,61 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
       test_subject = described_class.new
 
       allow(test_subject).to receive(:subject_status_count).and_return(
-        { %w[03 awaiting_provider_decision] => 3,
-          %w[Q3 awaiting_provider_decision] => 1,
-          %w[11 rejected] => 1,
-          %w[02 offer_deferred] => 1,
-          %w[Q3 rejected] => 2,
-          %w[V1 rejected] => 1,
-          %w[W1 awaiting_provider_decision] => 2,
-          %w[Q3 offer] => 1,
-          %w[Q3 unsubmitted] => 1,
-          %w[V1 offer_withdrawn] => 1,
-          %w[07 unsubmitted] => 1,
-          %w[Q3 interviewing] => 1,
-          %w[C6 offer] => 1,
-          %w[W3 conditions_not_met] => 1,
-          %w[V1 cancelled] => 1,
-          %w[06 rejected] => 1,
-          %w[F1 recruited] => 1,
-          %w[02 rejected] => 1,
-          %w[06 offer] => 1,
-          %w[11 offer_deferred] => 1,
-          %w[C1 offer] => 2,
-          %w[02 interviewing] => 1,
-          %w[DT offer_withdrawn] => 1,
-          %w[07 awaiting_provider_decision] => 2,
-          %w[Q3 declined] => 1,
-          %w[00 withdrawn] => 2,
-          %w[01 recruited] => 1,
-          %w[08 rejected] => 1,
-          %w[06 declined] => 1,
-          %w[24 awaiting_provider_decision] => 1,
-          %w[02 pending_conditions] => 1,
-          %w[01 declined] => 1,
-          %w[V6 interviewing] => 1,
-          %w[06 awaiting_provider_decision] => 1,
-          %w[Q3 offer_deferred] => 2,
-          %w[F1 unsubmitted] => 1,
-          %w[07 recruited] => 1,
-          %w[01 awaiting_provider_decision] => 2,
-          %w[V6 offer] => 1,
-          %w[07 pending_conditions] => 1,
-          %w[13 conditions_not_met] => 1,
-          %w[V6 rejected] => 1,
-          %w[00 awaiting_provider_decision] => 1,
-          %w[07 offer] => 1,
-          %w[07 rejected] => 1 },
+        { ['00', 'offer_withdrawn', 1003, 'Primary (3-7)'] => 1,
+          ['00', 'withdrawn', 1010, 'Primary (3-7)'] => 1,
+          ['00', 'awaiting_provider_decision', 1022, 'Primary (with Art and Design)'] => 1,
+          ['00', 'offer', 1038, 'Primary (3-7)'] => 1,
+          ['00', 'offer_withdrawn', 1049, 'Primary (3-7)'] => 1,
+          ['01', 'rejected', 1001, 'Primary (with English)'] => 1,
+          ['01', 'declined', 1006, 'Primary (with English)'] => 1,
+          ['01', 'awaiting_provider_decision', 1016, 'Primary (with English)'] => 1,
+          ['01', 'awaiting_provider_decision', 1021, 'Primary (with English)'] => 1,
+          ['01', 'recruited', 1055, 'Primary (with English)'] => 1,
+          ['02', 'offer_deferred', 1004, 'Primary (Geography and History with SEN)'] => 1,
+          ['02', 'rejected', 1044, 'Primary (with Geography and History)'] => 1,
+          ['02', 'rejected', 1048, 'Primary (with Geography and History)'] => 1,
+          ['02', 'declined', 1052, 'Primary (with Geography and History)'] => 1,
+          ['03', 'conditions_not_met', 1009, 'Primary with Mathematics (Special Education Needs)'] => 1,
+          ['03', 'offer', 1027, 'Primary (with Mathematics)'] => 1,
+          ['03', 'rejected', 1032, 'Primary with Mathematics'] => 1,
+          ['03', 'awaiting_provider_decision', 1035, 'Primary (with Mathematics)'] => 1,
+          ['03', 'offer', 1039, 'Primary (with Mathematics)'] => 1,
+          ['03', 'recruited', 1054, 'Primary (with Mathematics)'] => 1,
+          ['06', 'awaiting_provider_decision', 1017, 'Primary (with Physical Education)'] => 1,
+          ['06', 'awaiting_provider_decision', 1023, 'Primary (with Physical Education)'] => 1,
+          ['06', 'rejected', 1030, 'Primary (with Physical Education)'] => 1,
+          ['06', 'awaiting_provider_decision', 1031, 'Primary (with Physical Education)'] => 1,
+          ['07', 'interviewing', 1025, 'Primary (with Science)'] => 1,
+          ['07', 'interviewing', 1029, 'Primary (with Science)'] => 1,
+          ['07', 'rejected', 1045, 'Primary (with Science)'] => 1,
+          ['07', 'offer', 1046, 'Primary (with Science)'] => 1,
+          ['11', 'rejected', 1040, 'Computing'] => 1,
+          ['11', 'offer_deferred', 1051, 'Computing'] => 1,
+          ['11', 'withdrawn', 1057, 'Computing'] => 1,
+          ['13', 'awaiting_provider_decision', 1019, 'Drama'] => 1,
+          ['22', 'awaiting_provider_decision', 1011, 'Modern Languages (Spanish)'] => 1,
+          ['24', 'offer', 1037, 'Modern Languages'] => 1,
+          ['C6', 'recruited', 1008, 'Physical Education'] => 1,
+          ['C6', 'awaiting_provider_decision', 1026, 'Physical Education'] => 1,
+          ['C6', 'declined', 1034, 'Physical Education (Special Educational Needs)'] => 1,
+          ['C6', 'offer', 1036, 'Physical Education'] => 1,
+          ['DT', 'rejected', 1002, 'Design and Technology'] => 1,
+          ['DT', 'awaiting_provider_decision', 1018, 'Design and Technology'] => 1,
+          ['DT', 'pending_conditions', 1053, 'Design and Technology'] => 1,
+          ['F1', 'offer_deferred', 1005, 'Chemistry'] => 1,
+          ['F1', 'declined', 1041, 'Chemistry'] => 1,
+          ['F1', 'offer_deferred', 1050, 'Chemistry'] => 1,
+          ['F3', 'cancelled', 19630, 'Physics with Mathematics'] => 1,
+          ['F8', 'pending_conditions', 1007, 'Geography'] => 1,
+          ['F8', 'awaiting_provider_decision', 1020, 'Geography'] => 1,
+          ['F8', 'rejected', 1042, 'Geography'] => 1,
+          ['F8', 'offer', 1043, 'Geography'] => 1,
+          ['G1', 'rejected', 1047, 'Mathematics'] => 1,
+          ['G1', 'cancelled', 19630, 'Physics with Mathematics'] => 1,
+          ['Q3', 'awaiting_provider_decision', 1024, 'English'] => 1,
+          ['V6', 'conditions_not_met', 1056, 'Religious Education'] => 1,
+          ['W1', 'declined', 1033, 'Art and Design'] => 1,
+          ['W3', 'interviewing', 1028, 'Music'] => 1 },
       )
 
       data = test_subject.call
@@ -58,17 +68,17 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
       expect(data).to contain_exactly(
         {
           subject: :art_and_design,
-          applications: 2,
+          applications: 1,
           offer_received: 0,
           accepted: 0,
-          application_declined: 0,
+          application_declined: 1,
           application_rejected: 0,
           application_withdrawn: 0,
         },
         {
           subject: :biology,
-          applications: 2,
-          offer_received: 2,
+          applications: 0,
+          offer_received: 0,
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
@@ -76,19 +86,19 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         },
         {
           subject: :business_studies,
-          applications: 1,
+          applications: 0,
           offer_received: 0,
           accepted: 0,
           application_declined: 0,
-          application_rejected: 1,
+          application_rejected: 0,
           application_withdrawn: 0,
         },
         {
           subject: :chemistry,
-          applications: 2,
-          offer_received: 1,
-          accepted: 1,
-          application_declined: 0,
+          applications: 3,
+          offer_received: 2,
+          accepted: 2,
+          application_declined: 1,
           application_rejected: 0,
           application_withdrawn: 0,
         },
@@ -103,7 +113,16 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         },
         {
           subject: :computing,
-          applications: 2,
+          applications: 3,
+          offer_received: 1,
+          accepted: 1,
+          application_declined: 0,
+          application_rejected: 1,
+          application_withdrawn: 1,
+        },
+        {
+          subject: :design_and_technology,
+          applications: 3,
           offer_received: 1,
           accepted: 1,
           application_declined: 0,
@@ -111,18 +130,9 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
           application_withdrawn: 0,
         },
         {
-          subject: :design_and_technology,
-          applications: 1,
-          offer_received: 0,
-          accepted: 0,
-          application_declined: 0,
-          application_rejected: 0,
-          application_withdrawn: 1,
-        },
-        {
           subject: :drama,
           applications: 1,
-          offer_received: 1,
+          offer_received: 0,
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
@@ -130,33 +140,24 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         },
         {
           subject: :english,
-          applications: 9,
-          offer_received: 3,
-          accepted: 2,
-          application_declined: 1,
-          application_rejected: 2,
+          applications: 1,
+          offer_received: 0,
+          accepted: 0,
+          application_declined: 0,
+          application_rejected: 0,
           application_withdrawn: 0,
         },
         {
           subject: :geography,
-          applications: 0,
-          offer_received: 0,
-          accepted: 0,
+          applications: 4,
+          offer_received: 2,
+          accepted: 1,
           application_declined: 0,
-          application_rejected: 0,
+          application_rejected: 1,
           application_withdrawn: 0,
         },
         {
           subject: :history,
-          applications: 3,
-          offer_received: 0,
-          accepted: 0,
-          application_declined: 1,
-          application_rejected: 1,
-          application_withdrawn: 1,
-        },
-        {
-          subject: :mathematics,
           applications: 0,
           offer_received: 0,
           accepted: 0,
@@ -165,9 +166,18 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
           application_withdrawn: 0,
         },
         {
-          subject: :modern_foreign_languages,
+          subject: :mathematics,
           applications: 1,
           offer_received: 0,
+          accepted: 0,
+          application_declined: 0,
+          application_rejected: 1,
+          application_withdrawn: 0,
+        },
+        {
+          subject: :modern_foreign_languages,
+          applications: 2,
+          offer_received: 1,
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
@@ -176,7 +186,7 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         {
           subject: :music,
           applications: 1,
-          offer_received: 1,
+          offer_received: 0,
           accepted: 0,
           application_declined: 0,
           application_rejected: 0,
@@ -193,6 +203,24 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         },
         {
           subject: :physical_education,
+          applications: 4,
+          offer_received: 2,
+          accepted: 1,
+          application_declined: 1,
+          application_rejected: 0,
+          application_withdrawn: 0,
+        },
+        {
+          subject: :physics,
+          applications: 1,
+          offer_received: 0,
+          accepted: 0,
+          application_declined: 1,
+          application_rejected: 0,
+          application_withdrawn: 0,
+        },
+        {
+          subject: :religious_education,
           applications: 1,
           offer_received: 1,
           accepted: 0,
@@ -201,69 +229,140 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
           application_withdrawn: 0,
         },
         {
-          subject: :physics,
-          applications: 0,
-          offer_received: 0,
-          accepted: 0,
-          application_declined: 0,
-          application_rejected: 0,
-          application_withdrawn: 0,
-        },
-        {
-          subject: :religious_education,
-          applications: 3,
-          offer_received: 1,
-          accepted: 0,
-          application_declined: 0,
-          application_rejected: 1,
-          application_withdrawn: 0,
-        },
-        {
           subject: :stem,
-          applications: 6,
-          offer_received: 4,
-          accepted: 2,
-          application_declined: 0,
-          application_rejected: 1,
-          application_withdrawn: 0,
+          applications: 8,
+          offer_received: 3,
+          accepted: 3,
+          application_declined: 2,
+          application_rejected: 2,
+          application_withdrawn: 1,
         },
         {
           subject: :ebacc,
-          applications: 19,
-          offer_received: 7,
+          applications: 15,
+          offer_received: 6,
           accepted: 4,
           application_declined: 2,
-          application_rejected: 4,
+          application_rejected: 3,
           application_withdrawn: 1,
         },
         {
           subject: :primary,
-          applications: 11,
-          offer_received: 4,
+          applications: 28,
+          offer_received: 8,
           accepted: 3,
-          application_declined: 1,
-          application_rejected: 1,
-          application_withdrawn: 2,
+          application_declined: 2,
+          application_rejected: 6,
+          application_withdrawn: 3,
         },
         {
           subject: :secondary,
-          applications: 29,
-          offer_received: 11,
-          accepted: 4,
-          application_declined: 2,
-          application_rejected: 6,
-          application_withdrawn: 2,
+          applications: 26,
+          offer_received: 10,
+          accepted: 6,
+          application_declined: 4,
+          application_rejected: 4,
+          application_withdrawn: 1,
         },
         {
           subject: :total,
-          applications: 40,
-          offer_received: 15,
-          accepted: 7,
-          application_declined: 3,
-          application_rejected: 7,
+          applications: 54,
+          offer_received: 18,
+          accepted: 9,
+          application_declined: 6,
+          application_rejected: 10,
           application_withdrawn: 4,
         },
       )
+    end
+
+    context 'when the application has a course choice with two associated subjects' do
+      it 'returns the first subject as the dominant choice when the course name is a single word' do
+        application_form = create(:completed_application_form)
+        course = create(:course, name: 'Physics with Mathematics', subjects: [create(:subject, name: 'Mathematics', code: 'G1'), create(:subject, name: 'Physics', code: 'F3')])
+        course_option = create(:course_option, course: course)
+        create(:application_choice, :with_accepted_offer, course_option: course_option, application_form: application_form)
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :physics,
+            applications: 1,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+
+        expect(data).not_to include(
+          {
+            subject: :mathematics,
+            applications: 1,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
+
+      it 'returns the first subject as the dominant choice when the course name contains two words' do
+        application_form = create(:completed_application_form)
+        course = create(:course, name: 'Business studies with History', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'History', code: 'V1')])
+        course_option = create(:course_option, course: course)
+        create(:application_choice, :with_accepted_offer, course_option: course_option, application_form: application_form)
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :business_studies,
+            applications: 1,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+
+        expect(data).not_to include(
+          {
+            subject: :history,
+            applications: 1,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
+
+      it 'returns the first subject as the dominant choice when the associated subjects are in brackets' do
+        application_form = create(:completed_application_form)
+        course = create(:course, name: 'Modern Langauges (French with Spanish)', subjects: [create(:subject, name: 'Spanish', code: '22'), create(:subject, name: 'French', code: '15')])
+        course_option = create(:course_option, course: course)
+        create(:application_choice, :with_accepted_offer, course_option: course_option, application_form: application_form)
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :modern_foreign_languages,
+            applications: 1,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
     end
   end
 end
