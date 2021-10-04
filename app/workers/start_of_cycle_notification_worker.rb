@@ -9,20 +9,20 @@ class StartOfCycleNotificationWorker
 
     providers_scope.limit(fetch_limit).each do |provider|
       provider.provider_users.each do |provider_user|
-        unless ChaserSent.exists?(chased: provider_user, chaser_type: mailer_method)
-          ProviderMailer.send(mailer_method, provider_user).deliver_later
-          ChaserSent.create!(chased: provider_user, chaser_type: mailer_method)
+        unless ChaserSent.exists?(chased: provider_user, chaser_type: service_open_email)
+          ProviderMailer.send(service_open_email, provider_user).deliver_later
+          ChaserSent.create!(chased: provider_user, chaser_type: service_open_email)
         end
 
         next if service == 'apply'
         next unless relationships_pending_for(provider_user).any?
-        next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_mailer_method)
+        next if ChaserSent.exists?(chased: provider_user, chaser_type: setup_missing_org_permissions_email)
 
-        ProviderMailer.send(setup_mailer_method, provider_user, relationships_to_set_up(provider_user)).deliver_later
-        ChaserSent.create!(chased: provider_user, chaser_type: setup_mailer_method)
+        ProviderMailer.send(setup_missing_org_permissions_email, provider_user, relationships_to_set_up(provider_user)).deliver_later
+        ChaserSent.create!(chased: provider_user, chaser_type: setup_missing_org_permissions_email)
       end
 
-      ChaserSent.create!(chased: provider, chaser_type: provider_chaser_type)
+      ChaserSent.create!(chased: provider, chaser_type: provider_was_chased)
     end
   end
 
@@ -70,32 +70,32 @@ private
     Provider
       .joins('INNER JOIN provider_users_providers ON providers.id = provider_users_providers.provider_id')
       .joins('INNER JOIN provider_users ON provider_users.id = provider_users_providers.provider_user_id')
-      .where.not(Arel.sql(provider_chaser_sent_sql))
+      .where.not(Arel.sql(providers_whose_users_have_been_chased))
       .order('providers.name')
       .distinct
   end
 
-  def provider_chaser_sent_sql
+  def providers_whose_users_have_been_chased
     <<-SQL.squish
       EXISTS(
         SELECT 1
         FROM chasers_sent
         WHERE chased_type = 'Provider'
         AND chased_id = providers.id
-        AND chaser_type = '#{provider_chaser_type}'
+        AND chaser_type = '#{provider_was_chased}'
       )
     SQL
   end
 
-  def mailer_method
+  def service_open_email
     "#{service}_service_is_now_open"
   end
 
-  def setup_mailer_method
+  def setup_missing_org_permissions_email
     'set_up_organisation_permissions'
   end
 
-  def provider_chaser_type
+  def provider_was_chased
     "#{service}_service_open_organisation_notification"
   end
 end
