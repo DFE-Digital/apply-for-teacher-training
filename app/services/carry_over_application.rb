@@ -26,6 +26,10 @@ private
   end
 
   def recruitment_cycle_year
-    @application_form.recruitment_cycle_year + 1
+    if Time.zone.now > CycleTimetable.apply_1_deadline
+      RecruitmentCycle.next_year
+    else
+      RecruitmentCycle.current_year
+    end
   end
 end

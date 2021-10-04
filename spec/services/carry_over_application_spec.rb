@@ -34,6 +34,20 @@ RSpec.describe CarryOverApplication do
     it_behaves_like 'duplicates application form', 'apply_1', 2021
   end
 
+  context 'when original application is from multiple cycles ago' do
+    around do |example|
+      Timecop.freeze(after_apply_reopens) do
+        example.run
+      end
+    end
+
+    before do
+      Timecop.travel(-1.day) { original_application_form.update(recruitment_cycle_year: 2018) }
+    end
+
+    it_behaves_like 'duplicates application form', 'apply_1', 2021
+  end
+
   context 'when original application is from the current recruitment cycle but that cycle has now closed' do
     around do |example|
       Timecop.freeze(after_apply_2_deadline) do
