@@ -5,7 +5,7 @@ RSpec.describe Hesa::Institution do
     it 'returns a list of HESA institution structs' do
       institutions = described_class.all
 
-      expect(institutions.size).to eq 210
+      expect(institutions.size).to eq 345
       kings = institutions.find { |s| s.hesa_code == '134' }
       expect(kings.hesa_code).to eq '134'
       expect(kings.name).to eq "King's College London"
@@ -16,7 +16,7 @@ RSpec.describe Hesa::Institution do
     it 'returns a list of all institution names' do
       names = described_class.names
 
-      expect(names.size).to eq 210
+      expect(names.size).to eq 345
       expect(names.first).to eq 'The Open University'
     end
   end
