@@ -1,10 +1,11 @@
 <% content_for :additional_footer_content do %><%= render 'unsubscribe' %><% end %>
 Dear <%= @provider_user_name || 'colleague' %>
 
-# Application rejected by default
+<%= @application.candidate_name %>'s application to study <%= @application.course_name_and_code %> was automatically rejected.
 
-<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
+This is because you did not respond within <%= @application.rbd_days %> working days.
 
-This application has been rejected automatically because you did not respond within <%= @application.rbd_days %> working days.
-
-<%= provider_interface_application_choice_url(@application.application_choice_id) %>
+<% if @provider_can_give_feedback %>
+  You need to tell <%= @application.candidate_name %> why their application was unsuccessful:
+  <%= provider_interface_application_choice_url(@application.application_choice_id) %>
+<% end %>
