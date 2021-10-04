@@ -15,7 +15,7 @@ module SupportInterface
     def courses_dashboard; end
 
     def service_performance_dashboard
-      year = params[:year] if %w[2020 2021].include?(params[:year])
+      year = params[:year] if %w[2020 2021 2022].include?(params[:year])
 
       @statistics = PerformanceStatistics.new(year)
     end
