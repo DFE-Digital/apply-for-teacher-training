@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sync sites' do
+RSpec.feature 'Sync sites' do
   include TeacherTrainingPublicAPIHelper
 
   scenario 'a site is removed between syncs' do

@@ -38,7 +38,7 @@ RSpec.describe OpenProviderCourses do
   end
 
   it 'sets the opened on apply timestamp' do
-    opened_on_apply = Time.zone.local(2021, 3, 24, 12)
+    opened_on_apply = Time.zone.local(RecruitmentCycle.current_year, 3, 24, 12)
     course = create(:course, provider: provider, exposed_in_find: true)
 
     Timecop.freeze(opened_on_apply) do

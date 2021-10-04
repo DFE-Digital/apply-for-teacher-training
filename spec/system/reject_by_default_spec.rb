@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Reject by default', mid_cycle: false do
+RSpec.feature 'Reject by default' do
   include CourseOptionHelpers
 
   scenario 'An application is rejected by default', with_audited: true do
@@ -47,8 +47,8 @@ RSpec.feature 'Reject by default', mid_cycle: false do
   end
 
   def when_the_application_is_getting_close_to_the_reject_by_default_date
-    time_limit_in_buiness_days = TimeLimitCalculator.new(rule: :chase_provider_before_rbd, effective_date: Time.zone.now).call[:days]
-    Timecop.travel((time_limit_in_buiness_days.days - 1).before(@application_choice.reject_by_default_at)) do
+    time_limit = TimeLimitCalculator.new(rule: :chase_provider_before_rbd, effective_date: Time.zone.now).call[:time_in_future]
+    Timecop.travel(time_limit) do
       SendChaseEmailToProvidersWorker.perform_async
     end
   end

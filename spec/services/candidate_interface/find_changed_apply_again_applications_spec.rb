@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::FindChangedApplyAgainApplications do
+RSpec.describe CandidateInterface::FindChangedApplyAgainApplications, mid_cycle: true do
   around do |example|
     Timecop.freeze do
       example.run

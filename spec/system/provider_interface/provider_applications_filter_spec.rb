@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Providers should be able to filter applications', mid_cycle: false do
+RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -166,7 +166,7 @@ RSpec.feature 'Providers should be able to filter applications', mid_cycle: fals
   end
 
   def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
-    tag_text = '2020 to 2021'
+    tag_text = "#{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year}"
     expect(page).to have_css('.moj-filter-tags', text: tag_text)
   end
 

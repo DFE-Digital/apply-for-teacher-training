@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Syncing providers', sidekiq: true do
+RSpec.feature 'Syncing providers', sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
   scenario 'Updates course subject codes' do

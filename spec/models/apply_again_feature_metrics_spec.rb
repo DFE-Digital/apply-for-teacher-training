@@ -51,7 +51,7 @@ RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
       end
 
       it 'returns 1.0 when 100% of apply again applications are successful within given time range' do
-        @today = Time.zone.local(2020, 12, 31, 12)
+        @today = Time.zone.local(RecruitmentCycle.previous_year, 12, 31, 12)
         Timecop.freeze(@today - 20.days) do
           create_apply_again_application
           reject(create_apply_again_application)
@@ -79,7 +79,7 @@ RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
 
     context 'with apply again applications' do
       it 'returns correctly formatted values within given time ranges' do
-        @today = Time.zone.local(2020, 12, 31, 12)
+        @today = Time.zone.local(RecruitmentCycle.previous_year, 12, 31, 12)
         Timecop.freeze(@today - 20.days) do
           create_apply_again_application
           reject(create_apply_again_application)
