@@ -14,14 +14,6 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
 
     when_i_submit_the_application
     then_i_see_error_messages_for_the_things_i_was_warned_about
-
-    when_i_swap_course_option_with_one_unavailable_on_apply
-
-    when_i_visit_the_review_application_page
-    then_i_see_a_warning_that_my_course_is_no_longer_on_apply
-
-    when_i_submit_the_application
-    then_i_see_error_messages_for_the_course_closed_on_apply_i_was_warned_about
   end
 
   def given_i_am_signed_in
@@ -85,24 +77,6 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
   def then_i_see_error_messages_for_the_things_i_was_warned_about
     within('.govuk-error-summary') do
       expect(page).to have_content course_not_running_message
-    end
-  end
-
-  def when_i_swap_course_option_with_one_unavailable_on_apply
-    @option_where_course_not_running.course.update!(
-      exposed_in_find: true,
-      open_on_apply: false,
-    )
-  end
-
-  def then_i_see_a_warning_that_my_course_is_no_longer_on_apply
-    expect(page).to have_content(course_closed_on_apply_message)
-    expect(page).to have_content("You can still apply for ‘#{@option_where_course_not_running.course.name_and_code}’ on UCAS.")
-  end
-
-  def then_i_see_error_messages_for_the_course_closed_on_apply_i_was_warned_about
-    within('.govuk-error-summary') do
-      expect(page).to have_content course_closed_on_apply_message
     end
   end
 
