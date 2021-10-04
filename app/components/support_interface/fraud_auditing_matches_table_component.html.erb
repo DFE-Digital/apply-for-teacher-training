@@ -1,13 +1,14 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Candidate ID</th>
-      <th scope="col" class="govuk-table__header">First name</th>
       <th scope="col" class="govuk-table__header">Last name</th>
-      <th scope="col" class="govuk-table__header">Date of birth</th>
-      <th scope="col" class="govuk-table__header">Postcode</th>
-      <th scope="col" class="govuk-table__header">Email address</th>
-      <th scope="col" class="govuk-table__header">Submitted at</th>
+      <th scope="col" class="govuk-table__header">First names</th>
+      <th scope="col" class="govuk-table__header">Candidate email addresses</th>
+      <th scope="col" class="govuk-table__header">Send email?</th>
+      <th scope="col" class="govuk-table__header">Email sent</th>
+      <th scope="col" class="govuk-table__header">Fradulent?</th>
+      <th scope="col" class="govuk-table__header">Submitted?</th>
+      <th scope="col" class="govuk-table__header">Block submission?</th>
     </tr>
   </thead>
 
@@ -15,31 +16,39 @@
     <% table_rows.each do |table_row| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <%= table_row[:candidate_id] %>
-        </td>
-
-        <td class="govuk-table__cell">
-          <%= table_row[:first_name] %>
-        </td>
-
-        <td class="govuk-table__cell">
           <%= table_row[:last_name] %>
         </td>
 
         <td class="govuk-table__cell">
-          <%= table_row[:date_of_birth] %>
+          <% table_row[:first_names].each do |first_name| %>
+            <%= first_name %><br>
+          <% end %>
         </td>
 
         <td class="govuk-table__cell">
-          <%= table_row[:postcode] %>
+          <% table_row[:email_addresses].each do |candidate| %>
+            <%= govuk_link_to(candidate.email_address, support_interface_candidate_path(candidate)) %><br>
+          <% end %>
         </td>
 
         <td class="govuk-table__cell">
-          <%= table_row[:email_address] %>
+          <%= table_row[:candidate_last_contacted_at] %>
         </td>
 
         <td class="govuk-table__cell">
-          <%= table_row[:submitted_at] %>
+        </td>
+
+        <td class="govuk-table__cell">
+          <%= table_row[:fraudulent] %>
+        </td>
+
+        <td class="govuk-table__cell">
+          <% table_row[:submitted_at].each do |submitted_at| %>
+            <%= submitted_at %><br>
+          <% end %>
+        </td>
+
+        <td class="govuk-table__cell">
         </td>
       </tr>
     <% end %>
