@@ -12,31 +12,61 @@ RSpec.describe Candidate, type: :model do
   end
 
   describe 'before_save' do
-    it 'touches the application choice when a field affecting the application choice is changed' do
-      candidate = create(:candidate)
-      application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+    context 'with application choices' do
+      it 'touches the application choice when a field affecting the application choice is changed' do
+        candidate = create(:candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
 
-      expect { candidate.update(email_address: 'new.email@example.com') }
-        .to(change { application_form.application_choices.first.updated_at })
-    end
-
-    it 'does not touch the application choice when a field not affecting the application choice is changed' do
-      candidate = create(:candidate)
-      application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
-
-      expect { candidate.update(last_signed_in_at: Time.zone.now) }
-        .not_to(change { application_form.application_choices.first.updated_at })
-    end
-
-    it 'does not touch the application choice when its in a previous recruitment cycle' do
-      candidate = create(:candidate)
-      application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
-      application_form = ApplicationForm.with_unsafe_application_choice_touches do
-        create(:completed_application_form, application_choices: [application_choice], candidate: candidate, recruitment_cycle_year: RecruitmentCycle.previous_year)
+        expect { candidate.update(email_address: 'new.email@example.com') }
+          .to(change { application_form.application_choices.first.updated_at })
       end
 
-      expect { candidate.update(email_address: 'new.email@example.com') }
-        .not_to(change { application_form.application_choices.first.updated_at })
+      it 'does not touch the application choice when a field not affecting the application choice is changed' do
+        candidate = create(:candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+
+        expect { candidate.update(last_signed_in_at: Time.zone.now) }
+          .not_to(change { application_form.application_choices.first.updated_at })
+      end
+
+      it 'does not touch the application choice when its in a previous recruitment cycle' do
+        candidate = create(:candidate)
+        application_choice = create(:application_choice, current_recruitment_cycle_year: RecruitmentCycle.previous_year)
+        application_form = ApplicationForm.with_unsafe_application_choice_touches do
+          create(:completed_application_form, application_choices: [application_choice], candidate: candidate, recruitment_cycle_year: RecruitmentCycle.previous_year)
+        end
+
+        expect { candidate.update(email_address: 'new.email@example.com') }
+          .not_to(change { application_form.application_choices.first.updated_at })
+      end
+    end
+
+    context 'with application forms' do
+      it 'touches the application form when a field affecting the application form is changed' do
+        candidate = create(:candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+
+        expect { candidate.update(email_address: 'new.email@example.com') }
+          .to(change { application_form.reload.updated_at })
+      end
+
+      it 'does not touch the application form when a field not affecting the application form is changed' do
+        candidate = create(:candidate)
+        application_form = create(:completed_application_form, application_choices_count: 1, candidate: candidate)
+
+        expect { candidate.update(last_signed_in_at: Time.zone.now) }
+          .not_to(change { application_form.reload.updated_at })
+      end
+
+      it 'does not touch the application form when its in a previous recruitment cycle' do
+        candidate = create(:candidate)
+        application_form = ApplicationForm.with_unsafe_application_choice_touches do
+          create(:completed_application_form, application_choices_count: 1, candidate: candidate, recruitment_cycle_year: RecruitmentCycle.previous_year)
+        end
+
+        expect { candidate.update(email_address: 'new.email@example.com') }
+          .not_to(change { application_form.reload.updated_at })
+      end
     end
   end
 
