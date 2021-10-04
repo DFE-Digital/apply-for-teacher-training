@@ -162,9 +162,9 @@ module SupportInterface
             checked: applied_filters[:status]&.include?('pending_conditions'),
           },
           {
-            value: 'conditions_met',
-            label: 'Conditions met',
-            checked: applied_filters[:status]&.include?('conditions_met'),
+            value: 'recruited',
+            label: 'Recruited',
+            checked: applied_filters[:status]&.include?('recruited'),
           },
           {
             value: 'rejected',

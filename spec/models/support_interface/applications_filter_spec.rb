@@ -5,6 +5,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
     create(:application_choice, :with_completed_application_form, :with_offer, :previous_year)
   end
   let!(:application_choice_with_interview) { create(:application_choice, :with_scheduled_interview) }
+  let!(:application_choice_recruited) { create(:application_choice, :with_recruited) }
 
   def verify_filtered_applications_for_params(expected_applications, params:)
     applications = ApplicationForm.all
@@ -73,6 +74,17 @@ RSpec.describe SupportInterface::ApplicationsFilter do
         [expected_form],
         params: {
           status: %w[offer],
+        },
+      )
+    end
+
+    it 'can filter by the recruited status' do
+      expected_form = application_choice_recruited.application_form
+
+      verify_filtered_applications_for_params(
+        [expected_form],
+        params: {
+          status: %w[recruited],
         },
       )
     end
