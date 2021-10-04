@@ -194,7 +194,7 @@ enable-maintenance: ## make qa enable-maintenance / make prod enable-maintenance
 disable-maintenance: ## make qa disable-maintenance / make prod disable-maintenance CONFIRM_PRODUCTION=y
 	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
 	cf target -s ${SPACE}
-	cf map-route apply-qa apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
+	cf map-route apply-${APP_ENV} apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
 	echo Waiting 5s for route to be registered... && sleep 5
 	cf unmap-route apply-unavailable apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
 	cf delete -rf apply-unavailable
