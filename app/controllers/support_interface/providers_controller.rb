@@ -91,10 +91,6 @@ module SupportInterface
       @provider = Provider.find(params[:provider_id])
     end
 
-    def open_all_courses
-      update_provider('Successfully updated all courses') { |provider| OpenProviderCourses.new(provider: provider).call }
-    end
-
     def courses_as_csv
       provider = Provider.find(params[:provider_id])
       rows = SupportInterface::ProviderCoursesCSVExport.new(provider: provider).rows

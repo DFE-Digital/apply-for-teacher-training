@@ -973,8 +973,6 @@ Rails.application.routes.draw do
         resource :provider_users, path: '/provider-users', only: %i[create]
       end
 
-      post '' => 'providers#open_all_courses'
-
       resource :provider_test_data, path: '/test-data', only: %i[create]
     end
 

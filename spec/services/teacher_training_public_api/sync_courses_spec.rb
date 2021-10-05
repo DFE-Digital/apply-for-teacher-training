@@ -51,7 +51,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course_option.course.provider.postcode).to eq 'SK2 6AA'
         expect(course_option.course.code).to eq 'ABC1'
         expect(course_option.course.exposed_in_find).to be true
-        expect(course_option.course.open_on_apply).to be false
+        expect(course_option.course.open_on_apply).to be true
         expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
         expect(course_option.course.description).to eq 'PGCE with QTS full time'
         expect(course_option.course.start_date).to eq Time.zone.local(2021, 9, 1)
@@ -386,7 +386,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(valid_course_option.reload).to be_site_still_valid
       end
 
-      it 'automatically opens new courses on Sandbox', sandbox: true do
+      it 'automatically opens new courses' do
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                    course_code: 'ABC1',
                                                    course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
@@ -399,20 +399,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
         expect(course.open_on_apply).to be true
         expect(course.opened_on_apply_at).not_to be_nil
-      end
-
-      it 'sets courses to open on apply when if they are in the new cycle' do
-        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
-                                                   course_code: 'ABC1',
-                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-                                                   site_code: 'A',
-                                                   vacancy_status: 'full_time_vacancies',
-                                                   recruitment_cycle_year: RecruitmentCycle.next_year)
-
-        described_class.new.perform(existing_provider.id, RecruitmentCycle.next_year)
-
-        course = Course.find_by(code: 'ABC1')
-        expect(course.reload.open_on_apply).to be true
       end
     end
 
@@ -442,31 +428,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
         described_class.new.perform(existing_provider.id, 2021)
         expect(Course.count).to eq 2
-      end
-
-      it 'carries over the previous course’s open_on_apply status the first time it appears in the new cycle but not the second time' do
-        existing_course = Course.find_by(recruitment_cycle_year: 2020)
-        existing_course.update(open_on_apply: true)
-
-        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
-                                                   course_code: 'ABC1',
-                                                   recruitment_cycle_year: 2021,
-                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time', uuid: SecureRandom.uuid }],
-                                                   site_code: 'A',
-                                                   vacancy_status: 'full_time_vacancies')
-
-        described_class.new.perform(existing_provider.id, 2021)
-
-        new_course = Course.find_by(recruitment_cycle_year: 2021)
-        expect(new_course).to be_open_on_apply
-        expect(new_course.opened_on_apply_at).not_to be_nil
-
-        new_course.update(open_on_apply: false)
-
-        described_class.new.perform(existing_provider.id, 2021)
-
-        expect(new_course.reload).not_to be_open_on_apply
-        expect(new_course.opened_on_apply_at).not_to be_nil
       end
     end
   end
