@@ -9,7 +9,7 @@
     "@ministryofjustice/frontend": "^0.2.6",
     "@rails/webpacker": "^5.4.3",
     "accessible-autocomplete": "^2.0.3",
-    "govuk-frontend": "^3.13.1",
+    "govuk-frontend": "^3.14.0",
     "jquery": "^3.6.0"
   },
   "devDependencies": {
