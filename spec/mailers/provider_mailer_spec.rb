@@ -52,16 +52,30 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send application rejected by default email' do
-    let(:email) { described_class.application_rejected_by_default(provider_user, application_choice) }
+    context 'when the provider user can make decisions' do
+      let(:email) { described_class.application_rejected_by_default(provider_user, application_choice, can_make_decisions: true) }
 
-    it_behaves_like('a mail with subject and content',
-                    I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                            candidate_name: 'Harry Potter', support_reference: '123A'),
-                    'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)',
-                    'reject by default days' => 'within 123 working days',
-                    'submission date' => 5.days.ago.to_s(:govuk_date))
+      it_behaves_like('a mail with subject and content',
+                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
+                              candidate_name: 'Harry Potter'),
+                      'provider name' => 'Dear Johny English',
+                      'candidate name' => 'Harry Potter',
+                      'course name and code' => 'Computer Science (6IND)',
+                      'reject by default days' => 'within 123 working days',
+                      'feedback_text' => 'You need to tell Harry Potter why their application was unsuccessful')
+    end
+
+    context 'when the provider user cannot make decisions' do
+      let(:email) { described_class.application_rejected_by_default(provider_user, application_choice, can_make_decisions: false) }
+
+      it_behaves_like('a mail with subject and content',
+                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
+                              candidate_name: 'Harry Potter'),
+                      'provider name' => 'Dear Johny English',
+                      'candidate name' => 'Harry Potter',
+                      'course name and code' => 'Computer Science (6IND)',
+                      'reject by default days' => 'within 123 working days')
+    end
   end
 
   describe 'Send provider decision chaser email' do

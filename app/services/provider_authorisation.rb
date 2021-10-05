@@ -95,8 +95,7 @@ class ProviderAuthorisation
       raise ValidationException, ['Please provide a course_option or course_option_id']
     end
 
-    course_option_id ||= course_option.id
-    course = CourseOption.find(course_option_id).course
+    course = course_option_id.present? ? CourseOption.find(course_option_id).course : course_option.course
 
     add_error(:make_decisions, :requires_application_choice_visibility) unless
       application_choice_visible_to_user?(application_choice: application_choice)

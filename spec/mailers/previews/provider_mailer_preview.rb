@@ -21,8 +21,12 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.application_submitted_with_safeguarding_issues(provider_user, application_choice)
   end
 
-  def application_rejected_by_default
-    ProviderMailer.application_rejected_by_default(provider_user, application_choice)
+  def application_rejected_by_default__provider_can_make_decisions
+    ProviderMailer.application_rejected_by_default(provider_user, application_choice, can_make_decisions: true)
+  end
+
+  def application_rejected_by_default__provider_cant_make_decisions
+    ProviderMailer.application_rejected_by_default(provider_user, application_choice, can_make_decisions: false)
   end
 
   def chase_provider_decision

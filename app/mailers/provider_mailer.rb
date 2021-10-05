@@ -40,13 +40,14 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def application_rejected_by_default(provider_user, application_choice)
+  def application_rejected_by_default(provider_user, application_choice, can_make_decisions:)
     @application = map_application_choice_params(application_choice)
+    @provider_can_give_feedback = can_make_decisions
 
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.application_rejected_by_default.subject', candidate_name: @application.candidate_name, support_reference: @application.support_reference),
+      subject: I18n.t!('provider_mailer.application_rejected_by_default.subject', candidate_name: @application.candidate_name),
     )
   end
 
