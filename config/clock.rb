@@ -29,29 +29,7 @@ class Clock
   every(1.hour, 'UpdateFeatureMetricsDashboard', at: '**:45') { UpdateFeatureMetricsDashboard.perform_async }
 
   # Daily jobs
-  every(1.day, 'UCASMatching::UploadMatchingData', at: '06:23') do
-    if Time.zone.today.weekday?
-      UCASMatching::UploadMatchingData.perform_async
-    end
-  end
-
   every(1.day, 'DetectInvariantsDailyCheck', at: '07:00') { DetectInvariantsDailyCheck.perform_async }
-
-  every(1.day, 'UCASMatching::ProcessMatchingData', at: '10:00') do
-    if Time.zone.today.weekday?
-      if HostingEnvironment.qa?
-        UCASMatching::UploadTestFile.new.upload
-      end
-
-      UCASMatching::ProcessMatchingData.perform_async
-    end
-  end
-
-  every(1.day, 'UCASIntegrationCheck', at: '11:00') do
-    if HostingEnvironment.production? && Time.zone.yesterday.weekday?
-      UCASIntegrationCheck.perform_async
-    end
-  end
 
   every(1.day, 'SendStatsSummaryToSlack', at: '17:00') { SendStatsSummaryToSlack.new.perform }
 
