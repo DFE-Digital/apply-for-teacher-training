@@ -9,32 +9,21 @@ module ProviderInterface
       @current_provider_user = current_provider_user
     end
 
-    def message
-      return declared_diversity_information_message if diversity_information_declared?
-
-      'No information shared'
-    end
-
     def display_diversity_information?
       diversity_information_declared? && current_user_has_permission_to_view_diversity_information? && application_in_correct_state?
     end
 
-    def details
-      if [current_user_has_permission_to_view_diversity_information?, application_in_correct_state?].all?(false)
-        return "Users with permission to see this information will only be able to do so after #{offer_context} offer has been accepted by the candidate."
+    def rows
+      rows = [{ key: 'Do you want to answer a few questions about your sex, diability and ethnicity?', value: diversity_information_declared? ? 'Yes' : 'No' }]
+
+      if diversity_information_declared?
+        rows << { key: 'What is your sex?', value: row_value(equality_and_diversity['sex'].capitalize) }
+        rows << { key: 'Are you disabled?', value: row_value(disability_status) }
+        rows << { key: 'What disabilities do you have?', value: row_value(disability_value.html_safe) } if disability_status == 'Yes'
+        rows << { key: 'What is your ethnic group?', value: row_value(equality_and_diversity['ethnic_group']) }
+        rows << { key: 'What is your ethnic background?', value: row_value(equality_and_diversity['ethnic_background']) } if equality_and_diversity['ethnic_background'].present?
       end
 
-      return "You’ll only be able to see this information after #{offer_context} offer has been accepted by the candidate." if current_user_has_permission_to_view_diversity_information?
-
-      'This section is only available to users with permissions to `view diversity information`.' if application_in_correct_state?
-    end
-
-    def rows
-      rows = [{ key: 'Sex', value: equality_and_diversity['sex'].capitalize },
-              { key: 'Ethnic group', value: equality_and_diversity['ethnic_group'] }]
-      rows << { key: 'Ethnic background', value: equality_and_diversity['ethnic_background'] } if equality_and_diversity['ethnic_background'].present?
-      rows << { key: 'Disabled', value: disability_status }
-      rows << { key: 'Disabilities', value: disability_value.html_safe } if disability_status == 'Yes'
       rows
     end
 
@@ -43,6 +32,13 @@ module ProviderInterface
     end
 
   private
+
+    def row_value(value)
+      return 'You cannot view this because you do not have permission to view sex, disability and ethnicity information.' unless current_user_has_permission_to_view_diversity_information?
+      return "You'll be able to view this if the candidate accepts an offer for this application." unless application_in_correct_state?
+
+      value
+    end
 
     def offer_context
       application_choice.offer? ? 'your' : 'an'
@@ -76,10 +72,6 @@ module ProviderInterface
 
     def equality_and_diversity
       @equality_and_diversity ||= application_choice.application_form.equality_and_diversity
-    end
-
-    def declared_diversity_information_message
-      'The candidate disclosed information in the optional equality and diversity questionnaire. This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs).'
     end
   end
 end
