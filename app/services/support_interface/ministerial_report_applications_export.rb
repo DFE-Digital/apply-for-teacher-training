@@ -17,8 +17,15 @@ module SupportInterface
 
       multi_subject_choices = multi_subject_application_ids(results)
 
+      applications_to_map_once = []
+
       results.each do |(subject, status, id, name), count|
-        next if multi_subject_choices.include?(id) && subject_does_not_appear_first(name, subject)
+        if multi_subject_choices.include?(id) && subject_does_not_appear_first(name, subject) && !subject_appears_in_course_name(name, subject) && !applications_to_map_once.include?(id)
+          subject = ApplicationChoice.find(id).course.level.to_sym if !subject_appears_in_course_name(name, subject)
+          applications_to_map_once << id
+        elsif applications_to_map_once.include?(id) || (multi_subject_choices.include?(id) && subject_does_not_appear_first(name, subject) && subject_appears_in_course_name(name, subject))
+          next
+        end
 
         mapped_statuses = MinisterialReport::APPLICATIONS_REPORT_STATUS_MAPPING[status]
 
@@ -44,6 +51,10 @@ module SupportInterface
 
     def subject_does_not_appear_first(course_name, subject_name)
       !course_name.split.first.downcase.in?(subject_name.to_s.downcase)
+    end
+
+    def subject_appears_in_course_name(course_name, subject_name)
+      subject_name.to_s.downcase.in?(course_name.downcase)
     end
 
     def column_names

@@ -81,7 +81,11 @@ module SupportInterface
                            returned_subject = course.subjects.find { |subject| main_subject_name.downcase.in?(subject.name.downcase) }
                            returned_subject.nil? ? course.subjects.find { |subject| subject.name.downcase.in?(course.name.downcase) } : returned_subject
                          end
-      MinisterialReport::SUBJECT_CODE_MAPPINGS[dominant_subject.code]
+      if dominant_subject.nil?
+        course.level.to_sym
+      else
+        MinisterialReport::SUBJECT_CODE_MAPPINGS[dominant_subject.code]
+      end
     end
 
     def candidate_has_no_dominant_subject?(mapped_subjects)

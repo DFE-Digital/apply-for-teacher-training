@@ -355,7 +355,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       end
     end
 
-    context 'when the candidate has a course choice with two subjects' do
+    context 'when the candidate has a course choice with two associated subjects' do
       it 'returns the first subject as the dominant choice when the course name is a single words' do
         application_form = create(:completed_application_form)
         course = create(:course, name: 'Physics with Mathematics', subjects: [create(:subject, name: 'Mathematics', code: 'G1'), create(:subject, name: 'Physics', code: 'F3')])
@@ -391,7 +391,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
       it 'returns the first subject as the dominant choice when the course name contains two words' do
         application_form = create(:completed_application_form)
-        course = create(:course, name: 'Business studies with Economics', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'Economics', code: 'L1')])
+        course = create(:course, name: 'Business studies with History', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'History', code: 'V1')])
         course_option = create(:course_option, course: course)
         create(:application_choice, :with_accepted_offer, course_option: course_option, application_form: application_form)
 
@@ -421,6 +421,27 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         expect(data).to include(
           {
             subject: :modern_foreign_languages,
+            candidates: 1,
+            candidates_holding_offers: 1,
+            candidates_that_have_accepted_offers: 1,
+            declined_candidates: 0,
+            rejected_candidates: 0,
+            candidates_that_have_withdrawn_offers: 0,
+          },
+        )
+      end
+
+      it 'defaults the subject to a subtotal when it cannot find the dominant subject' do
+        application_form = create(:completed_application_form)
+        course = create(:course, name: 'Nonsense course', level: 'secondary', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'History', code: 'V1')])
+        course_option = create(:course_option, course: course)
+        create(:application_choice, :with_accepted_offer, course_option: course_option, application_form: application_form)
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :secondary,
             candidates: 1,
             candidates_holding_offers: 1,
             candidates_that_have_accepted_offers: 1,
