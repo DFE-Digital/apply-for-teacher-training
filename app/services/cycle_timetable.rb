@@ -194,6 +194,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
       today_is_mid_cycle: {
@@ -218,6 +223,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
       today_is_after_apply_1_deadline_passed: {
@@ -242,6 +252,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
       today_is_after_apply_2_deadline_passed: {
@@ -266,6 +281,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
       today_is_after_find_closes: {
@@ -290,6 +310,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
       today_is_after_find_opens: {
@@ -314,6 +339,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
       today_is_after_apply_opens: {
@@ -338,6 +368,11 @@ class CycleTimetable
         previous_year => {
           find_opens: 9.days.ago,
           apply_opens: 8.days.ago,
+          show_deadline_banner: 7.days.ago,
+          apply_1_deadline: 6.days.ago,
+          apply_2_deadline: 5.days.ago,
+          reject_by_default: 4.days.ago,
+          find_closes: 3.days.ago,
         },
       },
     }
