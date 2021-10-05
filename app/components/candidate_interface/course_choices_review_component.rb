@@ -225,7 +225,8 @@ module CandidateInterface
 
     def visa_details_row(application_choice)
       return nil if immigration_right_to_work?(application_choice) ||
-                    application_predates_visa_sponsorship_information?(application_choice)
+                    application_predates_visa_sponsorship_information?(application_choice) ||
+                    !FeatureFlag.active?(:restructured_immigration_status)
 
       {
         key: 'Visa sponsorship',
