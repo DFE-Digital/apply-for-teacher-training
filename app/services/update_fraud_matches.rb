@@ -10,14 +10,13 @@ class UpdateFraudMatches
       if fraud_match.present?
         fraud_match.candidates << candidate unless fraud_match.candidates.include?(candidate)
       else
-        fraud_match = FraudMatch.create!(
+        FraudMatch.create!(
           recruitment_cycle_year: RecruitmentCycle.current_year,
           last_name: match['last_name'],
           postcode: match['postcode'],
           date_of_birth: match['date_of_birth'],
+          candidates: [candidate],
         )
-
-        fraud_match.candidates << candidate
       end
     end
   end
