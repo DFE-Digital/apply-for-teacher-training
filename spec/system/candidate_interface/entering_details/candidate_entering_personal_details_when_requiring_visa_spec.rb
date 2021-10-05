@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Entering personal details' do
+RSpec.feature 'Entering personal details' do
   include CandidateHelper
 
   around do |example|

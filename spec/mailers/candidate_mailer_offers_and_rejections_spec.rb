@@ -180,13 +180,13 @@ RSpec.describe CandidateMailer, type: :mailer do
       context 'when it is after the apply_2_deadline' do
         before do
           allow(CycleTimetable).to receive(:between_cycles_apply_2?).and_return(true)
-          allow(CycleTimetable).to receive(:apply_opens).and_return(Time.zone.local(2021, 10, 12, 9))
-          allow(RecruitmentCycle).to receive(:next_year).and_return(2022)
+          allow(CycleTimetable).to receive(:apply_opens).and_return(Time.zone.local(RecruitmentCycle.current_year, 10, 12, 9))
+          allow(RecruitmentCycle).to receive(:next_year).and_return(RecruitmentCycle.next_year)
         end
 
         it 'informs the candidate they can apply again next year' do
-          expect(email.body).to include('You can apply again for courses starting in the 2022 to 2023 academic year.')
-          expect(email.body).to include('Your last application has been saved. Make any changes and re-submit from 9am on 12 October 2021')
+          expect(email.body).to include("You can apply again for courses starting in the #{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1} academic year.")
+          expect(email.body).to include("Your last application has been saved. Make any changes and re-submit from 9am on 12 October #{RecruitmentCycle.current_year}")
         end
       end
     end
