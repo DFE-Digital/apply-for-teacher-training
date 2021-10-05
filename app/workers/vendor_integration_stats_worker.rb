@@ -6,6 +6,8 @@ class VendorIntegrationStatsWorker
   SLACK_CHANNELS = {
     'tribal' => 'tribal_dfe_collaboration_',
     'ellucian' => 'ellucian_dfe_collaboration',
+    'unit4' => 'unit4_dfe_collaboration',
+    'oracle' => 'oracle_dfe_collaboration',
   }.freeze
 
   def perform(vendor_name)
