@@ -233,17 +233,17 @@ private
   end
 
   def date_range_query_for_recruitment_cycle_year(cycle_year)
-    start_date = CycleTimetable.apply_opens(cycle_year)
+    start_date = CycleTimetable.find_opens(cycle_year)
 
     query = "created_at >= '#{start_date}'"
 
-    if CycleTimetable::CYCLE_DATES[cycle_year + 1].present?
-      end_date = CycleTimetable.apply_opens(cycle_year + 1)
+    end_date = CycleTimetable.find_opens(cycle_year + 1)
 
-      query += " AND created_at <= '#{end_date}'"
+    if end_date
+      query + " AND created_at <= '#{end_date}'"
+    else
+      query
     end
-
-    query
   end
 
   def application_form_status_total_counts(only: nil)

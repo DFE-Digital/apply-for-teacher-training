@@ -103,10 +103,10 @@ RSpec.describe PerformanceStatistics, type: :model do
 
   describe '#candidate_count' do
     it 'returns the total number of candidates that were created during a given cycle' do
-      Timecop.freeze(2020, 1, 5) do
+      Timecop.freeze(CycleTimetable.find_opens(2020) + 1.day) do
         create_list(:candidate, 2)
       end
-      Timecop.freeze(2020, 12, 25) do
+      Timecop.freeze(CycleTimetable.find_opens(2021) + 1.day) do
         create_list(:candidate, 3)
       end
 
