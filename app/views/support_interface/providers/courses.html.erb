@@ -5,22 +5,6 @@
 <% end %>
 
 <% if @provider.courses.any? %>
-  <% unless @provider.all_courses_open_in_current_cycle? %>
-    <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
-      <h2 class="govuk-heading-m">Open all courses</h2>
-
-      <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
-      <% if @provider.acts_as_accredited_body_in_current_cycle? %>
-        <p class="govuk-body"><%= govuk_link_to 'Courses this provider ratifies at other providers', support_interface_provider_ratified_courses_path(@provider) %> will also be opened.</p>
-      <% end %>
-
-      <% unless @provider.all_associated_accredited_providers_onboarded? %>
-        <%= govuk_warning_text(text: 'Some of this provider’s courses are ratified by an accredited body which does not yet participate in the beta. The accredited body might expect to manage applications to those courses. Check before clicking this button.') %>
-      <% end %>
-      <%= f.govuk_submit "Open all courses for the #{RecruitmentCycle.current_year} cycle" %>
-    <% end %>
-  <% end %>
-
   <% RecruitmentCycle.years_visible_in_support.each do |year| %>
     <% if @courses[year] %>
       <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h2>
