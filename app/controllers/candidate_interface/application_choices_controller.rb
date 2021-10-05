@@ -30,7 +30,7 @@ module CandidateInterface
       @application_form = current_application
       @section_complete_form = SectionCompleteForm.new(form_params)
 
-      render :index and return if @application_form.application_choices.count.zero?
+      redirect_to candidate_interface_course_choices_choose_path and return if @application_form.application_choices.count.zero?
 
       if @section_complete_form.save(current_application, :course_choices_completed)
         redirect_to candidate_interface_application_form_path
