@@ -45,10 +45,7 @@ module TeacherTrainingPublicAPI
       @updates.merge!(courses: true) if !incremental_sync && course.changed?
 
       course.save!
-
-      if new_course
-        SetOpenOnApplyForNewCourse.new(course).call
-      end
+      course.open! if new_course
 
       if run_in_background
         TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id, incremental_sync, suppress_sync_update_errors)
