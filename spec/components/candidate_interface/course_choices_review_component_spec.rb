@@ -493,8 +493,9 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
     end
 
-    context 'when candidate does not have right to work' do
+    context 'when candidate does not have right to work Feature flag on' do
       it 'does render a Visa sponsorship row' do
+        FeatureFlag.activate(:restructured_immigration_status)
         application_form = create(
           :completed_application_form,
           first_nationality: 'Indian',
@@ -506,6 +507,23 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
         result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
         expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
+      end
+    end
+
+    context 'when candidate does not have right to work Feature flag off' do
+      it 'does render a Visa sponsorship row' do
+        FeatureFlag.deactivate(:restructured_immigration_status)
+        application_form = create(
+          :completed_application_form,
+          first_nationality: 'Indian',
+          second_nationality: nil,
+          immigration_right_to_work: false,
+          recruitment_cycle_year: 2022,
+        )
+        create(:application_choice, application_form: application_form)
+
+        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
       end
     end
 
