@@ -69,7 +69,7 @@ module CandidateInterface
       else
         flash[:warning] = pick_site_form.errors.full_messages.first
 
-        if current_application.application_choices.any?
+        if application_form.application_choices.any?
           redirect_to candidate_interface_course_choices_review_path
         else
           redirect_to candidate_interface_course_choices_choose_path
