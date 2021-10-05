@@ -7,20 +7,22 @@ RSpec.describe ProviderInterface::WorkHistoryAndUnpaidExperienceComponent, type:
                     full_time_education?: full_time_education,
                     application_work_experiences: work_experiences,
                     application_volunteering_experiences: volunteering_experiences,
-                    application_work_history_breaks: breaks)
+                    application_work_history_breaks: breaks,
+                    feature_restructured_work_history: true)
   end
 
   let(:work_experiences) do
     [build(:application_work_experience,
-           :deprecated,
            start_date: 6.years.ago,
+           start_date_unknown: false,
            end_date: 2.years.ago,
+           end_date_unknown: false,
            role: 'Sheep herder',
            commitment: 'full_time',
            details: 'Livestock management'),
      build(:application_work_experience,
-           :deprecated,
            start_date: 2.months.ago,
+           start_date_unknown: false,
            end_date: nil,
            role: 'Pig herder',
            commitment: 'part_time',
@@ -152,6 +154,30 @@ RSpec.describe ProviderInterface::WorkHistoryAndUnpaidExperienceComponent, type:
           expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
           expect(summary).to have_css('dd', class: 'govuk-summary-list__value', text: 'No')
         end
+      end
+    end
+
+    context 'with unpaid experience that involved working with children' do
+      let(:volunteering_experiences) do
+        [build(:application_volunteering_experience,
+               role: 'TA',
+               working_pattern: 'Part time',
+               details: 'Supervising classroom',
+               working_with_children: true,
+               start_date: 7.years.ago,
+               end_date: nil)]
+      end
+      let(:work_experiences) { [] }
+
+      before { allow(volunteering_experiences.first).to receive(:application_form).and_return(application_form) }
+
+      it 'renders all experience' do
+        rendered = render_inline(described_class.new(application_form: application_form))
+
+        expect(rendered.text).to include "#{7.years.ago.to_s(:month_and_year)} - Present"
+        expect(rendered.text).to include 'TA - Part time (unpaid)'
+        expect(rendered.text).to include 'Supervising classroom'
+        expect(rendered.text).to include 'Worked with children'
       end
     end
   end
