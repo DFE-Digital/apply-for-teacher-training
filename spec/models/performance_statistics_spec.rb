@@ -12,7 +12,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(count_for_process_state(:never_signed_in)).to be(0)
     end
 
-    it 'counts unsubmitted, unstarted applications' do
+    it 'counts unsubmitted and unstarted applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
       form = application_choice.application_form
       form.update_column(:updated_at, form.created_at)
@@ -20,6 +20,16 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
 
       expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
+    end
+
+    it 'counts application_not_sent applications as unsubmitted_in_progress' do
+      application_choice = create(:application_choice, status: 'application_not_sent')
+      form = application_choice.application_form
+      form.update_column(:updated_at, form.created_at + 6.hours)
+
+      expect(ProcessState.new(form).state).to be :unsubmitted_in_progress
+
+      expect(count_for_process_state(:unsubmitted_in_progress)).to be(1)
     end
 
     it 'counts unsubmitted, unstarted applications from both phases' do
