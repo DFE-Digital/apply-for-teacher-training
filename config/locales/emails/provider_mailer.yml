@@ -40,3 +40,7 @@ en:
       subject: "Candidates can now find teacher training courses for 2022 to 2023 - manage teacher training applications"
     set_up_organisation_permissions:
       subject: "Set up organisation permissions - manage teacher training applications"
+    permissions_granted:
+      subject: '%{permissions_granted_by_user} has added you to %{organisation} - manage teacher training applications'
+    permissions_removed:
+      subject: '%{permissions_removed_by_user} has removed you from %{organisation} - manage teacher training applications'

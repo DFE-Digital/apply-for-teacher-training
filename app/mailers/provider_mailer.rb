@@ -188,6 +188,29 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def permissions_granted(provider_user, provider, permissions, permissions_granted_by)
+    @provider_user = provider_user
+    @provider = provider
+    @permissions_granted_by = permissions_granted_by
+    @permissions = permissions
+
+    notify_email(to: @provider_user.email_address,
+                 subject: I18n.t!('provider_mailer.permissions_granted.subject',
+                                  permissions_granted_by_user: @permissions_granted_by.full_name,
+                                  organisation: @provider.name))
+  end
+
+  def permissions_removed(provider_user, provider, permissions_removed_by)
+    @provider_user = provider_user
+    @provider = provider
+    @permissions_removed_by = permissions_removed_by
+
+    notify_email(to: @provider_user.email_address,
+                 subject: I18n.t!('provider_mailer.permissions_removed.subject',
+                                  permissions_removed_by_user: @permissions_removed_by.full_name,
+                                  organisation: @provider.name))
+  end
+
   def apply_service_is_now_open(provider_user)
     @provider_user = provider_user
 
