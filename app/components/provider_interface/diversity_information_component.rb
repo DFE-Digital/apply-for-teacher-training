@@ -13,11 +13,16 @@ module ProviderInterface
       rows = [{ key: 'Do you want to answer a few questions about your sex, disability and ethnicity?', value: diversity_information_declared? ? 'Yes' : 'No' }]
 
       if diversity_information_declared?
-        rows << { key: 'What is your sex?', value: row_value(equality_and_diversity['sex'].capitalize) }
-        rows << { key: 'Are you disabled?', value: row_value(disability_status) }
-        rows << { key: 'What disabilities do you have?', value: row_value(disability_value.html_safe) } if disability_status == 'Yes'
-        rows << { key: 'What is your ethnic group?', value: row_value(equality_and_diversity['ethnic_group']) }
-        rows << { key: 'What is your ethnic background?', value: row_value(equality_and_diversity['ethnic_background']) } if equality_and_diversity['ethnic_background'].present?
+        rows << { key: I18n.t('equality_and_diversity.sex.title'), value: row_value(equality_and_diversity['sex'].capitalize) }
+        rows << { key: I18n.t('equality_and_diversity.disability_status.title'), value: row_value(disability_status) }
+        rows << { key: I18n.t('equality_and_diversity.disabilities.title'), value: row_value(disability_value.html_safe) } if disability_status == 'Yes'
+        rows << { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) }
+        if equality_and_diversity['ethnic_background'].present?
+          rows << {
+            key: I18n.t('equality_and_diversity.ethnic_background.title', group: equality_and_diversity['ethnic_group']),
+            value: row_value(equality_and_diversity['ethnic_background']),
+          }
+        end
       end
 
       rows
