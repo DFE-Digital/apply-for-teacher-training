@@ -139,7 +139,8 @@ RSpec.describe DetectInvariantsDailyCheck do
 
     it 'detects submitted applications with more than three course choices' do
       create(:completed_application_form, submitted_application_choices_count: 3)
-      bad_application_form = create(:completed_application_form, submitted_application_choices_count: 4)
+      bad_application_form = create(:completed_application_form, submitted_application_choices_count: 2)
+      bad_application_form.application_choices << build_list(:submitted_application_choice, 2, status: :offer)
 
       described_class.new.perform
 
