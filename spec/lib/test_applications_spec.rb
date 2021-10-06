@@ -89,12 +89,6 @@ RSpec.describe TestApplications do
     expect(candidate).to eq expected_candidate
   end
 
-  it 'throws an exception if there are not enough courses to apply to' do
-    expect {
-      described_class.new.create_application(recruitment_cycle_year: 2020, states: %i[offer], courses_to_apply_to: [])
-    }.to raise_error(/Not enough distinct courses/)
-  end
-
   it 'throws an exception if zero courses are specified per application' do
     expect {
       described_class.new.create_application(recruitment_cycle_year: 2020, states: [], courses_to_apply_to: [])

@@ -1,15 +1,7 @@
 class TestApplications
-  class NotEnoughCoursesError < RuntimeError; end
-
   class ZeroCoursesPerApplicationError < RuntimeError
     def message
       'You cannot have zero courses per application'
-    end
-  end
-
-  class CourseAndStateNumbersDoNotMatchError < RuntimeError
-    def message
-      'The number of states and courses must be equal'
     end
   end
 
@@ -57,24 +49,14 @@ private
   )
     raise ZeroCoursesPerApplicationError unless states.any?
 
-    selected_courses =
-      if course_full
-        # Always use the first n courses, so that we can reliably generate
-        # application choices to full courses without randomly affecting the
-        # vacancy status of the entire set of available courses.
-        fill_vacancies(courses_to_choose_from.first(states.count))
-      else
-        courses_to_choose_from.sample(states.count)
-      end
-
-    # it does not make sense to apply to the same course multiple times
-    # in the course of the same application, and it's forbidden in the UI.
-    # Throw an exception if we try to do that here.
-    if selected_courses.count < states.count
-      raise NotEnoughCoursesError, "Not enough distinct courses to generate a #{states.count}-course application"
+    if course_full
+      # Always use the first n courses, so that we can reliably generate
+      # application choices to full courses without randomly affecting the
+      # vacancy status of the entire set of available courses.
+      fill_vacancies(courses_to_choose_from.first(states.count))
+    else
+      courses_to_choose_from.sample(states.count)
     end
-
-    selected_courses
   end
 
   def create_application_to_courses(
@@ -85,7 +67,6 @@ private
     carry_over: false,
     candidate: nil
   )
-    raise CourseAndStateNumbersDoNotMatchError unless courses.count == states.count
 
     initialize_time(recruitment_cycle_year)
 

@@ -44,11 +44,6 @@ task sync_dev_providers_and_open_courses: :environment do
       provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year,
     ).call(run_in_background: false)
   end
-
-  puts 'Making all the courses open on Apply...'
-  Provider.all.each do |provider|
-    OpenProviderCourses.new(provider: provider).call
-  end
 end
 
 desc 'Copy feature flags from production to your local dev env'
