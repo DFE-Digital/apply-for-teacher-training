@@ -35,6 +35,7 @@ module VendorAPI
         id: application_choice.id.to_s,
         type: 'application',
         attributes: {
+          application_url: provider_interface_application_choice_url(application_choice),
           support_reference: application_form.support_reference,
           status: status,
           phase: application_form.phase,
