@@ -17,15 +17,15 @@ module SupportInterface
 
       multi_subject_choices = multi_subject_application_ids(results)
 
-      applications_to_map_once = []
+      previously_mapped_choices = []
 
       results.each do |(subject, status, id, name, phase, form_id), count|
         next if not_the_latest_apply_2_application?(phase, form_id)
 
-        if multi_subject_choices.include?(id) && subject_does_not_appear_first(name, subject) && !subject_appears_in_course_name(name, subject) && !applications_to_map_once.include?(id)
-          subject = ApplicationChoice.find(id).course.level.to_sym if !subject_appears_in_course_name(name, subject)
-          applications_to_map_once << id
-        elsif applications_to_map_once.include?(id) || (multi_subject_choices.include?(id) && subject_does_not_appear_first(name, subject) && subject_appears_in_course_name(name, subject))
+        if multi_subject_choices.include?(id) && unable_to_map_subject_to_course_name?(id, name, subject, previously_mapped_choices)
+          subject = ApplicationChoice.find(id).course.level.to_sym
+          previously_mapped_choices << id
+        elsif previously_mapped_choices.include?(id) || not_the_main_subject?(multi_subject_choices, id, name, subject)
           next
         end
 
@@ -42,6 +42,14 @@ module SupportInterface
     alias data_for_export call
 
   private
+
+    def unable_to_map_subject_to_course_name?(application_choice_id, course_name, subject_name, mapped_choices)
+      subject_does_not_appear_first(course_name, subject_name) && !subject_appears_in_course_name(course_name, subject_name) && !mapped_choices.include?(application_choice_id)
+    end
+
+    def not_the_main_subject?(multi_subject_choices, application_choice_id, course_name, course_subject)
+      multi_subject_choices.include?(application_choice_id) && subject_does_not_appear_first(course_name, course_subject) && subject_appears_in_course_name(course_name, course_subject)
+    end
 
     def not_the_latest_apply_2_application?(application_phase, application_form_id)
       application_phase == 'apply_2' && ApplicationForm.find(application_form_id) != ApplicationForm.find(application_form_id).candidate.current_application
