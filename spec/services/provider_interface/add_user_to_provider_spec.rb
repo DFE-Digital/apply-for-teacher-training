@@ -66,6 +66,15 @@ RSpec.describe ProviderInterface::AddUserToProvider do
         end
       end
 
+      it 'sends a permissions granted email to the user' do
+        provider_user = ProviderUser.find_or_initialize_by(email_address: email_address)
+        allow(ProviderMailer).to receive(:permissions_granted)
+
+        service.call!
+
+        expect(ProviderMailer).to have_received(:permissions_granted).with(provider_user, provider, permissions, actor)
+      end
+
       it 'does not create another notification preferences object' do
         expect { service.call! }.not_to change(ProviderUserNotificationPreferences, :count)
       end
