@@ -15,7 +15,7 @@ module ProviderInterface
     def confirm_destroy; end
 
     def destroy
-      RemoveUserFromProvider.new(current_provider_user: current_provider_user, provider: @provider, user_to_remove: @provider_user).call!
+      RemoveUserFromProvider.new(actor: current_provider_user, provider: @provider, user_to_remove: @provider_user).call!
 
       flash[:success] = 'User removed'
       redirect_to provider_interface_organisation_settings_organisation_users_path(@provider)

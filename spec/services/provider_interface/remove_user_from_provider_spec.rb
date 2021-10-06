@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::RemoveUserFromProvider do
   let(:user_to_remove) { create(:provider_user, :with_provider) }
   let(:provider) { user_to_remove.providers.first }
-  let(:current_provider_user) { create(:provider_user) }
+  let(:actor) { create(:provider_user) }
   let(:service) do
     described_class.new(
-      current_provider_user: current_provider_user,
+      actor: actor,
       provider: provider,
       user_to_remove: user_to_remove,
     )
@@ -19,8 +19,8 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
       end
     end
 
-    context 'when the current user can manage users for the given provider' do
-      let(:current_provider_user) { create(:provider_user, :with_manage_users, providers: [provider]) }
+    context 'when the actor can manage users for the given provider' do
+      let(:actor) { create(:provider_user, :with_manage_users, providers: [provider]) }
 
       context 'when the user_to_remove does not belong to the given provider' do
         let(:provider) { create(:provider) }
@@ -38,6 +38,14 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
       it 'audits the change', with_audited: true do
         expect { service.call! }.to change(user_to_remove.associated_audits, :count).by(1)
         expect(user_to_remove.associated_audits.last.comment).to eq('User was deleted')
+      end
+
+      it 'sends a permissions removed email to the user' do
+        allow(ProviderMailer).to receive(:permissions_removed)
+
+        service.call!
+
+        expect(ProviderMailer).to have_received(:permissions_removed).with(user_to_remove, provider, actor)
       end
     end
   end
