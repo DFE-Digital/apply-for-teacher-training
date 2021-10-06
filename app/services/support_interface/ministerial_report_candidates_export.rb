@@ -16,15 +16,20 @@ module SupportInterface
       export_rows[:split] = column_names
 
       application_forms.find_each do |application|
+        next if application.phase == 'apply_2'
+
         subjects = determine_subjects(application)
 
-        states = determine_states(application)
+        states = if candidate_has_a_successful_apply_2_application?(application)
+                   determine_states(application.candidate.current_application)
+                 else
+                   determine_states(application)
+                 end
 
         if candidate_has_no_dominant_subject?(subjects)
           states.each { |state| export_rows[:split][state] += 1 }
         else
           dominant_subject = dominant_subject(subjects)
-          next if dominant_subject.nil?
 
           states&.each { |state| add_row_values(export_rows, dominant_subject, state) }
         end
@@ -60,6 +65,10 @@ module SupportInterface
     end
 
   private
+
+    def candidate_has_a_successful_apply_2_application?(application)
+      application != application.candidate.current_application && application.candidate.current_application.phase == 'apply_2' && determine_states(application.candidate.current_application) == MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:recruited]
+    end
 
     def add_row_values(hash, subject, state)
       hash[:stem][state] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject
@@ -116,7 +125,7 @@ module SupportInterface
     def application_forms
       ApplicationForm
         .joins(application_choices: { course: :subjects })
-        .current_cycle.where(phase: 'apply_1')
+        .current_cycle
         .where.not(submitted_at: nil)
         .distinct
     end

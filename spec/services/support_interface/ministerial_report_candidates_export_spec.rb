@@ -452,6 +452,75 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         )
       end
     end
+
+    context 'when the candidate has an apply again application' do
+      it 'only includes the latest apply again application and the dominant subject from their first application' do
+        candidate = create(:candidate)
+
+        first_course = create(:course, subjects: [create(:subject, code: 'F0')])
+        first_course_option = create(:course_option, course: first_course)
+
+        second_course = create(:course, subjects: [create(:subject, code: 'F3')])
+        second_course_option = create(:course_option, course: second_course)
+
+        third_course = create(:course, subjects: [create(:subject, code: '15')])
+        third_course_option = create(:course_option, course: third_course)
+
+        first_application_choice = create(:application_choice, :with_declined_offer, course_option: first_course_option, candidate: candidate)
+        second_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: second_course_option, candidate: candidate)
+        third_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: third_course_option, candidate: candidate)
+
+        first_apply_2_course = create(:course, subjects: [create(:subject, code: '16')])
+        first_apply_2_course_option = create(:course_option, course: first_apply_2_course)
+        first_apply_2_application_choice = create(:application_choice, :with_declined_offer, course_option: first_apply_2_course_option, candidate: candidate)
+
+        latest_course = create(:course, subjects: [create(:subject, code: '17')])
+        latest_course_option = create(:course_option, course: latest_course)
+        latest_application_choice = create(:application_choice, :with_accepted_offer, course_option: latest_course_option, candidate: candidate)
+
+        create(:completed_application_form, candidate: candidate, phase: 'apply_1', application_choices: [first_application_choice, second_application_choice, third_application_choice])
+        create(:completed_application_form, candidate: candidate, phase: 'apply_2', application_choices: [first_apply_2_application_choice])
+        create(:completed_application_form, candidate: candidate, phase: 'apply_2', application_choices: [latest_application_choice])
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :total,
+            candidates: 1,
+            candidates_holding_offers: 1,
+            candidates_that_have_accepted_offers: 1,
+            declined_candidates: 0,
+            rejected_candidates: 0,
+            candidates_that_have_withdrawn_offers: 0,
+          },
+        )
+
+        expect(data).to include(
+          {
+            subject: :physics,
+            candidates: 1,
+            candidates_holding_offers: 1,
+            candidates_that_have_accepted_offers: 1,
+            declined_candidates: 0,
+            rejected_candidates: 0,
+            candidates_that_have_withdrawn_offers: 0,
+          },
+        )
+
+        expect(data).not_to include(
+          {
+            subject: :modern_foreign_languages,
+            candidates: 1,
+            candidates_holding_offers: 1,
+            candidates_that_have_accepted_offers: 0,
+            declined_candidates: 0,
+            rejected_candidates: 0,
+            candidates_that_have_withdrawn_offers: 0,
+          },
+        )
+      end
+    end
   end
 
   describe '#determine_states' do

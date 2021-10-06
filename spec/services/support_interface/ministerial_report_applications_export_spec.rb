@@ -276,6 +276,63 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
       )
     end
 
+    context 'when the candidate has an apply again application' do
+      it 'only includes the latest apply again application' do
+        candidate = create(:candidate)
+
+        first_course = create(:course, subjects: [create(:subject, code: '41')])
+        first_course_option = create(:course_option, course: first_course)
+
+        second_course = create(:course, subjects: [create(:subject, code: 'P1')])
+        second_course_option = create(:course_option, course: second_course)
+
+        third_course = create(:course, subjects: [create(:subject, code: '12')])
+        third_course_option = create(:course_option, course: third_course)
+
+        first_application_choice = create(:application_choice, :with_declined_offer, course_option: first_course_option, candidate: candidate)
+        second_application_choice = create(:application_choice, :with_conditions_not_met, course_option: second_course_option, candidate: candidate)
+        third_application_choice = create(:application_choice, :with_withdrawn_offer, course_option: third_course_option, candidate: candidate)
+
+        first_apply_2_course = create(:course, subjects: [create(:subject, code: 'DT')])
+        first_apply_2_course_option = create(:course_option, course: first_apply_2_course)
+        first_apply_2_application_choice = create(:application_choice, :with_declined_offer, course_option: first_apply_2_course_option, candidate: candidate)
+
+        latest_course = create(:course, subjects: [create(:subject, code: 'C6')])
+        latest_course_option = create(:course_option, course: latest_course)
+        latest_application_choice = create(:application_choice, :with_accepted_offer, course_option: latest_course_option, candidate: candidate)
+
+        create(:completed_application_form, candidate: candidate, phase: 'apply_1', application_choices: [first_application_choice, second_application_choice, third_application_choice])
+        create(:completed_application_form, candidate: candidate, phase: 'apply_2', application_choices: [first_apply_2_application_choice])
+        create(:completed_application_form, candidate: candidate, phase: 'apply_2', application_choices: [latest_application_choice])
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :total,
+            applications: 4,
+            offer_received: 2,
+            accepted: 1,
+            application_declined: 1,
+            application_rejected: 0,
+            application_withdrawn: 1,
+          },
+        )
+
+        expect(data).not_to include(
+          {
+            subject: :design_and_technology,
+            applications: 1,
+            offer_received: 0,
+            accepted: 0,
+            application_declined: 1,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
+    end
+
     context 'when the application has a course choice with two associated subjects' do
       it 'returns the first subject as the dominant choice when the course name is a single word' do
         application_form = create(:completed_application_form)
