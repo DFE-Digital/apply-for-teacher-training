@@ -10,6 +10,8 @@ RSpec.describe StatsSummary do
 
     output = described_class.new.as_slack_message
 
+    expect(output).to match(/5 candidate signups/)
+    expect(output).to match(/5 applications begun/)
     expect(output).to match(/1 application submitted/)
     expect(output).to match(/1 candidate recruited/)
     expect(output).to match(/2 offers made/)
