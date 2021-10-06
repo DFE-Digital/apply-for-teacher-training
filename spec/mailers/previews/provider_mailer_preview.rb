@@ -122,12 +122,27 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.permissions_granted(provider_user, provider, permissions, permissions_granted_by_user)
   end
 
+  def permissions_granted_by_support
+    provider = FactoryBot.create(:provider)
+    provider_user = FactoryBot.create(:provider_user, providers: [provider])
+    permissions = ProviderPermissions::VALID_PERMISSIONS.map(&:to_s).sample(3)
+
+    ProviderMailer.permissions_granted(provider_user, provider, permissions, nil)
+  end
+
   def permissions_removed
     provider = FactoryBot.create(:provider)
     permissions_revoked_by_user = FactoryBot.create(:provider_user)
     provider_user = FactoryBot.create(:provider_user, providers: [provider])
 
     ProviderMailer.permissions_removed(provider_user, provider, permissions_revoked_by_user)
+  end
+
+  def permissions_removed_by_support
+    provider = FactoryBot.create(:provider)
+    provider_user = FactoryBot.create(:provider_user, providers: [provider])
+
+    ProviderMailer.permissions_removed(provider_user, provider)
   end
 
   def apply_service_is_now_open

@@ -42,5 +42,9 @@ en:
       subject: "Set up organisation permissions - manage teacher training applications"
     permissions_granted:
       subject: '%{permissions_granted_by_user} has added you to %{organisation} - manage teacher training applications'
+    permissions_granted_by_support:
+      subject: "You've been added to %{organisation} - manage teacher training applications"
     permissions_removed:
       subject: '%{permissions_removed_by_user} has removed you from %{organisation} - manage teacher training applications'
+    permissions_removed_by_support:
+      subject: "You've been removed from %{organisation} - manage teacher training applications"
