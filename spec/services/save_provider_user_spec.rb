@@ -4,8 +4,8 @@ RSpec.describe SaveProviderUser do
   let(:provider) { create(:provider) }
   let(:another_provider) { create(:provider) }
   let(:new_provider) { create(:provider) }
+  let(:current_provider_user) { create(:provider_user, create_notification_preference: false) }
   let(:provider_user) { create(:provider_user, create_notification_preference: false, providers: [provider, another_provider]) }
-  let(:provider_ids) { { selected: [another_provider.id], deselected: [provider.id] } }
   let(:deselected_provider_permissions) { provider_user.provider_permissions.where(provider: provider) }
   let(:provider_permissions) do
     updated_provider_permissions = provider_user.provider_permissions.find_by(provider: another_provider)
@@ -26,11 +26,9 @@ RSpec.describe SaveProviderUser do
 
   describe '#call!' do
     subject(:service) do
-      described_class.new(
-        provider_user: provider_user,
-        provider_permissions: provider_permissions,
-        deselected_provider_permissions: deselected_provider_permissions,
-      )
+      described_class.new(provider_user: provider_user,
+                          provider_permissions: provider_permissions,
+                          deselected_provider_permissions: deselected_provider_permissions)
     end
 
     it 'saves the provider user' do
@@ -62,6 +60,44 @@ RSpec.describe SaveProviderUser do
       result = service.call!
 
       expect(result.authorisation.providers_that_actor_can_manage_users_for).to eq([another_provider])
+    end
+
+    context 'when permissions are setup' do
+      let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
+      let(:deselected_provider_permissions) { [] }
+      let(:provider_permissions) do
+        [ProviderPermissions.new(provider: new_provider, provider_user: provider_user, manage_users: true)]
+      end
+
+      it 'sends a permissions granted' do
+        allow(ProviderMailer).to receive(:permissions_granted).and_return(mailer_delivery)
+
+        service.call!
+
+        expect(ProviderMailer).to have_received(:permissions_granted)
+      end
+    end
+
+    context 'when permissions are removed' do
+      let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
+      let(:provider_user) { create(:provider_user, create_notification_preference: false, providers: [provider]) }
+      let!(:provider_user_permissions) { create_list(:provider_permissions, 3, manage_users: true) }
+      let(:provider_permissions) { [] }
+      let(:deselected_provider_permissions) do
+        [provider_user.provider_permissions.find_by(provider: provider),
+         provider_user_permissions.first]
+      end
+
+      it 'sends a permissions removed email' do
+        allow(ProviderMailer).to receive(:permissions_removed).and_return(mailer_delivery)
+
+        service.call!
+
+        deselected_provider_permissions.each do |removed_permissions|
+          expect(ProviderMailer).to have_received(:permissions_removed)
+            .with(anything, removed_permissions.provider)
+        end
+      end
     end
 
     it 'adds the notification preferences record to a ProviderUser' do

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::AddUserToProvider do
+  let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
   let(:actor) { create(:provider_user, :with_provider, :with_manage_users) }
   let(:provider) { actor.providers.first }
   let(:email_address) { Faker::Internet.email }
@@ -68,7 +69,7 @@ RSpec.describe ProviderInterface::AddUserToProvider do
 
       it 'sends a permissions granted email to the user' do
         provider_user = ProviderUser.find_or_initialize_by(email_address: email_address)
-        allow(ProviderMailer).to receive(:permissions_granted)
+        allow(ProviderMailer).to receive(:permissions_granted).and_return(mailer_delivery)
 
         service.call!
 

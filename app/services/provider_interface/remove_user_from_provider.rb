@@ -34,7 +34,7 @@ module ProviderInterface
     end
 
     def send_permissions_removed_email
-      ProviderMailer.permissions_removed(user_to_remove, provider, actor)
+      ProviderMailer.permissions_removed(user_to_remove, provider, actor).deliver_later
     end
   end
 end

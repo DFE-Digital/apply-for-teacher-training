@@ -11,6 +11,7 @@ class SaveProviderUser
     provider_user.save!
     save_notification_preferences!
     update_provider_permissions!
+    send_emails_to_provider_user
     provider_user.reload
   end
 
@@ -48,7 +49,31 @@ private
     end
   end
 
+  def send_emails_to_provider_user
+    send_permissions_granted_email
+    send_permissions_removed_email
+  end
+
+  def send_permissions_granted_email
+    new_provider_permissions.each do |new_permissions|
+      ProviderMailer.permissions_granted(provider_user,
+                                         new_permissions.provider,
+                                         extract_permission_keys(new_permissions)).deliver_later
+    end
+  end
+
+  def send_permissions_removed_email
+    deselected_provider_permissions.each do |removed_permissions|
+      ProviderMailer.permissions_removed(provider_user,
+                                         removed_permissions.provider).deliver_later
+    end
+  end
+
   def new_provider_permissions
     @new_provider_permissions ||= provider_permissions - provider_user.provider_permissions
+  end
+
+  def extract_permission_keys(permissions)
+    ProviderPermissions::VALID_PERMISSIONS.select { |permission| permissions.send(permission) }
   end
 end

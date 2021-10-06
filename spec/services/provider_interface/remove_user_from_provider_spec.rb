@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::RemoveUserFromProvider do
+  let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
   let(:user_to_remove) { create(:provider_user, :with_provider) }
   let(:provider) { user_to_remove.providers.first }
   let(:actor) { create(:provider_user) }
@@ -41,7 +42,7 @@ RSpec.describe ProviderInterface::RemoveUserFromProvider do
       end
 
       it 'sends a permissions removed email to the user' do
-        allow(ProviderMailer).to receive(:permissions_removed)
+        allow(ProviderMailer).to receive(:permissions_removed).and_return(mailer_delivery)
 
         service.call!
 
