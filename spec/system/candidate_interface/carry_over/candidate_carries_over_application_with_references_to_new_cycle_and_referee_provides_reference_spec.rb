@@ -118,8 +118,10 @@ RSpec.feature 'Carry over' do
   end
 
   def and_sign_back_in_as_the_candidate
-    visit candidate_interface_application_complete_path
-    login_as(@candidate)
+    Timecop.travel(after_apply_reopens) do
+      login_as(@candidate)
+      visit candidate_interface_application_complete_path
+    end
   end
 
   def then_i_see_the_reference_completed
