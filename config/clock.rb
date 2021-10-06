@@ -45,4 +45,11 @@ class Clock
   every(7.days, 'FullSyncAllFromTeacherTrainingPublicAPI', at: 'Saturday 00:59') do
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
   end
+
+  every(1.day, 'VendorIntegrationStatsWorker', at: '09:00', if: ->(t) { t.weekday? }) do
+    VendorIntegrationStatsWorker.perform_async('tribal')
+    VendorIntegrationStatsWorker.perform_async('ellucian')
+    VendorIntegrationStatsWorker.perform_async('unit4')
+    VendorIntegrationStatsWorker.perform_async('oracle')
+  end
 end
