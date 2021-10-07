@@ -1040,6 +1040,7 @@ Rails.application.routes.draw do
     end
 
     get '/email-log', to: 'email_log#index', as: :email_log
+    get '/provider-onboarding', to: 'provider_onboarding#index', as: :provider_onboarding
     get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
     get '/vendor-api-monitoring', to: 'vendor_api_monitoring#index', as: :vendor_api_monitoring
 
