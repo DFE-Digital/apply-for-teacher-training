@@ -18,6 +18,17 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
         end
       end
 
+      it 'does not return an application where the candidate is unsubscribed' do
+        Timecop.travel(CycleTimetable.apply_1_deadline_first_reminder) do
+          unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
+          create(:application_form, candidate: unsubscribed_candidate)
+
+          described_class.new.perform
+
+          expect(SendEocDeadlineReminderEmailToCandidate).not_to have_received(:call)
+        end
+      end
+
       it 'returns an application when the deadline is 1 month away' do
         Timecop.travel(CycleTimetable.apply_1_deadline_second_reminder) do
           application_form = create(:application_form)
@@ -62,6 +73,17 @@ RSpec.describe SendEocDeadlineReminderEmailToCandidatesWorker, sidekiq: true do
           described_class.new.perform
 
           expect(SendEocDeadlineReminderEmailToCandidate).to have_received(:call).with(application_form: application_form)
+        end
+      end
+
+      it 'does not return an application where the candidate is unsubscribed' do
+        Timecop.travel(CycleTimetable.apply_2_deadline_first_reminder) do
+          unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
+          create(:application_form, phase: 'apply_2', candidate: unsubscribed_candidate)
+
+          described_class.new.perform
+
+          expect(SendEocDeadlineReminderEmailToCandidate).not_to have_received(:call)
         end
       end
 

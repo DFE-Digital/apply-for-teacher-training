@@ -41,5 +41,12 @@ RSpec.describe GetUnsuccessfulAndUnsubmittedCandidates do
           ],
         )
     end
+
+    it 'does not return candidates who have unsubscribed_from_emails' do
+      unsubscribed_candidate = create(:candidate, unsubscribed_from_emails: true)
+      create(:application_form, :minimum_info, candidate: unsubscribed_candidate)
+
+      expect(described_class.call).to be_empty
+    end
   end
 end
