@@ -63,7 +63,7 @@ private
         ```#{no_sync_in_24h_text}```
         :checkered_flag:
         ```#{no_decisions_in_7d_text}```
-        :face_with_rolling_eyes:
+        :thinking_face:
         ```#{providers_with_errors_text}```
       VENDOR_INTEGRATION_STATS_SLACK_REPORT
     end
