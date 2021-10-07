@@ -408,6 +408,10 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       expect(presenter.dig(:attributes, :course, :accredited_provider_code)).to eq(accredited_provider.code)
     end
 
+    it 'returns the course uuid' do
+      expect(presenter.dig(:attributes, :course, :uuid)).to eq(course.uuid)
+    end
+
     context 'with a self ratified course' do
       let(:accredited_provider) { nil }
 
