@@ -11,7 +11,9 @@ private
 
   def send_7_day_chaser!
     references = ApplicationReference
+      .joins(:application_form)
       .feedback_requested
+      .where(application_forms: { recruitment_cycle_year: ApplicationForm.select('candidate_id').maximum(:recruitment_cycle_year) })
       .where(['requested_at < ?', TimeLimitConfig.chase_referee_by.days.before(Time.zone.now)])
       .where.not(id: ChaserSent.reference_request.select(:chased_id))
 
@@ -24,7 +26,9 @@ private
 
   def send_14_day_chaser!
     references = ApplicationReference
+      .joins(:application_form)
       .feedback_requested
+      .where(application_forms: { recruitment_cycle_year: ApplicationForm.select('candidate_id').maximum(:recruitment_cycle_year) })
       .where(['requested_at < ?', TimeLimitConfig.replace_referee_by.days.before(Time.zone.now)])
       .where.not(id: ChaserSent.reference_replacement.select(:chased_id))
 
@@ -38,7 +42,9 @@ private
 
   def send_28_day_chaser!
     references = ApplicationReference
+      .joins(:application_form)
       .feedback_requested
+      .where(application_forms: { recruitment_cycle_year: ApplicationForm.select('candidate_id').maximum(:recruitment_cycle_year) })
       .where(['requested_at < ?', TimeLimitConfig.additional_reference_chase_calendar_days.days.before(Time.zone.now)])
       .where.not(id: ChaserSent.follow_up_missing_references.select(:chased_id))
 

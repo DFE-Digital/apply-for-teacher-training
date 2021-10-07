@@ -180,7 +180,7 @@ module RefereeInterface
     end
 
     def reference
-      @reference ||= ApplicationReference.find_by_unhashed_token(params[:token])
+      @reference ||= ApplicationReference.find_by_unhashed_token(params[:token])&.find_latest_reference
     end
 
     def set_token_param

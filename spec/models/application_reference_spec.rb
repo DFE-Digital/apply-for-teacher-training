@@ -65,6 +65,22 @@ RSpec.describe ApplicationReference, type: :model do
     end
   end
 
+  describe '.find_latest_reference' do
+    it 'returns the latest duplicated reference' do
+      application_form1 = create(:application_form)
+      application_form2 = create(:application_form, candidate: application_form1.candidate)
+      reference1 = create(:reference, :feedback_requested, application_form: application_form1)
+      reference2 = create(:reference,
+                          :feedback_requested,
+                          name: reference1.name,
+                          email_address: reference1.email_address,
+                          relationship: reference1.relationship,
+                          application_form: application_form2)
+
+      expect(reference1.find_latest_reference).to eq reference2
+    end
+  end
+
   describe '#pending_feedback_or_failed' do
     it 'returns references in every state except not_requested_yet and feedback_provided' do
       expected_states = described_class.feedback_statuses.values - %w[not_requested_yet feedback_provided]

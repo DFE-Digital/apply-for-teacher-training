@@ -70,6 +70,15 @@ class ApplicationReference < ApplicationRecord
       ReferenceToken.find_by(hashed_token: new_token)&.application_reference
   end
 
+  def find_latest_reference
+    ApplicationReference
+    .joins(:application_form)
+    .where(application_form: { candidate_id: candidate.id })
+    .where(relationship: relationship, email_address: email_address, name: name)
+    .order(:created_at)
+    .last
+  end
+
   def chase_referee_at
     return unless requested_at
 
