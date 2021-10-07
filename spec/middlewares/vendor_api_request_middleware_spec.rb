@@ -24,7 +24,7 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
 
   describe '#call on a non-API path' do
     it 'does not enqueue a background job' do
-      get '/candidate'
+      get '/api/v2'
 
       expect(VendorAPIRequestWorker).not_to have_received(:perform_async)
     end
