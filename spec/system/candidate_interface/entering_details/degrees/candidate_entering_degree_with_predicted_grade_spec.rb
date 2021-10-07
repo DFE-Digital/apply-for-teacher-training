@@ -38,9 +38,9 @@ RSpec.feature 'Entering their degrees' do
     fill_in t('page_titles.what_year_did_you_start_your_degree'), with: RecruitmentCycle.current_year - 3
     click_on_save_and_continue
 
-    fill_in t('page_titles.what_year_will_you_graduate'), with: RecruitmentCycle.previous_year
+    fill_in t('page_titles.what_year_will_you_graduate'), with: RecruitmentCycle.previous_year - 1
     click_on_save_and_continue
-    expect(page).to have_content('Enter a year that is in the future')
+    expect(page).to have_content('Enter a year that is the current year or a year in the future')
 
     fill_in t('page_titles.what_year_will_you_graduate'), with: RecruitmentCycle.current_year
     click_on_save_and_continue
