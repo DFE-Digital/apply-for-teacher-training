@@ -5,7 +5,10 @@ module SupportInterface
     end
 
     def providers_where_no_user_has_logged_in
-      Provider.where.not(id: providers_with_users_that_have_logged_in.select(:id))
+      providers_with_users
+        .select('providers.*, MAX(provider_users.last_signed_in_at)')
+        .group('providers.id')
+        .having('MAX(provider_users.last_signed_in_at) IS NULL')
     end
 
     def permissions_not_set_up
@@ -16,7 +19,7 @@ module SupportInterface
                                                     .flatten
                                                     .uniq
 
-      providers_with_users_that_have_logged_in.where(id: providers_that_need_to_set_up_permissions)
+      providers_with_users.where(id: providers_that_need_to_set_up_permissions)
     end
 
     def no_decisions_in_last_7_days
@@ -31,11 +34,6 @@ module SupportInterface
 
     def providers_with_users
       Provider.joins(:provider_users).distinct
-    end
-
-    def providers_with_users_that_have_logged_in
-      providers_with_users
-        .where.not(provider_users: { last_signed_in_at: nil })
     end
 
     def applications_with_last_decision_sql

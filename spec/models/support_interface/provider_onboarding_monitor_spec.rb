@@ -61,8 +61,8 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
       context 'when the provider has no users that have logged in' do
         let!(:user) { create(:provider_user, providers: [provider], last_signed_in_at: nil) }
 
-        it 'does not return the provider' do
-          expect(described_class.new.permissions_not_set_up).to be_empty
+        it 'returns the provider' do
+          expect(described_class.new.permissions_not_set_up).to contain_exactly(provider)
         end
       end
     end
