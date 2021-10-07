@@ -29,7 +29,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         name: 'Alchemy',
         provider: current_provider,
         accredited_provider: accredited_provider,
-        study_mode: 'part_time',
       ),
       site: create(
         :site,
@@ -37,6 +36,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         name: 'Skywalker Training',
         provider: current_provider,
       ),
+      study_mode: 'part_time',
     )
   end
 

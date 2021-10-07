@@ -70,6 +70,12 @@ class FilterApplicationChoicesForProviders
         .where(course_subjects: { subject_id: subject_ids })
     end
 
+    def study_mode(application_choices, study_mode)
+      return application_choices if study_mode.blank?
+
+      application_choices.where(current_course_option: { study_mode: study_mode })
+    end
+
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
       filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
@@ -77,6 +83,7 @@ class FilterApplicationChoicesForProviders
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])
       filtered_application_choices = status(filtered_application_choices, filters[:status])
       filtered_application_choices = course_subject(filtered_application_choices, filters[:subject])
+      filtered_application_choices = study_mode(filtered_application_choices, filters[:study_mode])
       provider_location(filtered_application_choices, filters[:provider_location])
     end
   end

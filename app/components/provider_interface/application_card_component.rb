@@ -11,7 +11,7 @@ module ProviderInterface
       @application_choice = application_choice
       @candidate_name = application_choice.application_form.full_name
       @course_name_and_code = application_choice.current_course.name_and_code
-      @course_study_mode = application_choice.current_course.study_mode.humanize.downcase
+      @course_study_mode = application_choice.current_course_option.study_mode.humanize.downcase
       @course_provider_name = application_choice.current_provider.name
       @changed_at = application_choice.updated_at.to_s(:govuk_date_and_time)
       @site_name = application_choice.current_site.name
