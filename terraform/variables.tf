@@ -25,6 +25,8 @@ variable "paas_clock_app_instances" { default = 1 }
 
 variable "paas_worker_app_instances" { default = 1 }
 
+variable "paas_worker_secondary_app_instances" { default = 1 }
+
 variable "prometheus_app" { default = null }
 
 # Key Vault variables
