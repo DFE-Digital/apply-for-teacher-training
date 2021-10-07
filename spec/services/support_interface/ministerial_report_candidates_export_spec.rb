@@ -233,7 +233,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the two subject choices are different' do
       it 'splits the candidate' do
-        create_double_choice_application(:with_accepted_offer, '06', :with_conditions_not_met, 'C8')
+        create_double_choice_application(:with_accepted_offer, '06', :with_declined_offer, 'C8')
 
         data = described_class.new.call
 
@@ -265,7 +265,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the three subject choices are different' do
       it 'splits the candidate' do
-        create_triple_choice_application(:with_accepted_offer, 'F0', :with_conditions_not_met, '11', :with_conditions_not_met, '13')
+        create_triple_choice_application(:with_accepted_offer, 'F0', :with_declined_offer, '11', :with_withdrawn_offer, '13')
 
         data = described_class.new.call
 
@@ -305,7 +305,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has two matching subject choices' do
       it 'correctly allocates the candidate' do
-        create_double_choice_application(:with_accepted_offer, '08', :with_conditions_not_met, 'L1')
+        create_double_choice_application(:with_accepted_offer, '08', :with_declined_offer, 'L1')
 
         data = described_class.new.call
 
@@ -325,7 +325,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has three choices with two matching subjects' do
       it 'correctly allocates the candidate' do
-        create_triple_choice_application(:with_accepted_offer, 'F0', :with_conditions_not_met, 'F3', :with_conditions_not_met, '13')
+        create_triple_choice_application(:with_accepted_offer, 'F0', :with_declined_offer, 'F3', :with_withdrawn_offer, '13')
 
         data = described_class.new.call
 
