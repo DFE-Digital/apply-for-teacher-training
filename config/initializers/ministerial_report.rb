@@ -113,6 +113,7 @@ module MinisterialReport
 
   APPLICATIONS_REPORT_STATUS_MAPPING = {
     unsubmitted: %i[applications],
+    application_not_sent: %i[applications],
     awaiting_provider_decision: %i[applications],
     offer: %i[applications offer_received],
     pending_conditions: %i[applications offer_received accepted],
@@ -143,4 +144,29 @@ module MinisterialReport
     recruited: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
     withdrawn: %i[candidates],
   }.freeze
+
+  def self.determine_dominant_course_subject_for_report(course_name, course_level, subject_names_and_codes)
+    subject_names = subject_names_and_codes.keys
+
+    # is there only one subject?
+    subject = subject_names.first if subject_names.size == 1
+
+    # is subject first in the course name?
+    if !subject
+      subject = subject_names.find do |subject_name|
+        course_name.split.first.downcase.in?(subject_name.to_s.downcase)
+      end
+    end
+
+    # is subject in the course name at all?
+    if !subject
+      subject = subject_names.find do |subject_name|
+        subject_name.to_s.downcase.in?(course_name.downcase)
+      end
+    end
+
+    subject_code_for_report = subject_names_and_codes[subject]
+
+    SUBJECT_CODE_MAPPINGS[subject_code_for_report].presence || course_level.downcase.to_sym
+  end
 end

@@ -79,21 +79,10 @@ module SupportInterface
 
     def determine_subjects(application_form)
       courses = application_form.application_choices.map(&:course)
-      courses.map { |course| dominant_subject_for_course(course) }
-    end
 
-    def dominant_subject_for_course(course)
-      dominant_subject = if course.subjects.size == 1
-                           course.subjects.first
-                         else
-                           main_subject_name = course.name.split.first
-                           returned_subject = course.subjects.find { |subject| main_subject_name.downcase.in?(subject.name.downcase) }
-                           returned_subject.nil? ? course.subjects.find { |subject| subject.name.downcase.in?(course.name.downcase) } : returned_subject
-                         end
-      if dominant_subject.nil?
-        course.level.to_sym
-      else
-        MinisterialReport::SUBJECT_CODE_MAPPINGS[dominant_subject.code]
+      courses.map do |course|
+        subjects = course.subjects.map { |s| [s.name, s.code] }.to_h
+        MinisterialReport.determine_dominant_course_subject_for_report(course.name, course.level, subjects)
       end
     end
 
