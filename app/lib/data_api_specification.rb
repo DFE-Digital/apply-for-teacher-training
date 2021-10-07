@@ -10,9 +10,13 @@ class DataAPISpecification
   def self.spec
     openapi = YAML.load_file('config/data-api.yml')
 
-    dataset = DataSetDocumentation.for(DataAPI::TADExport)
+    tad_dataset = DataSetDocumentation.for(DataAPI::TADExport)
+    applications_dataset = DataSetDocumentation.for(SupportInterface::MinisterialReportApplicationsExport)
+    candidates_dataset = DataSetDocumentation.for(SupportInterface::MinisterialReportCandidatesExport)
 
-    openapi['components']['schemas']['TADExport']['properties'] = dataset
+    openapi['components']['schemas']['TADExport']['properties'] = tad_dataset
+    openapi['components']['schemas']['ApplicationsExport']['properties'] = applications_dataset
+    openapi['components']['schemas']['CandidatesExport']['properties'] = candidates_dataset
 
     openapi
   end

@@ -32,6 +32,26 @@ module DataAPI
       serve_export(data_export)
     end
 
+    def candidates
+      all = DataExport
+        .where(export_type: :ministerial_report_candidates_export)
+        .where.not(completed_at: nil)
+
+      data_export = all.last
+
+      serve_export(data_export)
+    end
+
+    def applications
+      all = DataExport
+        .where(export_type: :ministerial_report_applications_export)
+        .where.not(completed_at: nil)
+
+      data_export = all.last
+
+      serve_export(data_export)
+    end
+
   private
 
     def serve_export(export)

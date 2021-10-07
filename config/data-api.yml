@@ -53,9 +53,37 @@ paths:
             text/csv:
               schema:
                 "$ref": "#/components/schemas/TADExport"
+  "/ministerial-report/candidates/latest":
+    get:
+      summary: Get the ministerial report candidates export
+      description: This endpoint returns a CSV consisting of the latest ministerial report candidates export. Reports are generated daily
+      responses:
+        '200':
+          description: The CSV of the latest report
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/CandidatesExport"
+  "/ministerial-report/applications/latest":
+    get:
+      summary: Get the ministerial report applications export
+      description: This endpoint returns a CSV consisting of the latest ministerial report applications export. Reports are generated daily
+      responses:
+        '200':
+          description: The CSV of the latest report
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/ApplicationsExport"
 components:
   schemas:
     TADExport:
+      type: object
+      properties: # this is automatically populated from the CSV definition by DataAPISpecification
+    CandidatesExport:
+      type: object
+      properties: # this is automatically populated from the CSV definition by DataAPISpecification
+    ApplicationsExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     TADDataExportList:
