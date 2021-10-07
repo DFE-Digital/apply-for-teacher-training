@@ -116,7 +116,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Courses run by',
+        heading: 'Training provider',
         name: 'provider',
         options: provider_options,
       }
@@ -137,7 +137,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Courses ratified by',
+        heading: 'Accredited provider',
         name: 'accredited_provider',
         options: accredited_providers_options,
       }
