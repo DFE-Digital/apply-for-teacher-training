@@ -8,8 +8,9 @@ RSpec.feature 'See Fraud Auditing matches' do
     and_i_go_to_fraud_auditing_dashboard_page
     then_i_should_see_a_message_declaring_that_there_are_no_matches
 
-    and_there_are_candidates_with_duplicate_applications_in_the_system
-    when_i_go_to_fraud_auditing_dashboard_page
+    when_there_are_candidates_with_duplicate_applications_in_the_system
+    and_the_update_fraud_matches_worker_has_run
+    and_i_go_to_fraud_auditing_dashboard_page
     then_i_should_see_list_of_fraud_auditing_matches
   end
 
@@ -21,27 +22,56 @@ RSpec.feature 'See Fraud Auditing matches' do
     expect(page).to have_content 'There are currently no duplicate applications matched on these criteria'
   end
 
-  def and_there_are_candidates_with_duplicate_applications_in_the_system
+  def when_there_are_candidates_with_duplicate_applications_in_the_system
     @candidate_one = create(:candidate, email_address: 'exemplar1@example.com')
     @candidate_two = create(:candidate, email_address: 'exemplar2@example.com')
 
     @application_form_one = create(:application_form, candidate: @candidate_one, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now - 7.days)
-    @application_form_two = create(:application_form, candidate: @candidate_two, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now - 7.days)
+    @application_form_two = create(:application_form, candidate: @candidate_two, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
   end
 
-  def when_i_go_to_fraud_auditing_dashboard_page
+  def and_the_update_fraud_matches_worker_has_run
+    UpdateFraudMatchesWorker.perform_async
+  end
+
+  def and_i_go_to_fraud_auditing_dashboard_page
     visit support_interface_fraud_auditing_matches_path
   end
 
-  alias_method :and_i_go_to_fraud_auditing_dashboard_page, :when_i_go_to_fraud_auditing_dashboard_page
-
   def then_i_should_see_list_of_fraud_auditing_matches
-    expect(page).to have_content 'Jeffrey'
-    expect(page).to have_content 'Joffrey'
-    expect(page).to have_content 'Thompson'
-    expect(page).to have_content '1998-08-08'
-    expect(page).to have_content 'W6 9BH'
-    expect(page).to have_content @candidate_one.email_address
-    expect(page).to have_content @candidate_two.email_address
+    within 'td:eq(1)' do
+      expect(page).to have_content 'Thompson'
+    end
+
+    within 'td:eq(2)' do
+      expect(page).to have_content 'Jeffrey'
+      expect(page).to have_content 'Joffrey'
+    end
+
+    within 'td:eq(3)' do
+      expect(page).to have_link @candidate_one.email_address
+      expect(page).to have_link @candidate_two.email_address
+    end
+
+    within 'td:eq(4)' do
+      expect(page).to have_content ''
+    end
+
+    within 'td:eq(5)' do
+      expect(page).to have_content ''
+    end
+
+    within 'td:eq(6)' do
+      expect(page).to have_content 'No'
+    end
+
+    within 'td:eq(7)' do
+      expect(page).to have_content 'Yes'
+      expect(page).to have_content 'No'
+    end
+
+    within 'td:eq(8)' do
+      expect(page).to have_content ''
+    end
   end
 end
