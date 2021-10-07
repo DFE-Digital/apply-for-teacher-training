@@ -41,8 +41,9 @@
   <table class="govuk-table" data-qa="not-connected">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">API token issued</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-third">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-third">Vendor</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-third">API token issued</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -50,6 +51,9 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <%= govuk_link_to provider.name, support_interface_provider_path(provider) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= provider.vendor.name.humanize %>
           </td>
           <td class="govuk-table__cell">
             <% if token = provider.vendor_api_tokens.first %>
@@ -72,7 +76,8 @@
   <table class="govuk-table" data-qa="not-synced">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Vendor</th>
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time since last sync</th>
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time of last sync</th>
       </tr>
@@ -82,6 +87,9 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= provider.vendor.name.humanize %>
           </td>
           <td class="govuk-table__cell">
             <% if provider.last_sync %>
@@ -111,7 +119,8 @@
   <table class="govuk-table" data-qa="not-posted-decision">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Vendor</th>
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time since last decision</th>
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time of last decision</th>
       </tr>
@@ -121,6 +130,9 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= provider.vendor.name.humanize %>
           </td>
           <td class="govuk-table__cell">
             <% if provider.last_decision %>
@@ -151,9 +163,9 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Vendor</th>
         <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Requests</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Errors</th>
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error rate</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Errors (error rate)</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -163,13 +175,13 @@
             <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
           </td>
           <td class="govuk-table__cell">
+            <%= provider.vendor.name.humanize %>
+          </td>
+          <td class="govuk-table__cell">
             <%= number_with_delimiter(provider.request_count) %>
           </td>
           <td class="govuk-table__cell">
-            <%= number_with_delimiter(provider.error_count) %>
-          </td>
-          <td class="govuk-table__cell">
-            <%= provider.error_rate.round(1) %>%
+            <%= number_with_delimiter(provider.error_count) %> (<%= provider.error_rate.round(1) %>%)
           </td>
         </tr>
       <% end %>
