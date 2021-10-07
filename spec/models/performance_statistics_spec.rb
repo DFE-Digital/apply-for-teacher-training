@@ -25,6 +25,8 @@ RSpec.describe PerformanceStatistics, type: :model do
     it 'counts application_not_sent applications as unsubmitted_in_progress' do
       application_choice = create(:application_choice, status: 'application_not_sent')
       form = application_choice.application_form
+
+      # applications are considered in progress if updated_at != created_at
       form.update_column(:updated_at, form.created_at + 6.hours)
 
       expect(ProcessState.new(form).state).to be :unsubmitted_in_progress
