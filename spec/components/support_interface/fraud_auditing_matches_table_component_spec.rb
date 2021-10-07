@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::DuplicateCandidateMatchesTableComponent do
+RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
   let(:candidate) { create(:candidate) }
   let(:application_form) { create(:application_form, candidate: candidate) }
   let(:query1) { [] }
@@ -33,7 +33,7 @@ RSpec.describe SupportInterface::DuplicateCandidateMatchesTableComponent do
     expect(result.css('td')[0]).to eq(nil)
   end
 
-  it 'renders a row for each duplicate candidate' do
+  it 'renders a row for each fraud match' do
     result = render_inline(described_class.new(matches: query2))
 
     expect(result.css('td')[0].text).to include('25')

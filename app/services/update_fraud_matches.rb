@@ -1,6 +1,6 @@
 class UpdateFraudMatches
   def initialize
-    @matches = GetDuplicateCandidateMatches.call
+    @matches = GetFraudMatches.call
   end
 
   def save!
