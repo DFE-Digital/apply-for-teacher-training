@@ -88,7 +88,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def then_the_relevant_tag_headings_should_be_visible
     selected_filters = find(:css, '.moj-filter__selected')
-    expect(selected_filters).to have_text('Courses run by')
+    expect(selected_filters).to have_text('Training provider')
   end
 
   def then_only_withdrawn_and_offered_applications_of_that_name_should_be_visible
