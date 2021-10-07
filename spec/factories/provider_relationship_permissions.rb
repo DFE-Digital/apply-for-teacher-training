@@ -13,5 +13,16 @@ FactoryBot.define do
       training_provider_can_view_diversity_information { false }
       setup_at { nil }
     end
+
+    trait :with_open_course do
+      after(:build) do |_, evaluator|
+        create(
+          :course,
+          :open_on_apply,
+          provider: evaluator.training_provider,
+          accredited_provider: evaluator.ratifying_provider,
+        )
+      end
+    end
   end
 end
