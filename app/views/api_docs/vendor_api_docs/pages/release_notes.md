@@ -1,3 +1,7 @@
+## 10th October
+
+Adds the attribute `application_url`, this is the URL of the application details in 'Manage teacher training applications'.
+
 ## 17th September
 
 The `site_code` attribute of `Course` is now optional when POSTing to `/application/:id/offer`.
