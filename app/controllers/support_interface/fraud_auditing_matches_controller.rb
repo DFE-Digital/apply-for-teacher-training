@@ -7,7 +7,7 @@ module SupportInterface
     def fraudulent
       fraud_match = FraudMatch.find(params[:id])
 
-      if fraud_match.fraudulent
+      if fraud_match.fraudulent?
         fraud_match.update!(fraudulent: false)
         flash[:success] = 'Match marked as non fraudulent'
       else
