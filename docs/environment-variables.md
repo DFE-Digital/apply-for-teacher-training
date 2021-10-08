@@ -51,20 +51,24 @@ make production edit-app-secrets | Edit app secrets for `production` environment
 The `cf app <app-name>` command can be used to view/verify the current environment variables for the app.
 Example: `cf app apply-qa` to view the environment variables for the apply web app.
 
-App Name              | Space
-----------------------|---------
-apply-qa              | bat-qa
-apply-clock-qa        | bat-qa
-apply-worker-qa       | bat-qa
-apply-staging         | bat-staging
-apply-clock-staging   | bat-staging
-apply-worker-staging  | bat-staging
-apply-sandbox         | bat-prod
-apply-clock-sandbox   | bat-prod
-apply-worker-sandbox  | bat-prod
-apply-prod            | bat-prod
-apply-clock-prod      | bat-prod
-apply-worker-prod     | bat-prod
+App Name                        | Space
+------------------------------- |---------
+apply-qa                        | bat-qa
+apply-clock-qa                  | bat-qa
+apply-worker-qa                 | bat-qa
+apply-secondary-worker-qa       | bat-qa
+apply-staging                   | bat-staging
+apply-clock-staging             | bat-staging
+apply-worker-staging            | bat-staging
+apply-secondary-worker-staging  | bat-staging
+apply-sandbox                   | bat-prod
+apply-clock-sandbox             | bat-prod
+apply-worker-sandbox            | bat-prod
+apply-secondary-worker-sandbox  | bat-prod
+apply-prod                      | bat-prod
+apply-clock-prod                | bat-prod
+apply-worker-prod               | bat-prod
+apply-secondary-worker-prod     | bat-prod
 
 ### Ad-hoc environment variable changes
 `cf set-env <app-name>` can be used to make changes to the environment variables without having to do a full deployment.

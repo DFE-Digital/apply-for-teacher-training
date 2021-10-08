@@ -85,7 +85,7 @@ resource "cloudfoundry_app" "worker" {
 }
 
 resource "cloudfoundry_app" "worker_secondary" {
-  name                 = local.worker_app_name
+  name                 = local.secondary_worker_app_name
   docker_image         = var.app_docker_image
   health_check_type    = "process"
   health_check_timeout = 180
