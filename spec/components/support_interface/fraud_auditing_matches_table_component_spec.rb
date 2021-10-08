@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
-  let(:candidate1) { create(:candidate, email_address: 'exemplar1@example.com') }
-  let(:candidate2) { create(:candidate, email_address: 'exemplar2@example.com') }
-  let(:fraud_match) { create(:fraud_match, candidates: [candidate1, candidate2]) }
+  let(:fraud_match) { create(:fraud_match) }
 
   before do
-    Timecop.freeze(Time.zone.local(2020, 8, 23, 12, 0o0, 0o0)) do
-      create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
-      create(:application_form, candidate: candidate2, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
+    Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+      create(:application_form, candidate: fraud_match.candidates.first, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
+      create(:application_form, candidate: fraud_match.candidates.second, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
     end
   end
 
@@ -24,8 +22,8 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
     expect(result.css('td')[0].text).to include('Thompson')
     expect(result.css('td')[1].text).to include('Jeffrey')
     expect(result.css('td')[1].text).to include('Joffrey')
-    expect(result.css('td')[2].text).to include('exemplar1@example.com')
-    expect(result.css('td')[2].text).to include('exemplar2@example.com')
+    expect(result.css('td')[2].text).to include(fraud_match.candidates.first.email_address)
+    expect(result.css('td')[2].text).to include(fraud_match.candidates.second.email_address)
     expect(result.css('td')[3].text).to include('')
     expect(result.css('td')[4].text).to include('')
     expect(result.css('td')[5].text).to include('No')

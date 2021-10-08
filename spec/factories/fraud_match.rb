@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :fraud_match do
+    candidates { [create(:candidate), create(:candidate)] }
     recruitment_cycle_year { RecruitmentCycle.current_year }
     last_name { 'Thompson' }
     date_of_birth { '1998-08-08' }
