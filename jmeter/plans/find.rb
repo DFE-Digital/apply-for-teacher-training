@@ -18,6 +18,7 @@ test do
   view_results_tree
   thread_count = THREAD_COUNT
   random_timer 1000, 2000 * WAIT_FACTOR
+  csv_data_set_config filename: 'jmeter-find-params.csv'
 
   threads count: thread_count, rampup: RAMPUP, continue_forever: true, duration: 3600 do
     visit name: 'Start page', url: url('/') do
@@ -37,9 +38,9 @@ test do
         'prev_rad': 'none',
         'prev_query': 'none',
         'prev_lq': 'none',
-        'l': '1',
-        'lq': 'M1+2WD',
-        'query': ''
+        'l': '${L}',
+        'lq': '${LQ}',
+        'query': '${QUERY}'
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
@@ -51,15 +52,15 @@ test do
       {
         'utf8': '✓',
         'authenticity_token' => '${authenticity_token}',
-        'c': 'England',
-        'l': '1',
-        'lat': '53.4787275',
-        'lng': '-2.2290767',
-        'loc': 'Store+St,+Manchester+M1+2WD,+UK',
-        'lq': 'M1+2WD',
-        'rad': '50',
-        'sortby': '2',
-        'subject_codes[]': '00'
+        'c': '${C}',
+        'l': '${L}',
+        'lat': '${LAT}',
+        'lng': '${LNG}',
+        'loc': '${LOC}',
+        'lq': '${LQ}',
+        'rad': '${RAD}',
+        'sortby': '${SORT_BY}',
+        'subject_codes[]': '${SUBJECT_CODES}'
 
       },
     ) do
@@ -86,9 +87,9 @@ test do
         'prev_rad': 'none',
         'prev_query': 'none',
         'prev_lq': 'none',
-        'lq': '',
-        'l': '2',
-        'query': ''
+        'lq': '${LQ}',
+        'l': '${L}',
+        'query': '${QUERY}'
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
@@ -100,8 +101,8 @@ test do
       {
         'utf8': '✓',
         'authenticity_token' => '${authenticity_token}',
-        'l': '2',
-        'subject_codes[]': '01'
+        'l': '${L}',
+        'subject_codes[]': '${SUBJECT_CODES}'
       }
     ) do
       extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
@@ -126,9 +127,9 @@ test do
         'prev_rad': 'none',
         'prev_query': 'none',
         'prev_lq': 'none',
-        'lq': '',
-        'l': '3',
-        'query': 'gorse scitt'
+        'lq': '${LQ}',
+        'l': '${L}',
+        'query': '${QUERY}'
       }
     ) do
       extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
