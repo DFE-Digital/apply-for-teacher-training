@@ -35,9 +35,9 @@ module SupportInterface
 
     def status_tag(course)
       if course.open_on_apply?
-        govuk_tag(text: 'Open on Apply & UCAS', colour: 'green')
+        govuk_tag(text: open_on_apply_message(course), colour: 'green')
       elsif course.exposed_in_find?
-        govuk_tag(text: 'Open on UCAS only', colour: 'blue')
+        govuk_tag(text: 'Not open on Apply', colour: 'blue')
       else
         govuk_tag(text: 'Hidden in Find', colour: 'grey')
       end
@@ -50,6 +50,10 @@ module SupportInterface
           support_interface_provider_path(provider),
         )
       end
+    end
+
+    def open_on_apply_message(course)
+      course.recruitment_cycle_year > 2021 ? 'Open on Apply' : 'Open on Apply & UCAS'
     end
   end
 end
