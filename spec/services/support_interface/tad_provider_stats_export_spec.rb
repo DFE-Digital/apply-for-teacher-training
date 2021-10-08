@@ -54,7 +54,8 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
       course_option_for_provider(provider: provider_one, course: create(:course, :open_on_apply, name: 'Biology', provider: provider_one))
       course_option_for_provider(provider: provider_two, course: create(:course, :open_on_apply, name: 'Science book', provider: provider_two))
       course_option_for_provider(provider: provider_two, course: create(:course, :open_on_apply, name: 'French I took', provider: provider_two))
-
+      course_option_for_provider(provider: provider_two, recruitment_cycle_year: RecruitmentCycle.previous_year)
+      course_option_for_provider(provider: provider_two, recruitment_cycle_year: RecruitmentCycle.previous_year)
       # we get a row per course
       expect(exported_rows.count).to eq(4)
 
