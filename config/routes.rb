@@ -915,6 +915,8 @@ Rails.application.routes.draw do
     get '/fraud-auditing-dashboard' => 'fraud_auditing_matches#index', as: :fraud_auditing_matches
     get '/fraudulent/:id' => 'fraud_auditing_matches#fraudulent', as: :fraud_auditing_matches_fraudulent
     patch '/fraudulent/:id' => 'fraud_auditing_matches#fraudulent'
+    get '/fraud-auditing-dashboard/:fraud_match_id/block-submission' => 'fraud_auditing_matches#confirm_block_submission', as: :fraud_auditing_matches_confirm_block_submission
+    patch '/fraud-auditing-dashboard/:fraud_match_id/block-submission' => 'fraud_auditing_matches#block_submission'
 
     get '/application_choices/:application_choice_id' => redirect('/application-choices/%{application_choice_id}')
     get '/application-choices/:application_choice_id' => 'application_choices#show', as: :application_choice
