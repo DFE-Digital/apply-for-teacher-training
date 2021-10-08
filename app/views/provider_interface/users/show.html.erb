@@ -15,7 +15,7 @@
 
       <% if @current_user_can_manage_users %>
         <p class="govuk-body">
-          <%= govuk_link_to 'Delete user', confirm_destroy_provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user) %>
+          <%= govuk_link_to 'Remove User', confirm_destroy_provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user) %>
         </p>
       <% end %>
 

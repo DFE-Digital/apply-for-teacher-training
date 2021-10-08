@@ -13,7 +13,7 @@
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.users') %></h1>
 
     <% if @current_user_can_manage_users %>
-      <%= govuk_button_link_to 'Invite user', new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(@provider) %>
+      <%= govuk_button_link_to 'Add user', new_provider_interface_organisation_settings_organisation_user_invitation_personal_details_path(@provider) %>
     <% end %>
 
     <% @provider.provider_users.order(:first_name, :last_name).each do |user| %>

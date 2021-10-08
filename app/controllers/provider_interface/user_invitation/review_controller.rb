@@ -28,7 +28,7 @@ module ProviderInterface
         if service.call
           @wizard.clear_state!
 
-          flash[:success] = 'User invited'
+          flash[:success] = 'User added'
           redirect_to provider_interface_organisation_settings_organisation_users_path(@provider)
         else
           track_validation_error(@wizard)

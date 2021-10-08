@@ -25,7 +25,7 @@ module ProviderInterface
     end
 
     def caption_text
-      prefix = user_name || 'Invite user'
+      prefix = user_name || 'Add user'
       "#{prefix} - #{provider.name}"
     end
 
