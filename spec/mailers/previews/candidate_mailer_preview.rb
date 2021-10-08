@@ -22,12 +22,12 @@ class CandidateMailerPreview < ActionMailer::Preview
 
   def changed_offer
     application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
-    application_choice = FactoryBot.build(:submitted_application_choice,
-                                          :with_offer,
-                                          course_option: course_option,
-                                          application_form: application_form,
-                                          current_course_option: course_option,
-                                          decline_by_default_at: 10.business_days.from_now)
+    application_choice = FactoryBot.build_stubbed(:submitted_application_choice,
+                                                  :with_offer,
+                                                  course_option: course_option,
+                                                  application_form: application_form,
+                                                  current_course_option: course_option,
+                                                  decline_by_default_at: 10.business_days.from_now)
 
     CandidateMailer.changed_offer(application_choice)
   end

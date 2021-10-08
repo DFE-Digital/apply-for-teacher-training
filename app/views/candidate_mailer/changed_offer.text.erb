@@ -1,20 +1,18 @@
-Dear <%= @application_form.first_name %>,
+Dear <%= @application_form.first_name %>
 
-# Offer changed by <%= @course_option.course.provider.name %>
+Your offer from <%= @course_option.course.provider.name %> to study <%= @course_option.course.name %> has been changed.
 
-Your offer from <%= @course_option.course.provider.name %> to study <%= @course_option.course.name_and_code %> at <%= @course_option.site.name %> has been changed.
+Your new offer is:
 
-<%= @current_course_option.course.provider.name %> has offered you the following course:
-
-Provider: <%= @current_course_option.course.provider.name %>
-Course: <%= @current_course_option.course.name_and_code %>
-Location: <%= @current_course_option.site.name %>
-Full time or part time: <%= @current_course_option.course.study_mode.humanize %>
+^ Training provider: <%= @current_course_option.course.provider.name %>
+^ Course: <%= @current_course_option.course.name %>
+^ Location: <%= @current_course_option.site.name %>
+^ Full time or part time: <%= @current_course_option.course.study_mode.humanize %>
 
 <% if @conditions.blank? %>
-  <%= @course_option.course.provider.name %> will let you know if they need further information before you can start training.
+^ Your offer does not have any conditions.
 <% else %>
-  The conditions of your offer have not been changed.
+^ <%= render "conditions_list" %>
 <% end %>
 
 If you were not expecting this change, contact <%= @course_option.course.provider.name %> to find out more.
@@ -32,7 +30,7 @@ If you were not expecting this change, contact <%= @course_option.course.provide
 If you do not reply by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your application will be withdrawn.
 
 <% if @offers.count > 1 %>
-    <%= render "offer_list" %>
+  <%= render "offer_list" %>
 <% end %>
 
 Sign in to your account to respond:

@@ -367,19 +367,39 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.changed_offer' do
     let(:email) { mailer.changed_offer(application_choices.first) }
-    let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
     let(:application_choices) { [application_choice] }
 
-    it_behaves_like(
-      'a mail with subject and content',
-      'Brighthurst Technical College',
-      'heading' => 'Dear Bob',
-      'name and code for original course' => 'Applied Science (Psychology) (3TT5)',
-      'name and code for new course' => 'Course: Forensic Science (E0FO)',
-      'name of new provider' => 'Provider: Falconholt Technical College',
-      'location of new offer' => 'Location: Aquaria',
-      'study mode of new offer' => 'Full time',
-    )
+    context 'an unconditional offer' do
+      let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: FactoryBot.build(:unconditional_offer)) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Brighthurst Technical College',
+        'heading' => 'Dear Bob',
+        'name for original course' => 'Applied Science (Psychology)',
+        'name for new course' => 'Course: Forensic Science',
+        'name of new provider' => 'Training provider: Falconholt Technical College',
+        'location of new offer' => 'Location: Aquaria',
+        'study mode of new offer' => 'Full time',
+        'unconditional' => 'Your offer does not have any conditions',
+      )
+    end
+
+    context 'an offer with conditions' do
+      let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Brighthurst Technical College',
+        'heading' => 'Dear Bob',
+        'name for original course' => 'Applied Science (Psychology)',
+        'name for new course' => 'Course: Forensic Science',
+        'name of new provider' => 'Training provider: Falconholt Technical College',
+        'location of new offer' => 'Location: Aquaria',
+        'study mode of new offer' => 'Full time',
+        'first condition' => 'Be cool',
+      )
+    end
   end
 
   describe 'Deferred offer reminder email' do
