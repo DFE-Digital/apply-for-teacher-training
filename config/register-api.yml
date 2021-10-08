@@ -372,6 +372,7 @@ components:
       required:
       - recruitment_cycle_year
       - course_code
+      - course_uuid
       - training_provider_code
       - training_provider_type
       - accredited_provider_type
@@ -421,6 +422,11 @@ components:
           description: The course’s code
           example: 3CVK
           maxLength: 4
+        course_uuid:
+          type: string
+          description: The course’s uuid
+          example: "24a9590e-6b40-4096-9967-36b0a5904706"
+          maxLength: 36
         site_code:
           type: string
           description: The site’s code

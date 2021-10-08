@@ -48,6 +48,10 @@ FactoryBot.define do
       study_mode { :full_time }
     end
 
+    trait :uuid do
+      uuid { SecureRandom.uuid }
+    end
+
     trait :part_time do
       study_mode { :part_time }
     end

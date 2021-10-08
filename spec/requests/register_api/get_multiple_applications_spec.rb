@@ -18,7 +18,12 @@ RSpec.describe 'GET /register-api/applications', type: :request do
   end
 
   it 'returns applications with equality and diversity data' do
-    create(:application_choice, :with_recruited, application_form: create(:completed_application_form, :with_equality_and_diversity_data))
+    create(
+      :application_choice,
+      :with_recruited,
+      course_option: create(:course_option, :with_course_uuid),
+      application_form: create(:completed_application_form, :with_equality_and_diversity_data),
+    )
 
     get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}", token: register_api_token
 
@@ -26,7 +31,12 @@ RSpec.describe 'GET /register-api/applications', type: :request do
   end
 
   it 'returns applications without equality and diversity data' do
-    create(:application_choice, :with_recruited, application_form: create(:completed_application_form))
+    create(
+      :application_choice,
+      :with_recruited,
+      course_option: create(:course_option, :with_course_uuid),
+      application_form: create(:completed_application_form),
+    )
 
     get_api_request "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}", token: register_api_token
 

@@ -24,6 +24,7 @@ RSpec.feature 'Register receives an application data' do
       hesa_ethnicity: '39',
     }
     @application.update!(equality_and_diversity: equality_and_diversity_data)
+    @provider.courses.first.update!(uuid: SecureRandom.uuid)
     @application.application_choices.first.update!(
       status: :recruited,
       recruited_at: Time.zone.now,
@@ -82,6 +83,7 @@ RSpec.feature 'Register receives an application data' do
         course: {
           recruitment_cycle_year: RecruitmentCycle.current_year,
           course_code: '2XT2',
+          course_uuid: @provider.courses.first.uuid,
           training_provider_code: '1N1',
           training_provider_type: 'scitt',
           accredited_provider_type: nil,

@@ -10,6 +10,10 @@ FactoryBot.define do
       association :course, :open_on_apply
     end
 
+    trait :with_course_uuid do
+      association :course, :uuid
+    end
+
     trait :full_time do
       study_mode { :full_time }
     end
