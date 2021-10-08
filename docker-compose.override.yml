@@ -15,3 +15,5 @@ services:
     entrypoint: ["/bin/true"]
   worker:
     entrypoint: ["/bin/true"]
+  worker-secondary:
+    entrypoint: ["/bin/true"]

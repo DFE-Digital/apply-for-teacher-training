@@ -68,8 +68,29 @@ resource "cloudfoundry_app" "worker" {
   docker_image         = var.app_docker_image
   health_check_type    = "process"
   health_check_timeout = 180
-  command              = "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
+  command              = "bundle exec sidekiq -c 5 -C config/sidekiq-main.yml"
   instances            = var.worker_app_instances
+  memory               = var.worker_app_memory
+  strategy             = "blue-green-v2"
+  space                = data.cloudfoundry_space.space.id
+  timeout              = 180
+  environment          = local.worker_app_env_variables
+  docker_credentials   = var.docker_credentials
+  dynamic "service_binding" {
+    for_each = local.app_service_bindings
+    content {
+      service_instance = service_binding.value.id
+    }
+  }
+}
+
+resource "cloudfoundry_app" "worker_secondary" {
+  name                 = local.worker_app_name
+  docker_image         = var.app_docker_image
+  health_check_type    = "process"
+  health_check_timeout = 180
+  command              = "bundle exec sidekiq -c 5 -C config/sidekiq-secondary.yml"
+  instances            = var.worker_secondary_app_instances
   memory               = var.worker_app_memory
   strategy             = "blue-green-v2"
   space                = data.cloudfoundry_space.space.id

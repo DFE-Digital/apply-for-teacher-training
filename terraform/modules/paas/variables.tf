@@ -34,6 +34,8 @@ variable "clock_app_instances" {}
 
 variable "worker_app_instances" {}
 
+variable "worker_secondary_app_instances" {}
+
 variable "logstash_url" {}
 
 variable "prometheus_app" { default = null }

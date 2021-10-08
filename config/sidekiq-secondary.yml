@@ -1,0 +1,6 @@
+---
+:queues:
+  - big_query
+  - default
+  - mailers
+  - low_priority
