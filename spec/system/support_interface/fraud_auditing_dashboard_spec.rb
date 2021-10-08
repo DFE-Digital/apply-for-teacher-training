@@ -130,7 +130,7 @@ RSpec.feature 'See Fraud Auditing matches' do
   end
 
   def then_i_am_told_to_confirm_i_have_followed_the_guidance
-    expect(page).to have_content "can't be blank"
+    expect(page).to have_content 'Select that you have read the guidance'
   end
 
   def when_i_confirm_my_choice

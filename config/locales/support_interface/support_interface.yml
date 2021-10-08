@@ -89,6 +89,10 @@ en:
             audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
+        support_interface/block_submission_form:
+          attributes:
+            accept_guidance:
+              blank: Select that you have read the guidance
         support_interface/conditions_form/offer_condition_field:
           attributes:
             text:
