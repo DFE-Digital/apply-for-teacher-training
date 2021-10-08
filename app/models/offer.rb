@@ -16,6 +16,6 @@ class Offer < ApplicationRecord
   end
 
   def conditions_text
-    conditions.pluck(:text)
+    conditions.uniq.pluck(:text)
   end
 end
