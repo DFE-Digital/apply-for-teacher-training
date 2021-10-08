@@ -913,6 +913,8 @@ Rails.application.routes.draw do
 
     get '/duplicate-candidate-matches', to: redirect('/support/fraud-auditing-dashboard')
     get '/fraud-auditing-dashboard' => 'fraud_auditing_matches#index', as: :fraud_auditing_matches
+    get '/fraudulent/:id' => 'fraud_auditing_matches#fraudulent', as: :fraud_auditing_matches_fraudulent
+    patch '/fraudulent/:id' => 'fraud_auditing_matches#fraudulent'
 
     get '/application_choices/:application_choice_id' => redirect('/application-choices/%{application_choice_id}')
     get '/application-choices/:application_choice_id' => 'application_choices#show', as: :application_choice
