@@ -44,7 +44,24 @@ services:
       - REDIS_URL=redis://redis:6379/1
     env_file:
       - .env
-    command: /bin/sh -c "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
+    command: /bin/sh -c "bundle exec sidekiq -c 5 -C config/sidekiq-main.yml"
+  worker-secondary:
+    image: apply-for-teacher-training
+    working_dir: /app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - SERVICE_TYPE=worker
+      - DB_HOSTNAME=db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=developmentpassword
+      - DB_DATABASE=bat_apply_dev
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/1
+    env_file:
+      - .env
+    command: /bin/sh -c "bundle exec sidekiq -c 5 -C config/sidekiq-secondary.yml"
   clock:
     image: apply-for-teacher-training
     working_dir: /app
