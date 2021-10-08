@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::ApplicationsFilter do
   def verify_filtered_applications_for_params(expected_applications, params:)
     applications = ApplicationForm.all
     filter = described_class.new(params: params)
-    expect(filter.filter_records(applications)).to match_array expected_applications
+    expect(filter.filter_records(applications)).to match_array(expected_applications)
   end
 
   describe '#filter_records' do
@@ -32,6 +32,21 @@ RSpec.describe SupportInterface::ApplicationsFilter do
         [expected_form],
         params: {
           application_choice_id: application_choice_with_offer.id,
+        },
+      )
+    end
+
+    it 'returns an application form with multiple application choices once' do
+      course_option = create(:course_option, course: application_choice_with_offer.course)
+      application_choice = create(:application_choice,
+                                  application_form: application_choice_with_offer.application_form,
+                                  course_option: course_option,
+                                  provider_ids: application_choice_with_offer.provider_ids)
+
+      verify_filtered_applications_for_params(
+        [application_choice.application_form],
+        params: {
+          provider_id: application_choice_with_offer.provider_ids.first,
         },
       )
     end
