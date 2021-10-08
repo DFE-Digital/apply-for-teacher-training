@@ -61,6 +61,11 @@
         </td>
 
         <td class="govuk-table__cell">
+        <% if table_row[:blocked] %>
+          <%= govuk_link_to 'Block', support_interface_fraud_auditing_matches_confirm_block_submission_path(table_row[:blocked]) %>
+        <% else %>
+          Candidate blocked
+        <% end %>
         </td>
       </tr>
     <% end %>

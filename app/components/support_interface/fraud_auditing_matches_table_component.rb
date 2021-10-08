@@ -18,11 +18,16 @@ module SupportInterface
           candidate_last_contacted_at: match.candidate_last_contacted_at&.to_s(:govuk_date_and_time),
           email_addresses: match.candidates,
           submitted_at: match.candidates.map { |candidate| submitted?(candidate) },
+          blocked: id_to_block(match),
         }
       end
     end
 
   private
+
+    def id_to_block(match)
+      return match.id if !match.blocked && FeatureFlag.active?(:block_fraudulent_submission)
+    end
 
     def submitted?(candidate)
       candidate.current_application.submitted? ? 'Yes' : 'No'

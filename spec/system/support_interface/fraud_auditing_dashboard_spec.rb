@@ -5,6 +5,7 @@ RSpec.feature 'See Fraud Auditing matches' do
 
   scenario 'Support agent visits Fraud Auditing Dashboard page', sidekiq: true do
     given_i_am_a_support_user
+    and_the_feature_flag_is_active
     and_i_go_to_fraud_auditing_dashboard_page
     then_i_should_see_a_message_declaring_that_there_are_no_matches
 
@@ -18,10 +19,22 @@ RSpec.feature 'See Fraud Auditing matches' do
 
     when_i_mark_a_match_as_non_fradulent
     then_i_see_that_the_match_is_marked_as_non_fraudulent
+    when_i_select_a_candidate_to_block
+    and_i_click_continue
+    then_i_am_told_to_confirm_i_have_followed_the_guidance
+
+    when_i_confirm_my_choice
+    and_i_click_continue
+    then_i_should_see_an_updated_dashboard
+    and_the_fraud_match_should_be_set_as_blocked
   end
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def and_the_feature_flag_is_active
+    FeatureFlag.activate(:block_fraudulent_submission)
   end
 
   def then_i_should_see_a_message_declaring_that_there_are_no_matches
@@ -78,7 +91,7 @@ RSpec.feature 'See Fraud Auditing matches' do
     end
 
     within 'td:eq(8)' do
-      expect(page).to have_content ''
+      expect(page).to have_content 'Block'
     end
   end
 
@@ -106,5 +119,33 @@ RSpec.feature 'See Fraud Auditing matches' do
       expect(page).to have_content 'No'
       expect(page).to have_link 'Mark as fraudulent'
     end
+  end
+
+  def when_i_select_a_candidate_to_block
+    click_link 'Block'
+  end
+
+  def and_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_am_told_to_confirm_i_have_followed_the_guidance
+    expect(page).to have_content "can't be blank"
+  end
+
+  def when_i_confirm_my_choice
+    check 'I have read the guidance'
+  end
+
+  def then_i_should_see_an_updated_dashboard
+    within 'td:eq(8)' do
+      expect(page).to have_content 'Candidate blocked'
+    end
+  end
+
+  def and_the_fraud_match_should_be_set_as_blocked
+    blocked_candidate = FraudMatch.first
+    expect(blocked_candidate.blocked).to eq true
+    expect(blocked_candidate.fraudulent?).to eq true
   end
 end
