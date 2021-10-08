@@ -55,14 +55,16 @@ private
 
     def generate
       <<~VENDOR_INTEGRATION_STATS_SLACK_REPORT
-        ```
-        Integration report for #{@vendor.name.titleize} (#{HostingEnvironment.environment_name}, #{Time.zone.now.to_s(:govuk_date)})
+        *API integration report for #{@vendor.name.titleize}* (#{Time.zone.now.to_s(:govuk_date)}, #{HostingEnvironment.environment_name})
 
-        #{never_connected_text}
-        #{no_sync_in_24h_text}
-        #{no_decisions_in_7d_text}
-        #{providers_with_errors_text}
-        ```
+        :negative_squared_cross_mark:
+        ```#{never_connected_text}```
+        :satellite_antenna:
+        ```#{no_sync_in_24h_text}```
+        :checkered_flag:
+        ```#{no_decisions_in_7d_text}```
+        :thinking_face:
+        ```#{providers_with_errors_text}```
       VENDOR_INTEGRATION_STATS_SLACK_REPORT
     end
 
