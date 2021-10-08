@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_085043) do
+ActiveRecord::Schema.define(version: 2021_10_07_103121) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -785,6 +785,7 @@ ActiveRecord::Schema.define(version: 2021_10_06_085043) do
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
   add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
+  add_foreign_key "candidates", "fraud_matches"
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
   add_foreign_key "course_subjects", "courses"
