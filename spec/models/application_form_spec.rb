@@ -70,6 +70,28 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe 'around_save' do
+    context 'when the application forms state changes' do
+      it 'updates the candidate_api_updated_at' do
+        application_form = create(:application_form)
+
+        Timecop.travel(1.hour.from_now) do
+          expect { application_form.update(first_name: 'David') }
+            .to(change { application_form.candidate.candidate_api_updated_at })
+        end
+      end
+
+      context 'when the application forms state does not change' do
+        it 'does not update the candidate_api_updated_at' do
+          application_form = create(:application_form, created_at: 1.day.ago, updated_at: Time.zone.now)
+
+          expect { application_form.update(first_name: 'David') }
+            .not_to(change { application_form.candidate.candidate_api_updated_at })
+        end
+      end
+    end
+  end
+
   describe 'after_touch' do
     it 'touches the application choice when touched by a related model' do
       application_form = create(:completed_application_form, :with_gcses, application_choices_count: 1)
