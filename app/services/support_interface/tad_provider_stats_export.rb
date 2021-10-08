@@ -27,7 +27,7 @@ module SupportInterface
   private
 
     def courses
-      Course.includes(:provider)
+      Course.includes(:provider).current_cycle
     end
 
     def choice_statuses(course)
