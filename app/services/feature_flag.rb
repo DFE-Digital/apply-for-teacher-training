@@ -34,6 +34,7 @@ class FeatureFlag
     [:withdraw_at_candidates_request, "Allows providers to withdraw an application at the candidate's request", 'Steve Laing'],
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
     [:restructured_immigration_status, 'New model for right to work and study in the UK to be released from 2022 cycle', 'Steve Hook'],
+    [:block_fraudulent_submission, 'A button used on the fraud audit page to block submissions', 'James Glenn'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
