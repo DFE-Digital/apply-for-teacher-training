@@ -17,6 +17,7 @@ module SupportInterface
           :candidate,
           application_choices: { course_option: { course: :provider } },
         )
+        .distinct
         .order(updated_at: :desc)
         .page(applied_filters[:page] || 1).per(30)
 
