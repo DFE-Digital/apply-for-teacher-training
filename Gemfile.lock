@@ -256,7 +256,7 @@ GEM
     hashie (4.1.0)
     holidays (8.4.1)
     html_tokenizer (0.0.7)
-    http (5.0.3)
+    http (5.0.4)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
