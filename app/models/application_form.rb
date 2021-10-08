@@ -110,6 +110,13 @@ class ApplicationForm < ApplicationRecord
     candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase')
   end
 
+  around_save do |_application_form, block|
+    previous_application_form_status = ProcessState.new(self).state
+    block.call
+    current_application_form_status = ProcessState.new(self).state
+    candidate.update!(candidate_api_updated_at: Time.zone.now) if previous_application_form_status != current_application_form_status
+  end
+
   after_commit :geocode_address_if_required
 
   def touch_choices
