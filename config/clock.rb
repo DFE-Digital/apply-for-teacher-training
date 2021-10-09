@@ -40,7 +40,7 @@ class Clock
 
   every(1.day, 'SendEocDeadlineReminderEmailToCandidatesWorker', at: '12:00') { SendEocDeadlineReminderEmailToCandidatesWorker.new.perform }
   every(1.day, 'SendFindHasOpenedEmailToCandidatesWorker', at: '12:00') { SendFindHasOpenedEmailToCandidatesWorker.new.perform }
-  every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '12:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
+  every(1.day, 'SendNewCycleStartedEmailToCandidatesWorker', at: '10:00') { SendNewCycleHasStartedEmailToCandidatesWorker.new.perform }
 
   every(1.day, 'UpdateFraudAuditDashboard', at: '13:00') { UpdateFraudMatchesWorker.perform_async }
   every(1.day, 'TriggerFullSyncIfFindClosed', at: '00:05') { TeacherTrainingPublicAPI::TriggerFullSyncIfFindClosed.call }

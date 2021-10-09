@@ -42,6 +42,87 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
     end
   end
 
+  describe 'Staggered email sending' do
+    around do |example|
+      Timecop.freeze do
+        example.run
+      end
+    end
+
+    before do
+      @unsuccessful_candidates = instance_double(ActiveRecord::Relation)
+    end
+
+    context 'with a single batch' do
+      before do
+        allow(@unsuccessful_candidates).to receive(:count).and_return(5)
+        allow(@unsuccessful_candidates).to receive(:find_in_batches).and_yield(
+          (1..5).map { |id| Candidate.new(id: id) },
+        )
+        allow(GetUnsuccessfulAndUnsubmittedCandidates).to receive(:call).and_return(@unsuccessful_candidates)
+        allow(CycleTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
+      end
+
+      it 'queues one unstaggered SendNewCycleHasStartedEmailToCandidatesBatchWorker job' do
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          receive(:perform_at).with(Time.zone.now, (1..5).to_a),
+        )
+        described_class.new.perform
+      end
+    end
+
+    context 'with 2 batches' do
+      before do
+        allow(@unsuccessful_candidates).to receive(:count).and_return(200)
+        allow(@unsuccessful_candidates).to receive(:find_in_batches).and_yield(
+          (1..120).map { |id| Candidate.new(id: id) },
+        ).and_yield(
+          (121..200).map { |id| Candidate.new(id: id) },
+        )
+        allow(GetUnsuccessfulAndUnsubmittedCandidates).to receive(:call).and_return(@unsuccessful_candidates)
+        allow(CycleTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
+      end
+
+      it 'queues two staggered SendNewCycleHasStartedEmailToCandidatesBatchWorker jobs' do
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          receive(:perform_at).with(Time.zone.now, (1..120).to_a),
+        )
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          receive(:perform_at).with(Time.zone.now + described_class::STAGGER_OVER, (121..200).to_a),
+        )
+        described_class.new.perform
+      end
+    end
+
+    context 'with 3 batches' do
+      before do
+        allow(@unsuccessful_candidates).to receive(:count).and_return(300)
+        allow(@unsuccessful_candidates).to receive(:find_in_batches).and_yield(
+          (1..120).map { |id| Candidate.new(id: id) },
+        ).and_yield(
+          (121..240).map { |id| Candidate.new(id: id) },
+        ).and_yield(
+          (241..300).map { |id| Candidate.new(id: id) },
+        )
+        allow(GetUnsuccessfulAndUnsubmittedCandidates).to receive(:call).and_return(@unsuccessful_candidates)
+        allow(CycleTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
+      end
+
+      it 'queues three staggered SendNewCycleHasStartedEmailToCandidatesBatchWorker jobs' do
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          receive(:perform_at).with(Time.zone.now, (1..120).to_a),
+        )
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          receive(:perform_at).with(Time.zone.now + (described_class::STAGGER_OVER/2.0), (121..240).to_a),
+        )
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          receive(:perform_at).with(Time.zone.now + described_class::STAGGER_OVER, (241..300).to_a),
+        )
+        described_class.new.perform
+      end
+    end
+  end
+
   def email_for_candidate(candidate)
     ActionMailer::Base.deliveries.find { |e| e.header['to'].value == candidate.email_address }
   end
