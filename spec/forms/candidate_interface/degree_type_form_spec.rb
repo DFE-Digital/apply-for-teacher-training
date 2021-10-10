@@ -160,5 +160,26 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         expect(degree.international).to be true
       end
     end
+
+    context 'when the type description is for bachelors degree and current degree is other degree with other grade' do
+      let(:degree) do
+        build(
+          :degree_qualification,
+          application_form: build(:application_form),
+          qualification_type: 'MSc',
+          grade: 'Distinction',
+        )
+      end
+      let(:form) do
+        described_class.new(degree: degree, type_description: 'Bachelor of Arts', uk_degree: 'yes')
+      end
+
+      it 'updates the type correctly and grade to nil' do
+        form.update
+
+        expect(degree.qualification_type).to eq 'Bachelor of Arts'
+        expect(degree.grade).to eq nil
+      end
+    end
   end
 end
