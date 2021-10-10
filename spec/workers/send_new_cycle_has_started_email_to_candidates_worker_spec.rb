@@ -51,6 +51,7 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
 
     before do
       @unsuccessful_candidates = instance_double(ActiveRecord::Relation)
+      allow(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to receive(:perform_at).and_return(nil)
     end
 
     context 'with a single batch' do
@@ -64,10 +65,11 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'queues one unstaggered SendNewCycleHasStartedEmailToCandidatesBatchWorker job' do
-        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
-          receive(:perform_at).with(Time.zone.now, (1..5).to_a),
-        )
         described_class.new.perform
+
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          have_received(:perform_at).with(Time.zone.now, (1..5).to_a),
+        )
       end
     end
 
@@ -84,13 +86,14 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'queues two staggered SendNewCycleHasStartedEmailToCandidatesBatchWorker jobs' do
-        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
-          receive(:perform_at).with(Time.zone.now, (1..120).to_a),
-        )
-        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
-          receive(:perform_at).with(Time.zone.now + described_class::STAGGER_OVER, (121..200).to_a),
-        )
         described_class.new.perform
+
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          have_received(:perform_at).with(Time.zone.now, (1..120).to_a),
+        )
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          have_received(:perform_at).with(Time.zone.now + described_class::STAGGER_OVER, (121..200).to_a),
+        )
       end
     end
 
@@ -109,16 +112,17 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
       end
 
       it 'queues three staggered SendNewCycleHasStartedEmailToCandidatesBatchWorker jobs' do
-        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
-          receive(:perform_at).with(Time.zone.now, (1..120).to_a),
-        )
-        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
-          receive(:perform_at).with(Time.zone.now + (described_class::STAGGER_OVER/2.0), (121..240).to_a),
-        )
-        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
-          receive(:perform_at).with(Time.zone.now + described_class::STAGGER_OVER, (241..300).to_a),
-        )
         described_class.new.perform
+
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          have_received(:perform_at).with(Time.zone.now, (1..120).to_a),
+        )
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          have_received(:perform_at).with(Time.zone.now + (described_class::STAGGER_OVER / 2.0), (121..240).to_a),
+        )
+        expect(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to(
+          have_received(:perform_at).with(Time.zone.now + described_class::STAGGER_OVER, (241..300).to_a),
+        )
       end
     end
   end

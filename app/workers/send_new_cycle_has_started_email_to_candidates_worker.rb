@@ -25,7 +25,7 @@ private
   def interval_between_batches
     @interval_between_batches ||= begin
       number_of_batches = (GetUnsuccessfulAndUnsubmittedCandidates.call.count.to_f / BATCH_SIZE).ceil
-      number_of_batches < 2 ? STAGGER_OVER : STAGGER_OVER/((number_of_batches - 1).to_f)
+      number_of_batches < 2 ? STAGGER_OVER : STAGGER_OVER / (number_of_batches - 1).to_f
     end
   end
 end
