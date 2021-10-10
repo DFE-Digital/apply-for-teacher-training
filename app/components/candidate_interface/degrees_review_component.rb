@@ -202,7 +202,7 @@ module CandidateInterface
     def grade_row(degree)
       {
         key: degree.completed? ? t('application_form.degree.grade.review_label') : t('application_form.degree.grade.review_label_predicted'),
-        value: degree.grade,
+        value: degree.grade || t('application_form.degree.review.not_specified'),
         action: {
           href: candidate_interface_edit_degree_grade_path(degree.id, return_to_params),
           visually_hidden_text: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),

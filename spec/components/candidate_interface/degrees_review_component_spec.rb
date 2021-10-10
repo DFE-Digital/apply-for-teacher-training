@@ -111,6 +111,28 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       )
     end
 
+    context 'when the degree does not have a grade' do
+      let(:degree1) do
+        build_stubbed(
+          :degree_qualification,
+          level: 'degree',
+          qualification_type: 'BSc/Education',
+          subject: 'Woof',
+          grade: nil,
+          predicted_grade: false,
+          start_year: '2007',
+          award_year: '2008',
+        )
+      end
+
+      it 'renders component with correct values for an grade' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
+        expect(result.css('.govuk-summary-list__value').text).to include(t('application_form.degree.review.not_specified'))
+      end
+    end
+
     context 'when the degree does not have an award_year' do
       let(:degree1) do
         build_stubbed(
