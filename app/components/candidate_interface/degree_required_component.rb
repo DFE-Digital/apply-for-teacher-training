@@ -44,11 +44,11 @@ class CandidateInterface::DegreeRequiredComponent < ViewComponent::Base
 private
 
   def highest_degree_grade
-    @highest_degree_grade ||= return_highest_degree_grade
+    @highest_degree_grade ||= return_highest_valid_degree_grade
   end
 
-  def return_highest_degree_grade
-    grades = uk_bachelor_degrees.map(&:grade)
+  def return_highest_valid_degree_grade
+    grades = uk_bachelor_degrees.where(grade: CANDIDATE_GRADES.keys).map(&:grade)
     grades.max_by { |grade| CANDIDATE_GRADES[grade] }
   end
 
