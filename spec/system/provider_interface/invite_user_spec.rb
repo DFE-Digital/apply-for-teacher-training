@@ -63,7 +63,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_cannot_see_the_invite_user_button
-    expect(page).not_to have_link('Invite user')
+    expect(page).not_to have_link('Add user')
   end
 
   def given_i_can_manage_users
@@ -71,11 +71,11 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_can_see_the_invite_user_button
-    expect(page).to have_link('Invite user')
+    expect(page).to have_link('Add user')
   end
 
   def when_i_click_on_invite_user
-    click_on 'Invite user'
+    click_on 'Add user'
   end
 
   def then_i_see_a_personal_details_form
@@ -112,7 +112,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_see_a_check_page
-    expect(page).to have_selector('h1', text: 'Check permissions and invite user')
+    expect(page).to have_selector('h1', text: 'Check permissions and add user')
   end
 
   def and_i_see_the_specified_personal_details
@@ -150,7 +150,7 @@ RSpec.feature 'Provider user invitation' do
   end
 
   def then_i_see_a_success_message
-    expect(page).to have_content('User invited')
+    expect(page).to have_content('User added')
   end
 
   def and_the_new_user_appears_in_the_user_list

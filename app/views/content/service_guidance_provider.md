@@ -102,7 +102,7 @@ The permissions feature allows you to control:
 
 * who can make decisions about applications
 * who can view sensitive information disclosed by the candidate (in the safeguarding or equality and diversity sections of the application)
-* who can invite other users, and set their permissions
+* who can add other users, and set their permissions
 
 #### For example, you may wish to:
 
@@ -117,8 +117,8 @@ Everyone on your team who uses the Manage service will be able to view all appli
 The ‘Manage users’ permission allows you to:
 
 * set permissions for team members
-* invite new users
-* delete users
+* add new users
+* remove Users
 
 #### ‘Manage users’ for training providers who are already part of our pilot
 

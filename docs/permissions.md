@@ -12,7 +12,7 @@ The following set of permissions are used across the app.
 
 - Manage Users
 
-  Enables a provider user to invite or delete users and set their permissions.
+  Enables a provider user to invite or remove Users and set their permissions.
 
 - Manage Organisations
 

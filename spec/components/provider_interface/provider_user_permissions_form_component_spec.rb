@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
     end
 
     it 'renders the correct caption as a span within a legend for the form' do
-      expect(render.css('legend > h1 > span').text).to include("Invite user - #{provider.name}")
+      expect(render.css('legend > h1 > span').text).to include("Add user - #{provider.name}")
     end
   end
 
@@ -81,7 +81,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsFormComponent do
     end
 
     it 'renders the correct caption as a span for the form' do
-      expect(render.css('h1 > span').text).to include("Invite user - #{provider.name}")
+      expect(render.css('h1 > span').text).to include("Add user - #{provider.name}")
     end
   end
 

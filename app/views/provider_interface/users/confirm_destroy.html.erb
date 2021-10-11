@@ -7,7 +7,7 @@
     <span class="govuk-caption-l"><%= @provider_user.full_name %></span>
     <h1 class="govuk-heading-l"><%= t('page_titles.provider.confirm_delete_user', provider_name: @provider.name) %></h1>
 
-    <%= govuk_button_to 'Delete user', provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user), method: :delete, class: 'govuk-button--warning' %>
+    <%= govuk_button_to 'Remove User', provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user), method: :delete, class: 'govuk-button--warning' %>
 
     <p class="govuk-body">
       <%= govuk_link_to t('cancel'), provider_interface_organisation_settings_organisation_user_path(@provider, @provider_user) %>
