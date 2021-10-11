@@ -20,7 +20,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter << subject_filter << study_modes_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -44,7 +44,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: []).to_h)
+      compact_params(params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: [], subject: [], study_mode: []).to_h)
     end
 
     def save_filter_state!
@@ -182,6 +182,21 @@ module ProviderInterface
             value: subject.id,
             label: subject.name,
             checked: applied_filters[:subject]&.include?(subject.id.to_s),
+          }
+        end,
+      }
+    end
+
+    def study_modes_filter
+      {
+        type: :checkboxes,
+        heading: 'Full time or part time',
+        name: 'study_mode',
+        options: CourseOption.study_modes.map do |study_mode|
+          {
+            value: study_mode.first,
+            label: study_mode.first.humanize,
+            checked: applied_filters[:study_mode]&.include?(study_mode.first.to_s),
           }
         end,
       }

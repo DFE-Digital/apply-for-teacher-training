@@ -59,6 +59,13 @@ RSpec.describe FilterApplicationChoicesForProviders do
       expect(result).to eq([application_choices.first])
     end
 
+    it 'filters by study mode' do
+      application_choices.first.course_option.update(study_mode: 'part_time')
+      result = described_class.call(application_choices: application_choices, filters: { study_mode: 'part_time' })
+
+      expect(result).to eq([application_choices.first])
+    end
+
     it 'uses the updated course details when filtering by provider' do
       provider = create(:provider)
       course = create(:course, provider: provider)

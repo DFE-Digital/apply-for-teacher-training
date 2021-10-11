@@ -4,16 +4,17 @@ module ProviderInterface
 
     attr_accessor :accredited_provider, :application_choice, :application_choice_path,
                   :candidate_name, :course_name_and_code, :course_provider_name, :changed_at,
-                  :site_name_and_code
+                  :site_name, :course_study_mode
 
     def initialize(application_choice:)
       @accredited_provider = application_choice.current_accredited_provider
       @application_choice = application_choice
       @candidate_name = application_choice.application_form.full_name
       @course_name_and_code = application_choice.current_course.name_and_code
+      @course_study_mode = application_choice.current_course_option.study_mode.humanize.downcase
       @course_provider_name = application_choice.current_provider.name
       @changed_at = application_choice.updated_at.to_s(:govuk_date_and_time)
-      @site_name_and_code = application_choice.current_site.name_and_code
+      @site_name = application_choice.current_site.name
     end
 
     def days_to_respond_text

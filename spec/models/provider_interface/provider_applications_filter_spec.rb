@@ -6,7 +6,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:provider_3_subjects) { create_list(:subject, 1) }
   let(:accredited_provider_subjects) { create_list(:subject, 1) }
 
-  let(:course1) { create(:course, subjects: provider_1_subjects) }
+  let(:course1) { create(:course, subjects: provider_1_subjects, study_mode: 'part_time') }
   let(:course2) { create(:course, subjects: provider_2_subjects) }
   let(:course3) { create(:course, subjects: provider_3_subjects) }
   let(:accredited_course) { create(:course, subjects: accredited_provider_subjects, accredited_provider: accredited_provider) }
@@ -27,7 +27,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     let(:params) { ActionController::Parameters.new }
 
     context 'default filters' do
-      context 'for a user balonging to multiple providers' do
+      context 'for a user belonging to multiple providers' do
         let(:filter) do
           described_class.new(params: params,
                               provider_user: provider_user,
@@ -35,7 +35,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'does not include the Locations filter' do
-          expected_number_of_filters = 5
+          expected_number_of_filters = 6
           recruitment_cycle_index = 1
           providers_array_index = 3
           number_of_courses = 2
@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         end
 
         it 'does not include the Providers filter' do
-          expected_number_of_filters = 5
+          expected_number_of_filters = 6
 
           expect(filter.filters.size).to eq(expected_number_of_filters)
           expect(headings).not_to include('Provider')
@@ -77,11 +77,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
           relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
           expect(headings).to include("Locations for #{provider1.name}")
-          expect(relevant_provider_ids).to include(filter.filters[4][:options][0][:value])
-          expect(relevant_provider_ids).to include(filter.filters[4][:options][1][:value])
+          expect(relevant_provider_ids).to include(filter.filters[5][:options][0][:value])
+          expect(relevant_provider_ids).to include(filter.filters[5][:options][1][:value])
 
-          expect(relevant_provider_names).to include(filter.filters[4][:options][0][:label])
-          expect(relevant_provider_names).to include(filter.filters[4][:options][1][:label])
+          expect(relevant_provider_names).to include(filter.filters[5][:options][0][:label])
+          expect(relevant_provider_names).to include(filter.filters[5][:options][1][:label])
         end
       end
     end
@@ -100,11 +100,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
         expect(headings).to include("Locations for #{provider1.name}")
 
-        expect(relevant_provider_ids).to include(filter.filters[5][:options][0][:value])
-        expect(relevant_provider_ids).to include(filter.filters[5][:options][1][:value])
+        expect(relevant_provider_ids).to include(filter.filters[6][:options][0][:value])
+        expect(relevant_provider_ids).to include(filter.filters[6][:options][1][:value])
 
-        expect(relevant_provider_names).to include(filter.filters[5][:options][0][:label])
-        expect(relevant_provider_names).to include(filter.filters[5][:options][1][:label])
+        expect(relevant_provider_names).to include(filter.filters[6][:options][0][:label])
+        expect(relevant_provider_names).to include(filter.filters[6][:options][1][:label])
       end
     end
 
@@ -122,6 +122,23 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
         expect(headings).to include('Subject')
         expect(filter_subjects).to match_array(subjects.map(&:name))
+      end
+    end
+
+    context 'when a study mode is selected' do
+      let(:params) { ActionController::Parameters.new }
+      let(:filter) do
+        described_class.new(params: params,
+                            provider_user: provider_user,
+                            state_store: {})
+      end
+
+      it 'can return a filter config for a list of study modes' do
+        study_modes = %w[full_time part_time]
+        filter_study_modes = filter.filters[5][:options].map { |h| h[:value] }
+
+        expect(headings).to include('Full time or part time')
+        expect(filter_study_modes).to match_array(study_modes)
       end
     end
   end
