@@ -25,7 +25,7 @@ module ProviderInterface
 
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
-      if provider_user
+      if provider_user && provider_user.dfe_sign_in_uid.present?
         magic_link_token = provider_user.create_magic_link_token!
         ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token).deliver_later
       end
