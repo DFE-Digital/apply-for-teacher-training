@@ -62,6 +62,7 @@ module SupportInterface
 
     def relevant_applications
       ApplicationForm
+        .current_cycle
         .includes(
           :candidate,
           application_choices: %i[course provider audits],
