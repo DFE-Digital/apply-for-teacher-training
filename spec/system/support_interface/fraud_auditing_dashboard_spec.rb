@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.feature 'See Fraud Auditing matches' do
   include DfESignInHelpers
 
+  around do |example|
+    @today = Time.zone.local(2021, 12, 24, 12)
+    Timecop.freeze(@today) do
+      example.run
+    end
+  end
+
   scenario 'Support agent visits Fraud Auditing Dashboard page', sidekiq: true do
     given_i_am_a_support_user
     and_the_feature_flag_is_active
@@ -19,6 +26,7 @@ RSpec.feature 'See Fraud Auditing matches' do
 
     when_i_mark_a_match_as_non_fradulent
     then_i_see_that_the_match_is_marked_as_non_fraudulent
+
     when_i_select_a_candidate_to_block
     and_i_click_continue
     then_i_am_told_to_confirm_i_have_followed_the_guidance
@@ -36,6 +44,10 @@ RSpec.feature 'See Fraud Auditing matches' do
     and_i_click_continue
     then_i_should_see_the_dashboard_updated_again
     and_the_fraud_match_should_be_set_as_unblocked
+
+    when_i_click_to_send_a_fraud_match_email_to_the_candidate
+    then_i_see_updated_dashboard
+    and_the_candidate_receives_emails_to_both_addresses
   end
 
   def given_i_am_a_support_user
@@ -82,7 +94,7 @@ RSpec.feature 'See Fraud Auditing matches' do
     end
 
     within 'td:eq(4)' do
-      expect(page).to have_content ''
+      expect(page).to have_content 'Send email'
     end
 
     within 'td:eq(5)' do
@@ -172,5 +184,27 @@ RSpec.feature 'See Fraud Auditing matches' do
     unblocked_candidate = FraudMatch.first
     expect(unblocked_candidate.blocked).to eq false
     expect(unblocked_candidate.fraudulent).to eq false
+  end
+
+  def when_i_click_to_send_a_fraud_match_email_to_the_candidate
+    within 'td:eq(4)' do
+      click_link 'Send email'
+    end
+  end
+
+  def then_i_see_updated_dashboard
+    within 'td:eq(5)' do
+      expect(page).to have_content '24 December 2021 at 12pm (midday)'
+    end
+  end
+
+  def and_the_candidate_receives_emails_to_both_addresses
+    Timecop.travel(Time.zone.now + 1.hour + 1.minute) do
+      open_email(@candidate_one.email_address)
+      expect(current_email.subject).to have_content t('candidate_mailer.fraud_match.subject')
+
+      open_email(@candidate_two.email_address)
+      expect(current_email.subject).to have_content t('candidate_mailer.fraud_match.subject')
+    end
   end
 end

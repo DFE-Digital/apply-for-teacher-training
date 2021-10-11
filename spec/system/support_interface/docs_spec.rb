@@ -42,6 +42,7 @@ RSpec.feature 'Docs' do
       candidate_mailer-course_unavailable_notification
       candidate_mailer-eoc_deadline_reminder
       candidate_mailer-new_cycle_has_started
+      candidate_mailer-fraud_match_email
       candidate_mailer-ucas_match_initial_email_duplicate_applications
       candidate_mailer-ucas_match_initial_email_multiple_acceptances
       candidate_mailer-ucas_match_reminder_email_duplicate_applications
