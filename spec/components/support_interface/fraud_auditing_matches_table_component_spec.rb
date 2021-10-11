@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
     end
   end
 
-  it 'does not render the block submission functionality if alreay blocked' do
+  it 'renders the option to unblock the candidate if currently blocked' do
     blocked_fraud_match = create(:fraud_match, blocked: true)
 
     create(:application_form, candidate: blocked_fraud_match.candidates.first, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
@@ -69,7 +69,6 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
 
     result = render_inline(described_class.new(matches: [blocked_fraud_match]))
 
-    expect(result.css('td')[7].text).to include('Candidate blocked')
-    expect(result.css('td')[7].text).not_to include('Block')
+    expect(result.css('td')[7].text).to include('Unblock')
   end
 end

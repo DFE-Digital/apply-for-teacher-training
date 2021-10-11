@@ -93,6 +93,10 @@ en:
           attributes:
             accept_guidance:
               blank: Select that you have read the guidance
+        support_interface/unblock_submission_form:
+          attributes:
+            accept_guidance:
+              blank: Select that you have read the guidance
         support_interface/conditions_form/offer_condition_field:
           attributes:
             text:

@@ -33,10 +33,29 @@ module SupportInterface
       end
     end
 
+    def confirm_unblock_submission
+      @candidate_to_unblock = UnblockSubmissionForm.new
+    end
+
+    def unblock_submission
+      @candidate_to_unblock = UnblockSubmissionForm.new(unblock_submission_params)
+
+      if @candidate_to_unblock.save(params[:fraud_match_id])
+        flash[:success] = 'Candidate successfully unblocked'
+        redirect_to support_interface_fraud_auditing_matches_path
+      else
+        render :confirm_unblock_submission
+      end
+    end
+
   private
 
     def block_submission_params
       params.require(:support_interface_block_submission_form).permit(:accept_guidance)
+    end
+
+    def unblock_submission_params
+      params.require(:support_interface_unblock_submission_form).permit(:accept_guidance)
     end
   end
 end

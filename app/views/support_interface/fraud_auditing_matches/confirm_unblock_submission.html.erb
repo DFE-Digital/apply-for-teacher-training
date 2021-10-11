@@ -1,0 +1,24 @@
+<% content_for :browser_title, title_with_error_prefix('Are you sure you want to unblock this candidate?', @candidate_to_unblock.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_fraud_auditing_matches_path, 'Back to the dashboard') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @candidate_to_unblock,
+      url: support_interface_fraud_auditing_matches_confirm_unblock_submission_path,
+      method: :patch,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">Are you sure you want to unblock this candidate?</h1>
+
+      <p class="govuk-body">When you reverse this the candidate will be able to continue progressing with their application.</p>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>

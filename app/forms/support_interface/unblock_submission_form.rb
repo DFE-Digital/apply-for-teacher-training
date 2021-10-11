@@ -1,5 +1,5 @@
 module SupportInterface
-  class BlockSubmissionForm
+  class UnblockSubmissionForm
     include ActiveModel::Model
 
     attr_accessor :accept_guidance
@@ -11,7 +11,7 @@ module SupportInterface
 
       return false unless valid?
 
-      FraudMatch.find(fraud_match_id).update!(blocked: true, fraudulent: true)
+      FraudMatch.find(fraud_match_id).update!(blocked: false, fraudulent: false)
     end
   end
 end

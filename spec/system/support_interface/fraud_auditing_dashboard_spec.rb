@@ -27,6 +27,15 @@ RSpec.feature 'See Fraud Auditing matches' do
     and_i_click_continue
     then_i_should_see_an_updated_dashboard
     and_the_fraud_match_should_be_set_as_blocked
+
+    when_i_unblock_the_candidate
+    and_i_click_continue
+    then_i_am_told_to_confirm_i_have_followed_the_guidance
+
+    when_i_confirm_my_choice
+    and_i_click_continue
+    then_i_should_see_the_dashboard_updated_again
+    and_the_fraud_match_should_be_set_as_unblocked
   end
 
   def given_i_am_a_support_user
@@ -139,7 +148,7 @@ RSpec.feature 'See Fraud Auditing matches' do
 
   def then_i_should_see_an_updated_dashboard
     within 'td:eq(8)' do
-      expect(page).to have_content 'Candidate blocked'
+      expect(page).to have_content 'Unblock'
     end
   end
 
@@ -147,5 +156,21 @@ RSpec.feature 'See Fraud Auditing matches' do
     blocked_candidate = FraudMatch.first
     expect(blocked_candidate.blocked).to eq true
     expect(blocked_candidate.fraudulent?).to eq true
+  end
+
+  def when_i_unblock_the_candidate
+    click_link 'Unblock'
+  end
+
+  def then_i_should_see_the_dashboard_updated_again
+    within 'td:eq(8)' do
+      expect(page).to have_content 'Block'
+    end
+  end
+
+  def and_the_fraud_match_should_be_set_as_unblocked
+    unblocked_candidate = FraudMatch.first
+    expect(unblocked_candidate.blocked).to eq false
+    expect(unblocked_candidate.fraudulent?).to eq false
   end
 end
