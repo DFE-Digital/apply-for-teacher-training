@@ -38,8 +38,18 @@ module SupportInterface
     end
 
     def applications_with_last_decision_sql
+      provider_decision_timestamps = %w[
+        rejected_at
+        offered_at
+        offer_changed_at
+        offer_withdrawn_at
+        offer_deferred_at
+        conditions_not_met_at
+        recruited_at
+      ].join(',')
+
       ApplicationChoice
-        .select('provider_ids', 'CASE WHEN rejected_by_default THEN NULL ELSE GREATEST(offered_at, rejected_at) END as last_decision')
+        .select('provider_ids', "CASE WHEN rejected_by_default THEN NULL ELSE GREATEST(#{provider_decision_timestamps}) END as last_decision")
         .to_sql
     end
   end

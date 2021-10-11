@@ -90,19 +90,32 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
   describe '.no_decisions_in_last_7_days' do
     let(:course) { create(:course, provider: provider) }
 
-    context 'when a provider has made an offer on at least one application in the last 7 days' do
-      let!(:application) { create(:application_choice, course: course, offered_at: 3.days.ago) }
+    %w[
+      rejected_at
+      offered_at
+      offer_changed_at
+      offer_withdrawn_at
+      offer_deferred_at
+      conditions_not_met_at
+      recruited_at
+    ].each do |decision_timestamp|
+      context "when the #{decision_timestamp} is within the last 7 days for at least one application" do
+        let!(:application) { create(:application_choice, course: course, decision_timestamp => 3.days.ago) }
+        let!(:other_application) { create(:application_choice, course: course, decision_timestamp => 8.days.ago) }
 
-      it 'does not return the provider' do
-        expect(described_class.new.no_decisions_in_last_7_days).to be_empty
+        it 'does not return the provider' do
+          expect(described_class.new.no_decisions_in_last_7_days).to be_empty
+        end
       end
-    end
 
-    context 'when a provider has rejected at least one application in the last 7 days' do
-      let!(:application) { create(:application_choice, course: course, rejected_at: 6.days.ago) }
+      context "when the #{decision_timestamp} is over 7 days ago for all applications" do
+        let!(:application) { create(:application_choice, course: course, decision_timestamp => 3.weeks.ago) }
+        let!(:other_application) { create(:application_choice, course: course, decision_timestamp => 8.days.ago) }
 
-      it 'does not return the provider' do
-        expect(described_class.new.no_decisions_in_last_7_days).to be_empty
+        it 'returns the provider and the date of the last decision' do
+          expect(described_class.new.no_decisions_in_last_7_days).to contain_exactly(provider)
+          expect(described_class.new.no_decisions_in_last_7_days.first.last_decision).to be_within(1.second).of(8.days.ago)
+        end
       end
     end
 
@@ -117,15 +130,6 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
     context 'when the provider has received no applications' do
       it 'does not return the provider' do
         expect(described_class.new.no_decisions_in_last_7_days).to be_empty
-      end
-    end
-
-    context 'when a provider has made decisions but over 7 days ago' do
-      let!(:application) { create(:application_choice, course: course, offered_at: 8.days.ago) }
-
-      it 'returns the provider and the date of the last decision' do
-        expect(described_class.new.no_decisions_in_last_7_days).to contain_exactly(provider)
-        expect(described_class.new.no_decisions_in_last_7_days.first.last_decision).to be_within(1.second).of(8.days.ago)
       end
     end
 
