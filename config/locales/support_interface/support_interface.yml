@@ -217,3 +217,7 @@ en:
             audit_comment_ticket:
               blank: Enter a Zendesk ticket URL
               invalid: Enter a valid Zendesk ticket URL
+        support_interface/remove_access_form:
+          attributes:
+            accept_guidance:
+              blank: Confirm that you have read the guidance
