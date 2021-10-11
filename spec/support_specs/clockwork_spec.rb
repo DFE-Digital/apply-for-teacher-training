@@ -17,7 +17,7 @@ RSpec.describe Clockwork, clockwork: true do
     describe 'worker schedule' do
       it 'runs the job every hour' do
         start_time = Time.zone.now
-        end_time = Time.zone.now + 3.hours
+        end_time = Time.zone.now + 3.hours + 1.minute
         Clockwork::Test.run(
           start_time: start_time,
           end_time: end_time,
