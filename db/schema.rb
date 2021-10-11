@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_08_124803) do
+ActiveRecord::Schema.define(version: 2021_10_11_142611) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -469,10 +469,10 @@ ActiveRecord::Schema.define(version: 2021_10_08_124803) do
     t.string "last_name"
     t.date "date_of_birth"
     t.string "postcode"
-    t.boolean "fraudulent?"
+    t.boolean "fraudulent", default: false
+    t.boolean "blocked", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "blocked", default: false
   end
 
   create_table "ielts_qualifications", force: :cascade do |t|
