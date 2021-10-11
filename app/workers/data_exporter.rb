@@ -1,7 +1,7 @@
 class DataExporter
   include Sidekiq::Worker
 
-  def perform(importer_class, data_export_type)
+  def perform(importer_class, data_export_type, export_options = {})
     RequestLocals.store[:debugging_info] = { data_export_type: data_export_type, importer_class: importer_class }
 
     Rails.logger.info 'Sidekiq running. Loading data export record'
@@ -11,7 +11,7 @@ class DataExporter
 
     begin
       csv_data = generate_csv(
-        importer_class.constantize.new.data_for_export,
+        importer_class.constantize.new.data_for_export(export_options),
       )
     rescue StandardError => e
       Rails.logger.info "Export generation failed: `#{e.message}`"

@@ -21,8 +21,15 @@ class DataExport < ApplicationRecord
     application_timings: {
       name: 'Application timings',
       export_type: 'application_timings',
-      description: 'The application timings provides data on when an application form attribute was last updated by the candidate.',
+      description: 'The application timings provides data for when an application form attribute was last updated by the candidate.',
       class: SupportInterface::ApplicationsExport,
+    },
+    application_timings_for_current_cycle: {
+      name: 'Application timings for current cycle',
+      export_type: 'application_timings_for_current_cycle',
+      description: 'The application timings provides data from the current cycle for when an application form attribute was last updated by the candidate.',
+      class: SupportInterface::ApplicationsExport,
+      export_options: { current_cycle: true },
     },
     candidate_application_feedback: {
       name: 'Candidate application feedback',
@@ -224,6 +231,7 @@ class DataExport < ApplicationRecord
     active_provider_users: 'active_provider_users',
     application_references: 'application_references',
     application_timings: 'application_timings',
+    application_timings_for_current_cycle: 'application_timings_for_current_cycle',
     candidate_application_feedback: 'candidate_application_feedback',
     candidate_autosuggest_usage: 'candidate_autosuggest_usage',
     candidate_email_send_counts: 'candidate_email_send_counts',

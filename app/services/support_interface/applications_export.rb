@@ -1,6 +1,6 @@
 module SupportInterface
   class ApplicationsExport
-    def applications
+    def applications(export_options = {})
       applications_of_interest = ApplicationForm.includes(
         :candidate,
       ).preload(
@@ -10,6 +10,8 @@ module SupportInterface
       ).where(
         'candidates.hide_in_reporting' => false,
       )
+
+      applications_of_interest = applications_of_interest.current_cycle if export_options['current_cycle'] == true
 
       results = []
 
