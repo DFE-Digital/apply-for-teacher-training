@@ -7,6 +7,7 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
   before do
     FeatureFlag.activate(:block_fraudulent_submission)
     Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+      fraud_match2.update!(candidate_last_contacted_at: Time.zone.now)
       create(:application_form, candidate: fraud_match1.candidates.first, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
       create(:application_form, candidate: fraud_match1.candidates.second, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
 
@@ -30,8 +31,8 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[1].text).to include('Joffrey')
       expect(result.css('td')[2].text).to include(fraud_match1.candidates.first.email_address)
       expect(result.css('td')[2].text).to include(fraud_match1.candidates.second.email_address)
-      expect(result.css('td')[3].text).to include('')
-      expect(result.css('td')[4].text).to include('')
+      expect(result.css('td')[3].text).to include('Send email')
+      expect(result.css('td')[4].text).to include(fraud_match1.candidate_last_contacted_at&.to_s(:govuk_date_and_time).to_s)
       expect(result.css('td')[5].text).to include('No')
       expect(result.css('td')[5].text).to include('Mark as fraudulent')
       expect(result.css('td')[6].text).to include('No')
@@ -50,8 +51,8 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[1].text).to include('Joffrey')
       expect(result.css('td')[2].text).to include(fraud_match2.candidates.first.email_address)
       expect(result.css('td')[2].text).to include(fraud_match2.candidates.second.email_address)
-      expect(result.css('td')[3].text).to include('')
-      expect(result.css('td')[4].text).to include('')
+      expect(result.css('td')[3].text).to include('Send email')
+      expect(result.css('td')[4].text).to include(fraud_match2.candidate_last_contacted_at&.to_s(:govuk_date_and_time).to_s)
       expect(result.css('td')[5].text).to include('Yes')
       expect(result.css('td')[5].text).to include('Mark as non fraudulent')
       expect(result.css('td')[6].text).to include('No')
