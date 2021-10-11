@@ -16,6 +16,17 @@ module SupportInterface
       end
 
       redirect_to support_interface_fraud_auditing_matches_path
+
+      def send_email
+        fraud_match = FraudMatch.find(params[:id])
+
+        SendFraudMatchEmail.new(fraud_match).call
+
+        fraud_match.update!(candidate_last_contacted_at: Time.zone.now)
+
+        flash[:success] = 'Email sent to matched candidates'
+        redirect_to support_interface_fraud_auditing_matches_path
+      end
     end
 
     def confirm_block_submission

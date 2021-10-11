@@ -913,6 +913,7 @@ Rails.application.routes.draw do
 
     get '/duplicate-candidate-matches', to: redirect('/support/fraud-auditing-dashboard')
     get '/fraud-auditing-dashboard' => 'fraud_auditing_matches#index', as: :fraud_auditing_matches
+
     get '/fraudulent/:id' => 'fraud_auditing_matches#fraudulent', as: :fraud_auditing_matches_fraudulent
     patch '/fraudulent/:id' => 'fraud_auditing_matches#fraudulent'
     get '/fraud-auditing-dashboard/:fraud_match_id/block-submission' => 'fraud_auditing_matches#confirm_block_submission', as: :fraud_auditing_matches_confirm_block_submission
@@ -921,6 +922,9 @@ Rails.application.routes.draw do
     patch '/fraud-auditing-dashboard/:fraud_match_id/unblock-submission' => 'fraud_auditing_matches#unblock_submission'
     get '/fraud-auditing-dashboard/:fraud_match_id/remove-access/:candidate_id' => 'fraud_auditing_matches#confirm_remove_access', as: :fraud_auditing_matches_confirm_remove_access
     patch '/fraud-auditing-dashboard/:fraud_match_id/remove-access/:candidate_id' => 'fraud_auditing_matches#remove_access'
+
+    get '/send-email/:id' => 'fraud_auditing_matches#send_email', as: :fraud_auditing_matches_send_email
+    post '/send-email/:id' => 'fraud_auditing_matches#send_email'
 
     get '/application_choices/:application_choice_id' => redirect('/application-choices/%{application_choice_id}')
     get '/application-choices/:application_choice_id' => 'application_choices#show', as: :application_choice
