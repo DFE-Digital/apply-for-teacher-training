@@ -106,7 +106,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       Timecop.freeze(CycleTimetable.find_opens(2020) + 1.day) do
         create_list(:candidate, 2)
       end
-      Timecop.freeze(CycleTimetable.find_opens(2021) + 1.day) do
+      Timecop.freeze(CycleTimetable.apply_2_deadline(2020) + 1.day) do
         create_list(:candidate, 3)
       end
 
