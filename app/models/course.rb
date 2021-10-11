@@ -91,6 +91,10 @@ class Course < ApplicationRecord
     "#{provider.name} – #{name_and_code}"
   end
 
+  def description_and_ratifying_provider
+    ratifying_provider == provider ? description.to_s : "#{description}, ratified by #{accredited_provider&.name}"
+  end
+
   def currently_has_both_study_modes_available?
     available_study_modes_with_vacancies.count == 2
   end
