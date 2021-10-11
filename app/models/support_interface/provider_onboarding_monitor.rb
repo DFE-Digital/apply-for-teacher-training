@@ -12,15 +12,9 @@ module SupportInterface
     end
 
     def permissions_not_set_up
-      @permissions_not_set_up ||= begin
-        providers_that_need_to_set_up_permissions = ProviderRelationshipPermissions
-                                                      .providers_have_open_course
-                                                      .where(setup_at: nil)
-                                                      .pluck(:ratifying_provider_id, :training_provider_id)
-                                                      .flatten
-                                                      .uniq
-        providers_with_users.where(id: providers_that_need_to_set_up_permissions)
-      end
+      @permissions_not_set_up ||= ProviderRelationshipPermissions
+                                    .providers_have_open_course
+                                    .where(setup_at: nil)
     end
 
     def no_decisions_in_last_7_days

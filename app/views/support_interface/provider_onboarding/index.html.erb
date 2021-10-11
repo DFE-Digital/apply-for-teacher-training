@@ -20,7 +20,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render SupportInterface::TileComponent.new(
       count: @monitor.permissions_not_set_up.length,
-      label: "#{'provider'.pluralize(@monitor.permissions_not_set_up.length)} #{'has'.pluralize(@monitor.permissions_not_set_up.length)} not set up organisation permissions",
+      label: "#{'relationship'.pluralize(@monitor.permissions_not_set_up.length)} #{'has'.pluralize(@monitor.permissions_not_set_up.length)} not been set up yet",
       colour: :blue,
       href: '#permissions-not-set-up',
     ) %>
@@ -87,21 +87,25 @@
   <table class="govuk-table" data-qa="permissions-not-set-up">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Training provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Ratifying provider</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-    <% @monitor.permissions_not_set_up.each do |provider| %>
+    <% @monitor.permissions_not_set_up.each do |relationship| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+          <%= govuk_link_to relationship.training_provider.name, support_interface_provider_path(relationship.training_provider.id) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= govuk_link_to relationship.ratifying_provider.name, support_interface_provider_path(relationship.ratifying_provider.id) %>
         </td>
       </tr>
     <% end %>
     </tbody>
   </table>
 <% else %>
-  <p class="govuk-body">All providers have set up all relevant permissions</p>
+  <p class="govuk-body">All permissions have been set up</p>
 <% end %>
 
 <h2 class="govuk-heading-m" id="no-decisions">No decisions in last 7 days</h2>

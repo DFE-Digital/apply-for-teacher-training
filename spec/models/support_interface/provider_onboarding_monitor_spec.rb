@@ -39,49 +39,26 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
   end
 
   describe '.permissions_not_set_up' do
-    context 'when at least one organisation permission is not set up for the provider' do
-      before do
-        create(:provider_relationship_permissions, :with_open_course, ratifying_provider: provider)
-        create(:provider_relationship_permissions, :not_set_up_yet, :with_open_course, ratifying_provider: provider)
-        create(:provider_relationship_permissions, :with_open_course, training_provider: provider)
-      end
+    context 'when a permission is not set up and has an open course' do
+      let!(:permission) { create(:provider_relationship_permissions, :not_set_up_yet, :with_open_course) }
 
-      it 'returns the provider' do
-        expect(described_class.new.permissions_not_set_up).to contain_exactly(provider)
-      end
-
-      context 'when the provider has no users' do
-        let!(:user) { nil }
-
-        it 'does not return the provider' do
-          expect(described_class.new.permissions_not_set_up).to be_empty
-        end
-      end
-
-      context 'when the provider has no users that have logged in' do
-        let!(:user) { create(:provider_user, providers: [provider], last_signed_in_at: nil) }
-
-        it 'returns the provider' do
-          expect(described_class.new.permissions_not_set_up).to contain_exactly(provider)
-        end
+      it 'returns the permission' do
+        expect(described_class.new.permissions_not_set_up).to contain_exactly(permission)
       end
     end
 
-    context 'when all organisation permissions are set up for a provider' do
-      before do
-        create_list(:provider_relationship_permissions, 2, :with_open_course, ratifying_provider: provider)
-        create_list(:provider_relationship_permissions, 2, :with_open_course, training_provider: provider)
-      end
+    context 'when a permission is not set up but does not have an open course' do
+      let!(:permission) { create(:provider_relationship_permissions, :not_set_up_yet) }
 
-      it 'does not return the provider' do
+      it 'does not return the permission' do
         expect(described_class.new.permissions_not_set_up).to be_empty
       end
     end
 
-    context 'when the provider has no open courses' do
-      before { create(:provider_relationship_permissions, ratifying_provider: provider) }
+    context 'when a permission has been set up' do
+      let!(:permission) { create(:provider_relationship_permissions, :with_open_course) }
 
-      it 'does not return the provider' do
+      it 'does not return the permission' do
         expect(described_class.new.permissions_not_set_up).to be_empty
       end
     end
