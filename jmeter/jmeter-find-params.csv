@@ -1,0 +1,500 @@
+QUERY,L,LAT,SUBJECT_CODES_1,SUBJECT_CODES_2,SUBJECT_CODES_3,SUBJECT_CODES_4,SUBJECT_CODES_5,SUBJECT_CODES_6,SORT_BY,LOC,C,RAD,LQ,PAGE,LNG,SEN_COURSES,DEGREE_REQUIRED,FUNDING,FULLTIME,HAS_VACANCIES,PARTTIME,CAN_SPONSOR_VISA,QUALIFICATIONS
+"",1,,,,,,,,,,,,Dundee,,,,,,,,,,
+"",1,,,,,,,,,,,,London,,,,,,,,,,
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+,1,53.700621,C1,,,,,,2,"Oaklands Dr, Rawtenstall, Rossendale BB4 6SA, UK",England,50,"Oaklands Drive, Rawtenstall, Rossendale BB4 6SA",,-2.3019179,,show_all_courses,,true,true,false,,"PgdePgceWithQts,Other"
+,1,53.38112899999999,,,,,,,2,"Sheffield, UK",England,50,Sheffield,3,-1.470085,true,,,,,,,
+,1,51.4828358,03,G1,,,,,2,"London Borough of Hounslow, UK",England,50,Hounslow,2,-0.3882062,,,,,,,,
+,1,52.3951129,00,W1,41,,,,2,"Solihull B90, UK",England,50,Solihull B90,,-1.8308304,,,,,,,,
+,1,53.700621,C1,,,,,,2,"Oaklands Dr, Rawtenstall, Rossendale BB4 6SA, UK",England,50,"Oaklands Drive, Rawtenstall, Rossendale BB4 6SA",,-2.3019179,,show_all_courses,,true,true,false,,"PgdePgceWithQts,Other"
+,2,,00,04,W3,15,,,,,England,,,,,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.0629009,00,,,,,,2,"Banbury, UK",England,50,Banbury,,-1.339775,,show_all_courses,8,true,true,true,,PgdePgceWithQts
+,1,51.5073509,C8,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,52.0629009,00,,,,,,2,"Banbury, UK",England,50,Banbury,,-1.339775,,show_all_courses,8,true,true,true,,PgdePgceWithQts
+,1,51.4304099,,,,,,,2,"Shaw Rd, Bromley BR1 5NW, UK",England,50,BR15NW ,,0.0072017,,,,,,,,
+,1,51.4212334,C6,,,,,,2,"Avon Rd, Sunbury-on-Thames TW16 7TB, UK",England,50,"Avon Road, Sunbury-on-Thames TW16 7TB",,-0.425363,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+Seven Kings Learning Partnership,3,,F1,F0,,,,,,,,,,,,,,,,,,,
+,1,53.44109659999999,00,06,,,,,2,"Webster Cl, Kimberworth, Rotherham S61 2BW, UK",England,50,"Webster Close, Rotherham S61 2BW",2,-1.4073252,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.7146673,Q3,,,,,,2,"Liberty Way, Poole BH15 1YA, UK",England,50,BH15 1YA,,-1.9780713,,,,,,,,
+Inspire Partnership,3,,00,,,,,,,,,,,,,,,,,,,,
+"",1,,,,,,,,,,,,Accrington BB5,,,,,,,,,,
+,1,53.3795449,00,,,,,,2,"Hazel Grove, Stockport SK7 5DX, UK",England,50,"Hazel Grove, Stockport SK7 5DX",2,-2.138214,,,,,,,,
+,1,52.6336344,41,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+,1,50.7146673,Q3,,,,,,2,"Liberty Way, Poole BH15 1YA, UK",England,50,BH15 1YA,,-1.9780713,,,,,,,,
+,1,51.4436198,00,01,02,03,06,07,2,"Earlsfield Rd, London SW18 3DG, UK",England,50,"Earlsfield Road, London SW18 3DG",,-0.1874799,,,,,,,,
+,1,51.4454617,13,Q3,41,,,,2,"The Vista, London SE9 5RL, UK",England,50,"The Vista, London SE9 5RL",,0.0426328,,two_two,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.7146673,Q3,,,,,,2,"Liberty Way, Poole BH15 1YA, UK",England,50,BH15 1YA,,-1.9780713,,,,,,,,
+,1,53.32871249999999,00,01,,,,,2,"Racecourse Rd, Wilmslow SK9 5LW, UK",England,50,SK9 5LW ,,-2.2537525,,,,,,,,
+,1,53.7745537,C1,F1,,,,,2,"Birch Ln, Bradford BD5, UK",England,50,"Birch Lane, Bradford BD5 8PF",,-1.7492046,,,,,,,,
+,1,51.5073509,C6,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,Keighley,,,,,,,,,,
+Sheffield Hallam University,3,,41,,,,,,,,,,,,,,,,,,,,
+,2,,C1,C6,,,,,,,,,,3,,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.2545225,00,,,,,,2,"Worcestershire, UK",England,50,Worcestershire,7,-2.2668382,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.8007554,41,,,,,,2,"Leeds, UK",England,50,Leeds,,-1.5490774,true,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.54615,C8,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6336344,41,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+,1,52.2545225,00,,,,,,2,"Worcestershire, UK",England,50,Worcestershire,7,-2.2668382,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.4083714,C6,V6,,,,,2,"Liverpool, UK",England,50,Liverpool,,-2.9915726,,,,,,,,
+,2,,03,,,,,,,,,,,2,,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,"Whitehall Close, Uxbridge UB8 2DJ",,,,,,,,,,
+,1,51.6116604,G1,,,,,,2,"Clarendon Rd, London N18 2AH, UK",England,50,"Clarendon Road, London N18 2AH",,-0.0625844,,,,,,,,
+"",1,,,,,,,,,,,,"Tompions End, Ickwell, Biggleswade SG18 9EN",,,,,,,,,,
+,1,56.462018,C8,,,,,,2,"Dundee, UK",Scotland,50,Dundee,,-2.970721,,,,,,,,
+,1,52.18923700000001,00,,,,,,2,"Rush Grove, Cambridge CB1 9NF, UK",England,50,cb1 9nf,3,0.1818901,,show_all_courses,,true,true,false,,PgdePgceWithQts
+,1,51.3780921,F1,,,,,,2,"Millmead Rd, Bath BA2 3JP, UK",England,50,"Millmead Road, Bath BA2 3JP",,-2.3835228,,,,,,,,
+,1,51.54615,C8,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.2821431,00,02,04,,,,2,"Gover Cl, Mount Hawke, Truro TR4 8DB, UK",England,50,"Gover Close, Mount Hawke, Truro TR4 8DB",,-5.2036516,,,,,,,,
+,1,53.76762360000001,00,03,,,,,2,"Hull, UK",England,50,Hull,,-0.3274198,,,,,,,,
+"",1,,,,,,,,,,,,"Shaw Road, Bromley BR1 5NW",,,,,,,,,,
+Sheffield Hallam University,3,,C6,,,,,,,,,,,,,,,,,,,,
+,1,51.5073509,C6,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,51.1464659,G1,,,,,,2,"Ashford, UK",England,50,Ashford,5,0.875019,,,,,,,,
+,2,,W1,41,,,,,,,,,,3,,,,,,,,,
+,1,51.6116604,G1,,,,,,2,"Clarendon Rd, London N18 2AH, UK",England,50,"Clarendon Road, London N18 2AH",,-0.0625844,,,,,,,,
+,1,51.46429329999999,00,07,,,,,2,"Great Mead, Chippenham SN15 3QJ, UK",England,50,"Great Mead, Chippenham SN15 3QJ",,-2.107122,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.23263439999999,00,,,,,,2,"Cheshire, UK",England,50,Cheshire,,-2.6103158,,show_all_courses,8,true,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"UCL, University College London",3,,00,03,07,,,,,,,,,,,,,,,,,,
+,1,53.748575,Q3,,,,,,2,"Blackburn, UK",England,50,Blackburn,,-2.487529,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.48624299999999,00,,,,,,2,"Birmingham, UK",England,50,Birmingham,3,-1.890401,,,,,,,,
+Inspire Partnership,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,52.0488937,G1,C8,,,,,2,"Sudbury CO10 0GN, UK",England,50,Sudbury CO10 0GN,,0.7480313,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,2,,,,,,,,,,,,,2,,true,,,,,,,
+Seven Kings Learning Partnership,3,,F1,F0,,,,,,,,,,,,,,,,,,,
+Red Kite Teacher Training,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,56.462018,C8,,,,,,2,"Dundee, UK",Scotland,50,Dundee,,-2.970721,,,,,,,,
+,1,51.54615,C8,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,54.283113,11,,,,,,2,"Scarborough, UK",England,50,Scarborough,,-0.399752,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,London,,,,,,,,,,
+,1,53.7464135,C6,,,,,,2,"Accrington BB5, UK",England,50,Accrington BB5,,-2.3532378,,,,,,,,
+,1,52.48624299999999,00,,,,,,2,"Birmingham, UK",England,50,Birmingham,3,-1.890401,,,,,,,,
+"",1,,,,,,,,,,,,London SE8 3FE,,,,,,,,,,
+,1,53.867795,14,,,,,,2,"Keighley, UK",England,50,Keighley,,-1.912358,,,,,,,,
+,2,,C1,F1,,,,,,,,,,3,,,two_two,,true,true,,true,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,C8,14,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,Bristol BS2 8HW,,,,,,,,,,
+,1,53.700621,C1,,,,,,2,"Oaklands Dr, Rawtenstall, Rossendale BB4 6SA, UK",England,50,"Oaklands Drive, Rawtenstall, Rossendale BB4 6SA",,-2.3019179,,show_all_courses,,true,true,false,,"PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,"Fulton Crescent, Bishop's Stortford CM23 5DA",,,,,,,,,,
+,1,53.700621,C1,,,,,,2,"Oaklands Dr, Rawtenstall, Rossendale BB4 6SA, UK",England,50,"Oaklands Drive, Rawtenstall, Rossendale BB4 6SA",,-2.3019179,,show_all_courses,,true,true,false,,"PgdePgceWithQts,Other"
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+"",1,,,,,,,,,,,,"Green Lane, Crossways, Dorchester DT2 8BP",,,,,,,,,,
+"",1,,,,,,,,,,,,Manchester,,,,,,,,,,
+"",1,,,,,,,,,,,,OL3 7LQ,,,,,,,,,,
+"",1,,,,,,,,,,,,Southampton SO16,,,,,,,,,,
+royal masonic school,3,,,,,,,,,,,,"",,,,,,,,,,
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+"",1,,C6,,,,,,,,,,Coventry,,,false,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.8007554,41,,,,,,2,"Leeds, UK",England,50,Leeds,,-1.5490774,true,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,2,,,,,,,,,,,,,2,,true,,,,,,,
+,1,50.9485642,C6,,,,,,2,"Sycamore Dr, Burgess Hill RH15 0GG, UK",England,50,"Sycamore Drive, Burgess Hill RH15 0GG",,-0.109136,,,,,,,,
+,1,53.18214889999999,00,02,,,,,2,"Thorpe Ln, South Hykeham, Lincoln LN6 9NW, UK",England,50,"Thorpe Lane, South Hykeham, Lincoln LN6 9NW",2,-0.6244168999999999,,,,,,,,
+,1,51.54615,C8,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"UCL, University College London",3,,00,03,07,,,,,,,,,,,,,,,,,,
+,1,52.6308859,Q3,,,,,,2,"Norwich, UK",England,50,Norwich,,1.297355,,,,,,,,
+,1,52.0982885,00,W1,,,,,2,"Tompions End, Ickwell, Biggleswade SG18 9EN, UK",England,50,"Tompions End, Ickwell, Biggleswade SG18 9EN",,-0.3195075,,,,,,,,
+royal masonic school,3,,,,,,,,,,,,,,,,,,,,,,
+,1,51.5073509,,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,52.48624299999999,,,,,,,2,"Birmingham, UK",England,50,birmingham,,-1.890401,,show_all_courses,,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.9901978,00,08,,,,,2,"Milton Keynes MK2, UK",England,50,Milton Keynes MK2,,-0.7242016,,,,,,,,
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+,2,,15,,,,,,,,,,,3,,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6308859,Q3,,,,,,2,"Norwich, UK",England,50,Norwich,,1.297355,,,,,,,,
+,2,,V1,V6,,,,,2,,England,,,,,,third_class,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.2545225,00,,,,,,2,"Worcestershire, UK",England,50,Worcestershire,7,-2.2668382,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,Hull,,,,,,,,,,
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+"",1,,,,,,,,,,,,RH16 3LT ,,,,,,,,,,
+,1,53.3270364,24,22,,,,,2,"Welham, Retford DN22 0SF, UK",England,50,Dn22 0SF ,,-0.9056402000000001,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,52.6336344,V1,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+,1,51.580559,14,41,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,Stoke-on-Trent,,,,,,,,,,
+,1,51.1464659,G1,,,,,,2,"Ashford, UK",England,50,Ashford,5,0.875019,,,,,,,,
+"",1,,,,,,,,,,,,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ",,,,,,,,,,
+,1,52.9044053,00,,,,,,2,"Derby DE23 8NE, UK",England,50,Derby DE23 8NE,,-1.4681393,,,,,,,,
+,1,51.46429329999999,00,07,,,,,2,"Great Mead, Chippenham SN15 3QJ, UK",England,50,"Great Mead, Chippenham SN15 3QJ",,-2.107122,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.406822,C6,,,,,,2,"Coventry, UK",England,50,Coventry,,-1.519693,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.00024699999999,00,,,,,,2,"Hunters Way, Stoke-on-Trent ST4 5EJ, UK",England,50,St45ej,2,-2.1925319,,,,,,,,
+University College London,3,,,,,,,,2,,,,"",,,,,,,,,,
+Inspire Partnership,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,53.53458440000001,Q3,,,,,,2,"Church Rd, Greenfield, Oldham OL3 7LQ, UK",England,50,OL3 7LQ,,-2.0249286,,,,,,,,
+,1,53.18214889999999,00,02,,,,,2,"Thorpe Ln, South Hykeham, Lincoln LN6 9NW, UK",England,50,"Thorpe Lane, South Hykeham, Lincoln LN6 9NW",,-0.6244168999999999,,,,,,,,
+royal masonic schoo,2,,,,,,,,,,,,"",,,,,,,,,,
+University College London,3,,,,,,,,2,,,,,,,,,,,,,,
+,1,53.04304,00,,,,,,2,"Wrexham, UK",Wales,50,Wrexham,,-2.992494,,,,,,,,
+"UCL, University College London",3,,00,03,07,,,,,,,,,,,,,,,,,,
+Birmingham City University,3,,00,,,,,,2,,,,,,,,,,,,,,
+"UCL, University College London",3,,00,03,07,,,,,,,,,,,,,,,,,,
+,1,51.4436198,00,01,02,03,06,07,2,"Earlsfield Rd, London SW18 3DG, UK",England,50,"Earlsfield Road, London SW18 3DG",,-0.1874799,,,,,,,,
+,1,51.4817014,03,,,,,,2,"Barnfield Gardens, Plumstead Common Rd, London SE18 3QY, UK",England,50,Se18 3qy ,,0.0720323,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+"",2,,,,,,,,,,,,"",,,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,51.480873,20,,,,,,2,"London SE8 3FE, UK",England,50,London SE8 3FE,,-0.0200211,,,,,,,,
+"",1,,,,,,,,,,,,Exeter,,,,,,,,,,
+,1,53.309302,,,,,,,2,"Worksop, UK",England,50,Worksop,,-1.122745,,show_all_courses,,,true,,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+Sheffield Hallam University,3,,C6,,,,,,,,,,,,,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.95478319999999,G1,,,,,,2,"Nottingham, UK",England,50,nottingham,,-1.1581086,,show_all_courses,,true,true,,,"QtsOnly,PgdePgceWithQts"
+,1,50.95139,17,22,41,,,,2,"Southampton SO16, UK",England,50,Southampton SO16,,-1.4353963,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,"Shaw Road, Bromley BR1 5NW",,,,,,,,,,
+,1,52.48624299999999,00,,,,,,2,"Birmingham, UK",England,50,Birmingham,3,-1.890401,,,,,,,,
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,B38 9LA ,,,,,,,,,,
+,1,53.700621,C1,,,,,,2,"Oaklands Dr, Rawtenstall, Rossendale BB4 6SA, UK",England,50,"Oaklands Drive, Rawtenstall, Rossendale BB4 6SA",,-2.3019179,,show_all_courses,,true,true,false,,"PgdePgceWithQts,Other"
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,1,53.002668,C6,,,,,,2,"Stoke-on-Trent, UK",England,50,Stoke-on-Trent,,-2.179404,,,,,,,,
+,1,53.002668,C6,,,,,,2,"Stoke-on-Trent, UK",England,50,Stoke-on-Trent,,-2.179404,,,,,,,,
+,1,52.4908328,14,,,,,,2,"4 Cuin Rd, Smethwick B66 3JD, UK",England,50,"4 Cuin Road, Smethwick B66 3TU",,-1.9546112,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,B38 9LA ,,,,,,,,,,
+Sheffield Hallam University,3,,C6,,,,,,,,,,,,,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.580559,14,41,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.4817014,03,,,,,,2,"Barnfield Gardens, Plumstead Common Rd, London SE18 3QY, UK",England,50,Se18 3qy ,,0.0720323,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"UCL, University College London",3,,00,03,07,,,,,,,,,,,,,,,,,,
+,1,51.54615,C8,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,"Glenthorne Road, Portsmouth PO3 5DL",,,,,,,,,,
+,1,51.43062639999999,,,,,,,2,"Shaw Rd, Bromley BR1 5NW, UK",England,50,"Shaw Road, Bromley BR1 5NW",,0.0075488,,,,,,,,
+,1,56.462018,C8,,,,,,2,"Dundee, UK",Scotland,50,Dundee,,-2.970721,,,,,,,,
+brighton,3,,,,,,,,,,,,"",,,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,1,53.0957419,00,,,,,,2,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ, UK",England,50,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ",,-2.3229248,,,,,,,,
+brighton,3,,,,,,,,,,,,,,,,,,,,,,
+,1,51.5073509,C6,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,53.7464135,C6,,,,,,2,"Accrington BB5, UK",England,50,Accrington BB5,,-2.3532378,,,,,,,,
+,2,,C1,F1,,,,,,,,,,3,,,two_two,,true,true,,true,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+"",1,,,,,,,,,,,,B38 9LA ,,,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.0982885,00,W1,,,,,2,"Tompions End, Ickwell, Biggleswade SG18 9EN, UK",England,50,"Tompions End, Ickwell, Biggleswade SG18 9EN",,-0.3195075,,,,,,,,
+,1,54.536241,00,01,02,,,,2,"Guisborough TS14, UK",England,50,Guisborough TS14,2,-1.049544,,,,,,,,
+,2,,15,,,,,,,,,,,2,,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+hull scitt,3,,,,,,,,,,,,"",,,,,,,,,,
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+"",1,,,,,,,,,,,,London,,,,,,,,,,
+,1,52.6775873,00,,,,,,2,"Telford, UK",England,50,Telford,,-2.4672611,,show_all_courses,8,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+,1,51.6116604,G1,,,,,,2,"Clarendon Rd, London N18 2AH, UK",England,50,"Clarendon Road, London N18 2AH",,-0.0625844,,,,,,,,
+,1,51.54615,C8,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6336344,V1,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+"",1,,,,,,,,,,,,Upminster,,,,,,,,,,
+,1,52.2545225,00,,,,,,2,"Worcestershire, UK",England,50,Worcestershire,7,-2.2668382,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+hull scitt,3,,,,,,,,,,,,,,,,,,,,,,
+Grazebrook ,3,,,,,,,,,,,,"",,,,,,,,,,
+,1,51.4436198,00,01,02,03,06,07,2,"Earlsfield Rd, London SW18 3DG, UK",England,50,"Earlsfield Road, London SW18 3DG",,-0.1874799,,,,,,,,
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,56.462018,C8,,,,,,2,"Dundee, UK",Scotland,50,Dundee,,-2.970721,,,,,,,,
+,1,53.4083714,C6,V6,,,,,2,"Liverpool, UK",England,50,Liverpool,,-2.9915726,,,,,,,,
+Grazebrook ,3,,,,,,,,,,,,,,,,,,,,,,
+"UCL, University College London",3,,00,,,,,,2,,,,,,,,,,,,,,
+,2,,,,,,,,,,,,,,,,,,,,,,
+,1,53.32871249999999,00,01,,,,,2,"Racecourse Rd, Wilmslow SK9 5LW, UK",England,50,SK9 5LW ,,-2.2537525,,,,,,,,
+,1,51.5073509,C6,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,"Minstrel Close, Hucknall, Nottingham NG15 7NZ",,,,,,,,,,
+"",1,,,,,,,,,,,,"Highlands Close, Needham Market, Ipswich IP6 8DD",,,,,,,,,,
+,1,51.87617880000001,W1,DT,,,,,2,"Fulton Cres, Bishop's Stortford CM23 5DA, UK",England,50,"Fulton Crescent, Bishop's Stortford CM23 5DA",,0.1818608,,,,,,,,
+,1,52.95478319999999,G1,,,,,,2,"Nottingham, UK",England,50,nottingham,,-1.1581086,,show_all_courses,,true,true,,,"QtsOnly,PgdePgceWithQts"
+,1,50.718412,F1,,,,,,2,"Exeter, UK",England,50,Exeter,,-3.533899,,,,,,,,
+"",1,53.23263439999999,00,,,,,,2,"Cheshire, UK",England,,Alderley Edge,,-2.6103158,false,show_all_courses,8,true,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.2821431,00,02,04,,,,2,"Gover Cl, Mount Hawke, Truro TR4 8DB, UK",England,50,"Gover Close, Mount Hawke, Truro TR4 8DB",,-5.2036516,,,,,,,,
+,1,53.32871249999999,00,01,,,,,2,"Racecourse Rd, Wilmslow SK9 5LW, UK",England,50,SK9 5LW ,,-2.2537525,,,,,,,,
+,1,51.33443399999999,V1,,,,,,2,"Woodbridge Rd, Blackwater, Camberley GU17 0BS, UK",England,50,"Woodbridge Road, Blackwater, Camberley GU17 0BS",,-0.7982783,,show_all_courses,,true,true,true,,PgdePgceWithQts
+,1,53.867795,14,,,,,,2,"Keighley, UK",England,50,Keighley,,-1.912358,,,,,,,,
+"",1,,,,,,,,,,,,B38 9LA ,,,,,,,,,,
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+,1,51.6116604,G1,,,,,,2,"Clarendon Rd, London N18 2AH, UK",England,50,"Clarendon Road, London N18 2AH",,-0.0625844,,,,,,,,
+,1,53.748575,Q3,,,,,,2,"Blackburn, UK",England,50,Blackburn,,-2.487529,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,"Downs Way, Tadworth KT20 5DU",,,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,53.53458440000001,Q3,,,,,,2,"Church Rd, Greenfield, Oldham OL3 7LQ, UK",England,50,OL3 7LQ,,-2.0249286,,,,,,,,
+,1,50.3754565,00,,,,,,2,"Plymouth, UK",England,50,Plymouth,,-4.1426565,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts"
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+,1,51.4542645,Q3,41,,,,,2,"Reading, UK",England,50,Reading,,-0.9781303,,,,,,,,
+,2,,C1,08,F1,11,L1,Q3,,,,,,8,,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.7355868,C1,F0,,,,,2,"Chelmsford, UK",England,50,Chelmsford,,0.4685497,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+,1,51.7355868,C1,F0,,,,,2,"Chelmsford, UK",England,50,Chelmsford,,0.4685497,,,,,,,,
+,1,54.536241,00,01,02,,,,2,"Guisborough TS14, UK",England,50,Guisborough TS14,,-1.049544,,,,,,,,
+,1,53.301554,00,,,,,,2,"Alderley Edge SK9, UK",England,50,Alderley Edge,,-2.237216,,show_all_courses,8,true,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,51.5073509,,,,,,,2,"London, UK",England,,London,,-0.1277583,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.55591399999999,00,,,,,,2,"Upminster, UK",England,50,Upminster,,0.248894,,,,,,,,
+,2,,C1,C6,,,,,,,,,,4,,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,"Shaw Road, Bromley BR1 5NW",,,,,,,,,,
+"",1,,,,,,,,2,,,,Humberston,,,,,,,,,,
+,1,51.43062639999999,,,,,,,2,"Shaw Rd, Bromley BR1 5NW, UK",England,50,"Shaw Road, Bromley BR1 5NW",,0.0075488,,,,,,,,
+,1,53.532174,,,,,,,2,"Humberston, UK",England,50,Humberston,,-0.025742,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,1,53.0957419,00,,,,,,2,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ, UK",England,50,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ",,-2.3229248,,,,,,,,
+University of Brighton,3,,G1,,,,,,,,,,,,,,,,,,,,
+University of Brighton,3,,G1,,,,,,,,,,,,,,,,,,,,
+,1,51.87617880000001,W1,DT,,,,,2,"Fulton Cres, Bishop's Stortford CM23 5DA, UK",England,50,"Fulton Crescent, Bishop's Stortford CM23 5DA",,0.1818608,,,,,,,,
+,1,53.867795,14,,,,,,2,"Keighley, UK",England,50,Keighley,,-1.912358,,,,,,,,
+,1,51.43062639999999,,,,,,,2,"Shaw Rd, Bromley BR1 5NW, UK",England,50,"Shaw Road, Bromley BR1 5NW",,0.0075488,,,,,,,,
+,1,53.87348069999999,00,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,two_two,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",3,53.400575,00,,,,,,2,"Gainsborough, UK",England,,Gainsborough,19,-0.774465,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.9901978,00,08,,,,,2,"Milton Keynes MK2, UK",England,50,Milton Keynes MK2,,-0.7242016,,,,,,,,
+"",3,,00,,,,,,2,,England,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.41233,G1,,,,,,2,"Kingston upon Thames, UK",England,50,Kingston upon Thames,2,-0.300689,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts"
+,1,51.5073509,C8,14,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+Grazebrook Primary School,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.7464135,C6,,,,,,2,"Accrington BB5, UK",England,50,Accrington BB5,,-2.3532378,,,,,,,,
+,1,52.586973,08,L1,,,,,2,"Wolverhampton, UK",England,50,Wolverhampton,,-2.12882,,,,,,,,
+,1,51.5073509,15,24,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,"Dean Close, Wilmslow SK9 2ER",,,,,,,,,,
+,1,50.817768,C6,,,,,,2,"Glenthorne Rd, Portsmouth PO3 5DL, UK",England,50,"Glenthorne Road, Portsmouth PO3 5DL",,-1.0618504,,,,,,,,
+Grazebrook Primary School,3,,00,,,,,,,,,,,,,,,,,,,,
+"",1,,,,,,,,,,,,Egham,,,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,1,52.0406224,41,,,,,,2,"Milton Keynes, UK",England,50,Milton Keynes,,-0.7594171,,two_two,,true,false,true,,QtsOnly
+"",1,,,,,,,,,,,,"Foreness Close, Broadstairs CT10 3RX",,,,,,,,,,
+"",1,,,,,,,,,,,,"Ridgeway Drive, Dorking RH4 3AN",,,,,,,,,,
+,1,51.55591399999999,00,,,,,,2,"Upminster, UK",England,50,Upminster,,0.248894,,,,,,,,
+,2,,41,,,,,,2,,England,,,,,true,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.1569886,00,,,,,,2,"Highlands Cl, Needham Market, Ipswich IP6 8DD, UK",England,50,"Highlands Close, Needham Market, Ipswich IP6 8DD",,1.0460925,,,,,,,,
+,1,51.2965387,08,,,,,,2,"Downs Way, Tadworth KT20 5DU, UK",England,50,"Downs Way, Tadworth KT20 5DU",,-0.2419845,,,,,,,,
+,1,51.5073509,V1,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,V1,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.87348069999999,00,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,two_two,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6308859,Q3,,,,,,2,"Norwich, UK",England,50,Norwich,,1.297355,,,,,,,,
+,1,52.6308859,Q3,,,,,,2,"Norwich, UK",England,50,Norwich,,1.297355,,,,,,,,
+"",1,,,,,,,,,,,,Leeds,,,,,,,,,,
+"",1,,,,,,,,,,,,Manchester,,,,,,,,,,
+,1,51.5073509,C8,14,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,51.5073509,C8,14,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,C8,,,,,,2,,,,Glasgow,,-2.970721,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+Birmingham City University,3,,00,,,,,,2,,,,,,,,,,,,,,
+,1,52.6308859,Q3,,,,,,2,"Norwich, UK",England,50,Norwich,,1.297355,,,,,,,,
+"",2,,,,,,,,,,,,"",,,,,,,,,,
+Manchester met,3,,,,,,,,,,,,"",,,,,,,,,,
+teeside,3,53.4083714,,,,,,,2,"Liverpool, UK",England,,Liverpool,,-2.9915726,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,B38 9LA ,,,,,,,,,,
+,1,51.43062639999999,,,,,,,2,"Shaw Rd, Bromley BR1 5NW, UK",England,50,"Shaw Road, Bromley BR1 5NW",,0.0075488,,,,,,,,
+Hull SCITT,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,51.55591399999999,00,,,,,,2,"Upminster, UK",England,50,Upminster,,0.248894,,,,,,,,
+teeside,3,,,,,,,,2,,England,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.428825,00,,,,,,2,"Egham TW20, UK",England,50,Egham,,-0.547876,,,,,,,,
+teeside,3,,,,,,,,2,,England,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6336344,V1,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,52.48624299999999,00,02,,,,,2,"Birmingham, UK",England,50,Birmingham,3,-1.890401,,,,,,,,
+Birmingham City University,3,,00,,,,,,2,,,,,,,,,,,,,,
+Manchester met,3,,,,,,,,,,,,,,,,,,,,,,
+,1,51.56274209999999,00,01,03,,,,2,"Ross Ave, Dagenham RM8 1PU, UK",England,50,Rm8 1pu,2,0.1427911,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,54.978252,01,,,,,,2,"Newcastle upon Tyne, UK",England,50,Newcastle upon Tyne,,-1.61778,,,,,,,,
+,1,55.864237,C8,,,,,,2,"Glasgow, UK",Scotland,50,Glasgow,,-4.251806,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.6336344,V1,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+,1,51.580559,14,41,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+,1,51.38812960000001,00,,,,,,2,"Foreness Cl, Broadstairs CT10 3RX, UK",England,50,"Foreness Close, Broadstairs CT10 3RX",,1.4341991,,,,,,,,
+,1,51.520886,04,22,,,,,2,"Barbican, London EC2Y 8NH, UK",England,50,London EC2Y 8NH,,-0.0940495,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,54.978252,01,,,,,,2,"Newcastle upon Tyne, UK",England,50,Newcastle upon Tyne,,-1.61778,,,,,,,,
+Sheffield Hallam University,3,,C6,,,,,,,,,,,,,,,,,,,,
+,2,,,,,,,,,,,,,3,,true,,,,,,,
+"",2,52.0406224,41,,,,,,2,"Milton Keynes, UK",England,,Milton Keynes,,-0.7594171,false,two_two,,true,false,true,,QtsOnly
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+,1,53.3270364,24,22,,,,,2,"Welham, Retford DN22 0SF, UK",England,50,Dn22 0SF ,,-0.9056402000000001,,,,,,,,
+,1,50.7855508,C1,F1,F3,,,,2,"Napier Rd, Southsea, Portsmouth, Southsea PO5, UK",England,50,"Napier Road, Southsea, Portsmouth, Southsea PO5 2RB",,-1.0798252,,,,,,,,
+,1,53.532174,,,,,,,2,"Humberston, UK",England,50,Humberston,2,-0.025742,,,,,,,,
+"",1,,,,,,,,,,,,Nottingham NG1 1LY,,,,,,,,,,
+,2,,G1,,,,,,,,,,,,,,two_two,,true,true,,true,QtsOnly
+,1,51.5657787,00,03,06,,,,2,"42 Moray Rd, Finsbury Park, London N4 3LG, UK",England,50,"42 Moray Road, London N4 3LG",,-0.1128478,,,,,,,,
+,1,51.2965387,08,,,,,,2,"Downs Way, Tadworth KT20 5DU, UK",England,50,"Downs Way, Tadworth KT20 5DU",,-0.2419845,,,,,,,,
+,1,51.580559,14,41,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+University of Brighton,3,,G1,,,,,,,,,,,,,,,,,,,,
+,1,51.580559,14,41,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+,1,51.428825,00,,,,,,2,"Egham TW20, UK",England,50,Egham,,-0.547876,,,,,,,,
+,1,51.5073509,15,24,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,"Racecourse Road, Wilmslow SK9 5LW",,,,,,,,,,
+,1,52.406822,C6,,,,,,2,"Coventry, UK",England,50,Coventry,,-1.519693,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,55.864237,C8,,,,,,2,"Glasgow, UK",Scotland,50,Glasgow,,-4.251806,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.520886,04,22,,,,,2,"Barbican, London EC2Y 8NH, UK",England,50,London EC2Y 8NH,,-0.0940495,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,15,24,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,51.9901978,00,08,,,,,2,"Milton Keynes MK2, UK",England,50,Milton Keynes MK2,,-0.7242016,,,,,,,,
+,1,51.38812960000001,00,,,,,,2,"Foreness Cl, Broadstairs CT10 3RX, UK",England,50,"Foreness Close, Broadstairs CT10 3RX",,1.4341991,,,,,,,,
+,1,52.3975928,00,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+,1,51.4817014,03,,,,,,2,"Barnfield Gardens, Plumstead Common Rd, London SE18 3QY, UK",England,50,Se18 3qy ,,0.0720323,,,,,,,,
+,1,51.4817014,03,,,,,,2,"Barnfield Gardens, Plumstead Common Rd, London SE18 3QY, UK",England,50,Se18 3qy ,,0.0720323,,,,,,,,
+,1,51.4817014,03,,,,,,2,"Barnfield Gardens, Plumstead Common Rd, London SE18 3QY, UK",England,50,Se18 3qy ,,0.0720323,,,,,,,,
+,1,50.718412,F1,,,,,,2,"Exeter, UK",England,50,Exeter,,-3.533899,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+Aspirations Academy,3,,V1,V6,,,,,2,,England,,"",,,false,third_class,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",2,,,,,,,,,,,,"",,,,,,,,,,
+,1,51.480873,20,,,,,,2,"London SE8 3FE, UK",England,50,London SE8 3FE,,-0.0200211,,,,,,,,
+,1,52.0982885,00,W1,,,,,2,"Tompions End, Ickwell, Biggleswade SG18 9EN, UK",England,50,"Tompions End, Ickwell, Biggleswade SG18 9EN",,-0.3195075,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,53.53458440000001,Q3,,,,,,2,"Church Rd, Greenfield, Oldham OL3 7LQ, UK",England,50,OL3 7LQ,,-2.0249286,,,,,,,,
+,1,51.54369089999999,11,,,,,,2,"Whitehall Cl, Uxbridge UB8 2DJ, UK",England,50,"Whitehall Close, Uxbridge UB8 2DJ",,-0.4798113,,,,,,,,
+,1,52.3975928,00,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+"",1,,,,,,,,,,,,Chesterfield,,,,,,,,,,
+,1,53.867795,14,,,,,,2,"Keighley, UK",England,50,Keighley,,-1.912358,,,,,,,,
+,1,53.867795,14,,,,,,2,"Keighley, UK",England,50,Keighley,,-1.912358,,,,,,,,
+"",1,,,,,,,,,,,,Chigwell IG7,,,,,,,,,,
+Aspirations Academy,3,,V1,V6,,,,,2,,England,,,,,false,third_class,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.4436198,00,01,02,03,06,07,2,"Earlsfield Rd, London SW18 3DG, UK",England,50,"Earlsfield Road, London SW18 3DG",,-0.1874799,,,,,,,,
+"",1,,,,,,,,,,,,"Charlton Down, Dorchester DT2 9UH",,,,,,,,,,
+,1,51.4436198,00,01,02,03,06,07,2,"Earlsfield Rd, London SW18 3DG, UK",England,50,"Earlsfield Road, London SW18 3DG",,-0.1874799,,,,,,,,
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5093814,11,,,,,,2,"Ladbroke Rd, London W11 3NN, UK",England,50,"Ladbroke Road, London W11 3NN",,-0.201281,,two_two,,true,true,,true,PgdePgceWithQts
+,1,52.0488937,G1,C8,,,,,2,"Sudbury CO10 0GN, UK",England,50,Sudbury CO10 0GN,2,0.7480313,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,2,,C8,,,,,,,,,,,2,,,two_two,,true,true,,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,Humberston,,,,,,,,,,
+,1,53.53458440000001,Q3,,,,,,2,"Church Rd, Greenfield, Oldham OL3 7LQ, UK",England,50,OL3 7LQ,,-2.0249286,,,,,,,,
+Hull SCITT,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,53.53458440000001,Q3,,,,,,2,"Church Rd, Greenfield, Oldham OL3 7LQ, UK",England,50,OL3 7LQ,,-2.0249286,,,,,,,,
+The Manchester Metropolitan University,3,,C6,,,,,,,,,,,,,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,53.0292977,00,02,,,,,2,"Minstrel Cl, Hucknall, Nottingham NG15 7NZ, UK",England,50,"Minstrel Close, Hucknall, Nottingham NG15 7NZ",,-1.2056672,,,,,,,,
+,1,51.43062639999999,,,,,,,2,"Shaw Rd, Bromley BR1 5NW, UK",England,50,"Shaw Road, Bromley BR1 5NW",,0.0075488,,,,,,,,
+,1,53.76762360000001,00,04,15,24,41,,2,"Hull, UK",England,50,Hull,,-0.3274198,,,,,,,,
+,1,53.3283876,00,01,06,,,,2,"Racecourse Rd, Wilmslow SK9 5LW, UK",England,50,"Racecourse Road, Wilmslow SK9 5LW",,-2.2528098,,,,,,,,
+,2,,,,,,,,,,England,,,,,,two_two,,true,false,true,,QtsOnly
+,1,52.3975928,,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+,1,52.3975928,,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+,1,51.4436198,00,01,02,03,06,07,2,"Earlsfield Rd, London SW18 3DG, UK",England,50,"Earlsfield Road, London SW18 3DG",,-0.1874799,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+"UCL, University College London",3,,00,,,,,,2,,,,,,,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,"",,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.8007554,00,02,06,07,,,2,"Leeds, UK",England,50,Leeds,,-1.5490774,,,,,,,,
+,1,51.428825,00,,,,,,2,"Egham TW20, UK",England,50,Egham,,-0.547876,,,,,,,,
+,1,52.3975928,,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+,1,51.4817014,03,,,,,,2,"Barnfield Gardens, Plumstead Common Rd, London SE18 3QY, UK",England,50,Se18 3qy ,,0.0720323,,,,,,,,
+"UCL, University College London",3,,00,,,,,,2,,,,,,,,,,,,,,
+,1,50.95139,17,22,41,,,,2,"Southampton SO16, UK",England,50,Southampton SO16,,-1.4353963,,,,,,,,
+,2,,C1,08,F1,11,L1,Q3,,,,,,8,,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.520886,04,22,,,,,2,"Barbican, London EC2Y 8NH, UK",England,50,London EC2Y 8NH,,-0.0940495,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.580559,14,41,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+,1,53.3795449,00,,,,,,2,"Hazel Grove, Stockport SK7 5DX, UK",England,50,"Hazel Grove, Stockport SK7 5DX",3,-2.138214,,,,,,,,
+,1,52.48624299999999,,,,,,,2,"Birmingham, UK",England,50,birmingham,2,-1.890401,,show_all_courses,,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,Swaffham PE37 8GG,,,,,,,,,,
+,1,51.5073509,C8,,,,,,2,"London, UK",England,50,London,,-0.1277583,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.751281,W1,,,,,,2,"Charlton Down, Dorchester DT2 9UH, UK",England,50,"Charlton Down, Dorchester DT2 9UH",,-2.4571944,,,,,,,,
+,1,53.7464135,C6,,,,,,2,"Accrington BB5, UK",England,50,Accrington BB5,,-2.3532378,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,"",,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,Bd213bj ,,,,,,,,,,
+"",1,,,,,,,,,,,,Nottingham,,,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,2,,00,,,,,,,,,,,,,,,,,,,,
+"",1,,C8,,,,,,2,,,,Dundee,,-4.251806,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.718412,F1,,,,,,2,"Exeter, UK",England,50,Exeter,,-3.533899,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,51.6254424,F1,F0,,,,,2,"Chigwell IG7, UK",England,50,Chigwell IG7,,0.1002048,,,,,,,,
+,1,54.978252,00,,,,,,2,"Newcastle upon Tyne, UK",England,50,Newcastle upon Tyne,,-1.61778,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,Warrington,,,,,,,,,,
+,1,52.0982885,00,W1,,,,,2,"Tompions End, Ickwell, Biggleswade SG18 9EN, UK",England,50,"Tompions End, Ickwell, Biggleswade SG18 9EN",,-0.3195075,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,"",,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+teeside,1,53.4083714,,,,,,,2,"Liverpool, UK",England,50,Liverpool,,-2.9915726,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.87617880000001,W1,DT,,,,,2,"Fulton Cres, Bishop's Stortford CM23 5DA, UK",England,50,"Fulton Crescent, Bishop's Stortford CM23 5DA",,0.1818608,,,,,,,,
+,1,52.0982885,00,W1,,,,,2,"Tompions End, Ickwell, Biggleswade SG18 9EN, UK",England,50,"Tompions End, Ickwell, Biggleswade SG18 9EN",,-0.3195075,,,,,,,,
+"",1,,,,,,,,,,,,Tw13 5js,,,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+"",1,,,,,,,,,,,,"Royal Leamington Spa, Warwick CV34 6RH",,,,,,,,,,
+,1,52.9527236,V1,14,,,,,2,"Nottingham NG1 1LY, UK",England,50,Nottingham NG1 1LY,,-1.140582,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+"",2,,,,,,,,,,,,"",,,,,,,,,,
+,2,,00,,,,,,,,,,,,,,,,,,,,
+,1,53.33893140000001,00,02,03,07,,,2,"Dean Cl, Wilmslow SK9 2ER, UK",England,50,"Dean Close, Wilmslow SK9 2ER",,-2.2206252,,,,,,,,
+,,,00,,,,,,,,,,,,,,,,,,,,
+,,,00,,,,,,,,,,,,,,,,,,,,
+,1,53.87348069999999,,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,,,,,,,
+,1,53.4807593,04,22,,,,,2,"Manchester, UK",England,50,Manchester,,-2.2426305,,,,,,,,
+,1,52.6336344,V1,,,,,,2,"Swaffham PE37 8GG, UK",England,50,Swaffham PE37 8GG,,0.6954562000000001,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,"",,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,2,-0.1277583,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.87348069999999,00,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,two_two,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.235048,00,,,,,,2,"Chesterfield, UK",England,50,Chesterfield,,-1.421629,,,,,,,,
+,1,51.4591818,00,,,,,,2,"Bristol BS2 8HW, UK",England,50,Bristol BS2 8HW,,-2.5961402,,,,,,,,
+,1,53.867795,14,,,,,,2,"Keighley, UK",England,50,Keighley,,-1.912358,,,,,,,,
+,1,53.235048,00,,,,,,2,"Chesterfield, UK",England,50,Chesterfield,,-1.421629,,,,,,,,
+,1,53.532174,00,06,07,,,,2,"Humberston, UK",England,50,Humberston,,-0.025742,,,,,,,,
+,1,52.48624299999999,,,,,,,2,"Birmingham, UK",England,50,birmingham,2,-1.890401,,show_all_courses,,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+University of Brighton,3,,G1,,,,,,,,,,,,,,,,,,,,
+,1,52.48624299999999,,,,,,,2,"Birmingham, UK",England,50,birmingham,2,-1.890401,,show_all_courses,,,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,2,,F1,,,,,,,,,,,2,,,show_all_courses,,true,true,,true,PgdePgceWithQts
+teeside,1,53.4083714,,,,,,,2,"Liverpool, UK",England,50,Liverpool,,-2.9915726,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.0957419,00,,,,,,2,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ, UK",England,50,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ",,-2.3229248,,,,,,,,
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,53.87348069999999,00,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,two_two,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.718412,F1,,,,,,2,"Exeter, UK",England,50,Exeter,,-3.533899,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,"",,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.55591399999999,00,,,,,,2,"Upminster, UK",England,50,Upminster,,0.248894,,,,,,,,
+,1,53.532174,,,,,,,2,"Humberston, UK",England,50,Humberston,2,-0.025742,,,,,,,,
+,1,53.4807593,W3,,,,,,2,"Manchester, UK",England,50,Manchester,,-2.2426305,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",1,,,,,,,,,,,,High Wycombe HP13 5HF,,,,,,,,,,
+,1,52.3975928,,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,2,-0.1277583,,,,,,,,
+"",1,,,,,,,,,,,,"Hackney Central, London",,,,,,,,,,
+,1,51.4454617,13,Q3,41,,,,2,"The Vista, London SE9 5RL, UK",England,50,"The Vista, London SE9 5RL",2,0.0426328,,two_two,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+Aspirations,3,,V1,V6,,,,,2,,England,,"",,,false,third_class,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,1,53.0957419,00,,,,,,2,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ, UK",England,50,"Cranford Mews, Alsager, Stoke-on-Trent ST7 2YJ",,-2.3229248,,,,,,,,
+Aspirations,3,,V1,V6,,,,,2,,England,,,,,false,third_class,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.0982885,00,W1,,,,,2,"Tompions End, Ickwell, Biggleswade SG18 9EN, UK",England,50,"Tompions End, Ickwell, Biggleswade SG18 9EN",,-0.3195075,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,2,-0.1277583,,,,,,,,
+New wave federation ,3,,00,,,,,,,,,,,,,false,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.87617880000001,W1,DT,,,,,2,"Fulton Cres, Bishop's Stortford CM23 5DA, UK",England,50,"Fulton Crescent, Bishop's Stortford CM23 5DA",,0.1818608,,,,,,,,
+,1,53.87348069999999,00,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,,,,,,,
+,1,53.87348069999999,00,,,,,,2,"East Ave, Keighley BD21 3BJ, UK",England,50,Bd213bj ,,-1.9075256,,,,,,,,
+,1,52.3975928,00,,,,,,2,"Mersey Grove, Birmingham B38 9LA, UK",England,50,B38 9LA ,,-1.935621,,,,,,,,
+,1,53.365762,00,,,,,,2,"Stockport SK7, UK",England,50,Stockport SK7,3,-2.1571527,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.9982014,00,,,,,,2,"Priory Way, Haywards Heath RH16 3LT, UK",England,50,RH16 3LT ,,-0.0944957,,,,,,,,
+,2,,C8,,,,,,,,,,,,,,two_two,,true,true,,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.580559,41,,,,,,2,"Harrow, UK",England,50,Harrow,,-0.341995,,,,,,,,
+Hull SCITT,3,,00,,,,,,,,,,,,,,,,,,,,
+,1,51.56274209999999,00,01,03,,,,2,"Ross Ave, Dagenham RM8 1PU, UK",England,50,Rm8 1pu,2,0.1427911,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.751281,W1,,,,,,2,"Charlton Down, Dorchester DT2 9UH, UK",England,50,"Charlton Down, Dorchester DT2 9UH",,-2.4571944,,,,,,,,
+,1,51.9901978,00,08,,,,,2,"Milton Keynes MK2, UK",England,50,Milton Keynes MK2,,-0.7242016,,,,,,,,
+"",1,,,,,,,,,,,,"Parsons Close, Angmering, Littlehampton BN16 4HW",,,,,,,,,,
+,1,53.32871249999999,00,01,,,,,2,"Racecourse Rd, Wilmslow SK9 5LW, UK",England,50,SK9 5LW ,,-2.2537525,,,,,,,,
+,1,53.53458440000001,Q3,,,,,,2,"Church Rd, Greenfield, Oldham OL3 7LQ, UK",England,50,OL3 7LQ,,-2.0249286,,,,,,,,
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.04742479999999,00,,,,,,2,"Ascot Rd, Royston SG8 9JD, UK",England,50,"Ascot Road, Royston SG8 9JD",,-0.0109041,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+"",2,,,,,,,,,,,,"",,,,,,,,,,
+,1,51.5073509,15,,,,,,2,"London, UK",England,50,London,,-0.1277583,,,,,,,,
+,1,53.3900441,Q3,,,,,,2,"Warrington, UK",England,50,Warrington,,-2.5969501,,,,,,,,
+,1,51.55591399999999,00,,,,,,2,"Upminster, UK",England,50,Upminster,,0.248894,,,,,,,,
+"",1,52.6775873,00,,,,,,2,"Telford, UK",England,,Telford,,-2.4672611,false,show_all_courses,8,false,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,52.1569886,00,,,,,,2,"Highlands Cl, Needham Market, Ipswich IP6 8DD, UK",England,50,"Highlands Close, Needham Market, Ipswich IP6 8DD",,1.0460925,,,,,,,,
+"",1,,,,,,,,,,,,Stoke-on-Trent,,,,,,,,,,
+Edge Hill University,3,,Q3,,,,,,,,,,,,,,,,,,,,
+,1,51.54369089999999,11,,,,,,2,"Whitehall Cl, Uxbridge UB8 2DJ, UK",England,50,"Whitehall Close, Uxbridge UB8 2DJ",,-0.4798113,,,,,,,,
+,1,52.2767326,15,17,18,21,,,2,"Royal Leamington Spa, Warwick CV34 6RH, UK",England,50,"Royal Leamington Spa, Warwick CV34 6RH",,-1.5469791,,,,,,,,
+,1,53.365762,00,,,,,,2,"Stockport SK7, UK",England,50,Stockport SK7,3,-2.1571527,,two_two,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.54615,L5,,,,,,2,"Durham Rd, Dagenham RM10 8AN, UK",England,50,RM10 8AN,,0.1643679,,show_all_courses,,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.5482344,00,,,,,,2,"Hackney Central, London E8 1LL, UK",England,50,"Hackney Central, London",,-0.05738749999999999,,,,,,,,
+,1,51.2185621,,,,,,,2,"Ridgeway Dr, Dorking RH4 3AN, UK",England,50,"Ridgeway Drive, Dorking RH4 3AN",,-0.334682,,,,,,,,
+The Manchester Metropolitan University,3,,C6,,,,,,,,,,,,,,,,,,,,
+,1,51.4542645,Q3,41,,,,,2,"Reading, UK",England,50,Reading,,-0.9781303,,,,,,,,
+,1,52.2545225,00,,,,,,2,"Worcestershire, UK",England,50,Worcestershire,8,-2.2668382,,,,false,true,false,,"QtsOnly,PgdePgceWithQts,Other"
+,1,51.87617880000001,W1,DT,,,,,2,"Fulton Cres, Bishop's Stortford CM23 5DA, UK",England,50,"Fulton Crescent, Bishop's Stortford CM23 5DA",,0.1818608,,,,,,,,
+"",1,,,,,,,,,,,,"Hildyard Street, Grimsby DN32 7NJ",,,,,,,,,,
+,1,51.87617880000001,W1,DT,,,,,2,"Fulton Cres, Bishop's Stortford CM23 5DA, UK",England,50,"Fulton Crescent, Bishop's Stortford CM23 5DA",,0.1818608,,,,,,,,
+,1,51.520886,04,22,,,,,2,"Barbican, London EC2Y 8NH, UK",England,50,London EC2Y 8NH,,-0.0940495,,show_all_courses,8,true,true,true,,"QtsOnly,PgdePgceWithQts,Other"
+,1,50.3754565,00,G1,14,,,,2,"Plymouth, UK",England,50,Plymouth,2,-4.1426565,,,,,,,,
+,2,,G1,,,,,,,,,,,,,,two_two,,true,true,,true,"QtsOnly,PgdePgceWithQts"
+,1,51.5073509,00,,,,,,2,"London, UK",England,50,London,2,-0.1277583,,,,,,,,
