@@ -48,6 +48,23 @@ module SupportInterface
       end
     end
 
+    def confirm_remove_access
+      @candidate = Candidate.find(params[:candidate_id])
+      @remove_access_form = RemoveAccessForm.new
+    end
+
+    def remove_access
+      @candidate = Candidate.find(params[:candidate_id])
+      @remove_access_form = RemoveAccessForm.new(remove_access_params)
+
+      if @remove_access_form.save(@candidate)
+        flash[:success] = 'Access successfully revoked'
+        redirect_to support_interface_fraud_auditing_matches_path
+      else
+        render :confirm_remove_access
+      end
+    end
+
   private
 
     def block_submission_params
@@ -56,6 +73,10 @@ module SupportInterface
 
     def unblock_submission_params
       params.require(:support_interface_unblock_submission_form).permit(:accept_guidance)
+    end
+
+    def remove_access_params
+      params.require(:support_interface_remove_access_form).permit(:accept_guidance)
     end
   end
 end

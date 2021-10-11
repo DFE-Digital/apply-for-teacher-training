@@ -1,0 +1,26 @@
+<% content_for :browser_title, title_with_error_prefix("Are you sure you want to remove access from #{@candidate.application_forms.first.full_name}?", @remove_access_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_fraud_auditing_matches_path, 'Back to the dashboard') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @remove_access_form,
+      url: support_interface_fraud_auditing_matches_confirm_remove_access_path(params[:fraud_match_id], @candidate.id),
+      method: :patch,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">Are you sure you want to remove access from <%= @candidate.application_forms.first.full_name %>?</h1>
+
+      <p class="govuk-body">When you remove access from a candidate it will update the candidates email address so they can not sign in.</p>
+
+      <p class="govuk-body">If you incorrectly remove access from a candidate, a developer will be required to revert the changes.</p>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit %>
+    <% end %>
+  </div>
+</div>
