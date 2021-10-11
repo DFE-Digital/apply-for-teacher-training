@@ -1,25 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
+  def setup_candidates
+    candidate_1 = create(:candidate)
+    candidate_2 = create(:candidate)
+    unsubmitted_application_choice = create(:application_choice, :application_not_sent)
+    rejected_application_choice = create(:application_choice, :with_rejection)
+
+    create(
+      :application_form,
+      candidate: candidate_1,
+      application_choices: [unsubmitted_application_choice],
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+    )
+
+    create(
+      :application_form,
+      candidate: candidate_2,
+      application_choices: [rejected_application_choice],
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+    )
+
+    [candidate_1, candidate_2]
+  end
+
   describe '#perform' do
     context "it is time to send the 'new cycle has started' email" do
       it 'sends emails to candidates who have unsuccessful or unsubmitted applications from the previous cycle' do
         allow(CycleTimetable).to receive(:send_new_cycle_has_started_email?).and_return(true)
 
-        candidate_1 = create(:candidate)
-        candidate_2 = create(:candidate)
-        unsubmitted_application_choice = create(:application_choice, :application_not_sent)
-        rejected_application_choice = create(:application_choice, :with_rejection)
-
-        create(:application_form,
-               candidate: candidate_1,
-               application_choices: [unsubmitted_application_choice],
-               recruitment_cycle_year: RecruitmentCycle.previous_year)
-
-        create(:application_form,
-               candidate: candidate_2,
-               application_choices: [rejected_application_choice],
-               recruitment_cycle_year: RecruitmentCycle.previous_year)
+        candidate_1, candidate_2 = setup_candidates
 
         described_class.new.perform
 
@@ -34,6 +44,22 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
     context "it is not time to send the 'new cycle has started' email" do
       it 'does not send the email' do
         allow(CycleTimetable).to receive(:send_new_cycle_has_started_email?).and_return(false)
+        setup_candidates
+
+        described_class.new.perform
+
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "it is time to send the 'new cycle has started' email but the candidate has already received it" do
+      it 'does not send the email' do
+        allow(CycleTimetable).to receive(:send_new_cycle_has_started_email?).and_return(false)
+        allow(CycleTimetable).to receive(:apply_opens).and_return(1.day.ago)
+        candidate_1, _candidate_2 = setup_candidates
+        candidate_1.current_application.chasers_sent.create(
+          chaser_type: :new_cycle_has_started,
+        )
 
         described_class.new.perform
 
@@ -51,6 +77,7 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
 
     before do
       @unsuccessful_candidates = instance_double(ActiveRecord::Relation)
+      allow(@unsuccessful_candidates).to receive(:where).and_return(@unsuccessful_candidates)
       allow(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to receive(:perform_at).and_return(nil)
     end
 

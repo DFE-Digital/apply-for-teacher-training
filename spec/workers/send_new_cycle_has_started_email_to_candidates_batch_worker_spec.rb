@@ -29,11 +29,8 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, sidekiq: true
 
       described_class.new.perform([candidate_1.id, candidate_2.id])
 
-      email_for_candidate_1 = email_for_candidate(candidate_1)
-      email_for_candidate_2 = email_for_candidate(candidate_2)
-
-      expect(email_for_candidate_1).to be_present
-      expect(email_for_candidate_2).to be_present
+      expect(email_for_candidate(candidate_1)).to be_present
+      expect(email_for_candidate(candidate_2)).to be_present
     end
 
     it 'creates ChaserSent for the given candidates' do
@@ -43,6 +40,20 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesBatchWorker, sidekiq: true
 
       expect(candidate_1.current_application.chasers_sent.pluck(:chaser_type)).to eq(['new_cycle_has_started'])
       expect(candidate_2.current_application.chasers_sent.pluck(:chaser_type)).to eq(['new_cycle_has_started'])
+    end
+
+    it 'does nothing if the email was already sent' do
+      allow(CycleTimetable).to receive(:apply_opens).and_return(1.day.ago)
+      candidate_1, candidate_2 = setup_candidates
+
+      candidate_1.current_application.chasers_sent.create(
+        chaser_type: :new_cycle_has_started,
+      )
+
+      described_class.new.perform([candidate_1.id, candidate_2.id])
+
+      expect(email_for_candidate(candidate_1)).not_to be_present
+      expect(email_for_candidate(candidate_2)).to be_present
     end
   end
 
