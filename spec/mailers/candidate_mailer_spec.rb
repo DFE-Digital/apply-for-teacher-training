@@ -494,4 +494,18 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe '.fraud_match_email' do
+    context "when the candidate's application was unsubmitted" do
+      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred') }
+      let(:email) { mailer.fraud_match_email(application_form) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Duplicate application detected',
+        'greeting' => 'Dear Fred,',
+        'details' => 'We’ve noticed that you’ve started multiple applications on the DfE’s Apply for teacher training.',
+      )
+    end
+  end
 end
