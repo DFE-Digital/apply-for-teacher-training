@@ -1,7 +1,7 @@
 module SupportInterface
   class ProviderOnboardingMonitor
     def providers_with_no_users
-      @providers_with_no_users ||= Provider.where.not(id: providers_with_users.select(:id))
+      @providers_with_no_users ||= target_providers.where.not(id: providers_with_users.select(:id))
     end
 
     def providers_where_no_user_has_logged_in
@@ -18,7 +18,7 @@ module SupportInterface
     end
 
     def no_decisions_in_last_7_days
-      @no_decisions_in_last_7_days ||= Provider
+      @no_decisions_in_last_7_days ||= target_providers
                                          .select('providers.*, MAX(last_decisions.last_decision) as last_decision')
                                          .joins("INNER JOIN (#{applications_with_last_decision_sql}) as last_decisions ON providers.id = ANY(last_decisions.provider_ids)")
                                          .group('providers.id')
@@ -27,8 +27,12 @@ module SupportInterface
 
   private
 
+    def target_providers
+      Provider.joins(:courses).merge(Course.current_cycle).distinct
+    end
+
     def providers_with_users
-      @providers_with_users ||= Provider.joins(:provider_users).distinct
+      @providers_with_users ||= target_providers.joins(:provider_users).distinct
     end
 
     def applications_with_last_decision_sql

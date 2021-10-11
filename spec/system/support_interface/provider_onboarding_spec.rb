@@ -28,12 +28,14 @@ RSpec.feature 'Provider onboarding monitoring page' do
   end
 
   def and_there_is_a_provider_with_no_users
-    create(:provider, name: 'No users')
+    provider = create(:provider, name: 'No users')
+    create(:course, provider: provider)
   end
 
   def and_there_is_a_provider_with_users_that_have_never_signed_in
     provider = create(:provider, name: 'Users have not signed in')
     create(:provider_user, providers: [provider], last_signed_in_at: nil)
+    create(:course, provider: provider)
   end
 
   def and_there_is_a_provider_who_has_not_set_up_relationship_permissions

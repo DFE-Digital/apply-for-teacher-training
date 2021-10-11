@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderOnboardingMonitor do
   let!(:provider) { create(:provider) }
+  let!(:course) { create(:course, :open_on_apply, provider: provider) }
   let!(:user) { create(:provider_user, providers: [provider], last_signed_in_at: 1.day.ago) }
 
   describe '.providers_with_no_users' do
@@ -16,6 +17,22 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
 
       it 'returns the provider' do
         expect(described_class.new.providers_with_no_users).to contain_exactly(provider)
+      end
+
+      context 'when a provider only has courses in the previous year' do
+        let!(:course) { create(:course, :open_on_apply, :previous_year, provider: provider) }
+
+        it 'does not return the provider' do
+          expect(described_class.new.providers_with_no_users).to be_empty
+        end
+      end
+
+      context 'when a provider has multiple courses in the current year' do
+        let!(:another_course) { create(:course, :open_on_apply, provider: provider) }
+
+        it 'returns the provider and no duplicates' do
+          expect(described_class.new.providers_with_no_users).to contain_exactly(provider)
+        end
       end
     end
   end
@@ -34,6 +51,14 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
 
       it 'returns the provider' do
         expect(described_class.new.providers_where_no_user_has_logged_in).to contain_exactly(provider)
+      end
+
+      context 'when a provider only has courses in the previous year' do
+        let!(:course) { create(:course, :open_on_apply, :previous_year, provider: provider) }
+
+        it 'does not return the provider' do
+          expect(described_class.new.providers_where_no_user_has_logged_in).to be_empty
+        end
       end
     end
   end
@@ -65,8 +90,6 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
   end
 
   describe '.no_decisions_in_last_7_days' do
-    let(:course) { create(:course, provider: provider) }
-
     %w[
       rejected_at
       offered_at
@@ -101,6 +124,15 @@ RSpec.describe SupportInterface::ProviderOnboardingMonitor do
 
       it 'returns the provider' do
         expect(described_class.new.no_decisions_in_last_7_days).to contain_exactly(provider)
+      end
+    end
+
+    context 'when a provider only has courses in the previous year' do
+      let!(:course) { create(:course, :open_on_apply, :previous_year, provider: provider) }
+      let!(:application) { create(:application_choice, course: course, offered_at: 3.weeks.ago) }
+
+      it 'does not return the provider' do
+        expect(described_class.new.providers_where_no_user_has_logged_in).to be_empty
       end
     end
 
