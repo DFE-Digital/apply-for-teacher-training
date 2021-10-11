@@ -177,7 +177,7 @@ class DataExport < ApplicationRecord
     tad_provider_performance: {
       name: 'TAD provider performance',
       export_type: 'tad_provider_performance',
-      description: 'A list of all application/offered/accepted counts for all courses in Apply.',
+      description: 'A list of all application/offered/accepted counts for all courses in Apply belonging to the current recruitment cycle.',
       class: SupportInterface::TADProviderStatsExport,
     },
     user_permissions: {
