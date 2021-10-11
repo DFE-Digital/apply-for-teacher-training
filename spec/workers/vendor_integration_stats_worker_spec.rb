@@ -55,32 +55,58 @@ RSpec.describe VendorIntegrationStatsWorker do
 
   describe 'SlackReport' do
     let!(:vendor) { create(:vendor, name: 'tribal') }
-    let(:slack_report) { VendorIntegrationStatsWorker::SlackReport.new('tribal') }
-    let(:providers) { create_list(:provider, 2) }
+    let(:slack_report) { VendorIntegrationStatsWorker::SlackReport.new(vendor.name) }
 
-    before do
-      double = instance_double(SupportInterface::VendorAPIMonitor)
-      allow(double).to receive(:never_connected).and_return(providers)
-      allow(double).to receive(:no_sync_in_24h).and_return(providers)
-      allow(double).to receive(:no_decisions_in_7d).and_return(providers)
-      allow(double).to receive(:providers_with_errors).and_return(providers)
+    context 'report structure' do
+      let(:providers) { create_list(:provider, 2) }
 
-      allow(SupportInterface::VendorAPIMonitor).to receive(:new).with(vendor: vendor).and_return(double)
+      before do
+        double = instance_double(SupportInterface::VendorAPIMonitor)
+        allow(double).to receive(:never_connected).and_return(providers)
+        allow(double).to receive(:no_sync_in_24h).and_return(providers)
+        allow(double).to receive(:no_decisions_in_7d).and_return(providers)
+        allow(double).to receive(:providers_with_errors).and_return(providers)
+
+        allow(SupportInterface::VendorAPIMonitor).to receive(:new).with(vendor: vendor).and_return(double)
+      end
+
+      it 'initialises a VendorAPIMonitor for the relevant vendor' do
+        slack_report.generate
+
+        expect(SupportInterface::VendorAPIMonitor).to have_received(:new).with(vendor: vendor)
+      end
+
+      it 'generates a text-based report for sending to Slack' do
+        report = slack_report.generate
+        expect(report).to include('```')
+        expect(report).to include('Tribal')
+        expect(report).to include('Never connected via API')
+        expect(report).to include('No API sync in the last 24h')
+        expect(report).to include('No API decisions in the last 7 days')
+        expect(report).to include('Providers with API errors')
+      end
     end
 
-    it 'initialises a VendorAPIMonitor for the relevant vendor' do
-      slack_report.generate
-      expect(SupportInterface::VendorAPIMonitor).to have_received(:new).with(vendor: vendor)
-    end
+    context 'rendering information' do
+      let!(:provider) { create(:provider, name: 'Hogwards', vendor: vendor) }
+      let!(:other_provider) { create(:provider, name: 'Durmstrang', vendor: vendor) }
+      let!(:no_error_provider) { create(:provider, name: 'Uagadou', vendor: vendor) }
 
-    it 'generates a text-based report for sending to Slack' do
-      report = slack_report.generate
-      expect(report).to include('```')
-      expect(report).to include('Tribal')
-      expect(report).to include('Never connected via API')
-      expect(report).to include('No API sync in the last 24h')
-      expect(report).to include('No API decisions in the last 7 days')
-      expect(report).to include('Providers with API errors')
+      before do
+        create_list(:vendor_api_request, 5, :with_validation_error, provider: provider)
+        create_list(:vendor_api_request, 5, provider: provider)
+        create_list(:vendor_api_request, 2, :with_validation_error, provider: other_provider)
+        create_list(:vendor_api_request, 9, provider: other_provider)
+        create_list(:vendor_api_request, 3, provider: no_error_provider)
+      end
+
+      it 'renders the error rate correctly' do
+        report = slack_report.generate
+
+        expect(report).to include("Hogwards                                          \t                 50.00%\n")
+        expect(report).to include("Durmstrang                                        \t                 18.18%\n")
+        expect(report).to include("Uagadou                                           \t                       \n")
+      end
     end
   end
 end

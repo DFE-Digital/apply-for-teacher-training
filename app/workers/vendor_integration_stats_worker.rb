@@ -48,6 +48,8 @@ private
   class SlackMessageError < StandardError; end
 
   class SlackReport
+    include ActionView::Helpers::NumberHelper
+
     def initialize(vendor_name)
       @vendor = Vendor.find_by(name: vendor_name)
       @monitor = SupportInterface::VendorAPIMonitor.new(vendor: @vendor)
@@ -103,7 +105,7 @@ private
         #{justify("Providers with API errors (#{@monitor.providers_with_errors.size} found)", 'Error rate')}
         -----------------------------------------------------------------------------
         #{
-          @monitor.providers_with_errors.map { |p| justify(p.name, p.try(:error_rate)) }
+          @monitor.providers_with_errors.map { |provider| justify(provider.name, error_rate(provider)) }
             .join("\n")
         }
       PROVIDERS_WITH_ERRORS_TEXT
@@ -111,6 +113,10 @@ private
 
     def justify(left, right)
       [left.to_s.ljust(50), right.to_s.rjust(23)].join("\t")
+    end
+
+    def error_rate(provider)
+      "#{number_with_precision(provider.error_rate, precision: 2)}%" if provider.respond_to?(:error_rate)
     end
   end
 end
