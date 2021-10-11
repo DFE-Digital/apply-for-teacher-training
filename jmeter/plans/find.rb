@@ -28,7 +28,7 @@ test do
     end
 
     submit!(
-      'Start page - search by postcode',
+      'Start page',
       '/results/filter/location',
       {
         'utf8': '✓',
@@ -62,7 +62,7 @@ test do
     end
 
     submit!(
-      'Subject page - select Primary (after postcode choice)',
+      'Subject page',
       '/results/filter/subject',
       {
         'utf8': '✓',
@@ -98,7 +98,7 @@ test do
     end
 
     submit!(
-      'Start page - search across England',
+      'Start page',
       '/results/filter/location',
       {
         'utf8': '✓',
@@ -132,7 +132,7 @@ test do
     end
 
     submit!(
-      'Subject page - select Primary with English (after across England choice)',
+      'Subject page',
       '/results/filter/subject',
       {
         'utf8': '✓',
@@ -167,7 +167,7 @@ test do
     end
 
     submit!(
-      'Start page - search for provider Gorse SCITT',
+      'Start page',
       '/results/filter/location',
       {
         'utf8': '✓',
