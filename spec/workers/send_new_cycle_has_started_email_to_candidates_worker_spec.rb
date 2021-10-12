@@ -78,7 +78,6 @@ RSpec.describe SendNewCycleHasStartedEmailToCandidatesWorker, sidekiq: true do
 
     before do
       @unsuccessful_candidates = instance_double(ActiveRecord::Relation)
-      allow(@unsuccessful_candidates).to receive(:where).and_return(@unsuccessful_candidates)
       allow(SendNewCycleHasStartedEmailToCandidatesBatchWorker).to receive(:perform_at).and_return(nil)
     end
 
