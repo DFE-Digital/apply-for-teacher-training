@@ -60,6 +60,15 @@
         </td>
 
         <td class="govuk-table__cell">
+        <% if FeatureFlag.active?(:block_fraudulent_submission) %>
+          <% if candidate_blocked?(table_row[:blocked]) %>
+            <%= govuk_link_to 'Unblock', support_interface_fraud_auditing_matches_confirm_unblock_submission_path(table_row[:blocked]) %>
+          <% else %>
+            <%= govuk_link_to 'Block', support_interface_fraud_auditing_matches_confirm_block_submission_path(table_row[:blocked]) %>
+          <% end %>
+        <% else %>
+          Currently unavailable
+        <% end %>
         </td>
       </tr>
     <% end %>

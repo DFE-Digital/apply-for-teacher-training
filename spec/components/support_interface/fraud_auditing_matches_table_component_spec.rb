@@ -5,6 +5,7 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
   let(:fraud_match2) { create(:fraud_match, fraudulent: true) }
 
   before do
+    FeatureFlag.activate(:block_fraudulent_submission)
     Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
       create(:application_form, candidate: fraud_match1.candidates.first, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
       create(:application_form, candidate: fraud_match1.candidates.second, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
@@ -35,7 +36,8 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[5].text).to include('Mark as fraudulent')
       expect(result.css('td')[6].text).to include('No')
       expect(result.css('td')[6].text).to include('Yes')
-      expect(result.css('td')[7].text).to include('')
+      expect(result.css('td')[7].text).to include('Block')
+      expect(result.css('td')[7].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match1.id}/block-submission")
     end
   end
 
@@ -54,7 +56,19 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[5].text).to include('Mark as non fraudulent')
       expect(result.css('td')[6].text).to include('No')
       expect(result.css('td')[6].text).to include('Yes')
-      expect(result.css('td')[7].text).to include('')
+      expect(result.css('td')[7].text).to include('Block')
+      expect(result.css('td')[7].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match2.id}/block-submission")
     end
+  end
+
+  it 'renders the option to unblock the candidate if currently blocked' do
+    blocked_fraud_match = create(:fraud_match, blocked: true)
+
+    create(:application_form, candidate: blocked_fraud_match.candidates.first, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
+    create(:application_form, candidate: blocked_fraud_match.candidates.second, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
+
+    result = render_inline(described_class.new(matches: [blocked_fraud_match]))
+
+    expect(result.css('td')[7].text).to include('Unblock')
   end
 end

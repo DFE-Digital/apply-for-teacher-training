@@ -37,6 +37,11 @@
 
 <%= render partial: 'candidate_interface/application_form/review', locals: { application_form: @application_form, editable: true } %>
 
-<% unless CycleTimetable.between_cycles?(@application_form.phase) %>
+<% if @application_form.candidate&.fraud_match&.blocked && FeatureFlag.active?(:block_fraudulent_submission) %>
+  <p class='govuk-body'>We’ve noticed that you’ve started multiple applications.</p>
+  <p class='govuk-body'>Submitting applications for more than 3 courses at a time is not allowed, as stated in our terms of use.</p>
+  <p class='govuk-body'>We have halted this application and you will be unable to submit.</p>
+  <p class='govuk-body'>If you think this is a mistake, please let us know at becomingateacher@digital.education.gov.uk.</p>
+<% elsif !CycleTimetable.between_cycles?(@application_form.phase) %>
   <%= govuk_button_link_to t('continue'), candidate_interface_start_equality_and_diversity_path %>
 <% end %>

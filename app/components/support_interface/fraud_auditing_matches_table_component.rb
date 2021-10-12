@@ -18,8 +18,13 @@ module SupportInterface
           candidate_last_contacted_at: match.candidate_last_contacted_at&.to_s(:govuk_date_and_time),
           email_addresses: match.candidates,
           submitted_at: match.candidates.map { |candidate| submitted?(candidate) },
+          blocked: match.id,
         }
       end
+    end
+
+    def candidate_blocked?(fraud_id)
+      FraudMatch.find(fraud_id).blocked
     end
 
   private
