@@ -753,6 +753,12 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.find_has_opened(application_form)
   end
 
+  def fraud_match_email
+    application_form = FactoryBot.build(:application_form, first_name: 'Tester')
+
+    CandidateMailer.fraud_match_email(application_form)
+  end
+
   def find_has_opened_no_name
     application_form = FactoryBot.build(:application_form, first_name: nil, submitted_at: nil)
 

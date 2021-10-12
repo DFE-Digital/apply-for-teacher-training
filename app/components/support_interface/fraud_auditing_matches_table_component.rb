@@ -10,14 +10,15 @@ module SupportInterface
 
     def table_rows
       matches.map do |match|
+        candidates = match.candidates.sort_by(&:id)
         {
           match: match,
-          first_names: match.candidates.map { |candidate| candidate.application_forms.first.first_name },
+          first_names: candidates.map { |candidate| candidate.application_forms.first.first_name },
           last_name: match.last_name,
           fraudulent: marked_as_fraudulent?(match),
           candidate_last_contacted_at: match.candidate_last_contacted_at&.to_s(:govuk_date_and_time),
-          email_addresses: match.candidates,
-          submitted_at: match.candidates.map { |candidate| submitted?(candidate) },
+          email_addresses: candidates,
+          submitted_at: candidates.map { |candidate| submitted?(candidate) },
           blocked: match.id,
           remove_access_links: remove_access_links(match),
         }
