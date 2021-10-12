@@ -170,9 +170,11 @@ FactoryBot.define do
       end
 
       after(:create) do |application_form, evaluator|
-        application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
-        application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
-        application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
+        application_form.class.with_unsafe_application_choice_touches do
+          application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
+          application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
+          application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state, selected: evaluator.references_selected)
+        end
 
         if evaluator.full_work_history
           current_year = Time.zone.today.year
