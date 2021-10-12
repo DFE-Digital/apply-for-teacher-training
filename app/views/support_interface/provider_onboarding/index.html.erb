@@ -1,0 +1,148 @@
+<%= render 'support_interface/performance/performance_navigation', title: 'Provider onboarding' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.providers_with_no_users.length,
+      label: "#{'provider'.pluralize(@monitor.providers_with_no_users.length)} #{'has'.pluralize(@monitor.providers_with_no_users.length)} no users (out of #{Provider.count} total)",
+      colour: :blue,
+      href: '#no-users',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.providers_where_no_user_has_logged_in.length,
+      label: "#{'provider'.pluralize(@monitor.providers_where_no_user_has_logged_in.length)} #{'has'.pluralize(@monitor.providers_where_no_user_has_logged_in.length)} no users that have logged in",
+      colour: :blue,
+      href: '#no-users-logged-in',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.permissions_not_set_up.length,
+      label: "#{'relationship'.pluralize(@monitor.permissions_not_set_up.length)} #{'has'.pluralize(@monitor.permissions_not_set_up.length)} not been set up yet",
+      colour: :blue,
+      href: '#permissions-not-set-up',
+    ) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(
+      count: @monitor.no_decisions_in_last_7_days.length,
+      label: "#{'provider'.pluralize(@monitor.no_decisions_in_last_7_days.length)} #{'has'.pluralize(@monitor.no_decisions_in_last_7_days.length)} not made decisions in the last week",
+      colour: :blue,
+      href: '#no-decisions',
+    ) %>
+  </div>
+</div>
+
+<h2 class="govuk-heading-m" id="no-users">No users</h2>
+
+<% if @monitor.providers_with_no_users.any? %>
+  <table class="govuk-table" data-qa="no-users">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <% @monitor.providers_with_no_users.each do |provider| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">All providers have at least one user</p>
+<% end %>
+
+<h2 class="govuk-heading-m" id="no-users-logged-in">No users which have logged in</h2>
+
+<% if @monitor.providers_where_no_user_has_logged_in.any? %>
+  <table class="govuk-table" data-qa="no-users-logged-in">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <% @monitor.providers_where_no_user_has_logged_in.each do |provider| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">All providers have at least one user that has logged in</p>
+<% end %>
+
+<h2 class="govuk-heading-m" id="permissions-not-set-up">Permissions not set up</h2>
+
+<% if @monitor.permissions_not_set_up.any? %>
+  <table class="govuk-table" data-qa="permissions-not-set-up">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Training provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Ratifying provider</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <% @monitor.permissions_not_set_up.each do |relationship| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to relationship.training_provider.name, support_interface_provider_path(relationship.training_provider.id) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= govuk_link_to relationship.ratifying_provider.name, support_interface_provider_path(relationship.ratifying_provider.id) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">All permissions have been set up</p>
+<% end %>
+
+<h2 class="govuk-heading-m" id="no-decisions">No decisions in last 7 days</h2>
+
+<% if @monitor.no_decisions_in_last_7_days.any? %>
+  <table class="govuk-table" data-qa="no-decisions">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-half">Provider</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time since last decision</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time of last decision</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <% @monitor.no_decisions_in_last_7_days.each do |provider| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to provider.name, support_interface_provider_path(provider.id) %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if provider.last_decision %>
+            <%= time_ago_in_words(provider.last_decision) %>
+          <% else %>
+            -
+          <% end %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if provider.last_decision %>
+            <%= provider.last_decision.to_s(:govuk_date_and_time) %>
+          <% else %>
+            -
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="govuk-body">All providers have made at least one decision in the last 7 days</p>
+<% end %>
