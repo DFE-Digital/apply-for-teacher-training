@@ -139,4 +139,24 @@ RSpec.describe Course, type: :model do
       expect(course.find_url).not_to match(/sandbox/)
     end
   end
+
+  describe '#description_and_accredited_provider' do
+    context 'when there is an accredited provider set' do
+      let(:course) { build(:course, accredited_provider: build(:provider)) }
+
+      it 'returns the accredited provider' do
+        result_string = "#{course.description} - #{course.accredited_provider.name}"
+
+        expect(course.description_and_accredited_provider).to eq(result_string)
+      end
+    end
+
+    context 'when there is no accredited provider set' do
+      let(:course) { build(:course) }
+
+      it 'returns the provider' do
+        expect(course.description_and_accredited_provider).to eq(course.description)
+      end
+    end
+  end
 end

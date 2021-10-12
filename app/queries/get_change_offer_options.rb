@@ -53,6 +53,7 @@ class GetChangeOfferOptions
       .joins(training_provider_make_decisions)
       .joins(ratifying_provider_make_decisions)
       .where(combine_user_and_provider_permissions)
+      .includes(:accredited_provider)
   end
 
 private
