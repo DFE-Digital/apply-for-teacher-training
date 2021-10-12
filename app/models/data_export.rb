@@ -175,6 +175,13 @@ class DataExport < ApplicationRecord
       description: 'The submitted application choices export provides data about which courses candidates applied to, as well as info about offers and candidate decisions.',
       class: SupportInterface::ApplicationChoicesExport,
     },
+    submitted_application_choices_for_current_cycle: {
+      name: 'Submitted application choices_for_current_cycle',
+      export_type: 'submitted_application_choices',
+      description: 'The submitted application choices export provides data about which courses candidates applied to, as well as info about offers and candidate decisions.',
+      class: SupportInterface::ApplicationChoicesExport,
+      export_options: { current_cycle: true },
+    },
     tad_applications: {
       name: 'TAD applications',
       export_type: 'tad_applications',
@@ -256,6 +263,7 @@ class DataExport < ApplicationRecord
     sites_export: 'sites_export',
     structured_reasons_for_rejection: 'structured_reasons_for_rejection',
     submitted_application_choices: 'submitted_application_choices',
+    submitted_application_choices_for_current_cycle: 'submitted_application_choices_for_current_cycle',
     tad_applications: 'tad_applications',
     tad_provider_performance: 'tad_provider_performance',
     user_permissions: 'user_permissions',
