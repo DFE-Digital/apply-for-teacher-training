@@ -37,6 +37,6 @@ private
   end
 
   def fraudulent_match_count
-    FraudMatch.where(fraudulent?: true).count
+    FraudMatch.where(fraudulent: true).count
   end
 end

@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::BlockSubmissionForm, type: :model do
       fraud_match.reload
 
       expect(fraud_match.blocked).to eq true
-      expect(fraud_match.fraudulent?).to eq true
+      expect(fraud_match.fraudulent).to eq true
     end
   end
 end
