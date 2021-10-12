@@ -9,6 +9,7 @@
       <th scope="col" class="govuk-table__header">Fradulent?</th>
       <th scope="col" class="govuk-table__header">Submitted?</th>
       <th scope="col" class="govuk-table__header">Block submission?</th>
+      <th scope="col" class="govuk-table__header">Remove access</th>
     </tr>
   </thead>
 
@@ -69,6 +70,12 @@
         <% else %>
           Currently unavailable
         <% end %>
+        </td>
+
+        <td class="govuk-table__cell">
+          <% table_row[:remove_access_links].each do |link| %>
+            <%= link %><br><br>
+          <% end %>
         </td>
       </tr>
     <% end %>
