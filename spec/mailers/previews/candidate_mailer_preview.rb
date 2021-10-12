@@ -660,6 +660,13 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.withdraw_last_application_choice(application_form)
   end
 
+  def conditions_statuses_updated
+    met_conditions = FactoryBot.build_stubbed_list(:offer_condition, 1)
+    pending_conditions = FactoryBot.build_stubbed_list(:offer_condition, 2)
+    previously_met_conditions = FactoryBot.build_stubbed_list(:offer_condition, 1)
+    CandidateMailer.conditions_statuses_changed(application_choice_with_offer, met_conditions, pending_conditions, previously_met_conditions)
+  end
+
   def conditions_met
     CandidateMailer.conditions_met(application_choice_with_offer)
   end
