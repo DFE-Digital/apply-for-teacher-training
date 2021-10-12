@@ -77,8 +77,8 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
     result = render_inline(described_class.new(matches: [fraud_match1]))
 
     expect(result.css('td')[8].text).to include('Remove Joffrey Thompson')
-    expect(result.css('td')[8].children[1].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.first.id))
+    expect(result.css('td')[8].children[1].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.third.id))
     expect(result.css('td')[8].text).to include('Remove Jeffrey Thompson')
-    expect(result.css('td')[8].children[5].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.second.id))
+    expect(result.css('td')[8].children[5].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.fourth.id))
   end
 end

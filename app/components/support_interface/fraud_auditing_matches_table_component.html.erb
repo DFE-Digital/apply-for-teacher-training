@@ -46,12 +46,12 @@
         <td class="govuk-table__cell">
           <%= table_row[:fraudulent] %><br><br>
           <% if table_row[:match].fraudulent? %>
-            <%= govuk_link_to support_interface_fraud_auditing_matches_fraudulent_path(table_row[:match].id) do %>
+            <%= govuk_button_to support_interface_fraud_auditing_matches_fraudulent_path(table_row[:match].id), method: :patch  do %>
               <%= 'Mark as non fraudulent' %>
               <span class="govuk-visually-hidden"> <%= table_row[:match].last_name %></span>
             <% end %>
           <% else %>
-            <%= govuk_link_to support_interface_fraud_auditing_matches_fraudulent_path(table_row[:match].id) do %>
+            <%= govuk_button_to support_interface_fraud_auditing_matches_fraudulent_path(table_row[:match].id), method: :patch do %>
               <%= 'Mark as fraudulent' %>
               <span class="govuk-visually-hidden"> <%= table_row[:match].last_name %></span>
             <% end %>

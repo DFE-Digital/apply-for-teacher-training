@@ -5,7 +5,7 @@ module SupportInterface
     end
 
     def fraudulent
-      fraud_match = FraudMatch.find(params[:id])
+      fraud_match = FraudMatch.find(params[:fraud_match_id])
 
       if fraud_match.fraudulent?
         fraud_match.update!(fraudulent: false)
@@ -13,13 +13,13 @@ module SupportInterface
       else
         fraud_match.update!(fraudulent: true)
         flash[:success] = 'Match marked as fraudulent'
-
-        redirect_to support_interface_fraud_auditing_matches_path
       end
+
+      redirect_to support_interface_fraud_auditing_matches_path
     end
 
     def send_email
-      fraud_match = FraudMatch.find(params[:id])
+      fraud_match = FraudMatch.find(params[:fraud_match_id])
 
       SendFraudMatchEmail.new(fraud_match).call
 

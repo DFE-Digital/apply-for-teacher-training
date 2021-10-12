@@ -21,10 +21,10 @@ RSpec.feature 'See Fraud Auditing matches' do
     and_i_go_to_fraud_auditing_dashboard_page
     then_i_should_see_list_of_fraud_auditing_matches
 
-    when_i_mark_a_match_as_fradulent
+    when_i_mark_a_match_as_fraudulent
     then_i_see_that_the_match_is_marked_as_fraudulent
 
-    when_i_mark_a_match_as_non_fradulent
+    when_i_mark_a_match_as_non_fraudulent
     then_i_see_that_the_match_is_marked_as_non_fraudulent
 
     when_i_select_a_candidate_to_block
@@ -101,10 +101,8 @@ RSpec.feature 'See Fraud Auditing matches' do
       expect(page).to have_content ''
     end
 
-    within 'td:eq(6)' do
-      expect(page).to have_content 'No'
-      expect(page).to have_link 'Mark as fraudulent'
-    end
+    expect(page).to have_button("Mark as fraudulent #{@application_form_one.last_name}")
+    expect(page).to have_content 'No'
 
     within 'td:eq(7)' do
       expect(page).to have_content 'Yes'
@@ -116,30 +114,26 @@ RSpec.feature 'See Fraud Auditing matches' do
     end
   end
 
-  def when_i_mark_a_match_as_fradulent
+  def when_i_mark_a_match_as_fraudulent
     within 'td:eq(6)' do
-      click_link 'Mark as fraudulent'
+      click_button 'Mark as fraudulent'
     end
   end
 
   def then_i_see_that_the_match_is_marked_as_fraudulent
-    within 'td:eq(6)' do
-      expect(page).to have_content 'Yes'
-      expect(page).to have_link 'Mark as non fraudulent'
-    end
+    expect(page).to have_button("Mark as non fraudulent #{@application_form_one.last_name}")
+    expect(page).to have_content 'Yes'
   end
 
-  def when_i_mark_a_match_as_non_fradulent
+  def when_i_mark_a_match_as_non_fraudulent
     within 'td:eq(6)' do
-      click_link 'Mark as non fraudulent'
+      click_button "Mark as non fraudulent #{@application_form_one.last_name}"
     end
   end
 
   def then_i_see_that_the_match_is_marked_as_non_fraudulent
-    within 'td:eq(6)' do
-      expect(page).to have_content 'No'
-      expect(page).to have_link 'Mark as fraudulent'
-    end
+    expect(page).to have_button("Mark as fraudulent #{@application_form_one.last_name}")
+    expect(page).to have_content 'No'
   end
 
   def when_i_select_a_candidate_to_block
