@@ -80,7 +80,7 @@ module SupportInterface
         },
         {
           key: 'Apply status',
-          value: course.open_on_apply? ? govuk_tag(text: 'Open on Apply & UCAS', colour: 'green') : govuk_tag(text: 'Open on UCAS only', colour: 'blue'),
+          value: course.open_on_apply? ? govuk_tag(text: open_on_apply_message(course), colour: 'green') : govuk_tag(text: 'Not open on Apply', colour: 'blue'),
           action: {
             href: candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code),
             text: 'Start page on Apply',
@@ -96,6 +96,10 @@ module SupportInterface
       end
 
       rows
+    end
+
+    def open_on_apply_message(course)
+      course.recruitment_cycle_year > 2021 ? 'Open on Apply' : 'Open on Apply & UCAS'
     end
   end
 end
