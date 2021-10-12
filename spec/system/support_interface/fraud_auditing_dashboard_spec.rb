@@ -12,6 +12,12 @@ RSpec.feature 'See Fraud Auditing matches' do
     and_the_update_fraud_matches_worker_has_run
     and_i_go_to_fraud_auditing_dashboard_page
     then_i_should_see_list_of_fraud_auditing_matches
+
+    when_i_mark_a_match_as_fradulent
+    then_i_see_that_the_match_is_marked_as_fraudulent
+
+    when_i_mark_a_match_as_non_fradulent
+    then_i_see_that_the_match_is_marked_as_non_fraudulent
   end
 
   def given_i_am_a_support_user
@@ -63,6 +69,7 @@ RSpec.feature 'See Fraud Auditing matches' do
 
     within 'td:eq(6)' do
       expect(page).to have_content 'No'
+      expect(page).to have_link 'Mark as fraudulent'
     end
 
     within 'td:eq(7)' do
@@ -72,6 +79,32 @@ RSpec.feature 'See Fraud Auditing matches' do
 
     within 'td:eq(8)' do
       expect(page).to have_content ''
+    end
+  end
+
+  def when_i_mark_a_match_as_fradulent
+    within 'td:eq(6)' do
+      click_link 'Mark as fraudulent'
+    end
+  end
+
+  def then_i_see_that_the_match_is_marked_as_fraudulent
+    within 'td:eq(6)' do
+      expect(page).to have_content 'Yes'
+      expect(page).to have_link 'Mark as non fraudulent'
+    end
+  end
+
+  def when_i_mark_a_match_as_non_fradulent
+    within 'td:eq(6)' do
+      click_link 'Mark as non fraudulent'
+    end
+  end
+
+  def then_i_see_that_the_match_is_marked_as_non_fraudulent
+    within 'td:eq(6)' do
+      expect(page).to have_content 'No'
+      expect(page).to have_link 'Mark as fraudulent'
     end
   end
 end

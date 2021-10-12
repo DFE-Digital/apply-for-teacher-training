@@ -11,6 +11,7 @@ module SupportInterface
     def table_rows
       matches.map do |match|
         {
+          match: match,
           first_names: match.candidates.map { |candidate| candidate.application_forms.first.first_name },
           last_name: match.last_name,
           fraudulent: marked_as_fraudulent?(match),
