@@ -252,6 +252,22 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def conditions_statuses_changed(application_choice, met_conditions, pending_conditions, previously_met_conditions)
+    @application_choice = application_choice
+    course = application_choice.current_course_option.course
+    @provider_name = course.provider.name
+    @course_name_and_code = course.name_and_code
+
+    @met_conditions = met_conditions
+    @pending_conditions = pending_conditions
+    @previously_met_conditions = previously_met_conditions
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.conditions_statuses_changed.subject', provider_name: @provider_name, course_name: @course_name_and_code),
+    )
+  end
+
   def conditions_met(application_choice)
     @application_choice = application_choice
     course = application_choice.current_course_option.course
