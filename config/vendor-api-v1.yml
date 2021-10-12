@@ -397,6 +397,7 @@ components:
       type: object
       additionalProperties: false
       required:
+      - application_url
       - support_reference
       - candidate
       - phase
@@ -419,6 +420,10 @@ components:
       - safeguarding_issues_status
       - safeguarding_issues_details_url
       properties:
+        application_url:
+          type: string
+          description: The URL of this application as seen in the Manage teacher training applications web interface.
+          example: 'https://www.apply-for-teacher-training.service.gov.uk/provider/applications/1234'
         support_reference:
           type: string
           description: The candidate’s reference number for their application form carrying this application choice in the Apply system. Candidates can have multiple application forms. For instance, when a candidate moves from Apply 1 to Apply again their candidate ID will stay the same, but that’s a new application form so the `support_reference` will be different.
