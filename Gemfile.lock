@@ -193,7 +193,7 @@ GEM
       ffi (>= 1.0.0)
       rake
     formatador (0.2.5)
-    geocoder (1.6.7)
+    geocoder (1.7.0)
     globalid (0.5.2)
       activesupport (>= 5.0)
     google-apis-bigquery_v2 (0.18.0)
