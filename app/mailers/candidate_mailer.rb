@@ -277,7 +277,6 @@ class CandidateMailer < ApplicationMailer
   def changed_offer(application_choice)
     @application_choice = application_choice
     @conditions = @application_choice.offer.conditions_text
-
     @course_option = @application_choice.course_option
     @current_course_option = @application_choice.current_course_option
     @is_awaiting_decision = application_choice.self_and_siblings.decision_pending.any?

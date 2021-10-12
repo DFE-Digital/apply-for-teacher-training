@@ -181,10 +181,8 @@ FactoryBot.define do
           allow(application_choice).to receive(:offer).and_return(evaluator.offer)
           allow(evaluator.offer).to receive(:conditions_text).and_return(evaluator.offer.conditions.map(&:text))
         else
-          condition = build(:offer_condition, text: 'Be cool')
-          offer = build(:offer, application_choice: application_choice, conditions: [condition])
-          allow(application_choice).to receive(:offer).and_return(offer)
-          allow(offer).to receive(:conditions_text).and_return(offer.conditions.map(&:text))
+          condition = build_stubbed(:offer_condition, text: 'Be cool')
+          application_choice.offer = build_stubbed(:offer, application_choice: application_choice, conditions: [condition])
         end
       end
     end
