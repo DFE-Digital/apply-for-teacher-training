@@ -18,7 +18,7 @@ module DataAPI
       all.last
     end
 
-    def data_for_export
+    def data_for_export(*)
       relevant_applications.flat_map do |application_form|
         application_form.application_choices.map do |application_choice|
           TADApplicationExport.new(application_choice).as_json

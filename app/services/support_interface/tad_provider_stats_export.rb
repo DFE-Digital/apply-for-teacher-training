@@ -1,6 +1,6 @@
 module SupportInterface
   class TADProviderStatsExport
-    def call
+    def call(*)
       data_for_export = courses.find_each(batch_size: 100).map do |course|
         choice_statuses = choice_statuses(course)
 

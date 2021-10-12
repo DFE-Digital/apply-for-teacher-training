@@ -1,6 +1,6 @@
 module SupportInterface
   class ExpandedQualificationsExport
-    def data_for_export
+    def data_for_export(*)
       application_choices = ApplicationChoice
         .select(:id, :application_form_id, :status, :course_option_id)
         .includes(:course_option, :course, :provider, application_form: [:application_qualifications])

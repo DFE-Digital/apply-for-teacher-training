@@ -18,7 +18,7 @@ module SupportInterface
       end
     end
 
-    def data_for_export
+    def data_for_export(*)
       data_for_export = application_forms.map do |application_form|
         volunteering_experiences = application_form.application_volunteering_experiences.sort_by(&:start_date)
         explained_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)

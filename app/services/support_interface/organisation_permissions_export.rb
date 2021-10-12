@@ -1,6 +1,6 @@
 module SupportInterface
   class OrganisationPermissionsExport
-    def data_for_export
+    def data_for_export(*)
       raw_data.map do |row|
         audited_changes = row[9]
 

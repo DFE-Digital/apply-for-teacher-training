@@ -1,6 +1,6 @@
 module SupportInterface
   class RefereeSurveyExport
-    def call
+    def call(*)
       non_duplicate_references = ApplicationReference
                                   .includes(:application_form)
                                   .where.not(questionnaire: nil)

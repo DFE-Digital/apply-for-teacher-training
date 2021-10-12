@@ -8,7 +8,7 @@ module SupportInterface
       DataExporter.perform_async(SupportInterface::MinisterialReportCandidatesExport, data_export.id)
     end
 
-    def call
+    def call(*)
       export_rows = {}
 
       MinisterialReport::SUBJECTS.each { |subject| export_rows[subject] = column_names }

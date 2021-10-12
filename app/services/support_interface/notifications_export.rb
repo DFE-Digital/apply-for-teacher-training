@@ -5,7 +5,7 @@ module SupportInterface
       notification_offer_accepted notification_offer_declined permissions_make_decisions provider_code
     ].freeze
 
-    def data_for_export
+    def data_for_export(*)
       ProviderUserNotificationPreferences
         .joins('LEFT JOIN provider_users_providers ON provider_users_providers.provider_user_id = provider_user_notifications.provider_user_id')
         .joins('LEFT JOIN providers ON provider_users_providers.provider_id = providers.id')

@@ -2,7 +2,7 @@ module SupportInterface
   class ProvidersExport
     include GeocodeHelper
 
-    def providers
+    def providers(*)
       relevant_providers.find_each(batch_size: 100).map do |provider|
         {
           provider_name: provider.name,

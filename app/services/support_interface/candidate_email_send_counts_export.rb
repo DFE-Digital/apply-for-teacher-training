@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateEmailSendCountsExport
-    def data_for_export
+    def data_for_export(*)
       emails_with_total_send_counts.map do |send_count_record|
         {
           email_template: send_count_record.mail_template,

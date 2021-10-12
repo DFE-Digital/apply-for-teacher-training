@@ -1,6 +1,6 @@
 module SupportInterface
   class StructuredReasonsForRejectionExport
-    def data_for_export
+    def data_for_export(*)
       application_choices.order(:id).find_each(batch_size: 100).map do |application_choice|
         {
           candidate_id: application_choice.candidate.id,

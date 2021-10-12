@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateAutofillUsageExport
-    def data_for_export
+    def data_for_export(*)
       degree_grade_output +
         degree_institution_output +
         degree_subject_output +
