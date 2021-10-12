@@ -83,22 +83,23 @@ private
     courses:,
     apply_again: false,
     carry_over: false,
-    candidate: nil
+    candidate: nil,
+    application_in_past: false
   )
     raise CourseAndStateNumbersDoNotMatchError unless courses.count == states.count
-
-    initialize_time(recruitment_cycle_year)
 
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError unless states.one?
 
       create_application_to_courses(
+        application_in_past: true,
         recruitment_cycle_year: recruitment_cycle_year,
         courses: courses,
         states: [:rejected],
         candidate: candidate,
       )
 
+      initialize_time(recruitment_cycle_year, application_in_past: application_in_past)
       candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
@@ -112,12 +113,13 @@ private
         candidate: candidate,
       )
 
-      initialize_time(recruitment_cycle_year)
+      initialize_time(recruitment_cycle_year, application_in_past: application_in_past)
       candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
       previous_application_form = candidate.current_application
     else
+      initialize_time(recruitment_cycle_year, application_in_past: application_in_past)
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
       previous_application_form = nil
@@ -523,11 +525,16 @@ private
     end
   end
 
-  def initialize_time(recruitment_cycle_year)
+  def initialize_time(recruitment_cycle_year, application_in_past: false)
     in_current_cycle = recruitment_cycle_year == RecruitmentCycle.current_year
     if in_current_cycle
-      earliest_date = 20.days.ago.to_date
-      latest_date = Time.zone.now.to_date
+      if application_in_past
+        earliest_date = 30.days.ago.to_date
+        latest_date = 21.days.ago.to_date
+      else
+        earliest_date = 20.days.ago.to_date
+        latest_date = Time.zone.now.to_date
+      end
     else
       earliest_date = CycleTimetable.apply_opens(recruitment_cycle_year)
       latest_date = CycleTimetable.apply_1_deadline(recruitment_cycle_year + 1)
