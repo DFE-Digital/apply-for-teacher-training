@@ -508,8 +508,6 @@ class CandidateMailer < ApplicationMailer
   end
 
   def fraud_match_email(application_form)
-    @date = Time.zone.now.to_date + 5.days
-
     email_for_candidate(
       application_form,
       subject: I18n.t!('candidate_mailer.fraud_match.subject'),
