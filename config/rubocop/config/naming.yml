@@ -10,7 +10,6 @@ Naming/AccessorMethodName:
   Enabled: true
   Exclude:
     - app/models/teacher_training_public_api/sync_check.rb
-    - app/services/ucas_matching/file_download_check.rb
     - app/controllers/candidate_interface/candidate_interface_controller.rb
 
 Naming/PredicateName:

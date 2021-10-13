@@ -49,15 +49,6 @@ class TimeLimitConfig
       chase_candidate_before_dbd: [
         Rule.new(nil, nil, 5),
       ],
-      ucas_match_candidate_withdrawal_request: [
-        Rule.new(nil, nil, 10),
-      ],
-      ucas_match_candidate_withdrawal_request_reminder: [
-        Rule.new(nil, nil, 5),
-      ],
-      ucas_match_ucas_withdrawal_request: [
-        Rule.new(nil, nil, 5),
-      ],
     }
   end
 

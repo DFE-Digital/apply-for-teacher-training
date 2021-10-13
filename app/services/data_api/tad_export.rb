@@ -29,7 +29,6 @@ module DataAPI
   private
 
     def relevant_applications
-      # Should be the same as the UCAS sync export (app/services/ucas_matching/matching_data_export.rb).
       ApplicationForm
         .current_cycle
         .includes(

@@ -17,17 +17,5 @@ RSpec.describe TimeLimitConfig do
     it ':chase_candidate_before_dbd returns a default limit of 5 days' do
       expect(described_class.limits_for(:chase_candidate_before_dbd).first.limit).to eq(5)
     end
-
-    it ':ucas_match_candidate_withdrawal_request returns a default limit of 10 days' do
-      expect(described_class.limits_for(:ucas_match_candidate_withdrawal_request).first.limit).to eq(10)
-    end
-
-    it ':ucas_match_candidate_withdrawal_request_reminder returns a default limit of 5 days' do
-      expect(described_class.limits_for(:ucas_match_candidate_withdrawal_request_reminder).first.limit).to eq(5)
-    end
-
-    it ':ucas_match_ucas_withdrawal_request returns a default limit of 5 days' do
-      expect(described_class.limits_for(:ucas_match_ucas_withdrawal_request).first.limit).to eq(5)
-    end
   end
 end
