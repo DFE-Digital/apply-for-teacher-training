@@ -32,8 +32,6 @@ module SupportInterface
       @application_choices = ReasonsForRejectionApplicationsQuery.new(params).call
     end
 
-    def ucas_matches_dashboard; end
-
     def unavailable_choices
       redirect_to support_interface_unavailable_choices_disabled_courses_path
     end

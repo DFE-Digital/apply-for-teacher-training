@@ -1,5 +1,0 @@
-<%= render 'support_interface/candidates/candidates_navigation', title: 'UCAS matches' %>
-
-<%= render PaginatedFilterComponent.new(filter: @filter, collection: @matches) do %>
-  <%= render SupportInterface::UCASMatchesTableComponent.new(matches: @matches) %>
-<% end %>
