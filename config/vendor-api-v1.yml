@@ -1075,7 +1075,6 @@ components:
       - end_date
       - role
       - description
-      - working_with_children
       - commitment
       properties:
         id:
@@ -1110,7 +1109,9 @@ components:
           example: I lead, develop and enhance the literacy teaching practice of others...
         working_with_children:
           type: boolean
-          description: Did this position involve working in a school or with children?
+          nullable: true
+          deprecated: true
+          description: 'Did this position involve working in a school or with children? DEPRECATED: this field will be null for new applications as Apply no longer collects this information.'
           example: true
         commitment:
           nullable: true

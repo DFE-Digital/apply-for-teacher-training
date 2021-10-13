@@ -1,3 +1,9 @@
+## 13th October
+
+Documentation:
+
+Mark `working_with_children` as deprecated and nullable. This field can contain `null` values as we no longer collect this information.
+
 ## 10th October
 
 Adds the attribute `application_url`, this is the URL of the application details in 'Manage teacher training applications'.
