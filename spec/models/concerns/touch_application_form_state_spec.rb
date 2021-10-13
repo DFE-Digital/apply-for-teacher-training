@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TouchCandidateAPIUpdatedAt do
+RSpec.describe TouchApplicationFormState do
   describe 'before_save' do
     context 'application choice is created and the application form has not been updated' do
       it 'updates the candidate_api_updated_at' do

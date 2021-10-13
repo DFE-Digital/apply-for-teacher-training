@@ -1,4 +1,4 @@
-module TouchCandidateAPIUpdatedAt
+module TouchApplicationFormState
   extend ActiveSupport::Concern
 
   included do
