@@ -1,8 +1,25 @@
 <%= render 'support_interface/candidates/candidates_navigation', title: 'Fraud auditing dashboard' %>
 
-<p class="govuk-body govuk-!-width-two-thirds">Records appear in this list for applications that have a postcode, name and date of birth in common, but they were created using different candidate accounts.<p>
+<p class="govuk-body govuk-!-width-two-thirds">A Fraud match appears in this list for applications that have a postcode, name and date of birth in common, but they were created using different candidate accounts.</p>
+
+<div class="govuk-body govuk-!-width-two-thirds">
+  <h4 class="govuk-heading-s">For each new Fraud match support users should:</h4>
+  <ul class="govuk-list govuk-list--bullet">
+    <li class="govuk-body govuk-!-width-two-thirds">send a notice email through the dashboard (this will send to all listed email addresses)</li>
+    <li class="govuk-body govuk-!-width-two-thirds">block submission of the matched applications</li>
+  </ul>
+</div>
+
+<div class="govuk-body govuk-!-width-two-thirds">
+  <h4 class="govuk-heading-s">After 5 business days has elapsed from the email sent at date:</h4>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>if correspondence has been received with evidence that candidates are different people, unblock submission and mark as not fraudulent</li>
+    <li>if no correspondence has been received, remove access from the unsubmitted application, and mark the match as fraudulent</li>
+  </ul>
+</div>
+
 <% if @matches.empty? %>
-  <p class="govuk-body">There are currently no duplicate applications matched on these criteria.<p>
+  <p class="govuk-body">There are currently no duplicate applications matched on these criteria.</p>
 <% else %>
   <%= render SupportInterface::FraudAuditingMatchesTableComponent.new(matches: @matches) %>
 <% end %>
