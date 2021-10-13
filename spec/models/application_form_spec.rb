@@ -31,7 +31,6 @@ RSpec.describe ApplicationForm do
           :completed_application_form,
           recruitment_cycle_year: RecruitmentCycle.previous_year,
           application_choices_count: 1,
-          references_count: 0,
         )
 
         expect { application_form.update(first_name: 'Maria') }
