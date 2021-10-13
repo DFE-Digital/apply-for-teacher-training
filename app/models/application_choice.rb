@@ -1,6 +1,6 @@
 class ApplicationChoice < ApplicationRecord
   include Chased
-  include TouchCandidateAPIUpdatedAt
+  include TouchApplicationFormState
 
   before_create :set_initial_status
 

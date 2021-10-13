@@ -1,6 +1,6 @@
 class ApplicationQualification < ApplicationRecord
-  include PublishedInAPI
-  include TouchCandidateAPIUpdatedAt
+  include TouchApplicationChoices
+  include TouchApplicationFormState
 
   EXPECTED_DEGREE_DATA = %i[
     qualification_type

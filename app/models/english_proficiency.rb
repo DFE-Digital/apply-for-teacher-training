@@ -1,5 +1,5 @@
 class EnglishProficiency < ApplicationRecord
-  include PublishedInAPI
+  include TouchApplicationChoices
 
   audited associated_with: :application_form
 

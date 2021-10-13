@@ -6,7 +6,7 @@ class ApplicationForm < ApplicationRecord
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
   include Chased
-  include TouchCandidateAPIUpdatedAt
+  include TouchApplicationFormState
 
   belongs_to :candidate, touch: true
   has_many :application_choices
