@@ -108,6 +108,8 @@ gem 'ruby-graphviz'
 
 gem 'kaminari'
 
+gem 'pagy'
+
 # PDF generation
 gem ENV['WKHTMLTOPDF_GEM'] || 'wkhtmltopdf-binary'
 gem 'pdfkit'
