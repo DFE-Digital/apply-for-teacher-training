@@ -13,6 +13,7 @@ module CandidateAPI
     rescue_from ActiveRecord::QueryCanceled, with: :statement_timeout
 
     rescue_from Pagy::OverflowError, with: :page_parameter_invalid
+    rescue_from PerPageParameterInvalid, with: :per_page_parameter_invalid
 
     DEFAULT_PER_PAGE = 500
     MAX_PER_PAGE = 500
@@ -47,6 +48,17 @@ module CandidateAPI
       render json: { errors: [{ error: 'PageParameterInvalid', message: error_message }] }, status: :unprocessable_entity
     end
 
+    def per_page_parameter_invalid
+      render json: {
+        errors: [
+          {
+            error: 'PerPageParameterInvalid',
+            message: "the 'per_page' parameter cannot exceed #{MAX_PER_PAGE} results per page",
+          },
+        ],
+      }, status: :unprocessable_entity
+    end
+
   private
 
     def paginate(scope)
@@ -57,6 +69,8 @@ module CandidateAPI
     end
 
     def per_page
+      raise PerPageParameterInvalid unless params[:per_page].to_i <= MAX_PER_PAGE
+
       [(params[:per_page] || DEFAULT_PER_PAGE).to_i, MAX_PER_PAGE].min
     end
 

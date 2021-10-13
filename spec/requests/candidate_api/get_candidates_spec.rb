@@ -168,4 +168,13 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 1, got 2")
     expect(parsed_response).to be_valid_against_openapi_schema('PageParameterInvalidResponse')
   end
+
+  it 'returns HTTP status 422 when given a parseable per_page value that exceeds the max value' do
+    max_value = CandidateAPI::CandidatesController::MAX_PER_PAGE
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}&page=2&per_page=#{max_value + 1}", token: candidate_api_token
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{max_value} results per page")
+    expect(parsed_response).to be_valid_against_openapi_schema('PerPageParameterInvalidResponse')
+  end
 end

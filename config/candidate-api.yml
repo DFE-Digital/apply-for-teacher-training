@@ -69,6 +69,7 @@ components:
               - "$ref": "#/components/schemas/ParameterMissingResponse"
               - "$ref": "#/components/schemas/ParameterInvalidResponse"
               - "$ref": "#/components/schemas/PageParameterInvalidResponse"
+              - "$ref": "#/components/schemas/PerPageParameterInvalidResponse"
   schemas:
     CandidateList:
       type: object
@@ -224,7 +225,21 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: PageParameterInvalid
-            message: "expected :page in 1..1; got 2"
+            message: "expected 'page' parameter to be between 1 and 1, got 2"
+    PerPageParameterInvalidResponse:
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PerPageParameterInvalid
+            message: "the 'per_page' parameter cannot exceed 500 results per page"
     Error:
       type: object
       additionalProperties: false
