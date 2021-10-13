@@ -164,6 +164,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
           expect(result.text).to include("You'll be able to view this if the candidate accepts an offer for this application.")
+          expect(result.text).not_to include('Which of the following best describes your Asian or Asian British background?')
         end
       end
 

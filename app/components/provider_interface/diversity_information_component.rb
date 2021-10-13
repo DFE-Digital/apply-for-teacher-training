@@ -17,7 +17,7 @@ module ProviderInterface
         rows << { key: I18n.t('equality_and_diversity.disability_status.title'), value: row_value(disability_status) }
         rows << { key: I18n.t('equality_and_diversity.disabilities.title'), value: row_value(disability_value.html_safe) } if disability_status == 'Yes'
         rows << { key: I18n.t('equality_and_diversity.ethnic_group.title'), value: row_value(equality_and_diversity['ethnic_group']) }
-        if equality_and_diversity['ethnic_background'].present?
+        if equality_and_diversity['ethnic_background'].present? && application_in_correct_state?
           rows << {
             key: I18n.t('equality_and_diversity.ethnic_background.title', group: equality_and_diversity['ethnic_group']),
             value: row_value(equality_and_diversity['ethnic_background']),
