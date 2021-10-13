@@ -12,7 +12,7 @@ module MonthlyStatistics
     def rows
       @rows ||= formatted_group_query.map do |sex, statuses|
         {
-          'Sex' => sex,
+          'Sex' => column_label_for(sex),
           'Recruited' => recruited_count(statuses),
           'Conditions pending' => pending_count(statuses),
           'Received an offer' => offer_count(statuses),
@@ -32,6 +32,10 @@ module MonthlyStatistics
       end
     end
 
+    def column_label_for(sex)
+      I18n.t("equality_and_diversity.sex.#{sex}.label", default: sex)
+    end
+
     def formatted_group_query
       counts = {
         'female' => {},
@@ -43,7 +47,6 @@ module MonthlyStatistics
       group_query.map do |item|
         sex, status = item[0]
         count = item[1]
-        puts sex
         counts[sex].merge!({ status => count })
       end
 

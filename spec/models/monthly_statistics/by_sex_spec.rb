@@ -16,7 +16,7 @@ RSpec.describe MonthlyStatistics::BySex do
       { rows:
         [
           {
-            'Sex' => 'female',
+            'Sex' => 'Female',
             'Recruited' => 0,
             'Conditions pending' => 0,
             'Received an offer' => 1,
@@ -25,7 +25,7 @@ RSpec.describe MonthlyStatistics::BySex do
             'Total' => 2,
           },
           {
-            'Sex' => 'male',
+            'Sex' => 'Male',
             'Recruited' => 0,
             'Conditions pending' => 0,
             'Received an offer' => 0,
@@ -34,7 +34,7 @@ RSpec.describe MonthlyStatistics::BySex do
             'Total' => 1,
           },
           {
-            'Sex' => 'intersex',
+            'Sex' => 'Intersex',
             'Recruited' => 0,
             'Conditions pending' => 0,
             'Received an offer' => 1,
