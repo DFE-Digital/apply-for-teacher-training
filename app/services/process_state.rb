@@ -68,7 +68,7 @@ class ProcessState
   def state
     if application_form.nil?
       :never_signed_in
-    elsif application_choices.empty? || all_states_are?('unsubmitted') || all_states_are?(nil)
+    elsif application_choices.empty? || all_states_are?('unsubmitted')
       unchanged?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
     elsif any_state_is?('awaiting_provider_decision') || any_state_is?('interviewing')
       :awaiting_provider_decisions

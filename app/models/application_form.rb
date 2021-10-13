@@ -6,7 +6,6 @@ class ApplicationForm < ApplicationRecord
   geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
   include Chased
-  include TouchCandidateAPIUpdatedAt
 
   belongs_to :candidate, touch: true
   has_many :application_choices
@@ -107,8 +106,7 @@ class ApplicationForm < ApplicationRecord
     if (form.changed & PUBLISHED_FIELDS).any?
       touch_choices
     end
-
-    candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase')
+    candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase') || created_at == updated_at
   end
 
   after_commit :geocode_address_if_required
