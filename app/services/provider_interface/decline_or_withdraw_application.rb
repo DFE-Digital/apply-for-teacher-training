@@ -3,7 +3,6 @@ module ProviderInterface
     def initialize(actor:, application_choice:)
       @actor = actor
       @application_choice = application_choice
-      @resolve_ucas_match = withdrawing?
     end
 
     def save!
@@ -29,8 +28,6 @@ module ProviderInterface
 
       SendCandidateWithdrawnOnRequestEmail.new(application_choice: application_choice).call
 
-      ResolveUCASMatch.new(application_choice: @application_choice).call if resolve_ucas_match?
-
       true
     end
 
@@ -44,10 +41,6 @@ module ProviderInterface
 
     def withdrawing?
       ApplicationStateChange.new(application_choice).can_withdraw?
-    end
-
-    def resolve_ucas_match?
-      @resolve_ucas_match
     end
 
     def auth
