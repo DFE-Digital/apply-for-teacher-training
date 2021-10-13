@@ -13,6 +13,8 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
     it 'returns submitted application choices with timings' do
       unsubmitted_form = create(:application_form)
       create(:application_choice, status: :unsubmitted, application_form: unsubmitted_form)
+      previous_cycle_application_form = create(:completed_application_form, application_choices_count: 3)
+      previous_cycle_application_form.update!(recruitment_cycle_year: RecruitmentCycle.previous_year)
       submitted_form = create(:completed_application_form, application_choices_count: 2)
 
       choices = described_class.new.application_choices
