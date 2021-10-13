@@ -39,27 +39,27 @@ module SupportInterface
 
     def raw_data
       Audited::Audit
-          .joins('JOIN provider_users_providers pup1 ON audits.auditable_id = pup1.id')
-          .joins('JOIN provider_users ON pup1.provider_user_id = provider_users.id')
-          .joins('LEFT JOIN provider_users_providers pup2 ON audits.user_id = pup2.provider_user_id')
-          .joins('LEFT JOIN providers ON pup2.provider_id = providers.id')
-          .where(auditable_type: 'ProviderPermissions')
-          .where(action: %w[create update])
-          .where(permissions_clauses)
-          .pluck(
-            'audits.created_at',
-            'audits.user_id',
-            Arel.sql(
-              'CASE audits.user_type ' \
-              "WHEN 'ProviderUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM provider_users WHERE id = audits.user_id) " \
-              "WHEN 'SupportUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM support_users WHERE id = audits.user_id) " \
-              'END'.squish,
-            ),
-            'providers.code',
-            'providers.name',
-            Arel.sql("CONCAT(provider_users.first_name, ' ' , provider_users.last_name)"),
-            'audits.audited_changes',
-          )
+        .joins('JOIN provider_users_providers edited_permissions ON audits.auditable_id = edited_permissions.id')
+        .joins('JOIN provider_users ON edited_permissions.provider_user_id = provider_users.id')
+        .joins("LEFT JOIN provider_users_providers acting_user_permissions ON audits.user_id = acting_user_permissions.provider_user_id AND audits.user_type = 'ProviderUser'")
+        .joins('LEFT JOIN providers ON acting_user_permissions.provider_id = providers.id')
+        .where(auditable_type: 'ProviderPermissions')
+        .where(action: %w[create update])
+        .where(permissions_clauses)
+        .pluck(
+          'audits.created_at',
+          'audits.user_id',
+          Arel.sql(
+            'CASE audits.user_type ' \
+            "WHEN 'ProviderUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM provider_users WHERE id = audits.user_id) " \
+            "WHEN 'SupportUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM support_users WHERE id = audits.user_id) " \
+            'END'.squish,
+          ),
+          'providers.code',
+          'providers.name',
+          Arel.sql("CONCAT(provider_users.first_name, ' ' , provider_users.last_name)"),
+          'audits.audited_changes',
+        )
     end
   end
 end
