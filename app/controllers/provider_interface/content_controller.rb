@@ -29,10 +29,6 @@ module ProviderInterface
       render_content_page :service_guidance_provider
     end
 
-    def guidance_for_the_new_cycle
-      render_content_page :guidance_for_the_new_cycle
-    end
-
     def complaints
       render_content_page :complaints
     end

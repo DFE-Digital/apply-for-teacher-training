@@ -661,9 +661,6 @@ Rails.application.routes.draw do
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
     post '/cookie-preferences-hide-confirmation', to: 'cookie_preferences#hide_confirmation', as: :cookie_preferences_hide_confirmation
 
-    get '/getting-ready-for-next-cycle', to: redirect('/provider/guidance-for-the-new-cycle')
-    get '/guidance-for-the-new-cycle', to: 'content#guidance_for_the_new_cycle', as: :guidance_for_the_new_cycle
-
     get '/data-sharing-agreements/new', to: 'provider_agreements#new_data_sharing_agreement', as: :new_data_sharing_agreement
     post '/data-sharing-agreements', to: 'provider_agreements#create_data_sharing_agreement', as: :create_data_sharing_agreement
 
