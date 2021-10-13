@@ -1,5 +1,5 @@
 module MonthlyStatistics
-  class BySex
+  class BySex < MonthlyStatistics::Base
     def table_data
       {
         rows: rows,
@@ -47,7 +47,7 @@ module MonthlyStatistics
       group_query.map do |item|
         sex, status = item[0]
         count = item[1]
-        counts[sex].merge!({ status => count })
+        counts[sex].merge!({ status => count }) if counts[sex]
       end
 
       counts
@@ -59,34 +59,6 @@ module MonthlyStatistics
         .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
         .group("application_forms.equality_and_diversity->'sex'", 'status')
         .count
-    end
-
-    def recruited_count(statuses)
-      statuses['recruited'] || 0
-    end
-
-    def pending_count(statuses)
-      statuses['pending_conditions'] || 0
-    end
-
-    def offer_count(statuses)
-      statuses['offer'] || 0
-    end
-
-    def awaiting_decision_count(statuses)
-      (statuses['awaiting_provider_decision'] || 0) + (statuses['interviewing'] || 0)
-    end
-
-    def unsuccessful_count(statuses)
-      (statuses['declined'] || 0) + (statuses['rejected'] || 0) + (statuses['conditions_not_met'] || 0)
-    end
-
-    def statuses_count(statuses)
-      recruited_count(statuses) +
-        pending_count(statuses) +
-        offer_count(statuses) +
-        awaiting_decision_count(statuses) +
-        unsuccessful_count(statuses)
     end
   end
 end

@@ -30,8 +30,8 @@ RSpec.describe MonthlyStatistics::ByCourseAgeGroup do
             'Conditions pending' => 0,
             'Received an offer' => 1,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 0,
-            'Total' => 1,
+            'Unsuccessful' => 1,
+            'Total' => 2,
           },
           {
             'Age group' => 'Further education',
@@ -43,7 +43,7 @@ RSpec.describe MonthlyStatistics::ByCourseAgeGroup do
             'Total' => 2,
           },
         ],
-        column_totals: [1, 0, 2, 1, 2, 6] },
+        column_totals: [1, 0, 2, 1, 3, 7] },
     )
   end
 

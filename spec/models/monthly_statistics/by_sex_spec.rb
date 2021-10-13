@@ -63,7 +63,7 @@ RSpec.describe MonthlyStatistics::BySex do
       application_form: create(
         :application_form,
         equality_and_diversity: { 'sex' => sex },
-      )
+      ),
     )
   end
 end
