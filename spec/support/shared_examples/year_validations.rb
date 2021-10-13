@@ -23,6 +23,16 @@ RSpec.shared_examples 'year validations' do |year_field, validations|
         expect(model.errors.added?(year_field, :invalid_year, attribute: humanize(year_field))).to eq(true)
       end
     end
+
+    context 'when multiple years are submitted' do
+      let(:year) { '2020 - 2021' }
+
+      it 'returns :invalid_year error' do
+        expect(model).to be_invalid
+
+        expect(model.errors.added?(year_field, :multiple_year, attribute: humanize(year_field))).to eq(true)
+      end
+    end
   end
 
   describe 'when in the future', if: validations && validations[:future] do
