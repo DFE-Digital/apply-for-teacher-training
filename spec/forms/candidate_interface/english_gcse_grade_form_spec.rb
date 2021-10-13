@@ -111,4 +111,31 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
       end
     end
   end
+
+  describe 'save' do
+    context 'qualification_type is gcse' do
+      it 'saves the constituent_grades' do
+        qualification = create(:gcse_qualification, subject: 'english', grade: nil)
+
+        form = described_class.new(qualification: qualification)
+
+        form.assign_values(grade_english_single: '',
+                           grade_english_double: 'DC',
+                           grade_english_language: 'D',
+                           grade_english_literature: 'D',
+                           grade_english_studies_single: '',
+                           grade_english_studies_double: '',
+                           other_english_gcse_name: '',
+                           grade_other_english_gcse: '',
+                           english_gcses: ['', 'english_double_award', 'english_language', 'english_literature'])
+
+        next_available_public_id = ActiveRecord::Base.nextval(:qualifications_public_id_seq) + 1
+
+        form.save
+
+        expect(qualification.reload.constituent_grades).to eq({ 'english_double_award' => { 'grade' => 'CD', 'public_id' => next_available_public_id }, 'english_language' => { 'grade' => 'D', 'public_id' => next_available_public_id + 1 }, 'english_literature' => { 'grade' => 'D', 'public_id' => next_available_public_id + 2 } })
+        expect(qualification.grade).to eq nil
+      end
+    end
+  end
 end
