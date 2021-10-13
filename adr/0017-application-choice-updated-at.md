@@ -46,7 +46,7 @@ This solution will require that spec to be kept up to date with a variety of app
 
 As described so far, this solution only addresses changes from the ApplicationForm model that affect API responses for ApplicationChoices.
 There are other models (e.g. ApplicationQualification or ApplicationWorkExperience) for which changes to their attributes affect their associated applications.
-For these smaller models, we have added a concern PublishedInAPI which touches the application_choices whenever the model is created, updated or deleted.
+For these smaller models, we have added a concern TouchApplicationChoices which touches the application_choices whenever the model is created, updated or deleted.
 
 ## Consequences
 
