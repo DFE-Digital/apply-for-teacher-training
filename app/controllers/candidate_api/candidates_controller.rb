@@ -2,6 +2,7 @@ module CandidateAPI
   class CandidatesController < ActionController::API
     include ServiceAPIUserAuthentication
     include RemoveBrowserOnlyHeaders
+    include Pagy::Backend
 
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid
@@ -10,6 +11,11 @@ module CandidateAPI
     # against the controller action that triggered them
     # instead of bundling them with every other ErrorsController#internal_server_error
     rescue_from ActiveRecord::QueryCanceled, with: :statement_timeout
+
+    rescue_from Pagy::OverflowError, with: :page_parameter_invalid
+
+    DEFAULT_PER_PAGE = 500
+    MAX_PER_PAGE = 500
 
     def index
       render json: { data: serialized_candidates }
@@ -35,14 +41,31 @@ module CandidateAPI
       }, status: :internal_server_error
     end
 
+    def page_parameter_invalid(e)
+      last_page = e.message.scan(/\d+/)[1]
+      error_message = "expected 'page' parameter to be between 1 and #{last_page}, got #{params[:page]}"
+      render json: { errors: [{ error: 'PageParameterInvalid', message: error_message }] }, status: :unprocessable_entity
+    end
+
   private
 
-    def serialized_candidates
-      candidates = Candidate.includes(application_forms: :application_choices)
-                            .where('candidate_api_updated_at > ?', updated_since_params)
-                            .order('application_forms.created_at DESC')
+    def paginate(scope)
+      pagy, paginated_records = pagy(scope, items: per_page, page: page)
+      pagy_headers_merge(pagy)
 
-      candidates.map do |candidate|
+      paginated_records
+    end
+
+    def per_page
+      [(params[:per_page] || DEFAULT_PER_PAGE).to_i, MAX_PER_PAGE].min
+    end
+
+    def page
+      (params[:page] || 1).to_i
+    end
+
+    def serialized_candidates
+      paginate(candidates).map do |candidate|
         {
           id: candidate.public_id,
           type: 'candidate',
@@ -63,6 +86,12 @@ module CandidateAPI
           },
         }
       end
+    end
+
+    def candidates
+      Candidate.includes(application_forms: :application_choices)
+      .where('candidate_api_updated_at > ?', updated_since_params)
+      .order('application_forms.created_at DESC')
     end
 
     def updated_since_params
