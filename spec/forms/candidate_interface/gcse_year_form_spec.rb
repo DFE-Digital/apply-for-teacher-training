@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::GcseYearForm, type: :model do
         valid_years = (1951..1988)
 
         valid_years.each do |year|
-          form.award_year = year
+          form.award_year = year.to_s
           form.validate
 
           expect(form.errors[:award_year]).to be_empty
