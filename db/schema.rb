@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_11_142611) do
+ActiveRecord::Schema.define(version: 2021_10_13_213030) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(version: 2021_10_11_142611) do
     t.date "immigration_entry_date"
     t.string "immigration_route"
     t.string "immigration_route_details"
+    t.string "region_code"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
