@@ -122,7 +122,12 @@ module CandidateInterface
 
       if gsce_qualification_type? && double_award?
         self.double_award_grade = grade
-        errors.add(:double_award_grade, :invalid) unless DOUBLE_GCSE_GRADES.include?(sanitize(grade))
+
+        return if DOUBLE_GCSE_GRADES.include?(sanitize(grade))
+        self.grade = 'A*A' and return if sanitize(grade) == 'AA*'
+        grade.reverse! and return if DOUBLE_GCSE_GRADES.include?(sanitize(grade).reverse)
+
+        errors.add(:double_award_grade, :invalid)
       end
     end
 

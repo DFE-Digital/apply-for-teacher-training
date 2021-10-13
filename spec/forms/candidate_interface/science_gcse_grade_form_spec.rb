@@ -75,7 +75,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         let(:form) { described_class.build_from_qualification(qualification) }
 
         it 'returns no errors if grade is valid' do
-          mistyped_grades = ['A a', 'A    a', 'b b', 'A-a', 'B/b', 'C,c']
+          mistyped_grades = ['A a', 'A    a', 'b b', 'A-a', 'B/b', 'C,c', 'DC']
           valid_grades = DOUBLE_GCSE_GRADES + mistyped_grades
 
           valid_grades.each do |grade|
@@ -277,6 +277,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
+          qualification_type: 'gcse',
           application_form: application_form,
         )
 
@@ -289,6 +290,44 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         qualification.reload
 
         expect(qualification.grade).to eq('A*A*')
+      end
+
+      it 'stores AA* as A*A for a double award' do
+        application_form = build(:application_form)
+        qualification = ApplicationQualification.create(
+          level: 'gcse',
+          qualification_type: 'gcse',
+          application_form: application_form,
+        )
+
+        details_form = described_class.build_from_qualification(qualification)
+
+        details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
+        details_form.grade = 'a -/, a*'
+
+        details_form.save
+        qualification.reload
+
+        expect(qualification.grade).to eq('A*A')
+      end
+
+      it 'reverses the grade if input grade is valid when reversed for a double award' do
+        application_form = build(:application_form)
+        qualification = ApplicationQualification.create(
+          level: 'gcse',
+          qualification_type: 'gcse',
+          application_form: application_form,
+        )
+
+        details_form = described_class.build_from_qualification(qualification)
+
+        details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
+        details_form.grade = 'b -/, a'
+
+        details_form.save
+        qualification.reload
+
+        expect(qualification.grade).to eq('AB')
       end
 
       it 'stores a sanitized grade when it is a numerical double award' do
