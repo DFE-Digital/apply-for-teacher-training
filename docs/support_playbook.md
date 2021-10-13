@@ -294,16 +294,6 @@ users_to_disable_notifications_for.map { |u| u.update!(send_notifications: false
 
 https://ukgovernmentdfe.slack.com/archives/CQA64BETU/p1611922559119000
 
-## UCAS matches
-
-### View UCAS match files
-
-After UCAS receives our file with applications, they match it against the candidates in their database. They then upload a new zipped file to the DFEApplicantData/matched_dfe_apply_itt_applications folder on Movit.
-You may need to view them if there is a problem with UCAS matches we receive.
-
-- Find the UCAS_USERNAME and UCAS_PASSWORD in the production PaaS config
-- Log in at https://transfer.ucas.com
-
 ## Publish sandbox
 
 ### Add users
