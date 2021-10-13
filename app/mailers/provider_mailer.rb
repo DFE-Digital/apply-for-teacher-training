@@ -114,47 +114,12 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def ucas_match_initial_email_duplicate_applications(provider_user, application_choice)
-    @application_form = application_choice.application_form
-    @course_name_and_code = application_choice.course_option.course.name_and_code
-    @provider_name = application_choice.course_option.course.provider.name
-    @withdraw_by_date = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
-
-    email_for_provider(
-      provider_user,
-      @application_form,
-      subject: I18n.t!('provider_mailer.ucas_match.initial_email.duplicate_applications.subject'),
-    )
-  end
-
   def fallback_sign_in_email(provider_user, token)
     @token = token
 
     notify_email(
       to: provider_user.email_address,
       subject: t('authentication.sign_in.email.subject'),
-    )
-  end
-
-  def ucas_match_resolved_on_ucas_email(provider_user, application_choice)
-    @application_form = application_choice.application_form
-    @course_name_and_code = application_choice.course.name_and_code
-
-    email_for_provider(
-      provider_user,
-      @application_form,
-      subject: I18n.t!('provider_mailer.ucas_match.resolved.subject'),
-    )
-  end
-
-  def ucas_match_resolved_on_apply_email(provider_user, application_choice)
-    @application_form = application_choice.application_form
-    @course_name_and_code = application_choice.course.name_and_code
-
-    email_for_provider(
-      provider_user,
-      @application_form,
-      subject: I18n.t!('provider_mailer.ucas_match.resolved.subject'),
     )
   end
 

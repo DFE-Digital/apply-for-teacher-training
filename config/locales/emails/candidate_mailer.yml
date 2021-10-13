@@ -102,15 +102,6 @@ en:
         course_full: "%{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
         location_full: "%{course_name} at %{provider_name} became full at %{location} while %{candidate_name} was awaiting references"
         study_mode_full: "%{study_mode} places for %{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
-    ucas_match:
-      duplicate_applications:
-        subject: "Withdraw your duplicate application by %{withdraw_by_date}"
-      multiple_acceptances:
-        subject: "Withdraw from one of your offers by %{withdraw_by_date}"
-      resolved_on_ucas_at_our_request:
-        subject: Duplicate application automatically withdrawn
-      resolved:
-        subject: Duplicate application withdrawn
     new_interview:
       subject: Interview arranged - %{provider_name}
     interview_updated:
