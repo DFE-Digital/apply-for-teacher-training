@@ -115,12 +115,6 @@ FactoryBot.define do
       end
     end
 
-    trait :with_ucas_match do
-      after(:create) do |application_form, _|
-        create(:ucas_match, candidate: application_form.candidate)
-      end
-    end
-
     factory :completed_application_form do
       minimum_info
 
