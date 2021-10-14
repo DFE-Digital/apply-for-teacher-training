@@ -118,7 +118,7 @@ The ‘Manage users’ permission allows you to:
 
 * set permissions for team members
 * add new users
-* remove Users
+* remove users
 
 #### ‘Manage users’ for training providers who are already part of our pilot
 

@@ -56,7 +56,7 @@ RSpec.describe 'Organisation users' do
   end
 
   def and_i_click_delete_user
-    click_on 'Remove User'
+    click_on 'Remove user'
   end
 
   def and_i_confirm_i_want_to_delete_this_user
@@ -73,6 +73,6 @@ RSpec.describe 'Organisation users' do
   end
 
   def then_i_cannot_see_a_link_to_delete_the_user
-    expect(page).not_to have_link('Remove User')
+    expect(page).not_to have_link('Remove user')
   end
 end
