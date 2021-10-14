@@ -455,8 +455,11 @@ private
   end
 
   def find_international_region_from_country
-    # TODO:
-    :rest_of_the_world
+    if EU_EEA_SWISS_COUNTRY_CODES.include?(country)
+      :european_economic_area
+    else
+      :rest_of_the_world
+    end
   end
 
   def address_changed?

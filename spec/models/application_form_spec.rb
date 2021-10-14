@@ -95,6 +95,32 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'after_commit' do
+    describe '#update_region_if_required' do
+      it 'sets value to `rest_of_the_world` for international addresses outside EEA' do
+        application_form = build(
+          :application_form,
+          country: 'IN',
+          address_type: :international,
+          international_address: '123 MG Road, Mumbai',
+        )
+        application_form.save!
+
+        expect(application_form.reload.rest_of_the_world?).to be(true)
+      end
+
+      it 'sets value to `european_economic_area` for international addresses inside EEA' do
+        application_form = build(
+          :application_form,
+          country: 'FR',
+          address_type: :international,
+          international_address: '123 Rue de Rivoli, Paris',
+        )
+        application_form.save!
+
+        expect(application_form.reload.european_economic_area?).to be(true)
+      end
+    end
+
     describe '#geocode_address_if_required' do
       it 'invokes geocoding of UK addresses on create' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
