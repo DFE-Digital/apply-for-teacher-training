@@ -1,6 +1,5 @@
 class ApplicationQualification < ApplicationRecord
-  include TouchApplicationChoices
-  include TouchApplicationFormState
+  include PublishedInAPI
 
   EXPECTED_DEGREE_DATA = %i[
     qualification_type
@@ -48,7 +47,6 @@ class ApplicationQualification < ApplicationRecord
   ].freeze
 
   belongs_to :application_form, touch: true
-  has_one :candidate, through: :application_form
 
   scope :degrees, -> { where level: 'degree' }
   scope :gcses, -> { where level: 'gcse' }

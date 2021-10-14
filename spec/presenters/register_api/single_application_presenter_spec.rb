@@ -627,7 +627,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
     end
 
     it 'doesn’t depend on any fields that don’t cause a touch' do
-      (ApplicationForm.attribute_names - %w[id created_at updated_at] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+      (ApplicationForm.attribute_names - %w[id] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         allow(non_uk_application_form).to receive(field).and_call_original
         allow(application_choice.application_form).to receive(field).and_call_original
       end
@@ -635,7 +635,7 @@ RSpec.describe RegisterAPI::SingleApplicationPresenter do
       described_class.new(application_choice).as_json
       described_class.new(non_uk_application_choice).as_json
 
-      (ApplicationForm.attribute_names - %w[id created_at updated_at] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+      (ApplicationForm.attribute_names - %w[id] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
         expect(non_uk_application_form).not_to have_received(field)
         expect(application_choice.application_form).not_to have_received(field)
       end

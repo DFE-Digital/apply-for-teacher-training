@@ -61,10 +61,6 @@ FactoryBot.define do
       withdrawn_at { Time.zone.now }
     end
 
-    trait :unsubmitted do
-      status { :unsubmitted }
-    end
-
     trait :dbd do
       with_offer
 

@@ -1,4 +1,4 @@
-module TouchApplicationChoices
+module PublishedInAPI
   extend ActiveSupport::Concern
 
   included do

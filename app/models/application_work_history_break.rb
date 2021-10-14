@@ -1,5 +1,5 @@
 class ApplicationWorkHistoryBreak < ApplicationRecord
-  include TouchApplicationChoices
+  include PublishedInAPI
 
   belongs_to :application_form, touch: true
 

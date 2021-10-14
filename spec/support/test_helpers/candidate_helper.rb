@@ -18,17 +18,17 @@ module CandidateHelper
     references_selected
   ].freeze
 
-  def create_and_sign_in_candidate(candidate: current_candidate)
-    login_as(candidate)
+  def create_and_sign_in_candidate
+    login_as(current_candidate)
   end
 
   def application_form_sections
     APPLICATION_FORM_SECTIONS
   end
 
-  def candidate_completes_application_form(with_referees: true, international: false, candidate: current_candidate)
+  def candidate_completes_application_form(with_referees: true, international: false)
     given_courses_exist
-    create_and_sign_in_candidate(candidate: candidate)
+    create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
     click_link 'Choose your courses'
@@ -44,14 +44,6 @@ module CandidateHelper
 
     candidate_fills_in_restructured_work_experience
     candidate_fills_in_restructured_work_experience_break
-
-    if with_referees
-      candidate_provides_two_referees
-      receive_references
-      Timecop.travel(5.minutes.from_now) do
-        select_references_and_complete_section
-      end
-    end
 
     click_link t('page_titles.volunteering.short')
 
@@ -93,6 +85,12 @@ module CandidateHelper
       click_button 'Continue'
       choose 'Yes, I have completed this section'
       click_button 'Continue'
+    end
+
+    if with_referees
+      candidate_provides_two_referees
+      receive_references
+      select_references_and_complete_section
     end
 
     @application = ApplicationForm.last
