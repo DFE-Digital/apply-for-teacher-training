@@ -51,6 +51,8 @@ module CandidateInterface
   private
 
     def type_description_is_for_bachelor_degree?
+      return false if international?
+
       HESA_DEGREE_TYPES.select { |dt| dt[3] == :bachelor }.collect(&:third).include?(type_description)
     end
 

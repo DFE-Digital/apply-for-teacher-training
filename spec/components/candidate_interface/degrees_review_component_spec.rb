@@ -125,7 +125,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         )
       end
 
-      it 'renders component with correct values for an grade' do
+      it 'renders component with correct values for a grade' do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
