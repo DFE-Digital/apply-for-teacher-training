@@ -43,7 +43,7 @@ Codes appear in three contexts:
 
 - All dates in the API specification are intended to be [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) compliant
 - Nationality is expressed as an [ISO 3166-2](https://www.iso.org/iso-3166-country-codes.html) country code
-- Demographic data required for HESA reporting uses [HESA codes for the 2020/21 Initial Teacher Training return](https://www.hesa.ac.uk/collection/c20053). When the HESA codes for the next cycle are released, we will update the documentation to reflect these.
+- Demographic data required for HESA reporting uses [HESA codes for the 2021/22 Initial Teacher Training return](https://www.hesa.ac.uk/collection/c21053). When the HESA codes for the next cycle are released, we will update the documentation to reflect these
 
 Where it is not possible to structure data strictly — for example, in the case of GCSE subjects, where candidates need to be able to enter subjects our sources might not include — we encourage candidates to enter values from an [autocomplete field](https://designnotes.blog.gov.uk/2017/04/20/were-building-an-autocomplete/).
 
