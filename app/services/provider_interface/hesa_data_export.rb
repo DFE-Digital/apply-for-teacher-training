@@ -79,7 +79,7 @@ module ProviderInterface
     end
 
     def subject_codes(application)
-      application.course.subject_codes.compact.map { |code| Hesa::SubjectCode.find_by_code(code) }.uniq.join(' ')
+      application.course.subject_codes.compact.map { |code| Hesa::SubjectCode.find_by_code(code) }.uniq.sort.join(' ')
     end
 
     def qualification_aim(application)
