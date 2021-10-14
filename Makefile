@@ -112,9 +112,17 @@ azure-login:
 view-app-secrets: install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
 	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml
 
+.PHONY: view-infra-secrets
+view-infra-secrets: install-fetch-config azure-login ## View Infra Secrets, eg: make qa view-infra-secrets
+	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -t infra -s azure-key-vault-secret -f yaml
+
 .PHONY: edit-app-secrets
 edit-app-secrets: install-fetch-config azure-login ## Edit App Secrets, eg: make qa edit-app-secrets
 	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml -e -d azure-key-vault-secret -c
+
+.PHONY: edit-infra-secrets
+edit-infra-secrets: install-fetch-config azure-login ## Edit Infra Secrets, eg: make qa edit-infra-secrets
+	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -t infra -s azure-key-vault-secret -f yaml -e -d azure-key-vault-secret -c
 
 .PHONY: shell
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
