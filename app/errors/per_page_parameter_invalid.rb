@@ -1,0 +1,1 @@
+class PerPageParameterInvalid < StandardError; end

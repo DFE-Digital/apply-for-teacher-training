@@ -367,6 +367,7 @@ GEM
     optimist (3.0.1)
     orm_adapter (0.5.0)
     os (1.1.1)
+    pagy (3.13.0)
     parallel (1.21.0)
     parallel_tests (3.7.3)
       parallel
@@ -721,6 +722,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth_openid_connect
   openapi3_parser (= 0.9.0)
+  pagy
   parallel_tests
   pdfkit
   pg (~> 1.2.3)
