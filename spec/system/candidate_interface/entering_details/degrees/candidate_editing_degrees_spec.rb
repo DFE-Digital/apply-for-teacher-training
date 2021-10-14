@@ -46,6 +46,11 @@ RSpec.feature 'Editing a degree' do
     when_i_change_my_undergraduate_degree_grade
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_grade
+
+    when_i_change_my_undergraduate_degree_type_to_other
+    and_i_change_my_degree_grade_to_an_invalid_undergraduate_grade
+    and_i_change_my_degree_type_back_to_undergraduate
+    then_i_can_see_that_the_degree_grade_has_been_deleted
   end
 
   def given_i_am_signed_in
@@ -207,8 +212,33 @@ RSpec.feature 'Editing a degree' do
     choose 'No'
     and_i_click_on_save_and_continue
     completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
-    award_year_row = find('.govuk-summary-list__row', text: 'Not entered')
+    award_year_row = find('.govuk-summary-list__row', text: 'Graduation year')
     expect(completion_status_row).to have_content 'No'
     expect(award_year_row).to have_content t('application_form.degree.review.not_specified')
+  end
+
+  def when_i_change_my_undergraduate_degree_type_to_other
+    click_change_link('qualification')
+    fill_in 'Type of degree', with: 'MA'
+    and_i_click_on_save_and_continue
+  end
+
+  def and_i_change_my_degree_grade_to_an_invalid_undergraduate_grade
+    click_change_link('grade')
+    choose 'Merit'
+    and_i_click_on_save_and_continue
+  end
+
+  def and_i_change_my_degree_type_back_to_undergraduate
+    click_change_link('qualification')
+    fill_in 'Type of degree', with: 'Bachelor of Arts'
+    and_i_click_on_save_and_continue
+  end
+
+  def then_i_can_see_that_the_degree_grade_has_been_deleted
+    type_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change qualification' }
+    grade_row = find('.govuk-summary-list__row', text: 'Predicted grade')
+    expect(type_row).to have_content 'Bachelor of Arts'
+    expect(grade_row).to have_content t('application_form.degree.review.not_specified')
   end
 end

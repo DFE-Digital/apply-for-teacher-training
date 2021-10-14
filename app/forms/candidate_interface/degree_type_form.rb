@@ -25,11 +25,20 @@ module CandidateInterface
       return false unless valid?
       return false unless degree_present?
 
-      degree.update!(
-        international: international?,
-        qualification_type: international? ? international_type_description : type_description,
-        qualification_type_hesa_code: international? ? nil : hesa_code,
-      )
+      if type_description_is_for_bachelor_degree? && current_grade_is_invalid_for_bachelor_degree?
+        degree.update!(
+          international: international?,
+          qualification_type: international? ? international_type_description : type_description,
+          qualification_type_hesa_code: international? ? nil : hesa_code,
+          grade: nil,
+        )
+      else
+        degree.update!(
+          international: international?,
+          qualification_type: international? ? international_type_description : type_description,
+          qualification_type_hesa_code: international? ? nil : hesa_code,
+        )
+      end
     end
 
     def assign_form_values
@@ -40,6 +49,16 @@ module CandidateInterface
     end
 
   private
+
+    def type_description_is_for_bachelor_degree?
+      return false if international?
+
+      HESA_DEGREE_TYPES.select { |dt| dt[3] == :bachelor }.collect(&:third).include?(type_description)
+    end
+
+    def current_grade_is_invalid_for_bachelor_degree?
+      !Hesa::Grade.undergrad_grouping_only.map(&:description).include?(degree.grade)
+    end
 
     def hesa_code
       Hesa::DegreeType.find_by_name(type_description)&.hesa_code
