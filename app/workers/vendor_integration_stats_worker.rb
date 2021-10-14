@@ -1,6 +1,8 @@
 require 'http'
 
 class VendorIntegrationStatsWorker
+  SLACK_MESSAGE_LIMIT = 4000
+
   include Sidekiq::Worker
 
   SLACK_CHANNELS = {
@@ -17,12 +19,23 @@ class VendorIntegrationStatsWorker
     @webhook_url = fetch_webhook_url
 
     if @webhook_url.present?
-      message = SlackReport.new(vendor_name).generate
-      post_to_slack message
+      message_array = SlackReport.new(vendor_name).generate
+
+      check_and_post(message_array)
     end
   end
 
 private
+
+  def check_and_post(messages)
+    if messages.join("\n").length < SLACK_MESSAGE_LIMIT
+      post_to_slack messages.join("\n")
+    else
+      messages.each do |message|
+        post_to_slack message
+      end
+    end
+  end
 
   def fetch_webhook_url
     ENV.fetch("#{@vendor_name.upcase}_INTEGRATION_STATS_SLACK_URL", nil)
@@ -56,18 +69,13 @@ private
     end
 
     def generate
-      <<~VENDOR_INTEGRATION_STATS_SLACK_REPORT
-        *API integration report for #{@vendor.name.titleize}* (#{Time.zone.now.to_s(:govuk_date)}, #{HostingEnvironment.environment_name})
-
-        :negative_squared_cross_mark:
-        ```#{never_connected_text}```
-        :satellite_antenna:
-        ```#{no_sync_in_24h_text}```
-        :checkered_flag:
-        ```#{no_decisions_in_7d_text}```
-        :thinking_face:
-        ```#{providers_with_errors_text}```
-      VENDOR_INTEGRATION_STATS_SLACK_REPORT
+      [
+        "*API integration report for #{@vendor.name.titleize}* (#{Time.zone.now.to_s(:govuk_date)}, #{HostingEnvironment.environment_name})",
+        ":negative_squared_cross_mark:\n```#{never_connected_text}```",
+        ":satellite_antenna:\n```#{no_sync_in_24h_text}```",
+        ":checkered_flag:\n```#{no_decisions_in_7d_text}```",
+        ":thinking_face:\n```#{providers_with_errors_text}```",
+      ]
     end
 
     def never_connected_text
