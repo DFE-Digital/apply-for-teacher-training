@@ -52,7 +52,7 @@ module CandidateInterface
 
     def section_or_gcse_incomplete?
       gcse_completed = "#{@subject}_gcse_completed"
-      (!@application_form.send(gcse_completed) || @application_form.send("#{@subject}_gcse").incomplete_gcse_information?) && !@application_qualification.missing_qualification?
+      (!@application_form.send(gcse_completed) || @application_form.send("#{@subject}_gcse")&.incomplete_gcse_information?) && !@application_qualification&.missing_qualification?
     end
 
     def qualification_row
