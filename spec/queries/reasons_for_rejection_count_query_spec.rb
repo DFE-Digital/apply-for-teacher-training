@@ -13,6 +13,7 @@ RSpec.describe ReasonsForRejectionCountQuery do
     @application_choice1 = create(:application_choice, :awaiting_provider_decision)
     @application_choice2 = create(:application_choice, :awaiting_provider_decision)
     @application_choice3 = create(:application_choice, :awaiting_provider_decision)
+
     reject_application(
       @application_choice1,
       {
@@ -64,6 +65,20 @@ RSpec.describe ReasonsForRejectionCountQuery do
         described_class::Result.new(1, 1, {}),
       )
     end
+
+    it 'only returns counts for current recruitment cycle' do
+      reject_application(
+        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
+        {
+          qualifications_y_n: 'No',
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+        },
+      )
+      counts = described_class.new.reason_counts
+      expect(counts[:candidate_behaviour_y_n]).to eq(described_class::Result.new(3, 2, {}))
+      expect(counts[:qualifications_y_n]).to eq(described_class::Result.new(1, 1, {}))
+    end
   end
 
   describe '#sub_reason_counts' do
@@ -83,6 +98,20 @@ RSpec.describe ReasonsForRejectionCountQuery do
       expect(counts[:qualifications_y_n].sub_reasons[:no_english_gcse]).to eq(
         described_class::Result.new(0, 0, nil),
       )
+    end
+
+    it 'only returns counts for current recruitment cycle' do
+      reject_application(
+        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
+        {
+          qualifications_y_n: 'No',
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+        },
+      )
+      counts = described_class.new.sub_reason_counts
+      expect(counts[:candidate_behaviour_y_n].sub_reasons[:other]).to eq(described_class::Result.new(3, 2, nil))
+      expect(counts[:quality_of_application_y_n].sub_reasons[:personal_statement]).to eq(described_class::Result.new(2, 1, nil))
     end
   end
 end
