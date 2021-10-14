@@ -51,6 +51,6 @@ RSpec.feature 'Cancel unsubmitted applications support task', sidekiq: true do
   end
 
   def then_i_can_see_that_the_application_has_been_cancelled
-    expect(page).to have_content('Ended without success')
+    expect(page).to have_content('Have not started form')
   end
 end

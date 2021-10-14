@@ -30,8 +30,8 @@ class PerformanceStatistics
               f.id,
               f.phase,
               CASE
-                WHEN #{form_is_unsubmitted_sql} AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
-                WHEN #{form_is_unsubmitted_sql} AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
+                WHEN #{form_is_unsubmitted_sql} AND (DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at)) THEN ARRAY['0', 'unsubmitted_not_started_form']
+                WHEN #{form_is_unsubmitted_sql} AND (DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at)) THEN ARRAY['1', 'unsubmitted_in_progress']
                 WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
                 WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'awaiting_candidate_response']
                 WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
@@ -66,7 +66,7 @@ class PerformanceStatistics
   end
 
   def form_is_unsubmitted_sql
-    "('unsubmitted' = ANY(ARRAY_AGG(ch.status)) OR '{NULL}' = ARRAY_AGG(DISTINCT ch.status))"
+    "(('{unsubmitted, application_not_sent}' && ARRAY_AGG(ch.status)) OR ('{NULL}' = ARRAY_AGG(DISTINCT ch.status)))"
   end
 
   def form_ended_without_success_sql
