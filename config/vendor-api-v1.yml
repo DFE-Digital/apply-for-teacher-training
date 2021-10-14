@@ -913,14 +913,15 @@ components:
         hesa_degstdt:
           type: string
           description: Degree start date in ISO8601 format
-          format: date-time
-          example: 2019-09-18T15:33:49.216Z
+          format: date
+          example: 2019-09-18
+          maxLength: 10
           nullable: true
         hesa_degenddt:
           type: string
           description: Degree end date in ISO8601 format
-          format: date-time
-          example: 2019-09-18T15:33:49.216Z
+          format: date
+          example: 2019-09-18
           maxLength: 10
           nullable: true
     Reference:
