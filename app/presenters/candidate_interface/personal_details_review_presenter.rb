@@ -53,7 +53,7 @@ module CandidateInterface
     def date_of_birth_row
       {
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
-        value: @personal_details_form.date_of_birth.to_s(:govuk_date),
+        value: @personal_details_form.date_of_birth.is_a?(Date) ? @personal_details_form.date_of_birth.to_s(:govuk_date) : nil,
         action: (if @editable
                    {
                      href: candidate_interface_edit_name_and_dob_path(return_to_params),
