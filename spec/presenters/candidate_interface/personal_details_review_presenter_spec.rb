@@ -86,6 +86,26 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         ),
       )
     end
+
+    it 'returns nil when date of birth is not present' do
+      personal_details_form = build(
+        :personal_details_form,
+        first_name: 'Max',
+        last_name: 'Caulfield',
+        day: nil,
+        month: nil,
+        year: nil,
+      )
+
+      expect(rows(personal_details_form: personal_details_form)).to include(
+        row_for(
+          :date_of_birth,
+          nil,
+          candidate_interface_edit_name_and_dob_path('return-to' => 'application-review'),
+          'personal-details-dob',
+        ),
+      )
+    end
   end
 
   context 'when presenting nationality' do
