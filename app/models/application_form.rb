@@ -86,6 +86,23 @@ class ApplicationForm < ApplicationRecord
     can_not_complete: 'can_not_complete',
   }
 
+  enum region_code: {
+    east_midlands: 'east_midlands',
+    eastern: 'eastern',
+    european_economic_area: 'european_economic_area',
+    london: 'london',
+    no_region: 'no_region',
+    north_east: 'north_east',
+    north_west: 'north_west',
+    rest_of_the_world: 'rest_of_the_world',
+    scotland: 'scotland',
+    south_east: 'south_east',
+    south_west: 'south_west',
+    wales: 'wales',
+    west_midlands: 'west_midlands',
+    yorkshire_and_the_humber: 'yorkshire_and_the_humber',
+  }
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create :add_support_reference
@@ -110,6 +127,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   after_commit :geocode_address_if_required
+  after_commit :update_region_if_required
 
   def touch_choices
     return unless application_choices.any?
@@ -419,6 +437,26 @@ private
     else
       GeocodeApplicationAddressWorker.perform_in(5.seconds, id)
     end
+  end
+
+  def update_region_if_required
+    return unless address_changed?
+
+    if international_address?
+      update!(region_code: find_international_region_from_country)
+    else
+      update!(region_code: find_region_from_uk_postcode)
+    end
+  end
+
+  def find_region_from_uk_postcode
+    # TODO:
+    :south_east
+  end
+
+  def find_international_region_from_country
+    # TODO:
+    :rest_of_the_world
   end
 
   def address_changed?
