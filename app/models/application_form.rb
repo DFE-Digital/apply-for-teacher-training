@@ -445,13 +445,8 @@ private
     if international_address?
       update!(region_code: find_international_region_from_country)
     else
-      update!(region_code: find_region_from_uk_postcode)
+      LookupAreaByPostcodeWorker.perform_async(id)
     end
-  end
-
-  def find_region_from_uk_postcode
-    # TODO:
-    :south_east
   end
 
   def find_international_region_from_country

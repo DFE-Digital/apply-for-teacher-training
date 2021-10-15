@@ -176,6 +176,7 @@ GEM
       smart_properties
     errbase (0.2.1)
     erubi (1.10.0)
+    excon (0.87.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -377,6 +378,8 @@ GEM
       optimist (~> 3.0)
     pdfkit (0.8.5)
     pg (1.2.3)
+    postcodes_io (0.3.0)
+      excon (~> 0.39)
     prometheus-client (2.1.0)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -726,6 +729,7 @@ DEPENDENCIES
   parallel_tests
   pdfkit
   pg (~> 1.2.3)
+  postcodes_io
   prometheus-client
   pry
   pry-byebug

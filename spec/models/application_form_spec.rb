@@ -119,6 +119,28 @@ RSpec.describe ApplicationForm do
 
         expect(application_form.reload.european_economic_area?).to be(true)
       end
+
+      it 'sets value to `london` for Westminster postcode' do
+        application_form = build(
+          :application_form,
+          address_type: :uk,
+          postcode: 'SW1P 3BT',
+        )
+        application_form.save!
+
+        expect(application_form.reload.london?).to be(true)
+      end
+
+      it 'sets value to `wales` for Cardiff postcode' do
+        application_form = build(
+          :application_form,
+          address_type: :uk,
+          postcode: 'CF40 2QD',
+        )
+        application_form.save!
+
+        expect(application_form.reload.wales?).to be(true)
+      end
     end
 
     describe '#geocode_address_if_required' do
