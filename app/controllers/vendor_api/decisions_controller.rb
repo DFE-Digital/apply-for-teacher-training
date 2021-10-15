@@ -79,7 +79,7 @@ module VendorAPI
       render status: :unprocessable_entity, json: {
         errors: [
           error: 'StateTransitionError',
-          message: 'The application is not ready for that action',
+          message: I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
         ],
       }
     rescue ProviderAuthorisation::NotAuthorisedError => e

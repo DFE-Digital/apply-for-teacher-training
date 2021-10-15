@@ -244,7 +244,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to eq 'The application is not ready for that action'
+      expect(error_response['message']).to eq "It's not possible to perform this action while the application is in its current state"
     end
 
     it 'returns a not found error if the application cannot be found' do
