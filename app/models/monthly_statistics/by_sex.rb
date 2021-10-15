@@ -47,7 +47,7 @@ module MonthlyStatistics
       group_query.map do |item|
         sex, status = item[0]
         count = item[1]
-        counts[sex].merge!({ status => count }) if counts[sex]
+        counts[sex].&merge!({ status => count })
       end
 
       counts
