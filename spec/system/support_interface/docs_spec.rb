@@ -55,6 +55,7 @@ RSpec.feature 'Docs' do
       provider_mailer-ucas_match_resolved_on_apply_email
       provider_mailer-courses_open_on_apply
       candidate_mailer-unconditional_offer_accepted
+      candidate_mailer-conditions_statuses_changed
       provider_mailer-unconditional_offer_accepted
       provider_mailer-confirm_sign_in
       provider_mailer-organisation_permissions_set_up

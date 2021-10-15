@@ -66,20 +66,33 @@ RSpec.describe ProviderInterface::SaveConditionStatuses do
         # rubocop:enable RSpec/NestedGroups
       end
 
-      context 'when one conditions is still pending' do
-        let(:new_conditions) do
-          conditions.each_with_index do |condition, index|
-            condition.status = index.zero? ? 'pending' : 'met'
-          end
+      context 'when one condition is still pending' do
+        let(:conditions) do
+          [
+            create(:offer_condition, status: :pending),
+            create(:offer_condition, status: :pending),
+            create(:offer_condition, status: :met),
+            create(:offer_condition, status: :met),
+          ]
         end
+        let(:new_conditions) do
+          [
+            build(:offer_condition, id: conditions.first.id, status: :met),
+            build(:offer_condition, id: conditions.second.id, status: :pending),
+            build(:offer_condition, id: conditions.third.id, status: :pending),
+            build(:offer_condition, id: conditions.fourth.id, status: :met),
+          ]
+        end
+
+        before { allow(CandidateMailer).to receive(:conditions_statuses_changed).and_call_original }
 
         it 'keeps the application in the pending_conditions state' do
           expect { service.save! }.not_to change(application_choice, :status)
         end
 
-        it 'does not send an email to the candidate', sidekiq: true do
+        it 'sends an email to the candidate' do
           service.save!
-          expect(ActionMailer::Base.deliveries).to be_empty
+          expect(CandidateMailer).to have_received(:conditions_statuses_changed).with(application_choice, [conditions.first], [conditions.second], [conditions.third])
         end
       end
     end

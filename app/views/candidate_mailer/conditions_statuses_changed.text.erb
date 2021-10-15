@@ -1,0 +1,24 @@
+Dear <%= @application_form.first_name %>
+
+<%= @provider_name %> has updated the status of your conditions for <%= @course_name_and_code %>.
+
+<% if @met_conditions.any? %>
+They’ve marked the following <%= 'condition'.pluralize(@met_conditions.count) %> as met:
+<% @met_conditions.each do |condition| %>
+- <%= condition.text %>
+<% end %>
+<% end %>
+
+<% if @previously_met_conditions.any? %>
+They’ve marked the following <%= 'condition'.pluralize(@previously_met_conditions.count) %> as pending:
+<% @previously_met_conditions.each do |condition| %>
+- <%= condition.text %>
+<% end %>
+<% end %>
+
+<% if @pending_conditions.any? %>
+The following <%= 'condition'.pluralize(@pending_conditions.count) %> still <%= @pending_conditions.one? ? 'needs' : 'need' %> to be met:
+<% @pending_conditions.each do |condition| %>
+- <%= condition.text %>
+<% end %>
+<% end %>
