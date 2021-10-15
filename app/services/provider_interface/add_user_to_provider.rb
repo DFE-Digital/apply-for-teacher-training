@@ -20,6 +20,7 @@ module ProviderInterface
 
           provider_user = find_or_create_provider_user!
           create_provider_permissions!(provider_user)
+          send_permissions_granted_email(provider_user)
         end
       end
     end
@@ -57,6 +58,10 @@ module ProviderInterface
           provider_permissions.send("#{permission}=", permissions.include?(permission.to_s))
         end
       end
+    end
+
+    def send_permissions_granted_email(provider_user)
+      ProviderMailer.permissions_granted(provider_user, provider, permissions, actor)
     end
   end
 end

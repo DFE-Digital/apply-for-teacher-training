@@ -281,7 +281,80 @@ RSpec.describe ProviderMailer, type: :mailer do
       'heading' => 'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
       'make offers' => /Make offers and reject applications:\s+- University of Purley/,
       'view safeguarding' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
-      'view diversity' => /View criminal convictions and professional misconduct:\s+- University of Purley\s+- University of Croydon/,
+      'view diversity' => /View sex, disability and ethnicity information:\s+- University of Purley\s+- University of Croydon/,
+    )
+  end
+
+  describe 'permissions_granted' do
+    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
+    let(:permissions_granted_by_user) { FactoryBot.create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
+    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:permissions) { %i[make_decisions view_safeguarding_information view_diversity_information] }
+
+    let(:email) do
+      described_class.permissions_granted(provider_user, provider, permissions, permissions_granted_by_user)
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Jane Doe has added you to Hogwards University - manage teacher training applications',
+      'salutation' => 'Dear Princess Fiona',
+      'heading' => 'Jane Doe has added you to Hogwards University. You can now manage their teacher training applications.',
+      'make decisions' => 'make offers and reject application',
+      'view safeguarding' => 'view criminal convictions and professional misconduct',
+      'view diversity' => 'view sex, disability and ethnicity information',
+    )
+  end
+
+  describe 'permissions_granted_by_support' do
+    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
+    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:permissions) { %i[make_decisions view_diversity_information] }
+
+    let(:email) do
+      described_class.permissions_granted(provider_user, provider, permissions, nil)
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      "You've been added to Hogwards University - manage teacher training applications",
+      'salutation' => 'Dear Princess Fiona',
+      'heading' => "You've been added to Hogwards University. You can now manage their teacher training applications.",
+      'make decisions' => 'make offers and reject application',
+      'view diversity' => 'view sex, disability and ethnicity information',
+    )
+  end
+
+  describe 'permissions_removed' do
+    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
+    let(:permissions_removed_by_user) { FactoryBot.create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
+    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+
+    let(:email) do
+      described_class.permissions_removed(provider_user, provider, permissions_removed_by_user)
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Jane Doe has removed you from Hogwards University - manage teacher training applications',
+      'salutation' => 'Dear Princess Fiona',
+      'heading' => 'Jane Doe has removed you from Hogwards University. You can no longer manage their teacher training applications.',
+    )
+  end
+
+  describe 'permissions_removed_by_support' do
+    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
+    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+
+    let(:email) do
+      described_class.permissions_removed(provider_user, provider, nil)
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      "You've been removed from Hogwards University - manage teacher training applications",
+      'salutation' => 'Dear Princess Fiona',
+      'heading' => "You've been removed from Hogwards University. You can no longer manage their teacher training applications.",
     )
   end
 

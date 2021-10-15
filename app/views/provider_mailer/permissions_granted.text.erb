@@ -1,0 +1,21 @@
+Dear <%= @provider_user.full_name %>
+
+<% if @permissions_granted_by %>
+  <%= @permissions_granted_by.full_name %> has added you to <%= @provider.name %>. You can now manage their teacher training applications.
+<% else %>
+  You've been added to <%= @provider.name %>. You can now manage their teacher training applications.
+<% end %>
+
+
+You have permission to:
+<% @permissions.each do |permission| %>
+  - <%= I18n.t("user_permissions.#{permission}.description").downcase %>
+<% end %>
+
+# Sign in to manage applications
+
+If you have a DfE Sign-in account, you can use it to sign in:
+
+<%= provider_interface_sign_in_url %>
+
+If you do not have a DfE Sign-in account, check your inbox for an email telling you how to create one.
