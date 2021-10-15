@@ -418,7 +418,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_click_change_degree_institution
 
     fill_in 'Institution name', with: 'Otago University'
-    select('New Zealand', from: 'In which country is this institution based?')
+    select('New Zealand', from: 'In which country or territory is this institution based?')
     click_button t('save_and_continue')
   end
 

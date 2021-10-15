@@ -36,8 +36,8 @@ en:
           uk: In the UK
           international: Outside the UK
       country:
-        label: Which country?
-        default_option: Select a country
+        label: Which country or territory?
+        default_option: Select a country or territory
 
   activemodel:
     errors:

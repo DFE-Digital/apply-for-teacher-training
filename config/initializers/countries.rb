@@ -177,6 +177,7 @@ COUNTRIES = {
   'TH' => 'Thailand',
   'BS' => 'The Bahamas',
   'GM' => 'The Gambia',
+  'TW' => 'Taiwan',
   'TG' => 'Togo',
   'TO' => 'Tonga',
   'TT' => 'Trinidad and Tobago',
