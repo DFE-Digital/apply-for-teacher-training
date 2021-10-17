@@ -44,21 +44,37 @@ module MonthlyStatistics
         I18n.t('equality_and_diversity.sex.opt_out.label') => {},
       }
 
-      group_query.map do |item|
+      group_query_excluding_deferred_offers.map do |item|
         sex, status = item[0]
         count = item[1]
-        counts[sex].&merge!({ status => count })
+        counts[sex]&.merge!({ status => count })
+      end
+
+      group_query_for_deferred_offers.map do |item|
+        sex, status = item[0]
+        count = item[1]
+        counts[sex]&.merge!({ status => count })
       end
 
       counts
     end
 
-    def group_query
-      ApplicationChoice
-        .joins(:application_form)
-        .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
-        .group("application_forms.equality_and_diversity->'sex'", 'status')
+    def group_query_for_deferred_offers
+      group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
+        .where(status: :offer_deferred)
         .count
+    end
+
+    def group_query_excluding_deferred_offers
+      group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
+        .where.not(status: :offer_deferred)
+        .count
+    end
+
+    def group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
+      ApplicationChoice
+        .joins(:application_form).where(application_forms: { recruitment_cycle_year: recruitment_cycle_year })
+        .group("application_forms.equality_and_diversity->'sex'", 'status')
     end
   end
 end

@@ -11,7 +11,7 @@ module MonthlyStatistics
     end
 
     def offer_count(statuses)
-      statuses['offer'] || 0
+      (statuses['offer'] || 0) + (statuses['offer_deferred'] || 0)
     end
 
     def awaiting_decision_count(statuses)
