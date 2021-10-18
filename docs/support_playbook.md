@@ -20,11 +20,11 @@ If a re-send of the email is necessary:
 RefereeMailer.reference_request_email(reference).deliver_now
 ```
 
-### Re-add a referee / resend emails for refused reference
+### Re-add a referee
 
 If the request is coming from the candidate, ask them to delete the reference and request it again.
 
-If the request is from a referee (eg—an accidental refusal), use the “Undo refusal” feature in the support interface to move the reference back to feedback_requested. If the referee needs the reference link, see this section.
+If the request is from a referee (eg—an accidental refusal), use the “Undo refusal” feature in the support interface to move the reference back to feedback_requested. If the referee needs the reference link, see the section on [re-sending a reference email](#re-send-a-reference-email-for-a-referee).
 
 ### Uncancel a reference that was cancelled by support
 
