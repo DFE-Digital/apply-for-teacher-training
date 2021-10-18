@@ -1,6 +1,6 @@
 module SupportInterface
   class EqualityAndDiversityExport
-    def data_for_export
+    def data_for_export(*)
       data_for_export = application_forms.includes(:application_choices).find_each(batch_size: 100).map do |application_form|
         application_choices = application_form.application_choices
         rejected_application_choices = application_choices.select(&:rejected?)

@@ -1,6 +1,6 @@
 module SupportInterface
   class ProviderAccessControlsExport
-    def data_for_export
+    def data_for_export(*)
       providers = Provider.all
 
       providers.find_each(batch_size: 100).map do |provider|

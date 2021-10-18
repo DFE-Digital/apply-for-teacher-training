@@ -13,12 +13,15 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
     it 'returns submitted application choices with timings' do
       unsubmitted_form = create(:application_form)
       create(:application_choice, status: :unsubmitted, application_form: unsubmitted_form)
-      previous_cycle_application_form = create(:completed_application_form, application_choices_count: 3)
-      previous_cycle_application_form.update!(recruitment_cycle_year: RecruitmentCycle.previous_year)
+      previously_submitted_form = create(
+        :completed_application_form,
+        application_choices_count: 1,
+        recruitment_cycle_year: RecruitmentCycle.previous_year,
+      )
       submitted_form = create(:completed_application_form, application_choices_count: 2)
 
       choices = described_class.new.application_choices
-      expect(choices.size).to eq(2)
+      expect(choices.size).to eq(3)
 
       expect(choices).to contain_exactly(
         {
@@ -63,7 +66,35 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           rejection_reason: nil,
           structured_rejection_reasons: nil,
         },
+        {
+          candidate_id: previously_submitted_form.candidate.id,
+          recruitment_cycle_year: previously_submitted_form.recruitment_cycle_year,
+          support_reference: previously_submitted_form.support_reference,
+          phase: previously_submitted_form.phase,
+          submitted_at: previously_submitted_form.submitted_at,
+          application_choice_id: previously_submitted_form.application_choices[0].id,
+          choice_status: previously_submitted_form.application_choices[0].status,
+          provider_code: previously_submitted_form.application_choices[0].course.provider.code,
+          course_code: previously_submitted_form.application_choices[0].course.code,
+          sent_to_provider_at: nil,
+          reject_by_default_at: nil,
+          decline_by_default_at: nil,
+          decided_at: nil,
+          decision: nil,
+          offer_response: nil,
+          offer_response_at: nil,
+          recruited_at: nil,
+          rejection_reason: nil,
+          structured_rejection_reasons: nil,
+        },
       )
+    end
+
+    it 'can export applications in the current cycle' do
+      create(:completed_application_form, application_choices_count: 1)
+      create(:completed_application_form, application_choices_count: 1, recruitment_cycle_year: RecruitmentCycle.previous_year)
+
+      expect(described_class.new.application_choices('current_cycle' => true).size).to eq(1)
     end
 
     context 'for choices that have gone to a provider' do

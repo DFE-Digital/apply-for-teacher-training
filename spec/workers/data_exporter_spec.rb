@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DataExporter, with_audited: true do
   let(:failing_exporter) do
     Class.new do
-      def data_for_export
+      def data_for_export(*)
         raise 'the level of debate in this country'
       end
     end

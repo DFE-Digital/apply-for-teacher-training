@@ -1,6 +1,6 @@
 module SupportInterface
   class NotesExport
-    def data_for_export
+    def data_for_export(*)
       notes = Note.select(:message, :created_at, :application_choice_id, :provider_user_id)
                 .includes(
                   { provider_user: { provider_permissions: :provider } },

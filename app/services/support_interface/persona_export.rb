@@ -2,7 +2,7 @@ module SupportInterface
   class PersonaExport
     include GeocodeHelper
 
-    def data_for_export
+    def data_for_export(*)
       application_choices.find_each(batch_size: 100).map do |application_choice|
         application_form = application_choice.application_form
 

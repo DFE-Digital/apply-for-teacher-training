@@ -9,7 +9,7 @@ module SupportInterface
       notifications_removed
     ].freeze
 
-    def data_for_export
+    def data_for_export(*)
       rows = Audited::Audit
         .where(auditable_type: 'ProviderUserNotificationPreferences', action: 'update')
         .joins('JOIN provider_user_notifications ON auditable_id = provider_user_notifications.id')

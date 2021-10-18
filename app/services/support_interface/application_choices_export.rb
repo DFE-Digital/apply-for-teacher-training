@@ -1,9 +1,9 @@
 module SupportInterface
   class ApplicationChoicesExport
-    def application_choices
+    def application_choices(export_options = {})
       results = []
 
-      relevant_applications.find_each(batch_size: 100) do |application_form|
+      relevant_applications(export_options).find_each(batch_size: 100) do |application_form|
         application_form.application_choices.each do |choice|
           results << {
             candidate_id: application_form.candidate_id,
@@ -60,16 +60,18 @@ module SupportInterface
       end
     end
 
-    def relevant_applications
-      ApplicationForm
-        .current_cycle
+    def relevant_applications(export_options)
+      application_forms = ApplicationForm
         .includes(
           :candidate,
           application_choices: %i[course provider audits],
         )
         .where('candidates.hide_in_reporting' => false)
         .where.not(submitted_at: nil)
-        .order('submitted_at asc')
+
+      application_forms = application_forms.current_cycle if export_options['current_cycle']
+
+      application_forms.order('submitted_at asc')
     end
   end
 end

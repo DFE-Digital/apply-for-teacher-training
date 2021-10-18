@@ -1,6 +1,6 @@
 module SupportInterface
   class ApplicationReferencesExport
-    def data_for_export
+    def data_for_export(*)
       application_forms = ApplicationForm.includes(:application_choices, application_references: :audits)
 
       data_for_export = application_forms.find_each(batch_size: 100).map do |application_form|

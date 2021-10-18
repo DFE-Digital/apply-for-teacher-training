@@ -1,6 +1,6 @@
 module SupportInterface
   class WhoRanWhichExportExport
-    def data_for_export
+    def data_for_export(*)
       DataExport
       .where
       .not(export_type: nil)

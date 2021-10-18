@@ -1,6 +1,6 @@
 module SupportInterface
   class QualificationsExport
-    def data_for_export
+    def data_for_export(*)
       if FeatureFlag.active?(:expanded_quals_export)
         ExpandedQualificationsExport.new.data_for_export
       else

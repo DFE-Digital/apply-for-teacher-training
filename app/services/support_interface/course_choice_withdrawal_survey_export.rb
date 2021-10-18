@@ -1,6 +1,6 @@
 module SupportInterface
   class CourseChoiceWithdrawalSurveyExport
-    def data_for_export
+    def data_for_export(*)
       application_choices.find_each(batch_size: 100).map do |application_choice|
         survey = application_choice.withdrawal_feedback
         {

@@ -47,5 +47,12 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
       expect(row[:volunteering_experience_last_updated_at]).to eql(time_to_freeze)
       expect(row[:courses_last_updated_at]).to eql(time_to_freeze)
     end
+
+    it 'only returns application data from the current cycle when current_cycle is set to true' do
+      create(:application_form, :minimum_info)
+      create(:application_form, :minimum_info, recruitment_cycle_year: RecruitmentCycle.previous_year)
+
+      expect(described_class.new.applications('current_cycle' => true).size).to eq(1)
+    end
   end
 end

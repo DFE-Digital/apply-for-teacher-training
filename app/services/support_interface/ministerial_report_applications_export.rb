@@ -8,7 +8,7 @@ module SupportInterface
       DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport, data_export.id)
     end
 
-    def call
+    def call(*)
       report = initialize_empty_report
 
       report = choices_with_courses_and_subjects.each_with_object(report) do |choice, report_in_progress|

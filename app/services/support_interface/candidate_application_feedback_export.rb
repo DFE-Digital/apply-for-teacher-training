@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateApplicationFeedbackExport
-    def data_for_export
+    def data_for_export(*)
       application_feedback.map do |feedback|
         {
           full_name: feedback.application_form.full_name,

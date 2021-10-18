@@ -2,7 +2,7 @@ module SupportInterface
   class SitesExport
     include GeocodeHelper
 
-    def sites
+    def sites(*)
       relevant_sites.find_each(batch_size: 100).map do |site|
         {
           site_id: site.id,
