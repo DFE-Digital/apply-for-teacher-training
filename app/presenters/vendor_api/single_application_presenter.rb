@@ -93,22 +93,26 @@ module VendorAPI
     end
 
     def rejection
-      if application_choice.rejection_reason? || application_choice.structured_rejection_reasons.present?
-        {
-          reason: RejectionReasonPresenter.new(application_choice).present,
-          date: application_choice.rejected_at.iso8601,
-        }
-      elsif application_choice.offer_withdrawal_reason?
-        {
-          reason: application_choice.offer_withdrawal_reason,
-          date: application_choice.offer_withdrawn_at.iso8601,
-        }
-      elsif application_choice.rejected_by_default?
-        {
-          reason: 'Not entered',
-          date: application_choice.rejected_at.iso8601,
-        }
-      end
+      @rejection ||= if application_choice.rejection_reason? || application_choice.structured_rejection_reasons.present?
+                       {
+                         reason: RejectionReasonPresenter.new(application_choice).present,
+                         date: application_choice.rejected_at.iso8601,
+                       }
+                     elsif application_choice.offer_withdrawal_reason?
+                       {
+                         reason: application_choice.offer_withdrawal_reason,
+                         date: application_choice.offer_withdrawn_at.iso8601,
+                       }
+                     elsif application_choice.rejected_by_default?
+                       {
+                         reason: 'Not entered',
+                         date: application_choice.rejected_at.iso8601,
+                       }
+                     end
+      {
+        reason: truncate_if_over_advertised_limit(@rejection[:reason], 'Rejection.reason',  65535),
+        date: @rejection[:date]
+      }
     end
 
     def withdrawal

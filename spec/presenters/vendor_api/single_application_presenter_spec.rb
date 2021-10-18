@@ -32,6 +32,23 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: rejected_at.iso8601)
     end
+
+    it 'returns a rejection object with a truncated reason when the character limit is exceeded' do
+      rejected_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
+      application_form = create(:application_form,
+                                :minimum_info)
+      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: rejected_at)
+      application_choice.rejection_reason = 'Course full' * 65000
+      allow(Sentry).to receive(:capture_message)
+
+      response = described_class.new(application_choice).as_json
+
+      expect(Sentry).to have_received(:capture_message).with("Rejection.reason truncated for application with id #{application_choice.id} as length exceeded 65535 chars")
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response[:attributes][:rejection][:reason].length).to be(65535)
+      expect(response[:attributes][:rejection]).to eq(reason: application_choice.rejection_reason.truncate(65535), date: rejected_at.iso8601)
+    end
   end
 
   describe 'attributes.rejection with a withdrawn offer' do
