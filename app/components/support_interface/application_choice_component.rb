@@ -196,6 +196,13 @@ module SupportInterface
             text: 'Reinstate offer',
           },
         }
+      elsif FeatureFlag.active?(:support_user_revert_withdrawn_offer) && application_choice.withdrawn?
+        {
+          action: {
+            href: support_interface_application_form_application_choice_revert_withdrawal_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+            text: 'Revert withdrawal',
+          },
+        }
       elsif application_choice.rejected? && !application_choice.rejected_by_default?
         {
           action: {

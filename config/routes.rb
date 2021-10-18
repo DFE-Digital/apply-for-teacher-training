@@ -898,6 +898,9 @@ Rails.application.routes.draw do
 
       get '/revert-rejection/:application_choice_id' => 'application_forms/application_choices#confirm_revert_rejection', as: :application_form_revert_rejection
       patch '/revert-rejection/:application_choice_id' => 'application_forms/application_choices#revert_rejection'
+
+      get '/revert-withdrawal/:application_choice_id' => 'application_forms/application_choices#confirm_revert_withdrawal', as: :application_form_application_choice_revert_withdrawal
+      patch '/revert-withdrawal/:application_choice_id' => 'application_forms/application_choices#revert_withdrawal'
     end
 
     get '/duplicate-candidate-matches', to: redirect('/support/fraud-auditing-dashboard')
