@@ -8,6 +8,7 @@ if Rails.env.production?
       super(log, logger)
       add_service_type
       add_job_data
+      remove_post_params
       hash.to_json
     end
 
@@ -29,6 +30,16 @@ if Rails.env.production?
         hash['tid'] = tid
         hash['ctx'] = ctx
       end
+    end
+
+    def remove_post_params
+      if method_is_post_or_put_or_patch? && hash.dig(:payload, :params).present?
+        hash[:payload][:params].clear
+      end
+    end
+
+    def method_is_post_or_put_or_patch?
+      hash.dig(:payload, :method).in? %w[PUT POST PATCH]
     end
   end
 
