@@ -163,6 +163,20 @@ RSpec.describe TestApplications do
     end
   end
 
+  describe 'apply again' do
+    it 'generates 2 applications, one in the past and one current' do
+      create(:course_option, course: create(:course, :open_on_apply))
+      described_class.new.create_application(recruitment_cycle_year: RecruitmentCycle.current_year, states: %i[awaiting_provider_decision], courses_to_apply_to: Course.current_cycle, apply_again: true)
+      previous_form = ApplicationForm.first
+      new_form = ApplicationForm.last
+
+      expect(previous_form).not_to be_nil
+      expect(previous_form.created_at).to be_between(30.days.ago, 21.days.ago)
+      expect(new_form).not_to be_nil
+      expect(new_form.created_at).to be_between(20.days.ago, Time.zone.now)
+    end
+  end
+
   describe 'carried over' do
     it 'generates an application to courses from the year before' do
       create(:course_option, course: create(:course, :open_on_apply))
