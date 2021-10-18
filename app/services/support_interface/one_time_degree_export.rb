@@ -1,6 +1,6 @@
 module SupportInterface
   class OneTimeDegreeExport
-    def data_for_export
+    def data_for_export(*)
       degrees.includes(application_form: :application_choices).find_each(batch_size: 100).map do |degree|
         candidate = degree.application_form.candidate
         application_form = degree.application_form
