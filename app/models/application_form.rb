@@ -87,13 +87,16 @@ class ApplicationForm < ApplicationRecord
   }
 
   enum region_code: {
+    channel_islands: 'channel_islands',
     east_midlands: 'east_midlands',
     eastern: 'eastern',
     european_economic_area: 'european_economic_area',
+    isle_of_man: 'isle_of_man',
     london: 'london',
     no_region: 'no_region',
     north_east: 'north_east',
     north_west: 'north_west',
+    northern_ireland: 'northern_ireland',
     rest_of_the_world: 'rest_of_the_world',
     scotland: 'scotland',
     south_east: 'south_east',

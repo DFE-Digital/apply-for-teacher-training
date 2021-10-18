@@ -120,26 +120,24 @@ RSpec.describe ApplicationForm do
         expect(application_form.reload.european_economic_area?).to be(true)
       end
 
-      it 'sets value to `london` for Westminster postcode' do
+      it 'queues an LookupAreaByPostcodeWorker job for Westminster postcode' do
         application_form = build(
           :application_form,
           address_type: :uk,
           postcode: 'SW1P 3BT',
         )
+        expect(LookupAreaByPostcodeWorker).to receive(:perform_async).with(application_form.id)
         application_form.save!
-
-        expect(application_form.reload.london?).to be(true)
       end
 
-      it 'sets value to `wales` for Cardiff postcode' do
+      it 'queues an LookupAreaByPostcodeWorker job for Cardiff postcode' do
         application_form = build(
           :application_form,
           address_type: :uk,
           postcode: 'CF40 2QD',
         )
+        expect(LookupAreaByPostcodeWorker).to receive(:perform_async).with(application_form.id)
         application_form.save!
-
-        expect(application_form.reload.wales?).to be(true)
       end
     end
 

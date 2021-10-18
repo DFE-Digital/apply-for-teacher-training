@@ -1,28 +1,48 @@
 class LookupAreaByPostcodeWorker
   include Sidekiq::Worker
 
+  REGION_CODES = {
+    'north east' => :north_east,
+    'north west' => :north_west,
+    'yorkshire and the humber' => :yorkshire_and_the_humber,
+    'east midlands' => :east_midlands,
+    'west midlands' => :west_midlands,
+    'east of england' => :eastern,
+    'london' => :london,
+    'south east' => :south_east,
+    'south west' => :south_west,
+    'wales' => :wales,
+    'scotland' => :scotland,
+    'northern ireland' => :northern_ireland,
+    'channel islands' => :channel_islands,
+    'isle of man' => :isle_of_man,
+  }
+
   sidekiq_options queue: :low_priority, retry: 5
 
-  def perform(application_form_id)
-    area_label = lookup_area(application_form_id)
-    region_code = region_code_for(area_label)
+  def perform(id)
+    application_form = ApplicationForm.find(id)
+    return unless application_form&.postcode.present?
 
-    update!(region_code: region_code)
+    application_form.update!(
+      region_code: region_code_for(
+        lookup_area(application_form.postcode),
+      ),
+    )
   end
 
 private
 
-  def lookup_area(id)
-    application_form = ApplicationForm.find(id)
-    return unless application_form&.postcode.present?
-
+  def lookup_area(postcode)
     api = Postcodes::IO.new
-    result = api.lookup(application_form.postcode)
-    result.region
+    api.lookup(postcode)
   end
 
-  def region_code_for(area_label)
-    # TODO:
-    'south_east'
+  def region_code_for(result)
+    if result.region.present?
+      REGION_CODES[result.region.downcase]
+    elsif result.country.present?
+      REGION_CODES[result.country.downcase]
+    end
   end
 end
