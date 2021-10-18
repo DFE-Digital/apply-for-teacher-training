@@ -73,7 +73,11 @@ module MonthlyStatistics
 
     def group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
       ApplicationChoice
-        .joins(:application_form).where(application_forms: { recruitment_cycle_year: recruitment_cycle_year })
+        .joins(:application_form)
+        .where(application_forms: { recruitment_cycle_year: recruitment_cycle_year })
+        .where.not(
+          application_forms: ApplicationForm.select(:previous_application_form_id).where.not(previous_application_form_id: nil),
+        )
         .group("application_forms.equality_and_diversity->'sex'", 'status')
     end
   end
