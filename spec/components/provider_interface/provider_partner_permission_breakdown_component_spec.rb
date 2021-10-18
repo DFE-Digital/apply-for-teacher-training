@@ -5,10 +5,10 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   let(:permission) { :make_decisions }
   let(:render) { render_inline(described_class.new(provider: provider, permission: permission)) }
 
-  def create_partner_provider_where(partner_provider_type:, permission_applies:, org_name: nil, course_open: true, relationship_set_up: true)
+  def create_partner_provider_where(partner_provider_type:, permission_applies:, course_open: true, relationship_set_up: true)
     my_provider_type = partner_provider_type == :training ? :ratifying : :training
 
-    partner_provider = create(:provider, name: org_name || Faker::University.name)
+    partner_provider = create(:provider)
 
     relationship_traits = relationship_set_up ? [] : %i[not_set_up_yet]
 
@@ -28,8 +28,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   end
 
   context 'when there are partner organisations for which the permission applies' do
-    let!(:ratifying_partners) { ['University of B', 'SCITT of Rock'].map { |name| create_partner_provider_where(partner_provider_type: :ratifying, org_name: name, permission_applies: true) } }
-    let!(:training_partners) { ['University of A', 'SCITT of Destiny'].map { |name| create_partner_provider_where(partner_provider_type: :training, org_name: name, permission_applies: true) } }
+    let!(:ratifying_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :ratifying, permission_applies: true) } }
+    let!(:training_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :training, permission_applies: true) } }
 
     it 'renders the names of partner organisations for which the given provider has the permission' do
       expected_provider_names = (ratifying_partners + training_partners).map(&:name).sort
@@ -60,9 +60,9 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
   end
 
   context 'when there are partner organisations for which the permission does not apply' do
-    let!(:ratifying_partners) { ['University of X', 'School of Jazz'].map { |name| create_partner_provider_where(partner_provider_type: :ratifying, org_name: name, permission_applies: false) } }
-    let!(:training_partners) { ['University of Z', 'Local school'].map { |name| create_partner_provider_where(partner_provider_type: :training, org_name: name, permission_applies: false) } }
-    let!(:not_set_up_partners) { ['Not Setup College', 'School of Procrastination'].map { |name| create_partner_provider_where(partner_provider_type: :training, org_name: name, permission_applies: false, relationship_set_up: false) } }
+    let!(:ratifying_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :ratifying, permission_applies: false) } }
+    let!(:training_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :training, permission_applies: false) } }
+    let!(:not_set_up_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :training, permission_applies: false, relationship_set_up: false) } }
 
     it 'renders the names of partner organisations for which the given provider does not have the permission' do
       expected_provider_names = (ratifying_partners + training_partners + not_set_up_partners).map(&:name).sort
