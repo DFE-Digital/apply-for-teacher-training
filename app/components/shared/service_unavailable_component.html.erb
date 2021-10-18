@@ -2,7 +2,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl"><%= title_content %></h1>
+    <h1 class="govuk-heading-l"><%= title_content %></h1>
+    <p class="govuk-body"><%= t('service_unavailable.info', date: 'Monday 11 October 2021', time: '3pm') %></p>
     <p class="govuk-body"><%= t('service_unavailable.body') %></p>
+    <p class="govuk-body">
+      <%= t('service_unavailable.questions') %><br>
+      <a class="govuk-link" href="mailto:<%= t('service_unavailable.enquiry_email') %>"><%= t('service_unavailable.enquiry_email') %></a>
+    </p>
   </div>
 </div>
