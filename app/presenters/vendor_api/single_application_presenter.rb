@@ -109,9 +109,11 @@ module VendorAPI
                          date: application_choice.rejected_at.iso8601,
                        }
                      end
+      return if @rejection.blank?
+
       {
-        reason: truncate_if_over_advertised_limit(@rejection[:reason], 'Rejection.reason',  65535),
-        date: @rejection[:date]
+        reason: truncate_if_over_advertised_limit('Rejection.properties.reason', @rejection[:reason]),
+        date: @rejection[:date],
       }
     end
 
@@ -422,7 +424,7 @@ module VendorAPI
                                  ''
                                end
 
-      truncate_if_over_advertised_limit(@work_history_breaks, :work_history_breaks, 10240)
+      truncate_if_over_advertised_limit('WorkExperiences.properties.work_history_break_explanation', @work_history_breaks)
     end
 
     def safeguarding_issues_details_url
@@ -433,14 +435,16 @@ module VendorAPI
       CacheKey.generate("#{model.cache_key_with_version}#{method}")
     end
 
-    def truncate_if_over_advertised_limit(field, field_name, limit)
-      if field.length > limit
-        Sentry.capture_message("#{field_name} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
+    def truncate_if_over_advertised_limit(field_name, field_value)
+      limit = field_length(field_name)
+      return field_value if field_value.length <= limit
 
-        return field.truncate(limit)
-      end
-      field
+      Sentry.capture_message("#{field_name} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
+      field_value.truncate(limit)
     end
 
+    def field_length(name)
+      APIDocs::APIReference.new(VendorAPISpecification.as_hash).field_lengths_summary.to_h["#{name}.maxLength"].to_i
+    end
   end
 end
