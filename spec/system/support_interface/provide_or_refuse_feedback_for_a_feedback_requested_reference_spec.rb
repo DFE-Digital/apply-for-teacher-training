@@ -46,7 +46,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def then_i_see_the_refuse_feedback_page
-    expect(page).to have_content "#{@application.full_name} will be able to submit the application quicker if you give a reference"
+    expect(page).to have_content "Declining #{@application.full_name}’s reference request may delay their application and make it harder for them to get onto teacher training."
   end
 
   def when_the_candidates_reference_is_in_the_feedback_provided_state

@@ -2,9 +2,9 @@ en:
   referee:
     refuse_feedback:
       choice:
-        label: Are you sure you do not want to give %{full_name} a reference?
-        confirm: Yes, I’m sure
-        cancel: No, I’ve changed my mind
+        label: Can you give %{full_name} a reference?
+        confirm: No, I decline to give a reference
+        cancel: Yes, I can give a reference
     relationship_confirmation:
       legend: Is this correct?
       'yes':

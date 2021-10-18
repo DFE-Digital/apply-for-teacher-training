@@ -13,9 +13,7 @@
         <%= t('page_titles.referee.refuse_feedback') %>
       </h1>
 
-      <p class="govuk-body">Teacher training courses can fill up quickly, and candidates need 2 references to apply.</p>
-
-      <p class="govuk-body"><%= @application.full_name %> will be able to submit the application quicker if you give a reference.</p>
+      <p class="govuk-body">Declining <%= @application.full_name %>’s reference request may delay their application and make it harder for them to get onto teacher training.</p>
 
       <%= f.govuk_radio_buttons_fieldset :choices, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name) } do %>
         <%= f.govuk_radio_button :choice, 'yes', label: { text: t('referee.refuse_feedback.choice.confirm') }, link_errors: true %>
