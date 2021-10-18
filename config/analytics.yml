@@ -232,6 +232,7 @@ shared:
     - metrics
     - updated_at
   find_feedback:
+    - id
     - created_at
     - feedback
     - find_controller
