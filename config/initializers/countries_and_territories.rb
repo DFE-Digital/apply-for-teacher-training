@@ -1,7 +1,7 @@
 # From GOV.UK Countries Register
 # https://www.registers.service.gov.uk/registers/country
 
-COUNTRIES = {
+COUNTRIES_AND_TERRITORIES = {
   'AF' => 'Afghanistan',
   'AL' => 'Albania',
   'DZ' => 'Algeria',
@@ -177,6 +177,7 @@ COUNTRIES = {
   'TH' => 'Thailand',
   'BS' => 'The Bahamas',
   'GM' => 'The Gambia',
+  'TW' => 'Taiwan',
   'TG' => 'Togo',
   'TO' => 'Tonga',
   'TT' => 'Trinidad and Tobago',

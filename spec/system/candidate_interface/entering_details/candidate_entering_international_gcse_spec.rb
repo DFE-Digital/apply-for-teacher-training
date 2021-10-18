@@ -97,7 +97,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   def when_i_do_not_select_a_country; end
 
   def then_i_see_the_country_blank_error
-    expect(page).to have_content 'Enter the country you studied in'
+    expect(page).to have_content 'Enter the country or territory you studied in'
   end
 
   def when_i_fill_in_a_valid_country

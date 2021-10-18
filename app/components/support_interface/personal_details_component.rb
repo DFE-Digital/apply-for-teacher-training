@@ -188,7 +188,7 @@ module SupportInterface
       if @application_form.address_type == 'uk'
         local_address.reject(&:blank?)
       else
-        local_address.concat([COUNTRIES[@application_form.country]]).reject(&:blank?)
+        local_address.concat([COUNTRIES_AND_TERRITORIES[@application_form.country]]).reject(&:blank?)
       end
     end
 

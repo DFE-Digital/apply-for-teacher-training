@@ -14,11 +14,11 @@ en:
         optional_label: Subject (optional)
         change_action: subject
       institution_country:
-        label: Country where you studied
-        change_action: institution country
+        label: Country or territory where you studied
+        change_action: institution country or territory
       country:
-        label: Country
-        change_action: country
+        label: Country or territory
+        change_action: country or territory
       grade:
         label: Grade
         optional_label: Grade (optional)
@@ -66,8 +66,8 @@ en:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
             institution_country:
-              blank: Enter the country you studied in
-              inclusion: Select the country you studied in from the list
+              blank: Enter the country or territory you studied in
+              inclusion: Select the country or territory you studied in from the list
             grade:
               blank: Enter your grade
               invalid: Enter a real grade

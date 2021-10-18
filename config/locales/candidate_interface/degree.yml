@@ -30,7 +30,7 @@ en:
         review_label: Institution
         change_action: institution
       institution_country:
-        label: In which country is this institution based?
+        label: In which country or territory is this institution based?
         review_label: Institution
         change_action: institution
       grade:
@@ -113,8 +113,8 @@ en:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
             institution_country:
-              blank: Enter the country where the institution is based
-              too_long: The country where you studied must be %{count} characters or fewer
+              blank: Enter the country or territory where the institution is based
+              too_long: The country or territory where you studied must be %{count} characters or fewer
         candidate_interface/degree_enic_form:
           attributes:
             have_enic_reference:

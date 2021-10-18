@@ -273,7 +273,7 @@ class ApplicationForm < ApplicationRecord
         address_line2,
         address_line3,
         address_line4,
-        COUNTRIES[country],
+        COUNTRIES_AND_TERRITORIES[country],
       ].reject(&:blank?)
     else
       [

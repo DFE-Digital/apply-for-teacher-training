@@ -132,8 +132,8 @@ en:
         candidate_interface/gcse_institution_country_form:
           attributes:
             institution_country:
-              blank: Enter the country you studied in
-              inclusion: Select the country you studied in from the list
+              blank: Enter the country or territory you studied in
+              inclusion: Select the country or territory you studied in from the list
         candidate_interface/gcse_enic_form:
           attributes:
             have_enic_reference:

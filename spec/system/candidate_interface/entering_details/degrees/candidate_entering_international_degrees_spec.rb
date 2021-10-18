@@ -156,7 +156,7 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_see_validation_errors_for_degree_institution_and_country
     expect_validation_error 'Enter the institution where you studied'
-    expect_validation_error 'Enter the country where the institution is based'
+    expect_validation_error 'Enter the country or territory where the institution is based'
   end
 
   def when_i_fill_in_the_degree_institution
@@ -164,7 +164,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def and_i_fill_in_the_country
-    select('India', from: 'In which country is this institution based?')
+    select('India', from: 'In which country or territory is this institution based?')
   end
 
   def then_i_can_see_the_enic_page
@@ -267,7 +267,7 @@ RSpec.feature 'Entering their degrees' do
 
   def when_i_change_my_undergraduate_degree_institution_and_country
     fill_in 'Institution name', with: 'University of Bochum'
-    select('Germany', from: 'In which country is this institution based?')
+    select('Germany', from: 'In which country or territory is this institution based?')
   end
 
   def then_i_can_check_my_revised_undergraduate_degree_institution
