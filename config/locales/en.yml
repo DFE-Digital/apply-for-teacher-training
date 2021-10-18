@@ -437,7 +437,7 @@ en:
         application_choice:
           attributes:
             status:
-              invalid_transition: The application is not ready for that action
+              invalid_transition: It's not possible to perform this action while the application is in its current state
         provider_agreement:
           attributes:
             accept_agreement:
