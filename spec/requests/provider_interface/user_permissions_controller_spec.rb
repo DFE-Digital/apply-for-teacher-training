@@ -18,6 +18,13 @@ RSpec.describe ProviderInterface::UserPermissionsController do
     expect(response.status).to eq(200)
   end
 
+  it 'redirects back to the edit user permissions page when the wizard store is empty' do
+    get check_provider_interface_organisation_settings_organisation_user_permissions_path(provider, managing_user)
+
+    expect(response.status).to eq(302)
+    expect(response.redirect_url).to eq(edit_provider_interface_organisation_settings_organisation_user_permissions_url(provider, managing_user))
+  end
+
   context 'when a user does not have manage orgs permissions' do
     let(:managing_user) { create(:provider_user, :with_manage_organisations, providers: [provider]) }
     let(:provider_user) { create(:provider_user, providers: [provider]) }
