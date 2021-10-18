@@ -1,6 +1,6 @@
 This is API documentation for the Department for Education (DfE)’s new Apply for teacher training service.
 
-Apply is replacing the online UCAS application form for postgraduate teacher training. All vendors of student record systems (SRS) and some training providers will need to make changes to integrate with Apply.
+Apply has replaced the online UCAS teacher training service for postgraduate initial teacher training in England. All vendors of student record systems (SRS) and some training providers will need to make changes to integrate with Apply.
 
 ## What this API is for
 
