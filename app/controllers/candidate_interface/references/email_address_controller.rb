@@ -1,7 +1,7 @@
 module CandidateInterface
   module References
     class EmailAddressController < BaseController
-      before_action :verify_email_is_editable, :redirect_to_review_page_unless_reference_is_editable
+      before_action :redirect_to_review_page_unless_reference_is_editable, :verify_email_is_editable
       before_action :set_edit_backlink, only: %i[edit update]
 
       def new
