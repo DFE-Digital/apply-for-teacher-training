@@ -1,0 +1,55 @@
+common_columns:
+  - phase
+
+custom_columns:
+  email_address:
+    type: string
+    description: A candidates email address
+    example: joe@bloggs.com
+  name:
+    type: string
+    description: A candidates full name
+    example: Joe Bloggs
+    phone_number:
+      type: string
+      description: A candidates phone number
+      example: '01234 567890'
+  qualification_type:
+    type: string
+    description: The specific type of qualification at a given level
+    example: BSc Computer Science
+    type: string
+  subject:
+    type: string
+    description: The qualification subject
+    example: Chemistry
+  grade:
+    type: string
+    description: The qualification grade
+    example: First class honours
+  start_year:
+    type: integer
+    description: The year the qualification was started
+    example: 1999
+  award_year:
+    type: integer
+    description: The year the qualification was awarded
+    example: 1999
+  predicted_grade:
+    type: boolean
+    description: Whether or not the provided grade is predicted
+  international_degree:
+    type: boolean
+    description: Whether or not this is an international degree. Note that this only applies to qualifications entered via the Degree flow - candidates sometimes enter degrees in the 'A levels and other qualifications' section.
+  institution_name:
+    type: string
+    description: Name of the awarding institution
+    example: Loughborough Grammar School
+  institution_country:
+    type: string
+    description: Country of the awarding institution
+    example: FR
+  application_status:
+    type: string
+    description: The overall status of the candidates application
+    example: ended_without_success
