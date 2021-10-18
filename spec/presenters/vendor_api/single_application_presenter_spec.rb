@@ -233,6 +233,28 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
     end
 
+    context 'when the work history breaks field has a value over the desired 10240 character limit' do
+      it 'returns the work_history_breaks attribute of an application' do
+        breaks = []
+        long_work_history_breaks = 'I was sleeping.' * 1000
+        application_form = build_stubbed(
+          :application_form,
+          :with_completed_references,
+          work_history_breaks: long_work_history_breaks,
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+        allow(Sentry).to receive(:capture_message)
+
+        response = described_class.new(application_choice).as_json
+
+        expect(Sentry).to have_received(:capture_message).with("work_history_breaks truncated for application with id  #{application_choice.id} as length exceeded 10240 chars")
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq(long_work_history_breaks.truncate(10240))
+        expect(response[:attributes][:work_experience][:work_history_break_explanation].length).to be(10240)
+      end
+    end
+
     context 'when individual breaks have been entered' do
       it 'returns a concatentation of application_work_history_breaks of an application' do
         break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019, reason: 'I was watching TV.')
