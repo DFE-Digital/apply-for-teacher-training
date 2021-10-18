@@ -171,9 +171,9 @@ RSpec.describe TestApplications do
       new_form = ApplicationForm.last
 
       expect(previous_form).not_to be_nil
-      expect(previous_form.created_at).to be_between(30.days.ago, 21.days.ago)
+      expect(previous_form.created_at).to be_between(30.days.ago.beginning_of_day, 21.days.ago.beginning_of_day)
       expect(new_form).not_to be_nil
-      expect(new_form.created_at).to be_between(20.days.ago, Time.zone.now)
+      expect(new_form.created_at).to be_between(20.days.ago.beginning_of_day, Time.zone.now)
     end
   end
 
