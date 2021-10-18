@@ -19,7 +19,7 @@ module CandidateInterface
     validates :subject, :grade, length: { maximum: 255 }
     validates :other_uk_qualification_type, length: { maximum: 100 }
     validates :institution_country, presence: true, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
-    validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
+    validates :institution_country, inclusion: { in: COUNTRIES_AND_TERRITORIES }, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
     validate :grade_format_is_valid, if: :grade, on: :details
 
     def self.build_all(application_form)

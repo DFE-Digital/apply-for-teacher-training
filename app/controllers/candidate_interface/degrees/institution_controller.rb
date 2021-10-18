@@ -42,7 +42,7 @@ module CandidateInterface
     private
 
       def set_countries
-        @countries = COUNTRIES
+        @countries = COUNTRIES_AND_TERRITORIES
       end
 
       def set_institution_names

@@ -103,7 +103,7 @@ module CandidateInterface
 
     def institution_value(degree)
       if international?(degree) && degree.institution_country.present?
-        "#{degree.institution_name}, #{COUNTRIES[degree.institution_country]}"
+        "#{degree.institution_name}, #{COUNTRIES_AND_TERRITORIES[degree.institution_country]}"
       else
         degree.institution_name
       end

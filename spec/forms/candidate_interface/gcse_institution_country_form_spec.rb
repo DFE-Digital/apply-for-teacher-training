@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
-  let(:form_data) { { institution_country: COUNTRIES.keys.sample } }
+  let(:form_data) { { institution_country: COUNTRIES_AND_TERRITORIES.keys.sample } }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:institution_country) }
 
-    it 'validates nationalities against the COUNTRIES list' do
+    it 'validates nationalities against the COUNTRIES_AND_TERRITORIES list' do
       invalid_country = described_class.new(
         institution_country: 'QQ',
       )
       valid_country = described_class.new(
-        institution_country: COUNTRIES.keys.sample,
+        institution_country: COUNTRIES_AND_TERRITORIES.keys.sample,
       )
       valid_country.validate
       invalid_country.validate

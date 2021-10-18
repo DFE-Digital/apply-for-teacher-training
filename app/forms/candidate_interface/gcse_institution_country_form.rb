@@ -7,7 +7,7 @@ module CandidateInterface
     validates :institution_country, presence: true
 
     validates :institution_country,
-              inclusion: { in: COUNTRIES }
+              inclusion: { in: COUNTRIES_AND_TERRITORIES }
 
     def self.build_from_qualification(application_qualification)
       new(

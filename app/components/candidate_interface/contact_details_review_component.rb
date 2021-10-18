@@ -59,7 +59,7 @@ module CandidateInterface
       if @contact_details_form.uk?
         local_address.reject(&:blank?)
       else
-        local_address.concat([COUNTRIES[@contact_details_form.country]]).reject(&:blank?)
+        local_address.concat([COUNTRIES_AND_TERRITORIES[@contact_details_form.country]]).reject(&:blank?)
       end
     end
 

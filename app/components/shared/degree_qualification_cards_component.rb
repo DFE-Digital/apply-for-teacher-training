@@ -64,7 +64,7 @@ private
   end
 
   def institution_and_country(degree)
-    "#{institution(degree)}, #{COUNTRIES[degree.institution_country]}"
+    "#{institution(degree)}, #{COUNTRIES_AND_TERRITORIES[degree.institution_country]}"
   end
 
   def institution(degree)
