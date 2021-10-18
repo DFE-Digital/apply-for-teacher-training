@@ -1,5 +1,7 @@
 module ProviderInterface
   class UserPermissionsController < UsersController
+    before_action :redirect_to_edit_if_store_cleared, only: %i[check]
+
     def edit
       @previous_page_path = previous_page_path
       provider_permissions = @provider_user.provider_permissions.find_by!(provider: @provider)
@@ -53,6 +55,12 @@ module ProviderInterface
       ProviderPermissions::VALID_PERMISSIONS.each do |permission|
         provider_permissions.send("#{permission}=", wizard.permissions.include?(permission.to_s))
       end
+    end
+
+    def redirect_to_edit_if_store_cleared
+      return if edit_user_permissions_store.read.present?
+
+      redirect_to edit_provider_interface_organisation_settings_organisation_user_permissions_path(@provider, @provider_user)
     end
   end
 end
