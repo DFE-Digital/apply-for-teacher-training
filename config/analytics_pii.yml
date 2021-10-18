@@ -16,5 +16,3 @@ shared:
     - application_choice_id
   offers:
     - application_choice_id
-  ucas_matches:
-    - candidate_id

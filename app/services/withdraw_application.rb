@@ -15,8 +15,6 @@ class WithdrawApplication
     end
 
     send_email_notification_to_provider_users(application_choice)
-
-    ResolveUCASMatch.new(application_choice: application_choice).call
   end
 
 private

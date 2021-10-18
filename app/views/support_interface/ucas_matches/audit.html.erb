@@ -1,5 +1,0 @@
-<% content_for :browser_title, "History - UCAS match: #{@match.candidate.email_address}" %>
-
-<%= render 'ucas_match_navigation', title: 'History', match: @match %>
-
-<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @match) %>

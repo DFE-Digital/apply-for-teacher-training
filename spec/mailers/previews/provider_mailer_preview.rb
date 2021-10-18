@@ -51,18 +51,6 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.declined(provider_user, application_choice)
   end
 
-  def ucas_match_initial_email_duplicate_applications
-    ProviderMailer.ucas_match_initial_email_duplicate_applications(provider_user, application_choice)
-  end
-
-  def ucas_match_resolved_on_ucas_email
-    ProviderMailer.ucas_match_resolved_on_ucas_email(provider_user, application_choice)
-  end
-
-  def ucas_match_resolved_on_apply_email
-    ProviderMailer.ucas_match_resolved_on_apply_email(provider_user, application_choice)
-  end
-
   def fallback_sign_in_email
     ProviderMailer.fallback_sign_in_email(
       FactoryBot.build_stubbed(:provider_user),

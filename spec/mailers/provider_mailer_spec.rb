@@ -187,44 +187,6 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'course name and code' => 'Computer Science (6IND)')
   end
 
-  describe '.ucas_match_initial_email_duplicate_applications' do
-    let(:email) { described_class.ucas_match_initial_email_duplicate_applications(provider_user, application_choice) }
-
-    it_behaves_like('a mail with subject and content',
-                    'Duplicate application identified',
-                    'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)',
-                    'withdraw by date' => 10.business_days.from_now.to_s(:govuk_date))
-  end
-
-  describe '.ucas_match_resolved_on_ucas_email' do
-    let(:email) { described_class.ucas_match_resolved_on_ucas_email(provider_user, application_choice) }
-
-    before do
-      allow(application_choice).to receive(:course).and_return(course)
-    end
-
-    it_behaves_like('a mail with subject and content',
-                    'Duplicate application withdrawn',
-                    'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)')
-  end
-
-  describe '.ucas_match_resolved_on_apply_email' do
-    let(:email) { described_class.ucas_match_resolved_on_apply_email(provider_user, application_choice) }
-
-    before do
-      allow(application_choice).to receive(:course).and_return(course)
-    end
-
-    it_behaves_like('a mail with subject and content',
-                    'Duplicate application withdrawn',
-                    'provider name' => 'Dear Johny English',
-                    'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)')
-  end
-
   describe '.courses_open_on_apply' do
     let(:email) { described_class.courses_open_on_apply(provider_user) }
 

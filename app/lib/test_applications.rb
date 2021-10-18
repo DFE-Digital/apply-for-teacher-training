@@ -249,8 +249,6 @@ private
           put_application_choice_in_state(application_choice.reload, state)
           maybe_add_note(application_choice.reload)
         end
-
-        FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
       end
 
       @application_form.application_choices.update(updated_at: Time.zone.now, audit_comment: 'This application was automatically generated')

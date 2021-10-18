@@ -9,7 +9,6 @@ class Candidate < ApplicationRecord
   before_validation :downcase_email
   validates :email_address, presence: true, length: { maximum: 100 }, valid_for_notify: true
 
-  has_one :ucas_match
   has_many :application_forms
   has_many :application_choices, through: :application_forms
   has_many :application_references, through: :application_forms

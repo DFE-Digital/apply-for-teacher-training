@@ -900,14 +900,6 @@ Rails.application.routes.draw do
       patch '/revert-rejection/:application_choice_id' => 'application_forms/application_choices#revert_rejection'
     end
 
-    get '/ucas-matches' => 'ucas_matches#index'
-
-    scope path: '/ucas-matches/:id' do
-      get '/' => 'ucas_matches#show', as: :ucas_match
-      get '/audit' => 'ucas_matches#audit', as: :ucas_match_audit
-      post '/record-ucas-withdrawal-requested' => 'ucas_matches#record_ucas_withdrawal_requested', as: :record_ucas_withdrawal_requested
-    end
-
     get '/duplicate-candidate-matches', to: redirect('/support/fraud-auditing-dashboard')
     get '/fraud-auditing-dashboard' => 'fraud_auditing_matches#index', as: :fraud_auditing_matches
 
@@ -1003,7 +995,6 @@ Rails.application.routes.draw do
       get '/reasons-for-rejection' => 'performance#reasons_for_rejection_dashboard', as: :reasons_for_rejection_dashboard
       get '/reasons-for-rejection/application-choices' => 'performance#reasons_for_rejection_application_choices', as: :reasons_for_rejection_application_choices
       get '/service' => 'performance#service_performance_dashboard', as: :service_performance_dashboard
-      get '/ucas-matches' => 'performance#ucas_matches_dashboard', as: :ucas_matches_dashboard
 
       get '/course-options', to: 'performance#course_options', as: :course_options
       get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices

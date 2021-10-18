@@ -23,7 +23,6 @@ module SupportInterface
         state_row,
         previous_application_row,
         subsequent_application_row,
-        ucas_match_row,
         average_distance_row,
       ].compact
     end
@@ -92,19 +91,6 @@ module SupportInterface
       }
     end
 
-    def ucas_match_row
-      value = if ucas_match
-                govuk_link_to('View matching data for this candidate', support_interface_ucas_match_path(ucas_match))
-              else
-                'No matching data for this candidate'
-              end
-
-      {
-        key: 'UCAS matching data',
-        value: value,
-      }
-    end
-
     def previous_application_row
       return unless application_form.previous_application_form
 
@@ -138,10 +124,6 @@ module SupportInterface
       name = I18n.t!("candidate_flow_application_states.#{process_state}.name")
       desc = I18n.t!("candidate_flow_application_states.#{process_state}.description")
       "<strong>#{name}</strong><br>#{desc}".html_safe
-    end
-
-    def ucas_match
-      application_form.candidate.ucas_match
     end
 
     attr_reader :application_form
