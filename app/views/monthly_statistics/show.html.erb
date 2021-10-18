@@ -19,6 +19,12 @@
         </a>
       </li>
       <li>
+        <a href="#applications-by-sex" class="govuk-link app-toc__link">
+          <span class="app-toc__number">4.</span>
+          <span class="app-toc__content">By sex</span>
+        </a>
+      </li>
+      <li>
         <a href="#applications-by-course-age-group" class="govuk-link app-toc__link">
           <span class="app-toc__number">6.</span>
           <span class="app-toc__content">By course age group</span>
@@ -63,6 +69,14 @@
     <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by status', statistics: @statistics['applications_by_status']) %>
   </div>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="applications-by-sex">4. By sex</h2>
+    <p class="govuk-body">Something to explain how this is counting applications not applicants...</p>
+  </div>
+</div>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by sex', statistics: @statistics['by_sex']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
