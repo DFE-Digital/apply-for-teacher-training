@@ -54,7 +54,7 @@ private
       MonthlyStatistics::ByCourseType.new.table_data,
     )
   end
-  
+
   def load_applications_by_primary_specialist_subject
     write_statistic(
       :by_primary_specialist_subject,

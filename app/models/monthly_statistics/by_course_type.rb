@@ -48,9 +48,9 @@ module MonthlyStatistics
       end
 
       group_query_for_deferred_offers.map do |item|
-        program_type, status = item[0]
+        program_type, status_before_deferral = item[0]
         count = item[1]
-        counts[program_type_lookup(program_type)]&.merge!({ status => count })
+        counts[program_type_lookup(program_type)]&.merge!({ status_before_deferral => count })
       end
 
       counts
@@ -69,12 +69,14 @@ module MonthlyStatistics
     def group_query_for_deferred_offers
       group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
         .where(status: :offer_deferred)
+        .group('courses.program_type', 'status_before_deferral')
         .count
     end
 
     def group_query_excluding_deferred_offers
       group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where.not(status: :offer_deferred)
+        .group('courses.program_type', 'status')
         .count
     end
 
@@ -82,7 +84,6 @@ module MonthlyStatistics
       ApplicationChoice
         .joins(:course)
         .where(current_recruitment_cycle_year: recruitment_cycle_year)
-        .group('courses.program_type', 'status')
     end
   end
 end
