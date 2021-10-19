@@ -85,7 +85,7 @@ RSpec.describe ApplicationForm do
         application_form = build(:completed_application_form)
         application_form.save!
 
-        expect(GeocodeApplicationAddressWorker).to have_received(:perform_in).with(application_form.id)
+        expect(GeocodeApplicationAddressWorker).to have_received(:perform_in).with(anything, application_form.id)
       end
 
       it 'invokes geocoding of UK addresses on update' do
@@ -100,7 +100,7 @@ RSpec.describe ApplicationForm do
         expected_calls_to_worker = address_attributes.size + 1 # Each update plus the initial create
         expect(GeocodeApplicationAddressWorker)
           .to have_received(:perform_in)
-          .with(application_form.id)
+          .with(anything, application_form.id)
           .exactly(expected_calls_to_worker).times
       end
 
