@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_13_213030) do
+ActiveRecord::Schema.define(version: 2021_10_18_224153) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -717,17 +717,6 @@ ActiveRecord::Schema.define(version: 2021_10_13_213030) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "ucas_matches", force: :cascade do |t|
-    t.bigint "candidate_id", null: false
-    t.json "matching_data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "recruitment_cycle_year", null: false
-    t.datetime "candidate_last_contacted_at"
-    t.string "action_taken"
-    t.index ["candidate_id"], name: "index_ucas_matches_on_candidate_id"
-  end
-
   create_table "validation_errors", force: :cascade do |t|
     t.string "form_object", null: false
     t.integer "user_id"
@@ -808,6 +797,5 @@ ActiveRecord::Schema.define(version: 2021_10_13_213030) do
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
-  add_foreign_key "ucas_matches", "candidates", on_delete: :cascade
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end
