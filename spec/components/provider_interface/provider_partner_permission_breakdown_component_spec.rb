@@ -32,7 +32,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
     let!(:training_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :training, permission_applies: true) } }
 
     it 'renders the names of partner organisations for which the given provider has the permission' do
-      expected_provider_names = (ratifying_partners + training_partners).map(&:name).sort
+      expected_provider_ids = (ratifying_partners + training_partners).map(&:id)
+      expected_provider_names = sorted_provider_names(expected_provider_ids)
       expect(render.css('#partners-for-which-permission-applies li').map(&:text)).to eq(expected_provider_names)
     end
 
@@ -65,7 +66,8 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
     let!(:not_set_up_partners) { 2.times.map { create_partner_provider_where(partner_provider_type: :training, permission_applies: false, relationship_set_up: false) } }
 
     it 'renders the names of partner organisations for which the given provider does not have the permission' do
-      expected_provider_names = (ratifying_partners + training_partners + not_set_up_partners).map(&:name).sort
+      expected_provider_ids = (ratifying_partners + training_partners + not_set_up_partners).map(&:id)
+      expected_provider_names = sorted_provider_names(expected_provider_ids)
       expect(render.css('#partners-for-which-permission-does-not-apply li').map(&:text)).to eq(expected_provider_names)
     end
 
@@ -90,5 +92,12 @@ RSpec.describe ProviderInterface::ProviderPartnerPermissionBreakdownComponent do
           .to include('It currently does not apply to courses you work on with:')
       end
     end
+  end
+
+  def sorted_provider_names(ids)
+    # We use this rather than Ruby `sort` because the collation in the DB sorts strings differently:
+    # With ActiveRecord `order`: 'North School' > 'Northern SCITT'
+    # However, with Ruby `sort`: 'North School' < 'Northern SCITT'
+    Provider.where(id: ids).order(:name).pluck(:name)
   end
 end
