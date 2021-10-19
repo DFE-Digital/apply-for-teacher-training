@@ -5,7 +5,7 @@ class WithdrawOffer
   attr_accessor :offer_withdrawal_reason
 
   validates_presence_of :offer_withdrawal_reason
-  validates_length_of :offer_withdrawal_reason, maximum: 255
+  validates_length_of :offer_withdrawal_reason, maximum: 65535
 
   def initialize(actor:, application_choice:, offer_withdrawal_reason: nil)
     @auth = ProviderAuthorisation.new(actor: actor)
