@@ -212,12 +212,6 @@ class DataExport < ApplicationRecord
       description: 'A list of candidates with breaks in their work history.',
       class: SupportInterface::WorkHistoryBreakExport,
     },
-    one_time_degree_export: {
-      name: 'One time degree export',
-      export_type: 'work_history_break',
-      description: 'A one time export for UR purposes',
-      class: SupportInterface::OneTimeDegreeExport,
-    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
