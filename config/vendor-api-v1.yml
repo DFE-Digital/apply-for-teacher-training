@@ -859,6 +859,7 @@ components:
           example: "1989"
         award_year:
           type: string
+          nullable: true
           maxLength: 4
           description: The year the award was made
           example: "1992"
