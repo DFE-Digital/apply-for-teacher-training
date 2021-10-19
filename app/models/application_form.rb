@@ -418,7 +418,7 @@ private
     if international_address?
       update!(latitude: nil, longitude: nil)
     else
-      GeocodeApplicationAddressWorker.perform_async(id)
+      GeocodeApplicationAddressWorker.perform_in(5.seconds, id)
     end
   end
 

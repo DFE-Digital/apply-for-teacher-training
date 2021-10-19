@@ -81,15 +81,15 @@ RSpec.describe ApplicationForm do
   describe 'after_commit' do
     describe '#geocode_address_if_required' do
       it 'invokes geocoding of UK addresses on create' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
+        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = build(:completed_application_form)
         application_form.save!
 
-        expect(GeocodeApplicationAddressWorker).to have_received(:perform_async).with(application_form.id)
+        expect(GeocodeApplicationAddressWorker).to have_received(:perform_in).with(application_form.id)
       end
 
       it 'invokes geocoding of UK addresses on update' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
+        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = create(:application_form, :minimum_info)
 
         address_attributes = %i[address_line1 address_line2 address_line3 address_line4 postcode country]
@@ -99,37 +99,37 @@ RSpec.describe ApplicationForm do
 
         expected_calls_to_worker = address_attributes.size + 1 # Each update plus the initial create
         expect(GeocodeApplicationAddressWorker)
-          .to have_received(:perform_async)
+          .to have_received(:perform_in)
           .with(application_form.id)
           .exactly(expected_calls_to_worker).times
       end
 
       it 'does not invoke geocoding for international addresses' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
+        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = build(:application_form, :international_address)
         application_form.save!
 
-        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_async).with(application_form.id)
+        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in).with(application_form.id)
       end
 
       it 'does not invoke geocoding if address fields have not been changed' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
+        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = build(:application_form)
         application_form.save!
         application_form.update!(phone_number: 111111)
 
-        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_async).with(application_form.id)
+        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in).with(application_form.id)
       end
 
       it 'clears existing coordinates if address changed to international' do
-        allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
+        allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = create(:completed_application_form, latitude: 1.5, longitude: 0.2)
         application_form.update!(address_type: :international)
 
         expect([application_form.latitude, application_form.longitude]).to eq [nil, nil]
         expect(GeocodeApplicationAddressWorker)
-          .to have_received(:perform_async)
-          .with(application_form.id)
+          .to have_received(:perform_in)
+          .with(anything, application_form.id)
           .exactly(1).times # The initial create only
       end
     end
