@@ -16,13 +16,13 @@ class LookupAreaByPostcodeWorker
     'northern ireland' => :northern_ireland,
     'channel islands' => :channel_islands,
     'isle of man' => :isle_of_man,
-  }
+  }.freeze
 
   sidekiq_options queue: :low_priority, retry: 5
 
-  def perform(id)
-    application_form = ApplicationForm.find(id)
-    return unless application_form&.postcode.present?
+  def perform(application_form_id)
+    application_form = ApplicationForm.find(application_form_id)
+    return if application_form&.postcode.blank?
 
     application_form.update!(
       region_code: region_code_for(

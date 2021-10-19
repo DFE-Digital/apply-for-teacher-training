@@ -17,7 +17,7 @@ RSpec.describe LookupAreaByPostcodeWorker do
     end
 
     it 'updates the region code' do
-      LookupAreaByPostcodeWorker.new.perform(application_form.id)
+      described_class.new.perform(application_form.id)
       expect(application_form.reload.region_code).to eq('south_west')
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe LookupAreaByPostcodeWorker do
     end
 
     it 'updates the region code' do
-      LookupAreaByPostcodeWorker.new.perform(application_form.id)
+      described_class.new.perform(application_form.id)
       expect(application_form.reload.region_code).to eq('scotland')
     end
   end

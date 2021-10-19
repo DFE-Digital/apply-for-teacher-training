@@ -129,8 +129,7 @@ class ApplicationForm < ApplicationRecord
     candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase') || created_at == updated_at
   end
 
-  after_commit :geocode_address_if_required
-  after_commit :update_region_if_required
+  after_commit :geocode_address_and_update_region_if_required
 
   def touch_choices
     return unless application_choices.any?
@@ -432,23 +431,18 @@ class ApplicationForm < ApplicationRecord
 
 private
 
-  def geocode_address_if_required
+  def geocode_address_and_update_region_if_required
     return unless address_changed?
 
     if international_address?
-      update!(latitude: nil, longitude: nil)
+      update!(
+        latitude: nil,
+        longitude: nil,
+        region_code: find_international_region_from_country,
+      )
     else
       GeocodeApplicationAddressWorker.perform_in(5.seconds, id)
-    end
-  end
-
-  def update_region_if_required
-    return unless address_changed?
-
-    if international_address?
-      update!(region_code: find_international_region_from_country)
-    else
-      LookupAreaByPostcodeWorker.perform_async(id)
+      LookupAreaByPostcodeWorker.perform_in(10.seconds, id)
     end
   end
 

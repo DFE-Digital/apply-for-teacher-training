@@ -95,7 +95,11 @@ RSpec.describe ApplicationForm do
   end
 
   describe 'after_commit' do
-    describe '#update_region_if_required' do
+    describe 'updating region code' do
+      before do
+        allow(LookupAreaByPostcodeWorker).to receive(:perform_async).and_return(nil)
+      end
+
       it 'sets value to `rest_of_the_world` for international addresses outside EEA' do
         application_form = build(
           :application_form,
@@ -105,6 +109,7 @@ RSpec.describe ApplicationForm do
         )
         application_form.save!
 
+        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_async)
         expect(application_form.reload.rest_of_the_world?).to be(true)
       end
 
@@ -117,6 +122,7 @@ RSpec.describe ApplicationForm do
         )
         application_form.save!
 
+        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_async)
         expect(application_form.reload.european_economic_area?).to be(true)
       end
 
@@ -126,8 +132,9 @@ RSpec.describe ApplicationForm do
           address_type: :uk,
           postcode: 'SW1P 3BT',
         )
-        expect(LookupAreaByPostcodeWorker).to receive(:perform_async).with(application_form.id)
         application_form.save!
+
+        expect(LookupAreaByPostcodeWorker).to have_received(:perform_async).with(application_form.id)
       end
 
       it 'queues an LookupAreaByPostcodeWorker job for Cardiff postcode' do
@@ -136,12 +143,13 @@ RSpec.describe ApplicationForm do
           address_type: :uk,
           postcode: 'CF40 2QD',
         )
-        expect(LookupAreaByPostcodeWorker).to receive(:perform_async).with(application_form.id)
         application_form.save!
+
+        expect(LookupAreaByPostcodeWorker).to have_received(:perform_async).with(application_form.id)
       end
     end
 
-    describe '#geocode_address_if_required' do
+    describe 'geocoding address' do
       it 'invokes geocoding of UK addresses on create' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
         application_form = build(:completed_application_form)
