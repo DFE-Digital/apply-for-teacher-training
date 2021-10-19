@@ -1,3 +1,9 @@
+## 19th October
+
+Documentation:
+
+Mark `award_year` as nullable. This field can contain `null` values as we carry over applications from previous years, where this field was not mandatory.
+
 ## 13th October
 
 Documentation:
