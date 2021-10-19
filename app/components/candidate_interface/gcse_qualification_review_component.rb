@@ -227,7 +227,7 @@ module CandidateInterface
       return nil unless application_qualification.qualification_type == 'non_uk'
 
       {
-        key: 'Country',
+        key: 'Country or territory',
         value: COUNTRIES_AND_TERRITORIES[application_qualification.institution_country],
         action: {
           href: candidate_interface_gcse_details_edit_institution_country_path(change_path_params),
