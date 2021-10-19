@@ -444,7 +444,7 @@ module VendorAPI
     end
 
     def field_length(name)
-      APIDocs::APIReference.new(VendorAPISpecification.as_hash).field_lengths_summary.to_h["#{name}.maxLength"].to_i
+      RetrieveAPIFieldLength.new(name).call
     end
   end
 end
