@@ -12,6 +12,7 @@ module SupportInterface
       permissions = provider_user
         .provider_permissions
         .includes(provider: %i[ratifying_provider_permissions training_provider_permissions])
+        .order('providers.name')
 
       if permissions.empty?
         [

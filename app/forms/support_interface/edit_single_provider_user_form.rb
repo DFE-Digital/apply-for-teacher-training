@@ -22,6 +22,7 @@ module SupportInterface
       if provider_user
         ProviderPermissions.includes(:provider, :provider_user)
           .where(provider_user_id: provider_user.id)
+          .order('providers.name')
       else
         []
       end

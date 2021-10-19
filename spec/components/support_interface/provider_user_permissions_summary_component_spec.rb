@@ -13,6 +13,15 @@ RSpec.describe SupportInterface::ProviderUserPermissionsSummaryComponent do
     expect(rendered_component_text).to include('Change')
   end
 
+  it 'orders permissions by provider name' do
+    another_provider = create(:provider, name: 'Another Provider')
+    provider_user = create(:provider_user, :with_manage_users, providers: [provider, another_provider])
+
+    rendered_component = render_inline(described_class.new(provider_user))
+
+    expect(rendered_component.css('.govuk-summary-list__key').text).to eq("#{another_provider.name_and_code}#{provider.name_and_code}")
+  end
+
   it 'renders an empty state when there are no permissions' do
     provider_user = create(:provider_user)
 
