@@ -66,7 +66,7 @@ RSpec.describe ReasonsForRejectionCountQuery do
       )
     end
 
-    it 'only returns counts for current recruitment cycle' do
+    it 'defaults to counts for current recruitment cycle' do
       reject_application(
         create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
         {
@@ -77,6 +77,20 @@ RSpec.describe ReasonsForRejectionCountQuery do
       )
       counts = described_class.new.reason_counts
       expect(counts[:candidate_behaviour_y_n]).to eq(described_class::Result.new(3, 2, {}))
+      expect(counts[:qualifications_y_n]).to eq(described_class::Result.new(1, 1, {}))
+    end
+
+    it 'can be initialized for a specific recruitment cycle year' do
+      reject_application(
+        create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.previous_year),
+        {
+          qualifications_y_n: 'Yes',
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+        },
+      )
+      counts = described_class.new(RecruitmentCycle.previous_year).reason_counts
+      expect(counts[:candidate_behaviour_y_n]).to eq(described_class::Result.new(1, 1, {}))
       expect(counts[:qualifications_y_n]).to eq(described_class::Result.new(1, 1, {}))
     end
   end
