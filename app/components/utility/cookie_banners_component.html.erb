@@ -1,10 +1,10 @@
 <% heading_text = "Cookies on #{service_name}" %>
 <%= govuk_cookie_banner(
+  classes: 'govuk-!-display-none-print',
   html_attributes: {
     aria: {
       label: heading_text,
     },
-    class: 'govuk-!-display-none-print',
     data: {
       module: 'govuk-cookie-banner',
       qa: 'cookie-banner',
