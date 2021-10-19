@@ -51,6 +51,7 @@ RSpec.describe MonthlyStatisticsReport do
       sex_group_monthly_statistics_double = instance_double(MonthlyStatistics::BySex)
       applications_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
       candidates_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
+      course_type_monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseType)
       applications_by_primary_specialist_subject_double = instance_double(MonthlyStatistics::ByPrimarySpecialistSubject)
       table_data = [{ 'foo' => 'bar' }]
 
@@ -58,10 +59,12 @@ RSpec.describe MonthlyStatisticsReport do
       allow(MonthlyStatistics::BySex).to receive(:new).and_return(sex_group_monthly_statistics_double)
       allow(MonthlyStatistics::ByStatus).to receive(:new).and_return(applications_by_status_monthly_statistics_double)
       allow(MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: true).and_return(candidates_by_status_monthly_statistics_double)
+      allow(MonthlyStatistics::ByCourseType).to receive(:new).and_return(course_type_monthly_statistics_double)
       allow(MonthlyStatistics::ByPrimarySpecialistSubject).to receive(:new).and_return(applications_by_primary_specialist_subject_double)
 
       allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(sex_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
+      allow(course_type_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(applications_by_status_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(candidates_by_status_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(applications_by_primary_specialist_subject_double).to receive(:table_data).and_return(table_data)
@@ -74,6 +77,7 @@ RSpec.describe MonthlyStatisticsReport do
         'by_sex' => table_data,
         'applications_by_status' => table_data,
         'candidates_by_status' => table_data,
+        'by_course_type' => table_data,
         'by_primary_specialist_subject' => table_data,
       )
     end
