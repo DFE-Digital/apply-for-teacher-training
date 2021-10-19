@@ -184,11 +184,7 @@ This must be done manually via the console.
 
 ### Revert a candidate withdrawn application
 
-If a candidate accidentally withdraws their application, it can only be manually reverted through the rails console.
-
-```ruby
-ApplicationChoice.find(_id).update!(status: :awaiting_provider_decision, withdrawn_at: nil, withdrawal_feedback: nil, audit_comment: "Support request after candidate withdrew their application in error: #{_zendesk_url}")
-```
+If a candidate accidentally withdraws their application, it can be reverted via the Support UI
 
 ### Accept offer declined by default
 

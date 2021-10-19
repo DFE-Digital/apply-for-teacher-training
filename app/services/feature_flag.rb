@@ -36,6 +36,7 @@ class FeatureFlag
     [:restructured_immigration_status, 'New model for right to work and study in the UK to be released from 2022 cycle', 'Steve Hook'],
     [:block_fraudulent_submission, 'A button used on the fraud audit page to block submissions', 'James Glenn'],
     [:cancel_upcoming_interviews_on_decision_made, 'When we make a decision on a candidate, future interviews should be cancelled', 'Richard Pattinson'],
+    [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

@@ -19,6 +19,21 @@ module SupportInterface
         end
       end
 
+      def confirm_revert_withdrawal
+        @form = RevertWithdrawalForm.new
+      end
+
+      def revert_withdrawal
+        @form = RevertWithdrawalForm.new(revert_withdrawal_params)
+
+        if @form.save(@application_choice)
+          flash[:success] = 'Withdrawal was reverted'
+          redirect_to support_interface_application_form_path(@application_form.id)
+        else
+          render :confirm_revert_withdrawal
+        end
+      end
+
       def confirm_revert_rejection
         @form = RevertRejectionForm.new
       end
@@ -42,6 +57,10 @@ module SupportInterface
 
       def revert_rejection_params
         params.require(:support_interface_application_forms_revert_rejection_form).permit(:audit_comment_ticket, :accept_guidance)
+      end
+
+      def revert_withdrawal_params
+        params.require(:support_interface_application_forms_revert_withdrawal_form).permit(:audit_comment_ticket, :accept_guidance)
       end
 
       def build_application_form
