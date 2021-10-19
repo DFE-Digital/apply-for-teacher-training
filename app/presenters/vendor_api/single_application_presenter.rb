@@ -3,11 +3,11 @@ module VendorAPI
     include Rails.application.routes.url_helpers
 
     CACHE_EXPIRES_IN = 1.day
-
     UCAS_FEE_PAYER_CODES = {
       'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
       'Not Known' => '99',
     }.freeze
+    OMISSION_TEXT = '... (this field was truncated as it went over the length limit)'.freeze
 
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
@@ -440,7 +440,7 @@ module VendorAPI
       return field_value if field_value.length <= limit
 
       Sentry.capture_message("#{field_name} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
-      field_value.truncate(limit)
+      field_value.truncate(limit, omission: OMISSION_TEXT)
     end
 
     def field_length(name)

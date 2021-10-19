@@ -47,7 +47,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:rejection][:reason].length).to be(65535)
-      expect(response[:attributes][:rejection]).to eq(reason: application_choice.rejection_reason.truncate(65535), date: rejected_at.iso8601)
+      expect(response[:attributes][:rejection][:reason]).to end_with(described_class::OMISSION_TEXT)
+      expect(response[:attributes][:rejection][:date]).to eq(rejected_at.iso8601)
     end
   end
 
@@ -267,7 +268,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
         expect(Sentry).to have_received(:capture_message).with("WorkExperiences.properties.work_history_break_explanation truncated for application with id #{application_choice.id} as length exceeded 10240 chars")
         expect(response.to_json).to be_valid_against_openapi_schema('Application')
-        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq(long_work_history_breaks.truncate(10240))
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to end_with(described_class::OMISSION_TEXT)
         expect(response[:attributes][:work_experience][:work_history_break_explanation].length).to be(10240)
       end
     end
