@@ -1,6 +1,7 @@
 module ProviderInterface
   class InterviewWizard
     include Wizard
+    include Wizard::PathHistory
     include ActiveModel::Attributes
 
     VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:.\s]([0-5][0-9]))?([AaPp][Mm])$/.freeze
@@ -25,14 +26,6 @@ module ProviderInterface
     validates :location, presence: true, word_count: { maximum: 2000 }
     validates :additional_details, word_count: { maximum: 2000 }
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.deep_merge(attrs))
-      @path_history ||= [:referer]
-      update_path_history(attrs)
-    end
-
     def date
       day = send('date(3i)')
       month = send('date(2i)')
@@ -49,26 +42,12 @@ module ProviderInterface
       Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min) if date.is_a?(Date) && parsed_time.is_a?(Time)
     end
 
-    def previous_step
-      wizard_path_history.previous_step
-    rescue WizardPathHistory::NoSuchStepError
-      :referer
-    end
-
     def provider
       if multiple_application_providers?
         application_providers.find { |provider| provider.id == provider_id.to_i }
       else
         application_providers.first
       end
-    end
-
-    def update_path_history(attrs)
-      @wizard_path_history = WizardPathHistory.new(@path_history,
-                                                   step: attrs[:current_step].presence,
-                                                   action: attrs[:action].presence)
-      @wizard_path_history.update
-      @path_history = @wizard_path_history.path_history
     end
 
     def self.from_model(store, interview, step = 'input', action = nil)
