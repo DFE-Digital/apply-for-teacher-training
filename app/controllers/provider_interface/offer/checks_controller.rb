@@ -7,6 +7,7 @@ module ProviderInterface
 
         @providers = available_providers
         @courses = available_courses(@wizard.provider_id)
+        @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
         @course_options = available_course_options(@wizard.course_id, @wizard.study_mode)
       end
 

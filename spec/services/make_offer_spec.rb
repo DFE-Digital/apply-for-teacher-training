@@ -61,6 +61,7 @@ RSpec.describe MakeOffer do
       it 'then calls various services' do
         set_declined_by_default = instance_double(SetDeclineByDefault, call: true)
         send_new_offer_email_to_candidate = instance_double(SendNewOfferEmailToCandidate, call: true)
+
         allow(SetDeclineByDefault)
             .to receive(:new).with(application_form: application_choice.application_form)
                     .and_return(set_declined_by_default)
@@ -75,6 +76,22 @@ RSpec.describe MakeOffer do
         expect(send_new_offer_email_to_candidate).to have_received(:call)
         expect(update_conditions_service).to have_received(:save)
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
+      end
+
+      context 'when the feature flag is on' do
+        before do
+          FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made)
+        end
+
+        it 'then calls the cancel upcoming interview services' do
+          cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
+
+          allow(CancelUpcomingInterviews)
+            .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'We made you an offer.')
+               .and_return(cancel_upcoming_interviews)
+          make_offer.save!
+          expect(cancel_upcoming_interviews).to have_received(:call!)
+        end
       end
     end
 
