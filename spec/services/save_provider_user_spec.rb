@@ -22,6 +22,13 @@ RSpec.describe SaveProviderUser do
       expect { described_class.new }.to raise_error(ArgumentError)
       expect { described_class.new(provider_user: ProviderUser.new) }.not_to raise_error
     end
+
+    it 'ignores unpersisted deselected permissions' do
+      persisted_permissions = create(:provider_permissions)
+      service = described_class.new(provider_user: ProviderUser.new, deselected_provider_permissions: [persisted_permissions, build(:provider_permissions)])
+
+      expect(service.deselected_provider_permissions).to eq([persisted_permissions])
+    end
   end
 
   describe '#call!' do

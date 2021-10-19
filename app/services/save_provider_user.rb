@@ -4,7 +4,7 @@ class SaveProviderUser
   def initialize(provider_user:, provider_permissions: [], deselected_provider_permissions: [])
     @provider_user = provider_user
     @provider_permissions = provider_permissions
-    @deselected_provider_permissions = deselected_provider_permissions
+    @deselected_provider_permissions = deselected_provider_permissions.select(&:persisted?)
   end
 
   def call!
