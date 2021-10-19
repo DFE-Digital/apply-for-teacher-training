@@ -27,8 +27,7 @@ class UpdateFraudMatches
       :female-detective: In total there #{total_match_count == 1 ? 'is' : 'are'} #{total_match_count} #{'match'.pluralize(total_match_count)} :male-detective:
     MSG
 
-    url = Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_url
-    SlackNotificationWorker.perform_async(message, url)
+    SlackNotificationWorker.perform_async(message)
   end
 
 private
