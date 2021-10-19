@@ -14,6 +14,7 @@ class MonthlyStatisticsReport < ApplicationRecord
     load_candidates_by_status
     load_by_course_age_group
     load_by_sex
+    load_applications_by_primary_specialist_subject
   end
 
 private
@@ -43,6 +44,13 @@ private
     write_statistic(
       :candidates_by_status,
       MonthlyStatistics::ByStatus.new(by_candidate: true).table_data,
+    )
+  end
+
+  def load_applications_by_primary_specialist_subject
+    write_statistic(
+      :by_primary_specialist_subject,
+      MonthlyStatistics::ByPrimarySpecialistSubject.new.table_data,
     )
   end
 end

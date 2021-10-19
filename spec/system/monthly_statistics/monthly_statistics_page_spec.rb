@@ -20,13 +20,9 @@ RSpec.feature 'Monthly statistics page' do
   end
 
   def create_application_choices
-    create_application_choice(status: :with_rejection, course_level: 'primary')
-    create_application_choice(status: :with_offer, course_level: 'secondary')
-    create_application_choice(status: :with_offer, course_level: 'further_education')
-  end
-
-  def create_application_choice(status:, course_level:)
-    create(:application_choice, status, course_option: create(:course_option, course: create(:course, level: course_level)))
+    create(:application_choice, :with_rejection, course_option: create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary')])))
+    create(:application_choice, :with_offer, course_option: create(:course_option, course: create(:course, level: 'secondary')))
+    create(:application_choice, :with_offer, course_option: create(:course_option, course: create(:course, level: 'further_education')))
   end
 
   def create_monthly_stats_report
