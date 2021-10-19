@@ -9,8 +9,10 @@ module SupportInterface
     def create
       flash[:success] = "User no longer has access to #{permissions_to_remove.provider.name}"
       user = permissions_to_remove.provider_user
+      provider = permissions_to_remove.provider
 
       permissions_to_remove.destroy
+      ProviderMailer.permissions_removed(user, provider).deliver_later
 
       redirect_to support_interface_provider_user_path(user)
     end
