@@ -16,7 +16,6 @@ RSpec.describe SaveAndInviteProviderUser do
     SaveProviderUser.new(
       provider_user: provider_user,
       provider_permissions: [],
-      deselected_provider_permissions: [],
     )
   end
   let(:invite_service) { instance_double(InviteProviderUser, call!: true, notify: true) }

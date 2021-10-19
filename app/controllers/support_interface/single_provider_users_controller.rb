@@ -47,7 +47,6 @@ module SupportInterface
       service = SaveProviderUser.new(
         provider_user: provider_user,
         provider_permissions: @form.provider_permissions,
-        deselected_provider_permissions: @form.deselected_provider_permissions,
       )
 
       if service.call!
