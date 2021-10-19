@@ -12,8 +12,6 @@ RSpec.describe UpdateFraudMatches do
     MSG
   end
 
-  let(:expected_url) { Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_url }
-
   before do
     Timecop.freeze(Time.zone.local(2020, 8, 23, 12, 0o0, 0o0)) do
       create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
@@ -69,7 +67,7 @@ RSpec.describe UpdateFraudMatches do
 
       described_class.new.save!
 
-      expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, expected_url)
+      expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message)
     end
   end
 end
