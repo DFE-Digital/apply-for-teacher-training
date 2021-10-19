@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :provider do
     initialize_with { Provider.find_or_initialize_by(code: code) }
-    code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
+    code { Faker::Alphanumeric.unique.alphanumeric(number: 3).upcase }
     name { Faker::University.name }
 
     trait :with_signed_agreement do
