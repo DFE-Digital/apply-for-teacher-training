@@ -10,7 +10,7 @@
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
     <% if !single_application_choice? %>
-      <p class="govuk-body">If you have any other applications open they’ll be withdrawn, and any upcoming interviews will be cancelled.</p>
+      <p class="govuk-body">Your other applications will be withdrawn and any upcoming interviews will be cancelled.</p>
     <% end %>
 
     <%= form_with model: @respond_to_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
