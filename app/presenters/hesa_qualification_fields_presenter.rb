@@ -26,7 +26,7 @@ class HesaQualificationFieldsPresenter
         pad_to = HESA_MAPPING[k][:pad_to]
         value = @qualification.send(HESA_MAPPING[k][:attr])
         case pad_to
-        when :iso8601 then "#{value}-01-01"
+        when :iso8601 then value.present? ? "#{value}-01-01" : nil
         when nil then value&.to_s
         else
           value&.to_s&.rjust(pad_to, '0')

@@ -38,6 +38,18 @@ RSpec.describe HesaQualificationFieldsPresenter do
       end
     end
 
+    context 'when the start and award years are missing' do
+      let(:qualification) { create(:degree_qualification, start_year: nil, award_year: nil) }
+
+      it 'returns nil in the hesa_degstdt field' do
+        expect(presenter.to_hash[:hesa_degstdt]).to be_nil
+      end
+
+      it 'returns nil in the hesa_degenddt field' do
+        expect(presenter.to_hash[:hesa_degenddt]).to be_nil
+      end
+    end
+
     it 'hesa_degstdt is start_year in ISO8601 format' do
       expect(presenter.to_hash[:hesa_degstdt]).to eq("#{qualification.start_year}-01-01")
     end
