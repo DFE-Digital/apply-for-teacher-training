@@ -1,6 +1,7 @@
 class ApplicationReference < ApplicationRecord
   include Chased
-  include PublishedInAPI
+  include TouchApplicationChoices
+  include TouchApplicationFormState
 
   self.table_name = 'references'
 
