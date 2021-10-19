@@ -6,9 +6,9 @@ en:
         label: Why do you want to be a teacher?
         complete_hint_text: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion. Ensure this is all your own work as plagiarism will be penalised.
       subject_knowledge:
-        key: Your knowledge about the subject you want to teach
+        key: Why are you suited to teach your subjects or age group?
         change_action: evidence of subject knowledge
-        label: Tell us what you know about the subject you want to teach
+        label: Why are you suited to teach your subjects or age group?
         complete_hint_text: Proofread this section carefully for spelling and grammar. Ask someone you trust for their opinion. Ensure this is all your own work as plagiarism will be penalised.
       interview_preferences:
         key: Interview needs
@@ -28,8 +28,8 @@ en:
         candidate_interface/subject_knowledge_form:
           attributes:
             subject_knowledge:
-              blank: Enter what you know about the subject you want to teach
-              too_many_words: Your subject knowledge explanation must be %{count} words or fewer
+              blank: Describe why you're suited to teach your subjects or age group
+              too_many_words: Your description about your suitability to teach your subjects or age group must be %{count} words or fewer
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:

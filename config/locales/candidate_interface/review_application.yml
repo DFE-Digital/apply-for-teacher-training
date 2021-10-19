@@ -53,13 +53,13 @@ en:
       incomplete: English as a foreign language not marked as complete
       complete_section: Have you done an English as a foreign language assessment?
     becoming_a_teacher:
-      incomplete: Personal statement not marked as complete
-      not_reviewed: Personal statement not marked as reviewed
+      incomplete: Why you want to teach not marked as complete
+      not_reviewed: Why you want to teach not marked as reviewed
       complete_section: Why do you want to be a teacher?
     subject_knowledge:
-      incomplete: Subject knowledge not marked as complete
-      not_reviewed: Subject knowledge not marked as reviewed
-      complete_section: What do you know about the subject you want to teach?
+      incomplete: Suitability to teach your subjects or age group not marked as complete
+      not_reviewed: Suitability to teach your subjects or age group not marked as reviewed
+      complete_section: Why are you suited to teach your subjects or age group?
     interview_preferences:
       incomplete: Interview needs not marked as complete
       complete_section: Do you have any interview needs?
@@ -72,4 +72,3 @@ en:
     references_selected:
       incomplete: References not marked as complete
       complete_section: Manage your references
-

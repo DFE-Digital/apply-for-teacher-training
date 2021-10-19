@@ -107,7 +107,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_update_my_subject_knowledge
     when_i_click_change_on_subject_knowledge
-    fill_in 'Tell us what you know about the subject you want to teach', with: 'I have a very particular set of skills.'
+    fill_in 'Why are you suited to teach your subjects or age group?', with: 'I have a very particular set of skills.'
     click_button 'Continue'
   end
 

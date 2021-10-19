@@ -115,11 +115,11 @@ RSpec.feature 'Apply again' do
 
   def then_i_am_informed_that_i_have_not_reviewed_these_sections
     within becoming_a_teacher_error_container do
-      expect(page).to have_content 'Personal statement not marked as reviewed'
+      expect(page).to have_content 'Why you want to teach not marked as reviewed'
     end
 
     within subject_knowledge_error_container do
-      expect(page).to have_content 'Subject knowledge not marked as reviewed'
+      expect(page).to have_content 'Suitability to teach your subjects or age group not marked as reviewed'
     end
   end
 
