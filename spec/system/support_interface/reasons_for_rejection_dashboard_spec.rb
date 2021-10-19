@@ -15,7 +15,8 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     and_there_are_candidates_and_application_forms_in_the_system
 
     when_i_visit_the_performance_page_in_support
-    and_i_click_on_the_reasons_for_rejection_dashboard_link
+    then_i_can_see_reasons_for_rejection_dashboard_links_for_two_cycles
+    and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
 
     then_i_should_see_reasons_for_rejection_dashboard
     and_i_should_see_sub_reasons_for_rejection
@@ -24,7 +25,7 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     then_i_can_see_a_list_of_applications_for_that_reason
 
     when_i_visit_the_performance_page_in_support
-    and_i_click_on_the_reasons_for_rejection_dashboard_link
+    and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
     and_i_click_on_a_sub_reason
     then_i_can_see_a_list_of_applications_for_that_sub_reason
   end
@@ -59,8 +60,13 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     visit support_interface_performance_path
   end
 
-  def and_i_click_on_the_reasons_for_rejection_dashboard_link
-    click_on 'Structured reasons for rejection'
+  def then_i_can_see_reasons_for_rejection_dashboard_links_for_two_cycles
+    expect(page).to have_link("#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current")
+    expect(page).to have_link("#{RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)} (starts #{RecruitmentCycle.previous_year})")
+  end
+
+  def and_i_click_on_the_reasons_for_rejection_dashboard_link_for_the_current_cycle
+    click_on "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current"
   end
 
   def then_i_should_see_reasons_for_rejection_dashboard
