@@ -5,7 +5,10 @@ class ReasonsForRejectionCountQuery
   Result = Struct.new(:all_time, :this_month, :sub_reasons)
 
   def total_structured_reasons_for_rejection
-    ApplicationChoice.where.not(structured_rejection_reasons: nil).count
+    ApplicationChoice
+      .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
+      .where.not(structured_rejection_reasons: nil)
+      .count
   end
 
   def reason_counts
@@ -111,6 +114,7 @@ private
       jsonb_each_text(structured_rejection_reasons) AS reasons
     WHERE structured_rejection_reasons IS NOT NULL
       AND reasons.value = 'Yes'
+      AND current_recruitment_cycle_year = '#{RecruitmentCycle.current_year}'
     GROUP BY (key, time_period)
     ORDER BY count(*) DESC;
     "
@@ -132,6 +136,7 @@ private
       jsonb_array_elements_text(reasons.value) AS sub_reasons
     WHERE structured_rejection_reasons IS NOT NULL
       AND jsonb_typeof(reasons.value) = 'array'
+      AND current_recruitment_cycle_year = '#{RecruitmentCycle.current_year}'
     GROUP BY (key, sub_reasons.value, time_period);
     "
   end

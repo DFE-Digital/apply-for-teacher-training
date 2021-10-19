@@ -1,8 +1,12 @@
 module SupportInterface
   class ReasonsForRejectionDashboardComponent < ViewComponent::Base
     include ViewHelper
-    def initialize(rejection_reasons)
+
+    attr_reader :total_structured_rejection_reasons_count
+
+    def initialize(rejection_reasons, total_structured_rejection_reasons_count)
       @rejection_reasons = rejection_reasons
+      @total_structured_rejection_reasons_count = total_structured_rejection_reasons_count
     end
 
   private
@@ -17,10 +21,6 @@ module SupportInterface
 
     def percentage_rejected_for_reason(reason)
       formatted_percentage(total_rejection_count(reason), total_structured_rejection_reasons_count)
-    end
-
-    def total_structured_rejection_reasons_count
-      @total_structured_rejection_reasons_count ||= ApplicationChoice.where.not(structured_rejection_reasons: nil).count
     end
 
     def sub_reasons_for(reason)

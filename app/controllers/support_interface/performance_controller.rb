@@ -25,7 +25,9 @@ module SupportInterface
     end
 
     def reasons_for_rejection_dashboard
-      @reasons_for_rejection = ReasonsForRejectionCountQuery.new.sub_reason_counts
+      query = ReasonsForRejectionCountQuery.new
+      @reasons_for_rejection = query.sub_reason_counts
+      @total_structured_rejection_reasons_count = query.total_structured_reasons_for_rejection
     end
 
     def reasons_for_rejection_application_choices
