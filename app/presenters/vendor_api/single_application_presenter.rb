@@ -3,11 +3,11 @@ module VendorAPI
     include Rails.application.routes.url_helpers
 
     CACHE_EXPIRES_IN = 1.day
-
     UCAS_FEE_PAYER_CODES = {
       'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
       'Not Known' => '99',
     }.freeze
+    OMISSION_TEXT = '... (this field was truncated as it went over the length limit)'.freeze
 
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
@@ -93,22 +93,28 @@ module VendorAPI
     end
 
     def rejection
-      if application_choice.rejection_reason? || application_choice.structured_rejection_reasons.present?
-        {
-          reason: RejectionReasonPresenter.new(application_choice).present,
-          date: application_choice.rejected_at.iso8601,
-        }
-      elsif application_choice.offer_withdrawal_reason?
-        {
-          reason: application_choice.offer_withdrawal_reason,
-          date: application_choice.offer_withdrawn_at.iso8601,
-        }
-      elsif application_choice.rejected_by_default?
-        {
-          reason: 'Not entered',
-          date: application_choice.rejected_at.iso8601,
-        }
-      end
+      @rejection ||= if application_choice.rejection_reason? || application_choice.structured_rejection_reasons.present?
+                       {
+                         reason: RejectionReasonPresenter.new(application_choice).present,
+                         date: application_choice.rejected_at.iso8601,
+                       }
+                     elsif application_choice.offer_withdrawal_reason?
+                       {
+                         reason: application_choice.offer_withdrawal_reason,
+                         date: application_choice.offer_withdrawn_at.iso8601,
+                       }
+                     elsif application_choice.rejected_by_default?
+                       {
+                         reason: 'Not entered',
+                         date: application_choice.rejected_at.iso8601,
+                       }
+                     end
+      return if @rejection.blank?
+
+      {
+        reason: truncate_if_over_advertised_limit('Rejection.properties.reason', @rejection[:reason]),
+        date: @rejection[:date],
+      }
     end
 
     def withdrawal
@@ -403,20 +409,22 @@ module VendorAPI
     def work_history_breaks
       # With the new feature of adding individual work history breaks, `application_form.work_history_breaks`
       # is a legacy column. So we'll need to check if an application form has this value first.
-      if application_form.work_history_breaks
-        application_form.work_history_breaks
-      elsif application_form.application_work_history_breaks.any?
-        breaks = application_form.application_work_history_breaks.map do |work_break|
-          start_date = work_break.start_date.to_s(:month_and_year)
-          end_date = work_break.end_date.to_s(:month_and_year)
+      @work_history_breaks ||= if application_form.work_history_breaks
+                                 application_form.work_history_breaks
+                               elsif application_form.application_work_history_breaks.any?
+                                 breaks = application_form.application_work_history_breaks.map do |work_break|
+                                   start_date = work_break.start_date.to_s(:month_and_year)
+                                   end_date = work_break.end_date.to_s(:month_and_year)
 
-          "#{start_date} to #{end_date}: #{work_break.reason}"
-        end
+                                   "#{start_date} to #{end_date}: #{work_break.reason}"
+                                 end
 
-        breaks.join("\n\n")
-      else
-        ''
-      end
+                                 breaks.join("\n\n")
+                               else
+                                 ''
+                               end
+
+      truncate_if_over_advertised_limit('WorkExperiences.properties.work_history_break_explanation', @work_history_breaks)
     end
 
     def safeguarding_issues_details_url
@@ -425,6 +433,18 @@ module VendorAPI
 
     def cache_key(model, method = '')
       CacheKey.generate("#{model.cache_key_with_version}#{method}")
+    end
+
+    def truncate_if_over_advertised_limit(field_name, field_value)
+      limit = field_length(field_name)
+      return field_value if field_value.length <= limit
+
+      Sentry.capture_message("#{field_name} truncated for application with id #{application_choice.id} as length exceeded #{limit} chars")
+      field_value.truncate(limit, omission: OMISSION_TEXT)
+    end
+
+    def field_length(name)
+      RetrieveAPIFieldLength.new(name).call
     end
   end
 end

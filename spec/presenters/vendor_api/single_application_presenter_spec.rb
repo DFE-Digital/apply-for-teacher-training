@@ -32,6 +32,24 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: rejected_at.iso8601)
     end
+
+    it 'returns a rejection object with a truncated reason when the character limit is exceeded' do
+      rejected_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
+      application_form = create(:application_form,
+                                :minimum_info)
+      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: rejected_at)
+      application_choice.rejection_reason = 'Course full' * 65000
+      allow(Sentry).to receive(:capture_message)
+
+      response = described_class.new(application_choice).as_json
+
+      expect(Sentry).to have_received(:capture_message).with("Rejection.properties.reason truncated for application with id #{application_choice.id} as length exceeded 65535 chars")
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response[:attributes][:rejection][:reason].length).to be(65535)
+      expect(response[:attributes][:rejection][:reason]).to end_with(described_class::OMISSION_TEXT)
+      expect(response[:attributes][:rejection][:date]).to eq(rejected_at.iso8601)
+    end
   end
 
   describe 'attributes.rejection with a withdrawn offer' do
@@ -230,6 +248,28 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
         expect(response.to_json).to be_valid_against_openapi_schema('Application')
         expect(response[:attributes][:work_experience][:work_history_break_explanation]).to eq('I was sleeping.')
+      end
+    end
+
+    context 'when the work history breaks field has a value over the desired 10240 character limit' do
+      it 'returns the work_history_breaks attribute of an application' do
+        breaks = []
+        long_work_history_breaks = 'I was sleeping.' * 1000
+        application_form = build_stubbed(
+          :application_form,
+          :with_completed_references,
+          work_history_breaks: long_work_history_breaks,
+          application_work_history_breaks: breaks,
+        )
+        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+        allow(Sentry).to receive(:capture_message)
+
+        response = described_class.new(application_choice).as_json
+
+        expect(Sentry).to have_received(:capture_message).with("WorkExperiences.properties.work_history_break_explanation truncated for application with id #{application_choice.id} as length exceeded 10240 chars")
+        expect(response.to_json).to be_valid_against_openapi_schema('Application')
+        expect(response[:attributes][:work_experience][:work_history_break_explanation]).to end_with(described_class::OMISSION_TEXT)
+        expect(response[:attributes][:work_experience][:work_history_break_explanation].length).to be(10240)
       end
     end
 
