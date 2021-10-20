@@ -1,5 +1,5 @@
 class ApplicationVolunteeringExperience < ApplicationExperience
-  include PublishedInAPI
+  include TouchApplicationChoices
 
   belongs_to :application_form, touch: true
 

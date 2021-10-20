@@ -47,7 +47,7 @@ module CandidateInterface
 
       if authentication_token&.still_valid?
         candidate = authentication_token.user
-        candidate.last_signed_in_at.nil?
+        candidate.update!(candidate_api_updated_at: Time.zone.now) if candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)
         set_user_context(candidate.id)
         authentication_token.use!

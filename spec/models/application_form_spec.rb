@@ -25,6 +25,29 @@ RSpec.describe ApplicationForm do
         .not_to(change { application_form.application_choices.first.updated_at })
     end
 
+    it 'updates the candidates `candidate_api_updated_at` when phase is updated' do
+      application_form = create(:completed_application_form)
+
+      expect { application_form.update(phase: 'apply_2') }
+        .to(change { application_form.candidate.candidate_api_updated_at })
+    end
+
+    it 'updates the candidates `candidate_api_updated_at` on the first update' do
+      application_form = create(:application_form)
+
+      expect { application_form.update(first_name: 'David') }
+        .to(change { application_form.candidate.candidate_api_updated_at })
+    end
+
+    it 'does not update the candidates `candidate_api_updated_at` on subsequent updates' do
+      application_form = create(:application_form)
+
+      application_form.update(first_name: 'Divad')
+
+      expect { application_form.update(first_name: 'David') }
+        .not_to(change { application_form.candidate.candidate_api_updated_at })
+    end
+
     context 'when the form belongs to a previous recruitment cycle' do
       it 'throws an exception rather than touch an application choice' do
         application_form = create(
@@ -58,13 +81,6 @@ RSpec.describe ApplicationForm do
               .not_to raise_error
           end
         end
-      end
-
-      it 'updates the candidates `candidate_api_updated_at` when phase is updated' do
-        application_form = create(:completed_application_form)
-
-        expect { application_form.update(phase: 'apply_2') }
-          .to(change { application_form.candidate.candidate_api_updated_at })
       end
     end
   end
