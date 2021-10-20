@@ -196,7 +196,7 @@ module SupportInterface
             text: 'Reinstate offer',
           },
         }
-      elsif FeatureFlag.active?(:support_user_revert_withdrawn_offer) && application_choice.withdrawn?
+      elsif FeatureFlag.active?(:support_user_revert_withdrawn_offer) && application_choice.withdrawn? && !any_successful_application_choices?(application_choice)
         {
           action: {
             href: support_interface_application_form_application_choice_revert_withdrawal_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
@@ -213,6 +213,12 @@ module SupportInterface
       else
         {}
       end
+    end
+
+    def any_successful_application_choices?(application_choice)
+      choice_statuses = application_choice.application_form.application_choices.map(&:status)
+
+      choice_statuses.any? { |choice_status| ApplicationStateChange::ACCEPTED_STATES.include? choice_status.to_sym }
     end
   end
 end

@@ -149,6 +149,35 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
   end
 
+  context 'Withdrawn application' do
+    let(:application_form) { create(:completed_application_form) }
+    let(:withdrawn_application) { create(:application_choice, :withdrawn, application_form: application_form) }
+
+    it 'renders a link to revert the withdrawn application when `revert_withdrawn_offer` flag is active' do
+      FeatureFlag.activate(:support_user_revert_withdrawn_offer)
+
+      result = render_inline(described_class.new(withdrawn_application))
+
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
+        Rails.application.routes.url_helpers.support_interface_application_form_application_choice_revert_withdrawal_path(
+          application_form_id: withdrawn_application.application_form.id,
+          application_choice_id: withdrawn_application.id,
+        ),
+      )
+      expect(result.css('.govuk-summary-list__actions').text.strip).to include('Revert withdrawal')
+    end
+
+    it 'does not render a link to revert the withdrawn application when the candidate has accepted an offer' do
+      create(:application_choice, :with_accepted_offer, application_form: application_form)
+      FeatureFlag.activate(:support_user_revert_withdrawn_offer)
+
+      result = render_inline(described_class.new(withdrawn_application))
+
+      expect(result.css('.govuk-summary-list__actions a')).to be_empty
+      expect(result.css('.govuk-summary-list__actions').text.strip).not_to include('Revert withdrawal')
+    end
+  end
+
   it 'displays the date an application was rejected' do
     application_choice = create(:application_choice,
                                 :with_completed_application_form,
