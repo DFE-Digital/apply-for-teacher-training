@@ -3,6 +3,9 @@ en:
     reason:
       application_withdrawn: You withdrew your application.
     explanation:
+      email:
+        one: The upcoming interview with them has been cancelled.
+        other: The upcoming interviews with them have been cancelled.
       confirmation_page:
         one: The upcoming interview will be cancelled.
         other: Upcoming interviews will be cancelled.

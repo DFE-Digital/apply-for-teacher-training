@@ -158,7 +158,8 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send email when the application withdrawn' do
-    let(:email) { described_class.application_withdrawn(provider_user, application_choice) }
+    let(:number_of_cancelled_interviews) { 0 }
+    let(:email) { described_class.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews) }
 
     it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) withdrew their application',
@@ -174,6 +175,19 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'Harry Potter (123A) withdrew their application',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
+    end
+
+    context 'when some interviews were cancelled' do
+      let(:number_of_cancelled_interviews) { 2 }
+
+      before { FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made) }
+
+      it_behaves_like('a mail with subject and content',
+                      'Harry Potter (123A) withdrew their application',
+                      'provider name' => 'Dear Johny English',
+                      'candidate name' => 'Harry Potter',
+                      'course name and code' => 'Computer Science (6IND)',
+                      'interviews_cancelled' => 'The upcoming interviews with them have been cancelled.')
     end
   end
 
