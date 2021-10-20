@@ -13,6 +13,7 @@ class MonthlyStatisticsReport < ApplicationRecord
     load_applications_by_status
     load_candidates_by_status
     load_by_course_age_group
+    load_by_area
     load_by_sex
     load_applications_by_course_type
     load_applications_by_primary_specialist_subject
@@ -24,6 +25,13 @@ private
     write_statistic(
       :by_course_age_group,
       MonthlyStatistics::ByCourseAgeGroup.new.table_data,
+    )
+  end
+
+  def load_by_area
+    write_statistic(
+      :by_area,
+      MonthlyStatistics::ByArea.new.table_data,
     )
   end
 
