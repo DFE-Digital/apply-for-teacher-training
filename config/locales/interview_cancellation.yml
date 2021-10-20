@@ -1,0 +1,6 @@
+en:
+  interview_cancellation:
+    explanation:
+      confirmation_page:
+        one: The upcoming interview will be cancelled.
+        other: Upcoming interviews will be cancelled.

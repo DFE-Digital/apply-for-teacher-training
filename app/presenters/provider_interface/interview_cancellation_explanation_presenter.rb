@@ -11,7 +11,7 @@ module ProviderInterface
     end
 
     def text
-      I18n.t(:interview_cancellation_explanation, count: number_of_interviews_to_be_cancelled)
+      I18n.t('interview_cancellation.explanation.confirmation_page', count: number_of_interviews_to_be_cancelled)
     end
 
   private
