@@ -97,7 +97,7 @@ RSpec.describe ApplicationForm do
   describe 'after_commit' do
     describe 'updating region code' do
       before do
-        allow(LookupAreaByPostcodeWorker).to receive(:perform_async).and_return(nil)
+        allow(LookupAreaByPostcodeWorker).to receive(:perform_in).and_return(nil)
       end
 
       it 'sets value to `rest_of_the_world` for international addresses outside EEA' do
@@ -109,7 +109,7 @@ RSpec.describe ApplicationForm do
         )
         application_form.save!
 
-        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_async)
+        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in)
         expect(application_form.reload.rest_of_the_world?).to be(true)
       end
 
@@ -122,30 +122,53 @@ RSpec.describe ApplicationForm do
         )
         application_form.save!
 
-        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_async)
+        expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in)
         expect(application_form.reload.european_economic_area?).to be(true)
       end
 
-      it 'queues an LookupAreaByPostcodeWorker job for Westminster postcode' do
-        application_form = build(
-          :application_form,
-          address_type: :uk,
-          postcode: 'SW1P 3BT',
-        )
-        application_form.save!
+      context 'with `region_from_postcode` feature flag active' do
+        before do
+          FeatureFlag.activate(:region_from_postcode)
+        end
 
-        expect(LookupAreaByPostcodeWorker).to have_received(:perform_async).with(application_form.id)
+        it 'queues an LookupAreaByPostcodeWorker job for Westminster postcode' do
+          application_form = build(
+            :application_form,
+            address_type: :uk,
+            postcode: 'SW1P 3BT',
+          )
+          application_form.save!
+
+          expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
+        end
+
+        it 'queues an LookupAreaByPostcodeWorker job for Cardiff postcode' do
+          application_form = build(
+            :application_form,
+            address_type: :uk,
+            postcode: 'CF40 2QD',
+          )
+          application_form.save!
+
+          expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
+        end
       end
 
-      it 'queues an LookupAreaByPostcodeWorker job for Cardiff postcode' do
-        application_form = build(
-          :application_form,
-          address_type: :uk,
-          postcode: 'CF40 2QD',
-        )
-        application_form.save!
+      context 'with `region_from_postcode` feature flag inactive' do
+        before do
+          FeatureFlag.deactivate(:region_from_postcode)
+        end
 
-        expect(LookupAreaByPostcodeWorker).to have_received(:perform_async).with(application_form.id)
+        it 'does not queue an LookupAreaByPostcodeWorker job for Westminster postcode' do
+          application_form = build(
+            :application_form,
+            address_type: :uk,
+            postcode: 'SW1P 3BT',
+          )
+          application_form.save!
+
+          expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in).with(application_form.id)
+        end
       end
     end
 

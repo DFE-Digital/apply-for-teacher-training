@@ -21,6 +21,8 @@ class LookupAreaByPostcodeWorker
   sidekiq_options queue: :low_priority, retry: 5
 
   def perform(application_form_id)
+    return unless FeatureFlag.active?(:region_from_postcode)
+
     application_form = ApplicationForm.find(application_form_id)
     return if application_form&.postcode.blank?
 
