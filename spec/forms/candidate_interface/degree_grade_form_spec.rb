@@ -60,5 +60,17 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
         expect(degree_form.other_grade).to eq 'gold medal'
       end
     end
+
+    context 'when the database degree has no grade info' do
+      it 'sets no form values' do
+        degree = build_stubbed(:degree_qualification, grade: nil)
+        degree_form = described_class.new(degree: degree)
+
+        degree_form.assign_form_values
+
+        expect(degree_form.grade).to eq nil
+        expect(degree_form.other_grade).to eq nil
+      end
+    end
   end
 end
