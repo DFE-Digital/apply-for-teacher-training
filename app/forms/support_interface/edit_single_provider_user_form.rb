@@ -22,6 +22,7 @@ module SupportInterface
       if provider_user
         ProviderPermissions.includes(:provider, :provider_user)
           .where(provider_user_id: provider_user.id)
+          .order('providers.name')
       else
         []
       end
@@ -41,18 +42,6 @@ module SupportInterface
 
         permission
       end
-    end
-
-    def deselected_provider_permissions
-      possible_permissions - @provider_permissions
-    end
-
-    def possible_permissions
-      @possible_permissions ||=
-        Provider.with_courses.order(:name).map do |provider|
-          provider_permissions = all_possible_permissions.find { |permission| permission.provider_id == provider.id }
-          provider_permissions || ProviderPermissions.new(provider: provider)
-        end
     end
   end
 end

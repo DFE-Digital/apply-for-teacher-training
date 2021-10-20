@@ -17,6 +17,7 @@ RSpec.feature 'Managing provider users v2' do
     when_i_click_yes_i_am_sure
     then_i_should_see_a_flash_message
     and_i_should_see_that_the_user_is_no_longer_associated_with_that_provider
+    and_the_user_should_receive_an_email_about_being_removed_from_the_provider
   end
 
   def given_dfe_signin_is_configured
@@ -63,5 +64,10 @@ RSpec.feature 'Managing provider users v2' do
 
   def and_i_should_see_that_the_user_is_no_longer_associated_with_that_provider
     expect(page).not_to have_selector("[data-qa=\"provider-id-#{@provider_one.id}\"]")
+  end
+
+  def and_the_user_should_receive_an_email_about_being_removed_from_the_provider
+    open_email(@provider_user.email_address)
+    expect(current_email.subject).to include("You've been removed from #{@provider_one.name}")
   end
 end
