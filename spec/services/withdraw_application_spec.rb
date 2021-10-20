@@ -22,6 +22,26 @@ RSpec.describe WithdrawApplication do
       expect(SetDeclineByDefault).to have_received(:new).with(application_form: withdrawing_application.application_form)
     end
 
+    context 'when the cancel interviews feature flag is on' do
+      before { FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made) }
+
+      it 'cancels upcoming interviews for the withdrawn application' do
+        cancel_service = instance_double(CancelUpcomingInterviews, call!: true)
+        withdrawing_application = create(:application_choice, status: :interviewing)
+        allow(CancelUpcomingInterviews).to receive(:new)
+                                             .with(
+                                               actor: withdrawing_application.candidate,
+                                               application_choice: withdrawing_application,
+                                               cancellation_reason: 'You withdrew your application.',
+                                             )
+                                             .and_return(cancel_service)
+
+        described_class.new(application_choice: withdrawing_application).save!
+
+        expect(cancel_service).to have_received(:call!)
+      end
+    end
+
     it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
       training_provider = create(:provider)
       training_provider_user = create(:provider_user, :with_notifications_enabled, providers: [training_provider])
