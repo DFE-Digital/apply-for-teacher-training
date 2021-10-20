@@ -48,6 +48,12 @@
           <span class="app-toc__content">By primary specialist subject</span>
         </a>
       </li>
+      <li>
+        <a href="#by-primary-specialist-subject" class="govuk-link app-toc__link">
+          <span class="app-toc__number">9.</span>
+          <span class="app-toc__content">By secondary subject</span>
+        </a>
+      </li>
     </ul>
   </div>
 </div>
@@ -128,3 +134,12 @@
   </div>
 </div>
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by primary specialist subject', statistics: @statistics['by_primary_specialist_subject']) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="by-primary-specialist-subject">9. By secondary subject</h2>
+    <p class="govuk-body">Something to explain how this is counting applications not applicants...</p>
+    <p class="govuk-body">Do the subjects need some explanation...? Something about combined subjects?</p>
+  </div>
+</div>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by secondary subject', statistics: @statistics['by_secondary_subject']) %>

@@ -17,6 +17,7 @@ class MonthlyStatisticsReport < ApplicationRecord
     load_by_sex
     load_applications_by_course_type
     load_applications_by_primary_specialist_subject
+    load_applications_by_secondary_subject
   end
 
 private
@@ -67,6 +68,13 @@ private
     write_statistic(
       :by_primary_specialist_subject,
       MonthlyStatistics::ByPrimarySpecialistSubject.new.table_data,
+    )
+  end
+
+  def load_applications_by_secondary_subject
+    write_statistic(
+      :by_secondary_subject,
+      MonthlyStatistics::BySecondarySubject.new.table_data,
     )
   end
 end
