@@ -40,6 +40,8 @@ module CandidateInterface
   private
 
     def assign_form_values_with_hesa_data_if_available
+      return if degree.grade.blank?
+
       if degree.grade_hesa_code.present?
         hesa_grade = Hesa::Grade.find_by_hesa_code(degree.grade_hesa_code)
         if hesa_grade.visual_grouping == :other
