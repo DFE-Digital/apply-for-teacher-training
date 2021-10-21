@@ -198,6 +198,7 @@ module MonthlyStatistics
             WHERE
                 NOT c.hide_in_reporting
                 AND f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                AND f.date_of_birth IS NOT NULL
             GROUP BY
                 c.id, f.id, age_group
         )
