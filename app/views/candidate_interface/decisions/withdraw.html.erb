@@ -15,6 +15,10 @@
       <p class="govuk-body">If you withdraw this course choice (and all your other course choices) you can still apply for more courses this year.</p>
     <% end %>
 
+    <% if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made) %>
+      <p class="govuk-body">Any upcoming interviews will be cancelled when you withdraw.</p>
+    <% end %>
+
     <%= govuk_button_to t('decisions.withdraw.confirm'), candidate_interface_withdraw_path, warning: true %>
   </div>
 </div>
