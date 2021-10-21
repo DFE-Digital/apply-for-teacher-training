@@ -66,12 +66,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_set_up_another_interview(days_in_future: 4)
     then_another_interview_has_been_created(4.days.from_now.to_s(:govuk_date))
 
-    when_i_can_make_decisions_for_my_provider
-    and_i_visit_that_application_in_the_provider_interface
-    when_i_click_make_decision
-    and_i_make_an_offer
-    then_i_should_see_the_interview_on_the_interview_tab(4.days.from_now.to_s(:govuk_date))
-    but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
+    unless FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
+      when_i_can_make_decisions_for_my_provider
+      and_i_visit_that_application_in_the_provider_interface
+      when_i_click_make_decision
+      and_i_make_an_offer
+      then_i_should_see_the_interview_on_the_interview_tab(4.days.from_now.to_s(:govuk_date))
+      but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
+    end
   end
 
   def when_i_reload_the_page
