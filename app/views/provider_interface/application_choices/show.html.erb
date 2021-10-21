@@ -51,7 +51,7 @@
 
 <!-- TODO: Should we always execute the restructured path here? -->
 <% if @application_choice.application_form.feature_restructured_work_history %>
-  <%= render ProviderInterface::WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
+  <%= render WorkHistoryAndUnpaidExperienceComponent.new(application_form: @application_choice.application_form) %>
 
   <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 <% else %>
