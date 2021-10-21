@@ -41,9 +41,9 @@ private
   end
 
   def region_code_for(result)
-    if result.region.present?
+    if result&.region.present?
       REGION_CODES[result.region.downcase]
-    elsif result.country.present?
+    elsif result&.country.present?
       REGION_CODES[result.country.downcase]
     end
   end
