@@ -4,7 +4,7 @@ require 'sidekiq'
 
 RSpec.describe Clockwork, clockwork: true do
   around do |example|
-    Timecop.freeze(Time.zone.now) do
+    Timecop.freeze(Time.zone.now.change(hour: 0, min: 0, sec: 0)) do
       example.run
     end
   end
@@ -17,11 +17,11 @@ RSpec.describe Clockwork, clockwork: true do
     describe 'worker schedule' do
       it 'runs the job every hour' do
         start_time = Time.zone.now
-        end_time = Time.zone.now + 3.hours + 1.minute
+        end_time = Time.zone.now + 3.hours
         Clockwork::Test.run(
           start_time: start_time,
           end_time: end_time,
-          tick_speed: 1.minute,
+          tick_speed: 30.seconds,
           file: './config/clock.rb',
         )
         expect(Clockwork::Test.times_run(worker[:task])).to eq 3
