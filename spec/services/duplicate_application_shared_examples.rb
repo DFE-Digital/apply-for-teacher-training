@@ -51,6 +51,22 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
     expect(duplicate_application_form.application_qualifications.count).to eq 3
   end
 
+  context 'when one of the degrees has missing data' do
+    before do
+      ApplicationForm.with_unsafe_application_choice_touches do
+        create(
+          :degree_qualification,
+          application_form: original_application_form,
+          start_year: nil,
+        )
+      end
+    end
+
+    it 'sets the degrees_completed field of the duplicate application to false' do
+      expect(duplicate_application_form.reload.degrees_completed).to eq false
+    end
+  end
+
   it 'copies work history breaks' do
     expect(original_application_form.application_work_history_breaks).to be_present
     expect(duplicate_application_form.application_work_history_breaks.count).to eq 1

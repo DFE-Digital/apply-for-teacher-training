@@ -54,6 +54,10 @@ class DuplicateApplication
       )
     end
 
+    if new_application_form.incomplete_degree_information?
+      new_application_form.update!(degrees_completed: false)
+    end
+
     original_application_form.application_references.includes([:reference_tokens]).where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle feedback_requested]).reject(&:feedback_overdue?).each do |w|
       new_application_form.application_references.create!(
         w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
