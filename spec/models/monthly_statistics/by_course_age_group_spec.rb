@@ -4,50 +4,50 @@ RSpec.describe MonthlyStatistics::ByCourseAgeGroup do
   subject(:statistics) { described_class.new.table_data }
 
   it "returns table data for 'by course age group'" do
-    create_application_choice(status: :with_rejection, course_level: 'primary')
-    create_application_choice(status: :awaiting_provider_decision, course_level: 'primary')
-    create_application_choice(status: :with_recruited, course_level: 'primary')
-    create_application_choice(status: :with_offer, course_level: 'secondary')
-    create_application_choice(status: :with_conditions_not_met, course_level: 'secondary')
-    create_application_choice(status: :with_offer, course_level: 'further_education')
-    create_application_choice(status: :with_rejection, course_level: 'further_education')
+    setup_test_data
 
-    expect(statistics).to eq(
-      { rows:
-        [
-          {
-            'Age group' => 'Primary',
-            'Recruited' => 1,
-            'Conditions pending' => 0,
-            'Received an offer' => 0,
-            'Awaiting provider decisions' => 1,
-            'Unsuccessful' => 1,
-            'Total' => 3,
-          },
-          {
-            'Age group' => 'Secondary',
-            'Recruited' => 0,
-            'Conditions pending' => 0,
-            'Received an offer' => 1,
-            'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 1,
-            'Total' => 2,
-          },
-          {
-            'Age group' => 'Further education',
-            'Recruited' => 0,
-            'Conditions pending' => 0,
-            'Received an offer' => 1,
-            'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 1,
-            'Total' => 2,
-          },
-        ],
-        column_totals: [1, 0, 2, 1, 3, 7] },
-    )
+    expect(statistics).to eq({
+      rows: [
+        {
+          'Age group' => 'Primary',
+          'Recruited' => 1,
+          'Conditions pending' => 0,
+          'Received an offer' => 0,
+          'Awaiting provider decisions' => 1,
+          'Unsuccessful' => 1,
+          'Total' => 3,
+        },
+        { 'Age group' => 'Secondary',
+          'Recruited' => 0,
+          'Conditions pending' => 1,
+          'Received an offer' => 1,
+          'Awaiting provider decisions' => 0,
+          'Unsuccessful' => 1,
+          'Total' => 3 },
+        {
+          'Age group' => 'Further education',
+          'Recruited' => 0,
+          'Conditions pending' => 0,
+          'Received an offer' => 1,
+          'Awaiting provider decisions' => 0,
+          'Unsuccessful' => 1,
+          'Total' => 2,
+        },
+      ],
+      column_totals: [1, 1, 2, 1, 3, 8],
+    })
   end
 
-  def create_application_choice(status:, course_level:)
-    create(:application_choice, status, course_option: create(:course_option, course: create(:course, level: course_level)))
+  def setup_test_data
+    create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'recruited', current_recruitment_cycle_year: RecruitmentCycle.previous_year, course_option: create(:course_option, course: create(:course, level: 'primary')))
+    create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'pending_conditions', current_recruitment_cycle_year: RecruitmentCycle.previous_year, course_option: create(:course_option, course: create(:course, level: 'secondary')))
+
+    create(:application_choice, :with_rejection, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'primary')))
+    create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'primary')))
+    create(:application_choice, :with_recruited, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'primary')))
+    create(:application_choice, :with_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'secondary')))
+    create(:application_choice, :with_conditions_not_met, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'secondary')))
+    create(:application_choice, :with_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'further_education')))
+    create(:application_choice, :with_rejection, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'further_education')))
   end
 end
