@@ -49,7 +49,7 @@ module ProviderInterface
                         else
                           provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
                         end
-
+      @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
       @wizard.save_state!
     end
 
@@ -71,6 +71,7 @@ module ProviderInterface
         flash[:success] = success_message
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       else
+        @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
         @wizard.errors.merge!(service.errors)
         track_validation_error(@wizard)
         render :check
