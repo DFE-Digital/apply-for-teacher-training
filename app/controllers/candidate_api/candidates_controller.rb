@@ -88,7 +88,7 @@ module CandidateAPI
             updated_at: candidate.candidate_api_updated_at,
             email_address: candidate.email_address,
             application_forms:
-              candidate.application_forms.map do |application|
+              candidate.application_forms.order(:created_at).map do |application|
                 {
                   id: application.id,
                   created_at: application.created_at,
@@ -103,9 +103,10 @@ module CandidateAPI
     end
 
     def candidates
-      Candidate.includes(application_forms: :application_choices)
+      Candidate
+      .includes(application_forms: :application_choices)
       .where('candidate_api_updated_at > ?', updated_since_params)
-      .order('application_forms.created_at DESC')
+      .order('candidates.candidate_api_updated_at DESC')
     end
 
     def updated_since_params
