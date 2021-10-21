@@ -40,7 +40,7 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     expect(parsed_response['data'].size).to eq(1)
   end
 
-  it 'can safely return candidates without an application form' do
+  it 'can safely return candidates without an application form who signed up this cycle' do
     create(:candidate)
     create(:completed_application_form)
 
@@ -48,6 +48,36 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(parsed_response['data'].size).to eq(2)
+  end
+
+  it 'does not return candidates without application forms which signed up during the previous recruitment_cycle' do
+    create(:candidate, created_at: 1.year.ago)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(:ok)
+    expect(parsed_response['data'].size).to eq(0)
+  end
+
+  it 'does not return candidates who only have application forms in the previous cycle' do
+    candidate = create(:candidate, created_at: 1.year.ago)
+    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(:ok)
+    expect(parsed_response['data'].size).to eq(0)
+  end
+
+  it 'returns candidates who have application forms in the current cycle' do
+    candidate = create(:candidate, created_at: 1.year.ago)
+    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
+    create(:completed_application_form, candidate: candidate)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(:ok)
+    expect(parsed_response['data'].size).to eq(1)
   end
 
   it 'returns applications ordered by created_at timestamp' do
