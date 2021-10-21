@@ -11,7 +11,6 @@ RSpec.feature 'Entering subject knowledge' do
     and_i_have_chosen_a_course
 
     when_i_click_on_subject_knowledge
-    then_i_should_see_my_course_choices
     and_i_submit_the_form
     then_i_should_see_validation_errors
 
@@ -49,10 +48,6 @@ RSpec.feature 'Entering subject knowledge' do
     candidate_fills_in_course_choices
   end
 
-  def then_i_should_see_my_course_choices
-    expect(page).to have_content('Primary (2XT2)')
-  end
-
   def when_i_click_on_subject_knowledge
     click_link t('page_titles.subject_knowledge')
   end
@@ -71,7 +66,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Your knowledge about the subject you want to teach'
+    expect(page).to have_content 'Why are you suited to teach your subjects or age group?'
     expect(page).to have_content 'Hello world'
   end
 
@@ -85,7 +80,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Your knowledge about the subject you want to teach'
+    expect(page).to have_content 'Why are you suited to teach your subjects or age group?'
     expect(page).to have_content 'Hello world again'
   end
 

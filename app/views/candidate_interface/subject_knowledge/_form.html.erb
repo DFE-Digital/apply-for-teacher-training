@@ -3,25 +3,18 @@
   <%= t('page_titles.subject_knowledge') %>
 </h1>
 
-<% if @course_names.any? %>
-  <p class="govuk-body">
-    Give us detailed evidence for the knowledge and interest you bring to:
-  </p>
-  <ul class="govuk-list govuk-list--bullet">
-    <% @course_names.each do |course_name| %>
-      <li><%= course_name %></li>
-    <% end %>
-  </ul>
-<% else %>
-  <p class="govuk-body">Give us detailed evidence for the knowledge and interest you bring to the subject(s) you’d like to teach.</p>
-<% end %>
-<p class="govuk-body">Evidence can include:</p>
+<p class="govuk-body">If you’re applying for secondary teacher training, describe your knowledge of the subjects you’d like to teach.</p>
+
+<p class="govuk-body">If you’re applying for primary teacher training, say why you’d like to teach this age group.</p>
+
+<p class="govuk-body">If you're applying for a primary course with a subject specialism, or you're particularly interested in certain primary subjects, you can also talk about that.</p>
+
+<p class="govuk-body">You could include details about:</p>
 <ul class="govuk-list govuk-list--bullet">
-  <li>the subject of your undergraduate degree</li>
-  <li>modules you studied as part of your degree</li>
-  <li>postgraduate degrees (for example, a Masters or PhD)</li>
-  <li>your A level subjects</li>
-  <li>expertise you’ve gained at work</li>
+  <li>any relevant work experience</li>
+  <li>your degree and any other relevant qualifications, such as A levels</li>
+  <li>any relevant skills, interests or achievements</li>
+  <li>your understanding of the national curriculum</li>
 </ul>
 
 <%= f.govuk_text_area :subject_knowledge, label: { text: t('application_form.personal_statement.subject_knowledge.label'), size: 'm' }, rows: 20, max_words: 400 %>
