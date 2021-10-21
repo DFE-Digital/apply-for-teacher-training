@@ -12,7 +12,7 @@ module DataMigrations
                                         .where(degrees_completed: true, submitted_at: nil)
                                         .merge(degrees_with_missing_year)
 
-      forms_with_incomplete_degrees.update(degrees_completed: false)
+      forms_with_incomplete_degrees.update(degrees_completed: false, audit_comment: 'Setting degree section to incomplete as candidate needs to enter missing information')
     end
   end
 end

@@ -32,6 +32,13 @@ RSpec.describe DataMigrations::BackfillCarriedOverApplicationsDegreesComplete do
     form
   end
 
+  it 'audits any changes made', with_audited: true do
+    described_class.new.change
+    related_audit = form_with_missing_start_year_degree.audits.last
+    expect(related_audit.comment).to eq('Setting degree section to incomplete as candidate needs to enter missing information')
+    expect(related_audit.audited_changes.keys).to contain_exactly('degrees_completed')
+  end
+
   it 'sets degrees_complete to false on unsubmitted current cycle applications with degrees with no start_year' do
     expect { described_class.new.change }.to change { form_with_missing_start_year_degree.reload.degrees_completed }.from(true).to(false)
   end
