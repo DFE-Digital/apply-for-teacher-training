@@ -20,7 +20,8 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
     first_application_form_40_to_44_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 44, 1, 1))
     second_application_form_40_to_44_year_old = create(:completed_application_form,
                                                        date_of_birth: Date.new(RecruitmentCycle.current_year - 44, 1, 1),
-                                                       phase: 'apply_2', candidate: first_application_form_40_to_44_year_old.candidate)
+                                                       phase: 'apply_2', candidate: first_application_form_40_to_44_year_old.candidate,
+                                                       previous_application_form_id: first_application_form_40_to_44_year_old.id)
 
     deferred_application_form_from_previous_cycle_45_to_49_year_old = create(:completed_application_form,
                                                                              date_of_birth: Date.new(RecruitmentCycle.current_year - 49, 1, 1),
