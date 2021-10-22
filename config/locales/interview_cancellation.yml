@@ -2,6 +2,7 @@ en:
   interview_cancellation:
     reason:
       application_withdrawn: You withdrew your application.
+      offer_made: We made you an offer.
     explanation:
       email:
         one: The upcoming interview with them has been cancelled.
