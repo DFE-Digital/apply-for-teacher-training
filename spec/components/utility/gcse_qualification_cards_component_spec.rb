@@ -85,20 +85,36 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       end
     end
 
-    context 'when it\'s of type "missing"' do
+    context 'when it’s of type missing' do
       let(:application_form) do
         create(
           :application_form,
-          application_qualifications: [create(:gcse_qualification, :missing_and_currently_completing)],
+          application_qualifications: [missing_gcse],
         )
       end
 
-      it 'renders details about the lack of this qualification' do
-        result = render_inline(described_class.new(application_form))
+      context 'when the candidate is currently completing it' do
+        let(:missing_gcse) { create(:gcse_qualification, :missing_and_currently_completing) }
 
-        expect(result.text).to include 'GCSEs or equivalent'
-        expect(result.text).to include 'Candidate does not have this qualification yet'
-        expect(result.text).to include 'I will be taking an equivalency test in a few weeks'
+        it 'renders details about the lack of this qualification' do
+          result = render_inline(described_class.new(application_form))
+
+          expect(result.text).to include 'GCSEs or equivalent'
+          expect(result.text).to include 'Candidate does not have this qualification yet'
+          expect(result.text).to include missing_gcse.not_completed_explanation
+        end
+      end
+
+      context 'when the candidate is not currently completing it' do
+        let(:missing_gcse) { create(:gcse_qualification, :missing_and_not_currently_completing) }
+
+        it 'renders details about the lack of this qualification' do
+          result = render_inline(described_class.new(application_form))
+
+          expect(result.text).to include 'GCSEs or equivalent'
+          expect(result.text).to include 'Candidate does not have this qualification yet'
+          expect(result.text).to include missing_gcse.missing_explanation
+        end
       end
     end
   end
