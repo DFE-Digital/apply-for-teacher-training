@@ -5,7 +5,7 @@ RSpec.describe DataMigrations::BackfillNotCompletedExplanation do
     Timecop.freeze do
       missing_gcse = create(
         :gcse_qualification,
-        :missing,
+        :missing_and_currently_completing,
         not_completed_explanation: nil,
         missing_explanation: 'Should get copied over.',
         updated_at: 1.day.ago,

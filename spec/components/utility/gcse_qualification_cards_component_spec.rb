@@ -89,7 +89,7 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       let(:application_form) do
         create(
           :application_form,
-          application_qualifications: [create(:gcse_qualification, :missing)],
+          application_qualifications: [create(:gcse_qualification, :missing_and_currently_completing)],
         )
       end
 
