@@ -86,6 +86,26 @@ class ApplicationForm < ApplicationRecord
     can_not_complete: 'can_not_complete',
   }
 
+  enum region_code: {
+    channel_islands: 'channel_islands',
+    east_midlands: 'east_midlands',
+    eastern: 'eastern',
+    european_economic_area: 'european_economic_area',
+    isle_of_man: 'isle_of_man',
+    london: 'london',
+    no_region: 'no_region',
+    north_east: 'north_east',
+    north_west: 'north_west',
+    northern_ireland: 'northern_ireland',
+    rest_of_the_world: 'rest_of_the_world',
+    scotland: 'scotland',
+    south_east: 'south_east',
+    south_west: 'south_west',
+    wales: 'wales',
+    west_midlands: 'west_midlands',
+    yorkshire_and_the_humber: 'yorkshire_and_the_humber',
+  }
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create :add_support_reference
@@ -109,7 +129,7 @@ class ApplicationForm < ApplicationRecord
     candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase') || created_at == updated_at
   end
 
-  after_commit :geocode_address_if_required
+  after_commit :geocode_address_and_update_region_if_required
 
   def touch_choices
     return unless application_choices.any?
@@ -411,13 +431,28 @@ class ApplicationForm < ApplicationRecord
 
 private
 
-  def geocode_address_if_required
+  def geocode_address_and_update_region_if_required
     return unless address_changed?
 
     if international_address?
-      update!(latitude: nil, longitude: nil)
+      update!(
+        latitude: nil,
+        longitude: nil,
+        region_code: find_international_region_from_country,
+      )
     else
       GeocodeApplicationAddressWorker.perform_in(5.seconds, id)
+      if FeatureFlag.active?(:region_from_postcode)
+        LookupAreaByPostcodeWorker.perform_in(10.seconds, id)
+      end
+    end
+  end
+
+  def find_international_region_from_country
+    if EU_EEA_SWISS_COUNTRY_CODES.include?(country)
+      :european_economic_area
+    else
+      :rest_of_the_world
     end
   end
 

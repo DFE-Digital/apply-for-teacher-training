@@ -70,6 +70,9 @@ RSpec.configure do |config|
   config.before do
     stub_const('Geokit::Geocoders::GoogleGeocoder', stub_geocoder)
   end
+  config.before do
+    allow(Postcodes::IO).to receive(:new).and_return(instance_double(Postcodes::IO, lookup: nil))
+  end
 
   config.before { Faker::UniqueGenerator.clear }
 
