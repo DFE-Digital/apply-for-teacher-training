@@ -24,6 +24,10 @@
         ) %>
       <% end %>
 
+      <% if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made) && @interview_cancellation_presenter.render? %>
+        <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
+      <% end %>
+
       <% if @application_choice.rejected_by_default? %>
         <%= f.govuk_submit 'Send feedback' %>
       <% else %>

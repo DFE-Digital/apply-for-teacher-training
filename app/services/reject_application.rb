@@ -31,6 +31,10 @@ class RejectApplication
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       end
 
+      if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
+        CancelUpcomingInterviews.new(actor: @auth.actor, application_choice: @application_choice, cancellation_reason: I18n.t('interview_cancellation.reason.application_rejected')).call!
+      end
+
       SendCandidateRejectionEmail.new(application_choice: @application_choice).call
     end
 
