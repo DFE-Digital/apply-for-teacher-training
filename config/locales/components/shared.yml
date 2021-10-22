@@ -4,8 +4,3 @@ en:
     vocation: Why do you want to become a teacher?
     subject_knowledge: What do you know about the subject you want to teach?
     further_information: Further information
-
-  interview_cancellation_explanation:
-    one: 'The upcoming interview will be cancelled.'
-    other: 'Upcoming interviews will be cancelled.'
-

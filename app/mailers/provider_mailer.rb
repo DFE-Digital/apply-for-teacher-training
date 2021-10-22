@@ -95,8 +95,9 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def application_withdrawn(provider_user, application_choice)
+  def application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews = 0)
     @application_choice = application_choice
+    @number_of_cancelled_interviews = number_of_cancelled_interviews
 
     email_for_provider(
       provider_user,

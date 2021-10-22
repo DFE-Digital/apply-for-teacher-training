@@ -44,7 +44,7 @@ class ProviderMailerPreview < ActionMailer::Preview
   end
 
   def application_withdrawn
-    ProviderMailer.application_withdrawn(provider_user, application_choice)
+    ProviderMailer.application_withdrawn(provider_user, application_choice, rand(0..2))
   end
 
   def declined

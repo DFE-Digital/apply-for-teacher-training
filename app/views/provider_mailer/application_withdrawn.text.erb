@@ -6,3 +6,7 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 <%= @application_choice.application_form.full_name %> has withdrawn their application for <%= @application_choice.current_course_option.course.name_and_code %>.
 
 <%= provider_interface_application_choice_url(@application_choice) %>
+
+<% if @number_of_cancelled_interviews.positive? && FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made) %>
+  <%= t('interview_cancellation.explanation.email', count: @number_of_cancelled_interviews) %>
+<% end %>
