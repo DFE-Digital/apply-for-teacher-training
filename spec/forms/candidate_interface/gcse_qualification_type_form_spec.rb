@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
     end
 
     it 'updates the qualification type and sets the appropriate values to nil' do
-      qualification = create(:gcse_qualification, :missing)
+      qualification = create(:gcse_qualification, :missing_and_currently_completing)
 
       described_class.new(
         qualification_type: 'gcse',

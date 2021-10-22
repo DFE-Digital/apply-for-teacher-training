@@ -46,7 +46,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
     it 'returns a list of a candidate’s missing gcses, with reasons' do
       application_form = create(:completed_application_form)
       application_choice = create(:application_choice, application_form: application_form)
-      missing_gcse = create(:gcse_qualification, :missing, subject: :maths, application_form: application_form)
+      missing_gcse = create(:gcse_qualification, :missing_and_currently_completing, subject: :maths, application_form: application_form)
 
       explanation = described_class.new(application_choice).missing_gcses_explanation
 

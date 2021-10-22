@@ -141,7 +141,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'When a candidate has a missing gcse' do
       let(:application_choice) { application_form.application_choices.first }
-      let(:application_qualification) { build(:gcse_qualification, :missing, subject: 'english', currently_completing_qualification: false) }
+      let(:application_qualification) { build(:gcse_qualification, :missing_and_currently_completing, subject: 'english', currently_completing_qualification: false) }
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
 
       before do
@@ -157,7 +157,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
 
     context 'When a candidate has a pending gcse' do
       let(:application_choice) { application_form.application_choices.first }
-      let(:application_qualification) { build(:gcse_qualification, :missing) }
+      let(:application_qualification) { build(:gcse_qualification, :missing_and_currently_completing) }
       let(:result) { render_inline(described_class.new(application_form: application_form)) }
 
       before do

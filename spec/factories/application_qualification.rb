@@ -28,12 +28,20 @@ FactoryBot.define do
         comparable_uk_qualification { 'Between GCSE and GCSE AS Level' }
       end
 
-      trait :missing do
+      trait :missing_and_currently_completing do
         qualification_type { 'missing' }
         grade { nil }
         predicted_grade { nil }
         currently_completing_qualification { true }
         not_completed_explanation { 'I will be taking an equivalency test in a few weeks' }
+      end
+
+      trait :missing_and_not_currently_completing do
+        qualification_type { 'missing' }
+        grade { nil }
+        predicted_grade { nil }
+        currently_completing_qualification { false }
+        missing_explanation { 'I have 10 years experience teaching English Language' }
       end
 
       trait :multiple_english_gcses do
