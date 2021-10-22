@@ -156,6 +156,7 @@ module MonthlyStatistics
         .connection
         .execute(age_group_query)
         .to_a
+        .reject { |row| row.values.include?('offer_deferred') }
     end
 
     def age_group_query
