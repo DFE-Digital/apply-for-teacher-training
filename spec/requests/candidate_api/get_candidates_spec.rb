@@ -40,16 +40,44 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     expect(parsed_response['data'].size).to eq(1)
   end
 
-  it 'can safely return candidates without an application form' do
-    candidate = create(:candidate)
-    create(:completed_application_form, candidate: candidate)
-
+  it 'can safely return candidates without an application form who signed up this cycle' do
     create(:candidate)
+    create(:completed_application_form)
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
     expect(response).to have_http_status(:ok)
     expect(parsed_response['data'].size).to eq(2)
+  end
+
+  it 'does not return candidates without application forms which signed up during the previous recruitment_cycle' do
+    create(:candidate, created_at: 1.year.ago)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(:ok)
+    expect(parsed_response['data'].size).to eq(0)
+  end
+
+  it 'does not return candidates who only have application forms in the previous cycle' do
+    candidate = create(:candidate, created_at: 1.year.ago)
+    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(:ok)
+    expect(parsed_response['data'].size).to eq(0)
+  end
+
+  it 'returns candidates who have application forms in the current cycle' do
+    candidate = create(:candidate, created_at: 1.year.ago)
+    create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
+    create(:completed_application_form, candidate: candidate)
+
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(2.years.ago.iso8601)}", token: candidate_api_token
+
+    expect(response).to have_http_status(:ok)
+    expect(parsed_response['data'].size).to eq(1)
   end
 
   it 'returns applications ordered by created_at timestamp' do
@@ -59,7 +87,6 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
       2,
       candidate: candidate,
     )
-    application_forms.first.update(created_at: 1.hour.ago)
     application_forms.second.update(created_at: 1.minute.ago)
 
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
@@ -74,15 +101,6 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     expect(response_data.second['id']).to eq(application_forms.first.id)
     expect(response_data.second['application_phase']).to eq(application_forms.first.phase)
     expect(response_data.second['application_status']).to eq(ProcessState.new(application_forms.first).state.to_s)
-
-    application_forms.first.update(created_at: 10.seconds.ago)
-
-    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
-
-    response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
-
-    expect(response_data.first['id']).to eq(application_forms.first.id)
-    expect(response_data.second['id']).to eq(application_forms.second.id)
   end
 
   it 'returns the correct page and the default page items' do
