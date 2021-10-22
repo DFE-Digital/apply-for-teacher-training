@@ -7,6 +7,10 @@
 
     <p class="govuk-body">The candidate will be told that their application has been withdrawn.</p>
 
+    <% if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made) && @interview_cancellation_presenter.render? %>
+      <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
+    <% end %>
+
     <%= form_with url: provider_interface_decline_or_withdraw_update_path(@application_choice), method: :put do |f| %>
       <%= f.govuk_submit 'Withdraw application' %>
     <% end %>

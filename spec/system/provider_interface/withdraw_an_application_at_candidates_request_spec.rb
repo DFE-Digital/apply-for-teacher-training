@@ -8,11 +8,17 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_withdraw_at_candidates_request_feature_flag_is_enabled
     and_i_am_permitted_to_make_decisions_for_my_provider
-    and_my_organisation_has_received_an_application
+    and_my_organisation_has_received_an_application_with_an_interview
     and_i_sign_in_to_the_provider_interface
+
     when_i_visit_a_submitted_application
     and_i_click_a_link_to_withdraw_at_candidates_request
-    and_i_confirm_the_withdrawal
+
+    if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
+      then_i_see_the_interview_cancellation_explanation
+    end
+
+    when_i_confirm_the_withdrawal
     then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
     and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
     and_the_candidate_receives_an_email_about_the_withdrawal
@@ -31,9 +37,10 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
     @provider_user = create(:provider_user, :with_make_decisions, providers: [@provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
   end
 
-  def and_my_organisation_has_received_an_application
+  def and_my_organisation_has_received_an_application_with_an_interview
     course_option = course_option_for_provider_code(provider_code: @provider.code)
     @application_choice = create(:submitted_application_choice, :with_completed_application_form, course_option: course_option)
+    @interview = create(:interview, application_choice: @application_choice)
   end
 
   def and_i_sign_in_to_the_provider_interface
@@ -48,7 +55,11 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
     click_on 'Withdraw at candidate’s request'
   end
 
-  def and_i_confirm_the_withdrawal
+  def then_i_see_the_interview_cancellation_explanation
+    expect(page).to have_content('The upcoming interview will be cancelled.')
+  end
+
+  def when_i_confirm_the_withdrawal
     expect(page).to have_content('Confirm that the candidate wants to withdraw their application')
 
     click_on 'Withdraw application'
