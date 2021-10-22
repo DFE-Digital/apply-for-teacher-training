@@ -37,7 +37,7 @@ module MonthlyStatistics
     end
 
     def formatted_group_query
-      counts = ApplicationForm.region_codes.values.map { |region_code| [region_code, {}] }.to_h
+      counts = ApplicationForm.region_codes.values.index_with { |_region_code| {} }
 
       group_query_excluding_deferred_offers.map do |item|
         area, status = item[0]
