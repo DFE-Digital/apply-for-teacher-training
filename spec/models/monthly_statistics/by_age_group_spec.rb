@@ -17,13 +17,22 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
 
     application_form_30_to_34_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 30, 1, 1))
 
-    application_form_40_to_44_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 44, 1, 1))
+    first_application_form_40_to_44_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 44, 1, 1))
+    second_application_form_40_to_44_year_old = create(:completed_application_form,
+                                                       date_of_birth: Date.new(RecruitmentCycle.current_year - 44, 1, 1),
+                                                       phase: 'apply_2', candidate: first_application_form_40_to_44_year_old.candidate)
+
+    deferred_application_form_from_previous_cycle_45_to_49_year_old = create(:completed_application_form,
+                                                                             date_of_birth: Date.new(RecruitmentCycle.current_year - 49, 1, 1),
+                                                                             recruitment_cycle_year: RecruitmentCycle.previous_year)
+
+    unsuccessful_application_for_65_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 65, 8, 31))
 
     # check recruited takes precedence over deferred
     create(:application_choice, :with_recruited, application_form: application_form_21_year_old1)
     create(:application_choice, :with_deferred_offer, application_form: application_form_21_year_old1)
 
-    # check deferred takes precdence over pending conditions
+    # check deferred takes precedence over pending conditions and is filtered out
     create(:application_choice, :with_deferred_offer, application_form: application_form_21_year_old2)
     create(:application_choice, :with_accepted_offer, application_form: application_form_21_year_old2)
 
@@ -32,7 +41,6 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
     create(:application_choice, :with_offer, application_form: application_form_21_year_old3)
 
     # check offer takes precedence over awaiting_provider_decision
-
     create(:application_choice, :with_offer, application_form: application_form_22_year_old1)
     create(:application_choice, :awaiting_provider_decision, application_form: application_form_22_year_old1)
 
@@ -49,7 +57,14 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
     create(:application_choice, :awaiting_provider_decision, application_form: application_form_30_to_34_year_old)
     create(:application_choice, :with_rejection, application_form: application_form_30_to_34_year_old)
 
-    create(:application_choice, :with_conditions_not_met, application_form: application_form_40_to_44_year_old)
+    # only counts the latest application form
+    create(:application_choice, :with_rejection, application_form: first_application_form_40_to_44_year_old)
+    create(:application_choice, :with_recruited, application_form: second_application_form_40_to_44_year_old)
+
+    # counts deferred offers from the previous cycle
+    create(:application_choice, :with_deferred_offer, application_form: deferred_application_form_from_previous_cycle_45_to_49_year_old)
+
+    create(:application_choice, :with_rejection, application_form: unsuccessful_application_for_65_year_old)
 
     expect(statistics).to eq(
       { rows:
@@ -58,10 +73,10 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
             'Age group' => '21 and under',
             'Recruited' => 1,
             'Conditions pending' => 1,
-            'Received an offer' => 1,
+            'Received an offer' => 0,
             'Awaiting provider decisions' => 0,
             'Unsuccessful' => 0,
-            'Total' => 3,
+            'Total' => 2,
           },
           {
             'Age group' => '22',
@@ -119,21 +134,21 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
           },
           {
             'Age group' => '40 to 44',
-            'Recruited' => 0,
+            'Recruited' => 1,
             'Conditions pending' => 0,
             'Received an offer' => 0,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 1,
+            'Unsuccessful' => 0,
             'Total' => 1,
           },
           {
             'Age group' => '45 to 49',
             'Recruited' => 0,
-            'Conditions pending' => 0,
+            'Conditions pending' => 1,
             'Received an offer' => 0,
             'Awaiting provider decisions' => 0,
             'Unsuccessful' => 0,
-            'Total' => 0,
+            'Total' => 1,
           },
           {
             'Age group' => '50 to 54',
@@ -168,11 +183,11 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
             'Conditions pending' => 0,
             'Received an offer' => 0,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 0,
-            'Total' => 0,
+            'Unsuccessful' => 1,
+            'Total' => 1,
           },
         ],
-        column_totals: [1, 1, 2, 4, 1, 9] },
+        column_totals: [2, 2, 1, 4, 1, 10] },
     )
   end
 end
