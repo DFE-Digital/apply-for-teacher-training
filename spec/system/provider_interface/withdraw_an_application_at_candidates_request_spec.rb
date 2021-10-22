@@ -22,6 +22,10 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
     then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
     and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
     and_the_candidate_receives_an_email_about_the_withdrawal
+
+    if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
+      and_the_interview_has_been_cancelled
+    end
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -77,5 +81,9 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
   def and_the_candidate_receives_an_email_about_the_withdrawal
     open_email(@application_choice.application_form.candidate.email_address)
     expect(current_email.subject).to have_content 'Update on your application - all decisions now made'
+  end
+
+  def and_the_interview_has_been_cancelled
+    expect(@interview.reload.cancelled_at).not_to be_nil
   end
 end

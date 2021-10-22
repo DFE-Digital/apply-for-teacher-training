@@ -57,5 +57,27 @@ RSpec.describe ProviderInterface::DeclineOrWithdrawApplication do
       expect(email_service_class).to have_received(:new).with(application_choice: application_choice)
       expect(email_service).to have_received(:call)
     end
+
+    context 'when the cancel_upcoming_interviews_on_decision_made feature flag is on' do
+      before { FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made) }
+
+      it 'calls the CancelUpcomingInterviewsService' do
+        application_choice = create(:application_choice, :with_offer)
+        provider = application_choice.course_option.provider
+        permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
+        cancel_service = instance_double(CancelUpcomingInterviews, call!: true)
+        allow(CancelUpcomingInterviews).to receive(:new)
+                                             .with(
+                                               actor: permitted_user,
+                                               application_choice: application_choice,
+                                               cancellation_reason: 'You withdrew your application.',
+                                             )
+                                             .and_return(cancel_service)
+
+        described_class.new(application_choice: application_choice, actor: permitted_user).save!
+
+        expect(cancel_service).to have_received(:call!)
+      end
+    end
   end
 end
