@@ -25,8 +25,10 @@ module ProviderInterface
       render 'content/cookies'
     end
 
-    def service_guidance_provider
-      render_content_page :service_guidance_provider
+    def service_guidance_provider; end
+
+    def dates_and_deadlines
+      render_content_page :dates_and_deadlines, with_breadcrumbs: true
     end
 
     def complaints

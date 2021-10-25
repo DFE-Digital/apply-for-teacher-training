@@ -656,6 +656,7 @@ Rails.application.routes.draw do
     get '/roadmap', to: 'content#roadmap', as: :roadmap
     get '/make-a-complaint', to: 'content#complaints', as: :complaints
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
+    get '/service-guidance/dates-and-deadlines', to: 'content#dates_and_deadlines'
     get '/covid-19-guidance', to: redirect('/')
 
     resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
