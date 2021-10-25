@@ -8,8 +8,8 @@ RSpec.describe MonthlyStatistics::ByArea do
     create_application_choice(status: :awaiting_provider_decision, region_code: 'south_east')
     create_application_choice(status: :with_recruited, region_code: 'south_east')
     create_application_choice(status: :with_offer, region_code: 'wales')
-    create_application_choice(status: :with_deferred_offer, region_code: 'west_midlands', recruitment_cycle_year: RecruitmentCycle.previous_year)
-    create_application_choice(status: :with_deferred_offer, region_code: 'london', recruitment_cycle_year: RecruitmentCycle.current_year)
+    create_application_choice(status: :with_deferred_offer, status_before_deferral: 'offer', region_code: 'west_midlands', recruitment_cycle_year: RecruitmentCycle.previous_year)
+    create_application_choice(status: :with_deferred_offer, status_before_deferral: 'offer', region_code: 'london', recruitment_cycle_year: RecruitmentCycle.current_year)
     create_application_choice(status: :with_conditions_not_met, region_code: 'wales')
     create_application_choice(status: :with_offer, region_code: 'london')
     create_application_choice_with_previous_application(status: :with_rejection, region_code: 'north_west')
@@ -61,11 +61,13 @@ RSpec.describe MonthlyStatistics::ByArea do
     status:,
     region_code:,
     recruitment_cycle_year: RecruitmentCycle.current_year,
-    previous_application_form: nil
+    previous_application_form: nil,
+    status_before_deferral: nil
   )
     create(
       :application_choice,
       status,
+      status_before_deferral: status_before_deferral,
       application_form: create(
         :application_form,
         previous_application_form: previous_application_form,
