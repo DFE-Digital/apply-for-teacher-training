@@ -2,9 +2,10 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header" width="40%">Reason</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="10%">%&nbsp;of&nbsp;<%= @total %><br>choices</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="25%">Total</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="25%">This month</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections within this category</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections this month</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections within this category this month</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -19,13 +20,20 @@
           ) %>
         </th>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= sub_reason_percentage(sub_reason) %>
+          <%= sub_reason_percentage(sub_reason) %><br>
+          <%= "#{sub_reason_count(sub_reason)} of #{total_all_time}" %>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= sub_reason_result&.all_time || 0 %>
+          <%= sub_reason_percentage_of_reason(sub_reason) %><br>
+          <%= "#{sub_reason_count(sub_reason)} of #{total_for_reason}" %>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= sub_reason_result&.this_month || 0 %>
+          <%= sub_reason_percentage(sub_reason, :this_month) %><br>
+          <%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_this_month}" %>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= sub_reason_percentage_of_reason(sub_reason, :this_month) %><br>
+          <%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_for_reason(:this_month)}" %>
         </td>
       </tr>
     <% end %>
