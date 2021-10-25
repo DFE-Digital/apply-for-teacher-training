@@ -378,7 +378,7 @@ GEM
       optimist (~> 3.0)
     pdfkit (0.8.5)
     pg (1.2.3)
-    postcodes_io (0.3.0)
+    postcodes_io (0.4.0)
       excon (~> 0.39)
     prometheus-client (2.1.0)
     pry (0.13.1)
