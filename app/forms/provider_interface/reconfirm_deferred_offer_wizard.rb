@@ -13,12 +13,6 @@ module ProviderInterface
     validates :conditions_status, presence: true, on: %i[conditions check]
     validates :course_option_id, presence: true, on: %i[check]
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.deep_merge(attrs))
-    end
-
     def application_choice
       @application_choice ||= ApplicationChoice.find(application_choice_id)
     end

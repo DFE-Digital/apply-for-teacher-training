@@ -68,17 +68,14 @@ module ProviderInterface
                   :cannot_sponsor_visa_y_n, :cannot_sponsor_visa_details,
                   :other_advice_or_feedback_y_n, :other_advice_or_feedback_details, :why_are_you_rejecting_this_application
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
+    def initialize_extra(_attrs)
+      @checking_answers = true if current_step == 'check'
+    end
 
+    def sanitize_attrs(attrs)
       remove_empty_strings_from_array_attributes!(attrs)
       clean_child_values_on_deselected_answers!(attrs)
-
-      super(last_saved_state.deep_merge(attrs))
-
-      # Once we get to the check answers page, this will be true for the rest of
-      # the session
-      @checking_answers = true if current_step == 'check'
+      attrs
     end
 
     def reason_not_captured_by_initial_questions?

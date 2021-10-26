@@ -1,18 +1,11 @@
 module Wizard::PathHistory
   extend ActiveSupport::Concern
 
-  module Initializer
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
+  attr_accessor :wizard_path_history
 
-      super(last_saved_state.deep_merge(attrs))
-      @path_history ||= [:referer]
-      update_path_history(attrs)
-    end
-  end
-
-  def self.included(klass)
-    klass.send :prepend, Initializer
+  def setup_path_history(attrs)
+    @path_history ||= [:referer]
+    update_path_history(attrs)
   end
 
   def previous_step

@@ -6,12 +6,8 @@ module ProviderInterface
     attr_accessor :relationship_ids, :current_relationship_id, :checking_answers
     attr_writer :provider_relationship_attrs
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.deep_merge(attrs))
-
-      checking_answers = false if current_step == :check
+    def initialize_extra(_attrs)
+      self.checking_answers = false if current_step == :check
     end
 
     def current_relationship

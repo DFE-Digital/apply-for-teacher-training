@@ -6,12 +6,6 @@ module ProviderInterface
 
     validate :all_conditions_have_a_status_selected
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.merge(attrs))
-    end
-
     def conditions
       duplicate_conditions = offer.conditions.map { |condition| duplicate_condition_with_id(condition) }
 

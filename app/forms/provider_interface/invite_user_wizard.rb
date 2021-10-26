@@ -10,11 +10,7 @@ module ProviderInterface
     validates :email_address, presence: true, valid_for_notify: true
     validate :email_not_already_used_for_provider, if: -> { email_address.present? }
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.merge(attrs))
-
+    def initialize_extra(_attrs)
       self.checking_answers = false if current_step == :check
     end
 

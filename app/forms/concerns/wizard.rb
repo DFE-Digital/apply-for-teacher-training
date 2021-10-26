@@ -8,6 +8,23 @@ module Wizard
     attr_reader :state_store
   end
 
+  module Initializer
+    def initialize(state_store, attrs = {})
+      @state_store = state_store
+
+      attrs = sanitize_attrs(attrs) if defined?(sanitize_attrs)
+
+      super(last_saved_state.deep_merge(attrs))
+
+      initialize_extra(attrs) if defined?(initialize_extra)
+      setup_path_history(attrs) if defined?(setup_path_history)
+    end
+  end
+
+  def self.included(klass)
+    klass.prepend(Initializer)
+  end
+
   def clear_state!
     state_store.delete
   end

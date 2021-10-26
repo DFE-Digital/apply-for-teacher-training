@@ -4,12 +4,6 @@ module ProviderInterface
 
     attr_accessor :permissions
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.deep_merge(attrs))
-    end
-
     def self.from_model(store, provider_permissions)
       wizard = new(store)
 
