@@ -126,7 +126,3 @@ jobs:
       - name: Exit if smoke test failed
         if: steps.wait_for_smoke_test.outputs.conclusion != 'success'
         run: exit 1
-
-      - name: Start Clockwork container
-        if: always()
-        run: cf start apply-clock-${{ env.SPACE_SUFFIX || matrix.environment }}
