@@ -4,14 +4,14 @@ RSpec.describe MonthlyStatistics::ByArea do
   subject(:statistics) { described_class.new.table_data }
 
   it "returns table data for 'by area'" do
-    create_application_choice(status: :with_rejection, region_code: 'london')
-    create_application_choice(status: :awaiting_provider_decision, region_code: 'south_east')
-    create_application_choice(status: :with_recruited, region_code: 'south_east')
-    create_application_choice(status: :with_offer, region_code: 'wales')
-    create_application_choice(status: :with_deferred_offer, status_before_deferral: 'offer', region_code: 'west_midlands', recruitment_cycle_year: RecruitmentCycle.previous_year)
-    create_application_choice(status: :with_deferred_offer, status_before_deferral: 'offer', region_code: 'london', recruitment_cycle_year: RecruitmentCycle.current_year)
-    create_application_choice(status: :with_conditions_not_met, region_code: 'wales')
-    create_application_choice(status: :with_offer, region_code: 'london')
+    create_application_choice(statuses: %i[with_rejection], region_code: 'london')
+    create_application_choice(statuses: %i[awaiting_provider_decision], region_code: 'south_east')
+    create_application_choice(statuses: %i[with_recruited], region_code: 'south_east')
+    create_application_choice(statuses: %i[with_offer], region_code: 'wales')
+    create_application_choice(statuses: %i[with_deferred_offer with_rejection], status_before_deferral: 'offer', region_code: 'west_midlands', recruitment_cycle_year: RecruitmentCycle.previous_year)
+    create_application_choice(statuses: %i[with_deferred_offer with_declined_offer], status_before_deferral: 'offer', region_code: 'london', recruitment_cycle_year: RecruitmentCycle.current_year)
+    create_application_choice(statuses: %i[with_conditions_not_met], region_code: 'wales')
+    create_application_choice(statuses: %i[with_offer], region_code: 'london')
     create_application_choice_with_previous_application(status: :with_rejection, region_code: 'north_west')
 
     expect(column_totals).to eq([1, 0, 3, 1, 3, 8])
@@ -58,23 +58,26 @@ RSpec.describe MonthlyStatistics::ByArea do
   end
 
   def create_application_choice(
-    status:,
+    statuses:,
     region_code:,
     recruitment_cycle_year: RecruitmentCycle.current_year,
     previous_application_form: nil,
     status_before_deferral: nil
   )
-    create(
-      :application_choice,
-      status,
-      status_before_deferral: status_before_deferral,
-      application_form: create(
-        :application_form,
-        previous_application_form: previous_application_form,
-        recruitment_cycle_year: recruitment_cycle_year,
-        region_code: region_code,
-      ),
+    application_form = create(
+      :application_form,
+      previous_application_form: previous_application_form,
+      recruitment_cycle_year: recruitment_cycle_year,
+      region_code: region_code,
     )
+    statuses.map do |status|
+      create(
+        :application_choice,
+        status,
+        status_before_deferral: status_before_deferral,
+        application_form: application_form,
+      )
+    end
   end
 
   def create_application_choice_with_previous_application(
@@ -83,12 +86,12 @@ RSpec.describe MonthlyStatistics::ByArea do
     recruitment_cycle_year: RecruitmentCycle.current_year
   )
     previous_application_choice = create_application_choice(
-      status: status,
+      statuses: [status],
       region_code: region_code,
       recruitment_cycle_year: recruitment_cycle_year,
-    )
+    ).first
     create_application_choice(
-      status: status,
+      statuses: [status],
       region_code: region_code,
       recruitment_cycle_year: recruitment_cycle_year,
       previous_application_form: previous_application_choice.application_form,

@@ -43,7 +43,7 @@ module MonthlyStatistics
     def formatted_group_query
       counts = ApplicationForm.region_codes.values.index_with { |_region_code| {} }
 
-      group_query_excluding_deferred_offers.map do |item|
+      group_query_excluding_deferred_offers.reject { |item| item['status'] == 'offer_deferred' }.map do |item|
         area = item['region_code']
         status = item['status']
         count = item['count']
@@ -89,7 +89,7 @@ module MonthlyStatistics
         if status_attribute.to_s == 'status_before_deferral'
           "AND application_choices.status = 'offer_deferred'"
         else
-          "AND NOT application_choices.status = 'offer_deferred'"
+          ''
         end
 
       query = "SELECT
@@ -105,6 +105,7 @@ module MonthlyStatistics
                           PARTITION BY application_forms.id
                           ORDER BY
                           CASE application_choices.#{status_attribute}
+                          WHEN 'offer_deferred' THEN 0
                           WHEN 'recruited' THEN 1
                           WHEN 'pending_conditions' THEN 2
                           WHEN 'conditions_not_met' THEN 2
