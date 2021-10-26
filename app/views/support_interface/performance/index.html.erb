@@ -6,5 +6,20 @@
   <li class="govuk-heading-m"><%= govuk_link_to 'Course options without vacancies', support_interface_course_options_path %></li>
   <li class="govuk-heading-m"><%= govuk_link_to 'Course statistics', support_interface_courses_dashboard_path %></li>
   <li class="govuk-heading-m"><%= govuk_link_to 'Feature metrics', support_interface_feature_metrics_dashboard_path %></li>
-  <li class="govuk-heading-m"><%= govuk_link_to 'Structured reasons for rejection', support_interface_reasons_for_rejection_dashboard_path %></li>
+</ul>
+
+<h2 class="govuk-heading-m">Structured reasons for rejection</h2>
+<ul class="govuk-list govuk-list-spaced">
+  <li class="govuk-heading-m">
+    <%= govuk_link_to(
+      "#{RecruitmentCycle.cycle_name} (starts #{RecruitmentCycle.current_year}) - current",
+      support_interface_reasons_for_rejection_dashboard_path,
+    ) %>
+  </li>
+  <li class="govuk-heading-m">
+    <%= govuk_link_to(
+      "#{RecruitmentCycle.cycle_name(RecruitmentCycle.previous_year)} (starts #{RecruitmentCycle.previous_year})",
+      support_interface_reasons_for_rejection_dashboard_path(year: RecruitmentCycle.previous_year),
+    ) %>
+  </li>
 </ul>

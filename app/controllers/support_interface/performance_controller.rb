@@ -25,7 +25,9 @@ module SupportInterface
     end
 
     def reasons_for_rejection_dashboard
-      query = ReasonsForRejectionCountQuery.new
+      render_404 unless RecruitmentCycle::CYCLES.keys.include?(year_param.to_s)
+
+      query = ReasonsForRejectionCountQuery.new(year_param)
       @reasons_for_rejection = query.sub_reason_counts
       @total_structured_rejection_reasons_count = query.total_structured_reasons_for_rejection
     end
@@ -78,6 +80,10 @@ module SupportInterface
         :unavailable_choices_detail,
         locals: { title: title },
       )
+    end
+
+    def year_param
+      params.fetch(:year, RecruitmentCycle.current_year)
     end
   end
 end
