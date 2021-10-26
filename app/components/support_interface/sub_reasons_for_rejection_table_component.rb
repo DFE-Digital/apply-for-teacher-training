@@ -1,15 +1,18 @@
 module SupportInterface
   class SubReasonsForRejectionTableComponent < ViewComponent::Base
     include ViewHelper
-    attr_accessor :reason, :sub_reasons, :total_all_time, :total_this_month, :total_for_reason_all_time, :total_for_reason_this_month
+    attr_accessor :reason, :sub_reasons, :total_all_time, :total_this_month, :total_for_reason_all_time,
+                  :total_for_reason_this_month, :recruitment_cycle_year
 
-    def initialize(reason:, sub_reasons:, total_all_time:, total_this_month:, total_for_reason_all_time:, total_for_reason_this_month:)
+    def initialize(reason:, sub_reasons:, total_all_time:, total_this_month:, total_for_reason_all_time:,
+                   total_for_reason_this_month:, recruitment_cycle_year: RecruitmentCycle.current_year)
       @reason = reason
       @sub_reasons = sub_reasons
       @total_all_time = total_all_time
       @total_this_month = total_this_month
       @total_for_reason_all_time = total_for_reason_all_time
       @total_for_reason_this_month = total_for_reason_this_month
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def reason_label

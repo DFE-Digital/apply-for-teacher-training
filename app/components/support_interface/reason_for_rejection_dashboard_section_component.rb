@@ -2,7 +2,9 @@ module SupportInterface
   class ReasonForRejectionDashboardSectionComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(heading:, total_count:, this_month:, percentage_rejected:, total_rejection_count:, total_rejection_count_this_month:, reason_key:, sub_reasons_result: nil)
+    def initialize(heading:, total_count:, this_month:, percentage_rejected:, total_rejection_count:,
+                   total_rejection_count_this_month:, reason_key:, sub_reasons_result: nil,
+                   recruitment_cycle_year: RecruitmentCycle.current_year)
       @heading = heading
       @total_count = total_count
       @this_month = this_month
@@ -11,6 +13,7 @@ module SupportInterface
       @total_rejection_count_this_month = total_rejection_count_this_month
       @reason_key = reason_key
       @sub_reasons_result = ordered_sub_reason_results(sub_reasons_result) if sub_reasons_result.present?
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
   private
