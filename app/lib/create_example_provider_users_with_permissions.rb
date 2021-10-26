@@ -15,6 +15,7 @@ class CreateExampleProviderUsersWithPermissions
     }, %w[1JA 1JB 24J], {
       manage_users: true,
       manage_organisations: true,
+      set_up_interviews: true,
       view_safeguarding_information: true,
       make_decisions: true,
     })
