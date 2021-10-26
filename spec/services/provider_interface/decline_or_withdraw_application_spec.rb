@@ -62,7 +62,7 @@ RSpec.describe ProviderInterface::DeclineOrWithdrawApplication do
       before { FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made) }
 
       it 'calls the CancelUpcomingInterviewsService' do
-        application_choice = create(:application_choice, :with_offer)
+        application_choice = create(:application_choice, :awaiting_provider_decision)
         provider = application_choice.course_option.provider
         permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
         cancel_service = instance_double(CancelUpcomingInterviews, call!: true)
