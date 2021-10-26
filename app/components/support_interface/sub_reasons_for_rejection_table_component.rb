@@ -47,5 +47,9 @@ module SupportInterface
     def total(time_period)
       send(:"total_#{time_period}")
     end
+
+    def month_name
+      Time.zone.today.strftime('%B')
+    end
   end
 end

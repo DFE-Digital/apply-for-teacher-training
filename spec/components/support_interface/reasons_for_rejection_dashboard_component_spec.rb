@@ -54,13 +54,15 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
     let(:rendered_component) { render_inline(component) }
 
     it 'renders table headings' do
-      header_row = rendered_component.css('.govuk-table__row').first
-      header_row_text = header_row.text.split("\n").reject(&:blank?).map(&:strip)
-      expect(header_row_text[0]).to eq('Reason')
-      expect(header_row_text[1]).to eq('Percentage of all rejections')
-      expect(header_row_text[2]).to eq('Percentage of all rejections within this category')
-      expect(header_row_text[3]).to eq('Percentage of all rejections this month')
-      expect(header_row_text[4]).to eq('Percentage of all rejections within this category this month')
+      Timecop.freeze(RecruitmentCycle.current_year, 9, 1) do
+        header_row = rendered_component.css('.govuk-table__row').first
+        header_row_text = header_row.text.split("\n").reject(&:blank?).map(&:strip)
+        expect(header_row_text[0]).to eq('Reason')
+        expect(header_row_text[1]).to eq('Percentage of all rejections')
+        expect(header_row_text[2]).to eq('Percentage of all rejections within this category')
+        expect(header_row_text[3]).to eq('Percentage of all rejections in September')
+        expect(header_row_text[4]).to eq('Percentage of all rejections in September within this category')
+      end
     end
 
     it 'renders course full section' do

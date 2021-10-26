@@ -57,21 +57,23 @@ RSpec.describe SupportInterface::SubReasonsForRejectionTableComponent do
     end
 
     it 'shows all time and current month percentages and totals' do
-      table_headings = rendered_component.css('thead th')
-      expect(table_headings.size).to eq(5)
-      expect(table_headings[0].text.strip).to eq('Reason')
-      expect(table_headings[1].text.strip).to eq('Percentage of all rejections')
-      expect(table_headings[2].text.strip).to eq('Percentage of all rejections within this category')
-      expect(table_headings[3].text.strip).to eq('Percentage of all rejections this month')
-      expect(table_headings[4].text.strip).to eq('Percentage of all rejections within this category this month')
+      Timecop.freeze(RecruitmentCycle.current_year, 9, 1) do
+        table_headings = rendered_component.css('thead th')
+        expect(table_headings.size).to eq(5)
+        expect(table_headings[0].text.strip).to eq('Reason')
+        expect(table_headings[1].text.strip).to eq('Percentage of all rejections')
+        expect(table_headings[2].text.strip).to eq('Percentage of all rejections within this category')
+        expect(table_headings[3].text.strip).to eq('Percentage of all rejections in September')
+        expect(table_headings[4].text.strip).to eq('Percentage of all rejections in September within this category')
 
-      table_cells = rendered_component.css('tbody td')
-      expect(rendered_component.css('tbody th').text.strip).to eq('Didn’t attend interview')
-      expect(table_cells.size).to eq(4)
-      expect(table_cells[0].text.strip).to start_with('3%')
-      expect(table_cells[1].text.strip).to start_with('12%')
-      expect(table_cells[2].text.strip).to start_with('10%')
-      expect(table_cells[3].text.strip).to start_with('13.33%')
+        table_cells = rendered_component.css('tbody td')
+        expect(rendered_component.css('tbody th').text.strip).to eq('Didn’t attend interview')
+        expect(table_cells.size).to eq(4)
+        expect(table_cells[0].text.strip).to start_with('3%')
+        expect(table_cells[1].text.strip).to start_with('12%')
+        expect(table_cells[2].text.strip).to start_with('10%')
+        expect(table_cells[3].text.strip).to start_with('13.33%')
+      end
     end
   end
 
