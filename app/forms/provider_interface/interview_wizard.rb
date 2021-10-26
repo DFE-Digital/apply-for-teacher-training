@@ -3,8 +3,6 @@ module ProviderInterface
     include ActiveModel::Model
     include ActiveModel::Attributes
 
-    VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:.\s]([0-5][0-9]))?([AaPp][Mm])$/.freeze
-
     attr_accessor :time, :location, :additional_details, :provider_id, :application_choice, :provider_user,
                   :current_step, :path_history, :wizard_path_history, :action, :referer
     attr_writer :date
@@ -123,18 +121,12 @@ module ProviderInterface
       end
     end
 
-    def time_in_correct_format?
-      time.match(VALID_TIME_FORMAT)
-    end
-
     def parsed_time
-      return unless time_in_correct_format?
-
-      Time.zone.parse(time.gsub(/[ .]/, ':'))
+      Timeliness.parse(time)
     end
 
     def time_is_valid
-      return if time_in_correct_format?
+      return if parsed_time.present?
 
       errors.add(:time, :invalid)
     end
