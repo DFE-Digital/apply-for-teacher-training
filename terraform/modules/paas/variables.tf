@@ -67,8 +67,6 @@ locals {
   allkeys_lru_maxmemory_policy = {
     maxmemory_policy = "allkeys-lru"
   }
-  app_service_bindings = [cloudfoundry_service_instance.postgres, cloudfoundry_service_instance.redis,
-  cloudfoundry_service_instance.redis_cache, cloudfoundry_user_provided_service.logging]
   service_gov_uk_host_names = {
     qa        = "qa"
     staging   = "staging"
@@ -89,6 +87,7 @@ locals {
   cloudfoundry_route.web_app_education_gov_uk_route, cloudfoundry_route.web_app_internal_route, cloudfoundry_route.web_app_assets_service_gov_uk_route]
   app_environment_variables = merge(var.app_environment_variables,
     {
+      DATABASE_URL        = cloudfoundry_service_key.postgres.credentials.uri
       BLAZER_DATABASE_URL = cloudfoundry_service_key.postgres-readonly-key.credentials.uri
       REDIS_URL           = cloudfoundry_service_key.worker_redis_key.credentials.uri
       REDIS_CACHE_URL     = cloudfoundry_service_key.cache_redis_key.credentials.uri

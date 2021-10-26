@@ -35,11 +35,8 @@ resource "cloudfoundry_app" "web_app" {
       route = routes.value.id
     }
   }
-  dynamic "service_binding" {
-    for_each = local.app_service_bindings
-    content {
-      service_instance = service_binding.value.id
-    }
+  service_binding {
+    service_instance = cloudfoundry_user_provided_service.logging.id
   }
 }
 
@@ -55,11 +52,8 @@ resource "cloudfoundry_app" "clock" {
   timeout              = 180
   environment          = local.clock_app_env_variables
   docker_credentials   = var.docker_credentials
-  dynamic "service_binding" {
-    for_each = local.app_service_bindings
-    content {
-      service_instance = service_binding.value.id
-    }
+  service_binding {
+    service_instance = cloudfoundry_user_provided_service.logging.id
   }
 }
 
@@ -76,11 +70,8 @@ resource "cloudfoundry_app" "worker" {
   timeout              = 180
   environment          = local.worker_app_env_variables
   docker_credentials   = var.docker_credentials
-  dynamic "service_binding" {
-    for_each = local.app_service_bindings
-    content {
-      service_instance = service_binding.value.id
-    }
+  service_binding {
+    service_instance = cloudfoundry_user_provided_service.logging.id
   }
 }
 
@@ -97,11 +88,8 @@ resource "cloudfoundry_app" "worker_secondary" {
   timeout              = 180
   environment          = local.worker_app_env_variables
   docker_credentials   = var.docker_credentials
-  dynamic "service_binding" {
-    for_each = local.app_service_bindings
-    content {
-      service_instance = service_binding.value.id
-    }
+  service_binding {
+    service_instance = cloudfoundry_user_provided_service.logging.id
   }
 }
 
@@ -144,6 +132,11 @@ resource "cloudfoundry_service_instance" "postgres" {
     create = "60m"
     update = "60m"
   }
+}
+
+resource "cloudfoundry_service_key" "postgres" {
+  name = "postgres-${var.app_environment}"
+  service_instance = cloudfoundry_service_instance.postgres.id
 }
 
 resource "cloudfoundry_service_instance" "redis" {
