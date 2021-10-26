@@ -4,7 +4,7 @@
       <% summary_list_row.key { row[:key] } %>
       <% summary_list_row.value { value(row) } %>
 
-      <% Array.wrap(row[:action] || row[:actions] || { href: '' }).each do |action| %>
+      <% Array.wrap(actions(row)).each do |action| %>
         <% summary_list_row.action(classes: 'govuk-!-display-none-print', **action) %>
       <% end %>
     <% end %>
