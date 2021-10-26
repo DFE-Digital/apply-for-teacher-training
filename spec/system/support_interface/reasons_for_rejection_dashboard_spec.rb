@@ -230,7 +230,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_other_advice_or_feedback
-    within '#other-advice-or-feedback' do
+    within '#additional-advice-or-feedback' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')

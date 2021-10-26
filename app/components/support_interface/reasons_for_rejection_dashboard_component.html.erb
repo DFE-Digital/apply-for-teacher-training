@@ -1,13 +1,4 @@
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Course full',
-  total_count: total_rejection_count('course_full_y_n'),
-  this_month: current_month_rejection_count('course_full_y_n'),
-  percentage_rejected: percentage_rejected_for_reason('course_full_y_n'),
-  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
-  reason_key: :course_full_y_n,
-) %>
-
-<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
   heading: 'Candidate behaviour',
   total_count: total_rejection_count('candidate_behaviour_y_n'),
   this_month: current_month_rejection_count('candidate_behaviour_y_n'),
@@ -18,31 +9,13 @@
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Honesty and professionalism',
-  total_count: total_rejection_count('honesty_and_professionalism_y_n'),
-  this_month: current_month_rejection_count('honesty_and_professionalism_y_n'),
-  percentage_rejected: percentage_rejected_for_reason('honesty_and_professionalism_y_n'),
+  heading: 'Quality of application',
+  total_count: total_rejection_count('quality_of_application_y_n'),
+  this_month: current_month_rejection_count('quality_of_application_y_n'),
+  percentage_rejected: percentage_rejected_for_reason('quality_of_application_y_n'),
   total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
-  reason_key: :honesty_and_professionalism_y_n,
-  sub_reasons_result: sub_reasons_for(:honesty_and_professionalism_y_n),
-) %>
-
-<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Offered on another course',
-  total_count: total_rejection_count('offered_on_another_course_y_n'),
-  this_month: current_month_rejection_count('offered_on_another_course_y_n'),
-  percentage_rejected: percentage_rejected_for_reason('offered_on_another_course_y_n'),
-  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
-  reason_key: :offered_on_another_course_y_n,
-) %>
-
-<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Performance at interview',
-  total_count: total_rejection_count('performance_at_interview_y_n'),
-  this_month: current_month_rejection_count('performance_at_interview_y_n'),
-  percentage_rejected: percentage_rejected_for_reason('performance_at_interview_y_n'),
-  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
-  reason_key: :performance_at_interview_y_n,
+  reason_key: :quality_of_application_y_n,
+  sub_reasons_result: sub_reasons_for(:quality_of_application_y_n),
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
@@ -56,14 +29,41 @@
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Quality of application',
-  total_count: total_rejection_count('quality_of_application_y_n'),
-  this_month: current_month_rejection_count('quality_of_application_y_n'),
-  percentage_rejected: percentage_rejected_for_reason('quality_of_application_y_n'),
+  heading: 'Performance at interview',
+  total_count: total_rejection_count('performance_at_interview_y_n'),
+  this_month: current_month_rejection_count('performance_at_interview_y_n'),
+  percentage_rejected: percentage_rejected_for_reason('performance_at_interview_y_n'),
   total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
-  reason_key: :quality_of_application_y_n,
-  sub_reasons_result: sub_reasons_for(:quality_of_application_y_n),
+  reason_key: :performance_at_interview_y_n,
 ) %>
+
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Course full',
+  total_count: total_rejection_count('course_full_y_n'),
+  this_month: current_month_rejection_count('course_full_y_n'),
+  percentage_rejected: percentage_rejected_for_reason('course_full_y_n'),
+  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
+  reason_key: :course_full_y_n,
+) %>
+
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Offered on another course',
+  total_count: total_rejection_count('offered_on_another_course_y_n'),
+  this_month: current_month_rejection_count('offered_on_another_course_y_n'),
+  percentage_rejected: percentage_rejected_for_reason('offered_on_another_course_y_n'),
+  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
+  reason_key: :offered_on_another_course_y_n,
+) %>
+
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Honesty and professionalism',
+  total_count: total_rejection_count('honesty_and_professionalism_y_n'),
+  this_month: current_month_rejection_count('honesty_and_professionalism_y_n'),
+  percentage_rejected: percentage_rejected_for_reason('honesty_and_professionalism_y_n'),
+  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
+  reason_key: :honesty_and_professionalism_y_n,
+  sub_reasons_result: sub_reasons_for(:honesty_and_professionalism_y_n),
+  ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
   heading: 'Safeguarding concerns',
@@ -85,7 +85,16 @@
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Other advice or feedback',
+  heading: 'Other reasons',
+  total_count: total_rejection_count('other_reasons_y_n'),
+  this_month: current_month_rejection_count('other_reasons_n'),
+  percentage_rejected: percentage_rejected_for_reason('other_reasons_y_n'),
+  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
+  reason_key: :other_reasons_y_n,
+) %>
+
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Additional advice or feedback',
   total_count: total_rejection_count('other_advice_or_feedback_y_n'),
   this_month: current_month_rejection_count('other_advice_or_feedback_y_n'),
   percentage_rejected: percentage_rejected_for_reason('other_advice_or_feedback_y_n'),
