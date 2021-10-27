@@ -1,0 +1,34 @@
+custom_columns:
+  course_type:
+    type: string
+    description: The route into teaching
+    enum:
+      - Higher education
+      - Postgraduate teaching apprenticeship
+      - School-centred initial teacher training (SCITT)
+      - School Direct (fee-paying)
+      - School Direct (salaried)
+  age_group:
+    type: string
+    description: The level of the course
+    enum:
+      - Primary
+      - Secondary
+      - Further education
+  subject:
+    type: string
+    description: The subject of the chosen course
+    example: History
+  provider_area:
+    type: string
+    description: The region the provider is based in
+    enum:
+      - East Midlands
+      - East
+      - London
+      - North East
+      - North West
+      - South East
+      - South West
+      - West Midlands
+      - Yorkshire and The Humber
