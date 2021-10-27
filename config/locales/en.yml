@@ -79,7 +79,7 @@ en:
     accessibility: Accessibility statement
     privacy_policy: How we look after your personal data
     terms_candidate: Terms of use
-    service_guidance_provider: "Using the Manage teacher training applications service: guidance for teacher training providers"
+    service_guidance_provider: How to use this service
     cookies_candidate: Cookies
     cookies_provider: Cookies
     roadmap: Apply for teacher training roadmap
@@ -238,6 +238,7 @@ en:
     withdraw_application: Are you sure you want to withdraw your application?
     guidance: User guidance
     your_feedback: Your feedback
+    dates_and_deadlines: Dates and deadlines
   section_groups:
     course: Course
     courses: Courses
