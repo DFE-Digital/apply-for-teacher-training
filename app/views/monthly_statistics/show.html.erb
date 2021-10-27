@@ -19,6 +19,12 @@
         </a>
       </li>
       <li>
+       <a href="#by-age-group" class="govuk-link app-toc__link">
+         <span class="app-toc__number">3.</span>
+         <span class="app-toc__content">By age group</span>
+       </a>
+     </li>
+      <li>
         <a href="#applications-by-sex" class="govuk-link app-toc__link">
           <span class="app-toc__number">4.</span>
           <span class="app-toc__content">By sex</span>
@@ -81,6 +87,14 @@
     <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by status', statistics: @statistics['applications_by_status']) %>
   </div>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="by-age-group">3. By age group</h2>
+    <p class="govuk-body">The age of each applicant is calculated as of 31 August 2022.</p>
+  </div>
+</div>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by age group', statistics: @statistics['by_age_group']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
