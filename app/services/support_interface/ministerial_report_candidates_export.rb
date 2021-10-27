@@ -47,8 +47,8 @@ module SupportInterface
     def determine_states(application)
       choice_statuses = application.application_choices.map(&:status)
 
-      if choice_statuses.any? { |choice_status| ApplicationStateChange::SUCCESSFUL_STATES.include? choice_status.to_sym }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:recruited]
+      if choice_statuses.any? { |choice_status| %w[pending_conditions offer_deferred recruited].include? choice_status }
+        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:pending_conditions]
       elsif choice_statuses.any? { |choice_status| %w[offer conditions_not_met].include? choice_status }
         MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:offer]
       elsif choice_statuses.any? { |choice_status| %w[awaiting_provider_decision interviewing].include? choice_status }
