@@ -1,3 +1,26 @@
+# JMeter docker app for load-testing Apply/Manage/Vendor API
+
+We are using `ruby-jmeter` to simplify the creation of JMeter test plans and a custom Dockerfile to satisfy all JMeter dependencies, run the tests within the gov.uk PaaS and collect jmeter metrics with Prometheus, so that we can examine our load tests in Grafana.
+
+## Testing the jmeter app locally
+
+You'll need docker installed.
+
+```
+cd jmeter && docker build . -t jmeter
+docker run --rm -ti --net=host -e JMETER_TARGET_BASEURL=http://localhost:3000 -e JMETER_TARGET_PLAN=test -e JMETER_WAIT_FACTOR=0.5 jmeter
+```
+
+The `docker run` command above will just run the `test.rb` plan against your local rails server. Here is an example of something more interesting:
+
+```
+docker run --rm -ti --net=host -e JMETER_TARGET_BASEURL=http://localhost:3000 -e JMETER_TARGET_PLAN=manage -e JMETER_WAIT_FACTOR=0.5 -e JMETER_THREAD_CONFIG=0,0,0,0,0,1 jmeter
+```
+
+Most of these calls will fail, though, because you probably don't have the required provider users in your database. You can edit `manage.rb` and carry on building your local docker images, however, to use provider user UIDs that you have.
+
+You can check jmeter prometheus metrics are being exported by visiting http://locahost:8080 in your browser.
+
 ## Deploying the app
 
 Make sure you are logged into the GitHub container register, this is required to publish the latest image to GHCR.
