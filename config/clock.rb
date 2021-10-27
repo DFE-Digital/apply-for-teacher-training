@@ -54,4 +54,12 @@ class Clock
     VendorIntegrationStatsWorker.perform_async('unit4')
     VendorIntegrationStatsWorker.perform_async('oracle')
   end
+
+  every(1.day, 'Generate applications export for the External Report', at: '00:00', if: ->(t) { t.day == 1 }) do
+    export = DataExport.create!(
+      name: 'External report applications',
+      export_type: :external_report_applications,
+    )
+    DataExporter.perform_async(SupportInterface::ExternalReportApplicationsExport, export.id, {})
+  end
 end

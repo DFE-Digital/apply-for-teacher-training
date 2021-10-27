@@ -3,8 +3,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third">
     <p class="govuk-body"><%= @data_export.fetch(:description) %></p>
-
-    <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
+    <% if @data_export.fetch(:export_type) == 'external_report_applications' %>
+      <p class="govuk-body">This export is generated at midnight on the first of each month. Please use the latest copy in the history tab.</p>
+    <% else %>
+      <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
+    <% end %>
   </div>
 
   <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>
