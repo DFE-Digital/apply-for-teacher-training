@@ -39,10 +39,11 @@ jobs:
 
       - uses: DFE-Digital/github-actions/turnstyle@master
         name: Wait for other inprogress deployment runs
-        initial-wait-seconds: 12
-        poll-interval-seconds: 20
-        abort-after-seconds: 3600
-        same-branch-only: true
+        with:
+          initial-wait-seconds: 12
+          poll-interval-seconds: 20
+          abort-after-seconds: 3600
+          same-branch-only: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
