@@ -1,7 +1,8 @@
 module MonthlyStatistics
   class BySecondarySubject < MonthlyStatistics::Base
-    SUBJECTS = [
+    SECONDARY_SUBJECTS = [
       'Art and design',
+      'Science',
       'Biology',
       'Business studies',
       'Chemistry',
@@ -15,20 +16,33 @@ module MonthlyStatistics
       'Economics',
       'English',
       'Geography',
+      'Health and social care',
       'History',
       'Mathematics',
-      'French',
-      'German',
-      'Mandarin',
-      'Spanish',
-      'Modern languages (other)',
+      'Modern foreign languages',
       'Music',
+      'Philosophy',
       'Physical education',
       'Physics',
       'Psychology',
       'Religious education',
       'Social sciences',
+      'Further education',
     ].freeze
+
+    MODERN_FOREIGN_LANGUAGES = [
+      'French',
+      'English as a second or other language',
+      'German',
+      'Italian',
+      'Japanese',
+      'Mandarin',
+      'Russian',
+      'Spanish',
+      'Modern Languages',
+      'Modern languages (other)',
+    ].freeze
+
     def table_data
       {
         rows: rows,
@@ -62,23 +76,40 @@ module MonthlyStatistics
     end
 
     def formatted_group_query
-      counts = SUBJECTS.index_with { |_subject| {} }
+      counts = SECONDARY_SUBJECTS.index_with { |_subject| {} }
+      languages_counter = []
 
       group_query_excluding_deferred_offers.map do |item|
         subject, status = item[0]
         count = item[1]
 
-        counts[subject].merge!({ status => count })
+        if MODERN_FOREIGN_LANGUAGES.include?(subject)
+          languages_counter << { status => count }
+        else
+          counts[subject].merge!({ status => count })
+        end
       end
 
       group_query_including_deferred_offers.map do |item|
-        subject, status_before_deferral = item[0]
+        subject, status = item[0]
         count = item[1]
 
-        counts[subject].merge!({ status_before_deferral => count })
+        if MODERN_FOREIGN_LANGUAGES.include?(subject)
+          languages_counter << { status => count }
+        else
+          counts[subject]&.merge!({ status => count })
+        end
       end
 
+      counts['Modern foreign languages']&.merge!(modern_foreign_languages_sum(languages_counter))
+
       counts
+    end
+
+    def modern_foreign_languages_sum(languages_counter)
+      languages_counter.each_with_object(Hash.new(0)) do |hash, sum|
+        hash.each { |key, value| sum[key] += value }
+      end
     end
 
     def group_query_excluding_deferred_offers

@@ -20,6 +20,15 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Total' => 1,
             },
             {
+              'Subject' => 'Science',
+              'Recruited' => 1,
+              'Conditions pending' => 0,
+              'Received an offer' => 0,
+              'Awaiting provider decisions' => 0,
+              'Unsuccessful' => 0,
+              'Total' => 1,
+            },
+            {
               'Subject' => 'Biology',
               'Recruited' => 0,
               'Conditions pending' => 1,
@@ -137,6 +146,15 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Total' => 1,
             },
             {
+              'Subject' => 'Health and social care',
+              'Recruited' => 0,
+              'Conditions pending' => 1,
+              'Received an offer' => 0,
+              'Awaiting provider decisions' => 0,
+              'Unsuccessful' => 0,
+              'Total' => 1,
+            },
+            {
               'Subject' => 'History',
               'Recruited' => 0,
               'Conditions pending' => 0,
@@ -155,49 +173,13 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Total' => 1,
             },
             {
-              'Subject' => 'French',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
+              'Subject' => 'Modern foreign languages',
+              'Recruited' => 1,
+              'Conditions pending' => 2,
+              'Received an offer' => 4,
               'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 1,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'German',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 1,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 0,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'Mandarin',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 1,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'Spanish',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 1,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 0,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'Modern languages (other)',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 1,
-              'Total' => 1,
+              'Unsuccessful' => 3,
+              'Total' => 10,
             },
             {
               'Subject' => 'Music',
@@ -205,6 +187,15 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Conditions pending' => 0,
               'Received an offer' => 0,
               'Awaiting provider decisions' => 1,
+              'Unsuccessful' => 0,
+              'Total' => 1,
+            },
+            {
+              'Subject' => 'Philosophy',
+              'Recruited' => 0,
+              'Conditions pending' => 1,
+              'Received an offer' => 0,
+              'Awaiting provider decisions' => 0,
               'Unsuccessful' => 0,
               'Total' => 1,
             },
@@ -253,8 +244,17 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Unsuccessful' => 0,
               'Total' => 1,
             },
+            {
+              'Subject' => 'Further education',
+              'Recruited' => 0,
+              'Conditions pending' => 1,
+              'Received an offer' => 0,
+              'Awaiting provider decisions' => 0,
+              'Unsuccessful' => 0,
+              'Total' => 1,
+            },
           ],
-          column_totals: [3, 4, 10, 1, 9, 27],
+          column_totals: [5, 9, 12, 1, 9, 36],
         },
       )
     end
@@ -269,6 +269,13 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
     create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'Citizenship')
     create_application_choice_for_last_cycle(status_before_deferral: 'recruited', subject: 'Classics')
     create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'Communication and media studies')
+    create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'English as a second or other language')
+    create_application_choice_for_last_cycle(status_before_deferral: 'recruited', subject: 'Italian')
+    create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'English as a second or other language')
+    create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'Further education')
+    create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'Health and social care')
+    create_application_choice_for_last_cycle(status_before_deferral: 'pending_conditions', subject: 'Philosophy')
+    create_application_choice_for_last_cycle(status_before_deferral: 'recruited', subject: 'Science')
 
     # current year
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Computing')
@@ -284,6 +291,8 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'German')
     create_application_choice_for_this_cycle(status: :with_rejection, subject: 'Mandarin')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Spanish')
+    create_application_choice_for_this_cycle(status: :with_offer, subject: 'Japanese')
+    create_application_choice_for_this_cycle(status: :with_offer, subject: 'Russian')
     create_application_choice_for_this_cycle(status: :with_rejection, subject: 'Modern languages (other)')
     create_application_choice_for_this_cycle(status: :awaiting_provider_decision, subject: 'Music')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Physical education')
