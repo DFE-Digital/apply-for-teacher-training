@@ -22,6 +22,14 @@ class SummaryListComponent < ViewComponent::Base
     end
   end
 
+  def actions(row)
+    defined_action = row[:action] || row[:actions]
+
+    return defined_action if defined_action.present?
+
+    { href: '' } if any_rows_with_actions?
+  end
+
   def html_attributes(row)
     row[:html_attributes] || {}
   end
@@ -47,5 +55,9 @@ private
 
   def format_list_as_paragraphs(list)
     safe_join(list.map { |s| tag.p(class: 'govuk-body') { ERB::Util.html_escape(s) } })
+  end
+
+  def any_rows_with_actions?
+    rows.any? { |row| (row[:action] || row[:actions]).present? }
   end
 end
