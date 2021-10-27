@@ -30,7 +30,7 @@ RSpec.feature 'Candidate changing their GCSE type' do
     when_i_change_my_qualification_type
     when_i_select_gcse_option
     and_i_click_save_and_continue
-    then_i_see_the_review_page_with_empty_details
+    then_i_see_add_grade_page
   end
 
   def given_i_am_signed_in

@@ -146,7 +146,6 @@ RSpec.feature 'Candidate changing UK GCSE to international qualification' do
   def then_i_see_the_review_page_with_new_details
     expect(page).to have_content 'Maths GCSE or equivalent'
 
-    save_and_open_page
     expect(page).to have_content 'Baccalauréat Général'
     expect(page).to have_content '100%'
     expect(page).to have_content '2000'

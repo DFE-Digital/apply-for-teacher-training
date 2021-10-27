@@ -53,7 +53,8 @@ module CandidateInterface
     end
 
     def changed_qualification_type?
-      current_qualification.saved_change_to_qualification_type.present?
+      current_qualification.saved_change_to_qualification_type.present? &&
+        !@type_form.missing_qualification?
     end
 
     def next_gcse_path
