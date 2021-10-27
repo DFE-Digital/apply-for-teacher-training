@@ -44,20 +44,21 @@ module MonthlyStatistics
       counts = ApplicationForm.region_codes.values.index_with { |_region_code| {} }
 
       group_query_excluding_deferred_offers.reject { |item| item['status'] == 'offer_deferred' }.map do |item|
-        area = item['region_code']
-        status = item['status']
-        count = item['count']
-        counts[area]&.merge!({ status => count })
+        increment_area_status_count(counts, item, 'status')
       end
       group_query_for_deferred_offers.map do |item|
-        area = item['region_code']
-        status = item['status_before_deferral']
-        count = item['count']
-        running_count = counts[area]&.fetch(status, 0)
-        counts[area]&.merge!({ status => running_count + count })
+        increment_area_status_count(counts, item, 'status_before_deferral')
       end
 
       counts
+    end
+
+    def increment_area_status_count(counts, item, status_attribute)
+      area = item['region_code']
+      status = item[status_attribute]
+      count = item['count']
+      running_count = counts[area]&.fetch(status, 0)
+      counts[area]&.merge!({ status => running_count + count })
     end
 
     def group_query_for_deferred_offers
