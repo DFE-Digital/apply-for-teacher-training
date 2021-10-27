@@ -4,7 +4,9 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
 
-    def edit; end
+    def edit
+      @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
+    end
 
     def update
       service = DeclineOrWithdrawApplication.new(actor: current_provider_user, application_choice: @application_choice)
@@ -13,6 +15,7 @@ module ProviderInterface
         flash[:success] = 'Application withdrawn'
         redirect_to provider_interface_application_choice_path(@application_choice)
       else
+        @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
         flash[:warning] = 'Could not withdraw application'
         render :edit
       end
