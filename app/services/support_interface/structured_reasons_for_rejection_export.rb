@@ -7,6 +7,7 @@ module SupportInterface
           application_choice_id: application_choice.id,
           recruitment_cycle_year: application_choice.course.recruitment_cycle_year,
           phase: application_choice.application_form.phase,
+          level: application_choice.course.level,
           provider_code: application_choice.provider.code,
           course_code: application_choice.course.code,
           rejected_at: application_choice.rejected_at.iso8601,

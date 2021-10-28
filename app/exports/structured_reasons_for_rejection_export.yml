@@ -7,6 +7,13 @@ common_columns:
   - course_code
 
 custom_columns:
+  level:
+    type: string
+    description: The age group for candidate will be teaching
+    enum:
+      - primary
+      - secondary
+      - further_education
   rejected_at:
     type: string
     format: date-time
