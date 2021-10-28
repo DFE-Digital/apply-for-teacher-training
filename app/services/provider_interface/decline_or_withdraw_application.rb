@@ -55,13 +55,11 @@ module ProviderInterface
     end
 
     def cancel_upcoming_interviews!
-      if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-        CancelUpcomingInterviews.new(
-          actor: @actor,
-          application_choice: @application_choice,
-          cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
-        ).call!
-      end
+      CancelUpcomingInterviews.new(
+        actor: @actor,
+        application_choice: @application_choice,
+        cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
+      ).call!
     end
 
     def auth

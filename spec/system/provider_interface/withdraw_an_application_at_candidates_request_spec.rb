@@ -13,19 +13,13 @@ RSpec.describe "withdrawing an application at the candidate's request", type: :f
 
     when_i_visit_a_submitted_application
     and_i_click_a_link_to_withdraw_at_candidates_request
-
-    if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-      then_i_see_the_interview_cancellation_explanation
-    end
+    then_i_see_the_interview_cancellation_explanation
 
     when_i_confirm_the_withdrawal
     then_i_see_a_message_confirming_that_the_application_has_been_withdrawn
     and_i_can_no_longer_see_the_withdraw_at_candidates_request_link
     and_the_candidate_receives_an_email_about_the_withdrawal
-
-    if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-      and_the_interview_has_been_cancelled
-    end
+    and_the_interview_has_been_cancelled
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
