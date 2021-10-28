@@ -40,7 +40,7 @@ RSpec.feature 'See Fraud Auditing matches' do
   end
 
   def and_i_click_to_remove_access_from_the_second_candidate
-    click_link 'Remove Joffrey Thompson'
+    click_link "Remove #{@candidate_two.email_address}"
   end
 
   def then_i_see_the_confirm_remove_access_page

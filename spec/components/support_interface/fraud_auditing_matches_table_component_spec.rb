@@ -34,11 +34,11 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[3].text).to include('Send email')
       expect(result.css('td')[4].text).to include(fraud_match1.candidate_last_contacted_at&.to_s(:govuk_date_and_time).to_s)
       expect(result.css('td')[5].text).to include('No')
-      expect(result.css('td')[5].text).to include('Mark as fraudulent')
-      expect(result.css('td')[6].text).to include('No')
-      expect(result.css('td')[6].text).to include('Yes')
-      expect(result.css('td')[7].text).to include('Block')
-      expect(result.css('td')[7].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match1.id}/block-submission")
+      expect(result.css('td')[5].text).to include('Yes')
+      expect(result.css('td')[6].text).to include('Block')
+      expect(result.css('td')[6].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match1.id}/block-submission")
+      expect(result.css('td')[8].text).to include('No')
+      expect(result.css('td')[8].text).to include('Mark as fraudulent')
     end
   end
 
@@ -53,12 +53,12 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[2].text).to include(fraud_match2.candidates.second.email_address)
       expect(result.css('td')[3].text).to include('Send email')
       expect(result.css('td')[4].text).to include(fraud_match2.candidate_last_contacted_at&.to_s(:govuk_date_and_time).to_s)
+      expect(result.css('td')[5].text).to include('No')
       expect(result.css('td')[5].text).to include('Yes')
-      expect(result.css('td')[5].text).to include('Mark as non fraudulent')
-      expect(result.css('td')[6].text).to include('No')
-      expect(result.css('td')[6].text).to include('Yes')
-      expect(result.css('td')[7].text).to include('Block')
-      expect(result.css('td')[7].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match2.id}/block-submission")
+      expect(result.css('td')[6].text).to include('Block')
+      expect(result.css('td')[6].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match2.id}/block-submission")
+      expect(result.css('td')[8].text).to include('Yes')
+      expect(result.css('td')[8].text).to include('Mark as non fraudulent')
     end
   end
 
@@ -70,15 +70,15 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
 
     result = render_inline(described_class.new(matches: [blocked_fraud_match]))
 
-    expect(result.css('td')[7].text).to include('Unblock')
+    expect(result.css('td')[6].text).to include('Unblock')
   end
 
   it 'renders links for each candidate to the confirm remove access path' do
     result = render_inline(described_class.new(matches: [fraud_match1]))
 
-    expect(result.css('td')[8].text).to include('Remove Joffrey Thompson')
-    expect(result.css('td')[8].children[1].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.third.id))
-    expect(result.css('td')[8].text).to include('Remove Jeffrey Thompson')
-    expect(result.css('td')[8].children[5].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.fourth.id))
+    expect(result.css('td')[7].text).to include("Remove #{Candidate.third.email_address}")
+    expect(result.css('td')[7].children[1].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.third.id))
+    expect(result.css('td')[7].text).to include("Remove #{Candidate.fourth.email_address}")
+    expect(result.css('td')[7].children[5].attributes['href'].value).to include(Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_confirm_remove_access_path(fraud_match1.id, Candidate.fourth.id))
   end
 end
