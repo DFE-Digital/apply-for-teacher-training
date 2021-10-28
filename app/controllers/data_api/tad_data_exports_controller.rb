@@ -52,6 +52,15 @@ module DataAPI
       serve_export(data_export)
     end
 
+    def subjects_latest
+      data_export = DataExport
+        .where(export_type: :tad_subjects)
+        .where.not(completed_at: nil)
+        .last
+
+      serve_export(data_export)
+    end
+
   private
 
     def serve_export(export)
