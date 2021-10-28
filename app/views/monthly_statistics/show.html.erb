@@ -55,9 +55,15 @@
         </a>
       </li>
       <li>
-        <a href="#by-primary-specialist-subject" class="govuk-link app-toc__link">
+        <a href="#by-secondary-subject" class="govuk-link app-toc__link">
           <span class="app-toc__number">9.</span>
           <span class="app-toc__content">By secondary subject</span>
+        </a>
+      </li>
+      <li>
+        <a href="#by-provider-area" class="govuk-link app-toc__link">
+          <span class="app-toc__number">10.</span>
+          <span class="app-toc__content">By provider area</span>
         </a>
       </li>
     </ul>
@@ -151,9 +157,17 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l" id="by-primary-specialist-subject">9. By secondary subject</h2>
+    <h2 class="govuk-heading-l" id="by-secondary-subject">9. By secondary subject</h2>
     <p class="govuk-body">Something to explain how this is counting applications not applicants...</p>
     <p class="govuk-body">Do the subjects need some explanation...? Something about combined subjects?</p>
   </div>
 </div>
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by secondary subject', statistics: @statistics['by_secondary_subject']) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="by-provider-area">10. By provider area</h2>
+    <p class="govuk-body">The area is derived from the contact address given by the provider, and may not match the area where the students undertake their training.</p>
+  </div>
+</div>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applicants by area of England of the provider', statistics: @statistics['by_provider_area']) %>

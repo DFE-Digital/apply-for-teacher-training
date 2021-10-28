@@ -56,6 +56,8 @@ RSpec.describe MonthlyStatisticsReport do
       applications_by_primary_specialist_subject_double = instance_double(MonthlyStatistics::ByPrimarySpecialistSubject)
       by_age_group_monthly_statistics_double = instance_double(MonthlyStatistics::ByAgeGroup)
       applications_by_secondary_subject_double = instance_double(MonthlyStatistics::BySecondarySubject)
+      applications_by_provider_area_double = instance_double(MonthlyStatistics::ByProviderArea)
+
       table_data = [{ 'foo' => 'bar' }]
 
       allow(MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return(course_age_group_monthly_statistics_double)
@@ -67,6 +69,7 @@ RSpec.describe MonthlyStatisticsReport do
       allow(MonthlyStatistics::ByPrimarySpecialistSubject).to receive(:new).and_return(applications_by_primary_specialist_subject_double)
       allow(MonthlyStatistics::ByAgeGroup).to receive(:new).and_return(by_age_group_monthly_statistics_double)
       allow(MonthlyStatistics::BySecondarySubject).to receive(:new).and_return(applications_by_secondary_subject_double)
+      allow(MonthlyStatistics::ByProviderArea).to receive(:new).and_return(applications_by_provider_area_double)
 
       allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(area_monthly_statistics_double).to receive(:table_data).and_return(table_data)
@@ -77,6 +80,7 @@ RSpec.describe MonthlyStatisticsReport do
       allow(applications_by_primary_specialist_subject_double).to receive(:table_data).and_return(table_data)
       allow(by_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(applications_by_secondary_subject_double).to receive(:table_data).and_return(table_data)
+      allow(applications_by_provider_area_double).to receive(:table_data).and_return(table_data)
 
       report = described_class.new
       report.load_table_data
@@ -91,6 +95,7 @@ RSpec.describe MonthlyStatisticsReport do
         'by_primary_specialist_subject' => table_data,
         'by_age_group' => table_data,
         'by_secondary_subject' => table_data,
+        'by_provider_area' => table_data,
       )
     end
   end
