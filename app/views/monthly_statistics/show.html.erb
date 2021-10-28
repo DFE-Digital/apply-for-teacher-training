@@ -31,6 +31,12 @@
         </a>
       </li>
       <li>
+        <a href="#applications-by-area" class="govuk-link app-toc__link">
+          <span class="app-toc__number">5.</span>
+          <span class="app-toc__content">By area</span>
+        </a>
+      </li>
+      <li>
         <a href="#applications-by-course-age-group" class="govuk-link app-toc__link">
           <span class="app-toc__number">6.</span>
           <span class="app-toc__content">By course age group</span>
@@ -109,6 +115,14 @@
   </div>
 </div>
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by sex', statistics: @statistics['by_sex']) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l" id="applications-by-area">5. By area</h2>
+    <p class="govuk-body">The area is derived from the contact address that candidates give when submitting their application.</p>
+  </div>
+</div>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by area', statistics: @statistics['by_area']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

@@ -48,6 +48,7 @@ RSpec.describe MonthlyStatisticsReport do
   describe '#load_updated_statistics' do
     it 'retrieves all required statistics' do
       course_age_group_monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseAgeGroup)
+      area_monthly_statistics_double = instance_double(MonthlyStatistics::ByArea)
       sex_group_monthly_statistics_double = instance_double(MonthlyStatistics::BySex)
       applications_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
       candidates_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
@@ -58,6 +59,7 @@ RSpec.describe MonthlyStatisticsReport do
       table_data = [{ 'foo' => 'bar' }]
 
       allow(MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return(course_age_group_monthly_statistics_double)
+      allow(MonthlyStatistics::ByArea).to receive(:new).and_return(area_monthly_statistics_double)
       allow(MonthlyStatistics::BySex).to receive(:new).and_return(sex_group_monthly_statistics_double)
       allow(MonthlyStatistics::ByStatus).to receive(:new).and_return(applications_by_status_monthly_statistics_double)
       allow(MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: true).and_return(candidates_by_status_monthly_statistics_double)
@@ -67,6 +69,7 @@ RSpec.describe MonthlyStatisticsReport do
       allow(MonthlyStatistics::BySecondarySubject).to receive(:new).and_return(applications_by_secondary_subject_double)
 
       allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
+      allow(area_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(sex_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(course_type_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(applications_by_status_monthly_statistics_double).to receive(:table_data).and_return(table_data)
@@ -80,6 +83,7 @@ RSpec.describe MonthlyStatisticsReport do
 
       expect(report.statistics).to eq(
         'by_course_age_group' => table_data,
+        'by_area' => table_data,
         'by_sex' => table_data,
         'applications_by_status' => table_data,
         'candidates_by_status' => table_data,
