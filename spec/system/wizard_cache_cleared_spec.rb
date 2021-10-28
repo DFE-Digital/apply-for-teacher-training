@@ -90,7 +90,7 @@ RSpec.describe 'Clearing the wizard cache' do
     fill_in 'Month', with: tomorrow.month
     fill_in 'Year', with: tomorrow.year
 
-    fill_in 'Time', with: time
+    fill_in 'Start time', with: time
 
     fill_in 'Address or online meeting details', with: 'N/A'
 
@@ -113,7 +113,7 @@ RSpec.describe 'Clearing the wizard cache' do
     expect(page.find_field('Day').value).to be_nil
     expect(page.find_field('Month').value).to be_nil
     expect(page.find_field('Year').value).to be_nil
-    expect(page.find_field('Time').value).to be_nil
+    expect(page.find_field('Start time').value).to be_nil
     expect(page.find_field('Address or online meeting details').value).to be_empty
   end
 
