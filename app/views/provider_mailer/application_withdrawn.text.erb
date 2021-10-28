@@ -7,6 +7,6 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 <%= provider_interface_application_choice_url(@application_choice) %>
 
-<% if @number_of_cancelled_interviews.positive? && FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made) %>
+<% if @number_of_cancelled_interviews.positive? %>
   <%= t('interview_cancellation.explanation.email', count: @number_of_cancelled_interviews) %>
 <% end %>
