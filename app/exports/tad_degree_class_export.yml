@@ -1,0 +1,39 @@
+custom_columns:
+  subject:
+    type: string
+    description: The course subject
+    example: Criminology
+
+  route:
+    type: string
+    description: TBC
+    example: TBC
+
+  degree_class:
+    type: string
+    description: TBC
+    example: TBC
+
+  applications:
+    type: integer
+    description: TBC
+
+  offers_received:
+    type: integer
+    description: TBC
+
+  number_of_acceptances:
+    type: integer
+    description: TBC
+
+  number_of_declined_applications:
+    type: integer
+    description: TBC
+
+  number_of_rejected_applications:
+    type: integer
+    description: TBC
+
+  number_of_withdrawn_applications:
+    type: integer
+    description: TBC
