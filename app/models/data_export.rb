@@ -203,7 +203,7 @@ class DataExport < ApplicationRecord
     tad_degree_class: {
       name: 'TAD degree class by subject and outcome',
       export_type: 'tad_degree_class',
-      description: 'TBC',
+      description: 'Report of subject by route, degree class and application status',
       class: SupportInterface::TADDegreeClassExport,
     },
     tad_provider_performance: {
