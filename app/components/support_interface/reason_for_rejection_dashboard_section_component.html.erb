@@ -11,23 +11,16 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
       <%= render SupportInterface::TileComponent.new(
-        count: @percentage_rejected,
+        count: percentage_rejected_for_reason,
         label: number_of_rejections_out_of_total_rejections,
-        colour: :blue,
+        colour: 'light-blue',
         size: :reduced,
       ) %>
     </div>
-    <div class="govuk-grid-column-one-quarter">
+    <div class="govuk-grid-column-one-half">
       <%= render SupportInterface::TileComponent.new(
-        count: @total_count,
-        label: 'total',
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-      <%= render SupportInterface::TileComponent.new(
-        count: @this_month,
-        label: 'this month',
+        count: percentage_rejected_for_reason_this_month,
+        label: number_of_rejections_out_of_total_this_month,
         size: :reduced,
       ) %>
     </div>
@@ -38,8 +31,8 @@
       sub_reasons: @sub_reasons_result,
       total_all_time: @total_rejection_count,
       total_this_month: @total_rejection_count_this_month,
-      total_for_reason_all_time: @total_count,
-      total_for_reason_this_month: @this_month,
+      total_for_reason_all_time: rejection_count,
+      total_for_reason_this_month: rejection_count(:this_month),
       recruitment_cycle_year: @recruitment_cycle_year,
     ) %>
   <% end %>

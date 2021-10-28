@@ -2,13 +2,10 @@ module SupportInterface
   class ReasonForRejectionDashboardSectionComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(heading:, total_count:, this_month:, percentage_rejected:, total_rejection_count:,
-                   total_rejection_count_this_month:, reason_key:, sub_reasons_result: nil,
-                   recruitment_cycle_year: RecruitmentCycle.current_year)
+    def initialize(heading:, rejection_reasons:, total_rejection_count:, total_rejection_count_this_month:,
+                   reason_key:, sub_reasons_result: nil, recruitment_cycle_year: RecruitmentCycle.current_year)
       @heading = heading
-      @total_count = total_count
-      @this_month = this_month
-      @percentage_rejected = percentage_rejected
+      @rejection_reasons = rejection_reasons
       @total_rejection_count = total_rejection_count
       @total_rejection_count_this_month = total_rejection_count_this_month
       @reason_key = reason_key
@@ -23,8 +20,24 @@ module SupportInterface
       sub_reasons_result.slice(*sub_reason_values.map(&:to_s)) if sub_reason_values.present?
     end
 
+    def rejection_count(time_period = :all_time)
+      @rejection_reasons[@reason_key]&.send(time_period) || 0
+    end
+
+    def percentage_rejected_for_reason
+      formatted_percentage(rejection_count, @total_rejection_count)
+    end
+
+    def percentage_rejected_for_reason_this_month
+      formatted_percentage(rejection_count(:this_month), @total_rejection_count_this_month)
+    end
+
     def number_of_rejections_out_of_total_rejections
-      "#{@total_count} of #{@total_rejection_count} application choices"
+      "#{rejection_count} of #{@total_rejection_count} rejections included this category"
+    end
+
+    def number_of_rejections_out_of_total_this_month
+      "#{rejection_count(:this_month)} of #{@total_rejection_count_this_month} rejections in #{Time.zone.now.strftime('%B')} included this category"
     end
   end
 end
