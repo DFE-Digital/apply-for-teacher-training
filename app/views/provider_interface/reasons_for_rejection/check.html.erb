@@ -24,7 +24,7 @@
         ) %>
       <% end %>
 
-      <% if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made) && @interview_cancellation_presenter.render? %>
+      <% if @interview_cancellation_presenter.render? %>
         <p class="govuk-body"><%= @interview_cancellation_presenter.text %></p>
       <% end %>
 

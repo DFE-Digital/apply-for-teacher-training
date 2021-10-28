@@ -78,20 +78,14 @@ RSpec.describe RejectApplication do
       expect(service.save).to be false
     end
 
-    context 'when the cancel upcoming feature flag is enabled' do
-      before do
-        FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made)
-      end
+    it 'calls the CancelUpcomingInterviews service' do
+      cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
 
-      it 'calls the CancelUpcomingInterviews service' do
-        cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
-
-        allow(CancelUpcomingInterviews)
-          .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'Your application was unsuccessful.')
-                           .and_return(cancel_upcoming_interviews)
-        service.save
-        expect(cancel_upcoming_interviews).to have_received(:call!)
-      end
+      allow(CancelUpcomingInterviews)
+        .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'Your application was unsuccessful.')
+                         .and_return(cancel_upcoming_interviews)
+      service.save
+      expect(cancel_upcoming_interviews).to have_received(:call!)
     end
   end
 end

@@ -5,10 +5,6 @@ RSpec.describe 'Reject an application with interviews' do
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
 
-  before do
-    FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made)
-  end
-
   scenario 'giving reasons for rejection' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
