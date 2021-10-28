@@ -101,21 +101,23 @@ RSpec.feature 'See Fraud Auditing matches' do
       expect(page).to have_content ''
     end
 
-    expect(page).to have_button("Mark as fraudulent #{@application_form_one.last_name}")
-    expect(page).to have_content 'No'
-
-    within 'td:eq(7)' do
+    within 'td:eq(6)' do
       expect(page).to have_content 'Yes'
       expect(page).to have_content 'No'
     end
 
-    within 'td:eq(8)' do
+    within 'td:eq(7)' do
       expect(page).to have_content 'Block'
+    end
+
+    within 'td:eq(9)' do
+      expect(page).to have_button("Mark as fraudulent #{@application_form_one.last_name}")
+      expect(page).to have_content 'No'
     end
   end
 
   def when_i_mark_a_match_as_fraudulent
-    within 'td:eq(6)' do
+    within 'td:eq(9)' do
       click_button 'Mark as fraudulent'
     end
   end
@@ -126,7 +128,7 @@ RSpec.feature 'See Fraud Auditing matches' do
   end
 
   def when_i_mark_a_match_as_non_fraudulent
-    within 'td:eq(6)' do
+    within 'td:eq(9)' do
       click_button "Mark as non fraudulent #{@application_form_one.last_name}"
     end
   end
@@ -153,7 +155,7 @@ RSpec.feature 'See Fraud Auditing matches' do
   end
 
   def then_i_should_see_an_updated_dashboard
-    within 'td:eq(8)' do
+    within 'td:eq(7)' do
       expect(page).to have_content 'Unblock'
     end
   end
@@ -169,7 +171,7 @@ RSpec.feature 'See Fraud Auditing matches' do
   end
 
   def then_i_should_see_the_dashboard_updated_again
-    within 'td:eq(8)' do
+    within 'td:eq(7)' do
       expect(page).to have_content 'Block'
     end
   end
