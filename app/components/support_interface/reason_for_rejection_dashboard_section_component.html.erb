@@ -17,13 +17,15 @@
         size: :reduced,
       ) %>
     </div>
-    <div class="govuk-grid-column-one-half">
-      <%= render SupportInterface::TileComponent.new(
-        count: percentage_rejected_for_reason_this_month,
-        label: number_of_rejections_out_of_total_this_month,
-        size: :reduced,
-      ) %>
-    </div>
+    <% if @recruitment_cycle_year == RecruitmentCycle.current_year %>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: percentage_rejected_for_reason_this_month,
+          label: number_of_rejections_out_of_total_this_month,
+          size: :reduced,
+        ) %>
+      </div>
+    <% end %>
   </div>
   <% if @sub_reasons_result %>
     <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(

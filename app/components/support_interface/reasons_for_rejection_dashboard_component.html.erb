@@ -57,6 +57,7 @@
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
   heading: 'Honesty and professionalism',
+  rejection_reasons: rejection_reasons,
   total_rejection_count: total_structured_rejection_reasons_count,
   total_rejection_count_this_month: total_structured_rejection_reasons_count_this_month,
   reason_key: :honesty_and_professionalism_y_n,

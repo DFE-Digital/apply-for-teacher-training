@@ -128,7 +128,18 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
     it 'renders other advice section' do
       section = rendered_component.css('.app-section')[9]
       expect(heading_text(section)).to eq('Additional advice or feedback')
-      expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
+      expect(summary_text(section)).to eq(['0%', '0 of 12 rejections included this category'])
+    end
+
+    context 'for a previous recruitment cycle' do
+      subject(:component) do
+        described_class.new(rejection_reasons, 12, 9, RecruitmentCycle.previous_year)
+      end
+
+      it 'only renders the all time glance metrics' do
+        section = rendered_component.css('.app-section')[0]
+        expect(section.css('.app-card').text.gsub(/\s+/, ' ').strip).to eq('25% 3 of 12 rejections included this category')
+      end
     end
   end
 end
