@@ -31,13 +31,11 @@ class MakeOffer
           SetDeclineByDefault.new(application_form: application_choice.application_form).call
         end
 
-        if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-          CancelUpcomingInterviews.new(
-            actor: actor,
-            application_choice: application_choice,
-            cancellation_reason: I18n.t('interview_cancellation.reason.offer_made'),
-          ).call!
-        end
+        CancelUpcomingInterviews.new(
+          actor: actor,
+          application_choice: application_choice,
+          cancellation_reason: I18n.t('interview_cancellation.reason.offer_made'),
+        ).call!
 
         SendNewOfferEmailToCandidate.new(application_choice: application_choice).call
       end
