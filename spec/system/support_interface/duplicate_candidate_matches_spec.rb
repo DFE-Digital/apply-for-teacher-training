@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See Fraud Auditing matches' do
+RSpec.feature 'See Duplicate candidate matches' do
   include DfESignInHelpers
 
   around do |example|
@@ -10,7 +10,7 @@ RSpec.feature 'See Fraud Auditing matches' do
     end
   end
 
-  scenario 'Support agent visits Fraud Auditing Dashboard page', sidekiq: true do
+  scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
     and_the_feature_flag_is_active
     and_i_go_to_fraud_auditing_dashboard_page

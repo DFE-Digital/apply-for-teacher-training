@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[5].text).to include('No')
       expect(result.css('td')[5].text).to include('Yes')
       expect(result.css('td')[6].text).to include('Block')
-      expect(result.css('td')[6].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match1.id}/block-submission")
+      expect(result.css('td')[6].children[1].attributes['href'].value).to include("/support/duplicate-candidate-matches/#{fraud_match1.id}/block-submission")
       expect(result.css('td')[8].text).to include('No')
       expect(result.css('td')[8].text).to include('Mark as fraudulent')
     end
@@ -56,7 +56,7 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
       expect(result.css('td')[5].text).to include('No')
       expect(result.css('td')[5].text).to include('Yes')
       expect(result.css('td')[6].text).to include('Block')
-      expect(result.css('td')[6].children[1].attributes['href'].value).to include("/support/fraud-auditing-dashboard/#{fraud_match2.id}/block-submission")
+      expect(result.css('td')[6].children[1].attributes['href'].value).to include("/support/duplicate-candidate-matches/#{fraud_match2.id}/block-submission")
       expect(result.css('td')[8].text).to include('Yes')
       expect(result.css('td')[8].text).to include('Mark as non fraudulent')
     end
