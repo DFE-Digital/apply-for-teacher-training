@@ -78,6 +78,26 @@ RSpec.describe GetRecruitedApplicationChoices do
     expect(application_choices).to be_empty
   end
 
+  it 'returns reinstated deferred applications that have since been recruited when in the matching year' do
+    create(
+      :application_choice,
+      :with_deferred_offer,
+      application_form: build(:application_form, recruitment_cycle_year: '2021'),
+      current_course_option: course_option_for_year('2022'),
+    )
+
+    reinstated_application = create(
+      :application_choice,
+      :with_deferred_offer,
+      :with_recruited,
+      application_form: build(:application_form, recruitment_cycle_year: '2021'),
+      current_course_option: course_option_for_year('2022'),
+    )
+
+    application_choices = described_class.call(recruitment_cycle_year: '2022')
+    expect(application_choices).to contain_exactly(reinstated_application)
+  end
+
   it 'returns nothing if no applications available for year given' do
     create(
       :application_choice,
