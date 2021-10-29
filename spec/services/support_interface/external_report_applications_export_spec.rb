@@ -126,51 +126,7 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
     end
 
     def create_subjects
-      [
-        'Primary',
-        'Primary with English',
-        'Primary with geography and history',
-        'Primary with mathematics',
-        'Primary with modern languages',
-        'Primary with physical education',
-        'Primary with science',
-        'Art and design',
-        'Science',
-        'Biology',
-        'Business studies',
-        'Chemistry',
-        'Citizenship',
-        'Classics',
-        'Communication and media studies',
-        'Computing',
-        'Dance',
-        'Design and technology',
-        'Drama',
-        'Economics',
-        'English',
-        'Geography',
-        'Health and social care',
-        'History',
-        'Mathematics',
-        'Music',
-        'Philosophy',
-        'Physical education',
-        'Physics',
-        'Psychology',
-        'Religious education',
-        'Social sciences',
-        'French',
-        'English as a second or other language',
-        'German',
-        'Italian',
-        'Japanese',
-        'Mandarin',
-        'Russian',
-        'Spanish',
-        'Further education',
-        'Modern Languages',
-        'Modern languages (other)',
-      ]
+      (Subjects::PRIMARY_SUBJECT_NAMES + Subjects::SECONDARY_SUBJECT_NAMES)
        .each { |subject_name| create(:subject, name: subject_name) }
     end
 

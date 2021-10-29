@@ -11,6 +11,7 @@ FactoryBot.define do
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
     age_range { '4 to 8' }
     withdrawn { false }
+    program_type { 'scitt_programme' }
 
     funding_type { %w[fee salary apprenticeship].sample }
     course_subjects { [association(:course_subject, course: instance)] }
