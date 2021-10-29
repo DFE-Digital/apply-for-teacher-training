@@ -16,8 +16,6 @@ module SupportInterface
       validates :audit_comment, presence: true
       validate :candidate_provided_nationality
 
-      UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English'].freeze
-
       def self.build_from_application(application_form)
         new(
           application_form.build_nationalities_hash,

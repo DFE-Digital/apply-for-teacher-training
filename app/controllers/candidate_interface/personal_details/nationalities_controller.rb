@@ -67,7 +67,7 @@ module CandidateInterface
       end
 
       def british_or_irish?
-        (NationalitiesForm::UK_AND_IRISH_NATIONALITIES & current_application.nationalities).present?
+        (UK_AND_IRISH_NATIONALITIES & current_application.nationalities).present?
       end
 
       def right_to_work_path(application_form)
