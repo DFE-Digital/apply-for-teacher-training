@@ -62,4 +62,12 @@ class Clock
     )
     DataExporter.perform_async(SupportInterface::ExternalReportApplicationsExport, export.id, {})
   end
+
+  every(1.day, 'Generate candidates export for the External Report', at: '00:00', if: ->(t) { t.day == 1 }) do
+    export = DataExport.create!(
+      name: 'External report candidates',
+      export_type: :external_report_candidates,
+    )
+    DataExporter.perform_async(SupportInterface::ExternalReportCandidatesExport, export.id, {})
+  end
 end
