@@ -17,7 +17,7 @@ module ProviderInterface
 
     def update_conditions
       @wizard = wizard_for_step('conditions')
-      if @wizard.valid?
+      if @wizard.valid_for_current_step?
         @wizard.save_state!
         redirect_to next_path
       else
@@ -33,7 +33,7 @@ module ProviderInterface
     def commit
       @wizard = wizard_for_step('check')
 
-      render :check and return unless @wizard.valid?
+      render :check and return unless @wizard.valid_for_current_step?
 
       service_class = if @wizard.conditions_met?
                         ReinstateConditionsMet

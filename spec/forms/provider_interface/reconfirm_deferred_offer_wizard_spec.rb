@@ -69,7 +69,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
 
       it 'requires confirmed status of conditions' do
         this_state = state_store_for(application_choice_id: application_choice.id)
-        expect(wizard_for(this_state)).not_to be_valid
+        expect(wizard_for(this_state)).not_to be_valid_for_current_step
 
         this_state = state_store_for(
           application_choice_id: application_choice.id,
@@ -89,7 +89,7 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
           application_choice_id: application_choice.id,
           conditions_status: 'met',
         )
-        expect(wizard_for(this_state)).not_to be_valid
+        expect(wizard_for(this_state)).not_to be_valid_for_current_step
 
         this_state = state_store_for(
           application_choice_id: application_choice.id,
@@ -211,40 +211,6 @@ RSpec.describe ProviderInterface::ReconfirmDeferredOfferWizard do
     it 'returns \'conditions\' step if on the check step' do
       wizard = described_class.new(state_store, current_step: 'check')
       expect(wizard.previous_step).to eq(:conditions)
-    end
-  end
-
-  describe 'initializer' do
-    it 'deserializes state' do
-      state_store = state_store_for(application_choice_id: application_choice.id)
-      wizard = described_class.new(state_store, current_step: 'new')
-      expect(wizard.application_choice_id).to eq application_choice.id
-    end
-  end
-
-  describe '#save_state!' do
-    it 'serializes state to state store' do
-      state_store = state_store_for(application_choice_id: application_choice.id)
-      wizard = described_class.new(state_store)
-      wizard.course_option_id = 99
-
-      wizard.save_state!
-
-      expect(JSON.parse(state_store.read).symbolize_keys).to eq({
-        application_choice_id: application_choice.id,
-        course_option_id: 99,
-      })
-    end
-  end
-
-  describe '#clear_state!' do
-    it 'purges all state' do
-      state_store = state_store_for(application_choice_id: application_choice.id)
-      wizard = described_class.new(state_store)
-
-      wizard.clear_state!
-
-      expect(state_store.read).to be_nil
     end
   end
 end

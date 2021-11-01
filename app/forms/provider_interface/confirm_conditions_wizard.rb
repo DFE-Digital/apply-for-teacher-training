@@ -1,16 +1,10 @@
 module ProviderInterface
   class ConfirmConditionsWizard
-    include ActiveModel::Model
+    include Wizard
 
     attr_accessor :statuses, :offer
 
     validate :all_conditions_have_a_status_selected
-
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.merge(attrs))
-    end
 
     def conditions
       duplicate_conditions = offer.conditions.map { |condition| duplicate_condition_with_id(condition) }
@@ -26,14 +20,6 @@ module ProviderInterface
 
     def any_condition_not_met?
       conditions.any?(&:unmet?)
-    end
-
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
     end
 
   private
@@ -60,17 +46,6 @@ module ProviderInterface
           errors.add(field_name, error.message)
         end
       end
-    end
-
-    def last_saved_state
-      saved_state = @state_store.read
-      saved_state ? JSON.parse(saved_state) : {}
-    end
-
-    def state
-      as_json(
-        except: %w[state_store errors validation_context],
-      ).to_json
     end
 
     def create_method(name, &block)
