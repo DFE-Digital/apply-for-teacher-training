@@ -101,7 +101,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def then_i_am_prompted_for_my_name
-    expect(page).to have_content('What is your name?')
+    expect(page).to have_content(t('application_form.references.candidate_name.first_name.label'))
   end
 
   def when_i_continue_without_entering_my_name
@@ -114,8 +114,8 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def when_i_enter_my_name
-    fill_in 'First name', with: 'Topsy'
-    fill_in 'Last name', with: 'Turvey'
+    fill_in t('application_form.references.candidate_name.first_name.label'), with: 'Topsy'
+    fill_in t('application_form.references.candidate_name.last_name.label'), with: 'Turvey'
     click_button t('save_and_continue')
   end
 
