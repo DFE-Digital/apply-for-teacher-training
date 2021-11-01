@@ -172,7 +172,7 @@ module ProviderInterface
     end
 
     def excessive_word_count?(value, count = 100)
-      value.present? && value.scan(/\w+/).size > count
+      value.present? && value.scan(/\S+/).size > count
     end
 
     def to_model
