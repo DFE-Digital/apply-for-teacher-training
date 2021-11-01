@@ -19,7 +19,8 @@ module SupportInterface
   private
 
     def ordered_sub_reason_results(sub_reasons_result)
-      sub_reasons_result.slice(*ReasonsForRejectionCountQuery::SUBREASON_VALUES[@reason_key].map(&:to_s))
+      sub_reason_values = ReasonsForRejectionCountQuery::SUBREASON_VALUES[@reason_key]
+      sub_reasons_result.slice(*sub_reason_values.map(&:to_s)) if sub_reason_values.present?
     end
 
     def number_of_rejections_out_of_total_rejections

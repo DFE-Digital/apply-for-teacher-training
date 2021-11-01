@@ -20,23 +20,23 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
   let(:rejection_reasons) do
     ActiveSupport::HashWithIndifferentAccess.new({
       candidate_behaviour_y_n: result(3, 1, {
-        didnt_reply_to_interview_offer: result(1, 0),
-        didnt_attend_interview: result(2, 1),
-        other: result,
+        'didnt_reply_to_interview_offer' => result(1, 0),
+        'didnt_attend_interview' => result(2, 1),
+        'other' => result,
       }),
       qualifications_y_n: result(4, 2, {
-        no_maths_gcse: result,
-        no_english_gcse: result(2, 1),
-        no_science_gcse: result(1, 1),
-        no_degree: result(1, 0),
-        other: result,
+        'no_maths_gcse' => result,
+        'no_english_gcse' => result(2, 1),
+        'no_science_gcse' => result(1, 1),
+        'no_degree' => result(1, 0),
+        'other' => result,
       }),
       quality_of_application_y_n: result,
       honesty_and_professionalism_y_n: result,
       safeguarding_y_n: result(1, 1, {
-        candidate_disclosed_information: result,
-        vetting_disclosed_information: result(1, 1),
-        other: result,
+        'candidate_disclosed_information' => result,
+        'vetting_disclosed_information' => result(1, 1),
+        'other' => result,
       }),
       cannot_sponsor_visa_y_n: result(2, 0),
       course_full_y_n: result(1, 1),
@@ -65,40 +65,22 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
       end
     end
 
-    it 'renders course full section' do
-      section = rendered_component.css('.app-section')[0]
-      expect(heading_text(section)).to eq('Course full')
-      expect(summary_text(section)).to eq(['8.33%', '1 of 12 application choices'])
-    end
-
     it 'renders detailed candidate behaviour section' do
-      section = rendered_component.css('.app-section')[1]
+      section = rendered_component.css('.app-section')[0]
       expect(heading_text(section)).to eq('Candidate behaviour')
       expect(summary_text(section)).to eq(['25%', '3 of 12 application choices'])
       expect(details_text(section, 1)).to eq(['Didn’t reply to our interview offer', '8.33%', '1 of 12', '33.33%', '1 of 3', '0%', '0 of 9', '0%', '0 of 1'])
       expect(details_text(section, 2)).to eq(['Didn’t attend interview', '16.67%', '2 of 12', '66.67%', '2 of 3', '11.11%', '1 of 9', '100%', '1 of 1'])
     end
 
-    it 'renders honesty and professionalism section' do
-      section = rendered_component.css('.app-section')[2]
-      expect(heading_text(section)).to eq('Honesty and professionalism')
-      expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
-    end
-
-    it 'renders alternative course section' do
-      section = rendered_component.css('.app-section')[3]
-      expect(heading_text(section)).to eq('Offered on another course')
-      expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
-    end
-
-    it 'renders interview section' do
-      section = rendered_component.css('.app-section')[4]
-      expect(heading_text(section)).to eq('Performance at interview')
+    it 'renders quality of application section' do
+      section = rendered_component.css('.app-section')[1]
+      expect(heading_text(section)).to eq('Quality of application')
       expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
     end
 
     it 'renders qualifications section' do
-      section = rendered_component.css('.app-section')[5]
+      section = rendered_component.css('.app-section')[2]
       expect(heading_text(section)).to eq('Qualifications')
       expect(summary_text(section)).to eq(['33.33%', '4 of 12 application choices'])
       expect(details_text(section, 1)).to eq(['No Maths GCSE grade 4 (C) or above, or valid equivalent', '0%', '0 of 12', '0%', '0 of 4', '0%', '0 of 9', '0%', '0 of 2'])
@@ -106,9 +88,27 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
       expect(details_text(section, 3)).to eq(['No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)', '8.33%', '1 of 12', '25%', '1 of 4', '11.11%', '1 of 9', '50%', '1 of 2'])
     end
 
-    it 'renders quality of application section' do
+    it 'renders interview section' do
+      section = rendered_component.css('.app-section')[3]
+      expect(heading_text(section)).to eq('Performance at interview')
+      expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
+    end
+
+    it 'renders course full section' do
+      section = rendered_component.css('.app-section')[4]
+      expect(heading_text(section)).to eq('Course full')
+      expect(summary_text(section)).to eq(['8.33%', '1 of 12 application choices'])
+    end
+
+    it 'renders alternative course section' do
+      section = rendered_component.css('.app-section')[5]
+      expect(heading_text(section)).to eq('Offered on another course')
+      expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
+    end
+
+    it 'renders honesty and professionalism section' do
       section = rendered_component.css('.app-section')[6]
-      expect(heading_text(section)).to eq('Quality of application')
+      expect(heading_text(section)).to eq('Honesty and professionalism')
       expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
     end
 
@@ -127,7 +127,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
 
     it 'renders other advice section' do
       section = rendered_component.css('.app-section')[9]
-      expect(heading_text(section)).to eq('Other advice or feedback')
+      expect(heading_text(section)).to eq('Additional advice or feedback')
       expect(summary_text(section)).to eq(['0%', '0 of 12 application choices'])
     end
   end
