@@ -18,6 +18,9 @@ test do
   view_results_tree
   thread_count = THREAD_COUNT
   random_timer 1000, 2000 * WAIT_FACTOR
+  csv_data_set_config filename: 'jmeter-find-params.csv',
+                      ignoreFirstLine: true,
+                      quotedData: true
 
   threads count: thread_count, rampup: RAMPUP, continue_forever: true, duration: 3600 do
     visit name: 'Start page', url: url('/') do
@@ -25,7 +28,7 @@ test do
     end
 
     submit!(
-      'Start page - search by postcode',
+      'Start page',
       '/results/filter/location',
       {
         'utf8': '✓',
@@ -37,30 +40,51 @@ test do
         'prev_rad': 'none',
         'prev_query': 'none',
         'prev_lq': 'none',
-        'l': '1',
-        'lq': 'M1+2WD',
-        'query': ''
+        'l': '${L}',
+        'loc': '${LOC}',
+        'lng': '${LNG}',
+        'lat': '${LAT}',
+        'query': '${QUERY}',
+        'lq': '${LQ}',
+        'subject_codes[]': ['${SUBJECT_CODES_1}', '${SUBJECT_CODES_2}', '${SUBJECT_CODES_3}', '${SUBJECT_CODES_4}', '${SUBJECT_CODES_5}', '${SUBJECT_CODES_6}'].compact,
+        'qualifications': '${QUALIFICATIONS}',
+        'c': '${C}',
+        'senCourses': '${SEN_COURSES}',
+        'degree_required': '${DEGREE_REQUIRED}',
+        'fulltime': '${FULLTIME}',
+        'parttime': '${PARTTIME}',
+        'funding': '${FUNDING}',
+        'page': '${PAGE}',
+        'sortby': '${SORT_BY}'
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
 
     submit!(
-      'Subject page - select Primary (after postcode choice)',
+      'Subject page',
       '/results/filter/subject',
       {
         'utf8': '✓',
         'authenticity_token' => '${authenticity_token}',
-        'c': 'England',
-        'l': '1',
-        'lat': '53.4787275',
-        'lng': '-2.2290767',
-        'loc': 'Store+St,+Manchester+M1+2WD,+UK',
-        'lq': 'M1+2WD',
-        'rad': '50',
-        'sortby': '2',
-        'subject_codes[]': '00'
-
+        'c': '${C}',
+        'l': '${L}',
+        'lat': '${LAT}',
+        'lng': '${LNG}',
+        'loc': '${LOC}',
+        'lq': '${LQ}',
+        'rad': '${RAD}',
+        'sortby': '${SORT_BY}',
+        'subject_codes[]': ['${SUBJECT_CODES_1}', '${SUBJECT_CODES_2}', '${SUBJECT_CODES_3}', '${SUBJECT_CODES_4}', '${SUBJECT_CODES_5}', '${SUBJECT_CODES_6}'].compact,
+        'page': '${PAGE}',
+        'senCourses': '${SEN_COURSES}',
+        'qualifications': '${QUALIFICATIONS}',
+        'fulltime': '${FULLTIME}',
+        'parttime': '${PARTTIME}',
+        'degree_required': '${DEGREE_REQUIRED}',
+        'hasvacancies': '${HAS_VACANCIES}',
+        'query': '${QUERY}',
+        'funding': '${FUNDING}'
       },
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
@@ -74,7 +98,7 @@ test do
     end
 
     submit!(
-      'Start page - search across England',
+      'Start page',
       '/results/filter/location',
       {
         'utf8': '✓',
@@ -86,22 +110,51 @@ test do
         'prev_rad': 'none',
         'prev_query': 'none',
         'prev_lq': 'none',
-        'lq': '',
-        'l': '2',
-        'query': ''
+        'l': '${L}',
+        'loc': '${LOC}',
+        'lng': '${LNG}',
+        'lat': '${LAT}',
+        'query': '${QUERY}',
+        'lq': '${LQ}',
+        'subject_codes[]': ['${SUBJECT_CODES_1}', '${SUBJECT_CODES_2}', '${SUBJECT_CODES_3}', '${SUBJECT_CODES_4}', '${SUBJECT_CODES_5}', '${SUBJECT_CODES_6}'].compact,
+        'qualifications': '${QUALIFICATIONS}',
+        'c': '${C}',
+        'senCourses': '${SEN_COURSES}',
+        'degree_required': '${DEGREE_REQUIRED}',
+        'fulltime': '${FULLTIME}',
+        'parttime': '${PARTTIME}',
+        'funding': '${FUNDING}',
+        'page': '${PAGE}',
+        'sortby': '${SORT_BY}'
       }
     ) do
       extract name: 'authenticity_token', regex: 'name="authenticity_token" value="(.+?)"'
     end
 
     submit!(
-      'Subject page - select Primary with English (after across England choice)',
+      'Subject page',
       '/results/filter/subject',
       {
         'utf8': '✓',
         'authenticity_token' => '${authenticity_token}',
-        'l': '2',
-        'subject_codes[]': '01'
+        'c': '${C}',
+        'l': '${L}',
+        'lat': '${LAT}',
+        'lng': '${LNG}',
+        'loc': '${LOC}',
+        'lq': '${LQ}',
+        'rad': '${RAD}',
+        'sortby': '${SORT_BY}',
+        'subject_codes[]': ['${SUBJECT_CODES_1}', '${SUBJECT_CODES_2}', '${SUBJECT_CODES_3}', '${SUBJECT_CODES_4}', '${SUBJECT_CODES_5}', '${SUBJECT_CODES_6}'].compact,
+        'page': '${PAGE}',
+        'senCourses': '${SEN_COURSES}',
+        'qualifications': '${QUALIFICATIONS}',
+        'fulltime': '${FULLTIME}',
+        'parttime': '${PARTTIME}',
+        'degree_required': '${DEGREE_REQUIRED}',
+        'hasvacancies': '${HAS_VACANCIES}',
+        'query': '${QUERY}',
+        'funding': '${FUNDING}'
       }
     ) do
       extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
@@ -114,7 +167,7 @@ test do
     end
 
     submit!(
-      'Start page - search for provider Gorse SCITT',
+      'Start page',
       '/results/filter/location',
       {
         'utf8': '✓',
@@ -126,9 +179,22 @@ test do
         'prev_rad': 'none',
         'prev_query': 'none',
         'prev_lq': 'none',
-        'lq': '',
-        'l': '3',
-        'query': 'gorse scitt'
+        'l': '${L}',
+        'loc': '${LOC}',
+        'lng': '${LNG}',
+        'lat': '${LAT}',
+        'query': '${QUERY}',
+        'lq': '${LQ}',
+        'subject_codes[]': ['${SUBJECT_CODES_1}', '${SUBJECT_CODES_2}', '${SUBJECT_CODES_3}', '${SUBJECT_CODES_4}', '${SUBJECT_CODES_5}', '${SUBJECT_CODES_6}'].compact,
+        'qualifications': '${QUALIFICATIONS}',
+        'c': '${C}',
+        'senCourses': '${SEN_COURSES}',
+        'degree_required': '${DEGREE_REQUIRED}',
+        'fulltime': '${FULLTIME}',
+        'parttime': '${PARTTIME}',
+        'funding': '${FUNDING}',
+        'page': '${PAGE}',
+        'sortby': '${SORT_BY}'
       }
     ) do
       extract name: 'course_page', regex: 'data-qa="course__link" class="govuk-link" href="(.+)"'
