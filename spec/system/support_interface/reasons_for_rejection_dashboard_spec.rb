@@ -289,7 +289,8 @@ private
         structured_rejection_reasons: { candidate_behaviour_y_n: 'Yes' },
       ),
     )
-    expect(page).to have_content('Showing application choices with rejection reason Something you did')
+    expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
+    expect(page).to have_css('h1', text: 'Something you did')
     [
       @application_choice1,
       @application_choice2,
@@ -331,7 +332,8 @@ private
       ),
     )
 
-    expect(page).to have_content('Showing application choices with rejection reason Something you did - Didn’t attend interview')
+    expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
+    expect(page).to have_css('h1', text: 'Something you did - Didn’t attend interview')
 
     [
       @application_choice1,
