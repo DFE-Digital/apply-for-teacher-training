@@ -20,7 +20,6 @@ module DataAPI
 
     def data_for_export(*)
       counts
-      {}
     end
 
     def counts
@@ -34,34 +33,66 @@ module DataAPI
 
     def query
       <<-SQL
-        SELECT
-          application_forms.id,
-          ARRAY_AGG(ARRAY[application_choices.status, subjects.name]),
-          CASE
-            WHEN first_nationality IS NULL OR first_nationality = '' THEN NULL
-            WHEN array[#{uk_nationalities}]::varchar[] && array[first_nationality, second_nationality, third_nationality, fourth_nationality] THEN 'UK'
-            WHEN array[#{eu_nationalities}]::varchar[] && array[first_nationality, second_nationality, third_nationality, fourth_nationality] THEN 'EU'
-            ELSE 'Not EU'
-          END nationality,
-          CASE
-            WHEN application_forms.country IS NULL OR application_forms.country = '' THEN NULL
-            WHEN array[#{uk_country_codes}]::varchar[] && array[application_forms.country] THEN 'UK'
-            WHEN array[#{eu_country_codes}]::varchar[] && array[application_forms.country] THEN 'EU'
-            ELSE 'Not EU'
-          END domocile
-        FROM application_choices
-        INNER JOIN application_forms ON application_choices.application_form_id = application_forms.id
-        INNER JOIN course_options ON application_choices.course_option_id = course_options.id
-        INNER JOIN courses ON courses.id = course_options.course_id
-        INNER JOIN course_subjects ON courses.id = course_subjects.course_id
-        INNER JOIN subjects ON subjects.id = course_subjects.subject_id
-        WHERE application_forms.recruitment_cycle_year = 2022
-          AND (application_forms.phase = 'apply_1' OR
-            (application_forms.phase = 'apply_1' AND application_forms.id NOT IN
-              (SELECT id FROM application_forms WHERE previous_application_form_id IS NOT NULL)
-            )
+        WITH applications AS (
+          SELECT
+            application_forms.id,
+            ARRAY_AGG(subjects.name) subjects,
+            CASE
+              WHEN 'recruited' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['0', 'recruited']
+              WHEN 'offer_deferred' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['1', 'offer_deferred']
+              WHEN 'pending_conditions' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['2', 'pending_conditions']
+              WHEN 'offer' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['3', 'offer']
+              WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['4', 'awaiting_provider_decision']
+              WHEN 'declined' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['5', 'declined']
+              WHEN 'rejected' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['6', 'rejected']
+              WHEN 'conditions_not_met' = ANY(ARRAY_AGG(application_choices.status)) THEN ARRAY['7', 'conditions_not_met']
+            END status,
+            CASE
+              WHEN first_nationality IS NULL OR first_nationality = '' THEN NULL
+              WHEN array[#{uk_nationalities}]::varchar[] && array[first_nationality, second_nationality, third_nationality, fourth_nationality] THEN 'UK'
+              WHEN array[#{eu_nationalities}]::varchar[] && array[first_nationality, second_nationality, third_nationality, fourth_nationality] THEN 'EU'
+              ELSE 'Not EU'
+            END nationality,
+            CASE
+              WHEN application_forms.country IS NULL OR application_forms.country = '' THEN NULL
+              WHEN array[#{uk_country_codes}]::varchar[] && array[application_forms.country] THEN 'UK'
+              WHEN array[#{eu_country_codes}]::varchar[] && array[application_forms.country] THEN 'EU'
+              ELSE 'Not EU'
+            END domicile
+            FROM application_choices
+            INNER JOIN application_forms ON application_choices.application_form_id = application_forms.id
+            INNER JOIN candidates ON application_forms.candidate_id = candidates.id
+            INNER JOIN course_options ON application_choices.course_option_id = course_options.id
+            INNER JOIN courses ON courses.id = course_options.course_id
+            INNER JOIN course_subjects ON courses.id = course_subjects.course_id
+            INNER JOIN subjects ON subjects.id = course_subjects.subject_id
+            WHERE NOT candidates.hide_in_reporting
+              AND application_forms.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+              AND (
+                NOT EXISTS (
+                  SELECT 1
+                  FROM application_forms
+                  AS subsequent_application_forms
+                  WHERE application_forms.id = subsequent_application_forms.previous_application_form_id
+                )
+              )
+            GROUP BY application_forms.id, application_forms.country, application_forms.first_nationality
           )
-        GROUP BY application_forms.id, application_forms.country, application_forms.first_nationality;
+          SELECT
+            applications.status[2],
+            applications.subjects,
+            applications.nationality,
+            applications.domicile,
+            COUNT(*)
+          FROM
+            applications
+          GROUP BY
+            applications.status,
+            applications.subjects,
+            applications.nationality,
+            applications.domicile
+          ORDER BY
+            applications.status[1];
       SQL
     end
 
