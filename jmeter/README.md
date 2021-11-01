@@ -61,3 +61,9 @@ cf stop apply-jmeter  # to stop the app
 ```
 
 Run `terraform destroy` to delete the app once your testing is complete, you can run `terraform apply` again to recreate/update the app.
+
+## Other docs
+
+- [How to restore Grafana load-testing dashboards](docs/grafana.md)
+- [How to generate CSV files from logstash logs](docs/csv_from_logstash.md)
+
