@@ -70,16 +70,17 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
   end
 
   def then_i_should_see_reasons_for_rejection_dashboard
-    then_i_should_see_reasons_for_rejection_course_full
+    then_i_should_see_reasons_for_rejection_title_and_details
     and_i_should_see_reasons_for_rejection_candidate_behaviour
-    and_i_should_see_reasons_for_rejection_honesty_and_professionalism
-    and_i_should_see_reasons_for_rejection_offered_on_another_course
-    and_i_should_see_reasons_for_rejection_other_advice_or_feedback
-    and_i_should_see_reasons_for_rejection_performance_at_interview
-    and_i_should_see_reasons_for_rejection_qualifications
     and_i_should_see_reasons_for_rejection_quality_of_application
+    and_i_should_see_reasons_for_rejection_qualifications
+    and_i_should_see_reasons_for_rejection_course_full
+    and_i_should_see_reasons_for_rejection_offered_on_another_course
+    and_i_should_see_reasons_for_rejection_honesty_and_professionalism
+    and_i_should_see_reasons_for_rejection_performance_at_interview
     and_i_should_see_reasons_for_rejection_safeguarding_concerns
     and_i_should_see_reasons_for_rejection_cannot_sponsor_visa
+    and_i_should_see_reasons_for_rejection_other_advice_or_feedback
   end
 
   def and_i_should_see_sub_reasons_for_rejection
@@ -163,7 +164,14 @@ private
     )
   end
 
-  def then_i_should_see_reasons_for_rejection_course_full
+  def then_i_should_see_reasons_for_rejection_title_and_details
+    expect(page).to have_content('2020 to 2021 (starts 2021) - current Structured reasons for rejection')
+    expect(page).to have_content('Understanding this report')
+    expect(page).to have_content('The report does not include rejections made through the API.')
+    expect(page).to have_content('Since users can choose more than one reason for rejection, the percentages for all the categories will not add up to 100%.')
+  end
+
+  def and_i_should_see_reasons_for_rejection_course_full
     within '#course-full' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 rejections included this category')
