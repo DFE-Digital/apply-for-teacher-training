@@ -85,15 +85,6 @@
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
-  heading: 'Other reasons',
-  total_count: total_rejection_count('other_reasons_y_n'),
-  this_month: current_month_rejection_count('other_reasons_n'),
-  percentage_rejected: percentage_rejected_for_reason('other_reasons_y_n'),
-  total_structured_rejection_reasons_count: total_structured_rejection_reasons_count,
-  reason_key: :other_reasons_y_n,
-) %>
-
-<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
   heading: 'Additional advice or feedback',
   total_count: total_rejection_count('other_advice_or_feedback_y_n'),
   this_month: current_month_rejection_count('other_advice_or_feedback_y_n'),
