@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
   end
 
   it 'renders the interview time' do
-    time_row = find_table_row('Time')
+    time_row = find_table_row('Start time')
     expect(time_row.text).to include('3:30pm')
   end
 
@@ -61,7 +61,7 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
     end
 
     it 'time' do
-      time_row = find_table_row('Time')
+      time_row = find_table_row('Start time')
       expect(time_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider-interface-interview-wizard-time-field')
     end
 

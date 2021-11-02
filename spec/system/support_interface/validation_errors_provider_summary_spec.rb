@@ -38,7 +38,7 @@ RSpec.feature 'Validation errors provider summary' do
     fill_in 'Month', with: tomorrow.month
     fill_in 'Year', with: tomorrow.year
 
-    fill_in 'Time', with: '45pm'
+    fill_in 'Start time', with: '45pm'
 
     fill_in 'Address or online meeting details', with: 'We will let you know'
 

@@ -146,7 +146,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     fill_in 'Month', with: tomorrow.month
     fill_in 'Year', with: tomorrow.year
 
-    fill_in 'Time', with: time
+    fill_in 'Start time', with: time
 
     fill_in 'Address or online meeting details', with: 'N/A'
 
@@ -198,14 +198,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_field('Day', with: 1.day.from_now.day)
     expect(page).to have_field('Month', with: 1.day.from_now.month)
     expect(page).to have_field('Year', with: 1.day.from_now.year)
-    expect(page).to have_field('Time', with: '12:00pm')
+    expect(page).to have_field('Start time', with: '12:00pm')
     expect(page).to have_field('Address or online meeting details', with: 'N/A')
     expect(page).to have_field('Additional details (optional)', with: '')
 
     fill_in 'Day', with: 2.days.from_now.day
     fill_in 'Month', with: 2.days.from_now.month
     fill_in 'Year', with: 2.days.from_now.year
-    fill_in 'Time', with: '10am'
+    fill_in 'Start time', with: '10am'
 
     fill_in 'Address or online meeting details', with: 'Zoom meeting'
     fill_in 'Additional details (optional)', with: 'Business casual'
@@ -216,7 +216,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
     expect(page).to have_content("Date\n#{2.days.from_now.to_s(:govuk_date)}")
-    expect(page).to have_content("Time\n10am")
+    expect(page).to have_content("Start time\n10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
 
