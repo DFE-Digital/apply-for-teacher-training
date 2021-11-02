@@ -94,33 +94,33 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe 'after_commit' do
+  describe 'after_update' do
     describe 'updating region code' do
       before do
         allow(LookupAreaByPostcodeWorker).to receive(:perform_in).and_return(nil)
       end
 
       it 'sets value to `rest_of_the_world` for international addresses outside EEA' do
-        application_form = build(
-          :application_form,
+        application_form = create(:application_form, region_code: :london)
+
+        application_form.update!(
           country: 'IN',
           address_type: :international,
           international_address: '123 MG Road, Mumbai',
         )
-        application_form.save!
 
         expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in)
         expect(application_form.reload.rest_of_the_world?).to be(true)
       end
 
       it 'sets value to `european_economic_area` for international addresses inside EEA' do
-        application_form = build(
-          :application_form,
+        application_form = create(:application_form, region_code: :london)
+
+        application_form.update!(
           country: 'FR',
           address_type: :international,
           international_address: '123 Rue de Rivoli, Paris',
         )
-        application_form.save!
 
         expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in)
         expect(application_form.reload.european_economic_area?).to be(true)
@@ -132,23 +132,23 @@ RSpec.describe ApplicationForm do
         end
 
         it 'queues an LookupAreaByPostcodeWorker job for Westminster postcode' do
-          application_form = build(
-            :application_form,
+          application_form = create(:application_form)
+
+          application_form.update!(
             address_type: :uk,
             postcode: 'SW1P 3BT',
           )
-          application_form.save!
 
           expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
         end
 
         it 'queues an LookupAreaByPostcodeWorker job for Cardiff postcode' do
-          application_form = build(
-            :application_form,
+          application_form = create(:application_form)
+
+          application_form.update!(
             address_type: :uk,
             postcode: 'CF40 2QD',
           )
-          application_form.save!
 
           expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
         end
@@ -160,12 +160,12 @@ RSpec.describe ApplicationForm do
         end
 
         it 'does not queue an LookupAreaByPostcodeWorker job for Westminster postcode' do
-          application_form = build(
-            :application_form,
+          application_form = create(:application_form)
+
+          application_form.update!(
             address_type: :uk,
             postcode: 'SW1P 3BT',
           )
-          application_form.save!
 
           expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in).with(application_form.id)
         end
@@ -175,8 +175,9 @@ RSpec.describe ApplicationForm do
     describe 'geocoding address' do
       it 'invokes geocoding of UK addresses on create' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-        application_form = build(:completed_application_form)
-        application_form.save!
+        application_form = create(:application_form, :minimum_info)
+
+        application_form.update!(postcode: 'SE10NE')
 
         expect(GeocodeApplicationAddressWorker).to have_received(:perform_in).with(anything, application_form.id)
       end
@@ -190,7 +191,7 @@ RSpec.describe ApplicationForm do
           application_form.update!(address_attr => 'foo')
         end
 
-        expected_calls_to_worker = address_attributes.size + 1 # Each update plus the initial create
+        expected_calls_to_worker = address_attributes.size # Each update excluding the initial create
         expect(GeocodeApplicationAddressWorker)
           .to have_received(:perform_in)
           .with(anything, application_form.id)
@@ -199,16 +200,19 @@ RSpec.describe ApplicationForm do
 
       it 'does not invoke geocoding for international addresses' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-        application_form = build(:application_form, :international_address)
-        application_form.save!
+
+        application_form = create(:application_form, :minimum_info)
+
+        application_form.update!(address_type: :international)
 
         expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in).with(application_form.id)
       end
 
       it 'does not invoke geocoding if address fields have not been changed' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-        application_form = build(:application_form)
-        application_form.save!
+
+        application_form = create(:application_form, :minimum_info)
+
         application_form.update!(phone_number: 111111)
 
         expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in).with(application_form.id)
@@ -216,14 +220,13 @@ RSpec.describe ApplicationForm do
 
       it 'clears existing coordinates if address changed to international' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_in)
-        application_form = create(:completed_application_form, latitude: 1.5, longitude: 0.2)
+
+        application_form = create(:application_form, :minimum_info, latitude: 1.5, longitude: 0.2)
+
         application_form.update!(address_type: :international)
 
         expect([application_form.latitude, application_form.longitude]).to eq [nil, nil]
-        expect(GeocodeApplicationAddressWorker)
-          .to have_received(:perform_in)
-          .with(anything, application_form.id)
-          .exactly(1).times # The initial create only
+        expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_in)
       end
     end
   end
