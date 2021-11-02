@@ -4,7 +4,7 @@ RSpec.describe DataAPI::TADSubjectsExport do
   it_behaves_like 'a data export'
 
   describe '#data_for_export' do
-    it 'returns statistics for a counts application' do
+    it 'returns counts for a single application' do
       create_application(
         nationality: 'French',
         domicile: 'GB',
@@ -17,12 +17,43 @@ RSpec.describe DataAPI::TADSubjectsExport do
 
       expect(result).to eq([
         {
-          'subjects' => '{Mathematics}',
-          'status' => 'rejected',
-          'nationality' => 'EU',
-          'domicile' => 'UK',
-          'count' => 1,
+          subject: 'Mathematics',
+          status: 'rejected',
+          domicile: 'UK',
+          nationality: 'EU',
+          count: 1,
         }
+      ])
+    end
+
+    it 'returns statistics for an application with split subjects' do
+      create_application(
+        nationality: 'French',
+        domicile: 'GB',
+        application_choice_attrs: [
+          { status: :rejected, subjects: ['Mathematics'] },
+          { status: :offer, subjects: ['Physics'] },
+          { status: :offer, subjects: ['Mathematics'] },
+        ],
+      )
+
+      result = described_class.new.data_for_export
+
+      expect(result).to eq([
+        {
+          subject: 'Mathematics',
+          status: 'offer',
+          domicile: 'UK',
+          nationality: 'EU',
+          count: 0.5,
+        },
+        {
+          subject: 'Physics',
+          status: 'offer',
+          domicile: 'UK',
+          nationality: 'EU',
+          count: 0.5,
+        },
       ])
     end
 
