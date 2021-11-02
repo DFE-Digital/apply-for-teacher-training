@@ -3,3 +3,7 @@
 *token*
 !qa.tfvars
 !prod.tfvars
+!manage.tfvars
+!apply.tfvars
+!vendor.tfvars
+!find.tfvars
