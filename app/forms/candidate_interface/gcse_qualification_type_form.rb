@@ -5,7 +5,8 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :subject, :level, :qualification_type,
-                  :other_uk_qualification_type, :non_uk_qualification_type
+                  :other_uk_qualification_type, :non_uk_qualification_type,
+                  :enic_reference, :comparable_uk_qualification
 
     validates :subject, :level, :qualification_type, presence: true
 
@@ -21,6 +22,8 @@ module CandidateInterface
         qualification_type: qualification.qualification_type,
         other_uk_qualification_type: qualification.other_uk_qualification_type,
         non_uk_qualification_type: qualification.non_uk_qualification_type,
+        enic_reference: qualification.enic_reference,
+        comparable_uk_qualification: qualification.comparable_uk_qualification,
       )
     end
 
@@ -36,6 +39,8 @@ module CandidateInterface
         qualification_type: qualification_type,
         other_uk_qualification_type: other_uk_qualification_type,
         non_uk_qualification_type: non_uk_qualification_type,
+        enic_reference: enic_reference,
+        comparable_uk_qualification: comparable_uk_qualification,
       )
     end
 
@@ -58,12 +63,16 @@ module CandidateInterface
           currently_completing_qualification: nil,
           not_completed_explanation: nil,
           missing_explanation: nil,
+          enic_reference: nil,
+          comparable_uk_qualification: nil,
         )
       else
         qualification.update!(
           qualification_type: qualification_type,
           other_uk_qualification_type: other_uk_qualification_type,
           non_uk_qualification_type: non_uk_qualification_type,
+          enic_reference: enic_reference,
+          comparable_uk_qualification: comparable_uk_qualification,
           currently_completing_qualification: nil,
           not_completed_explanation: nil,
           missing_explanation: nil,
@@ -94,6 +103,8 @@ module CandidateInterface
     def reset_non_uk_qualification_type
       if qualification_type != NON_UK_QUALIFICATION_TYPE
         @non_uk_qualification_type = nil
+        @enic_reference = nil
+        @comparable_uk_qualification = nil
       end
     end
   end

@@ -100,6 +100,8 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
 
         expect(qualification.reload.qualification_type).to eq 'gcse'
         expect(qualification.non_uk_qualification_type).to eq nil
+        expect(qualification.enic_reference).to eq nil
+        expect(qualification.comparable_uk_qualification).to eq nil
       end
     end
 
