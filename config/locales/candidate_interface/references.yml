@@ -28,10 +28,10 @@ en:
           character: 'For example, ‘They are the head coach for my athletics club. I’ve known them for 5 years’.'
       candidate_name:
         first_name:
-          label: First name
+          label: Your first name
           hint_text: Or given names
         last_name:
-          label: Last name
+          label: Your last name
           hint_text: Or family name
       unsubmitted:
         label: Are you ready to send a reference request to %{reference_name}?
