@@ -105,11 +105,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_confirm_the_acceptance
-    if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-      expect(page).to have_content 'Your other applications will be withdrawn and any upcoming interviews will be cancelled.'
-    else
-      expect(page).to have_content 'By accepting this offer you understand that any other applications made through Apply for teacher training will be automatically withdrawn.'
-    end
+    expect(page).to have_content 'Your other applications will be withdrawn and any upcoming interviews will be cancelled.'
     click_button 'Accept offer'
   end
 

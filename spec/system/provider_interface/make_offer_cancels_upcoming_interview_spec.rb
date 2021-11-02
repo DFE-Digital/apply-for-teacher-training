@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Provider makes an offer on an application with interviews in the future' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
-  before do
-    FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made)
-  end
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in) }
   let(:provider) { provider_user.providers.first }
@@ -30,7 +27,7 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
     then_i_see_the_review_page_with_cancelling_interviews_warning_text
 
     when_i_send_the_offer
-    then_i_see_that_the_offer_was_successfuly_made
+    then_i_see_that_the_offer_was_successfully_made
     and_future_interviews_are_cancelled
   end
 
@@ -96,7 +93,7 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
     click_on 'Send offer'
   end
 
-  def then_i_see_that_the_offer_was_successfuly_made
+  def then_i_see_that_the_offer_was_successfully_made
     within('.govuk-notification-banner--success') do
       expect(page).to have_content('Offer sent')
     end

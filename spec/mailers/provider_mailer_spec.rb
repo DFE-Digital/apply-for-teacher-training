@@ -180,8 +180,6 @@ RSpec.describe ProviderMailer, type: :mailer do
     context 'when some interviews were cancelled' do
       let(:number_of_cancelled_interviews) { 2 }
 
-      before { FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made) }
-
       it_behaves_like('a mail with subject and content',
                       'Harry Potter (123A) withdrew their application',
                       'provider name' => 'Dear Johny English',

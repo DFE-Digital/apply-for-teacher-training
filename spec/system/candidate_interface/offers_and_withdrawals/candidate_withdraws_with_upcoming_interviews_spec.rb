@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'A candidate withdraws with upcoming interviews' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made) }
-
   scenario 'successful withdrawal' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_application_choice_with_an_upcoming_interview
