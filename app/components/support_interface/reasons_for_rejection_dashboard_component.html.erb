@@ -85,6 +85,15 @@
 ) %>
 
 <%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Other reasons',
+  rejection_reasons: rejection_reasons,
+  total_rejection_count: total_structured_rejection_reasons_count,
+  total_rejection_count_this_month: total_structured_rejection_reasons_count_this_month,
+  reason_key: :why_are_you_rejecting_this_application,
+  recruitment_cycle_year: recruitment_cycle_year,
+) %>
+
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
   heading: 'Additional advice or feedback',
   rejection_reasons: rejection_reasons,
   total_rejection_count: total_structured_rejection_reasons_count,

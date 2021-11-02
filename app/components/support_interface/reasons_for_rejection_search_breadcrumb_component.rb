@@ -30,7 +30,8 @@ module SupportInterface
   private
 
     def top_level_reason?
-      @search_attribute =~ /_y_n$/ && @search_value == 'Yes'
+      @search_attribute == ReasonsForRejection::OTHER_REASON.to_s || (
+        @search_attribute =~ /_y_n$/ && @search_value == 'Yes')
     end
   end
 end

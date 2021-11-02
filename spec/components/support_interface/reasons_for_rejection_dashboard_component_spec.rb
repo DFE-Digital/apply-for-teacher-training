@@ -42,6 +42,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
       course_full_y_n: result(1, 1),
       offered_on_another_course_y_n: result,
       performance_at_interview_y_n: result,
+      why_are_you_rejecting_this_application: result(2, 1),
       other_advice_or_feedback_y_n: result,
     })
   end
@@ -125,8 +126,14 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
       expect(summary_text(section)).to eq(['16.67%', '2 of 12 rejections included this category'])
     end
 
-    it 'renders other advice section' do
+    it 'renders other reasons section' do
       section = rendered_component.css('.app-section')[9]
+      expect(heading_text(section)).to eq('Other reasons')
+      expect(summary_text(section)).to eq(['16.67%', '2 of 12 rejections included this category'])
+    end
+
+    it 'renders other advice section' do
+      section = rendered_component.css('.app-section')[10]
       expect(heading_text(section)).to eq('Additional advice or feedback')
       expect(summary_text(section)).to eq(['0%', '0 of 12 rejections included this category'])
     end
