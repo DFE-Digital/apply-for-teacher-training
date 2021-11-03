@@ -1,4 +1,6 @@
 class PhaseBannerComponent < ViewComponent::Base
+  include ApplicationHelper
+
   DEFAULT_FEEDBACK_LINK = 'mailto:becomingateacher@digital.education.gov.uk?subject=Feedback%20about%20Apply%20for%20teacher%20training'.freeze
 
   def initialize(no_border: false, feedback_link: DEFAULT_FEEDBACK_LINK)
@@ -12,8 +14,12 @@ class PhaseBannerComponent < ViewComponent::Base
     end
 
     case HostingEnvironment.environment_name
-    when 'production', 'qa'
-      "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, class: 'govuk-link--no-visited-state')}".html_safe
+    when 'production', 'qa', 'development'
+      if current_namespace == 'candidate_interface'
+        govuk_link_to(t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-link--no-visited-state')
+      else
+        "This is a new service – #{govuk_link_to('give feedback or report a problem', @feedback_link, class: 'govuk-link--no-visited-state')}".html_safe
+      end
     when 'staging'
       'This is an internal environment used by DfE to test deploys'
     when 'development'
