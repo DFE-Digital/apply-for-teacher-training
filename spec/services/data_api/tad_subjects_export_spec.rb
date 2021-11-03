@@ -15,13 +15,15 @@ RSpec.describe DataAPI::TADSubjectsExport do
 
       result = described_class.new.data_for_export
 
-      expect(result).to eq([
+      expect(result).to match_array([
         {
           subject: 'Mathematics',
-          status: 'rejected',
           domicile: 'UK',
           nationality: 'EU',
-          count: 1,
+          adjusted_applications: 1,
+          adjusted_offers: 0,
+          pending_conditions: 0,
+          recruited: 0,
         }
       ])
     end
@@ -39,20 +41,24 @@ RSpec.describe DataAPI::TADSubjectsExport do
 
       result = described_class.new.data_for_export
 
-      expect(result).to eq([
+      expect(result).to match_array([
         {
           subject: 'Mathematics',
-          status: 'offer',
           domicile: 'UK',
           nationality: 'EU',
-          count: 0.5,
+          adjusted_applications: 0,
+          adjusted_offers: 0.5,
+          pending_conditions: 0,
+          recruited: 0,
         },
         {
           subject: 'Physics',
-          status: 'offer',
           domicile: 'UK',
           nationality: 'EU',
-          count: 0.5,
+          adjusted_applications: 0,
+          adjusted_offers: 0.5,
+          pending_conditions: 0,
+          recruited: 0,
         },
       ])
     end

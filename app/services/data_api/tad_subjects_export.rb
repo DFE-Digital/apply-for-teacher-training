@@ -36,23 +36,69 @@ module DataAPI
     def aggregate_results(results)
       indexed_counts = {}
       results.each do |result|
-        result['subject_statuses'].each do |subject, status|
-          key = [subject, status, result['domicile'], result['nationality']]
-          indexed_counts[key] = (indexed_counts[key] || 0) + 1
+        status, subjects = subjects_for_most_progressed_statuses(
+          subjects_indexed_by_status(result),
+        )
+
+        subjects.each do |subject|
+          key = [subject, result['domicile'], result['nationality']]
+          indexed_counts[key] ||= {
+            adjusted_applications: 0,
+            adjusted_offers: 0,
+            pending_conditions: 0,
+            recruited: 0,
+          }
+
+          increment_counts(indexed_counts, key, status, subjects.count)
         end
       end
       flatten_results(indexed_counts)
+    end
+
+    def subjects_indexed_by_status(result)
+      subjects_indexed_by_status = {}
+      result['subject_statuses'].each do |subject, status|
+        subjects_indexed_by_status[status.to_sym] ||= []
+        subjects_indexed_by_status[status.to_sym] << subject
+      end
+      subjects_indexed_by_status
+    end
+
+    def subjects_for_most_progressed_statuses(subjects_indexed_by_status)
+      if subjects_indexed_by_status.key?(:recruited)
+        subjects_indexed_by_status.reject! { |status| status != :recruited }
+      elsif subjects_indexed_by_status.key?(:pending_conditions)
+        subjects_indexed_by_status.reject! { |status| status != :pending_conditions }
+      elsif subjects_indexed_by_status.key?(:offer)
+        subjects_indexed_by_status.reject! { |status| status != :offer }
+      else
+        subjects_indexed_by_status = { other: subjects_indexed_by_status.values.flatten }
+      end
+      status, subjects = subjects_indexed_by_status.to_a.first
+
+      return status, subjects
+    end
+
+    def increment_counts(indexed_counts, key, status, count)
+      case status
+      when :recruited
+        indexed_counts[key][:recruited] += 1
+      when :pending_conditions
+        indexed_counts[key][:pending_conditions] += 1
+      when :offer
+        indexed_counts[key][:adjusted_offers] += (1 / count.to_f)
+      else
+        indexed_counts[key][:adjusted_applications] += (1 / count.to_f)
+      end
     end
 
     def flatten_results(counts)
       counts.map do |key, count|
         {
           subject: key[0],
-          status: key[1],
-          domicile: key[2],
-          nationality: key[3],
-          count: count,
-        }
+          domicile: key[1],
+          nationality: key[2],
+        }.merge(count)
       end
     end
 
