@@ -185,7 +185,7 @@ jobs:
           input_file="rspec-retry-flakey-tests.txt"
           while read line
           do
-            file_text=$line
+            file_text="${file_text}\n${line}"
           done < "$input_file"
           echo ::set-output name=flaky_tests::$file_text
 
