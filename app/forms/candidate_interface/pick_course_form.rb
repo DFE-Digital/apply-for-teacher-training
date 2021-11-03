@@ -8,12 +8,12 @@ module CandidateInterface
     DropdownOption = Struct.new(:id, :name)
 
     def radio_available_courses
-      @radio_available_courses ||= courses_for_current_cycle.exposed_in_find.order(:name).includes(:course_options)
+      @radio_available_courses ||= available_courses
     end
 
     def dropdown_available_courses
       @dropdown_available_courses ||= begin
-        courses = courses_for_current_cycle.exposed_in_find.includes(:accredited_provider, :course_options)
+        courses = available_courses
 
         courses_with_unambiguous_names = courses.map do |course|
           name = unique_name_for(course) || course.name_and_code
@@ -64,7 +64,7 @@ module CandidateInterface
     end
 
     def available_courses
-      @available_courses ||= courses_for_current_cycle.exposed_in_find.includes(:accredited_provider, :course_options)
+      @available_courses ||= courses_for_current_cycle.exposed_in_find.open_for_applications.includes(:accredited_provider, :course_options).order(:name)
     end
 
     def courses_with_names

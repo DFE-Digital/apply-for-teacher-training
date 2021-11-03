@@ -6,14 +6,14 @@ RSpec.describe CandidateInterface::PickCourseForm do
       provider = create(:provider, name: 'School with courses')
 
       create(:course, exposed_in_find: false, open_on_apply: true, name: 'Course not shown in Find', provider: provider)
-      create(:course, exposed_in_find: true, open_on_apply: false, name: 'Course not open on apply', provider: provider)
+      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course that is not accepting applications', applications_open_from: Time.zone.tomorrow, provider: provider)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course you can apply to', provider: provider)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from another cycle', provider: provider, recruitment_cycle_year: 2016)
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Course from other provider')
 
       form = described_class.new(provider_id: provider.id)
 
-      expect(form.radio_available_courses.map(&:name)).to eql(['Course not open on apply', 'Course you can apply to'])
+      expect(form.radio_available_courses.map(&:name)).to eql(['Course you can apply to'])
     end
   end
 
@@ -40,6 +40,18 @@ RSpec.describe CandidateInterface::PickCourseForm do
       form = described_class.new(provider_id: provider.id)
 
       expect(form.dropdown_available_courses.map(&:name)).to eql(['This cycle (A)'])
+    end
+
+    it 'only shows courses which are open for applications' do
+      provider = create(:provider)
+      course = create(:course, :open_on_apply, name: 'Course is open for applications', code: 'A', provider: provider)
+      create(:course, :open_on_apply, name: 'Course is not open for applications', provider: provider, applications_open_from: Time.zone.tomorrow)
+
+      create(:course_option, course: course)
+
+      form = described_class.new(provider_id: provider.id)
+
+      expect(form.dropdown_available_courses.map(&:name)).to eql(['Course is open for applications (A)'])
     end
 
     context 'with no ambiguous courses' do
