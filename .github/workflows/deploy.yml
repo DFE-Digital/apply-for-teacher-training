@@ -103,7 +103,7 @@ jobs:
       - name: Terraform init, plan & apply
         run: |
           terraform init -backend-config=workspace_variables/${{ matrix.environment }}_backend.tfvars
-          terraform plan -var-file workspace_variables/${{ matrix.environment }}.tfvars -out tfplan
+          terraform plan -var-file workspace_variables/${{ matrix.environment }}.tfvars.json -out tfplan
           terraform apply -auto-approve -input=false "tfplan"
         working-directory: terraform
         env:
