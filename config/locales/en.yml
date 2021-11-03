@@ -272,7 +272,8 @@ en:
       title: Support links
       accessibility: Accessibility
       cookies: Cookies
-      complaints: Complaints
+      provider_complaints: Complaints
+      candidate_complaints: Make a complaint, give feedback, or let us know if you’ve been treated unfairly
       terms_of_use: Terms of use
       privacy_policy: Privacy policy
       roadmap: Roadmap
