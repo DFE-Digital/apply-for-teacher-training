@@ -129,7 +129,7 @@ class ApplicationForm < ApplicationRecord
     candidate.update!(candidate_api_updated_at: Time.zone.now) if form.changed.include?('phase') || created_at == updated_at
   end
 
-  after_commit :geocode_address_and_update_region_if_required
+  after_update :geocode_address_and_update_region_if_required
 
   def touch_choices
     return unless application_choices.any?
