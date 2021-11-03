@@ -14,7 +14,7 @@ class PhaseBannerComponent < ViewComponent::Base
     end
 
     case HostingEnvironment.environment_name
-    when 'production', 'qa', 'development'
+    when 'production', 'qa'
       if current_namespace == 'candidate_interface'
         govuk_link_to(t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-link--no-visited-state')
       else
