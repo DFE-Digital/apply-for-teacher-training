@@ -1,5 +1,16 @@
+<% search_results_component = SupportInterface::ReasonsForRejectionSearchResultsComponent.new(
+  search_attribute: params[:structured_rejection_reasons].keys.first,
+  search_value: params[:structured_rejection_reasons].values.first,
+  application_choices: @application_choices,
+) -%>
 <% content_for :context, 'Structured reasons for rejection' %>
-<% content_for :title, 'Search' %>
+<% content_for :title do %>
+  <% if @application_choices.any? -%>
+    <%= search_results_component.search_title_text %>
+  <% else -%>
+    There are no results for the selected reason for rejection.
+  <% end -%>
+<% end -%>
 
 <% content_for :before_content do %>
   <%= render SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent.new(
@@ -8,10 +19,6 @@
   ) %>
 <% end %>
 
-<%= render SupportInterface::ReasonsForRejectionSearchResultsComponent.new(
-  search_attribute: params[:structured_rejection_reasons].keys.first,
-  search_value: params[:structured_rejection_reasons].values.first,
-  application_choices: @application_choices,
-) %>
+<%= render search_results_component %>
 
 <%= render(PaginatorComponent.new(scope: @application_choices)) %>

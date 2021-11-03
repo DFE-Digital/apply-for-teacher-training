@@ -109,7 +109,7 @@ module ViewHelper
 
     percentage = percent_of(count, total)
     precision = (percentage % 1).zero? ? 0 : 2
-    number_to_percentage(percentage, precision: precision)
+    number_to_percentage(percentage, precision: precision, strip_insignificant_zeros: true)
   end
 
   def protect_against_mistakes

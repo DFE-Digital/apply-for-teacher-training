@@ -1,4 +1,11 @@
-<% content_for :title, 'Structured reasons for rejection' %>
+<% content_for :browser_title, 'Structured reasons for rejection' %>
+<% content_for :title do %>
+  <span class="govuk-caption-l">
+    <%= RecruitmentCycle.cycle_name(@recruitment_cycle_year) %> (starts <%= @recruitment_cycle_year %>)
+    <% if @recruitment_cycle_year == RecruitmentCycle.current_year %> - current<% end %>
+  </span>
+  Structured reasons for rejection
+<% end %>
 
 <% content_for :before_content do %>
   <%= breadcrumbs({
@@ -6,6 +13,22 @@
     'Structured reasons for rejection': nil,
   }) %>
 <% end %>
+
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Understanding this report
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <p class="govuk-body">
+      The report does not include rejections made through the API.
+    </p>
+    <p class="govuk-body">
+      Since users can choose more than one reason for rejection, the percentages for all the categories will not add up to 100%.
+    </p>
+  </div>
+</details>
 
 <%= render SupportInterface::ReasonsForRejectionDashboardComponent.new(
   @reasons_for_rejection,
