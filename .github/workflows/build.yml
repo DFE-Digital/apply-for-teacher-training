@@ -161,6 +161,10 @@ jobs:
         DB_PASSWORD: postgres
         REDIS_URL: redis://redis:6379/0
         DB_PORT: 5432
+
+    outputs:
+      flaky_tests: ${{ steps.set_flaky_test_results_var.outputs.flaky_tests }}
+
     steps:
       - name: Setup Parallel Database
         run: bundle exec rake parallel:setup
@@ -175,7 +179,7 @@ jobs:
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
 
-      - name: Report on flakey tests
+      - name: Read flakey test results
         id: set_flaky_test_results_var
         run: |
           input_file="rspec-retry-flakey-tests.txt"
@@ -184,7 +188,28 @@ jobs:
             file_text=$line
           done < "$input_file"
           echo ::set-output name=flaky_tests::$file_text
-      - run: echo ${{ steps.set_flaky_test_results_var.outputs.flaky_tests }}
+
+  report-flakey-specs:
+    name: Report on flakey specs in pull request
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo flakey test output
+        run: echo ${{ needs.test.outputs.flaky_tests }}
+
+      - name: Comment on flakey specs in pull request
+        uses: actions/github-script@0.3.0
+        if: github.event_name == 'pull_request'
+        env:
+          COMMENT_BODY: ${{ needs.test.outputs.flaky_tests }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            const { COMMENT_BODY } = process.env;
+            if (COMMENT_BODY.length) {
+              github.issues.createComment({ issue_number, owner, repo, body: COMMENT_BODY });
+            }
 
   trigger-deployment:
     name: Trigger Deployment
@@ -198,3 +223,4 @@ jobs:
           workflow: Deploy
           token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           inputs: '{"qa": "true", "staging": "true", "research": "true", "sha": "${{ needs.build.outputs.IMAGE_TAG }}"}'
+
