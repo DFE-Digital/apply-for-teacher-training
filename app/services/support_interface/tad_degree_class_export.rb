@@ -1,5 +1,13 @@
 module SupportInterface
   class TADDegreeClassExport
+    def self.run_weekly
+      data_export = DataExport.create!(
+        name: 'Weekly export of the TAD degree class export',
+        export_type: :tad_degree_class,
+      )
+      DataExporter.perform_async(SupportInterface::TADDegreeClassExport, data_export.id)
+    end
+
     def call(*)
       report = choices_with_courses_and_subjects.find_each(batch_size: 100).map do |choice|
         next if choice.phase == 'apply_2' && !choice.is_latest_a2_app
