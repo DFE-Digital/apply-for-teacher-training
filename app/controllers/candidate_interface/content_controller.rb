@@ -27,7 +27,7 @@ module CandidateInterface
     end
 
     def complaints
-      render_content_page :complaints
+      render 'content/complaints'
     end
 
     def providers; end
