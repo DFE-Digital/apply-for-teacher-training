@@ -287,6 +287,7 @@ private
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
         structured_rejection_reasons: { candidate_behaviour_y_n: 'Yes' },
+        recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
     )
     expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
@@ -329,6 +330,7 @@ private
     expect(page).to have_current_path(
       support_interface_reasons_for_rejection_application_choices_path(
         structured_rejection_reasons: { candidate_behaviour_what_did_the_candidate_do: 'didnt_attend_interview' },
+        recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
     )
 
