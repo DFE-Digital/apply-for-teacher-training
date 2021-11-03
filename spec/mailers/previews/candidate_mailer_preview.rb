@@ -512,8 +512,22 @@ class CandidateMailerPreview < ActionMailer::Preview
         application_form: application_form,
         course_option: course_option,
       )
+    show_apply_again_guidance = false
 
-    CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice)
+    CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
+  end
+
+  def feedback_received_for_application_rejected_by_default_apply_again
+    application_choice =
+      FactoryBot.build(
+        :application_choice,
+        :with_structured_rejection_reasons,
+        application_form: application_form,
+        course_option: course_option,
+      )
+    show_apply_again_guidance = true
+
+    CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
   end
 
   def reference_received

@@ -19,7 +19,9 @@ class RejectByDefaultFeedback
         application_choice.save!
       end
 
-      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
+      show_apply_again_guidance = unsuccessful_application_choices? && not_applied_again?
+
+      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance).deliver_later
       notify_slack
     end
   end
@@ -31,5 +33,30 @@ class RejectByDefaultFeedback
     url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_choice.application_form)
 
     SlackNotificationWorker.perform_async(message, url)
+  end
+
+  def not_applied_again?
+    ApplicationForm
+      .where(
+        candidate_id: candidate.id,
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+        previous_application_form_id: application_form.id,
+      )
+      .empty?
+  end
+
+  def unsuccessful_application_choices?
+    application_form
+      .application_choices
+      .map(&:status)
+      .all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status.to_sym) }
+  end
+
+  def application_form
+    @application_form ||= application_choice.application_form
+  end
+
+  def candidate
+    @candidate ||= application_choice.application_form.candidate
   end
 end

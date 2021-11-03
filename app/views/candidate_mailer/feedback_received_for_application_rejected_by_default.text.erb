@@ -1,9 +1,14 @@
 Dear <%= @application_form.first_name %>,
 
-# Feedback on your application
+As you know, your application for <%= @course.name_and_code %> could not progress because <%= @course.provider.name %>
+did not respond by their deadline of <%= @application_choice.rejected_at.to_s(:govuk_date) %>.
 
-Your application for <%= @course.name_and_code %> was automatically rejected on <%= @application_choice.rejected_at.to_s(:govuk_date) %>.
-
-This was because <%= @course.provider.name %> did not respond in time. They’ve now given you the following feedback:
+They’ve now given you the following feedback:
 
 <%= render 'reasons_for_rejection' %>
+
+<% if @show_apply_again_guidance %>
+  If this feedback was useful, consider using it to strengthen your application and apply again:
+
+  <%= @candidate_magic_link %>
+<% end %>
