@@ -1,5 +1,7 @@
 module MonthlyStatistics
   class ByArea < MonthlyStatistics::Base
+    NON_UK_REGIONS = %w[european_economic_area rest_of_the_world].freeze
+
     def table_data
       {
         rows: rows,
@@ -40,8 +42,14 @@ module MonthlyStatistics
       I18n.t("application_form.region_codes.#{region_code}", default: region_code.humanize)
     end
 
+    def available_region_codes
+      @available_region_codes ||=
+        ApplicationForm.region_codes.keys.reject { |region_code| NON_UK_REGIONS.include?(region_code) } +
+        ApplicationForm.region_codes.keys.select { |region_code| NON_UK_REGIONS.include?(region_code) }
+    end
+
     def formatted_group_query
-      counts = ApplicationForm.region_codes.values.index_with { |_region_code| {} }
+      counts = available_region_codes.index_with { |_region_code| {} }
 
       group_query_excluding_deferred_offers.reject { |item| item['status'] == 'offer_deferred' }.map do |item|
         increment_area_status_count(counts, item, 'status')
@@ -54,7 +62,7 @@ module MonthlyStatistics
     end
 
     def increment_area_status_count(counts, item, status_attribute)
-      area = item['region_code']
+      area = item['region_code'] || 'no_region'
       status = item[status_attribute]
       count = item['count']
       running_count = counts[area]&.fetch(status, 0)
