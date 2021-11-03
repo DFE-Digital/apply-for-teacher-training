@@ -1,0 +1,51 @@
+custom_columns:
+  subject:
+    type: string
+    description: |
+      The subject associated with the course that the candidate applied to, was
+      offered or recruited to.
+    example: Mathematics
+  candidate_nationality:
+    type: string
+    description: |
+      The nationality of the candidate.
+    enum:
+      - UK
+      - EU
+      - Not EU 
+    example: UK
+  candidate_domicile:
+    type: string
+    description: |
+      The domicile of the candidate based on their home address.
+    enum:
+      - UK
+      - EU
+      - Not EU 
+    example: UK
+  adjusted_applications:
+    type: integer
+    description: |
+      The number of applications for the given subject, nationality,
+      domicile combination that have not yet received offers.
+    example: 24
+  adjusted_offers:
+    type: integer
+    description: |
+      The number of applications for the given subject, nationality,
+      domicile combination that have received offers but not accepted it yet.
+    example: 24
+  pending_conditions:
+    type: integer
+    description: |
+      The number of applications for the given subject, nationality,
+      domicile combination that have accepted an offer but have not
+      yet been recruited.
+    example: 24
+  recruited:
+    type: integer
+    description: |
+      The number of applications for the given subject, nationality,
+      domicile combination that have been recruited.
+    example: 24
+

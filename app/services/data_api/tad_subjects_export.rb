@@ -96,8 +96,8 @@ module DataAPI
       counts.map do |key, count|
         {
           subject: key[0],
-          domicile: key[1],
-          nationality: key[2],
+          candidate_domicile: key[1],
+          candidate_nationality: key[2],
         }.merge(count)
       end
     end

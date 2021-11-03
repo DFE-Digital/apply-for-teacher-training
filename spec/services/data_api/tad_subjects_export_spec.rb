@@ -18,8 +18,8 @@ RSpec.describe DataAPI::TADSubjectsExport do
       expect(result).to match_array([
         {
           subject: 'Mathematics',
-          domicile: 'UK',
-          nationality: 'EU',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'EU',
           adjusted_applications: 1,
           adjusted_offers: 0,
           pending_conditions: 0,
@@ -44,8 +44,8 @@ RSpec.describe DataAPI::TADSubjectsExport do
       expect(result).to match_array([
         {
           subject: 'Mathematics',
-          domicile: 'UK',
-          nationality: 'EU',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'EU',
           adjusted_applications: 0,
           adjusted_offers: 0.5,
           pending_conditions: 0,
@@ -53,8 +53,8 @@ RSpec.describe DataAPI::TADSubjectsExport do
         },
         {
           subject: 'Physics',
-          domicile: 'UK',
-          nationality: 'EU',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'EU',
           adjusted_applications: 0,
           adjusted_offers: 0.5,
           pending_conditions: 0,
