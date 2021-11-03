@@ -175,6 +175,17 @@ jobs:
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
 
+      - name: Report on flakey tests
+        id: set_flaky_test_results_var
+        run: |
+          input_file="rspec-retry-flakey-tests.txt"
+          while read line
+          do
+            file_text=$line
+          done < "$input_file"
+          echo ::set-output name=flaky_tests::$file_text
+      - run: echo ${{ steps.set_flaky_test_results_var.outputs.flaky_tests }}
+
   trigger-deployment:
     name: Trigger Deployment
     needs: [build, test]
