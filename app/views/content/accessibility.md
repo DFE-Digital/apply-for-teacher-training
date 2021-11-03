@@ -1,6 +1,6 @@
 ## How accessible this website is
 
-Apply for teacher training is a new service run by the Department for Education. We’re trialling it with a limited number of users at the moment.
+Apply for teacher training is a new service run by the Department for Education.
 
 We have taken steps to make this service accessible:
 
