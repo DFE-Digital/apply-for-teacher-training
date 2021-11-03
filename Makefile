@@ -124,8 +124,9 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
 
 deploy-init:
-	$(if $(IMAGE_TAG), , $(error Please pass a valid docker image tag; eg: make qa deploy-init IMAGE_TAG=5309326123bf6b366deab6cd0668615d11be3e3d))
+	$(if $(IMAGE_TAG), , $(eval export IMAGE_TAG=main))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	echo "Docker image ${TF_VAR_paas_docker_image} will be deployed"
 	$(if $(PASSCODE), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
 	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show \
