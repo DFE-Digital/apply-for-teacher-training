@@ -1,12 +1,12 @@
 <table class="govuk-table govuk-!-margin-top-2">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header" width="40%">Reason</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections within this category</th>
+      <th scope="col" class="govuk-table__header" width="30%">Reason</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections within this category</th>
       <% if recruitment_cycle_year == RecruitmentCycle.current_year %>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections in <%= month_name %></th>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="20%">Percentage of all rejections in <%= month_name %> within this category</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections in <%= month_name %></th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections in <%= month_name %> within this category</th>
       <% end %>
     </tr>
   </thead>
