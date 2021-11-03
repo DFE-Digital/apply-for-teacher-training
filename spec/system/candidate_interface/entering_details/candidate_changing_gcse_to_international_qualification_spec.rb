@@ -126,6 +126,7 @@ RSpec.feature 'Candidate changing UK GCSE to international qualification' do
   end
 
   def when_i_fill_in_my_enic_reference_and_choose_an_equivalency
+    choose 'Yes'
     fill_in 'candidate-interface-gcse-enic-form-enic-reference-field', with: '12345'
     choose 'GCSE (grades A*-C / 9-4)'
   end
