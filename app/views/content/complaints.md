@@ -1,15 +1,22 @@
-The Department for Education is committed to providing a high level of customer service, and takes complaints seriously. Letting us know if something is wrong means we can fix it and improve the service for everyone.
+You can email us at becomingateacher@digital.education.gov.uk to:
 
-## Giving feedback
+* make a complaint
+* give feedback
+* get help with a technical problem
+* let us know if a teacher training provider has treated you unfairly - for example, you’ve experienced discrimination or bias
 
-If you have feedback about the service, or want to give suggestions for improvement, you can email us as <%= bat_contact_mail_to %>.
+We’ll respond within 5 to 7 working days, or one working day if a technical problem prevents you from progressing your application. 
 
-## How to make a complaint
+## If you need advice about your teacher training application
 
-To make a complaint about the Apply for teacher training service, please [complete our complaints form](https://docs.google.com/forms/d/e/1FAIpQLSdkaYmy03JP0s9gxfEOkBMvMwNuU7IYO_MLwFONg5GdVFBuFg/viewform).
+Call us or chat online instead. 
 
-## How we’ll respond
+## If you let us know about discrimination, bias or unfairness 
 
-Our support team will respond to your complaint within 5-7 working days.
+We’ll email you with some advice about where to get support. 
 
-If we need more time to complete our investigation we’ll get in touch, and keep you updated regularly.
+We cannot investigate individual cases about teacher training providers. However, sharing your experience helps us ensure that applying for teacher training is accessible and fair for everyone. 
+
+Your personal details and experience will not be shared with teacher training providers. 
+
+If your experience relates to the Department for Education (DfE), for example it concerns a member of DfE staff or the application form itself, we’ll respond within 5 to 7 working days.
