@@ -10,11 +10,14 @@ class ReasonsForRejectionCountQuery
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
-  def total_structured_reasons_for_rejection
-    ApplicationChoice
+  def total_structured_reasons_for_rejection(time_period: nil)
+    scope = ApplicationChoice
       .where(current_recruitment_cycle_year: recruitment_cycle_year)
       .where.not(structured_rejection_reasons: nil)
-      .count
+
+    scope = scope.where(['rejected_at > ?', Time.zone.now.beginning_of_month]) if time_period == :this_month
+
+    scope.count
   end
 
   def reason_counts

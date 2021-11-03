@@ -246,27 +246,27 @@ private
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_qualifications
     within '#qualifications' do
-      expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent 40% 2 1')
-      expect(page).to have_content('No English GCSE grade 4 (C) or above, or valid equivalent 20% 1 0')
-      expect(page).to have_content('Other 20% 1 0')
-      expect(page).to have_content('No degree 40% 2 1')
-      expect(page).to have_content('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants) 0% 0 0')
+      expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent 40% 2 of 5 66.67% 2 of 3 50% 1 of 2 100% 1 of 1')
+      expect(page).to have_content('No English GCSE grade 4 (C) or above, or valid equivalent 20% 1 of 5 33.33% 1 of 3 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_content('Other 20% 1 of 5 33.33% 1 of 3 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_content('No degree 40% 2 of 5 66.67% 2 of 3 50% 1 of 2 100% 1 of 1')
+      expect(page).to have_content('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants) 0% 0 of 5 0% 0 of 3 0% 0 of 2 0% 0 of 1')
     end
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
     within '#safeguarding-concerns' do
-      expect(page).to have_content('Information disclosed by candidate makes them unsuitable to work with children 0% 0 0')
-      expect(page).to have_content('Information revealed by our vetting process makes the candidate unsuitable to work with children 0% 0 0')
-      expect(page).to have_content('Other 40% 2 1')
+      expect(page).to have_content('Information disclosed by candidate makes them unsuitable to work with children 0% 0 of 5 0% 0 of 2 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_content('Information revealed by our vetting process makes the candidate unsuitable to work with children 0% 0 of 5 0% 0 of 2 0% 0 of 2 0% 0 of 1')
+      expect(page).to have_content('Other 40% 2 of 5 100% 2 of 2 50% 1 of 2 100% 1 of 1')
     end
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_candidate_behaviour
     within '#candidate-behaviour' do
-      expect(page).to have_content('Didn’t reply to our interview offer 40% 2 1')
-      expect(page).to have_content('Didn’t attend interview 20% 1 0')
-      expect(page).to have_content('Other 0% 0 0')
+      expect(page).to have_content('Didn’t reply to our interview offer 40% 2 of 5 40% 2 of 5 50% 1 of 2 50% 1 of 2')
+      expect(page).to have_content('Didn’t attend interview 20% 1 of 5 20% 1 of 5 0% 0 of 2 0% 0 of 2')
+      expect(page).to have_content('Other 0% 0 of 5 0% 0 of 5 0% 0 of 2 0% 0 of 2')
     end
   end
 

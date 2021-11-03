@@ -7,4 +7,9 @@
   }) %>
 <% end %>
 
-<%= render SupportInterface::ReasonsForRejectionDashboardComponent.new(@reasons_for_rejection, @total_structured_rejection_reasons_count) %>
+<%= render SupportInterface::ReasonsForRejectionDashboardComponent.new(
+  @reasons_for_rejection,
+  @total_structured_rejection_reasons_count,
+  @total_structured_rejection_reasons_count_this_month,
+  @recruitment_cycle_year,
+) %>

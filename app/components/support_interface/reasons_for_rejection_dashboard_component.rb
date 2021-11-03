@@ -2,11 +2,14 @@ module SupportInterface
   class ReasonsForRejectionDashboardComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :total_structured_rejection_reasons_count
+    attr_reader :total_structured_rejection_reasons_count, :total_structured_rejection_reasons_count_this_month, :recruitment_cycle_year
 
-    def initialize(rejection_reasons, total_structured_rejection_reasons_count)
+    def initialize(rejection_reasons, total_structured_rejection_reasons_count,
+                   total_structured_rejection_reasons_count_this_month, recruitment_cycle_year = RecruitmentCycle.current_year)
       @rejection_reasons = rejection_reasons
       @total_structured_rejection_reasons_count = total_structured_rejection_reasons_count
+      @total_structured_rejection_reasons_count_this_month = total_structured_rejection_reasons_count_this_month
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
   private
