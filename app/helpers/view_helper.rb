@@ -104,7 +104,8 @@ module ViewHelper
   end
 
   def formatted_percentage(count, total)
-    return '-' if total.zero?
+    return '-' if total.zero? && count.positive?
+    return '0%' if total.zero?
 
     percentage = percent_of(count, total)
     precision = (percentage % 1).zero? ? 0 : 2
