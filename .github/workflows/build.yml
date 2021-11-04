@@ -183,7 +183,7 @@ jobs:
         id: set_flaky_test_results_var
         run: |
           file_text=$(cat rspec-retry-flakey-tests.txt)
-          echo ::set-output name=flaky_tests::$file_text
+          echo ::set-output name=flaky_tests::"$file_text"
 
   report-flakey-specs:
     name: Report on flakey specs in pull request
