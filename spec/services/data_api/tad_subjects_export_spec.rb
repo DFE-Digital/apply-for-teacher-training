@@ -24,7 +24,7 @@ RSpec.describe DataAPI::TADSubjectsExport do
           adjusted_offers: 0,
           pending_conditions: 0,
           recruited: 0,
-        }
+        },
       ])
     end
 
@@ -158,8 +158,8 @@ RSpec.describe DataAPI::TADSubjectsExport do
               course_subjects: attrs[:subjects].map do |name|
                 create(:course_subject, subject: create(:subject, name: name))
               end,
-            )
-          )
+            ),
+          ),
         )
       end
 

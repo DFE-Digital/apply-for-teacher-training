@@ -22,7 +22,6 @@ module DataAPI
       counts
     end
 
-
     def counts
       result = ActiveRecord::Base
         .connection
@@ -66,17 +65,17 @@ module DataAPI
 
     def subjects_for_most_progressed_statuses(subjects_indexed_by_status)
       if subjects_indexed_by_status.key?(:recruited)
-        subjects_indexed_by_status.reject! { |status| status != :recruited }
+        subjects_indexed_by_status.select! { |status| status == :recruited }
       elsif subjects_indexed_by_status.key?(:pending_conditions)
-        subjects_indexed_by_status.reject! { |status| status != :pending_conditions }
+        subjects_indexed_by_status.select! { |status| status == :pending_conditions }
       elsif subjects_indexed_by_status.key?(:offer)
-        subjects_indexed_by_status.reject! { |status| status != :offer }
+        subjects_indexed_by_status.select! { |status| status == :offer }
       else
         subjects_indexed_by_status = { other: subjects_indexed_by_status.values.flatten }
       end
       status, subjects = subjects_indexed_by_status.to_a.first
 
-      return status, subjects
+      [status, subjects]
     end
 
     def increment_counts(indexed_counts, key, status, count)
