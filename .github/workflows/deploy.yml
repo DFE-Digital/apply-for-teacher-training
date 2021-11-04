@@ -63,17 +63,14 @@ jobs:
       - name: Set Environment variable
         run: |
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
-          echo "TF_VAR_key_vault_name=$KEY_VAULT_NAME" >> $GITHUB_ENV
-          echo "TF_VAR_key_vault_resource_group=$KEY_VAULT_RESOURCE_GROUP" >> $GITHUB_ENV
-          echo "TF_VAR_key_vault_app_secret_name=$KEY_VAULT_APP_SECRET_NAME" >> $GITHUB_ENV
-          echo "TF_VAR_key_vault_infra_secret_name=$KEY_VAULT_INFRA_SECRET_NAME" >> $GITHUB_ENV
           if [ "${{ matrix.environment }}" = "production" ]; then echo "SPACE_SUFFIX=prod" >> $GITHUB_ENV; fi;
+
+          tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
+          echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "key_vault_app_secret_name=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "key_vault_infra_secret_name=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
         env:
           DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
-          KEY_VAULT_NAME: ${{ secrets.KEY_VAULT_NAME }}
-          KEY_VAULT_RESOURCE_GROUP: ${{ secrets.KEY_VAULT_RESOURCE_GROUP }}
-          KEY_VAULT_INFRA_SECRET_NAME: ${{ secrets.KEY_VAULT_INFRA_SECRET_NAME }}
-          KEY_VAULT_APP_SECRET_NAME: ${{ secrets.KEY_VAULT_APP_SECRET_NAME }}
 
       - name: Setup cf cli
         uses: DFE-Digital/github-actions/setup-cf-cli@master
@@ -95,10 +92,10 @@ jobs:
       - name: Validate Azure Key Vault secrets
         uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
         with:
-          KEY_VAULT: ${{ env.TF_VAR_key_vault_name }}
+          KEY_VAULT: ${{ env.key_vault_name }}
           SECRETS: |
-            ${{ env.TF_VAR_key_vault_app_secret_name }}
-            ${{ env.TF_VAR_key_vault_infra_secret_name }}
+            ${{ env.key_vault_app_secret_name }}
+            ${{ env.key_vault_infra_secret_name }}
 
       - name: Terraform init, plan & apply
         run: |
