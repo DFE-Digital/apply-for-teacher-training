@@ -182,11 +182,7 @@ jobs:
       - name: Read flakey test results
         id: set_flaky_test_results_var
         run: |
-          input_file="rspec-retry-flakey-tests.txt"
-          while read line
-          do
-            file_text="${file_text}\n${line}"
-          done < "$input_file"
+          file_text=$(cat rspec-retry-flakey-tests.txt)
           echo ::set-output name=flaky_tests::$file_text
 
   report-flakey-specs:
