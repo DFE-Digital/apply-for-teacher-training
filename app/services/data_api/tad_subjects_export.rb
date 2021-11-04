@@ -1,6 +1,6 @@
 module DataAPI
   class TADSubjectsExport
-    def self.run_daily
+    def self.run_weekly
       data_export = DataExport.create!(
         name: 'Weekly export of subjects, candidate nationality, domicile and application status for TAD',
         export_type: :tad_subjects,
