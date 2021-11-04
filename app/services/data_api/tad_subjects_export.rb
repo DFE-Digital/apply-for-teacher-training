@@ -52,7 +52,7 @@ module DataAPI
           increment_counts(indexed_counts, key, status, subjects.count)
         end
       end
-      flatten_results(indexed_counts)
+      roundup_results(flatten_results(indexed_counts))
     end
 
     def subjects_indexed_by_status(result)
@@ -99,6 +99,17 @@ module DataAPI
           candidate_domicile: key[1],
           candidate_nationality: key[2],
         }.merge(count)
+      end
+    end
+
+    def roundup_results(counts)
+      counts.map do |count|
+        count.merge(
+          recruited: count[:recruited].ceil,
+          pending_conditions: count[:pending_conditions].ceil,
+          adjusted_offers: count[:adjusted_offers].ceil,
+          adjusted_applications: count[:adjusted_applications].ceil,
+        )
       end
     end
 
