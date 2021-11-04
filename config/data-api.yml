@@ -75,6 +75,17 @@ paths:
             text/csv:
               schema:
                 "$ref": "#/components/schemas/ApplicationsExport"
+  "/applications-by-subject-route-and-degree-grade/latest":
+    get:
+      summary: Get an export of applications grouped by subject, route and degree grade
+      description: This endpoint returns a CSV consisting of the latest applications export grouped by subject, route and degree grade. Reports are generated weekly
+      responses:
+        '200':
+          description: The CSV of the latest report
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/TADDegreeClassExport"
 components:
   schemas:
     TADExport:
@@ -84,6 +95,9 @@ components:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     ApplicationsExport:
+      type: object
+      properties: # this is automatically populated from the CSV definition by DataAPISpecification
+    TADDegreeClassExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     TADDataExportList:
