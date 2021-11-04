@@ -63,6 +63,85 @@ RSpec.describe DataAPI::TADSubjectsExport do
       ])
     end
 
+    it 'returns statistics for multiple applications' do
+      create_application(
+        nationality: 'French',
+        domicile: 'GB',
+        application_choice_attrs: [
+          { status: :rejected, subjects: ['Mathematics'] },
+          { status: :offer, subjects: ['Physics'] },
+          { status: :offer, subjects: ['Mathematics'] },
+        ],
+      )
+      create_application(
+        nationality: 'French',
+        domicile: 'GB',
+        application_choice_attrs: [
+          { status: :rejected, subjects: ['Mathematics'] },
+          { status: :recruited, subjects: ['Physics'] },
+          { status: :offer, subjects: ['Mathematics'] },
+        ],
+      )
+      create_application(
+        nationality: 'Welsh',
+        domicile: 'GB',
+        application_choice_attrs: [
+          { status: :rejected, subjects: ['English'] },
+          { status: :awaiting_provider_decision, subjects: ['Chemistry'] },
+          { status: :awaiting_provider_decision, subjects: ['Chemistry'] },
+        ],
+      )
+      create_application(
+        nationality: 'Scottish',
+        domicile: 'GB',
+        application_choice_attrs: [
+          { status: :rejected, subjects: ['English'] },
+          { status: :withdrawn, subjects: ['Chemistry'] },
+        ],
+      )
+
+      result = described_class.new.data_for_export
+
+      expect(result).to match_array([
+        {
+          subject: 'Mathematics',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'EU',
+          adjusted_applications: 0,
+          adjusted_offers: 0.5,
+          pending_conditions: 0,
+          recruited: 0,
+        },
+        {
+          subject: 'Physics',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'EU',
+          adjusted_applications: 0,
+          adjusted_offers: 0.5,
+          pending_conditions: 0,
+          recruited: 1,
+        },
+        {
+          subject: 'English',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'UK',
+          adjusted_applications: 1/3.0 + 1/2.0,
+          adjusted_offers: 0,
+          pending_conditions: 0,
+          recruited: 0,
+        },
+        {
+          subject: 'Chemistry',
+          candidate_domicile: 'UK',
+          candidate_nationality: 'UK',
+          adjusted_applications: 2/3.0 + 1/2.0,
+          adjusted_offers: 0,
+          pending_conditions: 0,
+          recruited: 0,
+        },
+      ])
+    end
+
     def create_application(
       nationality:,
       domicile:,
