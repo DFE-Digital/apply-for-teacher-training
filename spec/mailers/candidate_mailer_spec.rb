@@ -40,7 +40,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       I18n.t!('candidate_mailer.application_submitted.subject'),
-      'heading' => 'Application submitted',
+      'intro' => 'You have submitted an application for:',
       'support reference' => 'SUPPORT-REFERENCE',
       'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
     )

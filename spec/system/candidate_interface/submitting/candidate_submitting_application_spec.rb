@@ -35,7 +35,7 @@ RSpec.feature 'Candidate submits the application' do
     and_i_skip_feedback
     then_i_can_see_my_application_has_been_successfully_submitted
     and_i_am_redirected_to_the_application_dashboard
-    and_i_receive_an_email_with_my_support_ref
+    and_i_receive_an_email_confirmation
 
     when_i_click_view_application
     then_i_can_see_my_submitted_application
@@ -202,9 +202,10 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'You will get an email when something changes.'
   end
 
-  def and_i_receive_an_email_with_my_support_ref
+  def and_i_receive_an_email_confirmation
     open_email(current_candidate.email_address)
-    expect(current_email).to have_content 'Application submitted'
+    expect(current_email).to have_content 'You have submitted an application'
+    expect(current_email).to have_content 'Gorse SCITT - Primary (2XT2)'
   end
 
   def and_i_am_redirected_to_the_application_dashboard
