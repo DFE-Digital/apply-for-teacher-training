@@ -27,6 +27,10 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
                                                                              date_of_birth: Date.new(RecruitmentCycle.current_year - 49, 1, 1),
                                                                              recruitment_cycle_year: RecruitmentCycle.previous_year)
 
+    offer_withdrawn_application_for_50_to_54_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 50, 1, 1))
+
+    withdrawn_application_form_55_to_59_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 55, 1, 1))
+
     unsuccessful_application_for_65_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 65, 8, 31))
 
     # check recruited takes precedence over deferred
@@ -64,6 +68,10 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
 
     # counts deferred offers from the previous cycle
     create(:application_choice, :with_deferred_offer, application_form: deferred_application_form_from_previous_cycle_45_to_49_year_old)
+
+    create(:application_choice, :with_rejection, application_form: offer_withdrawn_application_for_50_to_54_year_old)
+
+    create(:application_choice, :with_rejection, application_form: withdrawn_application_form_55_to_59_year_old)
 
     create(:application_choice, :with_rejection, application_form: unsuccessful_application_for_65_year_old)
 
@@ -157,8 +165,8 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
             'Conditions pending' => 0,
             'Received an offer' => 0,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 0,
-            'Total' => 0,
+            'Unsuccessful' => 1,
+            'Total' => 1,
           },
           {
             'Age group' => '55 to 59',
@@ -166,8 +174,8 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
             'Conditions pending' => 0,
             'Received an offer' => 0,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 0,
-            'Total' => 0,
+            'Unsuccessful' => 1,
+            'Total' => 1,
           },
           {
             'Age group' => '60 to 64',
@@ -188,7 +196,7 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
             'Total' => 1,
           },
         ],
-        column_totals: [2, 2, 1, 4, 1, 10] },
+        column_totals: [2, 2, 1, 4, 3, 12] },
     )
   end
 end

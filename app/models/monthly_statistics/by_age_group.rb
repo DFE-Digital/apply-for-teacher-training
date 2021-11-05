@@ -173,14 +173,16 @@ module MonthlyStatistics
                 c.id,
                 f.id,
                 CASE
-                  WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['0', 'recruited']
-                  WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['1', 'offer_deferred']
-                  WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'pending_conditions']
-                  WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'offer']
-                  WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decision']
-                  WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['5', 'declined']
-                  WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'rejected']
-                  WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'conditions_not_met']
+                  WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN 'recruited'
+                  WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_deferred'
+                  WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN 'pending_conditions'
+                  WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN 'offer'
+                  WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN 'awaiting_provider_decision'
+                  WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN 'declined'
+                  WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN 'rejected'
+                  WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN 'conditions_not_met'
+                  WHEN 'offer_withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_withdrawn'
+                  WHEN 'withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'withdrawn'
                 END status,
                 CASE
                   #{age_group_sql}
@@ -207,7 +209,7 @@ module MonthlyStatistics
                 c.id, f.id, age_group
         )
         SELECT
-            raw_data.status[2],
+            raw_data.status,
             raw_data.age_group,
             COUNT(*)
         FROM
@@ -215,7 +217,7 @@ module MonthlyStatistics
         GROUP BY
             raw_data.status, raw_data.age_group
         ORDER BY
-            raw_data.status[1]
+            raw_data.status
       SQL
     end
 
