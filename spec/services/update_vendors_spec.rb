@@ -8,33 +8,34 @@ RSpec.describe UpdateVendors do
         'ellucian' => %w[CAB'],
       }
     end
+    let(:file_location) { 'a_file_location' }
 
     before { allow(YAML).to receive(:load_file).and_return(example_hash) }
 
     it 'creates the vendor if it doesnt exist' do
-      described_class.call
+      described_class.call(file_location)
       expect(Vendor.find_by(name: 'tribal')).to be_truthy
     end
 
     it 'associates each known provider present in the YAML with a vendor' do
       provider = create(:provider, code: 'ABC1')
-      expect { described_class.call && provider.reload }.to change(provider, :vendor_id)
+      expect { described_class.call(file_location) && provider.reload }.to change(provider, :vendor_id)
     end
 
     it 'does not add vendor information to providers not present in the YAML' do
       provider = create(:provider, code: 'XYZ1')
-      expect { described_class.call && provider.reload }.not_to change(provider, :vendor_id)
+      expect { described_class.call(file_location) && provider.reload }.not_to change(provider, :vendor_id)
     end
 
     it 'removes vendor information for providers not present in the YAML' do
       provider = create(:provider, :with_vendor, code: 'XYZ1')
-      expect { described_class.call && provider.reload }.to change(provider, :vendor_id).to(nil)
+      expect { described_class.call(file_location) && provider.reload }.to change(provider, :vendor_id).to(nil)
     end
 
     it 'does not make any changes if any database updates fail' do
       provider = create(:provider, :with_vendor, code: 'XYZ1')
       allow(Provider).to receive(:find_by).and_raise(ActiveRecord::ConnectionTimeoutError)
-      described_class.call
+      described_class.call(file_location)
     rescue ActiveRecord::ConnectionTimeoutError
       expect(provider.reload.vendor_id).not_to be_nil
     end

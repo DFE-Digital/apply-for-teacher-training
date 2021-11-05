@@ -3,7 +3,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::BackfillCarriedOverApplicationsDegreesComplete',
   'DataMigrations::BackfillWorkHistoryStatusForCurrentCycle',
   'DataMigrations::BackfillWorkHistoryStatus',
-  'DataMigrations::AddVendorsToProvidersForFirstTime',
   'DataMigrations::BackfillNotCompletedExplanation',
   'DataMigrations::BackfillCoursesForNextCycle',
   'DataMigrations::BackfillRestructuredImmigrationStatus',
