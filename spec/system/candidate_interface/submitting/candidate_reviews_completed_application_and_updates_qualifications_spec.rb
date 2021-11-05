@@ -17,8 +17,10 @@ RSpec.feature 'Candidate is redirected correctly' do
     then_i_should_be_redirected_to_the_application_review_page
 
     when_i_update_english_gcse_qualification
-    then_i_should_be_redirected_to_the_application_review_page
-    and_i_should_see_my_updated_gcse_qualification
+    then_i_should_see_the_gcse_country_form
+
+    when_i_navigate_back_to_the_gcse_review_page
+    then_i_should_see_my_updated_gcse_qualification
 
     # GCSE English equivalent country
     when_i_click_change_english_gcse_country
@@ -289,7 +291,7 @@ RSpec.feature 'Candidate is redirected correctly' do
   end
 
   def then_i_should_see_the_gcse_country_form
-    expect(page).to have_current_path(candidate_interface_gcse_details_edit_institution_country_path(subject: 'english', 'return-to' => 'application-review'))
+    expect(page).to have_content t('gcse_edit_institution_country.page_title', subject: 'English')
   end
 
   def then_i_should_see_the_gcse_enic_statement_form
@@ -451,7 +453,11 @@ RSpec.feature 'Candidate is redirected correctly' do
     click_button t('save_and_continue')
   end
 
-  def and_i_should_see_my_updated_gcse_qualification
+  def when_i_navigate_back_to_the_gcse_review_page
+    visit candidate_interface_application_review_path
+  end
+
+  def then_i_should_see_my_updated_gcse_qualification
     within('[data-qa="gcse-english-qualification"]') do
       expect(page).to have_content('School Certificate English')
     end

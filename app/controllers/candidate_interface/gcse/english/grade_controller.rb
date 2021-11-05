@@ -26,7 +26,7 @@ module CandidateInterface
       @qualification_type = gcse_english_qualification.qualification_type
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
-      render view_path
+      render view_path(update_path: true)
     end
 
     def update
@@ -44,7 +44,7 @@ module CandidateInterface
         end
       else
         track_validation_error(@gcse_grade_form)
-        render view_path
+        render view_path(update_path: true)
       end
     end
 
@@ -75,17 +75,17 @@ module CandidateInterface
         ])
     end
 
-    def view_path
+    def view_path(update_path: false)
       if gcse_qualification? && application_not_submitted_yet?
-        if gcse_english_qualification.award_year.nil?
-          'candidate_interface/gcse/english/grade/multiple_gcse_new'
-        else
+        if update_path
           'candidate_interface/gcse/english/grade/multiple_gcse_edit'
+        else
+          'candidate_interface/gcse/english/grade/multiple_gcse_new'
         end
-      elsif gcse_english_qualification.award_year.nil?
-        'candidate_interface/gcse/english/grade/new'
-      else
+      elsif update_path
         'candidate_interface/gcse/english/grade/edit'
+      else
+        'candidate_interface/gcse/english/grade/new'
       end
     end
 

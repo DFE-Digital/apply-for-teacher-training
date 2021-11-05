@@ -32,10 +32,9 @@ module CandidateInterface
 
     def update
       @type_form = GcseQualificationTypeForm.new(qualification_params)
-      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
 
       if @type_form.update(current_qualification)
-        redirect_to @return_to[:back_path]
+        redirect_to next_gcse_path_after_edit
       else
         track_validation_error(@type_form)
         render :edit
@@ -43,6 +42,20 @@ module CandidateInterface
     end
 
   private
+
+    def next_gcse_path_after_edit
+      @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path)
+      if changed_qualification_type?
+        next_gcse_path
+      else
+        @return_to[:back_path]
+      end
+    end
+
+    def changed_qualification_type?
+      current_qualification.saved_change_to_qualification_type.present? &&
+        !@type_form.missing_qualification?
+    end
 
     def next_gcse_path
       if non_uk_qualification?
