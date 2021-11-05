@@ -12,9 +12,11 @@ RSpec.describe MonthlyStatistics::ByArea do
     create_application_choice(statuses: %i[with_deferred_offer with_declined_offer], status_before_deferral: 'offer', region_code: 'london', recruitment_cycle_year: RecruitmentCycle.current_year)
     create_application_choice(statuses: %i[with_conditions_not_met], region_code: 'wales')
     create_application_choice(statuses: %i[with_offer], region_code: 'london')
+    create_application_choice(statuses: %i[with_withdrawn_offer], region_code: 'north_east')
+    create_application_choice(statuses: %i[withdrawn], region_code: 'north_east')
     create_application_choice_with_previous_application(status: :with_rejection, region_code: 'north_west')
 
-    expect(column_totals).to eq([1, 0, 3, 1, 3, 8])
+    expect(column_totals).to eq([1, 0, 3, 1, 5, 10])
     expect(totals_for('London')).to eq(
       'Recruited' => 0,
       'Conditions pending' => 0,
@@ -54,6 +56,15 @@ RSpec.describe MonthlyStatistics::ByArea do
       'Awaiting provider decisions' => 0,
       'Unsuccessful' => 1,
       'Total' => 1,
+    )
+
+    expect(totals_for('North East')).to eq(
+      'Recruited' => 0,
+      'Conditions pending' => 0,
+      'Received an offer' => 0,
+      'Awaiting provider decisions' => 0,
+      'Unsuccessful' => 2,
+      'Total' => 2,
     )
   end
 

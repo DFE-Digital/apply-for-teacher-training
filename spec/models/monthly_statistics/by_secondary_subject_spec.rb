@@ -178,8 +178,8 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Conditions pending' => 2,
               'Received an offer' => 4,
               'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 3,
-              'Total' => 10,
+              'Unsuccessful' => 4,
+              'Total' => 11,
             },
             {
               'Subject' => 'Music',
@@ -241,8 +241,8 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Conditions pending' => 0,
               'Received an offer' => 1,
               'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 0,
-              'Total' => 1,
+              'Unsuccessful' => 1,
+              'Total' => 2,
             },
             {
               'Subject' => 'Further education',
@@ -254,7 +254,7 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
               'Total' => 1,
             },
           ],
-          column_totals: [5, 9, 12, 1, 9, 36],
+          column_totals: [5, 9, 12, 1, 11, 38],
         },
       )
     end
@@ -289,6 +289,7 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Mathematics')
     create_application_choice_for_this_cycle(status: :with_rejection, subject: 'French')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'German')
+    create_application_choice_for_this_cycle(status: :withdrawn, subject: 'German')
     create_application_choice_for_this_cycle(status: :with_rejection, subject: 'Mandarin')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Spanish')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Japanese')
@@ -300,6 +301,7 @@ RSpec.describe MonthlyStatistics::BySecondarySubject do
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Psychology')
     create_application_choice_for_this_cycle(status: :with_rejection, subject: 'Religious education')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Social sciences')
+    create_application_choice_for_this_cycle(status: :withdrawn, subject: 'Social sciences')
   end
 
   def create_application_choice_for_this_cycle(status:, subject:)

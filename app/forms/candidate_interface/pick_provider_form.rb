@@ -6,7 +6,12 @@ module CandidateInterface
     validates :provider_id, presence: true
 
     def available_providers
-      @available_providers ||= Provider.joins(:courses).where(courses: { recruitment_cycle_year: RecruitmentCycle.current_year, exposed_in_find: true }).order(:name).distinct
+      @available_providers ||= Provider
+      .joins(:courses)
+      .where(courses: { recruitment_cycle_year: RecruitmentCycle.current_year, exposed_in_find: true })
+      .where('courses.applications_open_from <= ?', Time.zone.today)
+      .order(:name)
+      .distinct
     end
   end
 end

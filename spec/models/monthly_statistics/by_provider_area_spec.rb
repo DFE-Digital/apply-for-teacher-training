@@ -43,8 +43,8 @@ RSpec.describe MonthlyStatistics::ByProviderArea do
               'Conditions pending' => 0,
               'Received an offer' => 0,
               'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 0,
-              'Total' => 1,
+              'Unsuccessful' => 2,
+              'Total' => 3,
             },
             {
               'Area' => 'North West',
@@ -92,7 +92,7 @@ RSpec.describe MonthlyStatistics::ByProviderArea do
               'Total' => 1,
             },
           ],
-          column_totals: [2, 2, 2, 0, 3, 9],
+          column_totals: [2, 2, 2, 0, 5, 11],
         },
       )
     end
@@ -111,6 +111,8 @@ RSpec.describe MonthlyStatistics::ByProviderArea do
     create_application_choice_for_this_cycle(status: :with_rejection, region_code: 'south_west')
     create_application_choice_for_this_cycle(status: :with_offer, region_code: 'west_midlands')
     create_application_choice_for_this_cycle(status: :with_conditions_not_met, region_code: 'yorkshire_and_the_humber')
+    create_application_choice_for_this_cycle(status: :withdrawn, region_code: 'north_east')
+    create_application_choice_for_this_cycle(status: :with_withdrawn_offer, region_code: 'north_east')
   end
 
   def create_application_choice_for_this_cycle(status:, region_code:)

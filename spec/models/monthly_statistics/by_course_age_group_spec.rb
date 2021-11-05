@@ -22,19 +22,19 @@ RSpec.describe MonthlyStatistics::ByCourseAgeGroup do
           'Conditions pending' => 1,
           'Received an offer' => 1,
           'Awaiting provider decisions' => 0,
-          'Unsuccessful' => 1,
-          'Total' => 3 },
+          'Unsuccessful' => 2,
+          'Total' => 4 },
         {
           'Age group' => 'Further education',
           'Recruited' => 0,
           'Conditions pending' => 0,
           'Received an offer' => 1,
           'Awaiting provider decisions' => 0,
-          'Unsuccessful' => 1,
-          'Total' => 2,
+          'Unsuccessful' => 2,
+          'Total' => 3,
         },
       ],
-      column_totals: [1, 1, 2, 1, 3, 8],
+      column_totals: [1, 1, 2, 1, 5, 10],
     })
   end
 
@@ -47,7 +47,9 @@ RSpec.describe MonthlyStatistics::ByCourseAgeGroup do
     create(:application_choice, :with_recruited, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'primary')))
     create(:application_choice, :with_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'secondary')))
     create(:application_choice, :with_conditions_not_met, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'secondary')))
+    create(:application_choice, :with_withdrawn_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'secondary')))
     create(:application_choice, :with_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'further_education')))
     create(:application_choice, :with_rejection, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'further_education')))
+    create(:application_choice, :withdrawn, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: create(:course_option, course: create(:course, level: 'further_education')))
   end
 end

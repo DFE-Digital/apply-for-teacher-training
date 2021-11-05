@@ -29,7 +29,7 @@ en:
         'yes':
           label: Yes, you can contact me
         'no':
-          label: I’d prefer not to say
+          label: No, do not contact me about my experience of using the service
       contact_details:
         label: Please let us know when you’re available and give a phone number.
       success:

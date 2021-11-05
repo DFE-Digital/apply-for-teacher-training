@@ -8,9 +8,12 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
       generate_test_data
       hash = add_test_data_to_hash(hash)
       expected_output = remove_key_from_hash(hash).sort
-      output = described_class.new.data_for_export
+      output = described_class.new.data_for_export.sort
 
-      expect(output).to eq(expected_output)
+      expected_output_with_empty_rows_removed = expected_output.reject { |row| row['Total'].zero? }
+      output_with_empty_rows_removed = output.reject { |row| row['Total'].zero? }
+
+      expect(output_with_empty_rows_removed).to eq(expected_output_with_empty_rows_removed)
     end
 
   private

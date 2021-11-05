@@ -1,7 +1,3 @@
-<p class="govuk-body">
-  Showing application choices with rejection reason <strong><%= search_title_text %></strong>
-</p>
-
 <% @application_choices.each do |application_choice| %>
   <section class="app-summary-card govuk-!-margin-bottom-6" id="application-choice-section-<%= application_choice.id %>">
     <%= render(SummaryCardHeaderComponent.new(

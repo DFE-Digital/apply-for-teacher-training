@@ -182,6 +182,10 @@ RSpec.describe ViewHelper, type: :helper do
       expect(helper.formatted_percentage(0, 24)).to eq '0%'
     end
 
+    it 'returns the correct value for a zero percentage of a zero total' do
+      expect(helper.formatted_percentage(0, 0)).to eq '0%'
+    end
+
     it 'handles NaN' do
       expect(helper.formatted_percentage(1, 0)).to eq '-'
     end
