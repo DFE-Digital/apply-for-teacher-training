@@ -76,8 +76,14 @@ class DataExport < ApplicationRecord
     external_report_applications: {
       name: 'External report applications',
       export_type: 'external_report_applications',
-      description: 'Aggregated applications choice data for the external reporting dashboard.',
+      description: 'Aggregated application choice data for the external reporting dashboard.',
       class: SupportInterface::ExternalReportApplicationsExport,
+    },
+    external_report_candidates: {
+      name: 'External report candidates',
+      export_type: 'external_report_candidates',
+      description: 'Aggregated candidate data for the external reporting dashboard.',
+      class: SupportInterface::ExternalReportCandidatesExport,
     },
     find_feedback: {
       name: 'Find feedback',
@@ -253,6 +259,7 @@ class DataExport < ApplicationRecord
     candidate_course_choice_withdrawal_survey: 'candidate_course_choice_withdrawal_survey',
     equality_and_diversity: 'equality_and_diversity',
     external_report_applications: 'external_report_applications',
+    external_report_candidates: 'external_report_candidates',
     find_feedback: 'find_feedback',
     interviews_export: 'interview_export',
     ministerial_report_applications_export: 'ministerial_report_applications_export',

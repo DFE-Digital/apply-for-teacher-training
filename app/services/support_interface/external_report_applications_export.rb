@@ -31,7 +31,7 @@ module SupportInterface
         end
       end
 
-      output.sort_by { |row| [row['Course type'], row['Age group'], row['Subject'], row['Provider area']] }
+      output
     end
 
   private
