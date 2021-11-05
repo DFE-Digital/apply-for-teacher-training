@@ -47,7 +47,7 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
 
     # check awaiting_provider_decision takes precedence over unsuccessful states
     create(:application_choice, :awaiting_provider_decision, application_form: application_form_22_year_old2)
-    create(:application_choice, :with_conditions_not_met, application_form: application_form_22_year_old2)
+    create(:application_choice, :withdrawn, application_form: application_form_22_year_old2)
 
     create(:application_choice, :awaiting_provider_decision, application_form: application_form_23_year_old)
     create(:application_choice, :with_conditions_not_met, application_form: application_form_23_year_old)
@@ -59,7 +59,7 @@ RSpec.describe MonthlyStatistics::ByAgeGroup do
     create(:application_choice, :with_rejection, application_form: application_form_30_to_34_year_old)
 
     # only counts the latest application form
-    create(:application_choice, :with_rejection, application_form: first_application_form_40_to_44_year_old)
+    create(:application_choice, :with_withdrawn_offer, application_form: first_application_form_40_to_44_year_old)
     create(:application_choice, :with_recruited, application_form: second_application_form_40_to_44_year_old)
 
     # counts deferred offers from the previous cycle

@@ -15,8 +15,8 @@ RSpec.describe MonthlyStatistics::ByCourseType do
             'Conditions pending' => 0,
             'Received an offer' => 0,
             'Awaiting provider decisions' => 1,
-            'Unsuccessful' => 1,
-            'Total' => 3,
+            'Unsuccessful' => 2,
+            'Total' => 4,
           },
           {
             'Course type' => 'Postgraduate teaching apprenticeship',
@@ -24,8 +24,8 @@ RSpec.describe MonthlyStatistics::ByCourseType do
             'Conditions pending' => 1,
             'Received an offer' => 1,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 1,
-            'Total' => 3,
+            'Unsuccessful' => 2,
+            'Total' => 4,
           },
           {
             'Course type' => 'School-centred initial teacher training (SCITT)',
@@ -56,7 +56,7 @@ RSpec.describe MonthlyStatistics::ByCourseType do
           },
 
         ],
-        column_totals: [2, 3, 4, 1, 5, 15] },
+        column_totals: [2, 3, 4, 1, 7, 17] },
     )
   end
 
@@ -70,9 +70,11 @@ RSpec.describe MonthlyStatistics::ByCourseType do
 
     # current year
     create_application_choice_for_this_cycle(status: :with_rejection, program_type: 'higher_education_programme')
+    create_application_choice_for_this_cycle(status: :withdrawn, program_type: 'higher_education_programme')
     create_application_choice_for_this_cycle(status: :awaiting_provider_decision, program_type: 'higher_education_programme')
     create_application_choice_for_this_cycle(status: :with_offer, program_type: 'pg_teaching_apprenticeship')
     create_application_choice_for_this_cycle(status: :with_conditions_not_met, program_type: 'pg_teaching_apprenticeship')
+    create_application_choice_for_this_cycle(status: :with_withdrawn_offer, program_type: 'pg_teaching_apprenticeship')
     create_application_choice_for_this_cycle(status: :with_offer, program_type: 'scitt_programme')
     create_application_choice_for_this_cycle(status: :with_rejection, program_type: 'scitt_programme')
     create_application_choice_for_this_cycle(status: :with_offer, program_type: 'school_direct_training_programme')

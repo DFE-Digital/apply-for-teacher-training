@@ -19,7 +19,11 @@ module MonthlyStatistics
     end
 
     def unsuccessful_count(statuses)
-      (statuses['declined'] || 0) + (statuses['rejected'] || 0) + (statuses['conditions_not_met'] || 0)
+      (statuses['declined'] || 0) +
+        (statuses['rejected'] || 0) +
+        (statuses['conditions_not_met'] || 0) +
+        (statuses['withdrawn'] || 0) +
+        (statuses['offer_withdrawn'] || 0)
     end
 
     def statuses_count(statuses)
