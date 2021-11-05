@@ -1,6 +1,7 @@
 module ProviderInterface
   class ApplicationDataExportController < ProviderInterfaceController
     include StreamableDataExport
+    include CSVNameHelper
 
     BATCH_SIZE = 300
 
@@ -41,7 +42,7 @@ module ProviderInterface
           .find_each(batch_size: BATCH_SIZE)
 
         self.response_body = streamable_response(
-          filename: csv_filename,
+          filename: csv_filename(export_name: 'application-data', cycle_years: cycle_years, providers: providers),
           export_headings: ApplicationDataExport.export_row(export_data.first).keys,
           export_data: export_data,
           item_yielder: proc { |item| ApplicationDataExport.export_row(item).values },
@@ -55,10 +56,6 @@ module ProviderInterface
 
     def application_data_export_params
       params.require(:provider_interface_application_data_export_form).permit(:application_status_choice, statuses: [], provider_ids: [], recruitment_cycle_years: [])
-    end
-
-    def csv_filename
-      "#{Time.zone.now}.applications-export.csv"
     end
 
     def redirect_to_hesa_export_unless_feature_enabled
