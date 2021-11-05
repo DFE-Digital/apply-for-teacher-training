@@ -12,6 +12,8 @@ RSpec.describe MonthlyStatistics::BySex do
     create_application_choice(status: :with_deferred_offer, sex: 'female', recruitment_cycle_year: RecruitmentCycle.current_year)
     create_application_choice(status: :with_conditions_not_met, sex: 'intersex')
     create_application_choice(status: :with_offer, sex: 'female')
+    create_application_choice(status: :with_withdrawn_offer, sex: 'female')
+    create_application_choice(status: :withdrawn, sex: 'male')
     create_application_choice_with_previous_application(status: :with_rejection, sex: 'male')
 
     expect(statistics).to eq(
@@ -23,8 +25,8 @@ RSpec.describe MonthlyStatistics::BySex do
             'Conditions pending' => 0,
             'Received an offer' => 1,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 1,
-            'Total' => 2,
+            'Unsuccessful' => 2,
+            'Total' => 3,
           },
           {
             'Sex' => 'Male',
@@ -32,8 +34,8 @@ RSpec.describe MonthlyStatistics::BySex do
             'Conditions pending' => 0,
             'Received an offer' => 1,
             'Awaiting provider decisions' => 0,
-            'Unsuccessful' => 1,
-            'Total' => 2,
+            'Unsuccessful' => 2,
+            'Total' => 3,
           },
           {
             'Sex' => 'Intersex',
@@ -54,7 +56,7 @@ RSpec.describe MonthlyStatistics::BySex do
             'Total' => 2,
           },
         ],
-        column_totals: [1, 0, 3, 1, 3, 8] },
+        column_totals: [1, 0, 3, 1, 5, 10] },
     )
   end
 
