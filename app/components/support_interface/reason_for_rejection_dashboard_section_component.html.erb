@@ -4,6 +4,7 @@
       @heading,
       support_interface_reasons_for_rejection_application_choices_path(
         "structured_rejection_reasons[#{@reason_key}]" => 'Yes',
+        'recruitment_cycle_year' => @recruitment_cycle_year,
       ),
     ) %>
   </h2>
@@ -11,32 +12,31 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
       <%= render SupportInterface::TileComponent.new(
-        count: @percentage_rejected,
+        count: percentage_rejected_for_reason,
         label: number_of_rejections_out_of_total_rejections,
-        colour: :blue,
+        colour: 'light-blue',
         size: :reduced,
       ) %>
     </div>
-    <div class="govuk-grid-column-one-quarter">
-      <%= render SupportInterface::TileComponent.new(
-        count: @total_count,
-        label: 'total',
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-      <%= render SupportInterface::TileComponent.new(
-        count: @this_month,
-        label: 'this month',
-        size: :reduced,
-      ) %>
-    </div>
+    <% if @recruitment_cycle_year == RecruitmentCycle.current_year %>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: percentage_rejected_for_reason_this_month,
+          label: number_of_rejections_out_of_total_this_month,
+          size: :reduced,
+        ) %>
+      </div>
+    <% end %>
   </div>
   <% if @sub_reasons_result %>
     <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
       reason: @reason_key,
       sub_reasons: @sub_reasons_result,
-      total: @total_structured_rejection_reasons_count,
+      total_all_time: @total_rejection_count,
+      total_this_month: @total_rejection_count_this_month,
+      total_for_reason_all_time: rejection_count,
+      total_for_reason_this_month: rejection_count(:this_month),
+      recruitment_cycle_year: @recruitment_cycle_year,
     ) %>
   <% end %>
 </section>

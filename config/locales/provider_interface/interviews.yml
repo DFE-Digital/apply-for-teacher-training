@@ -36,13 +36,13 @@ en:
   helpers:
     label:
       provider_interface_interview_wizard:
-        time: Time
+        time: Start time
         location: Address or online meeting details
         additional_details: Additional details
     hint:
       provider_interface_interview_wizard:
         date: No later than %{rbd_date}, after which the application will be automatically rejected - enter numbers, for example, %{example_date}
-        time: For example, 9am or 2:30pm - enter 12pm for midday
+        time: For example, 2pm or 14:30
     legend:
       provider_interface_interview_wizard:
         date: Date

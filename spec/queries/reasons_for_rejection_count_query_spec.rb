@@ -128,4 +128,14 @@ RSpec.describe ReasonsForRejectionCountQuery do
       expect(counts[:quality_of_application_y_n].sub_reasons[:personal_statement]).to eq(described_class::Result.new(2, 1, nil))
     end
   end
+
+  describe '#total_structured_reasons_for_rejection' do
+    it 'returns the count of all applications with structured reasons for rejection' do
+      expect(described_class.new.total_structured_reasons_for_rejection).to eq(3)
+    end
+
+    it 'returns the count of applications with structured reasons for rejection for this month' do
+      expect(described_class.new.total_structured_reasons_for_rejection(time_period: :this_month)).to eq(2)
+    end
+  end
 end

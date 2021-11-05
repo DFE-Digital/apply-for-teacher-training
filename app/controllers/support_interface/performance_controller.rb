@@ -30,6 +30,8 @@ module SupportInterface
       query = ReasonsForRejectionCountQuery.new(year_param)
       @reasons_for_rejection = query.sub_reason_counts
       @total_structured_rejection_reasons_count = query.total_structured_reasons_for_rejection
+      @total_structured_rejection_reasons_count_this_month = query.total_structured_reasons_for_rejection(time_period: :this_month)
+      @recruitment_cycle_year = year_param.to_i
     end
 
     def reasons_for_rejection_application_choices

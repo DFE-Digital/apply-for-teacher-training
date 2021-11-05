@@ -103,7 +103,7 @@ GEM
       chartkick (>= 3.2)
       railties (>= 5)
       safely_block (>= 0.1.1)
-    brakeman (5.1.1)
+    brakeman (5.1.2)
     builder (3.2.4)
     bullet (6.1.5)
       activesupport (>= 3.0.0)
@@ -599,6 +599,7 @@ GEM
       httpclient (>= 2.4)
     thor (1.1.0)
     timecop (0.9.4)
+    timeliness (0.4.4)
     trailblazer-option (0.1.1)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -766,6 +767,7 @@ DEPENDENCIES
   strong_migrations
   super_diff
   timecop
+  timeliness
   tzinfo-data
   uk_postcode
   view_component

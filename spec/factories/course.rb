@@ -9,8 +9,10 @@ FactoryBot.define do
     description { 'PGCE with QTS full time' }
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
+    applications_open_from { CycleTimetable.apply_opens }
     age_range { '4 to 8' }
     withdrawn { false }
+    program_type { 'scitt_programme' }
 
     funding_type { %w[fee salary apprenticeship].sample }
     course_subjects { [association(:course_subject, course: instance)] }
@@ -19,6 +21,7 @@ FactoryBot.define do
       open_on_apply { true }
       exposed_in_find { true }
       opened_on_apply_at { 2.months.ago }
+      applications_open_from { 2.months.ago }
     end
 
     trait :with_accredited_provider do

@@ -63,6 +63,7 @@ module TeacherTrainingPublicAPI
       course.description = course_from_api.summary
       course.start_date = course_from_api.start_date
       course.course_length = course_from_api.course_length
+      course.applications_open_from = course_from_api.applications_open_from
       course.recruitment_cycle_year = recruitment_cycle_year
       course.exposed_in_find = course_from_api.findable
       course.funding_type = course_from_api.funding_type

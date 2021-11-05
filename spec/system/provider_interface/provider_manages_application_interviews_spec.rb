@@ -65,41 +65,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     when_i_set_up_another_interview(days_in_future: 4)
     then_another_interview_has_been_created(4.days.from_now.to_s(:govuk_date))
-
-    unless FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-      when_i_can_make_decisions_for_my_provider
-      and_i_visit_that_application_in_the_provider_interface
-      when_i_click_make_decision
-      and_i_make_an_offer
-      then_i_should_see_the_interview_on_the_interview_tab(4.days.from_now.to_s(:govuk_date))
-      but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
-    end
-  end
-
-  def when_i_reload_the_page
-    visit current_path
-  end
-
-  def when_i_click_make_decision
-    click_link 'Make decision'
-  end
-
-  def and_i_make_an_offer
-    choose 'Make an offer'
-    click_button 'Continue'
-    click_button 'Continue' # conditions page
-    click_button 'Send offer'
-  end
-
-  def then_i_should_see_the_interview_on_the_interview_tab(date)
-    click_link 'Interviews'
-    and_an_interview_has_been_created(date)
-  end
-
-  def but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
-    expect(page).not_to have_button('Set up interview')
-    expect(page).not_to have_link('Cancel interview')
-    expect(page).not_to have_link('Change interview')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -110,10 +75,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     provider_user_exists_in_apply_database
   end
 
-  def when_i_can_make_decisions_for_my_provider
-    permit_make_decisions!
-  end
-
   def and_i_am_permitted_to_set_up_interviews_for_my_provider
     permit_set_up_interviews!
   end
@@ -122,15 +83,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     visit provider_interface_application_choice_path(application_choice)
   end
 
-  alias_method :and_i_visit_that_application_in_the_provider_interface, :when_i_visit_that_application_in_the_provider_interface
-
   def and_i_click_set_up_an_interview
     click_on 'Set up interview'
-  end
-
-  def i_can_set_up_an_interview
-    visit new_provider_interface_application_choice_interview_path(application_choice, date_and_time: 1.month.from_now)
-    expect(page).to have_content('Interview successfully created')
   end
 
   def when_i_set_up_another_interview(days_in_future:)
@@ -146,7 +100,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     fill_in 'Month', with: tomorrow.month
     fill_in 'Year', with: tomorrow.year
 
-    fill_in 'Time', with: time
+    fill_in 'Start time', with: time
 
     fill_in 'Address or online meeting details', with: 'N/A'
 
@@ -189,7 +143,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     end
   end
 
-  alias_method :and_another_interview_has_been_created, :and_an_interview_has_been_created
   alias_method :then_another_interview_has_been_created, :and_an_interview_has_been_created
 
   def when_i_change_the_interview_details
@@ -198,14 +151,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_field('Day', with: 1.day.from_now.day)
     expect(page).to have_field('Month', with: 1.day.from_now.month)
     expect(page).to have_field('Year', with: 1.day.from_now.year)
-    expect(page).to have_field('Time', with: '12:00pm')
+    expect(page).to have_field('Start time', with: '12:00pm')
     expect(page).to have_field('Address or online meeting details', with: 'N/A')
     expect(page).to have_field('Additional details (optional)', with: '')
 
     fill_in 'Day', with: 2.days.from_now.day
     fill_in 'Month', with: 2.days.from_now.month
     fill_in 'Year', with: 2.days.from_now.year
-    fill_in 'Time', with: '10am'
+    fill_in 'Start time', with: '10am'
 
     fill_in 'Address or online meeting details', with: 'Zoom meeting'
     fill_in 'Additional details (optional)', with: 'Business casual'
@@ -216,7 +169,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
     expect(page).to have_content("Date\n#{2.days.from_now.to_s(:govuk_date)}")
-    expect(page).to have_content("Time\n10am")
+    expect(page).to have_content("Start time\n10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
 

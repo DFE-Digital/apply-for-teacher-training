@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'See Fraud Auditing matches' do
+RSpec.feature 'See Duplicate candidate matches' do
   include DfESignInHelpers
   include CandidateHelper
 
-  scenario 'Support agent visits Fraud Auditing Dashboard page' do
+  scenario 'Support agent visits Duplicate candidate matches page' do
     given_i_am_a_support_user
     and_there_are_candidates_with_duplicate_applications_in_the_system
 
@@ -40,7 +40,7 @@ RSpec.feature 'See Fraud Auditing matches' do
   end
 
   def and_i_click_to_remove_access_from_the_second_candidate
-    click_link 'Remove Joffrey Thompson'
+    click_link "Remove #{@candidate_two.email_address}"
   end
 
   def then_i_see_the_confirm_remove_access_page

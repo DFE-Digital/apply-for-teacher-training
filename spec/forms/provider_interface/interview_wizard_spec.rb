@@ -115,8 +115,15 @@ RSpec.describe ProviderInterface::InterviewWizard do
       end
 
       context 'checks if the time is in the correct format' do
-        let(:invalid_times) { ['noon', '1700', '12:30', '12:3pm', '1800pm', '30am', '800am', '140am', '9 am', '14pm', '6767'] }
-        let(:valid_times) { ['12:30pm', '2pm', '1.30am', '01.24AM', '09am', '9:00am', '9 00am', '9am', '9:30am', '9 30am', '9.30am'] }
+        let(:invalid_times) do
+          ['00am', '0am', '17:15am', '1715am', '20:45pm', '900a m', 'noon', '12:3pm', '1800pm', '30am', '14pm', '6767']
+        end
+        let(:valid_times) do
+          ['05:15', '16:15', '0755', '1535', '09.43', '17.26', '08 26', '18 24', '8:am', '3:pm', '615am', '745.pm',
+           '900a.m.', '1000a.m', '1200 am', '6 30am', '7 30 am', '0515pm', '05:15am', '01.15am', '5:00am', '3.', '13',
+           '12:30pm', '2pm', '1.30am', '01.24AM', '09am', '9:00am', '9 00am', '9am', '9:30am', '9 30am', '9.30am',
+           '00', '0', '06']
+        end
 
         it 'the wizard is invalid and contains the right error when time is invalid' do
           invalid_times.each do |time|

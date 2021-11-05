@@ -10,7 +10,8 @@ class GetRecruitedApplicationChoices
 
     application_choices
       .includes(INCLUDES)
-      .where(application_forms: { recruitment_cycle_year: recruitment_cycle_year })
+      .joins(:current_course)
+      .merge(Course.in_cycle(recruitment_cycle_year))
       .where.not(recruited_at: nil)
   end
 end

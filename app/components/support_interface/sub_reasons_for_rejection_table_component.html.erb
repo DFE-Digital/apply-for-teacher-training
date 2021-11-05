@@ -1,10 +1,13 @@
 <table class="govuk-table govuk-!-margin-top-2">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header" width="40%">Reason</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="10%">%&nbsp;of&nbsp;<%= @total %><br>choices</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="25%">Total</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="25%">This month</th>
+      <th scope="col" class="govuk-table__header" width="30%">Reason</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections within this category</th>
+      <% if recruitment_cycle_year == RecruitmentCycle.current_year %>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections in <%= month_name %></th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="17.5%">Percentage of all rejections in <%= month_name %> within this category</th>
+      <% end %>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -15,18 +18,28 @@
             sub_reason_label(sub_reason),
             support_interface_reasons_for_rejection_application_choices_path(
               "structured_rejection_reasons[#{sub_reason_key}]": sub_reason,
+              recruitment_cycle_year: recruitment_cycle_year,
             ),
           ) %>
         </th>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= sub_reason_percentage(sub_reason) %>
+          <%= sub_reason_percentage(sub_reason) %><br>
+          <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason)} of #{total_all_time}" %></span>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= sub_reason_result&.all_time || 0 %>
+          <%= sub_reason_percentage_of_reason(sub_reason) %><br>
+          <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason)} of #{total_for_reason}" %>
         </td>
-        <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= sub_reason_result&.this_month || 0 %>
-        </td>
+        <% if recruitment_cycle_year == RecruitmentCycle.current_year %>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <%= sub_reason_percentage(sub_reason, :this_month) %><br>
+            <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_this_month}" %>
+          </td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <%= sub_reason_percentage_of_reason(sub_reason, :this_month) %><br>
+            <span class="govuk-caption-m"><%= "#{sub_reason_count(sub_reason, :this_month)} of #{total_for_reason(:this_month)}" %></span>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -36,10 +36,6 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       render_result([@application_choice])
     end
 
-    it 'renders the correct title' do
-      expect(@rendered_result.text).to include('Showing application choices with rejection reason Quality of application')
-    end
-
     it 'renders a link to the application form' do
       expect(@rendered_result.css("a[href='/support/applications/123']")).to be_present
     end
@@ -80,12 +76,6 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
         application_form_id: 123,
       )
       render_result([@application_choice], :qualifications_which_qualifications, :no_degree)
-    end
-
-    it 'renders the correct title' do
-      expect(@rendered_result.text).to include(
-        'Showing application choices with rejection reason Qualifications - No degree',
-      )
     end
 
     it 'highlights the search term' do

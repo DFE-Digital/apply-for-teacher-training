@@ -20,6 +20,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
             summary: 'PGCE with QTS full time',
             start_date: '2021-09-01',
             course_length: 'OneYear',
+            applications_open_from: CycleTimetable.apply_opens,
             age_minimum: 4,
             age_maximum: 8,
           }],
@@ -56,6 +57,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(course_option.course.description).to eq 'PGCE with QTS full time'
         expect(course_option.course.start_date).to eq Time.zone.local(2021, 9, 1)
         expect(course_option.course.course_length).to eq 'OneYear'
+        expect(course_option.course.applications_open_from).to eq CycleTimetable.apply_opens
         expect(course_option.course.age_range).to eq '4 to 8'
         expect(course_option.site.name).to eq 'Main site'
         expect(course_option.site.address_line1).to eq 'Gorse SCITT'

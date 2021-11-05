@@ -15,12 +15,12 @@ module SupportInterface
           match: match,
           first_names: candidates.map { |candidate| candidate.application_forms.first.first_name },
           last_name: match.last_name,
-          fraudulent: marked_as_fraudulent?(match),
           candidate_last_contacted_at: match.candidate_last_contacted_at&.to_s(:govuk_date_and_time),
           email_addresses: candidates,
           submitted_at: candidates.map { |candidate| submitted?(candidate) },
           blocked: match.id,
           remove_access_links: remove_access_links(match),
+          fraudulent: marked_as_fraudulent?(match),
         }
       end
     end
@@ -40,9 +40,9 @@ module SupportInterface
     end
 
     def remove_access_links(match)
-      match.candidates.map do |candidate|
+      match.candidates.sort_by(&:id).map do |candidate|
         govuk_link_to(
-          "Remove #{candidate.application_forms.first.full_name}",
+          "Remove #{candidate.email_address}",
           support_interface_fraud_auditing_matches_confirm_remove_access_path(match.id, candidate.id),
         )
       end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_18_224153) do
+ActiveRecord::Schema.define(version: 2021_11_02_114822) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -388,6 +388,8 @@ ActiveRecord::Schema.define(version: 2021_10_18_224153) do
     t.boolean "accept_maths_gcse_equivalency"
     t.boolean "accept_science_gcse_equivalency"
     t.string "additional_gcse_equivalencies"
+    t.datetime "applications_open_from"
+    t.index ["applications_open_from"], name: "index_courses_on_applications_open_from"
     t.index ["code"], name: "index_courses_on_code"
     t.index ["exposed_in_find", "open_on_apply"], name: "index_courses_on_exposed_in_find_and_open_on_apply"
     t.index ["provider_id"], name: "index_courses_on_provider_id"

@@ -153,7 +153,7 @@ en:
     references_type: What kind of referee do you want to add?
     references_relationship: How do you know this referee and how long have you known them?
     references_unsubmitted_review: Check your answers before sending your request
-    references_candidate_name: What is your name?
+    references_candidate_name: What’s your name?
     references_send_request: Are you ready to send a reference request?
     references_retry_request: Retry reference request
     references_cancel_request: Are you sure you want to cancel this reference request?

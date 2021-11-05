@@ -78,20 +78,14 @@ RSpec.describe MakeOffer do
         expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
       end
 
-      context 'when the feature flag is on' do
-        before do
-          FeatureFlag.activate(:cancel_upcoming_interviews_on_decision_made)
-        end
+      it 'then calls the cancel upcoming interview services' do
+        cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
 
-        it 'then calls the cancel upcoming interview services' do
-          cancel_upcoming_interviews = instance_double(CancelUpcomingInterviews, call!: true)
-
-          allow(CancelUpcomingInterviews)
-            .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'We made you an offer.')
-               .and_return(cancel_upcoming_interviews)
-          make_offer.save!
-          expect(cancel_upcoming_interviews).to have_received(:call!)
-        end
+        allow(CancelUpcomingInterviews)
+          .to receive(:new).with(actor: provider_user, application_choice: application_choice, cancellation_reason: 'We made you an offer.')
+             .and_return(cancel_upcoming_interviews)
+        make_offer.save!
+        expect(cancel_upcoming_interviews).to have_received(:call!)
       end
     end
 

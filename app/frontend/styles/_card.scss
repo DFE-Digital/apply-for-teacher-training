@@ -11,6 +11,11 @@
   color: govuk-colour("white");
 }
 
+.app-card--light-blue {
+  background: govuk-tint(govuk-colour("light-blue"), 73.5);
+  color: govuk-tint(govuk-colour("dark-blue"), 5);
+}
+
 .app-card--green {
   background: govuk-colour("green");
   color: govuk-colour("white");

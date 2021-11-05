@@ -1,14 +1,15 @@
 module ProviderInterface
   class OfferWizard
-    include ActiveModel::Model
+    include Wizard
+    include Wizard::PathHistory
 
     STEPS = { make_offer: %i[select_option conditions check],
               change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
     MAX_FURTHER_CONDITIONS = OfferValidations::MAX_CONDITIONS_COUNT - OfferCondition::STANDARD_CONDITIONS.length
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode,
-                  :standard_conditions, :further_condition_attrs, :current_step, :decision,
-                  :action, :path_history, :wizard_path_history,
+                  :standard_conditions, :further_condition_attrs, :decision,
+                  :path_history,
                   :provider_user_id, :application_choice_id
 
     validates :decision, presence: true, on: %i[select_option]
@@ -18,14 +19,6 @@ module ProviderInterface
     validate :further_conditions_valid, on: %i[conditions]
     validate :max_conditions_length, on: %i[conditions]
     validate :course_option_details, if: :course_option_id, on: :save
-
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-      attrs = sanitize_parameters(attrs)
-
-      super(last_saved_state.merge(attrs))
-      update_path_history(attrs)
-    end
 
     def self.build_from_application_choice(state_store, application_choice, options = {})
       course_option = application_choice.current_course_option
@@ -45,7 +38,7 @@ module ProviderInterface
     end
 
     def conditions
-      @conditions = (standard_conditions + further_condition_models.map(&:text)).reject(&:blank?)
+      @conditions = (standard_conditions + further_condition_models.map(&:text).uniq).reject(&:blank?)
     end
 
     def conditions_to_render
@@ -54,18 +47,6 @@ module ProviderInterface
 
     def course_option
       CourseOption.find(course_option_id)
-    end
-
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
-    def valid_for_current_step?
-      valid?(current_step.to_sym)
     end
 
     def next_step(step = current_step)
@@ -81,8 +62,6 @@ module ProviderInterface
 
       next_step
     end
-
-    delegate :previous_step, to: :wizard_path_history
 
     def further_condition_models
       @_further_condition_models ||= further_condition_attrs.map do |index, params|
@@ -201,24 +180,8 @@ module ProviderInterface
       query_service.available_course_options(course: course, study_mode: study_mode)
     end
 
-    def last_saved_state
-      saved_state = @state_store.read
-      state_hash = saved_state ? JSON.parse(saved_state) : {}
-      state_hash.except('further_conditions')
-    end
-
-    def state
-      as_json(
-        except: %w[state_store errors validation_context query_service wizard_path_history _further_condition_models],
-      ).to_json
-    end
-
-    def update_path_history(attrs)
-      @wizard_path_history = WizardPathHistory.new(path_history,
-                                                   step: attrs[:current_step].presence,
-                                                   action: attrs[:action].presence)
-      @wizard_path_history.update
-      @path_history = @wizard_path_history.path_history
+    def state_excluded_attributes
+      %w[state_store errors validation_context query_service wizard_path_history _further_condition_models]
     end
 
     def further_conditions_valid
@@ -240,7 +203,7 @@ module ProviderInterface
       errors.add(:base, :exceeded_max_conditions, count: OfferValidations::MAX_CONDITIONS_COUNT)
     end
 
-    def sanitize_parameters(attrs)
+    def sanitize_attrs(attrs)
       if !last_saved_state.empty? && attrs[:course_id].present? && last_saved_state['course_id'] != attrs[:course_id]
         attrs.merge!(study_mode: nil, course_option_id: nil)
       end

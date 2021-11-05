@@ -10,17 +10,13 @@ class WithdrawApplication
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
     end
 
-    if FeatureFlag.active?(:cancel_upcoming_interviews_on_decision_made)
-      number_of_cancelled_interviews = application_choice.interviews.kept.upcoming_not_today.count
+    number_of_cancelled_interviews = application_choice.interviews.kept.upcoming_not_today.count
 
-      CancelUpcomingInterviews.new(
-        actor: application_choice.candidate,
-        application_choice: application_choice,
-        cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
-      ).call!
-    else
-      number_of_cancelled_interviews = 0
-    end
+    CancelUpcomingInterviews.new(
+      actor: application_choice.candidate,
+      application_choice: application_choice,
+      cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
+    ).call!
 
     if @application_choice.application_form.ended_without_success?
       CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later

@@ -10,7 +10,7 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-l">Are you sure you want to remove access from <%= @candidate.application_forms.first.full_name %>?</h1>
+      <h1 class="govuk-heading-l">Are you sure you want to remove access from <%= @candidate.email_address %>?</h1>
 
       <p class="govuk-body">When you remove access from a candidate it will update the candidates email address so they can not sign in.</p>
 

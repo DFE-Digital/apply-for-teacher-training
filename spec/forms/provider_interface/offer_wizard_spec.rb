@@ -134,21 +134,6 @@ RSpec.describe ProviderInterface::OfferWizard do
       expect(wizard.further_condition_attrs).to eq({ '0' => { 'text' => 'Be cool', 'condition_id' => expected_condition_id } })
     end
 
-    context 'when options are passed in' do
-      let(:options) do
-        {
-          current_step: 'my_step',
-          decision: 'my_decision',
-        }
-      end
-
-      it 'merges them into the initializing hash' do
-        expect(wizard).to be_valid
-        expect(wizard.current_step).to eq('my_step')
-        expect(wizard.decision).to eq('my_decision')
-      end
-    end
-
     context 'when there is no offer present' do
       let(:application_choice) { create(:application_choice) }
 
@@ -350,10 +335,6 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
       end
     end
-  end
-
-  describe '#previous_step' do
-    it { is_expected.to delegate_method(:previous_step).to(:wizard_path_history) }
   end
 
   describe '#conditions' do
