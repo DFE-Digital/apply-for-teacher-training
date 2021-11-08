@@ -60,12 +60,11 @@ RSpec.feature 'Candidate content' do
   end
 
   def when_i_click_on_complaints
-    within('.govuk-footer') { click_link t('layout.support_links.complaints') }
+    within('.govuk-footer') { click_link t('layout.support_links.candidate_complaints') }
   end
 
   def then_i_can_see_the_complaints_page
-    expect(page).to have_content(t('page_titles.complaints'))
-    expect(page).to have_content('Make a complaint about this service')
+    expect(page).to have_selector('h1', text: t('page_titles.candidate_complaints'))
   end
 
   def when_i_click_on_the_privacy_policy
