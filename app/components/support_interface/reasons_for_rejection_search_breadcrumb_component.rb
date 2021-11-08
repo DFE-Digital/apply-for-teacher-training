@@ -14,11 +14,11 @@ module SupportInterface
       }
       if top_level_reason?
         i18n_key = ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
-        breadcrumb_items[t("reasons_for_rejection.#{i18n_key}.title")] = nil
+        breadcrumb_items[dashboard_title(i18n_key)] = nil
       else
         top_level_reason = ::ReasonsForRejectionCountQuery::SUBREASONS_TO_TOP_LEVEL_REASONS[@search_attribute]
         i18n_key = ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
-        breadcrumb_items[t("reasons_for_rejection.#{i18n_key}.title")] = support_interface_reasons_for_rejection_application_choices_path(
+        breadcrumb_items[dashboard_title(i18n_key)] = support_interface_reasons_for_rejection_application_choices_path(
           "structured_rejection_reasons[#{top_level_reason}]" => 'Yes',
         )
         breadcrumb_items[t("reasons_for_rejection.#{i18n_key}.#{@search_value}")] = nil
@@ -32,6 +32,10 @@ module SupportInterface
     def top_level_reason?
       @search_attribute == ReasonsForRejection::OTHER_REASON.to_s || (
         @search_attribute =~ /_y_n$/ && @search_value == 'Yes')
+    end
+
+    def dashboard_title(i18n_key)
+      t("reasons_for_rejection.#{i18n_key}.alt_title", default: t("reasons_for_rejection.#{i18n_key}.title", default: ''))
     end
   end
 end
