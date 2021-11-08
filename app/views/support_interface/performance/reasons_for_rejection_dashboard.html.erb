@@ -34,9 +34,13 @@
   </div>
 </div>
 
-<%= render SupportInterface::ReasonsForRejectionDashboardComponent.new(
-  @reasons_for_rejection,
-  @total_structured_rejection_reasons_count,
-  @total_structured_rejection_reasons_count_this_month,
-  @recruitment_cycle_year,
-) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-<%= RecruitmentCycle.current_year == @recruitment_cycle_year ? 'full-width' : 'two-thirds' %>">
+    <%= render SupportInterface::ReasonsForRejectionDashboardComponent.new(
+      @reasons_for_rejection,
+      @total_structured_rejection_reasons_count,
+      @total_structured_rejection_reasons_count_this_month,
+      @recruitment_cycle_year,
+    ) %>
+  </div>
+</div>
