@@ -14,9 +14,31 @@ RSpec.describe MonthlyStatistics::ByArea do
     create_application_choice(statuses: %i[with_offer], region_code: 'london')
     create_application_choice(statuses: %i[with_withdrawn_offer], region_code: 'north_east')
     create_application_choice(statuses: %i[withdrawn], region_code: 'north_east')
+    create_application_choice(statuses: %i[with_rejection], region_code: nil)
     create_application_choice_with_previous_application(status: :with_rejection, region_code: 'north_west')
 
-    expect(column_totals).to eq([1, 0, 3, 1, 5, 10])
+    expect(region_titles).to eq(
+      [
+        'Channel Islands',
+        'East Midlands',
+        'Eastern',
+        'Isle of Man',
+        'London',
+        'No region',
+        'North East',
+        'North West',
+        'Northern Ireland',
+        'Scotland',
+        'South East',
+        'South West',
+        'Wales',
+        'West Midlands',
+        'Yorkshire and the Humber',
+        'European Economic Area',
+        'Rest of the World',
+      ],
+    )
+    expect(column_totals).to eq([1, 0, 3, 1, 6, 11])
     expect(totals_for('London')).to eq(
       'Recruited' => 0,
       'Conditions pending' => 0,
@@ -66,6 +88,15 @@ RSpec.describe MonthlyStatistics::ByArea do
       'Unsuccessful' => 2,
       'Total' => 2,
     )
+
+    expect(totals_for('No region')).to eq(
+      'Recruited' => 0,
+      'Conditions pending' => 0,
+      'Received an offer' => 0,
+      'Awaiting provider decisions' => 0,
+      'Unsuccessful' => 1,
+      'Total' => 1,
+    )
   end
 
   def create_application_choice(
@@ -107,6 +138,10 @@ RSpec.describe MonthlyStatistics::ByArea do
       recruitment_cycle_year: recruitment_cycle_year,
       previous_application_form: previous_application_choice.application_form,
     )
+  end
+
+  def region_titles
+    statistics[:rows].map { |row| row.values.first }
   end
 
   def column_totals
