@@ -85,7 +85,7 @@ paths:
           content:
             text/csv:
               schema:
-                "$ref": "#/components/schemas/TADDegreeClassExport"
+                "$ref": "#/components/schemas/ApplicationsBySubjectRouteAndDegreeGradeExport"
 components:
   schemas:
     TADExport:
@@ -97,7 +97,7 @@ components:
     ApplicationsExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
-    TADDegreeClassExport:
+    ApplicationsBySubjectRouteAndDegreeGradeExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     TADDataExportList:

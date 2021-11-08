@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::TADDegreeClassExport do
+RSpec.describe SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport do
   describe '#call' do
     it 'correctly breaks down subject choice by route' do
       drama = create(:subject, code: '13')

@@ -63,7 +63,7 @@ module DataAPI
 
     def applications_by_subject_route_and_degree_grade
       all = DataExport
-      .where(export_type: :tad_degree_class_by_subject_and_outcome)
+      .where(export_type: :applications_by_subject_route_and_degree_grade)
       .where.not(completed_at: nil)
 
       data_export = all.last

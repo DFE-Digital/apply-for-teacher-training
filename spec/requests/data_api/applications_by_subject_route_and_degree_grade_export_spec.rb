@@ -17,9 +17,9 @@ RSpec.describe 'GET /data-api/applications-by-subject-route-and-degree-grade/lat
 
     data_export = DataExport.create!(
       name: 'Weekly export of the applications export grouped by subject, route and degree grade',
-      export_type: :tad_degree_class_by_subject_and_outcome,
+      export_type: :applications_by_subject_route_and_degree_grade,
     )
-    DataExporter.perform_async(SupportInterface::TADDegreeClassExport, data_export.id)
+    DataExporter.perform_async(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport, data_export.id)
 
     get_api_request '/data-api/applications-by-subject-route-and-degree-grade/latest', token: tad_api_token
 

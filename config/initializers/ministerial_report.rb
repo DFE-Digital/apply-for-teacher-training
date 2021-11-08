@@ -167,7 +167,7 @@ module MinisterialReport
     withdrawn: %i[candidates],
   }.freeze
 
-  DEGREE_CLASS_REPORT_STATUS_MAPPING = {
+  APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING = {
     unsubmitted: %i[applications],
     application_not_sent: %i[applications],
     awaiting_provider_decision: %i[applications],
