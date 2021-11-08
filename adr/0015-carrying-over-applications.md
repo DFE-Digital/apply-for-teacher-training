@@ -46,7 +46,7 @@ in the next cycle makes it as easy as possible for them to try again.
 
 - Offer
 - Meeting conditions (i.e. offer accepted)
-- Conditions met (recruited)
+- Recruited
 
 ### Copying the Apply again approach
 

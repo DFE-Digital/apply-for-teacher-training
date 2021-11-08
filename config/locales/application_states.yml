@@ -61,8 +61,8 @@ en:
     cancelled: Application cancelled
     declined: Declined
     offer: Offered
-    pending_conditions: Accepted
-    recruited: Conditions met
+    pending_conditions: Conditions pending
+    recruited: Recruited
     rejected: Rejected
     offer_withdrawn: Offer withdrawn
     unsubmitted: Not submitted yet
@@ -148,7 +148,7 @@ en:
         When the provider confirms that the offer conditions have been met, the application is marked ‘recruited’.
 
     pending_conditions:
-      name: Pending conditions
+      name: Conditions pending
       description: Provider is waiting for the candidate to prove that they have met the conditions.
 
     rejected:

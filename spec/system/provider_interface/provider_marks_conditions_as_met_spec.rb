@@ -98,7 +98,7 @@ RSpec.feature 'Confirm conditions met' do
 
   def and_the_candidate_is_recruited
     expect(@application_choice.reload.recruited?).to be_truthy
-    expect(page).to have_content 'Conditions met'
+    expect(page).to have_content 'Recruited'
   end
 
   def and_the_candidate_receives_an_email_notification

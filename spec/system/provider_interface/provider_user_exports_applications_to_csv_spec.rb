@@ -99,7 +99,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
     end
     choose 'Applications with a specific status'
     check 'Deferred'
-    check 'Accepted'
+    check 'Conditions pending'
     check @current_provider_user.providers.first.name
 
     click_export_data
