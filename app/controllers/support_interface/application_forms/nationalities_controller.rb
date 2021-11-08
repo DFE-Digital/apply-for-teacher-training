@@ -47,7 +47,7 @@ module SupportInterface
       end
 
       def british_or_irish?
-        (NationalitiesForm::UK_AND_IRISH_NATIONALITIES & @application_form.nationalities).present?
+        (UK_AND_IRISH_NATIONALITIES & @application_form.nationalities).present?
       end
     end
   end

@@ -50,6 +50,10 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
   end
 
+  every(7.days, 'TADSubjectsExport', at: 'Sunday 23:59') do
+    DataAPI::TADSubjectsExport.run_weekly
+  end
+
   every(1.day, 'VendorIntegrationStatsWorker', at: '09:00', if: ->(t) { t.weekday? }) do
     VendorIntegrationStatsWorker.perform_async('tribal')
     VendorIntegrationStatsWorker.perform_async('ellucian')

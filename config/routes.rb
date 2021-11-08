@@ -831,6 +831,7 @@ Rails.application.routes.draw do
 
   namespace :data_api, path: '/data-api' do
     get '/tad-data-exports/latest' => 'tad_data_exports#latest'
+    get '/tad-data-exports/subjects-latest' => 'tad_data_exports#subjects_latest'
     get '/ministerial-report/candidates/latest' => 'tad_data_exports#candidates'
     get '/ministerial-report/applications/latest' => 'tad_data_exports#applications'
     get '/tad-data-exports' => 'tad_data_exports#index'
