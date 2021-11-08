@@ -182,9 +182,11 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def feedback_received_for_application_rejected_by_default(application_choice)
+  def feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance)
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @course = @application_choice.current_course_option.course
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+    @show_apply_again_guidance = show_apply_again_guidance
 
     email_for_candidate(
       @application_choice.application_form,

@@ -19,17 +19,38 @@ class RejectByDefaultFeedback
         application_choice.save!
       end
 
-      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
+      show_apply_again_guidance = unsuccessful_application_choices? && not_applied_again?
+
+      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice, show_apply_again_guidance).deliver_later
       notify_slack
     end
   end
 
   def notify_slack
     provider_name = application_choice.current_course.provider.name
-    candidate_name = application_choice.application_form.first_name
+    candidate_name = application_form.first_name
     message = ":telephone_receiver: #{provider_name} has sent feedback for #{candidate_name}’s RBD application"
-    url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_choice.application_form)
+    url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_form)
 
     SlackNotificationWorker.perform_async(message, url)
   end
+
+private
+
+  def not_applied_again?
+    application_form.subsequent_application_form.nil?
+  end
+
+  def unsuccessful_application_choices?
+    application_form
+      .application_choices
+      .map(&:status)
+      .all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status.to_sym) }
+  end
+
+  def application_form
+    @application_form ||= application_choice.application_form
+  end
+
+  delegate :candidate, to: :application_form
 end

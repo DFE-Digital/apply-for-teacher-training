@@ -264,18 +264,42 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe 'feedback_received_for_application_rejected_by_default' do
-    let(:email) { mailer.feedback_received_for_application_rejected_by_default(application_choices.first) }
+  describe '.feedback_received_for_application_rejected_by_default' do
     let(:application_choices) { [build_stubbed(:application_choice, :with_rejection_by_default_and_feedback, course_option: course_option, current_course_option: course_option, rejection_reason: 'I\'m so happy')] }
 
-    it_behaves_like(
-      'a mail with subject and content',
-      'Feedback on your application for Brighthurst Technical',
-      'heading' => 'Dear Bob',
-      'provider name' => 'Brighthurst Technical College did not respond in time',
-      'name and code for course' => 'Applied Science (Psychology) (3TT5)',
-      'feedback' => 'I\'m so happy',
-    )
+    context 'candidate has been awarded a place on a course or has applied again since' do
+      let(:email) { mailer.feedback_received_for_application_rejected_by_default(application_choices.first, true) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Feedback on your application for Brighthurst Technical',
+        'heading' => 'Dear Bob',
+        'provider name' => 'Brighthurst Technical College',
+        'name and code for course' => 'Applied Science (Psychology) (3TT5)',
+        'feedback' => 'I\'m so happy',
+      )
+
+      it 'encourages candidate to apply again' do
+        expect(email.body).to include('If this feedback was useful, consider using it to strengthen your application and apply again:')
+      end
+    end
+
+    context 'candidate did not get a place on any of their courses and has not applied again since' do
+      let(:email) { mailer.feedback_received_for_application_rejected_by_default(application_choices.first, false) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Feedback on your application for Brighthurst Technical',
+        'heading' => 'Dear Bob',
+        'provider name' => 'Brighthurst Technical College',
+        'name and code for course' => 'Applied Science (Psychology) (3TT5)',
+        'feedback' => 'I\'m so happy',
+      )
+
+      it 'does not encourage candidate to apply again' do
+        expect(email.body).not_to include('If this feedback was useful, consider using it to strengthen your application and apply again:')
+      end
+    end
   end
 
   describe '.deferred_offer' do
