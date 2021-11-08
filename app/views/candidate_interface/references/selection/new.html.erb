@@ -12,7 +12,7 @@
           <% @selection_form.available_references.each do |reference| %>
             <%= f.govuk_check_box(
               :selected,
-              reference.id,
+              reference.id.to_s,
               label: { text: reference.name, size: 's' },
               hint: { text: "#{reference.referee_type.capitalize.dasherize} reference" },
             ) %>

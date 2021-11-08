@@ -24,9 +24,15 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
     when_i_click_save_and_continue
     then_i_am_told_i_need_to_select_two_references
 
+    when_i_select_1_reference
+    and_i_click_save_and_continue
+    then_i_am_told_i_need_to_select_two_references
+    and_i_see_1_reference_selected
+
     when_i_select_3_references
     and_i_click_save_and_continue
     then_i_am_told_i_need_to_select_two_references
+    and_i_see_3_references_selected
 
     when_i_select_2_references
     and_i_click_save_and_continue
@@ -106,6 +112,40 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
     expect_validation_error 'Select 2 references'
   end
 
+  def first_reference_checkbox
+    page.find("#candidate-interface-reference-selection-form-selected-#{@first_reference.id}-field")
+  end
+
+  def second_reference_checkbox
+    page.find("#candidate-interface-reference-selection-form-selected-#{@second_reference.id}-field")
+  end
+
+  def third_reference_checkbox
+    page.find("#candidate-interface-reference-selection-form-selected-#{@third_reference.id}-field")
+  end
+
+  def fourth_reference_checkbox
+    page.find("#candidate-interface-reference-selection-form-selected-#{@fourth_reference.id}-field")
+  end
+
+  def and_i_see_1_reference_selected
+    expect(first_reference_checkbox).to be_checked
+    expect(second_reference_checkbox).not_to be_checked
+    expect(third_reference_checkbox).not_to be_checked
+    expect(fourth_reference_checkbox).not_to be_checked
+  end
+
+  def and_i_see_3_references_selected
+    expect(first_reference_checkbox).to be_checked
+    expect(second_reference_checkbox).to be_checked
+    expect(third_reference_checkbox).to be_checked
+    expect(fourth_reference_checkbox).not_to be_checked
+  end
+
+  def when_i_select_1_reference
+    check @first_reference.name
+  end
+
   def when_i_select_3_references
     check @first_reference.name
     check @second_reference.name
@@ -115,6 +155,8 @@ RSpec.feature 'Candidate selects two references of many feedback_provided refere
   def when_i_select_2_references
     check @first_reference.name
     check @second_reference.name
+    uncheck @third_reference.name
+    uncheck @fourth_reference.name
   end
 
   def then_those_references_are_selected
