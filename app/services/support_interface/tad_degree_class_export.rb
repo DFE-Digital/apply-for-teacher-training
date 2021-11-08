@@ -1,5 +1,14 @@
 module SupportInterface
   class TADDegreeClassExport
+    COLUMNS = %i[
+      applications
+      offers_received
+      number_of_acceptances
+      number_of_declined_applications
+      number_of_rejected_applications
+      number_of_withdrawn_applications
+    ].freeze
+
     def self.run_weekly
       data_export = DataExport.create!(
         name: 'Weekly export of the TAD degree class export',
@@ -42,22 +51,9 @@ module SupportInterface
         end
       end
 
-      report = report.values.flatten.each do |row|
-        row.delete(:course_name)
-        row.delete(:course_level)
-        row.delete(:subject_names)
-        row.delete(:subject_codes)
-        row.delete(:status)
-      end
+      report = remove_non_report_columns(report)
 
-      report.reject! do |row|
-        row[:applications].zero? &&
-          row[:offers_received].zero? &&
-          row[:number_of_acceptances].zero? &&
-          row[:number_of_declined_applications].zero? &&
-          row[:number_of_rejected_applications].zero? &&
-          row[:number_of_withdrawn_applications].zero?
-      end
+      remove_zero_value_rows(report)
 
       report
     end
@@ -65,6 +61,14 @@ module SupportInterface
     alias data_for_export call
 
   private
+
+    def remove_non_report_columns(report)
+      report.values.flatten.map { |row| row.except(:course_name, :course_level, :subject_names, :subject_codes, :status) }
+    end
+
+    def remove_zero_value_rows(report)
+      report.reject! { |row| COLUMNS.all? { |key| row[key].zero? } }
+    end
 
     def sort_and_group_by_subject_route_and_grade(report)
       report = report.compact.uniq.flatten.sort_by { |row| row[:subject] }
