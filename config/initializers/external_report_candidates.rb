@@ -1,11 +1,15 @@
 module ExternalReportCandidates
   AREAS = {
+    'channel_islands' => 'Channel Islands',
     'eastern' => 'East',
     'east_midlands' => 'East Midlands',
+    'isle_of_man' => 'Isle of Man',
     'london' => 'London',
+    nil => 'No region',
     'north_east' => 'North East',
     'north_west' => 'North West',
     'northern_ireland' => 'Northern Ireland',
+    'no_region' => 'No region',
     'scotland' => 'Scotland',
     'south_east' => 'South East',
     'south_west' => 'South West',

@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::ExternalReportCandidatesExport do
     end
 
     def generate_test_data
-      region_codes = ApplicationForm.region_codes.keys.reject { |region| %w[channel_islands isle_of_man no_region].include?(region) }
+      region_codes = ApplicationForm.region_codes.keys + [nil]
       statuses = ApplicationChoice.statuses.keys.reject { |status| %w[unsubmitted cancelled application_not_sent offer_deferred].include?(status) }
       sexes = ExternalReportCandidates::SEX.keys
 

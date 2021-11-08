@@ -78,9 +78,12 @@ module SupportInterface
                   WHEN f.equality_and_diversity->> 'sex' = 'Prefer not to say' then 'Prefer not to say'
                 END sex,
                 CASE
+                  WHEN f.region_code = 'channel_islands' THEN 'Channel Islands'
                   WHEN f.region_code = 'eastern' THEN 'East'
                   WHEN f.region_code = 'east_midlands' THEN 'East Midlands'
+                  WHEN f.region_code = 'isle_of_man' THEN 'Isle of Man'
                   WHEN f.region_code = 'london' THEN 'London'
+                  WHEN f.region_code = 'NULL' THEN 'No region'
                   WHEN f.region_code = 'north_east' THEN 'North East'
                   WHEN f.region_code = 'north_west' THEN 'North West'
                   WHEN f.region_code = 'northern_ireland' THEN 'Northern Ireland'
@@ -92,6 +95,8 @@ module SupportInterface
                   WHEN f.region_code = 'yorkshire_and_the_humber' THEN 'Yorkshire and The Humber'
                   WHEN f.region_code = 'european_economic_area' THEN 'European Economic Area'
                   WHEN f.region_code = 'rest_of_the_world' THEN 'Rest of the World'
+                  ELSE
+                    'No region'
                 END area,
                 CASE
                   WHEN f.date_of_birth > '#{Date.new(RecruitmentCycle.current_year - 22, 8, 31)}' THEN '21 and under'
@@ -133,22 +138,6 @@ module SupportInterface
                 NOT c.hide_in_reporting
                 AND f.submitted_at IS NOT NULL
                 AND f.date_of_birth IS NOT NULL
-                AND f.region_code IN (
-                  'eastern',
-                  'east_midlands',
-                  'london',
-                  'north_east',
-                  'north_west',
-                  'northern_ireland',
-                  'scotland',
-                  'south_east',
-                  'south_west',
-                  'wales',
-                  'west_midlands',
-                  'yorkshire_and_the_humber',
-                  'european_economic_area',
-                  'rest_of_the_world'
-                )
                 AND (
                   NOT EXISTS (
                     SELECT 1
@@ -157,9 +146,11 @@ module SupportInterface
                     WHERE f.id = subsequent_application_forms.previous_application_form_id
                   )
                 )
-                AND f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
-                OR f.recruitment_cycle_year = #{RecruitmentCycle.previous_year}
-                AND ac.status_before_deferral IS NOT NULL
+                AND (
+                  f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                  OR f.recruitment_cycle_year = #{RecruitmentCycle.previous_year}
+                  AND ac.status_before_deferral IS NOT NULL
+              )
             GROUP BY
                 c.id, ac.id, f.id
         )
