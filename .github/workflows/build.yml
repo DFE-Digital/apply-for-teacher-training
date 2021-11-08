@@ -163,7 +163,7 @@ jobs:
         DB_PORT: 5432
 
     outputs:
-      flaky_tests: ${{ steps.set_flaky_test_results_var.outputs.flaky_tests }}
+      flakey_tests: ${{ steps.set_flakey_test_results_var.outputs.flakey_tests }}
 
     steps:
       - name: Setup Parallel Database
@@ -180,10 +180,11 @@ jobs:
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
 
       - name: Read flakey test results
-        id: set_flaky_test_results_var
+        id: set_flakey_test_results_var
         run: |
           file_text=$(cat rspec-retry-flakey-tests.txt)
-          echo ::set-output name=flaky_tests::$file_text
+          file_text="${file_text//$'\n'/%0A}"
+          echo "::set-output name=flakey_tests::$file_text"
 
   report-flakey-specs:
     name: Report on flakey specs in pull request
@@ -191,13 +192,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo flakey test output
-        run: echo ${{ needs.test.outputs.flaky_tests }}
+        run: echo "${{ needs.test.outputs.flakey_tests }}"
 
       - name: Comment on flakey specs in pull request
         uses: actions/github-script@0.3.0
         if: github.event_name == 'pull_request'
         env:
-          COMMENT_BODY: ${{ needs.test.outputs.flaky_tests }}
+          COMMENT_BODY: |
+            :snowflake: **You have a flakey test on this branch!** :snowflake:
+            ${{ needs.test.outputs.flakey_tests }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
