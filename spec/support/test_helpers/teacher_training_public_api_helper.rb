@@ -45,7 +45,7 @@ module TeacherTrainingPublicAPIHelper
     stub_teacher_training_api_sites(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, course_code: course_code, specified_attributes: site_attributes, vacancy_status: vacancy_status)
   end
 
-  def stub_teacher_training_api_course(provider_code:, course_code:, recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [])
+  def stub_teacher_training_api_course(provider_code:, course_code:, recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: {})
     response_body = build_response_body('course_single_response.json', specified_attributes.merge(code: course_code))
     stub_teacher_training_single_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}", response_body)
   end

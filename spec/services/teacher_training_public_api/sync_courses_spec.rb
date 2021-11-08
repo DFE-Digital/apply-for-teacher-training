@@ -154,8 +154,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
         described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
 
-        expect(Sentry).to have_received(:capture_exception)
-                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('site and course_option have been updated'))
+        expect(Sentry).to have_received(:capture_exception).twice
       end
 
       it 'correctly updates vacancy status for any existing course options' do
