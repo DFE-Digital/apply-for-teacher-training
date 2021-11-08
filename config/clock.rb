@@ -50,8 +50,8 @@ class Clock
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async(false)
   end
 
-  every(7.days, 'TADSubjectsExport', at: 'Sunday 23:59') do
-    DataAPI::TADSubjectsExport.run_weekly
+  every(7.days, 'TADSubjectDomicileNationalityExport', at: 'Sunday 23:59') do
+    DataAPI::TADSubjectDomicileNationalityExport.run_weekly
   end
   every(7.days, 'ApplicationsBySubjectRouteAndDegreeGradeExport', at: 'Sunday 23:59') { SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.run_weekly }
 
