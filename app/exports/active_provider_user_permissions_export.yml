@@ -1,3 +1,6 @@
+common_columns:
+  - provider_type
+
 custom_columns:
   name:
     type: string
