@@ -74,6 +74,32 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
   end
 
+  describe 'if application choice is in the offer state' do
+    let!(:application_choice) do
+      create(:application_choice, :offer,
+             application_form: application_form,
+             course_option: course_option)
+    end
+
+    context 'GET edit' do
+      it 'responds with 302 end redirects to the offer page' do
+        get edit_provider_interface_application_choice_offer_path(application_choice)
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_application_choice_offer_url(application_choice))
+      end
+
+      context 'aliased referer path' do
+        it 'responds with 302 and redirects to the application page' do
+          get edit_provider_interface_application_choice_offer_referer_path(application_choice)
+
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_application_choice_offer_url(application_choice))
+        end
+      end
+    end
+  end
+
   describe 'if application choice is not in an offered state' do
     let!(:application_choice) do
       create(:application_choice, :awaiting_provider_decision,
