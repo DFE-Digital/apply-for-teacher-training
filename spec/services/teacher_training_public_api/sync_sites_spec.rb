@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
+  include TeacherTrainingPublicAPIHelper
+
   describe 'course study modes' do
     context 'when the course has no course options' do
       let(:course) { create(:course) }
@@ -129,6 +131,53 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
           TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
         )
       end
+    end
+  end
+
+  context 'ingesting an existing site when incremental_sync is off' do
+    let(:incremental_sync) { false }
+    let(:provider_from_api) { fake_api_provider({ code: 'ABC' }) }
+    let(:provider) { create(:provider) }
+    let(:course) { create(:course, provider: provider) }
+    let(:shared_site_details) do
+      { name: 'St Bernards High School',
+        address_line1: 'Milton Road',
+        address_line2: 'Westcliff on Sea',
+        region: 'south_east',
+        postcode: 'SS0 7JS',
+        latitude: '51.5371634',
+        longitude: ' 0.69922' }
+    end
+    let!(:site_a) do
+      create(:site, { provider: provider,
+                      code: 'Site A',
+                      course_options: course.course_options }.merge!(shared_site_details))
+    end
+    let!(:site_b) do
+      create(:site, { provider: provider,
+                      code: 'Site B',
+                      course_options: course.course_options }.merge!(shared_site_details))
+    end
+
+    before do
+      stub_teacher_training_api_course(provider_code: provider.code,
+                                       course_code: course.code,
+                                       specified_attributes: { provider_code: provider.code })
+      stub_teacher_training_api_sites(provider_code: provider.code,
+                                      course_code: course.code,
+                                      specified_attributes: [{ provider_code: provider.code, code: 'Site A' },
+                                                             { provider_code: provider.code, code: 'Site B' }])
+      allow(Sentry).to receive(:capture_exception)
+    end
+
+    it 'raises a FullSync error' do
+      described_class.new.perform(provider.id,
+                                  RecruitmentCycle.current_year,
+                                  course.id,
+                                  false)
+
+      expect(Sentry).to have_received(:capture_exception)
+        .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new(%(site and course_option have been updated\n[#{site_a.id}, {"address_line3"=>["#{site_a.address_line3}", ""]}],\n[#{site_b.id}, {"address_line3"=>["#{site_b.address_line3}", ""]}])))
     end
   end
 

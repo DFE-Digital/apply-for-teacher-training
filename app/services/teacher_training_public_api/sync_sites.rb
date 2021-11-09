@@ -12,6 +12,7 @@ module TeacherTrainingPublicAPI
       @course = ::Course.find(course_id)
       @incremental_sync = incremental_sync
       @updates = {}
+      @changeset = {}
 
       sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
@@ -29,7 +30,10 @@ module TeacherTrainingPublicAPI
 
         assign_site_attributes(site, site_from_api)
 
-        @updates.merge!(site: true) if site.changed? && !@incremental_sync
+        if site.changed? && !@incremental_sync
+          @updates.merge!(site: true)
+          @changeset.merge!(site.id => site.changes)
+        end
 
         site.save!
 
@@ -43,7 +47,7 @@ module TeacherTrainingPublicAPI
       handle_course_options_with_invalid_sites(sites)
       handle_course_options_with_reinstated_sites(sites)
 
-      raise_update_error(@updates) unless suppress_sync_update_errors
+      raise_update_error(@updates, @changeset) unless suppress_sync_update_errors
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
     end
