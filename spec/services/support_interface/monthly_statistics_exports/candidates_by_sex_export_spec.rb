@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::CandidatesBySexExport
           { 'Sex' => 'Male', 'Recruited' => 0, 'Conditions pending' => 10, 'Received an offer' => 0, 'Awaiting provider decisions' => 0, 'Unsuccessful' => 0, 'Total' => 10 },
           { 'Sex' => 'Intersex', 'Recruited' => 0, 'Conditions pending' => 0, 'Received an offer' => 5, 'Awaiting provider decisions' => 0, 'Unsuccessful' => 0, 'Total' => 5 },
           { 'Sex' => 'Prefer not to say', 'Recruited' => 0, 'Conditions pending' => 0, 'Received an offer' => 0, 'Awaiting provider decisions' => 5, 'Unsuccessful' => 5, 'Total' => 10 },
-          { 'Sex' => 'Total', 'Recruited' => 10, 'Conditions pending' => 10, 'Received an offer' => 5, 'Awaiting provider decisions' => 5, 'Unsuccessful' => 5, 'Total' => 35 },          
+          { 'Sex' => 'Total', 'Recruited' => 10, 'Conditions pending' => 10, 'Received an offer' => 5, 'Awaiting provider decisions' => 5, 'Unsuccessful' => 5, 'Total' => 35 },
         ],
       )
     end
