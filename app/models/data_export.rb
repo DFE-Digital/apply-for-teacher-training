@@ -293,6 +293,7 @@ class DataExport < ApplicationRecord
     submitted_application_choices_for_current_cycle: 'submitted_application_choices_for_current_cycle',
     tad_applications: 'tad_applications',
     tad_provider_performance: 'tad_provider_performance',
+    tad_subject_domicile_nationality: 'tad_subject_domicile_nationality',
     user_permissions: 'user_permissions',
     who_ran_which_export: 'who_ran_which_export',
     work_history_break: 'work_history_break',

@@ -28,24 +28,19 @@ custom_columns:
     description: |
       The number of applications for the given subject, nationality,
       domicile combination that have not yet received offers.
-    example: 24
   adjusted_offers:
     type: integer
     description: |
       The number of applications for the given subject, nationality,
       domicile combination that have received offers but not accepted it yet.
-    example: 24
   pending_conditions:
     type: integer
     description: |
       The number of applications for the given subject, nationality,
       domicile combination that have accepted an offer but have not
       yet been recruited.
-    example: 24
   recruited:
     type: integer
     description: |
       The number of applications for the given subject, nationality,
       domicile combination that have been recruited.
-    example: 24
-

@@ -53,7 +53,18 @@ paths:
             text/csv:
               schema:
                 "$ref": "#/components/schemas/TADExport"
-  "/ministerial-report/candidates/latest":
+  "/applications-by-subject-domicile-and-nationality/latest":
+    get:
+      summary: Get the latest weekly export of applications broken down by subject, domicile and nationality for TAD
+      description: This endpoint returns a CSV consisting of the latest TAD data. Reports are generated daily
+      responses:
+        '200':
+          description: The CSV of the latest report
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/TADSubjectDomicileNationalityExport"
+  "/tad-data-exports/latest":
     get:
       summary: Get the ministerial report candidates export
       description: This endpoint returns a CSV consisting of the latest ministerial report candidates export. Reports are generated daily
@@ -89,6 +100,9 @@ paths:
 components:
   schemas:
     TADExport:
+      type: object
+      properties: # this is automatically populated from the CSV definition by DataAPISpecification
+    TADSubjectDomicileNationalityExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     CandidatesExport:
