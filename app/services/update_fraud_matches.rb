@@ -22,7 +22,7 @@ class UpdateFraudMatches
 
     message = <<~MSG
       \n#{Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_url}
-      :face_with_monocle: There #{new_match_count == 1 ? 'is' : 'are'} #{new_match_count} new fraud #{'match'.pluralize(new_match_count)} today :face_with_monocle:
+      :face_with_monocle: There #{new_match_count == 1 ? 'is' : 'are'} #{new_match_count} new duplicate candidate #{'match'.pluralize(new_match_count)} today :face_with_monocle:
       :gavel: #{fraudulent_match_count} #{'match'.pluralize(fraudulent_match_count)} #{fraudulent_match_count == 1 ? 'has' : 'have'} been marked as fraudulent :gavel:
       :female-detective: In total there #{total_match_count == 1 ? 'is' : 'are'} #{total_match_count} #{'match'.pluralize(total_match_count)} :male-detective:
     MSG

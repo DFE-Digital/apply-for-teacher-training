@@ -8,7 +8,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     given_i_am_a_support_user
     and_there_are_candidates_with_duplicate_applications_in_the_system
 
-    when_i_go_to_fraud_auditing_dashboard_page
+    when_i_go_to_duplicate_candidate_matches_page
     and_i_click_to_remove_access_from_the_second_candidate
     then_i_see_the_confirm_remove_access_page
 
@@ -17,7 +17,7 @@ RSpec.feature 'See Duplicate candidate matches' do
 
     when_i_check_confirm_that_i_have_read_the_guidance
     and_i_click_continue
-    then_i_see_the_fraud_auditing_dashboard
+    then_i_see_the_duplicate_candidate_matches
     and_that_candidate_two_has_had_their_email_updated_to_the_correct_value
   end
 
@@ -35,7 +35,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     @fraud_match = create(:fraud_match, candidates: [@candidate_one, @candidate_two])
   end
 
-  def when_i_go_to_fraud_auditing_dashboard_page
+  def when_i_go_to_duplicate_candidate_matches_page
     visit support_interface_fraud_auditing_matches_path
   end
 
@@ -60,7 +60,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     check 'I have read the guidance'
   end
 
-  def then_i_see_the_fraud_auditing_dashboard
+  def then_i_see_the_duplicate_candidate_matches
     expect(page).to have_current_path support_interface_fraud_auditing_matches_path
   end
 

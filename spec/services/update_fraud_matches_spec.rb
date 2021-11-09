@@ -6,7 +6,7 @@ RSpec.describe UpdateFraudMatches do
   let(:expected_message) do
     <<~MSG
       \n#{Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_url}
-      :face_with_monocle: There is 1 new fraud match today :face_with_monocle:
+      :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
       :gavel: 1 match has been marked as fraudulent :gavel:
       :female-detective: In total there are 2 matches :male-detective:
     MSG
