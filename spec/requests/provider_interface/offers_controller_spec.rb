@@ -48,10 +48,20 @@ RSpec.describe ProviderInterface::OffersController, type: :request do
     end
 
     context 'GET new' do
-      it 'responds with 302' do
+      it 'responds with 302 and redirects to the application page' do
         get new_provider_interface_application_choice_offer_path(application_choice)
 
         expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
+      end
+
+      context 'aliased referer path' do
+        it 'responds with 302 and redirects to the application page' do
+          get new_provider_interface_application_choice_offer_referer_path(application_choice)
+
+          expect(response.status).to eq(302)
+          expect(response.redirect_url).to eq(provider_interface_application_choice_url(application_choice))
+        end
       end
     end
 
