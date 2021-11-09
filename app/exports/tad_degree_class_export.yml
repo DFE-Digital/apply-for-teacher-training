@@ -1,0 +1,43 @@
+custom_columns:
+  subject:
+    type: string
+    description: The course subject
+    example: Criminology
+
+  route:
+    type: string
+    description: The provider type
+    enum:
+      - scitt
+      - lead_school
+      - university
+      - unknown
+
+  degree_class:
+    type: string
+    description: The grade awarded
+    example: Upper second-class honours (2:1)
+
+  applications:
+    type: integer
+    description: The number of applications for this subject, route & degree class
+
+  offers_received:
+    type: integer
+    description: The number of applications that have received offers for this subject, route & degree class
+
+  number_of_acceptances:
+    type: integer
+    description: The number of applications that have accepted offers for this subject, route & degree class
+
+  number_of_declined_applications:
+    type: integer
+    description: The number of applications that have declined offers for this subject, route & degree class
+
+  number_of_rejected_applications:
+    type: integer
+    description: The number of applications that have been rejected for this subject, route & degree class
+
+  number_of_withdrawn_applications:
+    type: integer
+    description: The number of applications that have been withdrawn for this subject, route & degree class

@@ -24,6 +24,28 @@ module MinisterialReport
     secondary
   ].freeze
 
+  NON_TOTAL_SUBJECTS = %i[
+    art_and_design
+    biology
+    business_studies
+    chemistry
+    classics
+    computing
+    design_and_technology
+    drama
+    english
+    geography
+    history
+    mathematics
+    modern_foreign_languages
+    music
+    other
+    physical_education
+    physics
+    religious_education
+    primary
+  ].freeze
+
   STEM_SUBJECTS = %i[
     mathematics
     biology
@@ -143,6 +165,23 @@ module MinisterialReport
     declined: %i[candidates declined_candidates],
     recruited: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
     withdrawn: %i[candidates],
+  }.freeze
+
+  DEGREE_CLASS_REPORT_STATUS_MAPPING = {
+    unsubmitted: %i[applications],
+    application_not_sent: %i[applications],
+    awaiting_provider_decision: %i[applications],
+    offer: %i[applications offers_received],
+    pending_conditions: %i[applications offers_received number_of_acceptances],
+    rejected: %i[applications number_of_rejected_applications],
+    cancelled: %i[applications number_of_declined_applications],
+    offer_deferred: %i[applications offers_received number_of_acceptances],
+    interviewing: %i[applications],
+    offer_withdrawn: %i[applications number_of_withdrawn_applications],
+    conditions_not_met: %i[applications offers_received],
+    declined: %i[applications number_of_declined_applications],
+    recruited: %i[applications offers_received number_of_acceptances],
+    withdrawn: %i[applications],
   }.freeze
 
   def self.determine_dominant_course_subject_for_report(course_name, course_level, subject_names_and_codes)

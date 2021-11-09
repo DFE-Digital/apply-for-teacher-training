@@ -53,6 +53,7 @@ class Clock
   every(7.days, 'TADSubjectsExport', at: 'Sunday 23:59') do
     DataAPI::TADSubjectsExport.run_weekly
   end
+  every(7.days, 'TADDegreeClassExport', at: 'Sunday 23:59') { SupportInterface::TADDegreeClassExport.run_weekly }
 
   every(1.day, 'VendorIntegrationStatsWorker', at: '09:00', if: ->(t) { t.weekday? }) do
     VendorIntegrationStatsWorker.perform_async('tribal')
