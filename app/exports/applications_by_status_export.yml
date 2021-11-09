@@ -1,0 +1,10 @@
+common_columns:
+  - total
+  - first_application
+  - apply_again
+
+custom_columns:
+  application_status:
+    type: string
+    description: Application status
+    example: Recruited

@@ -1,3 +1,6 @@
+common_columns:
+  - total
+
 custom_columns:
   candidates_sex:
     type: string
@@ -34,7 +37,3 @@ custom_columns:
     type: string
     description: The status of the candidates application
     example: Recruited
-  total:
-    type: integer
-    description: The number of candidates who meet the aggregated data criteria
-    example: 1

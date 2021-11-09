@@ -99,3 +99,17 @@ structured_rejection_reasons:
   type: string
   description: A comma-separated list of structured reasons for rejection
   example: Qualifications, Performance at interview
+
+first_application:
+  type: integer
+  description: The total number of apply1 applications for the status
+  example: 2
+
+apply_again:
+  type: integer
+  description: The total number of apply again applications for the status
+
+total:
+  type: integer
+  description: The total number of candidates who meet the criteria
+  example: 1
