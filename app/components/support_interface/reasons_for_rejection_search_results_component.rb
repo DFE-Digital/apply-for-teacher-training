@@ -74,6 +74,8 @@ module SupportInterface
     end
 
     def top_level_reason?(reason, value)
+      return true if other_reasons_question?(reason)
+
       ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS.key?(reason) &&
         value == 'Yes'
     end
@@ -99,12 +101,17 @@ module SupportInterface
     end
 
     def detail_reason_for(application_choice, top_level_reason)
-      detail_questions = ReasonsForRejection::ALL_QUESTIONS[top_level_reason.to_sym]&.keys
-      return 'Yes' if detail_questions.nil?
+      detail_questions = ReasonsForRejection::ALL_QUESTIONS[top_level_reason.to_sym]&.keys || []
+      detail_questions << top_level_reason if other_reasons_question?(top_level_reason)
+      return 'Yes' if detail_questions.empty?
 
       values_as_list(
         detail_questions.map { |detail_question| application_choice.structured_rejection_reasons[detail_question.to_s] }.compact,
       )
+    end
+
+    def other_reasons_question?(question_key)
+      question_key == ReasonsForRejection::OTHER_REASON.to_s
     end
   end
 end

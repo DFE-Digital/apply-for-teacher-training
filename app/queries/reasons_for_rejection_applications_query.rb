@@ -22,7 +22,14 @@ private
 
   def apply_filters(application_choices)
     filters[:structured_rejection_reasons].each do |key, value|
-      jsonb_query = key =~ /_y_n$/ ? '->>:key = :value' : '->:key ? :value'
+      jsonb_query = case key
+                    when ReasonsForRejection::OTHER_REASON.to_s
+                      "->>:key != ''"
+                    when /_y_n$/
+                      '->>:key = :value'
+                    else
+                      '->:key ? :value'
+                    end
 
       application_choices = application_choices.where(
         "application_choices.structured_rejection_reasons#{jsonb_query}", { key: key, value: value }

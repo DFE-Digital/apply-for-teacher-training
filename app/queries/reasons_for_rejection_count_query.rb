@@ -122,7 +122,7 @@ private
     FROM application_choices,
       jsonb_each_text(structured_rejection_reasons) AS reasons
     WHERE structured_rejection_reasons IS NOT NULL
-      AND reasons.value = 'Yes'
+      AND reasons.value != 'No'
       AND current_recruitment_cycle_year = '#{recruitment_cycle_year}'
     GROUP BY (key, time_period)
     ORDER BY count(*) DESC;

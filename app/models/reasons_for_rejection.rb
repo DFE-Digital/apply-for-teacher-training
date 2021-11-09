@@ -23,6 +23,7 @@ class ReasonsForRejection
     offered_on_another_course_y_n: :offered_on_another_course,
     performance_at_interview_y_n: :interview_performance,
     interested_in_future_applications_y_n: :interested_in_future_applications,
+    why_are_you_rejecting_this_application: :why_are_you_rejecting_this_application,
     other_advice_or_feedback_y_n: :additional_advice,
     cannot_sponsor_visa_y_n: :cannot_sponsor_visa,
   }.with_indifferent_access.freeze
@@ -66,6 +67,7 @@ class ReasonsForRejection
     other_advice_or_feedback_y_n: { other_advice_or_feedback_details: nil },
   }.freeze
   INITIAL_QUESTIONS = ALL_QUESTIONS.select { |key| INITIAL_TOP_LEVEL_QUESTIONS.include?(key) }.freeze
+  OTHER_REASON = :why_are_you_rejecting_this_application
 
   attr_writer :candidate_behaviour_what_did_the_candidate_do, :quality_of_application_which_parts_needed_improvement,
               :qualifications_which_qualifications, :honesty_and_professionalism_concerns, :safeguarding_concerns
