@@ -1,5 +1,7 @@
 common_columns:
   - total
+  - age_group
+  - candidate_status
 
 custom_columns:
   candidates_sex:
@@ -29,11 +31,3 @@ custom_columns:
       - Yorkshire and The Humber
       - European Economic Area
       - Rest of the World
-  age_group:
-    type: string
-    description: The age group of the candidates
-    example: 21 and under
-  status:
-    type: string
-    description: The status of the candidates application
-    example: Recruited

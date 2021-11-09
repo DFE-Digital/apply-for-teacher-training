@@ -113,3 +113,13 @@ total:
   type: integer
   description: The total number of candidates who meet the criteria
   example: 1
+
+age_group:
+  type: string
+  description: The age group of the candidates
+  example: 21 and under
+
+candidate_status:
+  type: string
+  description: Candidates application form status
+  example: Recruited

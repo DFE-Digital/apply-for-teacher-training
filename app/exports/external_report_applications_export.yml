@@ -8,7 +8,7 @@ custom_columns:
       - School-centred initial teacher training (SCITT)
       - School Direct (fee-paying)
       - School Direct (salaried)
-  age_group:
+  course_age_group:
     type: string
     description: The level of the course
     enum:
