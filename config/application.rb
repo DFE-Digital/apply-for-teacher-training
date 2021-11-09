@@ -22,6 +22,7 @@ require './app/middlewares/redirect_to_service_gov_uk_middleware'
 require './app/middlewares/vendor_api_request_middleware'
 require './app/middlewares/service_unavailable_middleware'
 require './app/middlewares/request_identity_middleware'
+require './app/lib/rack_exceptions_app'
 
 require_relative "../lib/modules/aws_ip_ranges"
 
@@ -41,7 +42,8 @@ module ApplyForPostgraduateTeacherTraining
     # Do not generate system test files.
     config.generators.system_tests = nil
 
-    config.exceptions_app = self.routes
+    # Handle exceptions not caught by controllers, e.g. db errors
+    config.exceptions_app = ->(env) { RackExceptionsApp.call(env) }
 
     show_previews = HostingEnvironment.test_environment?
 
