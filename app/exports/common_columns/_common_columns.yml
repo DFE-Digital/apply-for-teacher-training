@@ -167,3 +167,13 @@ course_age_group:
     - Primary
     - Secondary
     - Further education
+
+course_type:
+  type: string
+  description: The route into teaching
+  enum:
+    - Higher education
+    - Postgraduate teaching apprenticeship
+    - School-centred initial teacher training (SCITT)
+    - School Direct (fee-paying)
+    - School Direct (salaried)

@@ -1,16 +1,8 @@
 common_columns:
   - course_age_group
+  - course_type
 
 custom_columns:
-  course_type:
-    type: string
-    description: The route into teaching
-    enum:
-      - Higher education
-      - Postgraduate teaching apprenticeship
-      - School-centred initial teacher training (SCITT)
-      - School Direct (fee-paying)
-      - School Direct (salaried)
   subject:
     type: string
     description: The subject of the chosen course
