@@ -133,3 +133,24 @@ candidates_sex:
     - Intersex
     - Prefer not to say
     - Not provided
+area:
+  type: string
+  description: The region or country the candidates are from
+  enum:
+    - Channel Islands
+    - East
+    - East Midlands
+    - Isle of Man
+    - London
+    - No region
+    - North East
+    - North West
+    - Northern Ireland
+    - Scotland
+    - South East
+    - South West
+    - Wales
+    - West Midlands
+    - Yorkshire and The Humber
+    - European Economic Area
+    - Rest of the World
