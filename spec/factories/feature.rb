@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :feature do
-    name { 'feature_x' }
+    name { Faker::Lorem.unique.words(number: 3).join('_') }
   end
 end
