@@ -154,3 +154,16 @@ area:
     - Yorkshire and The Humber
     - European Economic Area
     - Rest of the World
+
+applications_status:
+  type: string
+  description: Application status
+  example: Recruited
+
+course_age_group:
+  type: string
+  description: The level of the course
+  enum:
+    - Primary
+    - Secondary
+    - Further education
