@@ -13,12 +13,12 @@ RSpec.feature 'See Duplicate candidate matches' do
   scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
     and_the_feature_flag_is_active
-    and_i_go_to_fraud_auditing_dashboard_page
+    and_i_go_to_duplicate_candidate_matches_page
     then_i_should_see_a_message_declaring_that_there_are_no_matches
 
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_update_fraud_matches_worker_has_run
-    and_i_go_to_fraud_auditing_dashboard_page
+    and_i_go_to_duplicate_candidate_matches_page
     then_i_should_see_list_of_fraud_auditing_matches
 
     when_i_mark_a_match_as_fraudulent
@@ -74,7 +74,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     UpdateFraudMatchesWorker.perform_async
   end
 
-  def and_i_go_to_fraud_auditing_dashboard_page
+  def and_i_go_to_duplicate_candidate_matches_page
     visit support_interface_fraud_auditing_matches_path
   end
 
