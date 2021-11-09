@@ -13,7 +13,7 @@ class DataSetDocumentation
   end
 
   def self.check_for_shadowed_columns(common_columns, custom_columns)
-    if (custom_columns.keys.map(&:to_sym) & common_columns.keys.map(&:to_sym)).any?
+    if custom_columns.present? && (custom_columns.keys.map(&:to_sym) & common_columns.keys.map(&:to_sym)).any?
       raise 'There are columns in the export documentation that shadow the shared common columns'
     end
   end
