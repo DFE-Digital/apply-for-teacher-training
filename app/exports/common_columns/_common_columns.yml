@@ -123,3 +123,13 @@ candidate_status:
   type: string
   description: Candidates application form status
   example: Recruited
+
+candidates_sex:
+  type: string
+  description: The sex of the candidate
+  enum:
+    - Male
+    - Female
+    - Intersex
+    - Prefer not to say
+    - Not provided

@@ -4,15 +4,6 @@ common_columns:
   - candidate_status
 
 custom_columns:
-  candidates_sex:
-    type: string
-    description: The sex of the candidate
-    enum:
-      - Male
-      - Female
-      - Intersex
-      - Prefer not to say
-      - Not provided
   area:
     type: string
     description: The region or country the candidates are from
