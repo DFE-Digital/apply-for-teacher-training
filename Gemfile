@@ -163,7 +163,7 @@ group :test do
   gem 'deepsort'
   gem 'ruby-jmeter'
   gem 'super_diff'
-  gem 'rspec-retry', git: 'https://github.com/JR-G/rspec-retry.git'
+  gem 'rspec-retry', git: 'https://github.com/JR-G/rspec-retry.git', branch: 'tidy-flakey-test-reporting'
 end
 
 group :development, :test do

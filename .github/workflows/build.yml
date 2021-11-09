@@ -113,25 +113,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
-        feature-flags: [on, off]
+        tests: [ unit_shared ]
+        feature-flags: [on]
         include:
           - tests: unit_shared
-            include-pattern: spec/.*/*_spec.rb
-            exclude-pattern: spec/.*(candidate_interface|provider_interface|support_interface|referee_interface|system|.*api.*).*/*_spec.rb
-          - tests: unit_candidate-provider
-            include-pattern: spec/.*(candidate_interface|provider_interface).*/*_spec.rb
-            exclude-pattern: spec/system/.*/*_spec.rb
-          - tests: unit_support-referee-api
-            include-pattern: spec/.*(support_interface|referee_interface|.*api.*).*/*_spec.rb
-            exclude-pattern: spec/system/.*/*_spec.rb
-          - tests: integration_shared
-            include-pattern: spec/system/.*/*_spec.rb
-            exclude-pattern: spec/system/.*(provider_interface|candidate_interface).*/*_spec.rb
-          - tests: integration_provider
-            include-pattern: spec/system/provider_interface/.*/*_spec.rb
-          - tests: integration_candidate
-            include-pattern: spec/system/candidate_interface/.*/*_spec.rb
+            include-pattern: spec/lib/flaky_spec.rb
     services:
       redis:
         image: redis:alpine
@@ -173,7 +159,7 @@ jobs:
         run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
+        run: bundle exec --verbose rspec ./spec/lib/flaky_spec.rb
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
@@ -195,19 +181,37 @@ jobs:
         run: echo "${{ needs.test.outputs.flakey_tests }}"
 
       - name: Comment on flakey specs in pull request
-        uses: actions/github-script@0.3.0
+        uses: actions/github-script@0.5.0
         if: github.event_name == 'pull_request'
         env:
-          COMMENT_BODY: |
-            :snowflake: **You have a flakey test on this branch!** :snowflake:
+          FLAKEY_TEST_DATA: |
             ${{ needs.test.outputs.flakey_tests }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            const { COMMENT_BODY } = process.env;
-            if (COMMENT_BODY.length) {
-              github.issues.createComment({ issue_number, owner, repo, body: COMMENT_BODY });
+            const { FLAKEY_TEST_DATA } = process.env;
+
+            if (FLAKEY_TEST_DATA.length) {
+              const { issue: { number: issue_number }, repo: { owner, repo }, serverUrl  } = context;
+              let commentBody = '<h3>You have one or more flakey tests on this branch! :snowflake: :snowflake: :snowflake:</h3>';
+              let dataStr, dataAry, attempts, retryCount, errorLocation, errorPath, errorMessages, errorLink;
+
+              let flakeyTestRows = FLAKEY_TEST_DATA.split("\n");
+
+              for (var idx = 0; idx < flakeyTestRows.length; idx++) {
+                dataStr = flakeyTestRows[idx];
+
+                if (dataStr.length) {
+                  dataAry = dataStr.split(',');
+                  [attempts, retryCount, errorLocation, ...errorMessages] = dataAry;
+
+                  errorPath = errorLocation.replace(':', '#L');
+                  errorLink = '<a href="' + errorPath + '">' + errorLocation + '</a>';
+                  commentBody += ':x: Failed ' + attempts + ' out of ' + retryCount + ' times at ' + errorLink + ': :warning: ' + errorMessages.join(' :warning: ') + '<br>';
+                }
+              }
+
+              github.issues.createComment({ issue_number, owner, repo, body: commentBody });
             }
 
   trigger-deployment:
