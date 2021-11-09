@@ -1,7 +1,7 @@
 module SupportInterface
-  module ExternalReportExports
+  module MonthlyStatisticsExports
     class CandidatesByStatusExport
-      include ExternalReportExportHelper
+      include MonthlyStatisticsExportHelper
 
       def data_for_export(*)
         data = MonthlyStatistics::ByStatus.new(by_candidate: true).table_data

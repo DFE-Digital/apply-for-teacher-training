@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ExternalReportExports::CandidatesByStatusExport do
+RSpec.describe SupportInterface::MonthlyStatisticsExports::ApplicationsByStatusExport do
   describe '#data_for_export' do
     let(:data) {
       {
@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::ExternalReportExports::CandidatesByStatusExport
 
     before do
       monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
-      allow(MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: true).and_return monthly_statistics_double
+      allow(MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: false).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 
