@@ -25,7 +25,7 @@ RSpec.describe GetCourseOptionFromCodes, type: :model do
       it "does not add errors to other attributes when #{attr} is blank" do
         service.send("#{attr}=", nil)
         expect(service).to be_invalid
-        expect(service.errors.keys).to contain_exactly(attr)
+        expect(service.errors.attribute_names).to contain_exactly(attr)
       end
     end
 
