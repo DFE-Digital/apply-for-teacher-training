@@ -135,7 +135,7 @@ en:
     offer:
       name: Offer made
       description: |
-        The provider has made an offer to the candidate. The candidate has to accept or reject the offer, which sets the application status to ‘Pending conditions’.
+        The provider has made an offer to the candidate. The candidate has to accept or reject the offer, which sets the application status to ‘Conditions pending’.
 
         We assume that all offers have some conditions, even if there are no academic conditions.
       emails:

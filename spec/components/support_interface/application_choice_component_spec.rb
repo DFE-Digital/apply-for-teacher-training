@@ -39,7 +39,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     end
   end
 
-  context 'Pending conditions' do
+  context 'Conditions pending' do
     let(:accepted_choice) { create(:application_choice, :with_completed_application_form, :with_accepted_offer) }
 
     it 'renders a link to the change the offered course choice when the `change_offered_course` flag is active' do
