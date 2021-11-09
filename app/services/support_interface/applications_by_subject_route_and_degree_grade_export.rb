@@ -1,5 +1,5 @@
 module SupportInterface
-  class TADDegreeClassExport
+  class ApplicationsBySubjectRouteAndDegreeGradeExport
     COLUMNS = %i[
       applications
       offers_received
@@ -11,10 +11,10 @@ module SupportInterface
 
     def self.run_weekly
       data_export = DataExport.create!(
-        name: 'Weekly export of the TAD degree class export',
+        name: 'Weekly export of the applications export grouped by subject, route and degree grade',
         export_type: :tad_degree_class,
       )
-      DataExporter.perform_async(SupportInterface::TADDegreeClassExport, data_export.id)
+      DataExporter.perform_async(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport, data_export.id)
     end
 
     def call(*)
@@ -45,7 +45,7 @@ module SupportInterface
 
       report.map do |key, ary|
         ary.each do |hash|
-          MinisterialReport::DEGREE_CLASS_REPORT_STATUS_MAPPING[hash[:status].to_sym].each do |mapped_status|
+          MinisterialReport::APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING[hash[:status].to_sym].each do |mapped_status|
             report[key].first[mapped_status] += 1
           end
         end

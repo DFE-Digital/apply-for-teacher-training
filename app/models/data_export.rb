@@ -12,6 +12,12 @@ class DataExport < ApplicationRecord
       description: 'The list of provider users that have signed in to apply at least once.',
       class: SupportInterface::ActiveProviderUsersExport,
     },
+    applications_by_subject_route_and_degree_grade: {
+      name: 'Applications by subject, route and degree grade',
+      export_type: 'applications_by_subject_route_and_degree_grade',
+      description: 'Export of applications grouped by subject, route and degree grade',
+      class: SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport,
+    },
     application_references: {
       name: 'Application references',
       export_type: 'application_references',
@@ -200,12 +206,6 @@ class DataExport < ApplicationRecord
       description: 'A list of all applications for TAD.',
       class: DataAPI::TADExport,
     },
-    tad_degree_class_by_subject_and_outcome: {
-      name: 'TAD degree class by subject and outcome',
-      export_type: 'tad_degree_class_by_subject_and_outcome',
-      description: 'Report of subject by route, degree class and application status',
-      class: SupportInterface::TADDegreeClassExport,
-    },
     tad_provider_performance: {
       name: 'TAD provider performance',
       export_type: 'tad_provider_performance',
@@ -260,6 +260,7 @@ class DataExport < ApplicationRecord
   enum export_type: {
     active_provider_user_permissions: 'active_provider_user_permissions',
     active_provider_users: 'active_provider_users',
+    applications_by_subject_route_and_degree_grade: 'applications_by_subject_route_and_degree_grade',
     application_references: 'application_references',
     application_timings: 'application_timings',
     application_timings_for_current_cycle: 'application_timings_for_current_cycle',
@@ -291,7 +292,6 @@ class DataExport < ApplicationRecord
     submitted_application_choices: 'submitted_application_choices',
     submitted_application_choices_for_current_cycle: 'submitted_application_choices_for_current_cycle',
     tad_applications: 'tad_applications',
-    tad_degree_class_by_subject_and_outcome: 'tad_degree_class_by_subject_and_outcome',
     tad_provider_performance: 'tad_provider_performance',
     user_permissions: 'user_permissions',
     who_ran_which_export: 'who_ran_which_export',
