@@ -13,6 +13,12 @@ module SupportInterface
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
+    def self.recruitment_cycle_context(recruitment_cycle_year = RecruitmentCycle.current_year)
+      text = %(#{RecruitmentCycle.cycle_name(recruitment_cycle_year)} (starts #{recruitment_cycle_year}))
+      text += ' - current' if recruitment_cycle_year == RecruitmentCycle.current_year
+      text
+    end
+
   private
 
     def sub_reasons_for(reason)

@@ -149,4 +149,18 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
       end
     end
   end
+
+  describe '.recruitment_cycle_context' do
+    it 'formats a string for the current recruitment cycle' do
+      year = RecruitmentCycle.current_year
+      expected = %(#{RecruitmentCycle.cycle_name(year)} (starts #{year}) - current)
+      expect(described_class.recruitment_cycle_context(year)).to eq(expected)
+    end
+
+    it 'formats a string for a previous recruitment cycle' do
+      year = RecruitmentCycle.previous_year
+      expected = %(#{RecruitmentCycle.cycle_name(year)} (starts #{year}))
+      expect(described_class.recruitment_cycle_context(year)).to eq(expected)
+    end
+  end
 end
