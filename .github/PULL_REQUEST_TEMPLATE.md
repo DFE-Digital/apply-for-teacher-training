@@ -16,6 +16,7 @@
 
 ## Things to check
 
+- [ ] If the code removes any existing feature flags, a data migration has also been added to delete the entry from the database
 - [ ] This code does not rely on migrations in the same Pull Request
 - [ ] If this code includes a migration adding or changing columns, it also backfills existing records for consistency
 - [ ] API release notes have been updated if necessary

@@ -9,6 +9,7 @@ class DetectInvariantsDailyCheck
     detect_submitted_applications_with_more_than_two_selected_references
     detect_applications_submitted_with_the_same_course
     detect_submitted_applications_with_more_than_three_course_choices
+    detect_obsolete_feature_flags
   end
 
   def detect_outstanding_references_on_submitted_applications
@@ -141,12 +142,24 @@ class DetectInvariantsDailyCheck
     end
   end
 
+  def detect_obsolete_feature_flags
+    feature_names = FeatureFlag::FEATURES.map(&:first)
+    obsolete_features = Feature.where.not(name: feature_names)
+
+    return if obsolete_features.none?
+
+    message = 'The following obsolete feature flags have yet to be deleted from the database: '  \
+              "#{obsolete_features.map(&:name).to_sentence}"
+    Sentry.capture_exception(ObsoleteFeatureFlags.new(message))
+  end
+
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
   class ApplicationWithADifferentCyclesCourse < StandardError; end
   class ApplicationSubmittedWithMoreThanTwoSelectedReferences < StandardError; end
   class ApplicationSubmittedWithTheSameCourse < StandardError; end
   class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
+  class ObsoleteFeatureFlags < StandardError; end
 
 private
 

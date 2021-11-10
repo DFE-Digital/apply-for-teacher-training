@@ -31,6 +31,7 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::TrimQualificationDegreeTypes',
   'DataMigrations::BackfillExportType',
   'DataMigrations::FixLatLongFlipFlops',
+  'DataMigrations::RemoveObsoleteFeatureFlags',
 ].freeze
 
 def data_migrations

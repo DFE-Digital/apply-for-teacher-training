@@ -155,5 +155,18 @@ RSpec.describe DetectInvariantsDailyCheck do
         ),
       )
     end
+
+    it 'detects obsolete feature flags' do
+      obsolete_features = create_list(:feature, 5)
+      FeatureFlag::FEATURES.map { |feature| Feature.find_or_create_by(name: feature.first) }
+
+      described_class.new.perform
+
+      message = 'The following obsolete feature flags have yet to be deleted from the database: '  \
+                "#{obsolete_features.map(&:name).to_sentence}"
+
+      expect(Sentry).to have_received(:capture_exception)
+                    .with(described_class::ObsoleteFeatureFlags.new(message))
+    end
   end
 end
