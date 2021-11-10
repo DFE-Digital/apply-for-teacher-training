@@ -102,21 +102,28 @@ research:
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 
+read-keyvault-config:
+	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_APP_SECRET_NAME=$(shell jq -r '.key_vault_app_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
+	$(eval KEY_VAULT_INFRA_SECRET_NAME=$(shell jq -r '.key_vault_infra_secret_name' terraform/workspace_variables/$(APP_ENV).tfvars.json))
+
 .PHONY: view-app-secrets
-view-app-secrets: install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
-	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml
+view-app-secrets: read-keyvault-config install-fetch-config azure-login ## View App Secrets, eg: make qa view-app-secrets
+	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_APP_SECRET_NAME} -f yaml
 
 .PHONY: view-infra-secrets
-view-infra-secrets: install-fetch-config azure-login ## View Infra Secrets, eg: make qa view-infra-secrets
-	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -t infra -s azure-key-vault-secret -f yaml
+view-infra-secrets: read-keyvault-config install-fetch-config azure-login ## View Infra Secrets, eg: make qa view-infra-secrets
+	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml
 
 .PHONY: edit-app-secrets
-edit-app-secrets: install-fetch-config azure-login ## Edit App Secrets, eg: make qa edit-app-secrets
-	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -s azure-key-vault-secret -f yaml -e -d azure-key-vault-secret -c
+edit-app-secrets: read-keyvault-config install-fetch-config azure-login ## Edit App Secrets, eg: make qa edit-app-secrets
+	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_APP_SECRET_NAME} \
+		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_APP_SECRET_NAME} -f yaml -c
 
 .PHONY: edit-infra-secrets
-edit-infra-secrets: install-fetch-config azure-login ## Edit Infra Secrets, eg: make qa edit-infra-secrets
-	bundle exec dotenv -f terraform/workspace_variables/$(APP_ENV).tfvars bin/fetch_config.rb -t infra -s azure-key-vault-secret -f yaml -e -d azure-key-vault-secret -c
+edit-infra-secrets: read-keyvault-config install-fetch-config azure-login ## Edit Infra Secrets, eg: make qa edit-infra-secrets
+	bin/fetch_config.rb -s azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} \
+		-e -d azure-key-vault-secret:${KEY_VAULT_NAME}/${KEY_VAULT_INFRA_SECRET_NAME} -f yaml -c
 
 .PHONY: shell
 shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
@@ -124,21 +131,22 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 	cf ssh apply-clock-${APP_NAME_SUFFIX} -t -c 'cd /app && /usr/local/bin/bundle exec rails c'
 
 deploy-init:
-	$(if $(IMAGE_TAG), , $(error Please pass a valid docker image tag; eg: make qa deploy-init IMAGE_TAG=5309326123bf6b366deab6cd0668615d11be3e3d))
+	$(if $(IMAGE_TAG), , $(eval export IMAGE_TAG=main))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
+	echo "Docker image ${TF_VAR_paas_docker_image} will be deployed"
 	$(if $(PASSCODE), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
 	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show \
 	&& cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
 
 deploy-plan: deploy-init
-	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars
+	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars.json
 
 deploy: deploy-init
-	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars
+	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars.json
 
 destroy: deploy-init
-	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars
+	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json
 
 .PHONY: set-space-developer
 set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.education.gov.uk
