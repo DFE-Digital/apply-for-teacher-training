@@ -17,6 +17,7 @@ jobs:
       GEMS_NODE_MODULES_IMAGE: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules
     outputs:
       IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      GIT_BRANCH: ${{ env.GIT_BRANCH }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,15 +25,16 @@ jobs:
       - name: Set docker image tag (push)
         if: github.event_name == 'push'
         run: |
-          GIT_BRANCH=${GITHUB_REF##*/}
-          echo "BRANCH_TAG=$GIT_BRANCH" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
+          GIT_REF=${{ github.ref }}
+          echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV # GIT_BRANCH will be main for refs/heads/main
           echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Set docker image tag (pull_request)
         if: github.event_name == 'pull_request'
         run: |
-          GIT_BRANCH=${GITHUB_HEAD_REF##*/}
-          echo "BRANCH_TAG=$GIT_BRANCH" >> $GITHUB_ENV
+          # This is the actual PR branch
+          GIT_REF=${{ github.head_ref }}
+          echo "GIT_BRANCH=${GIT_REF##*/}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
@@ -51,11 +53,11 @@ jobs:
           target: gems-node-modules
           tags: |
             ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
+            ${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
           push: true
           cache-to: type=inline
           cache-from: |
-            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
 
       - name: Build Docker Image
@@ -63,17 +65,28 @@ jobs:
         with:
           tags: |
             ${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.DOCKER_IMAGE }}:${{ env.BRANCH_TAG }}
+            ${{ env.DOCKER_IMAGE }}:${{ env.GIT_BRANCH }}
           push: true
           cache-to: type=inline
           cache-from: |
             type=registry,ref=${{ env.DOCKER_IMAGE }}:main
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
-            type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.BRANCH_TAG }}
-            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.BRANCH_TAG }}
+            type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.GIT_BRANCH }}
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
             type=register,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
           build-args: |
             VERSION=${{ env.IMAGE_TAG }}
+
+      - name: Notify Slack channel on job failure
+        if: failure() && github.event_name == 'push'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: CI Deployment
+          SLACK_TITLE: Build failure
+          SLACK_MESSAGE: Build failure on branch ${{env.GIT_BRANCH}}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: failure
+          SLACK_FOOTER: Sent from build job in build workflow
 
   lint:
     name: Lint
@@ -109,6 +122,17 @@ jobs:
         run: ${{ env.COMMAND }}
         env:
           COMMAND: ${{ matrix.command }}
+      - name: Notify Slack channel on job failure
+        if: failure() && github.event_name == 'push'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: CI Deployment
+          SLACK_TITLE: Lint failure
+          SLACK_MESSAGE: ${{ matrix.tests }} lint failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: failure
+          SLACK_FOOTER: Sent from lint job in build workflow
+
   test:
     name: Tests
     needs: [build]
@@ -246,6 +270,17 @@ jobs:
         with:
           name: base-result
           path: /app/coverage/.resultset.json
+
+      - name: Notify Slack channel on job failure
+        if: failure() && github.event_name == 'push'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: CI Deployment
+          SLACK_TITLE: Test failure
+          SLACK_MESSAGE: ${{ matrix.tests }} (feature-flags ${{ matrix.feature-flags }}) test failure on branch ${{ needs.build.outputs.GIT_BRANCH }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: failure
+          SLACK_FOOTER: Sent from test job in build workflow
 
   trigger-deployment:
     name: Trigger Deployment
