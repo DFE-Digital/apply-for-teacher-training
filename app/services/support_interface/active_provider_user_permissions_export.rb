@@ -16,6 +16,7 @@ module SupportInterface
             name: provider_user.full_name,
             email_address: provider_user.email_address,
             provider: provider.name,
+            provider_type: provider.provider_type,
             last_signed_in_at: provider_user.last_signed_in_at,
             has_make_decisions: permissions.make_decisions.exists?(provider: provider),
             has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider: provider),
