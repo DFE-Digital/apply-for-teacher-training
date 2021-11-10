@@ -1,6 +1,7 @@
 module ProviderInterface
   class ContentController < ProviderInterfaceController
     include ContentHelper
+
     skip_before_action :authenticate_provider_user!
     skip_before_action :redirect_if_setup_required
     layout 'application'
@@ -28,7 +29,12 @@ module ProviderInterface
     def service_guidance_provider; end
 
     def dates_and_deadlines
-      render_content_page :dates_and_deadlines, with_breadcrumbs: true
+      holidays = CycleTimetable.holidays.reduce({}) do |hols, (holiday, date_range)|
+        hols[holiday] = { begins: date_range.first, ends: date_range.last }
+        hols
+      end
+
+      render_content_page :dates_and_deadlines, with_breadcrumbs: true, locals: { holidays: holidays }
     end
 
     def complaints
