@@ -1,5 +1,5 @@
 desc 'Set up your local development environment with data from the Teacher training public API'
-task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses update_vendors] do
+task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
   puts 'Creating a support & provider user with DfE Sign-in UID `dev-support` and email `support@example.com`...'
   SupportUser.create!(
     dfe_sign_in_uid: 'dev-support',
@@ -26,7 +26,7 @@ desc 'Sync some pilot-enabled providers and open all their courses'
 task sync_dev_providers_and_open_courses: :environment do
   puts 'Syncing data from TTAPI...'
 
-  provider_codes = %w[1JA 24J 24P D39 S72 1JB 4T7 1N1 Y50 L34 D86 K60 H72]
+  provider_codes = %w[1JA 24J 24P D39 S72 4T7 1N1 Y50 L34 D86 K60 H72 W53]
   provider_codes.each do |code|
     provider_from_api = TeacherTrainingPublicAPI::Provider
         .where(year: RecruitmentCycle.current_year)
