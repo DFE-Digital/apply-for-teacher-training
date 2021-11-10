@@ -34,7 +34,7 @@ class Clock
 
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
-  every(1.day, 'Generate monthly statistics report', at: '00:00', if: ->(t) { t.day == 1 }) { UpdateMonthlyStatisticsReport.perform_async }
+  every(1.day, 'Generate monthly statistics report and exports', at: '00:00', if: ->(t) { t.day == 1 }) { GenerateMonthlyStatistics.perform_async }
 
   every(1.day, 'MinisterialReportCandidatesExport', at: '23:59') { SupportInterface::MinisterialReportCandidatesExport.run_daily }
   every(1.day, 'MinisterialReportApplicationsExport', at: '23:59') { SupportInterface::MinisterialReportApplicationsExport.run_daily }
@@ -60,21 +60,5 @@ class Clock
     VendorIntegrationStatsWorker.perform_async('ellucian')
     VendorIntegrationStatsWorker.perform_async('unit4')
     VendorIntegrationStatsWorker.perform_async('oracle')
-  end
-
-  every(1.day, 'Generate applications export for the External Report', at: '00:00', if: ->(t) { t.day == 1 }) do
-    export = DataExport.create!(
-      name: 'External report applications',
-      export_type: :external_report_applications,
-    )
-    DataExporter.perform_async(SupportInterface::ExternalReportApplicationsExport, export.id, {})
-  end
-
-  every(1.day, 'Generate candidates export for the External Report', at: '00:00', if: ->(t) { t.day == 1 }) do
-    export = DataExport.create!(
-      name: 'External report candidates',
-      export_type: :external_report_candidates,
-    )
-    DataExporter.perform_async(SupportInterface::ExternalReportCandidatesExport, export.id, {})
   end
 end
