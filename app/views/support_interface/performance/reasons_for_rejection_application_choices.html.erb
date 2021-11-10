@@ -3,7 +3,7 @@
   search_value: params[:structured_rejection_reasons].values.first,
   application_choices: @application_choices,
 ) -%>
-<% content_for :context, 'Structured reasons for rejection' %>
+<% content_for :context, SupportInterface::ReasonsForRejectionDashboardComponent.recruitment_cycle_context(@recruitment_cycle_year) %>
 <% content_for :title, search_results_component.search_title_text %>
 
 <% content_for :before_content do %>
