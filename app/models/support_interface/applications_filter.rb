@@ -159,7 +159,7 @@ module SupportInterface
           },
           {
             value: 'pending_conditions',
-            label: 'Pending conditions',
+            label: 'Conditions pending',
             checked: applied_filters[:status]&.include?('pending_conditions'),
           },
           {

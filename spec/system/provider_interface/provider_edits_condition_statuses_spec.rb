@@ -95,6 +95,6 @@ RSpec.feature 'Confirm conditions met' do
 
   def and_the_candidate_is_still_pending_conditions
     expect(@application_choice.reload.pending_conditions?).to be_truthy
-    expect(page).to have_content 'Accepted'
+    expect(page).to have_content 'Conditions pending'
   end
 end

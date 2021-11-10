@@ -128,7 +128,7 @@ RSpec.feature 'Provider reinstates deferred offer' do
   end
 
   def and_the_application_has_status_conditions_met
-    expect(page).to have_content 'Conditions met'
+    expect(page).to have_content 'Recruited'
   end
 
   def and_the_course_now_offered_is_from_the_current_year

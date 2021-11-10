@@ -61,8 +61,8 @@ en:
     cancelled: Application cancelled
     declined: Declined
     offer: Offered
-    pending_conditions: Accepted
-    recruited: Conditions met
+    pending_conditions: Conditions pending
+    recruited: Recruited
     rejected: Rejected
     offer_withdrawn: Offer withdrawn
     unsubmitted: Not submitted yet
@@ -135,7 +135,7 @@ en:
     offer:
       name: Offer made
       description: |
-        The provider has made an offer to the candidate. The candidate has to accept or reject the offer, which sets the application status to ‘Pending conditions’.
+        The provider has made an offer to the candidate. The candidate has to accept or reject the offer, which sets the application status to ‘Conditions pending’.
 
         We assume that all offers have some conditions, even if there are no academic conditions.
       emails:
@@ -148,7 +148,7 @@ en:
         When the provider confirms that the offer conditions have been met, the application is marked ‘recruited’.
 
     pending_conditions:
-      name: Pending conditions
+      name: Conditions pending
       description: Provider is waiting for the candidate to prove that they have met the conditions.
 
     rejected:
