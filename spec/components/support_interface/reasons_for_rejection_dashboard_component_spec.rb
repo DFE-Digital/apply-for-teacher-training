@@ -115,7 +115,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
 
     it 'renders safeguarding section' do
       section = rendered_component.css('.app-section')[7]
-      expect(heading_text(section)).to eq('Safeguarding concerns')
+      expect(heading_text(section)).to eq('Safeguarding')
       expect(summary_text(section)).to eq(['8.33%', '1 of 12 rejections included this category'])
       expect(details_text(section, 2)).to eq(['Information revealed by our vetting process makes the candidate unsuitable to work with children', '8.33%', '1 of 12', '100%', '1 of 1', '11.11%', '1 of 9', '100%', '1 of 1'])
     end

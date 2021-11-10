@@ -4,13 +4,7 @@
   application_choices: @application_choices,
 ) -%>
 <% content_for :context, 'Structured reasons for rejection' %>
-<% content_for :title do %>
-  <% if @application_choices.any? -%>
-    <%= search_results_component.search_title_text %>
-  <% else -%>
-    There are no results for the selected reason for rejection.
-  <% end -%>
-<% end -%>
+<% content_for :title, search_results_component.search_title_text %>
 
 <% content_for :before_content do %>
   <%= render SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent.new(
@@ -19,6 +13,10 @@
   ) %>
 <% end %>
 
-<%= render search_results_component %>
+<% if @application_choices.any? -%>
+  <%= render search_results_component %>
+<% else -%>
+  <p class="govuk-body">There are no results for the selected reason for rejection.</p>
+<% end -%>
 
 <%= render(PaginatorComponent.new(scope: @application_choices)) %>

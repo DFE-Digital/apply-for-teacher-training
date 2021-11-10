@@ -4,6 +4,7 @@ en:
       title: 'Why your application was unsuccessful'
     candidate_behaviour:
       title: 'Something you did'
+      alt_title: 'Candidate behaviour'
     quality_of_application:
       title: 'Quality of application'
       personal_statement: Personal statement
@@ -36,6 +37,7 @@ en:
       other_details: Honesty and professionalism other reason - details
     safeguarding_issues:
       title: 'Safeguarding issues'
+      alt_title: 'Safeguarding'
       candidate_disclosed_information: 'Information disclosed by candidate makes them unsuitable to work with children'
       candidate_disclosed_information_details: Information disclosed by candidate makes them unsuitable to work with children - details
       vetting_disclosed_information: 'Information revealed by our vetting process makes the candidate unsuitable to work with children'
@@ -56,6 +58,7 @@ en:
         'no': '%{provider_name} would not be interested in future applications from you.'
     candidate_behaviour_what_did_the_candidate_do:
       title: 'Something you did'
+      alt_title: 'Candidate behaviour'
       didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
       didnt_attend_interview: 'Didn’t attend interview'
       other: Other

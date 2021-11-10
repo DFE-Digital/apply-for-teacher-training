@@ -229,7 +229,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_safeguarding_concerns
-    within '#safeguarding-concerns' do
+    within '#safeguarding' do
       expect(page).to have_content('40%')
       expect(page).to have_content('2 of 5 rejections included this category')
       expect(page).to have_content('50%')
@@ -256,7 +256,7 @@ private
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
-    within '#safeguarding-concerns' do
+    within '#safeguarding' do
       expect(page).to have_content('Information disclosed by candidate makes them unsuitable to work with children 0% 0 of 5 0% 0 of 2 0% 0 of 2 0% 0 of 1')
       expect(page).to have_content('Information revealed by our vetting process makes the candidate unsuitable to work with children 0% 0 of 5 0% 0 of 2 0% 0 of 2 0% 0 of 1')
       expect(page).to have_content('Other 40% 2 of 5 100% 2 of 2 50% 1 of 2 100% 1 of 1')
@@ -291,7 +291,7 @@ private
       ),
     )
     expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
-    expect(page).to have_css('h1', text: 'Something you did')
+    expect(page).to have_css('h1', text: 'Candidate behaviour')
     [
       @application_choice1,
       @application_choice2,
@@ -302,23 +302,23 @@ private
     expect(page).not_to have_link("##{@application_choice6.id}")
 
     within "#application-choice-section-#{@application_choice1.id}" do
-      expect(page).to have_content('Safeguarding issues')
+      expect(page).to have_content('Safeguarding')
       expect(page).to have_content("Qualifications\nNo Maths GCSE grade 4 (C) or above, or valid equivalentNo degree")
-      expect(page).to have_content('Something you did')
+      expect(page).to have_content('Candidate behaviour')
       expect(page).to have_content('Didn’t reply to our interview offer')
       expect(page).not_to have_content('fashion_sense')
       expect(page).not_to have_content('no_phd')
     end
     within "#application-choice-section-#{@application_choice2.id}" do
-      expect(page).not_to have_content('Safeguarding issues')
+      expect(page).not_to have_content('Safeguarding')
       expect(page).to have_content("Qualifications\nNo English GCSE grade 4 (C) or above, or valid equivalentOther")
-      expect(page).to have_content('Something you did')
+      expect(page).to have_content('Candidate behaviour')
       expect(page).to have_content('Didn’t attend interview')
     end
     within "#application-choice-section-#{@application_choice3.id}" do
-      expect(page).not_to have_content('Safeguarding issues')
+      expect(page).not_to have_content('Safeguarding')
       expect(page).not_to have_content('Qualifications')
-      expect(page).to have_content('Something you did')
+      expect(page).to have_content('Candidate behaviour')
     end
   end
 
@@ -335,7 +335,7 @@ private
     )
 
     expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
-    expect(page).to have_css('h1', text: 'Something you did - Didn’t attend interview')
+    expect(page).to have_css('h1', text: 'Candidate behaviour - Didn’t attend interview')
 
     [
       @application_choice1,
@@ -347,9 +347,9 @@ private
     expect(page).to have_link("##{@application_choice2.id}")
 
     within "#application-choice-section-#{@application_choice2.id}" do
-      expect(page).not_to have_content('Safeguarding issues')
+      expect(page).not_to have_content('Safeguarding')
       expect(page).to have_content("Qualifications\nNo English GCSE grade 4 (C) or above, or valid equivalentOther")
-      expect(page).to have_content('Something you did')
+      expect(page).to have_content('Candidate behaviour')
       expect(page).to have_content('Didn’t attend interview')
     end
   end
