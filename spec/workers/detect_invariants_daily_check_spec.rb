@@ -158,7 +158,7 @@ RSpec.describe DetectInvariantsDailyCheck do
 
     it 'detects obsolete feature flags' do
       obsolete_features = create_list(:feature, 5)
-      FeatureFlag::FEATURES.map { |feature| create(:feature, name: feature.first) }
+      FeatureFlag::FEATURES.map { |feature| Feature.find_or_create_by(name: feature.first) }
 
       described_class.new.perform
 
