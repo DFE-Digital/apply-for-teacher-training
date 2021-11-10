@@ -19,9 +19,7 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::CoberturaFormatter,
 ]
-unless ENV['TEST_ENV_NUMBER']
-  SimpleCov.start 'rails'
-end
+SimpleCov.start 'rails'
 
 require 'sidekiq/testing'
 require 'clockwork/test'
