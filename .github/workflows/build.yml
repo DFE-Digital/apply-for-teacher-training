@@ -284,7 +284,7 @@ jobs:
 
   trigger-deployment:
     name: Trigger Deployment
-    needs: [build, test]
+    needs: [build, lint, test]
     runs-on: ubuntu-latest
     if: ${{ success() && github.ref == 'refs/heads/main' }}
     steps:
