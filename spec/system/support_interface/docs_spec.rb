@@ -43,7 +43,6 @@ RSpec.feature 'Docs' do
       candidate_mailer-new_cycle_has_started
       candidate_mailer-fraud_match_email
       candidate_mailer-find_has_opened
-      provider_mailer-courses_open_on_apply
       candidate_mailer-unconditional_offer_accepted
       candidate_mailer-conditions_statuses_changed
       provider_mailer-unconditional_offer_accepted

@@ -20,8 +20,6 @@ en:
       subject: "Respond to %{candidate_name}’s (%{support_reference}) application"
     application_withdrawn:
       subject: "%{candidate_name} (%{support_reference}) withdrew their application"
-    courses_open_on_apply:
-      subject: Your courses are live on Apply and you have access to Manage
     confirm_sign_in:
       subject: New sign in to Manage teacher training applications
     organisation_permissions_set_up:

@@ -58,12 +58,6 @@ class ProviderMailerPreview < ActionMailer::Preview
     )
   end
 
-  def courses_open_on_apply
-    ProviderMailer.courses_open_on_apply(
-      FactoryBot.build_stubbed(:provider_user),
-    )
-  end
-
   def unconditional_offer_accepted
     ProviderMailer.unconditional_offer_accepted(provider_user, application_choice)
   end
