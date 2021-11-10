@@ -192,7 +192,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                           .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('course_option have been updated'))
       end
 
-      it 'touches related application choices and forms' do
+      it 'touches related application choices and forms', with_audited: true do
         stub_teacher_training_api_course_with_site(provider_code: 'ABC',
                                                    course_code: 'ABC1',
                                                    course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
@@ -208,6 +208,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
           described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
         }.to change { course_option.application_choices.first.updated_at }
          .and change { course_option.application_choices.first.application_form.updated_at }
+         .and(not_change { Audited::Audit.count })
       end
 
       it 'correctly updates withdrawn attribute for an existing course' do
