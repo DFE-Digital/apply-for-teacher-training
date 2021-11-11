@@ -199,14 +199,6 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'course name and code' => 'Computer Science (6IND)')
   end
 
-  describe '.courses_open_on_apply' do
-    let(:email) { described_class.courses_open_on_apply(provider_user) }
-
-    it_behaves_like('a mail with subject and content',
-                    I18n.t!('provider_mailer.courses_open_on_apply.subject'),
-                    'recruitment_cycle_year' => RecruitmentCycle.current_year)
-  end
-
   describe 'organisation_permissions_set_up' do
     let(:training_provider) { build_stubbed(:provider, name: 'University of Purley') }
     let(:ratifying_provider) { build_stubbed(:provider, name: 'University of Croydon') }
