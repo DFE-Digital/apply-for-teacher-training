@@ -6,7 +6,7 @@ module CandidateInterface
       def new
         @selection_form = CandidateInterface::Reference::SelectionForm.new(
           application_form: current_application,
-          selected: current_application.application_references.selected.pluck(:id),
+          selected: current_application.application_references.selected.pluck(:id).map(&:to_s),
         )
         @return_to = return_to_after_edit(default: candidate_interface_review_selected_references_path)
 
@@ -25,7 +25,6 @@ module CandidateInterface
           render :new and return
         else
           track_validation_error(@selection_form)
-          @selection_form.selected = current_application.application_references.selected.pluck(:id)
           render :new
         end
       end
@@ -37,7 +36,9 @@ module CandidateInterface
 
       def complete
         @references_selected = current_application.application_references.includes(:application_form).selected
-        @section_complete_form = SectionCompleteForm.new(completed: section_complete_params[:completed])
+        @section_complete_form = SectionCompleteForm.new(
+          completed: section_complete_params[:completed],
+        )
 
         if !@section_complete_form.valid?
           track_validation_error(@section_complete_form)
