@@ -20,6 +20,8 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::CoberturaFormatter,
 ]
 
+SimpleCov.command_name('RSpec')
+
 SimpleCov.start 'rails' do
   enable_coverage :branch
 end
