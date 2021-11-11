@@ -196,6 +196,7 @@ jobs:
         id: download-head-coverage
         with:
           name: head-result
+          path: head-result/
 
 #      - name: Download base coverage artifact
 #        id: download-base-coverage
@@ -207,14 +208,14 @@ jobs:
 #          workflow_conclusion: success
 #          branch: main
 #          name: base-result
-#          path: base-result/.resultset.json
+#          path: base-result/
 
       - name: Diff coverage resultsets
         id: diff-coverage-resultsets
         uses: kzkn/simplecov-resultset-diff-action@v1
         with:
-          base-resultset-path: .resultset.json
-          head-resultset-path: .resultset.json
+          base-resultset-path: head-result/.resultset.json
+          head-resultset-path: head-result/.resultset.json
           token: ${{ secrets.GITHUB_TOKEN }}
 
   report-flakey-specs:
