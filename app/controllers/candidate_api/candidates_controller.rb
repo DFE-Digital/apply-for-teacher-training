@@ -96,7 +96,7 @@ module CandidateAPI
                   application_status: ProcessState.new(application).state,
                   application_phase: application.phase,
                   recruitment_cycle_year: application.recruitment_cycle_year,
-                  submitted_at: application.submitted_at.iso8601,
+                  submitted_at: application.submitted_at&.iso8601,
                 }
               end,
           },
