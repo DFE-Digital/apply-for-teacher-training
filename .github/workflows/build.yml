@@ -196,7 +196,6 @@ jobs:
         id: download-head-coverage
         with:
           name: head-result
-          path: head-result/.resultset.json
 
 #      - name: Download base coverage artifact
 #        id: download-base-coverage
@@ -214,8 +213,8 @@ jobs:
         id: diff-coverage-resultsets
         uses: kzkn/simplecov-resultset-diff-action@v1
         with:
-          base-resultset-path: ./head-result/.resultset.json
-          head-resultset-path: ./head-result/.resultset.json
+          base-resultset-path: .resultset.json
+          head-resultset-path: .resultset.json
           token: ${{ secrets.GITHUB_TOKEN }}
 
   report-flakey-specs:
@@ -235,29 +234,35 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { FLAKEY_TEST_DATA } = process.env;
+            const { FLAKEY_TEST_DATA, GITHUB_HEAD_REF } = process.env;
 
             if (FLAKEY_TEST_DATA.length) {
-              const { issue: { number: issue_number }, repo: { owner, repo }, serverUrl, ref  } = context;
+              const { issue: { number: issue_number }, repo: { owner, repo } } = context;
               let commentBody = '<h3>You have one or more flakey tests on this branch! :snowflake: :snowflake: :snowflake:</h3>';
               let dataStr, dataAry, attempts, retryCount, errorLocation, errorPath, errorMessages, errorLink;
 
-              let flakeyTestRows = FLAKEY_TEST_DATA.split("\n");
+              let branchName = GITHUB_HEAD_REF.split('/').pop();
+              let createComment = false;
+              let rows = FLAKEY_TEST_DATA.split("\n");
+              let rowsLength = rows.length;
 
-              for (var idx = 0; idx < flakeyTestRows.length; idx++) {
-                dataStr = flakeyTestRows[idx];
+              for (var idx = 0; idx < rowsLength; idx++) {
+                dataStr = rows[idx];
 
                 if (dataStr.length) {
                   dataAry = dataStr.split(',');
                   [attempts, retryCount, errorLocation, ...errorMessages] = dataAry;
 
-                  errorPath = errorLocation.replace(':', '#L');
+                  errorPath = '/' + owner + '/' + repo + '/blob/' + branchName + '/' + errorLocation.replace(':', '#L');
                   errorLink = '<a href="' + errorPath + '">' + errorLocation + '</a>';
                   commentBody += ':x: Failed ' + attempts + ' out of ' + retryCount + ' times at ' + errorLink + ': :warning: ' + errorMessages.join(' :warning: ') + '<br>';
+                  createComment = true;
                 }
               }
 
-              github.issues.createComment({ issue_number, owner, repo, body: commentBody });
+              if (createComment) {
+                github.issues.createComment({ issue_number, owner, repo, body: commentBody });
+              }
             }
 
   trigger-deployment:
