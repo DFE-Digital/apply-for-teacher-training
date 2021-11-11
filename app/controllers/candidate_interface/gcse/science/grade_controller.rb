@@ -53,10 +53,10 @@ module CandidateInterface
         'candidate_interface/gcse/science/grade/awards_new'
       elsif gcse_qualification?
         'candidate_interface/gcse/science/grade/awards_edit'
-      elsif current_qualification.award_year.nil?
-        'candidate_interface/gcse/science/grade/new'
       elsif update_path
         'candidate_interface/gcse/science/grade/edit'
+      else
+        'candidate_interface/gcse/science/grade/new'
       end
     end
 
