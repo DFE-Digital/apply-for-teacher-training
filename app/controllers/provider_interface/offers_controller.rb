@@ -31,7 +31,9 @@ module ProviderInterface
       end
     end
 
-    def edit; end
+    def edit
+      redirect_to provider_interface_application_choice_offer_path(@application_choice)
+    end
 
     def show
       @wizard = OfferWizard.build_from_application_choice(
