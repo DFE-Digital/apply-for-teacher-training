@@ -130,6 +130,8 @@ components:
         - created_at
         - application_status
         - application_phase
+        - recruitment_cycle_year
+        - submitted_at
       properties:
         id:
           type: integer
@@ -170,6 +172,16 @@ components:
             - apply_1
             - apply_2
           example: apply_1
+        recruitment_cycle_year:
+          type: integer
+          description: The recruitment cycle that the application form was created in
+          example: 2022
+        submitted_at:
+          type: string
+          nullable: true
+          format: date-time
+          description: Time of last change
+          example: 2021-05-20T12:34:00Z
     UnauthorizedResponse:
       type: object
       required:
