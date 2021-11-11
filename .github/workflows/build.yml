@@ -198,23 +198,23 @@ jobs:
           name: head-result
           path: head-result/
 
-#      - name: Download base coverage artifact
-#        id: download-base-coverage
-#        uses: dawidd6/action-download-artifact@v2
-#        if: github.event_name == 'pull_request'
-#        with:
-#          github_token: ${{secrets.GITHUB_TOKEN}}
-#          workflow: build.yml
-#          workflow_conclusion: success
-#          branch: main
-#          name: base-result
-#          path: base-result/
+      - name: Download base coverage artifact
+        id: download-base-coverage
+        uses: dawidd6/action-download-artifact@v2
+        if: github.event_name == 'pull_request'
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: re-enable-simplecov-in-ci-builds
+          name: head-result
+          path: base-result/
 
       - name: Diff coverage resultsets
         id: diff-coverage-resultsets
         uses: kzkn/simplecov-resultset-diff-action@v1
         with:
-          base-resultset-path: head-result/.resultset.json
+          base-resultset-path: base-result/.resultset.json
           head-resultset-path: head-result/.resultset.json
           token: ${{ secrets.GITHUB_TOKEN }}
 
