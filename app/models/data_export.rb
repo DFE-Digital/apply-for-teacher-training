@@ -115,6 +115,18 @@ class DataExport < ApplicationRecord
       description: 'A report of candidates counted against specific states and subjects.',
       class: SupportInterface::MinisterialReportCandidatesExport,
     },
+    monthly_statistics_applications_by_status_export: {
+      name: 'Monthly statistics applications by status',
+      export_type: 'monthly_statistics_applications_by_status',
+      description: 'A CSV version of the applications by status table for the monthly report',
+      class: SupportInterface::MonthlyStatisticsExports::ApplicationsByStatusExport,
+    },
+    monthly_statistics_candidates_by_status_export: {
+      name: 'Monthly statistics candidates by status',
+      export_type: 'monthly_statistics_candidates_by_status',
+      description: 'A CSV version of the candidates by status table for the monthly report',
+      class: SupportInterface::MonthlyStatisticsExports::CandidatesByStatusExport,
+    },
     notes_export: {
       name: 'Notes',
       export_type: 'notes_export',
@@ -277,6 +289,8 @@ class DataExport < ApplicationRecord
     interviews_export: 'interview_export',
     ministerial_report_applications_export: 'ministerial_report_applications_export',
     ministerial_report_candidates_export: 'ministerial_report_candidates_export',
+    monthly_statistics_applications_by_status_export: 'monthly_statistics_applications_by_status_export',
+    monthly_statistics_candidates_by_status_export: 'monthly_statistics_candidates_by_status_export',
     notifications_export: 'notifications_export',
     notification_preferences_export: 'notification_preferences_export',
     notes_export: 'notes_export',
