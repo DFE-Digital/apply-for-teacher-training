@@ -2,8 +2,8 @@ module MonthlyStatistics
   class BySex < MonthlyStatistics::Base
     def table_data
       {
-        rows: rows,
-        column_totals: column_totals_for(rows),
+        rows: apply_minimum_value_rule_to_rows(rows),
+        column_totals: apply_minimum_value_rule_to_totals(column_totals_for(rows)),
       }
     end
 
