@@ -24,7 +24,7 @@ module SupportInterface
                 'Area' => area,
                 'Age group' => age_group,
                 'Status' => status,
-                'Total' => count,
+                'Total' => count >= 5 ? count : '0 to 4',
               }
             end
           end
