@@ -1,7 +1,0 @@
-en:
-  service_down:
-    title: Sorry, there’s a problem with the service
-    try_later: Try again later.
-    progress_not_saved: If you reached this page after submitting information then it has not been saved. You’ll need to enter it again when the service is available.
-    questions_intro: If you have any questions, please email us at
-    questions_email: becomingateacher@digital.education.gov.uk

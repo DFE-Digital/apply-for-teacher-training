@@ -1,10 +1,10 @@
 class RackExceptionsApp
   def self.call(env)
     if env['REQUEST_PATH'] =~ /^\/[^\/]*api\/.*$/
-      [503, { 'Content-Type' => 'text/plain' }, ['Service Unavailable']]
+      [500, { 'Content-Type' => 'text/plain' }, ['Internal Server Error']]
     else
-      @body ||= action_view.render(template: 'errors/service_down', layout: 'layouts/error')
-      [503, { 'Content-Type' => 'text/html' }, [@body]]
+      @body ||= action_view.render(template: 'errors/internal_server_error', layout: 'layouts/error')
+      [500, { 'Content-Type' => 'text/html' }, [@body]]
     end
   end
 
