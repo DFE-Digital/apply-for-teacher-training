@@ -10,6 +10,7 @@
   <%= render SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent.new(
     search_attribute: params[:structured_rejection_reasons].keys.first,
     search_value: params[:structured_rejection_reasons].values.first,
+    recruitment_cycle_year: @recruitment_cycle_year,
   ) %>
 <% end %>
 
