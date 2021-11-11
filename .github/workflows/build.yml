@@ -106,6 +106,7 @@ jobs:
         run: ${{ env.COMMAND }}
         env:
           COMMAND: ${{ matrix.command }}
+
   test:
     name: Tests
     needs: [build]
@@ -113,11 +114,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tests: [ unit_shared ]
-        feature-flags: [on]
+        tests: [ unit_shared, unit_candidate-provider, unit_support-referee-api, integration_shared, integration_provider, integration_candidate ]
+        feature-flags: [on, off]
         include:
           - tests: unit_shared
-            include-pattern: spec/lib/flaky_spec.rb
+            include-pattern: spec/.*/*_spec.rb
+            exclude-pattern: spec/.*(candidate_interface|provider_interface|support_interface|referee_interface|system|.*api.*).*/*_spec.rb
+          - tests: unit_candidate-provider
+            include-pattern: spec/.*(candidate_interface|provider_interface).*/*_spec.rb
+            exclude-pattern: spec/system/.*/*_spec.rb
+          - tests: unit_support-referee-api
+            include-pattern: spec/.*(support_interface|referee_interface|.*api.*).*/*_spec.rb
+            exclude-pattern: spec/system/.*/*_spec.rb
+          - tests: integration_shared
+            include-pattern: spec/system/.*/*_spec.rb
+            exclude-pattern: spec/system/.*(provider_interface|candidate_interface).*/*_spec.rb
+          - tests: integration_provider
+            include-pattern: spec/system/provider_interface/.*/*_spec.rb
+          - tests: integration_candidate
+            include-pattern: spec/system/candidate_interface/.*/*_spec.rb
     services:
       redis:
         image: redis:alpine
@@ -159,7 +174,7 @@ jobs:
         run: apk add chromium chromium-chromedriver
 
       - name: ${{ matrix.tests }} tests with feature flags ${{ matrix.feature-flags }}
-        run: bundle exec --verbose rspec ./spec/lib/flaky_spec.rb
+        run: bundle exec --verbose parallel_rspec --pattern "${{ env.INCLUDE_PATTERN }}" --exclude-pattern "${{ env.EXCLUDE_PATTERN }}"
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
