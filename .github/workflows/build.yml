@@ -210,6 +210,10 @@ jobs:
           name: head-result
           path: base-result/
 
+      - name: Cat base-result path
+        run: |
+          cat base-result/.resultset.json
+
       - name: Diff coverage resultsets
         id: diff-coverage-resultsets
         uses: kzkn/simplecov-resultset-diff-action@v1
