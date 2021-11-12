@@ -1,0 +1,196 @@
+module SupportInterface
+  class ApplicationsByDemographicDomicileAndDegreeClassExport
+    def self.run_weekly
+      data_export = DataExport.create!(
+        name: 'Weekly export of the tad applications by demographic domicile and degree class',
+        export_type: :applications_by_demographic_domicile_and_degree_class,
+      )
+      DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport, data_export.id)
+    end
+
+    def call(*)
+      results = ActiveRecord::Base
+        .connection
+        .execute(query)
+        .to_a
+        .reject { |row| row.values.include?(nil) }
+        .reject { |row| row.values.include?('[]') }
+
+      aggregate_results(results)
+    end
+
+    alias data_for_export call
+
+  private
+
+    def aggregate_results(results)
+      indexed_counts = {}
+      results.each do |result|
+        key = [result['age_group'], result['sex'], result['ethnicity'], transform_disability_value(result['disability']), result['degree_class'], result['domicile']]
+        unless indexed_counts.include?(key)
+          indexed_counts[key] ||= {
+            adjusted_applications: 0,
+            adjusted_offers: 0,
+            pending_conditions: 0,
+            recruited: 0,
+            total: 0,
+          }
+        end
+        increment_counts(indexed_counts, key, result['status'])
+      end
+      flatten_results(indexed_counts)
+    end
+
+    def transform_disability_value(disability)
+      unescaped_array = Array.class_eval(disability)
+
+      if unescaped_array.count > 1
+        'Two or more impairments and/or disabling medical conditions'
+      else
+        unescaped_array[0]
+      end
+    end
+
+    def increment_counts(indexed_counts, key, status)
+      case status
+      when 'recruited'
+        indexed_counts[key][:recruited] += 1
+      when 'pending_conditions'
+        indexed_counts[key][:pending_conditions] += 1
+      when 'offer'
+        indexed_counts[key][:adjusted_offers] += 1
+      else
+        indexed_counts[key][:adjusted_applications] += 1
+      end
+      indexed_counts[key][:total] += 1
+    end
+
+    def flatten_results(counts)
+      counts.map do |key, count|
+        {
+          age_group: key[0],
+          sex: key[1],
+          ethnicity: key[2],
+          disability: key[3],
+          degree_class: key[4],
+          domicile: key[5],
+        }.merge(count)
+      end
+    end
+
+    def query
+      <<-SQL
+        WITH raw_data AS (
+            SELECT
+                c.id,
+                f.id,
+                f.equality_and_diversity->> 'hesa_ethnicity' ethnicity,
+                f.equality_and_diversity->> 'hesa_disabilities' disability,
+
+                CASE
+                  WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['0', 'recruited']
+                  WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['1', 'offer_deferred']
+                  WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'pending_conditions']
+                  WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'offer']
+                  WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decision']
+                  WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['5', 'declined']
+                  WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'rejected']
+                  WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'conditions_not_met']
+                END status,
+                CASE
+                  #{age_group_sql}
+                END age_group,
+                CASE
+                  #{equality_and_diversity_sql}
+                END sex,
+                CASE
+                  #{degree_class_sql}
+                END degree_class,
+                CASE
+                  #{domicile_sql}
+                END domicile
+            FROM
+                application_forms f
+            LEFT JOIN
+                candidates c ON f.candidate_id = c.id
+            LEFT JOIN
+                application_choices ch ON ch.application_form_id = f.id
+            LEFT JOIN
+              application_qualifications q ON q.application_form_id = f.id
+            WHERE
+                NOT c.hide_in_reporting
+                AND f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                AND f.date_of_birth IS NOT NULL
+                AND f.submitted_at IS NOT NULL
+                AND phase = 'apply_1'
+                AND (
+                  NOT EXISTS (
+                    SELECT 1
+                    FROM application_forms
+                    AS subsequent_application_forms
+                    WHERE f.id = subsequent_application_forms.previous_application_form_id
+                  )
+                )
+            GROUP BY
+                c.id, f.id, age_group, degree_class, domicile, sex
+        )
+        SELECT
+            raw_data.age_group[2],
+            raw_data.sex,
+            raw_data.ethnicity,
+            raw_data.disability,
+            raw_data.degree_class[2],
+            raw_data.domicile,
+            COUNT(*),
+            raw_data.status[2]
+        FROM
+            raw_data
+        GROUP BY
+            raw_data.age_group,
+            raw_data.sex,
+            raw_data.ethnicity,
+            raw_data.disability,
+            raw_data.degree_class,
+            raw_data.domicile,
+            raw_data.status
+        ORDER BY
+            raw_data.age_group[1],
+            raw_data.degree_class[1]
+      SQL
+    end
+
+    def age_group_sql
+      "WHEN f.date_of_birth > '#{Date.new(RecruitmentCycle.current_year - 25, 8, 31)}' THEN ARRAY['0', 'Under 25']
+      WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 30, 9, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 25, 8, 31)}' THEN ARRAY['1', '25 to 29']
+      WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 35, 9, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 30, 8, 31)}' THEN ARRAY['2', '30 to 34']
+      WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 40, 9, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 35, 8, 31)}' THEN ARRAY['3', '35 to 39']
+      WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 45, 9, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 40, 8, 31)}' THEN ARRAY['4', '40 to 44']
+      WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 50, 9, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 45, 8, 31)}' THEN ARRAY['5', '45 to 49']
+      WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 55, 9, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 50, 8, 31)}' THEN ARRAY['6', '50 to 54']
+      WHEN f.date_of_birth < '#{Date.new(RecruitmentCycle.current_year - 55, 9, 1)}' THEN ARRAY['7', '55 and over']"
+    end
+
+    def equality_and_diversity_sql
+      "WHEN f.equality_and_diversity is NULL THEN 'Not provided'
+      WHEN f.equality_and_diversity->> 'sex' = 'intersex' then 'Intersex'
+      WHEN f.equality_and_diversity->> 'sex' = 'male' then 'Male'
+      WHEN f.equality_and_diversity->> 'sex' = 'female' then 'Female'
+      WHEN f.equality_and_diversity->> 'sex' = 'Prefer not to say' then 'Prefer not to say'"
+    end
+
+    def domicile_sql
+      "WHEN f.country = 'GB' THEN 'UK'
+      WHEN f.country IN (#{EU_COUNTRY_CODES.map { |country| "'#{country}'" }.join(',')}) THEN 'EU'
+      ELSE
+     'Non EU'"
+    end
+
+    def degree_class_sql
+      "WHEN q.level = 'degree' AND q.grade = 'First class honours' THEN ARRAY['0', 'First class honours']
+      WHEN q.level = 'degree' AND q.grade = 'Upper second-class honours (2:1)' THEN ARRAY['1', 'Upper second-class honours (2:1)']
+      WHEN q.level = 'degree' AND q.grade = 'Lower second-class honours (2:2)' THEN ARRAY['2', 'Lower second-class honours (2:2)']
+      WHEN q.level = 'degree' AND q.grade = 'Third-class honours' THEN ARRAY['3', 'Third-class honours']
+      WHEN q.level = 'degree' AND q.grade = 'Pass' THEN ARRAY['4', 'Pass']"
+    end
+  end
+end
