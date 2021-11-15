@@ -192,23 +192,52 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                           .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('course_option have been updated'))
       end
 
-      it 'touches related application choices and forms', with_audited: true do
-        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
-                                                   course_code: 'ABC1',
-                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-                                                   site_code: 'A',
-                                                   vacancy_status: 'full_time_vacancies')
+      context 'when course details are updated' do
+        let(:course_option) { CourseOption.first }
 
-        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
-        course_option = CourseOption.first
+        before do
+          stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                     course_code: 'ABC1',
+                                                     course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                     site_code: 'A',
+                                                     vacancy_status: 'full_time_vacancies')
 
-        create(:application_choice, course_option: course_option, updated_at: 1.day.ago)
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year)
+        end
 
-        expect {
-          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
-        }.to change { course_option.application_choices.first.updated_at }
-         .and change { course_option.application_choices.first.application_form.updated_at }
-         .and(not_change { Audited::Audit.count })
+        it 'touches related application choices and forms only when the start_date is updated', with_audited: true do
+          course_option.course.update(start_date: '2021-09-03')
+          create(:application_choice, course_option: course_option, updated_at: 1.day.ago)
+
+          expect {
+            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+          }.to change { course_option.application_choices.first.updated_at }
+            .and change { course_option.application_choices.first.application_form.updated_at }
+            .and(not_change { Audited::Audit.count })
+        end
+
+        it 'does not touch and related data if the course start date is not updated' do
+          create(:application_choice, course_option: course_option, updated_at: 1.day.ago)
+          course_option.course.update(name: 'Maths ABC')
+
+          expect {
+            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+          }.to not_change { course_option.application_choices.first.updated_at }
+            .and(not_change { course_option.application_choices.first.course.start_date })
+           .and(not_change { course_option.application_choices.first.application_form.updated_at })
+        end
+
+        it 'does not touch and related data if course is not in the current recruitment cycle' do
+          course_option.course.update(recruitment_cycle_year: RecruitmentCycle.previous_year,
+                                      start_date: '2021-09-03')
+          create(:application_choice, course_option: course_option, updated_at: 1.day.ago)
+
+          expect {
+            described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+          }.to not_change { course_option.application_choices.first.updated_at }
+            .and(not_change { course_option.application_choices.first.course.start_date })
+           .and(not_change { course_option.application_choices.first.application_form.updated_at })
+        end
       end
 
       it 'correctly updates withdrawn attribute for an existing course' do
