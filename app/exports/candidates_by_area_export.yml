@@ -1,5 +1,4 @@
 common_columns:
   - total
-  - first_application
-  - apply
+  - area
   - candidate_status

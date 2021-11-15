@@ -1,18 +1,14 @@
 common_columns:
-  - course_age_group
-  - course_type
+  - total
+  - applications_status
 
 custom_columns:
-  subject:
-    type: string
-    description: The subject of the chosen course
-    example: History
   provider_area:
     type: string
     description: The region the provider is based in
     enum:
-      - East Midlands
       - East
+      - East Midlands
       - London
       - North East
       - North West

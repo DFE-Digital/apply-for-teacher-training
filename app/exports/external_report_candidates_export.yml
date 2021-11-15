@@ -1,39 +1,5 @@
 common_columns:
   - total
-
-custom_columns:
-  candidates_sex:
-    type: string
-    description: The sex of the candidate
-    enum:
-      - Male
-      - Female
-      - Intersex
-      - Prefer not to say
-      - Not provided
-  area:
-    type: string
-    description: The region or country the candidates are from
-    enum:
-      - East
-      - East Midlands
-      - London
-      - North East
-      - North West
-      - Northern Ireland
-      - Scotland
-      - South East
-      - South West
-      - Wales
-      - West Midlands
-      - Yorkshire and The Humber
-      - European Economic Area
-      - Rest of the World
-  age_group:
-    type: string
-    description: The age group of the candidates
-    example: 21 and under
-  status:
-    type: string
-    description: The status of the candidates application
-    example: Recruited
+  - age_group
+  - candidate_status
+  - area
