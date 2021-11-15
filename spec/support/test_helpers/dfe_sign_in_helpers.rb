@@ -14,7 +14,7 @@ module DfESignInHelpers
 
   def provider_signs_in_using_dfe_sign_in
     visit provider_interface_path
-    within '.app-masthead' do
+    within '.govuk-main-wrapper' do
       click_on 'Sign in'
     end
     click_button 'Sign in using DfE Sign-in'
