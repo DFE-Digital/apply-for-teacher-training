@@ -117,8 +117,20 @@ total:
 age_group:
   type: string
   description: The age group of the candidates
-  example: 21 and under
-
+  enum:
+     - 21 and under
+     - '22'
+     - '23'
+     - '24'
+     - 25 to 29
+     - 30 to 34
+     - 35 to 39
+     - 40 to 44
+     - 45 to 49
+     - 50 to 54
+     - 55 to 59
+     - 60 to 64
+     - 65 and over
 candidate_status:
   type: string
   description: Candidates application form status
