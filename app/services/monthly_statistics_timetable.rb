@@ -19,6 +19,24 @@ module MonthlyStatisticsTimetable
   }.freeze
 
   def self.generate_monthly_statistics?
-    Time.zone.today  == DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    Time.zone.today == DATES[Date::MONTHNAMES[Time.zone.today.month]]
+  end
+
+  def self.latest_report_date
+    report_date_for_current_month = DATES[Date::MONTHNAMES[Time.zone.today.month]]
+
+    if report_date_for_current_month > Time.zone.today
+      return_last_months_generation_date
+    else
+      return_current_months_generation_date
+    end
+  end
+
+  def self.return_last_months_generation_date
+    DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
+  end
+
+  def self.return_current_months_generation_date
+    DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 end
