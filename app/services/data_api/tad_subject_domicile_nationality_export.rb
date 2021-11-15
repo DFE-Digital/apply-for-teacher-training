@@ -1,16 +1,16 @@
 module DataAPI
-  class TADSubjectsExport
+  class TADSubjectDomicileNationalityExport
     def self.run_weekly
       data_export = DataExport.create!(
         name: 'Weekly export of subjects, candidate nationality, domicile and application status for TAD',
-        export_type: :tad_subjects,
+        export_type: :tad_subject_domicile_nationality,
       )
-      DataExporter.perform_async(DataAPI::TADSubjectsExport, data_export.id)
+      DataExporter.perform_async(DataAPI::TADSubjectDomicileNationalityExport, data_export.id)
     end
 
     def self.all
       DataSubjectsExport
-        .where(export_type: :tad_subjects)
+        .where(export_type: :tad_subject_domicile_nationality)
         .where.not(completed_at: nil)
     end
 

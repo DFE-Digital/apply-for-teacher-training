@@ -224,11 +224,11 @@ class DataExport < ApplicationRecord
       description: 'A list of all application/offered/accepted counts for all courses in Apply belonging to the current recruitment cycle.',
       class: SupportInterface::TADProviderStatsExport,
     },
-    tad_subjects: {
-      name: 'TAD subjects',
-      export_type: 'tad_subjects',
+    tad_subject_domicile_nationality: {
+      name: 'TAD applications by subject, domicile and nationality',
+      export_type: 'tad_subject_domicile_nationality',
       description: 'Report of subjects, candidate nationality, domicile and application status for TAD.',
-      class: DataAPI::TADSubjectsExport,
+      class: DataAPI::TADSubjectDomicileNationalityExport,
     },
     user_permissions: {
       name: 'User permissions changes',
@@ -307,6 +307,7 @@ class DataExport < ApplicationRecord
     submitted_application_choices_for_current_cycle: 'submitted_application_choices_for_current_cycle',
     tad_applications: 'tad_applications',
     tad_provider_performance: 'tad_provider_performance',
+    tad_subject_domicile_nationality: 'tad_subject_domicile_nationality',
     user_permissions: 'user_permissions',
     who_ran_which_export: 'who_ran_which_export',
     work_history_break: 'work_history_break',

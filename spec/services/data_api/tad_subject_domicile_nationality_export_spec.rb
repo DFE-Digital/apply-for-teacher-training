@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DataAPI::TADSubjectsExport do
+RSpec.describe DataAPI::TADSubjectDomicileNationalityExport do
   it_behaves_like 'a data export'
 
   describe '#data_for_export' do

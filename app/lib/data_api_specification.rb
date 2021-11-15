@@ -11,11 +11,13 @@ class DataAPISpecification
     openapi = YAML.load_file('config/data-api.yml')
 
     tad_dataset = DataSetDocumentation.for(DataAPI::TADExport)
+    tad_subject_domicile_nationality_dataset = DataSetDocumentation.for(DataAPI::TADSubjectDomicileNationalityExport)
     applications_dataset = DataSetDocumentation.for(SupportInterface::MinisterialReportApplicationsExport)
     candidates_dataset = DataSetDocumentation.for(SupportInterface::MinisterialReportCandidatesExport)
     applications_by_subject_route_grade_dataset = DataSetDocumentation.for(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport)
 
     openapi['components']['schemas']['TADExport']['properties'] = tad_dataset
+    openapi['components']['schemas']['TADSubjectDomicileNationalityExport']['properties'] = tad_subject_domicile_nationality_dataset
     openapi['components']['schemas']['ApplicationsExport']['properties'] = applications_dataset
     openapi['components']['schemas']['CandidatesExport']['properties'] = candidates_dataset
     openapi['components']['schemas']['ApplicationsBySubjectRouteAndDegreeGradeExport']['properties'] = applications_by_subject_route_grade_dataset

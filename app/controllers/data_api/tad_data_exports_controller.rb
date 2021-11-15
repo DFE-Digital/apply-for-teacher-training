@@ -52,9 +52,9 @@ module DataAPI
       serve_export(data_export)
     end
 
-    def subjects_latest
+    def subject_domicile_nationality_latest
       data_export = DataExport
-        .where(export_type: :tad_subjects)
+        .where(export_type: :tad_subject_domicile_nationality)
         .where.not(completed_at: nil)
         .last
 
