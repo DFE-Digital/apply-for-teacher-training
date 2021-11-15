@@ -63,8 +63,8 @@ en:
     not_found: Page not found
     monthly_statistics: Monthly statistics
     forbidden: Access denied
-    internal_server_error: Sorry, there is a problem with the service
-    unprocessable_entity: Sorry, there is a problem with the service
+    internal_server_error: Sorry, there’s a problem with the service
+    unprocessable_entity: Sorry, there’s a problem with the service
     personal_details: Personal details
     personal_information: Personal information
     nationalities: What is your nationality?
