@@ -258,7 +258,7 @@ jobs:
 
             if (FLAKEY_TEST_DATA.length) {
               const { issue: { number: issue_number }, repo: { owner, repo } } = context;
-              let commentBody = '<h2>:snowflake: :snowflake: :snowflake: You have one or more flakey tests on this branch! :snowflake: :snowflake: :snowflake:</h2>';
+              let commentBody = '<h2>You have one or more flakey tests on this branch! :snowflake: :snowflake: :snowflake:</h2>';
               let dataStr, dataAry, attempts, retryCount, errorLocation, errorPath, errorMessages, errorLink;
 
               let branchName = GITHUB_HEAD_REF.split('/').pop();
@@ -275,7 +275,7 @@ jobs:
 
                   errorPath = `/${owner}/${repo}/blob/${branchName}/${errorLocation.replace(':', '#L')}`;
                   errorLink = `<a href="${errorPath}">${errorLocation}</a>`;
-                  commentBody += `:x: Failed ${attempts} out of ${retryCount} times at ${errorLink}: :warning: ${errorMessages.join(' :warning: ')}<br>`;
+                  commentBody += `Failed ${attempts} out of ${retryCount} times at ${errorLink}: :x: ${errorMessages.join(' :x: ')}<br>`;
                   createComment = true;
                 }
               }
