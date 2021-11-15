@@ -7,8 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/JR-G/rspec-retry.git
-  revision: de3267d1524f57afd88f9797de3acf9986418ae4
-  branch: tidy-flakey-test-reporting
+  revision: c43713cbe66311cf44ebe5d56e57c422cfe14340
   specs:
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
