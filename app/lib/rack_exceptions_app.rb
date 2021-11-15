@@ -1,7 +1,7 @@
 class RackExceptionsApp
   def self.call(env)
     if env['REQUEST_PATH'] =~ /^\/[^\/]*api\/.*$/
-      [500, { 'Content-Type' => 'text/plain' }, ['Internal Server Error']]
+      [500, { 'Content-Type' => 'application/json' }, ['"Internal Server Error"']]
     else
       @body ||= action_view.render(template: 'errors/internal_server_error', layout: 'layouts/error')
       [500, { 'Content-Type' => 'text/html' }, [@body]]
