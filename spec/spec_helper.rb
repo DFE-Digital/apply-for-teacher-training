@@ -37,12 +37,12 @@ require 'rspec/retry'
 require 'rspec/core/formatters/base_text_formatter'
 
 RSpec.configure do |config|
-  # RSpec retry config
+  reporter = RSpec::Core::Reporter.new(config)
+  formatter = RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'wb'))
+  reporter.register_listener(formatter, 'message')
+  config.retry_reporter = reporter
   config.verbose_retry = true
   config.display_try_failure_messages = true
-  reporter = RSpec::Core::Reporter.new(config)
-  reporter.register_listener(RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-tests.txt', 'wb')), 'message')
-  config.retry_reporter = reporter
 
   config.around do |ex|
     ex.run_with_retry retry: 3

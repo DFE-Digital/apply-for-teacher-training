@@ -197,7 +197,7 @@ jobs:
       - name: Read flakey test results
         id: set_flakey_test_results_var
         run: |
-          file_text=$(cat /app/tmp/rspec-retry-flakey-tests.txt)
+          file_text=$(cat /app/tmp/rspec-retry-flakey-specs.log)
           file_text="${file_text//$'\n'/%0A}"
           echo "::set-output name=flakey_tests::$file_text"
 
