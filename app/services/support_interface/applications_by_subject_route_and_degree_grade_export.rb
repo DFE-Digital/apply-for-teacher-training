@@ -12,7 +12,7 @@ module SupportInterface
     def self.run_weekly
       data_export = DataExport.create!(
         name: 'Weekly export of the applications export grouped by subject, route and degree grade',
-        export_type: :tad_degree_class,
+        export_type: :applications_by_subject_route_and_degree_grade,
       )
       DataExporter.perform_async(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport, data_export.id)
     end
