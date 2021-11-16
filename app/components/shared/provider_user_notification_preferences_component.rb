@@ -9,8 +9,8 @@ class ProviderUserNotificationPreferencesComponent < ViewComponent::Base
 
   def on_off_options
     [
-      OpenStruct.new(value: 'true', name: 'On'),
-      OpenStruct.new(value: 'false', name: 'Off'),
+      Struct.new(:value, :name).new('true', 'On'),
+      Struct.new(:value, :name).new('false', 'Off'),
     ]
   end
 end

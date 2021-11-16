@@ -7,14 +7,10 @@ module ProviderInterface
     end
 
     OPTIONS = [
-      OpenStruct.new(
-        value: 'different_course',
-        name: 'Offer a different course',
-      ),
-      OpenStruct.new(
-        value: 'withdraw_offer',
-        name: 'Withdraw offer',
-      ),
+      Struct.new(:value, :name)
+            .new('different_course', 'Offer a different course'),
+      Struct.new(:value, :name)
+            .new('withdraw_offer', 'Withdraw offer'),
     ].freeze
 
     def options

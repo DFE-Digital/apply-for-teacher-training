@@ -14,9 +14,9 @@ RSpec.describe ReferenceHistory do
       events = described_class.new(reference).all_events
 
       expected_attributes = [
-        { name: 'request_sent', time: start_time + 1.day, extra_info: OpenStruct.new(email_address: 'ericandre@email.com') },
-        { name: 'request_bounced', time: start_time + 2.days, extra_info: OpenStruct.new(bounced_email: 'ericandre@email.com') },
-        { name: 'request_sent', time: start_time + 3.days, extra_info: OpenStruct.new(email_address: 'ericandre@email.com') },
+        { name: 'request_sent', time: start_time + 1.day, extra_info: ReferenceHistory::Email.new('ericandre@email.com') },
+        { name: 'request_bounced', time: start_time + 2.days, extra_info: ReferenceHistory::BouncedEmail.new('ericandre@email.com') },
+        { name: 'request_sent', time: start_time + 3.days, extra_info: ReferenceHistory::Email.new('ericandre@email.com') },
         { name: 'reminder_sent', time: start_time + 4.days, extra_info: nil },
         { name: 'reference_received', time: start_time + 5.days, extra_info: nil },
       ]
@@ -32,7 +32,7 @@ RSpec.describe ReferenceHistory do
       events = described_class.new(reference).all_events
 
       expected_attributes = [
-        { name: 'request_sent', time: start_time + 1.day, extra_info: OpenStruct.new(email_address: 'ericandre@email.com') },
+        { name: 'request_sent', time: start_time + 1.day, extra_info: ReferenceHistory::Email.new('ericandre@email.com') },
         { name: 'request_declined', time: start_time + 2.days, extra_info: nil },
       ]
       compare_data(expected_attributes, events)
