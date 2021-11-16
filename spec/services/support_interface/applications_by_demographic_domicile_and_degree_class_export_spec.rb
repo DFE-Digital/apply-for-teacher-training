@@ -19,11 +19,12 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
                create(:application_choice, status: :pending_conditions),
              ],
              application_qualifications: [
+               create(:application_qualification, level: 'degree', grade: 'Pass'),
                create(:application_qualification, level: 'degree', grade: 'Lower second-class honours (2:2)'),
              ])
     end
 
-    it 'returns counts for a single application' do
+    it 'returns counts for a single application with highest degree grade' do
       result = described_class.new.data_for_export
 
       expect(result).to match_array([

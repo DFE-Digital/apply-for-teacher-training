@@ -1,5 +1,7 @@
 module SupportInterface
   class ApplicationsByDemographicDomicileAndDegreeClassExport
+    STRUCTURED_DEGREE_CLASSES = ['First class honours', 'Upper second-class honours (2:1)', 'Lower second-class honours (2:2)', 'Third-class honours', 'Pass'].freeze
+
     def self.run_weekly
       data_export = DataExport.create!(
         name: 'Weekly export of the tad applications by demographic domicile and degree class',
@@ -13,8 +15,6 @@ module SupportInterface
         .connection
         .execute(query)
         .to_a
-        .reject { |row| row.values.include?(nil) }
-        .reject { |row| row.values.include?('[]') }
 
       aggregate_results(results)
     end
@@ -26,7 +26,7 @@ module SupportInterface
     def aggregate_results(results)
       indexed_counts = {}
       results.each do |result|
-        key = [result['age_group'], result['sex'], result['ethnicity'], transform_disability_value(result['disability']), result['degree_class'], result['domicile']]
+        key = [result['age_group'], result['sex'], result['ethnicity'], transform_disability_value(result['disability']), STRUCTURED_DEGREE_CLASSES[result['degree_class'].to_i], result['domicile']]
         unless indexed_counts.include?(key)
           indexed_counts[key] ||= {
             adjusted_applications: 0,
@@ -113,9 +113,9 @@ module SupportInterface
                 application_forms f
             LEFT JOIN
                 candidates c ON f.candidate_id = c.id
-            LEFT JOIN
+            INNER JOIN
                 application_choices ch ON ch.application_form_id = f.id
-            LEFT JOIN
+            INNER JOIN
               application_qualifications q ON q.application_form_id = f.id
             WHERE
                 NOT c.hide_in_reporting
@@ -123,6 +123,7 @@ module SupportInterface
                 AND f.date_of_birth IS NOT NULL
                 AND f.submitted_at IS NOT NULL
                 AND phase = 'apply_1'
+                AND q.level = 'degree'
                 AND (
                   NOT EXISTS (
                     SELECT 1
@@ -139,23 +140,25 @@ module SupportInterface
             raw_data.sex,
             raw_data.ethnicity,
             raw_data.disability,
-            raw_data.degree_class[2],
+            MIN(raw_data.degree_class[1]) AS degree_class,
             raw_data.domicile,
             COUNT(*),
             raw_data.status[2]
         FROM
             raw_data
+        WHERE
+            NOT raw_data.disability = '[]' AND raw_data.disability IS NOT NULL
+            AND raw_data.degree_class[2] IS NOT NULL
         GROUP BY
             raw_data.age_group,
             raw_data.sex,
             raw_data.ethnicity,
             raw_data.disability,
-            raw_data.degree_class,
             raw_data.domicile,
             raw_data.status
         ORDER BY
             raw_data.age_group[1],
-            raw_data.degree_class[1]
+            degree_class
       SQL
     end
 
@@ -186,11 +189,11 @@ module SupportInterface
     end
 
     def degree_class_sql
-      "WHEN q.level = 'degree' AND q.grade = 'First class honours' THEN ARRAY['0', 'First class honours']
-      WHEN q.level = 'degree' AND q.grade = 'Upper second-class honours (2:1)' THEN ARRAY['1', 'Upper second-class honours (2:1)']
-      WHEN q.level = 'degree' AND q.grade = 'Lower second-class honours (2:2)' THEN ARRAY['2', 'Lower second-class honours (2:2)']
-      WHEN q.level = 'degree' AND q.grade = 'Third-class honours' THEN ARRAY['3', 'Third-class honours']
-      WHEN q.level = 'degree' AND q.grade = 'Pass' THEN ARRAY['4', 'Pass']"
+      "WHEN q.grade = 'First class honours' THEN ARRAY['0', 'first']
+      WHEN q.grade = 'Upper second-class honours (2:1)' THEN ARRAY['1', 'upper-second']
+      WHEN q.grade = 'Lower second-class honours (2:2)' THEN ARRAY['2', 'lower-second']
+      WHEN q.grade = 'Third-class honours' THEN ARRAY['3', 'third']
+      WHEN q.grade = 'Pass' THEN ARRAY['4', 'pass']"
     end
   end
 end

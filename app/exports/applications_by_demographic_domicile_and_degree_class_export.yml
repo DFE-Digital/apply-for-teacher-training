@@ -5,7 +5,7 @@ common_columns:
 - total
 
 custom_columns:
-  age_group:
+  custom_age_group:
     type: string
     description: The applicant age group
     example: Under 25
