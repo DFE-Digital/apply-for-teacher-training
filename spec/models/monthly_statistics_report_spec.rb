@@ -99,4 +99,41 @@ RSpec.describe MonthlyStatisticsReport do
       )
     end
   end
+
+  describe '#latest_publishable_report' do
+    context 'when there are is only one monthly report' do
+      it 'returns the report' do
+        report = described_class.new
+        report.save
+
+        expect(described_class.latest_publishable_report).to eq report
+      end
+    end
+
+    context 'when there are multiple reports and the MonthlyStatisticsTimetable returns false for #between_generation_and_publish_dates?' do
+      it 'returns the latest report' do
+        allow(MonthlyStatisticsTimetable).to receive(:between_generation_and_publish_dates?).and_return false
+        report1 = described_class.new
+        report1.save
+
+        report2 = described_class.new
+        report2.save
+
+        expect(described_class.latest_publishable_report).to eq report2
+      end
+    end
+
+    context 'when there are multiple reports and the MonthlyStatisticsTimetable returns true for #between_generation_and_publish_dates?' do
+      it 'returns last months report' do
+        allow(MonthlyStatisticsTimetable).to receive(:between_generation_and_publish_dates?).and_return true
+        report1 = described_class.new
+        report1.save
+
+        report2 = described_class.new
+        report2.save
+
+        expect(described_class.latest_publishable_report).to eq report1
+      end
+    end
+  end
 end

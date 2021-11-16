@@ -36,7 +36,7 @@ module MonthlyStatisticsTimetable
     'July' => Date.new(RecruitmentCycle.current_year, 7, 28),
     'August' => Date.new(RecruitmentCycle.current_year, 8, 25),
     'September' => Date.new(RecruitmentCycle.current_year, 9, 29),
-  }
+  }.freeze
 
   def self.generate_monthly_statistics?
     Time.zone.today == GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
@@ -50,6 +50,13 @@ module MonthlyStatisticsTimetable
     else
       return_current_months_generation_date
     end
+  end
+
+  def self.between_generation_and_publish_dates?
+    generation_date_for_current_month = MonthlyStatisticsTimetable::GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    publish_date_for_current_month = MonthlyStatisticsTimetable::PUBLISH_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+
+    Time.zone.today.between?(generation_date_for_current_month, publish_date_for_current_month)
   end
 
   def self.return_last_months_generation_date

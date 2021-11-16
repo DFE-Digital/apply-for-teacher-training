@@ -22,6 +22,12 @@ class MonthlyStatisticsReport < ApplicationRecord
     load_applications_by_provider_area
   end
 
+  def self.latest_publishable_report
+    return MonthlyStatisticsReport.last if MonthlyStatisticsReport.count == 1
+
+    MonthlyStatisticsTimetable.between_generation_and_publish_dates? ? MonthlyStatisticsReport.order(:created_at)[-2] : MonthlyStatisticsReport.order(:created_at).last
+  end
+
 private
 
   def load_by_course_age_group

@@ -38,4 +38,30 @@ RSpec.describe MonthlyStatisticsTimetable do
       end
     end
   end
+
+  describe '#between_generation_and_publish_dates?' do
+    context 'when it is before the generation date for the current month' do
+      it 'returns false' do
+        Timecop.travel(described_class::GENERATION_DATES.values.third - 1.day) do
+          expect(described_class.between_generation_and_publish_dates?).to eq false
+        end
+      end
+    end
+
+    context 'when it is after the publish date for the current month' do
+      it 'returns false' do
+        Timecop.travel(described_class::PUBLISH_DATES.values.third + 1.day) do
+          expect(described_class.between_generation_and_publish_dates?).to eq false
+        end
+      end
+    end
+
+    context 'when it is between the generation and publish dates for the current month' do
+      it 'returns true' do
+        Timecop.travel(described_class::GENERATION_DATES.values.third + 1.day) do
+          expect(described_class.between_generation_and_publish_dates?).to eq true
+        end
+      end
+    end
+  end
 end
