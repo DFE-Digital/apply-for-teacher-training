@@ -25,7 +25,7 @@ module CandidateInterface
       @qualification_type = current_qualification.qualification_type
       @return_to = return_to_after_edit(default: candidate_interface_gcse_review_path(@subject))
 
-      render view_path
+      render view_path(update_path: true)
     end
 
     def update
@@ -42,21 +42,21 @@ module CandidateInterface
         end
       else
         track_validation_error(@gcse_grade_form)
-        render view_path
+        render view_path(update_path: true)
       end
     end
 
   private
 
-    def view_path
+    def view_path(update_path: false)
       if gcse_qualification? && current_qualification.award_year.nil?
         'candidate_interface/gcse/science/grade/awards_new'
       elsif gcse_qualification?
         'candidate_interface/gcse/science/grade/awards_edit'
-      elsif current_qualification.award_year.nil?
-        'candidate_interface/gcse/science/grade/new'
-      else
+      elsif update_path
         'candidate_interface/gcse/science/grade/edit'
+      else
+        'candidate_interface/gcse/science/grade/new'
       end
     end
 
