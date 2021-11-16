@@ -1,34 +1,26 @@
 Dear <%= @reference.name %>,
 
-<%= @candidate_name %> put us in touch with you to get a reference for their teacher training application.
+<%= @candidate_name %> is asking for a reference for their teacher training application.
 
-# If you would like to give a reference
+To give a reference you’ll need to write up to 500 words about <%= @candidate_name %>’s potential to teach.
 
-Use this form to give your reference:
+You could talk about their:
 
-<%= referee_interface_reference_relationship_url(token: @unhashed_token) %>
-
-References sent by email will not be accepted.
-
-You’ll be asked to write up to 500 words explaining whether <%= @candidate_name %> has the potential to teach. You could comment on their:
-
-* academic skills
 * communication skills
 * reliability and professionalism
-* ability to work with children
 * transferable skills
+* ability to work with children
+* academic skills
 
-You can start, save and return to your reference at any time.
+Please give your reference as soon as you can, or let us know if you cannot give one:
 
-The candidate will not be able to see what you write.
+<%= referee_interface_url(token: @unhashed_token) %>
 
-Teacher training courses can become full at any time. The sooner <%= @candidate_name %> gets a reference, the more likely it is that they’ll get a place.
+We cannot accept references sent by email.
 
-# If you do not intend to give a reference
+Teacher training places can fill up at any time. Your reference will help <%= @candidate_name %> secure a place quickly.
 
-If you cannot meet the requirements outlined above or you decline to give a reference for another reason, let us know as soon as possible:
-
-<%= referee_interface_refuse_feedback_url(token: @unhashed_token) %>
+The candidate will not be able to see what you write about them.
 
 # Get support
 
