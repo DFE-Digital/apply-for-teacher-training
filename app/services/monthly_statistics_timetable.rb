@@ -3,7 +3,7 @@ module MonthlyStatisticsTimetable
   # It's not ideal, and may well change at a later date.
   # It's also not cycle aware and will be needed to be updated yearly.
 
-  DATES = {
+  GENERATION_DATES = {
     'October' => Date.new(RecruitmentCycle.previous_year, 10, 18),
     'November' => Date.new(RecruitmentCycle.previous_year, 11, 22),
     'December' => Date.new(RecruitmentCycle.previous_year, 12, 20),
@@ -19,11 +19,11 @@ module MonthlyStatisticsTimetable
   }.freeze
 
   def self.generate_monthly_statistics?
-    Time.zone.today == DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    Time.zone.today == GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 
   def self.latest_report_date
-    report_date_for_current_month = DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    report_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
 
     if report_date_for_current_month > Time.zone.today
       return_last_months_generation_date
@@ -33,10 +33,10 @@ module MonthlyStatisticsTimetable
   end
 
   def self.return_last_months_generation_date
-    DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
+    GENERATION_DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
   end
 
   def self.return_current_months_generation_date
-    DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 end
