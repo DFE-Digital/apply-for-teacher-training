@@ -171,13 +171,14 @@ en:
     application_feedback_thank_you: Thank you for your feedback
     find_feedback: Help us improve this service
     referee:
-      refuse_feedback: Decline to give a reference
+      refuse_feedback: A reference for %{full_name}
       relationship: Confirm how you know %{full_name}
       safeguarding: Do you know of any reason why %{full_name} should not work with children?
       feedback: Does %{full_name} have the potential to teach?
       review: Your reference for %{full_name}
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
+      decline: Decline to give a reference
     providers: Courses on this service
     decisions:
       offer: Details of offer
