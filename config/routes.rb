@@ -612,6 +612,10 @@ Rails.application.routes.draw do
     get '/thank-you' => 'reference#thank_you', as: :thank_you
   end
 
+  namespace :api, path: 'api/:api_version' do
+    resources :applications, only: :index
+  end
+
   namespace :vendor_api, path: 'api/v1' do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
