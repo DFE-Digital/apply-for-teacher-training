@@ -18,6 +18,9 @@ class Course < ApplicationRecord
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
 
   scope :with_course_options, -> { left_outer_joins(:course_options).where.not(course_options: { id: nil }) }
+
+  after_update :touch_application_choices_and_forms, if: :in_current_recruitment_cycle?
+
   CODE_LENGTH = 4
 
   # This enum is copied verbatim from Find to maintain consistency
@@ -161,5 +164,20 @@ class Course < ApplicationRecord
       open_on_apply: true,
       opened_on_apply_at: Time.zone.now,
     )
+  end
+
+private
+
+  def touch_application_choices_and_forms
+    return if saved_changes['start_date'].blank?
+
+    ActiveRecord::Base.transaction do
+      application_choices.touch_all
+      ApplicationForm.where(application_choices: application_choices).touch_all
+    end
+  end
+
+  def in_current_recruitment_cycle?
+    recruitment_cycle_year.eql?(RecruitmentCycle.current_year)
   end
 end
