@@ -79,8 +79,6 @@ module SupportInterface
       <<-SQL
         WITH raw_data AS (
             SELECT
-                candidates.id,
-                f.id,
                 ac.id,
                 CASE
                   WHEN c.program_type = 'HE' THEN 'Higher education'
@@ -127,9 +125,15 @@ module SupportInterface
                 candidates ON f.candidate_id = candidates.id
             WHERE
                 NOT candidates.hide_in_reporting
-                AND f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                AND f.submitted_at IS NOT NULL
+                AND (
+                  f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                  AND ac.status != 'offer_deferred'
+                  OR f.recruitment_cycle_year = #{RecruitmentCycle.previous_year}
+                  AND ac.status_before_deferral IS NOT NULL
+              )
             GROUP BY
-                candidates.id, ac.id, f.id, co.id, sites.id, p.id, c.id, cs.id, s.id
+                ac.id, p.id, c.id, s.id
         )
         SELECT
             raw_data.course_type,
