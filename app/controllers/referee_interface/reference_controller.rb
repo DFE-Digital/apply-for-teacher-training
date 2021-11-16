@@ -17,7 +17,7 @@ module RefereeInterface
       @relationship = reference.relationship
       @relationship_form = ReferenceRelationshipForm.build_from_reference(reference: reference)
 
-      @previous_path = previous_path(previous_path_in_flow: nil)
+      @previous_path = previous_path(previous_path_in_flow: referee_interface_refuse_feedback_path(token: @token_param))
     end
 
     def confirm_relationship
@@ -131,8 +131,7 @@ module RefereeInterface
       render :refuse_feedback and return unless @refuse_feedback_form.valid?
 
       if @refuse_feedback_form.referee_has_confirmed_they_wont_a_reference?
-        @refuse_feedback_form.save(reference)
-        redirect_to referee_interface_thank_you_path(token: @token_param)
+        redirect_to referee_interface_decline_reference_path(token: @token_param)
       else
         redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
       end
@@ -141,6 +140,16 @@ module RefereeInterface
     def finish
       @reference_cancelled = reference.cancelled?
       @application_form = reference.application_form
+    end
+
+    def decline
+      @application = reference.application_form
+      @confirm_refuse_feedback_form = ConfirmRefuseFeedbackForm.new
+    end
+
+    def confirm_decline
+      ConfirmRefuseFeedbackForm.new.save(reference)
+      redirect_to referee_interface_finish_path(token: @token_param)
     end
 
     def thank_you; end

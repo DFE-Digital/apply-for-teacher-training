@@ -589,7 +589,10 @@ Rails.application.routes.draw do
   end
 
   namespace :referee_interface, path: '/reference' do
-    get '/' => 'reference#relationship', as: :reference_relationship
+    get '/' => 'reference#refuse_feedback', as: :refuse_feedback
+    patch '/' => 'reference#confirm_feedback_refusal'
+
+    get '/relationship' => 'reference#relationship', as: :reference_relationship
     patch '/confirm-relationship' => 'reference#confirm_relationship', as: :confirm_relationship
 
     get '/safeguarding' => 'reference#safeguarding', as: :safeguarding
@@ -606,8 +609,8 @@ Rails.application.routes.draw do
     patch '/questionnaire' => 'reference#submit_questionnaire', as: :submit_questionnaire
     get '/finish' => 'reference#finish', as: :finish
 
-    get '/refuse-feedback' => 'reference#refuse_feedback', as: :refuse_feedback
-    patch '/refuse-feedback' => 'reference#confirm_feedback_refusal'
+    get '/decline' => 'reference#decline', as: :decline_reference
+    patch '/decline' => 'reference#confirm_decline'
 
     get '/thank-you' => 'reference#thank_you', as: :thank_you
   end
