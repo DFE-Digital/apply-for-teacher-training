@@ -5,6 +5,14 @@ GIT
     audited (4.10.0)
       activerecord (>= 4.2, < 6.2)
 
+GIT
+  remote: https://github.com/DFE-Digital/rspec-retry.git
+  revision: c43713cbe66311cf44ebe5d56e57c422cfe14340
+  branch: main
+  specs:
+    rspec-retry (0.6.2)
+      rspec-core (> 3.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -747,6 +755,7 @@ DEPENDENCIES
   request_store_rails
   rouge
   rspec-rails
+  rspec-retry!
   rspec_junit_formatter
   rubocop
   rubocop-rails
