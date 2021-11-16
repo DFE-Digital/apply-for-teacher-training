@@ -18,6 +18,26 @@ module MonthlyStatisticsTimetable
     'September' => Date.new(RecruitmentCycle.current_year, 9, 19),
   }.freeze
 
+  # The date the report will be pubished is the following Thursday after
+  # the data is cut i.e. 10 days in after the generation date
+  # The exception to this is for November where it will run on the 22nd as
+  # it has already been QA'd by TAD.
+
+  PUBLISH_DATES = {
+    'October' => Date.new(RecruitmentCycle.previous_year, 10, 18),
+    'November' => Date.new(RecruitmentCycle.previous_year, 11, 22),
+    'December' => Date.new(RecruitmentCycle.previous_year, 12, 30),
+    'January' => Date.new(RecruitmentCycle.current_year, 1, 27),
+    'February' => Date.new(RecruitmentCycle.current_year, 3, 3),
+    'March' => Date.new(RecruitmentCycle.current_year, 3, 31),
+    'April' => Date.new(RecruitmentCycle.current_year, 4, 28),
+    'May' => Date.new(RecruitmentCycle.current_year, 5, 26),
+    'June' => Date.new(RecruitmentCycle.current_year, 6, 30),
+    'July' => Date.new(RecruitmentCycle.current_year, 7, 28),
+    'August' => Date.new(RecruitmentCycle.current_year, 8, 25),
+    'September' => Date.new(RecruitmentCycle.current_year, 9, 29),
+  }
+
   def self.generate_monthly_statistics?
     Time.zone.today == GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
