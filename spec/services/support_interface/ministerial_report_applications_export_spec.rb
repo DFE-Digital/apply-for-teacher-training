@@ -147,7 +147,7 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         )
       end
 
-      it 'defaults the subject to a subtotal when it cannot find the dominant subject' do
+      it 'takes the first subject in the array when it cannot find the dominant subject' do
         application_form = create(:completed_application_form)
         course = create(:course, name: 'Nonsense course', level: 'secondary', subjects: [create(:subject, name: 'Business studies', code: '08'), create(:subject, name: 'History', code: 'V1')])
         course_option = create(:course_option, course: course)
@@ -157,18 +157,6 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
 
         expect(data).to include(
           {
-            subject: :secondary,
-            applications: 1,
-            offer_received: 1,
-            accepted: 1,
-            application_declined: 0,
-            application_rejected: 0,
-            application_withdrawn: 0,
-          },
-        )
-
-        expect(data).not_to include(
-          {
             subject: :business_studies,
             applications: 1,
             offer_received: 1,
@@ -177,9 +165,7 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
             application_rejected: 0,
             application_withdrawn: 0,
           },
-        )
-
-        expect(data).not_to include(
+        ).or include(
           {
             subject: :history,
             applications: 1,

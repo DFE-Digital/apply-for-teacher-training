@@ -204,6 +204,11 @@ module MinisterialReport
       end
     end
 
+    # take the first subject value if unable to match above
+    if !subject
+      subject = subject_names.first
+    end
+
     subject_code_for_report = subject_names_and_codes[subject]
 
     SUBJECT_CODE_MAPPINGS[subject_code_for_report].presence || course_level.downcase.to_sym
