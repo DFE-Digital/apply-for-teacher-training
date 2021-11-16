@@ -69,7 +69,6 @@ module SupportInterface
             SELECT
                 c.id,
                 f.id,
-                ac.id,
                 CASE
                   WHEN f.equality_and_diversity is NULL THEN 'Not provided'
                   WHEN f.equality_and_diversity->> 'sex' = 'intersex' then 'Intersex'
@@ -152,7 +151,7 @@ module SupportInterface
                   AND ac.status_before_deferral IS NOT NULL
               )
             GROUP BY
-                c.id, ac.id, f.id
+                c.id, f.id
         )
         SELECT
             raw_data.sex,
