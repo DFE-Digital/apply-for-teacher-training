@@ -275,7 +275,7 @@ jobs:
 
                   errorPath = `/${owner}/${repo}/blob/${branchName}/${errorLocation.replace(':', '#L')}`;
                   errorLink = `<a href="${errorPath}">${errorLocation}</a>`;
-                  commentBody += `Failed ${attempts} out of ${retryCount} times at ${errorLink}: :x: ${errorMessages.join(' :x: ')}<br>`;
+                  commentBody += `Failed ${attempts} out of ${retryCount} times at ${errorLink}: :warning: ${errorMessages.join(' :warning: ')}<br>`;
                   createComment = true;
                 }
               }
