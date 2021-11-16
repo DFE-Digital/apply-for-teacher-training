@@ -338,6 +338,16 @@ class DataExport < ApplicationRecord
     name.parameterize.underscore
   end
 
+  def self.can_generate_export?(export_type)
+    return true unless MONTHLY_STATISTICS_EXPORTS.include?(export_type)
+
+    DataExport
+    .where(export_type: export_type)
+    .where('created_at > ?', MonthlyStatisticsTimetable.latest_report_date)
+    .count
+    .zero?
+  end
+
   enum export_type: {
     active_provider_user_permissions: 'active_provider_user_permissions',
     active_provider_users: 'active_provider_users',
