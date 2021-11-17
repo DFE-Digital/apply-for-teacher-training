@@ -142,12 +142,12 @@ module RefereeInterface
       @application_form = reference.application_form
     end
 
-    def decline
+    def confirm_decline
       @application = reference.application_form
       @confirm_refuse_feedback_form = ConfirmRefuseFeedbackForm.new
     end
 
-    def confirm_decline
+    def decline
       ConfirmRefuseFeedbackForm.new.save(reference)
       redirect_to referee_interface_finish_path(token: @token_param)
     end

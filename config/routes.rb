@@ -609,8 +609,8 @@ Rails.application.routes.draw do
     patch '/questionnaire' => 'reference#submit_questionnaire', as: :submit_questionnaire
     get '/finish' => 'reference#finish', as: :finish
 
-    get '/decline' => 'reference#decline', as: :decline_reference
-    patch '/decline' => 'reference#confirm_decline'
+    get '/decline' => 'reference#confirm_decline', as: :decline_reference
+    patch '/decline' => 'reference#decline'
 
     get '/thank-you' => 'reference#thank_you', as: :thank_you
   end
