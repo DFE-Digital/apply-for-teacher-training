@@ -136,4 +136,34 @@ RSpec.describe MonthlyStatisticsReport do
       end
     end
   end
+
+  describe '#latest_publishable_exports' do
+    context 'when it is not between the generation and publish date' do
+      it 'returns the latest set of MonthlyStatistics exports' do
+        allow(MonthlyStatisticsTimetable).to receive(:between_generation_and_publish_dates?).and_return false
+        expected_reports = []
+
+        DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
+          create(:data_export, export_type: export_type)
+          expected_reports << create(:data_export, export_type: export_type)
+        end
+
+        expect(described_class.latest_publishable_exports).to eq expected_reports
+      end
+    end
+
+    context 'when it is between the generation and publish date for the current month' do
+      it 'returns the latest set of MonthlyStatistics exports' do
+        allow(MonthlyStatisticsTimetable).to receive(:between_generation_and_publish_dates?).and_return true
+        expected_reports = []
+
+        DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
+          expected_reports << create(:data_export, export_type: export_type)
+          create(:data_export, export_type: export_type)
+        end
+
+        expect(described_class.latest_publishable_exports).to eq expected_reports
+      end
+    end
+  end
 end
