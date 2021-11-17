@@ -120,20 +120,22 @@ module RefereeInterface
     end
 
     def refuse_feedback
-      @refuse_feedback_form = RefuseFeedbackForm.new
+      @refuse_feedback_form = RefuseFeedbackForm.build_from_reference(reference: reference)
       @application = reference.application_form
     end
 
     def confirm_feedback_refusal
-      @refuse_feedback_form = RefuseFeedbackForm.new(choice: choice_params)
+      @refuse_feedback_form = RefuseFeedbackForm.new(refused: refused_params)
       @application = reference.application_form
 
       render :refuse_feedback and return unless @refuse_feedback_form.valid?
 
-      if @refuse_feedback_form.referee_has_confirmed_they_wont_a_reference?
-        redirect_to referee_interface_decline_reference_path(token: @token_param)
-      else
-        redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
+      if @refuse_feedback_form.save(reference)
+        if @reference.refused
+          redirect_to referee_interface_decline_reference_path(token: @token_param)
+        else
+          redirect_to referee_interface_reference_relationship_path(token: @token_param, from: 'refuse')
+        end
       end
     end
 
@@ -218,8 +220,8 @@ module RefereeInterface
             .permit(:any_safeguarding_concerns, :safeguarding_concerns)
     end
 
-    def choice_params
-      params.dig(:referee_interface_refuse_feedback_form, :choice)
+    def refused_params
+      params.dig(:referee_interface_refuse_feedback_form, :refused)
     end
   end
 end
