@@ -92,6 +92,8 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
     response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
 
+    allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))
+
     expect(response_data.size).to eq(2)
 
     expect(response_data.first['id']).to eq(application_forms.first.id)

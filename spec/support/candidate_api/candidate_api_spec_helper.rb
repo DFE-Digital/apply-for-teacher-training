@@ -10,7 +10,7 @@ module CandidateAPISpecHelper
   end
 
   def candidate_api_token
-    @candidate_api_token ||= ServiceAPIUser.candidate_user.create_magic_link_token!
+    @candidate_api_token = ServiceAPIUser.candidate_user.create_magic_link_token!
   end
 
   def parsed_response
