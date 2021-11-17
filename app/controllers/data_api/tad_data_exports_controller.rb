@@ -71,6 +71,16 @@ module DataAPI
       serve_export(data_export)
     end
 
+    def applications_by_demographic_domicile_and_degree_class
+      all = DataExport
+        .where(export_type: :applications_by_demographic_domicile_and_degree_class)
+        .where.not(completed_at: nil)
+
+      data_export = all.last
+
+      serve_export(data_export)
+    end
+
   private
 
     def serve_export(export)

@@ -1,0 +1,37 @@
+common_columns:
+- sex
+- ethnicity
+- disability
+- total
+
+custom_columns:
+  custom_age_group:
+    type: string
+    description: The applicant age group
+    example: Under 25
+
+  degree_class:
+    type: string
+    description: The applicant degree grade
+    example: Pass
+
+  domicile:
+    type: string
+    description: The applicant domicile
+    example: UK
+
+  adjusted_applications:
+    type: integer
+    description: The number of applications that have received offers for this subject
+
+  adjusted_offers:
+    type: integer
+    description: The number of applications that have accepted offers for this subject
+
+  pending_conditions:
+    type: integer
+    description: The number of applications that have declined offers for this subject
+
+  recruited:
+    type: integer
+    description: The number of applications that have been rejected for this subject

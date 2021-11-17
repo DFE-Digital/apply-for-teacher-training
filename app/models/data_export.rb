@@ -278,6 +278,12 @@ class DataExport < ApplicationRecord
       description: 'Report of subjects, candidate nationality, domicile and application status for TAD.',
       class: DataAPI::TADSubjectDomicileNationalityExport,
     },
+    applications_by_demographic_domicile_and_degree_class: {
+      name: 'TAD applications by demographic, domicile and degree class',
+      export_type: 'applications_by_demographic_domicile_and_degree_class',
+      description: 'A list of all application/offered/accepted counts broken down by age group, sex, ethnicity and degree in Apply belonging to the current recruitment cycle.',
+      class: SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport,
+    },
     user_permissions: {
       name: 'User permissions changes',
       export_type: 'user_permissions',
@@ -335,6 +341,7 @@ class DataExport < ApplicationRecord
   enum export_type: {
     active_provider_user_permissions: 'active_provider_user_permissions',
     active_provider_users: 'active_provider_users',
+    applications_by_demographic_domicile_and_degree_class: 'applications_by_demographic_domicile_and_degree_class',
     applications_by_subject_route_and_degree_grade: 'applications_by_subject_route_and_degree_grade',
     application_references: 'application_references',
     application_timings: 'application_timings',

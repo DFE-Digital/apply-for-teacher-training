@@ -97,6 +97,17 @@ paths:
             text/csv:
               schema:
                 "$ref": "#/components/schemas/ApplicationsBySubjectRouteAndDegreeGradeExport"
+  "/applications-by-demographic-domicile-and-degree-class/latest":
+    get:
+      summary: Get the tad applications by demographic, domicile and degree class
+      description: This endpoint returns a CSV consisting of the latest TAD applications by demographic, domicile and degree class. Reports are generated daily
+      responses:
+        '200':
+          description: The CSV of the latest report
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/ApplicationsByDemographicDomicileAndDegreeClassExport"
 components:
   schemas:
     TADExport:
@@ -112,6 +123,9 @@ components:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     ApplicationsBySubjectRouteAndDegreeGradeExport:
+      type: object
+      properties: # this is automatically populated from the CSV definition by DataAPISpecification
+    ApplicationsByDemographicDomicileAndDegreeClassExport:
       type: object
       properties: # this is automatically populated from the CSV definition by DataAPISpecification
     TADDataExportList:
