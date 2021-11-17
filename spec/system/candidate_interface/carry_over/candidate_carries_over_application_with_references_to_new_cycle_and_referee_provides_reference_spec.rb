@@ -27,6 +27,7 @@ RSpec.feature 'Carry over' do
 
     when_i_sign_out_as_the_candidate
     and_i_sign_in_as_the_referee
+    and_i_select_yes_to_giving_a_reference
     then_i_am_asked_to_provide_a_reference_for_the_candidate
 
     when_i_submit_the_outstanding_reference
@@ -101,6 +102,11 @@ RSpec.feature 'Carry over' do
   def and_i_sign_in_as_the_referee
     open_email(@reference.email_address)
     click_sign_in_link(current_email)
+  end
+
+  def and_i_select_yes_to_giving_a_reference
+    choose 'Yes, I can give them a reference'
+    click_button t('continue')
   end
 
   def then_i_am_asked_to_provide_a_reference_for_the_candidate

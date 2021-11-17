@@ -12,7 +12,7 @@ RSpec.feature 'Refusing to give a reference' do
     then_i_see_the_give_a_reference_page
 
     when_i_select_no_to_giving_a_reference
-    then_i_see_the_confirmation_page
+    and_i_see_the_confirmation_page
     and_i_confirm_that_i_wont_give_a_reference
     and_a_slack_notification_is_sent
     then_an_email_is_sent_to_the_candidate
@@ -50,7 +50,7 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def and_i_confirm_that_i_wont_give_a_reference
-    click_button t('Yes, I am unable to give a reference')
+    click_button 'Yes, I am unable to give a reference'
   end
 
   def and_a_slack_notification_is_sent
@@ -70,7 +70,7 @@ RSpec.feature 'Refusing to give a reference' do
 private
 
   def give_feedback_url
-    matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\/give-feedback\?token=[\w-]{20})/)
+    matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
     matches&.captures&.first
   end
 end
