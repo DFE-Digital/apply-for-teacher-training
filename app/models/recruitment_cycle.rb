@@ -28,4 +28,8 @@ module RecruitmentCycle
   def self.cycle_name(year = current_year)
     "#{year - 1} to #{year}"
   end
+
+  def self.verbose_cycle_name(year = current_year)
+    "October #{year - 1} to September #{year}"
+  end
 end
