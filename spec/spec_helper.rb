@@ -19,8 +19,11 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::CoberturaFormatter,
 ]
-unless ENV['TEST_ENV_NUMBER']
-  SimpleCov.start 'rails'
+
+SimpleCov.command_name('RSpec')
+
+SimpleCov.start 'rails' do
+  enable_coverage :branch
 end
 
 require 'sidekiq/testing'
