@@ -201,7 +201,7 @@ jobs:
 
       - name: Comment on flakey specs in pull request
         uses: actions/github-script@0.5.0
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
         env:
           FLAKEY_TEST_DATA: |
             ${{ needs.test.outputs.flakey_tests }}
