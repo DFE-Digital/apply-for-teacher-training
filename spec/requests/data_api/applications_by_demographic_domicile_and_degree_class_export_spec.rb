@@ -6,7 +6,18 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
   it_behaves_like 'a TAD API endpoint', '/latest'
 
   it 'returns the latest tad age and hesa export' do
-    first_application_form = create(:completed_application_form, :with_equality_and_diversity_data)
+    first_application_form = create(
+      :completed_application_form,
+      equality_and_diversity: {
+        'sex' => 'male',
+        'hesa_sex' => '1',
+        'disabilities' => ['Learning difficulty', 'Social or communication impairment', 'Blind'],
+        'ethnic_group' => 'Another ethnic group',
+        'hesa_ethnicity' => '50',
+        'ethnic_background' => 'Arab',
+        'hesa_disabilities' => %w[51 53 58],
+      },
+    )
     create(:application_qualification, level: 'degree', grade: 'Upper second-class honours (2:1)', application_form: first_application_form)
     create(:application_choice, :with_declined_offer, application_form: first_application_form)
 
