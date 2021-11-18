@@ -613,6 +613,8 @@ Rails.application.routes.draw do
     patch '/decline' => 'reference#decline'
 
     get '/thank-you' => 'reference#thank_you', as: :thank_you
+
+    get '/refuse-feedback', to: redirect(path: '/reference')
   end
 
   namespace :vendor_api, path: 'api/v1' do
