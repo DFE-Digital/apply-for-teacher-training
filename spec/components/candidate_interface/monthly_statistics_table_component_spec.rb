@@ -99,6 +99,7 @@ RSpec.describe CandidateInterface::MonthlyStatisticsTableComponent do
         'column_totals' => [0, 1, 2, 5, 3, 11],
       }
     end
+
     it 'returns the correct data sort value for each count' do
       first_row = statistics['rows'].first
 
