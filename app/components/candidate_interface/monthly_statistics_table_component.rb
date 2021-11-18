@@ -25,8 +25,8 @@ module CandidateInterface
     end
 
     def sort_value(value)
-      if value == "0 to 4"
-        "0"
+      if value == '0 to 4'
+        '0'
       else
         value
       end
