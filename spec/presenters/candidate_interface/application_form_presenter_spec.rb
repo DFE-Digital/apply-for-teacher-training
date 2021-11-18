@@ -658,7 +658,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       presenter = described_class.new(application_form)
 
       expect(presenter.reference_section_errors).to eq(
-        [OpenStruct.new(message: 'You need to have exactly 2 references selected before submitting your application', anchor: '#references')],
+        [CandidateInterface::ApplicationFormPresenter::ErrorMessage.new('You need to have exactly 2 references selected before submitting your application', '#references')],
       )
     end
 

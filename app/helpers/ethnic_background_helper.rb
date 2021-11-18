@@ -1,4 +1,6 @@
 module EthnicBackgroundHelper
+  Field = Struct.new(:label, :textfield_label)
+
   ETHNIC_BACKGROUND_TEXTFIELD_LABELS = {
     EthnicGroup::ASIAN => 'Your Asian background (optional)',
     EthnicGroup::BLACK => 'Your Black background (optional)',
@@ -9,19 +11,13 @@ module EthnicBackgroundHelper
 
   def ethnic_backgrounds(group)
     ethnic_backgrounds = ETHNIC_BACKGROUNDS[group].map do |background|
-      OpenStruct.new(
-        label: background,
-        textfield_label: nil,
-      )
+      Field.new(background, nil)
     end
 
     button_label = OTHER_ETHNIC_BACKGROUNDS[group]
     textfield_label = ETHNIC_BACKGROUND_TEXTFIELD_LABELS[group]
 
-    ethnic_backgrounds << OpenStruct.new(
-      label: button_label,
-      textfield_label: textfield_label,
-    )
+    ethnic_backgrounds << Field.new(button_label, textfield_label)
   end
 
   def ethnic_background_title(group)

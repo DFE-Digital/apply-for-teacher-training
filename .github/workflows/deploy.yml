@@ -47,6 +47,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Notify Slack channel on job failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: CI Deployment
+          SLACK_TITLE: Deployment timeout failure
+          SLACK_MESSAGE: Deployment timeout failure for commit ${{ github.event.inputs.sha }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: failure
+          SLACK_FOOTER: Sent from prepare-matrix job in deploy workflow
+
   deploy:
     name: ${{ matrix.environment }} Deployment
     runs-on: ubuntu-latest
@@ -63,7 +74,6 @@ jobs:
       - name: Set Environment variable
         run: |
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
-          if [ "${{ matrix.environment }}" = "production" ]; then echo "SPACE_SUFFIX=prod" >> $GITHUB_ENV; fi;
 
           tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
           echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
@@ -127,3 +137,15 @@ jobs:
       - name: Exit if smoke test failed
         if: steps.wait_for_smoke_test.outputs.conclusion != 'success'
         run: exit 1
+
+      - name: Notify Slack channel on job failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: CI Deployment
+          SLACK_TITLE: Deployment to ${{ matrix.environment }} failed
+          SLACK_MESSAGE: |
+            Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ matrix.environment }} environment failed
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: failure
+          SLACK_FOOTER: Sent from deploy job in deploy workflow

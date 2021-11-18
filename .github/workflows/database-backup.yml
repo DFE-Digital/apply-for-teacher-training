@@ -36,3 +36,14 @@ jobs:
         az storage blob upload --container-name prod-db-backup \
         --file ${BACKUP_FILE_NAME}.tar.gz --name ${BACKUP_FILE_NAME}.tar.gz \
         --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
+
+    - name: Notify Slack channel on job failure
+      if: failure()
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_USERNAME: CI Deployment
+        SLACK_TITLE: Database backup failure
+        SLACK_MESSAGE: Production database backup job failed
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_COLOR: failure
+        SLACK_FOOTER: Sent from backup job in database-backup workflow

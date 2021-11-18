@@ -9,7 +9,7 @@
       <%= f.govuk_fieldset legend: { text: 'Edit reference feedback', size: 'l' } do %>
         <%= f.govuk_text_area :feedback, label: { text: t('support_interface.edit_reference_form.feedback.label'), size: 'm' }, autocomplete: 'feedback' %>
         <%= f.govuk_text_field :audit_comment, label: { text: t('support_interface.edit_reference_form.audit_comment.label'), size: 'm' }, hint: { text: t('support_interface.edit_reference_form.audit_comment.hint') } %>
-        <%= f.govuk_collection_radio_buttons :send_emails, [OpenStruct.new(id: true, name: 'Yes'), OpenStruct.new(id: false, name: 'No')], :id, :name, inline: true, legend: { text: t('support_interface.edit_reference_form.send_emails.label') } %>
+        <%= f.govuk_collection_radio_buttons :send_emails, [Struct.new(:id, :name).new(true, 'Yes'), Struct.new(:id, :name).new(false, 'No')], :id, :name, inline: true, legend: { text: t('support_interface.edit_reference_form.send_emails.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Update reference' %>
