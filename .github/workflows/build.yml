@@ -75,7 +75,7 @@ jobs:
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
             type=register,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
           build-args: |
-            VERSION=${{ env.IMAGE_TAG }}
+            SHA=${{ env.IMAGE_TAG }}
 
       - name: Notify Slack channel on job failure
         if: failure() && github.event_name == 'push'
