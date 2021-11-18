@@ -24,6 +24,14 @@ module CandidateInterface
       v
     end
 
+    def sort_value(value)
+      if value == "0 to 4"
+        "0"
+      else
+        value
+      end
+    end
+
     def data_from(row)
       k, _v = row.first
       row.delete(k)
