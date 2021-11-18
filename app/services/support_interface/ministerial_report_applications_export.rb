@@ -21,7 +21,9 @@ module SupportInterface
     def add_choice_to_report(choice, report)
       return report if choice.phase == 'apply_2' && !choice.is_latest_a2_app
 
-      subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.course_name, choice.course_level, choice.subject_names.zip(choice.subject_codes).to_h)
+      subject_names_and_codes = choice.subject_names.zip(choice.subject_codes)
+
+      subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
 
       MinisterialReport::APPLICATIONS_REPORT_STATUS_MAPPING[choice.status.to_sym].each do |mapped_status|
         report[:stem][mapped_status] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject
@@ -68,6 +70,7 @@ module SupportInterface
         .where(application_form: { recruitment_cycle_year: RecruitmentCycle.current_year })
         .where.not(application_form: { submitted_at: nil })
         .group('application_choices.id, application_choices.status, application_form.id, application_form.phase, courses.name, courses.level, a2_latest_application_forms.candidate_id')
+        .order('subject_names, subject_codes')
     end
   end
 end

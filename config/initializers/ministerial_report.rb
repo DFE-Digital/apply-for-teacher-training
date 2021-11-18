@@ -204,6 +204,18 @@ module MinisterialReport
       end
     end
 
+    # is it a PE course
+    if !subject
+      subject = subject_names.find do |subject_name|
+        subject_name.to_s.downcase == 'physical education' && course_name.downcase.include?('pe')
+      end
+    end
+
+    # take the first subject value if unable to match above
+    if !subject
+      subject = subject_names.first
+    end
+
     subject_code_for_report = subject_names_and_codes[subject]
 
     SUBJECT_CODE_MAPPINGS[subject_code_for_report].presence || course_level.downcase.to_sym
