@@ -1,96 +1,101 @@
-<%= content_for :title, t('page_titles.monthly_statistics') %>
+<%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @academic_year_name) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Statistics</span>
     <h1 class="govuk-heading-xl">
-      Initial teacher training applications data for courses starting in the <%= @academic_year_name %> academic year
+      Initial teacher training applications for courses starting in the <%= @academic_year_name %> academic year
     </h1>
 
-    <div class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</div>
+    <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
 
-    <ul class="govuk-list govuk-!-margin-bottom-8 app-toc">
+    <ol class="govuk-list govuk-!-margin-bottom-8 app-toc">
       <li>
         <a href="#introduction" class="govuk-link app-toc__link">
-          <span class="app-toc__content">What's included in this data?</span>
+          <span class="app-toc__number">1.</span>
+          <span class="app-toc__content">Introduction</span>
         </a>
       </li>
       <li>
         <a href="#data-updates" class="govuk-link app-toc__link">
+          <span class="app-toc__number">2.</span>
           <span class="app-toc__content">Data updates</span>
         </a>
       </li>
       <li>
-        <a href="#data-by-category" class="govuk-link app-toc__link">
-          <span class="app-toc__content">Data by category</span>
+        <a href="#by-candidate-status" class="govuk-link app-toc__link">
+          <span class="app-toc__number">3.</span>
+          <span class="app-toc__content">Candidate status</span>
         </a>
       </li>
       <li>
-        <a href="#by-status" class="govuk-link app-toc__link">
-          <span class="app-toc__number">1.</span>
+        <a href="#by-application-status" class="govuk-link app-toc__link">
+          <span class="app-toc__number">4.</span>
           <span class="app-toc__content">Application status</span>
         </a>
       </li>
       <li>
        <a href="#by-age-group" class="govuk-link app-toc__link">
-         <span class="app-toc__number">2.</span>
+         <span class="app-toc__number">5.</span>
          <span class="app-toc__content">Candidate age group</span>
        </a>
      </li>
       <li>
         <a href="#applications-by-sex" class="govuk-link app-toc__link">
-          <span class="app-toc__number">3.</span>
+          <span class="app-toc__number">6.</span>
           <span class="app-toc__content">Candidate sex</span>
         </a>
       </li>
       <li>
         <a href="#applications-by-area" class="govuk-link app-toc__link">
-          <span class="app-toc__number">4.</span>
+          <span class="app-toc__number">7.</span>
           <span class="app-toc__content">Candidate area</span>
         </a>
       </li>
       <li>
         <a href="#applications-by-course-age-group" class="govuk-link app-toc__link">
-          <span class="app-toc__number">5.</span>
+          <span class="app-toc__number">8.</span>
           <span class="app-toc__content">Course phase</span>
         </a>
       </li>
       <li>
         <a href="#applications-by-route" class="govuk-link app-toc__link">
-          <span class="app-toc__number">6.</span>
+          <span class="app-toc__number">9.</span>
           <span class="app-toc__content">Route into teaching</span>
         </a>
       </li>
       <li>
         <a href="#by-primary-specialist-subject" class="govuk-link app-toc__link">
-          <span class="app-toc__number">7.</span>
+          <span class="app-toc__number">10.</span>
           <span class="app-toc__content">Primary specialist subject</span>
         </a>
       </li>
       <li>
         <a href="#by-secondary-subject" class="govuk-link app-toc__link">
-          <span class="app-toc__number">8.</span>
+          <span class="app-toc__number">11.</span>
           <span class="app-toc__content">Secondary subject</span>
         </a>
       </li>
       <li>
         <a href="#by-provider-area" class="govuk-link app-toc__link">
-          <span class="app-toc__number">9.</span>
+          <span class="app-toc__number">12.</span>
           <span class="app-toc__content">Provider region</span>
         </a>
       </li>
 
       <li>
         <a href="#download-the-data" class="govuk-link app-toc__link">
+          <span class="app-toc__number">13.</span>
           <span class="app-toc__content">Download the data</span>
         </a>
       </li>
-    </ul>
+    </ol>
   </div>
 </div>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l" id="introduction">What's included in this data?</h2>
+    <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
     <p class="govuk-body">These statistics cover applications made through Apply for teacher training for courses in
       England starting in the <%= @academic_year_name %> academic year.</p>
@@ -101,35 +106,22 @@
       <%= @academic_year_name %> course start date are also included.</p>
     <p class="govuk-body">Teacher training applications made directly to providers or through other services such as
       Teach First are not included. Undergraduate teacher training is also not included.</p>
-  </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l" id="data-updates">Data updates</h2>
+    <h2 class="govuk-heading-l" id="data-updates">2. Data updates</h2>
 
     <p class="govuk-body">These statistics collect data from October 2021 to <%= @monthly_statistics_report.created_at.to_s(:govuk_date) %>
       (ITT2022) and include deferred applications from the <%= @current_cycle_name %> recruitment cycle (ITT2021).</p>
     <p class="govuk-body">New data for each month in the ITT2022 recruitment cycle is added monthly.</p>
-  </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l" id="data-by-category">Data by category</h2>
-  </div>
-</div>
+    <h2 class="govuk-heading-l" id="by-candidate-status">3. Candidate status</h2>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h3 class="govuk-heading-m" id="by-status">1. Application status</h3>
-    <p class='govuk-body'>When applying for the first time in a recruitment cycle, candidates can make up to 3 applications
+    <p class="govuk-body">When applying for the first time in a recruitment cycle, candidates can make up to 3 applications
       at the same time.</p>
-    <p class='govuk-body'>The ‘first application’ column in the first table below counts only the status of their most
+    <p class="govuk-body">The ‘first application’ column in the first table below counts only the status of their most
        “favourable” application, if they had more than one application in progress.</p>
-    <p class='govuk-body'>So if a candidate is recruited to one course but rejected from another, only their recruited
+    <p class="govuk-body">So if a candidate is recruited to one course but rejected from another, only their recruited
        application is counted.</p>
-    <p class='govuk-body'>“Favourable” is defined by the following order for the purpose of this data:</p>
+    <p class="govuk-body">“Favourable” is defined by the following order for the purpose of this data:</p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>recruited (most “favourable”)</li>
@@ -141,158 +133,183 @@
       <li>application rejected by provider (least “favourable”)</li>
     </ul>
 
-    <p class='govuk-body'>Candidates can make one application at a time, as many times as they like, if their first set
+    <p class="govuk-body">Candidates can make one application at a time, as many times as they like, if their first set
       of applications do not lead to a place.</p>
-    <p class='govuk-body'>The ‘apply again’ column of the first table below counts only the status of a candidate's most
+    <p class="govuk-body">The ‘apply again’ column of the first table below counts only the status of a candidate’s most
        recent ‘apply again’ application. Their previous applications are not counted anywhere in the table.</p>
-    <p class='govuk-body'>The status of any one application changes throughout its lifecycle. Statuses are captured at
+    <p class="govuk-body">The status of any one application changes throughout its lifecycle. Statuses are captured at
       the end of the data period.</p>
     <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by most “favourable” application status', statistics: @statistics['candidates_by_status']) %>
-    <p class='govuk-body'>This table counts all applications by their status.</p>
+
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-application-status">4. Application status</h2>
+
+    <p class="govuk-body">This table counts all applications by their status.</p>
     <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by status', statistics: @statistics['applications_by_status']) %>
   </div>
 </div>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="by-age-group">2. Candidate age group</h3>
-  <p class="govuk-body">Candidate age is calculated from the date of birth they provide when applying.</p>
-  <p class="govuk-body">Ages are calculated as of 31 August <%= RecruitmentCycle.current_year %>, just before courses start for the
-    <%= @academic_year_name %> academic year. Courses usually start in September, but sometimes in January.</p>
-  <p class="govuk-body">This data therefore reflects the likely age of a candidate at the point of starting
-     a course, rather than their age when they apply.</p>
-  <p class="govuk-body">This table counts all candidates by their age group.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">5. Candidate age group</h2>
+    <p class="govuk-body">Candidate age is calculated from the date of birth they provide when applying.</p>
+    <p class="govuk-body">Ages are calculated as of 31 August <%= RecruitmentCycle.current_year %>, just before courses start for the
+      <%= @academic_year_name %> academic year. Courses usually start in September, but sometimes in January.</p>
+    <p class="govuk-body">This data therefore reflects the likely age of a candidate at the point of starting
+       a course, rather than their age when they apply.</p>
+    <p class="govuk-body">This table counts all candidates by their age group.</p>
+  </div>
 </div>
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by age group', statistics: @statistics['by_age_group']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="applications-by-sex">3. Candidate sex</h3>
-  <p class="govuk-body">This table counts all candidates by their sex, indicated by the candidate when applying.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-sex">6. Candidate sex</h2>
+    <p class="govuk-body">This table counts all candidates by their sex, indicated by the candidate when applying.</p>
+  </div>
 </div>
 
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by sex', statistics: @statistics['by_sex']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="applications-by-area">4. Candidate area</h3>
-  <p class="govuk-body">This table counts all candidates by their UK region or country, or other area. Candidate
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-area">7. Candidate area</h2>
+    <p class="govuk-body">This table counts all candidates by their UK region or country, or other area. Candidate
     areas are generated by the contact address they gave when applying.</p>
+  </div>
 </div>
+
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by UK region or country, or other area', statistics: @statistics['by_area']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="applications-by-course-age-group">5. Course phase</h3>
-  <p class="govuk-body">‘Course phase’ refers to whether a course trains candidates to teach in primary, secondary or further education.</p>
-  <p class="govuk-body">This table counts all applications by course phase.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-course-age-group">8. Course phase</h2>
+    <p class="govuk-body">‘Course phase’ refers to whether a course trains candidates to teach in primary, secondary or further education.</p>
+    <p class="govuk-body">This table counts all applications by course phase.</p>
+  </div>
 </div>
+
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by course phase', statistics: @statistics['by_course_age_group']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="applications-by-route">6. Route into teaching</h3>
-  <p class="govuk-body">Apply for teaching training allows candidates to apply for most <%= govuk_link_to('routes into teaching', 'https://getintoteaching.education.gov.uk/ways-to-train/') %>, outlined
-     in the table below, but it does not include Teach First or undergraduate teacher training.</p>
-  <p class="govuk-body">This table counts all applications by the training route chosen.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="applications-by-route">9. Route into teaching</h2>
+    <p class="govuk-body">Apply for teaching training allows candidates to apply for most <%= govuk_link_to('routes into teaching', 'https://getintoteaching.education.gov.uk/ways-to-train/') %>, outlined
+       in the table below, but it does not include Teach First or undergraduate teacher training.</p>
+    <p class="govuk-body">This table counts all applications by the training route chosen.</p>
+  </div>
 </div>
+
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by route', statistics: @statistics['by_course_type']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="by-primary-specialist-subject">7. Primary specialist subject</h3>
-  <p class="govuk-body">Some primary courses allow candidates to specialise in a particular subject. This may help candidates
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-primary-specialist-subject">10. Primary specialist subject</h2>
+    <p class="govuk-body">Some primary courses allow candidates to specialise in a particular subject. This may help candidates
      influence the way a particular subject is taught in their school when they start teaching.</p>
-  <p class="govuk-body">This table counts all applications by primary specialist subject.</p>
+     <p class="govuk-body">This table counts all applications by primary specialist subject.</p>
+  </div>
 </div>
+
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by primary specialist subject', statistics: @statistics['by_primary_specialist_subject']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="by-secondary-subject">8. Secondary subject</h3>
-  <p class="govuk-body">Candidates choose a subject for secondary teacher training.</p>
-  <p class="govuk-body">This table counts all applications by secondary subject. If a course has more than one subject,
-    the main subject is counted.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-secondary-subject">11. Secondary subject</h2>
+    <p class="govuk-body">Candidates choose a subject for secondary teacher training.</p>
+    <p class="govuk-body">This table counts all applications by secondary subject. If a course has more than one subject,
+      the main subject is counted.</p>
+  </div>
 </div>
+
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by secondary subject', statistics: @statistics['by_secondary_subject']) %>
 
-<div class="govuk-grid-column">
-  <h3 class="govuk-heading-m" id="by-provider-area">9. Provider region</h3>
-  <p class="govuk-body">Provider areas are derived from their contact address. These areas may be different to where students
-     do their training.</p>
-  <p class="govuk-body">This table counts all candidates by the area of the provider they applied to.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-provider-area">12. Provider region</h2>
+    <p class="govuk-body">Provider areas are derived from their contact address. These areas may be different to where students
+       do their training.</p>
+    <p class="govuk-body">This table counts all candidates by the area of the provider they applied to.</p>
+  </div>
 </div>
+
 <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by provider region of England', statistics: @statistics['by_provider_area']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h3 class="govuk-heading-m" id="download-the-data">Download the data</h3>
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="download-the-data">13. Download the data</h2>
     <p class="govuk-body">You can download all of the data on this page in CSV (comma separated values) format, which can be opened in a spreadsheet and other analysis tools.</p>
     <p class="govuk-body">The downloads include some further breakdowns of the data by combining fields - for example applicant age group and sex.</p>
     <p class="govuk-body">In cases where the data counts fewer than 5 candidates or applications in a particular category
-      (for example, if age, sex and region are combined), data is marked '0 to 4'. This is to prevent anyone being identifiable by a data count.</p>
+      (for example, if age, sex and region are combined), data is marked ‘0 to 4’. This is to prevent anyone being identifiable by a data count.</p>
 
     <% if @candidates_by_status_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applicants by status (CSV)', download_support_interface_data_export_path(@candidates_by_status_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_by_status_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by status (CSV)', download_support_interface_data_export_path(@applications_by_status_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @candidates_by_age_group_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applicants by age group (CSV)', download_support_interface_data_export_path(@candidates_by_age_group_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @candidates_by_sex_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applicants by sex (CSV)', download_support_interface_data_export_path(@candidates_by_sex_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @candidates_by_area_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applicants by area (CSV)', download_support_interface_data_export_path(@candidates_by_area_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_by_course_age_group_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by course age group (CSV)', download_support_interface_data_export_path(@applications_by_course_age_group_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_by_course_type_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by course type (CSV)', download_support_interface_data_export_path(@applications_by_course_type_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_by_primary_specialist_subject_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by primary specialist subject (CSV)', download_support_interface_data_export_path(@applications_by_primary_specialist_subject_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_by_secondary_subject_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by secondary subject (CSV)', download_support_interface_data_export_path(@applications_by_secondary_subject_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_by_provider_area_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by provider area (CSV)', download_support_interface_data_export_path(@applications_by_provider_area_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @candidates_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applicants by status, age group, sex, area (CSV)', download_support_interface_data_export_path(@candidates_export.id), type: 'text/csv' %>
       </p>
     <% end %>
 
     <% if @applications_export.present? %>
-      <p class='govuk-body'>
+      <p class="govuk-body">
         <%= govuk_link_to 'Applications by course type, age group, subject, provider area (CSV)', download_support_interface_data_export_path(@applications_export.id), type: 'text/csv' %>
       </p>
     <% end %>
