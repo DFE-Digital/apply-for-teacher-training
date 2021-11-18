@@ -4,9 +4,10 @@
       <caption class="govuk-table__caption govuk-table__caption--m"><%= caption %></caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-         <% column_names.map do |name| %>
-            <th scope="col" class="govuk-table__header govuk-!-font-weight-regular" aria-sort="ascending"><%= name %></th>
-         <% end %>
+          <th scope="col" class="govuk-table__header govuk-!-font-weight-regular" aria-sort="ascending"><%= column_names[0] %></th>
+          <% column_names[1..-1].map do |name| %>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric govuk-!-font-weight-regular" aria-sort="none"><%= name %></th>
+          <% end %>
         </tr>
       </thead>
 
