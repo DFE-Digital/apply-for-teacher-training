@@ -18,24 +18,21 @@ module MonthlyStatisticsTimetable
     'September' => Date.new(RecruitmentCycle.current_year, 9, 19),
   }.freeze
 
-  # The date the report will be pubished is the following Thursday after
-  # the data is cut i.e. 10 days in after the generation date
-  # The exception to this is for November where it will run on the 22nd as
-  # it has already been QA'd by TAD.
+  # The date the report will be pubished a week after the generation date
 
-  PUBLISH_DATES = {
-    'October' => Date.new(RecruitmentCycle.previous_year, 10, 18),
-    'November' => Date.new(RecruitmentCycle.previous_year, 11, 22),
-    'December' => Date.new(RecruitmentCycle.previous_year, 12, 30),
-    'January' => Date.new(RecruitmentCycle.current_year, 1, 27),
-    'February' => Date.new(RecruitmentCycle.current_year, 3, 3),
-    'March' => Date.new(RecruitmentCycle.current_year, 3, 31),
-    'April' => Date.new(RecruitmentCycle.current_year, 4, 28),
-    'May' => Date.new(RecruitmentCycle.current_year, 5, 26),
-    'June' => Date.new(RecruitmentCycle.current_year, 6, 30),
-    'July' => Date.new(RecruitmentCycle.current_year, 7, 28),
-    'August' => Date.new(RecruitmentCycle.current_year, 8, 25),
-    'September' => Date.new(RecruitmentCycle.current_year, 9, 29),
+  PUBLISHING_DATES = {
+    'October' => Date.new(RecruitmentCycle.previous_year, 10, 25),
+    'November' => Date.new(RecruitmentCycle.previous_year, 11, 29),
+    'December' => Date.new(RecruitmentCycle.previous_year, 12, 27),
+    'January' => Date.new(RecruitmentCycle.current_year, 1, 24),
+    'February' => Date.new(RecruitmentCycle.current_year, 2, 28),
+    'March' => Date.new(RecruitmentCycle.current_year, 3, 28),
+    'April' => Date.new(RecruitmentCycle.current_year, 4, 25),
+    'May' => Date.new(RecruitmentCycle.current_year, 5, 23),
+    'June' => Date.new(RecruitmentCycle.current_year, 6, 27),
+    'July' => Date.new(RecruitmentCycle.current_year, 7, 25),
+    'August' => Date.new(RecruitmentCycle.current_year, 8, 22),
+    'September' => Date.new(RecruitmentCycle.current_year, 9, 26),
   }.freeze
 
   def self.generate_monthly_statistics?
@@ -53,8 +50,8 @@ module MonthlyStatisticsTimetable
   end
 
   def self.between_generation_and_publish_dates?
-    generation_date_for_current_month = MonthlyStatisticsTimetable::GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
-    publish_date_for_current_month = MonthlyStatisticsTimetable::PUBLISH_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    generation_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    publish_date_for_current_month = PUBLISHING_DATES[Date::MONTHNAMES[Time.zone.today.month]]
 
     Time.zone.today.between?(generation_date_for_current_month, publish_date_for_current_month)
   end

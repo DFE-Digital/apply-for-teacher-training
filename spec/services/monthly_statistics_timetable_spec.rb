@@ -50,7 +50,7 @@ RSpec.describe MonthlyStatisticsTimetable do
 
     context 'when it is after the publish date for the current month' do
       it 'returns false' do
-        Timecop.travel(described_class::PUBLISH_DATES.values.third + 1.day) do
+        Timecop.travel(described_class::PUBLISHING_DATES.values.third + 1.day) do
           expect(described_class.between_generation_and_publish_dates?).to eq false
         end
       end
