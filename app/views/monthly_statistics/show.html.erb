@@ -139,12 +139,12 @@
        recent ‘apply again’ application. Their previous applications are not counted anywhere in the table.</p>
     <p class="govuk-body">The status of any one application changes throughout its lifecycle. Statuses are captured at
       the end of the data period.</p>
-    <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by most “favourable” application status', statistics: @statistics['candidates_by_status']) %>
+    <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 3.1: Candidates by most “favourable” application status', statistics: @statistics['candidates_by_status']) %>
 
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-application-status">4. Application status</h2>
 
     <p class="govuk-body">This table counts all applications by their status.</p>
-    <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by status', statistics: @statistics['applications_by_status']) %>
+    <%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 4.1: Applications by status', statistics: @statistics['applications_by_status']) %>
   </div>
 </div>
 
@@ -159,7 +159,7 @@
     <p class="govuk-body">This table counts all candidates by their age group.</p>
   </div>
 </div>
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by age group', statistics: @statistics['by_age_group']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 5.1: Candidates by age group', statistics: @statistics['by_age_group']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -168,7 +168,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by sex', statistics: @statistics['by_sex']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 6.1: Applications by sex', statistics: @statistics['by_sex']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -178,7 +178,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by UK region or country, or other area', statistics: @statistics['by_area']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 7.1: Candidates by UK region or country, or other area', statistics: @statistics['by_area']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -188,7 +188,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by course phase', statistics: @statistics['by_course_age_group']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 8.1: Applications by course phase', statistics: @statistics['by_course_age_group']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -199,7 +199,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by route', statistics: @statistics['by_course_type']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 9.1: Applications by route', statistics: @statistics['by_course_type']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -210,7 +210,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by primary specialist subject', statistics: @statistics['by_primary_specialist_subject']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 10.1: Applications by primary specialist subject', statistics: @statistics['by_primary_specialist_subject']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -221,7 +221,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Applications by secondary subject', statistics: @statistics['by_secondary_subject']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 11.1: Applications by secondary subject', statistics: @statistics['by_secondary_subject']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -232,7 +232,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Candidates by provider region of England', statistics: @statistics['by_provider_area']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 12.1: Candidates by provider region of England', statistics: @statistics['by_provider_area']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
