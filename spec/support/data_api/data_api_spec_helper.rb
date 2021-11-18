@@ -10,7 +10,7 @@ module DataAPISpecHelper
   end
 
   def tad_api_token
-    @tad_api_token ||= ServiceAPIUser.tad_user.create_magic_link_token!
+    @tad_api_token = ServiceAPIUser.tad_user.create_magic_link_token!
   end
 
   def parsed_response
