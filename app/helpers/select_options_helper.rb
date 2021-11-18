@@ -1,26 +1,29 @@
 module SelectOptionsHelper
+  Option = Struct.new(:id, :name)
+  CollectionOption = Struct.new(:value, :text)
+
   def select_nationality_options(include_british_and_irish: false)
     [
-      OpenStruct.new(id: '', name: t('application_form.personal_details.nationality.default_option')),
-    ] + nationality_options(include_british_and_irish: include_british_and_irish).map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
+      Option.new('', t('application_form.personal_details.nationality.default_option')),
+    ] + nationality_options(include_british_and_irish: include_british_and_irish).map { |_, nationality| Option.new(nationality, nationality) }
   end
 
   def select_country_options
     [
-      OpenStruct.new(id: '', name: t('application_form.contact_details.country.default_option')),
-    ] + COUNTRIES_AND_TERRITORIES.except('GB').map { |iso3166, country| OpenStruct.new(id: iso3166, name: country) }
+      Option.new('', t('application_form.contact_details.country.default_option')),
+    ] + COUNTRIES_AND_TERRITORIES.except('GB').map { |iso3166, country| Option.new(iso3166, country) }
   end
 
   def select_course_options(courses)
     [
-      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
-    ] + courses.map { |course| OpenStruct.new(id: course.id, name: course.name) }
+      Option.new('', t('activemodel.errors.models.candidate_interface/pick_course_form.attributes.course_id.blank')),
+    ] + courses.map { |course| Option.new(course.id, course.name) }
   end
 
   def select_provider_options(providers)
     [
-      OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),
-    ] + providers.map { |provider| OpenStruct.new(id: provider.id, name: "#{provider.name} (#{provider.code})") }
+      Option.new('', t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),
+    ] + providers.map { |provider| Option.new(provider.id, "#{provider.name} (#{provider.code})") }
   end
 
   def select_sort_options
@@ -29,7 +32,7 @@ module SelectOptionsHelper
       [ValidationErrorSummaryQuery::LAST_WEEK, 'Last week'],
       [ValidationErrorSummaryQuery::LAST_MONTH, 'Last month'],
     ]
-    sort_options.map { |sort_option| OpenStruct.new(value: sort_option.first, text: sort_option.last) }
+    sort_options.map { |sort_option| CollectionOption.new(sort_option.first, sort_option.last) }
   end
 
 private

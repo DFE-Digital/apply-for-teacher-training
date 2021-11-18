@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::ConditionsFormComponent do
   let(:further_conditions) { [] }
   let(:further_condition_models) do
     further_conditions.map.with_index do |condition, index|
-      OpenStruct.new(id: index, text: condition)
+      Struct.new(:id, :text, :condition_id).new(index, condition, nil)
     end
   end
   let(:max_conditions) { false }

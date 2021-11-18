@@ -1,5 +1,7 @@
 class ReferenceHistory
   Event = Struct.new(:name, :time, :extra_info)
+  Email = Struct.new(:email_address)
+  BouncedEmail = Struct.new(:bounced_email)
 
   attr_reader :reference
 
@@ -23,7 +25,7 @@ class ReferenceHistory
       .select { |a| status_change(a, to: 'feedback_requested') }
       .map do |audit|
         email_address = reference.revision(audit.version).email_address
-        Event.new('request_sent', audit.created_at, OpenStruct.new(email_address: email_address))
+        Event.new('request_sent', audit.created_at, Email.new(email_address))
       end
   end
 
@@ -44,7 +46,7 @@ class ReferenceHistory
       .select { |a| status_change(a, to: 'email_bounced') }
       .map do |audit|
         bounced_email = reference.revision(audit.version).email_address
-        Event.new('request_bounced', audit.created_at, OpenStruct.new(bounced_email: bounced_email))
+        Event.new('request_bounced', audit.created_at, BouncedEmail.new(bounced_email))
       end
   end
 

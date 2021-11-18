@@ -8,10 +8,7 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
       expected_background = ETHNIC_BACKGROUNDS[group].sample
 
       expect(ethnic_backgrounds(group)).to include(
-        OpenStruct.new(
-          label: expected_background,
-          textfield_label: nil,
-        ),
+        EthnicBackgroundHelper::Field.new(expected_background, nil),
       )
     end
 
@@ -20,10 +17,7 @@ RSpec.describe EthnicBackgroundHelper, type: :helper do
       expected_textfield_label = EthnicBackgroundHelper::ETHNIC_BACKGROUND_TEXTFIELD_LABELS[group]
 
       expect(ethnic_backgrounds(group)).to include(
-        OpenStruct.new(
-          label: expected_other_background,
-          textfield_label: expected_textfield_label,
-        ),
+        EthnicBackgroundHelper::Field.new(expected_other_background, expected_textfield_label),
       )
     end
   end
