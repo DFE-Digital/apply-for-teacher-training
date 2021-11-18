@@ -73,7 +73,7 @@ jobs:
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.IMAGE_TAG }}
             type=registry,ref=${{ env.DOCKER_IMAGE }}:${{ env.GIT_BRANCH }}
             type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:${{ env.GIT_BRANCH }}
-            type=register,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
+            type=registry,ref=${{ env.GEMS_NODE_MODULES_IMAGE }}:main
           build-args: |
             SHA=${{ env.IMAGE_TAG }}
 
