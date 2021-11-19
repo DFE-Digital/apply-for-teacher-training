@@ -79,6 +79,8 @@ jobs:
           echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "key_vault_app_secret_name=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "key_vault_infra_secret_name=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "PAAS_CF_SPACE=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "PAAS_APP_ENVIRONMENT=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
         env:
           DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
 
@@ -87,7 +89,7 @@ jobs:
         with:
           CF_USERNAME:   ${{ secrets.CF_USERNAME }}
           CF_PASSWORD:   ${{ secrets.CF_PASSWORD }}
-          CF_SPACE_NAME: ${{ secrets.CF_SPACE }}
+          CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
           INSTALL_CONDUIT: true
 
       - name: Use Terraform v0.14.9
@@ -106,6 +108,12 @@ jobs:
           SECRETS: |
             ${{ env.key_vault_app_secret_name }}
             ${{ env.key_vault_infra_secret_name }}
+
+      - name: Delete clock to force its recreation
+        run: |
+          cf delete -f "apply-clock-${PAAS_APP_ENVIRONMENT}"
+        env:
+          CONFIRM_PRODUCTION: true
 
       - name: Terraform init, plan & apply
         run: |
