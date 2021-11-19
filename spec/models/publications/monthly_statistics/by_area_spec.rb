@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MonthlyStatistics::ByArea do
+RSpec.describe Publications::MonthlyStatistics::ByArea do
   subject(:statistics) { described_class.new.table_data }
 
   it "returns table data for 'by area'" do

@@ -14,8 +14,8 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::ApplicationsByCourseA
     }
 
     before do
-      monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseAgeGroup)
-      allow(MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return monthly_statistics_double
+      monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByCourseAgeGroup)
+      allow(Publications::MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 

@@ -9,11 +9,11 @@ RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
       end
 
       it 'generates the monthly stats' do
-        expect(MonthlyStatisticsReport.count).to eq(0)
+        expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to eq(0)
 
         described_class.new.perform
 
-        expect(MonthlyStatisticsReport.count).to eq(1)
+        expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to eq(1)
       end
 
       it 'generates the monthly statistics exports' do
@@ -43,11 +43,11 @@ RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
       end
 
       it 'does not generate the monthly stats' do
-        expect(MonthlyStatisticsReport.count).to eq(0)
+        expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to eq(0)
 
         described_class.new.perform
 
-        expect(MonthlyStatisticsReport.count).to eq(0)
+        expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to eq(0)
       end
 
       it 'does not generate the monthly statistics exports' do

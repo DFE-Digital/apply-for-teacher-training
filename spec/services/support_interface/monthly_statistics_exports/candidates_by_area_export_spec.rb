@@ -28,8 +28,8 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::CandidatesByAreaExpor
     }
 
     before do
-      monthly_statistics_double = instance_double(MonthlyStatistics::ByArea)
-      allow(MonthlyStatistics::ByArea).to receive(:new).and_return monthly_statistics_double
+      monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByArea)
+      allow(Publications::MonthlyStatistics::ByArea).to receive(:new).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 

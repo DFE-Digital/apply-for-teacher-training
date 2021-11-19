@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MonthlyStatistics::ByProviderArea do
+RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
   context 'applications by status table data' do
     subject(:statistics) { described_class.new.table_data }
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MonthlyStatisticsReport do
+RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
   describe '#write_metric' do
     context 'the #statistics attribute is nil' do
       let(:report) { described_class.new }
@@ -47,29 +47,29 @@ RSpec.describe MonthlyStatisticsReport do
 
   describe '#load_updated_statistics' do
     it 'retrieves all required statistics' do
-      course_age_group_monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseAgeGroup)
-      area_monthly_statistics_double = instance_double(MonthlyStatistics::ByArea)
-      sex_group_monthly_statistics_double = instance_double(MonthlyStatistics::BySex)
-      applications_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
-      candidates_by_status_monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
-      course_type_monthly_statistics_double = instance_double(MonthlyStatistics::ByCourseType)
-      applications_by_primary_specialist_subject_double = instance_double(MonthlyStatistics::ByPrimarySpecialistSubject)
-      by_age_group_monthly_statistics_double = instance_double(MonthlyStatistics::ByAgeGroup)
-      applications_by_secondary_subject_double = instance_double(MonthlyStatistics::BySecondarySubject)
-      applications_by_provider_area_double = instance_double(MonthlyStatistics::ByProviderArea)
+      course_age_group_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByCourseAgeGroup)
+      area_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByArea)
+      sex_group_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::BySex)
+      applications_by_status_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByStatus)
+      candidates_by_status_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByStatus)
+      course_type_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByCourseType)
+      applications_by_primary_specialist_subject_double = instance_double(Publications::MonthlyStatistics::ByPrimarySpecialistSubject)
+      by_age_group_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByAgeGroup)
+      applications_by_secondary_subject_double = instance_double(Publications::MonthlyStatistics::BySecondarySubject)
+      applications_by_provider_area_double = instance_double(Publications::MonthlyStatistics::ByProviderArea)
 
       table_data = [{ 'foo' => 'bar' }]
 
-      allow(MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return(course_age_group_monthly_statistics_double)
-      allow(MonthlyStatistics::ByArea).to receive(:new).and_return(area_monthly_statistics_double)
-      allow(MonthlyStatistics::BySex).to receive(:new).and_return(sex_group_monthly_statistics_double)
-      allow(MonthlyStatistics::ByStatus).to receive(:new).and_return(applications_by_status_monthly_statistics_double)
-      allow(MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: true).and_return(candidates_by_status_monthly_statistics_double)
-      allow(MonthlyStatistics::ByCourseType).to receive(:new).and_return(course_type_monthly_statistics_double)
-      allow(MonthlyStatistics::ByPrimarySpecialistSubject).to receive(:new).and_return(applications_by_primary_specialist_subject_double)
-      allow(MonthlyStatistics::ByAgeGroup).to receive(:new).and_return(by_age_group_monthly_statistics_double)
-      allow(MonthlyStatistics::BySecondarySubject).to receive(:new).and_return(applications_by_secondary_subject_double)
-      allow(MonthlyStatistics::ByProviderArea).to receive(:new).and_return(applications_by_provider_area_double)
+      allow(Publications::MonthlyStatistics::ByCourseAgeGroup).to receive(:new).and_return(course_age_group_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::ByArea).to receive(:new).and_return(area_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::BySex).to receive(:new).and_return(sex_group_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::ByStatus).to receive(:new).and_return(applications_by_status_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: true).and_return(candidates_by_status_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::ByCourseType).to receive(:new).and_return(course_type_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::ByPrimarySpecialistSubject).to receive(:new).and_return(applications_by_primary_specialist_subject_double)
+      allow(Publications::MonthlyStatistics::ByAgeGroup).to receive(:new).and_return(by_age_group_monthly_statistics_double)
+      allow(Publications::MonthlyStatistics::BySecondarySubject).to receive(:new).and_return(applications_by_secondary_subject_double)
+      allow(Publications::MonthlyStatistics::ByProviderArea).to receive(:new).and_return(applications_by_provider_area_double)
 
       allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(area_monthly_statistics_double).to receive(:table_data).and_return(table_data)

@@ -13,8 +13,8 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::CandidatesBySexExport
     }
 
     before do
-      monthly_statistics_double = instance_double(MonthlyStatistics::BySex)
-      allow(MonthlyStatistics::BySex).to receive(:new).and_return monthly_statistics_double
+      monthly_statistics_double = instance_double(Publications::MonthlyStatistics::BySex)
+      allow(Publications::MonthlyStatistics::BySex).to receive(:new).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 

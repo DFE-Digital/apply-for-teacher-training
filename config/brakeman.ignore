@@ -143,6 +143,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "884261af346a0daae15aa98165981fb7db1ff2e303606e9ee62cfcc02bb0cfdc",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/publications/monthly_statistics/by_area.rb",
+      "line": 159,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"SELECT\\n                   COUNT(application_choices_with_minimum_statuses.id),\\n                   application_choices_with_minimum_statuses.#{status_attribute},\\n                   #{group_by_attribute}\\n                  FROM (\\n                    SELECT application_choices.id as id,\\n                           application_choices.status_before_deferral as status_before_deferral,\\n                           application_choices.status as status,\\n                           application_forms.region_code as region_code,\\n                           ROW_NUMBER() OVER (\\n                            PARTITION BY application_forms.id\\n                            ORDER BY\\n                            CASE application_choices.#{status_attribute}\\n                            WHEN 'offer_deferred' THEN 0\\n                            WHEN 'recruited' THEN 1\\n                            WHEN 'pending_conditions' THEN 2\\n                            WHEN 'conditions_not_met' THEN 2\\n                            WHEN 'offer' THEN 3\\n                            WHEN 'awaiting_provider_decision' THEN 4\\n                            WHEN 'interviewing' THEN 4\\n                            WHEN 'declined' THEN 5\\n                            WHEN 'offer_withdrawn' THEN 6\\n                            WHEN 'withdrawn' THEN 7\\n                            WHEN 'cancelled' THEN 7\\n                            WHEN 'rejected' THEN 7\\n                            ELSE 8\\n                            END\\n                          ) AS row_number\\n                          FROM application_forms\\n                          INNER JOIN application_choices\\n                            ON application_choices.application_form_id = application_forms.id\\n                          WHERE application_forms.recruitment_cycle_year = #{cycle}\\n                          #{\"AND (\\n            NOT EXISTS (\\n              SELECT 1\\n              FROM application_forms\\n              AS subsequent_application_forms\\n              WHERE application_forms.id = subsequent_application_forms.previous_application_form_id\\n            )\\n          )\"}\\n                          #{(\"AND application_choices.status = 'offer_deferred'\" or \"\")}\\n                          ) AS application_choices_with_minimum_statuses\\n                  WHERE application_choices_with_minimum_statuses.row_number = 1\\n                  GROUP BY #{[group_by_attribute, status_attribute].compact.join(\",\")}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Publications::MonthlyStatistics::ByArea",
+        "method": "group_query"
+      },
+      "user_input": "status_attribute",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "8b9afd450cdaed47a32fe72f50753a5a92d16a04993c636d8eac438f9f4079a1",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -263,6 +283,87 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "bbee51b4a14769980f9372efbaf7019caa5907d4c170da8bacf75735313b501c",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/publications/monthly_statistics/by_status.rb",
+      "line": 146,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"SELECT COUNT(application_choices_with_minimum_statuses.id), application_choices_with_minimum_statuses.#{field}\\n                  FROM (\\n                    SELECT application_choices.id as id,\\n                           application_choices.status_before_deferral as status_before_deferral,\\n                           application_choices.status as status,\\n                           ROW_NUMBER() OVER (\\n                            PARTITION BY application_forms.id\\n                            ORDER BY\\n                            CASE application_choices.#{field}\\n                            WHEN 'recruited' THEN 1\\n                            WHEN 'pending_conditions' THEN 2\\n                            WHEN 'conditions_not_met' THEN 2\\n                            WHEN 'offer' THEN 3\\n                            WHEN 'awaiting_provider_decision' THEN 4\\n                            WHEN 'interviewing' THEN 4\\n                            WHEN 'declined' THEN 5\\n                            WHEN 'offer_withdrawn' THEN 6\\n                            WHEN 'withdrawn' THEN 7\\n                            WHEN 'cancelled' THEN 7\\n                            WHEN 'rejected' THEN 7\\n                            ELSE 8\\n                            END\\n                          ) AS row_number\\n                          FROM application_forms\\n                          INNER JOIN application_choices\\n                            ON application_choices.application_form_id = application_forms.id\\n                            WHERE application_forms.recruitment_cycle_year = #{cycle}\\n                            AND application_forms.phase = '#{phase}'\\n                            #{(\"AND (\\n                                                    NOT EXISTS (\\n                                                      SELECT 1\\n                                                      FROM application_forms\\n                                                      AS subsequent_application_forms\\n                                                      WHERE application_forms.id = subsequent_application_forms.previous_application_form_id\\n                                                    )\\n                                                  )\" or \"\")}\\n                          ) AS application_choices_with_minimum_statuses\\n                  WHERE application_choices_with_minimum_statuses.row_number = 1\\n                  GROUP BY #{field}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Publications::MonthlyStatistics::ByStatus",
+        "method": "tally_application_choices"
+      },
+      "user_input": "field",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "db94836510b6f2c59eddb567e3cce707e5a8960d9f886491c639d1f631810278",
+      "check_name": "Send",
+      "message": "User controlled method execution",
+      "file": "app/controllers/support_interface/data_exports_controller.rb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "DataExport.includes(:initiator).send(params[:data_export_type])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SupportInterface::DataExportsController",
+        "method": "view_history"
+      },
+      "user_input": "params[:data_export_type]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "ddee2d052f5c70f7c2787033ce06fa4f71ef78ad06a5c77bf731c1e8d239ceaf",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/candidate_interface/application_form/_review.html.erb",
+      "line": 57,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => CandidateInterface::ChooseEflReviewComponent.call(current_candidate.application_forms.find(params[:id]).english_proficiency, :return_to_application_review => true), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "CandidateInterface::ApplicationFormController",
+          "method": "review_previous_application",
+          "line": 5,
+          "file": "app/controllers/candidate_interface/application_form_controller.rb",
+          "rendered": {
+            "name": "candidate_interface/application_form/review_previous_application",
+            "file": "app/views/candidate_interface/application_form/review_previous_application.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "candidate_interface/application_form/review_previous_application",
+          "line": 9,
+          "file": "app/views/candidate_interface/application_form/review_previous_application.html.erb",
+          "rendered": {
+            "name": "candidate_interface/application_form/_review",
+            "file": "app/views/candidate_interface/application_form/_review.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "candidate_interface/application_form/_review"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "dee8e3d32c167d6090d7a67d1bc9add167f8ef7b154fcc1d1311fc7aad779a84",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -301,6 +402,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-11-01 09:47:24 +0000",
+  "updated": "2021-11-19 16:08:35 +0000",
   "brakeman_version": "5.1.2"
 }
