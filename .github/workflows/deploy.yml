@@ -76,19 +76,37 @@ jobs:
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
           tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
-          echo "key_vault_name=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "key_vault_app_secret_name=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "key_vault_infra_secret_name=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "PAAS_CF_SPACE=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
           echo "PAAS_APP_ENVIRONMENT=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
         env:
           DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
 
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: DFE-Digital/github-actions/keyvault-yaml-secret@master
+        id: cf-username-secret
+        with:
+          keyvault: ${{ env.KEY_VAULT_NAME }}
+          yaml_secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+          secret: CF_USER
+
+      - uses: DFE-Digital/github-actions/keyvault-yaml-secret@master
+        id: cf-password-secret
+        with:
+          keyvault: ${{ env.KEY_VAULT_NAME }}
+          yaml_secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+          secret: CF_PASSWORD
+
       - name: Setup cf cli
         uses: DFE-Digital/github-actions/setup-cf-cli@master
         with:
-          CF_USERNAME:   ${{ secrets.CF_USERNAME }}
-          CF_PASSWORD:   ${{ secrets.CF_PASSWORD }}
+          CF_USERNAME:   ${{ steps.cf-username-secret.outputs.secret-value }}
+          CF_PASSWORD:   ${{ steps.cf-password-secret.outputs.secret-value }}
           CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
           INSTALL_CONDUIT: true
 
@@ -97,17 +115,13 @@ jobs:
         with:
           terraform_version: 0.14.9
 
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Validate Azure Key Vault secrets
         uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
         with:
-          KEY_VAULT: ${{ env.key_vault_name }}
+          KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
           SECRETS: |
-            ${{ env.key_vault_app_secret_name }}
-            ${{ env.key_vault_infra_secret_name }}
+            ${{ env.KEY_VAULT_APP_SECRET_NAME }}
+            ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
       - name: Delete clock to force its recreation
         run: |
