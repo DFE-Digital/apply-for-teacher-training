@@ -13,7 +13,7 @@ RSpec.feature 'Monthly statistics page' do
   end
 
   def when_i_visit_the_monthly_statistics_page
-    visit '/monthly-statistics'
+    visit '/publications/monthly-statistics'
   end
 
   def then_i_can_see_the_monthly_statistics

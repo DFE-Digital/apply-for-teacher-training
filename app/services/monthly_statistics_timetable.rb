@@ -65,17 +65,17 @@ module MonthlyStatisticsTimetable
   end
 
   def self.current_report
-    return MonthlyStatisticsReport.last if MonthlyStatisticsReport.count == 1
+    return Publications::MonthlyStatistics::MonthlyStatisticsReport.last if Publications::MonthlyStatistics::MonthlyStatisticsReport.count == 1
 
     in_qa_period? ? report_for_previous_period : report_for_current_period
   end
 
   def self.report_for_current_period
-    MonthlyStatisticsReport.order(:created_at).last
+    Publications::MonthlyStatistics::MonthlyStatisticsReport.order(:created_at).last
   end
 
   def self.report_for_previous_period
-    MonthlyStatisticsReport.order(:created_at).last(2).first
+    Publications::MonthlyStatistics::MonthlyStatisticsReport.order(:created_at).last(2).first
   end
 
   def self.current_exports

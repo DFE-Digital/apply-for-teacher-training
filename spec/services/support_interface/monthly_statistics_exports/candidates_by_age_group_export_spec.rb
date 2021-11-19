@@ -24,8 +24,8 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::CandidatesByAgeGroupE
     }
 
     before do
-      monthly_statistics_double = instance_double(MonthlyStatistics::ByAgeGroup)
-      allow(MonthlyStatistics::ByAgeGroup).to receive(:new).and_return monthly_statistics_double
+      monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByAgeGroup)
+      allow(Publications::MonthlyStatistics::ByAgeGroup).to receive(:new).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 

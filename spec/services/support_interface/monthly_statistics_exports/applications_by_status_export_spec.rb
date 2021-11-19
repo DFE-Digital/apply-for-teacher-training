@@ -18,8 +18,8 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::ApplicationsByStatusE
     }
 
     before do
-      monthly_statistics_double = instance_double(MonthlyStatistics::ByStatus)
-      allow(MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: false).and_return monthly_statistics_double
+      monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByStatus)
+      allow(Publications::MonthlyStatistics::ByStatus).to receive(:new).with(by_candidate: false).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 

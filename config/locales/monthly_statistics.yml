@@ -4,7 +4,7 @@ en:
   monthly_statistics_applications_by_status:
     label: Applications by status (CSV)
   monthly_statistics_candidates_by_age_group:
-    label: pplicants by age group (CSV)
+    label: Applicants by age group (CSV)
   monthly_statistics_candidates_by_sex:
     label: Applicants by sex (CSV)
   monthly_statistics_candidates_by_area:

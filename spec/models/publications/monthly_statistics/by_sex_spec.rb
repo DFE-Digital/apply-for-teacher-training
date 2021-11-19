@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MonthlyStatistics::BySex do
+RSpec.describe Publications::MonthlyStatistics::BySex do
   subject(:statistics) { described_class.new.table_data }
 
   it "returns table data for 'by course age group'" do

@@ -68,7 +68,7 @@ RSpec.describe MonthlyStatisticsTimetable do
   describe '#current_report' do
     context 'when there is only one monthly report' do
       it 'returns the report' do
-        report = MonthlyStatisticsReport.new
+        report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
         report.save
 
         expect(described_class.current_report).to eq report
@@ -78,10 +78,10 @@ RSpec.describe MonthlyStatisticsTimetable do
     context 'when there are multiple reports and the MonthlyStatisticsTimetable returns false for #in_qa_period?' do
       it 'returns the latest report' do
         allow(described_class).to receive(:in_qa_period?).and_return false
-        report1 = MonthlyStatisticsReport.new
+        report1 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
         report1.save
 
-        report2 = MonthlyStatisticsReport.new
+        report2 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
         report2.save
 
         expect(described_class.current_report).to eq report2
@@ -91,10 +91,10 @@ RSpec.describe MonthlyStatisticsTimetable do
     context 'when there are multiple reports and the MonthlyStatisticsTimetable returns true for #in_qa_period?' do
       it 'returns last months report' do
         allow(described_class).to receive(:in_qa_period?).and_return true
-        report1 = MonthlyStatisticsReport.new
+        report1 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
         report1.save
 
-        report2 = MonthlyStatisticsReport.new
+        report2 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
         report2.save
 
         expect(described_class.current_report).to eq report1

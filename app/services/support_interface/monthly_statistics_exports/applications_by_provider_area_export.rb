@@ -4,7 +4,7 @@ module SupportInterface
       include MonthlyStatisticsExportHelper
 
       def data_for_export(*)
-        data = MonthlyStatistics::ByProviderArea.new.table_data
+        data = Publications::MonthlyStatistics::ByProviderArea.new.table_data
         merge_rows_and_totals(data)
       end
     end

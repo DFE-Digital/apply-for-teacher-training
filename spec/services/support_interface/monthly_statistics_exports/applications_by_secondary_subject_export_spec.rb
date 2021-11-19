@@ -38,8 +38,8 @@ RSpec.describe SupportInterface::MonthlyStatisticsExports::ApplicationsBySeconda
     }
 
     before do
-      monthly_statistics_double = instance_double(MonthlyStatistics::BySecondarySubject)
-      allow(MonthlyStatistics::BySecondarySubject).to receive(:new).and_return monthly_statistics_double
+      monthly_statistics_double = instance_double(Publications::MonthlyStatistics::BySecondarySubject)
+      allow(Publications::MonthlyStatistics::BySecondarySubject).to receive(:new).and_return monthly_statistics_double
       allow(monthly_statistics_double).to receive(:table_data).and_return data
     end
 
