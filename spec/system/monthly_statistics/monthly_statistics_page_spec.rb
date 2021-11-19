@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Monthly statistics page' do
   before do
+    allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
     create_application_choices
     create_monthly_stats_report
   end

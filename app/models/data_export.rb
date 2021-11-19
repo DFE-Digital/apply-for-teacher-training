@@ -305,18 +305,18 @@ class DataExport < ApplicationRecord
   }.freeze
 
   MONTHLY_STATISTICS_EXPORTS = %w[
-    external_report_applications
-    external_report_candidates
+    monthly_statistics_candidates_by_status
+    monthly_statistics_applications_by_status
+    monthly_statistics_candidates_by_age_group
+    monthly_statistics_candidates_by_sex
+    monthly_statistics_candidates_by_area
     monthly_statistics_applications_by_course_age_group
     monthly_statistics_applications_by_course_type
     monthly_statistics_applications_by_primary_specialist_subject
-    monthly_statistics_applications_by_provider_area
     monthly_statistics_applications_by_secondary_subject
-    monthly_statistics_applications_by_status
-    monthly_statistics_candidates_by_age_group
-    monthly_statistics_candidates_by_area
-    monthly_statistics_candidates_by_sex
-    monthly_statistics_candidates_by_status
+    monthly_statistics_applications_by_provider_area
+    external_report_candidates
+    external_report_applications
   ].freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
@@ -336,6 +336,16 @@ class DataExport < ApplicationRecord
 
   def export_type_value
     name.parameterize.underscore
+  end
+
+  def self.can_generate_export?(export_type)
+    return true unless MONTHLY_STATISTICS_EXPORTS.include?(export_type)
+
+    DataExport
+    .where(export_type: export_type)
+    .where('created_at > ?', MonthlyStatisticsTimetable.current_reports_generation_date)
+    .count
+    .zero?
   end
 
   enum export_type: {

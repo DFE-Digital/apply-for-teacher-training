@@ -242,75 +242,9 @@
     <p class="govuk-body">In cases where the data counts fewer than 5 candidates or applications in a particular category
       (for example, if age, sex and region are combined), data is marked ‘0 to 4’. This is to prevent anyone being identifiable by a data count.</p>
 
-    <% if @candidates_by_status_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applicants by status (CSV)', download_support_interface_data_export_path(@candidates_by_status_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_by_status_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by status (CSV)', download_support_interface_data_export_path(@applications_by_status_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @candidates_by_age_group_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applicants by age group (CSV)', download_support_interface_data_export_path(@candidates_by_age_group_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @candidates_by_sex_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applicants by sex (CSV)', download_support_interface_data_export_path(@candidates_by_sex_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @candidates_by_area_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applicants by area (CSV)', download_support_interface_data_export_path(@candidates_by_area_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_by_course_age_group_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by course age group (CSV)', download_support_interface_data_export_path(@applications_by_course_age_group_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_by_course_type_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by course type (CSV)', download_support_interface_data_export_path(@applications_by_course_type_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_by_primary_specialist_subject_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by primary specialist subject (CSV)', download_support_interface_data_export_path(@applications_by_primary_specialist_subject_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_by_secondary_subject_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by secondary subject (CSV)', download_support_interface_data_export_path(@applications_by_secondary_subject_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_by_provider_area_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by provider area (CSV)', download_support_interface_data_export_path(@applications_by_provider_area_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @candidates_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applicants by status, age group, sex, area (CSV)', download_support_interface_data_export_path(@candidates_export.id), type: 'text/csv' %>
-      </p>
-    <% end %>
-
-    <% if @applications_export.present? %>
-      <p class="govuk-body">
-        <%= govuk_link_to 'Applications by course type, age group, subject, provider area (CSV)', download_support_interface_data_export_path(@applications_export.id), type: 'text/csv' %>
+    <% @exports.each do |export| %>
+      <p class='govuk-body'>
+        <%= govuk_link_to t("#{export.export_type}.label"), download_support_interface_data_export_path(export.id), type: 'text/csv' %>
       </p>
     <% end %>
   </div>
