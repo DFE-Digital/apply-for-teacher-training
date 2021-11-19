@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.referee.refuse_feedback'), @refuse_feedback_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.referee.refuse_feedback', full_name: @application.full_name), @refuse_feedback_form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -9,15 +9,9 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.referee.refuse_feedback') %>
-      </h1>
-
-      <p class="govuk-body">Declining <%= @application.full_name %>’s reference request may delay their application and make it harder for them to get onto teacher training.</p>
-
-      <%= f.govuk_radio_buttons_fieldset :choices, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name) } do %>
-        <%= f.govuk_radio_button :choice, 'yes', label: { text: t('referee.refuse_feedback.choice.confirm') }, link_errors: true %>
-        <%= f.govuk_radio_button :choice, 'no', label: { text: t('referee.refuse_feedback.choice.cancel') } %>
+      <%= f.govuk_radio_buttons_fieldset :refused, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name), size: 'l', tag: 'h1' } do %>
+        <%= f.govuk_radio_button :refused, :no, label: { text: t('referee.refuse_feedback.choice.cancel') }, link_errors: true %>
+        <%= f.govuk_radio_button :refused, :yes, label: { text: t('referee.refuse_feedback.choice.confirm') } %>
       <% end %>
 
       <%= f.govuk_submit t('continue') %>

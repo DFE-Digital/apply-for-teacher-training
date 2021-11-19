@@ -2,9 +2,9 @@ en:
   referee:
     refuse_feedback:
       choice:
-        label: Can you give %{full_name} a reference?
-        confirm: No, I decline to give a reference
-        cancel: Yes, I can give a reference
+        label: Can you give a reference for %{full_name}?
+        confirm: No, I am unable to give a reference
+        cancel: Yes, I can give them a reference
     relationship_confirmation:
       legend: Is this correct?
       'yes':
@@ -76,8 +76,8 @@ en:
               too_many_words: Your reference must be %{count} words or fewer
         referee_interface/refuse_feedback_form:
           attributes:
-            choice:
-              blank: Choose whether to decline this reference request
+            refused:
+              blank: Select yes if you can give a reference
         receive_reference:
           attributes:
             feedback:

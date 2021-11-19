@@ -12,6 +12,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     then_i_see_page_not_found
 
     when_i_click_on_the_link_within_the_email
+    and_i_select_yes_to_giving_a_reference
     then_i_am_asked_to_confirm_my_relationship_with_the_candidate
 
     when_i_click_on_save_and_continue
@@ -122,6 +123,11 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
 
   def when_i_click_on_the_link_within_the_email
     click_sign_in_link(current_email)
+  end
+
+  def and_i_select_yes_to_giving_a_reference
+    choose 'Yes, I can give them a reference'
+    click_button t('continue')
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
