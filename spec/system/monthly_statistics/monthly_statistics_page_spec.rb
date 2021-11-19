@@ -16,7 +16,7 @@ RSpec.feature 'Monthly statistics page' do
   end
 
   def then_i_can_see_the_monthly_statistics
-    expect(page).to have_content 'Applicants for initial teacher training courses'
+    expect(page).to have_content "Initial teacher training applications for courses starting in the #{RecruitmentCycle.cycle_name(CycleTimetable.next_year)} academic year"
   end
 
   def create_application_choices

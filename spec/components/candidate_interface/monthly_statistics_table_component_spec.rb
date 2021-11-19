@@ -80,4 +80,36 @@ RSpec.describe CandidateInterface::MonthlyStatisticsTableComponent do
       })
     end
   end
+
+  describe '#sort_value' do
+    let(:statistics) do
+      {
+        'rows' =>
+          [
+            {
+              'Age group' => 'Primary',
+              'Recruited' => '0 to 4',
+              'Conditions pending' => '0 to 4',
+              'Received an offer' => '0 to 4',
+              'Awaiting provider decisions' => 5,
+              'Unsuccessful' => '0 to 4',
+              'Total' => 11,
+            },
+          ],
+        'column_totals' => [0, 1, 2, 5, 3, 11],
+      }
+    end
+
+    it 'returns the correct data sort value for each count' do
+      first_row = statistics['rows'].first
+
+      component.data_from(first_row).map do |_status, count|
+        if count == '0 to 4'
+          expect(component.sort_value(count)).to eq('0')
+        else
+          expect(component.sort_value(count)).to eq count
+        end
+      end
+    end
+  end
 end

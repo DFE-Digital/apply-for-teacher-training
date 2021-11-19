@@ -1,6 +1,9 @@
 class MonthlyStatisticsController < ApplicationController
   def show
-    @statistics = MonthlyStatisticsReport.last.statistics
+    @monthly_statistics_report = MonthlyStatisticsReport.last
+    @statistics = @monthly_statistics_report.statistics
+    @academic_year_name = RecruitmentCycle.cycle_name(CycleTimetable.next_year)
+    @current_cycle_name = RecruitmentCycle.verbose_cycle_name
     @candidates_by_status_export = DataExport.where(export_type: 'monthly_statistics_candidates_by_status').order(:created_at).last
     @applications_by_status_export = DataExport.where(export_type: 'monthly_statistics_applications_by_status').order(:created_at).last
     @candidates_by_age_group_export = DataExport.where(export_type: 'monthly_statistics_candidates_by_age_group').order(:created_at).last
