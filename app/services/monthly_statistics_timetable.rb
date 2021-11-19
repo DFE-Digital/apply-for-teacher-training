@@ -39,28 +39,58 @@ module MonthlyStatisticsTimetable
     Time.zone.today == GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 
-  def self.latest_report_date
+  def self.current_reports_generation_date
     report_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
 
     if report_date_for_current_month > Time.zone.today
-      return_last_months_generation_date
+      last_months_generation_date
     else
-      return_current_months_generation_date
+      current_months_generation_date
     end
   end
 
-  def self.between_generation_and_publish_dates?
+  def self.last_months_generation_date
+    GENERATION_DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
+  end
+
+  def self.current_months_generation_date
+    GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+  end
+
+  def self.in_qa_period?
     generation_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
     publish_date_for_current_month = PUBLISHING_DATES[Date::MONTHNAMES[Time.zone.today.month]]
 
     Time.zone.today.between?(generation_date_for_current_month, publish_date_for_current_month)
   end
 
-  def self.return_last_months_generation_date
-    GENERATION_DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
+  def self.current_report
+    return MonthlyStatisticsReport.last if MonthlyStatisticsReport.count == 1
+
+    in_qa_period? ? report_for_previous_period : report_for_current_period
   end
 
-  def self.return_current_months_generation_date
-    GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+  def self.report_for_current_period
+    MonthlyStatisticsReport.order(:created_at).last
+  end
+
+  def self.report_for_previous_period
+    MonthlyStatisticsReport.order(:created_at).last(2).first
+  end
+
+  def self.current_exports
+    exports = []
+
+    if in_qa_period?
+      DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
+        exports << DataExport.where(export_type: export_type).order(:created_at).last(2).first
+      end
+    else
+      DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
+        exports << DataExport.where(export_type: export_type).order(:created_at).last
+      end
+    end
+
+    exports.compact
   end
 end

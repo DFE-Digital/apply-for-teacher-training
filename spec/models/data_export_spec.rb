@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DataExport, type: :model do
   describe '#can_generate_export?' do
     before do
-      allow(MonthlyStatisticsTimetable).to receive(:latest_report_date).and_return(Date.yesterday)
+      allow(MonthlyStatisticsTimetable).to receive(:current_reports_generation_date).and_return(Date.yesterday)
     end
 
     it 'returns true if the export is not in the MONTHLY_STATISTICS_EXPORTS constant' do

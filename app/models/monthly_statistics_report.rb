@@ -22,28 +22,6 @@ class MonthlyStatisticsReport < ApplicationRecord
     load_applications_by_provider_area
   end
 
-  def self.latest_publishable_report
-    return MonthlyStatisticsReport.last if MonthlyStatisticsReport.count == 1
-
-    MonthlyStatisticsTimetable.between_generation_and_publish_dates? ? MonthlyStatisticsReport.order(:created_at)[-2] : MonthlyStatisticsReport.order(:created_at).last
-  end
-
-  def self.latest_publishable_exports
-    exports = []
-
-    if MonthlyStatisticsTimetable.between_generation_and_publish_dates?
-      DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
-        exports << DataExport.where(export_type: export_type).order(:created_at)[-2]
-      end
-    else
-      DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
-        exports << DataExport.where(export_type: export_type).order(:created_at).last
-      end
-    end
-
-    exports.compact
-  end
-
 private
 
   def load_by_course_age_group

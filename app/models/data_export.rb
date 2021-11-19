@@ -343,7 +343,7 @@ class DataExport < ApplicationRecord
 
     DataExport
     .where(export_type: export_type)
-    .where('created_at > ?', MonthlyStatisticsTimetable.latest_report_date)
+    .where('created_at > ?', MonthlyStatisticsTimetable.current_reports_generation_date)
     .count
     .zero?
   end
