@@ -4,7 +4,7 @@ class RecalculateDates
   def perform(*)
     Audited.audit_class.as_user('RecalculateDates worker') do
       ApplicationChoice
-        .where(status: :awaiting_provider_decision)
+        .where(status: %i[awaiting_provider_decision interviewing])
         .includes(:application_form)
         .find_each do |application_choice|
           SetRejectByDefault.new(application_choice).call
