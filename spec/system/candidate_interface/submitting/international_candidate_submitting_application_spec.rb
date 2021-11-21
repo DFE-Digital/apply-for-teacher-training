@@ -7,13 +7,14 @@ RSpec.feature 'International candidate submits the application' do
   scenario 'International candidate completes and submits an application' do
     given_i_am_signed_in
 
-    when_i_have_completed_everything_except_the_efl_section
+    when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
     when_i_review_my_application
-    then_i_should_see_the_efl_section_is_incomplete
+    then_i_should_see_the_efl_and_other_qualifications_section_is_incomplete
     when_i_confirm_my_application
-    then_i_see_an_error_about_the_efl_section
+    then_i_see_an_error_about_the_efl_and_other_qualifications_section
 
     when_i_complete_the_efl_section
+    and_i_complete_the_other_qualifications_section
     then_i_should_see_all_sections_are_complete
 
     when_i_review_my_application
@@ -34,7 +35,7 @@ RSpec.feature 'International candidate submits the application' do
     create_and_sign_in_candidate
   end
 
-  def when_i_have_completed_everything_except_the_efl_section
+  def when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
     # Consider moving some of this into CandidateHelper once International
     # feature flags have been removed, especially the efl_section.
     given_courses_exist
@@ -96,9 +97,6 @@ RSpec.feature 'International candidate submits the application' do
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
 
-    click_link 'Other qualifications'
-    candidate_fills_in_their_other_qualifications
-
     click_link 'Why you want to teach'
     candidate_fills_in_becoming_a_teacher
 
@@ -117,13 +115,18 @@ RSpec.feature 'International candidate submits the application' do
     click_link 'Check and submit your application'
   end
 
-  def then_i_should_see_the_efl_section_is_incomplete
+  def then_i_should_see_the_efl_and_other_qualifications_section_is_incomplete
     expect(page).to have_selector "[data-qa='incomplete-efl']"
+    expect(page).to have_selector "[data-qa='incomplete-other_qualifications_international']"
   end
 
-  def then_i_see_an_error_about_the_efl_section
+  def then_i_see_an_error_about_the_efl_and_other_qualifications_section
     within '#incomplete-efl-error' do
       expect(page).to have_content 'English as a foreign language not marked as complete'
+    end
+
+    within '#incomplete-other_qualifications_international-error' do
+      expect(page).to have_content 'Other qualifications section not marked as complete'
     end
   end
 
@@ -136,6 +139,11 @@ RSpec.feature 'International candidate submits the application' do
     click_button t('continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
+  end
+
+  def and_i_complete_the_other_qualifications_section
+    click_link 'Other qualifications'
+    candidate_fills_in_their_other_qualifications
   end
 
   def then_i_should_see_all_sections_are_complete

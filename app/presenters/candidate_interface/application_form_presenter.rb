@@ -63,7 +63,7 @@ module CandidateInterface
                           .reject(&:second)
                           .map do |sections_with_completion|
                             if sections_with_completion.first == :other_qualifications && application_form.international_applicant?
-                              Struct.new(:name).new(:other_qualifications_international)
+                              Struct.new(:name, :needs_review?).new(:other_qualifications_international, false)
                             else
                               Struct.new(:name, :needs_review?).new(sections_with_completion.first, sections_with_completion.third)
                             end
