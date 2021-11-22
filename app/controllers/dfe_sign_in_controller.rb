@@ -2,9 +2,12 @@ class DfESignInController < ActionController::Base
   protect_from_forgery except: :bypass_callback
 
   def callback
+    @target_path = session['post_dfe_sign_in_path']
+
+    reset_session # prevents session fixation attacks and impersonation bugs
+
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
-    @target_path = session['post_dfe_sign_in_path']
     @local_user = local_user
 
     if @local_user
@@ -17,7 +20,7 @@ class DfESignInController < ActionController::Base
         send_provider_sign_in_confirmation_email
       end
 
-      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
+      redirect_to @target_path || default_authenticated_path
     else
       DfESignInUser.end_session!(session)
       render(
