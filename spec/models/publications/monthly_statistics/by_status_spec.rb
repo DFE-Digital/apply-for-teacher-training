@@ -19,9 +19,9 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
               },
               {
                 'Status' => 'Conditions pending',
-                'First application' => 0,
+                'First application' => 1,
                 'Apply again' => 0,
-                'Total' => 0,
+                'Total' => 1,
               },
               {
                 'Status' => 'Received an offer but not responded',
@@ -49,12 +49,12 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
               },
               {
                 'Status' => 'Application rejected',
-                'First application' => 2,
+                'First application' => 4,
                 'Apply again' => 1,
-                'Total' => 3,
+                'Total' => 5,
               },
             ],
-          column_totals: [4, 3, 7],
+          column_totals: [7, 3, 10],
         },
       )
     end
@@ -76,9 +76,9 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
           },
           {
             'Status' => 'Conditions pending',
-            'First application' => 0,
+            'First application' => 1,
             'Apply again' => 0,
-            'Total' => 0,
+            'Total' => 1,
           },
           {
             'Status' => 'Received an offer but not responded',
@@ -106,12 +106,12 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
           },
           {
             'Status' => 'Application rejected',
-            'First application' => 0,
+            'First application' => 2,
             'Apply again' => 0,
-            'Total' => 0,
+            'Total' => 2,
           },
         ],
-          column_totals: [2, 2, 4] },
+          column_totals: [5, 2, 7] },
       )
     end
   end
@@ -150,5 +150,17 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
     candidate_four = create(:candidate)
     candidate_four_apply_one_deferred_application = create(:application_form, phase: 'apply_1', candidate: candidate_four, recruitment_cycle_year: RecruitmentCycle.previous_year)
     create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'recruited', application_form: candidate_four_apply_one_deferred_application)
+
+    candidate_five = create(:candidate)
+    candidate_five_conditions_pending_application = create(:application_form, phase: 'apply_1', candidate: candidate_five)
+    create(:application_choice, :with_accepted_offer, application_form: candidate_five_conditions_pending_application)
+
+    candidate_six = create(:candidate)
+    candidate_six_withdrawn_application = create(:application_form, phase: 'apply_1', candidate: candidate_six)
+    create(:application_choice, :with_withdrawn_offer, application_form: candidate_six_withdrawn_application)
+
+    candidate_seven = create(:candidate)
+    candidate_seven_conditions_not_met_application = create(:application_form, phase: 'apply_1', candidate: candidate_seven)
+    create(:application_choice, :with_conditions_not_met, application_form: candidate_seven_conditions_not_met_application)
   end
 end

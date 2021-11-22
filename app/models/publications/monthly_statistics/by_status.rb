@@ -55,13 +55,13 @@ module Publications
             case status
             when 'awaiting_provider_decision', 'interviewing'
               counts['Awaiting provider decisions'][phase] += count
-            when 'conditions_not_met', 'offer_deferred'
+            when 'pending_conditions'
               counts['Conditions pending'][phase] += count
             when 'offer'
               counts['Received an offer but not responded'][phase] += count
             when 'recruited'
               counts['Recruited'][phase] += count
-            when 'rejected'
+            when 'rejected', 'conditions_not_met', 'offer_withdrawn'
               counts['Application rejected'][phase] += count
             when 'withdrawn'
               counts['Withdrew an application'][phase] += count
