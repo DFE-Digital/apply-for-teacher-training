@@ -614,7 +614,7 @@ Rails.application.routes.draw do
 
   namespace :api, path: 'api/:api_version' do
     resources :applications, only: :index
-    resources :interviews, only: :index
+    resources :interviews, only: [:index, :show]
   end
 
   namespace :vendor_api, path: 'api/v1' do
