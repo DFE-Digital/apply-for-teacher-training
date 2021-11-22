@@ -656,7 +656,9 @@ Rails.application.routes.draw do
     get '/' => 'start_page#show'
 
     get '/accessibility', to: 'content#accessibility'
-    get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
+    get '/privacy-policy', to: redirect('provider/privacy')
+    get '/privacy', to: 'content#privacy', as: :privacy
+    get '/privacy/service-privacy-notice', to: 'content#service_privacy_notice', as: :service_privacy_notice
     get '/cookies', to: 'content#cookies_page', as: :cookies
     get '/roadmap', to: 'content#roadmap', as: :roadmap
     get '/make-a-complaint', to: 'content#complaints', as: :complaints

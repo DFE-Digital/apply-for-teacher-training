@@ -12,8 +12,12 @@ module ProviderInterface
       render_content_page :accessibility
     end
 
-    def privacy_policy
-      render_content_page :privacy_policy
+    def privacy; end
+
+    def service_privacy_notice
+      render_content_page :service_privacy_notice,
+                          breadcrumb_title: 'privacy_notices',
+                          breadcrumb_path: provider_interface_privacy_path
     end
 
     def cookies_page

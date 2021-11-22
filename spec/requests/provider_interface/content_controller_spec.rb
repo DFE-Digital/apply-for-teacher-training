@@ -16,4 +16,20 @@ RSpec.describe ProviderInterface::ContentController, type: :request do
       expect(response).to have_http_status :ok
     end
   end
+
+  describe 'visit /provider/privacy' do
+    it 'returns 200' do
+      get provider_interface_privacy_path
+
+      expect(response).to have_http_status :ok
+    end
+  end
+
+  describe 'visit /provider/privacy/service-privacy-notice' do
+    it 'returns 200' do
+      get provider_interface_service_privacy_notice_path
+
+      expect(response).to have_http_status :ok
+    end
+  end
 end
