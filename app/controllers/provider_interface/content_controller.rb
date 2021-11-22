@@ -34,7 +34,10 @@ module ProviderInterface
         hols
       end
 
-      render_content_page :dates_and_deadlines, with_breadcrumbs: true, locals: { holidays: holidays }
+      render_content_page :dates_and_deadlines,
+                          breadcrumb_title: 'service_guidance_provider',
+                          breadcrumb_path: provider_interface_service_guidance_path,
+                          locals: { holidays: holidays }
     end
 
     def complaints

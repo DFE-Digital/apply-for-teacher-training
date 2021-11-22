@@ -1,9 +1,9 @@
 <%= content_for :title, t("page_titles.#{@page_name}") %>
 
-<% if @with_breadcrumbs %>
+<% if @breadcrumb_title && @breadcrumb_path %>
   <% content_for :before_content do %>
     <%= breadcrumbs({
-      t('page_titles.service_guidance_provider') => provider_interface_service_guidance_path,
+      t("page_titles.#{@breadcrumb_title}") => @breadcrumb_path,
       t("page_titles.#{@page_name}") => nil,
     }) %>
   <% end %>
