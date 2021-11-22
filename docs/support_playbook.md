@@ -98,6 +98,50 @@ Make sure you know which part you are amending. Add `\r\n\r\n` for carriage retu
 ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowledge: 'new_text', audit_comment: 'Updating grade following a support request, ticket ZENDESK-LINK')
 ```
 
+## Courses and course locations 
+
+### Changing a course or course location 
+
+A provider may request that a candidate be placed on an different course, or a different site.
+
+- Find the course
+
+```ruby
+course = Course
+  .includes(:provider)
+  .where(
+    code: _course_code, 
+    provider: Provider.find_by(code: _provider_code), 
+    recruitment_cycle_year: RecruitmentCycle.current_year
+  ).first 
+```
+
+- Find the course option
+
+```ruby
+new_course_option = CourseOption
+  .includes(:site)
+  .where(
+    course_id: course,
+    study_mode: _study_mode,
+    site: { id: _site_id }
+  )
+```
+
+- Find the current application choice
+
+```ruby
+application_choice = ApplicationChoice.find(_application_choice_id)
+```
+
+- Finally, update the course option
+
+```ruby
+application_choice.update_course_option_and_associated_fields!(
+  new_course_option, 
+  audit_comment: "Zendesk ticket #_ticket_number - update course")
+```
+
 ## Offers
 
 ### Make or change offer
@@ -105,54 +149,6 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 If the current application status is `awaiting_provider_decision` use MakeAnOffer service.
 
 If the current application status is `offer` use ChangeOffer service.
-
-### Change provider/course
-
-Sometimes a provider has no room for an accepted candidate and they refer them to another provider. In this case we create a new ApplicationChoice for the new course_option by following these steps:
-
-- Get the old application choices to withdraw later
-
-For example by candidate’s email:
-
-```ruby
-old_application_choice = ApplicationForm.find_by(candidate_id: Candidate.find_by(email_address: 'example@email.com').id).application_choices.first
-```
-
-- Add course after submission
-
-Find the course option for the new course. As the course code is not unique make sure to include the provider details.
-
-```ruby
-course_option = CourseOption
-  .where(
-    course_id: Course.where(code: _course_code, provider: Provider.find_by(code: _provider_code)),
-    recruitment_cycle_year: RecruitmentCycle.current_year
-  )
-).first
-```
-
-- Find the application form
-
-Eg -
-
-```ruby
-application_form = old_application_choice.application_form
-```
-
-- Create a new ApplicationChoice associated with the application form
-
-Then submit the new application choice to the provider by calling a service:
-
-```ruby
-SupportInterface::AddCourseChoiceAfterSubmission.new(application_form: application_form, course_option: course_option).call
-```
-
-- Withdraw the previous one
-
-```ruby
-ApplicationStateChange.new(old_application_choice).withdraw!
-old_application_choice.update(withdrawn_at: Time.zone.now)
-```
 
 ### Change offer conditions
 
