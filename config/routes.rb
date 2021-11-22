@@ -659,6 +659,7 @@ Rails.application.routes.draw do
     get '/privacy-policy', to: redirect('provider/privacy')
     get '/privacy', to: 'content#privacy', as: :privacy
     get '/privacy/service-privacy-notice', to: 'content#service_privacy_notice', as: :service_privacy_notice
+    get '/privacy/online-chat-privacy-notice', to: 'content#online_chat_privacy_notice', as: :online_chat_privacy_notice
     get '/cookies', to: 'content#cookies_page', as: :cookies
     get '/roadmap', to: 'content#roadmap', as: :roadmap
     get '/make-a-complaint', to: 'content#complaints', as: :complaints

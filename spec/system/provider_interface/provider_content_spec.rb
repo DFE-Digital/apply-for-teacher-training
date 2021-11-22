@@ -21,6 +21,10 @@ RSpec.feature 'Provider content' do
     when_i_click_on_service_privacy_notice
     then_i_can_see_the_service_privacy_notice
 
+    when_i_click_on_privacy
+    and_i_click_on_online_chat_privacy_notice
+    then_i_can_see_the_online_chat_privacy_notice
+
     when_i_click_on_the_service_guidance
     then_i_can_see_the_service_guidance_provider
 
@@ -85,6 +89,14 @@ RSpec.feature 'Provider content' do
 
   def then_i_can_see_the_service_privacy_notice
     expect(page).to have_content(t('page_titles.service_privacy_notice'))
+  end
+
+  def and_i_click_on_online_chat_privacy_notice
+    click_on 'Online chat privacy notice'
+  end
+
+  def then_i_can_see_the_online_chat_privacy_notice
+    expect(page).to have_content(t('page_titles.online_chat_privacy_notice'))
   end
 
   def when_i_click_on_the_service_guidance
