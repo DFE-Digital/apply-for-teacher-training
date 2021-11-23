@@ -30,11 +30,11 @@ RSpec.describe Publications::MonthlyStatistics::ByCourseType do
           {
             'Course type' => 'School-centred initial teacher training (SCITT)',
             'Recruited' => 0,
-            'Conditions pending' => 1,
+            'Conditions pending' => 2,
             'Received an offer' => 1,
             'Awaiting provider decisions' => 0,
             'Unsuccessful' => 1,
-            'Total' => 3,
+            'Total' => 4,
           },
           {
             'Course type' => 'School Direct (fee-paying)',
@@ -56,7 +56,7 @@ RSpec.describe Publications::MonthlyStatistics::ByCourseType do
           },
 
         ],
-        column_totals: [2, 3, 4, 1, 7, 17] },
+        column_totals: [2, 4, 4, 1, 7, 18] },
     )
   end
 
@@ -81,6 +81,7 @@ RSpec.describe Publications::MonthlyStatistics::ByCourseType do
     create_application_choice_for_this_cycle(status: :with_rejection, program_type: 'school_direct_training_programme')
     create_application_choice_for_this_cycle(status: :with_offer, program_type: 'school_direct_salaried_training_programme')
     create_application_choice_for_this_cycle(status: :with_rejection, program_type: 'school_direct_salaried_training_programme')
+    create_application_choice_for_this_cycle(status: :with_accepted_offer, program_type: 'scitt_programme')
   end
 
   def create_application_choice_for_this_cycle(status:, program_type:)
