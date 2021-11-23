@@ -1,13 +1,13 @@
 class DfESignInController < ActionController::Base
   protect_from_forgery except: :bypass_callback
 
+  SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN = %w[session_id impersonated_provider_user].freeze
+
   def callback
-    @target_path = session['post_dfe_sign_in_path']
-
-    reset_session # prevents session fixation attacks and impersonation bugs
-
+    change_session_id_and_drop_provider_impersonation
     DfESignInUser.begin_session!(session, request.env['omniauth.auth'])
     @dfe_sign_in_user = DfESignInUser.load_from_session(session)
+    @target_path = session['post_dfe_sign_in_path']
     @local_user = local_user
 
     if @local_user
@@ -20,7 +20,7 @@ class DfESignInController < ActionController::Base
         send_provider_sign_in_confirmation_email
       end
 
-      redirect_to @target_path || default_authenticated_path
+      redirect_to @target_path ? session.delete('post_dfe_sign_in_path') : default_authenticated_path
     else
       DfESignInUser.end_session!(session)
       render(
@@ -47,6 +47,12 @@ class DfESignInController < ActionController::Base
   end
 
 private
+
+  def change_session_id_and_drop_provider_impersonation
+    existing_values = session.to_hash # e.g. candidate/devise login, cookie consent
+    reset_session # prevents session fixation attacks and impersonation bugs
+    session.update existing_values.except(*SESSION_KEYS_TO_FORGET_WITH_EACH_LOGIN)
+  end
 
   def send_support_sign_in_confirmation_email
     return if cookies.signed[:sign_in_confirmation] == @local_user.id
