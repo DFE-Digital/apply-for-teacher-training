@@ -51,7 +51,8 @@ module Publications
         group_query_for_deferred_offers.map do |item|
           program_type, status_before_deferral = item[0]
           count = item[1]
-          counts[program_type_lookup(program_type)]&.merge!({ status_before_deferral => count })
+          statuses_for_program_type = counts[program_type_lookup(program_type)] || {}
+          statuses_for_program_type[status_before_deferral] = (statuses_for_program_type[status_before_deferral] || 0) + count
         end
 
         counts
