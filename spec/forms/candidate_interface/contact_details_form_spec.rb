@@ -122,21 +122,20 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       it { is_expected.to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.to validate_presence_of(:postcode).on(:address) }
       it { is_expected.not_to allow_value('MUCH WOW').for(:postcode).on(:address) }
+
+      it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
+      it { is_expected.to validate_length_of(:address_line2).is_at_most(50).on(:address) }
+      it { is_expected.to validate_length_of(:address_line3).is_at_most(50).on(:address) }
+      it { is_expected.to validate_length_of(:address_line4).is_at_most(50).on(:address) }
     end
 
     context 'for an international address' do
       subject(:form) { described_class.new(address_type: 'international') }
 
-      it { is_expected.to validate_presence_of(:address_line1).on(:address) }
       it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
       it { is_expected.to allow_value('MUCH WOW').for(:postcode).on(:address) }
     end
-
-    it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
-    it { is_expected.to validate_length_of(:address_line2).is_at_most(50).on(:address) }
-    it { is_expected.to validate_length_of(:address_line3).is_at_most(50).on(:address) }
-    it { is_expected.to validate_length_of(:address_line4).is_at_most(50).on(:address) }
 
     it { is_expected.to allow_value('SW1P 3BT').for(:postcode).on(:address) }
 
@@ -149,7 +148,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     let(:error_attr) { 'activemodel.errors.models.candidate_interface/contact_details_form.attributes' }
     let(:application_form) { build(:application_form) }
 
-    context 'international address blank' do
+    context 'international address presence' do
       it 'is invalid' do
         contact_details = described_class.new(address_type: 'international', address_line1: '')
 
@@ -158,9 +157,10 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       end
     end
 
-    context 'international address too long' do
+    context 'international address maximum length' do
       it 'is invalid' do
-        contact_details = described_class.new(address_type: 'international', address_line1: SecureRandom.alphanumeric(51))
+        contact_details = described_class.new(address_type: 'international', address_line1: SecureRandom.alphanumeric(51),
+                                              address_line2: '', address_line3: '', address_line4: '')
 
         expect(contact_details.save_address(application_form)).to eq(false)
         expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_too_long"))
