@@ -144,4 +144,27 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     it { is_expected.not_to allow_value('07700 WUT WUT').for(:phone_number).on(:base) }
     it { is_expected.to validate_length_of(:phone_number).is_at_most(50).on(:base) }
   end
+
+  describe 'custom validations' do
+    let(:error_attr) { 'activemodel.errors.models.candidate_interface/contact_details_form.attributes' }
+    let(:application_form) { build(:application_form) }
+
+    context 'international address blank' do
+      it 'is invalid' do
+        contact_details = described_class.new(address_type: 'international', address_line1: '')
+
+        expect(contact_details.save_address(application_form)).to eq(false)
+        expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_blank"))
+      end
+    end
+
+    context 'international address too long' do
+      it 'is invalid' do
+        contact_details = described_class.new(address_type: 'international', address_line1: SecureRandom.alphanumeric(51))
+
+        expect(contact_details.save_address(application_form)).to eq(false)
+        expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_too_long"))
+      end
+    end
+  end
 end
