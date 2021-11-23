@@ -102,7 +102,8 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 
 ### Changing a course or course location 
 
-A provider may request that a candidate be placed on an different course, or a different site.
+A provider may request that a candidate be placed on an different course, or a different site. 
+This method of updating the course option bypasses the state machine and can be applied to any course option regardless of state (e.g 'awaiting provider decision', 'interviewing' etc).
 
 - Find the course
 
@@ -125,7 +126,7 @@ new_course_option = CourseOption
     course_id: course,
     study_mode: _study_mode,
     site: { id: _site_id }
-  )
+  ).first
 ```
 
 - Find the current application choice
