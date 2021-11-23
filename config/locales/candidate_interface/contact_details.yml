@@ -50,14 +50,19 @@ en:
               too_long: Phone number must be %{count} characters or fewer
             address_line1:
               blank: Enter your building and street
+              international_blank: Enter your address
               too_long: Building and street line 1 must be %{count} characters or fewer
+              international_too_long: Address line 1 must be 50 characters or fewer
             address_line2:
               too_long: Building and street line 2 must be %{count} characters or fewer
+              international_too_long: Address line 2 must be 50 characters or fewer
             address_line3:
               blank: Enter your town or city
               too_long: Town or city must be %{count} characters or fewer
+              international_too_long: Address line 3 must be 50 characters or fewer
             address_line4:
               too_long: County must be %{count} characters or fewer
+              international_too_long: Address line 4 must be 50 characters or fewer
             postcode:
               blank: Enter a postcode
               invalid: Enter a real postcode (for example, BN1 1AA)

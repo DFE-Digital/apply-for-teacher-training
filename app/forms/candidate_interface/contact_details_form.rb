@@ -2,16 +2,21 @@ module CandidateInterface
   class ContactDetailsForm
     include ActiveModel::Model
 
+    MAX_LENGTH = 50
+
     attr_accessor :phone_number, :address_line1, :address_line2, :address_line3,
                   :address_line4, :postcode, :address_type, :country
 
     validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
-    validates :address_line1, presence: true, on: :address, if: :international?
+
+    validate :address_line1_blank?, on: :address, if: :international?
+    validate :address_lines_length_valid?, if: :international?
+
     validates :address_type, presence: true, on: :address_type
     validates :country, presence: true, on: :address_type, if: :international?
 
     validates :address_line1, :address_line2, :address_line3, :address_line4,
-              length: { maximum: 50 }, on: :address
+              length: { maximum: 50 }, on: :address, if: :uk?
 
     validates :phone_number, length: { maximum: 50 }, phone_number: true, on: :base
 
@@ -69,6 +74,22 @@ module CandidateInterface
 
     def label_for(attr)
       I18n.t("application_form.contact_details.#{attr}.label.#{address_type}")
+    end
+
+    def address_lines
+      [address_line1, address_line2, address_line3, address_line4]
+    end
+
+    def address_lines_length_valid?
+      address_lines.each.with_index(1) do |value, index|
+        value.length > MAX_LENGTH ? errors.add("address_line#{index}".to_sym, :international_too_long) : nil
+      end
+    end
+
+    def address_line1_blank?
+      return if address_line1.present?
+
+      errors.add(:address_line1, :international_blank)
     end
   end
 end
