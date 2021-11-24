@@ -9,8 +9,8 @@ RSpec.describe Publications::MonthlyStatistics::BySex do
       create_application_choice(status: :awaiting_provider_decision, sex: 'Prefer not to say')
       create_application_choice(status: :with_recruited, sex: 'Prefer not to say')
       create_application_choice(status: :with_offer, sex: 'intersex')
-      create_application_choice(status: :with_deferred_offer, sex: 'male', recruitment_cycle_year: RecruitmentCycle.previous_year)
-      create_application_choice(status: :with_deferred_offer, sex: 'female', recruitment_cycle_year: RecruitmentCycle.current_year)
+      create_application_choice(status: :with_deferred_offer, sex: 'male', status_before_deferral: 'offer', recruitment_cycle_year: RecruitmentCycle.previous_year)
+      create_application_choice(status: :with_deferred_offer, sex: 'female', status_before_deferral: 'offer', recruitment_cycle_year: RecruitmentCycle.current_year)
       create_application_choice(status: :with_conditions_not_met, sex: 'intersex')
       create_application_choice(status: :with_offer, sex: 'female')
       create_application_choice(status: :with_withdrawn_offer, sex: 'female')
@@ -66,11 +66,13 @@ RSpec.describe Publications::MonthlyStatistics::BySex do
     status:,
     sex:,
     recruitment_cycle_year: RecruitmentCycle.current_year,
-    previous_application_form: nil
+    previous_application_form: nil,
+    status_before_deferral: nil
   )
     create(
       :application_choice,
       status,
+      status_before_deferral: status_before_deferral,
       application_form: create(
         :application_form,
         previous_application_form: previous_application_form,
