@@ -63,6 +63,6 @@ module VendorAPISpecHelpers
   end
 
   def be_valid_against_openapi_schema(expected)
-    ValidAgainstOpenAPISchemaMatcher.new(expected, VendorAPISpecification.as_hash)
+    ValidAgainstOpenAPISchemaMatcher.new(expected, VendorAPISpecification.new.as_hash)
   end
 end
