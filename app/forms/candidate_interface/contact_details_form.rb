@@ -16,9 +16,9 @@ module CandidateInterface
     validates :country, presence: true, on: :address_type, if: :international?
 
     validates :address_line1, :address_line2, :address_line3, :address_line4,
-              length: { maximum: 50 }, on: :address, if: :uk?
+              length: { maximum: MAX_LENGTH }, on: :address, if: :uk?
 
-    validates :phone_number, length: { maximum: 50 }, phone_number: true, on: :base
+    validates :phone_number, length: { maximum: MAX_LENGTH }, phone_number: true, on: :base
 
     validates :postcode, postcode: true, on: :address, if: :uk?
 
@@ -84,7 +84,7 @@ module CandidateInterface
       return if address_lines.include?(nil)
 
       address_lines.each.with_index(1) do |value, index|
-        value.length > MAX_LENGTH ? errors.add("address_line#{index}".to_sym, :international_too_long) : nil
+        value.length > MAX_LENGTH ? errors.add("address_line#{index}".to_sym, :international_too_long, count: MAX_LENGTH) : nil
       end
     end
 

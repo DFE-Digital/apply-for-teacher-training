@@ -163,7 +163,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
                                               address_line2: '', address_line3: '', address_line4: '')
 
         expect(contact_details.save_address(application_form)).to eq(false)
-        expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_too_long"))
+        expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_too_long", count: described_class::MAX_LENGTH))
       end
     end
   end
