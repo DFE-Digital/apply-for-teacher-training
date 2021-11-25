@@ -58,6 +58,7 @@ RSpec.describe SupportInterface::ExternalReportCandidatesExport do
                              end
 
           create(:application_choice, status: status, application_form: application_form)
+          create(:application_choice, :with_rejection, application_form: application_form)
         end
       end
 

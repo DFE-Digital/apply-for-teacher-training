@@ -1,0 +1,16 @@
+<% content_for :title, t('page_titles.referee.decline') %>
+<% content_for :before_content, govuk_back_link_to(referee_interface_refuse_feedback_path(token: @token_param)) %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      Are you sure you are unable to give <%= @application.full_name %> a reference?
+    </h1>
+    <%= form_with(
+      model: @confirm_refuse_feedback_form,
+      url: referee_interface_decline_reference_path(token: @token_param),
+      method: :patch,
+    ) do |f| %>
+      <%= f.govuk_submit 'Yes, I am unable to give a reference' %>
+    <% end %>
+  </div>
+</div>

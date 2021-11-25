@@ -1,5 +1,7 @@
 module CandidateInterface
   class ApplicationFormPresenter
+    ErrorMessage = Struct.new(:message, :anchor)
+
     attr_reader :application_form
 
     delegate :apply_2?,
@@ -61,15 +63,15 @@ module CandidateInterface
                           .reject(&:second)
                           .map do |sections_with_completion|
                             if sections_with_completion.first == :other_qualifications && application_form.international_applicant?
-                              OpenStruct.new(name: :other_qualifications_international)
+                              Struct.new(:name, :needs_review?).new(:other_qualifications_international, false)
                             else
-                              OpenStruct.new(name: sections_with_completion.first, needs_review?: sections_with_completion.third)
+                              Struct.new(:name, :needs_review?).new(sections_with_completion.first, sections_with_completion.third)
                             end
                           end
 
       section_structs.map do |section|
         message = section.needs_review? ? "review_application.#{section.name}.not_reviewed" : "review_application.#{section.name}.incomplete"
-        OpenStruct.new(name: section.name, message: message)
+        Struct.new(:name, :message).new(section.name, message)
       end
     end
 
@@ -129,7 +131,7 @@ module CandidateInterface
       [].tap do |errors|
         # A defensive check, in case the candidate somehow ends up in this state
         if application_form.references_completed? && application_form.selected_incorrect_number_of_references?
-          errors << OpenStruct.new(message: I18n.t('application_form.references.review.incorrect_number_selected'), anchor: '#references')
+          errors << ErrorMessage.new(I18n.t('application_form.references.review.incorrect_number_selected'), '#references')
         end
       end
     end

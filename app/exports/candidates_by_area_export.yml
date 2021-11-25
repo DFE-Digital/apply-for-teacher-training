@@ -1,0 +1,4 @@
+common_columns:
+  - total
+  - area
+  - candidate_status

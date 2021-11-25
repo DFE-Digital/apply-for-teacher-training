@@ -2,29 +2,22 @@ module RefereeInterface
   class RefuseFeedbackForm
     include ActiveModel::Model
 
-    attr_accessor :choice
+    attr_accessor :refused
 
-    validates :choice, presence: true
+    validates :refused, presence: true
 
-    def save(reference)
+    def self.build_from_reference(reference:)
+      refused = reference.refused ? 'yes' : 'no' unless reference.refused.nil?
+
+      new(refused: refused)
+    end
+
+    def save(application_reference)
       return false unless valid?
 
-      reference.update!(feedback_status: :feedback_refused, feedback_refused_at: Time.zone.now)
-      send_slack_notification(reference)
-      SendNewRefereeRequestEmail.call(reference: reference, reason: :refused)
-    end
-
-    def referee_has_confirmed_they_wont_a_reference?
-      choice == 'yes'
-    end
-
-  private
-
-    def send_slack_notification(reference)
-      message = ":sadparrot: A referee declined to give feedback for #{reference.application_form.first_name}’s application"
-      url = Rails.application.routes.url_helpers.support_interface_application_form_url(reference.application_form)
-
-      SlackNotificationWorker.perform_async(message, url)
+      application_reference.update!(
+        refused: refused != 'no',
+      )
     end
   end
 end

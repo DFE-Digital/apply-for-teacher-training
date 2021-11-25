@@ -13,7 +13,8 @@ RSpec.feature 'Support user can access the RefereeInterface' do
 
     when_i_visit_the_application_form_page
     and_click_the_refuse_feedback_link
-    then_i_see_the_refuse_feedback_page
+    and_i_decline_to_give_a_reference
+    then_i_confirm_i_dont_want_to_give_a_reference
 
     when_the_candidates_reference_is_in_the_feedback_provided_state
     and_i_visit_the_application_form_page
@@ -45,8 +46,13 @@ RSpec.feature 'Support user can access the RefereeInterface' do
     click_link 'decline to give a reference'
   end
 
-  def then_i_see_the_refuse_feedback_page
-    expect(page).to have_content "Declining #{@application.full_name}’s reference request may delay their application and make it harder for them to get onto teacher training."
+  def and_i_decline_to_give_a_reference
+    choose 'No, I am unable to give a reference'
+    click_button t('continue')
+  end
+
+  def then_i_confirm_i_dont_want_to_give_a_reference
+    click_button 'Yes, I am unable to give a reference'
   end
 
   def when_the_candidates_reference_is_in_the_feedback_provided_state

@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::ValidationErrorsSummaryComponent do
   let(:render_result) { render_inline(component) }
 
   let(:source_name) { :vendor_api }
-  let(:select_sort_options) { [OpenStruct.new(value: 'all_time', text: 'All Time')] }
+  let(:select_sort_options) { [Struct.new(:value, :text).new('all_time', 'All Time')] }
 
   subject(:component) do
     described_class.new(

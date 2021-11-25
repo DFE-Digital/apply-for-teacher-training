@@ -1,5 +1,5 @@
 <h2 class="govuk-heading-m"><%= t('layout.support.title') %></h2>
-<div class="govuk-grid-row govuk-!-margin-bottom-5">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-1"><%= t('layout.support.telephone') %></h2>
     <ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16">
@@ -16,6 +16,10 @@
     </ul>
   </div>
 </div>
+<div class="govuk-!-margin-bottom-5">
+  <%= link_to t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-footer__link' %>
+</div>
+
 <h2 class="govuk-visually-hidden"><%= t('layout.support_links.title') %></h2>
 <ul class="govuk-footer__inline-list govuk-!-margin-bottom-0">
   <li class="govuk-footer__inline-list-item">
@@ -29,8 +33,5 @@
   </li>
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.support_links.terms_of_use'), candidate_interface_terms_path, class: 'govuk-footer__link' %>
-  </li>
-  <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-footer__link' %>
   </li>
 </ul>

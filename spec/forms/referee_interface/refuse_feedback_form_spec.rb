@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RefereeInterface::RefuseFeedbackForm do
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:choice) }
+    it { is_expected.to validate_presence_of(:refused) }
 
     describe '#save' do
       let(:application_reference) { create(:reference, :feedback_requested) }
@@ -15,15 +15,21 @@ RSpec.describe RefereeInterface::RefuseFeedbackForm do
         end
       end
 
-      context 'when the form is valid' do
-        it 'updates the reference to feedback_refused and sets the feedback_refused_at to the current time' do
-          Timecop.freeze do
-            form = described_class.new(choice: 'yes')
-            form.save(application_reference)
+      context 'when the form is valid and the reference was refused' do
+        it 'updates the reference refused status' do
+          form = described_class.new(refused: 'yes')
+          form.save(application_reference)
 
-            expect(application_reference.feedback_status).to eq('feedback_refused')
-            expect(application_reference.feedback_refused_at).to eq(Time.zone.now)
-          end
+          expect(application_reference.refused).to eq(true)
+        end
+      end
+
+      context 'when the form is valid and the reference was not refused' do
+        it 'updates the reference refused status' do
+          form = described_class.new(refused: 'no')
+          form.save(application_reference)
+
+          expect(application_reference.refused).to eq(false)
         end
       end
     end

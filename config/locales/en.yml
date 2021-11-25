@@ -61,10 +61,10 @@ en:
     start_new_application: Start a new application
     check_your_email: Check your email
     not_found: Page not found
-    monthly_statistics: Monthly statistics
+    monthly_statistics: Initial teacher training application statistics for courses starting in the %{academic_year_name} academic year
     forbidden: Access denied
-    internal_server_error: Sorry, there is a problem with the service
-    unprocessable_entity: Sorry, there is a problem with the service
+    internal_server_error: Sorry, there’s a problem with the service
+    unprocessable_entity: Sorry, there’s a problem with the service
     personal_details: Personal details
     personal_information: Personal information
     nationalities: What is your nationality?
@@ -171,13 +171,14 @@ en:
     application_feedback_thank_you: Thank you for your feedback
     find_feedback: Help us improve this service
     referee:
-      refuse_feedback: Decline to give a reference
+      refuse_feedback: A reference for %{full_name}
       relationship: Confirm how you know %{full_name}
       safeguarding: Do you know of any reason why %{full_name} should not work with children?
       feedback: Does %{full_name} have the potential to teach?
       review: Your reference for %{full_name}
       confirmation: Your reference for %{full_name} has been submitted
       finish: Thank you
+      decline: Decline to give a reference
     providers: Courses on this service
     decisions:
       offer: Details of offer

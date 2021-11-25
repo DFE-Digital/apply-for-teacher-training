@@ -166,7 +166,6 @@ private
 
   def then_i_should_see_reasons_for_rejection_title_and_details
     expect(page).to have_content('2020 to 2021 (starts 2021) - current Structured reasons for rejection')
-    expect(page).to have_content('Understanding this report')
     expect(page).to have_content('The report does not include rejections made through the API.')
     expect(page).to have_content('Since users can choose more than one reason for rejection, the percentages for all the categories will not add up to 100%.')
   end
@@ -290,7 +289,7 @@ private
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ),
     )
-    expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
+    expect(page).to have_css('span.govuk-caption-l', text: '2020 to 2021 (starts 2021) - current')
     expect(page).to have_css('h1', text: 'Candidate behaviour')
     [
       @application_choice1,
@@ -334,7 +333,7 @@ private
       ),
     )
 
-    expect(page).to have_css('span.govuk-caption-l', text: 'Structured reasons for rejection')
+    expect(page).to have_css('span.govuk-caption-l', text: '2020 to 2021 (starts 2021) - current')
     expect(page).to have_css('h1', text: 'Candidate behaviour - Didn’t attend interview')
 
     [

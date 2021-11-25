@@ -5,6 +5,14 @@ GIT
     audited (4.10.0)
       activerecord (>= 4.2, < 6.2)
 
+GIT
+  remote: https://github.com/DFE-Digital/rspec-retry.git
+  revision: c43713cbe66311cf44ebe5d56e57c422cfe14340
+  branch: main
+  specs:
+    rspec-retry (0.6.2)
+      rspec-core (> 3.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -198,7 +206,7 @@ GEM
     geocoder (1.7.0)
     globalid (0.5.2)
       activesupport (>= 5.0)
-    google-apis-bigquery_v2 (0.19.0)
+    google-apis-bigquery_v2 (0.21.0)
       google-apis-core (>= 0.4, < 2.a)
     google-apis-core (0.4.1)
       addressable (~> 2.5, >= 2.5.1)
@@ -209,7 +217,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-cloud-bigquery (1.37.0)
+    google-cloud-bigquery (1.38.0)
       concurrent-ruby (~> 1.0)
       google-apis-bigquery_v2 (~> 0.1)
       google-cloud-core (~> 1.6)
@@ -221,7 +229,7 @@ GEM
     google-cloud-env (1.5.0)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
-    googleauth (1.0.0)
+    googleauth (1.1.0)
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.16)
@@ -232,7 +240,7 @@ GEM
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.39.0)
-    govuk_design_system_formbuilder (2.7.5)
+    govuk_design_system_formbuilder (2.7.6)
       actionview (>= 6.0)
       activemodel (>= 6.0)
       activesupport (>= 6.0)
@@ -369,8 +377,8 @@ GEM
       webfinger (>= 1.0.1)
     optimist (3.0.1)
     orm_adapter (0.5.0)
-    os (1.1.1)
-    pagy (5.3.1)
+    os (1.1.4)
+    pagy (5.5.0)
     parallel (1.21.0)
     parallel_tests (3.7.3)
       parallel
@@ -500,7 +508,7 @@ GEM
     rspec-support (3.10.2)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.22.3)
+    rubocop (1.23.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -532,7 +540,7 @@ GEM
     rubyzip (2.3.2)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
-    selenium-webdriver (4.0.3)
+    selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
@@ -581,7 +589,7 @@ GEM
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.3.0)
+    sprockets-rails (3.4.1)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
@@ -600,7 +608,7 @@ GEM
     thor (1.1.0)
     timecop (0.9.4)
     timeliness (0.4.4)
-    trailblazer-option (0.1.1)
+    trailblazer-option (0.1.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2021.5)
@@ -623,7 +631,7 @@ GEM
       method_source (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    web-console (4.1.0)
+    web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
@@ -710,7 +718,7 @@ DEPENDENCIES
   geocoder
   google-cloud-bigquery
   govuk-components (~> 2.1.4)
-  govuk_design_system_formbuilder (~> 2.7.5)
+  govuk_design_system_formbuilder (~> 2.7.6)
   govuk_markdown
   guard-rspec
   holidays
@@ -747,6 +755,7 @@ DEPENDENCIES
   request_store_rails
   rouge
   rspec-rails
+  rspec-retry!
   rspec_junit_formatter
   rubocop
   rubocop-rails

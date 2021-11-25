@@ -1,0 +1,4 @@
+common_columns:
+  - total
+  - age_group
+  - candidate_status

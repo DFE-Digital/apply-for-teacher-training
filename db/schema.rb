@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_082940) do
+ActiveRecord::Schema.define(version: 2021_11_17_220532) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -658,6 +658,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_082940) do
     t.datetime "cancelled_at_end_of_cycle_at"
     t.boolean "duplicate", default: false
     t.boolean "selected", default: false
+    t.boolean "refused"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"

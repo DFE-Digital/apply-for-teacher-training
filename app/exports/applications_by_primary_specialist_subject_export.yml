@@ -1,0 +1,15 @@
+common_columns:
+  - total
+  - applications_status
+
+custom_columns:
+  primary_specialist_subject:
+    type: string
+    enum:
+      - English
+      - Geography and History
+      - Mathematics
+      - Modern languages
+      - Physical Education
+      - Science
+      - No specialist subject

@@ -1,0 +1,4 @@
+common_columns:
+  - total
+  - candidates_sex
+  - candidate_status

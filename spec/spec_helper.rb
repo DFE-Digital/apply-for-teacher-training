@@ -19,18 +19,35 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::CoberturaFormatter,
 ]
-unless ENV['TEST_ENV_NUMBER']
-  SimpleCov.start 'rails'
+
+SimpleCov.command_name('RSpec')
+
+SimpleCov.start 'rails' do
+  enable_coverage :branch
 end
 
 require 'sidekiq/testing'
 require 'clockwork/test'
 require 'audited-rspec'
+require 'rspec/retry'
+require 'rspec/core/formatters/base_text_formatter'
 
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
 
 RSpec.configure do |config|
+  # RSpec-retry configuration, retry and log any indeterminate tests.
+  config.verbose_retry = true
+  config.display_try_failure_messages = true
+  reporter = RSpec::Core::Reporter.new(config)
+  formatter = RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'ab'))
+  reporter.register_listener(formatter, 'message')
+  config.retry_reporter = reporter
+
+  config.around do |ex|
+    ex.run_with_retry retry: 3
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

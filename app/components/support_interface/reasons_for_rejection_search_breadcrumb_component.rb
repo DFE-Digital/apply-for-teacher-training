@@ -2,15 +2,16 @@ module SupportInterface
   class ReasonsForRejectionSearchBreadcrumbComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(search_attribute:, search_value:)
+    def initialize(search_attribute:, search_value:, recruitment_cycle_year: RecruitmentCycle.current_year)
       @search_attribute = search_attribute
       @search_value = search_value
+      @recruitment_cycle_year = recruitment_cycle_year
     end
 
     def breadcrumb_items
       breadcrumb_items = {
         Performance: support_interface_performance_path,
-        'Structured reasons for rejection': support_interface_reasons_for_rejection_dashboard_path,
+        'Structured reasons for rejection': support_interface_reasons_for_rejection_dashboard_path(year: @recruitment_cycle_year),
       }
       if top_level_reason?
         i18n_key = ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
@@ -20,6 +21,7 @@ module SupportInterface
         i18n_key = ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
         breadcrumb_items[dashboard_title(i18n_key)] = support_interface_reasons_for_rejection_application_choices_path(
           "structured_rejection_reasons[#{top_level_reason}]" => 'Yes',
+          'recruitment_cycle_year' => @recruitment_cycle_year,
         )
         breadcrumb_items[t("reasons_for_rejection.#{i18n_key}.#{@search_value}")] = nil
       end

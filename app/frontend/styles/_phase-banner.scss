@@ -3,24 +3,3 @@
     border-bottom: 0;
   }
 }
-
-.app-start-page {
-  .app-phase-banner {
-    background-color: $govuk-brand-colour;
-    margin-top: -(govuk-spacing(2));
-  }
-
-  .govuk-phase-banner {
-    border-bottom-color: govuk-colour("light-blue");
-  }
-
-  .govuk-phase-banner__text,
-  .govuk-phase-banner__text .govuk-link {
-    color: govuk-colour("white");
-  }
-
-  .govuk-phase-banner .govuk-tag {
-    background: govuk-colour("white");
-    color: $govuk-brand-colour;
-  }
-}

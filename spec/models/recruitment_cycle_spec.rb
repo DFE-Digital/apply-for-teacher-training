@@ -40,4 +40,16 @@ RSpec.describe RecruitmentCycle do
       expect(described_class.cycle_name(2021)).to eq('2020 to 2021')
     end
   end
+
+  describe '.verbose_cycle_name' do
+    it 'defaults from current year to the following year' do
+      allow(CycleTimetable).to receive(:current_year).and_return(2020)
+
+      expect(described_class.verbose_cycle_name).to eq('October 2019 to September 2020')
+    end
+
+    it 'is from argument(year) to the following year' do
+      expect(described_class.verbose_cycle_name(2021)).to eq('October 2020 to September 2021')
+    end
+  end
 end

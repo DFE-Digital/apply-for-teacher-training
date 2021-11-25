@@ -1,0 +1,5 @@
+common_columns:
+  - total
+  - course_age_group
+  - apply_again
+  - applications_status

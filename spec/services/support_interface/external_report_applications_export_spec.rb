@@ -5,8 +5,10 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
     it 'generates the full report with the correct totals' do
       hash = create_base_hash_with_key
 
-      generate_test_data
+      generate_test_data_for_hash
       hash = add_test_data_to_hash(hash)
+      generate_deferred_offer
+
       expected_output = remove_key_from_hash(hash).sort
       output = described_class.new.data_for_export.sort
 
@@ -60,10 +62,11 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
       hash
     end
 
-    def generate_test_data
+    def generate_test_data_for_hash
       create_subjects
 
       region = Provider.region_codes.keys.reject { |key| %w[no_region wales scotland].include?(key) }.sample
+      statuses = ApplicationChoice.statuses.keys.reject { |status| %w[unsubmitted cancelled application_not_sent offer_deferred].include?(status) }
 
       ExternalReportApplications::PRIMARY_SUBJECTS.each do |subject|
         persisted_subject = Subject.find_by!(name: subject)
@@ -77,7 +80,7 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
 
         course_option = create(:course_option, course: course)
 
-        create(:application_choice, course_option: course_option)
+        create(:application_choice, :with_completed_application_form, status: statuses.sample, course_option: course_option)
       end
 
       (ExternalReportApplications::SECONDARY_SUBJECTS + ExternalReportApplications::LANGUAGE_SUBJECTS).each do |subject|
@@ -94,7 +97,7 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
 
         course_option = create(:course_option, course: course)
 
-        create(:application_choice, course_option: course_option)
+        create(:application_choice, :with_completed_application_form, status: statuses.sample, course_option: course_option)
       end
 
       further_education_subject = Subject.find_by!(name: ExternalReportApplications::FURTHER_EDUCATION_SUBJECT)
@@ -108,7 +111,12 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
 
       course_option = create(:course_option, course: course)
 
-      create(:application_choice, course_option: course_option)
+      create(
+        :application_choice,
+        :with_deferred_offer,
+        course_option: course_option,
+        application_form: create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year),
+      )
     end
 
     def add_test_data_to_hash(hash)
@@ -122,6 +130,24 @@ RSpec.describe SupportInterface::ExternalReportApplicationsExport do
       end
 
       hash
+    end
+
+    def generate_deferred_offer
+      further_education_subject = Subject.find_by!(name: ExternalReportApplications::FURTHER_EDUCATION_SUBJECT)
+
+      course = create(:course,
+                      subjects: [further_education_subject],
+                      program_type: Course.program_types.keys.sample,
+                      level: 'further_education')
+
+      course_option = create(:course_option, course: course)
+
+      create(
+        :application_choice,
+        :with_deferred_offer,
+        :with_completed_application_form,
+        course_option: course_option,
+      )
     end
 
     def construct_key(program_type, level, subject_name, provider_area)

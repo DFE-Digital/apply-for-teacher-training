@@ -9,6 +9,7 @@ class CycleTimetable
       apply_2_deadline: Time.zone.local(2019, 9, 18, 18),
       reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2019, 10, 3, 23, 59, 59),
+      holidays: {},
     },
     2020 => {
       find_opens: Time.zone.local(2019, 10, 6, 9),
@@ -18,6 +19,7 @@ class CycleTimetable
       apply_2_deadline: Time.zone.local(2020, 9, 18, 18),
       reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2020, 10, 3, 23, 59, 59),
+      holidays: {},
     },
     2021 => {
       find_opens: Time.zone.local(2020, 10, 6, 9),
@@ -27,6 +29,10 @@ class CycleTimetable
       apply_2_deadline: Time.zone.local(2021, 9, 21, 18),
       reject_by_default: Time.zone.local(2021, 9, 29, 23, 59, 59),
       find_closes: Time.zone.local(2021, 10, 4, 23, 59, 59),
+      holidays: {
+        christmas: Date.new(2020, 12, 20)..Date.new(2021, 1, 1),
+        easter: Date.new(2021, 4, 2)..Date.new(2021, 4, 16),
+      },
     },
     2022 => {
       find_opens: Time.zone.local(2021, 10, 5, 9),
@@ -36,6 +42,10 @@ class CycleTimetable
       apply_2_deadline: Time.zone.local(2022, 9, 21, 18), # This is a placeholder till we know the real date
       reject_by_default: Time.zone.local(2022, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
       find_closes: Time.zone.local(2022, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
+      holidays: { # Placeholders
+        christmas: Date.new(2021, 12, 21)..Date.new(2022, 1, 1),
+        easter: Date.new(2022, 4, 2)..Date.new(2022, 4, 6),
+      },
     },
     2023 => {
       find_opens: Time.zone.local(2022, 10, 5, 9), # This is a placeholder till we know the real date
@@ -45,6 +55,7 @@ class CycleTimetable
       apply_2_deadline: Time.zone.local(2023, 9, 21, 18), # This is a placeholder till we know the real date
       reject_by_default: Time.zone.local(2023, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
       find_closes: Time.zone.local(2023, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
+      holidays: {},
     },
   }.freeze
 
@@ -119,6 +130,16 @@ class CycleTimetable
 
   def self.apply_reopens(year = next_year)
     date(:apply_opens, year)
+  end
+
+  def self.holidays
+    # do not support the cycle switcher via #date as:
+    #
+    # a) fake schedules do not deal with timespans long enough for holidays
+    # b) looking up SiteSetting.cycle_schedule requires a database, which we
+    # don’t want (or necessarily have, in builds) at boot time when the
+    # business_time initializer calls this code
+    real_schedule_for(current_year).fetch(:holidays)
   end
 
   def self.apply_1_deadline_first_reminder
