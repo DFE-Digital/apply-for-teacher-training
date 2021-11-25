@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport do
   describe '#call' do
+    around do |example|
+      Timecop.freeze(2021, 11, 24) do
+        example.run
+      end
+    end
+
     before do
       create(:completed_application_form,
              date_of_birth: '1999-09-05',
@@ -46,7 +52,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
 
     it 'returns combined and distinct counts for a multiple applications' do
       create(:completed_application_form,
-             date_of_birth: '1986-09-05',
+             date_of_birth: '1992-07-05',
              country: 'DE',
              equality_and_diversity: {
                'sex' => 'female',
@@ -64,7 +70,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
                create(:application_qualification, level: 'degree', grade: 'Upper second-class honours (2:1)'),
              ])
       create(:completed_application_form,
-             date_of_birth: '1986-09-20',
+             date_of_birth: '1987-08-20',
              country: 'DE',
              equality_and_diversity: {
                'sex' => 'female',
@@ -98,7 +104,7 @@ RSpec.describe SupportInterface::ApplicationsByDemographicDomicileAndDegreeClass
           total: 1,
         },
         {
-          age_group: '35 to 39',
+          age_group: '30 to 34',
           sex: 'Female',
           ethnicity: '90',
           disability: '58',

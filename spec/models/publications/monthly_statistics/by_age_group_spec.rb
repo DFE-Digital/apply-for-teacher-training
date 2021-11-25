@@ -5,12 +5,12 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
 
   it "returns table data for 'by age group'" do
     5.times do
-      application_form_21_year_old1 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 21, 8, 31))
-      application_form_21_year_old2 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 21, 8, 31))
-      application_form_21_year_old3 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 22, 9, 1))
+      application_form_21_year_old1 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 21, 7, 31))
+      application_form_21_year_old2 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 21, 7, 31))
+      application_form_21_year_old3 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 22, 8, 1))
 
-      application_form_22_year_old1 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 22, 8, 31))
-      application_form_22_year_old2 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 23, 9, 1))
+      application_form_22_year_old1 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 22, 7, 31))
+      application_form_22_year_old2 = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 23, 8, 1))
 
       application_form_23_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 23, 1, 1))
 
@@ -32,7 +32,7 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
 
       withdrawn_application_form_55_to_59_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 55, 1, 1))
 
-      unsuccessful_application_for_65_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 65, 8, 31))
+      unsuccessful_application_for_65_year_old = create(:completed_application_form, date_of_birth: Date.new(RecruitmentCycle.current_year - 65, 7, 31))
 
       # check recruited takes precedence over deferred
       create(:application_choice, :with_recruited, application_form: application_form_21_year_old1)
