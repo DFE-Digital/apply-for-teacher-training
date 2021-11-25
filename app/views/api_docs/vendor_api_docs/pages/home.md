@@ -2,6 +2,18 @@ This is API documentation for the Department for Education (DfE)’s new Apply f
 
 Apply has replaced the online UCAS teacher training service for postgraduate initial teacher training in England. All vendors of student record systems (SRS) and some training providers will need to make changes to integrate with Apply.
 
+## API Versions
+
+The current version of this API is `1.0`. The next version of this API will be `1.1`. See [API reference for the upcoming version](/api-docs/future-reference).
+
+Version numbers follow this format: MAJOR.MINOR (e.g. 1.2)
+
+MAJOR version: The version used in the URI and defines breaking changes to the API.
+
+MINOR version: Includes non-breaking changes to the API, mostly additions. For example, a minor version may add a new field or a new endpoint.
+
+All changes, minor or major, will be documented in our release notes.
+
 ## What this API is for
 
 Once a candidate has submitted their application via the Apply service, the application will become available over the API.

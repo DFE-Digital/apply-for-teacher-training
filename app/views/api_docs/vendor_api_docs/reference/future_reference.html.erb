@@ -1,8 +1,14 @@
-<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.reference') %></h1>
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.future_reference') %></h1>
 
-<h2 class="app-contents-list__title">Contents</h2>
+<p class="govuk-body">
+<strong>Please note:</strong>
+This an upcoming version of the API. The urls in the spec file are not live yet.
+</p>
+
+<h2 class="app-contents-list__title">Contents:</h2>
 
 <ol class="app-contents-list__list">
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Important changes', '#important', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent">
     <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
@@ -33,10 +39,20 @@
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
+<h2 class="govuk-heading-l" id="important">Important changes</h2>
+
+<h4 class="govuk-heading-m">From v1.0 to v1.1</h4>
+
+<p class="govuk-body">
+  These are the things...
+</p>
+
+<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+
 <h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
 
 <p class="govuk-body">
-  The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_spec_1_0_url %>.
+  The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_spec_1_1_url %>.
 </p>
 
 <p class="govuk-body">
@@ -46,38 +62,29 @@
 <h3 class="govuk-heading-m">Environments</h3>
 
 <p class="govuk-body">
-  We have a production environment and a sandbox environment.
+  We have a production environment and a sandbox environment. When version 1.1 is launched, these environments will automatically upgrade to the latest minor version.
 </p>
 
 <p class="govuk-body">
-  The <strong>Vendor sandbox</strong> is for testing your integration. When we
-  set you up with an API key, we’ll create a test provider as well. You can
-  generate test applications in this test provider using the
-  <%= govuk_link_to 'test data endpoint', '#post-test-data-regenerate' %>.
+  For example:
 </p>
 
 <p class="govuk-body">
   <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
+
+  will then be serving version 1.1 of the API.
 </p>
 
 <p class="govuk-body">
-  The <strong>Production</strong> environment is the real environment. Do not
-  perform testing here.
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
+
+  will then be serving version 1.1 of the APIs://github.com/DFE-Digital/apply-for-teacher-training/pulls.
 </p>
 
 <p class="govuk-body">
-  <%= govuk_link_to 'https://www.apply-for-teacher-training.service.gov.uk/api/v1', 'https://www.apply-for-teacher-training.service.gov.uk/api/v1' %>
-</p>
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0' %>
 
-<h3 class="govuk-heading-m">Rate limits</h3>
-
-<p class="govuk-body">
-  You are limited to 120 requests per minute.
-</p>
-
-<p class="govuk-body">
-  This limit is calculated on a rolling basis, per API key.
-  If you exceed the limit, you will see <code>429</code> HTTP status codes.
+  will be serving version 1.0 of the API.
 </p>
 
 <h3 id="authentication" class="govuk-heading-m">Authentication</h3>

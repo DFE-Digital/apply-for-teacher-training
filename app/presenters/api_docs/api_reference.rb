@@ -27,7 +27,7 @@ module APIDocs
     end
 
     def field_lengths_summary
-      rows = flatten_hash(VendorAPISpecification.as_hash)
+      rows = flatten_hash(VendorAPISpecification.new.as_hash) # FIXME
 
       rows.reduce([]) do |arr, (field, length)|
         if field.include?('Length')

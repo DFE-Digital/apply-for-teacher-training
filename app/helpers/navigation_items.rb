@@ -96,6 +96,7 @@ class NavigationItems
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.reference'), api_docs_reference_path, active_action?(current_controller, 'reference')),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.release_notes'), api_docs_release_notes_path, active_action?(current_controller, 'release_notes')),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.lifecycle'), api_docs_lifecycle_path, active_action?(current_controller, 'lifecycle')),
+        NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.future_reference'), api_docs_future_path, active_action?(current_controller, 'future_reference')),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.help'), api_docs_help_path, active_action?(current_controller, 'help')),
       ]
     end

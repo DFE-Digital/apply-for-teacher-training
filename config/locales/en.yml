@@ -202,6 +202,7 @@ en:
         release_notes: Release notes
         lifecycle: Lifecycle
         alpha_release_notes: Alpha release notes
+        future_reference: Version 1.1
       register_api_docs:
         reference: Apply for teacher training - Register API
     provider:
