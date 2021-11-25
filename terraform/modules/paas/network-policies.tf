@@ -14,6 +14,18 @@ data "cloudfoundry_app" "apply_web_app" {
   space      = data.cloudfoundry_space.space.id
 }
 
+data "cloudfoundry_app" "apply_worker_app" {
+  depends_on = [cloudfoundry_app.worker]
+  name_or_id = cloudfoundry_app.worker.name
+  space      = data.cloudfoundry_space.space.id
+}
+
+data "cloudfoundry_app" "apply_secondary_worker_app" {
+  depends_on = [cloudfoundry_app.worker_secondary]
+  name_or_id = cloudfoundry_app.worker_secondary.name
+  space      = data.cloudfoundry_space.space.id
+}
+
 data "cloudfoundry_app" "prometheus_app" {
   count      = local.configure_prometheus_network_policy
   name_or_id = var.prometheus_app
@@ -26,6 +38,16 @@ resource "cloudfoundry_network_policy" "apply_prometheus_policy" {
   policy {
     source_app      = data.cloudfoundry_app.prometheus_app[0].id
     destination_app = data.cloudfoundry_app.apply_web_app.id
+    port            = "8080"
+  }
+  policy {
+    source_app      = data.cloudfoundry_app.prometheus_app[0].id
+    destination_app = data.cloudfoundry_app.apply_worker_app.id
+    port            = "8080"
+  }
+  policy {
+    source_app      = data.cloudfoundry_app.prometheus_app[0].id
+    destination_app = data.cloudfoundry_app.apply_secondary_worker_app.id
     port            = "8080"
   }
 }
