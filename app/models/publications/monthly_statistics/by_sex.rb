@@ -81,7 +81,7 @@ module Publications
             )
           )"
         with_statuses =
-          if status_attribute.to_s == 'status_before_deferral'
+          if status_attribute == :status_before_deferral
             "AND application_choices.status = 'offer_deferred'"
           else
             "AND NOT application_choices.status = 'offer_deferred'"
