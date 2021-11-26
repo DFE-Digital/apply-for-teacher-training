@@ -301,6 +301,26 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "c438240efdd424f557a29170dd2cc4c44c0acf6ff324e686019ee3ca7035ad26",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/publications/monthly_statistics/by_sex.rb",
+      "line": 130,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"SELECT\\n          COUNT(application_choices_with_minimum_statuses.id),\\n          application_choices_with_minimum_statuses.#{status_attribute},\\n          sex\\n        FROM (\\n          SELECT application_choices.id as id,\\n            application_choices.status_before_deferral as status_before_deferral,\\n            application_choices.status as status,\\n            application_forms.equality_and_diversity->>'sex' as sex,\\n            ROW_NUMBER() OVER (\\n              PARTITION BY application_forms.id\\n              ORDER BY\\n              CASE application_choices.#{status_attribute}\\n              WHEN 'offer_deferred' THEN 0\\n              WHEN 'recruited' THEN 1\\n              WHEN 'pending_conditions' THEN 2\\n              WHEN 'conditions_not_met' THEN 2\\n              WHEN 'offer' THEN 3\\n              WHEN 'awaiting_provider_decision' THEN 4\\n              WHEN 'interviewing' THEN 4\\n              WHEN 'declined' THEN 5\\n              WHEN 'offer_withdrawn' THEN 6\\n              WHEN 'withdrawn' THEN 7\\n              WHEN 'cancelled' THEN 7\\n              WHEN 'rejected' THEN 7\\n              ELSE 8\\n              END\\n            ) AS row_number\\n          FROM application_forms\\n          INNER JOIN application_choices\\n            ON application_choices.application_form_id = application_forms.id\\n          WHERE application_forms.recruitment_cycle_year = #{cycle}\\n            #{\"AND (\\n            NOT EXISTS (\\n              SELECT 1\\n              FROM application_forms\\n              AS subsequent_application_forms\\n              WHERE application_forms.id = subsequent_application_forms.previous_application_form_id\\n            )\\n          )\"}\\n            #{(\"AND application_choices.status = 'offer_deferred'\" or \"AND NOT application_choices.status = 'offer_deferred'\")}\\n          ) AS application_choices_with_minimum_statuses\\n        WHERE application_choices_with_minimum_statuses.row_number = 1\\n        GROUP BY sex, #{status_attribute}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Publications::MonthlyStatistics::BySex",
+        "method": "group_query"
+      },
+      "user_input": "status_attribute",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Dangerous Send",
       "warning_code": 23,
       "fingerprint": "db94836510b6f2c59eddb567e3cce707e5a8960d9f886491c639d1f631810278",
@@ -402,6 +422,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-11-19 16:08:35 +0000",
+  "updated": "2021-11-26 13:32:23 +0000",
   "brakeman_version": "5.1.2"
 }
