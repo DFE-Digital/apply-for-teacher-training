@@ -55,7 +55,8 @@ module Publications
           subject, status = item[0]
           count = item[1]
 
-          counts[subject_lookup(subject)].merge!({ status => count })
+          statuses_for_subject = counts[subject_lookup(subject)] || {}
+          statuses_for_subject[status] = (statuses_for_subject[status] || 0) + count
         end
 
         counts

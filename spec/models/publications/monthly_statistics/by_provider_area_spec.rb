@@ -22,11 +22,11 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
             {
               'Area' => 'East Midlands',
               'Recruited' => 0,
-              'Conditions pending' => 1,
+              'Conditions pending' => 2,
               'Received an offer' => 0,
               'Awaiting provider decisions' => 0,
               'Unsuccessful' => 0,
-              'Total' => 1,
+              'Total' => 2,
             },
             {
               'Area' => 'London',
@@ -92,7 +92,7 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
               'Total' => 1,
             },
           ],
-          column_totals: [2, 2, 2, 0, 5, 11],
+          column_totals: [2, 3, 2, 0, 5, 12],
         },
       )
     end
@@ -106,6 +106,7 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
     create_application_choice_for_last_cycle(status_before_deferral: 'recruited', region_code: 'north_east')
 
     # current year
+    create_application_choice_for_this_cycle(status: 'pending_conditions', region_code: 'east_midlands')
     create_application_choice_for_this_cycle(status: :with_rejection, region_code: 'north_west')
     create_application_choice_for_this_cycle(status: :with_offer, region_code: 'south_east')
     create_application_choice_for_this_cycle(status: :with_rejection, region_code: 'south_west')

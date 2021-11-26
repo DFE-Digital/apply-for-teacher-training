@@ -98,7 +98,8 @@ module Publications
           if MODERN_FOREIGN_LANGUAGES.include?(subject)
             languages_counter << { status => count }
           else
-            counts[subject]&.merge!({ status => count })
+            statuses_for_subject = counts[subject] || {}
+            statuses_for_subject[status] = (statuses_for_subject[status] || 0) + count
           end
         end
 
