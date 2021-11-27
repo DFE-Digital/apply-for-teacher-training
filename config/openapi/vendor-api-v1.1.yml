@@ -413,6 +413,42 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/notes/create":
+    post:
+      tags:
+      - Note management
+      summary: Create note
+      description: |
+        Creates a new note for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        description: Note details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+                - data
+              properties:
+                data:
+                  "$ref": "#/components/schemas/Note"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"          
 
   "/test-data/regenerate":
     post:
@@ -515,6 +551,7 @@ components:
       - contact_details
       - course
       - offer
+      - notes
       - personal_statement
       - interview_preferences
       - qualifications
@@ -620,6 +657,10 @@ components:
         offer:
           anyOf:
           - "$ref": "#/components/schemas/Offer"
+          nullable: true
+        notes:
+          anyOf:
+          - "$ref": "#/components/schemas/Note"
           nullable: true
         withdrawal:
           anyOf:
@@ -887,6 +928,23 @@ components:
           description: |
             Optional string for additional notes.
           example: 'Candidate requires a parking space'
+    Note:
+      type: object
+      additionalProperties: false
+      required:
+      - message
+      - date
+      properties:
+        message:
+          type: string
+          description: The content of the note
+          example: 'This candidate can only interview remotely'
+          maxLength: 500
+        date:
+          type: string
+          format: date-time
+          description: Date and time the note was added
+          example: 2019-09-18T15:33:49.216Z
     Offer:
       type: object
       additionalProperties: false
