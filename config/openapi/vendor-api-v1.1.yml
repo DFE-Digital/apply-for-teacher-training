@@ -118,6 +118,70 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/defer-offer":
+    post:
+      tags:
+      - Application management
+      summary: Defer an offer
+      description: |
+        Defers an offer to the next cycle.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/withdraw-offer":
+    post:
+      tags:
+      - Application management
+      summary: Withdraw an offer
+      description: |
+        Withdraws an offer at the candidates request.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/confirm-enrolment":
     post:
       tags:
@@ -448,7 +512,7 @@ paths:
         '404':
           "$ref": "#/components/responses/NotFound"
         '422':
-          "$ref": "#/components/responses/UnprocessableEntity"          
+          "$ref": "#/components/responses/UnprocessableEntity"
 
   "/test-data/regenerate":
     post:
