@@ -37,6 +37,20 @@ paths:
         schema:
           type: string
           format: date-time
+      - name: page
+        description: Page number
+        in: query
+        required: false
+        example: 1
+        schema:
+          type: integer
+      - name: per_page
+        description: Number of records to return per page
+        in: query
+        required: false
+        example: 100
+        schema:
+          type: integer
       responses:
         '200':
           description: An array of applications
@@ -181,7 +195,7 @@ paths:
         '404':
           "$ref": "#/components/responses/NotFound"
         '422':
-          "$ref": "#/components/responses/UnprocessableEntity"
+          "$ref": "#/components/responses/UnprocessableEntity"          
   "/applications/{application_id}/confirm-enrolment":
     post:
       tags:
@@ -559,6 +573,18 @@ components:
         application/json:
           schema:
             "$ref": "#/components/schemas/ParameterMissingResponse"
+    PageParameterInvalidResponse:
+      description: Returned when the parameter was invalid
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/PageParameterInvalidResponse"
+    PerPageParameterInvalidResponse:
+      description: Returned when the parameter was invalid
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/PerPageParameterInvalidResponse"            
     UnprocessableEntity:
       description: Returned when the request body was missing data or contained invalid
         data
@@ -1582,6 +1608,34 @@ components:
           example:
           - error: ParameterMissing
             message: "param is missing or the value is empty: parameter_name"
+    PageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PageParameterInvalid
+            message: "expected 'page' parameter to be between 1 and 1, got 2"
+    PerPageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PerPageParamterInvalid
+            message: "the 'per_page' parameter cannot exceed 100 results per page"
     UnprocessableEntityResponse:
       type: object
       required:
