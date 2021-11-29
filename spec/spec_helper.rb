@@ -35,12 +35,20 @@ require 'rspec/core/formatters/base_text_formatter'
 ENV['SERVICE_TYPE'] = 'test' # this is used for logging
 ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
 
+class RSpecRetryFormatter < RSpec::Core::Formatters::BaseTextFormatter
+  def close(notification)
+    super(notification)
+
+    output.close
+  end
+end
+
 RSpec.configure do |config|
   # RSpec-retry configuration, retry and log any indeterminate tests.
   config.verbose_retry = true
   config.display_try_failure_messages = true
   reporter = RSpec::Core::Reporter.new(config)
-  formatter = RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'ab'))
+  formatter = RSpecRetryFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'ab'))
   reporter.register_listener(formatter, 'message')
   config.retry_reporter = reporter
 
