@@ -1,15 +1,20 @@
 module APIDocs
   class APIOperation
-    attr_reader :path_name, :operation
+    attr_reader :path_name, :operation, :new_path
 
-    def initialize(http_verb:, path_name:, operation:)
+    def initialize(http_verb:, path_name:, operation:, new_path: nil)
       @http_verb = http_verb
       @path_name = path_name
       @operation = operation
+      @new_path = new_path
     end
 
     def name
-      "#{@http_verb.upcase} #{path_name}"
+      if @new_path
+        "#{@http_verb.upcase} #{path_name} 🆕"
+      else
+        "#{@http_verb.upcase} #{path_name}"
+      end
     end
 
     def anchor

@@ -1,0 +1,10 @@
+new_paths:
+  - "/applications/{application_id}/interviews/create"
+  - "/applications/{application_id}/interviews/{interview_id}/update"
+  - "/applications/{application_id}/interviews/{interview_id}/cancel"
+  - "/applications/{application_id}/notes/create"
+  - "/applications/{application_id}/defer-offer"
+  - "/applications/{application_id}/withdraw-offer"
+new_parameters:
+  - page
+  - per_page

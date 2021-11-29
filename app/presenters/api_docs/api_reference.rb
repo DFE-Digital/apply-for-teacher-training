@@ -3,8 +3,10 @@ module APIDocs
     attr_reader :document
     delegate :servers, to: :document
 
-    def initialize(spec)
+    def initialize(spec, version: '1.0')
       @document = Openapi3Parser.load(spec)
+      @version = version
+      @highlight_yaml = @version == '1.0' ? {} : YAML.load_file("config/openapi/vendor-api-v#{@version}-highlights.yml")
     end
 
     def operations
@@ -13,7 +15,7 @@ module APIDocs
           operation = path.public_send(http_verb)
           next unless operation.is_a?(Openapi3Parser::Node::Operation)
 
-          APIDocs::APIOperation.new(http_verb: http_verb, path_name: path_name, operation: operation)
+          APIDocs::APIOperation.new(http_verb: http_verb, path_name: path_name, operation: operation, new_path: new_path?(path_name))
         end
       end
 
@@ -27,7 +29,7 @@ module APIDocs
     end
 
     def field_lengths_summary
-      rows = flatten_hash(VendorAPISpecification.new.as_hash) # FIXME
+      rows = flatten_hash(VendorAPISpecification.new(version: @version).as_hash)
 
       rows.reduce([]) do |arr, (field, length)|
         if field.include?('Length')
@@ -39,6 +41,10 @@ module APIDocs
     end
 
   private
+
+    def new_path?(path)
+      @highlight_yaml['new_paths'].include?(path) unless @highlight_yaml.empty?
+    end
 
     def flatten_hash(hash)
       hash.each_with_object({}) do |(k, v), h|
