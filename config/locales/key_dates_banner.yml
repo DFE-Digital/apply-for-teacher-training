@@ -1,0 +1,5 @@
+en:
+  key_dates_banner:
+    title: Important
+    christmas_header: '%{non_working_days_period} do not count as working days'
+    christmas_body: The Christmas period will not be included when calculating dates for applications to be automatically rejected.
