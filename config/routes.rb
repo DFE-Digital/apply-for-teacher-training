@@ -612,12 +612,7 @@ Rails.application.routes.draw do
     get '/thank-you' => 'reference#thank_you', as: :thank_you
   end
 
-  namespace :api, path: 'api/:api_version' do
-    resources :applications, only: :index
-    resources :interviews, only: [:index, :show]
-  end
-
-  namespace :vendor_api, path: 'api/v1' do
+  namespace :vendor_api, path: 'api/:api_version', constraints: { api_version: /v[.0-9]+/ } do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
 

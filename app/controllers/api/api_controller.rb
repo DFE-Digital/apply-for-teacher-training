@@ -4,7 +4,7 @@ class API::APIController < ActionController::API
 private
 
   def version_param
-    params.permit('version')['version'] || self.class::VERSION
+    params[:api_version]
   end
 
   def check_version
