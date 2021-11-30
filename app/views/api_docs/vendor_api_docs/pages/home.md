@@ -4,7 +4,7 @@ Apply has replaced the online UCAS teacher training service for postgraduate ini
 
 ## API Versions
 
-The current version of this API is `1.0`. The next version of this API will be `1.1`. See [API reference for the upcoming version](/api-docs/future-reference).
+The current version of this API is `1.0`. The next version of this API will be `1.1`. See API reference for the upcoming [Version 1.1](/api-docs/future-reference).
 
 Version numbers follow this format: MAJOR.MINOR (e.g. 1.2)
 
@@ -31,11 +31,11 @@ To get an idea of how the API works, we recommend you [review the example usage 
 
 The API currently doesn’t support the following features:
 
-- Deferring offers
-- Interview scheduling and status
+- Deferring offers (see upcoming [Version 1.1](/api-docs/future-reference))
+- Interview scheduling and status (see upcoming [Version 1.1](/api-docs/future-reference))
 - Decision codes (e.g. to provide structured reasons for rejection, or conditions)
 - Tracking and confirming individual conditions
-- Notes
+- Notes (see upcoming [Version 1.1](/api-docs/future-reference))
 
 We are exploring the addition of those features, and may support them in later API versions.
 

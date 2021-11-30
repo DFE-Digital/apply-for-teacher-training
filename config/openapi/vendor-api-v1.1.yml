@@ -164,13 +164,13 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
-  "/applications/{application_id}/withdraw-offer":
+  "/applications/{application_id}/withdraw":
     post:
       tags:
       - Application management
-      summary: Withdraw an offer
+      summary: Withdraw an application/offer
       description: |
-        Withdraws an offer at the candidates request.
+        Withdraws an application/offer at the candidates request.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -850,7 +850,7 @@ components:
             - A - UK Citizen
             - B - Irish Citizen
             - C - Candidate needs to apply for permission to work and study in the UK
-            - D - Candidate's free text response
+            - D - Candidate’s free text response
 
             These values do not correspond to the UCAS residency statuses.
           example: 'B'
@@ -862,7 +862,7 @@ components:
         fee_payer:
           type: string
           maxLength: 2
-          description: Provisional fee payer status based on a candidate's nationality, residency status and domicile.
+          description: Provisional fee payer status based on a candidate’s nationality, residency status and domicile.
           example: '02'
           enum:
           - '02'
@@ -875,7 +875,7 @@ components:
           type: string
           maxLength: 10240
           nullable: true
-          description: Details of this candidate's English language qualification, if English is not their main language
+          description: Details of this candidate’s English language qualification, if English is not their main language
           example: 'Name: TOEFL, Grade: 20, Awarded: 1999'
         other_languages:
           type: string
@@ -1000,7 +1000,7 @@ components:
           example: 11fc0d3b2f
         provider_code:
           type: string
-          description: The provider’s code
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for this application/course.
           example: 2FR
           maxLength: 3
         date_and_time:
@@ -1046,7 +1046,7 @@ components:
           example: 2019-09-18T15:33:49.216Z
         author:
           type: string
-          description: Author name
+          description: Author’s name
           example: John Smith
     Offer:
       type: object
