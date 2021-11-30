@@ -1,12 +1,15 @@
 <div class="govuk-width-container">
   <main id="main-content" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" role="main">
+    <%= render ProviderInterface::KeyDatesBanner.new %>
+    <%= render ServiceInformationBanner.new(namespace: :provider) %>
+    <%= render ProviderInterface::SummerRecruitmentBanner.new %>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Sign in to manage teacher training applications</h1>
         <p class="govuk-body">If you do not have access to this service, ask a colleague to add you.</p>
         <p class="govuk-body">
         If your organisation has not been set up to use the service, email <br>
-          <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a>.</p>
+          <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a>.
         </p>
         <%= govuk_start_button(
           text: 'Sign in',

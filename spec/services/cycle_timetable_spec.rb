@@ -11,6 +11,7 @@ RSpec.describe CycleTimetable do
   let(:one_hour_after_find_closes) { described_class.find_closes(2020) + 1.hour }
   let(:one_hour_after_find_opens) { described_class.find_opens(2020) + 1.hour }
   let(:three_days_before_find_reopens) { described_class.find_reopens(2020) - 3.days }
+  let(:twenty_days_after_2021_cycle_opens) { 20.business_days.after(described_class.apply_opens(2021)).end_of_day }
 
   describe '.current_year' do
     it 'is 2020 if we are in the middle of the 2020 cycle' do
@@ -98,6 +99,20 @@ RSpec.describe CycleTimetable do
 
       Timecop.travel(one_hour_after_apply2_deadline) do
         expect(described_class.show_apply_2_deadline_banner?(unsuccessful_application_form)).to be false
+      end
+    end
+  end
+
+  describe '.show_non_working_days_deadline_banner?' do
+    it 'returns false if before the 20 day period' do
+      Timecop.travel(one_hour_after_2021_cycle_opens) do
+        expect(described_class.show_non_working_days_deadline_banner?).to be false
+      end
+    end
+
+    it 'returns true if after the 20 day period' do
+      Timecop.travel(twenty_days_after_2021_cycle_opens) do
+        expect(described_class.show_non_working_days_deadline_banner?).to be true
       end
     end
   end

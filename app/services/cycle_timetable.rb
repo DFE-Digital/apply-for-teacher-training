@@ -92,6 +92,12 @@ class CycleTimetable
       (application_form.phase == 'apply_2' || (application_form.phase == 'apply_1' && application_form.ended_without_success?))
   end
 
+  def self.show_non_working_days_deadline_banner?
+    if holidays[:christmas].present?
+      Time.zone.now.between?(20.business_days.after(apply_opens).end_of_day, holidays[:christmas].last)
+    end
+  end
+
   def self.apply_1_deadline(year = current_year)
     date(:apply_1_deadline, year)
   end
