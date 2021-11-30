@@ -56,6 +56,7 @@ private
   def summary_for_gcse(gcse)
     return if gcse.blank?
 
-    "#{gcse.qualification_type.humanize} #{gcse.subject.capitalize}, #{gcse.grade}, #{gcse.start_year}-#{gcse.award_year}"
+    qualification = ApplicationQualificationDecorator.new(gcse)
+    "#{qualification.qualification_type.humanize} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.start_year}-#{qualification.award_year}"
   end
 end

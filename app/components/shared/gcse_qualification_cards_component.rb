@@ -56,42 +56,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
   end
 
   def grade_details(qualification)
-    case qualification.subject
-    when ApplicationQualification::SCIENCE_TRIPLE_AWARD
-      grades = qualification.constituent_grades
-      [
-        "#{grades['biology']['grade']} (Biology)",
-        "#{grades['chemistry']['grade']} (Chemistry)",
-        "#{grades['physics']['grade']} (Physics)",
-      ]
-    when ApplicationQualification::SCIENCE_DOUBLE_AWARD
-      ["#{qualification.grade} (Double award)"]
-    when ApplicationQualification::SCIENCE_SINGLE_AWARD
-      ["#{qualification.grade} (Single award)"]
-    when ->(_n) { qualification.constituent_grades }
-      present_constituent_grades(qualification)
-    else
-      [qualification.grade]
-    end
-  end
-
-  def present_constituent_grades(qualification)
-    grades = qualification.constituent_grades
-    grades.map do |k, v,|
-      grade = v['grade']
-      case k
-      when 'english_single_award'
-        "#{grade} (English Single award)"
-      when 'english_double_award'
-        "#{grade} (English Double award)"
-      when 'english_studies_single_award'
-        "#{grade} (English Studies Single award)"
-      when 'english_studies_double_award'
-        "#{grade} (English Studies Double award)"
-      else
-        "#{grade} (#{k.humanize.titleize})"
-      end
-    end
+    ApplicationQualificationDecorator.new(qualification).grade_details
   end
 
   def editable?
