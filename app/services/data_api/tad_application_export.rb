@@ -11,7 +11,7 @@ module DataAPI
 
     # Documented in app/exports/tad_export.yml
     def as_json
-      accrediting_provider = application_choice.accredited_provider || application_choice.provider
+      accrediting_provider = application_choice.current_accredited_provider || application_choice.current_provider
       degree = application_form.application_qualifications.find { |q| q.level == 'degree' }
       equality_and_diversity = application_form.equality_and_diversity.to_h
 
@@ -47,19 +47,19 @@ module DataAPI
         degree_classification_hesa_code: degree&.grade_hesa_code,
 
         # Provider
-        provider_code: application_choice.provider.code,
-        provider_id: application_choice.provider.id,
-        provider_name: application_choice.provider.name,
+        provider_code: application_choice.current_provider.code,
+        provider_id: application_choice.current_provider.id,
+        provider_name: application_choice.current_provider.name,
         accrediting_provider_code: accrediting_provider.code,
         accrediting_provider_id: accrediting_provider.id,
         accrediting_provider_name: accrediting_provider.name,
 
         course_level: course.level,
-        program_type: application_choice.course.program_type,
-        programme_outcome: application_choice.course.description,
-        course_name: application_choice.course.name,
-        course_code: application_choice.course.code,
-        nctl_subject: concatenate(application_choice.course.subjects.map(&:code)),
+        program_type: application_choice.current_course.program_type,
+        programme_outcome: application_choice.current_course.description,
+        course_name: application_choice.current_course.name,
+        course_code: application_choice.current_course.code,
+        nctl_subject: concatenate(application_choice.current_course.subjects.map(&:code)),
       }
     end
 
