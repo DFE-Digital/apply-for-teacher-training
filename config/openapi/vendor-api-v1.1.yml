@@ -633,11 +633,16 @@ components:
       type: object
       required:
       - data
+      - links
       properties:
         data:
           type: array
           items:
             "$ref": "#/components/schemas/Application"
+        links:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Links"
     SingleApplicationResponse:
       type: object
       required:
@@ -1604,6 +1609,32 @@ components:
           description: The time this update was made
           format: date-time
           example: 2019-06-13T23:59:59Z
+    Links:
+      type: object
+      description: Links to navigate through the paginated results
+      additionalProperties: false
+      required:
+      - first
+      - last
+      - prev
+      - next
+      properties:
+        first:
+          type: string
+          description: The first page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        last:
+          type: string
+          description: The last page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=20
+        prev:
+          type: string
+          description: The previous page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        next:
+          type: string
+          description: The next page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
     Error:
       type: object
       additionalProperties: false
