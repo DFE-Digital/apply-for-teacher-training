@@ -132,70 +132,6 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
-  "/applications/{application_id}/defer-offer":
-    post:
-      tags:
-      - Application management
-      summary: Defer an offer
-      description: |
-        Defers an offer to the next cycle.
-      parameters:
-      - "$ref": "#/components/parameters/application_id"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - meta
-              properties:
-                meta:
-                  "$ref": "#/components/schemas/MetaData"
-      responses:
-        '200':
-          description: An application
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/SingleApplicationResponse"
-        '401':
-          "$ref": "#/components/responses/Unauthorized"
-        '404':
-          "$ref": "#/components/responses/NotFound"
-        '422':
-          "$ref": "#/components/responses/UnprocessableEntity"
-  "/applications/{application_id}/withdraw":
-    post:
-      tags:
-      - Application management
-      summary: Withdraw an application/offer
-      description: |
-        Withdraws an application/offer at the candidates request.
-      parameters:
-      - "$ref": "#/components/parameters/application_id"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - meta
-              properties:
-                meta:
-                  "$ref": "#/components/schemas/MetaData"
-      responses:
-        '200':
-          description: An application
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/SingleApplicationResponse"
-        '401':
-          "$ref": "#/components/responses/Unauthorized"
-        '404':
-          "$ref": "#/components/responses/NotFound"
-        '422':
-          "$ref": "#/components/responses/UnprocessableEntity"          
   "/applications/{application_id}/confirm-enrolment":
     post:
       tags:
@@ -337,50 +273,107 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
-  "/reference-data/gcse-subjects":
-    get:
+  "/applications/{application_id}/defer-offer":
+    post:
       tags:
-      - Reference data
+      - Application management
+      summary: Defer an offer
+      description: |
+        Defers an offer to the next cycle.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
       responses:
         '200':
-          description: An array of possible GCSE subjects. Candidates are offered these in an autocomplete when filling in the form, but are also able to provide free-text responses.
+          description: An application
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ListResponse"
-  "/reference-data/gcse-grades":
-    get:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/reinstate-offer":
+    post:
       tags:
-      - Reference data
+      - Application management
+      summary: Reinstate a deferred offer
+      description: |
+        Reinstates a deferred offer from the previous cycle to the current one.
+        This call only succeeds if the same course, location and study_mode combination
+        is available in the current recruitment cycle.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/ReinstateOffer"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
       responses:
         '200':
-          description: An array of possible GCSE grades including double-award grades.
+          description: An application
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ListResponse"
-  "/reference-data/a-and-as-level-subjects":
-    get:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/withdraw":
+    post:
       tags:
-      - Reference data
+      - Application management
+      summary: Withdraw an application/offer
+      description: |
+        Withdraws an application/offer at the candidates request.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
       responses:
         '200':
-          description: An array of possible A and AS level subjects. Candidates are offered these in an autocomplete when filling in the form, but are also able to provide free-text responses.
+          description: An application
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ListResponse"
-  "/reference-data/a-and-as-level-grades":
-    get:
-      tags:
-      - Reference data
-      responses:
-        '200':
-          description: An array of possible A and AS level grades.
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/ListResponse"
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/interviews/create":
     post:
       tags:
@@ -471,7 +464,7 @@ paths:
             schema:
               type: object
               required:
-                - date
+                - data
                 - meta
               properties:
                 data:
@@ -527,7 +520,50 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
-
+  "/reference-data/gcse-subjects":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible GCSE subjects. Candidates are offered these in an autocomplete when filling in the form, but are also able to provide free-text responses.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
+  "/reference-data/gcse-grades":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible GCSE grades including double-award grades.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
+  "/reference-data/a-and-as-level-subjects":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible A and AS level subjects. Candidates are offered these in an autocomplete when filling in the form, but are also able to provide free-text responses.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
+  "/reference-data/a-and-as-level-grades":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible A and AS level grades.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
   "/test-data/regenerate":
     post:
       tags:
@@ -584,7 +620,7 @@ components:
       content:
         application/json:
           schema:
-            "$ref": "#/components/schemas/PerPageParameterInvalidResponse"            
+            "$ref": "#/components/schemas/PerPageParameterInvalidResponse"
     UnprocessableEntity:
       description: Returned when the request body was missing data or contained invalid
         data
@@ -1303,6 +1339,16 @@ components:
           format: date-time
           description: Time of the rejection or offer withdrawal
           example: 2019-09-18T15:33:49.216Z
+    ReinstateOffer:
+      type: object
+      additionalProperties: false
+      required:
+      - conditions_met
+      properties:
+        conditions_met:
+          type: boolean
+          description: Determines the status of the reinstated application (recruited vs. pending_conditions)
+          example: true
     Withdrawal:
       type: object
       additionalProperties: false
