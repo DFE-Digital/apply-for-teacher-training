@@ -59,7 +59,7 @@ module DataAPI
         programme_outcome: application_choice.course.description,
         course_name: application_choice.course.name,
         course_code: application_choice.course.code,
-        nctl_subject: concatenate(application_choice.course.subject_codes),
+        nctl_subject: concatenate(application_choice.course.subjects.map(&:code)),
       }
     end
 
