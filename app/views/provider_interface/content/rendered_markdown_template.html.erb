@@ -1,9 +1,9 @@
 <%= content_for :title, t("page_titles.#{@page_name}") %>
 
-<% if @with_breadcrumbs %>
+<% if @breadcrumb_title && @breadcrumb_path %>
   <% content_for :before_content do %>
     <%= breadcrumbs({
-      t('page_titles.service_guidance_provider') => provider_interface_service_guidance_path,
+      t("page_titles.#{@breadcrumb_title}") => @breadcrumb_path,
       t("page_titles.#{@page_name}") => nil,
     }) %>
   <% end %>
@@ -11,7 +11,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl"><%= t("page_titles.#{@page_name}") %></h1>
+    <h1 class="govuk-heading-l"><%= t("page_titles.#{@page_name}") %></h1>
 
     <%= @converted_markdown %>
   </div>

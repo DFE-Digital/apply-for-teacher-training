@@ -15,8 +15,15 @@ RSpec.feature 'Provider content' do
     then_i_can_see_the_cookies_page
     and_i_can_opt_in_to_tracking_website_usage
 
-    when_i_click_on_the_privacy_policy
-    then_i_can_see_the_privacy_policy
+    when_i_click_on_privacy
+    then_i_can_see_the_privacy_notices
+
+    when_i_click_on_service_privacy_notice
+    then_i_can_see_the_service_privacy_notice
+
+    when_i_click_on_privacy
+    and_i_click_on_online_chat_privacy_notice
+    then_i_can_see_the_online_chat_privacy_notice
 
     when_i_click_on_the_service_guidance
     then_i_can_see_the_service_guidance_provider
@@ -68,12 +75,28 @@ RSpec.feature 'Provider content' do
     expect(page).to have_content('Make a complaint about this service')
   end
 
-  def when_i_click_on_the_privacy_policy
-    within('.govuk-footer') { click_link t('layout.support_links.privacy_policy') }
+  def when_i_click_on_privacy
+    within('.govuk-footer') { click_link t('layout.support_links.privacy') }
   end
 
-  def then_i_can_see_the_privacy_policy
-    expect(page).to have_content(t('page_titles.privacy_policy'))
+  def then_i_can_see_the_privacy_notices
+    expect(page).to have_content(t('page_titles.privacy_notices'))
+  end
+
+  def when_i_click_on_service_privacy_notice
+    click_on 'Service privacy notice'
+  end
+
+  def then_i_can_see_the_service_privacy_notice
+    expect(page).to have_content(t('page_titles.service_privacy_notice'))
+  end
+
+  def and_i_click_on_online_chat_privacy_notice
+    click_on 'Online chat privacy notice'
+  end
+
+  def then_i_can_see_the_online_chat_privacy_notice
+    expect(page).to have_content(t('page_titles.online_chat_privacy_notice'))
   end
 
   def when_i_click_on_the_service_guidance

@@ -1,0 +1,15 @@
+<%= content_for :title, t('page_titles.privacy_notices') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('page_titles.privacy_notices') %></h1>
+    <ul class="govuk-list govuk-list--spaced">
+      <li>
+        <%= govuk_link_to('Service privacy notice', provider_interface_service_privacy_notice_path) %>
+      </li>
+      <li>
+        <%= govuk_link_to('Online chat privacy notice', provider_interface_online_chat_privacy_notice_path) %>
+      </li>
+    </ul>
+  </div>
+</div>
