@@ -749,9 +749,9 @@ components:
           - "$ref": "#/components/schemas/Offer"
           nullable: true
         notes:
-          anyOf:
-          - "$ref": "#/components/schemas/Note"
-          nullable: true
+          type: array
+          items:
+            "$ref": "#/components/schemas/Note"
         withdrawal:
           anyOf:
           - "$ref": "#/components/schemas/Withdrawal"
@@ -1018,6 +1018,15 @@ components:
           description: |
             Optional string for additional notes.
           example: 'Candidate requires a parking space'
+        cancelled_at:
+          type: string
+          format: date-time
+          description: Date and time of cancellation, if cancelled.
+          example: 2019-09-18T16:33:49.216Z
+        cancellation_reason:
+          type: string
+          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          example: 'Candidate has accepted an alternative offer'
     Note:
       type: object
       additionalProperties: false
@@ -1035,6 +1044,10 @@ components:
           format: date-time
           description: Date and time the note was added
           example: 2019-09-18T15:33:49.216Z
+        author:
+          type: string
+          description: Author name
+          example: John Smith
     Offer:
       type: object
       additionalProperties: false
@@ -1313,18 +1326,12 @@ components:
       additionalProperties: false
       required:
       - reason
-      - date
       properties:
         reason:
           type: string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           maxLength: 2000
           example: The candidate has accepted an alternative offer
-        date:
-          type: string
-          format: date-time
-          description: Time of the cancellation
-          example: 2019-09-18T15:33:49.216Z          
     Qualifications:
       type: object
       additionalProperties: false
