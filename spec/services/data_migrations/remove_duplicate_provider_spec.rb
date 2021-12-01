@@ -18,6 +18,15 @@ RSpec.describe DataMigrations::RemoveDuplicateProvider do
       expect(other_course.reload.accredited_provider).not_to be_nil
     end
 
+    it 'updates application choices related to courses accredited by the duplicate self-ratified provider' do
+      current_course_option = create(:course_option, course: self_ratified_course)
+      application_choice = create(:application_choice, current_course_option: current_course_option)
+      application_choice.update!(provider_ids: [duplicate_provider.id, 1223])
+      described_class.new.change
+
+      expect(application_choice.reload.provider_ids).to eq([1223])
+    end
+
     it 'destroys the relationship between the training provider and the duplicate' do
       expect { described_class.new.change }.to change(ProviderRelationshipPermissions, :count).by(-1)
     end
