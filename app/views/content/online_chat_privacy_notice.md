@@ -6,13 +6,15 @@ This privacy notice about online chat sets out:
 - how long we keep your personal data for
 - what rights you have under the lawful basis we’re relying on
 
-We use Zendesk software to store and process this data. This means that Zendesk is our data processor.
+Online chat support is an optional service we provide to teacher training providers who process applications using ‘Manage teacher training applications’ or its API.
+
+We use Zendesk software to offer the online chat, store and process data. This means that Zendesk is our data processor.
 
 ### The lawful basis for processing your personal data
 
 Under the data protection legislation we need a lawful basis for processing your personal data.
 
-The lawful basis we are relying on is public interest.
+The lawful basis we are relying on is public task in the public interest.
 
 ### The personal data we collect for online chat
 
@@ -42,19 +44,15 @@ We’ll also analyse and consolidate data from support requests to help us under
 
 ### How we protect your data
 
-The Zendesk customer service management system is hosted in accordance with its [regional data hosting policy](https://support.zendesk.com/hc/en-us/articles/360022185194?_ga=2.9135733.1989263323.1628099773-531922291.1627980374).
-
+The Zendesk customer service management system is hosted in accordance with its [regional data hosting policy](https://support.zendesk.com/hc/en-us/articles/360022185194).
 Zendesk is required to process and protect your personal data under strict conditions. These are stated in a written agreement between us and Zendesk, as required by the UK General Data Protection Regulation (GDPR) and UK Data Protection Act 2018 (DPA 2018).
 
 ### How long we keep your data
 
-We keep your data only for as long as needed for the uses listed above.
-
-We’ll need to support some people considering applying for teacher training for many years. We’ll delete the data we hold on you 3 years after you first contact us.
+We’ll delete the data we hold on you 3 years after you first contact us.
 
 ### Your rights
-
-Under the DPA 2018 and UK GDPR and the lawful basis of public interest, you have the right to:
+Under the DPA 2018 and UK GDPR and the lawful basis of public task in the public interest, you have the right to:
 
 - find out what data we hold about you
 - be informed about how your data is being used
@@ -65,16 +63,17 @@ Under the DPA 2018 and UK GDPR and the lawful basis of public interest, you have
 - object to direct marketing
 - object to automated decision making and profiling
 
-You can find more information about how we handle personal data in our [personal information charter](https://www.gov.uk/government/organisations/department-for-education/about/personal-information-charter).
-
 ### Get help or tell us about a concern
 
-If you have any concerns or queries, email us at becomingateacher@digital.education.gov.uk.
+If you would like to exercise any of your rights, you can email us at
+becomingateacher@digital.education.gov.uk.
+
+You can also use our contact form to get in touch with our Data Protection Officer.
 
 If we cannot resolve your issue, you have the right to raise it with the [Information Commissioner's Office (ICO)](https://ico.org.uk/).
 
 ### Keeping this privacy policy up to date
 
-We may update this privacy notice. Any changes will apply to you and your data immediately.
+We may update this privacy notice as required or at least annually. Any changes will apply to you and your data immediately, therefore please check this policy from time to time.
 
 This privacy notice was published on 30 November 2021.
