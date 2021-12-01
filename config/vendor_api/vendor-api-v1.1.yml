@@ -280,6 +280,8 @@ paths:
       summary: Defer an offer
       description: |
         Defers an offer to the next cycle.
+        The application will transition to deferred status
+        and offer_deferred_at and status_before_deferral will be set.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -346,9 +348,9 @@ paths:
     post:
       tags:
       - Application management
-      summary: Withdraw an application/offer
+      summary: Withdraw an application or decline an offer
       description: |
-        Withdraws an application/offer at the candidates request.
+        Withdraws an application or declines an offer at the candidate’s request.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -390,11 +392,11 @@ paths:
             schema:
               type: object
               required:
-                - meta
                 - data
+                - meta
               properties:
                 data:
-                  "$ref": "#/components/schemas/Interview"
+                  "$ref": "#/components/schemas/CreateInterview"
                 meta:
                   "$ref": "#/components/schemas/MetaData"
       responses:
@@ -431,7 +433,7 @@ paths:
                 - data
               properties:
                 data:
-                  "$ref": "#/components/schemas/Interview"
+                  "$ref": "#/components/schemas/UpdateInterview"
                 meta:
                   "$ref": "#/components/schemas/MetaData"
       responses:
@@ -491,6 +493,8 @@ paths:
       summary: Create note
       description: |
         Creates a new note for this application.
+        Its date will be set to the timestamp of the API call.
+        Its author details will be read from the attribution part of MetaData.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -504,7 +508,7 @@ paths:
                 - data
               properties:
                 data:
-                  "$ref": "#/components/schemas/Note"
+                  "$ref": "#/components/schemas/CreateNote"
                 meta:
                   "$ref": "#/components/schemas/MetaData"
       responses:
@@ -698,6 +702,9 @@ components:
       - work_experience
       - safeguarding_issues_status
       - safeguarding_issues_details_url
+      - offer_deferred_at
+      - status_before_deferral
+      - withdrawn_or_declined_for_candidate
       properties:
         application_url:
           type: string
@@ -827,6 +834,22 @@ components:
           description: URL to Apply system where safeguarding issues disclosed by the candidate can be access by users with permissions to view safeguarding information.
           example: https://apply-for-teacher-training.service.gov.uk/provider/applications/1#criminal-convictions-and-professional-misconduct
           nullable: true
+        offer_deferred_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When this application was deferred
+          example: 2019-06-10T23:59:59Z
+        status_before_deferral:
+          type: string
+          nullable: true
+          description: Application status before the deferral (pending_conditions or recruited)
+          example: pending_conditions
+        withdrawn_or_declined_for_candidate:
+          type: boolean
+          nullable: true
+          description: Was application withdrawn or offer declined at candidate’s request
+          example: false
     Candidate:
       type: object
       additionalProperties: false
@@ -1026,17 +1049,86 @@ components:
           description: |
             ISO8601 month and year indicating when this course starts. Including this field in a POST has no effect because courses are unambiguously identified by the rest of the properties in this object.
           example: '2021-01'
-    Interview:
+    CreateInterview:
       type: object
       additionalProperties: false
       required:
       - provider_code
       - date_and_time
+      - location
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for this application/course.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            An string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+    UpdateInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - provider_code
+      - date_and_time
+      - location
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for this application/course.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            An optional string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+    CancelInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          maxLength: 2000
+          example: The candidate has accepted an alternative offer
+    Interview:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - provider_code
+      - date_and_time
+      - location
       properties:
         id:
           type: string
           description: |
-            The unique ID of this interview. Automatically generated by our service. Ignored when creating new interviews.
+            The unique ID of this interview. Automatically generated by our service.
           maxLength: 10
           example: 11fc0d3b2f
         provider_code:
@@ -1068,12 +1160,24 @@ components:
           type: string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           example: 'Candidate has accepted an alternative offer'
+    CreateNote:
+      type: object
+      additionalProperties: false
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: The content of the note
+          example: 'This candidate can only interview remotely'
+          maxLength: 500
     Note:
       type: object
       additionalProperties: false
       required:
       - message
       - date
+      - author
       properties:
         message:
           type: string
@@ -1372,17 +1476,6 @@ components:
           format: date-time
           description: Time of the withdrawal
           example: 2019-09-18T15:33:49.216Z
-    CancelInterview:
-      type: object
-      additionalProperties: false
-      required:
-      - reason
-      properties:
-        reason:
-          type: string
-          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
-          maxLength: 2000
-          example: The candidate has accepted an alternative offer
     Qualifications:
       type: object
       additionalProperties: false
@@ -1634,7 +1727,7 @@ components:
         next:
           type: string
           description: The next page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=3
     Error:
       type: object
       additionalProperties: false

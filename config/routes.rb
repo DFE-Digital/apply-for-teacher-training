@@ -1142,7 +1142,7 @@ Rails.application.routes.draw do
       get '/help' => 'pages#help', as: :help
       get '/spec.yml' => 'openapi#current_spec', as: :spec
 
-      get '/future-reference' => 'reference#future_reference', as: :future
+      get '/draft' => 'reference#draft', as: :draft
       get '/spec-1.0.yml' => 'openapi#spec_1_0', as: :spec_1_0
       get '/spec-1.1.yml' => 'openapi#spec_1_1', as: :spec_1_1
     end

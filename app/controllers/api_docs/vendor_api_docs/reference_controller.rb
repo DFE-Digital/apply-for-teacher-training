@@ -5,7 +5,7 @@ module APIDocs
         @api_reference = APIReference.new(VendorAPISpecification.new.as_hash, version: '1.0')
       end
 
-      def future_reference
+      def draft
         @api_reference = APIReference.new(VendorAPISpecification.new(version: '1.1').as_hash, version: '1.1')
       end
     end

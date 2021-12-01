@@ -3,11 +3,12 @@
   <p class="govuk-body">Please note this is an upcoming version of the API. Any new endpoints described below are not yet live.</p>
 <% end %>
 
-<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.future_reference') %></h1>
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.draft') %></h1>
 
 <h2 class="app-contents-list__title">Contents:</h2>
 
 <ol class="app-contents-list__list">
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'API Versions', '#versions', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.1 changes', '#important', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
   <li class="app-contents-list__list-item app-contents-list__list-item--parent">
@@ -38,6 +39,35 @@
 </ol>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+
+<h2 class="govuk-heading-l" id="versions">API Versions</h2>
+
+<p class="govuk-body">
+  The current version of this API is 1.0. The next version of this API will be 1.1.  This is a draft specification for version 1.1.
+</p>
+
+<p class="govuk-body">
+  From version 1.1 onwards, version numbers will follow this format: MAJOR.MINOR (e.g. 1.2)
+</p>
+
+<p class="govuk-body">
+  MAJOR version: The version used in the URI and defines breaking changes to the API.
+</p>
+
+<p class="govuk-body">
+  MINOR version: Includes non-breaking changes to the API, mostly additions. For example, a minor version may add a new field or a new endpoint.
+</p>
+
+<p class="govuk-body">
+  All changes, minor or major, will be documented in our release notes.
+</p>
+
+<p class="govuk-body">
+Minor version updates will become available automatically at the MAJOR version urls. For example, version 1.1 urls will be available automatically under /api/v1 when version 1.1 is released. Pre-existing urls may return additional fields at this point.
+
+<p class="govuk-body">
+We will also support requesting a specific minor version via the url, see examples of this within the <%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %> section.
+</p>
 
 <h2 class="govuk-heading-l" id="important">Version 1.1 changes</h2>
 
