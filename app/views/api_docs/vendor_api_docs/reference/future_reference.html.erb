@@ -1,9 +1,9 @@
-<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.future_reference') %></h1>
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+  <% notification_banner.heading(text: 'This API spec is currently a draft') %>
+  <p class="govuk-body">Please note this is an upcoming version of the API. Any new endpoints described below are not yet live.</p>
+<% end %>
 
-<p class="govuk-body">
-<strong>Please note:</strong>
-This an upcoming version of the API. Any new endpoints described below are not live yet.
-</p>
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.future_reference') %></h1>
 
 <h2 class="app-contents-list__title">Contents:</h2>
 
