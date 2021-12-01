@@ -638,22 +638,26 @@ components:
       required:
       - data
       - links
+      - meta
       properties:
         data:
           type: array
           items:
             "$ref": "#/components/schemas/Application"
         links:
-          type: array
-          items:
-            "$ref": "#/components/schemas/Links"
+          "$ref": "#/components/schemas/Links"
+        meta:
+          "$ref": "#/components/schemas/ResponseMetaMultiple"
     SingleApplicationResponse:
       type: object
       required:
       - data
+      - meta
       properties:
         data:
           "$ref": "#/components/schemas/Application"
+        meta:
+          "$ref": "#/components/schemas/ResponseMetaSingle"
     Application:
       type: object
       additionalProperties: false
@@ -849,7 +853,7 @@ components:
           type: boolean
           nullable: true
           description: Was application withdrawn or offer declined at candidate’s request
-          example: false
+          example: true
     Candidate:
       type: object
       additionalProperties: false
@@ -1710,6 +1714,7 @@ components:
       - first
       - last
       - prev
+      - self
       - next
       properties:
         first:
@@ -1724,10 +1729,76 @@ components:
           type: string
           description: The previous page of the results
           example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        self:
+          type: string
+          description: The current page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
         next:
           type: string
           description: The next page of the results
           example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=3
+    ResponseMetaMultiple:
+      type: object
+      description: API version and count metadata in multiple application responses
+      additionalProperties: false
+      required:
+      - api_version
+      - timestamp
+      - since
+      - object_count
+      - total_count
+      properties:
+        api_version:
+          type: string
+          description: API version that produced this response
+          example: 'v1.1'
+        timestamp:
+          type: string
+          format: date-time
+          description: When this response was generated
+          example: 2021-12-01T11:03:12Z
+        since:
+          type: string
+          format: date-time
+          description: The since parameter supplied for this request
+          example: 2021-12-01T10:59:32Z
+        object_count:
+          type: integer
+          description: Number of applications returned in this response
+          example: 1
+        total_count:
+          type: integer
+          description: Total number of changed applications for this `since` value
+          example: 1000
+        page:
+          type: integer
+          description: Current page value
+          example: 2
+        per_page:
+          type: integer
+          description: Current per_page value
+          example: 100
+        total_pages:
+          type: integer
+          description: Number of pages based on per_page and total_count
+          example: 10
+    ResponseMetaSingle:
+      type: object
+      description: API version and count metadata in single application responses
+      additionalProperties: false
+      required:
+      - api_version
+      - timestamp
+      properties:
+        api_version:
+          type: string
+          description: API version that produced this response
+          example: 'v1.1'
+        timestamp:
+          type: string
+          format: date-time
+          description: When this response was generated
+          example: 2021-12-01T11:03:12Z
     Error:
       type: object
       additionalProperties: false
