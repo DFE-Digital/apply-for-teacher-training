@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
-  revision: c43713cbe66311cf44ebe5d56e57c422cfe14340
+  revision: f3e42572c55e5fdde4e2e06c42ee54b74981c907
   branch: main
   specs:
     rspec-retry (0.6.2)
@@ -505,7 +505,7 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
-    rspec-support (3.10.2)
+    rspec-support (3.10.3)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.23.0)
