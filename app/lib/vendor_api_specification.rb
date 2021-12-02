@@ -15,7 +15,7 @@ class VendorAPISpecification
 
   def spec
     YAML
-      .load_file("config/vendor_api/vendor-api-v#{@version}.yml")
-      .deep_merge(YAML.load_file("config/vendor_api/vendor-api-experimental-v#{@version}.yml"))
+      .load_file("config/vendor_api/v#{@version}.yml")
+      .deep_merge(YAML.load_file("config/vendor_api/experimental-v#{@version}.yml"))
   end
 end

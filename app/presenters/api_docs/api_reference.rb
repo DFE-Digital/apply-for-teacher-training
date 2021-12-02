@@ -6,7 +6,7 @@ module APIDocs
     def initialize(spec, version: '1.0')
       @document = Openapi3Parser.load(spec)
       @version = version
-      @highlight_yaml = @version == '1.0' ? {} : YAML.load_file("config/vendor_api/vendor-api-v#{@version}-highlights.yml")
+      @highlight_yaml = @version == '1.0' ? {} : YAML.load_file("config/vendor_api/v#{@version}-highlights.yml")
     end
 
     def operations

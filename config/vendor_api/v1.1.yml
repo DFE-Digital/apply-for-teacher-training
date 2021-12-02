@@ -1744,8 +1744,6 @@ components:
       required:
       - api_version
       - timestamp
-      - since
-      - object_count
       - total_count
       properties:
         api_version:
@@ -1757,31 +1755,10 @@ components:
           format: date-time
           description: When this response was generated
           example: 2021-12-01T11:03:12Z
-        since:
-          type: string
-          format: date-time
-          description: The since parameter supplied for this request
-          example: 2021-12-01T10:59:32Z
-        object_count:
-          type: integer
-          description: Number of applications returned in this response
-          example: 1
         total_count:
           type: integer
           description: Total number of changed applications for this `since` value
           example: 1000
-        page:
-          type: integer
-          description: Current page value
-          example: 2
-        per_page:
-          type: integer
-          description: Current per_page value
-          example: 100
-        total_pages:
-          type: integer
-          description: Number of pages based on per_page and total_count
-          example: 10
     ResponseMetaSingle:
       type: object
       description: API version and count metadata in single application responses
