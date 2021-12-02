@@ -38,8 +38,15 @@ module DataMigrations
           courses = permission.training_provider.courses.where(accredited_provider: permission.ratifying_provider)
 
           ActiveRecord::Base.transaction do
+            # For courses run / accredited by duplicate providers, nillify the accredited provider
+            # and remove the accrediting provider id from any associated application choices.
             courses.each do |course|
               course.update!(accredited_provider: nil)
+              choices = ApplicationChoice.where("'#{permission.ratifying_provider.id}' = ANY (provider_ids)")
+              choices.each do |choice|
+                provider_ids = choice.provider_ids - [permission.ratifying_provider.id]
+                choice.update!(provider_ids: provider_ids)
+              end
             end
 
             # Ensure we don't orphan any users who were only associated with the duplicate provider
