@@ -50,7 +50,7 @@ module SupportInterface
     def self.build_top_level_reasons(structured_rejection_reasons)
       return nil if structured_rejection_reasons.blank?
 
-      structured_rejection_reasons.select { |reason, value| ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason.to_sym) && value == 'Yes' }
+      structured_rejection_reasons.select { |reason, value| (ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason.to_sym) && value == 'Yes') || reason.to_sym == ReasonsForRejection::OTHER_REASON }
           .keys
           .map { |reason| humanized_title_for_top_level_reason(reason) }
           .join(', ')
@@ -65,7 +65,11 @@ module SupportInterface
     end
 
     def self.humanized_title_for_top_level_reason(reason)
-      I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.title")
+      if reason.to_sym == ReasonsForRejection::OTHER_REASON
+        'Other'
+      else
+        I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.title")
+      end
     end
 
     def self.title_for_top_level_reason(reason)
