@@ -24,6 +24,20 @@ RSpec.describe CookieBannersComponent, type: :component do
 
       expect(result.to_html).to be_blank
     end
+
+    it "renders when 'current_cookies' are not set" do
+      component = described_class.new(current_namespace: 'candidate_interface', request_path: '/', current_cookies: nil)
+      result = render_inline(component)
+
+      expect(result.to_html).not_to be_blank
+    end
+
+    it "does not render when 'current_cookies' are set" do
+      component = described_class.new(current_namespace: 'candidate_interface', request_path: '/', current_cookies: 'yes')
+      result = render_inline(component)
+
+      expect(result.to_html).to be_blank
+    end
   end
 
   describe '#service_name_short' do
