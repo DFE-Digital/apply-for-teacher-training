@@ -78,6 +78,9 @@ en:
     data_sharing_agreement: Data sharing agreement
     accessibility: Accessibility statement
     privacy_policy: How we look after your personal data
+    privacy_notices: Privacy notices
+    service_privacy_notice: Service privacy notice
+    online_chat_privacy_notice: Online chat privacy notice
     terms_candidate: Terms of use
     service_guidance_provider: How to use this service
     cookies_candidate: Cookies
@@ -277,6 +280,7 @@ en:
       candidate_complaints: Make a complaint, give feedback, or let us know if you’ve been treated unfairly
       terms_of_use: Terms of use
       privacy_policy: Privacy policy
+      privacy: Privacy
       roadmap: Roadmap
   activemodel:
     attributes:

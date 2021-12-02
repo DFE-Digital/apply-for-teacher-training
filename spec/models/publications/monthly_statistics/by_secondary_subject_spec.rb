@@ -12,12 +12,12 @@ RSpec.describe Publications::MonthlyStatistics::BySecondarySubject do
           rows: [
             {
               'Subject' => 'Art and design',
-              'Recruited' => 1,
+              'Recruited' => 2,
               'Conditions pending' => 0,
               'Received an offer' => 0,
               'Awaiting provider decisions' => 0,
               'Unsuccessful' => 0,
-              'Total' => 1,
+              'Total' => 2,
             },
             {
               'Subject' => 'Science',
@@ -254,7 +254,7 @@ RSpec.describe Publications::MonthlyStatistics::BySecondarySubject do
               'Total' => 1,
             },
           ],
-          column_totals: [5, 9, 12, 1, 11, 38],
+          column_totals: [6, 9, 12, 1, 11, 39],
         },
       )
     end
@@ -278,6 +278,7 @@ RSpec.describe Publications::MonthlyStatistics::BySecondarySubject do
     create_application_choice_for_last_cycle(status_before_deferral: 'recruited', subject: 'Science')
 
     # current year
+    create_application_choice_for_this_cycle(status: 'recruited', subject: 'Art and design')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Computing')
     create_application_choice_for_this_cycle(status: :with_conditions_not_met, subject: 'Dance')
     create_application_choice_for_this_cycle(status: :with_offer, subject: 'Design and technology')

@@ -42,41 +42,27 @@ RSpec.describe SupportInterface::ExternalReportCandidatesExport do
     def generate_test_data
       region_codes = ApplicationForm.region_codes.keys + [nil]
       statuses = ApplicationChoice.statuses.keys.reject { |status| %w[unsubmitted cancelled application_not_sent offer_deferred].include?(status) }
-      sexes = ExternalReportCandidates::SEX.keys
-
-      20.times do
-        date_of_birth = rand(Time.zone.now - 75.years..Time.zone.now - 20.years)
-        region_code = region_codes.sample
-        status = statuses.sample
-        sex = sexes.sample
-
-        rand(1..7).times do
-          application_form = if sex.nil?
-                               create(:application_form, equality_and_diversity: nil, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code)
-                             else
-                               create(:application_form, :with_equality_and_diversity_data, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code)
-                             end
-
-          create(:application_choice, status: status, application_form: application_form)
-          create(:application_choice, :with_rejection, application_form: application_form)
-        end
-      end
 
       5.times do
         date_of_birth = rand(Time.zone.now - 75.years..Time.zone.now - 20.years)
         region_code = region_codes.sample
+        status = statuses.sample
+
+        create(:application_choice, status: status, application_form: create(:application_form, equality_and_diversity: nil, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code))
+        create(:application_choice, status: status, application_form: create(:application_form, :with_equality_and_diversity_data, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code))
+      end
+
+      2.times do
+        date_of_birth = rand(Time.zone.now - 75.years..Time.zone.now - 20.years)
+        region_code = region_codes.sample
         status = %w[pending_conditions recruited].sample
-        sex = sexes.sample
 
-        rand(1..7).times do
-          application_form = if sex.nil?
-                               create(:application_form, equality_and_diversity: nil, recruitment_cycle_year: RecruitmentCycle.previous_year, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code)
-                             else
-                               create(:application_form, :with_equality_and_diversity_data, recruitment_cycle_year: RecruitmentCycle.previous_year, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code)
-                             end
-
-          create(:application_choice, :with_deferred_offer, status_before_deferral: status, application_form: application_form)
-        end
+        create(:application_choice, :with_deferred_offer, status_before_deferral: status, application_form: create(
+          :application_form, equality_and_diversity: nil, recruitment_cycle_year: RecruitmentCycle.previous_year, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code
+        ))
+        create(:application_choice, :with_deferred_offer, status_before_deferral: status, application_form: create(
+          :application_form, :with_equality_and_diversity_data, recruitment_cycle_year: RecruitmentCycle.previous_year, submitted_at: Time.zone.now, date_of_birth: date_of_birth, region_code: region_code
+        ))
       end
     end
 

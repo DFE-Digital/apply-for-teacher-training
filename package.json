@@ -6,15 +6,15 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^1.0.0",
+    "@ministryofjustice/frontend": "^1.0.1",
     "@rails/webpacker": "^5.4.3",
     "accessible-autocomplete": "^2.0.3",
     "govuk-frontend": "^3.14.0",
     "jquery": "^3.6.0"
   },
   "devDependencies": {
-    "jest": "^27.3.1",
-    "prettier": "^2.4.1",
+    "jest": "^27.4.3",
+    "prettier": "^2.5.0",
     "standard": "^16.0.4",
     "stylelint": "^13.13.1",
     "stylelint-config-gds": "^0.1.0"

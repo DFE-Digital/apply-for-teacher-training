@@ -98,6 +98,23 @@ Make sure you know which part you are amending. Add `\r\n\r\n` for carriage retu
 ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowledge: 'new_text', audit_comment: 'Updating grade following a support request, ticket ZENDESK-LINK')
 ```
 
+## Courses and course locations
+
+### Changing a course or course location
+
+A provider may request that a candidate is placed on a different course, or a different site. You should make the change by manually executing the `SupportInterface::ChangeApplicationChoiceCourseOption` service to ensure that all required changes take place and  that the application is in a supported state.
+
+If the provider specifies an alternative course but not a site, you should reuse the site code of the existing course. Similarly you should also use the study mode of the existing course unless otherwise specified. In case a site's name was specified but not the site code, you can identify the code by navigating through the support interface to the course's vacancies tab where you can find the site code printed after the course name.
+
+```ruby
+SupportInterface::ChangeApplicationChoiceCourseOption.new(application_choice_id: _application_choice_id_,
+                                                          provider_id: _provider_id_,
+                                                          course_code: _course_code_,
+                                                          study_mode: _study_mode_,
+                                                          site_code: _site_code_,
+                                                          audit_comment: audit_comment).call
+```
+
 ## Offers
 
 ### Make or change offer
@@ -105,54 +122,6 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 If the current application status is `awaiting_provider_decision` use MakeAnOffer service.
 
 If the current application status is `offer` use ChangeOffer service.
-
-### Change provider/course
-
-Sometimes a provider has no room for an accepted candidate and they refer them to another provider. In this case we create a new ApplicationChoice for the new course_option by following these steps:
-
-- Get the old application choices to withdraw later
-
-For example by candidate’s email:
-
-```ruby
-old_application_choice = ApplicationForm.find_by(candidate_id: Candidate.find_by(email_address: 'example@email.com').id).application_choices.first
-```
-
-- Add course after submission
-
-Find the course option for the new course. As the course code is not unique make sure to include the provider details.
-
-```ruby
-course_option = CourseOption
-  .where(
-    course_id: Course.where(code: _course_code, provider: Provider.find_by(code: _provider_code)),
-    recruitment_cycle_year: RecruitmentCycle.current_year
-  )
-).first
-```
-
-- Find the application form
-
-Eg -
-
-```ruby
-application_form = old_application_choice.application_form
-```
-
-- Create a new ApplicationChoice associated with the application form
-
-Then submit the new application choice to the provider by calling a service:
-
-```ruby
-SupportInterface::AddCourseChoiceAfterSubmission.new(application_form: application_form, course_option: course_option).call
-```
-
-- Withdraw the previous one
-
-```ruby
-ApplicationStateChange.new(old_application_choice).withdraw!
-old_application_choice.update(withdrawn_at: Time.zone.now)
-```
 
 ### Change offer conditions
 
@@ -171,11 +140,11 @@ a.application_choices.select(&:conditions_not_met?).first.update!(status: :pendi
 
 Providers may need to revert a rejection so that they can offer a different course or if it was done in error.
 
-If less than five working days have passed since the application has been submitted, then the rejection can be reverted via the 
+If less than five working days have passed since the application has been submitted, then the rejection can be reverted via the
 Support UI when viewing the application choice.
 
 If a candidate has had a course rejected in error but wishes to replace their course option with another offered by a _different_ provider,
-then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse), 
+then following reverting the rejection via the Support UI, you will need to [withdraw the course option via the console](#change-providercourse),
 before adding a new course choice via the Support UI.
 
 ### Revert a withdrawn offer

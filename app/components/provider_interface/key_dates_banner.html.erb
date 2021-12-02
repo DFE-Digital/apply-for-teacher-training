@@ -1,0 +1,8 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= govuk_notification_banner(title_text: t('key_dates_banner.title')) do |notification_banner| %>
+      <% notification_banner.heading(text: t('key_dates_banner.christmas_header', non_working_days_period: non_working_days_period)) %>
+      <p class="govuk-body"><%= t('key_dates_banner.christmas_body') %></p>
+    <% end %>
+  </div>
+</div>

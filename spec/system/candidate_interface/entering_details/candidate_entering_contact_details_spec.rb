@@ -40,7 +40,7 @@ RSpec.feature 'Entering their contact information' do
     when_i_select_outside_the_uk
     and_i_incorrectly_fill_in_my_international_address
     and_i_submit_my_address
-    then_i_should_see_validation_errors_for_address_line1
+    then_i_should_see_validation_errors_for_address_line1_for_my_international_address
 
     when_i_fill_in_an_international_address
     and_i_submit_my_address
@@ -174,6 +174,10 @@ RSpec.feature 'Entering their contact information' do
 
   def then_i_should_see_validation_errors_for_address_line1
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
+  end
+
+  def then_i_should_see_validation_errors_for_address_line1_for_my_international_address
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.international_blank')
   end
 
   def when_i_fill_in_an_international_address

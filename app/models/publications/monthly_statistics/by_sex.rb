@@ -46,40 +46,89 @@ module Publications
         }
 
         group_query_excluding_deferred_offers.map do |item|
-          sex, status = item[0]
-          count = item[1]
-          counts[sex]&.merge!({ status => count })
+          counts[item['sex']]&.merge!({ item['status'] => item['count'] })
         end
 
         group_query_for_deferred_offers.map do |item|
-          sex, status = item[0]
-          count = item[1]
-          counts[sex]&.merge!({ status => count })
+          counts[item['sex']]&.merge!({ item['status_before_deferral'] => item['count'] })
         end
 
         counts
       end
 
       def group_query_for_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
-          .where(status: :offer_deferred)
-          .count
+        group_query(
+          cycle: RecruitmentCycle.previous_year,
+          status_attribute: :status_before_deferral,
+        )
       end
 
       def group_query_excluding_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
-          .where.not(status: :offer_deferred)
-          .count
+        group_query
       end
 
-      def group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
-        ApplicationChoice
-          .joins(:application_form)
-          .where(application_forms: { recruitment_cycle_year: recruitment_cycle_year })
-          .where.not(
-            application_forms: ApplicationForm.select(:previous_application_form_id).where.not(previous_application_form_id: nil),
-          )
-          .group("application_forms.equality_and_diversity->'sex'", 'status')
+      def group_query(
+        cycle: RecruitmentCycle.current_year,
+        status_attribute: :status
+      )
+        without_subsequent_applications_query =
+          "AND (
+            NOT EXISTS (
+              SELECT 1
+              FROM application_forms
+              AS subsequent_application_forms
+              WHERE application_forms.id = subsequent_application_forms.previous_application_form_id
+            )
+          )"
+        with_statuses =
+          if status_attribute == :status_before_deferral
+            "AND application_choices.status = 'offer_deferred'"
+          else
+            "AND NOT application_choices.status = 'offer_deferred'"
+          end
+
+        query = "SELECT
+          COUNT(application_choices_with_minimum_statuses.id),
+          application_choices_with_minimum_statuses.#{status_attribute},
+          sex
+        FROM (
+          SELECT application_choices.id as id,
+            application_choices.status_before_deferral as status_before_deferral,
+            application_choices.status as status,
+            application_forms.equality_and_diversity->>'sex' as sex,
+            ROW_NUMBER() OVER (
+              PARTITION BY application_forms.id
+              ORDER BY
+              CASE application_choices.#{status_attribute}
+              WHEN 'offer_deferred' THEN 0
+              WHEN 'recruited' THEN 1
+              WHEN 'pending_conditions' THEN 2
+              WHEN 'conditions_not_met' THEN 2
+              WHEN 'offer' THEN 3
+              WHEN 'awaiting_provider_decision' THEN 4
+              WHEN 'interviewing' THEN 4
+              WHEN 'declined' THEN 5
+              WHEN 'offer_withdrawn' THEN 6
+              WHEN 'withdrawn' THEN 7
+              WHEN 'cancelled' THEN 7
+              WHEN 'rejected' THEN 7
+              ELSE 8
+              END
+            ) AS row_number
+          FROM application_forms
+          INNER JOIN application_choices
+            ON application_choices.application_form_id = application_forms.id
+          WHERE application_forms.recruitment_cycle_year = #{cycle}
+            #{without_subsequent_applications_query}
+            #{with_statuses}
+          ) AS application_choices_with_minimum_statuses
+        WHERE application_choices_with_minimum_statuses.row_number = 1
+        GROUP BY sex, #{status_attribute}"
+
+        ActiveRecord::Base
+          .connection
+          .execute(query)
+          .to_a
       end
     end
   end

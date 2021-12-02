@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
-  revision: c43713cbe66311cf44ebe5d56e57c422cfe14340
+  revision: f3e42572c55e5fdde4e2e06c42ee54b74981c907
   branch: main
   specs:
     rspec-retry (0.6.2)
@@ -116,7 +116,7 @@ GEM
     bullet (6.1.5)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    business_time (0.10.0)
+    business_time (0.11.0)
       activesupport (>= 3.2.0)
       sorted_set
       tzinfo
@@ -167,7 +167,7 @@ GEM
     diff-lcs (1.4.4)
     discard (1.2.0)
       activerecord (>= 4.2, < 7)
-    docile (1.3.4)
+    docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.6)
@@ -240,7 +240,7 @@ GEM
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.39.0)
-    govuk_design_system_formbuilder (2.7.6)
+    govuk_design_system_formbuilder (2.8.0)
       actionview (>= 6.0)
       activemodel (>= 6.0)
       activesupport (>= 6.0)
@@ -378,7 +378,7 @@ GEM
     optimist (3.0.1)
     orm_adapter (0.5.0)
     os (1.1.4)
-    pagy (5.5.0)
+    pagy (5.6.3)
     parallel (1.21.0)
     parallel_tests (3.7.3)
       parallel
@@ -505,7 +505,7 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
-    rspec-support (3.10.2)
+    rspec-support (3.10.3)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.23.0)
@@ -547,16 +547,16 @@ GEM
     semantic_logger (4.8.2)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (4.8.0)
+    sentry-rails (4.8.1)
       railties (>= 5.0)
-      sentry-ruby-core (~> 4.8.0)
-    sentry-ruby-core (4.8.0)
+      sentry-ruby-core (~> 4.8.1)
+    sentry-ruby-core (4.8.1)
       concurrent-ruby
       faraday
-    sentry-sidekiq (4.8.0)
-      sentry-ruby-core (~> 4.8.0)
+    sentry-sidekiq (4.8.1)
+      sentry-ruby-core (~> 4.8.1)
       sidekiq (>= 3.0)
-    set (1.0.1)
+    set (1.0.2)
     shellany (0.0.1)
     shoulda-matchers (5.0.0)
       activesupport (>= 5.2.0)
@@ -573,10 +573,11 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
-    simplecov-cobertura (1.4.2)
-      simplecov (~> 0.8)
+    simplecov-cobertura (2.0.0)
+      rexml
+      simplecov (~> 0.19)
     simplecov-html (0.12.3)
-    simplecov_json_formatter (0.1.2)
+    simplecov_json_formatter (0.1.3)
     skylight (5.1.1)
       activesupport (>= 5.2.0)
     smart_properties (1.15.0)
@@ -614,7 +615,7 @@ GEM
     tzinfo-data (1.2021.5)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
-    uk_postcode (2.1.6)
+    uk_postcode (2.1.7)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
@@ -718,7 +719,7 @@ DEPENDENCIES
   geocoder
   google-cloud-bigquery
   govuk-components (~> 2.1.4)
-  govuk_design_system_formbuilder (~> 2.7.6)
+  govuk_design_system_formbuilder (~> 2.8.0)
   govuk_markdown
   guard-rspec
   holidays

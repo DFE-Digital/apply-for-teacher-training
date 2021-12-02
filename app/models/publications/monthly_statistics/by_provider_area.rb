@@ -55,7 +55,8 @@ module Publications
         group_query_for_deferred_offers.map do |item|
           region_code, status = item[0]
           count = item[1]
-          counts[region_code_lookup(region_code)]&.merge!({ status => count })
+          statuses_for_region_code = counts[region_code_lookup(region_code)] || {}
+          statuses_for_region_code[status] = (statuses_for_region_code[status] || 0) + count
         end
 
         counts

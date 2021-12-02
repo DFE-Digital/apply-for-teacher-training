@@ -73,6 +73,9 @@ resource "cloudfoundry_app" "worker" {
   service_binding {
     service_instance = cloudfoundry_user_provided_service.logging.id
   }
+  routes {
+    route = cloudfoundry_route.worker_app_internal_route.id
+  }
 }
 
 resource "cloudfoundry_app" "worker_secondary" {
@@ -91,12 +94,27 @@ resource "cloudfoundry_app" "worker_secondary" {
   service_binding {
     service_instance = cloudfoundry_user_provided_service.logging.id
   }
+  routes {
+    route = cloudfoundry_route.secondary_worker_app_internal_route.id
+  }
 }
 
 resource "cloudfoundry_route" "web_app_internal_route" {
   domain   = data.cloudfoundry_domain.internal.id
   space    = data.cloudfoundry_space.space.id
   hostname = local.web_app_name
+}
+
+resource "cloudfoundry_route" "worker_app_internal_route" {
+  domain   = data.cloudfoundry_domain.internal.id
+  space    = data.cloudfoundry_space.space.id
+  hostname = local.worker_app_name
+}
+
+resource "cloudfoundry_route" "secondary_worker_app_internal_route" {
+  domain   = data.cloudfoundry_domain.internal.id
+  space    = data.cloudfoundry_space.space.id
+  hostname = local.secondary_worker_app_name
 }
 
 resource "cloudfoundry_route" "web_app_cloudapps_digital_route" {

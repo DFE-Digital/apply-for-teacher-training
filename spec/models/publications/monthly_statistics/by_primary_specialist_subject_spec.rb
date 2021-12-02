@@ -66,15 +66,15 @@ RSpec.describe Publications::MonthlyStatistics::ByPrimarySpecialistSubject do
             },
             {
               'Subject' => 'No specialist subject',
-              'Recruited' => 1,
+              'Recruited' => 2,
               'Conditions pending' => 0,
               'Received an offer' => 0,
               'Awaiting provider decisions' => 0,
               'Unsuccessful' => 0,
-              'Total' => 1,
+              'Total' => 2,
             },
           ],
-          column_totals: [2, 2, 0, 2, 3, 9],
+          column_totals: [3, 2, 0, 2, 3, 10],
         },
       )
     end
@@ -95,6 +95,7 @@ RSpec.describe Publications::MonthlyStatistics::ByPrimarySpecialistSubject do
     create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'pending_conditions', current_recruitment_cycle_year: RecruitmentCycle.previous_year, course_option: primary_with_mathematics_course_option)
 
     # current year
+    create(:application_choice, :with_recruited, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_course_option)
     create(:application_choice, :with_recruited, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_geography_and_history_course_option)
     create(:application_choice, :with_rejection, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_modern_languages_course_option)
     create(:application_choice, :with_withdrawn_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_mathematics_course_option)

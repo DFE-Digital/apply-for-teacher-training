@@ -4,6 +4,8 @@ module ProviderInterface
     skip_before_action :redirect_if_setup_required
 
     def new
+      redirect_to provider_interface_applications_path and return if impersonation?
+
       if FeatureFlag.active?('dfe_sign_in_fallback')
         render :authentication_fallback
       end
@@ -54,6 +56,12 @@ module ProviderInterface
       provider_user.update!(last_signed_in_at: Time.zone.now)
 
       redirect_to provider_interface_applications_path
+    end
+
+  private
+
+    def impersonation?
+      ProviderImpersonation.load_from_session(session)
     end
   end
 end

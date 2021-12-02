@@ -12,8 +12,18 @@ module ProviderInterface
       render_content_page :accessibility
     end
 
-    def privacy_policy
-      render_content_page :privacy_policy
+    def privacy; end
+
+    def service_privacy_notice
+      render_content_page :service_privacy_notice,
+                          breadcrumb_title: 'privacy_notices',
+                          breadcrumb_path: provider_interface_privacy_path
+    end
+
+    def online_chat_privacy_notice
+      render_content_page :online_chat_privacy_notice,
+                          breadcrumb_title: 'privacy_notices',
+                          breadcrumb_path: provider_interface_privacy_path
     end
 
     def cookies_page
@@ -34,7 +44,10 @@ module ProviderInterface
         hols
       end
 
-      render_content_page :dates_and_deadlines, with_breadcrumbs: true, locals: { holidays: holidays }
+      render_content_page :dates_and_deadlines,
+                          breadcrumb_title: 'service_guidance_provider',
+                          breadcrumb_path: provider_interface_service_guidance_path,
+                          locals: { holidays: holidays }
     end
 
     def complaints
