@@ -285,14 +285,32 @@ jobs:
     needs: [build, test]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby (installs .ruby-version, runs bundle install)
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
       - name: Download PR branch coverage artifact
         uses: actions/download-artifact@v2
         id: download-head-coverage
-        with:
-          path: head-result/
 
-      - name: List coverage results
-        run: ls -la head-result/
+      - name: List downloaded coverage report artifacts
+        run: ls -la *-head-result/.resultset.json
+
+      - name: Symlink source checkout directory to /app
+        run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
+
+      - name: Collate coverage results
+        run:  bundle exec ruby -e "require 'simplecov'; SimpleCov.root '/app'; SimpleCov.collate Dir[\"*-head-result/.resultset.json\"]"
+
+      - name: Replace compound command name with 'RSpec'
+        run: sed -i 's/"RSpec-.*"/"RSpec"/' coverage/.resultset.json
+
+      - name: Output collated results
+        run: cat coverage/.resultset.json
 
   trigger-deployment:
     name: Trigger Deployment
