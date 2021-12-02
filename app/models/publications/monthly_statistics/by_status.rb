@@ -111,6 +111,7 @@ module Publications
                         FROM application_forms
                         AS subsequent_application_forms
                         WHERE f.id = subsequent_application_forms.previous_application_form_id
+                        AND subsequent_application_forms.submitted_at IS NOT NULL
                       )
                     )
                 GROUP BY
