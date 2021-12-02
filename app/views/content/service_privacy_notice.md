@@ -106,14 +106,6 @@ We’ll share candidate names with referees so the referee can identify the cand
 
 We may need to share a bit more information to help the referee identify the candidate, such as how the candidate knows the referee.
 
-#### Sharing candidate data with UCAS
-
-We’ll share candidate data with UCAS.
-
-This is so UCAS can check applications across UCAS and Apply for teaching training.
-
-For example, UCAS will tell us if a candidate accepts offers on both services and we will contact the candidate if this is the case.
-
 ### External organisations who process data
 
 #### Customer service systems
@@ -126,13 +118,7 @@ We use a customer service management system to process some personal data, such 
 
 We’ll ask if you agree to cookies so that we can get statistics from Google Analytics. If you consent, Google may be able to get your IP address. We use Google Analytics for statistics and will not identify you personally from these.
 
-We also use Google’s G Suite to process some personal data. For example, we’ll ask referees to send a reference via Google Forms and process the data using Google Sheets.
-
 Google processes your data according to our instructions.
-
-#### Hosting services
-
-We host our services on Microsoft Azure Cloud, which encrypts your data to prevent it being accessed by unauthorised people.
 
 ### How long we keep your data
 

@@ -1,4 +1,4 @@
-Apply for teacher training and Manage teacher training applications are run by the Department for Education (‘we’).
+Apply for teacher training is run by the Department for Education (‘we’).
 
 Any information we collect when you use our services will be used and looked after by:
 
@@ -7,18 +7,18 @@ Any information we collect when you use our services will be used and looked aft
 
 This means we’re joint data controllers, as well as data processors, for your information (defined by data protection law).
 
-Apply for teacher training and Manage teacher training applications are new services.
-We’re confident that they’ve met our security standards, but we’ll continue to run
+Apply for teacher training is a new service.
+We’re confident that it meets our security standards, but we’ll continue to run
 security tests as we improve the service. Like with any digital service, there’s
 always a chance of data breaches happening.
 
 ## What personal data we collect
 
-The personal data we collect will depend on whether you’re a candidate, a referee, or a staff member at a teacher training provider.
+The personal data we collect will depend on whether you’re a candidate or a referee.
 
 ### What data we collect if you’re a candidate
 
-If you’re a candidate using Apply for teacher training, we may collect the following information about you:
+If you’re a candidate, we may collect the following information about you:
 
 * name
 * address
@@ -39,16 +39,6 @@ We may also collect:
 
 * any personal data you include in your reference
 * any information you give us if you consent to be contacted for user research
-
-### What data we collect if you work for a training provider
-
-If you process teacher training applications, we may need to collect information about you so we can process applications, for example:
-
-* your name
-* your email address
-* your phone number
-* where you work
-* what your role is
 
 ## How we use your data
 
@@ -109,14 +99,6 @@ We’ll share candidate names with referees so the referee can identify the cand
 
 We may need to share a bit more information to help the referee identify the candidate, such as how the candidate knows the referee.
 
-### Sharing candidate data with UCAS
-
-We’ll share candidate data with UCAS.
-
-This is so UCAS can check applications across UCAS and Apply for teaching training.
-
-For example, UCAS will tell us if a candidate accepts offers on both services and we will contact the candidate if this is the case.
-
 ### External organisations who process data
 
 #### Customer service systems
@@ -129,13 +111,7 @@ We use a customer service management system to process some personal data, such 
 
 We’ll ask if you agree to cookies so that we can get statistics from Google Analytics. If you consent, Google may be able to get your IP address. We use Google Analytics for statistics and will not identify you personally from these.
 
-We also use Google’s G Suite to process some personal data. For example, we’ll ask referees to send a reference via Google Forms and process the data using Google Sheets.
-
 Google processes your data according to our instructions.
-
-#### Hosting services
-
-We host our services on Microsoft Azure Cloud, which encrypts your data to prevent it being accessed by unauthorised people.
 
 ## How long we keep your data
 
@@ -173,4 +149,4 @@ For further information or to raise a concern, visit the [Information Commission
 
 We might need to update this privacy policy occasionally. Please review the policy now and then.
 
-This version was last updated on 25 November 2019.
+This version was last updated on 2 December 2021
