@@ -63,6 +63,14 @@ module Publications
       def apply_minimum_value_rule_to_totals(totals)
         totals.map { |count| apply_minimum_value_rule(count) }
       end
+
+      def column_totals_for(rows)
+        _area, *statuses = rows.first.keys
+
+        statuses.map do |column_name|
+          rows.inject(0) { |total, hash| total + hash[column_name] }
+        end
+      end
     end
   end
 end

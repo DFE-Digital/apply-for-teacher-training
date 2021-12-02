@@ -31,29 +31,6 @@ module Publications
         end
       end
 
-      def column_totals_for(rows)
-        _area, *statuses = rows.first.keys
-
-        statuses.map do |column_name|
-          rows.inject(0) { |total, hash| total + hash[column_name] }
-        end
-      end
-
-      MINIMUM_VISIBLE_VALUE = 5
-      def apply_minimum_value_rule(count)
-        count.is_a?(Numeric) && count < MINIMUM_VISIBLE_VALUE ? '0 to 4' : count
-      end
-
-      def apply_minimum_value_rule_to_rows(rows)
-        rows.map do |hash|
-          hash.transform_values { |count| apply_minimum_value_rule(count) }
-        end
-      end
-
-      def apply_minimum_value_rule_to_totals(totals)
-        totals.map { |count| apply_minimum_value_rule(count) }
-      end
-
       def column_label_for(region_code)
         I18n.t("application_form.region_codes.#{region_code}", default: region_code.humanize)
       end

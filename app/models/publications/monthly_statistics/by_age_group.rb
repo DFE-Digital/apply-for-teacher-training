@@ -23,15 +23,6 @@ module Publications
         end
       end
 
-      def column_totals_for(rows)
-        _age_group, *statuses = rows.first.keys
-
-        statuses.map do |column_name|
-          column_total = rows.inject(0) { |total, hash| total + hash[column_name] }
-          column_total
-        end
-      end
-
       def formatted_age_group_query
         counts = {
           '21 and under' => {
