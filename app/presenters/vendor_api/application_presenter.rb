@@ -5,6 +5,7 @@ module VendorAPI
     include VendorAPI::Qualifications
     include VendorAPI::FieldTruncation
     include VendorAPI::WorkExperience
+    include VendorAPI::HesaIttData
 
     UCAS_FEE_PAYER_CODES = {
       'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
@@ -95,27 +96,6 @@ module VendorAPI
     def personal_statement
       "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n " \
         "What is your subject knowledge?: #{application_form.subject_knowledge}"
-    end
-
-    def hesa_itt_data
-      return nil unless ApplicationStateChange::ACCEPTED_STATES.include?(application_choice.status.to_sym)
-
-      equality_and_diversity_data = application_form&.equality_and_diversity
-
-      if equality_and_diversity_data
-        {
-          sex: equality_and_diversity_data['hesa_sex'],
-          disability: equality_and_diversity_data['hesa_disabilities'],
-          ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-        }.merge(additional_hesa_itt_data(equality_and_diversity_data))
-      end
-    end
-
-    def additional_hesa_itt_data(equality_and_diversity_data)
-      {
-        other_disability_details: other_disability_details(equality_and_diversity_data),
-        other_ethnicity_details: other_ethnicity_details(equality_and_diversity_data),
-      }
     end
 
     def uk_residency_status
