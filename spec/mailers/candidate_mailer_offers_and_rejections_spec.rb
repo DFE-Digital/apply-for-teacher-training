@@ -337,7 +337,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'You’re due to take up your deferred offer',
+      'Your deferred offer has been confirmed',
       'heading' => 'Dear Bob',
       'provider name' => 'You have an offer from Falconholt Technical College',
       'name and code for course' => 'Forensic Science (E0FO)',
@@ -348,7 +348,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     describe 'with pending conditions' do
       it_behaves_like(
         'a mail with subject and content',
-        'You’re due to take up your deferred offer',
+        'Your deferred offer has been confirmed',
         'heading' => 'Dear Bob',
         'provider name' => 'You have an offer from Falconholt Technical College',
         'name and code for course' => 'Forensic Science (E0FO)',

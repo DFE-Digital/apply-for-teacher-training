@@ -86,7 +86,7 @@ en:
     deferred_offer_reminder:
       subject: "Reminder of your deferred offer"
     reinstated_offer:
-      subject: "You’re due to take up your deferred offer"
+      subject: "Your deferred offer has been confirmed"
     apply_again_call_to_action:
       subject: You can still apply for teacher training
     course_unavailable_notification:
