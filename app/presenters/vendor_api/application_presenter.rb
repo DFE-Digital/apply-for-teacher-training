@@ -72,7 +72,7 @@ module VendorAPI
           work_experience: {
             jobs: work_experience_jobs,
             volunteering: work_experience_volunteering,
-            work_history_break_explanation: work_history_breaks,
+            work_history_break_explanation: work_history_break_explanation,
           },
           offer: offer,
           rejection: rejection,

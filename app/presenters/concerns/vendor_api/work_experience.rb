@@ -1,17 +1,21 @@
 module VendorAPI
   module WorkExperience
-    def work_history_breaks
-      @work_history_breaks ||= if application_form.work_history_breaks
-                                 application_form.work_history_breaks
-                               elsif application_form.application_work_history_breaks.any?
-                                 application_form.application_work_history_breaks.map do |work_break|
-                                   format_work_break(work_break)
-                                 end.join("\n\n")
-                               else
-                                 ''
-                               end
+    include FieldTruncation
 
-      truncate_if_over_advertised_limit('WorkExperiences.properties.work_history_break_explanation', @work_history_breaks)
+    WORK_EXPERIENCE_BREAK_EXPLANATION_FIELD = 'WorkExperiences.properties.work_history_break_explanation'.freeze
+
+    def work_history_break_explanation
+      @work_history_break_explanation ||= if application_form.work_history_breaks
+                                            application_form.work_history_breaks
+                                          elsif application_form.application_work_history_breaks.any?
+                                            application_form.application_work_history_breaks.map do |work_break|
+                                              format_work_break(work_break)
+                                            end.join("\n\n")
+                                          else
+                                            ''
+                                          end
+
+      truncate_if_over_advertised_limit(WORK_EXPERIENCE_BREAK_EXPLANATION_FIELD, @work_history_break_explanation)
     end
 
     def work_experience_jobs
