@@ -108,30 +108,12 @@ module VendorAPI
       end
     end
 
-    def course_info_for(course_option)
-      {
-        recruitment_cycle_year: course_option.course.recruitment_cycle_year,
-        provider_code: course_option.course.provider.code,
-        site_code: course_option.site.code,
-        course_code: course_option.course.code,
-        study_mode: course_option.study_mode,
-        start_date: course_option.course.start_date.strftime('%Y-%m'),
-      }
-    end
-
-    def offer
-      return nil if application_choice.offer.nil?
-
       {
         conditions: application_choice.offer.conditions_text,
         offer_made_at: application_choice.offered_at,
         offer_accepted_at: application_choice.accepted_at,
         offer_declined_at: application_choice.declined_at,
       }.merge(current_course)
-    end
-
-    def current_course
-      { course: course_info_for(application_choice.current_course_option) }
     end
 
     def references

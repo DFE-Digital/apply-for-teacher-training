@@ -247,22 +247,6 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
   end
 
-  describe '#course' do
-    let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
-    let(:course_option) { application_choice.current_course_option }
-
-    it 'maps course information' do
-      expect(attributes[:course]).to eq({
-        recruitment_cycle_year: course_option.course.recruitment_cycle_year,
-        provider_code: course_option.course.provider.code,
-        site_code: course_option.site.code,
-        course_code: course_option.course.code,
-        study_mode: course_option.study_mode,
-        start_date: course_option.course.start_date.strftime('%Y-%m'),
-      })
-    end
-  end
-
   describe '#references' do
     let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
 
