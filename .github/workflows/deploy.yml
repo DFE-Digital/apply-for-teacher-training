@@ -135,6 +135,7 @@ jobs:
           ARM_ACCESS_KEY:           ${{ secrets.TERRAFORM_STATE_ACCESS_KEY }}
           IMAGE_TAG:                ${{ github.event.inputs.sha }}
           TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          CONFIRM_PRODUCTION: true
 
       - name: Trigger Smoke Test
         uses: benc-uk/workflow-dispatch@v1.1
