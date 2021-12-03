@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::CourseData do
-  subject(:presenter) { CourseDataClass.new(application_choice) }
+RSpec.describe CourseAPIData do
+  subject(:presenter) { CourseAPIDataClass.new(application_choice) }
 
   let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
   let(:course_data_class) do
     Class.new do
-      include VendorAPI::CourseData
+      include CourseAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)
@@ -17,7 +17,7 @@ RSpec.describe VendorAPI::CourseData do
   end
 
   before do
-    stub_const('CourseDataClass', course_data_class)
+    stub_const('CourseAPIDataClass', course_data_class)
   end
 
   describe '#course_info_for' do

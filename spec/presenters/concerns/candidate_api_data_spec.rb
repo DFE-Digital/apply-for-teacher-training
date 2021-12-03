@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::CandidateData do
+RSpec.describe CandidateAPIData do
   subject(:presenter) { CandidateClass.new(application_choice) }
 
   let(:candidate_class) do
     Class.new do
-      include VendorAPI::CandidateData
+      include CandidateAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

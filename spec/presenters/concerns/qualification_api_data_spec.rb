@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::Qualifications do
+RSpec.describe QualificationAPIData do
   include QualificationsPresenterHelper
 
   subject(:presenter) { QualificationClass.new(application_choice) }
 
   let(:qualification_class) do
     Class.new do
-      include VendorAPI::Qualifications
+      include QualificationAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

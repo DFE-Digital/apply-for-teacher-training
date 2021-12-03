@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::ContactDetailsData do
-  subject(:presenter) { ContactDetailsDataClass.new(application_choice) }
+RSpec.describe ContactDetailsAPIData do
+  subject(:presenter) { ContactDetailsAPIDataClass.new(application_choice) }
 
   let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
   let(:contact_details_data_class) do
     Class.new do
-      include VendorAPI::ContactDetailsData
+      include ContactDetailsAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)
@@ -17,7 +17,7 @@ RSpec.describe VendorAPI::ContactDetailsData do
   end
 
   before do
-    stub_const('ContactDetailsDataClass', contact_details_data_class)
+    stub_const('ContactDetailsAPIDataClass', contact_details_data_class)
   end
 
   describe '#contact_details' do

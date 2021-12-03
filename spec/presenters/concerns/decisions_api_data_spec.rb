@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::DecisionsData do
+RSpec.describe DecisionsAPIData do
   subject(:presenter) { DecisionsDataClass.new(application_choice) }
 
   let(:application_form) { create(:application_form, :minimum_info) }
   let(:decisions_data_class) do
     Class.new do
-      include VendorAPI::DecisionsData
+      include DecisionsAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)

@@ -2,14 +2,13 @@ module VendorAPI
   class ApplicationPresenter
     include Rails.application.routes.url_helpers
 
-    include VendorAPI::Qualifications
-    include VendorAPI::FieldTruncation
-    include VendorAPI::WorkExperience
-    include VendorAPI::HesaIttData
-    include VendorAPI::CandidateData
-    include VendorAPI::CourseData
-    include VendorAPI::DecisionsData
-    include VendorAPI::ContactDetailsData
+    include CandidateAPIData
+    include QualificationAPIData
+    include ContactDetailsAPIData
+    include CourseAPIData
+    include WorkExperienceAPIData
+    include DecisionsAPIData
+    include HesaIttDataAPIData
 
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
                                interviewing: 'awaiting_provider_decision' }.freeze

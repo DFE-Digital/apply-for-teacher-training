@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::WorkExperience do
-  subject(:presenter) { WorkExperienceClass.new(application_choice) }
+RSpec.describe WorkExperienceAPIData do
+  subject(:presenter) { WorkExperienceAPIDataClass.new(application_choice) }
 
   let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, application_form: application_form) }
   let(:work_experience_class) do
     Class.new do
-      include VendorAPI::WorkExperience
+      include WorkExperienceAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)
@@ -17,7 +17,7 @@ RSpec.describe VendorAPI::WorkExperience do
   end
 
   before do
-    stub_const('WorkExperienceClass', work_experience_class)
+    stub_const('WorkExperienceAPIDataClass', work_experience_class)
   end
 
   describe '#work_history_break_explanation' do

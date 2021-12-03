@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe VendorAPI::HesaIttData do
+RSpec.describe HesaIttDataAPIData do
   subject(:presenter) { HesaITTDataClass.new(application_choice) }
 
   let(:hesa_itt_data_class) do
     Class.new do
-      include VendorAPI::HesaIttData
+      include HesaIttDataAPIData
       attr_accessor :application_choice, :application_form
 
       def initialize(application_choice)
