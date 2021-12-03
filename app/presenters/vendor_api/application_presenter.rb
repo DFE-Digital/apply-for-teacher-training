@@ -6,11 +6,8 @@ module VendorAPI
     include VendorAPI::FieldTruncation
     include VendorAPI::WorkExperience
     include VendorAPI::HesaIttData
+    include VendorAPI::CandidateData
 
-    UCAS_FEE_PAYER_CODES = {
-      'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
-      'Not Known' => '99',
-    }.freeze
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
                                interviewing: 'awaiting_provider_decision' }.freeze
     CACHE_EXPIRES_IN = 1.day
@@ -51,21 +48,7 @@ module VendorAPI
           reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
           recruited_at: application_choice.recruited_at,
           hesa_itt_data: hesa_itt_data,
-          candidate: {
-            id: application_form.candidate.public_id,
-            first_name: application_form.first_name,
-            last_name: application_form.last_name,
-            date_of_birth: application_form.date_of_birth,
-            nationality: application_choice.nationalities,
-            domicile: application_form.domicile,
-            uk_residency_status: uk_residency_status,
-            uk_residency_status_code: uk_residency_status_code,
-            fee_payer: provisional_fee_payer_status,
-            english_main_language: application_form.english_main_language,
-            english_language_qualifications: application_form.english_language_qualification_details,
-            other_languages: application_form.other_language_details,
-            disability_disclosure: application_form.disability_disclosure,
-          },
+          candidate: candidate,
           contact_details: contact_details,
           course: course_info_for(application_choice.course_option),
           references: references,
@@ -96,38 +79,6 @@ module VendorAPI
     def personal_statement
       "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n " \
         "What is your subject knowledge?: #{application_form.subject_knowledge}"
-    end
-
-    def uk_residency_status
-      return 'UK Citizen' if application_choice.nationalities.include?('GB')
-
-      return 'Irish Citizen' if application_choice.nationalities.include?('IE')
-
-      return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
-
-      'Candidate needs to apply for permission to work and study in the UK'
-    end
-
-    def uk_residency_status_code
-      return 'A' if application_choice.nationalities.include?('GB')
-      return 'B' if application_choice.nationalities.include?('IE')
-      return 'D' if application_form.right_to_work_or_study_yes?
-
-      'C'
-    end
-
-    def provisional_fee_payer_status
-      return UCAS_FEE_PAYER_CODES['SLC,SAAS,NIBd,EU,Chl,IoM'] if provisionally_eligible_for_gov_funding?
-
-      UCAS_FEE_PAYER_CODES['Not Known']
-    end
-
-    def provisionally_eligible_for_gov_funding?
-      return true if (PROVISIONALLY_ELIGIBLE_FOR_GOV_FUNDING_COUNTRY_CODES & application_choice.nationalities).any?
-
-      (EU_EEA_SWISS_COUNTRY_CODES & application_choice.nationalities).any? &&
-        application_form.right_to_work_or_study_yes? &&
-        application_form.uk_address?
     end
 
     def contact_details
