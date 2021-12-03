@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe VendorAPI::CourseData do
   subject(:presenter) { CourseDataClass.new(application_choice) }
-  let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
 
+  let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
   let(:course_data_class) do
     Class.new do
       include VendorAPI::CourseData
@@ -47,7 +47,7 @@ RSpec.describe VendorAPI::CourseData do
           course_code: course_option.course.code,
           study_mode: course_option.study_mode,
           start_date: course_option.course.start_date.strftime('%Y-%m'),
-        }
+        },
       })
     end
   end
