@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'OpenAPI spec' do
-  document = Openapi3Parser.load(VendorAPISpecification.as_hash)
+  document = Openapi3Parser.load(VendorAPISpecification.new.as_hash)
 
   it 'is a valid OpenAPI spec' do
     expect(document).to be_valid, document.errors.to_a.inspect
@@ -9,7 +9,7 @@ RSpec.describe 'OpenAPI spec' do
 
   describe 'referee types' do
     it 'matches the enum' do
-      enum_in_api = VendorAPISpecification.as_hash['components']['schemas']['Reference']['properties']['referee_type']['enum']
+      enum_in_api = VendorAPISpecification.new.as_hash['components']['schemas']['Reference']['properties']['referee_type']['enum']
 
       expect(enum_in_api).to match_array(ApplicationReference.referee_types.keys)
     end

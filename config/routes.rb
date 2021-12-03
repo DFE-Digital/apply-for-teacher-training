@@ -1140,7 +1140,11 @@ Rails.application.routes.draw do
       get '/lifecycle' => 'pages#lifecycle'
       get '/when-emails-are-sent' => 'pages#when_emails_are_sent'
       get '/help' => 'pages#help', as: :help
-      get '/spec.yml' => 'openapi#spec', as: :spec
+      get '/spec.yml' => 'openapi#current_spec', as: :spec
+
+      get '/draft' => 'reference#draft', as: :draft
+      get '/spec-1.0.yml' => 'openapi#spec_1_0', as: :spec_1_0
+      get '/spec-1.1.yml' => 'openapi#spec_1_1', as: :spec_1_1
     end
 
     namespace :data_api_docs, path: '/data-api' do
