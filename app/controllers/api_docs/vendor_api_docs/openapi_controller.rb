@@ -10,6 +10,8 @@ module APIDocs
       end
 
       def spec_1_1
+        return redirect_to api_docs_spec_1_0_path unless FeatureFlag.active?(:draft_vendor_api_specification)
+
         render plain: VendorAPISpecification.new(version: '1.1').as_yaml, content_type: 'text/yaml'
       end
     end
