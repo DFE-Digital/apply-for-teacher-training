@@ -66,7 +66,25 @@
 Minor version updates will become available automatically at the MAJOR version urls. For example, version 1.1 urls will be available automatically under /api/v1 when version 1.1 is released. Pre-existing urls may return additional fields at this point.
 
 <p class="govuk-body">
-We will also support requesting a specific minor version via the url, see examples of this within the <%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %> section.
+We will also support requesting a specific minor version via the url. For example:
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
+
+  will then be serving version 1.1 of the API.
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
+
+  will then be serving version 1.1 of the API.
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0' %>
+
+  will be serving version 1.0 of the API.
 </p>
 
 <h2 class="govuk-heading-l" id="important">Version 1.1 changes</h2>
@@ -112,28 +130,6 @@ We will also support requesting a specific minor version via the url, see exampl
 
 <p class="govuk-body">
   We have a production environment and a sandbox environment. When version 1.1 is launched, these environments will automatically upgrade to the latest minor version.
-</p>
-
-<p class="govuk-body">
-  For example:
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
-
-  will then be serving version 1.1 of the API.
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
-
-  will then be serving version 1.1 of the API.
-</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0' %>
-
-  will be serving version 1.0 of the API.
 </p>
 
 <h3 id="authentication" class="govuk-heading-m">Authentication</h3>
