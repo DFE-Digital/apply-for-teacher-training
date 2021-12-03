@@ -130,11 +130,15 @@ jobs:
           CONFIRM_PRODUCTION: true
 
       - name: Terraform init, plan & apply
-        run: make ${{ matrix.environment }} ci deploy
+        run: |
+          terraform init -backend-config=workspace_variables/${{ matrix.environment }}_backend.tfvars
+          terraform plan -var-file workspace_variables/${{ matrix.environment }}.tfvars.json -out tfplan
+          terraform apply -auto-approve -input=false "tfplan"
+        working-directory: terraform
         env:
           ARM_ACCESS_KEY:           ${{ secrets.TERRAFORM_STATE_ACCESS_KEY }}
-          IMAGE_TAG:                ${{ github.event.inputs.sha }}
           TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          TF_VAR_paas_docker_image: ${{ env.DOCKER_IMAGE }}
 
       - name: Trigger Smoke Test
         uses: benc-uk/workflow-dispatch@v1.1
