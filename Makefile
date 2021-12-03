@@ -99,10 +99,6 @@ research:
 	$(eval SPACE=bat-qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 
-ci:
-	$(eval export DISABLE_PASSCODE=true)
-	$(eval export AUTO_APPROVE=-auto-approve)
-
 azure-login:
 	az account set -s $(AZURE_SUBSCRIPTION)
 
@@ -136,21 +132,21 @@ shell: ## Open a shell on the app instance on PaaS, eg: make qa shell
 
 deploy-init:
 	$(if $(IMAGE_TAG), , $(eval export IMAGE_TAG=main))
-	$(if $(or $(DISABLE_PASSCODE),$(PASSCODE)), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
-	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
-
-	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
+	echo "Docker image ${TF_VAR_paas_docker_image} will be deployed"
+	$(if $(PASSCODE), , $(error Missing environment variable "PASSCODE", retrieve from https://login.london.cloud.service.gov.uk/passcode))
+	$(eval export TF_VAR_paas_sso_code=$(PASSCODE))
+	az account set -s $(AZURE_SUBSCRIPTION) && az account show \
+	&& cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
 
 deploy-plan: deploy-init
 	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars.json
 
 deploy: deploy-init
-	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	cd terraform && terraform apply -var-file=workspace_variables/$(APP_ENV).tfvars.json
 
 destroy: deploy-init
-	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json
 
 .PHONY: set-space-developer
 set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.education.gov.uk
