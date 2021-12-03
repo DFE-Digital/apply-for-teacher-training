@@ -3,10 +3,10 @@ module APIDocs
     attr_reader :document
     delegate :servers, to: :document
 
-    def initialize(spec, version: '1.0')
+    def initialize(spec, version: '1.0', highlight_yaml_file: nil)
       @document = Openapi3Parser.load(spec)
       @version = version
-      @highlight_yaml = @version == '1.0' ? {} : YAML.load_file("config/vendor_api/v#{@version}-highlights.yml")
+      @highlight_yaml = highlight_yaml_file.present? ? YAML.load_file(highlight_yaml_file) : {}
     end
 
     def operations

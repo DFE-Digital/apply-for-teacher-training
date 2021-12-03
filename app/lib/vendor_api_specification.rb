@@ -1,5 +1,6 @@
 class VendorAPISpecification
   CURRENT_VERSION = '1.0'.freeze
+  DRAFT_VERSION = '1.1'.freeze
 
   def initialize(version: nil)
     @version = version || CURRENT_VERSION
