@@ -13,6 +13,7 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'securerandom'
 require 'simplecov'
 require 'simplecov-cobertura'
 SimpleCov.formatters = [
@@ -20,7 +21,10 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::CoberturaFormatter,
 ]
 
-SimpleCov.command_name('RSpec')
+# Give each coverage report a unique ID if we are running parallel tests
+if ENV['TEST_ENV_NUMBER']
+  SimpleCov.command_name("RSpec-#{SecureRandom.hex(4)}")
+end
 
 SimpleCov.start 'rails' do
   enable_coverage :branch
