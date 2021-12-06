@@ -40,51 +40,51 @@
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
-<h2 class="govuk-heading-l" id="versions">API Versions</h2>
+<h2 class="govuk-heading-l" id="versions">API Versioning Strategy</h2>
 
 <p class="govuk-body">
-  The current version of this API is 1.0. The next version of this API will be 1.1.  This is a draft specification for version 1.1.
+  The current version of this API is <b>1.0</b>. The next version of this API will be <b>1.1</b>.  This is a draft specification for <b>version 1.1</b>.
 </p>
 
 <p class="govuk-body">
-  From version 1.1 onwards, version numbers will follow this format: MAJOR.MINOR (e.g. 1.2)
+  From <b>version 1.1</b> onwards, version numbers will follow the following format: <code>MAJOR.MINOR</code> (e.g. <b>1.2</b>)
 </p>
 
 <p class="govuk-body">
-  MAJOR version: The version used in the URI and defines breaking changes to the API.
+  <b>MAJOR version</b>: The version used in the URI and defines breaking changes to the API. This can include removing features/fields or changing behaviour of endpoints.
 </p>
 
 <p class="govuk-body">
-  MINOR version: Includes non-breaking changes to the API, mostly additions. For example, a minor version may add a new field or a new endpoint.
+  <b>MINOR version</b>: Includes non-breaking changes to the API, mostly additions. For example, a minor version may add a new field or a new endpoint. Minor versions will not remove any endpoints or fields for existing features supported in the API, to ensure backwards compatibility.
 </p>
 
 <p class="govuk-body">
-  All changes, minor or major, will be documented in our release notes.
+  All changes, minor or major, will be documented in our <%= govuk_link_to 'release notes', api_docs_release_notes_path %>.
 </p>
 
 <p class="govuk-body">
-Minor version updates will become available automatically at the MAJOR version urls. For example, version 1.1 urls will be available automatically under /api/v1 when version 1.1 is released. Pre-existing urls may return additional fields at this point.
+Minor version updates will become available <b>automatically</b> at the MAJOR version URLs when released. For example, <b>version 1.1</b> URLs will be available automatically under <code>/api/v1/</code> when <b>version 1.1</b> is released. Pre-existing URLs may return additional fields at this point.
 
 <p class="govuk-body">
-We will also support requesting a specific minor version via the url. For example:
+We will also support requesting a specific minor version via the URL. For example:
 </p>
 
 <p class="govuk-body">
   <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
 
-  will then be serving version 1.1 of the API.
+  will then be serving <b>version 1.1</b> of the API.
 </p>
 
 <p class="govuk-body">
   <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
 
-  will then be serving version 1.1 of the API.
+  will then be serving <b>version 1.1</b> of the API.
 </p>
 
 <p class="govuk-body">
   <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0' %>
 
-  will be serving version 1.0 of the API.
+  will be serving <b>version 1.0</b> of the API.
 </p>
 
 <h2 class="govuk-heading-l" id="important">Version 1.1 changes</h2>
