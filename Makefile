@@ -85,7 +85,7 @@ sandbox:
 	$(eval APP_NAME_SUFFIX=sandbox)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 
-prod:
+production:
 	$(if $(CONFIRM_PRODUCTION), , $(error Production can only run with CONFIRM_PRODUCTION))
 	$(eval APP_ENV=production)
 	$(eval APP_NAME_SUFFIX=prod)
