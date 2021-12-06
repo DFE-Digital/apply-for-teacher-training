@@ -617,7 +617,7 @@ Rails.application.routes.draw do
     get '/refuse-feedback', to: redirect(path: '/reference')
   end
 
-  namespace :vendor_api, path: 'api/v1' do
+  namespace :vendor_api, path: 'api/:api_version', api_version: /v[.0-9]+/, constraints: ValidVendorApiRoute do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
 

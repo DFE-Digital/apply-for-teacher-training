@@ -1,5 +1,9 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
+    include Versioning
+
+    VERSION = '1.0'.freeze
+
     def index
       render json: serialized_application_choices_data
     end
