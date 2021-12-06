@@ -32,6 +32,7 @@ module VendorAPI
       Changes::CreateInterview,
       Changes::UpdateInterview,
       Changes::CancelInterview,
+      Changes::Pagination,
     ],
   }.freeze
 end
