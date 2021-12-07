@@ -98,13 +98,17 @@ We will also support requesting a specific minor version via the URL. For exampl
 
 <p class="govuk-body">To update an interview, the <%= govuk_link_to 'update endpoint', '#post-applications-application_id-interviews-interview_id-update' %> can be invoked with only the fields that require update.</p>
 
-<p class="govuk-body">To cancel an interivew, the <%= govuk_link_to 'cancel endpoint', '#post-applications-application_id-interviews-interview_id-cancel' %> can be invoked with the cancellation reason. If an interview is cancelled the <code>cancelled_at</code> and <code>cancellation_reason</code> attributes will be populated</p>
+<p class="govuk-body">To cancel an interview, the <%= govuk_link_to 'cancel endpoint', '#post-applications-application_id-interviews-interview_id-cancel' %> can be invoked with the cancellation reason. If an interview is cancelled the <code>cancelled_at</code> and <code>cancellation_reason</code> attributes will be populated</p>
 
 <p class="govuk-body">If an applicant has an interview, the <code>interviews</code> array in the application response will be populated and can be used to determine the presence of any interviews, including cancelled ones. The status of the application will remain as <code>awaiting_provider_decision</code></p>
 
 <p class="govuk-heading-s">Notes</p>
 <p class="govuk-body">
-  We now support creating notes.
+  We now support <%= govuk_link_to 'creating', '#post-applications-application_id-notes-create' %> notes.
+
+  To create a note the <%= govuk_link_to 'create endpoint', '#post-applications-application_id-notes-create' %> can be invoked with the message of the note.
+
+  <p class="govuk-body">If an applicant has any notes attached to the appication, the <code>notes</code> array in the application response will be populated and can be used to determine the presence of any notes. The author of the note will be determined from the <code>full_name</code> provided in the <%= govuk_link_to 'Attribution Object', '#attribution-object' %> when making the API call.</p>
 </p>
 
 <p class="govuk-heading-s">Deferring applications</p>

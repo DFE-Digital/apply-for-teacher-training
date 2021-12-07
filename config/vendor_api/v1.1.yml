@@ -493,7 +493,7 @@ paths:
       summary: Create note
       description: |
         Creates a new note for this application.
-        Its date will be set to the timestamp of the API call.
+        The `updated_at` timestamp will be set to the time of the API call.
         Its author details will be read from the attribution part of MetaData.
       parameters:
       - "$ref": "#/components/parameters/application_id"
@@ -1182,7 +1182,7 @@ components:
       additionalProperties: false
       required:
       - message
-      - date
+      - updated_at
       - author
       properties:
         message:
@@ -1190,10 +1190,10 @@ components:
           description: The content of the note
           example: 'This candidate can only interview remotely'
           maxLength: 500
-        date:
+        updated_at:
           type: string
           format: date-time
-          description: Date and time the note was added
+          description: Date and time the note was updated
           example: 2019-09-18T15:33:49.216Z
         author:
           type: string
