@@ -3,6 +3,7 @@ module VendorAPI
     include ActionController::HttpAuthentication::Token::ControllerMethods
     include RequestQueryParams
     include RemoveBrowserOnlyHeaders
+    include Versioning
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing

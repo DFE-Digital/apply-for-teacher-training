@@ -1,7 +1,5 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
-    include Versioning
-
     VERSION = '1.0'.freeze
 
     def index
