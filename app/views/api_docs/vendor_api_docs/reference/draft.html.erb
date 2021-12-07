@@ -98,7 +98,7 @@ We will also support requesting a specific minor version via the URL. For exampl
 
 <p class="govuk-body">To update an interview, the <%= govuk_link_to 'update endpoint', '#post-applications-application_id-interviews-interview_id-update' %> can be invoked with only the fields that require update. Any field that is not included will retain the current value and will not be overwritten.</p>
 
-<p class="govuk-body">To cancel an interview, the <%= govuk_link_to 'cancel endpoint', '#post-applications-application_id-interviews-interview_id-cancel' %> can be invoked with the cancellation reason. If an interview is cancelled the <code>cancelled_at</code> and <code>cancellation_reason</code> attributes will be populated</p>
+<p class="govuk-body">To cancel an interview, the <%= govuk_link_to 'cancel endpoint', '#post-applications-application_id-interviews-interview_id-cancel' %> can be invoked with the cancellation reason. If an interview is cancelled the <code>cancelled_at</code> and <code>cancellation_reason</code> attributes will be populated.</p>
 
 <p class="govuk-body">If an applicant has an interview, the <code>interviews</code> array in the application response will be populated and can be used to determine the presence of any interviews, including cancelled ones. The status of the application will remain as <code>awaiting_provider_decision</code>.</p>
 
