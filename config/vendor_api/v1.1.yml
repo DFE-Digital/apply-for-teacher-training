@@ -315,7 +315,9 @@ paths:
       description: |
         Confirms a deferred offer from the previous cycle to the current one.
         This call only succeeds if the same course, location and study_mode combination
-        is available in the current recruitment cycle.
+        is available in the current recruitment cycle, otherwise it will return a 422.
+        If the `conditions_met` parameter is false then the new application status will be
+        `pending_conditions`.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -348,7 +350,7 @@ paths:
     post:
       tags:
       - Application management
-      summary: Withdraw an application or decline an offer
+      summary: Withdraw an application
       description: |
         Withdraws an application or declines an offer at the candidate’s request.
       parameters:

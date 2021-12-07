@@ -96,7 +96,7 @@ We will also support requesting a specific minor version via the URL. For exampl
 
 <p class="govuk-body">A nested <code>interviews</code> array will become populated if an interview is created. Each <%= govuk_link_to 'interview', '#interview-object' %> within the array will hold a unique <code>id</code>, which allows the update or cancelling of a specific interview.</p>
 
-<p class="govuk-body">To update an interview, the <%= govuk_link_to 'update endpoint', '#post-applications-application_id-interviews-interview_id-update' %> can be invoked with only the fields that require update.</p>
+<p class="govuk-body">To update an interview, the <%= govuk_link_to 'update endpoint', '#post-applications-application_id-interviews-interview_id-update' %> can be invoked with only the fields that require update. Any field that is not included will retain the current value and will not be overwritten.</p>
 
 <p class="govuk-body">To cancel an interview, the <%= govuk_link_to 'cancel endpoint', '#post-applications-application_id-interviews-interview_id-cancel' %> can be invoked with the cancellation reason. If an interview is cancelled the <code>cancelled_at</code> and <code>cancellation_reason</code> attributes will be populated</p>
 
