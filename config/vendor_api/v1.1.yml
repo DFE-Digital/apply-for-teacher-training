@@ -307,13 +307,13 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
-  "/applications/{application_id}/reinstate-offer":
+  "/applications/{application_id}/confirm-deferred-offer":
     post:
       tags:
       - Application management
-      summary: Reinstate a deferred offer
+      summary: Confirm a deferred offer
       description: |
-        Reinstates a deferred offer from the previous cycle to the current one.
+        Confirms a deferred offer from the previous cycle to the current one.
         This call only succeeds if the same course, location and study_mode combination
         is available in the current recruitment cycle.
       parameters:
@@ -328,7 +328,7 @@ paths:
                 - meta
               properties:
                 data:
-                  "$ref": "#/components/schemas/ReinstateOffer"
+                  "$ref": "#/components/schemas/ConfirmDeferredOffer"
                 meta:
                   "$ref": "#/components/schemas/MetaData"
       responses:
@@ -1470,7 +1470,7 @@ components:
           format: date-time
           description: Time of the rejection or offer withdrawal
           example: 2019-09-18T15:33:49.216Z
-    ReinstateOffer:
+    ConfirmDeferredOffer:
       type: object
       additionalProperties: false
       required:
@@ -1478,7 +1478,7 @@ components:
       properties:
         conditions_met:
           type: boolean
-          description: Determines the status of the reinstated application (recruited vs. pending_conditions)
+          description: Determines the status of the confirmed deferred application (recruited vs. pending_conditions)
           example: true
     Withdrawal:
       type: object

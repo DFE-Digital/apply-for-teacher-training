@@ -4,7 +4,7 @@ new_paths:
   - "/applications/{application_id}/interviews/{interview_id}/cancel"
   - "/applications/{application_id}/notes/create"
   - "/applications/{application_id}/defer-offer"
-  - "/applications/{application_id}/reinstate-offer"
+  - "/applications/{application_id}/confirm-deferred-offer"
   - "/applications/{application_id}/withdraw"
 new_parameters:
   - page
