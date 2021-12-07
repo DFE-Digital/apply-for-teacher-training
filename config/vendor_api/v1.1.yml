@@ -697,18 +697,17 @@ components:
       - references
       - rejection
       - status
+      - withdrawn_or_declined_for_candidate
       - submitted_at
       - updated_at
       - reject_by_default_at
       - recruited_at
+      - withdrawn_at
       - withdrawal
       - further_information
       - work_experience
       - safeguarding_issues_status
       - safeguarding_issues_details_url
-      - offer_deferred_at
-      - status_before_deferral
-      - withdrawn_or_declined_for_candidate
       properties:
         application_url:
           type: string
@@ -768,6 +767,12 @@ components:
           nullable: true
           description: When the candidate met their conditions, receiving a firm place on the course
           example: 2019-06-13T23:59:59Z
+        withdrawn_at:
+          type: string
+          format: date-time
+          description: Date and time the application was withdrawn
+          example: 2019-09-18T15:33:49.216Z
+          nullable: true
         personal_statement:
           type: string
           maxLength: 10240
@@ -839,17 +844,6 @@ components:
           description: URL to Apply system where safeguarding issues disclosed by the candidate can be access by users with permissions to view safeguarding information.
           example: https://apply-for-teacher-training.service.gov.uk/provider/applications/1#criminal-convictions-and-professional-misconduct
           nullable: true
-        offer_deferred_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: When this application was deferred
-          example: 2019-06-10T23:59:59Z
-        status_before_deferral:
-          type: string
-          nullable: true
-          description: Application status before the deferral (pending_conditions or recruited)
-          example: pending_conditions
         withdrawn_or_declined_for_candidate:
           type: boolean
           nullable: true
@@ -1206,9 +1200,11 @@ components:
       required:
       - conditions
       - course
+      - status_before_deferral
       - offer_made_at
       - offer_accepted_at
       - offer_declined_at
+      - offer_deferred_at
       properties:
         conditions:
           type: array
@@ -1222,6 +1218,14 @@ components:
           - Completion of professional skills test
         course:
           "$ref": "#/components/schemas/Course"
+        status_before_deferral:
+          type: string
+          nullable: true
+          description: Application status before the deferral (pending_conditions or recruited)
+          enum:
+          - pending_conditions
+          - recruited
+          example: pending_conditions
         offer_made_at:
           type: string
           format: date-time
@@ -1239,6 +1243,12 @@ components:
           description: Date and time the offer was declined
           example: 2019-09-18T15:33:49.216Z
           nullable: true
+        offer_deferred_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When this application was deferred
+          example: 2019-06-10T23:59:59Z
     MakeOffer:
       type: object
       additionalProperties: false
