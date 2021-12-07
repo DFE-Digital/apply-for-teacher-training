@@ -42,6 +42,12 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
         allow(Sentry).to receive(:capture_exception)
       end
 
+      around do |example|
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          example.run
+        end
+      end
+
       it 'raises a FullSync error' do
         described_class.new(
           provider_from_api: provider_from_api,
