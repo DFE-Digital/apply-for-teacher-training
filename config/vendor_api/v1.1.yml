@@ -1063,7 +1063,7 @@ components:
       properties:
         provider_code:
           type: string
-          description: The provider’s code. This must correspond to either the training or the ratifying provider for this application/course.
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
           example: 2FR
           maxLength: 3
         date_and_time:
@@ -1074,7 +1074,7 @@ components:
         location:
           type: string
           description: |
-            An string describing where or how the interview will take place.
+            A string describing where or how the interview will take place.
           example: 'Zoom call'
         additional_details:
           type: string
@@ -1084,14 +1084,10 @@ components:
     UpdateInterview:
       type: object
       additionalProperties: false
-      required:
-      - provider_code
-      - date_and_time
-      - location
       properties:
         provider_code:
           type: string
-          description: The provider’s code. This must correspond to either the training or the ratifying provider for this application/course.
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
           example: 2FR
           maxLength: 3
         date_and_time:
@@ -1128,6 +1124,7 @@ components:
       - provider_code
       - date_and_time
       - location
+      - updated_at
       properties:
         id:
           type: string
@@ -1137,7 +1134,7 @@ components:
           example: 11fc0d3b2f
         provider_code:
           type: string
-          description: The provider’s code. This must correspond to either the training or the ratifying provider for this application/course.
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
           example: 2FR
           maxLength: 3
         date_and_time:
@@ -1164,6 +1161,11 @@ components:
           type: string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           example: 'Candidate has accepted an alternative offer'
+        updated_at:
+          type: string
+          format: date-time
+          description: Time of last change
+          example: 2019-09-18T16:33:49.216Z
     CreateNote:
       type: object
       additionalProperties: false
