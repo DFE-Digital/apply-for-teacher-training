@@ -23,9 +23,6 @@ class CookieBanners {
     if (!checkConsentedToCookieExists(this.service)) {
       this.showCookieMessage()
       this.bindEvents()
-    } else {
-      // TODO: Remove this once this is hidden server side
-      this.hideModule(this.$cookieBannerModule)
     }
   }
 
