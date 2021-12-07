@@ -303,7 +303,7 @@ jobs:
         run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
 
       - name: Collate PR coverage results
-        run: bundle exec ruby -e "require 'simplecov'; SimpleCov.root '/app'; SimpleCov.start do enable_coverage :branch end; SimpleCov.collate Dir[\"*-result/.resultset.json\"]"
+        run: bundle exec ruby .github/scripts/simplecov_collate.rb
 
       - name: Replace compound command name with 'RSpec'
         run: sed -i 's/"RSpec-.*"/"RSpec"/' coverage/.resultset.json
