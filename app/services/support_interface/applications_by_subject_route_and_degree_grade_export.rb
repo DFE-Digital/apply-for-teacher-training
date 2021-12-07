@@ -26,7 +26,7 @@ module SupportInterface
         {
           subject: subject,
           route: choice.route,
-          degree_class: choice.degree_class,
+          grade_hesa_code: choice.grade_hesa_code,
           applications: 0,
           offers_received: 0,
           number_of_acceptances: 0,
@@ -76,12 +76,12 @@ module SupportInterface
     end
 
     def grouping_key(hash)
-      hash[:subject].to_s + hash[:route].to_s + hash[:degree_class].to_s
+      hash[:subject].to_s + hash[:route].to_s + hash[:grade_hesa_code].to_s
     end
 
     def choices_with_courses_and_subjects
       ApplicationChoice
-        .select('application_choices.id as id, application_choices.status as status, providers.provider_type as route, application_qualifications.grade as degree_class, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name) as subject_names, ARRAY_AGG(subjects.code) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
+        .select('application_choices.id as id, application_choices.status as status, providers.provider_type as route, application_qualifications.grade_hesa_code as grade_hesa_code, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name) as subject_names, ARRAY_AGG(subjects.code) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
         .joins(application_form: :application_qualifications)
         .joins(course_option: { course: :provider })
         .joins(course_option: { course: :subjects })
@@ -89,7 +89,7 @@ module SupportInterface
         .where(application_form: { recruitment_cycle_year: RecruitmentCycle.current_year })
         .where(application_form: { application_qualifications: { level: 'degree' } })
         .where.not(application_form: { submitted_at: nil })
-        .group('application_choices.id', 'application_form.id', 'a2_latest_application_forms.candidate_id', 'courses.name', 'courses.level', 'status', 'providers.provider_type', 'subjects.name', 'subjects.code', 'application_qualifications.grade')
+        .group('application_choices.id', 'application_form.id', 'a2_latest_application_forms.candidate_id', 'courses.name', 'courses.level', 'status', 'providers.provider_type', 'subjects.name', 'subjects.code', 'application_qualifications.grade_hesa_code')
     end
   end
 end

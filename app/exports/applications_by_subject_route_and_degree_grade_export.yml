@@ -13,10 +13,10 @@ custom_columns:
       - university
       - unknown
 
-  degree_class:
+  grade_hesa_code:
     type: string
-    description: The grade awarded
-    example: Upper second-class honours (2:1)
+    description: The HESA code for the awarded degree grade
+    example: 1
 
   applications:
     type: integer
