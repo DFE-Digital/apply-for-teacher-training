@@ -150,7 +150,7 @@ To enable pagination for applications two new sections have been added to the re
 <h3 class="govuk-heading-m">Environments</h3>
 
 <p class="govuk-body">
-  We have a production environment and a sandbox environment. When version 1.1 is launched, these environments will automatically upgrade to the latest minor version.
+  We have a production environment and a sandbox environment. When version 1.1 is launched initially for testing, it will only be accessible in the sandbox environment by determining the version in the URL as so: <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>. Only after testing is complete, the production environment will automatically upgrade to the latest minor version without the need to update the URL.
 </p>
 
 <h3 id="authentication" class="govuk-heading-m">Authentication</h3>
