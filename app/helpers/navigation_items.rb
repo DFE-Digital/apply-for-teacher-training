@@ -90,7 +90,7 @@ class NavigationItems
     end
 
     def for_vendor_api_docs(current_controller)
-      [
+      items = [
         NavigationItem.new('Home', api_docs_home_path, active_action?(current_controller, 'home')),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.usage'), api_docs_usage_path, active_action?(current_controller, 'usage')),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.reference'), api_docs_reference_path, active_action?(current_controller, 'reference')),
@@ -98,6 +98,10 @@ class NavigationItems
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.lifecycle'), api_docs_lifecycle_path, active_action?(current_controller, 'lifecycle')),
         NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.help'), api_docs_help_path, active_action?(current_controller, 'help')),
       ]
+
+      items << NavigationItem.new(t('page_titles.api_docs.vendor_api_docs.draft'), api_docs_draft_path, active_action?(current_controller, 'draft')) if FeatureFlag.active?(:draft_vendor_api_specification)
+
+      items
     end
 
     def for_register_api_docs(current_controller)

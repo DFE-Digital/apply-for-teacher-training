@@ -1,43 +1,53 @@
-Apply for teacher training and Manage teacher training applications are run by the Department for Education (‘we’).
+### Who we are
 
-Any information we collect when you use our services will be used and looked after by:
+Apply for teacher training (‘Apply’) and Manage teacher training applications (‘Manage’) are run by the Department for Education (‘we’) for the purpose of recruiting teachers.
 
-- the Department for Education, and/or
-- the teacher training providers the candidate applies to
+### Why our use of your personal data is lawful
 
-This means we’re joint data controllers, as well as data processors, for your information (defined by data protection law).
+In order for our use of your personal data to be lawful, we need to meet one (or more) conditions in the data protection legislation. For Apply and Manage we rely on:
 
-Apply for teacher training and Manage teacher training applications are new services. We’re confident that they’ve met our security standards, but we’ll continue to run security tests as we improve the service. Like with any digital service, there’s always a chance of data breaches happening.
+- article 6(1)(e) UK General Data Protection Regulation (UK GDPR), to perform a public task carried out in the public interest as part of our function as a department
+- article 9(2)(g) UK GDPR reasons of substantial public interest (with a basis in law)
+- schedule 1(18) Data Protection Act 2018 (DPA 2018)
 
-### What personal data we collect
+This is done under section 132 of the Education Act 2002, together with regulation 5 of the Education (School Teachers’ Qualifications) (England) Regulations 2003.
 
-The personal data we collect will depend on whether you’re a candidate, a referee, or a staff member at a teacher training provider.
+### When we are joint data controllers
 
-#### What data we collect if you’re a candidate
+DfE and training providers are joint data controllers of data inside the Apply and Manage services from the point of collection until the data is shared with a training provider’s own systems.
 
-If you’re a candidate using Apply for teacher training, we may collect the following information about you:
+### When we are independent data controllers
 
-- name
-- address
+Once the application data is shared with or copied into a training provider’s own systems, the DfE and the providers are independently accountable under the UK GDPR and DPAt 2018 for your data as data controllers.
+Each data controller is responsible for complying with data protection legislation.
+
+### The personal data we collect and how we collect it
+
+The personal data we collect will depend on whether you’re a candidate or a referee.
+
+#### The data we collect if you’re a candidate
+If you’re a candidate using Apply, we collect the information that you enter directly when you apply. This includes personal information, such as your:
+
+- first name
+- last name
+- nationality
+- immigration entry date
+- right to work
+- right to study
+- immigration route
+- immigration status
+- address (including country)
+- UK residency status
 - date of birth
 - phone number
 - email address
-- any other information you choose to share during the application process - for example, you can choose to share equality and diversity information, or give information about your criminal record
+- qualifications
+- work history
+- disability information (optional)
+- safeguarding information, such as any criminal convictions you declare (optional)
+- equality and diversity information (optional)
 
-#### What data we collect if you’re a referee
-
-If you’re a referee, we got your information from a teacher training candidate. They told us:
-
-- your name
-- email address
-- how you know the candidate
-
-We may also collect:
-
-- any personal data you include in your reference
-- any information you give us if you consent to be contacted for user research
-
-#### What data we collect if you work for a training provider
+#### The data we collect if you work for a training provider
 
 If you process teacher training applications, we may need to collect information about you so we can process applications, for example:
 
@@ -47,127 +57,113 @@ If you process teacher training applications, we may need to collect information
 - where you work
 - what your role is
 
+#### The data we collect if you’re a referee
+
+If you’re a referee, we collect your personal details from a candidate who selected you as a referee. They told us your:
+
+- name
+- email address
+- relationship to the candidate
+- reference type (for example, academic or personal)
+
 ### How we use your data
 
-#### Processing applications
+#### Processing candidate applications
 
-Processing applications includes the following:
+Processing applications includes:
 
-- sending applications and references to training providers
-- managing communications between candidates and training providers
-- managing communications between referees and training providers
-- working out any funding candidates are entitled to
+- sending applications and references to providers
+- managing communications between you and providers
+- managing communications between referees and providers
+- working out any funding you are entitled to
 - getting in touch if there’s a security issue concerning your data
-- getting in touch with candidates and training providers about their applications
+- getting in touch with you to ask if you would like to participate in user research
+- getting in touch with you and providers about your applications
+- analysing application and service usage data
 
-#### Building a better teacher training application process
+Your data will also be shared between Apply and Get into Teaching, which are both delivered by the Department for Education. This is to support your application journey. For example, we’ll send you relevant information and support opportunities.
 
-We’ll use your data to help us build a better teacher training application process.
+If you’re successfully recruited to a teacher training course, your data will also be shared between Apply and Register trainee teachers, which are both delivered by the Department for Education. This is to allow you to be registered as a trainee teacher for the start of your teacher training course.
 
-For example, we’ll look at any feedback you give us about our services so we can improve them.
+#### Processing references
 
-If you’re a candidate or you work at a teacher training provider, we may contact you to carry out user research.
+Processing references includes:
 
-If you’re a referee, we’ll ask you to consent before contacting you for user research.
+- sending applications and references to providers
+- getting in touch if there’s a security issue concerning your data
+- getting in touch with you to ask if you would like to participate in user research
+- getting in touch with you about your references
+- analysing reference and service usage data
 
-#### Getting insight to make government policy better
+### Building a better teacher training application process
 
-We might analyse your data to help us inform government policy around teacher recruitment and retention.
+We use some user data to improve our services. For example, we’ll look at any feedback you give us about our services so we can improve them. If you have given us your consent we may also contact you to participate in user research.
 
-### Using your data lawfully
+#### If you’re a referee
 
-We need to use personal data for the purposes mentioned above. Most of these purposes are a public task (defined in data protection law).
+We ask if you’re willing to participate in user research when you submit a reference.
+If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
 
-However, if we contacted you asking for a reference, this was in our legitimate interests (defined in data protection law) because we need references to process applications.
+#### If you’re a candidate
 
-If you give a reference, we use your data to meet our public task (processing applications, building a better service and improving policy). To help us do this, we’ll ask for your consent (defined in data protection law) to be contacted for user research.
+We ask for your consent to contact you to participate in user research when you submit your application. This helps us improve our services and policies and further our purpose of recruiting high quality teachers. If you want to withdraw your consent to participate in user research at any time, you can contact us at becomingateacher@digital.education.gov.uk.
 
-If you’re a candidate or a referee, we’ll also ask for your consent before using cookies to get statistics from Google Analytics.
-
-### Who we share your data with
-
-We need to share personal data for the purposes mentioned above.
-
-We do so under section 132 of the Education Act 2002, together with regulation 5 of the Education (School Teachers’ Qualifications) (England) Regulations 2003.
-
-#### Sharing data with teacher training providers
-
-We share teacher training applicant and referee data with the teacher training providers the candidate applies to.
-
-We have a data sharing agreement with providers so they can only use your data to:
-
-- process applications, which may include contacting candidates
-- get statistics for internal use
-- get in touch with you if there’s a security issue concerning your data
-
-#### Sharing candidate data with referees
-
-We’ll share candidate names with referees so the referee can identify the candidate and give a reference.
-
-We may need to share a bit more information to help the referee identify the candidate, such as how the candidate knows the referee.
-
-#### Sharing candidate data with UCAS
-
-We’ll share candidate data with UCAS.
-
-This is so UCAS can check applications across UCAS and Apply for teaching training.
-
-For example, UCAS will tell us if a candidate accepts offers on both services and we will contact the candidate if this is the case.
-
-### External organisations who process data
-
-#### Customer service systems
-
-We use a customer service management system to process some personal data, such as feedback you send us.
-
-[Zendesk are currently our preferred customer service management system](https://www.zendesk.co.uk/company/customers-partners/master-subscription-agreement/?cta=msa#confidentiality) because they use various safeguards to look after your data.
-
-#### Google
-
-We’ll ask if you agree to cookies so that we can get statistics from Google Analytics. If you consent, Google may be able to get your IP address. We use Google Analytics for statistics and will not identify you personally from these.
-
-We also use Google’s G Suite to process some personal data. For example, we’ll ask referees to send a reference via Google Forms and process the data using Google Sheets.
-
-Google processes your data according to our instructions.
-
-#### Hosting services
-
-We host our services on Microsoft Azure Cloud, which encrypts your data to prevent it being accessed by unauthorised people.
+### Getting insight to make government policy better
+We’ll analyse your data to help us inform government policy around teacher recruitment and retention. When we do, we’ll anonymise your personal information so you cannot be identified.
 
 ### How long we keep your data
 
-We only keep your data for as long as needed for the uses listed above.
+| **Usage** | **Retention period** |
+| --- | --- |
+| Candidate application form | 7 years |
+| Google Analytics | 26 months |
+| Zendesk Support Desk | 3 years |
+| Provider user data | Providers can add and delete provider user data according to their own retention period as data controller |
 
-We will delete your data after 7 years.
+### Who we share your data with
+
+We need to share personal data for the purpose of recruiting high quality teachers.
+
+#### Sharing data with providers
+
+We share teacher training candidate and referee data with the providers to which the candidate has applied.
+
+We have a data sharing agreement with providers so that they are clear about their responsibilities as data controllers in their own right. As data controllers they are required to comply with the UK GDPR and DPA2018 including to inform you through a privacy notice like this one, as to what they will be doing with your data and your information rights.
+
+#### Sharing candidate data with referees
+
+We’ll share candidate names with referees so that each referee can identify the candidate and give a reference.
+
+We’ll share additional information to help the referee identify the candidate, such as how the candidate knows the referee.
+
+#### External organisations who process data
+
+We share data with our data processors for the purposes of provision of this service. Data protection agreements are in place with each of these processors and they are required to comply with the UK GDPR and the DPA 2018 as data processors.
 
 ### Your rights
 
-Under the Data Protection Act 2018, you have the right to find out what data we have about you. This includes the right to:
+Under the DPA 2018 and the UK GDPR, you have the right to find out what data we have about you. However, your rights are conditional on the lawful basis under which your data is being processed. Our lawful basis is public task, which grants you the following rights:
 
-- be informed about how your data is being used
-- access personal data
-- have incorrect data updated
-- have data erased
-- stop or restrict the processing of your data
-- get and reuse your data for different services
-- object to how your data is processed in certain circumstances
+- being informed about how your data is being used
+- accessing personal data
+- having incorrect data corrected
+- restricting the processing of your data (for example where the data is inaccurate or outdated)
+- objecting to how your data is processed in certain circumstances, including automated processing and profiling
 
 You can find more information about how we handle personal data in our [personal information charter](https://www.gov.uk/government/organisations/department-for-education/about/personal-information-charter).
 
 ### Getting help and raising a concern
 
-If you want to ask us to remove your data or get access to the data we have about you, you can email us:
+If you would like to exercise any of your rights, you can email us at <%= bat_contact_mail_to %>.
 
-[becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+You can also use our [contact form](https://form.education.gov.uk/en/AchieveForms/?form_uri=sandbox-publish://AF-Process-f1453496-7d8a-463f-9f33-1da2ac47ed76/AF-Stage-1e64d4cc-25fb-499a-a8d7-74e98203ac00/definition.json&redirectlink=%2Fen&cancelRedirectLink=%2Fen) to get in touch with our Data Protection Officer.
 
-You can also use our contact form to [get in touch with our Data Protection Officer](https://form.education.gov.uk/en/AchieveForms/?form_uri=sandbox-publish://AF-Process-f1453496-7d8a-463f-9f33-1da2ac47ed76/AF-Stage-1e64d4cc-25fb-499a-a8d7-74e98203ac00/definition.json&redirectlink=%2Fen&cancelRedirectLink=%2Fen).
+If we cannot resolve your issue, you have the right to raise it with the [Information Commissioner's Office (ICO)](https://ico.org.uk/).
 
-Once a candidate has enrolled with a teacher training provider, we will not be able to ask them to remove personal data from their systems. Please contact the provider separately.
+Once a candidate has enrolled with a teacher training provider, we will not be able to ask them to remove personal data from their systems as they will be a data controller for this data. You’ll need to contact the provider directly.
 
-For further information or to raise a concern, visit the [Information Commissioner’s Office](https://ico.org.uk/) (ICO).
+### Keeping our privacy notice up to date
 
-### Keeping our privacy policy up to date
-
-We might need to update this privacy policy occasionally. Please review the policy now and then.
+We’ll update this privacy notice when required. You should regularly review the notice.
 
 This version was last updated on 30 November 2021.

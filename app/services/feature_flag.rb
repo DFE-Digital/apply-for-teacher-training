@@ -37,6 +37,8 @@ class FeatureFlag
     [:block_fraudulent_submission, 'A button used on the fraud audit page to block submissions', 'James Glenn'],
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
     [:region_from_postcode, 'Uses an external service to find the region code for each candidate using their postcode', 'Steve Hook'],
+    [:publish_monthly_statistics, 'Publish monthly statistics at publications/monthly-statistics', 'Duncan Brown'],
+    [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

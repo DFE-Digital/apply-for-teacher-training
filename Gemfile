@@ -22,7 +22,7 @@ gem 'blazer'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk-components', '~> 2.1.4'
+gem 'govuk-components', '~> 2.1.5'
 gem 'govuk_design_system_formbuilder', '~> 2.8.0'
 
 # GOV.UK Notify
@@ -91,6 +91,7 @@ gem 'yabeda-prometheus'
 # Logging
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
+gem 'rails_semantic_logger'
 
 # Background processing
 gem 'sidekiq'
@@ -133,10 +134,6 @@ gem 'colorize'
 # Performance profiling - keep this below 'pg' gem
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 
-group :production do
-  gem 'rails_semantic_logger'
-end
-
 # Data integration with Bigquery
 gem 'google-cloud-bigquery'
 
@@ -176,4 +173,5 @@ group :development, :test do
   gem 'pry-rails'
   gem 'bullet'
   gem 'parallel_tests'
+  gem 'amazing_print'
 end

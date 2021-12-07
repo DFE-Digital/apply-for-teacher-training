@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe APIDocs::APISchema do
   describe '#object_schema_name' do
     let :schema do
-      @document = Openapi3Parser.load(VendorAPISpecification.as_hash)
+      @document = Openapi3Parser.load(VendorAPISpecification.new.as_hash)
       _schema_name, raw_schema = @document.components.schemas.find { |schema_name, _schema| schema_name == 'ApplicationAttributes' }
       described_class.new(raw_schema)
     end

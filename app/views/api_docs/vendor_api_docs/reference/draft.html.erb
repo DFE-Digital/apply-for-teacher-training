@@ -1,0 +1,166 @@
+<%= govuk_notification_banner(title_text: t('notification_banner.important')) do |notification_banner| %>
+  <% notification_banner.heading(text: 'This API spec is currently a draft') %>
+  <p class="govuk-body">Please note this is an upcoming version of the API. Any new endpoints described below are not yet live.</p>
+<% end %>
+
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.draft') %></h1>
+
+<h2 class="app-contents-list__title">Contents:</h2>
+
+<ol class="app-contents-list__list">
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'API Versions', '#versions', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Version 1.1 changes', '#important', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent"><%= govuk_link_to 'Developing on the API', '#developing', class: 'app-contents-list__link' %></li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+    <%= govuk_link_to 'Endpoints', '#endpoints', class: 'app-contents-list__link' %>
+
+    <ol class="app-contents-list__nested-list">
+    <% @api_reference.operations.each do |operation| %>
+      <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+        <%= govuk_link_to operation.name, "##{operation.anchor}", class: 'app-contents-list__link' %>
+      </li>
+    <% end %>
+    </ol>
+  </li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+    <%= govuk_link_to 'Objects', '#objects', class: 'app-contents-list__link' %>
+
+    <ol class="app-contents-list__nested-list">
+      <% @api_reference.schemas.each do |schema| %>
+        <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
+          <%= govuk_link_to schema.name, "##{schema.anchor}", class: 'app-contents-list__link' %>
+        </li>
+      <% end %>
+    </ol>
+  </li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+    <%= govuk_link_to 'Field lengths summary', '#field-lengths', class: 'app-contents-list__link' %>
+  </li>
+</ol>
+
+<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+
+<h2 class="govuk-heading-l" id="versions">API Versions</h2>
+
+<p class="govuk-body">
+  The current version of this API is 1.0. The next version of this API will be 1.1.  This is a draft specification for version 1.1.
+</p>
+
+<p class="govuk-body">
+  From version 1.1 onwards, version numbers will follow this format: MAJOR.MINOR (e.g. 1.2)
+</p>
+
+<p class="govuk-body">
+  MAJOR version: The version used in the URI and defines breaking changes to the API.
+</p>
+
+<p class="govuk-body">
+  MINOR version: Includes non-breaking changes to the API, mostly additions. For example, a minor version may add a new field or a new endpoint.
+</p>
+
+<p class="govuk-body">
+  All changes, minor or major, will be documented in our release notes.
+</p>
+
+<p class="govuk-body">
+Minor version updates will become available automatically at the MAJOR version urls. For example, version 1.1 urls will be available automatically under /api/v1 when version 1.1 is released. Pre-existing urls may return additional fields at this point.
+
+<p class="govuk-body">
+We will also support requesting a specific minor version via the url. For example:
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1' %>
+
+  will then be serving version 1.1 of the API.
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1' %>
+
+  will then be serving version 1.1 of the API.
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0', 'https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.0' %>
+
+  will be serving version 1.0 of the API.
+</p>
+
+<h2 class="govuk-heading-l" id="important">Version 1.1 changes</h2>
+
+<p class="govuk-heading-s">Interviews</p>
+<p class="govuk-body">
+  We now support creating, updating and cancelling interviews.
+</p>
+
+<p class="govuk-heading-s">Notes</p>
+<p class="govuk-body">
+  We now support creating notes.
+</p>
+
+<p class="govuk-heading-s">Deferring applications</p>
+<p class="govuk-body">
+  We now support deferring an offer to the next cycle.
+</p>
+
+<p class="govuk-heading-s">Withdrawing applications</p>
+<p class="govuk-body">
+  We now support withdrawing an application at the candidate's request.
+</p>
+
+<p class="govuk-heading-s">Pagination</p>
+<p class="govuk-body">
+  Pagination has been added to the API through a page parameter as well as a per_page parameter.
+</p>
+
+<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+
+<h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
+
+<p class="govuk-body">
+  The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_spec_1_1_url %>.
+</p>
+
+<p class="govuk-body">
+  You can find a  <%= govuk_link_to 'summary of the field length limits', '#field-lengths' %> at the foot of this page.
+</p>
+
+<h3 class="govuk-heading-m">Environments</h3>
+
+<p class="govuk-body">
+  We have a production environment and a sandbox environment. When version 1.1 is launched, these environments will automatically upgrade to the latest minor version.
+</p>
+
+<h3 id="authentication" class="govuk-heading-m">Authentication</h3>
+
+<p class="govuk-body">
+  All requests must be accompanied by an <code>Authorization</code> request header (not as part of the URL) in the following format:
+</p>
+
+<p class="govuk-body">
+  <code>
+    Authorization: Bearer {token}
+  </code>
+</p>
+
+<p class="govuk-body">
+  Unauthenticated requests will receive an <%= govuk_link_to 'UnauthorizedResponse', '#unauthorizedresponse-object' %>
+  with a <code>401</code> status code.
+</p>
+
+<h3 class="govuk-heading-m">Metadata</h3>
+
+<p class="govuk-body">
+  Every API call on POST or PUT methods must include a <code>meta</code> key in the JSON body, containing the timestamp and some attribution
+  metadata showing who performed the action.
+</p>
+
+<p class="govuk-body">
+  The schema for this metadata object can be found under <%= govuk_link_to 'MetaData', '#metadata-object' %>, below. If this data is not
+  present the API will return <code>422</code> with an appropriate error message.
+</p>
+
+<%= render(APIDocs::APIReferenceComponent.new(@api_reference)) %>
+
+<%= render(APIDocs::FieldLengthsComponent.new(@api_reference)) %>

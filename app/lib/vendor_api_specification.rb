@@ -1,15 +1,22 @@
 class VendorAPISpecification
-  def self.as_yaml
+  CURRENT_VERSION = '1.0'.freeze
+  DRAFT_VERSION = '1.1'.freeze
+
+  def initialize(version: nil)
+    @version = version || CURRENT_VERSION
+  end
+
+  def as_yaml
     spec.to_yaml
   end
 
-  def self.as_hash
+  def as_hash
     spec
   end
 
-  def self.spec
+  def spec
     YAML
-      .load_file('config/vendor-api-v1.yml')
-      .deep_merge(YAML.load_file('config/vendor-api-experimental.yml'))
+      .load_file("config/vendor_api/v#{@version}.yml")
+      .deep_merge(YAML.load_file("config/vendor_api/experimental-v#{@version}.yml"))
   end
 end
