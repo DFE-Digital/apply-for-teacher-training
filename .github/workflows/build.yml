@@ -318,6 +318,23 @@ jobs:
           head-resultset-path: coverage/.resultset.json
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Delete test matrix coverage artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            unit_shared-base-result
+            unit_candidate-provider-base-result
+            unit_support-referee-api-base-result
+            integration_shared-base-result
+            integration_provider-base-result
+            integration_candidate-base-result
+            unit_shared-head-result
+            unit_candidate-provider-head-result
+            unit_support-referee-api-head-result
+            integration_shared-head-result
+            integration_provider-head-result
+            integration_candidate-head-result
+
   trigger-deployment:
     name: Trigger Deployment
     needs: [build, lint, test]
