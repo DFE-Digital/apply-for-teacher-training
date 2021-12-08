@@ -1,6 +1,6 @@
 module FullSyncErrorHandler
   def raise_update_error(updates = {}, changeset = nil)
-    return if updates.none?
+    return unless updates.any? && HostingEnvironment.production?
 
     Sentry.capture_exception(TeacherTrainingPublicAPI::FullSyncUpdateError.new(error_message(updates, changeset)))
   end

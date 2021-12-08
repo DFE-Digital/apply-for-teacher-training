@@ -25,18 +25,29 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
       end
 
       it 'raises an error when there are any updates' do
-        described_class.call(incremental_sync: false)
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          described_class.call(incremental_sync: false)
 
-        expect(Sentry).to have_received(:capture_exception)
-                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
-                          .at_least(:once)
+          expect(Sentry).to have_received(:capture_exception)
+                            .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+                            .at_least(:once)
+        end
       end
 
-      it 'suppresses the error if the flag is set to true' do
-        described_class.call(incremental_sync: false, suppress_sync_update_errors: true)
+      it 'suppresses the error if the environment is not production' do
+        described_class.call(incremental_sync: false, suppress_sync_update_errors: false)
 
         expect(Sentry).not_to have_received(:capture_exception)
                               .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+      end
+
+      it 'suppresses the error if the flag is set to true' do
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          described_class.call(incremental_sync: false, suppress_sync_update_errors: true)
+
+          expect(Sentry).not_to have_received(:capture_exception)
+                                .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('providers have been updated'))
+        end
       end
     end
 
