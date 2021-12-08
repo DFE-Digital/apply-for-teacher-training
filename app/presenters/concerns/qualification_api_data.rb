@@ -70,12 +70,12 @@ module QualificationAPIData
   end
 
   def grade_details(qualification)
-    if qualification.grade
-      return qualification.predicted_grade ? "#{qualification.grade} (Predicted)" : qualification.grade
-    elsif qualification.subject.eql?(ApplicationQualification::SCIENCE_TRIPLE_AWARD) && qualification.constituent_grades
+    if qualification.subject.eql?(ApplicationQualification::SCIENCE_TRIPLE_AWARD) && qualification.constituent_grades
       constituent_grades = qualification.constituent_grades
 
       return "#{constituent_grades['biology']['grade']}#{constituent_grades['chemistry']['grade']}#{constituent_grades['physics']['grade']}"
+    elsif qualification.grade
+      return qualification.predicted_grade ? "#{qualification.grade} (Predicted)" : qualification.grade
     end
 
     'Not entered'
