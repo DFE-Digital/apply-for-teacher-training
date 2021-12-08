@@ -32,11 +32,6 @@ class Provider < ApplicationRecord
   audited
   has_associated_audits
 
-  def self.with_users_manageable_by(provider_user)
-    joins(:provider_permissions)
-      .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
-  end
-
   def self.with_courses
     includes(:courses).where.not(courses: { id: nil })
   end
@@ -47,10 +42,6 @@ class Provider < ApplicationRecord
 
   def accredited_courses
     Course.where(accredited_provider: self)
-  end
-
-  def acts_as_accredited_body_in_current_cycle?
-    accredited_courses.current_cycle.exposed_in_find.any?
   end
 
   def all_courses_open_in_current_cycle?(exclude_ratified_courses: false)
@@ -73,11 +64,6 @@ class Provider < ApplicationRecord
 
   def onboarded?
     provider_agreements.any?
-  end
-
-  def all_associated_accredited_providers_onboarded?
-    accredited_providers = courses.map(&:accredited_provider).uniq.compact
-    accredited_providers.all?(&:onboarded?)
   end
 
   def lacks_admin_users?
