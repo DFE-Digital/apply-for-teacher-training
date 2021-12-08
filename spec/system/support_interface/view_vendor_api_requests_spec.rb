@@ -50,7 +50,7 @@ RSpec.feature 'Vendor API Requests' do
       request_path: '/api/v1/applications/9999/offer',
     )
 
-    visit vendor_api_path(@first_application_choice)
+    visit vendor_api_path('v1', @first_application_choice)
 
     provider = @last_application_choice.provider
     unhashed_token, hashed_token = Devise.token_generator.generate(VendorAPIToken, :hashed_token)
@@ -58,7 +58,7 @@ RSpec.feature 'Vendor API Requests' do
 
     Capybara.current_session.driver.header('Authorization', "Bearer #{unhashed_token}")
 
-    visit vendor_api_path(@last_application_choice)
+    visit vendor_api_path('v1', @last_application_choice)
 
     Capybara.current_session.driver.header('Authorization', nil)
   end
@@ -69,8 +69,8 @@ RSpec.feature 'Vendor API Requests' do
 
   def then_i_see_the_api_request
     expect(page).to have_selector('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@last_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 
   def and_i_see_the_status_of_the_request
@@ -95,8 +95,8 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_only_see_api_requests_filtered_by_status
-    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path(@first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@last_application_choice))
+    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
     expect(page).to have_selector('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
   end
 
@@ -110,8 +110,8 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_see_api_requests_filtered_by_request_method
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@last_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
     expect(page).not_to have_selector('p.govuk-body', exact_text: '/api/v1/applications/9999/offer')
   end
 
@@ -121,8 +121,8 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_only_see_api_requests_filtered_by_the_search
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@first_application_choice))
-    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path(@last_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 
   def when_i_filter_by_provider
@@ -132,7 +132,7 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_only_see_api_requests_filtered_by_provider
-    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path(@first_application_choice))
-    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path(@last_application_choice))
+    expect(page).not_to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @first_application_choice))
+    expect(page).to have_selector('p.govuk-body', exact_text: vendor_api_path('v1', @last_application_choice))
   end
 end
