@@ -1,38 +1,38 @@
 module MonthlyStatisticsTestHelper
   def generate_monthly_statistics_test_data
     hidden_candidate = create(:candidate, hide_in_reporting: true)
-    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 20), candidate: hidden_candidate)
+    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, candidate: hidden_candidate)
     create(:application_choice,
            :with_recruited,
            course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
            application_form: form)
 
     # Apply 1
-    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 20), phase: 'apply_1')
+    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, phase: 'apply_1')
     create(:application_choice,
            :with_recruited,
            course_option: course_option_with(level: 'primary', program_type: 'school_direct_training_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
            application_form: form)
 
-    form = create(:application_form,  date_of_birth: date_of_birth(years_ago: 23), phase: 'apply_1')
+    form = create(:application_form,  date_of_birth: date_of_birth(years_ago: 23), region_code: :north_west, phase: 'apply_1')
     create(:application_choice,
            :with_accepted_offer,
            course_option: course_option_with(level: 'primary', program_type: 'school_direct_salaried_training_programme', region: 'east_midlands', subjects: [primary_subject(:english)]),
            application_form: form)
 
-    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 24), phase: 'apply_1')
+    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 24), region_code: :yorkshire_and_the_humber, phase: 'apply_1')
     create(:application_choice,
            :with_offer,
            course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'london', subjects: [primary_subject(:geography_and_history)]),
            application_form: form)
 
-    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 26), phase: 'apply_1')
+    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 26), region_code: :east_midlands, phase: 'apply_1')
     create(:application_choice,
            :awaiting_provider_decision,
            course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'north_east', subjects: [primary_subject(:no_specialism)]),
            application_form: form)
 
-    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 31), phase: 'apply_1')
+    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 31), region_code: :west_midlands, phase: 'apply_1')
     create(:application_choice,
            :with_declined_offer,
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [create(:subject, name: 'Art and design', code: 'W1'), create(:subject, name: 'History', code: 'V1')]),
@@ -44,13 +44,13 @@ module MonthlyStatisticsTestHelper
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'south_east'),
            application_form: form)
 
-    rejected_form = create(:application_form, date_of_birth: date_of_birth(years_ago: 40), phase: 'apply_1')
+    rejected_form = create(:application_form, date_of_birth: date_of_birth(years_ago: 40), region_code: :eastern, phase: 'apply_1')
     create(:application_choice,
            :with_rejection,
            course_option: course_option_with(level: 'further_education', program_type: 'higher_education_programme', region: 'south_west'),
            application_form: rejected_form)
 
-    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 66), phase: 'apply_1')
+    form = create(:application_form, date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
     create(:application_choice,
            :with_deferred_offer,
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands'),
