@@ -12,14 +12,14 @@ private
   end
 
   def check_version
-    if version_number.to_f < self.class::VERSION.to_f
+    if minor_version(version_number) < minor_version(self.class::VERSION)
       render status: :unprocessable_entity, json: {
         errors: [
           error: 'InvalidVersionError',
           message: "Not available in version #{version_param}",
         ],
       }
-    elsif version_number.to_f > VendorAPI::VERSION.to_f
+    elsif minor_version(version_number) > minor_version(VendorAPI::VERSION)
       render status: :unprocessable_entity, json: {
         errors: [
           error: 'NonExistentVersionError',
@@ -31,5 +31,9 @@ private
 
   def version_number
     @version_number ||= version_param.scan(/1\.?\d*/).first
+  end
+
+  def minor_version(version)
+    (version.scan(/1\.(\d+)/).flatten.first.to_i || 0)
   end
 end

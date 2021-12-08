@@ -6,6 +6,6 @@ end
 
 class ValidVendorApiRoute
   def self.matches?(request)
-    request.params[:api_version].match(/v1(\z|.\d+)/).present?
+    request.params[:api_version].match(/v1(\z|.\d+\z)/).present?
   end
 end

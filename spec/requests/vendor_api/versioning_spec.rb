@@ -20,10 +20,12 @@ RSpec.describe 'Versioning', type: :request do
     end
   end
 
-  context 'accessing the API with a version that is greater than the current version' do
+  context 'accessing the API with a minor version that is greater than the current minor version' do
     it 'returns an error' do
-      get_api_request "/api/v1.1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
-      expect(error_response['message']).to eq('Version v1.1 does not exist')
+      stub_const('VendorAPI::VERSION', '1.2')
+
+      get_api_request "/api/v1.101/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+      expect(error_response['message']).to eq('Version v1.101 does not exist')
     end
   end
 
@@ -40,6 +42,13 @@ RSpec.describe 'Versioning', type: :request do
     it 'returns a 404' do
       get_api_request "/api/v1..0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context 'accessing a route with a patch version specified' do
+    it 'returns a 404' do
+      get_api_request "/api/v1.0.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+      expect(response.status).to eq(404)
     end
   end
 end
