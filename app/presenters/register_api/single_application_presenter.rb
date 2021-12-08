@@ -1,9 +1,8 @@
 module RegisterAPI
   class SingleApplicationPresenter
-    UCAS_FEE_PAYER_CODES = {
-      'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
-      'Not Known' => '99',
-    }.freeze
+    include CandidateAPIData
+    include ContactDetailsAPIData
+    include QualificationAPIData
 
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
@@ -20,25 +19,7 @@ module RegisterAPI
           updated_at: application_choice.updated_at.iso8601,
           submitted_at: application_form.submitted_at.iso8601,
           recruited_at: application_choice.recruited_at.iso8601,
-          candidate: {
-            id: application_form.candidate.public_id,
-            first_name: application_form.first_name,
-            last_name: application_form.last_name,
-            date_of_birth: application_form.date_of_birth,
-            nationality: application_choice.nationalities,
-            domicile: application_form.domicile,
-            uk_residency_status: uk_residency_status,
-            uk_residency_status_code: uk_residency_status_code,
-            fee_payer: provisional_fee_payer_status,
-            english_main_language: application_form.english_main_language,
-            english_language_qualifications: application_form.english_language_qualification_details,
-            other_languages: application_form.other_language_details,
-            disability_disclosure: application_form.disability_disclosure,
-            gender: equality_and_diversity_data['sex'],
-            disabilities: equality_and_diversity_data['disabilities'].presence || [],
-            ethnic_group: equality_and_diversity_data['ethnic_group'],
-            ethnic_background: equality_and_diversity_data['ethnic_background'],
-          },
+          candidate: candidate_data_for_register,
           contact_details: contact_details,
           course: course_info_for(application_choice.current_course_option),
           qualifications: qualifications,
@@ -51,40 +32,15 @@ module RegisterAPI
 
     attr_reader :application_choice, :application_form
 
+    def candidate_data_for_register
+      candidate.merge({ gender: equality_and_diversity_data['sex'],
+                        disabilities: equality_and_diversity_data['disabilities'].presence || [],
+                        ethnic_group: equality_and_diversity_data['ethnic_group'],
+                        ethnic_background: equality_and_diversity_data['ethnic_background'] })
+    end
+
     def status
       application_choice.status
-    end
-
-    def uk_residency_status
-      return 'UK Citizen' if application_choice.nationalities.include?('GB')
-
-      return 'Irish Citizen' if application_choice.nationalities.include?('IE')
-
-      return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
-
-      'Candidate needs to apply for permission to work and study in the UK'
-    end
-
-    def uk_residency_status_code
-      return 'A' if application_choice.nationalities.include?('GB')
-      return 'B' if application_choice.nationalities.include?('IE')
-      return 'D' if application_form.right_to_work_or_study_yes?
-
-      'C'
-    end
-
-    def provisional_fee_payer_status
-      return UCAS_FEE_PAYER_CODES['SLC,SAAS,NIBd,EU,Chl,IoM'] if provisionally_eligible_for_gov_funding?
-
-      UCAS_FEE_PAYER_CODES['Not Known']
-    end
-
-    def provisionally_eligible_for_gov_funding?
-      return true if (PROVISIONALLY_ELIGIBLE_FOR_GOV_FUNDING_COUNTRY_CODES & application_choice.nationalities).any?
-
-      (EU_EEA_SWISS_COUNTRY_CODES & application_choice.nationalities).any? &&
-        application_form.right_to_work_or_study_yes? &&
-        application_form.uk_address?
     end
 
     def course_info_for(course_option)
@@ -99,39 +55,6 @@ module RegisterAPI
         site_code: course_option.site.code,
         study_mode: course_option.study_mode,
       }
-    end
-
-    def qualifications
-      {
-        gcses: format_gcses,
-        degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
-        other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
-        missing_gcses_explanation: application_choice.missing_gcses_explanation(separator_string: "\n\n"),
-      }
-    end
-
-    def format_gcses
-      gcses = qualifications_of_level('gcse').reject(&:missing_qualification?)
-
-      # This is to split structured GCSEs in to separate GCSE qualifications for the API
-      # Science triple award grades are already properly formatted and so are left out here
-      to_structure, already_structured = gcses.partition do |gcse|
-        gcse[:subject] != 'science triple award' && gcse[:constituent_grades].present?
-      end
-
-      separated_gcse_hashes = to_structure.flat_map { |q| structured_gcse_to_hashes(q) }
-      other_gcses_hashes = already_structured.map { |q| qualification_to_hash(q) }
-
-      other_gcses_hashes + separated_gcse_hashes
-    end
-
-    def qualifications_of_level(level)
-      # NOTE: we do it this way so that it uses the already-included relation
-      # rather than triggering separate queries, as it does if we use the scopes
-      # .gcses .degrees etc
-      application_form.application_qualifications.select do |q|
-        q.level == level
-      end
     end
 
     def structured_gcse_to_hashes(gcse)
@@ -155,57 +78,6 @@ module RegisterAPI
         equivalency_details: qualification.composite_equivalency_details,
         comparable_uk_degree: qualification.comparable_uk_degree,
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
-    end
-
-    def grade_details(qualification)
-      grade = nil
-
-      if qualification.grade
-        grade = qualification.predicted_grade ? "#{qualification.grade} (Predicted)" : qualification.grade
-      end
-
-      constituent_grades = qualification.constituent_grades
-
-      # For triple award science we need to serialize 'grades' to the 'grade' field
-      # in the specified order
-      if qualification.subject == 'science triple award' && constituent_grades
-        grade = "#{constituent_grades['biology']['grade']}#{constituent_grades['chemistry']['grade']}#{constituent_grades['physics']['grade']}"
-      end
-
-      grade
-    end
-
-    def institution_details(qualification)
-      if qualification.institution_name
-        [qualification.institution_name, qualification.institution_country].compact.join(', ')
-      end
-    end
-
-    def contact_details
-      if application_form.international_address?
-        address_line1 = application_form.address_line1 || application_form.international_address
-
-        {
-          phone_number: application_form.phone_number,
-          address_line1: address_line1,
-          address_line2: application_form.address_line2,
-          address_line3: application_form.address_line3,
-          address_line4: application_form.address_line4,
-          country: application_form.country,
-          email: application_form.candidate.email_address,
-        }
-      else
-        {
-          phone_number: application_form.phone_number,
-          address_line1: application_form.address_line1,
-          address_line2: application_form.address_line2,
-          address_line3: application_form.address_line3,
-          address_line4: application_form.address_line4,
-          postcode: application_form.postcode,
-          country: application_form.country,
-          email: application_form.candidate.email_address,
-        }
-      end
     end
 
     def hesa_itt_data
