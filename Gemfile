@@ -91,7 +91,6 @@ gem 'yabeda-prometheus'
 # Logging
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
-gem 'rails_semantic_logger'
 
 # Background processing
 gem 'sidekiq'
@@ -174,4 +173,8 @@ group :development, :test do
   gem 'bullet'
   gem 'parallel_tests'
   gem 'amazing_print'
+end
+
+group :development, :production do
+  gem 'rails_semantic_logger'
 end
