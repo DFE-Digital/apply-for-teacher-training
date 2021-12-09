@@ -8,7 +8,6 @@ RSpec.describe DataMigrations::FixCandidateAPIUpdatedAt do
   it 'does not change valid `candidate_api_updated_at` values' do
     valid_candidate = create(
       :candidate,
-      candidate_api_updated_at: 5.days.ago,
     )
     create(
       :application_form,
