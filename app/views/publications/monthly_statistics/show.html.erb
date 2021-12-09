@@ -91,12 +91,13 @@
     <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.next_cycle_name %> academic year.</p>
+
     <p class="govuk-body">Applications for courses starting in the <%= @presenter.next_cycle_name %> academic year are submitted
     in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.current_year %>) or deferred from the previous cycle for a <%= @presenter.next_cycle_name %> course start date.</p>
     <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included.</p>
 
-    <p class="govuk-body">These statistics collect data from 12 October 2021 to 22 November 2021
-      (ITT2022) and include deferred applications from the October 2021 to September 2022 recruitment cycle (ITT2021).</p>
+    <p class="govuk-body">These statistics collect data from <%= @presenter.current_reporting_period %>
+      (ITT<%= @presenter.current_year %>) and include deferred applications from the <%= @presenter.previous_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.previous_year %>).</p>
     <p class="govuk-body">There will be monthly updates throughout the recruitment cycle.</p>
 
     <h2 class="govuk-heading-l" id="by-candidate-status">2. Candidate status</h2>

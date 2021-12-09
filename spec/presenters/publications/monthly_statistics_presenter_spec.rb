@@ -6,23 +6,42 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
   end
 
   let(:report) { double }
+
   subject(:presenter) { described_class.new(report) }
 
   describe '#next_cycle_name' do
     it 'returns the years for the start and end of the next academic year' do
-      expect(subject.next_cycle_name).to eq('2022 to 2023')
+      expect(presenter.next_cycle_name).to eq('2022 to 2023')
     end
   end
 
   describe '#current_cycle_verbose_name' do
     it 'returns the months and years for the start and end of the current recruitment cycle' do
-      expect(subject.current_cycle_verbose_name).to eq('October 2021 to September 2022')
+      expect(presenter.current_cycle_verbose_name).to eq('October 2021 to September 2022')
+    end
+  end
+
+  describe '#previous_cycle_verbose_name' do
+    it 'returns the months and years for the start and end of the last recruitment cycle' do
+      expect(presenter.previous_cycle_verbose_name).to eq('October 2020 to September 2021')
     end
   end
 
   describe '#current_year' do
     it 'returns the year for the current recruitment cycle' do
-      expect(subject.current_year).to eq(2022)
+      expect(presenter.current_year).to eq(2022)
+    end
+  end
+
+  describe '#previous_year' do
+    it 'returns the year for the last recruitment cycle' do
+      expect(presenter.previous_year).to eq(2021)
+    end
+  end
+
+  describe '#current_reporting_period' do
+    it 'returns the date range for the current reporting period' do
+      expect(presenter.current_reporting_period).to eq(:foo)
     end
   end
 end

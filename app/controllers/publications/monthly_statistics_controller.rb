@@ -11,4 +11,3 @@ module Publications
     end
   end
 end
-
