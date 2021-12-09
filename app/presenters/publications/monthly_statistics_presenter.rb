@@ -18,6 +18,10 @@ module Publications
       RecruitmentCycle.verbose_cycle_name
     end
 
+    def current_recruitment_cycle_year
+      RecruitmentCycle.current_year
+    end
+
     def exports
       MonthlyStatisticsTimetable.current_exports
     end
