@@ -7,13 +7,14 @@ module DataMigrations
     # no earlier than the `created_at` of the most recent application form.
     def change
       candidates = Candidate
-        .joins('inner join (
+        .joins(
+          'inner join (
             select candidates.id id,
               max(application_forms.created_at) max_form_created_at
             from candidates
             inner join application_forms on application_forms.candidate_id = candidates.id
             group by candidates.id
-          ) candidates_with_latest_application_form on candidates_with_latest_application_form.id = candidates.id'
+          ) candidates_with_latest_application_form on candidates_with_latest_application_form.id = candidates.id',
         )
         .select('candidates.*, candidates_with_latest_application_form.max_form_created_at')
         .where('candidate_api_updated_at < max_form_created_at')
