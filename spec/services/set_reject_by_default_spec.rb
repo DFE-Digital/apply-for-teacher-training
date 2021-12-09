@@ -16,7 +16,7 @@ RSpec.describe SetRejectByDefault do
       ['1 Jul 2019 9:00:00 AM BST',  '30 Jul 2019 0:00:00 AM BST', 'safely within BST'],
       ['4 Jan 2019 11:00:00 PM GMT', '2 Mar 2019 0:00:00 AM GMT',  'safely within GMT'],
       ['1 Jul 2020 11:00:00 PM BST', '30 Jul 2020 0:00:00 AM BST', 'during the 20-day summer period'],
-      ['21 Nov 2021 12:00:00 PM GMT', '11 Feb 2022 23:59:59 PM GMT', 'near the Christmas holidays'],
+      ['21 Nov 2021 12:00:00 PM GMT', '1 Feb 2022 0:00:00 AM GMT', 'near the Christmas holidays'],
       ['1 Sept 2021 0:00:00 AM BST', '29 Sept 2021 23:59:59 PM BST', '7 days before the apply 1 deadline'],
       ['7 Sept 2021 0:00:00 AM BST', '29 Sept 2021 23:59:59 PM BST', '1 day before apply 1 deadline'],
       ['20 Sept 2021 0:00:00 AM BST', '29 Sep 2021 23:59:59 PM BST', '1 day before apply 2 deadline'],
