@@ -10,15 +10,15 @@ module Publications
       report.statistics
     end
 
-    def academic_year_name
+    def next_cycle_name
       RecruitmentCycle.cycle_name(CycleTimetable.next_year)
     end
 
-    def current_cycle_name
+    def current_cycle_verbose_name
       RecruitmentCycle.verbose_cycle_name
     end
 
-    def current_recruitment_cycle_year
+    def current_year
       RecruitmentCycle.current_year
     end
 

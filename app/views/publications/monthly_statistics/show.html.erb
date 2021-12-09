@@ -1,10 +1,10 @@
-<%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.academic_year_name) %>
+<%= content_for :title, t('page_titles.monthly_statistics', academic_year_name: @presenter.next_cycle_name) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-xl">Statistics</span>
     <h1 class="govuk-heading-xl">
-      Initial teacher training applications for courses starting in the <%= @presenter.academic_year_name %> academic year
+      Initial teacher training applications for courses starting in the <%= @presenter.next_cycle_name %> academic year
     </h1>
 
     <h2 class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-1 govuk-!-margin-top-5">Contents</h2>
@@ -90,9 +90,9 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-l" id="introduction">1. Introduction</h2>
 
-    <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year.</p>
-    <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted
-    in the <%= @presenter.current_cycle_name %> recruitment cycle (ITT<%= @presenter.current_recruitment_cycle_year %>) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
+    <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.next_cycle_name %> academic year.</p>
+    <p class="govuk-body">Applications for courses starting in the <%= @presenter.next_cycle_name %> academic year are submitted
+    in the <%= @presenter.current_cycle_verbose_name %> recruitment cycle (ITT<%= @presenter.current_year %>) or deferred from the previous cycle for a <%= @presenter.next_cycle_name %> course start date.</p>
     <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included.</p>
 
     <p class="govuk-body">These statistics collect data from 12 October 2021 to 22 November 2021
@@ -153,7 +153,7 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-age-group">4. Candidate age group</h2>
     <p class="govuk-body">Candidate age is calculated from the date of birth they provide when applying.</p>
     <p class="govuk-body">Ages are calculated as of 1 August <%= RecruitmentCycle.current_year %>, just before courses start for the
-      <%= @presenter.academic_year_name %> academic year. Courses usually start in September, but sometimes in January.</p>
+      <%= @presenter.next_cycle_name %> academic year. Courses usually start in September, but sometimes in January.</p>
     <p class="govuk-body">This data therefore reflects the likely age of a candidate at the point of starting
        a course, rather than their age when they apply.</p>
     <p class="govuk-body">This table counts all candidates by their age group.</p>
