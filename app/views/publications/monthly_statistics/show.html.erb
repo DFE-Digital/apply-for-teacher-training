@@ -92,7 +92,7 @@
 
     <p class="govuk-body">These statistics cover applications for courses in England starting in the <%= @presenter.academic_year_name %> academic year.</p>
     <p class="govuk-body">Applications for courses starting in the <%= @presenter.academic_year_name %> academic year are submitted
-      in the October 2021 to September 2022 recruitment cycle (ITT2022) or deferred from the previous cycle for a 2022 to 2023 course start date.</p>
+    in the <%= @presenter.current_cycle_name %> recruitment cycle (ITT<%= @presenter.current_recruitment_cycle_year %>) or deferred from the previous cycle for a <%= @presenter.academic_year_name %> course start date.</p>
     <p class="govuk-body">Teacher training applications made directly to providers or Teach First are not included. Undergraduate teacher training is also not included.</p>
 
     <p class="govuk-body">These statistics collect data from 12 October 2021 to 22 November 2021
