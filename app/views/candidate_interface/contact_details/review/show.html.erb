@@ -1,4 +1,7 @@
-<% content_for :title, t('page_titles.contact_information') %>
+<% content_for(
+  :title,
+  title_with_error_prefix(t('page_titles.contact_information'), @contact_details_form&.errors&.any?),
+) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <%= form_with model: @section_complete_form, url: candidate_interface_contact_information_complete_path, method: :patch do |f| %>
