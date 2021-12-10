@@ -24,7 +24,7 @@
         <li>if you decline all of your offers, or do not respond in time, you can still apply for courses that start this academic year</li>
       </ul>
 
-      <p class="govuk-body">If you need help, you can speak to our <%= govuk_link_to 'teacher training advisers', t('get_into_teaching.url_get_an_advisor') %>.</p>
+      <p class="govuk-body">If you need help, you can speak to our <%= govuk_link_to 'teacher training advisers', t('get_into_teaching.url_get_an_adviser') %>.</p>
 
       <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
         <% if @application_choice.unconditional_offer? %>
