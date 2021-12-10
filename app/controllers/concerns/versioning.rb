@@ -1,5 +1,6 @@
 module Versioning
   extend ActiveSupport::Concern
+  include VersioningHelpers
 
   included do
     before_action :check_version
@@ -31,9 +32,5 @@ private
 
   def version_number
     @version_number ||= version_param.scan(/1\.?\d*/).first
-  end
-
-  def minor_version(version)
-    (version.scan(/1\.(\d+)/).flatten.first.to_i || 0)
   end
 end

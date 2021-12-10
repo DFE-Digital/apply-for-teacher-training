@@ -9,14 +9,14 @@ module VendorAPI
     def show
       application_choice = application_choices_visible_to_provider.find(params[:application_id])
 
-      render json: %({"data":#{ApplicationPresenter.new(application_choice).serialized_json}})
+      render json: %({"data":#{ApplicationPresenter.new(version_number, application_choice).serialized_json}})
     end
 
   private
 
     def serialized_application_choices_data
       json_data = get_application_choices_for_provider_since(since: since_param).map do |application_choice|
-        ApplicationPresenter.new(application_choice).serialized_json
+        ApplicationPresenter.new(version_number, application_choice).serialized_json
       end
 
       %({"data":[#{json_data.join(',')}]})

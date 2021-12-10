@@ -1,6 +1,7 @@
 module VendorAPI
   class Base
     include Rails.application.routes.url_helpers
+    include VersioningHelpers
 
     VERSIONS = {}.freeze
 
@@ -11,7 +12,7 @@ module VendorAPI
 
       self.class::VERSIONS.each do |version, modules|
         modules.each do |mod|
-          singleton_class.send(:prepend, mod) if @active_version >= version
+          singleton_class.send(:prepend, mod) if minor_version(@active_version) >= minor_version(version)
         end
       end
     end

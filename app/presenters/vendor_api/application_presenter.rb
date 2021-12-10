@@ -1,14 +1,14 @@
 module VendorAPI
-  class ApplicationPresenter
-    include Rails.application.routes.url_helpers
-
-    include CandidateAPIData
-    include QualificationAPIData
-    include ContactDetailsAPIData
-    include CourseAPIData
-    include WorkExperienceAPIData
-    include DecisionsAPIData
-    include HesaIttDataAPIData
+  class ApplicationPresenter < Base
+    VERSIONS = {
+      '1.0' => [CandidateAPIData,
+                QualificationAPIData,
+                ContactDetailsAPIData,
+                CourseAPIData,
+                WorkExperienceAPIData,
+                DecisionsAPIData,
+                HesaIttDataAPIData],
+    }.freeze
 
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
                                interviewing: 'awaiting_provider_decision' }.freeze
@@ -16,7 +16,8 @@ module VendorAPI
 
     attr_reader :application_choice
 
-    def initialize(application_choice)
+    def initialize(version, application_choice)
+      super(version)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
     end
 

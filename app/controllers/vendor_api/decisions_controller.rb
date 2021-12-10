@@ -63,7 +63,7 @@ module VendorAPI
     end
 
     def render_application
-      render json: %({"data":#{ApplicationPresenter.new(application_choice).serialized_json}})
+      render json: %({"data":#{ApplicationPresenter.new(version_number, application_choice).serialized_json}})
     end
 
     def respond_to_decision(decision)
