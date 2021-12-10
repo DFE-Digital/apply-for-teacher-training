@@ -35,7 +35,7 @@ module MonthlyStatisticsTestHelper
     form = create(:application_form, phase: 'apply_1')
     create(:application_choice,
            :with_declined_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [create(:subject, name: 'Art and design', code: 'W1'), create(:subject, name: 'History', code: 'V1')]),
            application_form: form)
 
     form = create(:application_form, phase: 'apply_1')

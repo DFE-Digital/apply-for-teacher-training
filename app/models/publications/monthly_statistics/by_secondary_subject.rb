@@ -77,63 +77,39 @@ module Publications
       end
 
       def formatted_group_query
-        counts = SECONDARY_SUBJECTS.index_with { |_subject| {} }
-        languages_counter = []
+        application_choices_with_subjects.reduce({}) do |subject_counts, choice|
+          status = choice.status
+          subject_names_and_codes = choice.current_course.subjects.map { |s| [s.name, s.code] }.to_h
+          dominant_subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.current_course.name,
+                                                                                            choice.current_course.level,
+                                                                                            subject_names_and_codes)
 
-        group_query_excluding_deferred_offers.map do |item|
-          subject, status = item[0]
-          count = item[1]
+          dominant_subject = dominant_subject.to_s.humanize
+          dominant_subject = 'Subject not recognised' if dominant_subject == 'Secondary'
 
-          if MODERN_FOREIGN_LANGUAGES.include?(subject)
-            languages_counter << { status => count }
+          if subject_counts[dominant_subject].present?
+            if subject_counts[dominant_subject][status].present?
+              subject_counts[dominant_subject][status] += 1
+            else
+              subject_counts[dominant_subject][status] = 1
+            end
           else
-            counts[subject].merge!({ status => count })
+            subject_counts[dominant_subject] = { status => 1 }
           end
-        end
 
-        group_query_including_deferred_offers.map do |item|
-          subject, status = item[0]
-          count = item[1]
-
-          if MODERN_FOREIGN_LANGUAGES.include?(subject)
-            languages_counter << { status => count }
-          else
-            statuses_for_subject = counts[subject] || {}
-            statuses_for_subject[status] = (statuses_for_subject[status] || 0) + count
-          end
-        end
-
-        counts['Modern foreign languages']&.merge!(modern_foreign_languages_sum(languages_counter))
-
-        counts
+          subject_counts
+        end.sort.to_h
       end
 
-      def modern_foreign_languages_sum(languages_counter)
-        languages_counter.each_with_object(Hash.new(0)) do |hash, sum|
-          hash.each { |key, value| sum[key] += value }
-        end
-      end
-
-      def group_query_excluding_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
-          .where.not(status: 'offer_deferred')
-          .where(course: { level: 'secondary' })
-          .group('subjects.name', 'status')
-          .count
-      end
-
-      def group_query_including_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
-          .where(status: 'offer_deferred')
-          .where(course: { level: 'secondary' })
-          .group('subjects.name', 'status_before_deferral')
-          .count
-      end
-
-      def group_query(recruitment_cycle_year:)
+      def application_choices_with_subjects
         ApplicationChoice
-          .joins(course: :subjects)
-          .where(current_recruitment_cycle_year: recruitment_cycle_year)
+          .joins(application_form: :candidate)
+          .joins(:current_course)
+          .preload(current_course: :subjects)
+          .where('candidates.hide_in_reporting IS NOT TRUE')
+          .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
+          .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+          .where('courses.level' => 'secondary')
       end
     end
   end
