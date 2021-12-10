@@ -7,7 +7,7 @@ Dear <%= @application_form.first_name %>,
   <%= render 'rejected_by_default_intro' %>
 
 <% else %>
-
+  <%= render 'reasons_for_rejection_intro' %>
   <%= render 'reasons_for_rejection' %>
 
   Contact <%= @course.provider.name %> directly if you have any questions about their feedback.

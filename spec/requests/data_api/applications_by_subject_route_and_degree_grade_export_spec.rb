@@ -24,6 +24,6 @@ RSpec.describe 'GET /data-api/applications-by-subject-route-and-degree-grade/lat
     get_api_request '/data-api/applications-by-subject-route-and-degree-grade/latest', token: tad_api_token
 
     expect(response).to have_http_status(:success)
-    expect(response.body).to start_with('subject,route,degree_class,applications,offers_received,number_of_acceptances,number_of_declined_applications,number_of_rejected_applications,number_of_withdrawn_applications')
+    expect(response.body).to start_with('subject,route,grade_hesa_code,applications,offers_received,number_of_acceptances,number_of_declined_applications,number_of_rejected_applications,number_of_withdrawn_applications')
   end
 end

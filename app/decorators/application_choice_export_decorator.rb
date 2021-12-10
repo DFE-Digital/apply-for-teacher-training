@@ -57,6 +57,10 @@ private
     return if gcse.blank?
 
     qualification = ApplicationQualificationDecorator.new(gcse)
-    "#{qualification.qualification_type.humanize} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.start_year}-#{qualification.award_year}"
+    if qualification.start_year.present?
+      "#{qualification.qualification_type.humanize} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.start_year}-#{qualification.award_year}"
+    else
+      "#{qualification.qualification_type.humanize} #{qualification.subject.capitalize}, #{qualification.grade_details.join(' ')}, #{qualification.award_year}"
+    end
   end
 end

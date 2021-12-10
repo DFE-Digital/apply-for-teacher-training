@@ -70,7 +70,13 @@ Rails.application.configure do
 
   # Logging configuration
   config.log_level = :debug
-  Rails.logger = ActiveSupport::Logger.new(STDOUT)
+  config.rails_semantic_logger.started = true
+  config.rails_semantic_logger.processing = true
+  config.rails_semantic_logger.rendered = true
+
+  config.rails_semantic_logger.format = :color
+
+  config.semantic_logger.backtrace_level = :info
 
   config.x.read_only_database_url = "postgres://localhost/bat_apply_development"
 end

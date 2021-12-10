@@ -37,15 +37,15 @@ ENV['STATE_CHANGE_SLACK_URL'] = nil # ensure tests send no Slack notifications
 
 RSpec.configure do |config|
   # RSpec-retry configuration, retry and log any indeterminate tests.
-  config.verbose_retry = true
-  config.display_try_failure_messages = true
-  reporter = RSpec::Core::Reporter.new(config)
-  formatter = RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'ab'))
-  reporter.register_listener(formatter, 'message')
-  config.retry_reporter = reporter
+  if ENV['CI']
+    reporter = RSpec::Core::Reporter.new(config)
+    formatter = RSpec::Core::Formatters::BaseTextFormatter.new(File.open('tmp/rspec-retry-flakey-specs.log', 'ab'))
+    reporter.register_listener(formatter, 'message')
+    config.retry_reporter = reporter
 
-  config.around do |ex|
-    ex.run_with_retry retry: 3
+    config.around do |ex|
+      ex.run_with_retry retry: 3
+    end
   end
 
   # rspec-expectations config goes here. You can use an alternate

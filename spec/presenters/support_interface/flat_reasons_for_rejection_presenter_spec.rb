@@ -66,7 +66,7 @@ RSpec.describe SupportInterface::FlatReasonsForRejectionPresenter, type: :presen
       rejection_export_line = described_class.build_top_level_reasons(application_choice.structured_rejection_reasons)
 
       expect(rejection_export_line).to eq(
-        'Something you did, Honesty and professionalism, Performance at interview, Qualifications, Quality of application, Safeguarding issues',
+        'Something you did, Honesty and professionalism, Performance at interview, Qualifications, Quality of application, Safeguarding issues, Other',
       )
     end
   end

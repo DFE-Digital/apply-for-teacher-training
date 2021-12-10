@@ -6,6 +6,6 @@ class RetrieveAPIFieldLength
   end
 
   def call
-    APIDocs::APIReference.new(VendorAPISpecification.as_hash).field_lengths_summary.to_h["#{field}.maxLength"].to_i
+    APIDocs::APIReference.new(VendorAPISpecification.new.as_hash).field_lengths_summary.to_h["#{field}.maxLength"].to_i
   end
 end

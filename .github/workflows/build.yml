@@ -277,6 +277,7 @@ jobs:
               }
               if (createComment) {
                 github.issues.createComment({ issue_number, owner, repo, body: commentBody });
+                throw 'You have one or more flakey tests on this branch';
               }
             }
 

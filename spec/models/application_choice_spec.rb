@@ -308,17 +308,6 @@ RSpec.describe ApplicationChoice, type: :model do
         .to change(application_choice, :current_course_option_id).to(course_option.id)
     end
 
-    it 'sets provider_ids' do
-      expected_ids = [
-        application_choice.provider.id,
-        course.provider.id,
-        course.accredited_provider.id,
-      ]
-
-      expect { application_choice.update_course_option_and_associated_fields! course_option }
-        .to change(application_choice, :provider_ids).to(expected_ids)
-    end
-
     it 'sets current_recruitment_cycle_year' do
       expected_year = course.recruitment_cycle_year
 
@@ -337,6 +326,34 @@ RSpec.describe ApplicationChoice, type: :model do
     it 'supports setting audit_comment', with_audited: true do
       application_choice.update_course_option_and_associated_fields!(course_option, audit_comment: 'zendesk')
       expect(application_choice.audits.last.comment).to eq('zendesk')
+    end
+
+    context 'provider ids' do
+      it 'updates provider_ids from the current course' do
+        expected_ids = [
+          application_choice.provider.id,
+          course.provider.id,
+          course.accredited_provider.id,
+        ]
+
+        expect { application_choice.update_course_option_and_associated_fields! course_option }
+          .to change(application_choice, :provider_ids).to(expected_ids)
+      end
+
+      it 'updates provider_ids if the original course is updated' do
+        original_course = create(:course, :with_accredited_provider)
+        original_course_option = create(:course_option, course: original_course)
+
+        expected_ids = [
+          original_course_option.provider.id,
+          original_course_option.accredited_provider.id,
+          course.provider.id,
+          course.accredited_provider.id,
+        ]
+
+        expect { application_choice.update_course_option_and_associated_fields!(course_option, other_fields: { course_option: original_course_option }) }
+          .to change(application_choice, :provider_ids).to(expected_ids)
+      end
     end
   end
 end

@@ -81,6 +81,8 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
   end
 
   it 'returns applications ordered by created_at timestamp' do
+    allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))
+
     candidate = create(:candidate)
     application_forms = create_list(
       :completed_application_form,
@@ -91,8 +93,6 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
     get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}", token: candidate_api_token
 
     response_data = parsed_response.dig('data', 0, 'attributes', 'application_forms')
-
-    allow(ProcessState).to receive(:new).and_return(instance_double(ProcessState, state: :unsubmitted_not_started_form))
 
     expect(response_data.size).to eq(2)
 

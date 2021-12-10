@@ -72,7 +72,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def then_i_can_see_the_privacy_policy
-    expect(page).to have_content(t('page_titles.privacy_policy'))
+    expect(page).to have_content(t('page_titles.service_privacy_notice'))
   end
 
   def when_i_click_on_the_terms_of_use

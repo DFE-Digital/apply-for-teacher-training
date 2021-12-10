@@ -44,7 +44,7 @@
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
-    <%= render CookieBannersComponent.new(current_namespace: try(:current_namespace), request_path: request.path) %>
+    <%= render CookieBannersComponent.new(current_namespace: try(:current_namespace), request_path: request.path, cookies: cookies) %>
 
     <%= govuk_skip_link %>
 

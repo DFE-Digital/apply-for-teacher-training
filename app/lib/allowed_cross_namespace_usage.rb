@@ -5,6 +5,6 @@
 # This module aliases namespaced code into a neutral, explicit namespace for
 # reuse.
 module AllowedCrossNamespaceUsage
-  VendorAPISingleApplicationPresenter = VendorAPI::SingleApplicationPresenter
+  VendorAPIApplicationPresenter = VendorAPI::ApplicationPresenter
   RegisterAPISingleApplicationPresenter = RegisterAPI::SingleApplicationPresenter
 end
