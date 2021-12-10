@@ -9,9 +9,9 @@ module VendorAPI
     def initialize(active_version)
       @active_version = active_version
 
-      self.class::VERSIONS.each do |_, modules|
+      self.class::VERSIONS.each do |version, modules|
         modules.each do |mod|
-          self.class.send(:prepend, mod)
+          singleton_class.send(:prepend, mod) if @active_version >= version
         end
       end
     end

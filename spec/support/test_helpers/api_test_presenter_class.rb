@@ -1,10 +1,6 @@
 module APITest
   module TestModule
-    VERSION = '1.0'.freeze
-
     def schema
-      return super unless active_version >= VERSION
-
       super.merge!({
         one: 'two keys',
         two: 'two keys',
@@ -13,11 +9,7 @@ module APITest
   end
 
   module SecondTestModule
-    VERSION = '1.1'.freeze
-
     def schema
-      return super unless active_version >= VERSION
-
       super.merge!({
         two: 'three keys',
       })

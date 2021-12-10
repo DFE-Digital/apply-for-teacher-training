@@ -26,7 +26,7 @@ RSpec.describe VendorAPI::Base do
       let(:version) { '1.1' }
 
       it 'includes all the specified modules' do
-        expect(presenter.class.included_modules.map(&:to_s)).to include('APITest::TestModule')
+        expect(presenter.singleton_class.included_modules.map(&:to_s)).to include('APITest::TestModule')
       end
 
       it 'merges attributes in the order they were specified' do
@@ -37,7 +37,7 @@ RSpec.describe VendorAPI::Base do
       end
     end
 
-    context 'when the version is 1.0', wip: true do
+    context 'when the version is 1.0' do
       let(:version) { '1.0' }
 
       it 'merges attributes for versions up to the active one' do
