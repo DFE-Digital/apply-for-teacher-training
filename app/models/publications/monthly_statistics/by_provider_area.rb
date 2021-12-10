@@ -47,7 +47,7 @@ module Publications
           'Yorkshire and The Humber' => {},
         }
 
-        group_query_excluding_deferred_offers.map do |item|
+        applications_to_region_counts.map do |item|
           region_code, status = item[0]
           count = item[1]
           counts[region_code_lookup(region_code)]&.merge!({ status => count })
@@ -70,19 +70,11 @@ module Publications
         }[region_code]
       end
 
-      def group_query_excluding_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
-          .where.not(status: :offer_deferred)
+      def applications_to_region_counts
+        application_choices
+          .joins(current_course: :provider)
           .group('providers.region_code', 'status')
           .count
-      end
-
-      def group_query(recruitment_cycle_year:)
-        ApplicationChoice
-          .joins(course_option: { site: :provider })
-          .joins(application_form: :candidate)
-          .where(current_recruitment_cycle_year: recruitment_cycle_year)
-          .where('candidates.hide_in_reporting' => false)
       end
     end
   end

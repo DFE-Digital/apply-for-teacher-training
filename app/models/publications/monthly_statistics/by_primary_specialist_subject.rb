@@ -56,12 +56,8 @@ module Publications
       end
 
       def application_choices_with_subjects
-        ApplicationChoice.joins(application_form: :candidate)
-          .joins(:current_course)
+        application_choices
           .preload(current_course: :subjects)
-          .where('application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year)
-          .where('candidates.hide_in_reporting IS NOT true')
-          .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
           .where('courses.level' => 'primary')
       end
     end

@@ -3,6 +3,15 @@ module Publications
     class Base
     protected
 
+      def application_choices
+        ApplicationChoice
+          .joins(application_form: :candidate)
+          .joins(:current_course)
+          .where('candidates.hide_in_reporting IS NOT TRUE')
+          .where(current_recruitment_cycle_year: RecruitmentCycle.current_year)
+          .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+      end
+
       def recruited_count(statuses)
         statuses['recruited'] || 0
       end

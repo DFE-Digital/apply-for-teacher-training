@@ -1,6 +1,6 @@
 module Publications
   module MonthlyStatistics
-    class ByStatus
+    class ByStatus < Publications::MonthlyStatistics::Base
       def initialize(by_candidate: false)
         @by_candidate = by_candidate
       end
@@ -79,74 +79,60 @@ module Publications
 
       def combined_application_choice_states_tally(phase)
         if @by_candidate
-          tally_application_choices_by_candidate(phase: phase)
+          ActiveRecord::Base.connection.execute(candidate_query(phase)).to_a.map { |h| [h['status'], h['count']] }.to_h
         else
-          tally_individual_application_choices(phase: phase)
+          application_choices.where('application_forms.phase' => phase).group(:status).count
         end
       end
 
-      def tally_individual_application_choices(phase:)
-        ApplicationChoice.joins(application_form: :candidate)
-          .where('application_forms.phase' => phase, 'application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year)
-          .where('candidates.hide_in_reporting IS NOT true')
-          .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
-          .group(:status).count
-      end
-
-      def tally_application_choices_by_candidate(phase:)
-        cycle = RecruitmentCycle.current_year
-
-        without_subsequent_applications_query = "AND (
-                                                    NOT EXISTS (
-                                                      SELECT 1
-                                                      FROM application_forms
-                                                      AS subsequent_application_forms
-                                                      WHERE application_forms.id = subsequent_application_forms.previous_application_form_id
-                                                    )
-                                                  )"
-
-        query = "SELECT COUNT(application_choices_with_minimum_statuses.id), application_choices_with_minimum_statuses.status
-                  FROM (
-                    SELECT application_choices.id as id,
-                           application_choices.status as status,
-                           ROW_NUMBER() OVER (
-                            PARTITION BY application_forms.id
-                            ORDER BY
-                            CASE application_choices.status
-                            WHEN 'recruited' THEN 1
-                            WHEN 'pending_conditions' THEN 2
-                            WHEN 'conditions_not_met' THEN 2
-                            WHEN 'offer' THEN 3
-                            WHEN 'awaiting_provider_decision' THEN 4
-                            WHEN 'interviewing' THEN 4
-                            WHEN 'declined' THEN 5
-                            WHEN 'offer_withdrawn' THEN 6
-                            WHEN 'withdrawn' THEN 7
-                            WHEN 'cancelled' THEN 7
-                            WHEN 'rejected' THEN 7
-                            ELSE 8
-                            END
-                          ) AS row_number
-                          FROM application_forms
-                          INNER JOIN application_choices
-                            ON application_choices.application_form_id = application_forms.id
-                          INNER JOIN candidates
-                            ON application_forms.candidate_id = candidates.id
-                            WHERE application_choices.current_recruitment_cycle_year = #{cycle}
-                            AND candidates.hide_in_reporting IS NOT TRUE
-                            AND application_forms.phase = '#{phase}'
-                            #{without_subsequent_applications_query}
-                          ) AS application_choices_with_minimum_statuses
-                  WHERE application_choices_with_minimum_statuses.row_number = 1
-                  GROUP BY status"
-
-        ActiveRecord::Base
-          .connection
-          .execute(query)
-          .to_a
-          .map do |hash|
-            [hash['status'], hash['count']]
-          end.to_h
+      def candidate_query(phase)
+        <<~SQL
+          WITH raw_data AS (
+              SELECT
+                  c.id,
+                  f.id,
+                  CASE
+                    WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN 'recruited'
+                    WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN 'pending_conditions'
+                    WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_deferred'
+                    WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN 'offer'
+                    WHEN 'interviewing' = ANY(ARRAY_AGG(ch.status)) THEN 'interviewing'
+                    WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN 'awaiting_provider_decision'
+                    WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN 'declined'
+                    WHEN 'offer_withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_withdrawn'
+                    WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN 'conditions_not_met'
+                    WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN 'rejected'
+                    WHEN 'withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'withdrawn'
+                  END status
+                FROM
+                  application_forms f
+                JOIN
+                    candidates c ON f.candidate_id = c.id
+                LEFT JOIN
+                    application_choices ch ON ch.application_form_id = f.id
+                WHERE
+                    NOT c.hide_in_reporting
+                    AND ch.current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                    AND f.phase = '#{phase}'
+                    AND (
+                      NOT EXISTS (
+                        SELECT 1
+                        FROM application_forms
+                        AS subsequent_application_forms
+                        WHERE f.id = subsequent_application_forms.previous_application_form_id
+                      )
+                    )
+                GROUP BY
+                    c.id, f.id
+          )
+          SELECT
+              raw_data.status,
+              COUNT(*)
+          FROM
+              raw_data
+          GROUP BY
+              raw_data.status
+        SQL
       end
     end
   end

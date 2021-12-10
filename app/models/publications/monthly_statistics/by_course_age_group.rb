@@ -41,7 +41,7 @@ module Publications
           'Further education' => {},
         }
 
-        group_query_excluding_deferred_offers.map do |item|
+        applications_to_course_levels_counts.map do |item|
           level, status = item[0]
           count = item[1]
           counts[level].merge!({ status => count })
@@ -50,19 +50,10 @@ module Publications
         counts
       end
 
-      def group_query_excluding_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
-          .where.not(status: 'offer_deferred')
+      def applications_to_course_levels_counts
+        application_choices
           .group('courses.level', 'status')
           .count
-      end
-
-      def group_query(recruitment_cycle_year:)
-        ApplicationChoice
-          .joins(:course)
-          .joins(application_form: :candidate)
-          .where('candidates.hide_in_reporting IS NOT true')
-          .where(current_recruitment_cycle_year: recruitment_cycle_year)
       end
     end
   end
