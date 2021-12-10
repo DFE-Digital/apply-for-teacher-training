@@ -188,13 +188,9 @@ jobs:
 
       - name: Delete clock to force its recreation
         run: |
-
-          APP_NAME_SUFFIX=PAAS_APP_ENVIRONMENT
-          if [ -n "${{ github.event.inputs.pr }}" ]; then
-            APP_NAME_SUFFIX="pr-$PR_NUMBER"
-          fi;
-
-          cf delete -f "apply-clock-${APP_NAME_SUFFIX}"
+          make ${{ matrix.environment }} ci delete-clock
+        env:
+          PR_NUMBER:                ${{ env.PR_NUMBER }}
 
       - name: Terraform init, plan & apply
         run: make ${{ matrix.environment }} ci deploy

@@ -112,6 +112,7 @@ review:
 	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
 
 ci:
+	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
 	$(eval export AUTO_APPROVE=-auto-approve)
 
@@ -163,6 +164,11 @@ deploy: deploy-init
 
 destroy: deploy-init
 	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+
+.PHONY: delete-clock
+delete-clock:
+	$(if $(CONFIRM_DELETE), , $(error delete-clock can only run with CONFIRM_DELETE))
+	cf delete -f "apply-clock-${APP_NAME_SUFFIX}"
 
 .PHONY: set-space-developer
 set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.education.gov.uk
