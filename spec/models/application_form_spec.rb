@@ -60,6 +60,19 @@ RSpec.describe ApplicationForm do
           .to raise_error('Tried to mark an application choice from a previous cycle as changed')
       end
 
+      it 'does not throw an exception and touches an application choice when offer is deferred' do
+        application_form = create(
+          :completed_application_form,
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          application_choices_count: 1,
+        )
+
+        application_form.application_choices.update(status: 'offer_deferred')
+
+        expect { application_form.update(address_line1: '123 Fake Street') }
+          .not_to raise_error
+      end
+
       it 'does nothing when there are no application choices' do
         application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 0)
 
