@@ -4,32 +4,32 @@ module MonthlyStatisticsTestHelper
     form = create(:application_form, candidate: hidden_candidate)
     create(:application_choice,
            :with_recruited,
-           course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern'),
+           course_option: course_option_with(level: 'primary', program_type: 'higher_education_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
            application_form: form)
 
     # Apply 1
     form = create(:application_form, phase: 'apply_1')
     create(:application_choice,
            :with_recruited,
-           course_option: course_option_with(level: 'primary', program_type: 'school_direct_training_programme', region: 'eastern'),
+           course_option: course_option_with(level: 'primary', program_type: 'school_direct_training_programme', region: 'eastern', subjects: [primary_subject(:mathematics)]),
            application_form: form)
 
     form = create(:application_form, phase: 'apply_1')
     create(:application_choice,
            :with_accepted_offer,
-           course_option: course_option_with(level: 'primary', program_type: 'school_direct_salaried_training_programme', region: 'east_midlands'),
+           course_option: course_option_with(level: 'primary', program_type: 'school_direct_salaried_training_programme', region: 'east_midlands', subjects: [primary_subject(:english)]),
            application_form: form)
 
     form = create(:application_form, phase: 'apply_1')
     create(:application_choice,
            :with_offer,
-           course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'london'),
+           course_option: course_option_with(level: 'primary', program_type: 'pg_teaching_apprenticeship', region: 'london', subjects: [primary_subject(:geography_and_history)]),
            application_form: form)
 
     form = create(:application_form, phase: 'apply_1')
     create(:application_choice,
            :awaiting_provider_decision,
-           course_option: course_option_with(level: 'secondary', program_type: 'scitt_programme', region: 'north_east'),
+           course_option: course_option_with(level: 'primary', program_type: 'scitt_programme', region: 'north_east', subjects: [primary_subject(:no_specialism)]),
            application_form: form)
 
     form = create(:application_form, phase: 'apply_1')
@@ -67,14 +67,30 @@ module MonthlyStatisticsTestHelper
   def course_option_with(
     program_type: 'higher_education_programme',
     region: 'eastern',
-    level: 'primary'
+    level: 'primary',
+    subjects: []
   )
     create(:course_option,
            course: create(:course,
                           program_type: program_type,
                           level: level,
+                          subjects: subjects,
                           provider: create(:provider,
                                            region_code: region)))
+  end
+
+  def primary_subject(specialism)
+    name, code = {
+      no_specialism: ['Primary', '00'],
+      english: ['Primary with English', '01'],
+      geography_and_history: ['Primary with geography and history', '02'],
+      mathematics: ['Primary with mathematics', '03'],
+      modern_languages: ['Primary with modern languages', '04'],
+      pe: ['Primary with physical education', '06'],
+      science: ['Primary with science', '07'],
+    }[specialism]
+
+    Subject.find_by(name: name, code: code).presence || create(:subject, name: name, code: code)
   end
 
   def expect_report_rows(column_headings:)

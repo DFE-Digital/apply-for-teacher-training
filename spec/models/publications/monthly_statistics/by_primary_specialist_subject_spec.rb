@@ -1,106 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Publications::MonthlyStatistics::ByPrimarySpecialistSubject do
-  context 'applications by status table data' do
-    subject(:statistics) { described_class.new.table_data }
+  include MonthlyStatisticsTestHelper
 
-    it "returns table data for 'applications by status'" do
-      setup_test_data
+  before { generate_monthly_statistics_test_data }
 
-      expect(statistics).to eq(
-        {
-          rows: [
-            {
-              'Subject' => 'English',
-              'Recruited' => 0,
-              'Conditions pending' => 1,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 1,
-              'Total' => 2,
-            },
-            {
-              'Subject' => 'Geography and History',
-              'Recruited' => 1,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 0,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'Mathematics',
-              'Recruited' => 0,
-              'Conditions pending' => 1,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 1,
-              'Total' => 2,
-            },
-            {
-              'Subject' => 'Modern languages',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 1,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'Physical Education',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 1,
-              'Unsuccessful' => 0,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'Science',
-              'Recruited' => 0,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 1,
-              'Unsuccessful' => 0,
-              'Total' => 1,
-            },
-            {
-              'Subject' => 'No specialist subject',
-              'Recruited' => 2,
-              'Conditions pending' => 0,
-              'Received an offer' => 0,
-              'Awaiting provider decisions' => 0,
-              'Unsuccessful' => 0,
-              'Total' => 2,
-            },
-          ],
-          column_totals: [3, 2, 0, 2, 3, 10],
-        },
-      )
+  subject(:statistics) { described_class.new.table_data }
+
+  it 'generates correct table data' do
+    expect_report_rows(column_headings: ['Subject', 'Recruited', 'Conditions pending', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
+      [['Primary', 0, 0, 0, 1, 0, 1],
+       ['Primary with English', 0, 1, 0, 0, 0, 1],
+       ['Primary with geography and history', 0, 0, 1, 0, 0, 1],
+       ['Primary with mathematics', 1, 0, 0, 0, 0, 1]]
     end
-  end
 
-  def setup_test_data
-    primary_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary')]))
-    primary_with_english_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary with English')]))
-    primary_with_mathematics_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary with mathematics')]))
-    primary_with_geography_and_history_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary with geography and history')]))
-    primary_with_modern_languages_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary with modern languages')]))
-    primary_with_science_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary with science')]))
-    primary_with_pe_course_option = create(:course_option, course: create(:course, level: 'primary', subjects: [create(:subject, name: 'Primary with physical education')]))
-
-    # previous year
-    create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'recruited', current_recruitment_cycle_year: RecruitmentCycle.previous_year, course_option: primary_course_option)
-    create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'pending_conditions', current_recruitment_cycle_year: RecruitmentCycle.previous_year, course_option: primary_with_english_course_option)
-    create(:application_choice, :with_offer, :offer_deferred, status_before_deferral: 'pending_conditions', current_recruitment_cycle_year: RecruitmentCycle.previous_year, course_option: primary_with_mathematics_course_option)
-
-    # current year
-    create(:application_choice, :with_recruited, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_course_option)
-    create(:application_choice, :with_recruited, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_geography_and_history_course_option)
-    create(:application_choice, :with_rejection, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_modern_languages_course_option)
-    create(:application_choice, :with_withdrawn_offer, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_mathematics_course_option)
-    create(:application_choice, :withdrawn, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_english_course_option)
-    create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_science_course_option)
-    create(:application_choice, :awaiting_provider_decision, current_recruitment_cycle_year: RecruitmentCycle.current_year, course_option: primary_with_pe_course_option)
+    expect_column_totals(1, 1, 1, 1, 0, 4)
   end
 end
