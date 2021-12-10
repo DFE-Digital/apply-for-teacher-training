@@ -29,7 +29,7 @@ module Publications
     end
 
     def current_reporting_period
-      '12 October 2021 to 22 November 2021'
+      "#{CycleTimetable.apply_opens.to_s(:govuk_date)} to #{report.created_at.to_s(:govuk_date)}"
     end
 
     def exports

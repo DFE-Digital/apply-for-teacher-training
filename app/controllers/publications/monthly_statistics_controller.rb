@@ -3,7 +3,9 @@ module Publications
     before_action :redirect_unless_published
 
     def show
-      @presenter = Publications::MonthlyStatisticsPresenter.new(MonthlyStatisticsTimetable.current_report)
+      @presenter = Publications::MonthlyStatisticsPresenter.new(
+        MonthlyStatisticsTimetable.current_report,
+      )
     end
 
     def redirect_unless_published

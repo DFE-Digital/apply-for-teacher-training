@@ -5,7 +5,12 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
     Timecop.freeze(Date.new(2021, 12, 1)) { example.run }
   end
 
-  let(:report) { double }
+  let(:report) do 
+    instance_double(
+      Publications::MonthlyStatistics::MonthlyStatisticsReport,
+      created_at: Date.new(2021, 11, 23),
+    )
+  end
 
   subject(:presenter) { described_class.new(report) }
 
@@ -41,7 +46,7 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
 
   describe '#current_reporting_period' do
     it 'returns the date range for the current reporting period' do
-      expect(presenter.current_reporting_period).to eq(:foo)
+      expect(presenter.current_reporting_period).to eq('12 October 2021 to 23 November 2021')
     end
   end
 end
