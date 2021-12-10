@@ -8,14 +8,13 @@ module Publications
         }
       end
 
-    private
-
       def rows
         @rows ||= formatted_group_query.map do |sex, statuses|
           {
             'Sex' => column_label_for(sex),
             'Recruited' => recruited_count(statuses),
             'Conditions pending' => pending_count(statuses),
+            'Deferred' => deferred_count(statuses),
             'Received an offer' => offer_count(statuses),
             'Awaiting provider decisions' => awaiting_decision_count(statuses),
             'Unsuccessful' => unsuccessful_count(statuses),
@@ -49,86 +48,70 @@ module Publications
           counts[item['sex']]&.merge!({ item['status'] => item['count'] })
         end
 
-        group_query_for_deferred_offers.map do |item|
-          counts[item['sex']]&.merge!({ item['status_before_deferral'] => item['count'] })
-        end
-
         counts
       end
 
-      def group_query_for_deferred_offers
-        group_query(
-          cycle: RecruitmentCycle.previous_year,
-          status_attribute: :status_before_deferral,
-        )
-      end
-
       def group_query_excluding_deferred_offers
-        group_query
-      end
-
-      def group_query(
-        cycle: RecruitmentCycle.current_year,
-        status_attribute: :status
-      )
-        without_subsequent_applications_query =
-          "AND (
-            NOT EXISTS (
-              SELECT 1
-              FROM application_forms
-              AS subsequent_application_forms
-              WHERE application_forms.id = subsequent_application_forms.previous_application_form_id
-            )
-          )"
-        with_statuses =
-          if status_attribute == :status_before_deferral
-            "AND application_choices.status = 'offer_deferred'"
-          else
-            "AND NOT application_choices.status = 'offer_deferred'"
-          end
-
-        query = "SELECT
-          COUNT(application_choices_with_minimum_statuses.id),
-          application_choices_with_minimum_statuses.#{status_attribute},
-          sex
-        FROM (
-          SELECT application_choices.id as id,
-            application_choices.status_before_deferral as status_before_deferral,
-            application_choices.status as status,
-            application_forms.equality_and_diversity->>'sex' as sex,
-            ROW_NUMBER() OVER (
-              PARTITION BY application_forms.id
-              ORDER BY
-              CASE application_choices.#{status_attribute}
-              WHEN 'offer_deferred' THEN 0
-              WHEN 'recruited' THEN 1
-              WHEN 'pending_conditions' THEN 2
-              WHEN 'conditions_not_met' THEN 2
-              WHEN 'offer' THEN 3
-              WHEN 'awaiting_provider_decision' THEN 4
-              WHEN 'interviewing' THEN 4
-              WHEN 'declined' THEN 5
-              WHEN 'offer_withdrawn' THEN 6
-              WHEN 'withdrawn' THEN 7
-              WHEN 'cancelled' THEN 7
-              WHEN 'rejected' THEN 7
-              ELSE 8
-              END
-            ) AS row_number
-          FROM application_forms
-          INNER JOIN application_choices
-            ON application_choices.application_form_id = application_forms.id
-          WHERE application_forms.recruitment_cycle_year = #{cycle}
-            #{without_subsequent_applications_query}
-            #{with_statuses}
-          ) AS application_choices_with_minimum_statuses
-        WHERE application_choices_with_minimum_statuses.row_number = 1
-        GROUP BY sex, #{status_attribute}"
-
         ActiveRecord::Base
           .connection
-          .execute(query)
+          .execute(candidate_query)
           .to_a
+      end
+
+      def candidate_query
+        <<~SQL
+          WITH raw_data AS (
+              SELECT
+                  c.id,
+                  f.id,
+                  CASE
+                    WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN 'recruited'
+                    WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN 'pending_conditions'
+                    WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_deferred'
+                    WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN 'offer'
+                    WHEN 'interviewing' = ANY(ARRAY_AGG(ch.status)) THEN 'interviewing'
+                    WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN 'awaiting_provider_decision'
+                    WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN 'declined'
+                    WHEN 'offer_withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_withdrawn'
+                    WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN 'conditions_not_met'
+                    WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN 'rejected'
+                    WHEN 'withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'withdrawn'
+                  END status,
+                  CASE
+                    WHEN f.equality_and_diversity->>'sex' IS NULL THEN 'Prefer not to say'
+                    ELSE f.equality_and_diversity->>'sex'
+                  END sex
+                FROM
+                  application_forms f
+                JOIN
+                    candidates c ON f.candidate_id = c.id
+                LEFT JOIN
+                    application_choices ch ON ch.application_form_id = f.id
+                WHERE
+                    NOT c.hide_in_reporting
+                    AND ch.current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                    AND ch.status IN (#{ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map { |status| "'#{status}'" }.join(',')})
+                    AND (
+                      NOT EXISTS (
+                        SELECT 1
+                        FROM application_forms
+                        AS subsequent_application_forms
+                        WHERE f.id = subsequent_application_forms.previous_application_form_id
+                        AND subsequent_application_forms.submitted_at IS NOT NULL
+                      )
+                    )
+                GROUP BY
+                    c.id, f.id
+          )
+          SELECT
+              raw_data.status,
+              raw_data.sex,
+              COUNT(*)
+          FROM
+              raw_data
+          GROUP BY
+          raw_data.sex, raw_data.status
+        SQL
       end
     end
   end

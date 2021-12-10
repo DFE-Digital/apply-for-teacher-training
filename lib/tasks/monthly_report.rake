@@ -1,15 +1,15 @@
 EXPORTS = [
-  :monthly_statistics_applications_by_course_age_group,
-  :monthly_statistics_applications_by_course_type,
-  :monthly_statistics_applications_by_primary_specialist_subject,
-  :monthly_statistics_applications_by_provider_area,
-  :monthly_statistics_applications_by_secondary_subject,
-  :monthly_statistics_applications_by_status,
-  :monthly_statistics_candidates_by_age_group,
-  :monthly_statistics_candidates_by_area,
+  # :monthly_statistics_applications_by_course_age_group,
+  # :monthly_statistics_applications_by_course_type,
+  # :monthly_statistics_applications_by_primary_specialist_subject,
+  # :monthly_statistics_applications_by_provider_area,
+  # :monthly_statistics_applications_by_secondary_subject,
+  # :monthly_statistics_applications_by_status,
+  # :monthly_statistics_candidates_by_age_group,
+  # :monthly_statistics_candidates_by_area,
   :monthly_statistics_candidates_by_sex,
-  :monthly_statistics_candidates_by_status,
-  :tad_applications,
+  # :monthly_statistics_candidates_by_status,
+  # :tad_applications,
 ].freeze
 
 task generate_monthly_report_for_qa: %i[environment] do
