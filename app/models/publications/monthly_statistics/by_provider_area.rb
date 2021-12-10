@@ -52,13 +52,6 @@ module Publications
           counts[region_code_lookup(region_code)]&.merge!({ status => count })
         end
 
-        group_query_for_deferred_offers.map do |item|
-          region_code, status = item[0]
-          count = item[1]
-          statuses_for_region_code = counts[region_code_lookup(region_code)] || {}
-          statuses_for_region_code[status] = (statuses_for_region_code[status] || 0) + count
-        end
-
         counts
       end
 
@@ -76,13 +69,6 @@ module Publications
         }[region_code]
       end
 
-      def group_query_for_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
-          .where(status: :offer_deferred)
-          .group('providers.region_code', 'status_before_deferral')
-          .count
-      end
-
       def group_query_excluding_deferred_offers
         group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
           .where.not(status: :offer_deferred)
@@ -93,7 +79,9 @@ module Publications
       def group_query(recruitment_cycle_year:)
         ApplicationChoice
           .joins(course_option: { site: :provider })
+          .joins(application_form: :candidate)
           .where(current_recruitment_cycle_year: recruitment_cycle_year)
+          .where('candidates.hide_in_reporting' => false)
       end
     end
   end
