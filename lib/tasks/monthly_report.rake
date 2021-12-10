@@ -6,8 +6,8 @@ EXPORTS = [
   # :monthly_statistics_applications_by_secondary_subject,
   # :monthly_statistics_applications_by_status,
   # :monthly_statistics_candidates_by_age_group,
-  # :monthly_statistics_candidates_by_area,
-  :monthly_statistics_candidates_by_sex,
+  :monthly_statistics_candidates_by_area,
+  # :monthly_statistics_candidates_by_sex,
   # :monthly_statistics_candidates_by_status,
   # :tad_applications,
 ].freeze
