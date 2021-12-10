@@ -8,14 +8,13 @@ module Publications
         }
       end
 
-    private
-
       def rows
         @rows ||= formatted_age_group_query.map do |age_group, statuses|
           {
             'Age group' => age_group,
             'Recruited' => recruited_count(statuses),
             'Conditions pending' => pending_count(statuses),
+            'Deferrals' => deferred_count(statuses),
             'Received an offer' => offer_count(statuses),
             'Awaiting provider decisions' => awaiting_decision_count(statuses),
             'Unsuccessful' => unsuccessful_count(statuses),
@@ -149,65 +148,71 @@ module Publications
           counts[age_group].merge!({ status => count })
         end
 
-        deferred_offers_count.map do |item|
-          age_group = item['age_group']
-          status_before_deferral = item['status_before_deferral']
-          count = item['count']
-          counts[age_group][status_before_deferral] += count
-        end
-
         counts
       end
 
       def age_group_counts
         @age_group_counts ||= ActiveRecord::Base
           .connection
-          .execute(age_group_query)
+          .execute(candidate_query)
           .to_a
-          .reject { |row| row.values.include?('offer_deferred') }
       end
 
-      def age_group_query
-        <<-SQL
+      def candidate_query
+        <<~SQL
           WITH raw_data AS (
               SELECT
                   c.id,
                   f.id,
                   CASE
                     WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN 'recruited'
-                    WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_deferred'
                     WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN 'pending_conditions'
+                    WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_deferred'
                     WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN 'offer'
+                    WHEN 'interviewing' = ANY(ARRAY_AGG(ch.status)) THEN 'interviewing'
                     WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN 'awaiting_provider_decision'
                     WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN 'declined'
-                    WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN 'rejected'
-                    WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN 'conditions_not_met'
                     WHEN 'offer_withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'offer_withdrawn'
+                    WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN 'conditions_not_met'
+                    WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN 'rejected'
                     WHEN 'withdrawn' = ANY(ARRAY_AGG(ch.status)) THEN 'withdrawn'
                   END status,
                   CASE
-                    #{age_group_sql}
+                    WHEN f.date_of_birth > '#{Date.new(RecruitmentCycle.current_year - 22, 7, 31)}' THEN '21 and under'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 23, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 22, 7, 31)}' THEN '22'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 24, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 23, 7, 31)}' THEN '23'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 25, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 24, 7, 31)}' THEN '24'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 30, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 25, 7, 31)}' THEN '25 to 29'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 35, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 30, 7, 31)}' THEN '30 to 34'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 40, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 35, 7, 31)}' THEN '35 to 39'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 45, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 40, 7, 31)}' THEN '40 to 44'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 50, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 45, 7, 31)}' THEN '45 to 49'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 55, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 50, 7, 31)}' THEN '50 to 54'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 60, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 55, 7, 31)}' THEN '55 to 59'
+                    WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 65, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 60, 7, 31)}' THEN '60 to 64'
+                    WHEN f.date_of_birth < '#{Date.new(RecruitmentCycle.current_year - 65, 8, 1)}' THEN '65 and over'
                   END age_group
-              FROM
+                FROM
                   application_forms f
-              LEFT JOIN
-                  candidates c ON f.candidate_id = c.id
-              LEFT JOIN
-                  application_choices ch ON ch.application_form_id = f.id
-              WHERE
-                  NOT c.hide_in_reporting
-                  AND f.recruitment_cycle_year = #{RecruitmentCycle.current_year}
-                  AND f.date_of_birth IS NOT NULL
-                  AND (
-                    NOT EXISTS (
-                      SELECT 1
-                      FROM application_forms
-                      AS subsequent_application_forms
-                      WHERE f.id = subsequent_application_forms.previous_application_form_id
+                JOIN
+                    candidates c ON f.candidate_id = c.id
+                LEFT JOIN
+                    application_choices ch ON ch.application_form_id = f.id
+                WHERE
+                    NOT c.hide_in_reporting
+                    AND ch.current_recruitment_cycle_year = #{RecruitmentCycle.current_year}
+                    AND ch.status IN (#{ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map { |status| "'#{status}'" }.join(',')})
+                    AND (
+                      NOT EXISTS (
+                        SELECT 1
+                        FROM application_forms
+                        AS subsequent_application_forms
+                        WHERE f.id = subsequent_application_forms.previous_application_form_id
+                        AND subsequent_application_forms.submitted_at IS NOT NULL
+                      )
                     )
-                  )
-              GROUP BY
-                  c.id, f.id, age_group
+                GROUP BY
+                    c.id, f.id
           )
           SELECT
               raw_data.status,
@@ -217,69 +222,7 @@ module Publications
               raw_data
           GROUP BY
               raw_data.status, raw_data.age_group
-          ORDER BY
-              raw_data.status
         SQL
-      end
-
-      def deferred_offers_count
-        @deferred_offers_counts ||= ActiveRecord::Base
-          .connection
-          .execute(deferred_offers_query)
-          .to_a
-      end
-
-      def deferred_offers_query
-        <<-SQL
-          WITH raw_data AS (
-              SELECT
-                  c.id,
-                  f.id,
-                  ch.status_before_deferral,
-                  CASE
-                    #{age_group_sql}
-                  END age_group
-              FROM
-                  application_forms f
-              LEFT JOIN
-                  candidates c ON f.candidate_id = c.id
-              LEFT JOIN
-                  application_choices ch ON ch.application_form_id = f.id
-              WHERE
-                  NOT c.hide_in_reporting
-                  AND f.recruitment_cycle_year = #{RecruitmentCycle.previous_year}
-                  AND f.date_of_birth IS NOT NULL
-                  AND ch.status_before_deferral IS NOT NULL
-              GROUP BY
-                  c.id, f.id, age_group, status_before_deferral
-          )
-          SELECT
-              raw_data.status_before_deferral,
-              raw_data.age_group,
-              COUNT(*)
-          FROM
-              raw_data
-          GROUP BY
-              raw_data.status_before_deferral, raw_data.age_group
-          ORDER BY
-              raw_data.status_before_deferral
-        SQL
-      end
-
-      def age_group_sql
-        "WHEN f.date_of_birth > '#{Date.new(RecruitmentCycle.current_year - 22, 7, 31)}' THEN '21 and under'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 23, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 22, 7, 31)}' THEN '22'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 24, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 23, 7, 31)}' THEN '23'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 25, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 24, 7, 31)}' THEN '24'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 30, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 25, 7, 31)}' THEN '25 to 29'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 35, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 30, 7, 31)}' THEN '30 to 34'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 40, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 35, 7, 31)}' THEN '35 to 39'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 45, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 40, 7, 31)}' THEN '40 to 44'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 50, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 45, 7, 31)}' THEN '45 to 49'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 55, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 50, 7, 31)}' THEN '50 to 54'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 60, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 55, 7, 31)}' THEN '55 to 59'
-        WHEN f.date_of_birth BETWEEN '#{Date.new(RecruitmentCycle.current_year - 65, 8, 1)}' AND '#{Date.new(RecruitmentCycle.current_year - 60, 7, 31)}' THEN '60 to 64'
-        WHEN f.date_of_birth < '#{Date.new(RecruitmentCycle.current_year - 65, 8, 1)}' THEN '65 and over'"
       end
     end
   end
