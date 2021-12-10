@@ -5,7 +5,7 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
     Timecop.freeze(Date.new(2021, 12, 1)) { example.run }
   end
 
-  let(:report) do 
+  let(:report) do
     instance_double(
       Publications::MonthlyStatistics::MonthlyStatisticsReport,
       created_at: Date.new(2021, 11, 23),
