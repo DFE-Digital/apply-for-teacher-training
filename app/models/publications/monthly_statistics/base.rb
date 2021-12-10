@@ -35,7 +35,7 @@ module Publications
           unsuccessful_count(statuses)
       end
 
-      MINIMUM_VISIBLE_VALUE = 5
+      MINIMUM_VISIBLE_VALUE = 0
       def apply_minimum_value_rule(count)
         count.is_a?(Numeric) && count < MINIMUM_VISIBLE_VALUE ? '0 to 4' : count
       end
