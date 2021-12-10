@@ -13,7 +13,7 @@ module Publications
       def rows
         @rows ||= formatted_group_query.map do |age_group, statuses|
           {
-            'Age group' => age_group,
+            'Course phase' => age_group,
             'Recruited' => recruited_count(statuses),
             'Conditions pending' => pending_count(statuses),
             'Received an offer' => offer_count(statuses),
@@ -40,12 +40,6 @@ module Publications
           'Further education' => {},
         }
 
-        group_query_including_deferred_offers.map do |item|
-          level, status = item[0]
-          count = item[1]
-          counts[level].merge!({ status => count })
-        end
-
         group_query_excluding_deferred_offers.map do |item|
           level, status = item[0]
           count = item[1]
@@ -53,13 +47,6 @@ module Publications
         end
 
         counts
-      end
-
-      def group_query_including_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
-          .where(status: 'offer_deferred')
-          .group('courses.level', 'status_before_deferral')
-          .count
       end
 
       def group_query_excluding_deferred_offers
@@ -71,7 +58,9 @@ module Publications
 
       def group_query(recruitment_cycle_year:)
         ApplicationChoice
-          .joins(course: :subjects)
+          .joins(:course)
+          .joins(application_form: :candidate)
+          .where('candidates.hide_in_reporting IS NOT true')
           .where(current_recruitment_cycle_year: recruitment_cycle_year)
       end
     end
