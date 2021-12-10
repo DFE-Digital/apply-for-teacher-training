@@ -3,8 +3,8 @@ module Publications
     class BySex < Publications::MonthlyStatistics::Base
       def table_data
         {
-          rows: apply_minimum_value_rule_to_rows(rows),
-          column_totals: apply_minimum_value_rule_to_totals(column_totals_for(rows)),
+          rows: rows,
+          column_totals: column_totals_for(rows),
         }
       end
 

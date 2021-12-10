@@ -163,21 +163,6 @@ module Publications
           unsuccessful_count(statuses)
       end
 
-      MINIMUM_VISIBLE_VALUE = 0
-      def apply_minimum_value_rule(count)
-        count.is_a?(Numeric) && count < MINIMUM_VISIBLE_VALUE ? '0 to 4' : count
-      end
-
-      def apply_minimum_value_rule_to_rows(rows)
-        rows.map do |hash|
-          hash.transform_values { |count| apply_minimum_value_rule(count) }
-        end
-      end
-
-      def apply_minimum_value_rule_to_totals(totals)
-        totals.map { |count| apply_minimum_value_rule(count) }
-      end
-
       def column_totals_for(rows)
         _area, *statuses = rows.first.keys
 

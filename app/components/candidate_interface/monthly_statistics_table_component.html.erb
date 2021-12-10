@@ -16,7 +16,7 @@
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header govuk-!-font-weight-regular"><%= name_for(row) %></th>
             <% data_from(row).map do |_status, count| %>
-              <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="<%= sort_value(count) %>"><%= number_with_delimiter(count) %></td>
+              <td class="govuk-table__cell govuk-table__cell--numeric" data-sort-value="<%= count %>"><%= number_with_delimiter(count) %></td>
             <% end %>
           </tr>
         <% end %>
