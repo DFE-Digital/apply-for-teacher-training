@@ -53,7 +53,7 @@ module MonthlyStatisticsTestHelper
     form = create(:application_form, phase: 'apply_1')
     create(:application_choice,
            :with_deferred_offer,
-           # course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands'),
            application_form: form)
 
     # Apply 2
@@ -65,9 +65,9 @@ module MonthlyStatisticsTestHelper
   end
 
   def course_option_with(
-    program_type: 'higher_education_programme',
-    region: 'eastern',
-    level: 'primary',
+    program_type:,
+    region:,
+    level:,
     subjects: []
   )
     create(:course_option,

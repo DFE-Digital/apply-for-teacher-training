@@ -11,8 +11,12 @@ module Publications
         statuses['pending_conditions'] || 0
       end
 
+      def deferred_count(statuses)
+        statuses['offer_deferred'] || 0
+      end
+
       def offer_count(statuses)
-        (statuses['offer'] || 0) + (statuses['offer_deferred'] || 0)
+        (statuses['offer'] || 0)
       end
 
       def awaiting_decision_count(statuses)
@@ -30,6 +34,7 @@ module Publications
       def statuses_count(statuses)
         recruited_count(statuses) +
           pending_count(statuses) +
+          deferred_count(statuses) +
           offer_count(statuses) +
           awaiting_decision_count(statuses) +
           unsuccessful_count(statuses)
