@@ -326,6 +326,10 @@ class DataExport < ApplicationRecord
     "#{name.parameterize}-#{created_at}.csv"
   end
 
+  def month_filename
+    "#{name.parameterize}-#{created_at.strftime('%Y-%m')}.csv"
+  end
+
   def generation_time
     (completed_at - created_at).seconds.ceil
   end

@@ -1172,6 +1172,7 @@ Rails.application.routes.draw do
 
   namespace :publications, path: '/publications' do
     get '/monthly-statistics' => 'monthly_statistics#show', as: :monthly_report
+    get '/monthly-statistics/:date/:export_type' => 'monthly_statistics#download', as: :monthly_report_download
   end
 
   mount Yabeda::Prometheus::Exporter => '/metrics'

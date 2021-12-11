@@ -1,23 +1,23 @@
 en:
-  monthly_statistics_candidates_by_status:
+  candidates_by_status:
     label: Applicants by status (CSV)
-  monthly_statistics_applications_by_status:
+  applications_by_status:
     label: Applications by status (CSV)
-  monthly_statistics_candidates_by_age_group:
+  by_age_group:
     label: Applicants by age group (CSV)
-  monthly_statistics_candidates_by_sex:
+  by_sex:
     label: Applicants by sex (CSV)
-  monthly_statistics_candidates_by_area:
+  by_area:
     label: Applicants by area (CSV)
-  monthly_statistics_applications_by_course_age_group:
+  by_course_age_group:
     label: Applications by course age group (CSV)
-  monthly_statistics_applications_by_course_type:
+  by_course_type:
     label: Applications by course type (CSV)
-  monthly_statistics_applications_by_primary_specialist_subject:
+  by_primary_specialist_subject:
     label: Applications by primary specialist subject (CSV)
-  monthly_statistics_applications_by_secondary_subject:
+  by_secondary_subject:
     label: Applications by secondary subject (CSV)
-  monthly_statistics_applications_by_provider_area:
+  by_provider_area:
     label: Applications by provider area (CSV)
   external_report_candidates:
     label: Applicants by status, age group, sex, area (CSV)
