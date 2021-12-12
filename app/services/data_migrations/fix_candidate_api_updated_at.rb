@@ -39,10 +39,10 @@ module DataMigrations
       end
     end
 
-    private
+  private
 
     def calculate_candidate_api_updated_at(candidate)
-      candidate.max_form_created_at
+      [candidate.max_form_created_at, candidate.earliest_update].compact.max
     end
   end
 end
