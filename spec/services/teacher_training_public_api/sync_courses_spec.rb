@@ -152,9 +152,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
           }],
         )
 
-        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
 
-        expect(Sentry).to have_received(:capture_exception).twice
+          expect(Sentry).to have_received(:capture_exception).twice
+        end
       end
 
       it 'correctly updates vacancy status for any existing course options' do
@@ -186,10 +188,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
         expect(CourseOption.count).to eq 1
         CourseOption.first.update!(vacancy_status: 'no_vacancies')
 
-        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
 
-        expect(Sentry).to have_received(:capture_exception)
-                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('course_option have been updated'))
+          expect(Sentry)
+            .to have_received(:capture_exception)
+            .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('course_option have been updated'))
+        end
       end
 
       context 'when course details are updated' do
@@ -335,10 +340,13 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
                                                    course_attributes: [{ accredited_body_code: 'DEF', study_mode: 'full_time' }],
                                                    site_code: 'A')
 
-        described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
+        ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+          described_class.new.perform(existing_provider.id, stubbed_recruitment_cycle_year, false)
 
-        expect(Sentry).to have_received(:capture_exception)
-                          .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('provider_relationship_permission and courses have been updated'))
+          expect(Sentry)
+            .to have_received(:capture_exception)
+            .with(TeacherTrainingPublicAPI::FullSyncUpdateError.new('provider_relationship_permission and courses have been updated'))
+        end
       end
 
       it 'does not create provider relationships for self ratifying providers' do

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.4'
+ruby '2.7.5'
 
 gem 'timeliness'
 
@@ -91,7 +91,7 @@ gem 'yabeda-prometheus'
 # Logging
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
-gem 'rails_semantic_logger'
+gem 'rails_semantic_logger', group: %w[development production]
 
 # Background processing
 gem 'sidekiq'

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'request_store_rails'
+return unless defined? SemanticLogger
 
 class CustomLogFormatter < SemanticLogger::Formatters::Raw
   def call(log, logger)
