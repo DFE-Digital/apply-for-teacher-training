@@ -69,6 +69,29 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
       end
     end
 
+    context 'if the new provider is not on the interview' do
+      it 'raises a RuntimeError' do
+        original_course_option = create(:course_option)
+        application_choice = create(:application_choice, :interviewing, course_option: original_course_option)
+
+        course_option = create(:course_option, study_mode: :full_time)
+        other_provider = create(:provider)
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: other_provider.code,
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        expect { form.save(application_choice.id) }.to raise_error(RuntimeError)
+      end
+    end
+
     context 'if the new course details are correct' do
       it 'updates the application choice' do
         original_course_option = create(:course_option)

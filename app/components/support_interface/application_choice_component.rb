@@ -187,18 +187,14 @@ module SupportInterface
     end
 
     def change_course_choice_link
-      return {} unless @application_choice.application_form.editable?
+      return {} unless @application_choice.application_form.editable? && ApplicationStateChange::DECISION_PENDING_STATUSES.include?(application_choice.status.to_sym)
 
-      if application_choice.awaiting_provider_decision?
-        {
-          action: {
-            href: support_interface_application_form_change_course_choice_path(application_choice_id: @application_choice.id),
-            text: 'Change course choice',
-          },
-        }
-      else
-        {}
-      end
+      {
+        action: {
+          href: support_interface_application_form_change_course_choice_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+          text: 'Change course choice',
+        },
+      }
     end
 
     def status_action_link

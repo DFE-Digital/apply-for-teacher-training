@@ -65,6 +65,9 @@ module SupportInterface
         rescue ActiveRecord::RecordInvalid
           flash[:warning] = 'This course option has already been taken'
           render :confirm_change
+        rescue RuntimeError
+          flash[:warning] = 'You can‘t change a course choice if the provider is not on the interview'
+          render :confirm_change
         end
       end
 
