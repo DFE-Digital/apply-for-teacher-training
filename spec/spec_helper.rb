@@ -24,6 +24,8 @@ SimpleCov.formatters = [
 # Give each coverage report a unique ID if we are running parallel tests
 if ENV['TEST_ENV_NUMBER']
   SimpleCov.command_name("RSpec-#{SecureRandom.hex(4)}")
+else
+  SimpleCov.command_name('RSpec')
 end
 
 SimpleCov.start 'rails' do
