@@ -4,6 +4,7 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
   include MonthlyStatisticsTestHelper
 
   before { generate_monthly_statistics_test_data }
+
   subject(:statistics) { described_class.new.table_data }
 
   it "returns table data for 'applications by provider area'" do
