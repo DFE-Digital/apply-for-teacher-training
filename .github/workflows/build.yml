@@ -218,15 +218,18 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v2
         with:
-          name: head-result
+          name: ${{ matrix.tests }}-head-result
           path: /app/coverage/.resultset.json
+          retention-days: 1
 
       - name: Upload main coverage report
         if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v2
         with:
-          name: base-result
+          name: ${{ matrix.tests }}-base-result
           path: /app/coverage/.resultset.json
+          retention-days: 1
+
       - name: Notify Slack channel on job failure
         if: failure() && github.event_name == 'push'
         uses: rtCamp/action-slack-notify@v2
@@ -246,6 +249,9 @@ jobs:
       - name: Echo flakey test output
         run: echo "${{ needs.test.outputs.flakey_tests }}"
 
+      - name: Checkout source
+        uses: actions/checkout@v2
+
       - name: Comment on flakey specs in pull request
         uses: actions/github-script@0.5.0
         if: github.event_name == 'pull_request' && needs.test.outputs.flakey_tests
@@ -255,31 +261,66 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { FLAKEY_TEST_DATA, GITHUB_HEAD_REF } = process.env;
-            if (FLAKEY_TEST_DATA.length) {
-              const { issue: { number: issue_number }, repo: { owner, repo } } = context;
-              let commentBody = '<h2>You have one or more flakey tests on this branch! :snowflake: :snowflake: :snowflake:</h2>';
-              let dataStr, dataAry, attempts, retryCount, errorLocation, errorPath, errorMessages, errorLink;
-              let branchName = GITHUB_HEAD_REF.split('/').pop();
-              let createComment = false;
-              let rows = FLAKEY_TEST_DATA.split("\n");
-              let rowsLength = rows.length;
-              for (var idx = 0; idx < rowsLength; idx++) {
-                dataStr = rows[idx];
-                if (dataStr.length) {
-                  dataAry = dataStr.split(',');
-                  [attempts, retryCount, errorLocation, ...errorMessages] = dataAry;
-                  errorPath = `/${owner}/${repo}/blob/${branchName}/${errorLocation.replace(':', '#L')}`;
-                  errorLink = `<a href="${errorPath}">${errorLocation}</a>`;
-                  commentBody += `Failed ${attempts} out of ${retryCount} times at ${errorLink}: :warning: ${errorMessages.toString()}<br>`;
-                  createComment = true;
-                }
-              }
-              if (createComment) {
-                github.issues.createComment({ issue_number, owner, repo, body: commentBody });
-                throw 'You have one or more flakey tests on this branch';
-              }
-            }
+            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
+            script({github, context})
+
+  collate-coverage:
+    name: Collate test coverage reports
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby (installs .ruby-version, runs bundle install)
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Download all coverage artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Symlink source checkout directory to /app
+        run: sudo ln -s /home/runner/work/apply-for-teacher-training/apply-for-teacher-training /app
+
+      - name: Collate PR coverage results
+        run: bundle exec ruby .github/scripts/simplecov_collate.rb
+
+      - name: Replace compound command name with 'RSpec'
+        run: sed -i 's/"RSpec-.*"/"RSpec"/' coverage/.resultset.json
+
+      - name: Upload collated pull request coverage report
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v2
+        with:
+          name: head-result
+          path: coverage/.resultset.json
+          retention-days: 1
+
+      - name: Upload collated main branch coverage report
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v2
+        with:
+          name: base-result
+          path: coverage/.resultset.json
+          retention-days: 5
+
+      - name: Delete test matrix coverage artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: |
+            unit_shared-base-result
+            unit_candidate-provider-base-result
+            unit_support-referee-api-base-result
+            integration_shared-base-result
+            integration_provider-base-result
+            integration_candidate-base-result
+            unit_shared-head-result
+            unit_candidate-provider-head-result
+            unit_support-referee-api-head-result
+            integration_shared-head-result
+            integration_provider-head-result
+            integration_candidate-head-result
 
   trigger-deployment:
     name: Trigger Deployment
