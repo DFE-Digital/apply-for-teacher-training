@@ -218,7 +218,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.tests }}-head-result
+          name: ${{ matrix.tests }}-${{ matrix.feature-flags }}-head-result
           path: /app/coverage/.resultset.json
           retention-days: 1
 
