@@ -305,8 +305,8 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build.yml
           workflow_conclusion: success
-          branch: main
-          name: base-result
+          branch: upload-multiple-coverage-artifacts
+          name: head-result
           path: base-result/
 
       - name: Diff coverage resultsets
