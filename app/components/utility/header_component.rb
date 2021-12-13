@@ -10,4 +10,8 @@ class HeaderComponent < ViewComponent::Base
     @navigation_items   = navigation_items
     @navigation_classes = navigation_classes
   end
+
+  def govuk_url
+    t('govuk.url')
+  end
 end
