@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RestructuredWorkHistory::ReviewComponent do
+  include Rails.application.routes.url_helpers
+
   around do |example|
     Timecop.freeze(Time.zone.now) do
       example.run
@@ -51,6 +53,16 @@ RSpec.describe RestructuredWorkHistory::ReviewComponent do
         build_stubbed(:application_work_experience, start_date: 2.months.ago, end_date: 1.month.ago),
       ],
     )
+  end
+
+  context 'when the application is incomplete' do
+    context 'when we click from the application review page' do
+      it 'renders incomplete component with correct path' do
+        result = render_inline(described_class.new(application_form: application_form_with_no_breaks, show_incomplete: true, return_to_application_review: true))
+
+        expect(result.to_s).to include(candidate_interface_restructured_work_history_review_path('return-to' => 'application-review'))
+      end
+    end
   end
 
   context 'when the application is editable' do

@@ -56,5 +56,9 @@ module RestructuredWorkHistory
     def breaks_in_work_history?
       CheckBreaksInWorkHistory.call(@application_form)
     end
+
+    def change_path
+      CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path('return-to' => 'application-review') if @return_to_application_review
+    end
   end
 end

@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :work_experience, section_path: change_path, error: @missing_error)) %>
 <% else %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <div class="app-summary-card__body">

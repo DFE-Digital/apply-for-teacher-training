@@ -177,10 +177,10 @@ module CandidateInterface
       end
     end
 
-    def work_experience_path
+    def work_experience_path(params = nil)
       if application_form.feature_restructured_work_history
         if application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
-          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path('return-to' => 'application-review')
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path(params)
         else
           Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path
         end
