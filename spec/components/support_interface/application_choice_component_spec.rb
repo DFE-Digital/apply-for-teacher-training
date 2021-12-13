@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationChoiceComponent do
+  include Rails.application.routes.url_helpers
+
   context 'Declined offer' do
     let(:declined_offer) { create(:application_choice, :with_completed_application_form, :with_declined_offer) }
 
@@ -277,6 +279,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
       :application_choice,
       :with_completed_application_form,
       :awaiting_provider_decision,
+      current_course_option: create(:course_option),
     )
 
     result = render_inline(described_class.new(application_choice))
