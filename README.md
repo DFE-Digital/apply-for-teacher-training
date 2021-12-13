@@ -99,9 +99,26 @@ The most common way to run a development version of the application is run with 
 - `postgresql`
 - `redis`
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
-- [`ruby`](.ruby-version)
-- `bundle 2.1.4+`
+- [`ruby`](.tool-versions)
+- [`nodejs`](.tool-versions)
 - `chromedriver` (you will need chromedriver and a version of Chrome installed to run the full test suite)
+
+The recommended way to install language runtimes (ie Ruby and Node) is using
+the `asdf` version manager tool ([documentation](https://asdf-vm.com/)). `asdf`
+considers a file called `.tool-versions` in the repository root when deciding
+which version of each language to install or use.
+
+On a mac:
+
+```bash
+# The first time
+brew install asdf
+asdf plugin add ruby
+asdf plugin add nodejs
+
+# To install (or update, following a change to .tool-versions)
+asdf install
+```
 
 You'll also need to copy `.env.example` to `.env` and fill in the secrets.
 This will populate required environment variables
