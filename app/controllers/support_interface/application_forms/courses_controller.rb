@@ -45,6 +45,29 @@ module SupportInterface
         end
       end
 
+      def edit
+        @change_course_choice = ChangeCourseChoiceForm.new
+      end
+
+      def update
+        @change_course_choice = ChangeCourseChoiceForm.new(change_course_choice_params)
+
+        begin
+          if @change_course_choice.save(params[:application_choice_id])
+            flash[:success] = 'Course successfully changed'
+            redirect_to support_interface_application_form_path(application_form_id)
+          else
+            render :edit
+          end
+        rescue ActiveRecord::RecordNotFound
+          flash[:warning] = 'This is not a valid course option'
+          render :confirm_change
+        rescue ActiveRecord::RecordInvalid
+          flash[:warning] = 'This course option has already been taken'
+          render :confirm_change
+        end
+      end
+
     private
 
       def course_option_id
@@ -54,6 +77,11 @@ module SupportInterface
       def course_search_params
         params.require(:support_interface_application_forms_course_search_form)
               .permit(:course_code)
+      end
+
+      def change_course_choice_params
+        params.require(:support_interface_application_forms_change_course_choice_form)
+              .permit(:application_choice_id, :provider_code, :course_code, :study_mode, :site_code, :audit_comment_ticket, :accept_guidance)
       end
 
       def application_form_id
