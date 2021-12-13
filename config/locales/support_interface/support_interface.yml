@@ -54,6 +54,21 @@ en:
           attributes:
             course_option_id:
               blank: Please select a course
+        support_interface/application_forms/change_course_choice_form:
+          attributes:
+            provider_code:
+              blank: Please enter a provider code
+            course_code:
+              blank: Please enter a course code
+            study_mode:
+              blank: Select a study mode option
+            site_code:
+              blank: Please enter a site code
+            accept_guidance:
+              blank: Select that you have read the guidance
+            audit_comment_ticket:
+              blank: Enter a Zendesk ticket URL
+              invalid: Enter a valid Zendesk ticket URL
         support_interface/application_comment_form:
           attributes:
             comment:
