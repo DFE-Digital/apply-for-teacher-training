@@ -43,7 +43,7 @@ class CycleTimetable
       reject_by_default: Time.zone.local(2022, 9, 29, 23, 59, 59), # This is a placeholder till we know the real date
       find_closes: Time.zone.local(2022, 10, 4, 23, 59, 59), # This is a placeholder till we know the real date
       holidays: { # Placeholders
-        christmas: Date.new(2021, 12, 21)..Date.new(2022, 1, 1),
+        christmas: Date.new(2021, 12, 14)..Date.new(2022, 1, 16),
         easter: Date.new(2022, 4, 2)..Date.new(2022, 4, 6),
       },
     },
