@@ -32,11 +32,13 @@ module DataMigrations
         .where('candidate_api_updated_at < max_form_created_at OR candidate_api_updated_at < forms_with_earliest_audit.earliest_update')
         .where("created_at > '2021-01-01'")
 
-      candidates.find_in_batches(batch_size: 10) do |batch|
+      candidates.find_in_batches(batch_size: 100).with_index do |batch, index|
+        Rails.logger.info("FixCandidateAPIUpdatedAt processing batch #{index}...")
         batch.each do |candidate|
           candidate.update!(candidate_api_updated_at: calculate_candidate_api_updated_at(candidate))
         end
       end
+      Rails.logger.info('FixCandidateAPIUpdatedAt done')
     end
 
   private
