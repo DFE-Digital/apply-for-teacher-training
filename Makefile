@@ -197,7 +197,7 @@ restore-postgres: deploy-init ## make qa restore-postgres DB_INSTANCE_GUID="<cf 
 	echo "Restoring apply-postgres-${APP_NAME_SUFFIX} from $(TF_VAR_paas_restore_db_from_db_instance) before $(TF_VAR_paas_restore_db_from_point_in_time_before)"
 	make ${APP_ENV} deploy
 
-enable-maintenance: ## make qa enable-maintenance / make prod enable-maintenance CONFIRM_PRODUCTION=y
+enable-maintenance: ## make qa enable-maintenance / make production enable-maintenance CONFIRM_PRODUCTION=y
 	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
 	cf target -s ${SPACE}
 	cd service_unavailable_page && cf push
@@ -205,7 +205,7 @@ enable-maintenance: ## make qa enable-maintenance / make prod enable-maintenance
 	echo Waiting 5s for route to be registered... && sleep 5
 	cf unmap-route apply-${APP_ENV} apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
 
-disable-maintenance: ## make qa disable-maintenance / make prod disable-maintenance CONFIRM_PRODUCTION=y
+disable-maintenance: ## make qa disable-maintenance / make production disable-maintenance CONFIRM_PRODUCTION=y
 	$(if $(HOSTNAME), $(eval REAL_HOSTNAME=${HOSTNAME}), $(eval REAL_HOSTNAME=${APP_ENV}))
 	cf target -s ${SPACE}
 	cf map-route apply-${APP_ENV} apply-for-teacher-training.service.gov.uk --hostname ${REAL_HOSTNAME}
