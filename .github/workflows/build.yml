@@ -202,6 +202,7 @@ jobs:
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
+          TEST_MATRIX_NODE_NAME: ${{ matrix.tests }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
       - name: Read flakey test results
         id: set_flakey_test_results_var
