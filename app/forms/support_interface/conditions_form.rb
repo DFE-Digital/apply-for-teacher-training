@@ -22,9 +22,9 @@ module SupportInterface
 
     validates :application_choice, presence: true
     validates :audit_comment_ticket, presence: true
-    validates :audit_comment_ticket, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
     validate :condition_count_valid
     validate :further_conditions_lengths_valid
+    validates_with ZendeskUrlValidator
 
     def self.build_from_application_choice(application_choice, attrs = {})
       attrs = {

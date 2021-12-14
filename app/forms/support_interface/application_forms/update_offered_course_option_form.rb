@@ -6,7 +6,7 @@ module SupportInterface
       attr_accessor :course_option_id, :audit_comment, :accept_guidance
 
       validates :course_option_id, :audit_comment, :accept_guidance, presence: true
-      validates :audit_comment, format: { with: /\A((http|https):\/\/)?(www.)?becomingateacher.zendesk.com\/agent\/tickets\// }
+      validates_with ZendeskUrlValidator
 
       def save(application_choice)
         self.accept_guidance = ActiveModel::Type::Boolean.new.cast(accept_guidance)
