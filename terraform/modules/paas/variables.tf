@@ -1,3 +1,5 @@
+variable "environment" {}
+
 variable "cf_api_url" {}
 
 variable "cf_user" { default = null }
@@ -72,6 +74,7 @@ locals {
     staging   = "staging"
     sandbox   = "sandbox"
     research  = "research"
+    review    = "review"
     prod      = "www"
   }
   assets_host_names = {
@@ -79,6 +82,7 @@ locals {
     staging   = "staging-assets"
     sandbox   = "sandbox-assets"
     research  = "research-assets"
+    review    = "review-assets"
     prod      = "assets"
   }
   web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route,

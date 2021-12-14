@@ -41,7 +41,7 @@ module "paas" {
   web_app_instances               = var.paas_web_app_instances
   web_app_memory                  = var.paas_web_app_memory
   app_docker_image                = var.paas_docker_image
-  app_environment                 = var.paas_app_environment
+  app_environment                 = local.app_name_suffix
   app_environment_variables       = local.paas_app_environment_variables
   logstash_url                    = local.infra_secrets.LOGSTASH_URL
   postgres_service_plan           = var.paas_postgres_service_plan
@@ -52,6 +52,7 @@ module "paas" {
   clock_app_instances             = var.paas_clock_app_instances
   worker_app_instances            = var.paas_worker_app_instances
   worker_secondary_app_instances  = var.paas_worker_secondary_app_instances
+  environment                     = var.paas_app_environment
 
   restore_db_from_db_instance          = var.paas_restore_db_from_db_instance
   restore_db_from_point_in_time_before = var.paas_restore_db_from_point_in_time_before
