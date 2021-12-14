@@ -17,6 +17,47 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
       end
     end
 
+    context 'when the application choice is in the `interviewing` state' do
+      it 'tells the candidate when the reject by default date will be' do
+        application_choice = create(
+          :application_choice,
+          :interviewing,
+          reject_by_default_at: 5.days.from_now,
+        )
+        result = render_inline(described_class.new(application_choice: application_choice))
+
+        expect(result.text).to include(
+          "You’ll get a decision on your application by #{5.days.from_now.to_s(:govuk_date)}.",
+        )
+      end
+    end
+
+    context 'when the application choice is in the `awaiting_provider_decision` state' do
+      it 'tells the candidate when the reject by default date will be' do
+        application_choice = create(
+          :application_choice,
+          :awaiting_provider_decision,
+          reject_by_default_at: 14.days.from_now,
+        )
+        result = render_inline(described_class.new(application_choice: application_choice))
+
+        expect(result.text).to include(
+          "You’ll get a decision on your application by #{14.days.from_now.to_s(:govuk_date)}.",
+        )
+      end
+
+      it 'handles nil values for `reject_by_default_at`' do
+        application_choice = create(
+          :application_choice,
+          :awaiting_provider_decision,
+          reject_by_default_at: nil,
+        )
+        result = render_inline(described_class.new(application_choice: application_choice))
+
+        expect(result.text).not_to include('You’ll get a decision on your application by')
+      end
+    end
+
     context 'when the application choice is in the offer_deferred state' do
       it 'tells the candidate when their course will start' do
         application_choice = create(:application_choice, :offer_deferred, course: course)
@@ -79,6 +120,17 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
       expect(result.text).not_to include(
         'You requested to withdraw your application. If you did not request this, email becomingateacher@digital.education.gov.uk.',
       )
+    end
+
+    it 'does not render the reject by default date' do
+      application_choice = create(
+        :application_choice,
+        :with_offer,
+        reject_by_default_at: 5.days.from_now,
+      )
+      result = render_inline(described_class.new(application_choice: application_choice))
+
+      expect(result.text).not_to include('You’ll get a decision on your application by')
     end
   end
 end
