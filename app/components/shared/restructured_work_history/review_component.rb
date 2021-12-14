@@ -58,7 +58,11 @@ module RestructuredWorkHistory
     end
 
     def change_path
-      CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path('return-to' => 'application-review') if @return_to_application_review
+      if @return_to_application_review
+        CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path('return-to' => 'application-review')
+      else
+        CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path
+      end
     end
   end
 end

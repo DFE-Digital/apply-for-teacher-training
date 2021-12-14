@@ -182,12 +182,12 @@ module CandidateInterface
         if application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
           Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path(params)
         else
-          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path(params)
         end
       elsif application_form.application_work_experiences.any? || application_form.work_history_explanation.present?
-        Rails.application.routes.url_helpers.candidate_interface_work_history_show_path
+        Rails.application.routes.url_helpers.candidate_interface_work_history_show_path(params)
       else
-        Rails.application.routes.url_helpers.candidate_interface_work_history_length_path
+        Rails.application.routes.url_helpers.candidate_interface_work_history_length_path(params)
       end
     end
 
