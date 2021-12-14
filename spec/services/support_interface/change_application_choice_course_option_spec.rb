@@ -93,7 +93,7 @@ RSpec.describe SupportInterface::ChangeApplicationChoiceCourseOption do
                               study_mode: course_option.course.study_mode,
                               site_code: course_option.site.code,
                               audit_comment: audit_comment).call
-        }.to raise_error(RuntimeError, 'Changing a course choice when the provider is not on the interview is not allowed')
+        }.to raise_error(ProviderInterviewError, 'Changing a course choice when the provider is not on the interview is not allowed')
       end
     end
   end

@@ -59,15 +59,9 @@ module SupportInterface
           else
             render :edit
           end
-        rescue ActiveRecord::RecordNotFound
-          flash[:warning] = 'This is not a valid course option'
-          render :confirm_change
-        rescue ActiveRecord::RecordInvalid
-          flash[:warning] = 'This course option has already been taken'
-          render :confirm_change
-        rescue RuntimeError
-          flash[:warning] = 'You can‘t change a course choice if the provider is not on the interview'
-          render :confirm_change
+        rescue CourseChoiceError, ProviderInterviewError => e
+          flash[:warning] = e.message
+          render :edit
         end
       end
 

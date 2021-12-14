@@ -15,12 +15,24 @@ module SupportInterface
 
         SupportInterface::ChangeApplicationChoiceCourseOption.new(
           application_choice_id: application_choice,
-          provider_id: Provider.find_by(code: provider_code).id,
+          provider_id: provider_id,
           course_code: course_code,
           study_mode: study_mode,
           site_code: site_code,
           audit_comment: audit_comment_ticket,
         ).call
+      rescue ActiveRecord::RecordNotFound
+        raise CourseChoiceError, 'This is not a valid course option'
+      rescue ActiveRecord::RecordInvalid
+        raise CourseChoiceError, 'This course option has already been taken'
+      end
+
+      def provider_id
+        provider = Provider.find_by(code: provider_code)
+
+        raise CourseChoiceError, 'This is not a valid provider code' if provider.nil?
+
+        provider.id
       end
     end
   end

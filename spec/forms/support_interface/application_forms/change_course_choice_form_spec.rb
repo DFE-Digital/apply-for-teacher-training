@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
 
   describe '#save!' do
     context 'if the new course is already an existing choice' do
-      it 'raises an ActiveRecord error' do
+      it 'raises a CourseChoiceError error' do
         first_course_option = create(:course_option)
         second_course_option = create(:course_option)
         application_form = create(:application_form)
@@ -43,12 +43,12 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
           accept_guidance: true,
         )
 
-        expect { form.save(application_choice_to_change.id) }.to raise_error(ActiveRecord::RecordInvalid)
+        expect { form.save(application_choice_to_change.id) }.to raise_error(CourseChoiceError, 'This course option has already been taken')
       end
     end
 
     context 'if the new course is not a valid choice' do
-      it 'raises an ActiveRecord error' do
+      it 'raises a CourseChoiceError error' do
         original_course_option = create(:course_option)
         application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
 
@@ -65,12 +65,34 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
           accept_guidance: true,
         )
 
-        expect { form.save(application_choice.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { form.save(application_choice.id) }.to raise_error(CourseChoiceError, 'This is not a valid course option')
+      end
+    end
+
+    context 'if the provider code is not a valid entry' do
+      it 'raises a CourseChoiceError error' do
+        original_course_option = create(:course_option)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: original_course_option)
+
+        course_option = create(:course_option, study_mode: :full_time)
+        zendesk_ticket = 'https://becomingateacher.zendesk.com/agent/tickets/12345'
+
+        form = described_class.new(
+          application_choice_id: application_choice.id,
+          provider_code: 'nonsense',
+          course_code: course_option.course.code,
+          study_mode: course_option.course.study_mode,
+          site_code: course_option.site.code,
+          audit_comment_ticket: zendesk_ticket,
+          accept_guidance: true,
+        )
+
+        expect { form.save(application_choice.id) }.to raise_error(CourseChoiceError, 'This is not a valid provider code')
       end
     end
 
     context 'if the new provider is not on the interview' do
-      it 'raises a RuntimeError' do
+      it 'raises a ProviderInterviewError' do
         original_course_option = create(:course_option)
         application_choice = create(:application_choice, :interviewing, course_option: original_course_option)
 
@@ -88,7 +110,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
           accept_guidance: true,
         )
 
-        expect { form.save(application_choice.id) }.to raise_error(RuntimeError)
+        expect { form.save(application_choice.id) }.to raise_error(ProviderInterviewError)
       end
     end
 

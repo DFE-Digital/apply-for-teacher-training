@@ -38,7 +38,7 @@ module SupportInterface
     def check_interviewing_providers!
       return if !application_choice.interviewing? || (application_choice.interviewing? && application_choice.provider_ids.include?(provider_id))
 
-      raise 'Changing a course choice when the provider is not on the interview is not allowed'
+      raise ProviderInterviewError, 'Changing a course choice when the provider is not on the interview is not allowed'
     end
 
     def course_option
