@@ -33,7 +33,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.account_created(provider_user) }
 
     it_behaves_like('a mail with subject and content',
-                    I18n.t!('provider_mailer.account_created.subject'),
+                    'Sign in - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'sign in path' => '/provider/sign-in')
   end
@@ -42,8 +42,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.application_submitted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    I18n.t!('provider_mailer.application_submitted.subject',
-                            course_name_and_code: 'Computer Science (6IND)'),
+                    'Application received for Computer Science (6IND) - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
@@ -56,8 +55,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:email) { described_class.application_rejected_by_default(provider_user, application_choice, can_make_decisions: true) }
 
       it_behaves_like('a mail with subject and content',
-                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                              candidate_name: 'Harry Potter'),
+                      'Harry Potter’s application was automatically rejected - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -69,8 +67,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:email) { described_class.application_rejected_by_default(provider_user, application_choice, can_make_decisions: false) }
 
       it_behaves_like('a mail with subject and content',
-                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                              candidate_name: 'Harry Potter'),
+                      'Harry Potter’s application was automatically rejected - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -88,8 +85,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it_behaves_like('a mail with subject and content',
-                    I18n.t!('provider_mailer.application_waiting_for_decision.subject',
-                            candidate_name: 'Harry Potter', support_reference: '123A'),
+                    'Respond to Harry Potter’s (123A) application - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
@@ -103,7 +99,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.offer_accepted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) has accepted your offer',
+                    'Harry Potter (123A) has accepted your offer - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'course name and code' => 'Computer Science (6IND)')
 
@@ -112,7 +108,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) has accepted your offer',
+                      'Harry Potter (123A) has accepted your offer - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -122,7 +118,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.unconditional_offer_accepted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) has accepted your offer',
+                    'Harry Potter (123A) has accepted your offer - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'course name and code' => 'Computer Science (6IND)')
 
@@ -131,7 +127,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) has accepted your offer',
+                      'Harry Potter (123A) has accepted your offer - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -141,7 +137,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.declined_by_default(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter’s (123A) application withdrawn automatically',
+                    'Harry Potter’s (123A) application withdrawn automatically - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
@@ -151,7 +147,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter’s (123A) application withdrawn automatically',
+                      'Harry Potter’s (123A) application withdrawn automatically - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -162,7 +158,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) withdrew their application',
+                    'Harry Potter (123A) withdrew their application - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
@@ -172,7 +168,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) withdrew their application',
+                      'Harry Potter (123A) withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -181,7 +177,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:number_of_cancelled_interviews) { 2 }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) withdrew their application',
+                      'Harry Potter (123A) withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -193,7 +189,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.declined(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) declined an offer',
+                    'Harry Potter (123A) declined an offer - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
@@ -216,7 +212,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'University of Croydon has set up organisation permissions for teacher training courses you work on with them',
+      'University of Croydon has set up organisation permissions for teacher training courses you work on with them - manage teacher training applications',
       'salutation' => 'Dear Johny English',
       'heading' => 'University of Croydon has set up organisation permissions for teacher training courses you work on with them',
       'make offers' => /Make offers and reject applications:\s+- University of Purley/,
@@ -242,7 +238,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
+      'University of Croydon has changed organisation permissions for teacher training courses you work on with them - manage teacher training applications',
       'salutation' => 'Dear Johny English',
       'heading' => 'University of Croydon has changed organisation permissions for teacher training courses you work on with them',
       'make offers' => /Make offers and reject applications:\s+- University of Purley/,
