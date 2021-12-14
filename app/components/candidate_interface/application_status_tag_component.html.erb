@@ -6,7 +6,7 @@
   </p>
 <% elsif @application_choice.decision_pending? && @application_choice.reject_by_default_at&.future? %>
   <p class="govuk-body govuk-!-margin-top-2">
-   You'll get a decision on your application by <%= @application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+   You’ll get a decision on your application by <%= @application_choice.reject_by_default_at.to_s(:govuk_date) %>.
   </p>
 <% elsif @application_choice.withdrawn_at_candidates_request? %>
   <p class="govuk-body govuk-!-margin-top-2">
