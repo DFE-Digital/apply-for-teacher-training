@@ -5,7 +5,17 @@ class ValidRecruitmentCycleYear
 end
 
 class ValidVendorApiRoute
+  extend VersioningHelpers
+
   def self.matches?(request)
-    request.params[:api_version].match(/v1(\z|.\d+\z)/).present?
+    api_version = request.params[:api_version]
+    controller_name = request.controller_class.to_s
+    action = request.params[:action]
+
+    version = api_version.match(/^v(?<number>.*)/)[:number]
+
+    true if VendorAPI::VERSIONS[version_number(version)][controller_name].include?(action.to_sym)
+  rescue ArgumentError, NoMethodError
+    false
   end
 end

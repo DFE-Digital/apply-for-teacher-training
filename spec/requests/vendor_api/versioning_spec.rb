@@ -5,8 +5,7 @@ RSpec.describe 'Versioning', type: :request do
 
   let(:course) { create(:course, provider: currently_authenticated_provider) }
   let(:course_option) { create(:course_option, course: course) }
-
-  before do
+  let!(:application_choice) do
     create(:submitted_application_choice,
            :with_completed_application_form,
            :awaiting_provider_decision,
@@ -45,10 +44,33 @@ RSpec.describe 'Versioning', type: :request do
     end
   end
 
-  context 'accessing a route with a patch version specified' do
-    it 'returns a 404' do
-      get_api_request "/api/v1.0.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
-      expect(response.status).to eq(404)
+  context 'route validation' do
+    context 'when a route is available' do
+      context 'when only the major version is specified' do
+        it 'processes the route' do
+          get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+          expect(parsed_response['data'].size).to eq(1)
+        end
+      end
+
+      context 'when the full version is specified' do
+        it 'processes the route' do
+          get_api_request "/api/v1.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+          expect(parsed_response['data'].size).to eq(1)
+        end
+      end
+    end
+
+    context 'when a route is not available for the specified version' do
+      it 'returns a not found error' do
+        get_api_request "/api/v1/applications/#{application_choice.id}"
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end
