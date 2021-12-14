@@ -135,7 +135,7 @@ class ApplicationForm < ApplicationRecord
     return unless application_choices.any?
 
     if recruitment_cycle_year < RecruitmentCycle.current_year && \
-       !RequestStore.store[:allow_unsafe_application_choice_touches] && !deferred?
+       !RequestStore.store[:allow_unsafe_application_choice_touches] && !deferred_from_last_cycle?
       raise 'Tried to mark an application choice from a previous cycle as changed'
     end
 
@@ -479,7 +479,9 @@ private
     RecruitmentCycle.current_year >= recruitment_cycle_year
   end
 
-  def deferred?
+  def deferred_from_last_cycle?
+    return false if recruitment_cycle_year != RecruitmentCycle.previous_year
+
     application_choices.pluck(:status).join == 'offer_deferred'
   end
 end
