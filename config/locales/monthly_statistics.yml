@@ -1,14 +1,14 @@
 en:
   candidates_by_status:
-    label: Applicants by status (CSV)
+    label: Candidates by status (CSV)
   applications_by_status:
     label: Applications by status (CSV)
   by_age_group:
-    label: Applicants by age group (CSV)
+    label: Candidates by age group (CSV)
   by_sex:
-    label: Applicants by sex (CSV)
+    label: Candidates by sex (CSV)
   by_area:
-    label: Applicants by area (CSV)
+    label: Candidates by area (CSV)
   by_course_age_group:
     label: Applications by course age group (CSV)
   by_course_type:
@@ -19,7 +19,3 @@ en:
     label: Applications by secondary subject (CSV)
   by_provider_area:
     label: Applications by provider area (CSV)
-  external_report_candidates:
-    label: Applicants by status, age group, sex, area (CSV)
-  external_report_applications:
-    label: Applications by course type, age group, subject, provider area (CSV)
