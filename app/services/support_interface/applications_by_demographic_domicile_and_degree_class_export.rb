@@ -29,8 +29,6 @@ module SupportInterface
         key = [result['age_group'], result['sex'], result['ethnicity'], transform_disability_value(result['disability']), STRUCTURED_DEGREE_CLASSES[result['degree_class'].to_i], result['domicile']]
         unless indexed_counts.include?(key)
           indexed_counts[key] ||= {
-            adjusted_applications: 0,
-            adjusted_offers: 0,
             pending_conditions: 0,
             recruited: 0,
             total: 0,
@@ -57,10 +55,6 @@ module SupportInterface
         indexed_counts[key][:recruited] += 1
       when 'pending_conditions'
         indexed_counts[key][:pending_conditions] += 1
-      when 'offer'
-        indexed_counts[key][:adjusted_offers] += 1
-      else
-        indexed_counts[key][:adjusted_applications] += 1
       end
       indexed_counts[key][:total] += 1
     end
@@ -89,13 +83,7 @@ module SupportInterface
 
                 CASE
                   WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['0', 'recruited']
-                  WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['1', 'offer_deferred']
-                  WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['2', 'pending_conditions']
-                  WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'offer']
-                  WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decision']
-                  WHEN 'declined' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['5', 'declined']
-                  WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'rejected']
-                  WHEN 'conditions_not_met' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'conditions_not_met']
+                  WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['1', 'pending_conditions']
                 END status,
                 CASE
                   #{age_group_sql}
@@ -147,7 +135,10 @@ module SupportInterface
         FROM
             raw_data
         WHERE
-            NOT raw_data.disability = '[]' AND raw_data.disability IS NOT NULL
+            NOT raw_data.disability = '[]'
+            AND raw_data.disability IS NOT NULL
+            AND raw_data.ethnicity IS NOT NULL
+            AND raw_data.status IS NOT NULL
             AND raw_data.degree_class[2] IS NOT NULL
         GROUP BY
             raw_data.age_group,

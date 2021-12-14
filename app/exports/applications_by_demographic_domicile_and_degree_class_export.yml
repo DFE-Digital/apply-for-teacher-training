@@ -20,18 +20,10 @@ custom_columns:
     description: The applicant domicile
     example: UK
 
-  adjusted_applications:
-    type: integer
-    description: The number of applications that have received offers for this subject
-
-  adjusted_offers:
-    type: integer
-    description: The number of applications that have accepted offers for this subject
-
   pending_conditions:
     type: integer
-    description: The number of applications that have declined offers for this subject
+    description: The number of applications that have offers pending conditions for this subject
 
   recruited:
     type: integer
-    description: The number of applications that have been rejected for this subject
+    description: The number of applications that have been recruited for this subject
