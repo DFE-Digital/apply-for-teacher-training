@@ -51,6 +51,7 @@ variable "assets_host_names" {
   default = []
   type = list
 }
+
 # StatusCake variables
 variable "statuscake_alerts" {
   type    = map(any)
