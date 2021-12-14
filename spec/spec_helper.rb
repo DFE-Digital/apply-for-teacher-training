@@ -21,12 +21,13 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::CoberturaFormatter,
 ]
 
-# Give each coverage report a unique ID if we are running parallel tests
-if ENV['TEST_ENV_NUMBER']
-  SimpleCov.command_name("RSpec-#{SecureRandom.hex(4)}")
-else
-  SimpleCov.command_name('RSpec')
-end
+# Give each coverage object a unique ID based on the matrix name and number from parallel tests
+command_name = 'RSpec'
+command_name += "-#{ENV['TEST_MATRIX_NODE_NAME']}"      if ENV['TEST_MATRIX_NODE_NAME']
+command_name += "-#{ENV['DEFAULT_FEATURE_FLAG_STATE']}" if ENV['DEFAULT_FEATURE_FLAG_STATE']
+command_name += "-#{ENV['TEST_ENV_NUMBER']}"            if ENV['TEST_ENV_NUMBER']
+
+SimpleCov.command_name(command_name)
 
 SimpleCov.start 'rails' do
   enable_coverage :branch
