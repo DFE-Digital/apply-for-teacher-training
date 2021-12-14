@@ -1,7 +1,7 @@
 module DataMigrations
   class FixCandidateAPIUpdatedAt
     TIMESTAMP = 20211208172459
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     # Ensure that all the candidates have a `candidate_api_updated_at` that is
     # no earlier than the `created_at` of the most recent application form.
