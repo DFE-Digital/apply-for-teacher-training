@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         result = render_inline(described_class.new(application_choice: application_choice))
 
         expect(result.text).to include(
-          "The provider must make a decision by #{5.days.from_now.to_s(:govuk_date)}.",
+          "You'll get a decision on your application by #{5.days.from_now.to_s(:govuk_date)}.",
         )
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         result = render_inline(described_class.new(application_choice: application_choice))
 
         expect(result.text).to include(
-          "The provider must make a decision by #{14.days.from_now.to_s(:govuk_date)}.",
+          "You'll get a decision on your application by #{14.days.from_now.to_s(:govuk_date)}.",
         )
       end
 
@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         )
         result = render_inline(described_class.new(application_choice: application_choice))
 
-        expect(result.text).not_to include('The provider must make a decision by')
+        expect(result.text).not_to include('You'll get a decision on your application by')
       end
     end
 
