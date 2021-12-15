@@ -8,7 +8,6 @@ RSpec.describe CandidateMailer, type: :mailer do
   let(:application_form) do
     build_stubbed(:application_form, first_name: 'Fred',
                                      candidate: candidate,
-                                     support_reference: 'SUPPORT-REFERENCE',
                                      application_choices: application_choices)
   end
   let(:candidate) { build_stubbed(:candidate) }
@@ -41,7 +40,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'intro' => 'You have submitted an application for:',
-      'support reference' => 'SUPPORT-REFERENCE',
       'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
     )
   end
