@@ -862,6 +862,9 @@ Rails.application.routes.draw do
       get '/add-course/:course_code' => 'application_forms/courses#new', as: :application_form_new_course
       post '/add-course/:course_code' => 'application_forms/courses#create', as: :application_form_create_course
 
+      get '/change-course-choice/:application_choice_id' => 'application_forms/courses#edit', as: :application_form_change_course_choice
+      post '/change-course-choice/:application_choice_id' => 'application_forms/courses#update'
+
       get '/audit' => 'application_forms#audit', as: :application_form_audit
       get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
       post '/comments' => 'application_forms/comments#create', as: :application_form_comments

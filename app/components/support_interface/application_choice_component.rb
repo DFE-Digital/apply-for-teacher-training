@@ -75,7 +75,7 @@ module SupportInterface
     def course_row
       return if application_choice.different_offer?
 
-      { key: 'Course', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
+      { key: 'Course', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }.merge(change_course_choice_link)
     end
 
     def rejected_at_or_by_default_at_row
@@ -184,6 +184,17 @@ module SupportInterface
       GetRecruitedApplicationChoices.call(
         recruitment_cycle_year: RecruitmentCycle.current_year,
       ).find_by(id: application_choice.id).present?
+    end
+
+    def change_course_choice_link
+      return {} unless @application_choice.application_form.editable? && ApplicationStateChange::DECISION_PENDING_STATUSES.include?(application_choice.status.to_sym)
+
+      {
+        action: {
+          href: support_interface_application_form_change_course_choice_path(application_form_id: @application_choice.application_form.id, application_choice_id: @application_choice.id),
+          text: 'Change course choice',
+        },
+      }
     end
 
     def status_action_link

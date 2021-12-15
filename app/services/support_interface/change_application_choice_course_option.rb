@@ -20,6 +20,7 @@ module SupportInterface
 
     def call
       check_application_state!
+      check_interviewing_providers!
 
       application_choice.update_course_option_and_associated_fields!(course_option,
                                                                      other_fields: { course_option: course_option },
@@ -32,6 +33,12 @@ module SupportInterface
       return if VALID_STATES.include?(application_choice.status.to_sym)
 
       raise "Changing the course option of application choices in the #{application_choice.status} state is not allowed"
+    end
+
+    def check_interviewing_providers!
+      return if !application_choice.interviewing? || (application_choice.interviewing? && application_choice.provider_ids.include?(provider_id))
+
+      raise ProviderInterviewError, 'Changing a course choice when the provider is not on the interview is not allowed'
     end
 
     def course_option

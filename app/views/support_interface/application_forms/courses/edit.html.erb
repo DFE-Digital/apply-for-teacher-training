@@ -1,0 +1,48 @@
+<% content_for :browser_title, title_with_error_prefix('Add a course', @change_course_choice.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @change_course_choice,
+      url: support_interface_application_form_change_course_choice_path,
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">Change a course choice</h1>
+
+      <p class="govuk-body">If the provider specifies an alternative course but not a site, you should reuse the site code of the existing course.
+      Similarly you should also use the study mode of the existing course unless otherwise specified.</p>
+
+      <p class="govuk-body">In case a site's name was specified but not
+      the site code, you can identify the code by navigating through the support interface to the course's vacancies tab where you can find the
+      site code printed after the course name.<p>
+
+      <p class="govuk-body">Once the course choice has been changed, please email the candidate and the provider to let them know.</p>
+
+      <%= f.govuk_text_field :provider_code, label: { text: 'Provider code', size: 's' }, width: 5 %>
+      <%= f.govuk_text_field :course_code, label: { text: 'Course code', size: 's' }, width: 5 %>
+      <%= f.govuk_radio_buttons_fieldset :study_mode, legend: { text: 'Study mode', size: 's' } do %>
+        <%= f.govuk_radio_button :study_mode, :full_time, label: { text: 'Full time' } %>
+        <%= f.govuk_radio_button :study_mode, :part_time, label: { text: 'Part time' } %>
+      <% end %>
+      <%= f.govuk_text_field :site_code, label: { text: 'Site code', size: 's' }, width: 5 %>
+
+      <%= f.govuk_text_field(
+        :audit_comment_ticket,
+        label: {
+          text: t('support_interface.audit_comment_ticket.label'),
+          size: 'm',
+        },
+        rows: 1,
+        hint: { text: t('support_interface.audit_comment_ticket.hint') },
+      ) %>
+
+      <%= f.govuk_check_boxes_fieldset :accept_guidance, legend: nil do %>
+        <%= f.govuk_check_box :accept_guidance, true, multiple: false, label: { text: 'I have read the guidance' }, link_errors: true %>
+      <% end %>
+
+      <%= f.govuk_submit 'Change' %>
+    <% end %>
+  </div>
+</div>

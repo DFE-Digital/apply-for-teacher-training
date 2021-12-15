@@ -102,18 +102,7 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 
 ### Changing a course or course location
 
-A provider may request that a candidate is placed on a different course, or a different site. You should make the change by manually executing the `SupportInterface::ChangeApplicationChoiceCourseOption` service to ensure that all required changes take place and  that the application is in a supported state.
-
-If the provider specifies an alternative course but not a site, you should reuse the site code of the existing course. Similarly you should also use the study mode of the existing course unless otherwise specified. In case a site's name was specified but not the site code, you can identify the code by navigating through the support interface to the course's vacancies tab where you can find the site code printed after the course name.
-
-```ruby
-SupportInterface::ChangeApplicationChoiceCourseOption.new(application_choice_id: _application_choice_id_,
-                                                          provider_id: _provider_id_,
-                                                          course_code: _course_code_,
-                                                          study_mode: _study_mode_,
-                                                          site_code: _site_code_,
-                                                          audit_comment: audit_comment).call
-```
+This is possible via the support UI.
 
 ## Offers
 
