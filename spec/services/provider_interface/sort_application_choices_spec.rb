@@ -39,6 +39,11 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
       create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 3.days.from_now.end_of_day)
       expect(pg_days_left_to_respond).to eq(3)
     end
+
+    it 'is the correct number of days when reject_by_default_at is in the future for interviewing applications' do
+      create(:application_choice, :interviewing, reject_by_default_at: 4.days.from_now.end_of_day)
+      expect(pg_days_left_to_respond).to eq(4)
+    end
   end
 
   describe 'task view groups' do

@@ -137,7 +137,7 @@ module ProviderInterface
     def self.pg_days_left_to_respond
       <<~PG_DAYS_LEFT_TO_RESPOND.squish
         CASE
-          WHEN status = 'awaiting_provider_decision'
+          WHEN status IN ('awaiting_provider_decision', 'interviewing')
           AND (DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}'))
           THEN (DATE(reject_by_default_at) - DATE('#{Time.zone.now.iso8601}'))
           ELSE NULL END
