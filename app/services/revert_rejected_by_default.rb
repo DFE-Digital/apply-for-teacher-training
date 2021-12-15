@@ -18,6 +18,11 @@ class RevertRejectedByDefault
             rejected_by_default: false,
             rejected_at: nil,
           )
+
+          application_choice.self_and_siblings.where(status: :offer).update_all(
+            decline_by_default_at: nil,
+            decline_by_default_days: nil,
+          )
         end
     end
   end

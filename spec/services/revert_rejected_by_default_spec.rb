@@ -20,6 +20,17 @@ RSpec.describe RevertRejectedByDefault do
     form
   end
 
+  let!(:form_with_rbd_and_offer) do
+    form = create(:application_form)
+    create(:application_choice, :with_rejection_by_default, application_form: form)
+    create(:application_choice, :with_offer, application_form: form)
+
+    # :grimacing: we have to do this manually. Factories should really use
+    # the MakeOffer machinery.
+    SetDeclineByDefault.new(application_form: form).call
+    form
+  end
+
   let(:new_rbd_date) { 1.day.from_now }
 
   def call_service
@@ -53,5 +64,22 @@ RSpec.describe RevertRejectedByDefault do
     expect {
       call_service
     }.not_to(change { choice.reload.reject_by_default_at })
+  end
+
+  it 'correctly handles an application with an offer awaiting decision' do
+    # in this case either the RBD or the offer would have caused the application to enter DBD.
+    # we need to prevent DBD, which is accomplished by removing the date.
+    choices = form_with_rbd_and_offer.application_choices
+
+    # assert that we correctly set a DBD on the offered app,
+    # or this spec is meaningless
+    expect(choices.map(&:decline_by_default_at).compact.first).to be_present
+
+    call_service
+
+    choices.reload
+
+    expect(choices.map(&:decline_by_default_at)).to all be_nil
+    expect(choices.map(&:decline_by_default_days)).to all be_nil
   end
 end
