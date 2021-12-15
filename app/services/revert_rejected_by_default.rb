@@ -24,6 +24,14 @@ class RevertRejectedByDefault
             decline_by_default_days: nil,
           )
         end
+
+      ApplicationForm
+        .where(id: ids)
+        .find_each do |form|
+          form.chasers_sent
+            .where(chaser_type: :candidate_decision_request)
+            .destroy_all
+        end
     end
   end
 end

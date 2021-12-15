@@ -28,6 +28,11 @@ RSpec.describe RevertRejectedByDefault do
     # :grimacing: we have to do this manually. Factories should really use
     # the MakeOffer machinery.
     SetDeclineByDefault.new(application_form: form).call
+
+    # Send a DBD chaser to the candidate. We’ll want to delete this so that
+    # when DBD starts again they can get a fresh email.
+    SendChaseEmailToCandidate.call(application_form: form)
+
     form
   end
 
@@ -71,9 +76,10 @@ RSpec.describe RevertRejectedByDefault do
     # we need to prevent DBD, which is accomplished by removing the date.
     choices = form_with_rbd_and_offer.application_choices
 
-    # assert that we correctly set a DBD on the offered app,
+    # assert that we correctly set a DBD on the offered app and that we sent a chaser,
     # or this spec is meaningless
     expect(choices.map(&:decline_by_default_at).compact.first).to be_present
+    expect(form_with_rbd_and_offer.chasers_sent).to be_present
 
     call_service
 
@@ -81,5 +87,6 @@ RSpec.describe RevertRejectedByDefault do
 
     expect(choices.map(&:decline_by_default_at)).to all be_nil
     expect(choices.map(&:decline_by_default_days)).to all be_nil
+    expect(form_with_rbd_and_offer.reload.chasers_sent).to be_empty
   end
 end
