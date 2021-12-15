@@ -53,6 +53,16 @@ RSpec.describe RestructuredWorkHistory::ReviewComponent do
     )
   end
 
+  context 'when the application is incomplete' do
+    context 'when return_to_application_review is true' do
+      it 'renders incomplete component with correct parameter appended to the path' do
+        result = render_inline(described_class.new(application_form: application_form_with_no_breaks, show_incomplete: true, return_to_application_review: true))
+
+        expect(result.to_s).to include('return-to=application-review')
+      end
+    end
+  end
+
   context 'when the application is editable' do
     context 'when there is not a break in the work history' do
       it 'renders component with correct structure' do
