@@ -12,6 +12,13 @@ class RevertRejectedByDefault
         .where(application_form_id: ids)
         .where(rejected_by_default: true)
         .find_each do |application_choice|
+          statuses_for_form = application_choice.self_and_siblings.pluck(:status)
+
+          # do not continue if the application has an accepted offer
+          next if statuses_for_form.any? do |s|
+            ApplicationStateChange::ACCEPTED_STATES.include?(s.to_sym)
+          end
+
           application_choice.update!(
             reject_by_default_at: new_rbd_date,
             status: :awaiting_provider_decision,

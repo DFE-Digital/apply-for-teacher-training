@@ -36,6 +36,18 @@ RSpec.describe RevertRejectedByDefault do
     form
   end
 
+  let!(:form_with_rbd_and_accepted_offer) do
+    form = create(:application_form)
+    create(:application_choice, :with_rejection_by_default, application_form: form)
+    offered = create(:application_choice, :with_offer, application_form: form)
+
+    SetDeclineByDefault.new(application_form: form).call
+    SendChaseEmailToCandidate.call(application_form: form)
+
+    AcceptOffer.new(application_choice: offered).save!
+    form
+  end
+
   let(:new_rbd_date) { 1.day.from_now }
 
   def call_service
@@ -88,5 +100,15 @@ RSpec.describe RevertRejectedByDefault do
     expect(choices.map(&:decline_by_default_at)).to all be_nil
     expect(choices.map(&:decline_by_default_days)).to all be_nil
     expect(form_with_rbd_and_offer.reload.chasers_sent).to be_empty
+  end
+
+  it 'does not touch RBD when an offer has been accepted' do
+    statuses = %w[rejected pending_conditions]
+    choices = form_with_rbd_and_accepted_offer.application_choices
+    expect(choices.pluck(:status)).to match_array(statuses)
+
+    call_service
+
+    expect(choices.reload.pluck(:status)).to match_array(statuses)
   end
 end
