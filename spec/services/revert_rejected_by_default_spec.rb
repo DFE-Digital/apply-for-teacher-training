@@ -83,7 +83,7 @@ RSpec.describe RevertRejectedByDefault do
     }.not_to(change { choice.reload.reject_by_default_at })
   end
 
-  it 'correctly handles an application with an offer awaiting decision' do
+  it 'correctly handles an application with an offer awaiting decision', with_audited: true do
     # in this case either the RBD or the offer would have caused the application to enter DBD.
     # we need to prevent DBD, which is accomplished by removing the date.
     choices = form_with_rbd_and_offer.application_choices
@@ -100,6 +100,12 @@ RSpec.describe RevertRejectedByDefault do
     expect(choices.map(&:decline_by_default_at)).to all be_nil
     expect(choices.map(&:decline_by_default_days)).to all be_nil
     expect(form_with_rbd_and_offer.reload.chasers_sent).to be_empty
+
+    choice_with_offer = form_with_rbd_and_offer.application_choices.find_by(status: :offer)
+    changes = choice_with_offer.audits.last.audited_changes
+
+    expect(changes.keys).to match_array %w[decline_by_default_at decline_by_default_days]
+    expect(changes.values.map(&:last)).to all be_nil
   end
 
   it 'does not touch RBD when an offer has been accepted' do

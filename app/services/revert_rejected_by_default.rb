@@ -26,7 +26,7 @@ class RevertRejectedByDefault
             rejected_at: nil,
           )
 
-          application_choice.self_and_siblings.where(status: :offer).update_all(
+          application_choice.self_and_siblings.where(status: :offer).update(
             decline_by_default_at: nil,
             decline_by_default_days: nil,
           )
