@@ -93,6 +93,8 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default do
+      awaiting_provider_decision
+
       status { 'rejected' }
       rejected_at { 2.minutes.ago }
       rejected_by_default { true }
