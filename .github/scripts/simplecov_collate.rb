@@ -2,8 +2,6 @@ require 'simplecov'
 
 SimpleCov.root '/app'
 
-SimpleCov.start do
+SimpleCov.collate Dir['*-coverage/.resultset.json'], 'rails' do
   enable_coverage :branch
 end
-
-SimpleCov.collate Dir['*-result/.resultset.json']

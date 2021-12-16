@@ -202,6 +202,7 @@ jobs:
         env:
           INCLUDE_PATTERN: ${{ matrix.include-pattern }}
           EXCLUDE_PATTERN: ${{ matrix.exclude-pattern || ' ' }}
+          TEST_MATRIX_NODE_NAME: ${{ matrix.tests }}
           DEFAULT_FEATURE_FLAG_STATE: ${{ matrix.feature-flags }}
       - name: Read flakey test results
         id: set_flakey_test_results_var
@@ -214,19 +215,10 @@ jobs:
           else
             echo "No flakey tests logged"
           fi
-      - name: Upload pull request coverage report
-        if: github.event_name == 'pull_request'
+      - name: Upload coverage report
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.tests }}-head-result
-          path: /app/coverage/.resultset.json
-          retention-days: 1
-
-      - name: Upload main coverage report
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.tests }}-base-result
+          name: ${{ matrix.tests }}-coverage
           path: /app/coverage/.resultset.json
           retention-days: 1
 
@@ -264,7 +256,7 @@ jobs:
             const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/comment_on_flakey_specs.js')
             script({github, context})
 
-  collate-coverage:
+  collate-and-compare-coverage:
     name: Collate test coverage reports
     needs: [build, test]
     runs-on: ubuntu-latest
@@ -286,41 +278,24 @@ jobs:
       - name: Collate PR coverage results
         run: bundle exec ruby .github/scripts/simplecov_collate.rb
 
-      - name: Replace compound command name with 'RSpec'
-        run: sed -i 's/"RSpec-.*"/"RSpec"/' coverage/.resultset.json
-
-      - name: Upload collated pull request coverage report
-        if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v2
-        with:
-          name: head-result
-          path: coverage/.resultset.json
-          retention-days: 1
-
       - name: Upload collated main branch coverage report
         if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v2
         with:
-          name: base-result
-          path: coverage/.resultset.json
+          name: base-coverage
+          path: coverage/.last_run.json
           retention-days: 5
 
       - name: Delete test matrix coverage artifacts
         uses: geekyeggo/delete-artifact@v1
         with:
           name: |
-            unit_shared-base-result
-            unit_candidate-provider-base-result
-            unit_support-referee-api-base-result
-            integration_shared-base-result
-            integration_provider-base-result
-            integration_candidate-base-result
-            unit_shared-head-result
-            unit_candidate-provider-head-result
-            unit_support-referee-api-head-result
-            integration_shared-head-result
-            integration_provider-head-result
-            integration_candidate-head-result
+            unit_shared-coverage
+            unit_candidate-provider-coverage
+            unit_support-referee-api-coverage
+            integration_shared-coverage
+            integration_provider-coverage
+            integration_candidate-coverage
 
   trigger-deployment:
     name: Trigger Deployment
