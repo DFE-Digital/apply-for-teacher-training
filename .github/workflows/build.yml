@@ -286,6 +286,66 @@ jobs:
           path: coverage/.last_run.json
           retention-days: 5
 
+      - name: Download main branch coverage artifact
+        id: download-base-coverage
+        uses: dawidd6/action-download-artifact@v2
+        if: github.event_name == 'pull_request'
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: main
+          name: base-coverage
+          path: base-coverage/
+
+      - name: Output base coverage results
+        id: output_base_coverage
+        if: github.event_name == 'pull_request'
+        run: |
+          FILE=base-coverage/.last_run.json
+          if [ ! -f "$FILE" ]
+          then
+            echo "No base coverage for comparison. Exiting."
+            exit 0
+          fi
+
+          file_text=$(cat "$FILE")
+          if [ ! -z "$file_text" ]
+          then
+            file_text="${file_text//$'\n'/%0A}"
+            echo "::set-output name=base_coverage_data::$file_text"
+          fi
+
+      - name: Output PR coverage results
+        id: output_pr_coverage
+        if: github.event_name == 'pull_request'
+        run: |
+          FILE=coverage/.last_run.json
+          if [ ! -f "$FILE" ]
+          then
+            echo "No PR coverage for comparison. Exiting."
+            exit 0
+          fi
+
+          file_text=$(cat "$FILE")
+          if [ ! -z "$file_text" ]
+          then
+            file_text="${file_text//$'\n'/%0A}"
+            echo "::set-output name=pr_coverage_data::$file_text"
+          fi
+
+      - name: Compare coverage results
+        uses: actions/github-script@0.5.0
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_COVERAGE_DATA: ${{ steps.output_base_coverage.outputs.base_coverage_data }}
+          PR_COVERAGE_DATA: ${{ steps.output_pr_coverage.outputs.pr_coverage_data }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const script = require('/home/runner/work/apply-for-teacher-training/apply-for-teacher-training/.github/scripts/compare_coverage.js')
+            script({github, context})
+
       - name: Delete test matrix coverage artifacts
         uses: geekyeggo/delete-artifact@v1
         with:
