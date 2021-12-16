@@ -132,9 +132,39 @@ We will also support requesting a specific minor version via the URL. For exampl
 <p class="govuk-body">
   Pagination has been added to the API through a <code>page</code> parameter as well as a <code>per_page</code> parameter. These parameters are both optional on the <%= govuk_link_to 'GET applications endpoint', '#get-applications' %>. If not supplied, the endpoint will return all records updated since the timestamp passed into the <code>since</code> parameter.
 </p>
+
 <p class="govuk-body">
-To enable pagination for applications two new sections have been added to the response: a <%= govuk_link_to 'links', '#links-object' %> as well as a <%= govuk_link_to 'meta', '#responsemetamultiple-object' %> section. Both sections will always be returned in the API if the pagination parameters are supplied or not. The links section will determine the navigation through the API, and if no pagination is set, only the relevant fields will be populated and it can be ignored. The meta section will hold the API version, the total number of applications listed as well as the timestamp of the API call.
+When using pagination, we recommend setting <code>per_page</code> to <code>50</code> and using overlapping time periods with previous application syncs for the <code>since</code> parameter. One possible strategy could be to always set <code>since</code> to two (or more) syncs ago. For example:
 </p>
+
+<p class="govuk-body">
+First GET /applications: (at time <code>D</code>, using <code>since=B</code>)
+<pre>
+A     --->    B    --->    C    --->    D    --->    E
+                           |            |
+                       last sync       now
+------------------------------------------------------
+since:                     A            B
+
+</pre>
+</p>
+
+<p class="govuk-body">
+Second GET /applications: (at time <code>E</code>, using <code>since=C</code>)
+<pre>
+A     --->    B    --->    C    --->    D    --->    E
+                                        |            |
+                                    last sync       now
+-------------------------------------------------------
+since:                                  B            C
+
+</pre>
+</p>
+
+<p class="govuk-body">
+To assist pagination for applications two new sections have been added to the response: a <%= govuk_link_to 'links', '#links-object' %> as well as a <%= govuk_link_to 'meta', '#responsemetamultiple-object' %> section. Both sections will always be returned in the API if the pagination parameters are supplied or not. The links section will determine the navigation through the API, and if no pagination is set, only the relevant fields will be populated and it can be ignored. The meta section will hold the API version, the total number of applications listed as well as the timestamp of the API call.
+</p>
+
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
 
 <h2 class="govuk-heading-l" id="developing">Developing on the API</h2>
