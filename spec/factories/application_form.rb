@@ -46,9 +46,12 @@ FactoryBot.define do
       feedback_suggestions { Faker::Lorem.paragraph_by_chars(number: 200) }
     end
 
+    transient do
+      sex { ['male', 'female', 'intersex', 'Prefer not to say'].sample }
+    end
+
     trait :with_equality_and_diversity_data do
       equality_and_diversity do
-        sex = ['male', 'female', 'intersex', 'Prefer not to say'].sample
         ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
         other_disability = 'Acquired brain injury'
         all_disabilities = DisabilityHelper::STANDARD_DISABILITIES.map(&:second) << other_disability

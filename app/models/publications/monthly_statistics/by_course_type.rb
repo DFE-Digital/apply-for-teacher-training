@@ -16,20 +16,12 @@ module Publications
             'Course type' => program_type,
             'Recruited' => recruited_count(statuses),
             'Conditions pending' => pending_count(statuses),
+            'Deferred' => deferred_count(statuses),
             'Received an offer' => offer_count(statuses),
             'Awaiting provider decisions' => awaiting_decision_count(statuses),
             'Unsuccessful' => unsuccessful_count(statuses),
             'Total' => statuses_count(statuses),
           }
-        end
-      end
-
-      def column_totals_for(rows)
-        _program_type, *statuses = rows.first.keys
-
-        statuses.map do |column_name|
-          column_total = rows.inject(0) { |total, hash| total + hash[column_name] }
-          column_total
         end
       end
 
@@ -42,17 +34,10 @@ module Publications
           'School Direct (salaried)' => {},
         }
 
-        group_query_excluding_deferred_offers.map do |item|
+        applications_to_program_counts.map do |item|
           program_type, status = item[0]
           count = item[1]
           counts[program_type_lookup(program_type)]&.merge!({ status => count })
-        end
-
-        group_query_for_deferred_offers.map do |item|
-          program_type, status_before_deferral = item[0]
-          count = item[1]
-          statuses_for_program_type = counts[program_type_lookup(program_type)] || {}
-          statuses_for_program_type[status_before_deferral] = (statuses_for_program_type[status_before_deferral] || 0) + count
         end
 
         counts
@@ -68,24 +53,10 @@ module Publications
         }[subject]
       end
 
-      def group_query_for_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.previous_year)
-          .where(status: :offer_deferred)
-          .group('courses.program_type', 'status_before_deferral')
-          .count
-      end
-
-      def group_query_excluding_deferred_offers
-        group_query(recruitment_cycle_year: RecruitmentCycle.current_year)
-          .where.not(status: :offer_deferred)
+      def applications_to_program_counts
+        application_choices
           .group('courses.program_type', 'status')
           .count
-      end
-
-      def group_query(recruitment_cycle_year:)
-        ApplicationChoice
-          .joins(:course)
-          .where(current_recruitment_cycle_year: recruitment_cycle_year)
       end
     end
   end
