@@ -1,7 +1,7 @@
 class GenerateMonthlyStatistics
   include Sidekiq::Worker
 
-  sidekiq_options retry: 3, queue: :high_priority
+  sidekiq_options retry: 3, queue: :default
 
   def perform
     return false unless MonthlyStatisticsTimetable.generate_monthly_statistics?
