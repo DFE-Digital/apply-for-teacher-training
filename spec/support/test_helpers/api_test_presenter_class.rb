@@ -17,13 +17,20 @@ module APITest
   end
 
   class PresenterClass < VendorAPI::Base
-    VERSIONS = {
-      '1.0' => [TestModule],
-      '1.1' => [SecondTestModule],
-    }.freeze
-
     def schema
       { one: 'a key' }
     end
+  end
+
+  class FirstTestVersionChange < VersionChange
+    resource PresenterClass
+  end
+
+  class SecondTestVersionChange < VersionChange
+    resource PresenterClass, [TestModule]
+  end
+
+  class ThirdTestVersionChange < VersionChange
+    resource PresenterClass, [SecondTestModule]
   end
 end

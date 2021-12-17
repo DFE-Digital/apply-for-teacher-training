@@ -2,17 +2,16 @@ require 'rails_helper'
 
 RSpec.describe VendorAPI::Base do
   include APITest
+  before do
+    stub_const('VendorAPI::VERSIONS', { '1.0' => [APITest::FirstTestVersionChange],
+                                        '1.1' => [APITest::SecondTestVersionChange],
+                                        '1.2' => [APITest::ThirdTestVersionChange] })
+  end
 
-  let(:version) { '1.0' }
+  subject(:presenter) { APITest::PresenterClass.new(version) }
 
-  context 'class with the minimum setup' do
-    subject(:presenter) { PresenterClass.new(version) }
-
-    let(:presenter_class) { Class.new(described_class) }
-
-    before do
-      stub_const('PresenterClass', presenter_class)
-    end
+  context 'class with no versioned modules' do
+    let(:version) { '1.0' }
 
     it 'sets the active version' do
       expect(presenter.active_version).to eq(version)
@@ -20,10 +19,8 @@ RSpec.describe VendorAPI::Base do
   end
 
   context 'class with versioned modules' do
-    subject(:presenter) { APITest::PresenterClass.new(version) }
-
-    context 'when the version is 1.1' do
-      let(:version) { '1.1' }
+    context 'when the version is 1.2' do
+      let(:version) { '1.2' }
 
       it 'includes all the specified modules' do
         expect(presenter.singleton_class.included_modules.map(&:to_s)).to include('APITest::TestModule')
@@ -37,8 +34,8 @@ RSpec.describe VendorAPI::Base do
       end
     end
 
-    context 'when the version is 1.0' do
-      let(:version) { '1.0' }
+    context 'when the version is 1.1' do
+      let(:version) { '1.1' }
 
       it 'merges attributes for versions up to the active one' do
         expect(presenter.schema).to eq({
