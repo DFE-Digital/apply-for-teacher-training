@@ -23,6 +23,9 @@ on:
         description: Deploy to research?
         default: 'false'
         required: true
+      review:
+        description: PR number for the review app
+        required: false
       sha:
         description: Commit sha to be deployed
         required: true
@@ -32,10 +35,22 @@ jobs:
     name: Prepare Environment Matrix
     runs-on: ubuntu-latest
     outputs:
-      environments: ${{ steps.select-environments.outputs.environments }}
+      environments: ${{ steps.select-environments.outputs.environments || steps.set-pr-environment.outputs.environments }}
+      deploy_job_name: ${{ steps.set-pr-deploy-job-name.outputs.deploy_job_name }}
     steps:
       - id:   select-environments
+        if:   github.event.inputs.review == ''
         uses: DFE-Digital/bat-infrastructure/actions/prepare-environment-matrix@main
+
+      - id:  set-pr-environment
+        if:  github.event.inputs.review != ''
+        run: echo "::set-output name=environments::$ENVIRONMENT"
+        env:
+          ENVIRONMENT: '{"environment": ["review"]}'
+
+      - id:  set-pr-deploy-job-name
+        if : github.event.inputs.review != ''
+        run: echo "::set-output name=deploy_job_name::review-${{ github.event.inputs.review }}"
 
       - uses: DFE-Digital/github-actions/turnstyle@master
         name: Wait for other inprogress deployment runs
@@ -59,20 +74,29 @@ jobs:
           SLACK_FOOTER: Sent from prepare-matrix job in deploy workflow
 
   deploy:
-    name: ${{ matrix.environment }} Deployment
     runs-on: ubuntu-latest
+    name: ${{ needs.prepare-matrix.outputs.deploy_job_name || matrix.environment }} Deployment
     needs: [prepare-matrix]
     environment:
       name: ${{ matrix.environment }}
     strategy:
-      matrix: ${{ fromJson(needs.prepare-matrix.outputs.environments) }}
       max-parallel: 1
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.environments) }}
     steps:
+
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set Environment variable
+      - name: Set Environment variables
         run: |
+          if [ -n "${{ github.event.inputs.review }}" ]; then
+            PR_NUMBER=${{ github.event.inputs.review }}
+            echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
+            echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+            echo "DEPLOY_URL=https://apply-review-$PR_NUMBER.london.cloudapps.digital" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
+          fi;
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
           tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
@@ -83,6 +107,50 @@ jobs:
           echo "PAAS_APP_ENVIRONMENT=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
         env:
           DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
+
+      - name: Check if a review environment exists
+        id: review-environment-exists
+        if:  github.event.inputs.review != ''
+        uses: actions/github-script@v5
+        with:
+          result-encoding: string
+          script: |
+
+            let environmentName = process.env.DEPLOY_ENV;
+
+            github.rest.repos.getEnvironment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                environment_name: environmentName
+            }).then(res => {
+
+                console.log(`The environment ${environmentName} exists in the repository.`)
+                return "true"
+
+            }).catch(err => {
+
+                if (err.status == "404") {
+                    console.log(`The environment ${environmentName} does not exist in the repository.`)
+                    return "false"
+                }
+
+                console.error(err)
+
+            });
+
+      - name: Start ${{ env.DEPLOY_ENV }} Deployment
+        if: ${{ always() }}
+        uses: bobheadxi/deployments@v0.4.3
+        id: deployment
+        with:
+          env:   ${{ env.DEPLOY_ENV }}
+          step:  start
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Terraform v0.14.9
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.9
 
       - uses: azure/login@v1
         with:
@@ -110,11 +178,6 @@ jobs:
           CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
           INSTALL_CONDUIT: true
 
-      - name: Use Terraform v0.14.9
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.14.9
-
       - name: Validate Azure Key Vault secrets
         uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
         with:
@@ -125,17 +188,23 @@ jobs:
 
       - name: Delete clock to force its recreation
         run: |
-          cf delete -f "apply-clock-${PAAS_APP_ENVIRONMENT}"
+          make ${{ matrix.environment }} ci delete-clock
         env:
-          CONFIRM_PRODUCTION: true
+          PR_NUMBER:                ${{ env.PR_NUMBER }}
 
       - name: Terraform init, plan & apply
         run: make ${{ matrix.environment }} ci deploy
         env:
-          ARM_ACCESS_KEY:           ${{ secrets.TERRAFORM_STATE_ACCESS_KEY }}
+          ARM_ACCESS_KEY:           ${{ secrets.ARM_ACCESS_KEY }}
           IMAGE_TAG:                ${{ github.event.inputs.sha }}
+          PR_NUMBER:                ${{ env.PR_NUMBER }}
           TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           CONFIRM_PRODUCTION: true
+
+      - name: Seed Review App
+        if:  github.event.inputs.review != '' && steps.review-environment-exists.outputs.result == 'false'
+        run: |
+          cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_local_dev_data setup_all_provider_relationships"
 
       - name: Trigger Smoke Test
         uses: benc-uk/workflow-dispatch@v1.1
@@ -144,27 +213,38 @@ jobs:
           repo: DFE-Digital/apply-for-teacher-training-tests
           ref: refs/heads/main
           token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          inputs: '{"environment": "${{ matrix.environment }}", "sha": "${{ github.event.inputs.sha }}"}'
+          inputs: '{"environment": "${{ env.DEPLOY_ENV }}", "sha": "${{ github.event.inputs.sha }}"}'
 
       - name: Wait for smoke test
         id: wait_for_smoke_test
         uses: vigneshmsft/wait-for-status-check-action@v0.1.0
         with:
           sha: ${{ github.event.inputs.sha }}
-          status-checks: smoke-test-${{ matrix.environment }}
+          status-checks: smoke-test-${{ env.DEPLOY_ENV }}
 
       - name: Exit if smoke test failed
         if: steps.wait_for_smoke_test.outputs.conclusion != 'success'
         run: exit 1
 
+      - name: Update ${{ env.DEPLOY_ENV }} status
+        if: ${{ always() }}
+        uses: bobheadxi/deployments@v0.4.3
+        with:
+          env:  ${{ env.DEPLOY_ENV }}
+          step: finish
+          token:  ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{ env.DEPLOY_URL }}
+
       - name: Notify Slack channel on job failure
-        if: failure()
+        if: failure() && github.event.inputs.review == ''
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Deployment to ${{ matrix.environment }} failed
+          SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
           SLACK_MESSAGE: |
-            Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ matrix.environment }} environment failed
+            Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: failure
           SLACK_FOOTER: Sent from deploy job in deploy workflow

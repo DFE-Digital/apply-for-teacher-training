@@ -126,19 +126,19 @@ resource "cloudfoundry_route" "web_app_cloudapps_digital_route" {
 resource "cloudfoundry_route" "web_app_service_gov_uk_route" {
   domain   = data.cloudfoundry_domain.apply_service_gov_uk.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.service_gov_uk_host_names[var.app_environment]
+  hostname = local.service_gov_uk_host_names[var.environment]
 }
 
 resource "cloudfoundry_route" "web_app_education_gov_uk_route" {
   domain   = data.cloudfoundry_domain.apply_education_gov_uk.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.service_gov_uk_host_names[var.app_environment]
+  hostname = local.service_gov_uk_host_names[var.environment]
 }
 
 resource "cloudfoundry_route" "web_app_assets_service_gov_uk_route" {
   domain   = data.cloudfoundry_domain.apply_service_gov_uk.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.assets_host_names[var.app_environment]
+  hostname = local.assets_host_names[var.environment]
 }
 
 resource "cloudfoundry_service_instance" "postgres" {

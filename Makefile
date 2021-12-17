@@ -99,7 +99,20 @@ research:
 	$(eval SPACE=bat-qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 
+review:
+	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
+	$(eval APP_ENV=review)
+	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
+	
+	$(eval SPACE=bat-qa)
+	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
+	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
+
+	$(eval export TF_VAR_app_name_suffix=review-$(PR_NUMBER))
+	echo Review app: https://apply-$(APP_NAME_SUFFIX).london.cloudapps.digital in bat-qa space
+
 ci:
+	$(eval export CONFIRM_DELETE=true)
 	$(eval export DISABLE_PASSCODE=true)
 	$(eval export AUTO_APPROVE=-auto-approve)
 
@@ -141,7 +154,7 @@ deploy-init:
 	$(eval export TF_VAR_paas_docker_image=ghcr.io/dfe-digital/apply-teacher-training:$(IMAGE_TAG))
 
 	az account set -s $(AZURE_SUBSCRIPTION) && az account show
-	cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars
+	cd terraform && terraform init -reconfigure -backend-config=workspace_variables/$(APP_ENV)_backend.tfvars $(backend_key)
 
 deploy-plan: deploy-init
 	cd terraform && terraform plan -var-file=workspace_variables/$(APP_ENV).tfvars.json
@@ -151,6 +164,11 @@ deploy: deploy-init
 
 destroy: deploy-init
 	cd terraform && terraform destroy -var-file=workspace_variables/$(APP_ENV).tfvars.json $(AUTO_APPROVE)
+
+.PHONY: delete-clock
+delete-clock:
+	$(if $(CONFIRM_DELETE), , $(error delete-clock can only run with CONFIRM_DELETE))
+	cf delete -f "apply-clock-${APP_NAME_SUFFIX}"
 
 .PHONY: set-space-developer
 set-space-developer: ## make qa set-space-developer USER_ID=first.last@digital.education.gov.uk
