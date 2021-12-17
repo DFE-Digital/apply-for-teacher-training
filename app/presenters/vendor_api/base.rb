@@ -10,11 +10,19 @@ module VendorAPI
     def initialize(active_version)
       @active_version = active_version
 
-      self.class::VERSIONS.each do |version, modules|
-        modules.each do |mod|
-          singleton_class.send(:prepend, mod) if minor_version(@active_version) >= minor_version(version)
+      VendorAPI::VERSIONS.each_pair do |version, changes|
+        next if minor_version_number(version) > minor_version_number(@active_version)
+
+        changes.each do |change_module|
+          resources_for_class(change_module).each do |resource|
+            singleton_class.send(:prepend, resource) if minor_version(@active_version) >= minor_version(version)
+          end
         end
       end
+    end
+
+    def resources_for_class(change_class)
+      change_class.new.resources[self.class] || []
     end
   end
 end

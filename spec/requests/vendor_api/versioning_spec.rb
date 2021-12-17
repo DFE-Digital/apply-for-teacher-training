@@ -20,20 +20,20 @@ RSpec.describe 'Versioning', type: :request do
   end
 
   context 'accessing the API with a minor version that is greater than the current minor version' do
-    it 'returns an error' do
+    it 'returns a not found error' do
       stub_const('VendorAPI::VERSION', '1.2')
 
       get_api_request "/api/v1.101/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
-      expect(error_response['message']).to eq('Version v1.101 does not exist')
+      expect(response).to have_http_status(:not_found)
     end
   end
 
   context 'accessing a route with a version that is prior to the version that it was introduced in' do
-    it 'returns an error' do
-      stub_const('VendorAPI::ApplicationsController::VERSION', '1.1')
+    it 'returns a not found error' do
+      stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications] })
 
       get_api_request "/api/v1.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
-      expect(error_response['message']).to eq('Not available in version v1.0')
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -67,6 +67,7 @@ RSpec.describe 'Versioning', type: :request do
 
     context 'when a route is not available for the specified version' do
       it 'returns a not found error' do
+        stub_const('VendorAPI::VERSIONS', { '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] })
         get_api_request "/api/v1/applications/#{application_choice.id}"
 
         expect(response).to have_http_status(:not_found)

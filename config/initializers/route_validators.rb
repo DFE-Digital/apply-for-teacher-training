@@ -9,12 +9,15 @@ class ValidVendorApiRoute
 
   def self.matches?(request)
     api_version = request.params[:api_version]
-    controller_name = request.controller_class.to_s
+    controller_class = request.controller_class
     action = request.params[:action]
 
-    version = api_version.match(/^v(?<number>.*)/)[:number]
+    version = extract_version(api_version)
 
-    true if VendorAPI::VERSIONS[version_number(version)][controller_name].include?(action.to_sym)
+    VendorAPI::VERSIONS[version_number(version)].each do |change_module|
+      return true if change_module.new.actions[controller_class].include?(action.to_sym)
+    end
+    false
   rescue ArgumentError, NoMethodError
     false
   end
