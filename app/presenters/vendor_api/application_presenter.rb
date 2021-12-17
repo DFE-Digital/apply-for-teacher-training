@@ -1,14 +1,12 @@
 module VendorAPI
   class ApplicationPresenter < Base
-    VERSIONS = {
-      '1.0' => [CandidateAPIData,
-                QualificationAPIData,
-                ContactDetailsAPIData,
-                CourseAPIData,
-                WorkExperienceAPIData,
-                DecisionsAPIData,
-                HesaIttDataAPIData],
-    }.freeze
+    include CandidateAPIData
+    include QualificationAPIData
+    include ContactDetailsAPIData
+    include CourseAPIData
+    include WorkExperienceAPIData
+    include DecisionsAPIData
+    include HesaIttDataAPIData
 
     API_APPLICATION_STATES = { offer_withdrawn: 'rejected',
                                interviewing: 'awaiting_provider_decision' }.freeze
