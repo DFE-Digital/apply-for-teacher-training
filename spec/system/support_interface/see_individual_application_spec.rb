@@ -35,6 +35,9 @@ RSpec.feature 'See an application' do
       :with_gcses,
       references_state: :feedback_requested,
     )
+
+    create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
+
     SubmitApplication.new(@completed_application).call
     @unsubmitted_application = create(:application_form)
     @application_with_reference = create(

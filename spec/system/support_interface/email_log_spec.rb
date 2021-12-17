@@ -6,6 +6,7 @@ RSpec.feature 'Email log' do
   scenario 'Emails are logged' do
     given_i_am_a_support_user
     when_an_email_with_custom_reference_is_sent
+    and_an_application_is_submitted
     and_an_email_with_an_application_id_is_sent
     and_i_visit_the_email_log
     then_i_see_the_custom_reference_email_in_the_log
@@ -37,9 +38,22 @@ RSpec.feature 'Email log' do
     expect(current_email.header('reference')).to start_with("#{HostingEnvironment.environment_name}-sign_up_email-#{@candidate.id}-")
   end
 
+  def and_an_application_is_submitted
+    @completed_application = create(
+      :application_form,
+      first_name: 'Harry',
+      last_name: 'Potter',
+      candidate: @candidate,
+    )
+
+    create(:application_choice, application_form: @completed_application, status: 'unsubmitted')
+
+    SubmitApplication.new(@completed_application).call
+  end
+
   def and_an_email_with_an_application_id_is_sent
     CandidateMailer.application_submitted(
-      create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate),
+      @completed_application,
     ).deliver_now
 
     open_email('harry@example.com')
@@ -109,7 +123,7 @@ RSpec.feature 'Email log' do
   end
 
   def then_i_see_only_emails_that_match_the_supplied_address
-    expect(page).to have_selector('tbody tr', count: 2)
+    expect(page).to have_selector('tbody tr', count: 3)
     expect(page).to have_content 'harry@example.com'
     expect(page).not_to have_content 'severus.snape@example.com'
   end

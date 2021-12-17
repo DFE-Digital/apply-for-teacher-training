@@ -4,6 +4,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       :completed_application_form,
       candidate: candidate,
       support_reference: 'ABCDEF',
+      application_choices: FactoryBot.build_stubbed_list(:application_choice, 1, :awaiting_provider_decision, course_option: course_option),
     )
 
     CandidateMailer.application_submitted(application_form)

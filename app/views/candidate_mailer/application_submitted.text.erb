@@ -1,13 +1,31 @@
-Dear <%= @application_form.first_name %>,
+Dear <%= @application_form.first_name %>
 
-You have submitted an application for:
+<% if @application_form.application_choices.count > 1 %>
+
+  You have submitted an application for:
 
 <% @application_form.application_choices.each do |application_choice| %>
-* <%= application_choice.course_option.course.provider.name %> - <%= application_choice.course_option.course.name %> (<%= application_choice.course_option.course.code %>)
+  * <%= application_choice.course_option.course.provider.name %> - <%= application_choice.course_option.course.name %> (<%= application_choice.course_option.course.code %>)
 <% end %>
 
-Sign in to your account anytime to check the progress of your application:
+<% else %>
+
+  You have submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
+
+<% end %>
+
+Sign in to your account to check the progress of your application:
 
 <%= @candidate_magic_link %>
 
-If your training provider decides to progress your application, they’ll contact you to organise an interview.
+<% if @application_form.application_choices.count > 1 %>
+
+  If your training providers decide to progress your application, they’ll contact you to organise an interview.
+
+<% else %>
+
+  If your training provider decides to progress your application, they’ll contact you to organise an interview.
+
+<% end %>
+
+They have until <%= @reject_by_default_date %> to make a decision on your application.

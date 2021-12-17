@@ -205,7 +205,7 @@ RSpec.feature 'Candidate submits the application' do
   def and_i_receive_an_email_confirmation
     open_email(current_candidate.email_address)
     expect(current_email).to have_content 'You have submitted an application'
-    expect(current_email).to have_content 'Gorse SCITT - Primary (2XT2)'
+    expect(current_email).to have_content 'Primary (2XT2) at Gorse SCITT'
   end
 
   def and_i_am_redirected_to_the_application_dashboard
