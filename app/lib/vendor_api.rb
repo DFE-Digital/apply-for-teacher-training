@@ -18,6 +18,8 @@ module VendorAPI
       Changes::ClearTestData,
       Changes::RegenerateTestData,
       Changes::PingEndpoint,
+      Changes::ExperimentalClearTestData,
+      Changes::ExperimentalGenerateTestData,
     ],
   }.freeze
 end
