@@ -45,4 +45,19 @@ RSpec.describe VendorAPI::Base do
       end
     end
   end
+
+  context 'accessing a presenter that is introduced in a later version' do
+    before do
+      stub_const('VendorAPI::VERSIONS', { '1.1' => [APITest::FirstTestVersionChange],
+                                          '1.2' => [APITest::SecondTestVersionChange] })
+    end
+
+    subject(:presenter) { APITest::PresenterClass.new(version) }
+
+    let(:version) { '1.0' }
+
+    it 'throws an exception' do
+      expect { presenter }.to raise_error(PresenterNotVersioned)
+    end
+  end
 end
