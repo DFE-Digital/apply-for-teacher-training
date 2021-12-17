@@ -13,7 +13,13 @@ module CandidateInterface
         )
 
         if @form.save(current_application)
-          redirect_to candidate_interface_immigration_entry_date_path
+          if FeatureFlag.active?(:immigration_entry_date)
+            redirect_to candidate_interface_immigration_entry_date_path
+          elsif LanguagesSectionPolicy.hide?(current_application)
+            redirect_to candidate_interface_personal_details_show_path
+          else
+            redirect_to candidate_interface_languages_path
+          end
         else
           track_validation_error(@form)
           render :new
