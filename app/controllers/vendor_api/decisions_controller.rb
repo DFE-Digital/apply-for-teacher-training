@@ -1,7 +1,5 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
-    VERSION = '1.0'.freeze
-
     before_action :validate_metadata!
     rescue_from ValidationException, with: :render_validation_error
 

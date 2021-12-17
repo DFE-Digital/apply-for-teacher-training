@@ -1,7 +1,5 @@
 module VendorAPI
   class TestDataController < VendorAPIController
-    VERSION = '1.0'.freeze
-
     before_action :check_this_is_a_test_environment
 
     MAX_COUNT = 100

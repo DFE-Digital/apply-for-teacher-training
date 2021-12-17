@@ -15,7 +15,7 @@ class ValidVendorApiRoute
     version = extract_version(api_version)
 
     VendorAPI::VERSIONS[version_number(version)].each do |change_module|
-      return true if change_module.new.actions[controller_class].include?(action.to_sym)
+      return true if change_module.new.actions[controller_class]&.include?(action.to_sym)
     end
     false
   rescue ArgumentError, NoMethodError

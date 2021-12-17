@@ -1,7 +1,5 @@
 module VendorAPI
   class ReferenceDataController < VendorAPIController
-    VERSION = '1.0'.freeze
-
     def gcse_subjects
       render json: { data: GCSE_SUBJECTS }
     end
