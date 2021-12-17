@@ -191,6 +191,7 @@ jobs:
           make ${{ matrix.environment }} ci delete-clock
         env:
           PR_NUMBER:                ${{ env.PR_NUMBER }}
+          CONFIRM_PRODUCTION: true
 
       - name: Terraform init, plan & apply
         run: make ${{ matrix.environment }} ci deploy
