@@ -117,4 +117,18 @@ RSpec.describe RevertRejectedByDefault do
 
     expect(choices.reload.pluck(:status)).to match_array(statuses)
   end
+
+  it 'clears reasons for rejection fields' do
+    form = create(:application_form)
+    rr_choice = create(:application_choice, :with_rejection_by_default, rejection_reason: 'RBD done it', application_form: form)
+    sr4r_choice = create(:application_choice, :with_rejection_by_default, :with_structured_rejection_reasons, application_form: form)
+
+    described_class.new(
+      ids: form.id,
+      new_rbd_date: new_rbd_date,
+    ).call
+
+    expect(rr_choice.reload.rejection_reason).to be nil
+    expect(sr4r_choice.reload.structured_rejection_reasons).to be nil
+  end
 end
