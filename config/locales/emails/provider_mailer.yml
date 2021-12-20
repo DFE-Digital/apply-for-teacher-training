@@ -1,5 +1,10 @@
 en:
   provider_mailer:
+    subject: "%{subject} - manage teacher training applications"
+    account_created:
+      subject: Sign in
+    confirm_sign_in:
+      subject: New sign in
     offer_accepted:
       subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
     unconditional_offer_accepted:
@@ -8,35 +13,31 @@ en:
       subject: "%{candidate_name}’s (%{support_reference}) application withdrawn automatically"
     declined:
       subject: "%{candidate_name} (%{support_reference}) declined an offer"
-    account_created:
-      subject: Sign in to manage teacher training applications
     application_submitted:
-      subject: Application received for %{course_name_and_code}
+      subject: 'Application received for %{course_name_and_code}'
     application_submitted_with_safeguarding_issues:
-      subject: Application with safeguarding issues received for %{course_name_and_code}
+      subject: 'Application with safeguarding issues received for %{course_name_and_code}'
     application_rejected_by_default:
-      subject: "%{candidate_name}’s application was automatically rejected - manage teacher training applications"
+      subject: "%{candidate_name}’s application was automatically rejected"
     application_waiting_for_decision:
       subject: "Respond to %{candidate_name}’s (%{support_reference}) application"
     application_withdrawn:
       subject: "%{candidate_name} (%{support_reference}) withdrew their application"
-    confirm_sign_in:
-      subject: New sign in to Manage teacher training applications
     organisation_permissions_set_up:
       subject: "%{provider} has set up organisation permissions for teacher training courses you work on with them"
     organisation_permissions_updated:
       subject: "%{provider} has changed organisation permissions for teacher training courses you work on with them"
-    apply_service_is_now_open:
-      subject: "Candidates can now apply for teacher training courses for 2022 to 2023 - manage teacher training applications"
-    find_service_is_now_open:
-      subject: "Candidates can now find teacher training courses for 2022 to 2023 - manage teacher training applications"
     set_up_organisation_permissions:
-      subject: "Set up organisation permissions - manage teacher training applications"
+      subject: "Set up organisation permissions"
     permissions_granted:
-      subject: '%{permissions_granted_by_user} has added you to %{organisation} - manage teacher training applications'
+      subject: '%{permissions_granted_by_user} has added you to %{organisation}'
     permissions_granted_by_support:
-      subject: "You've been added to %{organisation} - manage teacher training applications"
+      subject: "You've been added to %{organisation}"
     permissions_removed:
-      subject: '%{permissions_removed_by_user} has removed you from %{organisation} - manage teacher training applications'
+      subject: '%{permissions_removed_by_user} has removed you from %{organisation}'
     permissions_removed_by_support:
-      subject: "You've been removed from %{organisation} - manage teacher training applications"
+      subject: "You've been removed from %{organisation}"
+    apply_service_is_now_open:
+      subject: "Candidates can now apply for teacher training courses for 2022 to 2023"
+    find_service_is_now_open:
+      subject: "Candidates can now find teacher training courses for 2022 to 2023"

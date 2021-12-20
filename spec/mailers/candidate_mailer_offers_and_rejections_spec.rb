@@ -272,7 +272,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Feedback on your application for Brighthurst Technical',
+        'Feedback on your application for Brighthurst Technical College',
         'heading' => 'Dear Bob',
         'provider name' => 'Brighthurst Technical College',
         'name and code for course' => 'Applied Science (Psychology) (3TT5)',
@@ -289,7 +289,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Feedback on your application for Brighthurst Technical',
+        'Feedback on your application for Brighthurst Technical College',
         'heading' => 'Dear Bob',
         'provider name' => 'Brighthurst Technical College',
         'name and code for course' => 'Applied Science (Psychology) (3TT5)',
@@ -398,7 +398,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Brighthurst Technical College',
+        'Offer changed by Brighthurst Technical College',
         'heading' => 'Dear Bob',
         'name for original course' => 'Applied Science (Psychology)',
         'name for new course' => 'Course: Forensic Science',
@@ -414,7 +414,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content',
-        'Brighthurst Technical College',
+        'Offer changed by Brighthurst Technical College',
         'heading' => 'Dear Bob',
         'name for original course' => 'Applied Science (Psychology)',
         'name for new course' => 'Course: Forensic Science',

@@ -4,7 +4,7 @@ class ProviderMailer < ApplicationMailer
   def account_created(provider_user)
     @provider_user = provider_user
 
-    notify_email(
+    provider_notify_email(
       to: @provider_user.email_address,
       subject: t('provider_mailer.account_created.subject'),
     )
@@ -14,9 +14,18 @@ class ProviderMailer < ApplicationMailer
     @provider_user = provider_user
     @device = device
 
-    notify_email(
+    provider_notify_email(
       to: provider_user.email_address,
       subject: I18n.t!('provider_mailer.confirm_sign_in.subject'),
+    )
+  end
+
+  def fallback_sign_in_email(provider_user, token)
+    @token = token
+
+    provider_notify_email(
+      to: provider_user.email_address,
+      subject: t('authentication.sign_in.email.subject'),
     )
   end
 
@@ -115,22 +124,13 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
-  def fallback_sign_in_email(provider_user, token)
-    @token = token
-
-    notify_email(
-      to: provider_user.email_address,
-      subject: t('authentication.sign_in.email.subject'),
-    )
-  end
-
   def organisation_permissions_set_up(provider_user, provider, permissions)
     @provider_user = provider_user
     @recipient_organisation = provider
     @permissions = permissions
     @partner_organisation = permissions.partner_organisation(provider)
 
-    notify_email(
+    provider_notify_email(
       to: @provider_user.email_address,
       subject: I18n.t!('provider_mailer.organisation_permissions_set_up.subject', provider: @partner_organisation.name),
     )
@@ -142,7 +142,7 @@ class ProviderMailer < ApplicationMailer
     @permissions = permissions
     @partner_organisation = permissions.partner_organisation(provider)
 
-    notify_email(
+    provider_notify_email(
       to: @provider_user.email_address,
       subject: I18n.t!('provider_mailer.organisation_permissions_updated.subject', provider: @partner_organisation.name),
     )
@@ -163,7 +163,7 @@ class ProviderMailer < ApplicationMailer
                                             organisation: @provider.name) }
                        end
 
-    notify_email({ to: @provider_user.email_address }.merge!(email_attributes))
+    provider_notify_email({ to: @provider_user.email_address }.merge!(email_attributes))
   end
 
   def permissions_removed(provider_user, provider, permissions_removed_by = nil)
@@ -172,21 +172,32 @@ class ProviderMailer < ApplicationMailer
     @permissions_removed_by = permissions_removed_by
 
     if @permissions_removed_by
-      notify_email(to: @provider_user.email_address,
-                   subject: I18n.t!('provider_mailer.permissions_removed.subject',
-                                    permissions_removed_by_user: @permissions_removed_by.full_name,
-                                    organisation: @provider.name))
+      provider_notify_email(to: @provider_user.email_address,
+                            subject: I18n.t!('provider_mailer.permissions_removed.subject',
+                                             permissions_removed_by_user: @permissions_removed_by.full_name,
+                                             organisation: @provider.name))
     else
-      notify_email(to: @provider_user.email_address,
-                   subject: I18n.t!('provider_mailer.permissions_removed_by_support.subject',
-                                    organisation: @provider.name))
+      provider_notify_email(to: @provider_user.email_address,
+                            subject: I18n.t!('provider_mailer.permissions_removed_by_support.subject',
+                                             organisation: @provider.name))
     end
+  end
+
+  def set_up_organisation_permissions(provider_user, relationships_to_set_up)
+    @provider_user = provider_user
+    @relationships_to_set_up = relationships_to_set_up
+    @single_or_multiple = @relationships_to_set_up.keys.size > 1 ? 'multiple' : 'single'
+
+    provider_notify_email(
+      to: @provider_user.email_address,
+      subject: I18n.t!('provider_mailer.set_up_organisation_permissions.subject'),
+    )
   end
 
   def apply_service_is_now_open(provider_user)
     @provider_user = provider_user
 
-    notify_email(
+    provider_notify_email(
       to: @provider_user.email_address,
       subject: I18n.t!('provider_mailer.apply_service_is_now_open.subject'),
     )
@@ -195,20 +206,9 @@ class ProviderMailer < ApplicationMailer
   def find_service_is_now_open(provider_user)
     @provider_user = provider_user
 
-    notify_email(
+    provider_notify_email(
       to: @provider_user.email_address,
       subject: I18n.t!('provider_mailer.find_service_is_now_open.subject'),
-    )
-  end
-
-  def set_up_organisation_permissions(provider_user, relationships_to_set_up)
-    @provider_user = provider_user
-    @relationships_to_set_up = relationships_to_set_up
-    @single_or_multiple = @relationships_to_set_up.keys.size > 1 ? 'multiple' : 'single'
-
-    notify_email(
-      to: @provider_user.email_address,
-      subject: I18n.t!('provider_mailer.set_up_organisation_permissions.subject'),
     )
   end
 
@@ -218,10 +218,15 @@ private
     @provider_user = provider_user
     @provider_user_name = provider_user.full_name
 
-    notify_email(args.merge(
-                   to: provider_user.email_address,
-                   application_form_id: application_form.id,
-                 ))
+    provider_notify_email(args.merge(to: provider_user.email_address,
+                                     application_form_id: application_form.id))
+  end
+
+  def provider_notify_email(args)
+    subject = I18n.t('provider_mailer.subject', subject: args[:subject])
+    args.merge!(subject: subject)
+
+    notify_email(args)
   end
 
   def map_application_choice_params(application_choice)
