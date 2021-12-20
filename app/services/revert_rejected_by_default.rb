@@ -24,6 +24,8 @@ class RevertRejectedByDefault
             status: :awaiting_provider_decision,
             rejected_by_default: false,
             rejected_at: nil,
+            rejection_reason: nil,
+            structured_rejection_reasons: nil,
           )
 
           application_choice.self_and_siblings.where(status: :offer).update(
