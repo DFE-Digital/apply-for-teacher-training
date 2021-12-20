@@ -294,10 +294,10 @@
     <p class="govuk-body">The Apply for teacher training service is the sole service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
     <p class="govuk-body">
-      <% if @presenter.deferred_application_count == 1 %>
-        There is 1 candidate in the tables that was counted in last year’s publication by UCAS, as previous UCAS publications have included deferred candidates (who would not be starting their courses in the 2022 to 2023 academic year) in the totals. 
-      <% elsif @presenter.deferred_application_count > 1 %>
-        There are <%= pluralize(@presenter.deferred_application_count, 'candidate') %> in the tables that were counted in last year’s publication by UCAS, as previous UCAS publications have included deferred candidates (who would not be starting their courses in the 2022 to 2023 academic year) in the totals. 
+      <% if @presenter.deferred_applications_count == 1 %>
+        There is 1 candidate in the tables that was counted in last year’s publication by UCAS, as previous UCAS publications have included deferred candidates (who would not be starting their courses in the 2022 to 2023 academic year) in the totals.
+      <% elsif @presenter.deferred_applications_count > 1 %>
+        There are <%= pluralize(@presenter.deferred_applications_count, 'candidate') %> in the tables that were counted in last year’s publication by UCAS, as previous UCAS publications have included deferred candidates (who would not be starting their courses in the 2022 to 2023 academic year) in the totals.
       <% end %>
       Deferred candidates are included in their own column here. They will also be counted in future tables for the academic year that they intend to start their course, once the provider reconfirms their application.</p>
   </div>

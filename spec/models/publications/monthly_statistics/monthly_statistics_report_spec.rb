@@ -57,6 +57,7 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
       by_age_group_monthly_statistics_double = instance_double(Publications::MonthlyStatistics::ByAgeGroup)
       applications_by_secondary_subject_double = instance_double(Publications::MonthlyStatistics::BySecondarySubject)
       applications_by_provider_area_double = instance_double(Publications::MonthlyStatistics::ByProviderArea)
+      deferred_applications_double = instance_double(Publications::MonthlyStatistics::DeferredApplications)
 
       table_data = [{ 'foo' => 'bar' }]
 
@@ -70,6 +71,7 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
       allow(Publications::MonthlyStatistics::ByAgeGroup).to receive(:new).and_return(by_age_group_monthly_statistics_double)
       allow(Publications::MonthlyStatistics::BySecondarySubject).to receive(:new).and_return(applications_by_secondary_subject_double)
       allow(Publications::MonthlyStatistics::ByProviderArea).to receive(:new).and_return(applications_by_provider_area_double)
+      allow(Publications::MonthlyStatistics::DeferredApplications).to receive(:new).and_return(deferred_applications_double)
 
       allow(course_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(area_monthly_statistics_double).to receive(:table_data).and_return(table_data)
@@ -81,6 +83,7 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
       allow(by_age_group_monthly_statistics_double).to receive(:table_data).and_return(table_data)
       allow(applications_by_secondary_subject_double).to receive(:table_data).and_return(table_data)
       allow(applications_by_provider_area_double).to receive(:table_data).and_return(table_data)
+      allow(deferred_applications_double).to receive(:count).and_return(57)
 
       report = described_class.new
       report.load_table_data
@@ -96,39 +99,8 @@ RSpec.describe Publications::MonthlyStatistics::MonthlyStatisticsReport do
         'by_age_group' => table_data,
         'by_secondary_subject' => table_data,
         'by_provider_area' => table_data,
+        'deferred_applications_count' => 57,
       )
-    end
-  end
-
-  describe '#deferred_application_count' do
-    around do |example|
-      ApplicationForm.with_unsafe_application_choice_touches { example.run }
-    end
-
-    it 'returns the correct value' do
-      create(
-        :completed_application_form,
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        application_choices: [
-          create(
-            :application_choice,
-            :pending_conditions,
-            current_recruitment_cycle_year: RecruitmentCycle.current_year,
-          )
-        ]
-      )
-      create(
-        :completed_application_form,
-        recruitment_cycle_year: RecruitmentCycle.previous_year,
-        application_choices: [
-          create(
-            :application_choice,
-            :pending_conditions,
-            current_recruitment_cycle_year: RecruitmentCycle.current_year,
-          )
-        ]
-      )
-      expect(subject.deferred_application_count).to be(1)
     end
   end
 end

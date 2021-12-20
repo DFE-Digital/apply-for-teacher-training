@@ -35,5 +35,9 @@ module Publications
     def exports
       MonthlyStatisticsTimetable.current_exports
     end
+
+    def deferred_applications_count
+      report.statistics['deferred_applications_count'] || 0
+    end
   end
 end

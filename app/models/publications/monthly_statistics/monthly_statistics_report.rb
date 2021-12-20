@@ -22,15 +22,7 @@ module Publications
         load_applications_by_primary_specialist_subject
         load_applications_by_secondary_subject
         load_applications_by_provider_area
-      end
-
-      def deferred_application_count
-        @deferred_application_count ||=
-          ApplicationForm.
-            joins(:application_choices).
-            where('application_choices.current_recruitment_cycle_year > application_forms.recruitment_cycle_year').
-            distinct('application_forms.id').
-            count
+        load_deferred_applications_count
       end
 
     private
@@ -102,6 +94,13 @@ module Publications
         write_statistic(
           :by_provider_area,
           Publications::MonthlyStatistics::ByProviderArea.new.table_data,
+        )
+      end
+
+      def load_deferred_applications_count
+        write_statistic(
+          :deferred_applications_count,
+          Publications::MonthlyStatistics::DeferredApplications.new.count,
         )
       end
     end
