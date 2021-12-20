@@ -116,9 +116,9 @@ jobs:
           result-encoding: string
           script: |
 
-            let environmentName = process.env.DEPLOY_ENV;
+            const environmentName = process.env.DEPLOY_ENV;
 
-            github.rest.repos.getEnvironment({
+            const result = await github.rest.repos.getEnvironment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 environment_name: environmentName
@@ -137,6 +137,9 @@ jobs:
                 console.error(err)
 
             });
+
+            console.log(`Setting the task output to ${result}`)
+            return result;
 
       - name: Start ${{ env.DEPLOY_ENV }} Deployment
         if: ${{ always() }}
@@ -203,7 +206,7 @@ jobs:
           CONFIRM_PRODUCTION: true
 
       - name: Seed Review App
-        if:  github.event.inputs.review != '' && steps.review-environment-exists.outputs.result == 'false'
+        if: github.event.inputs.review != '' && steps.review-environment-exists.outputs.result == 'false'
         run: |
           cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_local_dev_data setup_all_provider_relationships"
 
