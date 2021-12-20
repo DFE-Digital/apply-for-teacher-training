@@ -24,6 +24,15 @@ module Publications
         load_applications_by_provider_area
       end
 
+      def deferred_application_count
+        @deferred_application_count ||=
+          ApplicationForm.
+            joins(:application_choices).
+            where('application_choices.current_recruitment_cycle_year > application_forms.recruitment_cycle_year').
+            distinct('application_forms.id').
+            count
+      end
+
     private
 
       def load_by_course_age_group
