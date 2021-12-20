@@ -157,6 +157,6 @@ RSpec.feature 'Managing provider users v2' do
 
   def and_the_user_should_be_sent_a_welcome_email
     open_email('harrison@example.com')
-    expect(current_email.subject).to have_content t('provider_mailer.account_created.subject')
+    expect(current_email.subject).to have_content t('provider_mailer.permissions_granted_by_support.subject', organisation: @provider.name)
   end
 end

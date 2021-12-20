@@ -100,10 +100,6 @@ RSpec.describe InviteProviderUser, sidekiq: true do
       described_class.new(provider_user: provider_user).notify
     end
 
-    it 'queues an email' do
-      expect(ProviderMailer.deliveries.count).to be 1
-    end
-
     it 'sends a slack message' do
       expect_slack_message_with_text(":technologist: Provider user Firstname has been invited to join #{provider.name}")
     end

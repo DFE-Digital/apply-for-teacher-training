@@ -1,14 +1,5 @@
 class ProviderMailer < ApplicationMailer
-  layout 'provider_email_with_footer', except: %i[account_created fallback_sign_in_email]
-
-  def account_created(provider_user)
-    @provider_user = provider_user
-
-    provider_notify_email(
-      to: @provider_user.email_address,
-      subject: t('provider_mailer.account_created.subject'),
-    )
-  end
+  layout 'provider_email_with_footer', except: %i[fallback_sign_in_email]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user

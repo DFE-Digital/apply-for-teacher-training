@@ -1,8 +1,6 @@
 en:
   provider_mailer:
     subject: "%{subject} - manage teacher training applications"
-    account_created:
-      subject: Sign in
     confirm_sign_in:
       subject: New sign in
     offer_accepted:

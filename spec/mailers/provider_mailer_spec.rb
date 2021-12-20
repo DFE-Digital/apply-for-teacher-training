@@ -29,15 +29,6 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
   end
 
-  describe 'Send account created email' do
-    let(:email) { described_class.account_created(provider_user) }
-
-    it_behaves_like('a mail with subject and content',
-                    'Sign in - manage teacher training applications',
-                    'provider name' => 'Dear Johny English',
-                    'sign in path' => '/provider/sign-in')
-  end
-
   describe 'Send application received email' do
     let(:email) { described_class.application_submitted(provider_user, application_choice) }
 

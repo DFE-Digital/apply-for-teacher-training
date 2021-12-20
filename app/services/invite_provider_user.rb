@@ -16,7 +16,6 @@ class InviteProviderUser
 
   def notify
     lookup_provider_user
-    send_welcome_email
     send_slack_notification
   end
 
@@ -40,10 +39,6 @@ private
 
     response = HTTP.auth(auth_string).post dfe_invite_url, json: request_params
     raise DfeSignInAPIError, response unless response.status.success?
-  end
-
-  def send_welcome_email
-    ProviderMailer.account_created(@provider_user).deliver_later
   end
 
   def send_slack_notification
