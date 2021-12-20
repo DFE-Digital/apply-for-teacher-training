@@ -47,7 +47,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build gems-node-modules Docker Image
         uses: docker/build-push-action@v2
@@ -126,8 +126,8 @@ jobs:
       image: ghcr.io/dfe-digital/apply-teacher-training-gems-node-modules:${{ needs.build.outputs.IMAGE_TAG }}
       options: -a STDOUT -a STDERR -t
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: ${{ matrix.tests }}
         run: ${{ env.COMMAND }}
@@ -190,8 +190,8 @@ jobs:
     container:
       image: ghcr.io/dfe-digital/apply-teacher-training:${{ needs.build.outputs.IMAGE_TAG }}
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GH_CONTAINER_REGISTRY_TOKEN }}
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       env:
         RAILS_ENV: test
         DB_HOSTNAME: postgres
