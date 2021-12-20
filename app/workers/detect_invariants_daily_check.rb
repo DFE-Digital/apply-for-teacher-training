@@ -147,7 +147,7 @@ class DetectInvariantsDailyCheck
     out_of_date_choices = FindApplicationChoicesWithOutOfDateProviderIds.call
 
     if out_of_date_choices.present?
-      message = out_of_date_choices.map(&:id).join(', ')
+      message = "Out-of-date application choices: #{out_of_date_choices.map(&:id).join(', ')}"
       Sentry.capture_exception(ApplicationChoicesWithOutOfDateProviderIds.new(message))
     end
   end

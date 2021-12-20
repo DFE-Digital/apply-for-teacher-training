@@ -29,8 +29,8 @@ class FindApplicationChoicesWithOutOfDateProviderIds
     COMPARE_ARRAYS_AS_SETS
 
     ApplicationChoice
-      .with(extended: with_course_joins.select(get_expected_provider_ids_sql))
-      .joins('INNER JOIN extended ON application_choices.id = extended.id')
+      .with(with_expected_provider_ids: with_course_joins.select(get_expected_provider_ids_sql))
+      .joins('INNER JOIN with_expected_provider_ids ON application_choices.id = with_expected_provider_ids.id')
       .where(provider_ids_do_not_match_sql)
       .select('application_choices.*, expected_provider_ids')
   end
