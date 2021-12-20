@@ -240,9 +240,13 @@ task. You need to supply a DfE Sign-in UID and an email address, e.g.
 Note that only the UID is used for lookup. The email address serves only
 as a label.
 
-## Heroku review apps
+## Review apps
 
-When a new PR is opened, a review app is deployed via Heroku. This has a `HOSTING_ENVIRONMENT=development`, an empty database which gets seeded with local dev data, and a URL which is similar to `https://apply-for-teacher-training.herokuapp.com`. The Heroku configuration is in [`app.json`](app.json).
+When a new PR is opened, you have the option to deploy a review app into the `bat-qa` space. A deployment is initiated by adding the `deploy` label either when the PR is created or retrospectively. The app is destroyed when the PR is closed.
+
+Review apps have `HOSTING_ENVIRONMENT` set to `review`, an empty database which gets seeded with local dev data, and a URL which will be `https://apply-review-{PR_NUMBER}.london.cloudapps.digital/`.
+
+Management of review apps follow the same processes as our standard PaaS based apps.
 
 ## License
 
