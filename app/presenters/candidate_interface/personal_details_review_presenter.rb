@@ -206,7 +206,7 @@ module CandidateInterface
           }
         end
 
-        if @application_form.immigration_entry_date
+        if @application_form.immigration_entry_date && FeatureFlag.active?(:immigration_entry_date)
           rows << {
             key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
             value: formatted_immigration_entry_date,
