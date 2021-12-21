@@ -124,21 +124,24 @@ resource "cloudfoundry_route" "web_app_cloudapps_digital_route" {
 }
 
 resource "cloudfoundry_route" "web_app_service_gov_uk_route" {
+  for_each = toset(var.service_gov_uk_host_names)
   domain   = data.cloudfoundry_domain.apply_service_gov_uk.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.service_gov_uk_host_names[var.environment]
+  hostname = each.value
 }
 
 resource "cloudfoundry_route" "web_app_education_gov_uk_route" {
+  for_each = toset(var.service_gov_uk_host_names)
   domain   = data.cloudfoundry_domain.apply_education_gov_uk.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.service_gov_uk_host_names[var.environment]
+  hostname = each.value
 }
 
 resource "cloudfoundry_route" "web_app_assets_service_gov_uk_route" {
+  for_each = toset(var.assets_host_names)
   domain   = data.cloudfoundry_domain.apply_service_gov_uk.id
   space    = data.cloudfoundry_space.space.id
-  hostname = local.assets_host_names[var.environment]
+  hostname = each.value
 }
 
 resource "cloudfoundry_service_instance" "postgres" {

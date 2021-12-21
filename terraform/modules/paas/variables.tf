@@ -1,5 +1,3 @@
-variable "environment" {}
-
 variable "cf_api_url" {}
 
 variable "cf_user" { default = null }
@@ -46,6 +44,16 @@ variable "restore_db_from_db_instance" { default = "" }
 
 variable "restore_db_from_point_in_time_before" { default = "" }
 
+variable "service_gov_uk_host_names" {
+  default = []
+  type = list
+}
+
+variable "assets_host_names" {
+  default = []
+  type = list
+}
+
 locals {
   web_app_name                = "apply-${var.app_environment}"
   clock_app_name              = "apply-clock-${var.app_environment}"
@@ -69,24 +77,15 @@ locals {
   allkeys_lru_maxmemory_policy = {
     maxmemory_policy = "allkeys-lru"
   }
-  service_gov_uk_host_names = {
-    qa        = "qa"
-    staging   = "staging"
-    sandbox   = "sandbox"
-    research  = "research"
-    review    = "review"
-    prod      = "www"
-  }
-  assets_host_names = {
-    qa        = "qa-assets"
-    staging   = "staging-assets"
-    sandbox   = "sandbox-assets"
-    research  = "research-assets"
-    review    = "review-assets"
-    prod      = "assets"
-  }
-  web_app_routes = [cloudfoundry_route.web_app_service_gov_uk_route, cloudfoundry_route.web_app_cloudapps_digital_route,
-  cloudfoundry_route.web_app_education_gov_uk_route, cloudfoundry_route.web_app_internal_route, cloudfoundry_route.web_app_assets_service_gov_uk_route]
+
+  web_app_routes = flatten([
+    cloudfoundry_route.web_app_cloudapps_digital_route,
+    cloudfoundry_route.web_app_internal_route,
+    values(cloudfoundry_route.web_app_service_gov_uk_route),
+    values(cloudfoundry_route.web_app_education_gov_uk_route),
+    values(cloudfoundry_route.web_app_assets_service_gov_uk_route)    
+  ])
+
   app_environment_variables = merge(var.app_environment_variables,
     {
       DATABASE_URL        = cloudfoundry_service_key.postgres.credentials.uri
