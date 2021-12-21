@@ -9,6 +9,7 @@ class DetectInvariantsDailyCheck
     detect_submitted_applications_with_more_than_two_selected_references
     detect_applications_submitted_with_the_same_course
     detect_submitted_applications_with_more_than_three_course_choices
+    detect_application_choices_with_out_of_date_provider_ids
     detect_obsolete_feature_flags
   end
 
@@ -142,6 +143,15 @@ class DetectInvariantsDailyCheck
     end
   end
 
+  def detect_application_choices_with_out_of_date_provider_ids
+    out_of_date_choices = FindApplicationChoicesWithOutOfDateProviderIds.call
+
+    if out_of_date_choices.present?
+      message = "Out-of-date application choices: #{out_of_date_choices.map(&:id).join(', ')}"
+      Sentry.capture_exception(ApplicationChoicesWithOutOfDateProviderIds.new(message))
+    end
+  end
+
   def detect_obsolete_feature_flags
     feature_names = FeatureFlag::FEATURES.map(&:first)
     obsolete_features = Feature.where.not(name: feature_names)
@@ -159,6 +169,7 @@ class DetectInvariantsDailyCheck
   class ApplicationSubmittedWithMoreThanTwoSelectedReferences < StandardError; end
   class ApplicationSubmittedWithTheSameCourse < StandardError; end
   class SubmittedApplicationHasMoreThanThreeChoices < StandardError; end
+  class ApplicationChoicesWithOutOfDateProviderIds < StandardError; end
   class ObsoleteFeatureFlags < StandardError; end
 
 private

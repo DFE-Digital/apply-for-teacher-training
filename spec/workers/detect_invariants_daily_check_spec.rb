@@ -141,6 +141,7 @@ RSpec.describe DetectInvariantsDailyCheck do
       create(:completed_application_form, submitted_application_choices_count: 3)
       bad_application_form = create(:completed_application_form, submitted_application_choices_count: 2)
       bad_application_form.application_choices << build_list(:submitted_application_choice, 2, status: :offer)
+      ApplicationChoice.all.each { |a| a.update_course_option_and_associated_fields! create(:course_option) }
 
       described_class.new.perform
 
@@ -154,6 +155,25 @@ RSpec.describe DetectInvariantsDailyCheck do
           MSG
         ),
       )
+    end
+
+    it 'detects application choices with out-of-date provider_ids' do
+      choices = create_list(:application_choice, 3)
+      empty_ids = choices.second
+      empty_ids.update(provider_ids: [])
+      wrong_ids = choices.third
+      wrong_ids.update(provider_ids: [1024])
+
+      accredited_course = create(:course, :with_accredited_provider)
+      accredited_option = create(:course_option, course: accredited_course)
+      reverse_ids = create(:application_choice, course_option: accredited_option)
+      reverse_ids.update(provider_ids: reverse_ids.provider_ids.reverse)
+
+      described_class.new.perform
+
+      message = "Out-of-date application choices: #{empty_ids.id}, #{wrong_ids.id}" # reverse order ignored
+      expect(Sentry).to have_received(:capture_exception)
+                        .with(described_class::ApplicationChoicesWithOutOfDateProviderIds.new(message))
     end
 
     it 'detects obsolete feature flags' do
