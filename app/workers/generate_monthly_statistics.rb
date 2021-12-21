@@ -8,6 +8,7 @@ class GenerateMonthlyStatistics
 
     dashboard = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
     dashboard.load_table_data
+    dashboard.set_month
     dashboard.save!
   end
 end

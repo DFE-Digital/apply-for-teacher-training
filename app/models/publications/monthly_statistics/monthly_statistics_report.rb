@@ -24,6 +24,10 @@ module Publications
         load_applications_by_provider_area
       end
 
+      def set_month
+        self.month = Time.zone.today.strftime('%Y-%m')
+      end
+
     private
 
       def load_by_course_age_group
