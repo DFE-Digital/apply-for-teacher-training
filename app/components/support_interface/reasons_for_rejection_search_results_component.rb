@@ -10,11 +10,12 @@ module SupportInterface
 
     def summary_list_rows_for(application_choice)
       application_choice.structured_rejection_reasons.map do |reason, value|
-        next unless top_level_reason?(reason, value)
+        reason_detail_text = reason_detail_text_for(application_choice, reason)
+        next unless top_level_reason?(reason, value) && reason_detail_text.presence
 
         {
           key: reason_text_for(reason),
-          value: reason_detail_text_for(application_choice, reason),
+          value: reason_detail_text,
         }
       end.compact
     end

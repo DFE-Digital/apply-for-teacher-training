@@ -30,6 +30,8 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
           interested_in_future_applications_y_n: 'Yes',
           other_advice_or_feedback_y_n: 'Yes',
           other_advice_or_feedback_details: 'You need a haircut',
+          why_are_you_rejecting_this_application: ''
+
         },
         application_form_id: 123,
       )
@@ -61,6 +63,10 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
 
     it 'highlights the search term' do
       expect(@rendered_result.css('mark').text).to eq 'Quality of application'
+    end
+
+    it 'hides empty rejection reasons' do
+      expect(@rendered_result.text).not_to include 'Reasons why your application was unsuccessful'
     end
   end
 
