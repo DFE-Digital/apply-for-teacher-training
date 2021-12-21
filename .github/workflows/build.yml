@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
 name: Build
 
 on:
@@ -24,6 +26,9 @@ jobs:
     outputs:
       IMAGE_TAG: ${{ env.IMAGE_TAG }}
       GIT_BRANCH: ${{ env.GIT_BRANCH }}
+
+    # When a pull_request event occurs, we want to prevent the build from running each time a label is added, unless it is the deploy label.
+    if: github.event_name != 'pull_request' ||  github.event_name == 'pull_request' && ( github.event.action == 'opened' || github.event.action == 'reopened' || github.event.action == 'synchronize' || github.event.label.name == 'deploy' )
 
     steps:
       - name: Checkout
