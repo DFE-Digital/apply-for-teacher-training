@@ -64,18 +64,19 @@ module MonthlyStatisticsTimetable
     Time.zone.today.between?(generation_date_for_current_month, publish_date_for_current_month)
   end
 
-  def self.current_report
-    return Publications::MonthlyStatistics::MonthlyStatisticsReport.last if Publications::MonthlyStatistics::MonthlyStatisticsReport.count == 1
-
-    in_qa_period? ? report_for_previous_period : report_for_current_period
-  end
-
   def self.report_for_current_period
-    Publications::MonthlyStatistics::MonthlyStatisticsReport.order(:created_at).last
+    publish_date_for_current_month = PUBLISHING_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+    publish_date_for_previous_month = PUBLISHING_DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
+
+    if publish_date_for_current_month > Time.zone.today
+      Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: publish_date_for_previous_month.strftime('%Y-%m')).order(created_at: :desc).first
+    else
+      Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: publish_date_for_current_month.strftime('%Y-%m')).order(created_at: :desc).first
+    end
   end
 
-  def self.report_for_previous_period
-    Publications::MonthlyStatistics::MonthlyStatisticsReport.order(:created_at).last(2).first
+  def self.report_for(month)
+    Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month.strftime('%Y-%m')).order(created_at: :desc).first
   end
 
   def self.current_exports

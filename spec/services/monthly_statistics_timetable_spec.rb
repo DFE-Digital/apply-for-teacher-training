@@ -65,39 +65,23 @@ RSpec.describe MonthlyStatisticsTimetable do
     end
   end
 
-  describe '#current_report' do
-    context 'when there is only one monthly report' do
-      it 'returns the report' do
-        report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
-        report.save
+  describe '#report_for_current_period' do
+    let!(:current_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-12') }
+    let!(:previous_report) { Publications::MonthlyStatistics::MonthlyStatisticsReport.create(month: '2021-11') }
 
-        expect(described_class.current_report).to eq report
+    context 'when today is before the publishing date in the current month' do
+      it 'returns the previous report' do
+        Timecop.freeze(Date.new(2021, 12, 21)) do
+          expect(described_class.report_for_current_period).to eq(previous_report)
+        end
       end
     end
 
-    context 'when there are multiple reports and the MonthlyStatisticsTimetable returns false for #in_qa_period?' do
-      it 'returns the latest report' do
-        allow(described_class).to receive(:in_qa_period?).and_return false
-        report1 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
-        report1.save
-
-        report2 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
-        report2.save
-
-        expect(described_class.current_report).to eq report2
-      end
-    end
-
-    context 'when there are multiple reports and the MonthlyStatisticsTimetable returns true for #in_qa_period?' do
-      it 'returns last months report' do
-        allow(described_class).to receive(:in_qa_period?).and_return true
-        report1 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
-        report1.save
-
-        report2 = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
-        report2.save
-
-        expect(described_class.current_report).to eq report1
+    context 'when today is after the publishing date in the current month' do
+      it 'returns the previous report' do
+        Timecop.freeze(Date.new(2021, 12, 28)) do
+          expect(described_class.report_for_current_period).to eq(current_report)
+        end
       end
     end
   end
