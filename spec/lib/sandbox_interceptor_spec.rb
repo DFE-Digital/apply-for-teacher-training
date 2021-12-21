@@ -19,8 +19,8 @@ RSpec.describe SandboxInterceptor do
         expect(message.perform_deliveries).to be true
       end
 
-      it 'still permits account_created' do
-        message = email_with_mailer_and_template_headers('provider_mailer', 'account_created')
+      it 'still permits permissions granted' do
+        message = email_with_mailer_and_template_headers('provider_mailer', 'permissions_granted')
 
         described_class.delivering_email(message)
 
