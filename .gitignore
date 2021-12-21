@@ -51,9 +51,6 @@ testArtifacts/*
 .byebug_history
 .erblint*
 
-# ignore asdf-vm file, supports running multiple ruby version
-.tool-versions
-
 # jmeter stuff
 ruby-jmeter.jmx
 jmeter.log
