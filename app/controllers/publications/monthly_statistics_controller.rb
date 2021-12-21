@@ -3,9 +3,15 @@ module Publications
     before_action :redirect_unless_published
 
     def show
-      @presenter = Publications::MonthlyStatisticsPresenter.new(
-        MonthlyStatisticsTimetable.current_report,
-      )
+      @presenter = if params[:month].present?
+                     Publications::MonthlyStatisticsPresenter.new(
+                       MonthlyStatisticsTimetable.report_for(params[:month]),
+                     )
+                   else
+                     Publications::MonthlyStatisticsPresenter.new(
+                       MonthlyStatisticsTimetable.report_for_current_period,
+                     )
+                   end
       @monthly_statistics_report = MonthlyStatisticsTimetable.current_report
       @statistics = @monthly_statistics_report.statistics
       @report = calculate_download_size
