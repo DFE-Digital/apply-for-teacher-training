@@ -1,5 +1,7 @@
 <h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.reference') %></h1>
 
+<%= render TabNavigationComponent.new(items: VendorAPI::VERSIONS.keys.map { |v| { name: v, url: api_docs_versioned_reference_path(api_version: "v#{v}") } }) %>
+
 <h2 class="app-contents-list__title">Contents</h2>
 
 <ol class="app-contents-list__list">
@@ -11,6 +13,12 @@
     <% @api_reference.operations.each do |operation| %>
       <li class="app-contents-list__list-item app-contents-list__list-item--dashed">
         <%= govuk_link_to operation.name, "##{operation.anchor}", class: 'app-contents-list__link' %>
+        <%# TODO: This needs refactor if it's needed at all. %>
+        <% unless "v#{VendorAPI::VERSIONS.keys.first}" == params[:api_version] %>
+          <span style="font-size: 14px; color: #b1b4b6">
+            [v<%= @references_for_other_versions.select { |ref| ref.operations.map(&:name).include?(operation.name) }.map(&:version).first %>]
+          </span>
+        <% end %>
       </li>
     <% end %>
     </ol>
