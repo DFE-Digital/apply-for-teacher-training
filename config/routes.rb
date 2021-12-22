@@ -1136,7 +1136,8 @@ Rails.application.routes.draw do
     scope module: :vendor_api_docs, path: '/api-docs' do
       get '/' => 'pages#home', as: :home
       get '/usage-scenarios' => 'pages#usage', as: :usage
-      get '/reference' => 'reference#reference', as: :reference
+      get '/reference' => redirect('/api-docs/v1.2/reference'), as: :reference
+      get '/:api_version/reference' => 'reference#reference', constraints: { api_version: /v[.0-9]+/ }, as: :versioned_reference
       get '/release-notes' => 'pages#release_notes', as: :release_notes
       get '/alpha-release-notes' => 'pages#alpha_release_notes'
       get '/lifecycle' => 'pages#lifecycle'
@@ -1145,8 +1146,9 @@ Rails.application.routes.draw do
       get '/spec.yml' => 'openapi#current_spec', as: :spec
 
       get '/draft' => 'reference#draft', as: :draft
-      get '/spec-1.0.yml' => 'openapi#spec_1_0', as: :spec_1_0
-      get '/spec-1.1.yml' => 'openapi#spec_1_1', as: :spec_1_1
+      get '/spec-1.0.yml' => 'openapi#spec', with: { api_version: 'v1.0' }, as: :spec_1_0
+      get '/spec-1.1.yml' => 'openapi#spec', with: { api_version: 'v1.1' }, as: :spec_1_1
+      get '/:api_version/spec' => 'openapi#spec', constraints: { api_version: /v[.0-9]+/ }, as: :versioned_spec
     end
 
     namespace :data_api_docs, path: '/data-api' do

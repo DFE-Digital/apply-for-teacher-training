@@ -1,6 +1,6 @@
 module APIDocs
   class APIReference
-    attr_reader :document
+    attr_reader :document, :version
     delegate :servers, to: :document
 
     def initialize(spec, version: '1.0', highlight_yaml_file: nil)
