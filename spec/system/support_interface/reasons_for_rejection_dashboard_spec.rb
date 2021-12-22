@@ -143,6 +143,7 @@ private
       structured_rejection_reasons: {
         course_full_y_n: 'No',
         candidate_behaviour_y_n: 'Yes',
+        candidate_behaviour_what_did_the_candidate_do: %w[other],
         honesty_and_professionalism_y_n: 'No',
         performance_at_interview_y_n: 'No',
         qualifications_y_n: 'No',
@@ -266,7 +267,7 @@ private
     within '#candidate-behaviour' do
       expect(page).to have_content('Didn’t reply to our interview offer 40% 2 of 5 40% 2 of 5 50% 1 of 2 50% 1 of 2')
       expect(page).to have_content('Didn’t attend interview 20% 1 of 5 20% 1 of 5 0% 0 of 2 0% 0 of 2')
-      expect(page).to have_content('Other 0% 0 of 5 0% 0 of 5 0% 0 of 2 0% 0 of 2')
+      expect(page).to have_content('Other 40% 2 of 5 40% 2 of 5 50% 1 of 2 50% 1 of 2')
     end
   end
 
