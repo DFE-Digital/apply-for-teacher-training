@@ -89,7 +89,7 @@ GEM
     amazing_print (1.4.0)
     anyway_config (2.2.2)
       ruby-next-core (>= 0.11.0)
-    ar-sequence (0.2.0)
+    ar-sequence (0.2.1)
       activerecord
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
