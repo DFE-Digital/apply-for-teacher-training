@@ -39,6 +39,24 @@ RSpec.describe MonthlyStatisticsTimetable do
     end
   end
 
+  describe '#current_published_reports_generation_date' do
+    context 'when the most recent generation date is within the same month' do
+      it 'returns the correct value' do
+        Timecop.travel(described_class::PUBLISHING_DATES.values.first + 1.day) do
+          expect(described_class.current_published_reports_generation_date).to eq described_class::GENERATION_DATES.values.first
+        end
+      end
+    end
+
+    context 'when the most recent generation date was last month' do
+      it 'returns the correct value' do
+        Timecop.travel(described_class::PUBLISHING_DATES.values.second - 1.day) do
+          expect(described_class.current_published_reports_generation_date).to eq described_class::GENERATION_DATES.values.first
+        end
+      end
+    end
+  end
+
   describe '#in_qa_period?' do
     context 'when it is before the generation date for the current month' do
       it 'returns false' do

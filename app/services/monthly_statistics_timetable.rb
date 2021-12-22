@@ -49,6 +49,16 @@ module MonthlyStatisticsTimetable
     end
   end
 
+  def self.current_published_reports_generation_date
+    report_date_for_current_month = PUBLISHING_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+
+    if report_date_for_current_month > Time.zone.today
+      last_months_generation_date
+    else
+      current_months_generation_date
+    end
+  end
+
   def self.last_months_generation_date
     GENERATION_DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
   end

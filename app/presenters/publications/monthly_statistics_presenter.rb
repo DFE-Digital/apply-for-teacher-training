@@ -29,7 +29,7 @@ module Publications
     end
 
     def current_reporting_period
-      "#{CycleTimetable.apply_opens.to_s(:govuk_date)} to #{report.created_at.to_s(:govuk_date)}"
+      "#{CycleTimetable.apply_opens.to_s(:govuk_date)} to #{MonthlyStatisticsTimetable.current_published_reports_generation_date.to_s(:govuk_date)}"
     end
 
     def exports
