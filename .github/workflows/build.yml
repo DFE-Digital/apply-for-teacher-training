@@ -9,6 +9,9 @@ on:
       - main
     types: [opened, reopened, synchronize, labeled]
 
+permissions:
+  packages: write
+
 jobs:
   build:
     name: Build
