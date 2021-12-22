@@ -4,7 +4,7 @@ module.exports = ({github, context}) => {
   const { BASE_COVERAGE_DATA, PR_COVERAGE_DATA } = process.env;
   const BASE_COVERAGE_OBJ = BASE_COVERAGE_DATA.length ? JSON.parse(BASE_COVERAGE_DATA) : NO_DATA;
   const PR_COVERAGE_OBJ = PR_COVERAGE_DATA.length ? JSON.parse(PR_COVERAGE_DATA) : NO_DATA;
-  const DELTA = 0.5;
+  const DELTA = 0.25;
 
   const compareCoverage = (baseCoverage, prCoverage) => {
     return (baseCoverage == prCoverage) ? 0 : prCoverage - baseCoverage;
