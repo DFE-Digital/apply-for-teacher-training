@@ -21,6 +21,8 @@ class ValidVendorApiRoute
     end
 
     def match?
+      return false if locked_version_lower_than_current_version?
+
       versions_up_to_current.each do |version|
         VendorAPI::VERSIONS[version].each do |change_class|
           return true if change_class.new.actions[controller_class]&.include?(action.to_sym)
@@ -32,6 +34,11 @@ class ValidVendorApiRoute
   private
 
     delegate :controller_class, to: :request
+
+    def locked_version_lower_than_current_version?
+      major_version_number(VendorAPI::VERSION) == major_version_number(version) &&
+        minor_version_number(VendorAPI::VERSION) < minor_version_number(version)
+    end
 
     def versions_up_to_current
       VendorAPI::VERSIONS.keys.filter do |version_number|

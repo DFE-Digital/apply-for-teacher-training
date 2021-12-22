@@ -12,6 +12,10 @@ RSpec.describe 'Versioning', type: :request do
            course_option: course_option)
   end
 
+  before do
+    stub_const('VendorAPI::VERSION', '1.2')
+  end
+
   context 'specifying an equivalent minor api version' do
     it 'returns applications' do
       get_api_request "/api/v1.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
@@ -19,9 +23,10 @@ RSpec.describe 'Versioning', type: :request do
     end
   end
 
-  context 'accessing the API with a minor version that is greater than the current minor version' do
+  context 'accessing the API with a version that is greater than the current locked version' do
     it 'returns a not found error' do
-      stub_const('VendorAPI::VERSION', '1.2')
+      stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
+                                          '1.101' => [VendorAPI::Changes::RetrieveSingleApplication] })
 
       get_api_request "/api/v1.101/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
       expect(response).to have_http_status(:not_found)
