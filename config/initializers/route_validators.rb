@@ -21,8 +21,10 @@ class ValidVendorApiRoute
     end
 
     def match?
-      VendorAPI::VERSIONS[version_number(version)].each do |change_class|
-        return true if change_class.new.actions[controller_class]&.include?(action.to_sym)
+      versions_up_to_current.each do |version|
+        VendorAPI::VERSIONS[version].each do |change_class|
+          return true if change_class.new.actions[controller_class]&.include?(action.to_sym)
+        end
       end
       false
     end
@@ -30,6 +32,13 @@ class ValidVendorApiRoute
   private
 
     delegate :controller_class, to: :request
+
+    def versions_up_to_current
+      VendorAPI::VERSIONS.keys.filter do |version_number|
+        major_version_number(version_number) == major_version_number(version) &&
+          minor_version_number(version_number) <= minor_version_number(version)
+      end
+    end
 
     def api_version
       request.params[:api_version]

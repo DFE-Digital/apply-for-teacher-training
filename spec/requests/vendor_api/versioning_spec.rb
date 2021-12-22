@@ -73,5 +73,15 @@ RSpec.describe 'Versioning', type: :request do
         expect(response).to have_http_status(:not_found)
       end
     end
+
+    context 'when specifying a version after the route was made available' do
+      it 'processes the route' do
+        stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
+                                            '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] })
+        get_api_request "/api/v1.2/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+
+        expect(response.status).to eq(200)
+      end
+    end
   end
 end
