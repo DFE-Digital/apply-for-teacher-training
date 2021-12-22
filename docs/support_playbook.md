@@ -90,7 +90,7 @@ ApplicationQualification.find(_id).update!(start_year: '2011', award_year: '2014
 The personal statement is split into database fields:
 
 - `becoming_a_teacher` - Why do you want to be a teacher? (‘Vocation' in support)
-- `subject_knowledge` - What do you know about the subject you want to teach?
+- `subject_knowledge` - Why are you suited to teach your subjects or age group?
 
 Make sure you know which part you are amending. Add `\r\n\r\n` for carriage return.
 
