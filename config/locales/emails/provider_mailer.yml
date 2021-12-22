@@ -31,6 +31,10 @@ en:
       subject: '%{permissions_granted_by_user} has added you to %{organisation}'
     permissions_granted_by_support:
       subject: "You've been added to %{organisation}"
+    permissions_updated:
+      subject: '%{permissions_updated_by_user} updated your permissions for %{organisation}'
+    permissions_updated_by_support:
+      subject: "Your permissions have been updated for %{organisation}"
     permissions_removed:
       subject: '%{permissions_removed_by_user} has removed you from %{organisation}'
     permissions_removed_by_support:

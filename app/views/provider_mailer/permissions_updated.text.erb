@@ -1,0 +1,21 @@
+Dear <%= @provider_user.full_name %>
+
+<% if @permissions_updated_by %>
+  <%= @permissions_updated_by.full_name %> updated your permissions for <%= @provider.name %>.
+<% else %>
+  Your permissions have been updated for <%= @provider.name %>.
+<% end %>
+
+
+<% if @permissions.any? %>
+  You have permission to:
+  <% @permissions.each do |permission| %>
+  - <%= I18n.t("user_permissions.#{permission}.description").downcase %>
+  <% end %>
+<% else %>
+  You only have permission to view applications.
+<% end %>
+
+Manage applications:
+
+<%= provider_interface_sign_in_url %>
