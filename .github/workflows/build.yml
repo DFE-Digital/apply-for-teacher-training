@@ -9,6 +9,11 @@ on:
       - main
     types: [opened, reopened, synchronize, labeled]
 
+permissions:
+  packages: write
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     name: Build
