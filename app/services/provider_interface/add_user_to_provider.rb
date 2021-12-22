@@ -10,7 +10,7 @@ module ProviderInterface
       @email_address = email_address.downcase
       @first_name = first_name
       @last_name = last_name
-      @permissions = permissions
+      @permissions = permissions.reject(&:empty?)
     end
 
     def call!
@@ -61,7 +61,7 @@ module ProviderInterface
     end
 
     def send_permissions_granted_email(provider_user)
-      ProviderMailer.permissions_granted(provider_user, provider, permissions, actor)
+      ProviderMailer.permissions_granted(provider_user, provider, permissions, actor).deliver_later
     end
   end
 end

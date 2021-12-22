@@ -9,10 +9,6 @@ class ProviderMailerPreview < ActionMailer::Preview
     )
   end
 
-  def account_created_email
-    ProviderMailer.account_created(provider_user)
-  end
-
   def application_submitted
     ProviderMailer.application_submitted(provider_user, application_choice)
   end

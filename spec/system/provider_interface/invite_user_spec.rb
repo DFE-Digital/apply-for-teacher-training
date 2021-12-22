@@ -159,6 +159,8 @@ RSpec.feature 'Provider user invitation' do
 
   def and_the_new_user_gets_an_invitation_email
     open_email('john.smith@example.com')
-    expect(current_email.subject).to have_content t('provider_mailer.account_created.subject')
+    expect(current_email.subject).to have_content I18n.t('provider_mailer.permissions_granted.subject',
+                                                         permissions_granted_by_user: @provider_user.full_name,
+                                                         organisation: @provider.name)
   end
 end

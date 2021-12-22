@@ -1,5 +1,5 @@
 class SandboxInterceptor
-  PROVIDER_EMAIL_ALLOWLIST = %w[fallback_sign_in_email account_created].freeze
+  PROVIDER_EMAIL_ALLOWLIST = %w[fallback_sign_in_email permissions_granted].freeze
 
   def self.delivering_email(message)
     return unless HostingEnvironment.sandbox_mode?
