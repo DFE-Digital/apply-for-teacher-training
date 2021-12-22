@@ -9,7 +9,7 @@ module CandidateInterface
     alias have_enic_reference? have_enic_reference
 
     validates :have_enic_reference, presence: true
-    validates :enic_reference, presence: true, if: -> { have_enic_reference == 'yes' }
+    validates :enic_reference, presence: true, length: { maximum: 100 }, if: -> { have_enic_reference == 'yes' }
     validates :comparable_uk_degree, presence: true, if: -> { have_enic_reference == 'yes' }
 
     def save

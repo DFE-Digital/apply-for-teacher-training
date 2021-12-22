@@ -121,6 +121,7 @@ en:
               blank: Select whether you have a UK ENIC reference number or not
             enic_reference:
               blank: Enter the UK ENIC reference number
+              too_long: Your UK ENIC reference number must be %{count} characters or fewer
             comparable_uk_degree:
               blank: Select the comparable UK degree
         candidate_interface/degree_completion_status_form:
