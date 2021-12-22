@@ -77,8 +77,14 @@
         </a>
       </li>
       <li>
-        <a href="#footnotes" class="govuk-link app-toc__link">
+        <a href="#downloads" class="govuk-link app-toc__link">
           <span class="app-toc__number">12.</span>
+          <span class="app-toc__content">Download the data</span>
+        </a>
+      </li>
+      <li>
+        <a href="#footnotes" class="govuk-link app-toc__link">
+          <span class="app-toc__number">13.</span>
           <span class="app-toc__content">Footnotes</span>
         </a>
       </li>
@@ -269,7 +275,23 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="footnotes">12. Footnotes</h2>
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="downloads">12. Download the data</h2>
+
+    <p class="govuk-body">You can download all of the data on this page in CSV (comma separated values) format, which can be opened in a spreadsheet and used in other analysis tools.</p>
+
+    <p class="govuk-body">The downloads include some further breakdowns of the data by combining fields - for example, applicant age and sex.</p>
+
+    <% @report.each do |export_type, size| %>
+      <p class='govuk-body'>
+      <%= govuk_link_to t("#{export_type}.label") + " #{size.to_s(:human_size)}", publications_monthly_report_download_path(export_type: export_type, date: '2021-11') %>
+       </p>
+    <% end %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l govuk-!-padding-top-4" id="footnotes">13. Footnotes</h2>
 
     <p class="govuk-body">The Apply for teacher training service is the sole service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
