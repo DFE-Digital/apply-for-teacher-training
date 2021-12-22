@@ -16,6 +16,7 @@ module VendorAPI
       Changes::AAndAsLevelGrades,
       Changes::GenerateTestData,
       Changes::ClearTestData,
+      Changes::RegenerateTestData,
       Changes::PingEndpoint,
     ],
   }.freeze
