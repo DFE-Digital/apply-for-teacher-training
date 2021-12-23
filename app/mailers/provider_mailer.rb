@@ -190,7 +190,7 @@ class ProviderMailer < ApplicationMailer
 
     provider_notify_email(
       to: @provider_user.email_address,
-      subject: I18n.t!('provider_mailer.apply_service_is_now_open.subject'),
+      subject: I18n.t!('provider_mailer.apply_service_is_now_open.subject', time_period: CycleTimetable.cycle_year_range),
     )
   end
 
@@ -199,7 +199,7 @@ class ProviderMailer < ApplicationMailer
 
     provider_notify_email(
       to: @provider_user.email_address,
-      subject: I18n.t!('provider_mailer.find_service_is_now_open.subject'),
+      subject: I18n.t!('provider_mailer.find_service_is_now_open.subject', time_period: CycleTimetable.cycle_year_range),
     )
   end
 
