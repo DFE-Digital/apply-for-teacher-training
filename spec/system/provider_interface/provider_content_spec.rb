@@ -6,8 +6,6 @@ RSpec.feature 'Provider content' do
     when_i_click_on_accessibility
     then_i_can_see_the_accessibility_statement
 
-    when_i_click_on_complaints
-    then_i_can_see_the_complaints_page
     and_i_can_see_the_cookie_banner
 
     when_i_click_on_the_cookies_page
@@ -64,15 +62,6 @@ RSpec.feature 'Provider content' do
     choose 'Yes'
     click_on 'Save cookie settings'
     expect(page).to have_content('Your cookie preferences have been updated')
-  end
-
-  def when_i_click_on_complaints
-    within('.govuk-footer') { click_link t('layout.support_links.provider_complaints') }
-  end
-
-  def then_i_can_see_the_complaints_page
-    expect(page).to have_content(t('page_titles.provider_complaints'))
-    expect(page).to have_content('Make a complaint about this service')
   end
 
   def when_i_click_on_privacy
