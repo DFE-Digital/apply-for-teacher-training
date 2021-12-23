@@ -55,7 +55,7 @@ module ProviderInterface
 
       provider_user.update!(last_signed_in_at: Time.zone.now)
 
-      redirect_to provider_interface_applications_path
+      redirect_to session['post_dfe_sign_in_path'] || provider_interface_applications_path
     end
 
   private

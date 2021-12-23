@@ -7,26 +7,27 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     FeatureFlag.activate('dfe_sign_in_fallback')
 
     given_i_am_registered_as_a_provider_user_without_a_dsi_uid
-    when_i_visit_the_provider_interface_applications_path
+    when_i_visit_the_interviews_schedule_path
     then_i_am_redirected_to_the_provider_sign_in_path
 
     when_i_provide_my_email_address
     then_i_do_not_receive_an_email_with_a_signin_link
 
     when_i_get_a_dsi_uid
-    when_i_visit_the_provider_interface_applications_path
+    when_i_visit_the_interviews_schedule_path
     then_i_am_redirected_to_the_provider_sign_in_path
 
     when_i_provide_my_email_address
     then_i_receive_an_email_with_a_signin_link
-    when_i_click_on_the_link_in_my_email
+    when_i_visit_the_link_in_my_email
     then_i_am_signed_in
+    and_i_am_on_the_interviews_schedule_page
 
     when_i_sign_out
     then_i_am_not_signed_in
 
     given_the_feature_flag_is_switched_off
-    when_i_click_on_the_link_in_my_email
+    when_i_visit_the_link_in_my_email
     then_i_am_not_signed_in
   end
 
@@ -41,6 +42,14 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def when_i_visit_the_provider_interface_applications_path
     visit provider_interface_applications_path(some_key: 'some_value')
+  end
+
+  def when_i_visit_the_interviews_schedule_path
+    visit provider_interface_interview_schedule_path
+  end
+
+  def and_i_am_on_the_interviews_schedule_page
+    expect(page).to have_current_path(provider_interface_interview_schedule_path)
   end
 
   def then_i_am_redirected_to_the_provider_sign_in_path
@@ -62,8 +71,9 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
   end
 
-  def when_i_click_on_the_link_in_my_email
-    current_email.find_css('a').first.click
+  def when_i_visit_the_link_in_my_email
+    uri = URI(current_email.find_css('a').first.text)
+    visit "#{uri.path}?#{uri.query}"
   end
 
   def then_i_am_signed_in
