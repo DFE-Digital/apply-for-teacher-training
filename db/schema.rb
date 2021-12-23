@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_17_220532) do
+ActiveRecord::Schema.define(version: 2021_12_23_135424) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -319,6 +319,7 @@ ActiveRecord::Schema.define(version: 2021_11_17_220532) do
     t.datetime "candidate_api_updated_at"
     t.bigint "fraud_match_id"
     t.boolean "unsubscribed_from_emails", default: false
+    t.boolean "submission_blocked", default: false, null: false
     t.index ["email_address"], name: "index_candidates_on_email_address", unique: true
     t.index ["fraud_match_id"], name: "index_candidates_on_fraud_match_id"
     t.index ["magic_link_token"], name: "index_candidates_on_magic_link_token", unique: true
