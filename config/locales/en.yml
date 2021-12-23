@@ -87,7 +87,6 @@ en:
     cookies_candidate: Cookies
     cookies_provider: Cookies
     roadmap: Apply for teacher training roadmap
-    provider_complaints: Complaints
     candidate_complaints: Make a complaint or give feedback
     contact_information: Contact information
     contact_details: Contact details
@@ -278,7 +277,6 @@ en:
       title: Support links
       accessibility: Accessibility
       cookies: Cookies
-      provider_complaints: Make a complaint about this service
       candidate_complaints: Make a complaint or give feedback
       terms_of_use: Terms of use
       privacy_policy: Privacy policy
