@@ -12,7 +12,6 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
-    and_the_feature_flag_is_active
     and_i_go_to_duplicate_candidate_matches_page
     then_i_should_see_a_message_declaring_that_there_are_no_matches
 
@@ -52,10 +51,6 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
-  end
-
-  def and_the_feature_flag_is_active
-    FeatureFlag.activate(:block_fraudulent_submission)
   end
 
   def then_i_should_see_a_message_declaring_that_there_are_no_matches

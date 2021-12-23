@@ -5,7 +5,6 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
   let(:fraud_match2) { create(:fraud_match, fraudulent: true) }
 
   before do
-    FeatureFlag.activate(:block_fraudulent_submission)
     Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
       fraud_match2.update!(candidate_last_contacted_at: Time.zone.now)
       create(:application_form, candidate: fraud_match1.candidates.first, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
