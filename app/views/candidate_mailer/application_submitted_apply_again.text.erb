@@ -1,11 +1,11 @@
-Dear <%= @application_form.first_name %>,
+Dear <%= @application_form.first_name %>
 
-You’ve submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
-
-Your application reference is <%= @application_form.support_reference %>.
+You have submitted an application for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.course.provider.name %>.
 
 Sign in to your account to check the progress of your application:
 
 <%= candidate_magic_link(@application_form.candidate) %>
 
 If your training provider decides to progress your application, they’ll contact you to organise an interview.
+
+They have until <%= @reject_by_default_date %> to make a decision on your application.

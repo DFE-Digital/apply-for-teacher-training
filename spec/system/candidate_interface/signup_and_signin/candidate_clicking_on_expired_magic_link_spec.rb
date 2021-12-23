@@ -26,6 +26,7 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
   def and_i_am_a_candidate_with_an_application
     @candidate = create(:candidate)
     @application_form = create(:application_form, candidate: @candidate)
+    create(:application_choice, application_form: @application_form, reject_by_default_at: 5.days.from_now)
   end
 
   def and_i_received_the_submitted_application_email
