@@ -125,7 +125,7 @@ module SupportInterface
 
     def vendor_api_row
       if visible_over_vendor_api?
-        application_json = AllowedCrossNamespaceUsage::VendorAPIApplicationPresenter.new(application_choice).as_json
+        application_json = AllowedCrossNamespaceUsage::VendorAPIApplicationPresenter.new(AllowedCrossNamespaceUsage::VENDOR_API_VERSION, application_choice).as_json
         {
           key: 'Vendor API',
           value: govuk_details(summary_text: 'See this application as it appears over the Vendor API') do

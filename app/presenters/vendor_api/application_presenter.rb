@@ -1,7 +1,5 @@
 module VendorAPI
-  class ApplicationPresenter
-    include Rails.application.routes.url_helpers
-
+  class ApplicationPresenter < Base
     include CandidateAPIData
     include QualificationAPIData
     include ContactDetailsAPIData
@@ -16,7 +14,8 @@ module VendorAPI
 
     attr_reader :application_choice
 
-    def initialize(application_choice)
+    def initialize(version, application_choice)
+      super(version)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
     end
 
