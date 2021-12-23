@@ -69,6 +69,18 @@ RSpec.describe SaveProviderUser do
       end
     end
 
+    context 'when permissions are updated' do
+      let(:mailer_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
+
+      it 'sends a permissions updated email' do
+        allow(ProviderMailer).to receive(:permissions_updated).and_return(mailer_delivery)
+
+        service.call!
+
+        expect(ProviderMailer).to have_received(:permissions_updated)
+      end
+    end
+
     it 'adds the notification preferences record to a ProviderUser' do
       expect { service.call! }.to change(ProviderUserNotificationPreferences, :count).by(1)
     end
