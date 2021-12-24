@@ -52,9 +52,9 @@ class FeatureFlag
     :send_request_data_to_bigquery,
   ].freeze
 
-  FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map do |name, description, owner|
+  FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).to_h do |name, description, owner|
     [name, FeatureFlag.new(name: name, description: description, owner: owner)]
-  end.to_h.with_indifferent_access.freeze
+  end.with_indifferent_access.freeze
 
   def self.activate(feature_name)
     raise unless feature_name.in?(FEATURES)
