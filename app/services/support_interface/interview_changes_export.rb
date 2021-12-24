@@ -7,7 +7,7 @@ module SupportInterface
         row_for_audit(audit)
       end
 
-      rows.reject(&:nil?)
+      rows.compact_blank
     end
 
     def row_for_audit(audit)

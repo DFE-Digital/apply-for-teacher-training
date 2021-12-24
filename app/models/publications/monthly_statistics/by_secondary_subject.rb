@@ -71,7 +71,7 @@ module Publications
       def formatted_group_query
         application_choices_with_subjects.reduce({}) do |subject_counts, choice|
           status = choice.status
-          subject_names_and_codes = choice.current_course.subjects.map { |s| [s.name, s.code] }.to_h
+          subject_names_and_codes = choice.current_course.subjects.to_h { |s| [s.name, s.code] }
           dominant_subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.current_course.name,
                                                                                             choice.current_course.level,
                                                                                             subject_names_and_codes)

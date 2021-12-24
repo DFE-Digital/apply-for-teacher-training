@@ -47,7 +47,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       application_choice = build(:application_choice)
       form = described_class.build_from_params(
         application_choice,
-        'further_conditions' => (0..19).map { |id| [id.to_s, { 'text' => "further condition #{id}" }] }.to_h,
+        'further_conditions' => (0..19).to_h { |id| [id.to_s, { 'text' => "further condition #{id}" }] },
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).to be_valid
@@ -58,7 +58,7 @@ RSpec.describe SupportInterface::ConditionsForm do
       form = described_class.build_from_params(
         application_choice,
         'standard_conditions' => ['Fitness to train to teach check'],
-        'further_conditions' => (0..19).map { |id| [id.to_s, { 'text' => "further condition #{id}" }] }.to_h,
+        'further_conditions' => (0..19).to_h { |id| [id.to_s, { 'text' => "further condition #{id}" }] },
         'audit_comment_ticket' => 'https://becomingateacher.zendesk.com/agent/tickets/12345',
       )
       expect(form).not_to be_valid

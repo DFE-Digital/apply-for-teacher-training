@@ -51,7 +51,7 @@ private
     honesty_and_professionalism_concerns: :honesty_and_professionalism_y_n,
     safeguarding_concerns: :safeguarding_y_n,
   }.with_indifferent_access
-  TOP_LEVEL_REASONS_TO_SUB_REASONS = SUBREASONS_TO_TOP_LEVEL_REASONS.map { |k, v| [v, k] }.to_h
+  TOP_LEVEL_REASONS_TO_SUB_REASONS = SUBREASONS_TO_TOP_LEVEL_REASONS.to_h { |k, v| [v, k] }
 
   SUBREASON_VALUES = {
     qualifications_y_n: %i[no_maths_gcse no_english_gcse no_science_gcse no_degree other],

@@ -70,7 +70,7 @@ module Publications
 
       def combined_application_choice_states_tally(phase)
         if @by_candidate
-          ActiveRecord::Base.connection.execute(candidate_query_by_status(phase)).to_a.map { |h| [h['status'], h['count']] }.to_h
+          ActiveRecord::Base.connection.execute(candidate_query_by_status(phase)).to_a.to_h { |h| [h['status'], h['count']] }
         else
           application_choices.where('application_forms.phase' => phase).group(:status).count
         end

@@ -282,7 +282,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def nationalities
-    [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].reject(&:nil?)
+    [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].compact
   end
 
   def full_address
