@@ -71,14 +71,14 @@ module ProviderInterface
           year_str = year.to_s
           {
             value: year_str,
-            label: RecruitmentCycle::CYCLES[year_str],
+            label: RecruitmentCycle.cycle_string(year_str),
             checked: applied_filters[:recruitment_cycle_year]&.include?(year_str),
           }
         end
 
       {
         type: :checkboxes,
-        heading: 'Year received',
+        heading: 'Recruitment cycle',
         name: 'recruitment_cycle_year',
         options: cycle_options,
       }

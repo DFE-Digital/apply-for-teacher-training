@@ -31,7 +31,7 @@ module ProviderInterface
 
     def recruitment_cycle_year
       {
-        key: 'Year received',
+        key: 'Recruitment cycle',
         value: recruitment_cycle_year_name,
       }
     end
@@ -44,7 +44,7 @@ module ProviderInterface
     end
 
     def recruitment_cycle_year_name
-      RecruitmentCycle::CYCLES.fetch(application_form.recruitment_cycle_year.to_s)
+      RecruitmentCycle.cycle_string(application_form.recruitment_cycle_year)
     end
 
     attr_reader :application_form

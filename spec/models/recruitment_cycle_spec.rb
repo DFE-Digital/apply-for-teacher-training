@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe RecruitmentCycle do
+  describe '.cycle_string' do
+    it 'throws an error when a cycle does not exist for the specified year' do
+      expect { described_class.cycle_string(2000) }
+        .to raise_error(KeyError)
+    end
+
+    it 'formats the displayed cycle string' do
+      expect(described_class.cycle_string(described_class.previous_year))
+        .to eq("#{described_class.previous_year - 1} to #{described_class.previous_year}")
+    end
+
+    it 'indicates the current cycle' do
+      expect(described_class.cycle_string(described_class.current_year))
+        .to eq("#{described_class.previous_year} to #{described_class.current_year} - current")
+    end
+  end
+
   describe '.current_year' do
     it 'delegates to CycleTimetable' do
       allow(CycleTimetable).to receive(:current_year)
