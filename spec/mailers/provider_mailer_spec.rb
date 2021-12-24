@@ -51,7 +51,10 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
                       'reject by default days' => 'within 123 working days',
-                      'feedback_text' => 'You need to tell Harry Potter why their application was unsuccessful')
+                      'feedback_text' => 'Tell Harry Potter why their application was unsuccessful:',
+                      'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
+                      'notification settings' => 'You can change your email notification settings',
+                      'footer' => 'Get help, report a problem or give feedback')
     end
 
     context 'when the provider user cannot make decisions' do
