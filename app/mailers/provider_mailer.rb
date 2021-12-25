@@ -2,7 +2,8 @@ class ProviderMailer < ApplicationMailer
   layout 'provider_email_with_footer', except: %i[fallback_sign_in_email]
   layout 'provider_email', only: %i[application_rejected_by_default application_submitted
                                     application_submitted_with_safeguarding_issues apply_service_is_now_open
-                                    chase_provider_decision confirm_sign_in declined declined_by_default]
+                                    chase_provider_decision confirm_sign_in declined declined_by_default
+                                    find_service_is_now_open]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
