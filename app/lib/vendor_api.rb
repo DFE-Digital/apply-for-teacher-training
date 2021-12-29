@@ -24,4 +24,12 @@ module VendorAPI
     '1.1' => [],
     '1.2' => [],
   }.freeze
+
+  def self.draft_version
+    @draft_version ||= VERSIONS.keys.sort.find { |version| version > VERSION }
+  end
+
+  def self.previous_version(current_version)
+    @previous_version ||= VERSIONS.keys.sort.reverse.find { |version| version < current_version }
+  end
 end
