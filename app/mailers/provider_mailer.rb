@@ -243,6 +243,7 @@ private
     Struct.new(
       :candidate_name,
       :course_name_and_code,
+      :course_name,
       :submitted_at,
       :application_choice_id,
       :application_choice,
@@ -252,10 +253,11 @@ private
     ).new(
       application_choice.application_form.full_name,
       application_choice.current_course_option.course.name_and_code,
+      application_choice.current_course_option.course.name,
       application_choice.application_form.submitted_at.to_s(:govuk_date).strip,
       application_choice.id,
       application_choice,
-      application_choice.reject_by_default_at,
+      application_choice.reject_by_default_at.to_s(:govuk_date),
       application_choice.reject_by_default_days,
       application_choice.application_form.support_reference,
     )
