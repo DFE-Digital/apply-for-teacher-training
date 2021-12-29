@@ -3,10 +3,10 @@ module APIDocs
     attr_reader :document, :version
     delegate :servers, to: :document
 
-    def initialize(spec, version: '1.0', highlight_yaml_file: nil)
+    def initialize(spec, version: '1.0')
       @document = Openapi3Parser.load(spec)
       @version = version
-      @highlight_yaml = highlight_yaml_file.present? ? YAML.load_file(highlight_yaml_file) : {}
+      @previous_version = VendorAPI.previous_version(@version)
     end
 
     def operations
@@ -43,7 +43,15 @@ module APIDocs
   private
 
     def new_path?(path)
-      @highlight_yaml['new_paths'].include?(path) unless @highlight_yaml.empty?
+      return false if spec_for_previous_version.blank?
+
+      spec_for_previous_version['paths'].keys.exclude?(path)
+    end
+
+    def spec_for_previous_version
+      return if @previous_version.blank?
+
+      @spec_for_previous_version ||= VendorAPISpecification.new(version: @previous_version).spec
     end
 
     def flatten_hash(hash)
