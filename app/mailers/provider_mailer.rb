@@ -3,7 +3,7 @@ class ProviderMailer < ApplicationMailer
   layout 'provider_email', only: %i[application_rejected_by_default application_submitted
                                     application_submitted_with_safeguarding_issues apply_service_is_now_open
                                     chase_provider_decision confirm_sign_in declined declined_by_default
-                                    find_service_is_now_open]
+                                    find_service_is_now_open offer_accepted]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
@@ -69,12 +69,12 @@ class ProviderMailer < ApplicationMailer
   end
 
   def offer_accepted(provider_user, application_choice)
-    @application_choice = application_choice
+    @application = map_application_choice_params(application_choice)
 
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.offer_accepted.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
+      subject: I18n.t!('provider_mailer.offer_accepted.subject', candidate_name: @application.candidate_name, course_name: @application.course_name),
     )
   end
 

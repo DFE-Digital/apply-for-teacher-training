@@ -4,7 +4,7 @@ en:
     confirm_sign_in:
       subject: Sign in from new device detected
     offer_accepted:
-      subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
+      subject: "%{candidate_name} accepted your offer for %{course_name}"
     unconditional_offer_accepted:
       subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
     decline_by_default:
