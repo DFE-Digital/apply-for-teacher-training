@@ -5,7 +5,7 @@ RSpec.describe 'GET /provider/applications' do
     before do
       allow(ProviderUser).to receive(:load_from_session)
         .and_return(
-          FactoryBot.build_stubbed(
+          build_stubbed(
             :provider_user,
             id: 12345,
             email_address: 'email@example.com',

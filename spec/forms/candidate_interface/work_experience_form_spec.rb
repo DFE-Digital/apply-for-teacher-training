@@ -74,7 +74,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     end
 
     it 'creates a new work experience if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       work_experience = described_class.new(form_data)
 
       saved_work_experience = work_experience.save(application_form)
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     end
 
     it 'updates an existing work experience if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       work_experience = described_class.new(form_data)
 
       saved_work_experience = work_experience.save(application_form)

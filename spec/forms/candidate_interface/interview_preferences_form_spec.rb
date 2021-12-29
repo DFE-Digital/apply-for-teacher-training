@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.build(:application_form)
+      application_form = build(:application_form)
       interview_preferences = described_class.new(form_data)
 
       expect(interview_preferences.save(application_form)).to eq(true)

@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe SendApplyAgainCallToAction do
   describe '#perform' do
     it 'sends a call to action email to the candidate with the unsuccessful application' do
-      successful_application_form = FactoryBot.create(:completed_application_form)
-      unsuccessful_application_form = FactoryBot.create(:completed_application_form)
-      FactoryBot.create(
+      successful_application_form = create(:completed_application_form)
+      unsuccessful_application_form = create(:completed_application_form)
+      create(
         :application_choice,
         status: :offer,
         application_form: successful_application_form,
       )
-      FactoryBot.create(
+      create(
         :application_choice,
         status: :rejected,
         application_form: unsuccessful_application_form,
@@ -22,8 +22,8 @@ RSpec.describe SendApplyAgainCallToAction do
     end
 
     it 'does not send a call to action email to a candidate that already received the email' do
-      unsuccessful_application_form = FactoryBot.create(:completed_application_form)
-      FactoryBot.create(
+      unsuccessful_application_form = create(:completed_application_form)
+      create(
         :application_choice,
         status: :rejected,
         application_form: unsuccessful_application_form,
@@ -41,8 +41,8 @@ RSpec.describe SendApplyAgainCallToAction do
     end
 
     it 'does not send a call to action email to a candidate that already started apply again' do
-      unsuccessful_application_form = FactoryBot.create(:completed_application_form)
-      FactoryBot.create(
+      unsuccessful_application_form = create(:completed_application_form)
+      create(
         :application_choice,
         status: :rejected,
         application_form: unsuccessful_application_form,

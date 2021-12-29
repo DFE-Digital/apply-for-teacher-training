@@ -24,7 +24,7 @@ RSpec.describe DataMigrations::FixLatLongFlipFlops, with_audited: true do
   end
 
   it 'deletes duplicated audits that set lat/long' do
-    provider = FactoryBot.create(:provider)
+    provider = create(:provider)
     expect(provider.audits.count).to eq 1
 
     provider.update(latitude: 1, longitude: 1)

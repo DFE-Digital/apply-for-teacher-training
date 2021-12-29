@@ -5,15 +5,15 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
   let(:provider_user) { create(:provider_user) }
   let(:provider) { create(:provider) }
   let!(:permissions) do
-    FactoryBot.create(:provider_permissions,
-                      provider: provider,
-                      provider_user: provider_user,
-                      manage_users: Faker::Boolean.boolean(true_ratio: 0.5),
-                      manage_organisations: Faker::Boolean.boolean(true_ratio: 0.5),
-                      set_up_interviews: Faker::Boolean.boolean(true_ratio: 0.5),
-                      make_decisions: Faker::Boolean.boolean(true_ratio: 0.5),
-                      view_safeguarding_information: Faker::Boolean.boolean(true_ratio: 0.5),
-                      view_diversity_information: Faker::Boolean.boolean(true_ratio: 0.5))
+    create(:provider_permissions,
+           provider: provider,
+           provider_user: provider_user,
+           manage_users: Faker::Boolean.boolean(true_ratio: 0.5),
+           manage_organisations: Faker::Boolean.boolean(true_ratio: 0.5),
+           set_up_interviews: Faker::Boolean.boolean(true_ratio: 0.5),
+           make_decisions: Faker::Boolean.boolean(true_ratio: 0.5),
+           view_safeguarding_information: Faker::Boolean.boolean(true_ratio: 0.5),
+           view_diversity_information: Faker::Boolean.boolean(true_ratio: 0.5))
   end
 
   let(:render) do
@@ -28,22 +28,22 @@ RSpec.describe ProviderInterface::UserPermissionSummaryComponent, type: :control
 
     before do
       allowed_providers.each do |training_provider|
-        FactoryBot.create(:provider_relationship_permissions,
-                          training_provider: training_provider,
-                          ratifying_provider: provider,
-                          training_provider_can_make_decisions: true,
-                          training_provider_can_view_safeguarding_information: true,
-                          training_provider_can_view_diversity_information: true)
+        create(:provider_relationship_permissions,
+               training_provider: training_provider,
+               ratifying_provider: provider,
+               training_provider_can_make_decisions: true,
+               training_provider_can_view_safeguarding_information: true,
+               training_provider_can_view_diversity_information: true)
       end
 
       prohibited_providers.each do |training_provider|
-        FactoryBot.create(:provider_relationship_permissions,
-                          training_provider: training_provider,
-                          ratifying_provider: provider,
-                          training_provider_can_make_decisions: false,
-                          training_provider_can_view_safeguarding_information: false,
-                          training_provider_can_view_diversity_information: false,
-                          setup_at: nil)
+        create(:provider_relationship_permissions,
+               training_provider: training_provider,
+               ratifying_provider: provider,
+               training_provider_can_make_decisions: false,
+               training_provider_can_view_safeguarding_information: false,
+               training_provider_can_view_diversity_information: false,
+               setup_at: nil)
       end
 
       create(:course, :open_on_apply, provider: allowed_providers.first, accredited_provider: provider)
