@@ -156,9 +156,8 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_the_fraud_match_should_be_set_as_blocked
-    blocked_candidate = FraudMatch.first
-    expect(blocked_candidate.blocked).to eq true
-    expect(blocked_candidate.fraudulent).to eq true
+    fraud_match = FraudMatch.first
+    expect(fraud_match.candidates.map(&:submission_blocked)).to all(be true)
   end
 
   def when_i_unblock_the_candidate
@@ -172,9 +171,8 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_the_fraud_match_should_be_set_as_unblocked
-    unblocked_candidate = FraudMatch.first
-    expect(unblocked_candidate.blocked).to eq false
-    expect(unblocked_candidate.fraudulent).to eq false
+    fraud_match = FraudMatch.first
+    expect(fraud_match.candidates.map(&:submission_blocked)).to all(be false)
   end
 
   def when_i_click_to_send_a_fraud_match_email_to_the_candidate
