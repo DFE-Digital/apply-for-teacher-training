@@ -15,7 +15,7 @@ RSpec.feature 'Sync provider', sidekiq: true do
   end
 
   def given_there_are_2_providers_in_the_teacher_training_api
-    @updated_since = Time.zone.now - 2.hours
+    @updated_since = 2.hours.ago
     stub_teacher_training_api_providers(
       specified_attributes: [
         {

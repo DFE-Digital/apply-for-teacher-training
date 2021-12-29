@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe '#update' do
   it 'updates the application_choices when the form is updated' do
-    original_time = Time.zone.now - 1.day
+    original_time = 1.day.ago
     application_form = create(:application_form)
     application_choices = create_list(
       :application_choice,

@@ -35,7 +35,7 @@ RSpec.feature 'Register receives an application data' do
     api_token = ServiceAPIUser.register_user.create_magic_link_token!
     page.driver.header 'Authorization', "Bearer #{api_token}"
 
-    visit "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}&since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    visit "/register-api/applications?recruitment_cycle_year=#{RecruitmentCycle.current_year}&since=#{CGI.escape(1.day.ago.iso8601)}"
 
     @api_response = JSON.parse(page.body)
   end

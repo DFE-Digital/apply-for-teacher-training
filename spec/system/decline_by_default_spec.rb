@@ -33,7 +33,7 @@ RSpec.feature 'Decline by default' do
 
   def when_i_have_an_offer_waiting_for_my_decision
     @application_form = create(:completed_application_form, first_name: 'Harry', last_name: 'Potter')
-    @application_choice = create(:application_choice, status: :offer, application_form: @application_form, sent_to_provider_at: Time.zone.now, decline_by_default_at: Time.zone.now + 10.days)
+    @application_choice = create(:application_choice, status: :offer, application_form: @application_form, sent_to_provider_at: Time.zone.now, decline_by_default_at: 10.days.from_now)
 
     @provider_user = create(:provider_user, :with_notifications_enabled, providers: [@application_choice.provider])
   end

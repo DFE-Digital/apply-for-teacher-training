@@ -74,7 +74,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncAllProvidersAndCourses, sidekiq: tr
     context 'incremental sync' do
       let(:recruitment_cycle_year) { RecruitmentCycle.current_year }
       let(:sync_provider) { instance_double(TeacherTrainingPublicAPI::SyncProvider) }
-      let(:updated_since) { Time.zone.now - 2.hours }
+      let(:updated_since) { 2.hours.ago }
 
       before do
         allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(updated_since)

@@ -18,7 +18,7 @@ module TeacherTrainingPublicAPI
       if last_sync.present?
         Time.zone.parse(last_sync) - 2.hours
       else
-        Time.zone.now - 2.hours
+        2.hours.ago
       end
     end
 
@@ -26,7 +26,7 @@ module TeacherTrainingPublicAPI
       if last_sync.nil?
         false
       else
-        Time.zone.parse(last_sync) >= (Time.zone.now - 1.hour)
+        Time.zone.parse(last_sync) >= 1.hour.ago
       end
     end
   end

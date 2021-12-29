@@ -696,7 +696,7 @@ RSpec.describe ApplicationForm do
     context 'application has been submitted' do
       it 'returns false' do
         Timecop.travel(CycleTimetable.apply_opens + 1.week) do
-          application_form = build(:application_form, submitted_at: Time.zone.now - 1.day)
+          application_form = build(:application_form, submitted_at: 1.day.ago)
 
           expect(application_form.not_submitted_and_deadline_has_passed?).to be(false)
         end

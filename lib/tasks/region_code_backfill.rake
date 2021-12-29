@@ -7,7 +7,7 @@ desc 'Generate mappings'
 task region_code_backfill: :environment do
   raise '`region_from_postcode` feature flag must be enabled to run this task' unless FeatureFlag.active?(:region_from_postcode)
 
-  next_batch_time = Time.zone.now + 1.minute
+  next_batch_time = 1.minute.from_now
   ApplicationForm
     .where(region_code: nil)
     .where.not(postcode: nil)

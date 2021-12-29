@@ -26,7 +26,7 @@ RSpec.describe ProcessState do
     it 'returns unsubmitted_not_started_form when unsubmitted choices exist but form has been updated' do
       application_form = build_stubbed(:application_form,
                                        application_choices: build_list(:application_choice, 2, status: 'unsubmitted'),
-                                       updated_at: Time.zone.now + 1.day)
+                                       updated_at: 1.day.from_now)
       state = described_class.new(application_form).state
 
       expect(state).to be(:unsubmitted_in_progress)

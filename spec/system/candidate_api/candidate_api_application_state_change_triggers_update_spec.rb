@@ -72,7 +72,7 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def when_i_sign_in
-    Timecop.freeze(Time.zone.now + 1.minute) do
+    Timecop.freeze(1.minute.from_now) do
       open_email(@email)
       click_magic_link_in_email
       confirm_sign_in
@@ -84,11 +84,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_my_sign_in_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 1.minute
+    expect(@candidate.candidate_api_updated_at).to eq 1.minute.from_now
   end
 
   def when_i_complete_a_field_on_my_application_form
-    Timecop.freeze(Time.zone.now + 10.minutes) do
+    Timecop.freeze(10.minutes.from_now) do
       candidate_completes_application_form(candidate: @candidate)
     end
   end
@@ -98,11 +98,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_my_first_update_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 10.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 10.minutes.from_now
   end
 
   def when_i_submit_my_application
-    Timecop.freeze(Time.zone.now + 20.minutes) do
+    Timecop.freeze(20.minutes.from_now) do
       candidate_submits_application
     end
   end
@@ -112,11 +112,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_my_submission_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 20.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 20.minutes.from_now
   end
 
   def when_i_receive_a_rejection
-    Timecop.freeze(Time.zone.now + 30.minutes) do
+    Timecop.freeze(30.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).reject!
     end
   end
@@ -126,11 +126,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_the_rejection_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 30.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 30.minutes.from_now
   end
 
   def when_i_receive_an_offer_with_conditions
-    Timecop.freeze(Time.zone.now + 40.minutes) do
+    Timecop.freeze(40.minutes.from_now) do
       @candidate.application_choices.first.update!(status: 'awaiting_provider_decision', offer: create(:offer))
       ApplicationStateChange.new(@candidate.application_choices.first).make_offer!
     end
@@ -141,11 +141,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_the_offer_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 40.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 40.minutes.from_now
   end
 
   def when_i_accept_my_offer
-    Timecop.freeze(Time.zone.now + 50.minutes) do
+    Timecop.freeze(50.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).accept!
     end
   end
@@ -155,11 +155,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_my_acceptance_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 50.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 50.minutes.from_now
   end
 
   def when_i_meet_my_conditions
-    Timecop.freeze(Time.zone.now + 60.minutes) do
+    Timecop.freeze(60.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).confirm_conditions_met!
     end
   end
@@ -169,11 +169,11 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_me_being_recruited_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 60.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 60.minutes.from_now
   end
 
   def when_i_defer
-    Timecop.freeze(Time.zone.now + 70.minutes) do
+    Timecop.freeze(70.minutes.from_now) do
       ApplicationStateChange.new(@candidate.application_choices.first).defer_offer!
     end
   end
@@ -183,6 +183,6 @@ RSpec.feature 'Candidate API application status change' do
   end
 
   def and_the_deferal_updates_my_candidate_api_updated_at
-    expect(@candidate.candidate_api_updated_at).to eq Time.zone.now + 70.minutes
+    expect(@candidate.candidate_api_updated_at).to eq 70.minutes.from_now
   end
 end
