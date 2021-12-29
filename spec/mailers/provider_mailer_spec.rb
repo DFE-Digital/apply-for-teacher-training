@@ -98,14 +98,14 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it_behaves_like('a mail with subject and content',
-                    'Respond to Harry Potter’s (123A) application - manage teacher training applications',
+                    'Deadline approaching - Harry Potter’s application for Computer Science needs a decision - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
-                    'time to respond' => 'Only 20 working days left to respond',
-                    'submission date' => 5.days.ago.to_s(:govuk_date),
+                    'time to respond' => 'You only have 20 working days left to make a decision',
                     'reject by default at' => 20.business_days.from_now.to_s(:govuk_date),
-                    'link to the application' => 'http://localhost:3000/provider/applications/')
+                    'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
+                    'footer' => 'Get help, report a problem or give feedback')
   end
 
   describe '.offer_accepted' do
