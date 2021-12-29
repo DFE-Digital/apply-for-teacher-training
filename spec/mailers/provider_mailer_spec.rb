@@ -202,10 +202,13 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.declined(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) declined an offer - manage teacher training applications',
+                    'Harry Potter declined your offer - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)')
+                    'course name and code' => 'Computer Science (6IND)',
+                    'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
+                    'notification settings' => 'You can change your email notification settings',
+                    'footer' => 'Get help, report a problem or give feedback')
   end
 
   describe 'organisation_permissions_set_up' do

@@ -10,7 +10,7 @@ en:
     decline_by_default:
       subject: "%{candidate_name}’s (%{support_reference}) application withdrawn automatically"
     declined:
-      subject: "%{candidate_name} (%{support_reference}) declined an offer"
+      subject: "%{candidate_name} declined your offer"
     application_submitted:
       subject: '%{candidate_name} submitted an application for %{course_name}'
     application_submitted_with_safeguarding_issues:

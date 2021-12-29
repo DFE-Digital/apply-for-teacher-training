@@ -1,8 +1,9 @@
-<% content_for :additional_footer_content do %><%= render 'unsubscribe' %><% end %>
-Dear <%= @provider_user.full_name || 'colleague' %>
+Dear <%= @provider_user.full_name %>
 
-# Offer declined
+<%= @application.candidate_name %> declined your offer for <%= @application.course_name_and_code %>.
 
-<%= @application_choice.application_form.full_name %> has declined your offer to study <%= @application_choice.current_course_option.course.name_and_code %>.
+View the offer:
 
-<%= provider_interface_application_choice_url(@application_choice) %>
+<%= provider_interface_application_choice_offer_url(@application.application_choice) %>
+
+<% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>
