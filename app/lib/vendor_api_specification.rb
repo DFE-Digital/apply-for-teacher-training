@@ -1,13 +1,10 @@
 class VendorAPISpecification
   include VersioningHelpers
 
-  CURRENT_VERSION = '1.0'.freeze
-  DRAFT_VERSION = '1.2'.freeze
-
   YAML_FILE_PATH = 'config/vendor_api'.freeze
 
   def initialize(version: nil)
-    @version = version || CURRENT_VERSION
+    @version = version || VendorAPI::VERSION
   end
 
   def as_yaml
