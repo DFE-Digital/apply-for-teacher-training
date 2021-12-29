@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       becoming_a_teacher = described_class.new(form_data)
 
       expect(becoming_a_teacher.save(application_form)).to eq(true)

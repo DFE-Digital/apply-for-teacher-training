@@ -394,7 +394,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     let(:application_choices) { [application_choice] }
 
     context 'an unconditional offer' do
-      let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: FactoryBot.build(:unconditional_offer)) }
+      let(:application_choice) { build_stubbed(:submitted_application_choice, :with_changed_offer, course_option: course_option, current_course_option: other_option, decline_by_default_at: 10.business_days.from_now, offer: build(:unconditional_offer)) }
 
       it_behaves_like(
         'a mail with subject and content',

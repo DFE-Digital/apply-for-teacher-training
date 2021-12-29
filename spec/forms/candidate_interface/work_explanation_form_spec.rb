@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::WorkExplanationForm, type: :model do
     end
 
     it 'creates a new work experience if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       work_explanation_form = described_class.new(form_data)
 
       work_explanation_form.save(application_form)

@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::SubjectKnowledgeForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       subject_knowledge = described_class.new(form_data)
 
       expect(subject_knowledge.save(application_form)).to eq(true)

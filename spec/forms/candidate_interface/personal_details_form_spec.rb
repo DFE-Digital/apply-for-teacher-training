@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       personal_details = described_class.new(form_data)
 
       expect(personal_details.save(application_form)).to eq(true)

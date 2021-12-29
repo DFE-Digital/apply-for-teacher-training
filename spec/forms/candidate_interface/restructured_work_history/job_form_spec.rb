@@ -91,7 +91,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     end
 
     it 'creates a new job if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       job = described_class.new(form_data)
 
       saved_job = job.save(application_form)
@@ -108,7 +108,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     end
 
     it 'updates an existing job if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       job = described_class.new(form_data)
       saved_job = job.save(application_form)
 

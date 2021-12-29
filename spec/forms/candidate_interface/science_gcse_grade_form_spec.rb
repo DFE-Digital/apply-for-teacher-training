@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
     context 'when qualification type is GCSE' do
       context 'single award' do
         let(:qualification) do
-          FactoryBot.build_stubbed(
+          build_stubbed(
             :application_qualification,
             subject: 'science single award',
             qualification_type: 'gcse',
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
       context 'double award' do
         let(:qualification) do
-          FactoryBot.build_stubbed(
+          build_stubbed(
             :application_qualification,
             subject: 'science double award',
             qualification_type: 'gcse',
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
       context 'triple award' do
         let(:qualification) do
-          FactoryBot.build_stubbed(
+          build_stubbed(
             :application_qualification,
             qualification_type: 'gcse',
             level: 'gcse',
@@ -171,7 +171,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
     end
 
     context 'when qualification type is GCE O LEVEL' do
-      let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse', subject: 'science') }
+      let(:qualification) { build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse', subject: 'science') }
       let(:form) { described_class.build_from_qualification(qualification) }
 
       it 'allows any value for the grade' do
@@ -189,10 +189,10 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
     context 'when qualification type is Scottish National 5' do
       let(:form) { described_class.build_from_qualification(qualification) }
       let(:qualification) do
-        FactoryBot.build_stubbed(:application_qualification,
-                                 qualification_type: 'scottish_national_5',
-                                 level: 'gcse',
-                                 subject: 'science')
+        build_stubbed(:application_qualification,
+                      qualification_type: 'scottish_national_5',
+                      level: 'gcse',
+                      subject: 'science')
       end
 
       it 'returns no errors if grade is valid' do

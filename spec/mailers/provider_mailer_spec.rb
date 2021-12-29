@@ -239,9 +239,9 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_granted' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:permissions_granted_by_user) { FactoryBot.create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:permissions_granted_by_user) { create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
     let(:permissions) { %i[make_decisions view_safeguarding_information view_diversity_information] }
 
     let(:email) do
@@ -260,8 +260,8 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_granted_by_support' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
     let(:permissions) { %i[make_decisions view_diversity_information] }
 
     let(:email) do
@@ -279,9 +279,9 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_updated' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:permissions_updated_by_user) { FactoryBot.create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:permissions_updated_by_user) { create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
     let(:permissions) { %i[view_safeguarding_information view_diversity_information] }
 
     let(:email) do
@@ -299,9 +299,9 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_updated with all permissions removed' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:permissions_updated_by_user) { FactoryBot.create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:permissions_updated_by_user) { create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
     let(:permissions) { %i[] }
 
     let(:email) do
@@ -318,8 +318,8 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_updated_by_support' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
     let(:permissions) { %i[make_decisions view_safeguarding_information] }
 
     let(:email) do
@@ -337,9 +337,9 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_removed' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:permissions_removed_by_user) { FactoryBot.create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:permissions_removed_by_user) { create(:provider_user, first_name: 'Jane', last_name: 'Doe') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
 
     let(:email) do
       described_class.permissions_removed(provider_user, provider, permissions_removed_by_user)
@@ -354,8 +354,8 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'permissions_removed_by_support' do
-    let(:provider) { FactoryBot.create(:provider, name: 'Hogwards University') }
-    let(:provider_user) { FactoryBot.create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
+    let(:provider) { create(:provider, name: 'Hogwards University') }
+    let(:provider_user) { create(:provider_user, first_name: 'Princess', last_name: 'Fiona', providers: [provider]) }
 
     let(:email) do
       described_class.permissions_removed(provider_user, provider, nil)

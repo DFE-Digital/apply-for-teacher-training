@@ -9,12 +9,12 @@ RSpec.describe SupportInterface::ApplicationCommentForm, type: :model, with_audi
 
   describe '#save' do
     it 'returns false if not valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       expect(described_class.new.save(application_form)).to be false
     end
 
     it 'updates the provided ApplicationForm audit trail with the new comment if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = create(:application_form)
       expect(described_class.new(form_data).save(application_form)).to be true
       expect(application_form.reload.audits.last.comment).to eq form_data[:comment]
     end
