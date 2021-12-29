@@ -21,5 +21,7 @@ module VendorAPI
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
     ],
+    '1.1' => [],
+    '1.2' => [],
   }.freeze
 end
