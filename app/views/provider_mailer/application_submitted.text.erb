@@ -1,14 +1,11 @@
-<% content_for :additional_footer_content do %><%= render 'unsubscribe' %><% end %>
-Dear <%= @provider_user_name || 'colleague' %>
+Dear <%= @provider_user_name %>
 
-# Application submitted
+<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %>.
 
-<%= @application.candidate_name %> has submitted an application for <%= @application.course_name_and_code %>.
+The application will be automatically rejected after <%= @application.rbd_days %> working days, on <%= @application.rbd_date %>.
 
-# Next steps
+View the application:
 
-Sign in to Manage teacher training applications to respond:
+<%= provider_interface_application_choice_url(@application.application_choice) %>
 
-<%= provider_interface_application_choice_url(application_choice_id: @application.application_choice_id) %>
-
-We’ll reject the application on your behalf after <%= @application.rbd_days %> working days.
+<% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>

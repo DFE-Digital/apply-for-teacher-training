@@ -1,6 +1,7 @@
 class ProviderMailer < ApplicationMailer
   layout 'provider_email_with_footer', except: %i[fallback_sign_in_email]
-  layout 'provider_email', only: %i[application_rejected_by_default]
+  layout 'provider_email', only: %i[application_rejected_by_default
+                                    application_submitted application_submitted_with_safeguarding_issues]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
@@ -24,11 +25,11 @@ class ProviderMailer < ApplicationMailer
   def application_submitted(provider_user, application_choice)
     @application = map_application_choice_params(application_choice)
 
-    email_for_provider(
-      provider_user,
-      application_choice.application_form,
-      subject: I18n.t!('provider_mailer.application_submitted.subject', course_name_and_code: @application.course_name_and_code),
-    )
+    email_for_provider(provider_user,
+                       application_choice.application_form,
+                       subject: I18n.t!('provider_mailer.application_submitted.subject',
+                                        candidate_name: @application.candidate_name,
+                                        course_name: @application.course_name))
   end
 
   def application_submitted_with_safeguarding_issues(provider_user, application_choice)
@@ -37,7 +38,9 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.application_submitted_with_safeguarding_issues.subject', course_name_and_code: @application.course_name_and_code),
+      subject: I18n.t!('provider_mailer.application_submitted_with_safeguarding_issues.subject',
+                       candidate_name: @application.candidate_name,
+                       course_name: @application.course_name),
     )
   end
 

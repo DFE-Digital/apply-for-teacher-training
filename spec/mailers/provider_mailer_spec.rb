@@ -29,16 +29,35 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
   end
 
-  describe 'Send application received email' do
+  describe 'Send application submitted email' do
     let(:email) { described_class.application_submitted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Application received for Computer Science (6IND) - manage teacher training applications',
+                    'Harry Potter submitted an application for Computer Science - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'reject by default days' => 'after 123 working days',
-                    'link to the application' => 'http://localhost:3000/provider/applications/')
+                    'reject by default date' => 40.days.from_now.to_s(:govuk_date),
+                    'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
+                    'notification settings' => 'You can change your email notification settings',
+                    'footer' => 'Get help, report a problem or give feedback')
+  end
+
+  describe 'Send application submitted with safeguarding issues email' do
+    let(:email) { described_class.application_submitted_with_safeguarding_issues(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
+                    'Safeguarding issues - Harry Potter submitted an application for Computer Science - manage teacher training applications',
+                    'provider name' => 'Dear Johny English',
+                    'candidate name' => 'Harry Potter',
+                    'course name and code' => 'Computer Science (6IND)',
+                    'safeguarding warning' => 'The application contains information about criminal convictions and professional misconduct.',
+                    'reject by default days' => 'after 123 working days',
+                    'reject by default date' => 40.days.from_now.to_s(:govuk_date),
+                    'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
+                    'notification settings' => 'You can change your email notification settings',
+                    'footer' => 'Get help, report a problem or give feedback')
   end
 
   describe 'Send application rejected by default email' do
