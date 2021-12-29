@@ -1136,7 +1136,7 @@ Rails.application.routes.draw do
     scope module: :vendor_api_docs, path: '/api-docs' do
       get '/' => 'pages#home', as: :home
       get '/usage-scenarios' => 'pages#usage', as: :usage
-      get '/reference' => redirect('/api-docs/v1.2/reference'), as: :reference
+      get '/reference' => redirect("/api-docs/v#{VendorAPI::VERSION}/reference"), as: :reference
       get '/:api_version/reference' => 'reference#reference', constraints: { api_version: /v[.0-9]+/ }, as: :versioned_reference
       get '/release-notes' => 'pages#release_notes', as: :release_notes
       get '/alpha-release-notes' => 'pages#alpha_release_notes'
