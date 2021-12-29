@@ -22,7 +22,7 @@ module APIDocs
       end
 
       def api_version
-        return VendorAPISpecification::CURRENT_VERSION unless params.key?(:api_version)
+        return VendorAPI::VERSION unless params.key?(:api_version)
 
         extract_version(params[:api_version])
       end
