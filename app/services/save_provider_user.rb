@@ -39,7 +39,12 @@ private
   def updated_existing_provider_permissions!
     existing_provider_permissions = provider_permissions & provider_user.provider_permissions
     existing_provider_permissions.each do |provider_permissions|
-      provider_permissions.save! if provider_permissions.changed?
+      next unless provider_permissions.changed?
+
+      provider_permissions.save!
+      ProviderMailer.permissions_updated(provider_user,
+                                         provider_permissions.provider,
+                                         extract_permission_keys(provider_permissions)).deliver_later
     end
   end
 

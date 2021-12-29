@@ -157,6 +157,24 @@ class ProviderMailer < ApplicationMailer
     provider_notify_email({ to: @provider_user.email_address }.merge!(email_attributes))
   end
 
+  def permissions_updated(provider_user, provider, permissions, permissions_updated_by = nil)
+    @provider_user = provider_user
+    @provider = provider
+    @permissions_updated_by = permissions_updated_by
+    @permissions = permissions
+
+    email_attributes = if @permissions_updated_by
+                         { subject: I18n.t!('provider_mailer.permissions_updated.subject',
+                                            permissions_updated_by_user: @permissions_updated_by.full_name,
+                                            organisation: @provider.name) }
+                       else
+                         { subject: I18n.t!('provider_mailer.permissions_updated_by_support.subject',
+                                            organisation: @provider.name) }
+                       end
+
+    provider_notify_email({ to: @provider_user.email_address }.merge!(email_attributes))
+  end
+
   def permissions_removed(provider_user, provider, permissions_removed_by = nil)
     @provider_user = provider_user
     @provider = provider
