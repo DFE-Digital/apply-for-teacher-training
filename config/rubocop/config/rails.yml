@@ -92,3 +92,17 @@ Rails/EnvironmentVariableAccess:
 
 Rails/WhereEquals:
   Enabled: true
+
+Rails/ReversibleMigration:
+  Exclude:
+    - 'db/migrate/20190723150542_change_date_of_birth_from_datetime_to_date.rb'
+    - 'db/migrate/20191002113859_convert_status_enum_to_string.rb'
+    - 'db/migrate/20191010134807_convert_application_choice_id_to_string.rb'
+    - 'db/migrate/20191017113254_alter_application_choices_to_reference_course_options.rb'
+    - 'db/migrate/20191022131332_create_id_on_application_choices.rb'
+    - 'db/migrate/20191121134801_change_default_for_open_on_apply.rb'
+    - 'db/migrate/20191223084849_change_indexes_for_provider_users.rb'
+    - 'db/migrate/20200623101243_change_structured_rejection_reasons_column_type.rb'
+    - 'db/migrate/20200903170404_drop_application_forms_recruitment_cycle_year_default.rb'
+    - 'db/migrate/20201111112518_change_application_choices_structured_rejection_reasons_column_type.rb'
+    - 'db/migrate/20210330105355_change_qualifications_hesa_codes_to_strings.rb'
