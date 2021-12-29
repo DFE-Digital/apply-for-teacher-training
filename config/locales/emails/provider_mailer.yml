@@ -40,6 +40,6 @@ en:
     permissions_removed_by_support:
       subject: "You've been removed from %{organisation}"
     apply_service_is_now_open:
-      subject: "Candidates can now apply for teacher training courses for %{time_period}"
+      subject: 'Candidates can now apply'
     find_service_is_now_open:
       subject: "Candidates can now find teacher training courses for %{time_period}"
