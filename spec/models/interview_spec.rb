@@ -4,8 +4,8 @@ RSpec.describe Interview, type: :model do
   subject(:interview) { described_class.new }
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:application_choice) }
-    it { is_expected.to validate_presence_of(:provider) }
+    it { is_expected.to belong_to(:application_choice) }
+    it { is_expected.to belong_to(:provider) }
     it { is_expected.to validate_presence_of(:date_and_time) }
   end
 
