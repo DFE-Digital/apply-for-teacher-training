@@ -6,7 +6,7 @@ module TeacherTrainingPublicAPI
 
     def full_address
       [street_address_1, street_address_2, city, county, postcode]
-        .reject(&:blank?)
+        .compact_blank
         .join(', ')
     end
 

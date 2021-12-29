@@ -57,9 +57,9 @@ module CandidateInterface
 
     def full_address
       if @contact_details_form.uk?
-        local_address.reject(&:blank?)
+        local_address.compact_blank
       else
-        local_address.concat([COUNTRIES_AND_TERRITORIES[@contact_details_form.country]]).reject(&:blank?)
+        local_address.concat([COUNTRIES_AND_TERRITORIES[@contact_details_form.country]]).compact_blank
       end
     end
 

@@ -258,7 +258,7 @@ module CandidateInterface
         @nationalities_form.other_nationality2,
         @nationalities_form.other_nationality3,
       ]
-      .reject(&:blank?)
+      .compact_blank
       .to_sentence
     end
 

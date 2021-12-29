@@ -293,7 +293,7 @@ class ApplicationForm < ApplicationRecord
         address_line3,
         address_line4,
         COUNTRIES_AND_TERRITORIES[country],
-      ].reject(&:blank?)
+      ].compact_blank
     else
       [
         address_line1,
@@ -301,7 +301,7 @@ class ApplicationForm < ApplicationRecord
         address_line3,
         address_line4,
         postcode,
-      ].reject(&:blank?)
+      ].compact_blank
     end
   end
 
