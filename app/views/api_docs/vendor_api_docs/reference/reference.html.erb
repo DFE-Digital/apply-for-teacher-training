@@ -1,6 +1,6 @@
 <h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.reference') %></h1>
 
-<%= render TabNavigationComponent.new(items: VendorAPI::VERSIONS.keys.map { |v| { name: v, url: api_docs_versioned_reference_path(api_version: "v#{v}") } }) %>
+<%= render TabNavigationComponent.new(items: api_docs_version_navigation_items) %>
 
 <h2 class="app-contents-list__title">Contents</h2>
 
