@@ -71,7 +71,7 @@ RSpec.feature 'Decline by default' do
   def and_the_provider_receives_an_email
     open_email(@provider_user.email_address)
 
-    expect(current_email.subject).to include("Harry Potter’s (#{@application_form.support_reference}) application withdrawn automatically")
+    expect(current_email.subject).to include("Harry Potter’s offer for #{@application_choice.current_course.name} was automatically declined")
   end
 
   def and_the_candidate_receives_a_decline_by_default_email
