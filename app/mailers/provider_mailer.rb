@@ -6,7 +6,7 @@ class ProviderMailer < ApplicationMailer
                                     find_service_is_now_open offer_accepted organisation_permissions_set_up
                                     organisation_permissions_updated permissions_granted permissions_removed
                                     set_up_organisation_permissions unconditional_offer_accepted permissions_updated
-                                    fallback_sign_in_email]
+                                    fallback_sign_in_email application_withdrawn]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
@@ -106,13 +106,13 @@ class ProviderMailer < ApplicationMailer
   end
 
   def application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews = 0)
-    @application_choice = application_choice
+    @application = map_application_choice_params(application_choice)
     @number_of_cancelled_interviews = number_of_cancelled_interviews
 
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.application_withdrawn.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
+      subject: I18n.t!('provider_mailer.application_withdrawn.subject', candidate_name: @application.candidate_name),
     )
   end
 

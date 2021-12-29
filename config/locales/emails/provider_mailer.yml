@@ -20,7 +20,7 @@ en:
     chase_provider_decision:
       subject: "Deadline approaching - %{candidate_name}’s application for %{course_name} needs a decision"
     application_withdrawn:
-      subject: "%{candidate_name} (%{support_reference}) withdrew their application"
+      subject: "%{candidate_name} withdrew their application"
     organisation_permissions_set_up:
       subject: "%{provider} set up organisation permissions"
     organisation_permissions_updated:
