@@ -2,7 +2,7 @@ en:
   provider_mailer:
     subject: "%{subject} - manage teacher training applications"
     confirm_sign_in:
-      subject: New sign in
+      subject: Sign in from new device detected
     offer_accepted:
       subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
     unconditional_offer_accepted:
