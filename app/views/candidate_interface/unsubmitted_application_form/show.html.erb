@@ -65,7 +65,7 @@
       <%= render 'task_list', application_form: @application_form_presenter.application_form, application_form_presenter: @application_form_presenter %>
     <% end %>
 
-    <% if @application_form_presenter.application_form.candidate&.fraud_match&.blocked %>
+    <% if @application_form_presenter.application_form.candidate&.submission_blocked? %>
       <p class='govuk-body'>We’ve noticed that you’ve started multiple applications.</p>
       <p class='govuk-body'>Submitting applications for more than 3 courses at a time is not allowed, as stated in our terms of use.</p>
       <p class='govuk-body'>We have halted this application and you will be unable to submit.</p>

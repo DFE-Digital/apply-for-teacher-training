@@ -171,8 +171,12 @@ module CandidateHelper
   def given_courses_exist
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1', provider_type: 'scitt')
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
-    course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1))
-    course2 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1))
+    course =
+      Course.find_by(code: '2XT2', provider: @provider) ||
+      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
+    course2 =
+      Course.find_by(code: '2397', provider: @provider) ||
+      create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
     create(:course_option, site: site, course: course)
     create(:course_option, site: site, course: course2)
   end
