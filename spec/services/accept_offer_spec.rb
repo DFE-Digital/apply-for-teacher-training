@@ -65,7 +65,7 @@ RSpec.describe AcceptOffer do
 
       emails_to_providers = ActionMailer::Base.deliveries.take(2) # email 3 goes to candidate
 
-      expect(emails_to_providers.map(&:subject)).to all(match(/has accepted your offer/))
+      expect(emails_to_providers.map(&:subject)).to all(match(/accepted your offer for #{course_option.course.name}/))
       expect(emails_to_providers.flat_map(&:to)).to match_array([training_provider_user.email_address, ratifying_provider_user.email_address])
     end
 

@@ -135,7 +135,7 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content 'Harry Potter (123A) has accepted your offer'
+    expect(current_email.subject).to have_content "Harry Potter accepted your offer for #{@application_choice.course.name}"
   end
 
   def and_the_candidate_has_received_an_email
