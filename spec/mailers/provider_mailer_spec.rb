@@ -288,12 +288,14 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Jane Doe has added you to Hogwards University - manage teacher training applications',
+      'Jane Doe added you to Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
-      'heading' => 'Jane Doe has added you to Hogwards University. You can now manage their teacher training applications.',
+      'heading' => 'Jane Doe added you to Hogwards University. You can now manage their applications.',
       'make decisions' => 'make offers and reject application',
       'view safeguarding' => 'view criminal convictions and professional misconduct',
       'view diversity' => 'view sex, disability and ethnicity information',
+      'dsi info' => 'If you do not have a DfE Sign-in account, you should have received an email with instructions from dfe.signin@education.gov.uk.',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
@@ -313,6 +315,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       'heading' => "You've been added to Hogwards University. You can now manage their teacher training applications.",
       'make decisions' => 'make offers and reject application',
       'view diversity' => 'view sex, disability and ethnicity information',
+      'dsi info' => 'If you do not have a DfE Sign-in account, you should have received an email with instructions from dfe.signin@education.gov.uk.',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
