@@ -17,8 +17,8 @@ en:
       subject: 'Safeguarding issues - %{candidate_name} submitted an application for %{course_name}'
     application_rejected_by_default:
       subject: "%{candidate_name}’s application was automatically rejected"
-    application_waiting_for_decision:
-      subject: "Respond to %{candidate_name}’s (%{support_reference}) application"
+    chase_provider_decision:
+      subject: "Deadline approaching - %{candidate_name}’s application for %{course_name} needs a decision"
     application_withdrawn:
       subject: "%{candidate_name} (%{support_reference}) withdrew their application"
     organisation_permissions_set_up:

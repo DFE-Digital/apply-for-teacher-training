@@ -1,11 +1,9 @@
-Dear <%= @provider_user_name || 'colleague' %>
+Dear <%= @provider_user_name %>
 
-# Only <%= @working_days_left %> working days left to respond
+You only have 20 working days left to make a decision about <%= @application.candidate_name %>’s application for <%= @application.course_name_and_code %>.
 
-<%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
+The application will be automatically rejected on <%= @application.rbd_date %>.
 
-Sign in to Manage teacher training applications to respond within <%= @working_days_left %> working days:
+View the application:
 
 <%= provider_interface_application_choice_url(@application.application_choice) %>
-
-If you do not respond to the application by <%= @application.rbd_date %>, we’ll reject it on your behalf.
