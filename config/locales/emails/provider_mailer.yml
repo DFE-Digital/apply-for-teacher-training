@@ -8,7 +8,7 @@ en:
     unconditional_offer_accepted:
       subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
     decline_by_default:
-      subject: "%{candidate_name}’s (%{support_reference}) application withdrawn automatically"
+      subject: "%{candidate_name}’s offer for %{course_name} was automatically declined"
     declined:
       subject: "%{candidate_name} declined your offer"
     application_submitted:
