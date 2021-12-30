@@ -89,7 +89,7 @@ RSpec.feature 'Candidate declines an offer' do
 
   def and_the_provider_receives_a_notification
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content 'Harry Potter (123A) declined an offer'
+    expect(current_email.subject).to have_content 'Harry Potter declined your offer'
   end
 
   def when_i_click_on_view_and_respond_to_my_last_offer_link
