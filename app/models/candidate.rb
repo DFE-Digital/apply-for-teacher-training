@@ -27,6 +27,10 @@ class Candidate < ApplicationRecord
     end
   end
 
+  # def active_for_authentication?
+  #   super && !account_locked?
+  # end
+
   def touch_application_choices_and_forms
     return unless application_choices.any?
 

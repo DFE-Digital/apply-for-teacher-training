@@ -65,6 +65,7 @@ en:
     not_found: Page not found
     monthly_statistics: Initial teacher training application statistics for courses starting in the %{academic_year_name} academic year
     forbidden: Access denied
+    account_locked: Account locked
     internal_server_error: Sorry, there’s a problem with the service
     unprocessable_entity: Sorry, there’s a problem with the service
     personal_details: Personal details

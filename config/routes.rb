@@ -585,6 +585,8 @@ Rails.application.routes.draw do
       end
     end
 
+    get '/account-locked', to: 'errors#account_locked'
+
     get '*path', to: 'errors#not_found'
   end
 
