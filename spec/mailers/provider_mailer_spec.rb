@@ -397,9 +397,11 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      'Candidates can now apply for teacher training courses for 2022 to 2023 - manage teacher training applications',
+      'Candidates can now apply - manage teacher training applications',
       'salutation' => 'Dear Johny English',
-      'main paragraph' => 'Candidates can now apply for teacher training courses on GOV.UK for the 2022 to 2023 recruitment cycle.',
+      'main paragraph' => 'The 2022 to 2023 recruitment cycle is open. Candidates can now apply to your courses.',
+      'link to applications' => 'http://localhost:3000/provider/applications',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
