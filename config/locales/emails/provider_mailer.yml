@@ -42,4 +42,4 @@ en:
     apply_service_is_now_open:
       subject: 'Candidates can now apply'
     find_service_is_now_open:
-      subject: "Candidates can now find teacher training courses for %{time_period}"
+      subject: "Candidates can now find courses"
