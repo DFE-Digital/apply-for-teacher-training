@@ -68,7 +68,7 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def then_i_receive_an_email_with_a_signin_link
     open_email(@email)
-    expect(current_email.subject).to have_content t('authentication.sign_in.email.subject')
+    expect(current_email.subject).to have_content 'Sign in - manage teacher training applications'
   end
 
   def when_i_visit_the_link_in_my_email

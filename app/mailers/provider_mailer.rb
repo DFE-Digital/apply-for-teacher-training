@@ -5,7 +5,8 @@ class ProviderMailer < ApplicationMailer
                                     chase_provider_decision confirm_sign_in declined declined_by_default
                                     find_service_is_now_open offer_accepted organisation_permissions_set_up
                                     organisation_permissions_updated permissions_granted permissions_removed
-                                    set_up_organisation_permissions unconditional_offer_accepted permissions_updated]
+                                    set_up_organisation_permissions unconditional_offer_accepted permissions_updated
+                                    fallback_sign_in_email]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
@@ -18,11 +19,12 @@ class ProviderMailer < ApplicationMailer
   end
 
   def fallback_sign_in_email(provider_user, token)
+    @provider_user = provider_user
     @token = token
 
     provider_notify_email(
       to: provider_user.email_address,
-      subject: t('authentication.sign_in.email.subject'),
+      subject: t('provider_mailer.fallback-sign_in.subject'),
     )
   end
 
