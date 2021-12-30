@@ -55,6 +55,6 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
       click_link 'Emails (Sandbox only)'
     end
 
-    expect(page).to have_content('has accepted your offer')
+    expect(page).to have_content("accepted your offer for #{@application_choice.current_course.name}")
   end
 end
