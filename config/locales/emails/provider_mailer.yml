@@ -24,7 +24,7 @@ en:
     organisation_permissions_set_up:
       subject: "%{provider} set up organisation permissions"
     organisation_permissions_updated:
-      subject: "%{provider} has changed organisation permissions for teacher training courses you work on with them"
+      subject: "%{provider} changed organisation permissions"
     set_up_organisation_permissions:
       subject: "Set up organisation permissions"
     permissions_granted:
