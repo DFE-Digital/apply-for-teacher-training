@@ -5,7 +5,7 @@ class ProviderMailer < ApplicationMailer
                                     chase_provider_decision confirm_sign_in declined declined_by_default
                                     find_service_is_now_open offer_accepted organisation_permissions_set_up
                                     organisation_permissions_updated permissions_granted permissions_removed
-                                    set_up_organisation_permissions unconditional_offer_accepted]
+                                    set_up_organisation_permissions unconditional_offer_accepted permissions_updated]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
