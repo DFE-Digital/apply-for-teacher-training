@@ -1,16 +1,11 @@
-<% content_for :additional_footer_content do %><%= render 'unsubscribe' %><% end %>
-Dear <%= @provider_user.full_name || 'colleague' %>
+Dear <%= @provider_user.full_name %>
 
-# Offer accepted
-
-<%= @application_choice.application_form.full_name %> has accepted your offer to study <%= @application_choice.current_course_option.course.name_and_code %>.
+<%= @application.candidate_name %> accepted your offer for <%= @application.course_name_and_code %>.
 
 You did not set any conditions for this offer.
 
-You can view <%= @application_choice.application_form.full_name %>’s application:
+View the offer:
 
-<%= provider_interface_application_choice_url(@application_choice) %>
+<%= provider_interface_application_choice_offer_url(@application.application_choice) %>
 
-# Update the Database of Teacher Training Providers
-
-Enter the candidate’s details into the Database of Teacher Training Providers (DTTP) when they’ve started the course.
+<% content_for :additional_footer_content do %><%= render 'notification_preferences' %><% end %>

@@ -137,18 +137,24 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.unconditional_offer_accepted(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) has accepted your offer - manage teacher training applications',
+                    'Harry Potter accepted your offer for Computer Science - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
-                    'course name and code' => 'Computer Science (6IND)')
+                    'course name and code' => 'Computer Science (6IND)',
+                    'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
+                    'notification settings' => 'You can change your email notification settings',
+                    'footer' => 'Get help, report a problem or give feedback')
 
     context 'with an alternative course offer' do
       let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) has accepted your offer - manage teacher training applications',
+                      'Harry Potter accepted your offer for Welding - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
-                      'course name and code' => 'Welding (9ABC)')
+                      'course name and code' => 'Welding (9ABC)',
+                      'offer link' => /http:\/\/localhost:3000\/provider\/applications\/\d+\/offers/,
+                      'notification settings' => 'You can change your email notification settings',
+                      'footer' => 'Get help, report a problem or give feedback')
     end
   end
 
