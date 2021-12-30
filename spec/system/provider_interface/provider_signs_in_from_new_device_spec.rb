@@ -65,7 +65,7 @@ RSpec.describe 'A provider authenticates via DfE Sign-in from two separate devic
 
   def then_i_receive_a_confirmation_email_with_correct_details
     open_email('provider@example.com')
-    expect(current_email).to have_content('We detected you signed into Manage teacher training applications on a new device.')
+    expect(current_email).to have_content('A new device has been used to sign in to your account.')
     expect(current_email).to have_content('192.168.0.1')
     expect(current_email).to have_content('Firefox')
   end
