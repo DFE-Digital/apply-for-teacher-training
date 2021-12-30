@@ -10,7 +10,7 @@ module ProviderInterface
       @email_address = email_address.downcase
       @first_name = first_name
       @last_name = last_name
-      @permissions = permissions.reject(&:empty?)
+      @permissions = permissions.compact_blank
     end
 
     def call!

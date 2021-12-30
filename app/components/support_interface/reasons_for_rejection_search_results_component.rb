@@ -66,7 +66,7 @@ module SupportInterface
           application_choice.structured_rejection_reasons[detail_questions.to_s]
         end
 
-      [text, additional_text].reject(&:blank?).join(' - ').html_safe
+      [text, additional_text].compact_blank.join(' - ').html_safe
     end
 
     def reason_text_for(top_level_reason)

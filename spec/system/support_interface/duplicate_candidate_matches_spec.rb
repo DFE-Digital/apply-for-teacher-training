@@ -61,7 +61,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     @candidate_one = create(:candidate, email_address: 'exemplar1@example.com')
     @candidate_two = create(:candidate, email_address: 'exemplar2@example.com')
 
-    @application_form_one = create(:application_form, candidate: @candidate_one, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now - 7.days)
+    @application_form_one = create(:application_form, candidate: @candidate_one, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: 7.days.ago)
     @application_form_two = create(:application_form, candidate: @candidate_two, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
   end
 
@@ -190,7 +190,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_the_candidate_receives_emails_to_both_addresses
-    Timecop.travel(Time.zone.now + 1.hour + 1.minute) do
+    Timecop.travel(1.hour.from_now + 1.minute) do
       open_email(@candidate_one.email_address)
       expect(current_email.subject).to have_content t('candidate_mailer.fraud_match.subject')
 

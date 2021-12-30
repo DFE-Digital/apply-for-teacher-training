@@ -41,7 +41,7 @@ module SupportInterface
     end
 
     def changes
-      interesting_changes = audit.audited_changes.merge(comment_change).reject { |_, values| values.blank? }
+      interesting_changes = audit.audited_changes.merge(comment_change).compact_blank
 
       interesting_changes.map do |attribute, values|
         AuditTrailChange.new(attribute: attribute, values: values)

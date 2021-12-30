@@ -227,7 +227,7 @@ module ProviderInterface
     # Removes empty strings from array attributes, as they incorrectly pass presence validation
     def remove_empty_strings_from_array_attributes!(attrs)
       attrs.each do |k, v|
-        attrs[k] = attrs[k].reject(&:blank?) if v.is_a?(Array)
+        attrs[k] = attrs[k].compact_blank if v.is_a?(Array)
       end
     end
 

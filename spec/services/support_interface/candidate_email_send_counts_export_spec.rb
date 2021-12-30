@@ -10,8 +10,8 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
   describe '#data_for_export' do
     it 'returns a hash of email counts from the emails table' do
       Timecop.freeze(Time.zone.now.round) do
-        yesterday = Time.zone.now - 1.day
-        two_days_ago = Time.zone.now - 2.days
+        yesterday = 1.day.ago
+        two_days_ago = 2.days.ago
 
         'application_submitted'.tap do |mail_template|
           create(:email, mail_template: mail_template, mailer: :candidate_mailer, created_at: yesterday)
@@ -41,7 +41,7 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
 
     it 'distinguishes between templates with the same name but from different mailers' do
       Timecop.freeze(Time.zone.now.round) do
-        yesterday = Time.zone.now - 1.day
+        yesterday = 1.day.ago
 
         create(:email, mail_template: 'offer_accepted', mailer: :candidate_mailer, created_at: yesterday)
         create(:email, mail_template: 'offer_accepted', mailer: :provider_mailer, created_at: yesterday)

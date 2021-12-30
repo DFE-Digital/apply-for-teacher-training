@@ -196,7 +196,7 @@ module CandidateInterface
     end
 
     def gcse_selected
-      if english_gcses.nil? || english_gcses.reject(&:empty?).empty?
+      if english_gcses.nil? || english_gcses.compact_blank.empty?
         errors.add(:english_gcses, :blank)
       end
     end

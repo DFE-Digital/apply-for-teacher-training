@@ -23,7 +23,7 @@ module CandidateInterface
   private
 
     def clean_up_checkbox_params
-      self.selected = selected.reject(&:blank?)
+      self.selected = selected.compact_blank
     end
 
     def correct_number_chosen?

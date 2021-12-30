@@ -10,11 +10,11 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
   end
 
   def summary_text(section)
-    section.css('.app-card--light-blue').text.split("\n").reject(&:blank?).map(&:strip)
+    section.css('.app-card--light-blue').text.split("\n").compact_blank.map(&:strip)
   end
 
   def details_text(section, row_index)
-    section.css('tr')[row_index].text.split("\n").reject(&:blank?).map(&:strip)
+    section.css('tr')[row_index].text.split("\n").compact_blank.map(&:strip)
   end
 
   let(:rejection_reasons) do
@@ -57,7 +57,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionDashboardComponent do
     it 'renders table headings' do
       Timecop.freeze(RecruitmentCycle.current_year, 9, 1) do
         header_row = rendered_component.css('.govuk-table__row').first
-        header_row_text = header_row.text.split("\n").reject(&:blank?).map(&:strip)
+        header_row_text = header_row.text.split("\n").compact_blank.map(&:strip)
         expect(header_row_text[0]).to eq('Reason')
         expect(header_row_text[1]).to eq('Percentage of all rejections')
         expect(header_row_text[2]).to eq('Percentage of all rejections within this category')

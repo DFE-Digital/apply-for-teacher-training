@@ -130,7 +130,7 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_signed_in_more_than_a_week_ago
-    Timecop.travel(Time.zone.now + 7.days + 1.second) do
+    Timecop.travel(7.days.from_now + 1.second) do
       visit candidate_interface_application_form_path
     end
   end

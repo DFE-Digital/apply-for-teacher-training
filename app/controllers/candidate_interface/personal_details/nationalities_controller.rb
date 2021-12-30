@@ -55,7 +55,7 @@ module CandidateInterface
 
       def nationalities_hash
         nationalities_options = nationalities_params[:nationalities]
-        nationalities_options ? nationalities_options.reject(&:blank?).index_by(&:downcase) : {}
+        nationalities_options ? nationalities_options.compact_blank.index_by(&:downcase) : {}
       end
 
       def nationalities_params

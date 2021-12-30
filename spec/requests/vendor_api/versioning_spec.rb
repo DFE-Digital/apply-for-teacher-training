@@ -18,7 +18,7 @@ RSpec.describe 'Versioning', type: :request do
 
   context 'specifying an equivalent minor api version' do
     it 'returns applications' do
-      get_api_request "/api/v1.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+      get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
       expect(parsed_response['data'].size).to eq(1)
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe 'Versioning', type: :request do
       stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
                                           '1.101' => [VendorAPI::Changes::RetrieveSingleApplication] })
 
-      get_api_request "/api/v1.101/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+      get_api_request "/api/v1.101/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -37,14 +37,14 @@ RSpec.describe 'Versioning', type: :request do
     it 'returns a not found error' do
       stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications] })
 
-      get_api_request "/api/v1.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+      get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
       expect(response).to have_http_status(:not_found)
     end
   end
 
   context 'accessing a route with an invalid version parameter' do
     it 'returns a 404' do
-      get_api_request "/api/v1..0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+      get_api_request "/api/v1..0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -53,7 +53,7 @@ RSpec.describe 'Versioning', type: :request do
     context 'when a route is available' do
       context 'when only the major version is specified' do
         it 'processes the route' do
-          get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+          get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
           expect(response).to have_http_status(:ok)
           expect(parsed_response['data'].size).to eq(1)
@@ -62,7 +62,7 @@ RSpec.describe 'Versioning', type: :request do
 
       context 'when the full version is specified' do
         it 'processes the route' do
-          get_api_request "/api/v1.0/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+          get_api_request "/api/v1.0/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
           expect(response).to have_http_status(:ok)
           expect(parsed_response['data'].size).to eq(1)
@@ -83,7 +83,7 @@ RSpec.describe 'Versioning', type: :request do
       it 'processes the route' do
         stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
                                             '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] })
-        get_api_request "/api/v1.2/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+        get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
         expect(response.status).to eq(200)
       end

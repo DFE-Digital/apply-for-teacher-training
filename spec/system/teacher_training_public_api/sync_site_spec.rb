@@ -19,7 +19,7 @@ RSpec.feature 'Sync sites', sidekiq: true do
 
   def given_there_are_2_sites_in_the_teacher_training_api
     @course_uuid = SecureRandom.uuid
-    @updated_since = Time.zone.now - 2.hours
+    @updated_since = 2.hours.ago
     sync_subjects_service = instance_double(TeacherTrainingPublicAPI::SyncSubjects, perform: nil)
     allow(TeacherTrainingPublicAPI::SyncSubjects).to receive(:new).and_return(sync_subjects_service)
 

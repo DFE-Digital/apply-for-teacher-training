@@ -8,7 +8,7 @@ module ProviderInterface
       @actor = actor
       @provider = provider
       @provider_user = provider_user
-      @permissions = permissions.reject(&:empty?)
+      @permissions = permissions.compact_blank
     end
 
     def save

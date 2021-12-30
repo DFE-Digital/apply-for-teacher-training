@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       further_condition_2,
       further_condition_3,
       further_condition_4,
-    ].reject(&:blank?)
+    ].compact_blank
   end
   let(:further_condition_attrs) do
     further_conditions.each_with_index.to_h do |text, index|

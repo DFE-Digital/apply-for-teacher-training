@@ -5,8 +5,6 @@ class ApplicationReference < ApplicationRecord
 
   self.table_name = 'references'
 
-  validates :application_form_id, presence: true
-
   belongs_to :application_form, touch: true
   has_many :reference_tokens, dependent: :destroy
   has_one :candidate, through: :application_form

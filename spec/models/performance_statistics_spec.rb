@@ -58,7 +58,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     it 'counts unsubmitted, started applications' do
       application_choice = create(:application_choice, status: 'unsubmitted')
-      application_choice.application_form.update_column(:updated_at, Time.zone.now + 1.day)
+      application_choice.application_form.update_column(:updated_at, 1.day.from_now)
 
       expect(ProcessState.new(application_choice.application_form).state).to be :unsubmitted_in_progress
 

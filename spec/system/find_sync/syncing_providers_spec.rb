@@ -20,7 +20,7 @@ RSpec.feature 'Syncing providers', sidekiq: true do
   end
 
   def and_the_last_sync_was_two_hours_ago
-    @updated_since = Time.zone.now - 2.hours
+    @updated_since = 2.hours.ago
     allow(TeacherTrainingPublicAPI::SyncCheck).to receive(:updated_since).and_return(@updated_since)
   end
 

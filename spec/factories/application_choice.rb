@@ -210,20 +210,20 @@ FactoryBot.define do
       after(:build) do |choice, _evaluator|
         other_course = create(:course, provider: choice.course_option.course.provider)
         choice.current_course_option_id = create(:course_option, course: other_course).id
-        choice.offer_changed_at = Time.zone.now - 1.day
+        choice.offer_changed_at = 1.day.ago
       end
     end
 
     trait :with_accepted_offer do
       with_offer
       status { 'pending_conditions' }
-      accepted_at { Time.zone.now - 2.days }
+      accepted_at { 2.days.ago }
     end
 
     trait :with_declined_offer do
       with_offer
       status { 'declined' }
-      declined_at { Time.zone.now - 2.days }
+      declined_at { 2.days.ago }
     end
 
     trait :with_declined_by_default_offer do
@@ -237,7 +237,7 @@ FactoryBot.define do
       with_offer
       status { 'offer_withdrawn' }
       offer_withdrawal_reason { 'There has been a mistake' }
-      offer_withdrawn_at { Time.zone.now - 1.day }
+      offer_withdrawn_at { 1.day.ago }
     end
 
     trait :with_conditions_not_met do
@@ -256,13 +256,13 @@ FactoryBot.define do
       with_accepted_offer
       status { 'offer_deferred' }
       status_before_deferral { 'pending_conditions' }
-      offer_deferred_at { Time.zone.now - 1.day }
+      offer_deferred_at { 1.day.ago }
     end
 
     trait :with_deferred_offer_previously_recruited do
       with_deferred_offer
       status_before_deferral { 'recruited' }
-      recruited_at { Time.zone.now - 1.day }
+      recruited_at { 1.day.ago }
     end
 
     trait :previous_year do

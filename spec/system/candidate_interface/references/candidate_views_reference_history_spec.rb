@@ -33,7 +33,7 @@ RSpec.feature 'Reference history on review page' do
   end
 
   def and_i_send_it
-    Timecop.freeze(Time.zone.now + 2.hours) do
+    Timecop.freeze(2.hours.from_now) do
       choose 'Yes, send a reference request now'
       click_button t('save_and_continue')
     end
@@ -57,9 +57,9 @@ RSpec.feature 'Reference history on review page' do
     visit candidate_interface_references_review_path
     expect(page).to have_content 'History'
     expected_history = [
-      { event_name: 'Request sent', timestamp: (Time.zone.now + 2.hours).to_s(:govuk_date_and_time) },
-      { event_name: 'Reminder sent', timestamp: (Time.zone.now + 1.day + 2.hours).to_s(:govuk_date_and_time) },
-      { event_name: 'Automated reminder sent', timestamp: (Time.zone.now + 7.days + 2.hours + 1.minute).to_s(:govuk_date) },
+      { event_name: 'Request sent', timestamp: (2.hours.from_now).to_s(:govuk_date_and_time) },
+      { event_name: 'Reminder sent', timestamp: (1.day.from_now + 2.hours).to_s(:govuk_date_and_time) },
+      { event_name: 'Automated reminder sent', timestamp: (7.days.from_now + 2.hours + 1.minute).to_s(:govuk_date) },
     ]
 
     within '[data-qa="reference-history"]' do

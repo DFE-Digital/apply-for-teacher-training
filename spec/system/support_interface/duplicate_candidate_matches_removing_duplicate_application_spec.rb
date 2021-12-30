@@ -29,7 +29,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     @candidate_one = create(:candidate, email_address: 'exemplar1@example.com')
     @candidate_two = create(:candidate, email_address: 'exemplar2@example.com')
 
-    @application_form_one = create(:application_form, candidate: @candidate_one, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now - 7.days)
+    @application_form_one = create(:application_form, candidate: @candidate_one, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: 7.days.ago)
     @application_form_two = create(:application_form, candidate: @candidate_two, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: nil)
 
     @fraud_match = create(:fraud_match, candidates: [@candidate_one, @candidate_two])

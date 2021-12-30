@@ -153,7 +153,7 @@ RSpec.describe Candidate, type: :model do
     end
 
     context 'with multiple application choices' do
-      let!(:application_choice) { create(:application_choice, candidate: candidate, created_at: Time.zone.now - 1.week) }
+      let!(:application_choice) { create(:application_choice, candidate: candidate, created_at: 1.week.ago) }
       let!(:most_recent_application_choice) { create(:application_choice, candidate: candidate) }
 
       it 'returns the most recent application choice' do
@@ -164,7 +164,7 @@ RSpec.describe Candidate, type: :model do
     context 'with multiple application forms' do
       let(:application_choice) { create(:application_choice, candidate: candidate) }
       let(:most_recent_application_choice) { create(:application_choice, candidate: candidate) }
-      let!(:application_form_apply_1) { create(:application_form, candidate: candidate, application_choices: [application_choice], created_at: Time.zone.now - 1.week) }
+      let!(:application_form_apply_1) { create(:application_form, candidate: candidate, application_choices: [application_choice], created_at: 1.week.ago) }
       let!(:application_form_apply_2) { create(:application_form, candidate: candidate, phase: 'apply_2', application_choices: [most_recent_application_choice]) }
 
       it 'returns the most recent application choice' do

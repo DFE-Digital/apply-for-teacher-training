@@ -22,12 +22,12 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
     expect(parsed_response['data'].size).to eq(2)
   end
 
   it 'returns applications filtered with `since`' do
-    Timecop.travel(Time.zone.now - 2.days) do
+    Timecop.travel(2.days.ago) do
       create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     expect(parsed_response['data'].size).to eq(1)
   end
@@ -47,7 +47,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: 'awaiting_provider_decision',
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
   end
@@ -108,7 +108,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
       status: :unsubmitted,
     )
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     expect(parsed_response['data'].size).to eq(2)
   end
@@ -125,7 +125,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     application_choices.second.update(updated_at: 1.minute.ago)
     application_choices.last.update(updated_at: 10.minutes.ago)
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     response_data = parsed_response['data']
     expect(response_data.size).to eq(3)
@@ -136,7 +136,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     application_choices.first.update(updated_at: 10.seconds.ago)
 
-    get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
+    get_api_request "/api/v1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
 
     response_data = parsed_response['data']
 
