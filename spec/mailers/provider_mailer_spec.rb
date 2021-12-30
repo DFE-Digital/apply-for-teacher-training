@@ -454,6 +454,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       'salutation' => 'Dear Johny English',
       'main paragraph' => 'Candidates can now find courses on GOV.UK that you work on with:',
       'partner providers' => "- University of Croydon\r\n- University of Purley",
+      'link to sign in' => 'http://localhost:3000/provider/sign-in',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
@@ -477,6 +479,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       'first group of partner providers' => "- University of Broughty Ferry\r\n- University of Carnoustie",
       'second relationship group' => 'For University of Selsdon, you need to set up permissions for courses you work on with:',
       'second group of partner providers' => "- University of Croydon\r\n- University of Purley",
+      'link to sign in' => 'http://localhost:3000/provider/sign-in',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 end

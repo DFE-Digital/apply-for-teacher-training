@@ -1,7 +1,9 @@
-Dear <%= @provider_user.full_name || 'colleague' %>
+Dear <%= @provider_user.full_name %>
 
 <%= render "#{@single_or_multiple}_provider_relationship_set_up" %>
 
 You’ll be asked to set up organisation permissions when you sign in, unless your partner organisations set them up first.
+
+Set up organisation permissions:
 
 <%= provider_interface_sign_in_url %>
