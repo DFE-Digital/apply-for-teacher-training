@@ -28,7 +28,7 @@ en:
     set_up_organisation_permissions:
       subject: "Set up organisation permissions"
     permissions_granted:
-      subject: '%{permissions_granted_by_user} has added you to %{organisation}'
+      subject: '%{permissions_granted_by_user} added you to %{organisation}'
     permissions_granted_by_support:
       subject: "You've been added to %{organisation}"
     permissions_updated:
