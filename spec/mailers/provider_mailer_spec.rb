@@ -392,6 +392,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       'Jane Doe has removed you from Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
       'heading' => 'Jane Doe has removed you from Hogwards University. You can no longer manage their teacher training applications.',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
@@ -408,6 +409,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       "You've been removed from Hogwards University - manage teacher training applications",
       'salutation' => 'Dear Princess Fiona',
       'heading' => "You've been removed from Hogwards University. You can no longer manage their teacher training applications.",
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
