@@ -1,5 +1,7 @@
-# <%= t('authentication.sign_in.email.subject') %>
+Dear <%= @provider_user.full_name %>
 
-Click the link below to sign in to the <%= t('service_name.apply') %> service.
+You asked for a temporary sign in link because there’s a problem with DfE Sign-in.
+
+Sign in:
 
 <%= provider_interface_authenticate_with_token_url(token: @token) %>
