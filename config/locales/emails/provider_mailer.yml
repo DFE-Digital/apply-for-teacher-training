@@ -22,7 +22,7 @@ en:
     application_withdrawn:
       subject: "%{candidate_name} (%{support_reference}) withdrew their application"
     organisation_permissions_set_up:
-      subject: "%{provider} has set up organisation permissions for teacher training courses you work on with them"
+      subject: "%{provider} set up organisation permissions"
     organisation_permissions_updated:
       subject: "%{provider} has changed organisation permissions for teacher training courses you work on with them"
     set_up_organisation_permissions:
