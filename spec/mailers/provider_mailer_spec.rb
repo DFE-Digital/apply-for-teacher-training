@@ -343,6 +343,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       'heading' => 'Jane Doe updated your permissions for Hogwards University.',
       'view safeguarding' => 'view criminal convictions and professional misconduct',
       'view diversity' => 'view sex, disability and ethnicity information',
+      'link to applications' => 'http://localhost:3000/provider/applications',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
@@ -361,7 +363,9 @@ RSpec.describe ProviderMailer, type: :mailer do
       'Jane Doe updated your permissions for Hogwards University - manage teacher training applications',
       'salutation' => 'Dear Princess Fiona',
       'heading' => 'Jane Doe updated your permissions for Hogwards University.',
-      'permissiosn' => 'You only have permission to view applications.',
+      'permissions' => 'You only have permission to view applications.',
+      'link to applications' => 'http://localhost:3000/provider/applications',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
@@ -381,6 +385,8 @@ RSpec.describe ProviderMailer, type: :mailer do
       'heading' => 'Your permissions have been updated for Hogwards University.',
       'make decisions' => 'make offers and reject application',
       'view safeguarding' => 'view criminal convictions and professional misconduct',
+      'link to applications' => 'http://localhost:3000/provider/applications',
+      'footer' => 'Get help, report a problem or give feedback',
     )
   end
 
