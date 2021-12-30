@@ -5,7 +5,7 @@ class ProviderMailer < ApplicationMailer
                                     chase_provider_decision confirm_sign_in declined declined_by_default
                                     find_service_is_now_open offer_accepted organisation_permissions_set_up
                                     organisation_permissions_updated permissions_granted permissions_removed
-                                    set_up_organisation_permissions]
+                                    set_up_organisation_permissions unconditional_offer_accepted]
 
   def confirm_sign_in(provider_user, device:)
     @provider_user = provider_user
@@ -81,15 +81,15 @@ class ProviderMailer < ApplicationMailer
   end
 
   def unconditional_offer_accepted(provider_user, application_choice)
-    @application_choice = application_choice
+    @application = map_application_choice_params(application_choice)
 
     email_for_provider(
       provider_user,
       application_choice.application_form,
       subject: I18n.t!(
         'provider_mailer.unconditional_offer_accepted.subject',
-        candidate_name: application_choice.application_form.full_name,
-        support_reference: @application_choice.application_form.support_reference,
+        candidate_name: @application.candidate_name,
+        course_name: @application.course_name,
       ),
     )
   end
