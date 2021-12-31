@@ -1,0 +1,5 @@
+<% if @candidate.account_locked? %>
+  <%= govuk_warning_text(text: 'Account locked') %>
+<% elsif @candidate.submission_blocked? %>
+  <%= govuk_warning_text(text: 'Submission blocked') %>
+<% end %>
