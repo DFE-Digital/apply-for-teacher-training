@@ -177,8 +177,8 @@ module CandidateHelper
     course2 =
       Course.find_by(code: '2397', provider: @provider) ||
       create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1), level: :primary)
-    create(:course_option, site: site, course: course)
-    create(:course_option, site: site, course: course2)
+    create(:course_option, site: site, course: course) unless CourseOption.find_by(site: site, course: course, study_mode: :full_time)
+    create(:course_option, site: site, course: course2) unless CourseOption.find_by(site: site, course: course2, study_mode: :full_time)
   end
 
   def candidate_fills_in_course_choices
