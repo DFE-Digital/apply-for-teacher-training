@@ -39,6 +39,10 @@ module MonthlyStatisticsTimetable
     Time.zone.today == GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 
+  def self.month_to_generate_for
+    GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
+  end
+
   def self.current_reports_generation_date
     report_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
 
@@ -69,14 +73,14 @@ module MonthlyStatisticsTimetable
     publish_date_for_previous_month = PUBLISHING_DATES[Date::MONTHNAMES[(Time.zone.today - 1.month).month]]
 
     if publish_date_for_current_month > Time.zone.today
-      Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: publish_date_for_previous_month.strftime('%Y-%m')).order(created_at: :desc).first
+      report_for(publish_date_for_previous_month.strftime('%Y-%m'))
     else
-      Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: publish_date_for_current_month.strftime('%Y-%m')).order(created_at: :desc).first
+      report_for(publish_date_for_current_month.strftime('%Y-%m'))
     end
   end
 
   def self.report_for(month)
-    Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month.strftime('%Y-%m')).order(created_at: :desc).first
+    Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month).order(created_at: :desc).first
   end
 
   def self.current_exports
