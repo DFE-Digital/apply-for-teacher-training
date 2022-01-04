@@ -11,9 +11,11 @@ class ValidVendorApiRoute
     false
   end
 
-  class VersionMatcher
-    include VersioningHelpers
+  Rails.application.config.to_prepare do
+    VersionMatcher.include VersioningHelpers
+  end
 
+  class VersionMatcher
     attr_reader :request
 
     def initialize(request)
