@@ -110,11 +110,6 @@ module MonthlyStatisticsTestHelper
   end
 
   def date_of_birth(years_ago:)
-    # go back an extra year because we calculate d.o.b. backwards from 1 August
-    if Time.zone.today > Date.parse('1st August')
-      years_ago.years.ago
-    else
-      (years_ago + 1).years.ago
-    end
+    years_ago.years.ago
   end
 end
