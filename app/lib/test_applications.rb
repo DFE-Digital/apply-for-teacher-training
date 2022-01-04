@@ -134,32 +134,36 @@ private
     Audited.audit_class.as_user(candidate) do
       traits = [%i[with_safeguarding_issues_disclosed
                    with_safeguarding_issues_never_asked
-                   minimum_info]].sample
+                   minimum_info duplicate_candidates].sample]
+
       traits << :with_equality_and_diversity_data
+
+      last_name_on_application_form = traits.include?(:duplicate_candidates) && ApplicationForm.last ? ApplicationForm.last.last_name : last_name
 
       simulate_signin(candidate)
 
-      @application_form = FactoryBot.create(
-        :completed_application_form,
-        *traits,
-        :with_degree,
-        :with_gcses,
-        :with_a_levels,
-        application_choices_count: 0,
-        full_work_history: true,
-        volunteering_experiences_count: 1,
-        submitted_at: nil,
-        candidate: candidate,
-        first_name: first_name,
-        last_name: last_name,
-        created_at: time,
-        updated_at: time,
-        recruitment_cycle_year: recruitment_cycle_year,
-        phase: apply_again ? 'apply_2' : 'apply_1',
-        work_history_completed: false,
-        previous_application_form: previous_application_form,
-        references_count: 0,
-      )
+      @application_form =
+        FactoryBot.create(
+          :completed_application_form,
+          *traits,
+          :with_degree,
+          :with_gcses,
+          :with_a_levels,
+          application_choices_count: 0,
+          full_work_history: true,
+          volunteering_experiences_count: 1,
+          submitted_at: nil,
+          candidate: candidate,
+          first_name: first_name,
+          last_name: last_name_on_application_form,
+          created_at: time,
+          updated_at: time,
+          recruitment_cycle_year: recruitment_cycle_year,
+          phase: apply_again ? 'apply_2' : 'apply_1',
+          work_history_completed: false,
+          previous_application_form: previous_application_form,
+          references_count: 0,
+        )
 
       @application_form.application_work_experiences.each { |experience| experience.update!(created_at: time) }
       @application_form.application_volunteering_experiences.each { |experience| experience.update!(created_at: time) }

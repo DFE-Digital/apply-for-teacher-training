@@ -23,6 +23,11 @@ FactoryBot.define do
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
     end
 
+    trait :duplicate_candidates do
+      date_of_birth { ApplicationForm.last&.date_of_birth || '01-01-1996' }
+      postcode { ApplicationForm.last&.postcode || 'SW1P 3BT' }
+    end
+
     trait :international_address do
       address_type { :international }
       country { Faker::Address.country_code }
