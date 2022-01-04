@@ -20,11 +20,13 @@ module.exports = ({github, context}) => {
       dataStr = rows[idx];
       if (dataStr.length) {
         dataAry = dataStr.split(',');
-        [attempts, retryCount, errorLocation, ...errorMessages] = dataAry;
-        errorPath = `/${owner}/${repo}/blob/${branchName}/${errorLocation.replace(':', '#L')}`;
-        errorLink = `<a href="${errorPath}">${errorLocation}</a>`;
-        commentBody += `Failed ${attempts} out of ${retryCount} times at ${errorLink}: :warning: ${errorMessages.toString()}<br>`;
-        createComment = true;
+        if (dataAry.length >= 4) {
+          [attempts, retryCount, errorLocation, ...errorMessages] = dataAry;
+          errorPath = `/${owner}/${repo}/blob/${branchName}/${errorLocation.replace(':', '#L')}`;
+          errorLink = `<a href="${errorPath}">${errorLocation}</a>`;
+          commentBody += `Failed ${attempts} out of ${retryCount} times at ${errorLink}: :warning: ${errorMessages.toString()}<br>`;
+          createComment = true;
+        }
       }
     }
     if (createComment) {
