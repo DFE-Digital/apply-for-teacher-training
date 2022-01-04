@@ -45,20 +45,15 @@
           </p>
         <% elsif deferred_offer_wizard_applicable? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Review and confirm the deferred offer
+            Confirm deferred offer
           </h2>
 
-          <% if deferred_offer_equivalent_course_option_available? %>
-            <p class="govuk-body">
-              The course offered to the candidate in the previous cycle is available in the current cycle.
-            </p>
-          <% else %>
-            <p class="govuk-body">
-              The course offered to the candidate in the previous cycle is not available in the current cycle.
-            </p>
-          <% end %>
+          <p class="govuk-body">
+            You need to confirm your deferred offer.
+          </p>
 
-          <%= govuk_button_link_to 'Review deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
+          <%= govuk_button_link_to 'Confirm deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
+
         <% elsif rejection_reason_required? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Give feedback
@@ -70,6 +65,8 @@
           <%= govuk_button_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
         <% elsif deferred_offer_in_current_cycle? -%>
           Your offer will need to be confirmed at the start of the next recruitment cycle.
+        <% elsif deferred_offer_but_cannot_respond? -%>
+          The deferred offer needs to be confirmed.
         <% end -%>
       <% end %>
     </div>

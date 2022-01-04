@@ -158,32 +158,12 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     end
   end
 
-  describe '#deferred_offer_equivalent_course_option_available' do
-    it 'is true for a deferred offer with an offered course option' do
-      course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: true))
+  describe '#deferred_offer_but_cannot_respond?' do
+    it 'is true if the provider cannot respond to the application' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
-      allow(course_option).to receive(:in_next_cycle).and_return(course_option)
-      allow(application_choice).to receive(:current_course_option).and_return(course_option)
+      allow(application_choice).to receive(:recruitment_cycle).and_return(RecruitmentCycle.previous_year)
 
-      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be true
-    end
-
-    it 'is false for a deferred offer without an offered option' do
-      course_option = instance_double(CourseOption)
-      application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
-      allow(course_option).to receive(:in_next_cycle).and_return(false)
-      allow(application_choice).to receive(:current_course_option).and_return(course_option)
-
-      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be false
-    end
-
-    it 'is false for a deferred offer without an offered option open on apply' do
-      course_option = instance_double(CourseOption, course: instance_double(Course, open_on_apply: false))
-      application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')
-      allow(course_option).to receive(:in_next_cycle).and_return(course_option)
-      allow(application_choice).to receive(:current_course_option).and_return(course_option)
-
-      expect(described_class.new(application_choice: application_choice).deferred_offer_equivalent_course_option_available?).to be false
+      expect(described_class.new(application_choice: application_choice, provider_can_respond: false).deferred_offer_but_cannot_respond?).to be true
     end
   end
 
