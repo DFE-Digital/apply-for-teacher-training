@@ -227,6 +227,7 @@ jobs:
           if [ ! -z "$file_text" ]
           then
             file_text="${file_text//$'\n'/%0A}"
+            file_text="${file_text//\"/\'}"
             echo "::set-output name=flakey_tests::$file_text"
           else
             echo "No flakey tests logged"
