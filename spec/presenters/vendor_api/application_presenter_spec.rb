@@ -114,7 +114,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     let!(:application_choice) { create(:submitted_application_choice, :offer_withdrawn, :with_completed_application_form) }
 
     it 'formats and returns the personal statement information' do
-      personal_statement = "Why do you want to become a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
+      personal_statement = "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \
                            "What is your subject knowledge?: #{application_choice.application_form.subject_knowledge}"
 
       expect(attributes[:personal_statement]).to eq(personal_statement)

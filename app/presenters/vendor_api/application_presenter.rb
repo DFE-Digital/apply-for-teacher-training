@@ -78,7 +78,7 @@ module VendorAPI
     end
 
     def personal_statement
-      "Why do you want to become a teacher?: #{application_form.becoming_a_teacher} \n " \
+      "Why do you want to be a teacher?: #{application_form.becoming_a_teacher} \n " \
         "What is your subject knowledge?: #{application_form.subject_knowledge}"
     end
 
