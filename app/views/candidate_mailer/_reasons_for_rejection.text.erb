@@ -2,9 +2,11 @@
 
 ^ # <%=  title %>
 
-   <% reasons.each do |reason| %>
-    ^ <%= reason %>
-    ^
+    <% reasons.each do |reason| %>
+      <% reason&.split("\r\n")&.each do |paragraph| %>
+        ^ <%= paragraph %>
+        ^
+      <% end %>
     <% end %>
 
     <% if title == 'Qualifications' %>
