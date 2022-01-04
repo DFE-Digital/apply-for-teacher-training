@@ -22,7 +22,6 @@
       <% end %>
         
 
-      <p class="govuk-body">Talk to a <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser') %> if you need advice.</p>
 
       <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
         <% if @application_choice.unconditional_offer? %>
