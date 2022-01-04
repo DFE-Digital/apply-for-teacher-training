@@ -48,11 +48,11 @@ module ProviderInterface
     end
 
     def save_filter_state!
-      @state_store[STATE_STORE_KEY] = @applied_filters.to_json
+      @state_store.write(@applied_filters.to_json)
     end
 
     def last_saved_filter_state
-      JSON.parse(@state_store[STATE_STORE_KEY] || '{}').with_indifferent_access
+      JSON.parse(@state_store.read || '{}').with_indifferent_access
     end
 
     def search_filter

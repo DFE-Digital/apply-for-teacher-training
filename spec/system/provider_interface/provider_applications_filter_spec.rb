@@ -93,6 +93,31 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_click_the_sign_out_button
   end
 
+  scenario 'filters should persist across sessions' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_i_am_permitted_to_see_applications_from_multiple_providers
+    and_my_organisation_has_courses_with_applications
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_provider_page
+    then_i_expect_to_see_the_filter_dialogue
+
+    when_i_filter_by_providers
+    then_i_only_see_applications_for_a_given_provider
+    then_i_expect_the_relevant_provider_tags_to_be_visible
+
+    and_i_click_the_sign_out_button
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_the_provider_page
+    then_i_only_see_applications_for_a_given_provider
+    then_i_expect_the_relevant_provider_tags_to_be_visible
+
+    when_i_clear_the_filters
+    then_i_expect_all_applications_to_be_visible_again
+    and_i_click_the_sign_out_button
+  end
+
   def and_i_click_the_sign_out_button
     click_link 'Sign out'
   end
