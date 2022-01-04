@@ -506,6 +506,7 @@ ActiveRecord::Schema.define(version: 2021_12_30_112625) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "statistics"
+    t.string "month"
   end
 
   create_table "notes", force: :cascade do |t|
