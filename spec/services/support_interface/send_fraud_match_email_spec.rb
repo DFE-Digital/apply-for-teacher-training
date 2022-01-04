@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::SendFraudMatchEmail do
       allow(CandidateMailer).to receive(:fraud_match_email).and_return(mail)
     end
 
-    it 'sends a chaser email to the provider' do
+    it 'sends a chaser email to the candidate' do
       described_class.new(fraud_match).call
 
       expect(CandidateMailer).to have_received(:fraud_match_email).twice
