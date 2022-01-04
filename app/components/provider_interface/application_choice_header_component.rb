@@ -30,7 +30,8 @@ module ProviderInterface
         awaiting_decision_but_cannot_respond? ||
         set_up_interview? ||
         offer_will_be_declined_by_default? ||
-        deferred_offer_in_current_cycle?
+        deferred_offer_in_current_cycle? ||
+        deferred_offer_but_cannot_respond?
     end
 
     def respond_to_application?
@@ -43,16 +44,16 @@ module ProviderInterface
         application_choice.recruitment_cycle == RecruitmentCycle.previous_year
     end
 
-    def deferred_offer_equivalent_course_option_available?
-      application_choice.status == 'offer_deferred' &&
-        application_choice.current_course_option.in_next_cycle &&
-        application_choice.current_course_option.in_next_cycle.course.open_on_apply
-    end
-
     def deferred_offer_in_current_cycle?
       application_choice.status == 'offer_deferred' &&
         application_choice.recruitment_cycle == RecruitmentCycle.current_year &&
         !application_choice.current_course_option.in_next_cycle
+    end
+
+    def deferred_offer_but_cannot_respond?
+      !provider_can_respond &&
+        application_choice.status == 'offer_deferred' &&
+        application_choice.recruitment_cycle == RecruitmentCycle.previous_year
     end
 
     def rejection_reason_required?
