@@ -203,7 +203,7 @@ GEM
       ffi (>= 1.0.0)
       rake
     formatador (0.2.5)
-    geocoder (1.7.0)
+    geocoder (1.7.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
     google-apis-bigquery_v2 (0.21.0)
