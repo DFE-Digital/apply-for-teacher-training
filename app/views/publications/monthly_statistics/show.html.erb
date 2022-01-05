@@ -293,11 +293,11 @@
 
     <p class="govuk-body">The Apply for teacher training service is the sole service for postgraduate Initial Teacher Training (ITT) applications in England to Higher Education Institution (HEI), School Centred Initial Teacher Training (SCITT)-based, School Direct, School Direct (salaried) and Teaching Apprenticeship courses.</p>
 
-    <% if @presenter.deferred_applications_count.zero? %>
-      <p class="govuk-body">
-        Deferred candidates are counted in a separate column in the tables.
-      </p>
+    <p class="govuk-body">
+      Deferred candidates are counted in a separate column in the tables.
+    </p>
 
+    <% if @presenter.deferred_applications_count.zero? %>
       <p class="govuk-body">
         They’re counted in the statistics report for the academic year in which they start their training after their offer is re-confirmed, as well as the year in which they apply.
       </p>
@@ -306,16 +306,9 @@
         This means that anyone who applied this year but deferring until next year will be counted in next year’s report, as well as this one.
       </p>
 
+    <% else %>
       <p class="govuk-body">
-        Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training.
-      </p>
-    <% elsif @presenter.deferred_applications_count == 1 %>
-      <p class="govuk-body">
-        Deferred candidates are counted in a separate column in the tables.
-      </p>
-
-      <p class="govuk-body">
-        There is one deferred candidate in this data report that was also counted in last year’s publication by UCAS.
+        There <%= 'is'.pluralize(@presenter.deferred_applications_count) %> <%= pluralize(@presenter.deferred_applications_count, 'deferred candidate') %> in this data report that <%= 'was'.pluralize(@presenter.deferred_applications_count) %> also counted in last year’s publication by UCAS.
       </p>
 
       <p class="govuk-body">
@@ -328,35 +321,11 @@
 
       <p class="govuk-body">
         Anyone who applied this year but deferring until next year will be counted in next year’s report, as well as this one.
-      </p>
-
-      <p class="govuk-body">
-        Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training. 
-      </p>
-    <% elsif @presenter.deferred_applications_count > 1 %>
-      <p class="govuk-body">
-        Deferred candidates are counted in a separate column in the tables.
-      </p>
-
-      <p class="govuk-body">
-        There are <%= pluralize(@presenter.deferred_applications_count, 'deferred candidate') %> in this data report that were also counted in last year’s publication by UCAS.
-      </p>
-
-      <p class="govuk-body">
-        This is because UCAS counted deferred candidates in the statistics report for the academic year in which they applied, rather than the year in which they start training.
-      </p>
-
-      <p class="govuk-body">
-        This report, on the other hand, counts deferred candidates in the year in which they start their training, as well as the year in which they apply.
-      </p>
-
-      <p class="govuk-body">
-        Anyone who applied this year but deferring until next year will be counted in next year’s report, as well as this one.
-      </p>
-
-      <p class="govuk-body">
-        Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training.
       </p>
     <% end %>
+
+    <p class="govuk-body">
+      Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training.
+    </p>
   </div>
 </div>

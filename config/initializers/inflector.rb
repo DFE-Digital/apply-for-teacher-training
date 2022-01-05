@@ -9,4 +9,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'provider_permissions', 'provider_permissions'
   inflect.irregular 'has', 'have'
   inflect.irregular 'was', 'were'
+  inflect.irregular 'is', 'are'
 end
