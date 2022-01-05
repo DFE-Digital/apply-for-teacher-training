@@ -88,7 +88,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_am_told_my_other_offer_will_be_automatically_declined
-    expect(page).to have_content('if you accept this offer, your other offer will be automatically declined')
+    expect(page).to have_content('If you accept this offer, your other offer will be automatically declined.')
   end
 
   def when_i_continue_without_selecting_a_response
