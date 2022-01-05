@@ -15,16 +15,10 @@
 
       <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
-      <p class="govuk-body">Before you accept:</p>
+      <% if @offer_count > 1 %>
+         <p class="govuk-body">If you accept this offer, your other <%= 'offer'.pluralize(@offer_count - 1) %> will be automatically declined.</p>
 
-      <ul class="govuk-list govuk-list--bullet">
-        <% if @offer_count > 1 %>
-          <li>if you accept this offer, your other <%= 'offer'.pluralize(@offer_count - 1) %> will be automatically declined</li>
-        <% end %>
-        <li>if you decline all of your offers, or do not respond in time, you can still apply for courses that start this academic year</li>
-      </ul>
-
-      <p class="govuk-body">If you need help, you can speak to our <%= govuk_link_to 'teacher training advisers', t('get_into_teaching.url_get_an_adviser') %>.</p>
+      <% end %>
 
       <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
         <% if @application_choice.unconditional_offer? %>
