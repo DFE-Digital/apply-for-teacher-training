@@ -65,4 +65,41 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
       end
     end
   end
+
+  describe 'ENIC reference validations' do
+    let(:form) {
+      described_class.new(
+        degree: degree,
+        have_enic_reference: 'yes',
+        enic_reference: number_of_characters,
+        comparable_uk_degree: 'bachelor_ordinary_degree',
+      )
+    }
+
+    let(:degree) {
+      build(
+        :degree_qualification,
+        international: true,
+        application_form: build(:application_form),
+      )
+    }
+
+    context 'when enic_reference is more than 100 characters' do
+      let(:number_of_characters) { SecureRandom.alphanumeric(101) }
+
+      it 'DegreeForm is invalid' do
+        expect(form.save).to eq false
+        expect(form.errors.full_messages).to match_array(['Enic reference Your UK ENIC reference number must be 100 characters or fewer'])
+      end
+    end
+
+    context 'when enic_reference is 100 characters or less' do
+      let(:number_of_characters) { SecureRandom.alphanumeric(99) }
+
+      it 'DegreeForm is valid' do
+        expect(form.save).to eq true
+        expect(degree.reload.enic_reference).to eq(number_of_characters)
+      end
+    end
+  end
 end
