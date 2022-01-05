@@ -23,7 +23,7 @@ module Publications
     def download
       export_type = params[:export_type]
       export_filename = "#{export_type}-#{params[:month]}.csv"
-      raw_data = MonthlyStatisticsTimetable.report_for_current_period.statistics[export_type]
+      raw_data = MonthlyStatisticsTimetable.report_for(params[:month]).statistics[export_type]
       header_row = raw_data['rows'].first.keys
       data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
       send_data data, filename: export_filename, disposition: :attachment

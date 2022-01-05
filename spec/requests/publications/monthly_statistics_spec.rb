@@ -27,6 +27,9 @@ RSpec.describe 'Monthly Statistics', type: :request do
     end
 
     it 'returns the report for 2021-10' do
+      get '/publications/monthly-statistics/'
+      expect(response).to have_http_status(:ok)
+
       get '/publications/monthly-statistics/2021-10'
       expect(response).to have_http_status(:ok)
 
