@@ -104,7 +104,7 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} (#{@application_choice.application_form.support_reference}) withdrew their application"
+    expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} withdrew their application"
   end
 
   def when_i_submit_the_questionnaire_without_choosing_options

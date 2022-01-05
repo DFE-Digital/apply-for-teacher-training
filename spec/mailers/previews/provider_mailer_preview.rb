@@ -39,8 +39,12 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.declined_by_default(provider_user, application_choice)
   end
 
-  def application_withdrawn
-    ProviderMailer.application_withdrawn(provider_user, application_choice, rand(0..2))
+  def application_withdrawn_no_interviews
+    ProviderMailer.application_withdrawn(provider_user, application_choice, 0)
+  end
+
+  def application_withdrawn_with_interviews
+    ProviderMailer.application_withdrawn(provider_user, application_choice, rand(2..4))
   end
 
   def declined

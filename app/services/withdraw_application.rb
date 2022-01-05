@@ -10,28 +10,30 @@ class WithdrawApplication
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
     end
 
-    number_of_cancelled_interviews = application_choice.interviews.kept.upcoming_not_today.count
-
     CancelUpcomingInterviews.new(
       actor: application_choice.candidate,
       application_choice: application_choice,
       cancellation_reason: I18n.t('interview_cancellation.reason.application_withdrawn'),
     ).call!
 
-    if @application_choice.application_form.ended_without_success?
-      CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
+    if application_choice.application_form.ended_without_success?
+      CandidateMailer.withdraw_last_application_choice(application_choice.application_form).deliver_later
     end
 
-    send_email_notification_to_provider_users(application_choice, number_of_cancelled_interviews)
+    send_email_notification_to_provider_users
   end
 
 private
 
   attr_reader :application_choice
 
-  def send_email_notification_to_provider_users(application_choice, number_of_cancelled_interviews)
+  def send_email_notification_to_provider_users
     NotificationsList.for(application_choice, event: :application_withdrawn, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews).deliver_later
     end
+  end
+
+  def number_of_cancelled_interviews
+    application_choice.interviews.kept.upcoming_not_today.count
   end
 end

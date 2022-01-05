@@ -186,17 +186,20 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { described_class.application_withdrawn(provider_user, application_choice, number_of_cancelled_interviews) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter (123A) withdrew their application - manage teacher training applications',
+                    'Harry Potter withdrew their application - manage teacher training applications',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
-                    'course name and code' => 'Computer Science (6IND)')
+                    'course name and code' => 'Computer Science (6IND)',
+                    'link to application' => /http:\/\/localhost:3000\/provider\/applications\/\d+/,
+                    'notification settings' => 'You can change your email notification settings',
+                    'footer' => 'Get help, report a problem or give feedback')
 
     context 'with an alternative course offer' do
       let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
       let(:current_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) withdrew their application - manage teacher training applications',
+                      'Harry Potter withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -205,7 +208,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:number_of_cancelled_interviews) { 2 }
 
       it_behaves_like('a mail with subject and content',
-                      'Harry Potter (123A) withdrew their application - manage teacher training applications',
+                      'Harry Potter withdrew their application - manage teacher training applications',
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
