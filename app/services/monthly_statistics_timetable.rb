@@ -80,7 +80,7 @@ module MonthlyStatisticsTimetable
   end
 
   def self.report_for(month)
-    Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month).order(created_at: :desc).first
+    Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month).order(created_at: :desc).first!
   end
 
   def self.current_exports
