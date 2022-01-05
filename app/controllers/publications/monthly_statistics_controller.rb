@@ -12,7 +12,7 @@ module Publications
                        MonthlyStatisticsTimetable.report_for_current_period,
                      )
                    end
-      @monthly_statistics_report = MonthlyStatisticsTimetable.current_report
+      @monthly_statistics_report = MonthlyStatisticsTimetable.report_for_current_period
       @statistics = @monthly_statistics_report.statistics
       @report = calculate_download_size
       @academic_year_name = RecruitmentCycle.cycle_name(CycleTimetable.next_year)
@@ -24,7 +24,7 @@ module Publications
 
       export_type = params[:export_type]
       export_filename = "#{export_type}-#{params[:date]}.csv"
-      raw_data = MonthlyStatisticsTimetable.current_report.statistics[export_type]
+      raw_data = MonthlyStatisticsTimetable.report_for_current_period.statistics[export_type]
       header_row = raw_data['rows'].first.keys
       data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
       send_data data, filename: export_filename, disposition: :attachment

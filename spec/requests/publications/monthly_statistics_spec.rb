@@ -2,11 +2,18 @@ require 'rails_helper'
 
 RSpec.describe 'Monthly Statistics', type: :request do
   include MonthlyStatisticsTestHelper
+
+  around do |example|
+    Timecop.freeze(2021, 11, 29) do
+      example.run
+    end
+  end
+
   before do
     FeatureFlag.activate(:publish_monthly_statistics)
     generate_monthly_statistics_test_data
 
-    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
+    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-11')
     report.load_table_data
     report.save
   end
