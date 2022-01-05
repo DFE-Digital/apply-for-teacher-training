@@ -65,7 +65,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
   end
 
   def and_i_fill_in_the_form_incorrectly
-    choose 'All applications'
+    choose 'All statuses'
 
     click_export_data
   end
@@ -77,7 +77,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
 
   def and_i_fill_out_the_form_for_applications_this_year_of_any_status_for_the_first_provider
     check RecruitmentCycle::CYCLES[RecruitmentCycle.current_year.to_s]
-    choose 'All applications'
+    choose 'All statuses'
     check @current_provider_user.providers.first.name
 
     click_export_data
@@ -97,7 +97,7 @@ RSpec.feature 'Provider user exports applications to a csv', mid_cycle: false do
     RecruitmentCycle.years_visible_to_providers.each do |year|
       check RecruitmentCycle::CYCLES[year.to_s]
     end
-    choose 'Applications with a specific status'
+    choose 'Specific statuses'
     check 'Deferred'
     check 'Conditions pending'
     check @current_provider_user.providers.first.name
