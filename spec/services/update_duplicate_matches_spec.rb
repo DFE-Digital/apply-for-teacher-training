@@ -44,7 +44,12 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
       it 'sends an email to each candidate' do
         expect { described_class.new.save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
-        # TODO:
+        expect(ActionMailer::Base.deliveries.map(&:to)).to match_array(
+          [
+            ['exemplar1@example.com'],
+            ['exemplar2@example.com'],
+          ],
+        )
       end
 
       it 'sends a slack message' do
@@ -93,7 +98,12 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
       it 'sends an email to each candidate' do
         expect { described_class.new.save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
-        # TODO:
+        expect(ActionMailer::Base.deliveries.map(&:to)).to match_array(
+          [
+            ['exemplar1@example.com'],
+            ['exemplar2@example.com'],
+          ],
+        )
       end
     end
   end

@@ -5,25 +5,7 @@ class UpdateDuplicateMatches
 
   def save!
     @matches.each do |match|
-      fraud_match = FraudMatch.find_by(last_name: match['last_name'], postcode: match['postcode'], date_of_birth: match['date_of_birth'])
-      candidate = Candidate.find(match['candidate_id'])
-      if fraud_match.present?
-        fraud_match.candidates << candidate unless fraud_match.candidates.include?(candidate)
-      else
-        fraud_match = FraudMatch.create!(
-          recruitment_cycle_year: RecruitmentCycle.current_year,
-          last_name: match['last_name'],
-          postcode: match['postcode'],
-          date_of_birth: match['date_of_birth'],
-          candidates: [candidate],
-        )
-      end
-
-      SupportInterface::SendDuplicateMatchEmail.new(candidate).call
-      candidate.update!(submission_blocked: true)
-
-      # TODO: should this attribute be moved to the `Candidate` class?
-      fraud_match.update!(candidate_last_contacted_at: Time.zone.now)
+      save_match(match)
     end
 
     message = <<~MSG
@@ -37,6 +19,35 @@ class UpdateDuplicateMatches
   end
 
 private
+
+  def save_match(match)
+    fraud_match, candidate = create_or_update_fraud_match(match)
+    notify_candidate(candidate, fraud_match)
+    candidate.update!(submission_blocked: true)
+  end
+
+  def create_or_update_fraud_match(match)
+    fraud_match = FraudMatch.find_by(last_name: match['last_name'], postcode: match['postcode'], date_of_birth: match['date_of_birth'])
+    candidate = Candidate.find(match['candidate_id'])
+    if fraud_match.present?
+      fraud_match.candidates << candidate unless fraud_match.candidates.include?(candidate)
+    else
+      fraud_match = FraudMatch.create!(
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+        last_name: match['last_name'],
+        postcode: match['postcode'],
+        date_of_birth: match['date_of_birth'],
+        candidates: [candidate],
+      )
+    end
+
+    [fraud_match, candidate]
+  end
+
+  def notify_candidate(candidate, fraud_match)
+    SupportInterface::SendDuplicateMatchEmail.new(candidate).call
+    fraud_match.update!(candidate_last_contacted_at: Time.zone.now)
+  end
 
   def new_match_count
     @new_match_count ||= FraudMatch.where('created_at > ?', 1.day.ago).count
