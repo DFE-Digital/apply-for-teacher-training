@@ -1,11 +1,11 @@
-<% content_for :browser_title, title_with_error_prefix('Review deferred offer', @application_choice.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Confirm deferred offer', @application_choice.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(previous_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">
       <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-      Review deferred offer
+      Confirm deferred offer
     </h1>
 
     <div class="govuk-!-margin-bottom-7">
@@ -13,37 +13,46 @@
         <p class="govuk-body-m">
           The course offered to the candidate in the previous cycle is available in the current cycle. On the next screen, you can change the status of the conditions of the offer.
         </p>
-       <% else %>
-        <p class="govuk-body-m">
-          The details of the course you offered previously are not available in the current cycle.
-        </p>
-       <% end %>
-      <%= govuk_details(
-        summary_text: 'Details of deferred offer',
-        classes: 'govuk-!-margin-bottom-0 app-details--no-boder',
-      ) do %>
-        <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
-      <% end %>
 
-      <% unless @wizard.applicable? %>
-        <p class="govuk-body-m govuk-!-margin-top-5">
-          To change the details of this offer, contact us at <%= bat_contact_mail_to %>.
+        <%= govuk_details(
+          summary_text: 'Details of deferred offer',
+          classes: 'govuk-!-margin-bottom-0 app-details--no-boder',
+        ) do %>
+          <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
+        <% end %>
+      <% else %>
+        <p class="govuk-body-m">
+        The course you offered the candidate in the previous recruitment cycle is not available in the current recruitment cycle.
         </p>
-        <p class="govuk-body-m">Tell us which of the following details you’d like to change:</p>
+
+        <p class="govuk-body-m">
+        To confirm the deferred offer, send an email to
+        <a class="govuk-link govuk-link--no-visited-state" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a>.
+        </p>
+
+        <p class="govuk-body-m">
+        You need to provide the following details in the email:
         <ul class="govuk-list govuk-list--bullet">
-          <li>provider</li>
-          <li>course</li>
-          <li>location</li>
-          <li>whether it’s full time or part time</li>
+          <li>training provider, subject, location and whether it’s full time or part time</li>
+          <li>any offer conditions that are pending or met</li>
         </ul>
-
-        <p class="govuk-body-m">
-          You should also let us know if any of the conditions of the offer are currently pending.
         </p>
 
         <p class="govuk-body-m">
-          We’ll contact you within one working day to confirm that the offer has been updated. We’ll also contact the candidate confirming the new details.
+        We’ll contact you within one working day to tell you that your offer has been confirmed. We’ll also email the candidate about their new offer.
         </p>
+
+      <h2 class="govuk-heading-l">Details of deferred offer</h2>
+
+      <%= render ProviderInterface::ReadOnlyCompletedOfferSummaryComponent.new(application_choice: @application_choice,
+                                                                               course_option: @application_choice.current_course_option,
+                                                                               conditions: @application_choice.offer.conditions,
+                                                                               course: @application_choice.current_course,
+                                                                               available_providers: [],
+                                                                               available_courses: [],
+                                                                               available_course_options: [],
+                                                                               border: true,
+                                                                               editable: false) %>
       <% end %>
     </div>
 
