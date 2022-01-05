@@ -10,7 +10,7 @@
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l"><%= @application_form.support_reference %></span>
     <h1 class="govuk-heading-l"><%= break_email_address(@application_form.candidate.email_address) %></h1>
-    <% unless HostingEnvironment.production? %>
+    <% unless HostingEnvironment.production? || @application_form.candidate.account_locked? %>
       <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate) %>
     <% end %>
   </div>
