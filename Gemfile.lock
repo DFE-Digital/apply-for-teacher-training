@@ -107,7 +107,7 @@ GEM
       smart_properties
     bindata (2.4.10)
     bindex (0.8.1)
-    blazer (2.4.8)
+    blazer (2.5.0)
       activerecord (>= 5)
       chartkick (>= 3.2)
       railties (>= 5)
@@ -604,7 +604,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    thor (1.1.0)
+    thor (1.2.1)
     timecop (0.9.4)
     timeliness (0.4.4)
     trailblazer-option (0.1.2)
