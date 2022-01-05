@@ -17,4 +17,8 @@ class ReasonsForRejectionComponent < ViewComponent::Base
   def subheading_tag_name
     editable? ? :h2 : :h3
   end
+
+  def paragraphs(input)
+    input.split("\r\n")
+  end
 end
