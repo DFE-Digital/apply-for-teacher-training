@@ -19,8 +19,6 @@
          <p class="govuk-body">If you accept this offer, your other <%= 'offer'.pluralize(@offer_count - 1) %> will be automatically declined.</p>
 
       <% end %>
-        
-
 
       <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
         <% if @application_choice.unconditional_offer? %>
