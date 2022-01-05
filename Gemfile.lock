@@ -545,9 +545,9 @@ GEM
     semantic_logger (4.9.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (4.8.1)
+    sentry-rails (4.8.2)
       railties (>= 5.0)
-      sentry-ruby-core (~> 4.8.1)
+      sentry-ruby-core (~> 4.8.2)
     sentry-ruby-core (4.8.2)
       concurrent-ruby
       faraday
@@ -604,7 +604,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    thor (1.1.0)
+    thor (1.2.1)
     timecop (0.9.4)
     timeliness (0.4.4)
     trailblazer-option (0.1.2)
