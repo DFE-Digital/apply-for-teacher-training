@@ -134,8 +134,11 @@ FactoryBot.define do
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       address_line3 { Faker::Address.city }
-      address_line4 { Faker::Address.county }
-      postcode { Faker::Address.postcode }
+      address_line4 { uk_country }
+      postcode {
+        new_prefix = DomicileResolver::POSTCODE_PREFIXES[uk_country].sample
+        Faker::Address.postcode.sub(/^[a-zA-Z]+/, new_prefix)
+      }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
@@ -169,6 +172,7 @@ FactoryBot.define do
         references_state { :feedback_provided }
         references_selected { false }
         full_work_history { false }
+        uk_country { Faker::Address.uk_country }
       end
 
       after(:create) do |application_form, evaluator|
