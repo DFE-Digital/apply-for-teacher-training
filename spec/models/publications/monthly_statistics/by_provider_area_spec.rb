@@ -13,13 +13,13 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
        ['East Midlands',            0, 1, 0, 0, 0, 0, 1],
        ['London',                   0, 0, 0, 1, 0, 0, 1],
        ['North East',               0, 0, 0, 0, 1, 0, 1],
-       ['North West',               0, 0, 0, 0, 0, 1, 1],
-       ['South East',               0, 0, 0, 0, 0, 1, 1],
+       ['North West',               0, 0, 0, 0, 1, 1, 2],
+       ['South East',               0, 0, 0, 0, 1, 1, 2],
        ['South West',               0, 0, 0, 0, 0, 1, 1],
        ['West Midlands',            0, 0, 1, 0, 0, 0, 1],
-       ['Yorkshire and The Humber', 1, 0, 0, 0, 0, 0, 1]]
+       ['Yorkshire and The Humber', 1, 0, 0, 0, 1, 0, 2]]
     end
 
-    expect_column_totals(2, 1, 1, 1, 1, 3, 9)
+    expect_column_totals(2, 1, 1, 1, 4, 3, 12)
   end
 end

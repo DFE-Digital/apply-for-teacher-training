@@ -9,7 +9,7 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
     described_class.new.table_data
   end
 
-  it "returns table data for 'by age group'" do
+  it "returns rows for 'by age group'" do
     expect_report_rows(column_headings: ['Age group', 'Recruited', 'Conditions pending', 'Deferrals', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
       [['21 and under', 1, 0, 0, 0, 0, 0, 1],
        ['22',           0, 0, 0, 0, 0, 0, 0],

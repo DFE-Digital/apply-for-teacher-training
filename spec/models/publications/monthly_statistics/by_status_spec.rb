@@ -14,13 +14,13 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
          ['Conditions pending',                  1, 0, 1],
          ['Deferred',                            1, 0, 1],
          ['Received an offer but not responded', 1, 0, 1],
-         ['Awaiting provider decisions',         1, 0, 1],
+         ['Awaiting provider decisions',         4, 0, 4],
          ['Declined an offer',                   1, 0, 1],
          ['Withdrew an application',             1, 0, 1],
          ['Application rejected',                1, 0, 1]]
       end
 
-      expect_column_totals(8, 1, 9)
+      expect_column_totals(11, 1, 12)
     end
   end
 
