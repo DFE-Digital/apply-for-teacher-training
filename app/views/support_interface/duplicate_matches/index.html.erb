@@ -1,0 +1,9 @@
+<%= render 'support_interface/candidates/candidates_navigation', title: 'Duplicate candidate matches' %>
+
+<p class="govuk-body govuk-!-width-two-thirds">A match appears in this list for applications that have a postcode, name and date of birth in common, but they were created using different candidate accounts.</p>
+
+<% if @matches.empty? %>
+  <p class="govuk-body">There are currently no duplicate applications.</p>
+<% else %>
+  the matches go here
+<% end %>
