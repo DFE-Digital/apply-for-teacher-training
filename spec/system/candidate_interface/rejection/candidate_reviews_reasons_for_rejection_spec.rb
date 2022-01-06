@@ -34,7 +34,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
 
   def then_i_can_see_my_rejection_reasons
     expect(page).to have_content('Quality of application')
-    expect(page).to have_content('Use a spellchecker.')
+    expect(page).to have_content('Use a spellchecker')
   end
 
   def when_i_apply_again
@@ -43,7 +43,7 @@ RSpec.feature 'Candidate can see their structured reasons for rejection when rev
 
   def then_i_can_see_rejection_reasons_from_the_earlier_application
     expect(page).to have_content('Quality of application')
-    expect(page).to have_content('Use a spellchecker.')
+    expect(page).to have_content('Use a spellchecker')
   end
 
   def and_i_should_see_unsuccessful_status
