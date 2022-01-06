@@ -548,11 +548,11 @@ GEM
     sentry-rails (4.8.2)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.8.2)
-    sentry-ruby-core (4.8.2)
+    sentry-ruby-core (4.8.3)
       concurrent-ruby
       faraday
-    sentry-sidekiq (4.8.2)
-      sentry-ruby-core (~> 4.8.2)
+    sentry-sidekiq (4.8.3)
+      sentry-ruby-core (~> 4.8.3)
       sidekiq (>= 3.0)
     set (1.0.2)
     shellany (0.0.1)
