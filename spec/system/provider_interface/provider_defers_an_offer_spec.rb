@@ -58,11 +58,11 @@ RSpec.feature 'Provider defers an offer' do
         @application_offered.id,
       ),
     )
-    expect(page).to have_content 'Confirm offer deferral'
+    expect(page).to have_content 'Defer offer'
   end
 
   def when_i_confirm_deferral_of_the_offer
-    click_on 'Confirm offer deferral'
+    click_on 'Defer offer'
   end
 
   def then_i_am_back_at_the_offer_page
