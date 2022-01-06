@@ -2,13 +2,48 @@ require 'rails_helper'
 
 RSpec.describe 'Monthly Statistics', type: :request do
   include MonthlyStatisticsTestHelper
+
+  around do |example|
+    Timecop.freeze(2021, 11, 29) do
+      example.run
+    end
+  end
+
   before do
     FeatureFlag.activate(:publish_monthly_statistics)
     generate_monthly_statistics_test_data
 
-    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
+    report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-11')
     report.load_table_data
     report.save
+  end
+
+  describe 'getting reports for different dates' do
+    before do
+      # assign the current numbers to the 2021-10 report so we can test retrieving that report
+      report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-10')
+      report.load_table_data
+      report.save
+    end
+
+    it 'returns the report for 2021-10' do
+      get '/publications/monthly-statistics/'
+      expect(response).to have_http_status(:ok)
+
+      get '/publications/monthly-statistics/2021-10'
+      expect(response).to have_http_status(:ok)
+
+      get '/publications/monthly-statistics/2021-11'
+      expect(response).to have_http_status(:ok)
+
+      get '/publications/monthly-statistics/2021-12'
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns application by status csv for 2021-10' do
+      get '/publications/monthly-statistics/2021-10/applications_by_status.csv'
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   it 'returns application by status csv' do

@@ -6,7 +6,7 @@ class GenerateMonthlyStatistics
   def perform
     return false unless MonthlyStatisticsTimetable.generate_monthly_statistics?
 
-    dashboard = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
+    dashboard = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: MonthlyStatisticsTimetable.month_to_generate_for.strftime('%Y-%m'))
     dashboard.load_table_data
     dashboard.save!
   end

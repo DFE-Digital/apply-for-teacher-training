@@ -6,7 +6,7 @@ module Publications
       self.report = report
     end
 
-    delegate :statistics, to: :report
+    delegate :statistics, :month, to: :report
 
     def next_cycle_name
       RecruitmentCycle.cycle_name(CycleTimetable.next_year)

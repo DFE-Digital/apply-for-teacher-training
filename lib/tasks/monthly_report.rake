@@ -14,7 +14,7 @@ EXPORTS = [
 
 desc 'Generate a new MonthlyStatisticsReport as of right now'
 task run_monthly_report: :environment do
-  report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new
+  report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: MonthlyStatisticsTimetable.month_to_generate_for.strftime('%Y-%m'))
   report.load_table_data
   report.save!
 end

@@ -24,4 +24,15 @@ RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
 
     expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to eq(0)
   end
+
+  it 'sets the month when generating the report' do
+    Timecop.freeze(2021, 12, 21) do
+      allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
+      generate_monthly_statistics_test_data
+
+      described_class.new.perform
+
+      expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.first.month).to eq('2021-12')
+    end
+  end
 end
