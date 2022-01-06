@@ -79,18 +79,6 @@ class DataExport < ApplicationRecord
       description: 'Anonymised candidate equality and diversity data.',
       class: SupportInterface::EqualityAndDiversityExport,
     },
-    external_report_applications: {
-      name: 'External report applications',
-      export_type: 'external_report_applications',
-      description: 'Aggregated application choice data for the external reporting dashboard.',
-      class: SupportInterface::ExternalReportApplicationsExport,
-    },
-    external_report_candidates: {
-      name: 'External report candidates',
-      export_type: 'external_report_candidates',
-      description: 'Aggregated candidate data for the external reporting dashboard.',
-      class: SupportInterface::ExternalReportCandidatesExport,
-    },
     find_feedback: {
       name: 'Find feedback',
       export_type: 'find_feedback',
