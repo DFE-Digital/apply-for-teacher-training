@@ -37,6 +37,19 @@ module ProviderInterface
       new(state_store, attrs)
     end
 
+    def initialize_extra(attrs)
+      return unless attrs.key?('further_condition_attrs')
+
+      new_conditions = attrs['further_condition_attrs']
+      stored_conditions = further_condition_attrs
+      new_condition_ids = new_conditions.values.map { |v| v['condition_id'] }
+      removed_conditions = stored_conditions.select { |_, v| new_condition_ids.exclude?(v['condition_id'].to_s) }
+
+      if removed_conditions.any?
+        @further_condition_attrs = further_condition_attrs.except(*removed_conditions.keys)
+      end
+    end
+
     def conditions
       @conditions = (standard_conditions + further_condition_models.map(&:text).uniq).compact_blank
     end
