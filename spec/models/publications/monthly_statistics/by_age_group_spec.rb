@@ -23,9 +23,9 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
        ['50 to 54',     0, 0, 0, 0, 0, 0, 0],
        ['55 to 59',     0, 0, 0, 0, 0, 0, 0],
        ['60 to 64',     0, 0, 0, 0, 0, 0, 0],
-       ['65 and over',  0, 0, 1, 0, 0, 0, 1]]
+       ['65 and over',  1, 0, 1, 0, 0, 0, 2]]
     end
 
-    expect_column_totals(2, 1, 1, 1, 1, 2, 8)
+    expect_column_totals(3, 1, 1, 1, 1, 2, 9)
   end
 end

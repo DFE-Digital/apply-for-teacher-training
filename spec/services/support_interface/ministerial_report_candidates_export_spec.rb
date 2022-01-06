@@ -41,9 +41,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:stem,                     0, 0, 0, 0, 0, 0],
          [:ebacc,                    0, 0, 0, 0, 0, 0],
          [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                4, 2, 2, 1, 0, 0],
+         [:secondary,                5, 3, 3, 1, 0, 0],
          [:split,                    0, 0, 0, 0, 0, 0],
-         [:total,                    8, 5, 4, 1, 0, 0]]
+         [:total,                    9, 6, 5, 1, 0, 0]]
       end
     end
 

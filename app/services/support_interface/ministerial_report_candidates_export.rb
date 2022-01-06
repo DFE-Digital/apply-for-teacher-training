@@ -115,7 +115,7 @@ module SupportInterface
       ApplicationForm
         .joins(application_choices: { course: :subjects })
         .joins(:candidate)
-        .current_cycle
+        .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycle.current_year })
         .where.not(submitted_at: nil)
         .where.not(candidates: { hide_in_reporting: true })
         .distinct

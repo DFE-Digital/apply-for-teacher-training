@@ -41,8 +41,8 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:stem,                     0, 0, 0, 0, 0, 0],
          [:ebacc,                    1, 0, 0, 1, 0, 0],
          [:primary,                  7, 3, 2, 0, 0, 0],
-         [:secondary,                5, 2, 2, 1, 1, 1],
-         [:total,                    12, 5, 4, 1, 1, 1]]
+         [:secondary,                6, 3, 3, 1, 1, 1],
+         [:total,                    13, 6, 5, 1, 1, 1]]
       end
     end
 

@@ -13,7 +13,7 @@ RSpec.describe Publications::MonthlyStatistics::ByArea do
        ['East Midlands',            0, 0, 0, 0, 1, 0, 1],
        ['Eastern',                  1, 0, 0, 0, 0, 0, 1],
        ['Isle of Man',              0, 0, 0, 0, 0, 0, 0],
-       ['London',                   0, 0, 1, 0, 0, 0, 1],
+       ['London',                   1, 0, 1, 0, 0, 0, 2],
        ['No region',                0, 0, 0, 0, 0, 1, 1],
        ['North East',               1, 0, 0, 0, 0, 0, 1],
        ['North West',               0, 1, 0, 0, 0, 0, 1],
@@ -28,6 +28,6 @@ RSpec.describe Publications::MonthlyStatistics::ByArea do
        ['Rest of the World',        0, 0, 0, 0, 0, 0, 0]]
     end
 
-    expect_column_totals(2, 1, 1, 1, 1, 2, 8)
+    expect_column_totals(3, 1, 1, 1, 1, 2, 9)
   end
 end
