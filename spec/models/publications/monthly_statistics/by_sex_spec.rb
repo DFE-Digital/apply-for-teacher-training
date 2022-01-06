@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Publications::MonthlyStatistics::BySex do
-  include MonthlyStatisticsTestHelper
+  include StatisticsTestHelper
 
-  before { generate_monthly_statistics_test_data }
+  before { generate_statistics_test_data }
 
   subject(:statistics) { described_class.new.table_data }
 

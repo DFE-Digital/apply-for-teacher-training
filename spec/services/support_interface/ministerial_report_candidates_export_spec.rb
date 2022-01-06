@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
-  include MonthlyStatisticsTestHelper
+  include StatisticsTestHelper
 
   describe '#call' do
     let(:statistics) do
-      generate_monthly_statistics_test_data
+      generate_statistics_test_data
 
       { rows: described_class.new.call }
     end

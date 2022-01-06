@@ -1,5 +1,5 @@
-module MonthlyStatisticsTestHelper
-  def generate_monthly_statistics_test_data
+module StatisticsTestHelper
+  def generate_statistics_test_data
     hidden_candidate = create(:candidate, hide_in_reporting: true)
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 20), region_code: :north_east, candidate: hidden_candidate)
     create(:application_choice,
