@@ -47,14 +47,14 @@ module MonthlyStatisticsTestHelper
     declined_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 31), region_code: :west_midlands, phase: 'apply_1')
     create(:application_choice,
            :with_declined_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [create(:subject, name: 'Art and design', code: 'W1'), create(:subject, name: 'History', code: 'V1')]),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [secondary_subject('Art and design'), secondary_subject('History')]),
            application_form: declined_form)
 
     # keep the country code nil so that this application falls into the "No region" bucket in the MonthlyStatisticsReport
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, country: nil, sex: 'intersex', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
     create(:application_choice,
            :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'south_east'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'south_east', subjects: [secondary_subject('English')]),
            application_form: form)
 
     rejected_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 40), region_code: :eastern, phase: 'apply_1')
@@ -66,33 +66,33 @@ module MonthlyStatisticsTestHelper
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
     create(:application_choice,
            :with_deferred_offer,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
            application_form: form)
 
     # deferred app reinstated in this cycle
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.previous_year)
     create(:application_choice,
            :withdrawn,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('German')]),
            current_recruitment_cycle_year: RecruitmentCycle.previous_year,
            application_form: form)
     create(:application_choice,
            :with_recruited,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Geography'), secondary_subject('Economics')]),
            application_form: form)
 
     # Apply again
     form = DuplicateApplication.new(declined_form, target_phase: 'apply_2').duplicate
     create(:application_choice,
            :unsubmitted,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
            application_form: form)
 
     form = DuplicateApplication.new(rejected_form, target_phase: 'apply_2').duplicate
     form.update(submitted_at: Time.zone.now)
     create(:application_choice,
            :with_recruited,
-           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber'),
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Russian')]),
            application_form: form)
   end
 
@@ -121,6 +121,45 @@ module MonthlyStatisticsTestHelper
       pe: ['Primary with physical education', '06'],
       science: ['Primary with science', '07'],
     }[specialism]
+
+    Subject.find_by(name: name, code: code).presence || create(:subject, name: name, code: code)
+  end
+
+  def secondary_subject(name)
+    code = { 'Art and design' => 'W1',
+             'Science' => 'F0',
+             'Biology' => 'C1',
+             'Business studies' => '08',
+             'Chemistry' => 'F1',
+             'Citizenship' => '09',
+             'Classics' => 'Q8',
+             'Communication and media studies' => 'P3',
+             'Computing' => '11',
+             'Dance' => '12',
+             'Design and technology' => 'DT',
+             'Drama' => '13',
+             'Economics' => 'L1',
+             'English' => 'Q3',
+             'Geography' => 'F8',
+             'Health and social care' => 'L5',
+             'History' => 'V1',
+             'Mathematics' => 'G1',
+             'Music' => 'W3',
+             'Philosophy' => 'P1',
+             'Physical education' => 'C6',
+             'Physics' => 'F3',
+             'Psychology' => 'C8',
+             'Religious education' => 'V6',
+             'Social sciences' => '14',
+             'French' => '15',
+             'English as a second or other language' => '16',
+             'German' => '17',
+             'Italian' => '18',
+             'Japanese' => '19',
+             'Mandarin' => '20',
+             'Russian' => '21',
+             'Spanish' => '22',
+             'Modern languages (other)' => '24' }.fetch(name)
 
     Subject.find_by(name: name, code: code).presence || create(:subject, name: name, code: code)
   end
