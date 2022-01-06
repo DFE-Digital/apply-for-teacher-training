@@ -15,16 +15,16 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Select year', size: 'm' } do %>
+      <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Recruitment cycle', size: 'm' } do %>
         <% RecruitmentCycle.years_visible_to_providers.each do |year| %>
           <%= f.govuk_check_box :recruitment_cycle_years, year.to_s, label: { text: RecruitmentCycle::CYCLES[year.to_s] }, link_errors: true %>
         <% end %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset :application_status_choice, legend: { text: 'Select applications', size: 'm' } do %>
-        <%= f.govuk_radio_button :application_status_choice, 'all', label: { text: 'All applications' }, link_errors: true %>
-        <%= f.govuk_radio_button :application_status_choice, 'custom', label: { text: 'Applications with a specific status' } do %>
-          <%= f.govuk_check_boxes_fieldset :statuses, legend: { size: 's', text: 'Select statuses' } do %>
+      <%= f.govuk_radio_buttons_fieldset :application_status_choice, legend: { text: 'Status', size: 'm' } do %>
+        <%= f.govuk_radio_button :application_status_choice, 'all', label: { text: 'All statuses' }, link_errors: true %>
+        <%= f.govuk_radio_button :application_status_choice, 'custom', label: { text: 'Specific statuses' } do %>
+          <%= f.govuk_check_boxes_fieldset :statuses, legend: { size: 's', text: 'Status' } do %>
             <% ApplicationStateChange.states_visible_to_provider.each_with_index do |state_name, i| %>
               <%= f.govuk_check_box :statuses, state_name.to_s, label: { text: t("provider_application_states.#{state_name}") }, link_errors: i.zero? %>
             <% end %>
@@ -33,7 +33,7 @@
       <% end %>
 
       <% if @application_data_export_form.actor_has_more_than_one_provider? %>
-        <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to, ->(p) { p.id.to_s }, :name, legend: { text: 'Select applications for certain organisations', size: 'm' } %>
+        <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to.order('name ASC'), ->(p) { p.id.to_s }, :name, legend: { text: 'Organisation', size: 'm' } %>
       <% end %>
 
       <div class="govuk-inset-text">
