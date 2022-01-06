@@ -12,6 +12,11 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
+    and_the_duplicate_matching_feature_flag_is_inactive
+    and_i_go_to_duplicate_matches_page
+    then_i_see_a_not_found_page
+
+    when_the_duplicate_matching_feature_flag_is_active
     and_i_go_to_duplicate_matches_page
     then_i_should_see_a_message_that_there_are_no_matches
 
@@ -23,6 +28,14 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def and_the_duplicate_matching_feature_flag_is_inactive
+    FeatureFlag.deactivate(:duplicate_matching)
+  end
+
+  def when_the_duplicate_matching_feature_flag_is_active
+    FeatureFlag.activate(:duplicate_matching)
   end
 
   def then_i_should_see_a_message_that_there_are_no_matches
@@ -43,6 +56,10 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   def and_i_go_to_duplicate_matches_page
     visit support_interface_duplicate_matches_path
+  end
+
+  def then_i_see_a_not_found_page
+    expect(page).to have_content 'Page not found'
   end
 
   def then_i_should_see_list_of_duplicates
