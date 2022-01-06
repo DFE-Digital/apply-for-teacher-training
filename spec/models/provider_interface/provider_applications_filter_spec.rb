@@ -21,6 +21,9 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
   let(:provider_user) { create(:provider_user, providers: [provider1, provider2, accredited_provider]) }
   let(:another_provider_user) { create(:provider_user, providers: [provider1]) }
+  let(:state_store) do
+    StateStores::RedisStore.new(key: "#{described_class::STATE_STORE_KEY}_#{provider_user.id}")
+  end
 
   describe '#filters' do
     let(:headings) { filter.filters.map { |f| f[:heading] } }
@@ -31,7 +34,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         let(:filter) do
           described_class.new(params: params,
                               provider_user: provider_user,
-                              state_store: {})
+                              state_store: state_store)
         end
 
         it 'does not include the Locations filter' do
@@ -52,7 +55,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         let(:filter) do
           described_class.new(params: params,
                               provider_user: another_provider_user,
-                              state_store: {})
+                              state_store: state_store)
         end
 
         it 'does not include the Providers filter' do
@@ -69,7 +72,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
         let(:filter) do
           described_class.new(params: params,
                               provider_user: another_provider_user,
-                              state_store: {})
+                              state_store: state_store)
         end
 
         it 'displays the location filter by default' do
@@ -91,7 +94,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:filter) do
         described_class.new(params: params,
                             provider_user: provider_user,
-                            state_store: {})
+                            state_store: state_store)
       end
 
       it 'can return filter config for a list of provider locations' do
@@ -113,7 +116,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:filter) do
         described_class.new(params: params,
                             provider_user: provider_user,
-                            state_store: {})
+                            state_store: state_store)
       end
 
       it 'can return filter config for a list of provider subjects' do
@@ -130,7 +133,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:filter) do
         described_class.new(params: params,
                             provider_user: provider_user,
-                            state_store: {})
+                            state_store: state_store)
       end
 
       it 'can return a filter config for a list of study modes' do
@@ -151,7 +154,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     let(:filter) do
       described_class.new(params: params,
                           provider_user: provider_user,
-                          state_store: {})
+                          state_store: state_store)
     end
 
     it 'returns a has of permitted parameters' do
@@ -165,7 +168,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     let(:filter) do
       described_class.new(params: params,
                           provider_user: provider_user,
-                          state_store: {})
+                          state_store: state_store)
     end
 
     context 'when filters' do
@@ -182,14 +185,12 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:params) { ActionController::Parameters.new }
 
       it 'returns false' do
-        filter = described_class.new(params: params, provider_user: provider_user, state_store: {})
+        filter = described_class.new(params: params, provider_user: provider_user, state_store: state_store)
         expect(filter.filtered?).to eq(false)
       end
     end
 
     it 'can load and persist its own state' do
-      state_store = {}
-
       state_one = described_class.new(
         params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
         provider_user: provider_user,
@@ -225,7 +226,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:filter) do
         described_class.new(params: params,
                             provider_user: provider_user,
-                            state_store: {})
+                            state_store: state_store)
       end
 
       it 'returns a relevant message' do
@@ -238,7 +239,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:filter) do
         described_class.new(params: params,
                             provider_user: provider_user,
-                            state_store: {})
+                            state_store: state_store)
       end
 
       it 'returns a relevant message' do
@@ -251,7 +252,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       let(:filter) do
         described_class.new(params: params,
                             provider_user: provider_user,
-                            state_store: {})
+                            state_store: state_store)
       end
 
       it 'returns a relevant message' do

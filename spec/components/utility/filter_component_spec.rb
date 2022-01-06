@@ -36,12 +36,15 @@ RSpec.describe FilterComponent do
   let(:provider_2) { create(:provider) }
 
   let(:current_provider_user) { build_stubbed(:provider_user) }
+  let(:state_store) do
+    StateStores::RedisStore.new(key: "#{ProviderInterface::ProviderApplicationsFilter::STATE_STORE_KEY}_#{current_provider_user.id}")
+  end
 
   it 'marks checkboxes as checked if they have already been pre-selected' do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
-      state_store: {},
+      state_store: state_store,
     )
 
     result = render_inline described_class.new(filter: filter)
@@ -61,7 +64,7 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
-      state_store: {},
+      state_store: state_store,
     )
     result = render_inline described_class.new(filter: filter)
 
@@ -80,7 +83,7 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
-      state_store: {},
+      state_store: state_store,
     )
 
     result = render_inline described_class.new(filter: filter)
@@ -92,7 +95,7 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
-      state_store: {},
+      state_store: state_store,
     )
 
     result = render_inline described_class.new(filter: filter)
@@ -104,7 +107,7 @@ RSpec.describe FilterComponent do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
-      state_store: {},
+      state_store: state_store,
     )
 
     result = render_inline described_class.new(filter: filter)

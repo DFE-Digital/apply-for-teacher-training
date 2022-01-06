@@ -7,7 +7,7 @@ module ProviderInterface
       @filter = ProviderApplicationsFilter.new(
         params: params,
         provider_user: current_provider_user,
-        state_store: session,
+        state_store: StateStores::RedisStore.new(key: state_store_key),
       )
 
       application_choices = GetApplicationChoicesForProviders.call(
@@ -80,6 +80,10 @@ module ProviderInterface
 
     def auth
       ProviderAuthorisation.new(actor: current_provider_user)
+    end
+
+    def state_store_key
+      CacheKey.generate("#{ProviderApplicationsFilter::STATE_STORE_KEY}_#{current_provider_user.id}")
     end
   end
 end
