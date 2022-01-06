@@ -40,9 +40,9 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     0, 0, 0, 0, 0, 0],
          [:ebacc,                    1, 0, 0, 1, 0, 0],
-         [:primary,                  8, 4, 3, 0, 0, 0],
+         [:primary,                  7, 3, 2, 0, 0, 0],
          [:secondary,                5, 2, 2, 1, 1, 1],
-         [:total,                    13, 6, 5, 1, 1, 1]]
+         [:total,                    12, 5, 4, 1, 1, 1]]
       end
     end
 
