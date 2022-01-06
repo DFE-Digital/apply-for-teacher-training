@@ -264,7 +264,7 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.0.1)
     hashie (4.1.0)
-    holidays (8.4.1)
+    holidays (8.5.0)
     html_tokenizer (0.0.7)
     http (5.0.4)
       addressable (~> 2.8)
