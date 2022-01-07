@@ -92,16 +92,16 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
     end
 
     context 'when sharing safeguarding issues is "Yes" but no details provided' do
-      it 'returns true' do
+      it 'returns false' do
         form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: '',
         )
 
-        expect(form.save(application_form)).to be(true)
+        expect(form.save(application_form)).to be(false)
       end
 
-      it 'updates safeguarding issues of the application form to provided issues if empty string' do
+      it 'does not update safeguarding issues of the application form to provided issues if empty string' do
         form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: '',
@@ -109,11 +109,11 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form.save(application_form)
 
-        expect(application_form.safeguarding_issues_status.to_sym).to eq :has_safeguarding_issues_to_declare
-        expect(application_form.safeguarding_issues).to eq ''
+        expect(application_form.safeguarding_issues_status.to_sym).to eq :not_answered_yet
+        expect(application_form.safeguarding_issues).to eq nil
       end
 
-      it 'updates safeguarding issues of the application form to provided issues if nil' do
+      it 'does not update safeguarding issues of the application form if nil' do
         form = described_class.new(
           share_safeguarding_issues: 'Yes',
           safeguarding_issues: nil,
@@ -121,7 +121,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form.save(application_form)
 
-        expect(application_form.safeguarding_issues_status.to_sym).to eq :has_safeguarding_issues_to_declare
+        expect(application_form.safeguarding_issues_status.to_sym).to eq :not_answered_yet
         expect(application_form.safeguarding_issues).to eq nil
       end
     end

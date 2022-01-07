@@ -19,3 +19,5 @@ en:
           attributes:
             disclose_disability:
               inclusion: Choose if you want to ask for help to become a teacher
+            disability_disclosure:
+              blank: Enter any relevent information, or select 'No'

@@ -5,6 +5,7 @@ module CandidateInterface
     attr_accessor :share_safeguarding_issues, :safeguarding_issues
 
     validates :share_safeguarding_issues, presence: true
+    validates :safeguarding_issues, presence: true, if: :share_safeguarding_issues?
     validates :safeguarding_issues, word_count: { maximum: 400 }
 
     def self.build_from_application(application_form)
@@ -20,7 +21,7 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
-      if share_safeguarding_issues == 'Yes'
+      if share_safeguarding_issues?
         application_form.update(
           safeguarding_issues: safeguarding_issues,
           safeguarding_issues_status: :has_safeguarding_issues_to_declare,
@@ -31,6 +32,10 @@ module CandidateInterface
           safeguarding_issues_status: :no_safeguarding_issues_to_declare,
         )
       end
+    end
+
+    def share_safeguarding_issues?
+      share_safeguarding_issues == 'Yes'
     end
   end
 end
