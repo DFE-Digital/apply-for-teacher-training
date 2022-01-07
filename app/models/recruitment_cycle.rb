@@ -1,9 +1,14 @@
 module RecruitmentCycle
   CYCLES = {
-    '2022' => '2021 to 2022 (starts 2022)',
-    '2021' => '2020 to 2021 (starts 2021)',
-    '2020' => '2019 to 2020 (starts 2020)',
+    '2022' => '2021 to 2022',
+    '2021' => '2020 to 2021',
+    '2020' => '2019 to 2020',
   }.freeze
+
+  def self.cycle_string(year)
+    cycle = CYCLES.fetch(year.to_s)
+    current_year.to_s == year.to_s ? "#{cycle} - current" : cycle
+  end
 
   def self.current_year
     CycleTimetable.current_year
