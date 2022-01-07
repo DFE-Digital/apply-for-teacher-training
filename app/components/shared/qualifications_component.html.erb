@@ -8,6 +8,6 @@
     editable: editable?,
   ) %>
   <%= render GcseQualificationCardsComponent.new(application_form, editable: editable?) %>
-  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'Other qualifications') %>
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'A levels and other qualifications', subheader: 'Details of A levels and other qualifications') %>
   <%= render EflQualificationCardComponent.new(application_form) %>
 </section>
