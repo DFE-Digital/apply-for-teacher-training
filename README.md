@@ -115,6 +115,7 @@ On a mac:
 brew install asdf
 asdf plugin add ruby
 asdf plugin add nodejs
+asdf plugin add yarn
 
 # To install (or update, following a change to .tool-versions)
 asdf install
