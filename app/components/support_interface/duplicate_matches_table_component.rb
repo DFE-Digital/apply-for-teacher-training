@@ -8,11 +8,8 @@ module SupportInterface
       @matches = matches
     end
 
-    def description_for(match)
-      "#{match.candidates.size} candidates with postcode #{match.postcode} and DOB #{I18n.l(match.date_of_birth, format: '%d/%m/%Y')}"
+    def self.description_for(match)
+      "#{match.candidates.size} candidates with postcode #{match.postcode} and DOB #{match.date_of_birth.to_s(:slash_delimited_date)}"
     end
-
-  private
-
   end
 end

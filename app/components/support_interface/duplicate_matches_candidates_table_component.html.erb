@@ -1,0 +1,54 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Account</th>
+      <% accounts.each do |account| %>
+        <th scope="col" class="govuk-table__header">
+          <%= link_to account.email_address, support_interface_candidate_path(account.candidate_id) %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Created at</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell"><%= account.created_at %></td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Name</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell"><%= account.name %></td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">DOB</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell"><%= account.date_of_birth %></td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Address</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell">
+          <% account.address.each do |address_line| %>
+            <%= address_line %><br />
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Submitted</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell"><%= account.application_status %></td>
+      <% end %>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Account status</th>
+      <% accounts.each do |account| %>
+        <td class="govuk-table__cell"><%= account.account_status %></td>
+      <% end %>
+    </tr>
+  </tbody>
+</table>

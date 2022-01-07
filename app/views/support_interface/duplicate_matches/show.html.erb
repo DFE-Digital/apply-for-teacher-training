@@ -1,0 +1,16 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l govuk-!-margin-top-3">
+      <%= SupportInterface::DuplicateMatchesTableComponent.description_for(@match) %>
+    </h1>
+
+    <%= govuk_button_to 'Mark as resolved', '#', method: :patch %>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render SupportInterface::DuplicateMatchesCandidatesTableComponent.new(@match) %>
+
+	</div>
+</div>
