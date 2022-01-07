@@ -1,7 +1,9 @@
-Candidates can now find courses on GOV.UK that you work on with:
+Candidates can now find courses you run with:
 
 <% @relationships_to_set_up.values.flatten.each do |partner_organisation| -%>
 - <%= partner_organisation %>
 <% end -%>
 
-Either you or these partner organisations must set up organisation permissions before you can manage teacher training applications.
+<%= I18n.t('provider_mailer.set_up_organisation_permissions.content.single_provider.relationship_setup_info', count: @relationships_to_set_up.values.flatten.count) %>
+
+<%= I18n.t('provider_mailer.set_up_organisation_permissions.content.single_provider.when_to_setup_relationship', count: @relationships_to_set_up.values.flatten.count) %>
