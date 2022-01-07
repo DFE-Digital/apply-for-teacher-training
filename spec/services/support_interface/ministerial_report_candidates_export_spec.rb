@@ -1,234 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
-  describe '#call' do
-    it 'generates the full report with the correct totals' do
-      create_single_choice_application(:with_declined_offer, '13')
-      create_single_choice_application(:awaiting_provider_decision, '00')
-      create_single_choice_application(:with_withdrawn_offer, 'G1')
-      create_double_choice_application(:with_accepted_offer, '06', :with_conditions_not_met, 'C8')
-      create_triple_choice_application(:with_accepted_offer, 'F0', :with_declined_offer, '11', :with_withdrawn_offer, '14')
-      create_triple_choice_application(:with_accepted_offer, '41', :with_offer, 'P1', :with_withdrawn_offer, '12')
-      data = described_class.new.call
+  include StatisticsTestHelper
 
-      expect(data).to contain_exactly(
-        {
-          subject: :art_and_design,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :biology,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :business_studies,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :chemistry,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :classics,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :computing,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :design_and_technology,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :english,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :geography,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :history,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :modern_foreign_languages,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :music,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :physical_education,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :physics,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :religious_education,
-          candidates: 0,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :drama,
-          candidates: 1,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 1,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :mathematics,
-          candidates: 1,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 1,
-        },
-        {
-          subject: :other,
-          candidates: 1,
-          candidates_holding_offers: 1,
-          candidates_that_have_accepted_offers: 1,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :stem,
-          candidates: 1,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 1,
-        },
-        {
-          subject: :ebacc,
-          candidates: 1,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 1,
-        },
-        {
-          subject: :primary,
-          candidates: 1,
-          candidates_holding_offers: 0,
-          candidates_that_have_accepted_offers: 0,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :secondary,
-          candidates: 3,
-          candidates_holding_offers: 1,
-          candidates_that_have_accepted_offers: 1,
-          declined_candidates: 1,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 1,
-        },
-        {
-          subject: :split,
-          candidates: 2,
-          candidates_holding_offers: 2,
-          candidates_that_have_accepted_offers: 2,
-          declined_candidates: 0,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 0,
-        },
-        {
-          subject: :total,
-          candidates: 6,
-          candidates_holding_offers: 3,
-          candidates_that_have_accepted_offers: 3,
-          declined_candidates: 1,
-          rejected_candidates: 0,
-          candidates_that_have_withdrawn_offers: 1,
-        },
-      )
+  describe '#call' do
+    let(:statistics) do
+      generate_statistics_test_data
+
+      { rows: described_class.new.call }
+    end
+
+    it 'returns the correct data' do
+      expect_report_rows(column_headings: %i[
+        subject
+        candidates
+        candidates_holding_offers
+        candidates_that_have_accepted_offers
+        declined_candidates
+        rejected_candidates
+        candidates_that_have_withdrawn_offers
+      ]) do
+        [[:art_and_design,           1, 0, 0, 1, 0, 0],
+         [:biology,                  0, 0, 0, 0, 0, 0],
+         [:business_studies,         0, 0, 0, 0, 0, 0],
+         [:chemistry,                0, 0, 0, 0, 0, 0],
+         [:classics,                 0, 0, 0, 0, 0, 0],
+         [:computing,                0, 0, 0, 0, 0, 0],
+         [:design_and_technology,    0, 0, 0, 0, 0, 0],
+         [:drama,                    0, 0, 0, 0, 0, 0],
+         [:english,                  1, 0, 0, 0, 0, 0],
+         [:geography,                0, 0, 0, 0, 0, 0],
+         [:history,                  0, 0, 0, 0, 0, 0],
+         [:mathematics,              0, 0, 0, 0, 0, 0],
+         [:modern_foreign_languages, 0, 0, 0, 0, 0, 0],
+         [:music,                    0, 0, 0, 0, 0, 0],
+         [:other,                    1, 1, 1, 0, 0, 0],
+         [:physical_education,       0, 0, 0, 0, 0, 0],
+         [:physics,                  0, 0, 0, 0, 0, 0],
+         [:religious_education,      0, 0, 0, 0, 0, 0],
+         [:stem,                     0, 0, 0, 0, 0, 0],
+         [:ebacc,                    1, 0, 0, 0, 0, 0],
+         [:primary,                  4, 3, 2, 0, 0, 0],
+         [:secondary,                4, 2, 2, 1, 0, 0],
+         [:split,                    1, 1, 1, 0, 0, 0],
+         [:total,                    9, 6, 5, 1, 0, 0]]
+      end
     end
 
     context 'when the two subject choices are different' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Monthly statistics page', mid_cycle: false do
-  include MonthlyStatisticsTestHelper
+  include StatisticsTestHelper
 
   around do |example|
     Timecop.freeze(2021, 12, 29) do
@@ -12,7 +12,7 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
   before do
     allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
     FeatureFlag.activate('publish_monthly_statistics')
-    generate_monthly_statistics_test_data
+    generate_statistics_test_data
     create_monthly_stats_report
   end
 

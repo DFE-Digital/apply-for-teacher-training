@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
-  include MonthlyStatisticsTestHelper
+  include StatisticsTestHelper
 
   it 'generates the monthly stats when the report should be generated' do
     allow(DataExporter).to receive(:perform_async).and_return true
     allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
-    generate_monthly_statistics_test_data
+    generate_statistics_test_data
 
     expect(Publications::MonthlyStatistics::MonthlyStatisticsReport.count).to eq(0)
 
@@ -28,7 +28,7 @@ RSpec.describe GenerateMonthlyStatistics, sidekiq: true do
   it 'sets the month when generating the report' do
     Timecop.freeze(2021, 12, 21) do
       allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
-      generate_monthly_statistics_test_data
+      generate_statistics_test_data
 
       described_class.new.perform
 
