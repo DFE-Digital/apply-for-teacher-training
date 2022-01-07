@@ -5,6 +5,7 @@ module SupportInterface
     def index
       @matches = FraudMatch.where(
         recruitment_cycle_year: RecruitmentCycle.current_year,
+        resolved: ActiveModel::Type::Boolean.new.cast(params[:resolved]) || false,
       ).order(:created_at)
     end
 
