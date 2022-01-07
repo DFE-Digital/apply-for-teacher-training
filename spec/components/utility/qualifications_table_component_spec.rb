@@ -21,11 +21,11 @@ RSpec.describe QualificationsTableComponent do
     result = render_inline(described_class.new(qualifications: qualifications, header: 'My header', subheader: 'My subheader'))
 
     expect(result.css('table').first['data-qa']).to eq 'qualifications-table-my-header'
-    expect(result.css('table thead th')[0].text).to include('Qualification')
-    expect(result.css('thead tr th')[1].text).to include('Subject')
-    expect(result.css('thead tr th')[2].text).to include('Country')
-    expect(result.css('thead tr th')[3].text).to include('Year awarded')
-    expect(result.css('thead tr th')[4].text).to include('Grade')
+    expect(result.css('table thead th')[0].text).to eq('Qualification type')
+    expect(result.css('thead tr th')[1].text).to eq('Subject')
+    expect(result.css('thead tr th')[2].text).to eq('Country')
+    expect(result.css('thead tr th')[3].text).to eq('Year awarded')
+    expect(result.css('thead tr th')[4].text).to eq('Grade')
 
     expect(result.css('tbody td')[0].text).to include('BSc')
     expect(result.css('tbody td')[1].text).to include('Rocket Surgery')
