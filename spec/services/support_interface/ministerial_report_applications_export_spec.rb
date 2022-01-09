@@ -29,6 +29,7 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:design_and_technology,    0, 0, 0, 0, 0, 0],
          [:drama,                    0, 0, 0, 0, 0, 0],
          [:english,                  1, 0, 0, 0, 0, 1],
+         [:further_education,        1, 0, 0, 0, 1, 0],
          [:geography,                1, 1, 1, 0, 0, 0],
          [:history,                  0, 0, 0, 0, 0, 0],
          [:mathematics,              0, 0, 0, 0, 0, 0],
@@ -41,8 +42,8 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:stem,                     0, 0, 0, 0, 0, 0],
          [:ebacc,                    3, 2, 2, 0, 0, 1],
          [:primary,                  7, 3, 2, 0, 0, 0],
-         [:secondary,                6, 3, 3, 1, 1, 1],
-         [:total,                    13, 6, 5, 1, 1, 1]]
+         [:secondary,                5, 3, 3, 1, 0, 1],
+         [:total,                    12, 6, 5, 1, 0, 1]]
       end
     end
   end

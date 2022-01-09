@@ -9,6 +9,7 @@ module MinisterialReport
     design_and_technology
     drama
     english
+    further_education
     geography
     history
     mathematics
@@ -199,7 +200,7 @@ module MinisterialReport
   def self.determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
     subject_names = subject_names_and_codes.keys
 
-    return :secondary if ['Further education', 'further_education'].include?(course_level)
+    # return :further_education if ['Further education', 'further_education'].include?(course_level)
 
     # is there only one subject?
     subject = subject_names.first if subject_names.size == 1
