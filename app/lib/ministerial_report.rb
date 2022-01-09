@@ -147,9 +147,9 @@ module MinisterialReport
     cancelled: %i[applications application_declined],
     offer_deferred: %i[applications offer_received accepted],
     interviewing: %i[applications],
-    offer_withdrawn: %i[applications application_withdrawn],
-    conditions_not_met: %i[applications offer_received],
-    declined: %i[applications application_declined],
+    offer_withdrawn: %i[applications], # TAD do not count these as rejections or offer_received
+    conditions_not_met: %i[applications offer_received application_rejected],
+    declined: %i[applications offer_received application_declined],
     recruited: %i[applications offer_received accepted],
     withdrawn: %i[applications application_withdrawn],
   }.freeze
@@ -200,7 +200,7 @@ module MinisterialReport
   def self.determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
     subject_names = subject_names_and_codes.keys
 
-    # return :further_education if ['Further education', 'further_education'].include?(course_level)
+    return :further_education if ['Further education', 'further_education'].include?(course_level)
 
     # is there only one subject?
     subject = subject_names.first if subject_names.size == 1
