@@ -5,8 +5,12 @@
       <% reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
         <li>
           <% if reason == 'other' %>
-            <p><%= reasons_for_rejection.candidate_behaviour_other %></p>
-            <p><%= reasons_for_rejection.candidate_behaviour_what_to_improve %></p>
+            <% paragraphs(reasons_for_rejection.candidate_behaviour_other).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
+            <% paragraphs(reasons_for_rejection.candidate_behaviour_what_to_improve).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
           <% else %>
             <p><%= t("reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.#{reason}") %>.</p>
           <% end %>
@@ -28,11 +32,19 @@
       <% reasons_for_rejection.quality_of_application_which_parts_needed_improvement.each do |reason| %>
         <li>
           <% if reason == 'other' %>
-            <p><%= reasons_for_rejection.quality_of_application_other_details %></p>
-            <p><%= reasons_for_rejection.quality_of_application_other_what_to_improve %></p>
+            <% paragraphs(reasons_for_rejection.quality_of_application_other_details).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
+            <% paragraphs(reasons_for_rejection.quality_of_application_other_what_to_improve).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
           <% else %>
-            <p><%= t("reasons_for_rejection.quality_of_application.#{reason}") %>.</p>
-            <p><%= reasons_for_rejection.send(:"quality_of_application_#{reason}_what_to_improve") %>.</p>
+            <% paragraphs(t("reasons_for_rejection.quality_of_application.#{reason}")).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
+            <% paragraphs(reasons_for_rejection.send(:"quality_of_application_#{reason}_what_to_improve")).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
           <% end %>
         </li>
       <% end %>
@@ -52,7 +64,9 @@
       <% reasons_for_rejection.qualifications_which_qualifications.each do |reason| %>
         <li>
           <% if reason == 'other' %>
-            <p><%= reasons_for_rejection.qualifications_other_details %></p>
+            <% paragraphs(reasons_for_rejection.qualifications_other_details).each do |paragraph| %>
+              <p><%= paragraph %></p>
+            <% end %>
           <% else %>
             <p><%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>.</p>
           <% end %>
@@ -119,22 +133,30 @@
     <ul class="govuk-list govuk-list--spaced">
       <% if reasons_for_rejection.honesty_and_professionalism_concerns_information_false_or_inaccurate_details.present? %>
         <li>
-          <%= reasons_for_rejection.honesty_and_professionalism_concerns_information_false_or_inaccurate_details %>
+          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
       <% if reasons_for_rejection.honesty_and_professionalism_concerns_plagiarism_details.present? %>
         <li>
-          <%= reasons_for_rejection.honesty_and_professionalism_concerns_plagiarism_details %>
+          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_plagiarism_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
       <% if reasons_for_rejection.honesty_and_professionalism_concerns_references_details.present? %>
         <li>
-          <%= reasons_for_rejection.honesty_and_professionalism_concerns_references_details %>
+          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_references_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
       <% if reasons_for_rejection.honesty_and_professionalism_concerns_other_details.present? %>
         <li>
-          <%= reasons_for_rejection.honesty_and_professionalism_concerns_other_details %>
+          <% paragraphs(reasons_for_rejection.honesty_and_professionalism_concerns_other_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
     </ul>
@@ -152,17 +174,23 @@
     <ul class="govuk-list govuk-list--spaced">
       <% if reasons_for_rejection.safeguarding_concerns_candidate_disclosed_information_details.present? %>
         <li>
-          <%= reasons_for_rejection.safeguarding_concerns_candidate_disclosed_information_details %>
+          <% paragraphs(reasons_for_rejection.safeguarding_concerns_candidate_disclosed_information_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
       <% if reasons_for_rejection.safeguarding_concerns_vetting_disclosed_information_details.present? %>
         <li>
-          <%= reasons_for_rejection.safeguarding_concerns_vetting_disclosed_information_details %>
+          <% paragraphs(reasons_for_rejection.safeguarding_concerns_vetting_disclosed_information_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
       <% if reasons_for_rejection.safeguarding_concerns_other_details.present? %>
         <li>
-          <%= reasons_for_rejection.safeguarding_concerns_other_details %>
+          <% paragraphs(reasons_for_rejection.safeguarding_concerns_other_details).each do |paragraph| %>
+            <p><%= paragraph %></p>
+          <% end %>
         </li>
       <% end %>
     </ul>
