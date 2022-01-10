@@ -9,7 +9,7 @@ module SupportInterface
     end
 
     def self.description_for(match)
-      "#{match.candidates.size} candidates with postcode #{match.postcode} and DOB #{match.date_of_birth.to_s(:slash_delimited_date)}"
+      "#{match.candidates.size} candidates with postcode #{match.postcode} and DOB #{match.date_of_birth.to_s(:govuk_date_short_month)}"
     end
   end
 end

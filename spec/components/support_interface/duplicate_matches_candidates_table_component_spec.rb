@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::DuplicateMatchesCandidatesTableComponent do
       expect(result.css('a')[index].text).to eq(candidate.email_address)
       expect(result.text).to include(candidate.created_at.to_s(:govuk_date_and_time))
       expect(result.text).to include(candidate.current_application.full_name)
-      expect(result.text).to include(candidate.current_application.date_of_birth.to_s(:slash_delimited_date))
+      expect(result.text).to include(candidate.current_application.date_of_birth.to_s(:govuk_date_short_month))
       candidate.current_application.full_address.each do |address_line|
         expect(result.text).to include(address_line)
       end

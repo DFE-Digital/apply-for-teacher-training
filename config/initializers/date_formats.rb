@@ -1,7 +1,7 @@
 Time::DATE_FORMATS[:govuk_date] = '%-d %B %Y'
 Time::DATE_FORMATS[:govuk_date_short_month] = '%-d %b %Y'
 Date::DATE_FORMATS[:govuk_date] = '%-d %B %Y'
-Date::DATE_FORMATS[:slash_delimited_date] = '%d/%m/%Y'
+Date::DATE_FORMATS[:govuk_date_short_month] = '%-d %b %Y'
 
 Time::DATE_FORMATS[:month_and_year] = '%B %Y'
 Date::DATE_FORMATS[:month_and_year] = '%B %Y'
