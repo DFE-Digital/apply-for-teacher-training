@@ -4,7 +4,7 @@
       <th scope="row" class="govuk-table__header govuk-!-font-weight-regular">Account</th>
       <% accounts.each do |account| %>
         <th scope="col" class="govuk-table__header">
-          <%= link_to account.email_address, support_interface_candidate_path(account.candidate_id) %>
+          <%= govuk_link_to account.email_address, support_interface_candidate_path(account.candidate_id) %>
         </th>
       <% end %>
     </tr>
