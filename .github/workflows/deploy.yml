@@ -208,7 +208,7 @@ jobs:
       - name: Seed Review App
         if: github.event.inputs.review != '' && steps.review-environment-exists.outputs.result == 'false'
         run: |
-          cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_local_dev_data setup_all_provider_relationships"
+          cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
 
       - name: Trigger Smoke Test
         uses: benc-uk/workflow-dispatch@v1.1
