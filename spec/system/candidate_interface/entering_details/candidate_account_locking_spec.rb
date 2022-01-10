@@ -35,6 +35,7 @@ RSpec.feature 'Candidate account locking' do
 
   def then_i_am_redirected_to_the_account_locked_page
     expect(page).to have_current_path(candidate_interface_account_locked_path)
+    expect(page).to have_content('You can no longer access this account')
   end
 
   def when_i_try_to_login_again

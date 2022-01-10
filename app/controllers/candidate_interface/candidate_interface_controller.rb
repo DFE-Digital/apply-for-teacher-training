@@ -114,7 +114,6 @@ module CandidateInterface
     def check_account_locked
       if current_candidate&.account_locked?
         sign_out(current_candidate)
-        flash[:error] = 'You\'re account has been locked'
         redirect_to candidate_interface_account_locked_path
       end
     end
