@@ -32,12 +32,18 @@ module Publications
       redirect_to root_path unless FeatureFlag.active?(:publish_monthly_statistics)
     end
 
+    def valid_date?
+      params[:date] == '2021-11'
+    end
+
     def calculate_download_sizes(report)
       report.statistics.map do |k, raw_data|
+        next unless raw_data.is_a?(Hash)
+
         header_row = raw_data['rows'].first.keys
         data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
         [k, data.size]
-      end
+      end.compact
     end
   end
 end
