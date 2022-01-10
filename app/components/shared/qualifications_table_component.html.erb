@@ -1,11 +1,13 @@
+<h3 class="govuk-heading-m govuk-!-margin-top-6" id="other-qualifications"><%= header %></h3>
 <% if qualifications.any? %>
-  <h3 class="govuk-heading-m govuk-!-margin-top-6" id="other-qualifications"><%= header %></h3>
-
-  <table class="govuk-table govuk-!-width-two-thirds" data-qa="qualifications-table-<%= header.parameterize %>">
+  <h4 class="govuk-heading-s govuk-!-margin-top-6" id="other-qualifications"><%= subheader %></h4>
+  <table class="govuk-table govuk-!-width-full" data-qa="qualifications-table-<%= header.parameterize %>">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-table__header">Qualification</th>
-        <th class="govuk-table__header govuk-table__header">Awarded</th>
+        <th class="govuk-table__header govuk-table__header">Qualification type</th>
+        <th class="govuk-table__header govuk-table__header">Subject</th>
+        <th class="govuk-table__header govuk-table__header">Country</th>
+        <th class="govuk-table__header govuk-table__header">Year awarded</th>
         <th class="govuk-table__header govuk-table__header">Grade</th>
       </tr>
     </thead>
@@ -15,4 +17,10 @@
       <% end %>
     </tbody>
   </table>
+<% else %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render SummaryListComponent.new(add_other_qualifications_q_a) %>
+    </div>
+  </div>
 <% end %>

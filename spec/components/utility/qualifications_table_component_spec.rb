@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QualificationsTableComponent do
   it 'renders nothing when no qualifications present' do
-    result = render_inline(described_class.new(qualifications: [], header: 'My header'))
+    result = render_inline(described_class.new(qualifications: [], header: 'My header', subheader: 'My subheader'))
 
     expect(result.css('table')).to be_blank
   end
@@ -18,10 +18,19 @@ RSpec.describe QualificationsTableComponent do
         award_year: '2020',
       ),
     ]
-    result = render_inline(described_class.new(qualifications: qualifications, header: 'My header'))
+    result = render_inline(described_class.new(qualifications: qualifications, header: 'My header', subheader: 'My subheader'))
 
     expect(result.css('table').first['data-qa']).to eq 'qualifications-table-my-header'
-    expect(result.css('table thead tr')[0].text.gsub(/\s+/, ' ')).to include('Qualification Awarded Grade')
-    expect(result.css('table tbody tr')[0].text.gsub(/\s+/, ' ')).to include('Rocket Surgery BSc 2020 Third')
+    expect(result.css('table thead th')[0].text).to eq('Qualification type')
+    expect(result.css('thead tr th')[1].text).to eq('Subject')
+    expect(result.css('thead tr th')[2].text).to eq('Country')
+    expect(result.css('thead tr th')[3].text).to eq('Year awarded')
+    expect(result.css('thead tr th')[4].text).to eq('Grade')
+
+    expect(result.css('tbody td')[0].text).to include('BSc')
+    expect(result.css('tbody td')[1].text).to include('Rocket Surgery')
+    expect(result.css('tbody td')[2].text).to include('United Kingdom')
+    expect(result.css('tbody td')[3].text).to include('2020')
+    expect(result.css('tbody td')[4].text).to include('Third')
   end
 end

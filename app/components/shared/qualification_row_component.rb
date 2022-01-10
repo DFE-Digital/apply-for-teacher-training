@@ -5,4 +5,8 @@ class QualificationRowComponent < ViewComponent::Base
   def initialize(qualification:)
     @qualification = qualification
   end
+
+  def country
+    COUNTRIES_AND_TERRITORIES[qualification.institution_country]
+  end
 end

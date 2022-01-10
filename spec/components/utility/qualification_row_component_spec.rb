@@ -14,10 +14,10 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text.gsub(/\s+/, ' ')).to include('Psychology BSc')
-    expect(result.text).not_to include('2015')
-    expect(result.text).to include('2018')
-    expect(result.text).to include('Upper second')
+    expect(result.css('td')[0].text).to include('BSc')
+    expect(result.css('td')[1].text).to include('Psychology')
+    expect(result.css('td')[3].text).to include('2018')
+    expect(result.css('td')[4].text).to include('Upper second')
   end
 
   it 'renders a qualification with a predicted grade' do
@@ -34,9 +34,10 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text.gsub(/\s+/, ' ')).to include('Engineering MEng')
-    expect(result.text).to include('2020')
-    expect(result.text).to include('First (predicted)')
+    expect(result.css('td')[0].text).to include('MEng')
+    expect(result.css('td')[1].text).to include('Engineering')
+    expect(result.css('td')[3].text).to include('2020')
+    expect(result.css('td')[4].text).to include('First (predicted)')
   end
 
   it 'renders a qualification with a free text grade' do
@@ -52,9 +53,11 @@ RSpec.describe QualificationRowComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text.gsub(/\s+/, ' ')).to include('Chemistry BSc')
-    expect(result.text).to include('2001')
-    expect(result.text).to include('I did my best')
+    expect(result.css('td')[0].text).to include('BSc')
+    expect(result.css('td')[1].text).to include('Chemistry')
+    expect(result.css('td')[2].text).to include('United Kingdom')
+    expect(result.css('td')[3].text).to include('2001')
+    expect(result.css('td')[4].text).to include('I did my best')
   end
 
   it 'renders a qualification with a not_completed_explanation' do
@@ -66,11 +69,13 @@ RSpec.describe QualificationRowComponent do
       grade: nil,
       award_year: nil,
       not_completed_explanation: 'I am taking the exam this summer',
+      predicted_grade: nil,
     )
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text.gsub(/\s+/, ' ')).to include('Maths GCSE')
-    expect(result.text).to include('I am taking the exam this summer')
+    expect(result.css('td')[0].text).to include('GCSE')
+    expect(result.css('td')[1].text).to include('Maths')
+    expect(result.css('td')[4].text).to include('Not entered')
   end
 end
