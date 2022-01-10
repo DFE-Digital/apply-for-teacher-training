@@ -7,7 +7,7 @@ if ENV.key?('VCAP_APPLICATION')
 
   Yabeda.configure do
     default_tag :app, app_name
-    default_tag :exported_instance, app_instance
+    default_tag :app_instance, app_instance
     default_tag :organisation, org_name
     default_tag :space, space_name
   end
