@@ -138,7 +138,7 @@ private
 
       traits << :with_equality_and_diversity_data
 
-      last_name_on_application_form = traits.include?(:duplicate_candidates) && ApplicationForm.last ? ApplicationForm.last.last_name : last_name
+      last_name_on_application_form = traits.include?(:duplicate_candidates) && ApplicationForm.last&.last_name ? ApplicationForm.last.last_name : last_name
 
       simulate_signin(candidate)
 
