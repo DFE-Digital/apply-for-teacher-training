@@ -42,6 +42,17 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       expect(contact_details.save_address(ApplicationForm.new)).to eq(false)
     end
 
+    describe '#sanitize_phone_number' do
+      it 'returns true if user enters sanitized characters' do
+        form_data = { phone_number: '123456789123456-+()' }
+        application_form = build(:application_form)
+        contact_details = described_class.new(form_data)
+
+        expect(contact_details.save_base(application_form)).to eq(true)
+        expect(application_form).to have_attributes({ phone_number: '123456789123456' })
+      end
+    end
+
     it 'updates the provided ApplicationForm with the address fields if valid' do
       form_data = {
         address_type: 'uk',
@@ -141,7 +152,8 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
     it { is_expected.to allow_value('07700 900 982').for(:phone_number).on(:base) }
     it { is_expected.not_to allow_value('07700 WUT WUT').for(:phone_number).on(:base) }
-    it { is_expected.to validate_length_of(:phone_number).is_at_most(50).on(:base) }
+    it { is_expected.to validate_length_of(:phone_number).is_at_most(15).on(:base) }
+    it { is_expected.to validate_length_of(:phone_number).is_at_least(8).on(:base) }
   end
 
   describe 'custom validations' do
