@@ -172,7 +172,15 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.set_up_organisation_permissions(provider_user, relationships_to_set_up)
   end
 
-  def set_up_organisation_permissions_single_provider
+  def set_up_organisation_permissions_single_provider_one_relationship
+    relationships_to_set_up = {
+      'University of Dundee' => ['University of Broughty Ferry'],
+    }
+    provider_user = FactoryBot.create(:provider_user)
+    ProviderMailer.set_up_organisation_permissions(provider_user, relationships_to_set_up)
+  end
+
+  def set_up_organisation_permissions_single_provider_multiple_relationships
     relationships_to_set_up = {
       'University of Dundee' => ['University of Broughty Ferry', 'University of Forfar', 'University of Wormit'],
     }
