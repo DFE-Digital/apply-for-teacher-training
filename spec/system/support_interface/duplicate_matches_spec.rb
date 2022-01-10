@@ -17,15 +17,15 @@ RSpec.feature 'See Duplicate candidate matches' do
     then_i_see_a_not_found_page
 
     when_the_duplicate_matching_feature_flag_is_active
-    and_i_go_to_duplicate_matches_page
+    and_I_click_the_duplicate_matches_tab
     then_i_should_see_a_message_that_there_are_no_matches
 
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_update_fraud_matches_worker_has_run
     and_the_second_fraud_match_is_resolved
-    and_i_go_to_duplicate_matches_page
+    and_I_click_the_duplicate_matches_tab
     then_i_should_see_list_of_under_review_duplicates
-    
+
     # TODO: View resolved matches
 
     when_i_click_on_a_duplicate
@@ -72,6 +72,11 @@ RSpec.feature 'See Duplicate candidate matches' do
     visit support_interface_duplicate_matches_path
   end
 
+  def and_I_click_the_duplicate_matches_tab
+    click_link 'Candidates'
+    click_link 'Duplicate candidate matches'
+  end
+
   def then_i_see_a_not_found_page
     expect(page).to have_content 'Page not found'
   end
@@ -88,7 +93,5 @@ RSpec.feature 'See Duplicate candidate matches' do
   def then_i_see_the_details_for_each_duplicate_candidate
     expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 08/08/1998')
     expect(page).to have_button('Mark as resolved')
-
-
   end
 end
