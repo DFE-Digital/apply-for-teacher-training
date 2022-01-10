@@ -5,7 +5,7 @@ class ProviderAgreement < ApplicationRecord
 
   audited associated_with: :provider
 
-  validates :accept_agreement, :agreement_type, :provider, :provider_user, presence: true
+  validates :accept_agreement, :agreement_type, presence: true
   validate :provider_is_associated_with_the_user
   before_create :set_accepted_at
 
