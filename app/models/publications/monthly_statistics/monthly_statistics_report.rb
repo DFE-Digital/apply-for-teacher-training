@@ -22,6 +22,7 @@ module Publications
         load_applications_by_primary_specialist_subject
         load_applications_by_secondary_subject
         load_applications_by_provider_area
+        load_deferred_applications_count
       end
 
     private
@@ -93,6 +94,13 @@ module Publications
         write_statistic(
           :by_provider_area,
           Publications::MonthlyStatistics::ByProviderArea.new.table_data,
+        )
+      end
+
+      def load_deferred_applications_count
+        write_statistic(
+          :deferred_applications_count,
+          Publications::MonthlyStatistics::DeferredApplications.new.count,
         )
       end
     end

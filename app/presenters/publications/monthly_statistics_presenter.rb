@@ -6,7 +6,7 @@ module Publications
       self.report = report
     end
 
-    delegate :statistics, :month, to: :report
+    delegate :statistics, :deferred_application_count, :month, to: :report
 
     def next_cycle_name
       RecruitmentCycle.cycle_name(CycleTimetable.next_year)
@@ -34,6 +34,10 @@ module Publications
 
     def exports
       MonthlyStatisticsTimetable.current_exports
+    end
+
+    def deferred_applications_count
+      report.statistics['deferred_applications_count'] || 0
     end
   end
 end
