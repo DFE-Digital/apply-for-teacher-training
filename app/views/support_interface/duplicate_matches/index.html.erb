@@ -22,7 +22,11 @@
 </nav>
 
 <% if @matches.empty? %>
-  <p class="govuk-body">There are currently no duplicate applications.</p>
+  <% if params[:resolved] %>
+    <p class="govuk-body">There are currently no resolved duplicate applications.</p>
+  <% else %>
+    <p class="govuk-body">There are currently no duplicate applications.</p>
+  <% end %>
 <% else %>
   <%= render SupportInterface::DuplicateMatchesTableComponent.new(matches: @matches) %>
 <% end %>
