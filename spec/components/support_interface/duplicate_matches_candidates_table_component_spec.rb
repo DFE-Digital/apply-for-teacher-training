@@ -10,15 +10,13 @@ RSpec.describe SupportInterface::DuplicateMatchesCandidatesTableComponent do
       postcode: 'W6 9BH',
       candidates: [
         create(:candidate,
-          application_forms: [create(:application_form, :minimum_info, submitted_at: Time.local(2022, 1, 1, 12), date_of_birth: Date.new(2000, 3, 7), postcode: 'W6 9BH')],
-          account_locked: true,
-        ),
+               application_forms: [create(:application_form, :minimum_info, submitted_at: Time.zone.local(2022, 1, 1, 12), date_of_birth: Date.new(2000, 3, 7), postcode: 'W6 9BH')],
+               account_locked: true),
         create(:candidate,
-          application_forms: [create(:application_form, :minimum_info, date_of_birth: Date.new(2000, 3, 7), postcode: 'W6 9BH')],
-          submission_blocked: true,
-        ),
+               application_forms: [create(:application_form, :minimum_info, date_of_birth: Date.new(2000, 3, 7), postcode: 'W6 9BH')],
+               submission_blocked: true),
       ],
-      created_at: Time.local(2022, 1, 4, 12),
+      created_at: Time.zone.local(2022, 1, 4, 12),
     )
   end
 

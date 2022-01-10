@@ -930,6 +930,7 @@ Rails.application.routes.draw do
 
     get '/duplicate-matches' => 'duplicate_matches#index', as: :duplicate_matches
     get '/duplicate-matches/:id' => 'duplicate_matches#show', as: :duplicate_match
+    patch '/duplicate-matches/:id' => 'duplicate_matches#update', as: :update_duplicate_match
 
     get '/send-email/:fraud_match_id' => 'fraud_auditing_matches#send_email', as: :fraud_auditing_matches_send_email
     post '/send-email/:fraud_match_id' => 'fraud_auditing_matches#send_email'

@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
       date_of_birth: '1998-08-08',
       postcode: 'W6 9BH',
       candidates: build_list(:candidate, 3),
-      created_at: Time.local(2022, 1, 4, 12),
+      created_at: Time.zone.local(2022, 1, 4, 12),
     )
     @fraud_match2 = build(
       :fraud_match,
@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
       date_of_birth: '1973-02-15',
       postcode: 'GU1 6XO',
       candidates: build_list(:candidate, 2),
-      created_at: Time.local(2022, 1, 1, 12),
+      created_at: Time.zone.local(2022, 1, 1, 12),
     )
   end
 

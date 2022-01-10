@@ -13,6 +13,14 @@ module SupportInterface
       @match = FraudMatch.find(params[:id])
     end
 
+    def update
+      @match = FraudMatch.find(params[:id])
+      @match.update(
+        resolved: ActiveModel::Type::Boolean.new.cast(params[:resolved])
+      )
+      redirect_to support_interface_duplicate_match_path(@match)
+    end
+
   private
 
     def check_feature_flag
