@@ -50,6 +50,23 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
       end
     end
 
+    context 'when the user discloses a disability but provides no written information' do
+      let(:form_data) do
+        {
+          disclose_disability: 'yes',
+          disability_disclosure: '',
+        }
+      end
+
+      it 'does not update the provided ApplicationForm' do
+        expect(disability_form.save(application_form)).to eq(false)
+        expect(application_form).to have_attributes(
+          disclose_disability: nil,
+          disability_disclosure: nil,
+        )
+      end
+    end
+
     context 'when valid and the user does not want to disclose a disability' do
       let(:form_data) do
         {

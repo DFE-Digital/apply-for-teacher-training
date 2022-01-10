@@ -5,10 +5,8 @@ module CandidateInterface
     attr_accessor :disclose_disability, :disability_disclosure
 
     validates :disclose_disability, inclusion: { in: %w[yes no] }
-
-    validates :disability_disclosure,
-              word_count: { maximum: 400 },
-              allow_blank: true
+    validates :disability_disclosure, presence: true, if: :disclose_disability?
+    validates :disability_disclosure, word_count: { maximum: 400 }
 
     def self.build_from_application(application_form)
       new(
@@ -46,6 +44,10 @@ module CandidateInterface
         false
       end
       # nil by default
+    end
+
+    def disclose_disability?
+      disclose_disability == 'yes'
     end
   end
 end
