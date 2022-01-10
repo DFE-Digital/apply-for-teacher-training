@@ -61,7 +61,7 @@ RSpec.describe AcceptUnconditionalOffer do
       application_choice = build(:application_choice, :with_offer, course_option: course_option)
 
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
-      expect(ActionMailer::Base.deliveries.first.subject).to match(/accepted your offer for #{application_choice.course.name}/)
+      expect(ActionMailer::Base.deliveries.first.subject).to match(/accepted your offer for #{Regexp.escape(application_choice.course.name)}/)
 
       mailer_recipients = ActionMailer::Base.deliveries.map(&:to).flatten
       expect(mailer_recipients).to include(training_provider_user.email_address)
