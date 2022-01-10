@@ -26,7 +26,7 @@ module SupportInterface
     end
 
     def candidate_blocked?(fraud_id)
-      FraudMatch.find(fraud_id).blocked
+      FraudMatch.find(fraud_id).candidates.first&.submission_blocked?
     end
 
   private

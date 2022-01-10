@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :course_option do
     course
+
     site { association(:site, provider: course.provider) }
 
     vacancy_status { 'vacancies' }

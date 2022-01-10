@@ -62,7 +62,10 @@ RSpec.describe SupportInterface::FraudAuditingMatchesTableComponent do
   end
 
   it 'renders the option to unblock the candidate if currently blocked' do
-    blocked_fraud_match = create(:fraud_match, blocked: true)
+    blocked_fraud_match = create(
+      :fraud_match,
+      candidates: create_list(:candidate, 2, submission_blocked: true),
+    )
 
     create(:application_form, candidate: blocked_fraud_match.candidates.first, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
     create(:application_form, candidate: blocked_fraud_match.candidates.second, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
