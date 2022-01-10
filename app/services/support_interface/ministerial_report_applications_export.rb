@@ -21,8 +21,9 @@ module SupportInterface
     def add_choice_to_report(choice, report)
       subject_names_and_codes = choice.subject_names.zip(choice.subject_codes)
       subject = MinisterialReport.determine_dominant_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
+      mapped = MinisterialReport::TAD_STATUS_MAPPING[choice.status.to_sym].presence || []
 
-      MinisterialReport::APPLICATIONS_REPORT_STATUS_MAPPING[choice.status.to_sym].each do |mapped_status|
+      (mapped + [:applications]).each do |mapped_status|
         report[:stem][mapped_status] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject
         report[:ebacc][mapped_status] += 1 if MinisterialReport::EBACC_SUBJECTS.include? subject
         report[:secondary][mapped_status] += 1 if MinisterialReport::SECONDARY_SUBJECTS.include? subject

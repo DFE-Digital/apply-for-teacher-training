@@ -154,22 +154,17 @@ module MinisterialReport
     withdrawn: %i[applications application_withdrawn],
   }.freeze
 
-  CANDIDATES_REPORT_STATUS_MAPPING = {
-    unsubmitted: %i[candidates],
-    application_not_sent: %i[candidates],
-    awaiting_provider_decision: %i[candidates],
-    offer: %i[candidates candidates_holding_offers],
-    pending_conditions: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-    rejected: %i[candidates rejected_candidates],
-    cancelled: %i[candidates declined_candidates],
-    offer_deferred: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-    interviewing: %i[candidates],
-    offer_withdrawn: %i[candidates candidates_that_have_withdrawn_offers],
-    conditions_not_met: %i[candidates candidates_holding_offers],
-    declined: %i[candidates declined_candidates],
-    recruited: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-    withdrawn: %i[candidates],
-  }.freeze
+  TAD_STATUS_MAPPING = {
+    offer: %i[offer_received],
+    pending_conditions: %i[offer_received accepted],
+    rejected: %i[application_rejected],
+    cancelled: %i[application_declined],
+    offer_deferred: %i[offer_received accepted],
+    conditions_not_met: %i[offer_received application_rejected],
+    declined: %i[offer_received application_declined],
+    recruited: %i[offer_received accepted],
+    withdrawn: %i[application_withdrawn],
+  }
 
   APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING = {
     unsubmitted: %i[applications],
@@ -212,17 +207,17 @@ module MinisterialReport
       end
     end
 
+    # is it a PE course
+    if !subject
+      subject = subject_names.find do |subject_name|
+        subject_name.to_s.downcase == 'physical education' && (course_name.downcase.include?('pe') || course_name.downcase.include?('p.e'))
+      end
+    end
+
     # is subject in the course name at all?
     if !subject
       subject = subject_names.find do |subject_name|
         subject_name.to_s.downcase.in?(course_name.downcase)
-      end
-    end
-
-    # is it a PE course
-    if !subject
-      subject = subject_names.find do |subject_name|
-        subject_name.to_s.downcase == 'physical education' && course_name.downcase.include?('pe')
       end
     end
 
