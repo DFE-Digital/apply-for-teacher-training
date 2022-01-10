@@ -156,7 +156,7 @@ GEM
       activesupport (>= 4.0, < 7)
       rspec (~> 3.0)
     declarative (0.0.20)
-    deep_merge (1.2.1)
+    deep_merge (1.2.2)
     deepsort (0.4.5)
     devise (4.8.1)
       bcrypt (~> 3.0)
@@ -240,10 +240,10 @@ GEM
       activemodel (>= 6.0)
       railties (>= 6.0)
       view_component (~> 2.39.0)
-    govuk_design_system_formbuilder (2.8.0)
-      actionview (>= 6.0)
-      activemodel (>= 6.0)
-      activesupport (>= 6.0)
+    govuk_design_system_formbuilder (3.0.0)
+      actionview (>= 6.1)
+      activemodel (>= 6.1)
+      activesupport (>= 6.1)
       deep_merge (~> 1.2.1)
     govuk_markdown (1.0.0)
       activesupport
@@ -718,7 +718,7 @@ DEPENDENCIES
   geocoder
   google-cloud-bigquery
   govuk-components (~> 2.1.5)
-  govuk_design_system_formbuilder (~> 2.8.0)
+  govuk_design_system_formbuilder (~> 3.0.0)
   govuk_markdown
   guard-rspec
   holidays
