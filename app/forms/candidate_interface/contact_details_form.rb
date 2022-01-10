@@ -6,9 +6,10 @@ module CandidateInterface
     MAX_LENGTH = 50
 
     attr_accessor :phone_number, :address_line1, :address_line2, :address_line3,
-                  :address_line4, :postcode, :address_type, :country
+                  :address_line4, :postcode, :address_type, :country, :raw_phone_number
 
     before_validation :sanitize_phone_number
+    after_validation :reset_phone_number
 
     validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
 
@@ -39,8 +40,12 @@ module CandidateInterface
     end
 
     def sanitize_phone_number
-      self.phone_number = phone_number.gsub(/\s+/, '') unless phone_number.nil?
-      self.phone_number = phone_number.gsub(/[()\-+]/, '') unless phone_number.nil?
+      self.raw_phone_number = phone_number
+      self.phone_number = phone_number.gsub(/[\s()\-+]/, '') unless phone_number.nil?
+    end
+
+    def reset_phone_number
+      self.phone_number = raw_phone_number
     end
 
     def save_base(application_form)
