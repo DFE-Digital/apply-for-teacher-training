@@ -17,20 +17,25 @@ RSpec.feature 'See Duplicate candidate matches' do
     then_i_see_a_not_found_page
 
     when_the_duplicate_matching_feature_flag_is_active
-    and_I_click_the_duplicate_matches_tab
+    and_i_click_the_duplicate_matches_tab
     then_i_should_see_a_message_that_there_are_no_matches
 
     when_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_update_fraud_matches_worker_has_run
     and_the_second_fraud_match_is_resolved
-    and_I_click_the_duplicate_matches_tab
+    and_i_click_the_duplicate_matches_tab
     then_i_should_see_list_of_under_review_duplicates
     and_i_should_see_a_counter_for_under_review_duplicates
 
-    # TODO: View resolved matches
+    when_i_click_on_a_the_resolved_link
+    then_i_should_see_list_of_resolved_duplicates
 
-    when_i_click_on_a_duplicate
+    when_i_click_on_a_the_under_review_link
+    and_i_click_on_a_duplicate
     then_i_see_the_details_for_each_duplicate_candidate
+
+    when_i_click_on_resolve
+    then_the_duplicate_match_is_resolved
   end
 
   def given_i_am_a_support_user
@@ -73,7 +78,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     visit support_interface_duplicate_matches_path
   end
 
-  def and_I_click_the_duplicate_matches_tab
+  def and_i_click_the_duplicate_matches_tab
     click_link 'Candidates'
     click_link 'Duplicate candidate matches'
   end
@@ -93,12 +98,34 @@ RSpec.feature 'See Duplicate candidate matches' do
     end
   end
 
-  def when_i_click_on_a_duplicate
+  def when_i_click_on_a_the_resolved_link
+    click_link 'Resolved'
+  end
+
+  def then_i_should_see_list_of_resolved_duplicates
+    expect(page).to have_content('2 candidates with postcode W3 6ET and DOB 12 Oct 1999')
+    expect(page).not_to have_link('2 candidates with postcode W6 9BH')
+  end
+
+  def when_i_click_on_a_the_under_review_link
+    click_link 'Under review'
+  end
+
+  def and_i_click_on_a_duplicate
     click_link '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
   end
 
   def then_i_see_the_details_for_each_duplicate_candidate
     expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
     expect(page).to have_button('Mark as resolved')
+  end
+
+  def when_i_click_on_resolve
+    click_button 'Mark as resolved'
+  end
+
+  def then_the_duplicate_match_is_resolved
+    expect(@bob.reload.fraud_match.resolved).to be(true)
+    expect(page).to have_button('Mark as unresolved')
   end
 end
