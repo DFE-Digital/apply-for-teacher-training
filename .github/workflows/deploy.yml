@@ -126,25 +126,18 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - uses: DFE-Digital/github-actions/keyvault-yaml-secret@master
-        id: cf-username-secret
+      - uses: DFE-Digital/keyvault-yaml-secret@v1
+        id: get-secrets
         with:
           keyvault: ${{ env.KEY_VAULT_NAME }}
-          yaml_secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          secret: CF_USER
-
-      - uses: DFE-Digital/github-actions/keyvault-yaml-secret@master
-        id: cf-password-secret
-        with:
-          keyvault: ${{ env.KEY_VAULT_NAME }}
-          yaml_secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          secret: CF_PASSWORD
+          secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+          key: CF_USER, CF_PASSWORD
 
       - name: Setup cf cli
         uses: DFE-Digital/github-actions/setup-cf-cli@master
         with:
-          CF_USERNAME:   ${{ steps.cf-username-secret.outputs.secret-value }}
-          CF_PASSWORD:   ${{ steps.cf-password-secret.outputs.secret-value }}
+          CF_USERNAME:   ${{ steps.get-secrets.outputs.cf_user }}
+          CF_PASSWORD:   ${{ steps.get-secrets.outputs.cf_password }}
           CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
           INSTALL_CONDUIT: true
 
