@@ -205,7 +205,7 @@
 <% if reasons_for_rejection.cannot_sponsor_visa_y_n == 'Yes' %>
   <div class="app-rejection">
     <%= content_tag(subheading_tag_name, I18n.t('reasons_for_rejection.cannot_sponsor_visa.title'), class: 'govuk-heading-s') %>
-    <% paragraphs(reasons_for_rejection.cannot_sponsor_visa_details) do |paragraph| %>
+    <% paragraphs(reasons_for_rejection.cannot_sponsor_visa_details).each do |paragraph| %>
       <p class="govuk-body govuk-!-margin-bottom-3"><%= paragraph %></p>
     <% end %>
 
