@@ -35,7 +35,7 @@ private
       family_name: @provider_user.last_name,
       email: @provider_user.email_address,
       userRedirect: Rails.application.routes.url_helpers.provider_interface_url,
-      inviteBodyOverride: '<p>You can now start managing teacher training applications.</p><p>You need to create a DfE Sign-in account to do this.</p>',
+      inviteBodyOverride: 'You can now start managing teacher training applications. You need to create a DfE Sign-in account to do this.',
     }
 
     response = HTTP.auth(auth_string).post dfe_invite_url, json: request_params
