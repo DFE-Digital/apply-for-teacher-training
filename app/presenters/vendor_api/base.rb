@@ -39,6 +39,10 @@ module VendorAPI
     def active_version_in_retrieved_version?(version)
       minor_version_number(active_version) >= minor_version_number(version)
     end
+
+    def cache_key(model, api_version, method = '')
+      CacheKey.generate("#{api_version}_#{model.cache_key_with_version}#{method}")
+    end
   end
 end
 

@@ -104,9 +104,5 @@ module VendorAPI
         safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
       }
     end
-
-    def cache_key(model, api_version, method = '')
-      CacheKey.generate("#{api_version}_#{model.cache_key_with_version}#{method}")
-    end
   end
 end
