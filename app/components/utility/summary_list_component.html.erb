@@ -1,4 +1,4 @@
-<%= govuk_summary_list do |summary_list| %>
+<%= govuk_summary_list(**options) do |summary_list| %>
   <% rows.each do |row| %>
     <% summary_list.row(html_attributes: html_attributes(row)) do |summary_list_row| %>
       <% summary_list_row.key { row[:key] } %>

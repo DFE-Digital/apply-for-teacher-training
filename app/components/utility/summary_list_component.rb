@@ -60,4 +60,12 @@ private
   def any_rows_with_actions?
     rows.any? { |row| (row[:action] || row[:actions]).present? }
   end
+
+  def options
+    opts = {}
+    if !any_rows_with_actions?
+      opts[:actions] = false
+    end
+    opts
+  end
 end
