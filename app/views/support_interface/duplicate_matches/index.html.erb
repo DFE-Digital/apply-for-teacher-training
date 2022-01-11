@@ -1,24 +1,19 @@
 <%= render 'support_interface/candidates/candidates_navigation', title: 'Duplicate candidate matches' %>
 
-<nav class="app-tab-navigation" aria-label="sub menu" data-qa="sub-navigation">
-  <ul class="app-tab-navigation__list govuk-!-display-none-print">
-    <li class="app-tab-navigation__item">
-      <%= govuk_link_to(
-        'Under review',
-        support_interface_duplicate_matches_path,
-        class: 'app-tab-navigation__link',
-        aria: params[:resolved] == 'true' ? nil : { current: 'page' },
-      ) %>
-    </li>
-    <li class="app-tab-navigation__item">
-      <%= govuk_link_to(
-        'Resolved',
-        support_interface_duplicate_matches_path(resolved: true),
-        class: 'app-tab-navigation__link',
-        aria: params[:resolved] == 'true' ? { current: 'page' } : nil,
-      ) %>
-    </li>
-  </ul>
+<nav class="govuk-body">
+  <%= link_to_if(
+    params[:resolved] == 'true',
+    'Under review',
+    support_interface_duplicate_matches_path,
+    class: govuk_link_classes,
+  ) %>
+  <%= link_to_unless(
+    params[:resolved] == 'true',
+    'Resolved',
+    support_interface_duplicate_matches_path(resolved: true),
+    aria: { current: 'page' },
+    class: govuk_link_classes,
+  ) %>
 </nav>
 
 <% if @matches.empty? %>
