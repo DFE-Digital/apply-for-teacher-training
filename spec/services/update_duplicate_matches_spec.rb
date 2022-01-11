@@ -15,15 +15,15 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
   before do
     Timecop.freeze(Time.zone.local(2020, 8, 23, 12, 0o0, 0o0)) do
-      create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
-      create(:application_form, candidate: candidate2, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
+      create(:application_form, :duplicate_candidates, candidate: candidate1, submitted_at: Time.zone.now)
+      create(:application_form, :duplicate_candidates, candidate: candidate2)
       allow(SlackNotificationWorker).to receive(:perform_async)
     end
   end
 
   describe '#save!' do
-    context 'when there is no fraud match for the given candidates' do
-      it 'creates a fraud match with associated candidates' do
+    context 'when there is no duplicate match for the given candidates' do
+      it 'creates a duplicate match with associated candidates' do
         described_class.new.save!
 
         match = FraudMatch.first
@@ -53,8 +53,8 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
       end
 
       it 'sends a slack message' do
-        application_form1 = create(:application_form, first_name: 'Jeffrey', last_name: 'Thompsun', date_of_birth: '1998-08-08', postcode: 'W6 9BH', submitted_at: Time.zone.now)
-        application_form2 = create(:application_form, first_name: 'Joffrey', last_name: 'Thompsun', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
+        application_form1 = create(:application_form, :duplicate_candidates, submitted_at: Time.zone.now)
+        application_form2 = create(:application_form, :duplicate_candidates)
 
         create(:fraud_match,
                candidates: [application_form1.candidate, application_form2.candidate],
@@ -70,14 +70,14 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
       end
     end
 
-    context 'when a fraud match exists for the given candidates' do
-      it 'updates an existing fraud match with new candidate' do
+    context 'when a duplicate match exists for the given candidates' do
+      it 'updates an existing duplicate match with new candidate' do
         described_class.new.save!
 
         match = FraudMatch.first
         expect(match.candidates.third).to eq(nil)
 
-        create(:application_form, candidate: create(:candidate, email_address: 'exemplar3@example.com'), first_name: 'Jaffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'W6 9BH')
+        create(:application_form, :duplicate_candidates, candidate: create(:candidate, email_address: 'exemplar3@example.com'))
         described_class.new.save!
 
         match = FraudMatch.first

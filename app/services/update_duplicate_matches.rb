@@ -21,9 +21,12 @@ class UpdateDuplicateMatches
 private
 
   def save_match(match)
-    fraud_match, candidate = create_or_update_fraud_match(match)
+    fraud_match, candidate = nil
+    ActiveRecord::Base.transaction do
+      fraud_match, candidate = create_or_update_fraud_match(match)
+      candidate.update!(submission_blocked: true)
+    end
     notify_candidate(candidate, fraud_match)
-    candidate.update!(submission_blocked: true)
   end
 
   def create_or_update_fraud_match(match)

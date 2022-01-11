@@ -12,6 +12,7 @@ RSpec.feature 'See Duplicate candidate matches' do
 
   scenario 'Support agent visits Duplicate candidate matches page', sidekiq: true do
     given_i_am_a_support_user
+    and_the_duplicate_matching_feature_flag_is_deactivated
     and_i_go_to_duplicate_candidate_matches_page
     then_i_should_see_a_message_declaring_that_there_are_no_matches
 
@@ -195,5 +196,9 @@ RSpec.feature 'See Duplicate candidate matches' do
       open_email(@candidate_two.email_address)
       expect(current_email.subject).to have_content t('candidate_mailer.fraud_match.subject')
     end
+  end
+
+  def and_the_duplicate_matching_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:duplicate_matching)
   end
 end
