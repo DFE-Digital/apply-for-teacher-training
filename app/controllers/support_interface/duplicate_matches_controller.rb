@@ -3,10 +3,8 @@ module SupportInterface
     before_action :check_feature_flag
 
     def index
-      @matches = FraudMatch.where(
-        recruitment_cycle_year: RecruitmentCycle.current_year,
-        resolved: ActiveModel::Type::Boolean.new.cast(params[:resolved]) || false,
-      ).order(:created_at)
+      @matches = fraud_matches(resolved: params[:resolved] == 'true')
+      @under_review_count = fraud_matches(resolved: false).count
     end
 
     def show
@@ -22,6 +20,13 @@ module SupportInterface
     end
 
   private
+
+    def fraud_matches(resolved: false)
+      FraudMatch.where(
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+        resolved: resolved,
+      ).order(:created_at)
+    end
 
     def check_feature_flag
       render_404 and return unless FeatureFlag.active?(:duplicate_matching)

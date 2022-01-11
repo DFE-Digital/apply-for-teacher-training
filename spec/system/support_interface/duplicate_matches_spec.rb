@@ -25,6 +25,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     and_the_second_fraud_match_is_resolved
     and_I_click_the_duplicate_matches_tab
     then_i_should_see_list_of_under_review_duplicates
+    and_i_should_see_a_counter_for_under_review_duplicates
 
     # TODO: View resolved matches
 
@@ -84,6 +85,12 @@ RSpec.feature 'See Duplicate candidate matches' do
   def then_i_should_see_list_of_under_review_duplicates
     expect(page).to have_content('2 candidates with postcode W6 9BH and DOB 8 Aug 1998')
     expect(page).not_to have_link('2 candidates with postcode W3 6ET')
+  end
+
+  def and_i_should_see_a_counter_for_under_review_duplicates
+    within('span[class=app-count]') do
+      expect(page).to have_content('1')
+    end
   end
 
   def when_i_click_on_a_duplicate
