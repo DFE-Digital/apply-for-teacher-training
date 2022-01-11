@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/DFE-Digital/rspec-retry.git
-  revision: 7cd394cf093dc8c29784da80ec7908151c8ced4d
+  revision: 6424b04e39c1e626d6fd71b386ad3fb7dc34fca5
   branch: main
   specs:
     rspec-retry (0.6.2)
