@@ -4,10 +4,10 @@
   <% if params[:resolved] == 'true' %>
     <%= govuk_link_to(
       support_interface_duplicate_matches_path,
-      class: 'govuk-!-margin-right-4',
     ) do %>
-      Under review<span class="app-count"><%= @under_review_count %></span>
+      Under review
     <% end %>
+    <span class="app-count govuk-!-margin-right-4"><%= @under_review_count %></span>
     <span class="govuk-!-font-weight-bold">
       Resolved
     </span>
