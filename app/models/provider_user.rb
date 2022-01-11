@@ -3,7 +3,7 @@ class ProviderUser < ApplicationRecord
 
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
-  has_many :notes, dependent: :destroy
+  has_many :notes, as: :user, dependent: :destroy
   has_one :notification_preferences, class_name: 'ProviderUserNotificationPreferences'
   attr_accessor :impersonator
 
