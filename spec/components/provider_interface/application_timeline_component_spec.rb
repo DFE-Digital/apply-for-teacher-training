@@ -23,7 +23,8 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   end
 
   def provider_user
-    @provider_user ||= ProviderUser.new(
+    @provider_user ||= create(
+      :provider_user,
       first_name: 'Bob',
       last_name: 'Roberts',
       email_address: 'bob.roberts@example.com',
@@ -86,6 +87,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       note = Note.new(
         provider_user: provider_user,
         message: 'Notes are a new feature',
+        user: provider_user,
       )
       application_choice.notes << note
       rendered = render_inline(described_class.new(application_choice: application_choice))
