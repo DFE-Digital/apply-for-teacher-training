@@ -27,9 +27,9 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
       described_class.new(matches: [@fraud_match1, @fraud_match2]),
     )
 
-    expect(result.css('tbody tr')[0].text).to include('3 candidates with postcode W6 9BH and DOB 08/08/1998')
+    expect(result.css('tbody tr')[0].text).to include('3 candidates with postcode W6 9BH and DOB 8 Aug 1998')
     expect(result.css('tbody tr')[0].text).to include('4 Jan 2022')
-    expect(result.css('tbody tr')[1].text).to include('2 candidates with postcode GU1 6XO and DOB 15/02/1973')
+    expect(result.css('tbody tr')[1].text).to include('2 candidates with postcode GU1 6XO and DOB 15 Feb 1973')
     expect(result.css('tbody tr')[1].text).to include('1 Jan 2022')
   end
 end
