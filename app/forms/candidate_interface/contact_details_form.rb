@@ -18,7 +18,7 @@ module CandidateInterface
     validates :address_line1, :address_line2, :address_line3, :address_line4,
               length: { maximum: MAX_LENGTH }, on: :address, if: :uk?
 
-    validates :phone_number, length: { maximum: MAX_LENGTH }, phone_number: true, on: :base
+    validates :phone_number, phone_number: true, on: :base
 
     validates :postcode, postcode: true, on: :address, if: :uk?
 
