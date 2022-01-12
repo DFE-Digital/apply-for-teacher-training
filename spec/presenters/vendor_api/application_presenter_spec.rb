@@ -60,7 +60,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       allow(Rails.cache).to receive(:fetch)
       described_class.new(version, application_choice).as_json
 
-      expect(Rails.cache).to have_received(:fetch).with(CacheKey.generate("#{application_choice.cache_key_with_version}as_json"), expires_in: 1.day)
+      expect(Rails.cache).to have_received(:fetch).with(CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}as_json"), expires_in: 1.day)
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       described_class.new(version, application_choice).serialized_json
 
       expect(Rails.cache)
-        .to have_received(:fetch).with(CacheKey.generate(application_choice.cache_key_with_version), expires_in: 1.day)
+        .to have_received(:fetch).with(CacheKey.generate("#{version}_#{application_choice.cache_key_with_version}"), expires_in: 1.day)
     end
   end
 

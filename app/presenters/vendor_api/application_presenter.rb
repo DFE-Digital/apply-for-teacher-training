@@ -20,13 +20,13 @@ module VendorAPI
     end
 
     def serialized_json
-      Rails.cache.fetch(cache_key(application_choice), expires_in: CACHE_EXPIRES_IN) do
+      Rails.cache.fetch(cache_key(application_choice, active_version), expires_in: CACHE_EXPIRES_IN) do
         schema.to_json
       end
     end
 
     def as_json
-      Rails.cache.fetch(cache_key(application_choice, 'as_json'), expires_in: CACHE_EXPIRES_IN) do
+      Rails.cache.fetch(cache_key(application_choice, active_version, 'as_json'), expires_in: CACHE_EXPIRES_IN) do
         schema
       end
     end
@@ -103,10 +103,6 @@ module VendorAPI
         referee_type: reference.referee_type,
         safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
       }
-    end
-
-    def cache_key(model, method = '')
-      CacheKey.generate("#{model.cache_key_with_version}#{method}")
     end
   end
 end
