@@ -1,8 +1,7 @@
 <ul class="govuk-list" data-qa="reference-history">
   <% history.each do |event| %>
     <li>
-      <%= formatted_title event %>
-      <span class="govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16"><%= formatted_date event.time %></span>
+      <%= formatted_title event %> on <%= formatted_date event.time %>
     </li>
   <% end %>
 </ul>
