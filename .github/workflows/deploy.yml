@@ -108,39 +108,6 @@ jobs:
         env:
           DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
 
-      - name: Check if a review environment exists
-        id: review-environment-exists
-        if:  github.event.inputs.review != ''
-        uses: actions/github-script@v5
-        with:
-          result-encoding: string
-          script: |
-
-            const environmentName = process.env.DEPLOY_ENV;
-
-            const result = await github.rest.repos.getEnvironment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                environment_name: environmentName
-            }).then(res => {
-
-                console.log(`The environment ${environmentName} exists in the repository.`)
-                return "true"
-
-            }).catch(err => {
-
-                if (err.status == "404") {
-                    console.log(`The environment ${environmentName} does not exist in the repository.`)
-                    return "false"
-                }
-
-                console.error(err)
-
-            });
-
-            console.log(`Setting the task output to ${result}`)
-            return result;
-
       - name: Start ${{ env.DEPLOY_ENV }} Deployment
         if: ${{ always() }}
         uses: bobheadxi/deployments@v0.4.3
@@ -159,25 +126,18 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - uses: DFE-Digital/github-actions/keyvault-yaml-secret@master
-        id: cf-username-secret
+      - uses: DFE-Digital/keyvault-yaml-secret@v1
+        id: get-secrets
         with:
           keyvault: ${{ env.KEY_VAULT_NAME }}
-          yaml_secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          secret: CF_USER
-
-      - uses: DFE-Digital/github-actions/keyvault-yaml-secret@master
-        id: cf-password-secret
-        with:
-          keyvault: ${{ env.KEY_VAULT_NAME }}
-          yaml_secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          secret: CF_PASSWORD
+          secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+          key: CF_USER, CF_PASSWORD
 
       - name: Setup cf cli
         uses: DFE-Digital/github-actions/setup-cf-cli@master
         with:
-          CF_USERNAME:   ${{ steps.cf-username-secret.outputs.secret-value }}
-          CF_PASSWORD:   ${{ steps.cf-password-secret.outputs.secret-value }}
+          CF_USERNAME:   ${{ steps.get-secrets.outputs.cf_user }}
+          CF_PASSWORD:   ${{ steps.get-secrets.outputs.cf_password }}
           CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
           INSTALL_CONDUIT: true
 
@@ -206,7 +166,7 @@ jobs:
           CONFIRM_PRODUCTION: true
 
       - name: Seed Review App
-        if: github.event.inputs.review != '' && steps.review-environment-exists.outputs.result == 'false'
+        if: github.event.inputs.review != ''
         run: |
           cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
 
