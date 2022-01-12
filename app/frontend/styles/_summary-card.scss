@@ -74,8 +74,15 @@
     margin-bottom: 0;
   }
 
-  .govuk-summary-list__row:last-child > * {
-    border-bottom: 0;
+  .govuk-summary-list__row:last-child {
+    border: 0;
+    @include govuk-media-query($from: tablet) {
+      .govuk-summary-list__key,
+      .govuk-summary-list__value,
+      .govuk-summary-list__actions {
+        padding-bottom: govuk-spacing(2) + 1px;
+      }
+    }
   }
 }
 
