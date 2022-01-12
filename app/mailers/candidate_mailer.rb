@@ -86,7 +86,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_all_applications_rejected(application_choice)
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
     @multiple_applications = application_choice.self_and_siblings.count > 1
@@ -98,7 +98,7 @@ class CandidateMailer < ApplicationMailer
     @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
     return if @awaiting_decision.reject_by_default_at.blank?
 
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @offer = application_choice.self_and_siblings.find(&:offer?)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
@@ -112,7 +112,7 @@ class CandidateMailer < ApplicationMailer
     reject_by_default_at = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last
     return if reject_by_default_at.blank?
 
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @awaiting_decisions_by = reject_by_default_at.to_s(:govuk_date)
 
@@ -124,7 +124,7 @@ class CandidateMailer < ApplicationMailer
     decline_by_default_at = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first
     return if decline_by_default_at.blank?
 
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @respond_by_date = decline_by_default_at.to_s(:govuk_date)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
@@ -136,7 +136,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_withdrawn_on_request_all_applications_withdrawn(application_choice)
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
     @multiple_applications = application_choice.self_and_siblings.count > 1
@@ -148,7 +148,7 @@ class CandidateMailer < ApplicationMailer
     @awaiting_decision = application_choice.self_and_siblings.find(&:decision_pending?)
     return if @awaiting_decision.reject_by_default_at.blank?
 
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = application_choice
     @offer = application_choice.self_and_siblings.find(&:offer?)
     @awaiting_decision_by = @awaiting_decision.reject_by_default_at.to_s(:govuk_date)
@@ -162,7 +162,7 @@ class CandidateMailer < ApplicationMailer
     reject_by_default_at = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last
     return if reject_by_default_at.blank?
 
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = application_choice
     @awaiting_decisions_by = reject_by_default_at.to_s(:govuk_date)
 
@@ -174,7 +174,7 @@ class CandidateMailer < ApplicationMailer
     decline_by_default_at = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first
     return if decline_by_default_at.blank?
 
-    @course = application_choice.course_option.course
+    @course = application_choice.current_course_option.course
     @application_choice = application_choice
     @respond_by_date = decline_by_default_at.to_s(:govuk_date)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
@@ -224,7 +224,7 @@ class CandidateMailer < ApplicationMailer
     @dbd_date = @application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
     @days_until_chaser = TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: @application_choices.first.sent_to_provider_at).call.fetch(:days)
     @offers = @application_choices.map do |offer|
-      "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
+      "#{offer.current_course_option.course.name_and_code} at #{offer.current_course_option.course.provider.name}"
     end
     subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
 
@@ -236,7 +236,7 @@ class CandidateMailer < ApplicationMailer
 
   def declined_by_default(application_form)
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
-    @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+    @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
     if application_form.ended_without_success? && application_form.application_choices.select(&:rejected?).present?
@@ -345,7 +345,7 @@ class CandidateMailer < ApplicationMailer
 
   def withdraw_last_application_choice(application_form)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
-    @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+    @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
@@ -357,7 +357,7 @@ class CandidateMailer < ApplicationMailer
 
   def decline_last_application_choice(application_choice)
     @declined_course = application_choice
-    @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
+    @declined_course_name = "#{application_choice.current_course_option.course.name_and_code} at #{application_choice.current_course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
     @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
 
@@ -380,9 +380,9 @@ class CandidateMailer < ApplicationMailer
       application_choice.application_form,
       subject: I18n.t!(
         "candidate_mailer.course_unavailable_notification.subject.#{reason}",
-        course_name: application_choice.course_option.course.name_and_code,
-        provider_name: application_choice.course_option.course.provider.name,
-        study_mode: application_choice.course_option.study_mode.humanize.downcase,
+        course_name: application_choice.current_course_option.course.name_and_code,
+        provider_name: application_choice.current_course_option.course.provider.name,
+        study_mode: application_choice.current_course_option.study_mode.humanize.downcase,
       ),
       template_name: "course_unavailable_#{reason}",
     )
@@ -467,12 +467,12 @@ private
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
-    course_option = CourseOption.find_by(id: @application_choice.current_course_option_id) || @application_choice.course_option
+    course_option = CourseOption.find_by(id: @application_choice.current_course_option_id) || @application_choice.current_course_option
     @provider_name = course_option.course.provider.name
     @course_name = course_option.course.name_and_code
     @conditions = @application_choice.offer.conditions_text
-    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |offer|
-      "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
+    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |application_choice_with_offer|
+      "#{application_choice_with_offer.current_course_option.course.name_and_code} at #{application_choice_with_offer.current_course_option.course.provider.name}"
     end
     @start_date = course_option.course.start_date.to_s(:month_and_year)
 
