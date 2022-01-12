@@ -154,17 +154,19 @@ module MinisterialReport
     withdrawn: %i[applications application_withdrawn],
   }.freeze
 
-  TAD_STATUS_MAPPING = {
-    offer: %i[offer_received],
+  TAD_STATUS_PRECEDENCE = {
+    recruited: nil,
     pending_conditions: %i[offer_received accepted],
-    rejected: %i[application_rejected],
-    cancelled: %i[application_declined],
     offer_deferred: %i[offer_received accepted],
-    conditions_not_met: %i[offer_received application_rejected],
+    offer: %i[offer_received],
+    interviewing: nil,
+    awaiting_provider_decision: nil,
     declined: %i[offer_received application_declined],
-    recruited: %i[offer_received accepted],
+    offer_withdrawn: nil,
+    conditions_not_met: %i[offer_received application_rejected],
+    rejected: %i[application_rejected],
     withdrawn: %i[application_withdrawn],
-  }
+  }.freeze
 
   APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING = {
     unsubmitted: %i[applications],

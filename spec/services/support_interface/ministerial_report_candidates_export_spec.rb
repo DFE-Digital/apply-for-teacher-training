@@ -346,7 +346,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_accepted_offer, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates candidates_holding_offers candidates_that_have_accepted_offers])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates candidates_holding_offers candidates_that_have_accepted_offers])
       end
     end
 
@@ -355,7 +355,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_conditions_not_met, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates candidates_holding_offers])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates candidates_holding_offers])
       end
     end
 
@@ -364,7 +364,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates])
       end
     end
 
@@ -373,7 +373,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_withdrawn_offer, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates candidates_that_have_withdrawn_offers])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates candidates_that_have_withdrawn_offers])
       end
     end
 
@@ -382,7 +382,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_declined_offer, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates declined_candidates])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates declined_candidates])
       end
     end
 
@@ -391,7 +391,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_rejection, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates rejected_candidates])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates rejected_candidates])
       end
     end
 
@@ -400,7 +400,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :withdrawn, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to eq(%i[candidates])
+        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates])
       end
     end
   end
