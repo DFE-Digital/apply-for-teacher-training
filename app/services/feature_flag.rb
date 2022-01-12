@@ -39,6 +39,7 @@ class FeatureFlag
     [:publish_monthly_statistics, 'Publish monthly statistics at publications/monthly-statistics', 'Duncan Brown'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:immigration_entry_date, 'Extends the restructured_immigration_status feature to include the "Date of entry into the UK" question', 'Steve Hook'],
+    [:duplicate_matching, 'Replaces the fraud matching feature including a re-designed support interface', 'Steve Hook'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day

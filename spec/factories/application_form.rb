@@ -25,7 +25,8 @@ FactoryBot.define do
 
     trait :duplicate_candidates do
       date_of_birth { ApplicationForm.last&.date_of_birth || '01-01-1996' }
-      postcode { ApplicationForm.last&.postcode || 'SW1P 3BT' }
+      postcode { ApplicationForm.last&.postcode || 'W6 9BH' }
+      last_name { 'Thompson' }
     end
 
     trait :international_address do
