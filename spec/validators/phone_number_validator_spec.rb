@@ -62,11 +62,25 @@ RSpec.describe PhoneNumberValidator do
         '+1 7123 123 123',
         '+447123123123',
         '07123123123',
+        '01234 123 123 --()+ ',
+        '01234 123 123 ext 123',
+        '01234 123 123 x123',
         '(01234) 123123',
         '(12345) 123123',
         '(+44) (0)1234 123456',
         '+44 (0) 123 4567 123',
+        '123 1234 1234 ext 123',
+        '12345 123456 ext 123',
+        '12345 123456 ext. 123',
+        '12345 123456 ext123',
+        '01234123456 ext 123',
+        '123 1234 1234 x123',
+        '12345 123456 x123',
+        '12345123456 x123',
         '(1234) 123 1234',
+        '1234 123 1234 x123',
+        '1234 123 1234 ext 1234',
+        '1234 123 1234  ext 123',
         '+44(0)123 12 12345',
       ]
 
@@ -75,6 +89,26 @@ RSpec.describe PhoneNumberValidator do
 
         expect(model).to be_valid
       end
+    end
+  end
+
+  context 'when phone number is over 15 numbers' do
+    it 'returns an error' do
+      model = Validatable.new
+      model.phone_number = '123456791123456789'
+      model.validate
+
+      expect(model).not_to be_valid
+    end
+  end
+
+  context 'when phone number is 7 numbers or less' do
+    it 'returns an error' do
+      model = Validatable.new
+      model.phone_number = '1234567'
+      model.validate
+
+      expect(model).not_to be_valid
     end
   end
 end

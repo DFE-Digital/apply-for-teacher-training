@@ -1,15 +1,11 @@
 module CandidateInterface
   class ContactDetailsForm
     include ActiveModel::Model
-    include ActiveModel::Validations::Callbacks
 
     MAX_LENGTH = 50
 
     attr_accessor :phone_number, :address_line1, :address_line2, :address_line3,
-                  :address_line4, :postcode, :address_type, :country, :raw_phone_number
-
-    before_validation :sanitize_phone_number
-    after_validation :reset_phone_number
+                  :address_line4, :postcode, :address_type, :country
 
     validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
 
@@ -22,7 +18,7 @@ module CandidateInterface
     validates :address_line1, :address_line2, :address_line3, :address_line4,
               length: { maximum: MAX_LENGTH }, on: :address, if: :uk?
 
-    validates :phone_number, length: { maximum: 15, minimum: 8 }, phone_number: true, on: :base
+    validates :phone_number, phone_number: true, on: :base
 
     validates :postcode, postcode: true, on: :address, if: :uk?
 
@@ -37,15 +33,6 @@ module CandidateInterface
         address_type: application_form.address_type || 'GB',
         country: application_form.country,
       )
-    end
-
-    def sanitize_phone_number
-      self.raw_phone_number = phone_number
-      self.phone_number = phone_number.gsub(/[\s()\-+]/, '') unless phone_number.nil?
-    end
-
-    def reset_phone_number
-      self.phone_number = raw_phone_number
     end
 
     def save_base(application_form)

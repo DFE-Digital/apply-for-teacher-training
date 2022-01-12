@@ -112,25 +112,6 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     end
   end
 
-  describe '#sanitize_phone_number' do
-    it 'returns sanitized phone number' do
-      form_data = { phone_number: '123456789123456-+() ' }
-      phone_number = described_class.new(form_data)
-
-      expect(phone_number.sanitize_phone_number).to eq('123456789123456')
-    end
-  end
-
-  describe '#reset_phone_number' do
-    it 'returns raw phone number from user' do
-      form_data = { phone_number: '123456789123456', raw_phone_number: '123456789123456-+()' }
-      phone_numbers = described_class.new(form_data)
-      phone_numbers.reset_phone_number
-
-      expect(phone_numbers.phone_number).to eq(phone_numbers.raw_phone_number)
-    end
-  end
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:address_type).on(:address_type) }
 
@@ -160,8 +141,6 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
     it { is_expected.to allow_value('07700 900 982').for(:phone_number).on(:base) }
     it { is_expected.not_to allow_value('07700 WUT WUT').for(:phone_number).on(:base) }
-    it { is_expected.to validate_length_of(:phone_number).is_at_most(15).on(:base) }
-    it { is_expected.to validate_length_of(:phone_number).is_at_least(8).on(:base) }
   end
 
   describe 'custom validations' do
