@@ -47,8 +47,8 @@ en:
             phone_number:
               blank: Enter your phone number
               invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
-              too_long: Phone number must be 15 characters or fewer
-              too_short: Phone number must be 8 characters or more
+              too_long: Phone number must contain 15 numbers or fewer
+              too_short: Phone number must contain 8 numbers or more
             address_line1:
               blank: Enter your building and street
               international_blank: Enter your address
