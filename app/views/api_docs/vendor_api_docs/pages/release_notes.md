@@ -1,56 +1,56 @@
-## 19th October
+## 19th October 2021
 
 Documentation:
 
 Mark `award_year` as nullable. This field can contain `null` values as we carry over applications from previous years, where this field was not mandatory.
 
-## 13th October
+## 13th October 2021
 
 Documentation:
 
 Mark `working_with_children` as deprecated and nullable. This field can contain `null` values as we no longer collect this information.
 
-## 10th October
+## 10th October 2021
 
 Adds the attribute `application_url`, this is the URL of the application details in 'Manage teacher training applications'.
 
-## 17th September
+## 17th September 2021
 
 The `site_code` attribute of `Course` is now optional when POSTing to `/application/:id/offer`.
 The `site_code` can be left blank if the other provided attributes uniquely define a course.
 If the other provided attributes define a course that is available at multiple sites, then the endpoint will respond with a 422.
 
-## 15th July
+## 15th July 2021
 
 Documentation:
 
 - Add maximum lengths for the following fields: `other_ethnicity_details` and `other_disability_details`.
 - Add clarification on where changed course details can be found when changing on offer.
 
-## 2nd July
+## 2nd July 2021
 
 Documentation:
 
 Add clarification in the identifier fields for `support_reference`, `application.id` and `candidate.id` in the documentation.
 
-## 28th June
+## 28th June 2021
 
 Documentation:
 
 - Add clarification in the description of `uk_residency_status_code` field in the documentation.
 
-## 15th June
+## 15th June 2021
 
 Documentation has been amended to mark the following endpoint as deprecated: `/test-data/regenerate`.
 
-## 3rd June
+## 3rd June 2021
 
 `HESAITTData` now includes the following optional fields:
 
 - `other_disability_details` will contain the candidate’s description of their disability if they selected “Other” and entered a value. This corresponds to HESA disability code `96`
 - `other_ethnicity_details` will contain the candidate’s description of their ethnicity if they selected “Other” and entered a value.
 
-## 5th May
+## 5th May 2021
 
 The following experimental/sandbox endpoint has been updated:
 
@@ -61,25 +61,25 @@ Supplying `for_test_provider_courses=true` will ensure that applications are gen
 Supplying none of `for_ratified_courses`, `for_training_courses` or `for_test_provider_courses` as `true`, will result in applications being generated to courses run by the organisation (the same effect as just `for_training_courses=true`)
 
 
-## 26th April
+## 26th April 2021
 
 Add [documentation](/api-docs#how-candidates-and-applications-are-identified) about application and candidate IDs
 
-## 16th April
+## 16th April 2021
 
 `Qualification` now includes an optional `subject_code` field. This contains the HECoS code for the subject if it is available
 
-## 15th April
+## 15th April 2021
 
 Changes to existing attributes:
 
 - Update the return values of the `rejection` object `reason` field to return `Not entered` if there is no rejection reason yet provided on an application rejected by default.
 
-## 31st March
+## 31st March 2021
 
 `Qualification.grade` now has a value of `Not entered` when the candidate did not provide a value. This used to be `null`, though we promised a string.
 
-## 22nd March
+## 22nd March 2021
 
 The following experimental/sandbox endpoint has been updated:
 
@@ -90,11 +90,11 @@ The following experimental/sandbox endpoint has been updated:
 - The new applications will become available as soon as they have been generated.
 - Applications generated in this way will now have their `updated_at` set to the current time, so they can be retrieved using the `GET /applications` endpoint with the `since` parameter.
 
-## 19th March
+## 19th March 2021
 
 Fix a bug where HESA ITT data was not being returned for applications with accepted offers.
 
-## 9th March
+## 9th March 2021
 
 Changes to existing attributes:
 
@@ -104,11 +104,11 @@ New attributes:
 
 - Adds `uk_residency_status_code` field. Single alphabetical character code for the candidate’s UK residency status indicating their right to work and study in the UK.
 
-## 29th February
+## 29th February 2021
 
 - deprecate `Qualification.awarding_body` as this field has always been null.
 
-## 26th February
+## 26th February 2021
 
 New attributes:
 
@@ -118,21 +118,21 @@ Documentation:
 
 - Clarify the description of `Candidate.uk_residency_status` field in the documentation.
 
-## 25th February
+## 25th February 2021
 
 - Documentation updated to indicate that the `Candidate.domicile` field is encoded as a HESA DOMICILE code.
 
-## 5th February
+## 5th February 2021
 
 The following experimental/sandbox endpoint has been updated:
 
 - `/test-data/generate` now accepts an optional `for_ratified_courses` query param. If this parameter is supplied and set to a non-empty string, applications will be generated for courses the organisation awards, not runs. This means subsequent calls to `/test-data/clear` will NOT delete these applications.
 
-## 29th January
+## 29th January 2021
 
 - The documented enum values for `Reference.referee_type` have been corrected to remove commas and replace `school-based` with `school_based`.
 
-## 17th December
+## 17th December 2020
 
 - The `Rejection` `reason` field may now return more complex 'structured' reasons for rejection. The field type remains `string`. The field contains details and advice about the rejected application as seen by the candidate, grouped under relevant headings.
 
