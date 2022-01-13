@@ -1177,9 +1177,9 @@ Rails.application.routes.draw do
   mount Yabeda::Prometheus::Exporter => '/metrics'
 
   scope via: :all do
-    match '/404', to: 'errors#not_found'
-    match '/406', to: 'errors#not_acceptable'
-    match '/422', to: 'errors#unprocessable_entity'
-    match '/500', to: 'errors#internal_server_error'
+    get '/404', to: 'errors#not_found'
+    get '/406', to: 'errors#not_acceptable'
+    get '/422', to: 'errors#unprocessable_entity'
+    get '/500', to: 'errors#internal_server_error'
   end
 end
