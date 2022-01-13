@@ -1,3 +1,6 @@
+# This config prioritises BigQuery because when the service is under load it's
+# possible for Redis to fill up with BigQuery jobs (triggered per-request) that
+# can't be processed fast enough.
 ---
 :queues:
   - big_query
