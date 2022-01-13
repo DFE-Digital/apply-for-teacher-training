@@ -19,35 +19,35 @@ en:
     page_title: What grade is your %{subject} %{qualification_type}?
     guidance:
       main: |
-        Providers expect you to have a grade C or 4 (or the equivalent) in order
-        to train.
+        You need at least a grade 4 (C).
 
-        If you do not have this, contact your provider to discuss your
-        options. You might be able to retake an exam or do an equivalence test.
+        If you do not have this, you can contact teacher training providers to discuss your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
       o_level_guidance: |
-        Providers expect you to have a grade C or above in order to train.
+        You need at least a grade C or equivalent.
 
-        If you do not have this, contact your provider to discuss your
-        options. You might be able to retake an exam or do an equivalence test.
-      o_level_triple_gcse_science: If you have a combined or triple O Level in science, enter your total grade.
+        If you do not have this, you can contact teacher training providers to discuss
+        your eligibility for their courses. You might be able to do an equivalence test.
+      scottish_national_5: |
+        You need at least a grade C.
+
+        If you do not have this, you can contact teacher training providers to discuss
+        your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
       multiple_english_gcses:
-        main: You need a grade C or 4 (or the equivalent). Contact your provider if you do not have this. You might be able to retake an exam or do an equivalence test.
         secondary: An English Language GCSE is preferred.
-      triple_scottish_national_science: If you studied three science subjects separately or took a general science qualification, enter your total grade.
+      triple_scottish_national_science: If you took exams in more than one science subject, enter all your grades.
     hint:
       science:
         gcse: For example, ‘A*A*A*’, ‘AA’, ‘B’, ‘999’, ‘88’, ‘7’
         gcse_double_award: For example, ‘CD’ or ‘4-3’
-        gce_o_level: For example, ‘ABC’, ‘AA’, ‘B’
-        scottish_national_5: For example, ‘A*A*A*’, ‘ABC’, ‘A’, ‘777’, ‘654’, ‘6’
+        gce_o_level: For example, ‘A‘
+        scottish_national_5: For example, ‘AA‘, ‘A‘
         one_grade: You have one science grade
         combined_grade: You have a combined science grade
         subject_per_grade: You have a grade for each subject
       other:
         gcse: For example, ‘C’ or ‘4’
         gcse_single_and_double: For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’
-        gce_o_level: For example, ‘C’
-        scottish_national_5: For example, ‘C’ or ‘4’
+        non_gcse: For example, ‘A’
   gcse_edit_year:
     page_title: When was your %{subject} %{qualification_type} awarded?
   gcse_edit_institution_country:

@@ -20,7 +20,7 @@ en:
       not_completed_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
-        label: Please specify your grade
+        label: Grade
       award_year:
         label: Enter year
         hint_text: For example, 1996
