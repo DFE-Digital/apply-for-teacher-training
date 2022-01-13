@@ -81,7 +81,7 @@ RSpec.describe VendorIntegrationStatsWorker do
       before do
         double = instance_double(SupportInterface::VendorAPIMonitor)
         allow(double).to receive(:never_connected).and_return(providers)
-        allow(double).to receive(:no_sync_in_24h).and_return(providers)
+        allow(double).to receive(:no_sync_in_7d).and_return(providers)
         allow(double).to receive(:no_decisions_in_7d).and_return(providers)
         allow(double).to receive(:providers_with_errors).and_return(providers)
 
@@ -99,7 +99,7 @@ RSpec.describe VendorIntegrationStatsWorker do
         expect(report).to include('```')
         expect(report).to include('Tribal')
         expect(report).to include('Never connected via API')
-        expect(report).to include('No API sync in the last 24h')
+        expect(report).to include('No API sync in the last 7 days')
         expect(report).to include('No API decisions in the last 7 days')
         expect(report).to include('Providers with API errors')
       end
