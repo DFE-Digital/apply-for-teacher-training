@@ -32,7 +32,7 @@ module SupportInterface
       FraudMatch.where(
         recruitment_cycle_year: RecruitmentCycle.current_year,
         resolved: resolved,
-      ).order(:created_at)
+      ).order(created_at: :desc)
     end
 
     def check_feature_flag
