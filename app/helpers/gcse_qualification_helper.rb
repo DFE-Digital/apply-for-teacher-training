@@ -5,13 +5,6 @@ module GcseQualificationHelper
     t('application_form.gcse.qualification_types').map { |id, label| option.new(id, label) }
   end
 
-  def hint_for_gcse_edit_grade(subject, qualification_type)
-    subject = subject == 'science' ? 'science' : 'other'
-    if I18n.exists?("gcse_edit_grade.hint.#{subject}.#{qualification_type}")
-      t("gcse_edit_grade.hint.#{subject}.#{qualification_type}")
-    end
-  end
-
   def grade_explanation_step_title(subject)
     t("gcse_edit_grade_explanation.page_titles.#{subject}")
   end
