@@ -150,7 +150,7 @@ RSpec.feature 'Managing provider users v2' do
   end
 
   def when_i_filter_the_list_of_provider_users_by_id
-    @new_user = ProviderUser.find_by_email_address('harrison@example.com')
+    @new_user = ProviderUser.find_by(email_address: 'harrison@example.com')
     fill_in :q, with: @new_user.id
     click_on 'Apply filters'
   end

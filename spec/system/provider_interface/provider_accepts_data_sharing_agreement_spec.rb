@@ -50,13 +50,13 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def and_no_data_sharing_agreement_for_my_provider_has_been_accepted
-    provider = Provider.find_by_code('ABC')
+    provider = Provider.find_by(code: 'ABC')
     ProviderAgreement.data_sharing_agreements.for_provider(provider).destroy_all
   end
 
   def and_no_data_sharing_agreements_for_any_of_my_providers_exist
-    provider_user = ProviderUser.find_by_dfe_sign_in_uid 'DFE_SIGN_IN_UID'
-    provider1 = Provider.find_by_code('ABC')
+    provider_user = ProviderUser.find_by dfe_sign_in_uid: 'DFE_SIGN_IN_UID'
+    provider1 = Provider.find_by(code: 'ABC')
     provider2 = create(:provider, code: 'CBA', name: 'Another Provider')
     provider2.provider_users << provider_user
     ProviderAgreement.data_sharing_agreements.for_provider(provider1).destroy_all
@@ -64,8 +64,8 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def and_i_need_to_set_up_organisation_permissions
-    provider_user = ProviderUser.find_by_dfe_sign_in_uid 'DFE_SIGN_IN_UID'
-    provider = Provider.find_by_code('ABC')
+    provider_user = ProviderUser.find_by dfe_sign_in_uid: 'DFE_SIGN_IN_UID'
+    provider = Provider.find_by(code: 'ABC')
     ratifying_provider = create(:provider, :with_signed_agreement)
     ratifying_provider.provider_users << provider_user
     create(:course, :open_on_apply, provider: provider, accredited_provider: ratifying_provider)

@@ -60,7 +60,7 @@ module ProviderInterface
         @course = perm.provider.courses.joins(:course_options).find_by('accredited_provider_id IS NOT NULL') if perm
       else
         perm = ProviderPermissions.find_by(
-          provider: Provider.find_by_code('1N1'),
+          provider: Provider.find_by(code: '1N1'),
           view_safeguarding_information: safeguarding_access,
         )
         @provider_user = perm.provider_user if perm

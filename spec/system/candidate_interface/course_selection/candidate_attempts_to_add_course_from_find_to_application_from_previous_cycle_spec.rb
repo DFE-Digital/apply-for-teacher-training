@@ -34,7 +34,7 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
 
   def and_there_are_course_options
     given_courses_exist
-    @course = Course.find_by_code('2XT2')
+    @course = Course.find_by(code: '2XT2')
   end
 
   def when_i_visit_the_site_with_a_course_id_from_find
