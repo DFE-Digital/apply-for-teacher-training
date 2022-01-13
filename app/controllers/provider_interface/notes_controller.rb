@@ -40,7 +40,7 @@ module ProviderInterface
 
     def note_params
       params.require(:provider_interface_new_note_form).permit(:message, :referer)
-        .merge(application_choice: @application_choice, user: current_provider_user)
+        .merge(application_choice: @application_choice, provider_user: current_provider_user)
     end
   end
 end

@@ -334,8 +334,8 @@ en:
             message:
               blank: Enter a note
               too_long: "The note must be %{count} characters or fewer"
-            user:
-              blank: Missing user
+            provider_user:
+              blank: Missing provider_user
         provider_interface/provider_user_form:
           attributes:
             email_address:

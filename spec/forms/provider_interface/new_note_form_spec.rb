@@ -19,9 +19,9 @@ RSpec.describe ProviderInterface::NewNoteForm do
         .with_message('The note must be 500 characters or fewer')
     end
 
-    it 'validates presence of :user' do
-      expect(described_class.new).to validate_presence_of(:user)
-        .with_message('Missing user')
+    it 'validates presence of :provider_user' do
+      expect(described_class.new).to validate_presence_of(:provider_user)
+        .with_message('Missing provider_user')
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::NewNoteForm do
     it 'creates a new note' do
       valid_form_object = described_class.new(
         application_choice: application_choice,
-        user: provider_user,
+        provider_user: provider_user,
         message: 'Some text',
       )
 
