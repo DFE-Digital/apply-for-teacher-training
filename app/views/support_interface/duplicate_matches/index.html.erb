@@ -1,0 +1,33 @@
+<%= render 'support_interface/candidates/candidates_navigation', title: 'Duplicate candidate matches' %>
+
+<nav class="govuk-body">
+  <% if resolved? %>
+    <%= govuk_link_to(
+      support_interface_duplicate_matches_path,
+    ) do %>
+      Under review
+    <% end %>
+    <span class="app-count govuk-!-margin-right-4"><%= @under_review_count %></span>
+    <span class="govuk-!-font-weight-bold">
+      Resolved
+    </span>
+  <% else %>
+    <span class="govuk-!-margin-right-4 govuk-!-font-weight-bold">
+      Under review<span class="app-count"><%= @under_review_count %></span>
+    </span>
+    <%= govuk_link_to(
+      'Resolved',
+      support_interface_duplicate_matches_path(resolved: true),
+    ) %>
+  <% end %>
+</nav>
+
+<% if @matches.empty? %>
+  <% if resolved? %>
+    <p class="govuk-body">There are currently no resolved duplicate applications.</p>
+  <% else %>
+    <p class="govuk-body">There are currently no duplicate applications.</p>
+  <% end %>
+<% else %>
+  <%= render SupportInterface::DuplicateMatchesTableComponent.new(matches: @matches) %>
+<% end %>

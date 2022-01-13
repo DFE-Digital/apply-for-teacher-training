@@ -1,0 +1,18 @@
+<% content_for :browser_title, SupportInterface::DuplicateMatchesTableComponent.description_for(@match) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_duplicate_matches_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l govuk-!-margin-top-3">
+      <%= SupportInterface::DuplicateMatchesTableComponent.description_for(@match) %>
+    </h1>
+
+    <%= render SupportInterface::DuplicateMatchesResolveComponent.new(@match) %>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render SupportInterface::DuplicateMatchesCandidatesTableComponent.new(@match) %>
+  </div>
+</div>
