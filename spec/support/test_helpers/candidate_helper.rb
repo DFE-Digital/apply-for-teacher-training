@@ -459,7 +459,7 @@ module CandidateHelper
   def candidate_fills_in_their_maths_gcse
     choose('GCSE')
     click_button t('save_and_continue')
-    fill_in('Please specify your grade', with: 'B')
+    fill_in('Grade', with: 'B')
     click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
     click_button t('save_and_continue')

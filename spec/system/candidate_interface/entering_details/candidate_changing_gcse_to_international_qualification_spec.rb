@@ -91,7 +91,7 @@ RSpec.feature 'Candidate changing UK GCSE to international qualification' do
   end
 
   def when_i_fill_in_the_grade
-    fill_in 'Please specify your grade', with: 'A'
+    fill_in 'Grade', with: 'A'
   end
 
   def when_i_fill_in_the_year

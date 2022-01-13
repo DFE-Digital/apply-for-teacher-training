@@ -107,7 +107,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_the_grade
-    fill_in 'Please specify your grade', with: 'A'
+    fill_in 'Grade', with: 'A'
   end
 
   def when_i_fill_in_the_year
@@ -147,7 +147,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_enter_a_different_qualification_grade
-    fill_in 'Please specify your grade', with: 'BB'
+    fill_in 'Grade', with: 'BB'
   end
 
   def when_i_enter_a_different_qualification_year

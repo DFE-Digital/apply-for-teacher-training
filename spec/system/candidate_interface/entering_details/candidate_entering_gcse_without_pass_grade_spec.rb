@@ -78,11 +78,11 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def when_i_fill_in_the_fail_grade
-    fill_in 'Please specify your grade', with: 'D'
+    fill_in 'Grade', with: 'D'
   end
 
   def when_i_fill_in_the_pass_grade
-    fill_in 'Please specify your grade', with: 'B'
+    fill_in 'Grade', with: 'B'
   end
 
   def then_i_am_prompted_to_explain_how_i_can_improve_this_grade
