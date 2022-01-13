@@ -72,7 +72,7 @@ module SupportInterface
           field: field_name,
           value_entered: value,
           frequency: count,
-          free_text?: !set_to_check.include?(value),
+          free_text?: set_to_check.exclude?(value),
         }
       end
     end

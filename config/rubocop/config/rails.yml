@@ -60,9 +60,6 @@ Rails/MailerName:
 Rails/MatchRoute:
   Enabled: false
 
-Rails/NegateInclude:
-  Enabled: false
-
 Rails/Pluck:
   Enabled: false
 
