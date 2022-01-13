@@ -63,6 +63,16 @@ module StatisticsTestHelper
            course_option: course_option_with(level: 'further_education', program_type: 'higher_education_programme', region: 'south_west'),
            application_form: rejected_form)
 
+    rejected_form_multiple_choices = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 25), region_code: :south_west, phase: 'apply_1')
+    create(:application_choice,
+           :with_rejection,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Mathematics')]),
+           application_form: rejected_form_multiple_choices)
+    create(:application_choice,
+           :with_rejection,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Mathematics')]),
+           application_form: rejected_form_multiple_choices)
+
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
     create(:application_choice,
            :with_withdrawn_offer,
@@ -100,6 +110,13 @@ module StatisticsTestHelper
     create(:application_choice,
            :with_recruited,
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Russian')]),
+           application_form: form)
+
+    form = DuplicateApplication.new(rejected_form_multiple_choices, target_phase: 'apply_2').duplicate
+    form.update(submitted_at: Time.zone.now)
+    create(:application_choice,
+           :withdrawn,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Physics')]),
            application_form: form)
   end
 
@@ -173,9 +190,7 @@ module StatisticsTestHelper
 
   def expect_report_rows(column_headings:)
     expected_rows = yield.map { |row| column_headings.zip(row).to_h } # [['Status', 'Recruited'], ['First Application', 1] ...].to_h
-    expected_rows.each do |row|
-      expect(statistics[:rows]).to include(row)
-    end
+    expect(statistics[:rows]).to match_array expected_rows
   end
 
   def expect_column_totals(*totals)

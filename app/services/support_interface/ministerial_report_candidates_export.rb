@@ -18,17 +18,20 @@ module SupportInterface
       subject_report = {}
 
       application_forms.find_each do |application|
-        latest_application =
+        latest_apply_again_application =
           if candidate_has_a_viable_apply_2_application?(application)
             application.candidate.current_application
           else
-            application
+            nil
           end
-        subjects = determine_subjects(latest_application)
-        states = determine_states(latest_application)
+
+        # We use original application to select determine subjects and
+        # combination of original application and latest apply again
+        # application (if there is one).
+        subjects = determine_subjects(application)
+        states = determine_states([application, latest_apply_again_application].compact)
 
         if candidate_has_no_dominant_subject?(subjects)
-
           if subject_report[:split].blank?
             subject_report[:split] = column_names.keys.index_with { [] }
           end
@@ -62,8 +65,10 @@ module SupportInterface
 
     alias data_for_export call
 
-    def determine_states(application)
-      choice_statuses = application.application_choices.map(&:status).map(&:to_sym)
+    def determine_states(applications)
+      choice_statuses = applications.reduce([]) do |results, application|
+        results + application.application_choices.map(&:status).map(&:to_sym)
+      end
 
       # get the highest-ranking status according to the order of precedence
       overall_status = (choice_statuses & MinisterialReport::TAD_STATUS_PRECEDENCE.keys).min_by { |el| MinisterialReport::TAD_STATUS_PRECEDENCE.keys.index(el) }

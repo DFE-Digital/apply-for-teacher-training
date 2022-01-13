@@ -29,22 +29,22 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:design_and_technology,    0, 0, 0, 0, 0, 0],
          [:drama,                    0, 0, 0, 0, 0, 0],
          [:english,                  1, 0, 0, 0, 0, 1],
-         [:further_education,        0, 0, 0, 0, 0, 0],
+         [:further_education,        1, 0, 0, 0, 0, 0],
          [:geography,                0, 0, 0, 0, 0, 0],
          [:history,                  0, 0, 0, 0, 0, 0],
-         [:mathematics,              0, 0, 0, 0, 0, 0],
-         [:modern_foreign_languages, 1, 0, 0, 0, 0, 0],
+         [:mathematics,              1, 0, 0, 0, 1, 0],
+         [:modern_foreign_languages, 0, 0, 0, 0, 0, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
          [:other,                    2, 1, 1, 0, 0, 0],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  0, 0, 0, 0, 0, 0],
          [:religious_education,      0, 0, 0, 0, 0, 0],
-         [:stem,                     0, 0, 0, 0, 0, 0],
-         [:ebacc,                    2, 0, 0, 0, 0, 1],
+         [:stem,                     1, 0, 0, 0, 1, 0],
+         [:ebacc,                    2, 0, 0, 0, 1, 1],
          [:primary,                  4, 2, 1, 0, 0, 0],
-         [:secondary,                5, 2, 1, 1, 0, 1],
+         [:secondary,                5, 2, 1, 1, 1, 1],
          [:split,                    1, 0, 0, 0, 0, 0],
-         [:total,                    10, 4, 2, 1, 0, 1]]
+         [:total,                    10, 4, 2, 1, 1, 1]]
       end
     end
 
@@ -58,11 +58,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :split,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
 
@@ -70,11 +70,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :primary,
             candidates: 1,
-            candidates_holding_offers: 0,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -90,11 +90,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :split,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -110,11 +110,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :drama,
             candidates: 1,
-            candidates_holding_offers: 0,
-            candidates_that_have_accepted_offers: 0,
-            declined_candidates: 1,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 0,
+            application_declined: 1,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -130,11 +130,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :business_studies,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -150,11 +150,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :physics,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
 
@@ -162,11 +162,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :drama,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 0,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -185,11 +185,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :physics,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
 
@@ -197,11 +197,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :mathematics,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -218,11 +218,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :business_studies,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -239,11 +239,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :modern_foreign_languages,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -260,11 +260,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :secondary,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -305,11 +305,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :total,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
 
@@ -317,11 +317,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :physics,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 1,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
 
@@ -329,11 +329,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           {
             subject: :modern_foreign_languages,
             candidates: 1,
-            candidates_holding_offers: 1,
-            candidates_that_have_accepted_offers: 0,
-            declined_candidates: 0,
-            rejected_candidates: 0,
-            candidates_that_have_withdrawn_offers: 0,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
           },
         )
       end
@@ -342,11 +342,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
   describe '#determine_states' do
     context 'when the status is successful' do
-      it 'returns the recruited mapping' do
+      it 'returns the offer and accepted mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_accepted_offer, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates candidates_holding_offers candidates_that_have_accepted_offers])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received accepted])
       end
     end
 
@@ -355,25 +355,25 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_conditions_not_met, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates candidates_holding_offers])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_rejected])
       end
     end
 
     context 'when the status is awaiting_provider_decision' do
-      it 'returns the offer mapping' do
+      it 'returns just the candidates mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
       end
     end
 
     context 'when the status is offer_withdrawn' do
-      it 'returns the offer_withdrawn mapping' do
+      it 'returns just the candidates mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_withdrawn_offer, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates candidates_that_have_withdrawn_offers])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
       end
     end
 
@@ -382,7 +382,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_declined_offer, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates declined_candidates])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_declined])
       end
     end
 
@@ -391,7 +391,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_rejection, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates rejected_candidates])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_rejected])
       end
     end
 
@@ -400,7 +400,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_form = create(:completed_application_form)
         create(:application_choice, :withdrawn, application_form: application_form)
 
-        expect(described_class.new.determine_states(application_form)).to match_array(%i[candidates])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_withdrawn])
       end
     end
   end
