@@ -3,7 +3,7 @@ module SupportInterface
     before_action :check_feature_flag
 
     def index
-      @matches = fraud_matches(resolved: resolved?)
+      @matches = fraud_matches(resolved: resolved?).page(params[:page]).per(100)
       @under_review_count = fraud_matches(resolved: false).count
     end
 

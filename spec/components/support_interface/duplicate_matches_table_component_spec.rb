@@ -24,7 +24,9 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
 
   it 'renders the correct match descriptions' do
     result = render_inline(
-      described_class.new(matches: [@fraud_match1, @fraud_match2]),
+      described_class.new(
+        matches: Kaminari.paginate_array([@fraud_match1, @fraud_match2]).page(1).per(10),
+      ),
     )
 
     expect(result.css('tbody tr')[0].text).to include('3 candidates with postcode W6 9BH and DOB 8 Aug 1998')
