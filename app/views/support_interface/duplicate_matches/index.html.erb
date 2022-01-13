@@ -1,7 +1,7 @@
 <%= render 'support_interface/candidates/candidates_navigation', title: 'Duplicate candidate matches' %>
 
 <nav class="govuk-body">
-  <% if params[:resolved] == 'true' %>
+  <% if resolved? %>
     <%= govuk_link_to(
       support_interface_duplicate_matches_path,
     ) do %>
@@ -23,7 +23,7 @@
 </nav>
 
 <% if @matches.empty? %>
-  <% if params[:resolved] %>
+  <% if resolved? %>
     <p class="govuk-body">There are currently no resolved duplicate applications.</p>
   <% else %>
     <p class="govuk-body">There are currently no duplicate applications.</p>

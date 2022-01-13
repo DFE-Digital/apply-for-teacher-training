@@ -3,7 +3,7 @@ module SupportInterface
     before_action :check_feature_flag
 
     def index
-      @matches = fraud_matches(resolved: params[:resolved] == 'true')
+      @matches = fraud_matches(resolved: resolved?)
       @under_review_count = fraud_matches(resolved: false).count
     end
 
@@ -13,13 +13,20 @@ module SupportInterface
 
     def update
       @match = FraudMatch.find(params[:id])
-      @match.update(
-        resolved: ActiveModel::Type::Boolean.new.cast(params[:resolved]),
-      )
+      @match.update(resolved: resolved_params)
       redirect_to support_interface_duplicate_match_path(@match)
     end
 
+    def resolved?
+      resolved_params.present?
+    end
+    helper_method :resolved?
+
   private
+
+    def resolved_params
+      ActiveModel::Type::Boolean.new.cast(params[:resolved])
+    end
 
     def fraud_matches(resolved: false)
       FraudMatch.where(
