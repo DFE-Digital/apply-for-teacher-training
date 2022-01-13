@@ -1,139 +1,80 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
-  context 'when the subject is maths' do
-    it 'displays the guidance around the expectation of providers' do
-      subject = 'maths'
+  subject(:subjects) { %w[english science maths] }
 
-      result = render_inline(described_class.new(subject, nil))
+  context 'when the qualification type is O level for any subject' do
+    let(:qualification_type) { 'gce_o_level' }
 
-      expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
-    end
+    it 'displays the O level guidance' do
+      subjects.each do |subject|
+        result = render_inline(described_class.new(subject, qualification_type))
 
-    it 'does not display the guidance around triple science' do
-      subject = 'maths'
-
-      result = render_inline(described_class.new(subject, nil))
-
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
-    end
-
-    it 'does not display the guidance around english literature and multiple english qualifications' do
-      subject = 'maths'
-
-      result = render_inline(described_class.new(subject, nil))
-
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
+        expect(result.text).to include(I18n.t('gcse_edit_grade.guidance.o_level_guidance'))
+      end
     end
   end
 
-  context 'when the subject is science' do
-    it 'displays the guidance around the expectation of providers' do
-      subject = 'science'
+  context 'when the qualification type is GCSE for any subject' do
+    let(:qualification_type) { 'gcse' }
 
-      result = render_inline(described_class.new(subject, nil))
-
-      expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
-    end
-
-    it 'does not display the guidance around english literature and multiple english qualifications' do
-      subject = 'science'
-
-      result = render_inline(described_class.new(subject, nil))
-
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
-    end
-
-    context 'and a GCSE' do
-      it 'displays the guidance around triple GCSE science' do
-        subject = 'science'
-        qualification_type = 'gcse'
-
+    it 'displays the GCSE guidance' do
+      subjects.each do |subject|
         result = render_inline(described_class.new(subject, qualification_type))
 
-        expect(result.text).to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
+        expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
       end
     end
 
-    context 'and an O Level' do
-      it 'displays the guidance around triple GCSE science' do
-        subject = 'science'
-        qualification_type = 'gce_o_level'
+    context 'when the subject is English' do
+      it 'shows an additional guidance message' do
+        subjects = 'english'
+        result = render_inline(described_class.new(subjects, qualification_type))
 
-        result = render_inline(described_class.new(subject, qualification_type))
-
-        expect(result.text).to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
+        expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
       end
     end
 
-    context 'and a Scottish National 5' do
-      it 'displays the guidance around three science subjects' do
-        subject = 'science'
-        qualification_type = 'scottish_national_5'
+    context 'when the subject is Maths or Science' do
+      it 'does not show an additional guidance message' do
+        subjects = %w[maths science]
+        subjects.each do |subject|
+          result = render_inline(described_class.new(subject, qualification_type))
 
+          expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
+        end
+      end
+    end
+  end
+
+  context 'when the qualification type is Scottish National 5 for any subject' do
+    let(:qualification_type) { 'scottish_national_5' }
+
+    it 'displays the Scottish National 5 guidance' do
+      subjects.each do |subject|
         result = render_inline(described_class.new(subject, qualification_type))
+
+        expect(result.text).to include(t('gcse_edit_grade.guidance.scottish_national_5'))
+      end
+    end
+
+    context 'when the subject is Science' do
+      it 'displays an additional guidance message' do
+        subjects = 'science'
+        result = render_inline(described_class.new(subjects, qualification_type))
 
         expect(result.text).to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
       end
     end
 
-    context 'and an other UK qualification' do
-      it 'does not display the guidance around triple science or three science subjects' do
-        subject = 'science'
-        qualification_type = 'other_uk'
+    context 'when the subject is Maths or English' do
+      it 'does not show an additional guidance message' do
+        subjects = %w[maths english]
+        subjects.each do |subject|
+          result = render_inline(described_class.new(subject, qualification_type))
 
-        result = render_inline(described_class.new(subject, qualification_type))
-
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
-      end
-    end
-  end
-
-  context 'when the subject is english' do
-    it 'displays the guidance around the expectation of providers for multiple English GCSEs' do
-      subject = 'english'
-
-      result = render_inline(described_class.new(subject, 'gcse'))
-
-      expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
-      expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
-    end
-
-    it 'does not display the guidance around triple science' do
-      subject = 'english'
-
-      result = render_inline(described_class.new(subject, nil))
-
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
-    end
-
-    context 'and a Scottish National 5' do
-      it 'does not display the guidance around english literature and multiple english qualifications' do
-        subject = 'english'
-        qualification_type = 'scottish_national_5'
-
-        result = render_inline(described_class.new(subject, qualification_type))
-
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
-      end
-    end
-
-    context 'and an other UK qualification' do
-      it 'does not display the guidance around triple science or three science subjects' do
-        subject = 'english'
-        qualification_type = 'other_uk'
-
-        result = render_inline(described_class.new(subject, qualification_type))
-
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
+          expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
+        end
       end
     end
   end

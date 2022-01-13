@@ -1,28 +1,20 @@
-<% unless @subject == 'english' %>
-  <p class="govuk-body">
-    <% if gce_o_level? %>
-      <%= simple_format t('gcse_edit_grade.guidance.o_level_guidance'), class: 'govuk-body' %>
-    <% else %>
-      <%= simple_format t('gcse_edit_grade.guidance.main'), class: 'govuk-body' %>
+<p class="govuk-body">
+  <% if gce_o_level? %>
+    <%= simple_format t('gcse_edit_grade.guidance.o_level_guidance'), class: 'govuk-body' %>
+  <% elsif scottish_national_5? %>
+    <%= simple_format t('gcse_edit_grade.guidance.scottish_national_5'), class: 'govuk-body' %>
+  <% else %>
+    <%= simple_format t('gcse_edit_grade.guidance.main'), class: 'govuk-body' %>
+    <% if english? %>
+      <p class="govuk-body">
+        <%= t('gcse_edit_grade.guidance.multiple_english_gcses.secondary') %>
+      </p>
     <% end %>
-  </p>
-<% end %>
+  <% end %>
+</p>
 
-<% if science? %>
+<% if science? && scottish_national_5? %>
   <p class="govuk-body">
-    <% if scottish_national_5? %>
-      <%= t('gcse_edit_grade.guidance.triple_scottish_national_science') %>
-    <% elsif gcse? || gce_o_level? %>
-      <%= t('gcse_edit_grade.guidance.o_level_triple_gcse_science') %>
-    <% end %>
-  </p>
-<% end %>
-
-<% if english? && (gcse? || gce_o_level?) %>
-  <p class="govuk-body">
-    <%= t('gcse_edit_grade.guidance.multiple_english_gcses.main') %>
-  </p>
-  <p class="govuk-body">
-    <%= t('gcse_edit_grade.guidance.multiple_english_gcses.secondary') %>
+    <%= t('gcse_edit_grade.guidance.triple_scottish_national_science') %>
   </p>
 <% end %>
