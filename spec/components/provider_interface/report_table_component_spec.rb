@@ -34,7 +34,7 @@ RSpec.describe ProviderInterface::ReportTableComponent do
   describe 'rows' do
     it 'correctly outputs row data' do
       expect(render.css('tbody th')[0].text).to include('Mathematics')
-      expect(render.css('tbody th span')[0].text).to eq('Hogwards University')
+      expect(render.css('tbody th div')[0].text).to eq('Hogwards University')
       expect(render.css('tbody td')[0].text).to eq('1')
       expect(render.css('tbody td')[1].text).to eq('3')
       expect(render.css('tbody td')[2].text).to eq('2')
@@ -42,7 +42,7 @@ RSpec.describe ProviderInterface::ReportTableComponent do
       expect(render.css('tbody td')[4].text).to eq('4')
 
       expect(render.css('tbody th')[1].text).to include('English')
-      expect(render.css('tbody th span')[1].text).to eq('University of Maximegalon')
+      expect(render.css('tbody th div')[1].text).to eq('University of Maximegalon')
       expect(render.css('tbody td')[5].text).to eq('2')
       expect(render.css('tbody td')[6].text).to eq('3')
       expect(render.css('tbody td')[7].text).to eq('4')
