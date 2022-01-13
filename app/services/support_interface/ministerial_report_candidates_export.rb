@@ -18,13 +18,14 @@ module SupportInterface
       subject_report = {}
 
       application_forms.find_each do |application|
-        subjects = determine_subjects(application)
-
-        states = if candidate_has_a_viable_apply_2_application?(application)
-                   determine_states(application.candidate.current_application)
-                 else
-                   determine_states(application)
-                 end
+        latest_application =
+          if candidate_has_a_viable_apply_2_application?(application)
+            application.candidate.current_application
+          else
+            application
+          end
+        subjects = determine_subjects(latest_application)
+        states = determine_states(latest_application)
 
         if candidate_has_no_dominant_subject?(subjects)
 

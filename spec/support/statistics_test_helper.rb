@@ -173,7 +173,9 @@ module StatisticsTestHelper
 
   def expect_report_rows(column_headings:)
     expected_rows = yield.map { |row| column_headings.zip(row).to_h } # [['Status', 'Recruited'], ['First Application', 1] ...].to_h
-    expect(statistics[:rows]).to match_array expected_rows
+    expected_rows.each do |row|
+      expect(statistics[:rows]).to include(row)
+    end
   end
 
   def expect_column_totals(*totals)

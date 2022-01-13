@@ -14,13 +14,13 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       expect_report_rows(column_headings: %i[
         subject
         candidates
-        candidates_holding_offers
-        candidates_that_have_accepted_offers
-        declined_candidates
-        rejected_candidates
-        candidates_that_have_withdrawn_offers
+        offer_received
+        accepted
+        application_declined
+        application_rejected
+        application_withdrawn
       ]) do
-        [[:art_and_design,           1, 0, 0, 1, 0, 0],
+        [[:art_and_design,           1, 1, 0, 1, 0, 0],
          [:biology,                  0, 0, 0, 0, 0, 0],
          [:business_studies,         0, 0, 0, 0, 0, 0],
          [:chemistry,                0, 0, 0, 0, 0, 0],
@@ -28,23 +28,23 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:computing,                0, 0, 0, 0, 0, 0],
          [:design_and_technology,    0, 0, 0, 0, 0, 0],
          [:drama,                    0, 0, 0, 0, 0, 0],
-         [:english,                  1, 0, 0, 0, 0, 0],
-         [:further_education,        1, 1, 1, 0, 0, 0],
+         [:english,                  1, 0, 0, 0, 0, 1],
+         [:further_education,        0, 0, 0, 0, 0, 0],
          [:geography,                0, 0, 0, 0, 0, 0],
          [:history,                  0, 0, 0, 0, 0, 0],
          [:mathematics,              0, 0, 0, 0, 0, 0],
-         [:modern_foreign_languages, 0, 0, 0, 0, 0, 0],
+         [:modern_foreign_languages, 1, 0, 0, 0, 0, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
-         [:other,                    1, 1, 1, 0, 0, 0],
+         [:other,                    2, 1, 1, 0, 0, 0],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  0, 0, 0, 0, 0, 0],
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     0, 0, 0, 0, 0, 0],
-         [:ebacc,                    1, 0, 0, 0, 0, 0],
-         [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                3, 1, 1, 1, 0, 0],
-         [:split,                    1, 1, 1, 0, 0, 0],
-         [:total,                    8, 5, 4, 1, 0, 0]]
+         [:ebacc,                    2, 0, 0, 0, 0, 1],
+         [:primary,                  4, 2, 1, 0, 0, 0],
+         [:secondary,                5, 2, 1, 1, 0, 1],
+         [:split,                    1, 0, 0, 0, 0, 0],
+         [:total,                    10, 4, 2, 1, 0, 1]]
       end
     end
 
