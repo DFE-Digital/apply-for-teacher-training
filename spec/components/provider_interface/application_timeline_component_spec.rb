@@ -86,6 +86,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       note = Note.new(
         provider_user: provider_user,
         message: 'Notes are a new feature',
+        user: provider_user,
       )
       application_choice.notes << note
       rendered = render_inline(described_class.new(application_choice: application_choice))
