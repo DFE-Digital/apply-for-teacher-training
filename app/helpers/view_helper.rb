@@ -112,11 +112,11 @@ module ViewHelper
     number_to_percentage(percentage, precision: precision, strip_insignificant_zeros: true)
   end
 
-  def protect_against_mistakes
+  def protect_against_mistakes(anchor:)
     if session[:confirmed_environment_at] && session[:confirmed_environment_at] > 5.minutes.ago
       yield
     else
-      govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: request.fullpath)
+      govuk_link_to 'Confirm environment to make changes', support_interface_confirm_environment_path(from: [request.fullpath, anchor].join('#'))
     end
   end
 
