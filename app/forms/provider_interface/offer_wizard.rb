@@ -210,6 +210,15 @@ module ProviderInterface
       attrs
     end
 
+    def sanitize_last_saved_state(state, attrs)
+      # We need to change attrs to a hash as it is an ActionController::Parameters object, to avoid setting the value to an un-permitted param
+      if !state.empty? && attrs.to_h.key?('further_condition_attrs') && state['further_condition_attrs'] != attrs.to_h['further_condition_attrs']
+        state['further_condition_attrs'] = {}
+      end
+
+      state
+    end
+
     def create_method(name, &block)
       self.class.send(:define_method, name, &block)
     end

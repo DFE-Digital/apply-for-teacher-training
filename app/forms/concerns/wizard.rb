@@ -13,8 +13,8 @@ module Wizard
       @state_store = state_store
 
       attrs = sanitize_attrs(attrs) if defined?(sanitize_attrs)
-
-      super(last_saved_state.deep_merge(attrs))
+      state = defined?(sanitize_last_saved_state) ? sanitize_last_saved_state(last_saved_state, attrs) : last_saved_state
+      super(state.deep_merge(attrs))
 
       initialize_extra(attrs) if defined?(initialize_extra)
       setup_path_history(attrs) if defined?(setup_path_history)
