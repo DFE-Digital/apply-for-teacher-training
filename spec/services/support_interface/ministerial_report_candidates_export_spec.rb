@@ -66,12 +66,12 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           },
         )
 
-        expect(data).not_to include(
+        expect(data).to include(
           {
             subject: :primary,
-            candidates: 1,
-            offer_received: 1,
-            accepted: 1,
+            candidates: 0,
+            offer_received: 0,
+            accepted: 0,
             application_declined: 0,
             application_rejected: 0,
             application_withdrawn: 0,
@@ -158,11 +158,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           },
         )
 
-        expect(data).not_to include(
+        expect(data).to include(
           {
             subject: :drama,
-            candidates: 1,
-            offer_received: 1,
+            candidates: 0,
+            offer_received: 0,
             accepted: 0,
             application_declined: 0,
             application_rejected: 0,
@@ -193,12 +193,12 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           },
         )
 
-        expect(data).not_to include(
+        expect(data).to include(
           {
             subject: :mathematics,
-            candidates: 1,
-            offer_received: 1,
-            accepted: 1,
+            candidates: 0,
+            offer_received: 0,
+            accepted: 0,
             application_declined: 0,
             application_rejected: 0,
             application_withdrawn: 0,
@@ -325,12 +325,12 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           },
         )
 
-        expect(data).not_to include(
+        expect(data).to include(
           {
             subject: :modern_foreign_languages,
-            candidates: 1,
-            offer_received: 1,
-            accepted: 1,
+            candidates: 0,
+            offer_received: 0,
+            accepted: 0,
             application_declined: 0,
             application_rejected: 0,
             application_withdrawn: 0,
