@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.feature 'Change offer conditions' do
+RSpec.feature 'Remove offer conditions' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
-  scenario 'Provider user changes the conditions on an offer with javascript on', js: true do
+  scenario 'Provider user removes the conditions from an offer with javascript on', js: true do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
@@ -13,11 +13,7 @@ RSpec.feature 'Change offer conditions' do
     when_i_navigate_to_an_offer
     and_i_navigate_to_the_offer_tab
     and_i_click_on_add_or_change_conditions
-    and_i_add_further_conditions
-    then_i_see_the_new_conditions
-
-    when_i_click_on_add_or_change_conditions
-    and_i_remove_a_condition
+    and_i_remove_all_conditions
     then_i_expect_to_see_the_updated_conditions
 
     when_i_click_on_add_or_change_conditions
@@ -27,7 +23,7 @@ RSpec.feature 'Change offer conditions' do
     then_the_candidate_should_have_the_new_conditions
   end
 
-  scenario 'Provider user changes the conditions on an offer with javascript off', js: false do
+  scenario 'Provider user removes the conditions from an offer with javascript off', js: false do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
@@ -35,11 +31,7 @@ RSpec.feature 'Change offer conditions' do
     when_i_navigate_to_an_offer
     and_i_navigate_to_the_offer_tab
     and_i_click_on_add_or_change_conditions
-    and_i_add_further_conditions
-    then_i_see_the_new_conditions
-
-    when_i_click_on_add_or_change_conditions
-    and_i_remove_a_condition
+    and_i_remove_all_conditions
     then_i_expect_to_see_the_updated_conditions
 
     when_i_click_on_add_or_change_conditions
@@ -72,11 +64,11 @@ RSpec.feature 'Change offer conditions' do
       first_name: 'John',
       last_name: 'Smith',
     )
-    @condition = create(:offer_condition)
+    @conditions = create_list(:offer_condition, 3)
     @application_choice = create(
       :application_choice,
       :with_offer,
-      offer: create(:offer, conditions: [@condition]),
+      offer: create(:offer, conditions: @conditions),
       current_course_option: course_option,
       application_form: @application_form,
     )
@@ -93,36 +85,24 @@ RSpec.feature 'Change offer conditions' do
 
   alias_method :when_i_click_on_add_or_change_conditions, :and_i_click_on_add_or_change_conditions
 
-  def and_i_add_further_conditions
-    click_button 'Add another condition'
-    fill_in 'Condition 2', with: 'condition'
-    click_button 'Add another condition'
-    fill_in 'Condition 3', with: 'and another'
-    click_button 'Continue'
-  end
-
-  def then_i_see_the_new_conditions
-    expect(page).to have_content @condition.text
-    expect(page).to have_content 'condition'
-    expect(page).to have_content 'and another'
-  end
-
-  def and_i_remove_a_condition
+  def and_i_remove_all_conditions
     click_button 'Remove condition 3'
+    click_button 'Remove condition 2'
+    click_button 'Remove condition 1'
     click_button 'Continue'
   end
 
   def then_i_expect_to_see_the_updated_conditions
-    expect(page).to have_content @condition.text
-    expect(page).to have_content 'condition'
-    expect(page).not_to have_content 'and another'
+    expect(page).not_to have_content @conditions.first.text
+    expect(page).not_to have_content @conditions.second.text
+    expect(page).not_to have_content @conditions.third.text
   end
 
   def then_i_should_not_see_the_removed_condition
     expect(page).to have_content 'Conditions of offer'
-    expect(page).to have_content @condition.text
-    expect(page).to have_content 'condition'
-    expect(page).not_to have_content 'and another'
+    expect(page).not_to have_content @conditions.first.text
+    expect(page).not_to have_content @conditions.second.text
+    expect(page).not_to have_content @conditions.third.text
     click_button 'Continue'
   end
 
@@ -132,7 +112,6 @@ RSpec.feature 'Change offer conditions' do
 
   def then_the_candidate_should_have_the_new_conditions
     conditions = @application_choice.reload.offer.conditions
-    expect(conditions.first.text).to eq @condition.text
-    expect(conditions.second.text).to eq 'condition'
+    expect(conditions).to be_empty
   end
 end
