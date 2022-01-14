@@ -3,5 +3,8 @@ en:
     reports:
       hesa:
         diversity_text: Sex, disability and ethnicity information will be marked as confidential if you do not have permission to view it.
-        info: 'The data will include all candidates who have accepted an offer since %{date}.'
         download_link: 'Export data for %{cycle_name} (CSV)'
+        current_cycle:
+          info: 'The data will include all candidates who have accepted an offer since %{date}.'
+        previous_cycle:
+          info: 'The data will include all candidates who have accepted an offer from %{start_date} to %{end_date}.'

@@ -11,7 +11,8 @@ RSpec.feature 'Export applications in HESA format' do
     and_i_sign_in_to_the_provider_interface
     when_i_visit_the_reports_page
     and_i_click_export_hesa_data
-    then_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle
+    then_i_can_see_links_to_the_report_for_the_current_and_previous_cycles
+    and_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle
     and_i_can_download_application_data_as_csv_for_the_previous_recruitment_cycle
   end
 
@@ -51,7 +52,12 @@ RSpec.feature 'Export applications in HESA format' do
     click_on 'Export data for Higher Education Statistics Agency (HESA)'
   end
 
-  def then_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle
+  def then_i_can_see_links_to_the_report_for_the_current_and_previous_cycles
+    expect(page).to have_content("The data will include all candidates who have accepted an offer since #{CycleTimetable.apply_opens(RecruitmentCycle.current_year).to_s(:govuk_date)}")
+    expect(page).to have_content("The data will include all candidates who have accepted an offer from #{CycleTimetable.apply_opens(RecruitmentCycle.previous_year).to_s(:govuk_date)} to #{CycleTimetable.apply_2_deadline(RecruitmentCycle.previous_year).to_s(:govuk_date)}.")
+  end
+
+  def and_i_can_download_application_data_as_csv_for_the_current_recruitment_cycle
     click_on "Export data for #{RecruitmentCycle.previous_year} to #{RecruitmentCycle.current_year} (CSV)"
 
     csv = CSV.parse(page.body, headers: true)
