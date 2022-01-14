@@ -42,8 +42,8 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by_code('1JA'),
-      ratifying_provider: Provider.find_by_code('24P'),
+      training_provider: Provider.find_by(code: '1JA'),
+      ratifying_provider: Provider.find_by(code: '24P'),
     ).update(
       training_provider_can_make_decisions: true,
       training_provider_can_view_safeguarding_information: true,
@@ -72,8 +72,8 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by_code('1JA'),
-      ratifying_provider: Provider.find_by_code('D39'),
+      training_provider: Provider.find_by(code: '1JA'),
+      ratifying_provider: Provider.find_by(code: 'D39'),
     ).update(
       training_provider_can_make_decisions: true,
       training_provider_can_view_safeguarding_information: true,
@@ -82,7 +82,7 @@ class CreateExampleProviderUsersWithPermissions
     )
 
     ProviderAgreement.create!(
-      provider: Provider.find_by_code('D39'),
+      provider: Provider.find_by(code: 'D39'),
       provider_user: user_d39,
       agreement_type: :data_sharing_agreement,
       accept_agreement: true,
@@ -99,8 +99,8 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by_code('1JA'),
-      ratifying_provider: Provider.find_by_code('S72'),
+      training_provider: Provider.find_by(code: '1JA'),
+      ratifying_provider: Provider.find_by(code: 'S72'),
     ).update(
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
@@ -109,7 +109,7 @@ class CreateExampleProviderUsersWithPermissions
     )
 
     ProviderAgreement.create!(
-      provider: Provider.find_by_code('S72'),
+      provider: Provider.find_by(code: 'S72'),
       provider_user: user_s72,
       agreement_type: :data_sharing_agreement,
       accept_agreement: true,
@@ -126,8 +126,8 @@ class CreateExampleProviderUsersWithPermissions
     })
 
     ProviderRelationshipPermissions.find_or_create_by(
-      training_provider: Provider.find_by_code('4T7'),
-      ratifying_provider: Provider.find_by_code('24P'),
+      training_provider: Provider.find_by(code: '4T7'),
+      ratifying_provider: Provider.find_by(code: '24P'),
     ).update(
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,

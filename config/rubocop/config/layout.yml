@@ -6,15 +6,6 @@ Layout/LineLength:
 Layout/MultilineArrayLineBreaks:
   Enabled: false
 
-Layout/MultilineHashKeyLineBreaks:
-  Enabled: false
-
-Layout/MultilineMethodArgumentLineBreaks:
-  Enabled: false
-
-Layout/FirstMethodArgumentLineBreak:
-  Enabled: false
-
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 

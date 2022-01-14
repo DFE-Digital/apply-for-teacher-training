@@ -47,7 +47,7 @@ module ProviderInterface
         perms.all.find do |p|
           @provider_user = p.provider_user
           @course = Course.joins(:course_options).find_by(accredited_provider_id: p.provider.id)
-          !@provider_user.providers.include? @course.provider
+          @provider_user.providers.exclude?(@course.provider)
         end
       elsif org_affiliation == :training_provider
         org_ids = ProviderRelationshipPermissions.where(
@@ -60,7 +60,7 @@ module ProviderInterface
         @course = perm.provider.courses.joins(:course_options).find_by('accredited_provider_id IS NOT NULL') if perm
       else
         perm = ProviderPermissions.find_by(
-          provider: Provider.find_by_code('1N1'),
+          provider: Provider.find_by(code: '1N1'),
           view_safeguarding_information: safeguarding_access,
         )
         @provider_user = perm.provider_user if perm

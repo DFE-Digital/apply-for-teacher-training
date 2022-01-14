@@ -56,7 +56,7 @@ module ProviderInterface
     end
 
     def application_withdrawable?
-      @provider_can_respond && !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(@application_choice.status.to_sym)
+      @provider_can_respond && ApplicationStateChange::UNSUCCESSFUL_END_STATES.exclude?(@application_choice.status.to_sym)
     end
     helper_method :application_withdrawable?
 
