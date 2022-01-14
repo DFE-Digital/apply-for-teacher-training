@@ -25,7 +25,9 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
   it 'renders the correct match descriptions' do
     result = render_inline(
       described_class.new(
-        matches: Kaminari.paginate_array([@fraud_match1, @fraud_match2]).page(1).per(10),
+        matches: Kaminari.paginate_array([@fraud_match1, @fraud_match2])
+                         .page(1)
+                         .per(SupportInterface::DuplicateMatchesController::DUPLICATE_MATCHES_PER_PAGE),
       ),
     )
 
