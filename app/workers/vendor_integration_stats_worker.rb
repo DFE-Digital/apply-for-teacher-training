@@ -72,7 +72,7 @@ private
       [
         "*API integration report for #{@vendor.name.titleize}* (#{Time.zone.now.to_s(:govuk_date)}, #{HostingEnvironment.environment_name})",
         ":negative_squared_cross_mark:\n```#{never_connected_text}```",
-        ":satellite_antenna:\n```#{no_sync_in_24h_text}```",
+        ":satellite_antenna:\n```#{no_sync_in_7d_text}```",
         ":checkered_flag:\n```#{no_decisions_in_7d_text}```",
         ":thinking_face:\n```#{providers_with_errors_text}```",
       ]
@@ -86,15 +86,15 @@ private
       NEVER_CONNECTED_TEXT
     end
 
-    def no_sync_in_24h_text
-      <<~NO_SYNC_IN_24H_TEXT
-        #{justify("No API sync in the last 24h (#{@monitor.no_sync_in_24h.size} found)", 'Last sync')}
+    def no_sync_in_7d_text
+      <<~NO_SYNC_IN_7D_TEXT
+        #{justify("No API sync in the last 7 days (#{@monitor.no_sync_in_7d.size} found)", 'Last sync')}
         -----------------------------------------------------------------------------
         #{
-          @monitor.no_sync_in_24h.map { |p| justify(p.name, p.try(:last_sync)) }
+          @monitor.no_sync_in_7d.map { |p| justify(p.name, p.try(:last_sync)) }
             .join("\n")
         }
-      NO_SYNC_IN_24H_TEXT
+      NO_SYNC_IN_7D_TEXT
     end
 
     def no_decisions_in_7d_text
