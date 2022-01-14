@@ -63,6 +63,9 @@ module SupportInterface
       redirect_to candidate_interface_interstitial_path
     end
 
+    def edit_account_status
+    end
+
   private
 
     def disable_on_production

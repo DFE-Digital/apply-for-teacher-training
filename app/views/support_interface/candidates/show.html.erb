@@ -8,6 +8,8 @@
   }) %>
 <% end %>
 
+<div class="govuk-body"><%= govuk_link_to 'Block Account', support_interface_edit_account_status_path(@candidate) %></div>
+
 <% unless HostingEnvironment.production? %>
   <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), form_class: 'govuk-!-display-inline-block' %>
 <% end %>
