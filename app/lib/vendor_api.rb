@@ -1,5 +1,5 @@
 module VendorAPI
-  VERSION = '1.0'.freeze
+  VERSION = '1.1'.freeze
 
   VERSIONS = {
     '1.0' => [
@@ -20,6 +20,9 @@ module VendorAPI
       Changes::PingEndpoint,
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
+    ],
+    '1.1' => [
+      Changes::DeferAnOffer,
     ],
   }.freeze
 end
