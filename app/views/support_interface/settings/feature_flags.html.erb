@@ -29,7 +29,8 @@
     },
   ].compact) do %>
     <%= render SummaryCardHeaderComponent.new(title: feature_name.humanize, heading_level: 2) do %>
-      <% protect_against_mistakes do %>
+      <% protect_against_mistakes(anchor: feature_name.dasherize) do %>
+        <span id="<%= feature_name.dasherize %>"></span>
         <%= render SupportInterface::FeatureToggleComponent.new(feature_name: feature_name) %>
       <% end %>
     <% end %>
