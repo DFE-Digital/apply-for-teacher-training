@@ -1,9 +1,0 @@
-<%= form_with do |f| %>
-  <%= f.govuk_radio_buttons_fieldset(:account_status, legend: { size: 'm', text: 'Account status for bob.jones@gmail.com' }) do %>
-    <%= f.govuk_radio_button :account_status, 'account_submission_blocked', label: { text: 'Account submission blocked' } %>
-    <%= f.govuk_radio_button :account_status, 'account_access_locked', label: { text: 'Account access locked (user cannot sign in)' } %>
-    <%= f.govuk_radio_divider %>
-    <%= f.govuk_radio_button :account_status, 'unblocked', label: { text: 'Unblocked' } %>
-  <% end %>
-  <%= f.govuk_submit 'Continue' %>
-<% end %>

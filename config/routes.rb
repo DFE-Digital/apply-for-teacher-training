@@ -951,7 +951,8 @@ Rails.application.routes.draw do
       post '/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
       post '/show' => 'candidates#show_in_reporting', as: :show_candidate
       post '/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
-      get '/account-status' => 'candidates#edit_account_status', as: :edit_account_status
+      get '/status' => 'candidates#edit_candidate_account_status', as: :edit_candidate_account_status
+      patch '/status' => 'candidates#update_candidate_account_status', as: :update_candidate_account_status
     end
 
     scope path: '/references/:reference_id' do

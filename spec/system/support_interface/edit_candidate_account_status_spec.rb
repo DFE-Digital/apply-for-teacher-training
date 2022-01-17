@@ -16,6 +16,19 @@ RSpec.feature 'Editing account status' do
     and_click_on_block_account_link
     then_i_should_see_three_options
     and_unblocked_should_be_selected
+
+    and_i_choose_account_access_locked
+    when_i_click_continue
+    then_i_should_see_candidate_account_status_as_access_locked
+
+    when_i_click_to_change_candidate_account_status
+    and_account_access_locked_should_be_selected
+    and_i_choose_account_submission_blocked
+    when_i_click_continue
+    then_i_should_see_candidate_account_status_as_submission_blocked
+
+    when_i_click_to_change_candidate_account_status
+    and_account_submission_blocked_should_be_selected
   end
 
   def given_i_am_a_support_user
@@ -36,6 +49,7 @@ RSpec.feature 'Editing account status' do
 
   def and_the_update_duplicate_matches_worker_has_run
     UpdateFraudMatchesWorker.perform_async
+    Candidate.update_all(submission_blocked: false) # to test the account status we need a clean slate
   end
 
   def when_i_go_to_duplicate_matches_page
@@ -66,8 +80,56 @@ RSpec.feature 'Editing account status' do
   end
 
   def and_unblocked_should_be_selected
-    expect(find_field('Unblocked').checked?).to be_truthy
-    expect(find_field('Account submission blocked').checked?).to be_falsey
-    expect(find_field('Account access locked (user cannot sign in)').checked?).to be_falsey
+    expect(unblocked_field.checked?).to be_truthy
+    expect(account_submission_blocked_field.checked?).to be_falsey
+    expect(account_access_locked_field.checked?).to be_falsey
+  end
+
+  def and_i_choose_account_access_locked
+    choose 'Account access locked (user cannot sign in)'
+  end
+
+  def and_i_choose_account_submission_blocked
+    choose 'Account submission blocked'
+  end
+
+  def when_i_click_continue
+    click_button 'Continue'
+  end
+
+  def then_i_should_see_candidate_account_status_as_access_locked
+    expect(page).to have_content('Account access locked')
+  end
+
+  def then_i_should_see_candidate_account_status_as_submission_blocked
+    expect(page).to have_content('Account submission blocked')
+  end
+
+  def when_i_click_to_change_candidate_account_status
+    click_link 'Change'
+  end
+
+  def and_account_access_locked_should_be_selected
+    expect(unblocked_field.checked?).to be_falsey
+    expect(account_submission_blocked_field.checked?).to be_falsey
+    expect(account_access_locked_field.checked?).to be_truthy
+  end
+
+  def and_account_submission_blocked_should_be_selected
+    expect(unblocked_field.checked?).to be_falsey
+    expect(account_submission_blocked_field.checked?).to be_truthy
+    expect(account_access_locked_field.checked?).to be_falsey
+  end
+
+  def unblocked_field
+    find_field('Unblocked')
+  end
+
+  def account_access_locked_field
+    find_field('Account access locked (user cannot sign in)')
+  end
+
+  def account_submission_blocked_field
+    find_field('Account submission blocked')
   end
 end

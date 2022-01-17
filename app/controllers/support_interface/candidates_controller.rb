@@ -22,6 +22,7 @@ module SupportInterface
 
     def show
       @candidate = Candidate.find(params[:candidate_id])
+      @candidate_account_status = SupportInterface::CandidateAccountStatus.new(candidate: @candidate)
       @application_forms = @candidate.application_forms.order('updated_at desc')
     end
 
@@ -60,7 +61,21 @@ module SupportInterface
       redirect_to candidate_interface_interstitial_path
     end
 
-    def edit_account_status
+    def edit_candidate_account_status
+      @candidate = Candidate.find(params[:candidate_id])
+      @candidate_account_status = SupportInterface::CandidateAccountStatus.new(
+        candidate: @candidate,
+      )
+    end
+
+    def update_candidate_account_status
+      @candidate = Candidate.find(params[:candidate_id])
+      @candidate_account_status = SupportInterface::CandidateAccountStatus.new(
+        candidate_account_status_params,
+      )
+      @candidate_account_status.update!
+
+      redirect_to support_interface_candidate_path(@candidate)
     end
 
   private
@@ -69,6 +84,12 @@ module SupportInterface
       return unless HostingEnvironment.production?
 
       render_404
+    end
+
+    def candidate_account_status_params
+      { candidate: @candidate }.merge(
+        params.require(:support_interface_candidate_account_status).permit(:status),
+      )
     end
   end
 end
