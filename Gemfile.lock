@@ -114,7 +114,7 @@ GEM
       safely_block (>= 0.1.1)
     brakeman (5.2.0)
     builder (3.2.4)
-    bullet (7.0.0)
+    bullet (7.0.1)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     business_time (0.11.0)
