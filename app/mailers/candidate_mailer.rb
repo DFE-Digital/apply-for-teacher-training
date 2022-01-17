@@ -463,6 +463,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def duplicate_match_email(application_form, submitted)
+    @application_form = application_form
+    @submitted = submitted
+    email_for_candidate(
+      application_form,
+      subject: I18n.t!('candidate_mailer.duplicate_match.subject'),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

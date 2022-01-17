@@ -562,4 +562,32 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
   end
+
+  describe '.duplicate_match_email' do
+    context 'when the candidate has submitted applications' do
+      let(:application_form) { build_stubbed(:application_form, :minimum_info, first_name: 'Fred') }
+      let(:email) { mailer.duplicate_match_email(application_form, true) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Duplicate application detected',
+        'greeting' => 'Dear Fred',
+        'details' => 'You’ve created more than one account on Apply for teacher training.',
+        'dynamic content' => 'As you have already submitted an application, the account with the unsubmitted application will be locked.',
+      )
+    end
+
+    context 'when the candidate has not submitted any applications' do
+      let(:application_form) { build_stubbed(:application_form, first_name: 'Fred') }
+      let(:email) { mailer.duplicate_match_email(application_form, false) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Duplicate application detected',
+        'greeting' => 'Dear Fred',
+        'details' => 'You’ve created more than one account on Apply for teacher training.',
+        'dynamic content' => 'Your access to the account you set up most recently will be removed.',
+      )
+    end
+  end
 end

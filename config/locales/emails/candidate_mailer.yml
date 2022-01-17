@@ -118,3 +118,5 @@ en:
       subject: Find your teacher training course now
     fraud_match:
       subject: Duplicate application detected
+    duplicate_match:
+      subject: Duplicate application detected
