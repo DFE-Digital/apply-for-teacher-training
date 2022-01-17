@@ -1,13 +1,13 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
+    include ApplicationChoiceConcerns
+
     def index
       render json: serialized_application_choices_data
     end
 
     def show
-      application_choice = application_choices_visible_to_provider.find(params[:application_id])
-
-      render json: %({"data":#{ApplicationPresenter.new(version_number, application_choice).serialized_json}})
+      render_application
     end
 
   private
@@ -24,7 +24,7 @@ module VendorAPI
       GetApplicationChoicesForProviders
         .call(
           providers: [current_provider],
-          vendor_api: true,
+          exclude_deferrals: exclude_deferrals,
           includes: [
             offer: %i[conditions],
             application_form: %i[candidate application_qualifications application_references application_work_experiences application_work_history_breaks application_volunteering_experiences english_proficiency],

@@ -232,8 +232,8 @@ RSpec.describe GetApplicationChoicesForProviders do
     expect(returned_applications.map(&:id)).not_to include(ratified_choice_for_previous_cycle.id)
   end
 
-  context 'when vendor_api argument is true' do
-    it 'returns applications that are in a state visible to providers in vendor api' do
+  context 'when exclude_deferrals argument is true' do
+    it 'returns applications without deferrals' do
       current_provider = create(:provider, code: 'BAT')
 
       create_list(
@@ -249,7 +249,7 @@ RSpec.describe GetApplicationChoicesForProviders do
         status: 'offer_deferred',
       )
 
-      returned_applications = described_class.call(providers: [current_provider], vendor_api: true)
+      returned_applications = described_class.call(providers: [current_provider], exclude_deferrals: true)
       expect(returned_applications.size).to eq(1)
     end
   end
