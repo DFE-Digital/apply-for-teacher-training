@@ -11,6 +11,7 @@
   <%= render(HeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
+    homepage_url: service_link,
     service_link: service_link,
     phase_tag: true,
     navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
@@ -24,6 +25,7 @@
   <%= render(HeaderComponent.new(
     classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border app-header--wide-logo",
     product_name: service_name,
+    homepage_url: service_link,
     service_link: service_link,
     navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, performing_setup: @provider_setup&.pending?),
     navigation_classes: 'govuk-header__navigation--end',

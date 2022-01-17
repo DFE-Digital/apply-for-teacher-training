@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::PersonaExport do
 
   describe '#data_for_export' do
     around do |example|
-      Timecop.freeze do
+      Timecop.freeze(Time.zone.local(2021, 6, 1, 12, 30, 0)) do
         example.run
       end
     end

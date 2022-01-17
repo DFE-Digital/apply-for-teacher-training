@@ -68,7 +68,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   end
 
   def and_my_profile_details_are_refreshed
-    support_user = SupportUser.find_by_email_address 'user@apply-support.com'
+    support_user = SupportUser.find_by email_address: 'user@apply-support.com'
     expect(support_user.first_name).to eq('John')
   end
 

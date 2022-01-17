@@ -12,7 +12,10 @@ Rails/ApplicationController:
 # Rails does not actually allow "dynamic find_by", so this cop yields false positives
 # like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
 Rails/DynamicFindBy:
-  Enabled: false
+  Enabled: true
+  Whitelist: [find_by_unhashed_token]
+  AllowedReceivers: ['Hesa::Institution', 'Hesa::Subject', 'Hesa::SubjectCode',
+                      'Hesa::DegreeType', 'Hesa::Grade', 'described_class']
 
 # Not all rake tasks need :environment
 Rails/RakeEnvironment:
@@ -39,9 +42,6 @@ Rails/HasManyOrHasOneDependent:
 Rails/InverseOf:
   Enabled: false
 
-Rails/HttpStatus:
-  Enabled: false
-
 Rails/ActiveRecordCallbacksOrder:
   Enabled: true
 
@@ -56,12 +56,6 @@ Rails/Inquiry:
 
 Rails/MailerName:
   Enabled: true
-
-Rails/MatchRoute:
-  Enabled: false
-
-Rails/NegateInclude:
-  Enabled: false
 
 Rails/Pluck:
   Enabled: false

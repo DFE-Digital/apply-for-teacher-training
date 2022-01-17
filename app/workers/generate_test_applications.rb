@@ -73,6 +73,6 @@ private
   end
 
   def dev_support_user
-    @dev_support_user ||= ProviderUser.find_by_dfe_sign_in_uid('dev-support')
+    @dev_support_user ||= ProviderUser.find_by(dfe_sign_in_uid: 'dev-support')
   end
 end

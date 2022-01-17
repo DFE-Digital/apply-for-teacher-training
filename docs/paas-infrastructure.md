@@ -1,4 +1,4 @@
-# PaaS Infrastructure 
+# PaaS Infrastructure
 
 ## Purpose
 

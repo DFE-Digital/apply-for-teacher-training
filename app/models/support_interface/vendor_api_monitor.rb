@@ -29,6 +29,13 @@ module SupportInterface
         .where("last_sync < now() - interval '24 hours' OR last_sync IS NULL").order('last_sync DESC')
     end
 
+    def no_sync_in_7d
+      connected
+        .select('last_syncs.last_sync as last_sync, vendor_id')
+        .joins("LEFT JOIN (#{VendorAPIRequest.successful.syncs.select('provider_id, MAX(vendor_api_requests.created_at) as last_sync').group('provider_id').to_sql}) last_syncs on last_syncs.provider_id = providers.id")
+        .where("last_sync < now() - interval '7 days' OR last_sync IS NULL").order('last_sync DESC')
+    end
+
     def no_decisions_in_7d
       connected
         .select('last_decisions.last_decision as last_decision, vendor_id')

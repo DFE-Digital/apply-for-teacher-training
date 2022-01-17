@@ -25,6 +25,6 @@ class SafeCSV
   end
 
   def self.sanitise_formulae(value)
-    value.to_s.starts_with?(/[\-+=@]/) && !WHITELISTED_VALUES.include?(value) ? value.gsub(/^([\-+=@].*)/, '.\1') : value
+    value.to_s.starts_with?(/[\-+=@]/) && WHITELISTED_VALUES.exclude?(value) ? value.gsub(/^([\-+=@].*)/, '.\1') : value
   end
 end

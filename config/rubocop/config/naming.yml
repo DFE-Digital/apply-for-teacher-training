@@ -12,12 +12,8 @@ Naming/AccessorMethodName:
     - app/models/teacher_training_public_api/sync_check.rb
     - app/controllers/candidate_interface/candidate_interface_controller.rb
 
-Naming/PredicateName:
-  Enabled: true
-
 Naming/VariableNumber:
   Enabled: false
 
 Naming/InclusiveLanguage:
-  CheckStrings: false
-  CheckSymbols: false
+  CheckStrings: true

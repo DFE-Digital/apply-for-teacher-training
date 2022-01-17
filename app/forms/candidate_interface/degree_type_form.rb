@@ -57,7 +57,7 @@ module CandidateInterface
     end
 
     def current_grade_is_invalid_for_bachelor_degree?
-      !Hesa::Grade.undergrad_grouping_only.map(&:description).include?(degree.grade)
+      Hesa::Grade.undergrad_grouping_only.map(&:description).exclude?(degree.grade)
     end
 
     def hesa_code

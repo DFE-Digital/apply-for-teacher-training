@@ -4,6 +4,7 @@ module CandidateInterface
     before_action :authenticate_candidate!
     before_action :set_user_context
     before_action :check_cookie_preferences
+    before_action :check_account_locked
     layout 'application'
     alias audit_user current_candidate
     alias current_user current_candidate
@@ -108,6 +109,13 @@ module CandidateInterface
 
       payload.merge!({ candidate_id: current_candidate&.id })
       payload.merge!(query_params: request_query_params)
+    end
+
+    def check_account_locked
+      if current_candidate&.account_locked?
+        sign_out(current_candidate)
+        redirect_to candidate_interface_account_locked_path
+      end
     end
   end
 end

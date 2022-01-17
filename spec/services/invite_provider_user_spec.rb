@@ -41,7 +41,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
 
     it 'a provider user is created' do
-      expect(ProviderUser.find_by_email_address('test+invite_provider_user@example.com')).not_to be_nil
+      expect(ProviderUser.find_by(email_address: 'test+invite_provider_user@example.com')).not_to be_nil
     end
   end
 

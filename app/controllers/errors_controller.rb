@@ -12,7 +12,7 @@ class ErrorsController < ApplicationController
   def not_acceptable
     respond_to do |format|
       format.any do
-        head 406, content_type: 'text/html'
+        head :not_acceptable, content_type: 'text/html'
       end
     end
   end

@@ -60,6 +60,38 @@ RSpec.describe SupportInterface::VendorAPIMonitor do
     end
   end
 
+  describe '#no_sync_in_7d' do
+    it 'returns only providers who have connected and who have not synced in 7 days' do
+      _never_connected = create(:provider, :with_vendor, name: 'never')
+      synced_recently = create(:provider, :with_vendor, name: 'recently')
+      failed_recently = create(:provider, :with_vendor, name: 'failed')
+      synced_1w_ago = create(:provider, :with_vendor, name: '1 week ago')
+      synced_2w_ago = create(:provider, :with_vendor, name: '2 weeks ago')
+
+      create(:vendor_api_request, provider: synced_recently)
+      create(:vendor_api_request, provider: failed_recently, status_code: 422)
+      create(:vendor_api_request, provider: synced_1w_ago, created_at: 1.week.ago)
+      create(:vendor_api_request, provider: synced_2w_ago, created_at: 2.weeks.ago)
+
+      expect(monitor.no_sync_in_7d.map(&:id)).to eq [failed_recently.id, synced_2w_ago.id]
+    end
+
+    it 'returns only providers who have connected and who have not synced in 7d for a specific vendor when provided' do
+      synced_recently = create(:provider, name: 'recently', vendor: vendor)
+      failed_recently = create(:provider, name: 'failed', vendor: vendor)
+      synced_1w_ago = create(:provider, name: '1 week ago', vendor: vendor)
+      synced_2w_ago = create(:provider, name: '2 weeks ago', vendor: vendor)
+      failed_recently_with_other_vendor = create(:provider, :with_vendor, name: 'failed')
+
+      create(:vendor_api_request, provider: synced_recently)
+      create(:vendor_api_request, provider: failed_recently, status_code: 422)
+      create(:vendor_api_request, provider: failed_recently_with_other_vendor, status_code: 422)
+      create(:vendor_api_request, provider: synced_1w_ago, created_at: 1.week.ago)
+      create(:vendor_api_request, provider: synced_2w_ago, created_at: 2.weeks.ago)
+      expect(monitor(vendor: vendor).no_sync_in_7d.map(&:id)).to eq [failed_recently.id, synced_2w_ago.id]
+    end
+  end
+
   describe '#no_decisions_in_7d' do
     it 'returns only providers who have connected and who have not made decisions in 7 days' do
       _never_connected = create(:provider, :with_vendor, name: 'never')
