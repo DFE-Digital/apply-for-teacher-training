@@ -5,10 +5,6 @@ RSpec.describe ProviderInterface::KeyDatesBanner do
 
   let(:christmas_period) { "#{CycleTimetable.holidays[:christmas].first.to_s(:govuk_date)} to #{CycleTimetable.holidays[:christmas].last.to_s(:govuk_date)}" }
 
-  it 'renders the banner title' do
-    expect(result.text).to include('Important')
-  end
-
   describe 'rendering the banner content' do
     around do |example|
       Timecop.freeze(time) { example.run }
@@ -25,6 +21,10 @@ RSpec.describe ProviderInterface::KeyDatesBanner do
 
     context '20 days, or more, after the cycle opens' do
       let(:time) { 20.business_days.after(CycleTimetable.apply_opens).end_of_day }
+
+      it 'renders the banner title' do
+        expect(result.text).to include('Important')
+      end
 
       it 'renders the non working period content' do
         expect(result.text).to include(t('key_dates_banner.christmas_header'))
