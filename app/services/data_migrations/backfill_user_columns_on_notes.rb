@@ -5,7 +5,7 @@ module DataMigrations
 
     def change
       Note.where(user: nil).find_each do |note|
-        note.update(user_id: note.provider_user_id, user_type: 'ProviderUser')
+        note.update!(user_id: note.provider_user_id, user_type: 'ProviderUser')
       end
     end
   end
