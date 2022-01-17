@@ -66,8 +66,8 @@ RSpec.feature 'Editing account status' do
   end
 
   def and_unblocked_should_be_selected
-    expect(page.find_field('Unblocked')).to be_checked
-    expect(page.find_field('Account submission blocked')).to_not be_checked
-    expect(page.find_field('Account access locked (user cannot sign in)')).to_not be_checked
+    expect(find_field('Unblocked').checked?).to be_truthy
+    expect(find_field('Account submission blocked').checked?).to be_falsey
+    expect(find_field('Account access locked (user cannot sign in)').checked?).to be_falsey
   end
 end
