@@ -47,6 +47,7 @@ RUN bundle exec rake assets:precompile && \
 FROM ${BASE_RUBY_IMAGE} AS production
 
 ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
+    LANG=en_GB.UTF-8 \
     RAILS_ENV=production \
     GOVUK_NOTIFY_API_KEY=TestKey \
     AUTHORISED_HOSTS=127.0.0.1 \
@@ -55,7 +56,7 @@ ENV WKHTMLTOPDF_GEM=wkhtmltopdf-binary-edge-alpine \
     REDIS_CACHE_URL=redis://127.0.0.1:6379
 
 RUN apk -U upgrade && \
-    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz && \
+    apk add --update --no-cache tzdata libpq libxml2 libxslt graphviz ttf-dejavu ttf-droid ttf-freefont ttf-liberation && \
     echo "Europe/London" > /etc/timezone && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
