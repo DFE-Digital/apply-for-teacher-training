@@ -2,7 +2,7 @@ module DataAPI
   class TADApplicationExport
     attr_reader :application_choice
 
-    delegate :course_option, :course, :application_form, to: :application_choice
+    delegate :application_form, to: :application_choice
     delegate :candidate, to: :application_form
 
     def initialize(application_choice)
@@ -54,7 +54,7 @@ module DataAPI
         accrediting_provider_id: accrediting_provider.id,
         accrediting_provider_name: accrediting_provider.name,
 
-        course_level: course.level,
+        course_level: application_choice.current_course.level,
         program_type: application_choice.current_course.program_type,
         programme_outcome: application_choice.current_course.description,
         course_name: application_choice.current_course.name,
