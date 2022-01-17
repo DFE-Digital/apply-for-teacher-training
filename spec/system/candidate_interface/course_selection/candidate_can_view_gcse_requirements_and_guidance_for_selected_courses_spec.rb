@@ -52,7 +52,7 @@ RSpec.feature 'Viewing course choices' do
       fill_in 'Grade', with: 'C'
     end
     click_button t('save_and_continue')
-    fill_in 'Enter year', with: '2008'
+    fill_in 'Year', with: '2008'
     click_button t('save_and_continue')
   end
 

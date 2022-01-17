@@ -111,7 +111,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_the_year
-    fill_in 'Enter year', with: '1990'
+    fill_in 'Year', with: '1990'
   end
 
   def then_i_see_the_qualification_type_error
@@ -151,7 +151,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_enter_a_different_qualification_year
-    fill_in 'Enter year', with: '2000'
+    fill_in 'Year', with: '2000'
   end
 
   def when_i_mark_the_section_as_completed

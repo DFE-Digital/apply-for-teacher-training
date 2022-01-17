@@ -13,7 +13,7 @@
 
   <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 
-  <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: t("gcse_edit_grade.hint.science.#{@qualification_type == 'gce_o_level' ? 'gce_o_level' : 'scottish_national_5'}") }, width: 10 %>
+  <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: t("gcse_edit_grade.hint.science.#{@qualification_type == 'scottish_national_5' ? 'scottish_national_5' : 'gce_o_level_or_other_uk'}") }, width: 10 %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

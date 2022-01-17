@@ -21,17 +21,19 @@ en:
       main: |
         You need at least a grade 4 (C).
 
-        If you do not have this, you can contact teacher training providers to discuss your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
+        If you do not have this, contact teacher training providers to discuss your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
       o_level_guidance: |
         You need at least a grade C or equivalent.
 
-        If you do not have this, you can contact teacher training providers to discuss
-        your eligibility for their courses. You might be able to do an equivalence test.
+        If you do not have this, contact teacher training providers to discuss your eligibility for their courses. You might be able to do an equivalence test.
       scottish_national_5: |
         You need at least a grade C.
 
-        If you do not have this, you can contact teacher training providers to discuss
-        your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
+        If you do not have this, contact teacher training providers to discuss your eligibility for their courses. You might be able to retake an exam or do an equivalence test.
+      other_uk: |
+        You need the equivalent of a GCSE grade 4 (C).
+
+        If you do not have this, contact teaching training providers to discuss your eligibility for their courses. You might be able to do an equivalence test.
       multiple_english_gcses:
         secondary: An English Language GCSE is preferred.
       triple_scottish_national_science: If you took exams in more than one science subject, enter all your grades.
@@ -39,7 +41,7 @@ en:
       science:
         gcse: For example, ‘A*A*A*’, ‘AA’, ‘B’, ‘999’, ‘88’, ‘7’
         gcse_double_award: For example, ‘CD’ or ‘4-3’
-        gce_o_level: For example, ‘A‘
+        gce_o_level_or_other_uk: For example, ‘A‘
         scottish_national_5: For example, ‘AA‘, ‘A‘
         one_grade: You have one science grade
         combined_grade: You have a combined science grade

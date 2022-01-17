@@ -22,7 +22,7 @@ en:
       grade:
         label: Grade
       award_year:
-        label: Enter year
+        label: Year
         hint_text: For example, 1996
         gce_o_level_hint_text: For example, 1978
       enic_statement:

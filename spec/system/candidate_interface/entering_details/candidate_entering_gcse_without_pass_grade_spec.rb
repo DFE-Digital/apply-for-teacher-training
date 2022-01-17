@@ -98,7 +98,7 @@ RSpec.feature 'Candidate entering GCSE details but without a pass grade' do
   end
 
   def and_i_fill_in_the_year
-    fill_in 'Enter year', with: '1990'
+    fill_in 'Year', with: '1990'
   end
 
   def when_i_click_to_change_grade

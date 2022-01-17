@@ -78,4 +78,25 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
       end
     end
   end
+
+  context 'when the qualification type is other_uk for any subject' do
+    let(:qualification_type) { 'other_uk' }
+
+    it 'displays the other_uk guidance' do
+      subjects.each do |subject|
+        result = render_inline(described_class.new(subject, qualification_type))
+
+        expect(result.text).to include(t('gcse_edit_grade.guidance.other_uk'))
+      end
+    end
+
+    context 'when the subject is English' do
+      it 'does not show an additional guidance message' do
+        subjects = 'english'
+        result = render_inline(described_class.new(subjects, qualification_type))
+
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
+      end
+    end
+  end
 end

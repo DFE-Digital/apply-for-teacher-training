@@ -87,7 +87,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def when_i_fill_in_the_year
-    fill_in 'Enter year', with: '1990'
+    fill_in 'Year', with: '1990'
   end
 
   def and_i_visit_the_site
