@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
         submitted_at: '2020-01-03',
       )
 
-      create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: Time.zone.now - 1.year)
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: 1.year.ago)
       create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: '2020-01-10')
 
       time_to_freeze = 1.day.from_now.beginning_of_hour # avoid microsecond weirdness on Azure
