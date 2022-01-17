@@ -13,7 +13,7 @@
     <% if @candidate_account_status.unblocked? %>
       <%= govuk_link_to 'Block Account', support_interface_edit_candidate_account_status_path(@candidate) %>
     <% else %>
-      <span class="govuk-!-margin-right-2">
+      <span class="govuk-!-margin-right-2 app-link--warning">
         <%= SupportInterface::CandidateAccountStatus.human_attribute_name(@candidate_account_status.status) %>
       </span>
       <%= govuk_link_to 'Change', support_interface_edit_candidate_account_status_path(@candidate) %>
