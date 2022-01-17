@@ -2,10 +2,28 @@ require 'rails_helper'
 
 RSpec.describe DataAPI::TADExport do
   before do
-    create(:submitted_application_choice, :with_completed_application_form, status: 'rejected', rejected_by_default: true)
-    create(:submitted_application_choice, :with_completed_application_form, status: 'declined', declined_by_default: true)
-    create(:submitted_application_choice, :with_completed_application_form, status: 'rejected')
-    create(:submitted_application_choice, :with_completed_application_form, status: 'declined')
+    create(
+      :submitted_application_choice,
+      :with_completed_application_form,
+      status: 'rejected',
+      rejected_by_default: true,
+    )
+    create(
+      :submitted_application_choice,
+      :with_completed_application_form,
+      status: 'declined',
+      declined_by_default: true,
+    )
+    create(
+      :submitted_application_choice,
+      :with_completed_application_form,
+      status: 'rejected',
+    )
+    create(
+      :submitted_application_choice,
+      :with_completed_application_form,
+      status: 'declined',
+    )
   end
 
   it_behaves_like 'a data export'
@@ -32,5 +50,19 @@ RSpec.describe DataAPI::TADExport do
 
     result = described_class.new.data_for_export
     expect(result.count).to eq 5
+  end
+
+  it 'returns course level for current course' do
+    primary_course = create(:course, level: :primary)
+    secondary_course = create(:course, level: :secondary)
+    create(
+      :submitted_application_choice,
+      :with_completed_application_form,
+      status: 'offer',
+      course_option: create(:course_option, course: secondary_course),
+      current_course_option: create(:course_option, course: primary_course),
+    )
+    result = described_class.new.data_for_export
+    expect(result.find { |application| application[:status] = 'offer' }[:course_level]).to eq('primary')
   end
 end
