@@ -5,13 +5,13 @@ RSpec.describe 'GET /candidate-api/candidates', type: :request do
 
   it 'does not allow access to the API from other data users' do
     api_token = ServiceAPIUser.test_data_user.create_magic_link_token!
-    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.month).iso8601)}", token: api_token
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: api_token
     expect(response).to have_http_status(:unauthorized)
     expect(parsed_response).to be_valid_against_openapi_schema('UnauthorizedResponse')
   end
 
   it 'allows access to the API for Candidate users' do
-    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape((Time.zone.now - 1.month).iso8601)}", token: candidate_api_token
+    get_api_request "/candidate-api/candidates?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: candidate_api_token
 
     expect(response).to have_http_status(:success)
     expect(parsed_response).to be_valid_against_openapi_schema('CandidateList')
