@@ -40,7 +40,6 @@ RSpec.feature 'Docs' do
       candidate_mailer-course_unavailable_notification
       candidate_mailer-eoc_deadline_reminder
       candidate_mailer-new_cycle_has_started
-      candidate_mailer-fraud_match_email
       candidate_mailer-duplicate_match_email
       candidate_mailer-find_has_opened
       candidate_mailer-unconditional_offer_accepted
