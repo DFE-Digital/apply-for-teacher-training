@@ -49,8 +49,9 @@ class FeatureFlag
   # across environments and we won't be notified if inconsistent. All other features
   # will default to `invariant` which means they will need to be consistently marked
   # as active/inactive across all our environments, and we will be notified about otherwise.
-  VARIANT_FEATURES = [
-    :send_request_data_to_bigquery,
+  VARIANT_FEATURES = %i[
+    send_request_data_to_bigquery
+    enable_chat_support
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).to_h do |name, description, owner|
