@@ -1,14 +1,16 @@
 module SupportInterface
   class NotesExport
     def data_for_export(*)
-      notes = Note.select(:message, :created_at, :application_choice_id, :provider_user_id)
+      notes = Note.select(:application_choice_id, :message, :created_at, :user_id, :user_type, 'ARRAY_AGG(providers.id)')
+                .joins("JOIN provider_users_providers ON notes.user_id = provider_users_providers.provider_user_id AND notes.user_type = 'ProviderUser'")
+                .joins('JOIN providers ON provider_users_providers.provider_id = providers.id')
                 .includes(
-                  { provider_user: { provider_permissions: :provider } },
                   { application_choice: [{ application_form: :candidate }, { course_option: { course: %i[provider accredited_provider] } }] },
                 )
+                .group(:application_choice_id, :message, :created_at, :user_id, :user_type)
 
       notes.map do |note|
-        providers = note.provider_user.providers
+        providers = note.user.providers
         course = note.application_choice.current_course
         training_provider = course.provider
         ratifying_provider = course.accredited_provider
@@ -28,7 +30,7 @@ module SupportInterface
           candidate_id: note.application_choice.application_form.candidate.id,
           provider_code: provider&.code,
           provider_name: provider&.name,
-          provider_user_id: note.provider_user_id,
+          provider_user_id: note.user_id,
           number_of_training_provider_relationships: training_org_permissions_count,
           total_number_of_provider_relationships: total_org_permissions_count,
         }
