@@ -74,4 +74,29 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       expect(observed).to eq(expected)
     end
   end
+
+  describe 'notes' do
+    let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
+    let!(:note1) { create(:note, application_choice: application_choice) }
+    let!(:note2) { create(:note, application_choice: application_choice) }
+
+    it 'returns notes for the application' do
+      expect(attributes[:notes]).to eq([
+        {
+          id: note2.id.to_s,
+          author: note2.user.full_name,
+          message: note2.message,
+          created_at: note2.created_at.iso8601,
+          updated_at: note2.updated_at.iso8601,
+        },
+        {
+          id: note1.id.to_s,
+          author: note1.user.full_name,
+          message: note1.message,
+          created_at: note1.created_at.iso8601,
+          updated_at: note1.updated_at.iso8601,
+        },
+      ])
+    end
+  end
 end
