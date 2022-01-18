@@ -15,7 +15,10 @@ module SupportInterface
         add_choice_to_report(choice, report_in_progress)
       end
 
-      assign_totals_to_report(report)
+      report = assign_totals_to_report(report)
+      File.write("ministerial-report-applications-#{Time.zone.now}.txt", report.inspect)
+
+      report
     end
 
     def add_choice_to_report(choice, report)
