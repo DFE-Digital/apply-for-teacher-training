@@ -338,14 +338,27 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#conditions' do
-    let(:standard_conditions) { ['', OfferCondition::STANDARD_CONDITIONS.last] }
-    let(:further_condition_1) { 'Receiving an A* on their Maths A Level' }
-    let(:further_condition_3) { 'They must graduate from their current course with an Honors' }
+    context 'when adding conditions to an offer' do
+      let(:standard_conditions) { ['', OfferCondition::STANDARD_CONDITIONS.last] }
+      let(:further_condition_1) { 'Receiving an A* on their Maths A Level' }
+      let(:further_condition_3) { 'They must graduate from their current course with an Honors' }
 
-    it 'constructs an array with the offer conditions' do
-      expect(wizard.conditions).to eq([OfferCondition::STANDARD_CONDITIONS.last,
-                                       further_condition_1,
-                                       further_condition_3])
+      it 'constructs an array with the offer conditions' do
+        expect(wizard.conditions).to eq([OfferCondition::STANDARD_CONDITIONS.last,
+                                         further_condition_1,
+                                         further_condition_3])
+      end
+    end
+
+    context 'when adding duplicated conditions to an offer' do
+      let(:standard_conditions) { [''] }
+      let(:further_condition_1) { 'This is a duplicated condition' }
+      let(:further_condition_2) { 'This is a duplicated condition' }
+
+      it 'constructs an array with the offer conditions' do
+        expect(wizard.conditions).to eq([further_condition_1,
+                                         further_condition_2])
+      end
     end
   end
 

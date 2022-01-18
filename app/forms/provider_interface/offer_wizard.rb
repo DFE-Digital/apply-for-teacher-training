@@ -38,7 +38,7 @@ module ProviderInterface
     end
 
     def conditions
-      @conditions = (standard_conditions + further_condition_models.map(&:text).uniq).compact_blank
+      @conditions = (standard_conditions + further_condition_models.map(&:text)).compact_blank
     end
 
     def conditions_to_render
