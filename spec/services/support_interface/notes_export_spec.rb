@@ -9,7 +9,7 @@ RSpec.describe SupportInterface::NotesExport do
       application_choice = create(:application_choice, candidate: candidate, course_option: create(:course_option, course: course))
       provider_user = create(:provider_user, providers: [training_provider])
 
-      create(:note, application_choice: application_choice, provider_user: provider_user)
+      create(:note, application_choice: application_choice, user: provider_user)
     end
 
     it_behaves_like 'a data export'
@@ -28,8 +28,8 @@ RSpec.describe SupportInterface::NotesExport do
       provider_user2 = create(:provider_user, providers: [ratifying_provider])
       create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
       create(:provider_relationship_permissions, training_provider: create(:provider), ratifying_provider: training_provider)
-      note1 = create(:note, application_choice: application_choice1, provider_user: provider_user1)
-      note2 = create(:note, application_choice: application_choice2, provider_user: provider_user2)
+      note1 = create(:note, application_choice: application_choice1, user: provider_user1)
+      note2 = create(:note, application_choice: application_choice2, user: provider_user2)
 
       data = described_class.new.data_for_export
 
@@ -74,8 +74,8 @@ RSpec.describe SupportInterface::NotesExport do
       create(:provider_relationship_permissions, training_provider: training_provider1, ratifying_provider: ratifying_provider)
       create(:provider_relationship_permissions, training_provider: training_provider2, ratifying_provider: ratifying_provider)
 
-      note1 = create(:note, application_choice: application_choice, provider_user: provider_user1)
-      note2 = create(:note, application_choice: application_choice, provider_user: provider_user2)
+      note1 = create(:note, application_choice: application_choice, user: provider_user1)
+      note2 = create(:note, application_choice: application_choice, user: provider_user2)
 
       data = described_class.new.data_for_export
 
