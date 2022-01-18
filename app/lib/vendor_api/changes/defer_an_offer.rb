@@ -6,6 +6,8 @@ module VendorAPI
         'This will transition the application to the deferred offer state.'
 
       action DeferredOffersController, :create
+
+      resource ApplicationPresenter, [ApplicationTransitioningModule]
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-offer', type: :request, wip: true do
+RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-offer', type: :request do
   include VendorAPISpecHelpers
 
   it_behaves_like 'an endpoint that requires metadata', '/defer-offer', 'v1.1'
@@ -26,7 +26,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
         create(:application_choice, :awaiting_provider_decision)
       end
 
-      it 'renders a NotAuthorised error' do
+      it 'renders a NotFound error' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/defer-offer"
 
         expect(response).to have_http_status(:not_found)

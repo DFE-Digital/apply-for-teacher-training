@@ -16,11 +16,21 @@ module VendorAPI
     end
 
     def render_application
-      render json: %({"data":#{ApplicationPresenter.new(version_number, application_choice).serialized_json}})
+      render json: { data: ApplicationPresenter.new(version_number, application_choice).as_json }.merge!(meta).to_json
     end
 
     def exclude_deferrals
       version_number.eql?('1.0')
+    end
+
+    def meta
+      {
+        meta:
+        {
+          api_version: version_number,
+          timestamp: Time.zone.now.iso8601,
+        },
+      }
     end
   end
 end

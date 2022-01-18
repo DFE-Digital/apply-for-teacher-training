@@ -25,7 +25,7 @@ module VendorAPI
           },
         ],
       }
-    rescue ActiveRecord::RecordNotFound => e
+    rescue ActiveRecord::RecordNotFound
       render status: :not_found, json: {
         errors: [
           {
