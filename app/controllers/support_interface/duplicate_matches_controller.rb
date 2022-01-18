@@ -1,7 +1,6 @@
 module SupportInterface
   class DuplicateMatchesController < SupportInterfaceController
     DUPLICATE_MATCHES_PER_PAGE = 100
-    before_action :check_feature_flag
 
     def index
       @matches = fraud_matches(resolved: resolved?).page(params[:page]).per(DUPLICATE_MATCHES_PER_PAGE)
@@ -40,10 +39,6 @@ module SupportInterface
         recruitment_cycle_year: RecruitmentCycle.current_year,
         resolved: resolved,
       ).order(created_at: :desc)
-    end
-
-    def check_feature_flag
-      render_404 and return unless FeatureFlag.active?(:duplicate_matching)
     end
   end
 end
