@@ -68,7 +68,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def and_the_duplicate_matching_service_runs
-    UpdateFraudMatches.new.save!
+    UpdateDuplicateMatches.new.save!
     FraudMatch.first.candidates.each { |candidate| candidate.update!(submission_blocked: true) }
   end
 

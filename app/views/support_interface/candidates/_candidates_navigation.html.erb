@@ -4,7 +4,7 @@
 <%= render TabNavigationComponent.new(items: [
   { name: 'Applications', url: support_interface_applications_path, current: local_assigns[:current] == 'Applications' },
   { name: 'Candidate accounts', url: support_interface_candidates_path, current: local_assigns[:current] == 'Candidates' },
-  { name: 'Duplicate candidate matches', url: FeatureFlag.active?(:duplicate_matching) ? support_interface_duplicate_matches_path : support_interface_fraud_auditing_matches_path(years: RecruitmentCycle.current_year), current: local_assigns[:current] == 'Duplicate candidate matches' },
+  { name: 'Duplicate candidate matches', url: support_interface_duplicate_matches_path, current: local_assigns[:current] == 'Duplicate candidate matches' },
 ]) %>
 
 <h2 class="govuk-visually-hidden"><%= title %></h2>

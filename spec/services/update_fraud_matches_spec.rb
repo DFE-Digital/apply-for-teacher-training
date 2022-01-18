@@ -5,7 +5,7 @@ RSpec.describe UpdateFraudMatches do
   let(:candidate2) { create(:candidate, email_address: 'exemplar2@example.com') }
   let(:expected_message) do
     <<~MSG
-      \n#{Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_url}
+      \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
       :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
       :gavel: 1 match has been marked as fraudulent :gavel:
       :female-detective: In total there are 2 matches :male-detective:
