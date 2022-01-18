@@ -7,7 +7,7 @@ module VendorAPI
 
       action DeferredOffersController, :create
 
-      resource ApplicationPresenter, [ApplicationTransitioningModule]
+      resource ApplicationPresenter, [OfferDetails, ApplicationTransitioningModule]
     end
   end
 end

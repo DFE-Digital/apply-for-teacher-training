@@ -629,6 +629,7 @@ Rails.application.routes.draw do
       post '/confirm-enrolment' => 'decisions#confirm_enrolment'
 
       resource :deferred_offer, only: :create, path: 'defer-offer'
+      resource :confirm_deferred_offer, only: :create, path: 'confirm-deferred-offer'
     end
 
     post '/test-data/regenerate' => 'test_data#regenerate'

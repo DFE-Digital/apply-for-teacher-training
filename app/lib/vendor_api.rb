@@ -1,5 +1,5 @@
 module VendorAPI
-  VERSION = '1.1'.freeze
+  VERSION = '1.0'.freeze
 
   VERSIONS = {
     '1.0' => [
@@ -23,6 +23,7 @@ module VendorAPI
     ],
     '1.1' => [
       Changes::DeferAnOffer,
+      Changes::ConfirmADeferredOffer,
     ],
   }.freeze
 end

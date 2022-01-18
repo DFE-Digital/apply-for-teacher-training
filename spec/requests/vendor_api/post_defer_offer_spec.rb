@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-offer', type: :request do
   include VendorAPISpecHelpers
 
+  before do
+    stub_const('VendorAPI::VERSION', '1.1')
+  end
+
   it_behaves_like 'an endpoint that requires metadata', '/defer-offer', 'v1.1'
 
   describe 'deffering an offer' do
@@ -37,8 +41,10 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
     end
 
     describe 'when successful' do
-      let(:application_choice) do
-        create_application_choice_for_currently_authenticated_provider(status: 'recruited')
+      let(:course) { build(:course, provider: currently_authenticated_provider, recruitment_cycle_year: RecruitmentCycle.current_year) }
+      let(:course_option) { build(:course_option, course: course) }
+      let!(:application_choice) do
+        create(:application_choice, :with_completed_application_form, :with_accepted_offer, course_option: course_option)
       end
 
       it 'renders a SingleApplicationResponse' do

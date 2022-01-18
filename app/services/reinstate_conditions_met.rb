@@ -2,22 +2,22 @@ class ReinstateConditionsMet
   include ActiveModel::Validations
   include ImpersonationAuditHelper
 
-  attr_reader :application_choice, :course_option
+  attr_reader :application_choice, :course_option, :actor
 
   validates :course_option, presence: true
   validate :validate_course_option_is_open_on_apply
   validate :validate_course_option_belongs_to_current_cycle
 
   def initialize(actor:, application_choice:, course_option:)
-    @auth = ProviderAuthorisation.new(actor: actor)
+    @actor = actor
     @application_choice = application_choice
     @course_option = course_option
   end
 
   def save
-    @auth.assert_can_make_decisions!(application_choice: application_choice, course_option_id: @course_option.id)
+    auth.assert_can_make_decisions!(application_choice: application_choice, course_option: course_option)
 
-    audit(@auth.actor) do
+    audit(actor) do
       if valid?
         new_recruited_at = if application_choice.status_before_deferral == 'recruited'
                              application_choice.recruited_at # conditions are 'still met'
@@ -43,6 +43,10 @@ class ReinstateConditionsMet
       I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
     )
     false
+  end
+
+  def auth
+    ProviderAuthorisation.new(actor: actor)
   end
 
   def validate_course_option_is_open_on_apply

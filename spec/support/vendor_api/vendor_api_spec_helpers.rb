@@ -45,7 +45,11 @@ module VendorAPISpecHelpers
   end
 
   def create_application_choice_for_currently_authenticated_provider(attributes = {})
-    course = build(:course, provider: currently_authenticated_provider)
+    application_choice_for_authenticated_provider(attributes: attributes, recruitment_cycle_year: RecruitmentCycle.current_year)
+  end
+
+  def application_choice_for_authenticated_provider(attributes: {}, recruitment_cycle_year: RecruitmentCycle.current_year)
+    course = build(:course, provider: currently_authenticated_provider, recruitment_cycle_year: recruitment_cycle_year)
     course_option = build(:course_option, course: course)
     create(:submitted_application_choice,
            :with_completed_application_form,
