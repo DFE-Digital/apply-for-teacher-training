@@ -24,6 +24,7 @@ module VendorAPI
     ],
     '1.1' => [
       Changes::DeferAnOffer,
+      Changes::AddInterviewsToApplication,
     ],
   }.freeze
 end
