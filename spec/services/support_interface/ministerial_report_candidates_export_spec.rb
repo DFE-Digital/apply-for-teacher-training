@@ -142,7 +142,14 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has three choices with two matching subjects' do
       it 'correctly allocates the candidate' do
-        create_triple_choice_application(:with_accepted_offer, 'F0', :with_declined_offer, 'F3', :with_withdrawn_offer, '13')
+        create_triple_choice_application(
+          :with_accepted_offer,
+          'F0',
+          :with_declined_offer,
+          'F3',
+          :with_withdrawn_offer,
+          '13',
+        )
 
         data = described_class.new.call
 
@@ -164,6 +171,31 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
             candidates: 0,
             offer_received: 0,
             accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
+    end
+
+    context 'when the candidate has two choices with 2 pairs of matching subjects' do
+      it 'correctly allocates the candidate' do
+        create_double_choice_application(
+          :with_accepted_offer,
+          ['F0', '08'],
+          :with_declined_offer,
+          ['F3', 'L1'],
+        )
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :physics,
+            candidates: 1,
+            offer_received: 1,
+            accepted: 1,
             application_declined: 0,
             application_rejected: 0,
             application_withdrawn: 0,
@@ -417,26 +449,34 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
   def create_double_choice_application(first_status, first_subject_code, second_status, second_subject_code)
     application_form = create(:completed_application_form)
 
-    first_course = create(:course, subjects: [create(:subject, code: first_subject_code)])
+    first_course = create(:course, subjects: subjects_for(first_subject_code))
     first_course_option = create(:course_option, course: first_course)
 
-    second_course = create(:course, subjects: [create(:subject, code: second_subject_code)])
+    second_course = create(:course, subjects: subjects_for(second_subject_code))
     second_course_option = create(:course_option, course: second_course)
 
     create(:application_choice, first_status, course_option: first_course_option, application_form: application_form)
     create(:application_choice, second_status, course_option: second_course_option, application_form: application_form)
   end
 
+  def subjects_for(subject_code_or_codes)
+    if subject_code_or_codes.is_a?(Array)
+      subject_code_or_codes.map { |subject_code| create(:subject, code: subject_code) }
+    else
+      [create(:subject, code: subject_code_or_codes)]
+    end
+  end
+
   def create_triple_choice_application(first_status, first_subject_code, second_status, second_subject_code, third_status, third_subject_code)
     application_form = create(:completed_application_form)
 
-    first_course = create(:course, subjects: [create(:subject, code: first_subject_code)])
+    first_course = create(:course, subjects: subjects_for(first_subject_code))
     first_course_option = create(:course_option, course: first_course)
 
-    second_course = create(:course, subjects: [create(:subject, code: second_subject_code)])
+    second_course = create(:course, subjects: subjects_for(second_subject_code))
     second_course_option = create(:course_option, course: second_course)
 
-    third_course = create(:course, subjects: [create(:subject, code: third_subject_code)])
+    third_course = create(:course, subjects: subjects_for(third_subject_code))
     third_course_option = create(:course_option, course: third_course)
 
     create(:application_choice, first_status, course_option: first_course_option, application_form: application_form)
