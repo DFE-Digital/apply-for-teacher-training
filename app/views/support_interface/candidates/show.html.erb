@@ -8,18 +8,7 @@
   }) %>
 <% end %>
 
-<% if FeatureFlag.active?(:duplicate_matching) %>
-  <div class="govuk-body">
-    <% if @candidate_account_status.unblocked? %>
-      <%= govuk_link_to 'Block Account', support_interface_edit_candidate_account_status_path(@candidate) %>
-    <% else %>
-      <span class="govuk-!-margin-right-2 app-link--warning">
-        <%= SupportInterface::CandidateAccountStatusForm.human_attribute_name(@candidate_account_status.status) %>
-      </span>
-      <%= govuk_link_to 'Change', support_interface_edit_candidate_account_status_path(@candidate) %>
-    <% end %>
-  </div>
-<% end %>
+<%= render SupportInterface::CandidateAccountStatusComponent.new(candidate_account_status: @candidate_account_status) %>
 
 <% unless HostingEnvironment.production? %>
   <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), form_class: 'govuk-!-display-inline-block' %>
