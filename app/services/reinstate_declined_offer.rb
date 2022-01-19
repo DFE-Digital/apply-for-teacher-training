@@ -11,6 +11,7 @@ class ReinstateDeclinedOffer
       status: 'offer',
       declined_at: nil,
       decline_by_default_at: set_dbd_value,
+      withdrawn_or_declined_for_candidate_by_provider: nil,
       audit_comment: "Reinstate offer Zendesk request: #{@zendesk_ticket}",
     )
   end

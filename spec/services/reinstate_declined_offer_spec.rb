@@ -13,6 +13,7 @@ RSpec.describe ReinstateDeclinedOffer, with_audited: true do
 
         expect(course_choice).to eq original_course_choice
         expect(course_choice.audits.last.comment).to include(zendesk_ticket)
+        expect(course_choice.withdrawn_or_declined_for_candidate_by_provider).to eq nil
       end
     end
 
