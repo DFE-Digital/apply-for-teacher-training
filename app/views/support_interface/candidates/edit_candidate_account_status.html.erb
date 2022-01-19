@@ -1,0 +1,13 @@
+<%= form_with(
+  model: @candidate_account_status,
+  method: :patch,
+  url: support_interface_update_candidate_account_status_path(@candidate),
+) do |f| %>
+  <%= f.govuk_radio_buttons_fieldset(:status, legend: { size: 'm', text: "Account status for #{@candidate.email_address}" }) do %>
+    <%= f.govuk_radio_button :status, 'account_submission_blocked', label: { text: SupportInterface::CandidateAccountStatusForm.human_attribute_name(:account_submission_blocked) } %>
+    <%= f.govuk_radio_button :status, 'account_access_locked', label: { text: SupportInterface::CandidateAccountStatusForm.human_attribute_name(:account_access_locked) } %>
+    <%= f.govuk_radio_divider %>
+    <%= f.govuk_radio_button :status, 'unblocked', label: { text: SupportInterface::CandidateAccountStatusForm.human_attribute_name(:unblocked) } %>
+  <% end %>
+  <%= f.govuk_submit 'Continue' %>
+<% end %>

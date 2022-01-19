@@ -26,6 +26,7 @@ RSpec.feature 'See candidates' do
 
     and_i_visit_the_support_candidate_page
     when_i_click_on_a_candidate_with_one_application
+    and_i_click_on_the_candidate_application
     then_i_should_see_a_summary_of_the_application
   end
 
@@ -36,7 +37,7 @@ RSpec.feature 'See candidates' do
   def and_there_are_candidates_in_the_system
     @candidate_with_sign_up_email_bounced = create(:candidate, sign_up_email_bounced: true)
     @candidate_who_has_signed_up_but_not_signed_in = create(:candidate)
-    @candidate_with_a_submitted_application = create(:application_form).candidate
+    @candidate_with_a_submitted_application = create(:application_form, :minimum_info).candidate
   end
 
   def and_i_visit_the_support_candidate_page
@@ -99,6 +100,10 @@ RSpec.feature 'See candidates' do
 
   def when_i_click_on_a_candidate_with_one_application
     click_link @candidate_with_a_submitted_application.email_address
+  end
+
+  def and_i_click_on_the_candidate_application
+    click_link @candidate_with_a_submitted_application.application_forms.first.full_name
   end
 
   def then_i_should_see_a_summary_of_the_application

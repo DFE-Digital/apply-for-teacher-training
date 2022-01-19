@@ -297,6 +297,10 @@ en:
         further_conditions1: Second condition
         further_conditions2: Third condition
         further_conditions3: Further condition
+      support_interface/candidate_account_status_form:
+        account_submission_blocked: Account submission blocked
+        account_access_locked: Account access locked (user cannot sign in)
+        unblocked: Unblocked
       make_an_offer:
         course_option: The requested course
       change_offer:
