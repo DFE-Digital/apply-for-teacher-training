@@ -1,7 +1,7 @@
 <% content_for :browser_title, title_with_error_prefix('Review offer', @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(previous_path) %>
 
-<%= form_with model: @wizard, url: provider_interface_reconfirm_deferred_offer_path(@application_choice.id), method: :post do |f| %>
+<%= form_with model: @wizard, url: provider_interface_reconfirm_deferred_offer_path(@application_choice), method: :post do |f| %>
   <%= f.govuk_error_summary %>
   <%= f.hidden_field :course_option_id %>
 
