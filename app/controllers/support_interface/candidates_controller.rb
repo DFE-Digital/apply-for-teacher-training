@@ -22,7 +22,7 @@ module SupportInterface
 
     def show
       @candidate = Candidate.find(params[:candidate_id])
-      @candidate_account_status = SupportInterface::CandidateAccountStatus.new(candidate: @candidate)
+      @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(candidate: @candidate)
       @application_forms = @candidate.application_forms.order('updated_at desc')
     end
 
@@ -63,14 +63,14 @@ module SupportInterface
 
     def edit_candidate_account_status
       @candidate = Candidate.find(params[:candidate_id])
-      @candidate_account_status = SupportInterface::CandidateAccountStatus.new(
+      @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(
         candidate: @candidate,
       )
     end
 
     def update_candidate_account_status
       @candidate = Candidate.find(params[:candidate_id])
-      @candidate_account_status = SupportInterface::CandidateAccountStatus.new(
+      @candidate_account_status = SupportInterface::CandidateAccountStatusForm.new(
         candidate_account_status_params,
       )
       @candidate_account_status.update!
@@ -88,7 +88,7 @@ module SupportInterface
 
     def candidate_account_status_params
       { candidate: @candidate }.merge(
-        params.require(:support_interface_candidate_account_status).permit(:status),
+        params.require(:support_interface_candidate_account_status_form).permit(:status),
       )
     end
   end
