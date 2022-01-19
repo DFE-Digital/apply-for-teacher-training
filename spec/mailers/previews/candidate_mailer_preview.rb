@@ -795,7 +795,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def reinstated_offer_with_conditions
-    application_choice = FactoryBot.build(
+    application_choice = FactoryBot.build_stubbed(
       :application_choice,
       :with_accepted_offer,
       application_form: application_form,
