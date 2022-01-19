@@ -104,6 +104,18 @@ ApplicationForm.find(_id).update!(becoming_a_teacher: 'new text', subject_knowle
 
 This is possible via the support UI.
 
+### Changing a deferred applicant's course in the new cycle
+
+If the deferred applicant would like to change their course and the provider accepts:
+
+```ruby
+ApplicationChoice.find(_id).update_course_option_and_associated_fields!(CourseOption.find(_id), audit_comment: "Asked to change course in #{_zendesk_url}")
+```
+
+This is required because manage/API does not currently allow the provider to change the applicant's course when confirming their deferred application. The course option being set should be in the previous cycle so the provider can confirm the deferred option themselves.
+
+If the course doesn't exist in the previous cycle we'll need them to confirm the offer first, then we can change the course to the new course in the current cycle.
+
 ## Offers
 
 ### Make or change offer
