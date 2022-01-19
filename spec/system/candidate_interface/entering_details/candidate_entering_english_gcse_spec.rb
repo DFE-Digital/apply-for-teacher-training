@@ -140,7 +140,7 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def when_i_fill_in_the_award_year
-    fill_in('Enter year', with: '2010')
+    fill_in('Year', with: '2010')
   end
 
   def then_i_see_the_check_answers_page

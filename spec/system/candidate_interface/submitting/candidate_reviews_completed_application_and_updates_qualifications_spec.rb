@@ -377,7 +377,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_update_english_gcse_year
     when_i_click_change_english_gcse_year
-    fill_in 'Enter year', with: '1980'
+    fill_in 'Year', with: '1980'
 
     click_button t('save_and_continue')
   end

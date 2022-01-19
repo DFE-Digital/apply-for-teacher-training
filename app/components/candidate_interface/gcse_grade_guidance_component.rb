@@ -26,5 +26,9 @@ module CandidateInterface
     def scottish_national_5?
       @qualification_type == 'scottish_national_5'
     end
+
+    def other_uk?
+      @qualification_type == 'other_uk'
+    end
   end
 end
