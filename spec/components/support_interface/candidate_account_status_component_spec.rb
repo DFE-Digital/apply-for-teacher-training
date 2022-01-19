@@ -24,7 +24,7 @@ RSpec.describe SupportInterface::CandidateAccountStatusComponent do
       let(:candidate) { create(:candidate, submission_blocked: false, account_locked: false) }
 
       it 'renders block account link' do
-        expect(result.text).to include('Block Account')
+        expect(result.text).to include('Block account')
       end
     end
 
