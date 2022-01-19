@@ -70,7 +70,7 @@ RSpec.feature 'Editing account status' do
   end
 
   def and_click_on_block_account_link
-    click_link 'Block Account'
+    click_link 'Block account'
   end
 
   def then_i_should_see_three_options

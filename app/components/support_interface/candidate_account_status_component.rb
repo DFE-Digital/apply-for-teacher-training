@@ -23,7 +23,7 @@ module SupportInterface
     end
 
     def block_candidate_account_link
-      govuk_link_to 'Block Account',
+      govuk_link_to 'Block account',
                     support_interface_edit_candidate_account_status_path(candidate)
     end
 
