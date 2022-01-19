@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_114219) do
+ActiveRecord::Schema.define(version: 2022_01_18_182903) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -513,13 +513,12 @@ ActiveRecord::Schema.define(version: 2022_01_11_114219) do
   create_table "notes", force: :cascade do |t|
     t.text "message"
     t.bigint "application_choice_id", null: false
-    t.bigint "provider_user_id", null: false
+    t.bigint "provider_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.string "user_type"
     t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
-    t.index ["provider_user_id"], name: "index_notes_on_provider_user_id"
     t.index ["user_id", "user_type"], name: "index_notes_on_user_id_and_user_type"
   end
 
