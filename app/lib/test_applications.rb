@@ -491,7 +491,7 @@ private
       FactoryBot.create(
         :note,
         application_choice: choice,
-        provider_user: provider_user,
+        user: provider_user,
         created_at: time,
         updated_at: time,
       )
