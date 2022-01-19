@@ -24,7 +24,7 @@ module VendorAPI
       GetApplicationChoicesForProviders
         .call(
           providers: [current_provider],
-          vendor_api: true,
+          exclude_deferrals: true,
           includes: [
             offer: %i[conditions],
             application_form: %i[candidate application_qualifications application_references application_work_experiences application_work_history_breaks application_volunteering_experiences english_proficiency],
