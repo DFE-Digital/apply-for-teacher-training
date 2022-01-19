@@ -1,5 +1,7 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
+    include ApplicationDataConcerns
+
     before_action :validate_metadata!
     rescue_from ValidationException, with: :render_validation_error
 
@@ -55,14 +57,6 @@ module VendorAPI
     end
 
   private
-
-    def application_choice
-      @application_choice ||= GetApplicationChoicesForProviders.call(providers: [current_provider], exclude_deferrals: true).find(params[:application_id])
-    end
-
-    def render_application
-      render json: %({"data":#{ApplicationPresenter.new(version_number, application_choice).serialized_json}})
-    end
 
     def respond_to_decision(decision)
       if [MakeOffer, ChangeOffer].include?(decision.class)
