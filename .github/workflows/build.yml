@@ -384,13 +384,13 @@ jobs:
     needs: [build, lint, test]
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Deployment to QA and Staging
+      - name: Trigger Deployment
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: benc-uk/workflow-dispatch@v1.1
         with:
           workflow: Deploy
           token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          inputs: '{"qa": "true", "staging": "true", "research": "true", "sha": "${{ needs.build.outputs.IMAGE_TAG }}"}'
+          inputs: '{"qa": "true", "staging": "true", "research": "true", "production": "true", "sandbox": "true", "sha": "${{ needs.build.outputs.IMAGE_TAG }}"}'
 
       - name: Wait for review app deployment
         id: wait_for_review_app_deployment
