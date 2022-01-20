@@ -2,12 +2,22 @@
   background-color: $govuk-brand-colour;
   color: govuk-colour("white");
   display: inline-block;
-  width: 26px;
-  height: 26px;
   border-radius: 13px;
   line-height: 26px;
   font-weight: bold;
   text-align: center;
   vertical-align: middle;
   margin-left: 3px;
+}
+
+.app-count-standard {
+  width: 26px;
+  height: 26px;
+}
+
+.app-count-large {
+  width: 52px;
+  height: 52px;
+  line-height: 52px;
+  border-radius: 26px;
 }

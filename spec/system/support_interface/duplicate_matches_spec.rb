@@ -31,7 +31,6 @@ RSpec.feature 'See Duplicate candidate matches' do
     and_i_click_the_back_link
     i_should_be_taken_to_the_under_review_view
 
-
     when_i_click_on_a_the_resolved_link
     and_click_on_a_match_that_is_resolved
     and_i_click_the_back_link
@@ -121,9 +120,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_i_should_see_a_counter_for_under_review_duplicates
-    within('span[class=app-count]') do
-      expect(page).to have_content('1')
-    end
+    expect(page.find('span.app-count').text).to eq('1')
   end
 
   def when_i_click_on_a_the_resolved_link
