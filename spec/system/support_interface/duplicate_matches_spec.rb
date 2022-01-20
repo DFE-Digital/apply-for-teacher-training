@@ -108,7 +108,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def i_should_be_taken_to_the_under_review_view
-    expect(page).to have_current_path(support_interface_duplicate_matches_path)
+    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @bob.reload.fraud_match.resolved))
   end
 
   def and_click_on_a_match_that_is_resolved
@@ -116,7 +116,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def i_should_be_taken_to_the_resolved_view
-    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: true))
+    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @ali.reload.fraud_match.resolved))
   end
 
   def and_i_should_see_a_counter_for_under_review_duplicates

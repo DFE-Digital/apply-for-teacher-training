@@ -1,10 +1,7 @@
 <% content_for :browser_title, SupportInterface::DuplicateMatchesTableComponent.description_for(@match) %>
 
-<% if @match.resolved? %>
-  <% content_for :before_content, govuk_back_link_to(support_interface_duplicate_matches_path(resolved: true), 'Back') %>
-<% else %>
-  <% content_for :before_content, govuk_back_link_to(support_interface_duplicate_matches_path, 'Back') %>
-<% end %>
+<% content_for :before_content,
+  govuk_back_link_to(support_interface_duplicate_matches_path(resolved: @match.resolved?)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
