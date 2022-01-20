@@ -184,7 +184,16 @@ module MinisterialReport
     withdrawn: %i[applications],
   }.freeze
 
-  def self.determine_dominant_course_subject_for_report(course_name, course_level, subject_names_and_codes)
+  def self.determine_dominant_course_subject_for_report(course)
+    course_name = course.name
+    course_level = course.level
+    subjects = course.subjects.order('id ASC')
+    subject_names_and_codes = subjects.to_h { |subject| [subject.name, subject.code] }
+
+    determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
+  end
+
+  def self.determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
     subject_names = subject_names_and_codes.keys
 
     return :secondary if ['Further education', 'further_education'].include?(course_level)

@@ -22,8 +22,7 @@ module SupportInterface
       return report if choice.phase == 'apply_2' && !choice.is_latest_a2_app
 
       subject_names_and_codes = choice.subject_names.zip(choice.subject_codes)
-
-      subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
+      subject = MinisterialReport.determine_dominant_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
 
       MinisterialReport::APPLICATIONS_REPORT_STATUS_MAPPING[choice.status.to_sym].each do |mapped_status|
         report[:stem][mapped_status] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject

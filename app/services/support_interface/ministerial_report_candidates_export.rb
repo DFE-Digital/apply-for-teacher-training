@@ -78,11 +78,10 @@ module SupportInterface
     end
 
     def determine_subjects(application_form)
-      courses = application_form.application_choices.map(&:course)
-
-      courses.map do |course|
-        subjects = course.subjects.to_h { |s| [s.name, s.code] }
-        MinisterialReport.determine_dominant_course_subject_for_report(course.name, course.level, subjects)
+      application_form.application_choices.map do |application_choice|
+        MinisterialReport.determine_dominant_course_subject_for_report(
+          application_choice.course,
+        )
       end
     end
 

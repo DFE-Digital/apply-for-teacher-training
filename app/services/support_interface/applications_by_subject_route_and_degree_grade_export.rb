@@ -21,7 +21,11 @@ module SupportInterface
       report = choices_with_courses_and_subjects.find_each(batch_size: 100).map do |choice|
         next if choice.phase == 'apply_2' && !choice.is_latest_a2_app
 
-        subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.course_name, choice.course_level, choice.subject_names.zip(choice.subject_codes).to_h)
+        subject = MinisterialReport.determine_dominant_subject_for_report(
+          choice.course_name,
+          choice.course_level,
+          choice.subject_names.zip(choice.subject_codes).to_h,
+        )
 
         {
           subject: subject,
