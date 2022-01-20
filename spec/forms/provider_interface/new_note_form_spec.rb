@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::NewNoteForm do
   let(:application_choice) { build(:application_choice) }
-  let(:user) { build(:provider_user) }
+  let(:user) { [0, 1].sample.zero? ? build(:vendor_api_user) : build(:provider_user) }
 
   describe '#save' do
     it 'creates a new note' do
