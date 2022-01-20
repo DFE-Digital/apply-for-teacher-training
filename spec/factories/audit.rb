@@ -19,6 +19,26 @@ FactoryBot.define do
     end
   end
 
+  factory :declined_at_candidates_request_audit, class: 'Audited::Audit' do
+    action { 'update' }
+    user { create(:provider_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    comment { 'Declined on behalf of the candidate' }
+    created_at { Time.zone.now }
+
+    transient do
+      application_choice { build_stubbed(:application_choice, :with_declined_offer) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ApplicationChoice'
+      audit.auditable_id = evaluator.application_choice.id
+      audit.audited_changes = evaluator.changes
+    end
+  end
+
   factory :interview_audit, class: 'Audited::Audit' do
     action { 'create' }
     user { create(:provider_user) }
