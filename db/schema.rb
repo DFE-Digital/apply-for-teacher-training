@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_18_182903) do
+ActiveRecord::Schema.define(version: 2022_01_20_104427) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -513,7 +513,6 @@ ActiveRecord::Schema.define(version: 2022_01_18_182903) do
   create_table "notes", force: :cascade do |t|
     t.text "message"
     t.bigint "application_choice_id", null: false
-    t.bigint "provider_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
@@ -796,7 +795,6 @@ ActiveRecord::Schema.define(version: 2022_01_18_182903) do
   add_foreign_key "interviews", "application_choices", on_delete: :cascade
   add_foreign_key "interviews", "providers", on_delete: :cascade
   add_foreign_key "notes", "application_choices", on_delete: :cascade
-  add_foreign_key "notes", "provider_users", on_delete: :cascade
   add_foreign_key "offer_conditions", "offers", on_delete: :cascade
   add_foreign_key "offers", "application_choices", on_delete: :cascade
   add_foreign_key "provider_agreements", "provider_users"
