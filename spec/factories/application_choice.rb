@@ -59,6 +59,13 @@ FactoryBot.define do
     trait :withdrawn do
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
+      withdrawn_or_declined_for_candidate_by_provider { false }
+    end
+
+    trait :withdrawn_at_candidates_request do
+      status { :withdrawn }
+      withdrawn_at { Time.zone.now }
+      withdrawn_or_declined_for_candidate_by_provider { true }
     end
 
     trait :unsubmitted do
@@ -71,11 +78,13 @@ FactoryBot.define do
       status { :declined }
       declined_by_default { true }
       decline_by_default_days { 10 }
+      withdrawn_or_declined_for_candidate_by_provider { false }
     end
 
     trait :withdrawn_with_survey_completed do
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
+      withdrawn_or_declined_for_candidate_by_provider { false }
       withdrawal_feedback do
         {
           CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',
@@ -223,6 +232,7 @@ FactoryBot.define do
     trait :with_declined_offer do
       with_offer
       status { 'declined' }
+      withdrawn_or_declined_for_candidate_by_provider { false }
       declined_at { 2.days.ago }
     end
 
@@ -230,6 +240,7 @@ FactoryBot.define do
       with_offer
       status { 'declined' }
       declined_at { Time.zone.now }
+      withdrawn_or_declined_for_candidate_by_provider { false }
       declined_by_default { true }
     end
 
