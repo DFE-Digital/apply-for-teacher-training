@@ -148,7 +148,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
           :with_declined_offer,
           'F3',
           :with_withdrawn_offer,
-          '13',
+          'V6',
         )
 
         data = described_class.new.call
@@ -167,7 +167,72 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
         expect(data).to include(
           {
-            subject: :drama,
+            subject: :religious_education,
+            candidates: 0,
+            offer_received: 0,
+            accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+
+        expect(data).to include(
+          {
+            subject: :split,
+            candidates: 0,
+            offer_received: 0,
+            accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
+    end
+
+    context 'when the candidate has four choices with two pairs of subjects' do
+      it 'correctly allocates the candidate' do
+        create_quadruple_choice_application(
+          :with_accepted_offer,
+          'F0',
+          :with_declined_offer,
+          'F3',
+          :with_withdrawn_offer,
+          '08',
+          :with_declined_offer,
+          'L1',
+        )
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :split,
+            candidates: 1,
+            offer_received: 1,
+            accepted: 1,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+
+        expect(data).to include(
+          {
+            subject: :physics,
+            candidates: 0,
+            offer_received: 0,
+            accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+
+        expect(data).to include(
+          {
+            subject: :business_studies,
             candidates: 0,
             offer_received: 0,
             accepted: 0,
@@ -461,7 +526,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
   def subjects_for(subject_code_or_codes)
     if subject_code_or_codes.is_a?(Array)
-      subject_code_or_codes.map { |subject_code| create(:subject, code: subject_code) }
+      subject_code_or_codes.map { |subject_code| create(:subject, name: MinisterialReport::SUBJECT_CODE_MAPPINGS[subject_code].to_s, code: subject_code) }
     else
       [create(:subject, code: subject_code_or_codes)]
     end
@@ -482,5 +547,31 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     create(:application_choice, first_status, course_option: first_course_option, application_form: application_form)
     create(:application_choice, second_status, course_option: second_course_option, application_form: application_form)
     create(:application_choice, third_status, course_option: third_course_option, application_form: application_form)
+
+    application_form
+  end
+
+  def create_quadruple_choice_application(
+    first_status,
+    first_subject_code,
+    second_status,
+    second_subject_code,
+    third_status,
+    third_subject_code,
+    fourth_status,
+    fourth_subject_code
+  )
+    application_form = create_triple_choice_application(
+      first_status,
+      first_subject_code,
+      second_status,
+      second_subject_code,
+      third_status,
+      third_subject_code,
+    )
+    fourth_course = create(:course, subjects: subjects_for(fourth_subject_code))
+    fourth_course_option = create(:course_option, course: fourth_course)
+
+    create(:application_choice, fourth_status, course_option: fourth_course_option, application_form: application_form)
   end
 end

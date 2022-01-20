@@ -104,7 +104,7 @@ module SupportInterface
     def candidate_has_no_dominant_subject?(mapped_subjects)
       return false if mapped_subjects.count == 1 || mapped_subjects.uniq.size == 1
 
-      return true if count_of_subject_choices(mapped_subjects).values.uniq.size == 1
+      count_of_subject_choices(mapped_subjects).values.sort.last <= (mapped_subjects.count / 2)
     end
 
     def count_of_subject_choices(subjects)
