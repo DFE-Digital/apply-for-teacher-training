@@ -14,6 +14,13 @@ class ConfirmDeferredOffer
                 course_option: course_option).save!
   end
 
+  def save
+    save!
+    true
+  rescue ValidationException, Workflow::NoTransitionAllowed
+    false
+  end
+
 private
 
   def service

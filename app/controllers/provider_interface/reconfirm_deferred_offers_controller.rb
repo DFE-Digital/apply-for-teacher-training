@@ -35,19 +35,10 @@ module ProviderInterface
 
       render :check and return unless @wizard.valid_for_current_step?
 
-      service_class = if @wizard.conditions_met?
-                        ReinstateConditionsMet
-                      else
-                        ReinstatePendingConditions
-                      end
-
-      service = service_class.new(
-        actor: current_provider_user,
-        application_choice: @application_choice,
-        course_option: @wizard.course_option,
-      )
-
-      if service.save
+      if ConfirmDeferredOffer.new(actor: current_provider_user,
+                                  application_choice: @application_choice,
+                                  course_option: @wizard.course_option,
+                                  conditions_met: @wizard.conditions_met?).save
         @wizard.clear_state!
         flash[:success] = 'Deferred offer successfully confirmed for current cycle'
         redirect_to next_path

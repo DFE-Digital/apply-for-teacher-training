@@ -2,13 +2,9 @@ RSpec.shared_examples 'confirm deferred offer validations' do |transition_event|
   context 'checks the course option is present' do
     let(:new_course_option) { nil }
 
-    it 'save! raises a ValidationException' do
+    it 'raises a ValidationException' do
       expect { service.save! }
         .to raise_error(ValidationException, 'Please provide a course_option or course_option_id')
-    end
-
-    it 'save returns false' do
-      expect(service.save).to be false
     end
   end
 
@@ -18,26 +14,18 @@ RSpec.shared_examples 'confirm deferred offer validations' do |transition_event|
              course: create(:course, provider: provider, open_on_apply: false))
     end
 
-    it 'save! raises a ValidationException' do
+    it 'raises a ValidationException' do
       expect { service.save! }
         .to raise_error(ValidationException, 'The requested course is not open for applications via the Apply service')
-    end
-
-    it 'save returns false' do
-      expect(service.save).to be false
     end
   end
 
   context 'checks course option matches the current RecruitmentCycle' do
     let(:new_course_option) { previous_course_option }
 
-    it 'save! raises a ValidationException' do
+    it 'raises a ValidationException' do
       expect { service.save! }
         .to raise_error(ValidationException, 'The requested course does not exist in the current cycle')
-    end
-
-    it 'save returns false' do
-      expect(service.save).to be false
     end
   end
 
@@ -47,14 +35,10 @@ RSpec.shared_examples 'confirm deferred offer validations' do |transition_event|
              course_option: previous_course_option)
     end
 
-    it 'save! raises a Workflow::NoTransitionAllowed error' do
-      expect { service.save!  }
+    it 'raises a Workflow::NoTransitionAllowed error' do
+      expect { service.save! }
         .to raise_error(Workflow::NoTransitionAllowed,
                         "There is no event #{transition_event} defined for the awaiting_provider_decision state")
-    end
-
-    it 'save returns false' do
-      expect(service.save).to be false
     end
   end
 end

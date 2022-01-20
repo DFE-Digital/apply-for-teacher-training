@@ -15,16 +15,16 @@ RSpec.describe ReinstateConditionsMet do
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
 
   it 'changes application status to \'recruited\'' do
-    expect { service.save }.to change(application_choice, :status).to('recruited')
+    expect { service.save! }.to change(application_choice, :status).to('recruited')
   end
 
   it 'changes current_course_option_id for the application choice' do
-    expect { service.save }.to change(application_choice, :current_course_option_id)
+    expect { service.save! }.to change(application_choice, :current_course_option_id)
   end
 
   it 'sets the application\'s recruited_at date if conditions had not been met before' do
     Timecop.freeze do
-      expect { service.save }.to change(application_choice, :recruited_at).to(Time.zone.now)
+      expect { service.save! }.to change(application_choice, :recruited_at).to(Time.zone.now)
     end
   end
 
@@ -33,14 +33,14 @@ RSpec.describe ReinstateConditionsMet do
                               recruited_at: application_choice.accepted_at + 7.days)
 
     Timecop.freeze do
-      expect { service.save }.not_to change(application_choice, :recruited_at)
+      expect { service.save! }.not_to change(application_choice, :recruited_at)
     end
   end
 
   it 'updates the status of all conditions to met' do
     offer = Offer.find_by(application_choice: application_choice)
 
-    expect { service.save }.to change { offer.reload.conditions.first.status }.from('pending').to('met')
+    expect { service.save! }.to change { offer.reload.conditions.first.status }.from('pending').to('met')
   end
 
   context 'when the application does not have an offer object associated' do
@@ -55,7 +55,7 @@ RSpec.describe ReinstateConditionsMet do
     end
 
     it 'creates an offer object' do
-      service.save
+      service.save!
 
       offer = Offer.find_by(application_choice: application_choice)
       expect(offer).not_to be_nil
@@ -66,7 +66,7 @@ RSpec.describe ReinstateConditionsMet do
   describe 'other dependencies' do
     it 'calls update_course_option_and_associated_fields!' do
       allow(application_choice).to receive(:update_course_option_and_associated_fields!)
-      service.save
+      service.save!
       expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
     end
   end

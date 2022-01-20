@@ -31,13 +31,6 @@ class ReinstatePendingConditions
     end
   end
 
-  def save
-    save!
-    true
-  rescue ValidationException, Workflow::NoTransitionAllowed
-    false
-  end
-
 private
 
   def deferred_offer

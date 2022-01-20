@@ -15,11 +15,11 @@ RSpec.describe ReinstatePendingConditions do
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
 
   it 'changes application status to \'pending_conditions\'' do
-    expect { service.save }.to change(application_choice, :status).to('pending_conditions')
+    expect { service.save! }.to change(application_choice, :status).to('pending_conditions')
   end
 
   it 'changes current_course_option_id for the application choice' do
-    expect { service.save }.to change(application_choice, :current_course_option_id)
+    expect { service.save! }.to change(application_choice, :current_course_option_id)
   end
 
   it 'sets recruited_at to nil if conditions are no longer met' do
@@ -29,14 +29,14 @@ RSpec.describe ReinstatePendingConditions do
     )
 
     Timecop.freeze do
-      expect { service.save }.to change(application_choice, :recruited_at).to(nil)
+      expect { service.save! }.to change(application_choice, :recruited_at).to(nil)
     end
   end
 
   it 'updates the status of all conditions to pending' do
     application_choice.offer.conditions.update(status: :met)
 
-    expect { service.save }.to change { application_choice.offer.conditions.first.status }.from('met').to('pending')
+    expect { service.save! }.to change { application_choice.offer.conditions.first.status }.from('met').to('pending')
   end
 
   context 'when the application does not have an offer object associated' do
@@ -49,7 +49,7 @@ RSpec.describe ReinstatePendingConditions do
     end
 
     it 'creates an offer object' do
-      service.save
+      service.save!
 
       expect(application_choice.offer).not_to be_nil
       expect(application_choice.offer.conditions.first.status).to eq('pending')
@@ -59,7 +59,7 @@ RSpec.describe ReinstatePendingConditions do
   describe 'other dependencies' do
     it 'calls update_course_option_and_associated_fields!' do
       allow(application_choice).to receive(:update_course_option_and_associated_fields!)
-      service.save
+      service.save!
       expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
     end
   end
