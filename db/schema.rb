@@ -520,6 +520,7 @@ ActiveRecord::Schema.define(version: 2022_01_20_104427) do
     t.string "user_type"
     t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
     t.index ["user_id", "user_type"], name: "index_notes_on_user_id_and_user_type"
+    t.check_constraint "user_id IS NOT NULL", name: "notes_user_id_null"
   end
 
   create_table "offer_conditions", force: :cascade do |t|
