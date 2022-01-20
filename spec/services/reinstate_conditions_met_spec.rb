@@ -63,72 +63,15 @@ RSpec.describe ReinstateConditionsMet do
     end
   end
 
-  describe 'validations' do
-    context 'checks the course option is present' do
-      let(:new_course_option) { nil }
-
-      it 'save! raises a ValidationException' do
-        expect { service.save! }
-          .to raise_error(ValidationException, 'Please provide a course_option or course_option_id')
-      end
-
-      it 'save returns false' do
-        expect(service.save).to be false
-      end
-    end
-
-    context 'checks the course is open on apply' do
-      let(:new_course_option) do
-        create(:course_option,
-               course: create(:course, provider: provider, open_on_apply: false))
-      end
-
-      it 'save! raises a ValidationException' do
-        expect { service.save! }
-          .to raise_error(ValidationException, 'The requested course is not open for applications via the Apply service')
-      end
-
-      it 'save returns false' do
-        expect(service.save).to be false
-      end
-    end
-
-    context 'checks course option matches the current RecruitmentCycle' do
-      let(:new_course_option) { previous_course_option }
-
-      it 'save! raises a ValidationException' do
-        expect { service.save! }
-          .to raise_error(ValidationException, 'The requested course does not exist in the current cycle')
-      end
-
-      it 'save returns false' do
-        expect(service.save).to be false
-      end
-    end
-
-    context 'when the application is not in a state allowing to reinstate conditions met' do
-      let(:application_choice) do
-        create(:application_choice, :awaiting_provider_decision,
-               course_option: previous_course_option)
-      end
-
-      it 'save! raises a Workflow::NoTransitionAllowed error' do
-        expect { service.save!  }
-          .to raise_error(Workflow::NoTransitionAllowed,
-                          'There is no event reinstate_conditions_met defined for the awaiting_provider_decision state')
-      end
-
-      it 'save returns false' do
-        expect(service.save).to be false
-      end
-    end
-  end
-
   describe 'other dependencies' do
     it 'calls update_course_option_and_associated_fields!' do
       allow(application_choice).to receive(:update_course_option_and_associated_fields!)
       service.save
       expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
     end
+  end
+
+  describe 'validations' do
+    include_examples 'confirm deferred offer validations', :reinstate_conditions_met
   end
 end
