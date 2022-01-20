@@ -10,7 +10,6 @@ module ProviderInterface
       if valid?
         Note.new(
           application_choice: application_choice,
-          provider_user: user,
           user: user,
           message: message,
         ).save

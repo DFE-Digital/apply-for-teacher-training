@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::NewNoteForm do
   let(:application_choice) { build(:application_choice) }
-  let(:provider_user) { build(:provider_user) }
+  let(:user) { build(:provider_user) }
 
   describe 'validations' do
     it 'validates presence of :application_choice' do
@@ -29,7 +29,7 @@ RSpec.describe ProviderInterface::NewNoteForm do
     it 'creates a new note' do
       valid_form_object = described_class.new(
         application_choice: application_choice,
-        user: provider_user,
+        user: user,
         message: 'Some text',
       )
 
