@@ -84,7 +84,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     it 'renders note event' do
       application_choice = create(:application_choice)
       note = Note.new(
-        provider_user: provider_user,
         message: 'Notes are a new feature',
         user: provider_user,
       )
