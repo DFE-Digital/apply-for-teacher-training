@@ -55,3 +55,7 @@ RSpec/Capybara/FeatureMethods:
 RSpec/FactoryBot/CreateList:
   Exclude:
     - 'spec/services/generate_test_applications_for_provider_spec.rb'
+
+RSpec/FilePath:
+  Exclude:
+    - 'spec/presenters/vendor_api/**/*'
