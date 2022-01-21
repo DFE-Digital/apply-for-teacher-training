@@ -26,15 +26,18 @@ RSpec.describe 'Monthly Statistics', type: :request do
       report.save
     end
 
-    it 'returns the report for 2021-10' do
+    it 'returns the report for 2021-11' do
       get '/publications/monthly-statistics/'
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include('to 22 November 2021')
 
       get '/publications/monthly-statistics/2021-10'
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include('to 18 October 2021')
 
       get '/publications/monthly-statistics/2021-11'
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include('to 22 November 2021')
 
       get '/publications/monthly-statistics/2021-12'
       expect(response).to have_http_status(:not_found)
