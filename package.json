@@ -13,9 +13,11 @@
     "jquery": "^3.6.0"
   },
   "devDependencies": {
+    "axe-core": "^4.3.5",
     "cypress": "^4.12.1",
-    "cypress-axe": "^0.8.1",
+    "cypress-axe": "^0.14.0",
     "jest": "^27.4.7",
+    "notifications-node-client": "^5.1.0",
     "prettier": "^2.5.1",
     "standard": "^16.0.4",
     "stylelint": "^13.13.1",
