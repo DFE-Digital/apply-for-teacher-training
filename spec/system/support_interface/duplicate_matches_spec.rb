@@ -27,7 +27,14 @@ RSpec.feature 'See Duplicate candidate matches' do
     then_i_should_see_list_of_under_review_duplicates
     and_i_should_see_a_counter_for_under_review_duplicates
 
+    when_i_click_on_a_match_that_is_not_resolved
+    and_i_click_the_back_link
+    i_should_be_taken_to_the_under_review_view
+
     when_i_click_on_a_the_resolved_link
+    and_click_on_a_match_that_is_resolved
+    and_i_click_the_back_link
+    i_should_be_taken_to_the_resolved_view
     then_i_should_see_list_of_resolved_duplicates
 
     when_i_click_on_a_the_under_review_link
@@ -92,10 +99,28 @@ RSpec.feature 'See Duplicate candidate matches' do
     expect(page).not_to have_link('2 candidates with postcode W3 6ET')
   end
 
+  def when_i_click_on_a_match_that_is_not_resolved
+    click_link '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
+  end
+
+  def and_i_click_the_back_link
+    click_link 'Back'
+  end
+
+  def i_should_be_taken_to_the_under_review_view
+    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @bob.reload.fraud_match.resolved))
+  end
+
+  def and_click_on_a_match_that_is_resolved
+    click_link '2 candidates with postcode W3 6ET and DOB 12 Oct 1999'
+  end
+
+  def i_should_be_taken_to_the_resolved_view
+    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @ali.reload.fraud_match.resolved))
+  end
+
   def and_i_should_see_a_counter_for_under_review_duplicates
-    within('span[class=app-count]') do
-      expect(page).to have_content('1')
-    end
+    expect(page.find('span.app-count').text).to eq('1')
   end
 
   def when_i_click_on_a_the_resolved_link
