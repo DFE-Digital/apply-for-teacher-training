@@ -62,7 +62,7 @@ module SupportInterface
 
     def choices_with_courses_and_subjects
       ApplicationChoice
-        .select('application_choices.id as id, application_choices.status as status, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name) as subject_names, ARRAY_AGG(subjects.code) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
+        .select('application_choices.id as id, application_choices.status as status, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name ORDER BY subjects.id) as subject_names, ARRAY_AGG(subjects.code ORDER BY subjects.id) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
         .joins(application_form: :candidate)
         .joins(course_option: { course: :subjects })
         .joins("LEFT JOIN (SELECT candidate_id, MAX(created_at) as created FROM application_forms WHERE phase = 'apply_2' GROUP BY candidate_id) a2_latest_application_forms ON application_form.created_at = a2_latest_application_forms.created AND application_form.candidate_id = a2_latest_application_forms.candidate_id")

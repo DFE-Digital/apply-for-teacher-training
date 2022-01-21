@@ -85,7 +85,7 @@ module SupportInterface
 
     def choices_with_courses_and_subjects
       ApplicationChoice
-        .select('application_choices.id as id, application_choices.status as status, providers.provider_type as route, application_qualifications.grade_hesa_code as grade_hesa_code, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name) as subject_names, ARRAY_AGG(subjects.code) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
+        .select('application_choices.id as id, application_choices.status as status, providers.provider_type as route, application_qualifications.grade_hesa_code as grade_hesa_code, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name ORDER BY subjects.id) as subject_names, ARRAY_AGG(subjects.code ORDER BY subjects.id) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
         .joins(application_form: :application_qualifications)
         .joins(course_option: { course: :provider })
         .joins(course_option: { course: :subjects })
