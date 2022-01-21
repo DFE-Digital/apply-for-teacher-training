@@ -5,6 +5,8 @@ module VendorAPI
                   'The application will transition to the offer_deferred status and the fields ' \
                   'offer_deferred_at and status_before_deferral will be populated.'
 
+      action DeferredOffersController, :create
+
       resource ApplicationPresenter, [DeferredOfferAPIData]
     end
   end
