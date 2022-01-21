@@ -2,7 +2,7 @@ class CollectionSelectComponentPreview < ViewComponent::Preview
   class FormObject
     include ActiveModel::Model
 
-    attr_accessor :provider_id
+    attr_accessor :provider_id, :course_id
   end
 
   def select_example
