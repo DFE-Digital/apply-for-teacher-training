@@ -35,6 +35,7 @@ module ProviderInterface
         @application_choice.update!(
           declined_at: Time.zone.now,
           audit_comment: I18n.t('transient_application_states.withdrawn_at_candidates_request.declined.audit_comment'),
+          withdrawn_or_declined_for_candidate_by_provider: true,
         )
       end
     end
@@ -49,6 +50,7 @@ module ProviderInterface
         @application_choice.update!(
           withdrawn_at: Time.zone.now,
           audit_comment: I18n.t('transient_application_states.withdrawn_at_candidates_request.withdrawn.audit_comment'),
+          withdrawn_or_declined_for_candidate_by_provider: true,
         )
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       end

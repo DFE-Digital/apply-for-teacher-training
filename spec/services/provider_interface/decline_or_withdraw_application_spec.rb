@@ -12,6 +12,7 @@ RSpec.describe ProviderInterface::DeclineOrWithdrawApplication do
       expect(application_choice.reload.declined_at).not_to be nil
       expect(application_choice).to be_declined
       expect(application_choice).not_to be_withdrawn
+      expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
     end
 
     it 'withdraws applications which are withdrawable' do
@@ -24,6 +25,7 @@ RSpec.describe ProviderInterface::DeclineOrWithdrawApplication do
       expect(application_choice.reload.withdrawn_at).not_to be nil
       expect(application_choice).to be_withdrawn
       expect(application_choice).not_to be_declined
+      expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
     end
 
     it 'returns false when the application is not under offer and is not withdrawable' do

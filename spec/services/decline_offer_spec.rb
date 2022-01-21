@@ -10,6 +10,7 @@ RSpec.describe DeclineOffer do
       expect {
         described_class.new(application_choice: application_choice).save!
       }.to change { application_choice.declined_at }.to(Time.zone.now)
+       .and change { application_choice.withdrawn_or_declined_for_candidate_by_provider }.to false
     end
   end
 

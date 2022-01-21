@@ -12,6 +12,7 @@ RSpec.describe DeclineOfferByDefault do
 
     expect(application_choice.declined_by_default).to eq(true)
     expect(application_choice.declined_at).not_to be_nil
+    expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be false
   end
 
   it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
