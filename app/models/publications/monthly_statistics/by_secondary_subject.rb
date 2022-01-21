@@ -72,7 +72,7 @@ module Publications
         application_choices_with_subjects.reduce({}) do |subject_counts, choice|
           status = choice.status
           dominant_subject = MinisterialReport.determine_dominant_course_subject_for_report(
-            choice.course,
+            choice.current_course,
           )
 
           dominant_subject = dominant_subject.to_s.humanize
