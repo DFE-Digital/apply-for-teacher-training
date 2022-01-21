@@ -3,19 +3,21 @@ module DataAPI
     include ServiceAPIUserAuthentication
     include RemoveBrowserOnlyHeaders
 
+    rescue_from ParameterInvalid, with: :parameter_invalid
+    rescue_from ActionController::ParameterMissing, with: :parameter_missing
+
     # Makes PG::QueryCanceled statement timeout errors appear in Skylight
     # against the controller action that triggered them
     # instead of bundling them with every other ErrorsController#internal_server_error
     rescue_from ActiveRecord::QueryCanceled, with: :statement_timeout
 
     def index
-      exports = DataAPI::TADExport.all
-
       formatted_exports = exports.map do |export|
         {
           export_date: export.completed_at,
           description: export.name,
           url: data_api_tad_export_url(export.id),
+          updated_at: export.updated_at,
         }
       end
 
@@ -81,7 +83,21 @@ module DataAPI
       serve_export(data_export)
     end
 
+    def parameter_invalid(e)
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+    end
+
+    def parameter_missing(e)
+      error_message = e.message.split("\n").first
+      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
+    end
+
   private
+
+    def exports
+      DataAPI::TADExport.all
+      .where('updated_at > ?', updated_since_params)
+    end
 
     def serve_export(export)
       export.update!(audit_comment: "File downloaded via API using token ID #{@authenticating_token.id}")
@@ -97,6 +113,19 @@ module DataAPI
           },
         ],
       }, status: :internal_server_error
+    end
+
+    def updated_since_params
+      updated_since_value = params.require(:updated_since)
+
+      begin
+        date = Time.zone.iso8601(updated_since_value)
+        raise ParameterInvalid, 'Parameter is invalid (date is invalid): updated_since' unless date.year.positive?
+
+        date
+      rescue ArgumentError, KeyError
+        raise ParameterInvalid, 'Parameter is invalid (should be ISO8601): updated_since'
+      end
     end
   end
 end

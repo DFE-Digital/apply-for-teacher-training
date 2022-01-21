@@ -17,6 +17,10 @@ module DataAPISpecHelper
     JSON.parse(response.body)
   end
 
+  def error_response
+    parsed_response['errors'].first
+  end
+
   def be_valid_against_openapi_schema(expected)
     ValidAgainstOpenAPISchemaMatcher.new(expected, DataAPISpecification.as_hash)
   end
