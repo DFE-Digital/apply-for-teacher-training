@@ -13,7 +13,7 @@ class GetApplicationChoicesForProviders
 
   def self.call(
     providers:,
-    vendor_api: false,
+    exclude_deferrals: false,
     includes: DEFAULT_INCLUDES,
     recruitment_cycle_year: RecruitmentCycle.years_visible_to_providers
   )
@@ -23,7 +23,7 @@ class GetApplicationChoicesForProviders
     raise MissingProvider if providers.blank? || providers.any?(&:blank?)
 
     provider_ids = providers.map(&:id)
-    statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
+    statuses = exclude_deferrals ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
 
     ApplicationChoice
       .where(provider_ids_check(provider_ids))
