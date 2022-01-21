@@ -388,18 +388,11 @@ en:
           attributes:
             conditions_status:
               blank: Select yes if the candidate has met all of the conditions
-        reinstate_conditions_met:
+        confirm_deferred_offer_validations:
           attributes:
             course_option:
-              blank: could not be found
-              not_open_on_apply: is not open for applications via the Apply service
-              not_in_current_cycle: does not belong to the current cycle
-        reinstate_pending_conditions:
-          attributes:
-            course_option:
-              blank: could not be found
-              not_open_on_apply: is not open for applications via the Apply service
-              not_in_current_cycle: does not belong to the current cycle
+              not_open_on_apply: The requested course is not open for applications via the Apply service
+              not_in_current_cycle: The requested course does not exist in the current cycle
         provider_interface/rejected_by_default_feedback_form:
           attributes:
             rejection_reason:

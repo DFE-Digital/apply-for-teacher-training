@@ -46,7 +46,10 @@ RSpec.describe DataAPI::TADExport do
     support_user = create(:support_user)
 
     # we roll the course_option from :previous_year to the current cycle, which is the "next" cycle from its POV
-    ReinstateConditionsMet.new(actor: support_user, application_choice: choice, course_option: choice.course_option.in_next_cycle).save
+    ConfirmDeferredOffer.new(actor: support_user,
+                             application_choice: choice,
+                             course_option: choice.course_option.in_next_cycle,
+                             conditions_met: true).save
 
     result = described_class.new.data_for_export
     expect(result.count).to eq 5

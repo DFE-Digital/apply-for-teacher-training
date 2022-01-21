@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ReinstatePendingConditions do
-  subject(:service) { described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option) }
+  subject(:service) do
+    described_class.new(actor: provider_user,
+                        application_choice: application_choice,
+                        course_option: new_course_option)
+  end
 
   let(:provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
   let(:provider) { provider_user.providers.first }
@@ -11,11 +15,11 @@ RSpec.describe ReinstatePendingConditions do
   let(:application_choice) { create(:application_choice, :with_deferred_offer, course_option: previous_course_option) }
 
   it 'changes application status to \'pending_conditions\'' do
-    expect { service.save }.to change(application_choice, :status).to('pending_conditions')
+    expect { service.save! }.to change(application_choice, :status).to('pending_conditions')
   end
 
   it 'changes current_course_option_id for the application choice' do
-    expect { service.save }.to change(application_choice, :current_course_option_id)
+    expect { service.save! }.to change(application_choice, :current_course_option_id)
   end
 
   it 'sets recruited_at to nil if conditions are no longer met' do
@@ -25,14 +29,14 @@ RSpec.describe ReinstatePendingConditions do
     )
 
     Timecop.freeze do
-      expect { service.save }.to change(application_choice, :recruited_at).to(nil)
+      expect { service.save! }.to change(application_choice, :recruited_at).to(nil)
     end
   end
 
   it 'updates the status of all conditions to pending' do
     application_choice.offer.conditions.update(status: :met)
 
-    expect { service.save }.to change { application_choice.offer.conditions.first.status }.from('met').to('pending')
+    expect { service.save! }.to change { application_choice.offer.conditions.first.status }.from('met').to('pending')
   end
 
   context 'when the application does not have an offer object associated' do
@@ -45,45 +49,22 @@ RSpec.describe ReinstatePendingConditions do
     end
 
     it 'creates an offer object' do
-      service.save
+      service.save!
 
       expect(application_choice.offer).not_to be_nil
       expect(application_choice.offer.conditions.first.status).to eq('pending')
     end
   end
 
-  describe 'course option validation' do
-    it 'checks the course option is present' do
-      reinstate = described_class.new(actor: provider_user, application_choice: application_choice, course_option: nil)
-
-      expect(reinstate).not_to be_valid
-
-      expect(reinstate.errors[:course_option]).to include('could not be found')
-    end
-
-    it 'checks the course is open on apply' do
-      new_course_option = create(:course_option, course: create(:course, provider: provider, open_on_apply: false))
-      reinstate = described_class.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
-
-      expect(reinstate).not_to be_valid
-
-      expect(reinstate.errors[:course_option]).to include('is not open for applications via the Apply service')
-    end
-
-    it 'checks course option matches the current RecruitmentCycle' do
-      reinstate = described_class.new(actor: provider_user, application_choice: application_choice, course_option: previous_course_option)
-
-      expect(reinstate).not_to be_valid
-
-      expect(reinstate.errors[:course_option]).to include('does not belong to the current cycle')
-    end
-  end
-
   describe 'other dependencies' do
     it 'calls update_course_option_and_associated_fields!' do
       allow(application_choice).to receive(:update_course_option_and_associated_fields!)
-      service.save
+      service.save!
       expect(application_choice).to have_received(:update_course_option_and_associated_fields!)
     end
+  end
+
+  describe 'validations' do
+    include_examples 'confirm deferred offer validations', :reinstate_pending_conditions
   end
 end
