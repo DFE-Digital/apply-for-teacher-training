@@ -65,3 +65,7 @@ terraform/*token*
 
 # Key Vault secrets management script used in Makefile
 bin/fetch_config.rb
+
+# Node Version Manager (NVM) config
+# (This is to avoid duplication or conflict with package.json)
+.nvmrc
