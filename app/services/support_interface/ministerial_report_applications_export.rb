@@ -22,8 +22,7 @@ module SupportInterface
       return report if choice.phase == 'apply_2' && !choice.is_latest_a2_app
 
       subject_names_and_codes = choice.subject_names.zip(choice.subject_codes)
-
-      subject = MinisterialReport.determine_dominant_course_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
+      subject = MinisterialReport.determine_dominant_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
 
       MinisterialReport::APPLICATIONS_REPORT_STATUS_MAPPING[choice.status.to_sym].each do |mapped_status|
         report[:stem][mapped_status] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject
@@ -63,7 +62,7 @@ module SupportInterface
 
     def choices_with_courses_and_subjects
       ApplicationChoice
-        .select('application_choices.id as id, application_choices.status as status, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name) as subject_names, ARRAY_AGG(subjects.code) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
+        .select('application_choices.id as id, application_choices.status as status, application_form.id as application_form_id, application_form.phase as phase, courses.name as course_name, courses.level as course_level, ARRAY_AGG(subjects.name ORDER BY subjects.id) as subject_names, ARRAY_AGG(subjects.code ORDER BY subjects.id) as subject_codes, (CASE WHEN a2_latest_application_forms.candidate_id IS NOT NULL THEN true ELSE false END) AS is_latest_a2_app')
         .joins(application_form: :candidate)
         .joins(course_option: { course: :subjects })
         .joins("LEFT JOIN (SELECT candidate_id, MAX(created_at) as created FROM application_forms WHERE phase = 'apply_2' GROUP BY candidate_id) a2_latest_application_forms ON application_form.created_at = a2_latest_application_forms.created AND application_form.candidate_id = a2_latest_application_forms.candidate_id")
