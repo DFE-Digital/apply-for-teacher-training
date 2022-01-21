@@ -11,6 +11,7 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
       Publications::MonthlyStatistics::MonthlyStatisticsReport,
       statistics: statistics,
       created_at: Date.new(2021, 11, 23),
+      month: '2021-11',
     )
   end
 
@@ -46,12 +47,6 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
     end
   end
 
-  describe '#current_reporting_period' do
-    it 'returns the date range for the current reporting period' do
-      expect(presenter.current_reporting_period).to eq('12 October 2021 to 23 November 2021')
-    end
-  end
-
   describe '#deferred_applications_count' do
     context 'when no data is available' do
       it 'returns 0' do
@@ -65,6 +60,12 @@ RSpec.describe Publications::MonthlyStatisticsPresenter do
       it 'returns the correct count' do
         expect(presenter.deferred_applications_count).to eq(37)
       end
+    end
+  end
+
+  describe '#current_reporting_period' do
+    it 'returns the correct dates per the Timetable' do
+      expect(presenter.current_reporting_period).to eq '12 October 2021 to 22 November 2021'
     end
   end
 end
