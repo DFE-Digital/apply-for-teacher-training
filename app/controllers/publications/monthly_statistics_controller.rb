@@ -4,17 +4,9 @@ module Publications
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def show
-      @presenter = if params[:month].present?
-                     Publications::MonthlyStatisticsPresenter.new(
-                       MonthlyStatisticsTimetable.report_for(params[:month]),
-                     )
-                   else
-                     Publications::MonthlyStatisticsPresenter.new(
-                       MonthlyStatisticsTimetable.report_for_current_period,
-                     )
-                   end
+      @presenter = Publications::MonthlyStatisticsPresenter.new(current_report)
 
-      @csv_export_types_and_sizes = calculate_download_sizes(@presenter)
+      @csv_export_types_and_sizes = calculate_download_sizes(current_report)
       @academic_year_name = RecruitmentCycle.cycle_name(CycleTimetable.next_year)
       @current_cycle_name = RecruitmentCycle.verbose_cycle_name
     end
@@ -22,7 +14,7 @@ module Publications
     def download
       export_type = params[:export_type]
       export_filename = "#{export_type}-#{params[:month]}.csv"
-      raw_data = MonthlyStatisticsTimetable.report_for(params[:month]).statistics[export_type]
+      raw_data = current_report.statistics[export_type]
       header_row = raw_data['rows'].first.keys
       data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
       send_data data, filename: export_filename, disposition: :attachment
@@ -40,6 +32,16 @@ module Publications
         data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
         [k, data.size]
       end.compact
+    end
+
+  private
+
+    def current_report
+      if params[:month].present?
+        MonthlyStatisticsTimetable.report_for(params[:month])
+      else
+        MonthlyStatisticsTimetable.report_for_current_period
+      end
     end
   end
 end
