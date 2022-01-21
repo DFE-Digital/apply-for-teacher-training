@@ -13,7 +13,11 @@
     "jquery": "^3.6.0"
   },
   "devDependencies": {
+    "axe-core": "^4.3.5",
+    "cypress": "^4.12.1",
+    "cypress-axe": "^0.14.0",
     "jest": "^27.4.7",
+    "notifications-node-client": "^5.1.0",
     "prettier": "^2.5.1",
     "standard": "^16.0.4",
     "stylelint": "^13.13.1",
@@ -21,7 +25,8 @@
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
-    "test": "jest"
+    "test": "jest",
+    "smoke-test": "cypress run --spec \"cypress/integration/*.spec.js\""
   },
   "jest": {
     "testEnvironment": "jsdom",
