@@ -1,21 +1,9 @@
 <h2 class="govuk-heading-m"><%= t('layout.support.title') %></h2>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-half">
-    <h2 class="govuk-heading-s govuk-!-margin-bottom-1"><%= t('layout.support.telephone') %></h2>
-    <ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16">
-      <li><%= t('get_into_teaching.tel') %></li>
-      <li><%= t('get_into_teaching.opening_times') %></li>
-      <li>Free of charge</li>
-    </ul>
-  </div>
-  <div class="govuk-grid-column-one-half">
-    <h2 class="govuk-heading-s govuk-!-margin-bottom-1"><%= t('layout.support.online_chat') %></h2>
-    <ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16 govuk-!-margin-bottom-8">
-      <li><%= link_to t('layout.support.talk_to_adviser'), t('get_into_teaching.url_online_chat'), class: 'govuk-footer__link' %></li>
-      <li><%= t('get_into_teaching.opening_times') %></li>
-    </ul>
-  </div>
-</div>
+
+<p class="govuk-body-s govuk-!-margin-bottom-1">Call <%= t('get_into_teaching.tel') %> or <%= link_to "chat online", t('get_into_teaching.url_online_chat'), class: 'govuk-footer__link' %></p>
+<p class="govuk-body-s govuk-!-margin-bottom-1"><%= t('get_into_teaching.opening_times') %></p>
+<p class="govuk-body-s">Free of charge</p>
+
 <div class="govuk-!-margin-bottom-5">
   <%= link_to t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-footer__link' %>
 </div>
