@@ -25,7 +25,8 @@
   },
   "scripts": {
     "lint": "standard 'app/frontend/packs'",
-    "test": "jest"
+    "test": "jest",
+    "smoke-test": "cypress run --spec \"cypress/integration/*.spec.js\""
   },
   "jest": {
     "testEnvironment": "jsdom",
