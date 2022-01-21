@@ -155,7 +155,7 @@ module MinisterialReport
   }.freeze
 
   TAD_STATUS_PRECEDENCE = {
-    recruited: nil,
+    recruited: %i[offer_received accepted],
     pending_conditions: %i[offer_received accepted],
     offer_deferred: %i[offer_received accepted],
     offer: %i[offer_received],

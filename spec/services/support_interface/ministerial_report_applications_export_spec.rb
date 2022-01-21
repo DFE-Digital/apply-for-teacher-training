@@ -30,20 +30,20 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:drama,                    0, 0, 0, 0, 0, 0],
          [:english,                  1, 0, 0, 0, 0, 1],
          [:further_education,        1, 0, 0, 0, 1, 0],
-         [:geography,                1, 0, 0, 0, 0, 0],
+         [:geography,                1, 1, 1, 0, 0, 0],
          [:history,                  0, 0, 0, 0, 0, 0],
          [:mathematics,              2, 0, 0, 0, 2, 0],
-         [:modern_foreign_languages, 1, 0, 0, 0, 0, 0],
+         [:modern_foreign_languages, 1, 1, 1, 0, 0, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
          [:other,                    2, 1, 1, 0, 0, 0],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  1, 0, 0, 0, 0, 1],
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     3, 0, 0, 0, 2, 1],
-         [:ebacc,                    6, 0, 0, 0, 2, 2],
-         [:primary,                  7, 2, 1, 0, 0, 0],
-         [:secondary,                9, 2, 1, 1, 2, 2],
-         [:total,                    16, 4, 2, 1, 2, 2]]
+         [:ebacc,                    6, 2, 2, 0, 2, 2],
+         [:primary,                  7, 3, 2, 0, 0, 0],
+         [:secondary,                9, 4, 3, 1, 2, 2],
+         [:total,                    16, 7, 5, 1, 2, 2]]
       end
     end
   end
