@@ -11,7 +11,7 @@ RSpec.describe Publications::MonthlyStatistics::ByArea do
     expect_report_rows(column_headings: ['Area', 'Recruited', 'Conditions pending', 'Deferrals', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
       [['Channel Islands',          0, 0, 0, 0, 0, 0, 0],
        ['East Midlands',            0, 0, 0, 0, 1, 0, 1],
-       ['Eastern',                  1, 0, 0, 0, 0, 0, 1],
+       ['East of England',          1, 0, 0, 0, 0, 0, 1],
        ['Isle of Man',              0, 0, 0, 0, 0, 0, 0],
        ['London',                   1, 0, 1, 0, 0, 0, 2],
        ['No region',                0, 0, 0, 0, 0, 1, 1],

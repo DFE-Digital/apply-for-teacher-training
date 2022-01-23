@@ -43,6 +43,13 @@ module MonthlyStatisticsTimetable
     GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
   end
 
+  def self.reporting_period(month)
+    # @todo see comment above - this data model needs revisiting
+    month_key = Date.parse("#{month}-01").strftime('%B')
+
+    [CycleTimetable.apply_opens, GENERATION_DATES[month_key]]
+  end
+
   def self.current_reports_generation_date
     report_date_for_current_month = GENERATION_DATES[Date::MONTHNAMES[Time.zone.today.month]]
 
