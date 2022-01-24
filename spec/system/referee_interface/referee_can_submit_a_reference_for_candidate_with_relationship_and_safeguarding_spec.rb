@@ -272,7 +272,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     open_email(current_candidate.email_address)
 
     expect(current_email.subject).to end_with('You have a reference from Terri Tudor')
-    expect(current_email.body).to have_content('You need to get another reference')
+    expect(current_email.body).to have_content('You need another reference')
   end
 
   def then_i_see_the_thank_you_page

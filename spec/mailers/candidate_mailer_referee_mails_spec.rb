@@ -62,7 +62,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'You have a reference from Scott Knowles',
-        'request other' => 'You need to get another reference',
+        'request other' => 'You need another reference',
       )
     end
 
