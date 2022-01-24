@@ -87,8 +87,7 @@ RSpec.describe GetFraudMatches do
       end
 
       it 'returns all duplicates' do
-        expect(candidate_ids).to include(candidate1.id)
-        expect(candidate_ids).to include(candidate2.id)
+        expect(candidate_ids).to include(candidate1.id, candidate2.id)
       end
     end
   end
