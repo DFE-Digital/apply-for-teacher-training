@@ -34,9 +34,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     let(:request_body) { { data: { reason: 'Course is over-subscribed' } } }
 
     it 'can reject an already offered application' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'offer',
-      )
+      application_choice = create_application_choice_for_currently_authenticated_provider({}, :with_offer)
 
       post_api_request "/api/v1/applications/#{application_choice.id}/reject", params: request_body
 
