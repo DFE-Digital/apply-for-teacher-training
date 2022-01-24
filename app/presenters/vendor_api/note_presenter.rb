@@ -7,7 +7,11 @@ module VendorAPI
       @note = note
     end
 
-    def as_json
+    def to_json(_)
+      schema.to_json
+    end
+
+    def schema
       {
         id: note.id.to_s,
         author: note.user.full_name,

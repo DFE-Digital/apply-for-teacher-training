@@ -2,7 +2,7 @@ module NotesAPIData
   def schema
     super.deep_merge!({
       attributes: {
-        notes: notes.map { |note| VendorAPI::NotePresenter.new(active_version, note).as_json },
+        notes: notes.map { |note| VendorAPI::NotePresenter.new(active_version, note).schema },
       },
     })
   end
