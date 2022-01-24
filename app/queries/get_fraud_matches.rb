@@ -23,7 +23,6 @@ class GetFraudMatches
           SELECT TRIM(UPPER(application_forms.last_name)) last_name, application_forms.date_of_birth, REPLACE(UPPER(application_forms.postcode), ' ', '') postcode
           FROM application_forms
           WHERE application_forms.previous_application_form_id IS NULL
-          AND application_forms.submitted_at IS NOT NULL
         ) duplicate_submitted_attributes
         ON REPLACE(UPPER(application_details.postcode), ' ', '') = duplicate_submitted_attributes.postcode
         AND application_details.date_of_birth = duplicate_submitted_attributes.date_of_birth
@@ -32,7 +31,7 @@ class GetFraudMatches
           SELECT candidates.id, candidates.email_address
           FROM candidates
         ) candidate_details
-                     ON application_details.candidate_id = candidate_details.id
+        ON application_details.candidate_id = candidate_details.id
         WHERE application_details.previous_application_form_id IS NULL
         ORDER BY last_name, application_details.date_of_birth, postcode;",
     ).to_a

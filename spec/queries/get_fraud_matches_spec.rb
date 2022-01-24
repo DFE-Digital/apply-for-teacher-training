@@ -9,7 +9,7 @@ RSpec.describe GetFraudMatches do
 
     context 'matches two identical names in identical casing' do
       before do
-        Timecop.freeze(Time.zone.local(2020, 8, 23, 12, 0o0, 0o0)) do
+        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
           create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: Time.zone.now)
           create(:application_form, candidate: candidate2, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: Time.zone.now)
         end
@@ -73,6 +73,21 @@ RSpec.describe GetFraudMatches do
       it 'returns all duplicates' do
         expect(postcodes).to include('W6 9BH')
         expect(postcodes).to include('W69BH')
+      end
+    end
+
+    context 'when duplicated unsubmitted applications' do
+      let(:candidate_ids) { returned_array_of_hashes.map { |element| element['candidate_id'] } }
+
+      before do
+        Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
+          create(:application_form, candidate: candidate1, first_name: 'Jeffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: nil)
+          create(:application_form, candidate: candidate2, first_name: 'Joffrey', last_name: 'Thompson', date_of_birth: '1998-08-08', postcode: 'w6 9bh ', submitted_at: nil)
+        end
+      end
+
+      it 'returns all duplicates' do
+        expect(candidate_ids).to include(candidate1.id, candidate2.id)
       end
     end
   end
