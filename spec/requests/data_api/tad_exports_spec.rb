@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true do
   include DataAPISpecHelper
 
-  let!(:create_data_export) do
-    DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
-  end
-
-  let!(:export_data_export) do
-    DataExporter.perform_async(DataAPI::TADExport, create_data_export.id)
-  end
-
   it_behaves_like 'a TAD API endpoint', '/'
 
   it 'allows access to the API for TAD users' do
@@ -21,51 +13,48 @@ RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true d
   end
 
   it 'returns a list of data exports' do
-    create(:submitted_application_choice, :with_completed_application_form)
-
-    create_data_export
-    export_data_export
-
     get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: tad_api_token
 
     expect(response).to have_http_status(:success)
     expect(parsed_response).to be_valid_against_openapi_schema('TADDataExportList')
   end
 
-  it 'returns data exports response JSON values as expected' do
-    create(:submitted_application_choice, :with_completed_application_form)
-
-    data_export = create_data_export
-    export_data_export
-
-    data_export = DataExport.find(data_export.id)
-
-    get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: tad_api_token
-
-    response_data = parsed_response.dig('data', 0)
-
-    expect(response_data['export_date'].to_time.iso8601).to eq(data_export.completed_at.iso8601)
-    expect(response_data['description']).to eq(data_export.name)
-    expect(response_data['url']).to eq(data_api_tad_export_url(data_export.id))
-    expect(response_data['updated_at'].to_time.iso8601).to eq(data_export.updated_at.iso8601)
-  end
-
-  it 'returns data exports filtered by `updated_since`' do
-    Timecop.travel(2.days.ago) do
+  context 'when data export is exported' do
+    before do
       create(:submitted_application_choice, :with_completed_application_form)
-      create_data_export
-      export_data_export
+
+      data_export = DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
+      DataExporter.perform_async(DataAPI::TADExport, data_export.id)
     end
 
-    create(:submitted_application_choice, :with_completed_application_form)
+    it 'returns data exports response JSON values as expected' do
+      data_export = DataExport.last
 
-    create_data_export
-    export_data_export
+      get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: tad_api_token
 
-    get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: tad_api_token
+      response_data = parsed_response.dig('data', 0)
 
-    expect(parsed_response['data'].size).to eq(1)
-    expect(response).to have_http_status(:success)
+      expect(response_data['export_date'].to_time.to_i).to be_within(1).of(Time.zone.now.to_i)
+      expect(response_data['description']).to eq('Daily export of applications for TAD')
+      expect(response_data['url']).to eq("http://www.example.com/data-api/tad-data-exports/#{data_export.id}")
+      expect(response_data['updated_at'].to_time.to_i).to be_within(1).of(Time.zone.now.to_i)
+      expect(parsed_response).to be_valid_against_openapi_schema('TADDataExportList')
+    end
+
+    it 'returns data exports filtered by `updated_since`' do
+      Timecop.travel(2.days.ago) do
+        create(:submitted_application_choice, :with_completed_application_form)
+        data_export = DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
+        DataExporter.perform_async(DataAPI::TADExport, data_export.id)
+      end
+
+      get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: tad_api_token
+
+      expect(parsed_response['data'].size).to eq(1)
+      expect(DataExport.all.count).to eq(2)
+      expect(response).to have_http_status(:success)
+      expect(parsed_response).to be_valid_against_openapi_schema('TADDataExportList')
+    end
   end
 
   it 'returns an error if the `updated_since` parameter is missing' do
