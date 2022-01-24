@@ -21,6 +21,7 @@ class FeatureFlag
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
     [:send_request_data_to_bigquery, 'Send request data to Google Bigquery via background worker', 'Apply team'],
     [:enable_chat_support, 'Enable Zendesk chat support', 'Apply team'],
+    [:lock_external_report_to_december_2021, 'Lock the current external report to December 2021', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [

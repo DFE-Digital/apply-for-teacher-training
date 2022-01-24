@@ -168,6 +168,9 @@
       in England only and thus is not directly comparable to previous figures
       published by UCAS, which also included candidates applying to providers in
       Wales.</p>
+    <p class="govuk-body">The unsuccessful count reported in Tables 4.1 to 11.1
+      includes candidates who have withdrawn their application or declined an
+      offer.</p>
   </div>
 </div>
 
@@ -262,7 +265,7 @@
     <h2 class="govuk-heading-l govuk-!-padding-top-4" id="by-provider-area">11. Provider region</h2>
     <p class="govuk-body">Provider areas are derived from their contact address. These areas may be different to where students
        do their training.</p>
-    <p class="govuk-body">This table counts all candidates by the area of the provider they applied to.</p>
+    <p class="govuk-body">This table counts all applications by the area of the provider they applied to.</p>
     <p class="govuk-body">This table is not directly comparable to previous
       figures published by UCAS for applications to providers in England.
       Previous UCAS tables excluded non-UK residents from their table of provider
@@ -271,7 +274,7 @@
   </div>
 </div>
 
-<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 11.1: Candidates by provider region of England', statistics: @presenter.statistics['by_provider_area']) %>
+<%= render CandidateInterface::MonthlyStatisticsTableComponent.new(caption: 'Table 11.1: Applications by provider region of England', statistics: @presenter.statistics['by_provider_area']) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -326,6 +329,16 @@
 
     <p class="govuk-body">
       Deferred candidates are counted in the academic year in which they start their course after training providers have re-confirmed their deferred offer. Providers need to do this before candidates intend to start their training.
+    </p>
+
+    <p class="govuk-body">
+      Statistical releases from previous months during ITT2022 can be found here:
+      <%= govuk_link_to 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment', 'https://www.gov.uk/government/publications/monthly-statistics-on-initial-teacher-training-itt-recruitment' %>.
+    </p>
+
+    <p class="govuk-body">
+      If you have any feedback on the monthly ITT statistical reports, please
+      get in touch at <%= bat_contact_mail_to %>.
     </p>
   </div>
 </div>

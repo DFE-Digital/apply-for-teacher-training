@@ -9,7 +9,9 @@ RSpec.describe WithdrawApplication do
 
       described_class.new(application_choice: choice).save!
 
-      expect(choice.reload.status).to eq 'withdrawn'
+      choice.reload
+      expect(choice.status).to eq 'withdrawn'
+      expect(choice.withdrawn_or_declined_for_candidate_by_provider).to be false
     end
 
     it 'calls SetDeclineByDefault with the withdrawn application’s application_form' do

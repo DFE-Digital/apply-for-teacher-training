@@ -5,7 +5,10 @@ class DeclineOffer
 
   def save!
     ApplicationStateChange.new(@application_choice).decline!
-    @application_choice.update!(declined_at: Time.zone.now)
+    @application_choice.update!(
+      declined_at: Time.zone.now,
+      withdrawn_or_declined_for_candidate_by_provider: false,
+    )
 
     if @application_choice.application_form.ended_without_success?
       CandidateMailer.decline_last_application_choice(@application_choice).deliver_later

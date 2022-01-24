@@ -18,6 +18,7 @@ RSpec.describe SupportInterface::RevertWithdrawal, with_audited: true do
 
       expect(application_choice).to eq(original_application_choice)
       expect(application_choice.audits.last.comment).to include(zendesk_ticket)
+      expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to eq nil
     end
   end
 end

@@ -6,7 +6,10 @@ class WithdrawApplication
   def save!
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(application_choice).withdraw!
-      application_choice.update!(withdrawn_at: Time.zone.now)
+      application_choice.update!(
+        withdrawn_at: Time.zone.now,
+        withdrawn_or_declined_for_candidate_by_provider: false,
+      )
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
     end
 

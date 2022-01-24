@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2022_01_20_104427) do
     t.bigint "current_course_option_id"
     t.bigint "provider_ids", default: [], array: true
     t.integer "current_recruitment_cycle_year"
+    t.boolean "withdrawn_or_declined_for_candidate_by_provider"
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"

@@ -15,7 +15,7 @@ gem 'railties', '~> 6.1'
 gem 'sprockets-rails'
 
 gem 'puma', '~> 5.5'
-gem 'pg', '~> 1.2.3'
+gem 'pg', '~> 1.3.0'
 gem 'blazer'
 
 # do not rely on host’s timezone data, which can be inconsistent
@@ -23,7 +23,7 @@ gem 'tzinfo-data'
 
 gem 'webpacker'
 gem 'govuk-components', '~> 3.0.1'
-gem 'govuk_design_system_formbuilder', '~> 3.0.0'
+gem 'govuk_design_system_formbuilder', '~> 3.0.1'
 
 # GOV.UK Notify
 gem 'mail-notify'
