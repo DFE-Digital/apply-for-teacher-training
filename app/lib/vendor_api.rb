@@ -27,6 +27,7 @@ module VendorAPI
       Changes::AddInterviewsToApplication,
       Changes::CreateNote,
       Changes::NotesForApplication,
+      Changes::WithdrawOrDeclineApplication,
     ],
   }.freeze
 end
