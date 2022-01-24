@@ -630,6 +630,7 @@ Rails.application.routes.draw do
       post '/reject' => 'decisions#reject'
       post '/confirm-enrolment' => 'decisions#confirm_enrolment'
       post '/notes/create' => 'notes#create'
+      post '/withdraw' => 'withdraw_or_decline_offer#create'
 
       resource :deferred_offer, only: :create, path: 'defer-offer'
     end
