@@ -21,8 +21,6 @@ module SupportInterface
         latest_apply_again_application =
           if candidate_has_a_viable_apply_2_application?(application)
             application.candidate.current_application
-          else
-            nil
           end
 
         # We use original application to select determine subjects and
@@ -83,7 +81,7 @@ module SupportInterface
       application != application.candidate.current_application \
         && application.candidate.current_application.phase == 'apply_2' \
         && application.candidate.current_application.submitted_at.present? \
-        && !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(application.candidate.current_application.application_choices.first.status)
+        && ApplicationStateChange::UNSUCCESSFUL_END_STATES.exclude?(application.candidate.current_application.application_choices.first.status)
     end
 
     def add_row_values(hash, subject, state)
@@ -104,7 +102,7 @@ module SupportInterface
     def candidate_has_no_dominant_subject?(mapped_subjects)
       return false if mapped_subjects.count == 1 || mapped_subjects.uniq.size == 1
 
-      count_of_subject_choices(mapped_subjects).values.sort.last <= (mapped_subjects.count / 2)
+      count_of_subject_choices(mapped_subjects).values.max <= (mapped_subjects.count / 2)
     end
 
     def count_of_subject_choices(subjects)
@@ -112,7 +110,6 @@ module SupportInterface
     end
 
     def dominant_subject(subjects)
-      total_choice_count = count_of_subject_choices(subjects)
       count_of_subject_choices(subjects).max_by(&:last).first
     end
 
@@ -132,9 +129,16 @@ module SupportInterface
         .joins(application_choices: { current_course: :subjects })
         .joins(:candidate)
         .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycle.current_year })
+        .where(phase: 'apply_1')
+        .or(
+          ApplicationForm
+            .joins(application_choices: { current_course: :subjects })
+            .joins(:candidate)
+            .where('application_forms.recruitment_cycle_year < ?', RecruitmentCycle.current_year)
+            .where('application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year),
+        ).where.not(submitted_at: nil)
         .where.not(submitted_at: nil)
         .where.not(candidates: { hide_in_reporting: true })
-        .where(phase: 'apply_1')
         .distinct
     end
   end

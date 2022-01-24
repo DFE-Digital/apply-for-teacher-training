@@ -248,9 +248,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       it 'correctly allocates the candidate' do
         create_double_choice_application(
           :with_accepted_offer,
-          ['F0', '08'],
+          %w[F0 08],
           :with_declined_offer,
-          ['F3', 'L1'],
+          %w[F3 L1],
         )
 
         data = described_class.new.call
@@ -435,6 +435,63 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         )
       end
     end
+
+    context 'when the candidate has an apply again application carried over from previous cycle' do
+      around do |example|
+        ApplicationForm.with_unsafe_application_choice_touches do
+          example.run
+        end
+      end
+
+      it 'includes the apply again application carried over from the previous cycle' do
+        candidate = create(:candidate)
+
+        course = create(:course, subjects: [create(:subject, code: 'F0')])
+        course_option = create(:course_option, course: course)
+
+        application_choice = create(
+          :application_choice,
+          :with_offer,
+          course_option: course_option,
+          candidate: candidate,
+          current_recruitment_cycle_year: RecruitmentCycle.current_year,
+        )
+
+        create(
+          :completed_application_form,
+          candidate: candidate,
+          phase: 'apply_2',
+          application_choices: [application_choice],
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+        )
+
+        data = described_class.new.call
+
+        expect(data).to include(
+          {
+            subject: :total,
+            candidates: 1,
+            offer_received: 1,
+            accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+
+        expect(data).to include(
+          {
+            subject: :physics,
+            candidates: 1,
+            offer_received: 1,
+            accepted: 0,
+            application_declined: 0,
+            application_rejected: 0,
+            application_withdrawn: 0,
+          },
+        )
+      end
+    end
   end
 
   describe '#determine_states' do
@@ -528,7 +585,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     if subject_code_or_codes.is_a?(Array)
       subject_code_or_codes.map { |subject_code| create(:subject, name: MinisterialReport::SUBJECT_CODE_MAPPINGS[subject_code].to_s, code: subject_code) }
     else
-      [create(:subject, code: subject_code_or_codes)]
+      [create(:subject, name: MinisterialReport::SUBJECT_CODE_MAPPINGS[subject_code_or_codes].to_s, code: subject_code_or_codes)]
     end
   end
 
