@@ -1,0 +1,98 @@
+name: Smoke tests
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Apply Teacher Training environment to run smoke tests against qa, staging, sandbox or production
+        required: true
+      sha:
+        description: Commit sha from the apply-for-teacher-training repo that is triggering the test run
+        required: true
+
+jobs:
+  set-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.select-environments.outputs.environments }}
+    steps:
+      - name: Select Environments
+        id: select-environments
+        run: |
+          case $GITHUB_EVENT_NAME in
+            push) environments='{"environment":["qa","staging","sandbox","production"]}' ;;
+            workflow_dispatch) environments='{"environment":["${{ github.event.inputs.environment }}"]}' ;;
+          esac
+          echo "::set-output name=environments::$environments"
+
+  cypress-run:
+    runs-on: ubuntu-latest
+    needs: set-matrix
+    strategy:
+      matrix: ${{ fromJson(needs.set-matrix.outputs.environments) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Set CYPRESS_BASE_URL
+        run: |
+          REVIEW_ENVIRONMENT="false" >> $GITHUB_ENV
+
+          case ${{ matrix.environment }} in
+            production) CYPRESS_BASE_URL=https://www.apply-for-teacher-training.service.gov.uk ;;
+            research) CYPRESS_BASE_URL=https://apply-research.london.cloudapps.digital ;;
+            review-*)
+              CYPRESS_BASE_URL=https://apply-${{ matrix.environment }}.london.cloudapps.digital
+              REVIEW_ENVIRONMENT="true" >> $GITHUB_ENV
+            ;;
+            *) CYPRESS_BASE_URL=https://${{ matrix.environment }}.apply-for-teacher-training.service.gov.uk ;;
+          esac
+          echo "CYPRESS_BASE_URL=${CYPRESS_BASE_URL}" >> $GITHUB_ENV
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2.3.10
+        with:
+          spec: cypress/integration/candidate.spec.js
+        env:
+          CYPRESS_ENVIRONMENT: ${{ matrix.environment }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_CANDIDATE_TEST_EMAIL: ${{ secrets.CANDIDATE_TEST_EMAIL }}
+          CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ secrets.GOVUK_NOTIFY_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Cypress screenshot and videos
+        if:   always()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: smoke-test-${{ matrix.environment }}
+          path: |
+            cypress/videos
+            cypress/screenshots
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Post test run status to apply-for-teacher-training repo
+        if: ${{ always() && github.event_name == 'workflow_dispatch'}}
+        uses: Sibz/github-status-action@v1.1.5
+        with:
+          authToken: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          state: ${{ job.status }}
+          context: smoke-test-${{ matrix.environment }}
+          description: smoke-test-${{ matrix.environment }}
+          repository: apply-for-teacher-training
+          sha: ${{ github.event.inputs.sha }}
+          target_url: https://github.com/DFE-Digital/apply-for-teacher-training-tests/actions/runs/${{ github.run_id }}
+
+      - name: Slack Notification
+        if: ${{ failure() && (env.REVIEW_ENVIRONMENT == 'false') }}
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_USERNAME: Apply Teacher Training
+          SLACK_CHANNEL: 'twd_apply_tech'
+          SLACK_COLOR: '#c0392b'
+          SLACK_ICON_EMOJI: ':sad-beaver:'
+          SLACK_MESSAGE: 'Smoke tests failed to run :sadparrot:'
+          SLACK_TITLE: 'Failure: ${{ github.workflow }} ${{ matrix.environment }}'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
