@@ -4,6 +4,15 @@ RSpec.describe VendorAPI::ApplicationDataConcerns do
 
   let(:provider) { build(:provider) }
 
+  let(:include_properties) do
+    [
+      offer: %i[conditions],
+      application_form: %i[candidate application_qualifications application_references application_work_experiences application_work_history_breaks application_volunteering_experiences english_proficiency],
+      course_option: [{ course: %i[provider] }, :site],
+      current_course_option: [{ course: %i[provider] }, :site],
+    ]
+  end
+
   describe '#application_choices_visible_to_provider' do
     before do
       allow(GetApplicationChoicesForProviders).to receive(:call)
@@ -16,7 +25,7 @@ RSpec.describe VendorAPI::ApplicationDataConcerns do
         application_data_concerns.send(:application_choices_visible_to_provider)
 
         expect(GetApplicationChoicesForProviders)
-          .to have_received(:call).with(providers: [provider], exclude_deferrals: true)
+          .to have_received(:call).with(providers: [provider], exclude_deferrals: true, includes: include_properties)
       end
     end
 
@@ -27,7 +36,7 @@ RSpec.describe VendorAPI::ApplicationDataConcerns do
         application_data_concerns.send(:application_choices_visible_to_provider)
 
         expect(GetApplicationChoicesForProviders)
-          .to have_received(:call).with(providers: [provider], exclude_deferrals: true)
+          .to have_received(:call).with(providers: [provider], exclude_deferrals: true, includes: include_properties)
       end
     end
 
@@ -38,7 +47,7 @@ RSpec.describe VendorAPI::ApplicationDataConcerns do
         application_data_concerns.send(:application_choices_visible_to_provider)
 
         expect(GetApplicationChoicesForProviders)
-          .to have_received(:call).with(providers: [provider], exclude_deferrals: false)
+          .to have_received(:call).with(providers: [provider], exclude_deferrals: false, includes: include_properties)
       end
     end
   end
