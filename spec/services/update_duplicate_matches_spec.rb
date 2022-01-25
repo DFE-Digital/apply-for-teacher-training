@@ -82,6 +82,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
         match = FraudMatch.first
 
+        expect(match.candidates.count).to eql(3)
         expect(match.candidates.third.email_address).to eq('exemplar3@example.com')
 
         expect(match.postcode).to eq('W6 9BH')
@@ -104,6 +105,34 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
             ['exemplar2@example.com'],
           ],
         )
+      end
+    end
+
+    context 'when a duplicate match exists with postcode and last name that differ only by whitespace and case' do
+      it 'updates an existing duplicate match with new candidate' do
+        described_class.new.save!
+
+        match = FraudMatch.first
+        expect(match.candidates.third).to eq(nil)
+
+        create(
+          :application_form,
+          :duplicate_candidates,
+          last_name: ' ' + ApplicationForm.last&.last_name.upcase + ' ',
+          postcode: ApplicationForm.last&.postcode.downcase + ' ',
+          candidate: create(:candidate, email_address: 'exemplar3@example.com'),
+        )
+        described_class.new.save!
+
+        match = FraudMatch.first
+
+        expect(match.candidates.count).to eql(3)
+        expect(match.candidates.third.email_address).to eq('exemplar3@example.com')
+
+        expect(match.postcode).to eq('W6 9BH')
+        expect(match.date_of_birth).to eq(candidate1.application_forms.first.date_of_birth)
+        expect(match.last_name).to eq('Thompson')
+        expect(match.recruitment_cycle_year).to eq(RecruitmentCycle.current_year)
       end
     end
   end
