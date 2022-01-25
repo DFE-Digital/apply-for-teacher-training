@@ -24,10 +24,13 @@ module VendorAPI
     ],
     '1.1' => [
       Changes::DeferAnOffer,
-      Changes::AddInterviewsToApplication,
       Changes::CreateNote,
       Changes::NotesForApplication,
       Changes::WithdrawOrDeclineApplication,
+      Changes::AddInterviewsToApplication,
+      Changes::CreateInterview,
+      Changes::UpdateInterview,
+      Changes::CancelInterview,
     ],
   }.freeze
 end

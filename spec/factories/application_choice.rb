@@ -43,7 +43,7 @@ FactoryBot.define do
 
       after(:build) do |application_choice, _evaluator|
         application_choice.status = :interviewing
-        application_choice.interviews << build(:interview, provider: application_choice.current_provider)
+        application_choice.interviews << build(:interview, provider: application_choice.current_course_option.provider)
       end
     end
 
@@ -52,7 +52,7 @@ FactoryBot.define do
 
       after(:build) do |application_choice, _evaluator|
         application_choice.status = :awaiting_provider_decision
-        application_choice.interviews << build(:interview, :cancelled, provider: application_choice.current_provider)
+        application_choice.interviews << build(:interview, :cancelled, provider: application_choice.current_course_option.provider)
       end
     end
 
