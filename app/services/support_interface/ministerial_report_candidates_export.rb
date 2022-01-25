@@ -137,7 +137,6 @@ module SupportInterface
             .where('application_forms.recruitment_cycle_year < ?', RecruitmentCycle.current_year)
             .where('application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year),
         ).where.not(submitted_at: nil)
-        .where.not(submitted_at: nil)
         .where.not(candidates: { hide_in_reporting: true })
         .distinct
     end

@@ -17,6 +17,8 @@ RSpec.describe 'GET /data-api/ministerial-report/candidates/latest', type: :requ
     get_api_request '/data-api/ministerial-report/candidates/latest', token: tad_api_token
 
     expect(response).to have_http_status(:success)
-    expect(response.body).to start_with('subject,candidates,candidates_holding_offers,candidates_that_have_accepted_offers,declined_candidates,rejected_candidates,candidates_that_have_withdrawn_offers')
+    expect(response.body).to start_with(
+      'subject,candidates,offer_received,accepted,application_declined,application_rejected,application_withdrawn',
+    )
   end
 end
