@@ -59,6 +59,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
 
     expect(response).to have_http_status(:not_found)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-    expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
+    expect(error_response['message']).to eql('Unable to find Application(s)')
   end
 end
