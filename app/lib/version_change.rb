@@ -3,6 +3,10 @@ class VersionChange
     {}
   end
 
+  def actions
+    {}
+  end
+
   def self.description(text)
     define_method(:description) { text }
   end

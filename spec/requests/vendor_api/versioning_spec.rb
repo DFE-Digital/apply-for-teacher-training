@@ -88,5 +88,19 @@ RSpec.describe 'Versioning', type: :request do
         expect(response.status).to eq(200)
       end
     end
+
+    context 'when specifying a version change without an action' do
+      let(:application_choice) { create_application_choice_for_currently_authenticated_provider }
+      let(:note_payload) { { data: { message: Faker::Lorem.sentence } } }
+
+      it 'the route is processed' do
+        stub_const('VendorAPI::VERSIONS', { '1.0' => [VendorAPI::Changes::RetrieveApplications],
+                                            '1.1' => [VendorAPI::Changes::NotesForApplication,
+                                                      VendorAPI::Changes::CreateNote] })
+        post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: note_payload
+
+        expect(response.status).to eq(200)
+      end
+    end
   end
 end
