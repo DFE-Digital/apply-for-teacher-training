@@ -82,7 +82,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
         match = FraudMatch.first
 
-        expect(match.candidates.count).to eql(3)
+        expect(match.candidates.count).to be(3)
         expect(match.candidates.third.email_address).to eq('exemplar3@example.com')
 
         expect(match.postcode).to eq('W6 9BH')
@@ -118,15 +118,15 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         create(
           :application_form,
           :duplicate_candidates,
-          last_name: ' ' + ApplicationForm.last&.last_name.upcase + ' ',
-          postcode: ApplicationForm.last&.postcode.downcase + ' ',
+          last_name: " #{ApplicationForm.last.last_name.upcase} ",
+          postcode: "#{ApplicationForm.last.postcode.downcase} ",
           candidate: create(:candidate, email_address: 'exemplar3@example.com'),
         )
         described_class.new.save!
 
         match = FraudMatch.first
 
-        expect(match.candidates.count).to eql(3)
+        expect(match.candidates.count).to be(3)
         expect(match.candidates.third.email_address).to eq('exemplar3@example.com')
 
         expect(match.postcode).to eq('W6 9BH')
