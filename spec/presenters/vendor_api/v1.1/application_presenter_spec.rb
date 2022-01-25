@@ -47,4 +47,31 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       end
     end
   end
+
+  describe 'interviews section' do
+    let!(:application_choice) do
+      create(
+        :application_choice,
+        :with_completed_application_form,
+        :with_cancelled_interview,
+        :with_scheduled_interview,
+      )
+    end
+
+    it 'includes an interviews section' do
+      expect(attributes[:interviews]).to be_present
+    end
+
+    it 'returns all interviews, including cancelled' do
+      expect(attributes[:interviews].count).to eq(2)
+    end
+
+    it 'sorts interviews in descending updated_at order' do
+      ordered = application_choice.interviews.order('updated_at DESC').all
+      expected = ordered.map(&:id)
+
+      observed = attributes[:interviews].map { |interview| interview[:id].to_i }
+      expect(observed).to eq(expected)
+    end
+  end
 end
