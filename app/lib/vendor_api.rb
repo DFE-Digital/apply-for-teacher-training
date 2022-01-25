@@ -22,5 +22,8 @@ module VendorAPI
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
     ],
+    '1.1' => [
+      Changes::DeferAnOffer,
+    ],
   }.freeze
 end

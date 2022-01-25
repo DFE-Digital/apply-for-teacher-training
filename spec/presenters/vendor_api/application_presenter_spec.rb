@@ -86,7 +86,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
   describe '#status' do
     context 'when the application status is order_withdrawn' do
-      let!(:application_choice) { create(:submitted_application_choice, :offer_withdrawn, :with_completed_application_form) }
+      let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_withdrawn_offer) }
 
       it 'returns rejected' do
         expect(attributes[:status]).to eq('rejected')
@@ -102,7 +102,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
     end
 
     context 'when the application status is any other status' do
-      let!(:application_choice) { create(:submitted_application_choice, :offer, :with_completed_application_form) }
+      let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_offer) }
 
       it 'returns the existing status' do
         expect(attributes[:status]).to eq('offer')
@@ -111,7 +111,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   end
 
   describe '#personal_statement' do
-    let!(:application_choice) { create(:submitted_application_choice, :offer_withdrawn, :with_completed_application_form) }
+    let!(:application_choice) { create(:submitted_application_choice, :with_completed_application_form, :with_withdrawn_offer) }
 
     it 'formats and returns the personal statement information' do
       personal_statement = "Why do you want to be a teacher?: #{application_choice.application_form.becoming_a_teacher} \n " \

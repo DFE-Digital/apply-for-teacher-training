@@ -44,11 +44,12 @@ module VendorAPISpecHelpers
     post url, **headers_and_params
   end
 
-  def create_application_choice_for_currently_authenticated_provider(attributes = {})
+  def create_application_choice_for_currently_authenticated_provider(attributes = {}, traits = nil)
     course = build(:course, provider: currently_authenticated_provider)
     course_option = build(:course_option, course: course)
     create(:submitted_application_choice,
            :with_completed_application_form,
+           *traits,
            { course_option: course_option }.merge(attributes))
   end
 

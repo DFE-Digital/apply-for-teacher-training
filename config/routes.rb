@@ -629,6 +629,8 @@ Rails.application.routes.draw do
       post '/conditions-not-met' => 'decisions#conditions_not_met'
       post '/reject' => 'decisions#reject'
       post '/confirm-enrolment' => 'decisions#confirm_enrolment'
+
+      resource :deferred_offer, only: :create, path: 'defer-offer'
     end
 
     post '/test-data/regenerate' => 'test_data#regenerate'

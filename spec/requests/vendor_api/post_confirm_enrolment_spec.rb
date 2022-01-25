@@ -7,7 +7,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
   it_behaves_like 'an endpoint that requires metadata', '/confirm-enrolment'
 
   it 'is a noop' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'recruited')
+    application_choice = create_application_choice_for_currently_authenticated_provider({}, :with_recruited)
 
     post_api_request "/api/v1/applications/#{application_choice.id}/confirm-enrolment"
 
@@ -17,7 +17,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-enrolmen
   end
 
   it 'notifies Sentry' do
-    application_choice = create_application_choice_for_currently_authenticated_provider(status: 'recruited')
+    application_choice = create_application_choice_for_currently_authenticated_provider({}, :with_recruited)
 
     allow(Sentry).to receive(:capture_exception)
 
