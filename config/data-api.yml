@@ -18,6 +18,15 @@ paths:
     get:
       summary: Get a list of TAD data exports
       description: This endpoint returns a list of data exports
+      parameters:
+        - in: query
+          name: updated_since
+          schema: 
+            type: string
+            format: date-time
+            example: 2021-05-20T12:34:00Z
+          required: true
+          description: A list of TAD data exports updated since this date
       responses:
         '200':
           description: A list of TAD data exports
@@ -156,6 +165,54 @@ components:
           type: string
           description: A human-readable description of the export
           example: Daily export of applications for TAD
+        updated_at:
+          type: string
+          format: date-time
+          description: Time of last change
+          example: 2021-05-20T12:34:00Z
+    ParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterInvalid
+            message: "Parameter is invalid: updated_since"
+    ParameterMissingResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: ParameterMissing
+            message: "param is missing or the value is empty: updated_since"
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Name of the current error
+          example: Unauthorized
+        message:
+          type: string
+          description: Description of the current error
+          example: Please provide a valid authentication token
+      required:
+      - error
+      - message
   securitySchemes:
     tokenAuth:
       type: http
