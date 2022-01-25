@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_20_104427) do
+ActiveRecord::Schema.define(version: 2022_01_25_164558) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -516,7 +516,7 @@ ActiveRecord::Schema.define(version: 2022_01_20_104427) do
     t.bigint "application_choice_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.string "user_type"
     t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
     t.index ["user_id", "user_type"], name: "index_notes_on_user_id_and_user_type"
