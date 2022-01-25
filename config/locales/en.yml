@@ -329,18 +329,6 @@ en:
           attributes:
             conditions_met:
               blank: Please specify if the candidate has met the conditions of the offer
-        provider_interface/new_note_form:
-          attributes:
-            application_choice:
-              blank: Missing application_choice
-            subject:
-              blank: Enter a subject
-              too_long: "The subject must be %{count} characters or fewer"
-            message:
-              blank: Enter a note
-              too_long: "The note must be %{count} characters or fewer"
-            user:
-              blank: Missing user
         provider_interface/provider_user_form:
           attributes:
             email_address:
@@ -399,6 +387,7 @@ en:
               blank: Enter feedback for candidate
               too_long: |
                 Feedback for candidate must be 200 words or fewer
+
   activerecord:
     attributes:
       application_qualification/qualification_type:
@@ -448,6 +437,19 @@ en:
           attributes:
             accept_agreement:
               blank: You have to agree to these terms to use this service
+        note:
+          attributes:
+            application_choice:
+              blank: Missing application_choice
+            subject:
+              blank: Enter a subject
+              too_long: "The subject must be %{count} characters or fewer"
+            message:
+              blank: Enter a note
+              too_long: "The note must be %{count} characters or fewer"
+            user:
+              blank: Missing user
+
   errors:
     messages:
       too_long: "%{attribute} must be %{count} characters or fewer"

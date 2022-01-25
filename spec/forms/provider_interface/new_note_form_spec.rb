@@ -2,28 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::NewNoteForm do
   let(:application_choice) { build(:application_choice) }
-  let(:user) { build(:provider_user) }
-
-  describe 'validations' do
-    it 'validates presence of :application_choice' do
-      expect(described_class.new).to validate_presence_of(:application_choice)
-        .with_message('Missing application_choice')
-    end
-
-    it 'validates presence of and length of :message' do
-      expect(described_class.new).to validate_presence_of(:message)
-        .with_message('Enter a note')
-
-      expect(described_class.new).to validate_length_of(:message)
-        .is_at_most(500)
-        .with_message('The note must be 500 characters or fewer')
-    end
-
-    it 'validates presence of :user' do
-      expect(described_class.new).to validate_presence_of(:user)
-        .with_message('Missing user')
-    end
-  end
+  let(:user) { [0, 1].sample.zero? ? build(:vendor_api_user) : build(:provider_user) }
 
   describe '#save' do
     it 'creates a new note' do

@@ -1,18 +1,24 @@
 module ProviderInterface
   class NewNoteForm
     include ActiveModel::Model
-    attr_accessor :application_choice, :message, :referer, :user
 
-    validates :application_choice, :user, presence: true
-    validates :message, length: { maximum: 500 }, presence: true
+    attr_accessor :application_choice, :message, :referer, :user
+    attr_reader :service
+
+    delegate :errors, to: :service
+
+    def initialize(attrs = {})
+      super(attrs)
+      @service = CreateNote.new(
+        application_choice: application_choice,
+        user: user,
+        message: message,
+      )
+    end
 
     def save
-      if valid?
-        Note.new(
-          application_choice: application_choice,
-          user: user,
-          message: message,
-        ).save
+      if service.valid?
+        service.save!
       end
     end
   end
