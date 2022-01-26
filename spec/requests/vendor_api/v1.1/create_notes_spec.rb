@@ -16,8 +16,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/notes/create', t
     post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: note_payload
 
     expect(response).to have_http_status(:ok)
-    # TODO: We will be enabling this expectation after doing some schema reorganisation for v1.1
-    # expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', 'v1.1')
+    expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
     notes = parsed_response['data']['attributes']['notes']
     expect(notes.size).to eq(1)
     expect(notes.first['author']).to eq('Jane Smith')
