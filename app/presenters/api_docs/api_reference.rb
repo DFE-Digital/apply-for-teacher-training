@@ -3,10 +3,9 @@ module APIDocs
     attr_reader :document
     delegate :servers, to: :document
 
-    def initialize(spec, version: '1.0', highlight_yaml_file: nil)
+    def initialize(spec, version: nil)
       @document = Openapi3Parser.load(spec)
-      @version = version
-      @highlight_yaml = highlight_yaml_file.present? ? YAML.load_file(highlight_yaml_file) : {}
+      @version = version || AllowedCrossNamespaceUsage::VENDOR_API_VERSION
     end
 
     def operations
@@ -43,7 +42,9 @@ module APIDocs
   private
 
     def new_path?(path)
-      @highlight_yaml['new_paths'].include?(path) unless @highlight_yaml.empty?
+      return false unless draft_schema_file_exists?
+
+      draft_schema['paths'].include?(path)
     end
 
     def flatten_hash(hash)
@@ -56,6 +57,18 @@ module APIDocs
           h[k] = v
         end
       end
+    end
+
+    def draft_schema
+      @draft_schema ||= YAML.load_file(draft_yaml_file_path)
+    end
+
+    def draft_schema_file_exists?
+      @draft_schema_file_exists ||= File.exist?(draft_yaml_file_path)
+    end
+
+    def draft_yaml_file_path
+      VendorAPISpecification::DRAFT_YAML_FILE_PATH
     end
   end
 end
