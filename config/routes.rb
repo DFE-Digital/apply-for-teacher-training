@@ -1162,7 +1162,7 @@ Rails.application.routes.draw do
 
       get '/draft' => 'reference#draft', as: :draft
       get '/spec-1.0.yml' => 'openapi#spec_1_0', as: :spec_1_0
-      get '/spec-1.1.yml' => 'openapi#spec_1_1', as: :spec_1_1
+      get '/spec-draft.yml' => 'openapi#spec_draft', as: :spec_draft
     end
 
     namespace :data_api_docs, path: '/data-api' do

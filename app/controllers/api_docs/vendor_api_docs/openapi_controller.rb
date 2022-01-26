@@ -9,10 +9,10 @@ module APIDocs
         render plain: VendorAPISpecification.new(version: '1.0').as_yaml, content_type: 'text/yaml'
       end
 
-      def spec_1_1
+      def spec_draft
         return redirect_to api_docs_spec_1_0_path unless FeatureFlag.active?(:draft_vendor_api_specification)
 
-        render plain: VendorAPISpecification.new(version: '1.1').as_yaml, content_type: 'text/yaml'
+        render plain: VendorAPISpecification.new(draft: true).as_yaml, content_type: 'text/yaml'
       end
     end
   end
