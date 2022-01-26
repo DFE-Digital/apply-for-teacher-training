@@ -22,5 +22,19 @@ module DataMigrations
           .each(&:destroy)
       end
     end
+
+    def dry_run
+      results = ActiveRecord::Base.connection.execute(FIND_DUPLICATE_FRAUD_MATCHES)
+      results.type_map = PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection)
+      results.each do |result|
+        fraud_matches = FraudMatch.where(id: result['fraud_match_ids'])
+        first_fraud_match = fraud_matches.first
+        all_candidates = fraud_matches.inject([]) { |candidates, fraud_match| candidates + fraud_match.candidates }
+        puts "Adding candidates #{all_candidates.map(&:id)} to fraud match #{first_fraud_match.id}"
+        fraud_matches
+          .reject { |fraud_match| fraud_match.id == first_fraud_match.id }
+          .each { |fraud_match| puts "Delete fraud match #{fraud_match.id}" }
+      end
+    end
   end
 end
