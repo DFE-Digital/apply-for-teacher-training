@@ -1,0 +1,557 @@
+---
+openapi: 3.0.0
+info:
+  version: v1.1
+  title: Apply API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for DfE’s Apply for teacher training service.
+    Endpoints with the `/applications` prefix are considered stable.
+    Experimental endpoints prefixed with `/test-data` may change or be removed.
+servers:
+- description: Sandbox (test environment for vendors)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/api/v1.1
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1
+paths:
+  "/applications/{application_id}/defer-offer":
+    post:
+      tags:
+      - Application management
+      summary: Defer an offer
+      description: |
+        Defers an offer to the next cycle.
+        The application will transition to the `offer_deferred` status
+        and the fields `offer_deferred_at` and `status_before_deferral` will be populated.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/confirm-deferred-offer":
+    post:
+      tags:
+      - Application management
+      summary: Confirm a deferred offer
+      description: |
+        Confirms a deferred offer from the previous cycle to the current one.
+        This call only succeeds if the same course, location and study_mode combination
+        is available in the current recruitment cycle, otherwise it will return a 422.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/ConfirmDeferredOffer"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/withdraw":
+    post:
+      tags:
+      - Application management
+      summary: Withdraw an application
+      description: |
+        Withdraws an application or declines an offer at the candidate’s request.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+              properties:
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/interviews/create":
+    post:
+      tags:
+      - Interview management
+      summary: Create interview
+      description: |
+        Creates a new interview for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/CreateInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/interviews/{interview_id}/update":
+    post:
+      tags:
+      - Interview management
+      summary: Update interview
+      description: |
+        Updates an existing interview for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      - "$ref": "#/components/parameters/interview_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+                - data
+              properties:
+                data:
+                  "$ref": "#/components/schemas/UpdateInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/interviews/{interview_id}/cancel":
+    post:
+      tags:
+      - Interview management
+      summary: Cancel interview
+      description: |
+        Cancels an existing interview for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      - "$ref": "#/components/parameters/interview_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/CancelInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/notes/create":
+    post:
+      tags:
+      - Note management
+      summary: Create note
+      description: |
+        Creates a new note for this application.
+        The `updated_at` timestamp will be set to the time of the API call.
+        Its author details will be read from the attribution part of MetaData.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        description: Note details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+                - data
+              properties:
+                data:
+                  "$ref": "#/components/schemas/CreateNote"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+components:
+  responses:
+    PageParameterInvalidResponse:
+      description: Returned when the parameter was invalid
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/PageParameterInvalidResponse"
+    PerPageParameterInvalidResponse:
+      description: Returned when the parameter was invalid
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/PerPageParameterInvalidResponse"
+  schemas:
+    ApplicationAttributes:
+      type: object
+      additionalProperties: false
+      properties:
+        interviews:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Interview"
+        notes:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Note"
+    CreateInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - provider_code
+      - date_and_time
+      - location
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            A string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+    UpdateInterview:
+      type: object
+      additionalProperties: false
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            An optional string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+    CancelInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          maxLength: 2000
+          example: The candidate has accepted an alternative offer
+    ConfirmDeferredOffer:
+      type: object
+      additionalProperties: false
+      required:
+      - conditions_met
+      properties:
+        conditions_met:
+          type: boolean
+          description: Determines the status of the confirmed deferred application (recruited vs. pending_conditions)
+          example: true
+    Withdrawal:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      - date
+      properties:
+        reason:
+          type: string
+          description: Optional. The candidate’s reason for withdrawing. This field is deprecated because the Apply service does not collect this information
+          maxLength: 10240
+          nullable: true
+          deprecated: true
+        date:
+          type: string
+          format: date-time
+          description: Time of the withdrawal
+          example: 2019-09-18T15:33:49.216Z
+    Interview:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - provider_code
+      - date_and_time
+      - location
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: |
+            The unique ID of this interview. Automatically generated by our service.
+          maxLength: 10
+          example: 11fc0d3b2f
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            An optional string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+        cancelled_at:
+          type: string
+          format: date-time
+          description: Date and time of cancellation, if cancelled.
+          example: 2019-09-18T16:33:49.216Z
+        cancellation_reason:
+          type: string
+          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          example: 'Candidate has accepted an alternative offer'
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time the original interview was created
+          example: 2019-09-18T16:33:49.216Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Date and time the interview was updated
+          example: 2019-09-18T16:33:49.216Z
+    Links:
+      type: object
+      description: Links to navigate through the paginated results
+      additionalProperties: false
+      required:
+      - first
+      - last
+      - prev
+      - self
+      - next
+      properties:
+        first:
+          type: string
+          description: The first page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        last:
+          type: string
+          description: The last page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=20
+        prev:
+          type: string
+          description: The previous page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        self:
+          type: string
+          description: The current page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
+        next:
+          type: string
+          description: The next page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=3
+    PageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PageParameterInvalid
+            message: "expected 'page' parameter to be between 1 and 1, got 2"
+    PerPageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PerPageParamterInvalid
+            message: "the 'per_page' parameter cannot exceed 100 results per page"
+    CreateNote:
+      type: object
+      additionalProperties: false
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: The content of the note
+          example: 'This candidate can only interview remotely'
+          maxLength: 500
+    Note:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - message
+      - created_at
+      - updated_at
+      - author
+      properties:
+        id:
+          type: string
+          description: |
+            The unique ID of this note. Automatically generated by our service.
+          example: 123456
+        message:
+          type: string
+          description: The content of the note
+          example: 'This candidate can only interview remotely'
+          maxLength: 500
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time the original note was created
+          example: 2019-09-18T15:33:49.216Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Date and time the note was updated
+          example: 2019-09-18T15:33:49.216Z
+        author:
+          type: string
+          description: Author’s name
+          example: John Smith
+  parameters:
+    interview_id:
+      name: interview_id
+      in: path
+      required: true
+      description: The unique ID of this interview
+      schema:
+        type: string
+security:
+- tokenAuth: []
