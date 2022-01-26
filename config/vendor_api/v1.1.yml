@@ -702,7 +702,6 @@ components:
       - updated_at
       - reject_by_default_at
       - recruited_at
-      - withdrawn_at
       - withdrawal
       - further_information
       - work_experience
@@ -767,12 +766,6 @@ components:
           nullable: true
           description: When the candidate met their conditions, receiving a firm place on the course
           example: 2019-06-13T23:59:59Z
-        withdrawn_at:
-          type: string
-          format: date-time
-          description: Date and time the application was withdrawn
-          example: 2019-09-18T15:33:49.216Z
-          nullable: true
         personal_statement:
           type: string
           maxLength: 10240
