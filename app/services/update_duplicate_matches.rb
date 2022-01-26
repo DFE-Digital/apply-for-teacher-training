@@ -21,35 +21,37 @@ class UpdateDuplicateMatches
 private
 
   def save_match(match)
-    fraud_match, candidate = nil
     ActiveRecord::Base.transaction do
-      fraud_match, candidate = create_or_update_fraud_match(match)
+      candidate = create_or_update_fraud_match(match)
       candidate.update!(submission_blocked: true)
     end
-    notify_candidate(candidate, fraud_match)
   end
 
   def create_or_update_fraud_match(match)
-    fraud_match = FraudMatch.match_for(
+    existing_fraud_match = FraudMatch.match_for(
       last_name: match['last_name'],
       postcode: match['postcode'],
       date_of_birth: match['date_of_birth'],
     )
-
     candidate = Candidate.find(match['candidate_id'])
-    if fraud_match.present?
-      fraud_match.candidates << candidate unless fraud_match.candidates.include?(candidate)
+
+    if existing_fraud_match.present?
+      unless existing_fraud_match.candidates.include?(candidate)
+        existing_fraud_match.candidates << candidate
+        notify_candidate(candidate, existing_fraud_match)
+      end
     else
-      fraud_match = FraudMatch.create!(
+      new_fraud_match = FraudMatch.create!(
         recruitment_cycle_year: RecruitmentCycle.current_year,
         last_name: match['last_name'],
         postcode: match['postcode'],
         date_of_birth: match['date_of_birth'],
         candidates: [candidate],
       )
+      notify_candidate(candidate, new_fraud_match)
     end
 
-    [fraud_match, candidate]
+    candidate
   end
 
   def notify_candidate(candidate, fraud_match)

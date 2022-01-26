@@ -42,16 +42,6 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         expect(candidate2.reload.submission_blocked).to be(true)
       end
 
-      it 'sends an email to each candidate' do
-        expect { described_class.new.save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
-        expect(ActionMailer::Base.deliveries.map(&:to)).to match_array(
-          [
-            ['exemplar1@example.com'],
-            ['exemplar2@example.com'],
-          ],
-        )
-      end
-
       it 'sends a slack message' do
         application_form1 = create(:application_form, :duplicate_candidates, submitted_at: Time.zone.now)
         application_form2 = create(:application_form, :duplicate_candidates)
@@ -97,8 +87,8 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         expect(candidate2.reload.submission_blocked).to be(true)
       end
 
-      it 'sends an email to each candidate' do
-        expect { described_class.new.save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
+      it 'sends email to candidate from a new match or newly candidate to an existing match' do
+        expect { 2.times { described_class.new.save! } }.to change { ActionMailer::Base.deliveries.count }.by(2)
         expect(ActionMailer::Base.deliveries.map(&:to)).to match_array(
           [
             ['exemplar1@example.com'],
