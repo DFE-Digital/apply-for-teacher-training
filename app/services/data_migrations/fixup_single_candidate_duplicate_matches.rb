@@ -4,7 +4,7 @@ module DataMigrations
     MANUAL_RUN = true
 
     FIND_DUPLICATE_FRAUD_MATCHES =
-      "select count(*), TRIM(UPPER(last_name)) as last_name, REPLACE(UPPER(postcode), ' ', '') as postcode, date_of_birth, array_agg(id) as fraud_match_ids
+      "select count(*), TRIM(UPPER(last_name)) as last_name, REPLACE(UPPER(postcode), ' ', '') as postcode, date_of_birth, array_agg(id ORDER BY id) as fraud_match_ids
       from fraud_matches
       group by TRIM(UPPER(last_name)), REPLACE(UPPER(postcode), ' ', ''), date_of_birth
       having count(*) > 1;".freeze
