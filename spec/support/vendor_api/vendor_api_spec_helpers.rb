@@ -61,7 +61,11 @@ module VendorAPISpecHelpers
     parsed_response['errors'].first
   end
 
-  def be_valid_against_openapi_schema(expected, version = nil)
-    ValidAgainstOpenAPISchemaMatcher.new(expected, VendorAPISpecification.new(version: version).as_hash)
+  def be_valid_against_openapi_schema(expected, version = nil, draft: false)
+    ValidAgainstOpenAPISchemaMatcher.new(expected, VendorAPISpecification.new(version: version, draft: draft).as_hash)
+  end
+
+  def be_valid_against_draft_openapi_schema(expected, version = nil)
+    be_valid_against_openapi_schema(expected, version, draft: true)
   end
 end
