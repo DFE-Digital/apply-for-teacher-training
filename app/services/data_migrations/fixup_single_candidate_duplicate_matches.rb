@@ -30,10 +30,10 @@ module DataMigrations
         fraud_matches = FraudMatch.where(id: result['fraud_match_ids'])
         first_fraud_match = fraud_matches.first
         all_candidates = fraud_matches.inject([]) { |candidates, fraud_match| candidates + fraud_match.candidates }
-        puts "Adding candidates #{all_candidates.map(&:id)} to fraud match #{first_fraud_match.id}"
+        Rails.logger.debug { "Adding candidates #{all_candidates.map(&:id)} to fraud match #{first_fraud_match.id}" }
         fraud_matches
           .reject { |fraud_match| fraud_match.id == first_fraud_match.id }
-          .each { |fraud_match| puts "Delete fraud match #{fraud_match.id}" }
+          .each { |fraud_match| Rails.logger.debug "Delete fraud match #{fraud_match.id}" }
       end
     end
   end

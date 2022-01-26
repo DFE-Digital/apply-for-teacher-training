@@ -93,7 +93,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
 
   it 'fixes one single candidate and one double candidate fraud match that should have been one' do
     alice = create(:candidate, email_address: 'alice@example.com')
-    alices_application_form = create(
+    create(
       :application_form,
       :duplicate_candidates,
       candidate: alice,
@@ -138,7 +138,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
 
   it 'ignores fraud matches with two candidates' do
     alice = create(:candidate, email_address: 'alice@example.com')
-    alices_application_form = create(
+    create(
       :application_form,
       :duplicate_candidates,
       candidate: alice,
