@@ -103,6 +103,7 @@ jobs:
           echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+          echo "KEY_VAULT_CYPRESS_SECRET_NAME=$(jq -r '.key_vault_cypress_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "PAAS_CF_SPACE=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
           echo "PAAS_APP_ENVIRONMENT=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
         env:
@@ -132,6 +133,13 @@ jobs:
           keyvault: ${{ env.KEY_VAULT_NAME }}
           secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
           key: CF_USER, CF_PASSWORD
+
+      - uses: DFE-Digital/keyvault-yaml-secret@v1
+        id: get-cypress-secrets
+        with:
+          keyvault: ${{ env.KEY_VAULT_NAME }}
+          secret: ${{ env.KEY_VAULT_CYPRESS_SECRET_NAME }}
+          key: CANDIDATE_TEST_EMAIL, GOVUK_NOTIFY_API_KEY
 
       - name: Setup cf cli
         uses: DFE-Digital/github-actions/setup-cf-cli@master
@@ -180,9 +188,8 @@ jobs:
           spec: cypress/integration/candidate.spec.js
         env:
           CYPRESS_ENVIRONMENT: ${{ matrix.environment }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_CANDIDATE_TEST_EMAIL: ${{ secrets.CANDIDATE_TEST_EMAIL }}
-          CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ secrets.GOVUK_NOTIFY_API_KEY }}
+          CYPRESS_CANDIDATE_TEST_EMAIL: ${{ steps.get-cypress-secrets.outputs.candidate_test_email }}
+          CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ steps.get-cypress-secrets.outputs.govuk_notify_api_key }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Cypress screenshot and videos
