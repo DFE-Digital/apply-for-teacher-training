@@ -30,13 +30,11 @@ private
   end
 
   def create_or_update_fraud_match(match)
-    fraud_match = FraudMatch.where(
-      'TRIM(UPPER(last_name)) = ?',
-      match['last_name'].upcase.strip,
-    ).where(
-      "REPLACE(UPPER(postcode), ' ', '') = ?",
-      match['postcode'].upcase.gsub(' ', ''),
-    ).where(date_of_birth: match['date_of_birth']).first
+    fraud_match = FraudMatch.match_for(
+      last_name: match['last_name'],
+      postcode: match['postcode'],
+      date_of_birth: match['date_of_birth'],
+    )
 
     candidate = Candidate.find(match['candidate_id'])
     if fraud_match.present?

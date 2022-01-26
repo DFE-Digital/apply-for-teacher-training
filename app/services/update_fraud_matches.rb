@@ -5,7 +5,12 @@ class UpdateFraudMatches
 
   def save!
     @matches.each do |match|
-      fraud_match = FraudMatch.find_by(last_name: match['last_name'], postcode: match['postcode'], date_of_birth: match['date_of_birth'])
+      fraud_match = FraudMatch.match_for(
+        last_name: match['last_name'],
+        postcode: match['postcode'],
+        date_of_birth: match['date_of_birth'],
+      )
+
       candidate = Candidate.find(match['candidate_id'])
       if fraud_match.present?
         fraud_match.candidates << candidate unless fraud_match.candidates.include?(candidate)
