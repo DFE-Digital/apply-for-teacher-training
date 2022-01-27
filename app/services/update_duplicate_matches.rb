@@ -37,6 +37,7 @@ private
     if existing_fraud_match.present?
       unless existing_fraud_match.candidates.include?(candidate)
         existing_fraud_match.candidates << candidate
+        unresolve_match(existing_fraud_match)
         process_match(candidate, existing_fraud_match)
       end
     else
@@ -77,5 +78,9 @@ private
 
   def block_submission(candidate)
     candidate.update!(submission_blocked: true)
+  end
+
+  def unresolve_match(fraud_match)
+    fraud_match.update!(resolved: false)
   end
 end
