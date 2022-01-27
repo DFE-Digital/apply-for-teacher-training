@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::DeclineOrWithdrawApplication do
+RSpec.describe DeclineOrWithdrawApplication do
   describe '#save!' do
     it 'declines applications which are under offer' do
       application_choice = create(:application_choice, :with_offer)

@@ -99,4 +99,16 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       ])
     end
   end
+
+  describe 'withdraw' do
+    let(:application_choice) { create(:application_choice, :withdrawn_at_candidates_request, :with_completed_application_form) }
+
+    it 'returns the fields related to a withdrawn or declined application' do
+      expect(attributes).to include(
+        {
+          withdrawn_or_declined_for_candidate: true,
+        },
+      )
+    end
+  end
 end
