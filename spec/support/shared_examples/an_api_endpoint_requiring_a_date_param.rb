@@ -1,4 +1,4 @@
-RSpec.shared_examples 'an index API endpoint' do |path, date_param, api_token|
+RSpec.shared_examples 'an API endpoint requiring a date param' do |path, date_param, api_token|
   it 'returns an error if the token is incorrect' do
     get "#{path}?#{date_param}=#{CGI.escape(1.day.ago.iso8601)}", headers: { Authorization: 'invalid-token' }
 

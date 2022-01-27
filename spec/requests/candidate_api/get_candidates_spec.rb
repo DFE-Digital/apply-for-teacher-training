@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'GET /candidate-api/candidates', type: :request do
   include CandidateAPISpecHelper
 
-  it_behaves_like 'an index API endpoint', '/candidate-api/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
+  it_behaves_like 'an API endpoint requiring a date param', '/candidate-api/candidates', 'updated_since', ServiceAPIUser.candidate_user.create_magic_link_token!
 
   it 'does not allow access to the API from other data users' do
     api_token = ServiceAPIUser.test_data_user.create_magic_link_token!

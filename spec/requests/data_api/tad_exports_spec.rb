@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true do
   include DataAPISpecHelper
 
-  it_behaves_like 'an index API endpoint', '/data-api/tad-data-exports', 'updated_since', ServiceAPIUser.tad_user.create_magic_link_token!
+  it_behaves_like 'an API endpoint requiring a date param', '/data-api/tad-data-exports', 'updated_since', ServiceAPIUser.tad_user.create_magic_link_token!
 
   it 'allows access to the API for TAD users' do
     get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: tad_api_token
