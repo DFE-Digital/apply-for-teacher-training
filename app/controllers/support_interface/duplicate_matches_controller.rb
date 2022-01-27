@@ -6,6 +6,12 @@ module SupportInterface
     def index
       @matches = fraud_matches(resolved: resolved?).page(params[:page]).per(DUPLICATE_MATCHES_PER_PAGE)
       @under_review_count = fraud_matches(resolved: false).count
+
+      @filter = SupportInterface::DuplicateMatchesFilter.new(params: params)
+
+      if @filter.applied_filters[:query].present?
+        @matches = @matches.joins(:candidates).where('CONCAT(email_address) ILIKE ?', "%#{@filter.applied_filters[:query]}%")
+      end
     end
 
     def show

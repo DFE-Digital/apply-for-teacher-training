@@ -27,11 +27,14 @@ RSpec.feature 'See Duplicate candidate matches' do
     then_i_should_see_list_of_under_review_duplicates
     and_i_should_see_a_counter_for_under_review_duplicates
 
-    when_i_click_on_a_match_that_is_not_resolved
+    when_i_search_for_a_duplicate_match_by_email
+    and_i_click_on_a_match_that_is_not_resolved
+    then_i_see_that_candidates_email_address
     and_i_click_the_back_link
     i_should_be_taken_to_the_under_review_view
 
     when_i_click_on_a_the_resolved_link
+    when_i_search_for_a_resolved_duplicate_match_by_email
     and_click_on_a_match_that_is_resolved
     and_i_click_the_back_link
     i_should_be_taken_to_the_resolved_view
@@ -99,7 +102,7 @@ RSpec.feature 'See Duplicate candidate matches' do
     expect(page).not_to have_link('2 candidates with postcode W3 6ET')
   end
 
-  def when_i_click_on_a_match_that_is_not_resolved
+  def and_i_click_on_a_match_that_is_not_resolved
     click_link '2 candidates with postcode W6 9BH and DOB 8 Aug 1998'
   end
 
@@ -152,5 +155,19 @@ RSpec.feature 'See Duplicate candidate matches' do
   def then_the_duplicate_match_is_resolved
     expect(@bob.reload.fraud_match.resolved).to be(true)
     expect(page).to have_button('Mark as unresolved')
+  end
+
+  def when_i_search_for_a_duplicate_match_by_email
+    fill_in :query, with: @bob.email_address
+    click_on 'Apply filters'
+  end
+
+  def when_i_search_for_a_resolved_duplicate_match_by_email
+    fill_in :query, with: @alice.email_address
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_that_candidates_email_address
+    expect(page).to have_content(@bob.email_address)
   end
 end
