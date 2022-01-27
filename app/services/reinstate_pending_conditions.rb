@@ -10,10 +10,10 @@ class ReinstatePendingConditions
   end
 
   def save!
-    auth.assert_can_make_decisions!(application_choice: application_choice,
-                                    course_option: course_option)
-
     if deferred_offer.valid?
+      auth.assert_can_make_decisions!(application_choice: application_choice,
+                                      course_option: course_option)
+
       audit(actor) do
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
