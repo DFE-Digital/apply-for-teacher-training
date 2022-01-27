@@ -72,8 +72,9 @@ class ProviderAuthorisation
     course_associated_with_user_providers?(course: course)
 
     add_error(:set_up_interviews, :requires_provider_user_permission) unless
-    user_level_can?(permission: :set_up_interviews, provider: course.provider) ||
-    user_level_can?(permission: :set_up_interviews, provider: course.accredited_provider)
+      @actor.is_a?(VendorApiUser) ||
+      user_level_can?(permission: :set_up_interviews, provider: course.provider) ||
+      user_level_can?(permission: :set_up_interviews, provider: course.accredited_provider)
 
     errors.blank?
   end

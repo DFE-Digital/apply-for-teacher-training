@@ -478,6 +478,40 @@ RSpec.describe ProviderAuthorisation do
       end
     end
 
+    context 'for a vendor api user' do
+      subject(:auth_context) { described_class.new(actor: vendor_api_user) }
+
+      let(:vendor_api_user) { create(:vendor_api_user) }
+      let(:provider) { vendor_api_user.vendor_api_token.provider }
+
+      context 'associated with the training provider' do
+        let(:course) { create(:course, provider: provider) }
+
+        it 'is true' do
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be_truthy
+        end
+      end
+
+      context 'associated with the ratifying provider' do
+        let(:course) { create(:course, accredited_provider: provider) }
+
+        it 'is true' do
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be_truthy
+        end
+      end
+
+      context 'associated with a random provider' do
+        let(:course) { create(:course) }
+
+        it 'is false' do
+          expect(auth_context.can_set_up_interviews?(application_choice: application_choice, course_option: course_option))
+            .to be_falsy
+        end
+      end
+    end
+
     context 'for a provider user' do
       subject(:auth_context) { described_class.new(actor: provider_user) }
 
