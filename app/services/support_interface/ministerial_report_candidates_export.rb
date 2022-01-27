@@ -30,9 +30,7 @@ module SupportInterface
         states = determine_states([application, latest_apply_again_application].compact)
 
         if candidate_has_no_dominant_subject?(subjects)
-          if subject_report[:split].blank?
-            subject_report[:split] = column_names.keys.index_with { [] }
-          end
+          initialize_subject_report_subject(subject_report, :split)
 
           states.each do |state|
             export_rows[:split][state] += 1
@@ -41,22 +39,24 @@ module SupportInterface
         else
           dominant_subject = dominant_subject(subjects)
 
-          if subject_report[dominant_subject].blank?
-            subject_report[dominant_subject] = column_names.keys.index_with { [] }
-          end
+          initialize_subject_report_subject(subject_report, dominant_subject)
 
           states&.each do |state|
             add_row_values(export_rows, dominant_subject, state)
-            subject_report[dominant_subject][state] << application.candidate.id
+            add_subject_report_values(subject_report, dominant_subject, state, application.candidate.id)
           end
         end
       end
 
-      File.write("subjects-#{Time.zone.now}.txt", subject_report.inspect)
-
       export_rows[:total] = export_rows[:primary].merge(export_rows[:secondary]) { |_k, primary_value, secondary_value| primary_value + secondary_value }
 
       export_rows[:total] = export_rows[:total].merge(export_rows[:split]) { |_k, total_value, split_value| total_value + split_value }
+
+      add_subject_report_totals(subject_report)
+      File.write(
+        "subjects-#{Time.zone.now.to_s.gsub(/ \+[\d]+/, '').gsub(' ', '-').gsub(':', '')}.json",
+        subject_report.to_json(indent: 2),
+      )
 
       export_rows.map { |subject, value| { subject: subject }.merge!(value) }
     end
@@ -89,6 +89,39 @@ module SupportInterface
       hash[:ebacc][state] += 1 if MinisterialReport::EBACC_SUBJECTS.include? subject
       hash[:secondary][state] += 1 if MinisterialReport::SECONDARY_SUBJECTS.include? subject
       hash[subject][state] += 1
+    end
+
+    def add_subject_report_values(
+      subject_report,
+      dominant_subject,
+      state,
+      candidate_id
+    )
+      subject_report[dominant_subject][state] << candidate_id
+
+      if MinisterialReport::STEM_SUBJECTS.include? dominant_subject
+        initialize_subject_report_subject(subject_report, :stem)
+        subject_report[:stem][state] << candidate_id 
+      end
+      if MinisterialReport::EBACC_SUBJECTS.include? dominant_subject
+        initialize_subject_report_subject(subject_report, :ebacc)
+        subject_report[:ebacc][state] << candidate_id 
+      end
+      if MinisterialReport::SECONDARY_SUBJECTS.include? dominant_subject
+        initialize_subject_report_subject(subject_report, :secondary)
+        subject_report[:secondary][state] << candidate_id 
+      end
+    end
+
+    def initialize_subject_report_subject(subject_report, subject)
+      if subject_report[subject].blank?
+        subject_report[subject] = column_names.keys.index_with { [] }
+      end
+    end
+
+    def add_subject_report_totals(subject_report)
+      subject_report[:total] = subject_report[:primary].merge(subject_report[:secondary]) { |_k, primary_value, secondary_value| primary_value + secondary_value }
+      subject_report[:total] = subject_report[:total].merge(subject_report[:split]) { |_k, total_value, split_value| total_value + split_value }
     end
 
     def determine_subjects(application_form)
