@@ -89,6 +89,8 @@ jobs:
 
       - name: Set Environment variables
         run: |
+          tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
+
           if [ -n "${{ github.event.inputs.review }}" ]; then
             PR_NUMBER=${{ github.event.inputs.review }}
             echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
@@ -96,10 +98,16 @@ jobs:
             echo "DEPLOY_URL=https://apply-review-$PR_NUMBER.london.cloudapps.digital" >> $GITHUB_ENV
           else
             echo "DEPLOY_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
+
+            hostname=$(jq -r '.service_gov_uk_host_names[0]' ${tf_vars_file})
+            if [[ $hostname != null ]]; then
+              echo "DEPLOY_URL=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_ENV
+            else
+              echo "DEPLOY_URL=https://apply-${{ matrix.environment }}.london.cloudapps.digital" >> $GITHUB_ENV
+            fi
           fi;
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
-          tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
           echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
           echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
