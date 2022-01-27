@@ -1,5 +1,5 @@
 module CandidateAPI
-  class CandidatesController < ActionController::API
+  class CandidatesController < ApplicationAPIController
     include ServiceAPIUserAuthentication
     include RemoveBrowserOnlyHeaders
     include Pagy::Backend
