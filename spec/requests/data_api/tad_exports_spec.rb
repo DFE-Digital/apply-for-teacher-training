@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true do
   include DataAPISpecHelper
 
-  it_behaves_like 'a TAD API endpoint', '/'
+  it_behaves_like 'an API endpoint requiring a date param', '/data-api/tad-data-exports', 'updated_since', ServiceAPIUser.tad_user.create_magic_link_token!
 
   it 'allows access to the API for TAD users' do
     get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.month.ago.iso8601)}", token: tad_api_token
@@ -55,29 +55,5 @@ RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true d
       expect(response).to have_http_status(:success)
       expect(parsed_response).to be_valid_against_openapi_schema('TADDataExportList')
     end
-  end
-
-  it 'returns an error if the `updated_since` parameter is missing' do
-    get_api_request '/data-api/tad-data-exports', token: tad_api_token
-
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(error_response['message']).to eql('param is missing or the value is empty: updated_since')
-    expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
-  end
-
-  it 'returns HTTP status 422 given an unparseable `updated_since` date value' do
-    get_api_request '/data-api/tad-data-exports?updated_since=17/07/2020T12:00:42Z', token: tad_api_token
-
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): updated_since')
-    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
-  end
-
-  it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
-    get_api_request '/data-api/tad-data-exports?updated_since=12936', token: tad_api_token
-
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): updated_since')
-    expect(parsed_response).to be_valid_against_openapi_schema('ParameterInvalidResponse')
   end
 end
