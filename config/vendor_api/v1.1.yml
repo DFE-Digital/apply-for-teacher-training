@@ -119,6 +119,116 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/interviews/create":
+    post:
+      tags:
+      - Interview management
+      summary: Create interview
+      description: |
+        Creates a new interview for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/CreateInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/interviews/{interview_id}/update":
+    post:
+      tags:
+      - Interview management
+      summary: Update interview
+      description: |
+        Updates an existing interview for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      - "$ref": "#/components/parameters/interview_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - meta
+                - data
+              properties:
+                data:
+                  "$ref": "#/components/schemas/UpdateInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
+  "/applications/{application_id}/interviews/{interview_id}/cancel":
+    post:
+      tags:
+      - Interview management
+      summary: Cancel interview
+      description: |
+        Cancels an existing interview for this application.
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      - "$ref": "#/components/parameters/interview_id"
+      requestBody:
+        description: Interview details
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - meta
+              properties:
+                data:
+                  "$ref": "#/components/schemas/CancelInterview"
+                meta:
+                  "$ref": "#/components/schemas/MetaData"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/notes/create":
     post:
       tags:
@@ -163,28 +273,84 @@ components:
       type: object
       additionalProperties: false
       required:
-        - notes
-        - interviews
         - withdrawn_or_declined_for_candidate
-        - withdrawn_at
       properties:
         interviews:
           type: array
+          items:
+            "$ref": "#/components/schemas/Interview"
         notes:
           type: array
           items:
             "$ref": "#/components/schemas/Note"
-        withdrawn_at:
-          type: string
-          format: date-time
-          description: Date and time the application was withdrawn
-          example: 2019-09-18T15:33:49.216Z
-          nullable: true
         withdrawn_or_declined_for_candidate:
           type: boolean
           nullable: true
           description: Was application withdrawn or offer declined at candidate’s request
           example: true
+    CreateInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - provider_code
+      - date_and_time
+      - location
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            A string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+    UpdateInterview:
+      type: object
+      additionalProperties: false
+      properties:
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            An optional string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+    CancelInterview:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          maxLength: 2000
+          example: The candidate has accepted an alternative offer
     ConfirmDeferredOffer:
       type: object
       additionalProperties: false
@@ -213,6 +379,62 @@ components:
           format: date-time
           description: Time of the withdrawal
           example: 2019-09-18T15:33:49.216Z
+    Interview:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - provider_code
+      - date_and_time
+      - location
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: |
+            The unique ID of this interview. Automatically generated by our service.
+          maxLength: 10
+          example: 11fc0d3b2f
+        provider_code:
+          type: string
+          description: The provider’s code. This must correspond to either the training or the ratifying provider for the application and the course applied to.
+          example: 2FR
+          maxLength: 3
+        date_and_time:
+          type: string
+          format: date-time
+          description: Date and time of the interview
+          example: 2019-09-18T15:33:49.216Z
+        location:
+          type: string
+          description: |
+            An optional string describing where or how the interview will take place.
+          example: 'Zoom call'
+        additional_details:
+          type: string
+          description: |
+            Optional string for additional notes.
+          example: 'Candidate requires a parking space'
+        cancelled_at:
+          type: string
+          format: date-time
+          description: Date and time of cancellation, if cancelled.
+          example: 2019-09-18T16:33:49.216Z
+        cancellation_reason:
+          type: string
+          description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          example: 'Candidate has accepted an alternative offer'
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time the original interview was created
+          example: 2019-09-18T16:33:49.216Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Date and time the interview was updated
+          example: 2019-09-18T16:33:49.216Z
     CreateNote:
       type: object
       additionalProperties: false
@@ -258,3 +480,11 @@ components:
           type: string
           description: Author’s name
           example: John Smith
+  parameters:
+    interview_id:
+      name: interview_id
+      in: path
+      required: true
+      description: The unique ID of this interview
+      schema:
+        type: string

@@ -285,6 +285,8 @@ components:
     ApplicationAttributes:
       type: object
       additionalProperties: false
+      required:
+        - withdrawn_or_declined_for_candidate
       properties:
         interviews:
           type: array
@@ -294,6 +296,11 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Note"
+        withdrawn_or_declined_for_candidate:
+          type: boolean
+          nullable: true
+          description: Was application withdrawn or offer declined at candidate’s request
+          example: true
     CreateInterview:
       type: object
       additionalProperties: false
@@ -553,5 +560,3 @@ components:
       description: The unique ID of this interview
       schema:
         type: string
-security:
-- tokenAuth: []
