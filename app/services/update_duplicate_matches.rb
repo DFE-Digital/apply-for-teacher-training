@@ -22,8 +22,7 @@ private
 
   def save_match(match)
     ActiveRecord::Base.transaction do
-      candidate = create_or_update_fraud_match(match)
-      candidate.update!(submission_blocked: true)
+      create_or_update_fraud_match(match)
     end
   end
 
@@ -38,7 +37,7 @@ private
     if existing_fraud_match.present?
       unless existing_fraud_match.candidates.include?(candidate)
         existing_fraud_match.candidates << candidate
-        notify_candidate(candidate, existing_fraud_match)
+        process_match(candidate, existing_fraud_match)
       end
     else
       new_fraud_match = FraudMatch.create!(
@@ -48,7 +47,7 @@ private
         date_of_birth: match['date_of_birth'],
         candidates: [candidate],
       )
-      notify_candidate(candidate, new_fraud_match)
+      process_match(candidate, new_fraud_match)
     end
 
     candidate
@@ -69,5 +68,14 @@ private
 
   def total_match_count
     @total_match_count ||= FraudMatch.where(recruitment_cycle_year: CycleTimetable.current_year).count
+  end
+
+  def process_match(candidate, fraud_match)
+    notify_candidate(candidate, fraud_match)
+    block_submission(candidate)
+  end
+
+  def block_submission(candidate)
+    candidate.update!(submission_blocked: true)
   end
 end

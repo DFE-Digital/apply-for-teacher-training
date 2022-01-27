@@ -22,6 +22,25 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
   end
 
   describe '#save!' do
+    context 'when existing fraud match' do
+      before do
+        described_class.new.save!
+      end
+
+      context 'when the candidates have been manually unblocked' do
+        before do
+          candidate1.reload.update!(submission_blocked: false)
+          candidate2.reload.update!(submission_blocked: false)
+          described_class.new.save!
+        end
+
+        it 'do not mark submission blocked if candidate is not newly added to the match' do
+          expect(candidate1.reload.submission_blocked).to be(false)
+          expect(candidate2.reload.submission_blocked).to be(false)
+        end
+      end
+    end
+
     context 'when there is no duplicate match for the given candidates' do
       it 'creates a duplicate match with associated candidates' do
         described_class.new.save!
