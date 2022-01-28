@@ -40,18 +40,16 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         end
       end
 
-      context 'when the candidates have been mannually resolved and new candidate is added to the match' do
+      context 'when a duplicate match has been manually resolved and a new candidate is added to the match' do
         let(:candidate3) { create(:candidate, email_address: 'exemplar3@example.com') }
 
         before do
-          FraudMatch.update_all(resolved: true)
-          Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
-            create(:application_form, :duplicate_candidates, candidate: candidate3, submitted_at: Time.zone.now)
-          end
+          FraudMatch.first.update(resolved: true)
+          create(:application_form, :duplicate_candidates, candidate: candidate3)
           described_class.new.save!
         end
 
-        it 'mark the match as unresolved' do
+        it 'marks the match as unresolved' do
           expect(FraudMatch.first).not_to be_resolved
         end
       end
