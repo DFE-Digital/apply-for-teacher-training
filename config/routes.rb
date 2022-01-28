@@ -633,6 +633,7 @@ Rails.application.routes.draw do
       post '/withdraw' => 'withdraw_or_decline_offer#create'
 
       resource :deferred_offer, only: :create, path: 'defer-offer'
+      resource :confirm_deferred_offer, only: :create, path: 'confirm-deferred-offer'
 
       post '/interviews/create' => 'interviews#create', as: :interviews_create
       post '/interviews/:interview_id/update' => 'interviews#update', as: :interviews_update

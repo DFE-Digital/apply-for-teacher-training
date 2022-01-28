@@ -24,6 +24,7 @@ module VendorAPI
     ],
     '1.1' => [
       Changes::DeferAnOffer,
+      Changes::ConfirmADeferredOffer,
       Changes::CreateNote,
       Changes::NotesForApplication,
       Changes::WithdrawOrDeclineApplication,
