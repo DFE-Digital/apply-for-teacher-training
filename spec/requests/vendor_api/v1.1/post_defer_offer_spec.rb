@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-offer', type: :request do
   include VendorAPISpecHelpers
 
-  before do
-    stub_const('VendorAPI::VERSION', '1.1')
-  end
-
   it_behaves_like 'an endpoint that requires metadata', '/defer-offer', '1.1'
 
   describe 'deffering an offer' do

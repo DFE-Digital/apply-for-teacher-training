@@ -6,8 +6,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/notes/create', t
 
   let(:note_payload) { { data: { message: 'Hi hi hi' } } }
 
-  before { stub_const('VendorAPI::VERSION', '1.1') }
-
   it_behaves_like 'an endpoint that requires metadata', '/notes/create', '1.1'
 
   it 'creates a new note on the application' do

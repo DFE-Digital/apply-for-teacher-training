@@ -23,16 +23,6 @@ RSpec.describe 'Versioning', type: :request do
     end
   end
 
-  context 'accessing the API with a version that is greater than the current locked version' do
-    it 'returns a not found error' do
-      stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
-                                          '1.101' => [VendorAPI::Changes::RetrieveSingleApplication] })
-
-      get_api_request "/api/v1.101/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
   context 'accessing a route with a version that is prior to the version that it was introduced in' do
     it 'returns a not found error' do
       stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications] })

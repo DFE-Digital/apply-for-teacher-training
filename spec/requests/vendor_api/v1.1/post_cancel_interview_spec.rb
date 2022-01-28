@@ -9,10 +9,6 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
   let(:interview) { application_choice.interviews.first }
 
-  before do
-    stub_const('VendorAPI::VERSION', '1.1')
-  end
-
   def post_cancellation!(reason:, skip_schema_check: false)
     request_body = { data: { reason: reason } }
     expect(request_body[:data]).to be_valid_against_openapi_schema('CancelInterview', '1.1') \
