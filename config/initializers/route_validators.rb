@@ -45,7 +45,8 @@ class ValidVendorApiRoute
     def versions_up_to_current
       VendorAPI::VERSIONS.keys.filter do |version_number|
         major_version_number(version_number) == major_version_number(version) &&
-          minor_version_number(version_number) <= minor_version_number(version)
+          minor_version_number(version_number) <= minor_version_number(version) &&
+          version_availble_in_environment?(version_number)
       end
     end
 
@@ -59,6 +60,12 @@ class ValidVendorApiRoute
 
     def version
       extract_version(api_version)
+    end
+
+    def version_availble_in_environment?(version)
+      return true unless HostingEnvironment.production?
+
+      !prerelease?(version)
     end
   end
 end

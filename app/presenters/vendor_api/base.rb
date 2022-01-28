@@ -11,7 +11,7 @@ module VendorAPI
       @active_version = active_version
 
       VendorAPI::VERSIONS.each_pair do |version, changes|
-        next unless active_version_in_retrieved_version?(version)
+        next unless active_version_in_retrieved_version?(version) && version_available_in_environment?(version)
 
         changes.each do |change_module|
           resources_for_class(change_module).each do |resource|
@@ -38,6 +38,12 @@ module VendorAPI
 
     def active_version_in_retrieved_version?(version)
       minor_version_number(active_version) >= minor_version_number(version)
+    end
+
+    def version_available_in_environment?(version)
+      return true unless HostingEnvironment.production?
+
+      !prerelease?(version)
     end
 
     def cache_key(model, api_version, method = '')
