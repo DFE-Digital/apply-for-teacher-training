@@ -99,6 +99,21 @@ module VendorAPI
 end
 ```
 
+### Pre-release versions
+
+To make a version available to all environments besides production, all you have to do is suffix it with `pre` in the `VendorAPI::VERSIONS` constant. To release that version you simply need to remove the prerelease suffix.
+
+```ruby
+module VendorAPI
+  ...
+  VERSIONS = {
+   '1.0' => [ ... ],
+   '1.1pre' => [ Changes::RetrieveSingleApplication ] # the Application retrieval endpoint is now
+                                                      # available in all environments besides production
+  }
+end
+```
+
 ### Adding a new endpoint
 
 New endpoints are not by default made available via the API. In order to make them available from a specific version onwards, the endpoint's action must be configured in the version class and the version class must be mapped on a version. The VersionChange class supports configuring a single action.
