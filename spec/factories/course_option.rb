@@ -46,5 +46,21 @@ FactoryBot.define do
         create(:course_option, course: new_course, site: course_option.site)
       end
     end
+
+    trait :available_in_current_and_next_year do
+      course { create(:course, recruitment_cycle_year: RecruitmentCycle.current_year) }
+
+      after(:create) do |course_option|
+        new_course = course_option.course.in_next_cycle
+        unless new_course
+          new_course = course_option.course.dup
+          new_course.recruitment_cycle_year = RecruitmentCycle.next_year
+          new_course.open_on_apply = true
+          new_course.save
+        end
+
+        create(:course_option, course: new_course, site: course_option.site)
+      end
+    end
   end
 end

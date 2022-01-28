@@ -72,5 +72,15 @@ FactoryBot.define do
         new_course.save
       end
     end
+
+    trait :available_in_current_and_next_year do
+      recruitment_cycle_year { RecruitmentCycle.current_year }
+
+      after(:create) do |course|
+        new_course = course.dup
+        new_course.recruitment_cycle_year = RecruitmentCycle.next_year
+        new_course.save
+      end
+    end
   end
 end

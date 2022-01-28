@@ -25,7 +25,7 @@ RSpec.shared_examples 'confirm deferred offer validations' do |transition_event|
 
     it 'raises a ValidationException' do
       expect { service.save! }
-        .to raise_error(ValidationException, 'The requested course does not exist in the current cycle')
+        .to raise_error(ValidationException, 'Only applications deferred in the previous recruitment cycle can be confirmed')
     end
   end
 

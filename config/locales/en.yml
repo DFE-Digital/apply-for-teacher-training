@@ -381,7 +381,7 @@ en:
             course_option:
               blank: The offered course does not exist in this recruitment cycle
               not_open_on_apply: The requested course is not open for applications via the Apply service
-              not_in_current_cycle: The requested course does not exist in the current cycle
+              not_in_current_cycle: Only applications deferred in the previous recruitment cycle can be confirmed
         provider_interface/rejected_by_default_feedback_form:
           attributes:
             rejection_reason:

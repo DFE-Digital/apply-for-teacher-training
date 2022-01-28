@@ -89,6 +89,29 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
       end
     end
 
+    context 'when the offer requiring confirmation is in the current cycle', wip: true do
+      let(:original_course) do
+        create(:course,
+               :open_on_apply,
+               :available_in_current_and_next_year,
+               provider: currently_authenticated_provider)
+      end
+      let(:original_course_option) do
+        create(:course_option,
+               :available_in_current_and_next_year,
+               course: original_course)
+      end
+
+      it 'renders an Unprocessable Entity error' do
+        post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+        expect(parsed_response['errors'].map { |error| error['message'] })
+          .to contain_exactly('Only applications deferred in the previous recruitment cycle can be confirmed')
+      end
+    end
+
     context 'when the application choice cannot be found for the authorised provider' do
       let(:application_choice) do
         create(:application_choice, :awaiting_provider_decision)
