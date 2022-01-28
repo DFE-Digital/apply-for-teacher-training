@@ -22,7 +22,7 @@ module VendorAPI
       Changes::ExperimentalClearTestData,
       Changes::ExperimentalGenerateTestData,
     ],
-    '1.1' => [
+    '1.1pre' => [
       Changes::DeferAnOffer,
       Changes::ConfirmADeferredOffer,
       Changes::CreateNote,
