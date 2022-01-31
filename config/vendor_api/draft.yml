@@ -16,6 +16,72 @@ servers:
 - description: Production
   url: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1
 paths:
+  "/applications":
+    get:
+      tags:
+      - Application management
+      summary: Get many applications
+      description: |
+        This endpoint can be used to retrieve applications for the authenticating
+        provider. Applications are returned with the most recently updated ones first.
+
+        Use the `since` parameter to limit the number of results. This is intended
+        to make it possible to check for new or updated applications regularly.
+      parameters:
+      - name: since
+        description: Include only applications changed or created on or since a date
+          and time. Times should be in ISO 8601 format.
+        in: query
+        required: true
+        example: 2019-12-13T12:00:00Z
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        description: Page number
+        in: query
+        required: false
+        example: 1
+        schema:
+          type: integer
+      - name: per_page
+        description: Number of records to return per page (e.g. 50)
+        in: query
+        required: false
+        example: 100
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: An array of applications
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MultipleApplicationsResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '422':
+          "$ref": "#/components/responses/ParameterMissing"
+  "/applications/{application_id}":
+    get:
+      tags:
+      - Application management
+      summary: Get a single application
+      parameters:
+      - "$ref": "#/components/parameters/application_id"
+      responses:
+        '200':
+          description: An application
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SingleApplicationResponse"
+        '401':
+          "$ref": "#/components/responses/Unauthorized"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+        '422':
+          "$ref": "#/components/responses/UnprocessableEntity"
   "/applications/{application_id}/defer-offer":
     post:
       tags:
@@ -282,11 +348,59 @@ components:
           schema:
             "$ref": "#/components/schemas/PerPageParameterInvalidResponse"
   schemas:
+    MultipleApplicationsResponse:
+      type: object
+      required:
+      - data
+      - links
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Application"
+        links:
+          "$ref": "#/components/schemas/Links"
+        meta:
+          "$ref": "#/components/schemas/ResponseMetaMultiple"
+    SingleApplicationResponse:
+      type: object
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          "$ref": "#/components/schemas/Application"
+        meta:
+          "$ref": "#/components/schemas/ResponseMetaSingle"
     ApplicationAttributes:
       type: object
       additionalProperties: false
       required:
-        - withdrawn_or_declined_for_candidate
+      - application_url
+      - support_reference
+      - candidate
+      - phase
+      - contact_details
+      - course
+      - offer
+      - notes
+      - personal_statement
+      - interview_preferences
+      - qualifications
+      - references
+      - rejection
+      - status
+      - withdrawn_or_declined_for_candidate
+      - submitted_at
+      - updated_at
+      - reject_by_default_at
+      - recruited_at
+      - withdrawal
+      - further_information
+      - work_experience
+      - safeguarding_issues_status
+      - safeguarding_issues_details_url
       properties:
         interviews:
           type: array
@@ -364,34 +478,6 @@ components:
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           maxLength: 2000
           example: The candidate has accepted an alternative offer
-    ConfirmDeferredOffer:
-      type: object
-      additionalProperties: false
-      required:
-      - conditions_met
-      properties:
-        conditions_met:
-          type: boolean
-          description: Determines the status of the confirmed deferred application (recruited vs. pending_conditions)
-          example: true
-    Withdrawal:
-      type: object
-      additionalProperties: false
-      required:
-      - reason
-      - date
-      properties:
-        reason:
-          type: string
-          description: Optional. The candidate’s reason for withdrawing. This field is deprecated because the Apply service does not collect this information
-          maxLength: 10240
-          nullable: true
-          deprecated: true
-        date:
-          type: string
-          format: date-time
-          description: Time of the withdrawal
-          example: 2019-09-18T15:33:49.216Z
     Interview:
       type: object
       additionalProperties: false
@@ -448,65 +534,6 @@ components:
           format: date-time
           description: Date and time the interview was updated
           example: 2019-09-18T16:33:49.216Z
-    Links:
-      type: object
-      description: Links to navigate through the paginated results
-      additionalProperties: false
-      required:
-      - first
-      - last
-      - prev
-      - self
-      - next
-      properties:
-        first:
-          type: string
-          description: The first page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
-        last:
-          type: string
-          description: The last page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=20
-        prev:
-          type: string
-          description: The previous page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
-        self:
-          type: string
-          description: The current page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
-        next:
-          type: string
-          description: The next page of the results
-          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=3
-    PageParameterInvalidResponse:
-      type: object
-      required:
-      - errors
-      properties:
-        errors:
-          type: array
-          minItems: 1
-          description: Error objects describing the problem
-          items:
-            "$ref": "#/components/schemas/Error"
-          example:
-          - error: PageParameterInvalid
-            message: "expected 'page' parameter to be between 1 and 1, got 2"
-    PerPageParameterInvalidResponse:
-      type: object
-      required:
-      - errors
-      properties:
-        errors:
-          type: array
-          minItems: 1
-          description: Error objects describing the problem
-          items:
-            "$ref": "#/components/schemas/Error"
-          example:
-          - error: PerPageParamterInvalid
-            message: "the 'per_page' parameter cannot exceed 100 results per page"
     CreateNote:
       type: object
       additionalProperties: false
@@ -552,6 +579,114 @@ components:
           type: string
           description: Author’s name
           example: John Smith
+    ConfirmDeferredOffer:
+      type: object
+      additionalProperties: false
+      required:
+      - conditions_met
+      properties:
+        conditions_met:
+          type: boolean
+          description: Determines the status of the confirmed deferred application (recruited vs. pending_conditions)
+          example: true
+    Links:
+      type: object
+      description: Links to navigate through the paginated results
+      additionalProperties: false
+      required:
+      - first
+      - last
+      - prev
+      - self
+      - next
+      properties:
+        first:
+          type: string
+          description: The first page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        last:
+          type: string
+          description: The last page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=20
+        prev:
+          type: string
+          description: The previous page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        self:
+          type: string
+          description: The current page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
+        next:
+          type: string
+          description: The next page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=3
+    ResponseMetaMultiple:
+      type: object
+      description: API version and count metadata in multiple application responses
+      additionalProperties: false
+      required:
+      - api_version
+      - timestamp
+      - total_count
+      properties:
+        api_version:
+          type: string
+          description: API version that produced this response
+          example: 'v1.1'
+        timestamp:
+          type: string
+          format: date-time
+          description: When this response was generated
+          example: 2021-12-01T11:03:12Z
+        total_count:
+          type: integer
+          description: Total number of changed applications for this `since` value
+          example: 1000
+    ResponseMetaSingle:
+      type: object
+      description: API version and count metadata in single application responses
+      additionalProperties: false
+      required:
+      - api_version
+      - timestamp
+      properties:
+        api_version:
+          type: string
+          description: API version that produced this response
+          example: 'v1.1'
+        timestamp:
+          type: string
+          format: date-time
+          description: When this response was generated
+          example: 2021-12-01T11:03:12Z
+    PageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PageParameterInvalid
+            message: "expected 'page' parameter to be between 1 and 1, got 2"
+    PerPageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PerPageParamterInvalid
+            message: "the 'per_page' parameter cannot exceed 100 results per page"
   parameters:
     interview_id:
       name: interview_id

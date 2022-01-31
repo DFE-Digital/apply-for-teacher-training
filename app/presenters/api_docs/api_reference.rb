@@ -44,7 +44,7 @@ module APIDocs
     def new_path?(path)
       return false unless draft_schema_file_exists?
 
-      draft_schema['paths'].include?(path)
+      draft_schema['paths'].include?(path) && current_schema['paths'].exclude?(path)
     end
 
     def flatten_hash(hash)
@@ -69,6 +69,10 @@ module APIDocs
 
     def draft_yaml_file_path
       VendorAPISpecification::DRAFT_YAML_FILE_PATH
+    end
+
+    def current_schema
+      @current_schema ||= YAML.load_file("#{VendorAPISpecification::SPEC_FILE_DIR}/v#{@version}.yml")
     end
   end
 end
