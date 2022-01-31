@@ -19,10 +19,12 @@ module.exports = ({github, context}) => {
   }
 
   const emoji = (difference) => {
-    if (difference > DELTA) {
+    if (difference < (DELTA * -1)) {
+      return ':arrow_down:';
+    } else if (difference > DELTA) {
       return ':arrow_up:';
     } else {
-      return ':arrow_down:';
+      return ':left_right_arrow:';
     }
   }
 
