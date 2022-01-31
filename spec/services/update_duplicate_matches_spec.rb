@@ -39,6 +39,20 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
           expect(candidate2.reload.submission_blocked).to be(false)
         end
       end
+
+      context 'when a duplicate match has been manually resolved and a new candidate is added to the match' do
+        let(:candidate3) { create(:candidate, email_address: 'exemplar3@example.com') }
+
+        before do
+          FraudMatch.first.update(resolved: true)
+          create(:application_form, :duplicate_candidates, candidate: candidate3)
+          described_class.new.save!
+        end
+
+        it 'marks the match as unresolved' do
+          expect(FraudMatch.first).not_to be_resolved
+        end
+      end
     end
 
     context 'when there is no duplicate match for the given candidates' do
