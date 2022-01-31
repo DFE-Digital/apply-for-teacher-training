@@ -268,6 +268,19 @@ paths:
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
 components:
+  responses:
+    PageParameterInvalidResponse:
+      description: Returned when the parameter was invalid
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/PageParameterInvalidResponse"
+    PerPageParameterInvalidResponse:
+      description: Returned when the parameter was invalid
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/PerPageParameterInvalidResponse"
   schemas:
     ApplicationAttributes:
       type: object
@@ -435,6 +448,65 @@ components:
           format: date-time
           description: Date and time the interview was updated
           example: 2019-09-18T16:33:49.216Z
+    Links:
+      type: object
+      description: Links to navigate through the paginated results
+      additionalProperties: false
+      required:
+      - first
+      - last
+      - prev
+      - self
+      - next
+      properties:
+        first:
+          type: string
+          description: The first page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        last:
+          type: string
+          description: The last page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=20
+        prev:
+          type: string
+          description: The previous page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=1
+        self:
+          type: string
+          description: The current page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=2
+        next:
+          type: string
+          description: The next page of the results
+          example: https://www.apply-for-teacher-training.service.gov.uk/api/v1.1/applications?since=2021-10-20T12:00:00Z?page=3
+    PageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PageParameterInvalid
+            message: "expected 'page' parameter to be between 1 and 1, got 2"
+    PerPageParameterInvalidResponse:
+      type: object
+      required:
+      - errors
+      properties:
+        errors:
+          type: array
+          minItems: 1
+          description: Error objects describing the problem
+          items:
+            "$ref": "#/components/schemas/Error"
+          example:
+          - error: PerPageParamterInvalid
+            message: "the 'per_page' parameter cannot exceed 100 results per page"
     CreateNote:
       type: object
       additionalProperties: false
