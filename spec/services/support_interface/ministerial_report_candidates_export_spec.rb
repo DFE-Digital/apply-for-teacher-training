@@ -504,12 +504,12 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       end
     end
 
-    context 'when the status is an offer' do
+    context 'when the status is conditions not met' do
       it 'returns the offer mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_conditions_not_met, application_form: application_form)
 
-        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_rejected])
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_rejected])
       end
     end
 
@@ -555,6 +555,26 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         create(:application_choice, :withdrawn, application_form: application_form)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_withdrawn])
+      end
+    end
+
+    context 'when there are two choices one withdrawn and one rejected' do
+      it 'returns the rejected mapping' do
+        application_form = create(:completed_application_form)
+        create(:application_choice, :withdrawn, application_form: application_form)
+        create(:application_choice, :with_rejection, application_form: application_form)
+
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates application_rejected])
+      end
+    end
+
+    context 'when there are two choices one declined and one rejected' do
+      it 'returns the rejected mapping' do
+        application_form = create(:completed_application_form)
+        create(:application_choice, :with_declined_offer, application_form: application_form)
+        create(:application_choice, :with_rejection, application_form: application_form)
+
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_declined])
       end
     end
   end

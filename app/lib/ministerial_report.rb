@@ -148,7 +148,7 @@ module MinisterialReport
     offer_deferred: %i[applications offer_received accepted],
     interviewing: %i[applications],
     offer_withdrawn: %i[applications], # TAD do not count these as rejections or offer_received
-    conditions_not_met: %i[applications offer_received application_rejected],
+    conditions_not_met: %i[applications application_rejected],
     declined: %i[applications offer_received application_declined],
     recruited: %i[applications offer_received accepted],
     withdrawn: %i[applications application_withdrawn],
@@ -163,7 +163,7 @@ module MinisterialReport
     awaiting_provider_decision: nil,
     declined: %i[offer_received application_declined],
     offer_withdrawn: nil,
-    conditions_not_met: %i[offer_received application_rejected],
+    conditions_not_met: %i[application_rejected],
     rejected: %i[application_rejected],
     withdrawn: %i[application_withdrawn],
   }.freeze

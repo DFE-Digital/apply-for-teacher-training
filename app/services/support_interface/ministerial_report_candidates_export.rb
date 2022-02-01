@@ -17,6 +17,10 @@ module SupportInterface
 
       subject_report = {}
 
+      MinisterialReport::SUBJECTS.each { |subject| initialize_subject_report_subject(subject_report, subject) }
+      initialize_subject_report_subject(subject_report, :split)
+      initialize_subject_report_subject(subject_report, :total)
+
       application_forms.find_each do |application|
         latest_apply_again_application =
           if candidate_has_a_viable_apply_2_application?(application)
@@ -30,16 +34,12 @@ module SupportInterface
         states = determine_states([application, latest_apply_again_application].compact)
 
         if candidate_has_no_dominant_subject?(subjects)
-          initialize_subject_report_subject(subject_report, :split)
-
           states.each do |state|
             export_rows[:split][state] += 1
             subject_report[:split][state] << application.candidate.id
           end
         else
           dominant_subject = dominant_subject(subjects)
-
-          initialize_subject_report_subject(subject_report, dominant_subject)
 
           states&.each do |state|
             add_row_values(export_rows, dominant_subject, state)
@@ -100,15 +100,12 @@ module SupportInterface
       subject_report[dominant_subject][state] << candidate_id
 
       if MinisterialReport::STEM_SUBJECTS.include? dominant_subject
-        initialize_subject_report_subject(subject_report, :stem)
         subject_report[:stem][state] << candidate_id 
       end
       if MinisterialReport::EBACC_SUBJECTS.include? dominant_subject
-        initialize_subject_report_subject(subject_report, :ebacc)
         subject_report[:ebacc][state] << candidate_id 
       end
       if MinisterialReport::SECONDARY_SUBJECTS.include? dominant_subject
-        initialize_subject_report_subject(subject_report, :secondary)
         subject_report[:secondary][state] << candidate_id 
       end
     end
