@@ -1,5 +1,0 @@
-common_columns:
-  - total
-  - first_application
-  - apply_again
-  - applications_status
