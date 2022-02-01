@@ -1,5 +1,6 @@
 module VendorAPI
   PRELIMINARY_VERSION = '1.0'.freeze
+  VERSION = PRELIMINARY_VERSION
 
   VERSIONS = {
     '1.0' => [

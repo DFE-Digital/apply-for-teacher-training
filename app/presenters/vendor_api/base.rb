@@ -43,7 +43,7 @@ module VendorAPI
     def version_available_in_environment?(version)
       return true unless HostingEnvironment.production?
 
-      !prerelease?(version)
+      !prerelease_suffix?(version)
     end
 
     def cache_key(model, api_version, method = '')
