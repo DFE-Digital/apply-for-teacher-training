@@ -1,10 +1,6 @@
 module DataAPI
-  class TADDataExportsController < ActionController::API
+  class TADDataExportsController < ApplicationAPIController
     include ServiceAPIUserAuthentication
-    include RemoveBrowserOnlyHeaders
-
-    rescue_from ParameterInvalid, with: :parameter_invalid
-    rescue_from ActionController::ParameterMissing, with: :parameter_missing
 
     # Makes PG::QueryCanceled statement timeout errors appear in Skylight
     # against the controller action that triggered them
@@ -81,15 +77,6 @@ module DataAPI
       data_export = all.last
 
       serve_export(data_export)
-    end
-
-    def parameter_invalid(e)
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
-    end
-
-    def parameter_missing(e)
-      error_message = e.message.split("\n").first
-      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
     end
 
   private
