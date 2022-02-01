@@ -89,20 +89,4 @@ module MonthlyStatisticsTimetable
   def self.report_for(month)
     Publications::MonthlyStatistics::MonthlyStatisticsReport.where(month: month).order(created_at: :desc).first!
   end
-
-  def self.current_exports
-    exports = []
-
-    if in_qa_period?
-      DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
-        exports << DataExport.where(export_type: export_type).order(:created_at).last(2).first
-      end
-    else
-      DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
-        exports << DataExport.where(export_type: export_type).order(:created_at).last
-      end
-    end
-
-    exports.compact
-  end
 end
