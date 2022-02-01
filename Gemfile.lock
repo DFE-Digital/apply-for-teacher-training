@@ -566,10 +566,10 @@ GEM
     semantic_logger (4.9.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
-    sentry-rails (5.0.1)
+    sentry-rails (5.0.2)
       railties (>= 5.0)
-      sentry-ruby-core (~> 5.0.1)
-    sentry-ruby-core (5.0.1)
+      sentry-ruby-core (~> 5.0.2)
+    sentry-ruby-core (5.0.2)
       concurrent-ruby
     sentry-sidekiq (5.0.1)
       sentry-ruby-core (~> 5.0.1)
