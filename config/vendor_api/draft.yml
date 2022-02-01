@@ -579,6 +579,32 @@ components:
           type: string
           description: Author’s name
           example: John Smith
+    Offer:
+      type: object
+      additionalProperties: false
+      required:
+      - conditions
+      - course
+      - status_before_deferral
+      - offer_made_at
+      - offer_accepted_at
+      - offer_declined_at
+      - offer_deferred_at
+      properties:
+        status_before_deferral:
+          type: string
+          nullable: true
+          description: Application status before the deferral (pending_conditions or recruited)
+          enum:
+          - pending_conditions
+          - recruited
+          example: pending_conditions
+        offer_deferred_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When this application was deferred
+          example: 2019-06-10T23:59:59Z
     ConfirmDeferredOffer:
       type: object
       additionalProperties: false
