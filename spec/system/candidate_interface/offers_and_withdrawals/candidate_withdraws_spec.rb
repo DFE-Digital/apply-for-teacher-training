@@ -75,7 +75,7 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def then_i_see_a_confirmation_page
     expect(page).to have_content('Are you sure you want to withdraw this course choice?')
-    expect(page).to have_content('Any upcoming interviews will be cancelled when you withdraw.')
+    expect(page).to have_content('Any upcoming interviews will be cancelled.')
   end
 
   def when_i_click_to_confirm_withdrawal

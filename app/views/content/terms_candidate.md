@@ -1,4 +1,4 @@
-Applying for teacher training using this service means you agree to our terms.
+Applying for teacher training using this service means you agree to these terms.
 
 If you do not follow them your application might be withdrawn.
 
@@ -10,69 +10,56 @@ You must not:
 - gather or use data from our website
 - use abusive language or act abusively towards anyone you come into contact with
 
-## Applying for teacher training courses
+## Applying for courses
 
-### Stage 1: Submitting your initial application
+### Submitting your initial application
 
-You can apply for a total of 3 courses.
+You can apply for up to 3 courses.
 
-### Stage 2: Apply again if your application was not successful
+### Apply again if your application does not lead to a place
 
-You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offers.
+You can apply for another course if your initial application does not lead to a place.
 
-[<%= t('service_name.get_into_teaching') %>](<%= t('get_into_teaching.url') %>) can guide you through the process of applying for more courses. Contact them for free on <%= t('get_into_teaching.tel') %>, or [chat to an adviser using the online chat service](<%= t('get_into_teaching.url_online_chat') %>).
+This might be because you:
+
+* do not get an offer
+* decline any offers
+* withdraw your application
+
+You can apply again to one course at a time as many times as you like.
+
+[Chat online for help applying again](<%= t('get_into_teaching.url_online_chat') %>).
 
 ### Making changes to your application
 
-Once you submit your application it is automatically sent to the training provider. To change your application after you’ve submitted it, contact us as soon as possible at <%= bat_contact_mail_to %>.
+Once you submit your application it’s sent to your teacher training providers straight away.
 
-You can ask us to add courses (if you have not reached your limit of 3) and change your name and contact details too.
+Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to change something.
 
-If you have heard back from your training provider, for example if they have turned down your application, we will not be able to change your choice of course.
+You can ask us to add courses if you have not used all your course choices, or change your personal details.
 
 ### Withdrawing your application
 
-You can withdraw your application at any point, even after you have accepted an offer.
+You can withdraw your application at any point, even after you’ve accepted an offer.
 
-[Sign in to your account](<%= candidate_interface_sign_in_path %>) and click ‘withdraw’ next to the course you want to withdraw.
+[Sign in to your account to withdraw an application](<%= candidate_interface_sign_in_path %>).
 
-### Outcome of your application
+### Application outcome
 
-The Department of Education does not decide on your application. The course provider does.
+If your teacher training provider does not make a decision about your application by their deadline, your application to their course cannot progress. Providers normally have 40 working days to make a decision.
 
-If a course provider does not make a decision within 40 working days your application will automatically be turned down.
+Once you receive decisions from all of your providers, you have 10 working days to accept or decline any offers. If you do not respond to your offers within this timeframe, they’ll be automatically declined.
 
-You have 10 working days to accept or decline an offer from a training provider.
+## Criminal convictions
 
-The 10 days starts once you’ve heard back from all of the course providers you have applied to.
+You'll need to have an enhanced DBS check if you accept a place on a course. This will show up any spent or unspent criminal convictions.
 
-## How we check your suitability for working with children
+Not all convictions will stop you from teaching. Talk to your provider about their policy on [criminal convictions](https://www.gov.uk/exoffenders-and-employment).
 
-All candidates must have an enhanced DBS check. This will show up any spent or unspent criminal convictions.
+Your name will also be checked against a DBS list of people who’ve been barred from working with children.
 
-Not all convictions will stop you from teaching. [Talk to your provider about their policy on criminal convictions](https://www.gov.uk/exoffenders-and-employment).
+## Your account
 
-Your name will also be checked against a DBS list of people who have been barred from working with children.
+When you start your application an account will be created for you. Refer to our [privacy policy](<%= candidate_interface_privacy_policy_path %>) to find out how we keep your data safe.
 
-## Questions or support
-
-If you need technical support, email <%= bat_contact_mail_to %>.
-
-We respond within 5 working days, or 1 working day for more urgent queries.
-
-For advice on teacher training, [call us or chat online](https://getintoteaching.education.gov.uk/#talk-to-us).
-
-[If you’re applying from overseas, find out more about becoming a teacher in England in our guidance for overseas graduates](https://getintoteaching.education.gov.uk/train-to-teach-in-england-as-an-international-student).
-
-
-## Changes to this service
-
-We need to make changes to this service from time to time.
-
-We will not tell you about the changes beforehand, but we will let you know if the website is unavailable while we’re updating it.
-
-## About your online account
-
-When you start your application, we’ll create an account for you automatically. Any information you give will be stored there. We’ll keep your data safe and only use it in line with our [privacy policy](<%= candidate_interface_privacy_policy_path %>).
-
-You do not need a password for your account. Instead, each time you log in, we’ll email you a unique and secure link.
+You do not need a password to sign in to your account. You'll get a unique and secure link via email instead.
