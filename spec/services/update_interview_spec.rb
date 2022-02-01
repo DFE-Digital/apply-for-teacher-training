@@ -67,4 +67,48 @@ RSpec.describe UpdateInterview do
       expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_updated')
     end
   end
+
+  context 'called via the API' do
+    let(:vendor_api_user) { create(:vendor_api_user, vendor_api_token: vendor_api_token) }
+    let(:vendor_api_token) { create(:vendor_api_token, provider: provider) }
+    let(:service_params) do
+      {
+        actor: vendor_api_user,
+        provider: provider,
+        interview: interview,
+        date_and_time: amended_date_and_time,
+        location: 'Zoom call',
+        additional_details: 'Business casual',
+      }
+    end
+
+    it 'accepts a vendor_api_user', with_audited: true, sidekiq: true do
+      described_class.new(service_params).save!
+
+      associated_audit = application_choice.associated_audits.last
+      expect(associated_audit.auditable).to eq(application_choice.interviews.first)
+      expect(associated_audit.user).to eq(vendor_api_user)
+    end
+  end
+
+  context 'if interview validations fail' do
+    let(:new_date_and_time_in_the_past) { 5.days.ago }
+    let(:service_params) do
+      {
+        actor: provider_user,
+        provider: provider,
+        interview: interview,
+        date_and_time: new_date_and_time_in_the_past,
+        location: 'Zoom call',
+        additional_details: 'Business casual',
+      }
+    end
+
+    it 'raises a ValidationException, does not send emails' do
+      expect { described_class.new(service_params).save! }.to \
+        raise_error(ValidationException)
+
+      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
+    end
+  end
 end
