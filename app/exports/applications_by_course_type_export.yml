@@ -1,5 +1,0 @@
-common_columns:
-  - total
-  - course_type
-  - apply_again
-  - applications_status
