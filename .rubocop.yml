@@ -1,10 +1,3 @@
-require:
-  - rubocop-rails
-  - ./lib/rubocop/cop/application_api_controller.rb
-  - ./lib/rubocop/cop/govuk/govuk_button_to.rb
-  - ./lib/rubocop/cop/govuk/govuk_link_to.rb
-  - ./lib/rubocop/cop/govuk/govuk_submit.rb
-
 inherit_from:
   - .rubocop_todo.yml
   - ./config/rubocop/config/rspec.yml
@@ -15,6 +8,11 @@ inherit_from:
   - ./config/rubocop/config/lint.yml
   - ./config/rubocop/config/metrics.yml
   - ./config/rubocop/config/naming.yml
+
+require:
+  - ./lib/rubocop/cop/govuk/govuk_button_to.rb
+  - ./lib/rubocop/cop/govuk/govuk_link_to.rb
+  - ./lib/rubocop/cop/govuk/govuk_submit.rb
 
 AllCops:
   NewCops: enable

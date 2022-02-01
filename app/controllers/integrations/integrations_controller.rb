@@ -1,5 +1,5 @@
 module Integrations
-  class IntegrationsController < ApplicationAPIController
+  class IntegrationsController < ActionController::API
   protected
 
     def render_error(name:, message:, status:)

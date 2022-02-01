@@ -1,9 +1,13 @@
 module VendorAPI
-  class VendorAPIController < ApplicationAPIController
+  class VendorAPIController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
+    include RequestQueryParams
+    include RemoveBrowserOnlyHeaders
     include Versioning
 
     rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
+    rescue_from ActionController::ParameterMissing, with: :parameter_missing
+    rescue_from ParameterInvalid, with: :parameter_invalid
 
     # Makes PG::QueryCanceled statement timeout errors appear in Skylight
     # against the controller action that triggered them
@@ -37,6 +41,15 @@ module VendorAPI
       render json: {
         errors: [{ error: 'NotFound', message: "Could not find an application with ID #{params[:application_id]}" }],
       }, status: :not_found
+    end
+
+    def parameter_missing(e)
+      error_message = e.message.split("\n").first
+      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
+    end
+
+    def parameter_invalid(e)
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
     end
 
     def statement_timeout
