@@ -101,7 +101,8 @@ end
 
 ### Pre-release versions
 
-To make a version available to all environments besides production, all you have to do is suffix it with `pre` in the `VendorAPI::VERSIONS` constant. To release that version you simply need to remove the prerelease suffix.
+To introduce a new version to the test and deelopment environments without releasing it to production or sandbox, all you have to do is suffix it with `pre` in the `VendorAPI::VERSIONS` constant.
+
 
 ```ruby
 module VendorAPI
@@ -109,7 +110,34 @@ module VendorAPI
   VERSIONS = {
    '1.0' => [ ... ],
    '1.1pre' => [ Changes::RetrieveSingleApplication ] # the Application retrieval endpoint is now
+                                                      # available in all environments besides sandbox and  production
+  }
+end
+```
+
+To allow access to that version to the sandbox environment, you need to update the `VendorAPI::VERSION` constant to reflect the highest available version you want to make available.
+
+```ruby
+module VendorAPI
+  VERSION = '1.1'.freeze
+  ...
+  VERSIONS = {
+   '1.0' => [ ... ],
+   '1.1pre' => [ Changes::RetrieveSingleApplication ] # the Application retrieval endpoint is now
                                                       # available in all environments besides production
+  }
+end
+```
+
+To release to production, you need to ensure that **BOTH** the `VendorAPI::VERSION` and `VendorAPI::VERSIONS` are updated to point to the latest version and not include the prerelease suffix.
+
+```ruby
+module VendorAPI
+  VERSION = '1.1'.freeze
+  ...
+  VERSIONS = {
+   '1.0' => [ ... ],
+   '1.1' => [ Changes::RetrieveSingleApplication ]
   }
 end
 ```
