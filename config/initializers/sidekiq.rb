@@ -8,4 +8,6 @@ Sidekiq.configure_server do |config|
   Yabeda::Prometheus::Exporter.start_metrics_server!
 end
 
+Sidekiq.strict_args!(false)
+
 require 'sidekiq/web'
