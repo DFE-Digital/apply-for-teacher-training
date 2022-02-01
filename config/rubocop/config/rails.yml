@@ -1,3 +1,5 @@
+require: rubocop-rails
+
 Rails/BulkChangeTable:
   Enabled: false
 
