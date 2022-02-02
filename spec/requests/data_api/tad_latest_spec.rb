@@ -12,7 +12,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/latest', type: :request, sidekiq:
       name: 'Daily export of applications for TAD',
       export_type: :tad_applications,
     )
-    DataExporter.perform_async(DataAPI::TADExport, data_export.id)
+    DataExporter.perform_async(DataAPI::TADExport.to_s, data_export.id)
 
     get_api_request '/data-api/tad-data-exports/latest', token: tad_api_token
 

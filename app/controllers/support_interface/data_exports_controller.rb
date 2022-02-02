@@ -29,7 +29,7 @@ module SupportInterface
     def create
       export_type = DataExport::EXPORT_TYPES.fetch(params.fetch(:export_type_id).to_sym)
       data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user, export_type: export_type.fetch(:export_type))
-      DataExporter.perform_async(export_type.fetch(:class), data_export.id, export_options)
+      DataExporter.perform_async(export_type.fetch(:class).to_s, data_export.id, export_options)
 
       redirect_to support_interface_data_export_path(data_export)
     end

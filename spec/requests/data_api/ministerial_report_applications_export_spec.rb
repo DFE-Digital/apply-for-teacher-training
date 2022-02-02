@@ -12,7 +12,7 @@ RSpec.describe 'GET /data-api/ministerial-report/applications/latest', type: :re
       name: 'Daily export of the applications ministerial report',
       export_type: :ministerial_report_applications_export,
     )
-    DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport, data_export.id)
+    DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport.to_s, data_export.id)
 
     get_api_request '/data-api/ministerial-report/applications/latest', token: tad_api_token
 

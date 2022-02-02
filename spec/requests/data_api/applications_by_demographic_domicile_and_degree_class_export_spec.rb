@@ -26,7 +26,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/applications-by-demographic-domic
       export_type: :applications_by_demographic_domicile_and_degree_class,
     )
 
-    DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport, data_export.id)
+    DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
 
     get_api_request '/data-api/applications-by-demographic-domicile-and-degree-class/latest', token: tad_api_token
 
