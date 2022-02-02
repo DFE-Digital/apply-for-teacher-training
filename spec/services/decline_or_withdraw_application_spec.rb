@@ -2,80 +2,81 @@ require 'rails_helper'
 
 RSpec.describe DeclineOrWithdrawApplication do
   describe '#save!' do
-    it 'declines applications which are under offer' do
-      application_choice = create(:application_choice, :with_offer)
-      provider = application_choice.course_option.provider
-      permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
+    let(:user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
+    let(:provider) { application_choice.course_option.provider }
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision) }
 
-      expect(described_class.new(application_choice: application_choice, actor: permitted_user).save!).to be true
+    context 'when declining an application under offer' do
+      let(:application_choice) { create(:application_choice, :with_offer) }
 
-      expect(application_choice.reload.declined_at).not_to be nil
-      expect(application_choice).to be_declined
-      expect(application_choice).not_to be_withdrawn
-      expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
+      it 'returns true' do
+        expect(described_class.new(application_choice: application_choice, actor: user).save!).to be true
+
+        expect(application_choice.reload.declined_at).not_to be nil
+        expect(application_choice).to be_declined
+        expect(application_choice).not_to be_withdrawn
+        expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
+      end
     end
 
-    it 'withdraws applications which are withdrawable' do
-      application_choice = create(:application_choice, :awaiting_provider_decision)
-      provider = application_choice.course_option.provider
-      permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
+    context 'when withdrawing a withdrawable application' do
+      it 'returns true' do
+        expect(described_class.new(application_choice: application_choice, actor: user).save!).to be true
 
-      expect(described_class.new(application_choice: application_choice, actor: permitted_user).save!).to be true
-
-      expect(application_choice.reload.withdrawn_at).not_to be nil
-      expect(application_choice).to be_withdrawn
-      expect(application_choice).not_to be_declined
-      expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
+        expect(application_choice.reload.withdrawn_at).not_to be nil
+        expect(application_choice).to be_withdrawn
+        expect(application_choice).not_to be_declined
+        expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
+      end
     end
 
-    it 'returns false when the application is not under offer and is not withdrawable' do
-      application_choice = create(:application_choice, :withdrawn)
-      provider = application_choice.course_option.provider
-      permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
+    context 'when the application is not withdrawable' do
+      let(:application_choice) { create(:application_choice, :withdrawn) }
 
-      expect(described_class.new(application_choice: application_choice, actor: permitted_user).save!).to be false
+      it 'raises a Workflow::NoTransitionAllowed error' do
+        expect { described_class.new(application_choice: application_choice, actor: user).save! }
+          .to raise_error(Workflow::NoTransitionAllowed)
+      end
     end
 
-    it 'raises when the provider user cannot make decisions' do
-      application_choice = create(:application_choice, :awaiting_provider_decision)
-      provider = application_choice.course_option.provider
-      user = create(:provider_user, providers: [provider])
+    context 'when the provider user cannot make decisions' do
+      let(:user) { create(:provider_user, providers: [provider]) }
 
-      expect {
+      it 'raises a ProviderAuthorisation::NotAuthorisedError' do
+        expect {
+          described_class.new(application_choice: application_choice, actor: user).save!
+        }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+      end
+    end
+
+    context 'when an application is withdrawn' do
+      it 'an email is send to the candidate' do
+        email_service_class = ProviderInterface::SendCandidateWithdrawnOnRequestEmail
+        email_service = instance_double(email_service_class, call: true)
+
+        allow(email_service_class).to receive(:new).and_return(email_service)
+
         described_class.new(application_choice: application_choice, actor: user).save!
-      }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
-    end
 
-    it 'emails the candidate about the withdrawn application' do
-      application_choice = create(:application_choice, :awaiting_provider_decision)
-      provider = application_choice.course_option.provider
-      permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
-      email_service_class = ProviderInterface::SendCandidateWithdrawnOnRequestEmail
-      email_service = instance_double(email_service_class, call: true)
-      allow(email_service_class).to receive(:new).and_return(email_service)
+        expect(email_service_class).to have_received(:new).with(application_choice: application_choice)
+        expect(email_service).to have_received(:call)
+      end
 
-      described_class.new(application_choice: application_choice, actor: permitted_user).save!
+      it 'the CancelUpcomingInterviewsService is called' do
+        cancel_service = instance_double(CancelUpcomingInterviews, call!: true)
 
-      expect(email_service_class).to have_received(:new).with(application_choice: application_choice)
-      expect(email_service).to have_received(:call)
-    end
+        allow(CancelUpcomingInterviews).to receive(:new)
+          .with(
+            actor: user,
+            application_choice: application_choice,
+            cancellation_reason: 'You withdrew your application.',
+          )
+          .and_return(cancel_service)
 
-    it 'calls the CancelUpcomingInterviewsService' do
-      application_choice = create(:application_choice, :awaiting_provider_decision)
-      provider = application_choice.course_option.provider
-      permitted_user = create(:provider_user, :with_make_decisions, providers: [provider])
-      cancel_service = instance_double(CancelUpcomingInterviews, call!: true)
-      allow(CancelUpcomingInterviews).to receive(:new)
-                                           .with(
-                                             actor: permitted_user,
-                                             application_choice: application_choice,
-                                             cancellation_reason: 'You withdrew your application.',
-                                           )
-                                           .and_return(cancel_service)
+        described_class.new(application_choice: application_choice, actor: user).save!
 
-      described_class.new(application_choice: application_choice, actor: permitted_user).save!
-
-      expect(cancel_service).to have_received(:call!)
+        expect(cancel_service).to have_received(:call!)
+      end
     end
   end
 end

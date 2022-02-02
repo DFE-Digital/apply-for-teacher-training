@@ -4,16 +4,10 @@ module VendorAPI
     include APIValidationsAndErrorHandling
 
     def create
-      service = DeclineOrWithdrawApplication.new(
-        actor: audit_user,
-        application_choice: application_choice,
-      )
+      DeclineOrWithdrawApplication.new(actor: audit_user,
+                                       application_choice: application_choice).save!
 
-      if service.save!
-        render_application
-      else
-        render_workflow_transition_error(service)
-      end
+      render_application
     end
   end
 end
