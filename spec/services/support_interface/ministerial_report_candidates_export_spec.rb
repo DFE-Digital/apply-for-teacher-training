@@ -569,12 +569,22 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     end
 
     context 'when there are two choices one declined and one rejected' do
-      it 'returns the rejected mapping' do
+      it 'returns the declined mapping' do
         application_form = create(:completed_application_form)
         create(:application_choice, :with_declined_offer, application_form: application_form)
         create(:application_choice, :with_rejection, application_form: application_form)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates offer_received application_declined])
+      end
+    end
+
+    context 'when there are two choices one awaiting provider decision and one rejected' do
+      it 'returns the awaiting provider decision mapping' do
+        application_form = create(:completed_application_form)
+        create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+        create(:application_choice, :with_rejection, application_form: application_form)
+
+        expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
       end
     end
   end
