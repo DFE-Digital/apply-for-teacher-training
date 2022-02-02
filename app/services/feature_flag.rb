@@ -41,6 +41,7 @@ class FeatureFlag
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:immigration_entry_date, 'Extends the restructured_immigration_status feature to include the "Date of entry into the UK" question', 'Steve Hook'],
     [:duplicate_matching, 'Replaces the fraud matching feature including a re-designed support interface', 'Steve Hook'],
+    [:apply_again_with_three_choices, 'Replaces the current apply again logic which only allows one choice', 'Avin & Tomas'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
