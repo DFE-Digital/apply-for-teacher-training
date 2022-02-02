@@ -26,16 +26,18 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/notes/create', t
   it 'responds with 422 when the note data is invalid' do
     application_choice = create_application_choice_for_currently_authenticated_provider
 
-    post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: { data: {} }
+    post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: { data: { wrong_param: '' } }
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(parsed_response['errors'].first).to eq({ 'error' => 'ValidationError', 'message' => 'Message Enter a note' })
+    expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
+    expect(parsed_response['errors'].map { |error| error['message'] })
+      .to contain_exactly('param is missing or the value is empty: message')
   end
 
   it 'responds with 404 when the application is not valid for the request' do
     post_api_request "/api/v1.1/applications/#{build_stubbed(:application_choice).id}/notes/create", params: note_payload
 
     expect(response).to have_http_status(:not_found)
-    expect(parsed_response['errors'].first['error']).to eq('NotFound')
+    expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse', '1.1')
   end
 end
