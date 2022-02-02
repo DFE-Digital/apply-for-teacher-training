@@ -212,6 +212,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
     before do
       allow(ProviderAuthorisation).to receive(:new).and_return(auth)
+      allow(auth).to receive(:actor).and_return(provider_user)
       CancelInterview.new(
         actor: provider_user,
         application_choice: application_choice,

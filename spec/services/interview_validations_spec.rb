@@ -18,25 +18,43 @@ RSpec.describe InterviewValidations do
   end
 
   context 'application_choice past interviewing stage' do
-    let(:application_choice) { create(:application_choice, :with_scheduled_interview, :with_offer, course_option: course_option) }
+    let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
 
-    it 'makes interview still valid if there are no changes' do
-      expect(interview_validations).to be_valid
+    context 'if there are no changes to be made' do
+      let(:interview) { create(:interview, application_choice: application_choice) }
+
+      it 'is still valid' do
+        expect(interview_validations).to be_valid
+      end
     end
 
-    it 'makes new interviews not valid' do
-      skip
-      expect(interview_validations).not_to be_valid
+    context 'new interview' do
+      let(:interview) { build(:interview, application_choice: application_choice, skip_application_choice_status_update: true) }
+
+      it 'is not valid' do
+        expect(interview_validations).not_to be_valid
+      end
     end
 
-    it 'makes interview updates not valid' do
-      skip
-      expect(interview_validations).not_to be_valid
+    context 'interview update' do
+      let(:interview) { create(:interview, application_choice: application_choice, skip_application_choice_status_update: true) }
+
+      it 'is not valid' do
+        interview.additional_details = 'New additional details'
+
+        expect(interview_validations).not_to be_valid
+      end
     end
 
-    it 'makes interview cancellations not valid' do
-      skip
-      expect(interview_validations).not_to be_valid
+    context 'interview cancellation' do
+      let(:interview) { create(:interview, application_choice: application_choice, skip_application_choice_status_update: true) }
+
+      it 'makes interview cancellations not valid' do
+        interview.cancelled_at = Time.zone.now
+        interview.cancellation_reason = 'A cancellation reason'
+
+        expect(interview_validations).not_to be_valid
+      end
     end
   end
 
@@ -76,6 +94,12 @@ RSpec.describe InterviewValidations do
       expect(interview_validations).not_to be_valid
     end
 
+    it 'needs a location' do
+      interview.location = nil
+
+      expect(interview_validations).not_to be_valid
+    end
+
     it 'with a date_and_time in the past is not valid' do
       interview.date_and_time = 3.days.ago
 
@@ -88,14 +112,7 @@ RSpec.describe InterviewValidations do
       expect(interview_validations).to be_valid
     end
 
-    it 'with a date_and_time past the RBD date' do
-      rbd_date = application_choice.reject_by_default_at
-      interview.date_and_time = rbd_date + 1.second
-
-      expect(interview_validations).not_to be_valid
-    end
-
-    it 'with a date_and_time past the RBD date' do
+    it 'with a date_and_time past the RBD date is not valid' do
       rbd_date = application_choice.reject_by_default_at
       interview.date_and_time = rbd_date + 1.second
 
@@ -111,6 +128,48 @@ RSpec.describe InterviewValidations do
         interview.additional_details = 'Changed value'
 
         expect(interview_validations).not_to be_valid
+      end
+    end
+
+    context 'setting required fields to nil' do
+      context 'setting provider to nil' do
+        it 'is not valid' do
+          interview.provider = nil
+
+          expect(interview_validations).not_to be_valid
+        end
+      end
+
+      context 'setting location to nil' do
+        it 'is not valid' do
+          interview.location = nil
+
+          expect(interview_validations).not_to be_valid
+        end
+      end
+
+      context 'setting location to > 2000 words' do
+        it 'is not valid' do
+          interview.location = 'A ' * 2001
+
+          expect(interview_validations).not_to be_valid
+        end
+      end
+
+      context 'setting additional_details to nil' do
+        it 'is valid' do
+          interview.additional_details = nil
+
+          expect(interview_validations).to be_valid
+        end
+      end
+
+      context 'setting additional_details to > 2000 words' do
+        it 'is not valid' do
+          interview.additional_details = 'A ' * 2001
+
+          expect(interview_validations).not_to be_valid
+        end
       end
     end
 
@@ -186,6 +245,56 @@ RSpec.describe InterviewValidations do
 
           expect(interview_validations).not_to be_valid
         end
+      end
+    end
+  end
+
+  context 'cancel interview' do
+    context 'without a cancellation reason' do
+      it 'is not valid' do
+        interview.cancelled_at = Time.zone.now
+
+        expect(interview_validations).not_to be_valid
+      end
+    end
+
+    context 'with a cancellation reason > 2000 words' do
+      it 'is not valid' do
+        interview.cancelled_at = Time.zone.now
+        interview.cancellation_reason = 'A ' * 2001
+
+        expect(interview_validations).not_to be_valid
+      end
+    end
+
+    context 'when interview is in the future' do
+      it 'is valid' do
+        interview.cancelled_at = Time.zone.now
+        interview.cancellation_reason = 'A cancellation reason'
+
+        expect(interview_validations).to be_valid
+      end
+    end
+
+    context 'when interview has passed' do
+      let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
+
+      it 'is not valid' do
+        interview.cancelled_at = Time.zone.now
+        interview.cancellation_reason = 'A cancellation reason'
+
+        expect(interview_validations).not_to be_valid
+      end
+    end
+
+    context 'when interview is already cancelled' do
+      let(:interview) { create(:interview, :cancelled, date_and_time: 5.days.from_now) }
+
+      it 'is not valid' do
+        interview.cancelled_at = Time.zone.now
+        interview.cancellation_reason = 'A cancellation reason'
+
+        expect(interview_validations).not_to be_valid
       end
     end
   end

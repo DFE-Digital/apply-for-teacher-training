@@ -23,7 +23,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       let(:update_interview_params) do
         {
           provider_code: currently_authenticated_provider.code,
-          date_and_time: 100.days.from_now.iso8601,
+          date_and_time: 3.days.from_now.iso8601,
           location: 'Zoom call',
           additional_details: 'Changed details',
         }
