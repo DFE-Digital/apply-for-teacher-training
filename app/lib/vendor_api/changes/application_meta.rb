@@ -3,6 +3,7 @@ module VendorAPI
     class ApplicationMeta < VersionChange
       description 'Includes top level meta object'
 
+      resource MetaPresenter
       resource SingleApplicationPresenter, [APIMeta]
     end
   end

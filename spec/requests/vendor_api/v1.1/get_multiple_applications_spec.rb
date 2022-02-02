@@ -204,6 +204,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
     get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&per_page=20"
 
     expect(response).to have_http_status(:ok)
+    expect(parsed_response['meta']['api_version']).to eq 'v1.1'
     expect(parsed_response['meta']['total_count']).to eq 10
   end
 end

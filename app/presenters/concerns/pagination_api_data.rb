@@ -5,7 +5,7 @@ module PaginationAPIData
   MAX_PER_PAGE = 50
 
   def serialized_applications_data
-    %({"data":[#{serialized_applications.join(',')}], "links": #{links.to_json}, "meta": #{meta.to_json}})
+    %({"data":[#{serialized_applications.join(',')}], "links": #{links.to_json}, "meta": #{VendorAPI::MetaPresenter.new(active_version, @pagy.count).as_json}})
   end
 
   def links
