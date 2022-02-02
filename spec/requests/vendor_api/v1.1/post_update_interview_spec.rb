@@ -20,6 +20,8 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
     post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/update", params: request_body
   end
 
+  it_behaves_like 'an endpoint that requires metadata', '/interviews/1/update', '1.1'
+
   describe 'update interview' do
     context 'in the future' do
       let(:update_interview_params) do

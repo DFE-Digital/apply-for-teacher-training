@@ -21,6 +21,8 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
     post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/cancel", params: request_body
   end
 
+  it_behaves_like 'an endpoint that requires metadata', '/interviews/1/cancel', '1.1'
+
   describe 'cancel interview' do
     context 'in the future' do
       it 'succeeds and renders a SingleApplicationResponse' do
