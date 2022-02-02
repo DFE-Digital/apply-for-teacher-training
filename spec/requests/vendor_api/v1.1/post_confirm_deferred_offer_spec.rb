@@ -44,8 +44,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: { data: {} }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response['errors'].map { |error| error['error'] })
-          .to contain_exactly('ParameterMissing')
+        expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
           .to contain_exactly('param is missing or the value is empty: data')
       end
@@ -54,8 +53,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: { data: { any_param: '' } }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response['errors'].map { |error| error['error'] })
-          .to contain_exactly('ParameterMissing')
+        expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
           .to contain_exactly('param is missing or the value is empty: conditions_met')
       end
@@ -89,7 +87,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
       end
     end
 
-    context 'when the offer requiring confirmation is in the current cycle', wip: true do
+    context 'when the offer requiring confirmation is in the current cycle' do
       let(:original_course) do
         create(:course,
                :open_on_apply,
