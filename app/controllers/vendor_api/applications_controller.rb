@@ -7,7 +7,7 @@ module VendorAPI
     end
 
     def show
-      render_application
+      render json: SingleApplicationPresenter.new(version_number, application_choice).serialized_json
     end
 
   private

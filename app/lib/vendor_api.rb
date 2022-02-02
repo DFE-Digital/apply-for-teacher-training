@@ -33,6 +33,7 @@ module VendorAPI
       Changes::UpdateInterview,
       Changes::CancelInterview,
       Changes::Pagination,
+      Changes::ApplicationMeta,
     ],
   }.freeze
 end
