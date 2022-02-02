@@ -91,5 +91,35 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
           .to contain_exactly('Unable to find Application(s)')
       end
     end
+
+    context 'when missing parameters' do
+      context 'data' do
+        let(:request_data) { { data: {} } }
+
+        it 'fails and renders a MissingParameterResponse' do
+          post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/cancel", params: request_data
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
+          expect(parsed_response['errors'].map { |error| error['message'] })
+            .to contain_exactly('param is missing or the value is empty: data')
+        end
+      end
+
+      context 'cancellation_reason' do
+        let(:request_data) do
+          { data: { cancellation_reason: nil } }
+        end
+
+        it 'fails and renders a MissingParameterResponse' do
+          post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/cancel", params: request_data
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
+          expect(parsed_response['errors'].map { |error| error['message'] })
+            .to contain_exactly('param is missing or the value is empty: reason')
+        end
+      end
+    end
   end
 end
