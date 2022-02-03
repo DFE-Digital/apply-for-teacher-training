@@ -1,17 +1,24 @@
 class CreateNote
-  include ActiveModel::Model
-  attr_accessor :application_choice, :message, :referer, :user
-  attr_reader :note
-
+  attr_accessor :application_choice, :message, :user
   delegate :errors, :save!, :valid?, to: :note
 
-  def initialize(attrs = {})
-    super(attrs)
+  def initialize(user:, application_choice:, message:)
+    @application_choice = application_choice
+    @message = message
+    @user = user
+  end
 
-    @note = Note.new(
-      application_choice: application_choice,
-      user: user,
-      message: message,
-    )
+  def save!
+    if note.valid?
+      note.save
+    else
+      raise ValidationException, note.errors.map(&:message)
+    end
+  end
+
+private
+
+  def note
+    @note ||= Note.new(application_choice: application_choice, user: user, message: message)
   end
 end

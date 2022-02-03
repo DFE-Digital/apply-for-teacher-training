@@ -22,7 +22,7 @@ RSpec.describe CreateNote do
         message: nil,
       )
 
-      expect { invalid_form_object.save! }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Message Enter a note')
+      expect { invalid_form_object.save! }.to raise_error(ValidationException, 'Enter a note')
     end
   end
 end
