@@ -287,6 +287,7 @@ RSpec.describe ApplicationForm do
     end
 
     it 'returns the number of choices that an candidate can make in "Apply 2"' do
+      FeatureFlag.deactivate(:apply_again_with_three_choices)
       application_form = create(:application_form, phase: 'apply_2')
 
       expect(application_form.reload.choices_left_to_make).to be(1)
