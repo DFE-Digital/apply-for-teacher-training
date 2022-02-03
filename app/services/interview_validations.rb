@@ -16,9 +16,9 @@ class InterviewValidations
   validates :date_and_time, presence: true
   validates :application_choice, presence: true
   validates :provider, presence: true
-  validates :location, presence: true, word_count: { maximum: 2000 }
-  validates :additional_details, word_count: { maximum: 2000 }
-  validates :cancellation_reason, word_count: { maximum: 2000 }
+  validates :location, presence: true, length: { maximum: 10240 }
+  validates :additional_details, length: { maximum: 10240 }
+  validates :cancellation_reason, length: { maximum: 10240 }
 
   validate :require_training_or_ratifying_provider, if: -> { application_choice && interview.changed? }
   validate :stop_changes_if_interview_already_passed, if: -> { interview.changed? }
@@ -42,13 +42,13 @@ class InterviewValidations
     ratifying_provider_check = ratifying ? provider == ratifying : false
 
     unless provider == current_course.provider || ratifying_provider_check
-      errors.add :provider, 'Provider must be training or ratifying provider'
+      errors.add :provider, :training_or_ratifying_only
     end
   end
 
   def stop_changes_if_interview_already_passed
     if date_and_time && date_and_time < today
-      errors.add :base, 'Changing a past interview'
+      errors.add :base, :changing_a_past_interview
     end
   end
 
@@ -56,19 +56,19 @@ class InterviewValidations
     old_cancelled_at = interview.cancelled_at_change&.first
 
     if old_cancelled_at.present?
-      errors.add :base, 'Changing a cancelled interview'
+      errors.add :base, :changing_a_cancelled_interview
     end
   end
 
   def stop_changes_if_application_past_interviews_stage
     unless APPLICATION_STATES_ALLOWING_CHANGES.include?(application_choice.status)
-      errors.add :application_choice, 'Application is past interviews stage'
+      errors.add :application_choice, :status_past_interviewing_stage
     end
   end
 
   def stop_cancellations_without_a_reason
     if interview.cancelled_at && interview.cancellation_reason.blank?
-      errors.add :cancellation_reason, 'Cancellation reason is required'
+      errors.add :cancellation_reason, :blank
     end
   end
 
@@ -78,16 +78,16 @@ class InterviewValidations
 
     if old_date.present? && new_date.present?
       if old_date < today
-        errors.add :base, 'Changing a past interview'
+        errors.add :base, :changing_a_past_interview
       elsif new_date < today
-        errors.add :date_and_time, 'Moving an interview to the past'
+        errors.add :date_and_time, :moving_interview_to_the_past
       end
     end
   end
 
   def keep_date_and_time_before_rbd
     if rbd_date && date_and_time > rbd_date
-      errors.add :date_and_time, 'Scheduling an interview past RBD'
+      errors.add :date_and_time, :past_rbd_date
     end
   end
 end

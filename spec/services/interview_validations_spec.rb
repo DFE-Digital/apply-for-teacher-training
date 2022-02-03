@@ -148,9 +148,9 @@ RSpec.describe InterviewValidations do
         end
       end
 
-      context 'setting location to > 2000 words' do
+      context 'setting location to > 10240 characters' do
         it 'is not valid' do
-          interview.location = 'A ' * 2001
+          interview.location = 'A' * 10241
 
           expect(interview_validations).not_to be_valid
         end
@@ -164,9 +164,9 @@ RSpec.describe InterviewValidations do
         end
       end
 
-      context 'setting additional_details to > 2000 words' do
+      context 'setting additional_details to > 10240 characters' do
         it 'is not valid' do
-          interview.additional_details = 'A ' * 2001
+          interview.additional_details = 'A' * 10241
 
           expect(interview_validations).not_to be_valid
         end
@@ -258,10 +258,10 @@ RSpec.describe InterviewValidations do
       end
     end
 
-    context 'with a cancellation reason > 2000 words' do
+    context 'with a cancellation reason > 10240 characters' do
       it 'is not valid' do
         interview.cancelled_at = Time.zone.now
-        interview.cancellation_reason = 'A ' * 2001
+        interview.cancellation_reason = 'A' * 10241
 
         expect(interview_validations).not_to be_valid
       end
