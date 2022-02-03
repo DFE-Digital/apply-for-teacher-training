@@ -30,10 +30,8 @@ module PaginationAPIData
     }
   end
 
-  def serialized_applications
-    paginate(applications).map do |application|
-      VendorAPI::ApplicationPresenter.new(active_version, application).serialized_json
-    end
+  def applications_scope
+    paginate(applications.order('application_choices.updated_at DESC'))
   end
 
   def pagination_link(url, options, page)
