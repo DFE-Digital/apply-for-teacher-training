@@ -295,6 +295,17 @@ RSpec.describe ApplicationForm do
 
       expect(application_form.reload.choices_left_to_make).to be(0)
     end
+
+    it 'returns the number of choices that an candidate can make in "Apply 2" when the apply_again_with_three_choices feature flag is active' do
+      FeatureFlag.activate(:apply_again_with_three_choices)
+      application_form = create(:application_form, phase: 'apply_2')
+
+      expect(application_form.reload.choices_left_to_make).to be(3)
+
+      create(:application_choice, application_form: application_form)
+
+      expect(application_form.reload.choices_left_to_make).to be(2)
+    end
   end
 
   describe 'auditing', with_audited: true do
