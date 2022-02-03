@@ -1,6 +1,6 @@
 <h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.reference') %></h1>
 
-<%= render TabNavigationComponent.new(items: api_docs_version_navigation_items) if render_api_docs_version_navigation? %>
+<%= render TabNavigationComponent.new(items: @api_reference.api_docs_version_navigation_items) if @api_reference.render_api_docs_version_navigation? %>
 
 <h2 class="app-contents-list__title">Contents</h2>
 

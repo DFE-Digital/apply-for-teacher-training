@@ -3,9 +3,6 @@ module APIDocs
     class ReferenceController < APIDocsController
       include VersioningHelpers
 
-      helper_method :render_api_docs_version_navigation?
-      helper_method :api_docs_version_navigation_items
-
       def reference
         @api_reference = APIReference.new(VendorAPISpecification.new(version: version).as_hash, version: version)
       end

@@ -24,7 +24,7 @@ RSpec.describe 'API Docs - GET /api-docs/reference', type: :request do
   end
 
   it 'renders version navigation when more than one version is available' do
-    stub_const('VendorAPI::VERSION', '1.1')
+    stub_const('AllowedCrossNamespaceUsage::VENDOR_API_VERSION', '1.1')
 
     get '/api-docs/v1.1/reference'
 

@@ -1,5 +1,7 @@
 module APIDocs
   class APIReference
+    include Rails.application.routes.url_helpers
+
     attr_reader :document
     delegate :servers, to: :document
 
@@ -47,6 +49,16 @@ module APIDocs
     def self.current_schema
       path = "#{VendorAPISpecification::SPEC_FILE_DIR}/v#{AllowedCrossNamespaceUsage::VENDOR_API_VERSION}.yml"
       @current_schema ||= YAML.load_file(path)
+    end
+
+    def api_docs_version_navigation_items
+      AllowedCrossNamespaceUsage::VENDOR_API_VERSIONS.keys.select { |v| v <= AllowedCrossNamespaceUsage::VENDOR_API_VERSION }.sort.map do |v|
+        { name: v, url: api_docs_versioned_reference_path(api_version: "v#{v}") }
+      end
+    end
+
+    def render_api_docs_version_navigation?
+      api_docs_version_navigation_items.size > 1
     end
 
   private
