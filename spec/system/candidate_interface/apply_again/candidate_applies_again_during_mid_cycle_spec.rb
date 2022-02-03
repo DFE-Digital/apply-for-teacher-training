@@ -13,6 +13,7 @@ RSpec.feature 'Apply again' do
   scenario 'Candidate applies again during mid cycle' do
     given_the_pilot_is_open
     and_i_am_signed_in_as_a_candidate
+    and_apply_again_with_three_choices_are_inactive
 
     when_i_have_an_unsuccessful_application
     and_i_visit_the_application_dashboard
@@ -138,5 +139,9 @@ RSpec.feature 'Apply again' do
 
   def and_i_do_not_see_referee_related_guidance
     expect(page).not_to have_content 'References'
+  end
+
+  def and_apply_again_with_three_choices_are_inactive
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 end

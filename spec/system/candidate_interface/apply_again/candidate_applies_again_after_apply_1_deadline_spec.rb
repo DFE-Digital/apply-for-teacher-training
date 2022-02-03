@@ -11,6 +11,7 @@ RSpec.describe 'Apply again' do
 
   scenario 'Candidate applies again after apply 1 deadline' do
     given_i_am_signed_in
+    and_apply_again_with_three_choices_are_inactive
     and_i_have_an_application_with_a_rejection
 
     when_the_apply1_deadline_passes
@@ -26,6 +27,10 @@ RSpec.describe 'Apply again' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_apply_again_with_three_choices_are_inactive
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def and_i_have_an_application_with_a_rejection
