@@ -2,6 +2,9 @@ module VendorAPI
   class ApplicationsController < VendorAPIController
     include ApplicationDataConcerns
 
+    rescue_from Pagy::OverflowError, with: :page_parameter_invalid
+    rescue_from PerPageParameterInvalid, with: :per_page_parameter_invalid
+
     def index
       render json: serialized_application_choices_data
     end
@@ -47,6 +50,23 @@ module VendorAPI
       rescue ArgumentError, KeyError
         raise ParameterInvalid, 'Parameter is invalid (should be ISO8601): since'
       end
+    end
+
+    def page_parameter_invalid(e)
+      last_page = e.message.scan(/\d+/)[1]
+      error_message = "expected 'page' parameter to be between 1 and #{last_page}, got #{params[:page]}"
+      render json: { errors: [{ error: 'PageParameterInvalid', message: error_message }] }, status: :unprocessable_entity
+    end
+
+    def per_page_parameter_invalid
+      render json: {
+        errors: [
+          {
+            error: 'PerPageParameterInvalid',
+            message: "the 'per_page' parameter cannot exceed #{PaginationAPIData::MAX_PER_PAGE} results per page",
+          },
+        ],
+      }, status: :unprocessable_entity
     end
   end
 end

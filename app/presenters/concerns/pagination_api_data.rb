@@ -45,6 +45,8 @@ module PaginationAPIData
   end
 
   def per_page
+    raise PerPageParameterInvalid unless options[:per_page].to_i <= MAX_PER_PAGE
+
     [(options[:per_page] || DEFAULT_PER_PAGE).to_i, MAX_PER_PAGE].min
   end
 

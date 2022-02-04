@@ -207,4 +207,35 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
     expect(parsed_response['meta']['api_version']).to eq 'v1.1'
     expect(parsed_response['meta']['total_count']).to eq 10
   end
+
+  it 'returns HTTP status 422 when given a parseable page value that exceeds the range' do
+    create_list(
+      :submitted_application_choice,
+      3,
+      :with_completed_application_form,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :awaiting_provider_decision,
+    )
+
+    get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=3&per_page=2"
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 2, got 3")
+  end
+
+  it 'returns HTTP status 422 when given a parseable per_page value that exceeds the max value' do
+    create_list(
+      :submitted_application_choice,
+      3,
+      :with_completed_application_form,
+      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+      status: :awaiting_provider_decision,
+    )
+
+    max_value = PaginationAPIData::MAX_PER_PAGE
+    get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=#{max_value + 1}"
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{max_value} results per page")
+  end
 end
