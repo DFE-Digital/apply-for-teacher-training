@@ -1,4 +1,6 @@
 module VendorAPI
+  extend VersioningHelpers
+
   PRELIMINARY_VERSION = '1.0'.freeze
   VERSION = PRELIMINARY_VERSION
 

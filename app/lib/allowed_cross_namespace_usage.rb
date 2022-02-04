@@ -8,6 +8,5 @@ module AllowedCrossNamespaceUsage
   VendorAPIApplicationPresenter = VendorAPI::ApplicationPresenter
   RegisterAPISingleApplicationPresenter = RegisterAPI::SingleApplicationPresenter
 
-  VENDOR_API_VERSION = VendorAPI::PRELIMINARY_VERSION
-  VENDOR_API_VERSIONS = VendorAPI::VERSIONS
+  VendorAPIInfo = VendorAPI
 end

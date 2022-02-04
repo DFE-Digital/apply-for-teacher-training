@@ -7,7 +7,7 @@ RSpec.describe 'API Docs - GET /api-docs/reference', type: :request do
     it "returns paths and components for version #{version}" do
       stub_const('VendorAPI::VERSION', version)
 
-      get "/api-docs/v#{version}/reference"
+      get api_docs_versioned_reference_path("v#{VendorAPI.version_number(version)}")
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to match 'API reference'
@@ -16,27 +16,41 @@ RSpec.describe 'API Docs - GET /api-docs/reference', type: :request do
     end
   end
 
-  it 'redirects /api-docs/reference to the current version docs' do
-    get '/api-docs/reference'
+  it 'redirects /api-docs/reference to the current production released version docs' do
+    stub_const('VendorAPI::VERSION', '1.1')
+    stub_const('VendorAPI::VERSIONS', { '1.0' => [], '1.1pre' => [] })
+
+    get api_docs_reference_path
 
     expect(response).to have_http_status(:moved_permanently)
-    expect(response).to redirect_to("/api-docs/v#{VendorAPI::VERSION}/reference")
+    expect(response).to redirect_to('/api-docs/v1.0/reference')
   end
 
   it 'renders version navigation when more than one version is available' do
-    stub_const('AllowedCrossNamespaceUsage::VENDOR_API_VERSION', '1.1')
+    stub_const('VendorAPI::VERSION', '1.0')
+    stub_const('VendorAPI::VERSIONS', { '1.0' => [], '1.1' => [] })
 
-    get '/api-docs/v1.1/reference'
+    get api_docs_versioned_reference_path('v1.0')
 
-    expect(response).to have_http_status(:ok)
     expect(response.body).to have_link '1.0', href: '/api-docs/v1.0/reference'
     expect(response.body).to have_link '1.1', href: '/api-docs/v1.1/reference'
+  end
+
+  it 'does not make prerelease versions available' do
+    stub_const('VendorAPI::VERSION', '1.2')
+    stub_const('VendorAPI::VERSIONS', { '1.0' => [], '1.1' => [], '1.2pre' => [] })
+
+    get api_docs_versioned_reference_path('v1.0')
+
+    expect(response.body).to have_link '1.0', href: '/api-docs/v1.0/reference'
+    expect(response.body).to have_link '1.1', href: '/api-docs/v1.1/reference'
+    expect(response.body).not_to have_link '1.2', href: '/api-docs/v1.1/reference'
   end
 
   it 'returns paths and components for the draft version' do
     FeatureFlag.activate(:draft_vendor_api_specification)
 
-    get '/api-docs/draft'
+    get api_docs_draft_path
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to match 'This API spec is currently a draft'

@@ -101,7 +101,7 @@ end
 
 ### Pre-release versions
 
-To introduce a new version to the test and deelopment environments without releasing it to production or sandbox, all you have to do is suffix it with `pre` in the `VendorAPI::VERSIONS` constant.
+To introduce a new version to the test and development environments without releasing it to production or sandbox, all you have to do is suffix it with `pre` in the `VendorAPI::VERSIONS` constant.
 
 
 ```ruby
