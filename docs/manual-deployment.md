@@ -47,7 +47,6 @@ Make commands can be run from the root of the repo to deploy a specific version 
     Environment | make command          | PIM required |
     ----------- | --------------------- | -----------  |
     qa          | make qa deploy        |  no
-    research    | make research deploy  |  no
     staging     | make staging deploy   |  yes (s121-findpostgraduateteachertraining-test)
     sandbox     | make sandbox deploy   |  yes (s121-findpostgraduateteachertraining-production)
     production  | make prod deploy      |  yes (s121-findpostgraduateteachertraining-production)

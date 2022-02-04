@@ -93,17 +93,11 @@ production:
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-production)
 	$(eval HOSTNAME=www)
 
-research:
-	$(eval APP_ENV=research)
-	$(eval APP_NAME_SUFFIX=research)
-	$(eval SPACE=bat-qa)
-	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
-
 review:
 	$(if $(PR_NUMBER), , $(error Missing environment variable "PR_NUMBER", Please specify a pr number for your review app))
 	$(eval APP_ENV=review)
 	$(eval APP_NAME_SUFFIX=review-$(PR_NUMBER))
-	
+
 	$(eval SPACE=bat-qa)
 	$(eval AZURE_SUBSCRIPTION=s121-findpostgraduateteachertraining-development)
 	$(eval backend_key=-backend-config=key=pr-$(PR_NUMBER).tfstate)
