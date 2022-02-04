@@ -202,6 +202,7 @@ module CandidateHelper
     click_button t('continue')
   end
 
+  # delete this method when the apply_again_with_three_choices feature flag is deleted
   def candidate_fills_in_apply_again_course_choice
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
@@ -213,6 +214,34 @@ module CandidateHelper
     click_button t('continue')
 
     choose t('application_form.completed_radio')
+    click_button t('continue')
+  end
+
+  def candidate_fills_in_apply_again_with_three_course_choices
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+
+    choose 'Primary (2XT2)'
+    click_button t('continue')
+    choose 'Yes, add another course'
+    click_button t('continue')
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+    choose 'Drama (2397)'
+    click_button t('continue')
+
+    choose 'Yes, add another course'
+    click_button t('continue')
+    choose 'Yes, I know where I want to apply'
+    click_button t('continue')
+    select 'Gorse SCITT (1N1)'
+    click_button t('continue')
+    choose 'English (6Z9H)'
     click_button t('continue')
   end
 
