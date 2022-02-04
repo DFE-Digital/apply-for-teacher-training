@@ -22,6 +22,10 @@ variable "app_environment_variables" {}
 
 variable "postgres_service_plan" {}
 
+variable "postgres_snapshot_service_plan" {}
+
+variable "snapshot_databases_to_deploy" { }
+
 variable "worker_redis_service_plan" {}
 
 variable "cache_redis_service_plan" {}
@@ -55,14 +59,15 @@ variable "assets_host_names" {
 }
 
 locals {
-  web_app_name                = "apply-${var.app_environment}"
-  clock_app_name              = "apply-clock-${var.app_environment}"
-  worker_app_name             = "apply-worker-${var.app_environment}"
-  secondary_worker_app_name   = "apply-secondary-worker-${var.app_environment}"
-  postgres_service_name       = "apply-postgres-${var.app_environment}"
-  worker_redis_service_name   = "apply-worker-redis-${var.app_environment}"
-  cache_redis_service_name    = "apply-cache-redis-${var.app_environment}"
-  logging_service_name        = "apply-logit-${var.app_environment}"
+  web_app_name                    = "apply-${var.app_environment}"
+  clock_app_name                  = "apply-clock-${var.app_environment}"
+  worker_app_name                 = "apply-worker-${var.app_environment}"
+  secondary_worker_app_name       = "apply-secondary-worker-${var.app_environment}"
+  postgres_service_name           = "apply-postgres-${var.app_environment}"
+  postgres_snapshot_service_name  = "apply-postgres-snapshot"
+  worker_redis_service_name       = "apply-worker-redis-${var.app_environment}"
+  cache_redis_service_name        = "apply-cache-redis-${var.app_environment}"
+  logging_service_name            = "apply-logit-${var.app_environment}"
   default_postgres_params = {
     enable_extensions = ["pg_buffercache", "pg_stat_statements", "pgcrypto"]
   }

@@ -15,6 +15,10 @@ variable "paas_web_app_instances" {}
 
 variable "paas_postgres_service_plan" {}
 
+variable "paas_postgres_snapshot_service_plan" { default = "small-11" }
+
+variable "paas_snapshot_databases_to_deploy" { default = 0 }
+
 variable "paas_worker_redis_service_plan" {}
 
 variable "paas_cache_redis_service_plan" {}

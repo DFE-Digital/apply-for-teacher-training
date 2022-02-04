@@ -155,6 +155,18 @@ resource "cloudfoundry_service_instance" "postgres" {
   }
 }
 
+resource "cloudfoundry_service_instance" "postgres_snapshot" {
+  count        = var.snapshot_databases_to_deploy
+  name         = local.postgres_snapshot_service_name
+  space        = data.cloudfoundry_space.space.id
+  service_plan = data.cloudfoundry_service.postgres.service_plans[var.postgres_snapshot_service_plan]
+  json_params  = jsonencode(local.postgres_params)
+  timeouts {
+    create = "60m"
+    update = "60m"
+  }
+}
+
 resource "cloudfoundry_service_key" "postgres" {
   name = "postgres-${var.app_environment}"
   service_instance = cloudfoundry_service_instance.postgres.id
