@@ -1,11 +1,14 @@
 module APIDocs
   class APIReference
+    include Rails.application.routes.url_helpers
+
     attr_reader :document
     delegate :servers, to: :document
 
-    def initialize(spec, version: nil)
+    def initialize(spec, version: nil, draft: false)
       @document = Openapi3Parser.load(spec)
       @version = version || AllowedCrossNamespaceUsage::VENDOR_API_VERSION
+      @draft = draft
     end
 
     def operations
@@ -39,12 +42,36 @@ module APIDocs
       end
     end
 
+    def self.draft_schema
+      @draft_schema ||= YAML.load_file(VendorAPISpecification::DRAFT_YAML_FILE_PATH)
+    end
+
+    def self.current_schema
+      path = "#{VendorAPISpecification::SPEC_FILE_DIR}/v#{AllowedCrossNamespaceUsage::VENDOR_API_VERSION}.yml"
+      @current_schema ||= YAML.load_file(path)
+    end
+
+    def api_docs_version_navigation_items
+      AllowedCrossNamespaceUsage::VENDOR_API_VERSIONS.keys.select { |v| v <= AllowedCrossNamespaceUsage::VENDOR_API_VERSION }.sort.map do |v|
+        { name: v, url: api_docs_versioned_reference_path(api_version: "v#{v}") }
+      end
+    end
+
+    def render_api_docs_version_navigation?
+      api_docs_version_navigation_items.size > 1
+    end
+
   private
 
+    def draft?
+      @draft == true
+    end
+
     def new_path?(path)
+      return false unless draft?
       return false unless draft_schema_file_exists?
 
-      draft_schema['paths'].include?(path) && current_schema['paths'].exclude?(path)
+      draft_schema_paths.include?(path) && current_schema_paths.exclude?(path)
     end
 
     def flatten_hash(hash)
@@ -59,20 +86,16 @@ module APIDocs
       end
     end
 
-    def draft_schema
-      @draft_schema ||= YAML.load_file(draft_yaml_file_path)
+    def draft_schema_paths
+      self.class.draft_schema['paths']
+    end
+
+    def current_schema_paths
+      self.class.current_schema['paths']
     end
 
     def draft_schema_file_exists?
-      @draft_schema_file_exists ||= File.exist?(draft_yaml_file_path)
-    end
-
-    def draft_yaml_file_path
-      VendorAPISpecification::DRAFT_YAML_FILE_PATH
-    end
-
-    def current_schema
-      @current_schema ||= YAML.load_file("#{VendorAPISpecification::SPEC_FILE_DIR}/v#{@version}.yml")
+      @draft_schema_file_exists ||= File.exist?(VendorAPISpecification::DRAFT_YAML_FILE_PATH)
     end
   end
 end
