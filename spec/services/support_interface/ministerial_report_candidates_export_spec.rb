@@ -587,6 +587,18 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
       end
     end
+
+    context 'when there are two forms one withdrawn and one rejected' do
+      it 'returns the awaiting provider decision mapping' do
+        application_form = create(:completed_application_form)
+        create(:application_choice, :withdrawn, application_form: application_form)
+
+        apply_again_application_form = create(:completed_application_form, phase: :apply_2, previous_application_form: application_form)
+        create(:application_choice, :with_rejection, application_form: apply_again_application_form)
+
+        expect(described_class.new.determine_states([apply_again_application_form, application_form])).to match_array(%i[candidates application_rejected])
+      end
+    end
   end
 
   def create_single_choice_application(status, subject_code)
