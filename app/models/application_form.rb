@@ -209,6 +209,8 @@ class ApplicationForm < ApplicationRecord
   end
 
   def candidate_can_choose_single_course?
+    return false if FeatureFlag.active?(:apply_again_with_three_choices)
+
     apply_2?
   end
 
@@ -229,11 +231,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def number_of_choices_candidate_can_make
-    if FeatureFlag.active?(:apply_again_with_three_choices)
-      MAXIMUM_NUMBER_OF_COURSE_CHOICES
-    else
-      candidate_can_choose_single_course? ? MAXIMUM_PHASE_TWO_COURSE_CHOICES : MAXIMUM_PHASE_ONE_COURSE_CHOICES
-    end
+    candidate_can_choose_single_course? ? MAXIMUM_PHASE_TWO_COURSE_CHOICES : MAXIMUM_PHASE_ONE_COURSE_CHOICES
   end
 
   def can_add_more_choices?
