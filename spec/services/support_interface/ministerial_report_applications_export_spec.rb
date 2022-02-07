@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
       ]) do
         [[:art_and_design,           1, 1, 0, 1, 0, 0],
          [:biology,                  0, 0, 0, 0, 0, 0],
-         [:business_studies,         0, 0, 0, 0, 0, 0],
+         [:business_studies,         1, 1, 1, 0, 0, 0],
          [:chemistry,                1, 0, 0, 0, 1, 0],
          [:classics,                 0, 0, 0, 0, 0, 0],
          [:computing,                0, 0, 0, 0, 0, 0],
@@ -30,20 +30,20 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:drama,                    0, 0, 0, 0, 0, 0],
          [:english,                  1, 0, 0, 0, 0, 1],
          [:further_education,        1, 0, 0, 0, 1, 0],
-         [:geography,                1, 1, 1, 0, 0, 0],
-         [:history,                  0, 0, 0, 0, 0, 0],
+         [:geography,                0, 0, 0, 0, 0, 0],
+         [:history,                  1, 0, 0, 0, 0, 1],
          [:mathematics,              2, 0, 0, 0, 2, 0],
-         [:modern_foreign_languages, 1, 1, 1, 0, 0, 0],
+         [:modern_foreign_languages, 2, 2, 2, 0, 0, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
          [:other,                    2, 1, 1, 0, 0, 0],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  1, 0, 0, 0, 0, 1],
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     4, 0, 0, 0, 3, 1],
-         [:ebacc,                    7, 2, 2, 0, 3, 2],
+         [:ebacc,                    8, 2, 2, 0, 3, 3],
          [:primary,                  7, 3, 2, 0, 0, 0],
-         [:secondary,                10, 4, 3, 1, 3, 2],
-         [:total,                    17, 7, 5, 1, 3, 2]]
+         [:secondary,                12, 5, 4, 1, 3, 3],
+         [:total,                    19, 8, 6, 1, 3, 3]]
       end
     end
   end

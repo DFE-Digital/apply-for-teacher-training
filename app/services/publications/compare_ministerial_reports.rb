@@ -16,11 +16,10 @@ module Publications
       @tad_data.each do |subject, data|
         if result[subject.to_sym]
           data.each do |status, ids|
-            puts "merge_ids for #{subject} #{status}"
             merge_ids(
               result[subject.to_sym],
               status,
-              ids
+              ids,
             )
           end
           result[subject.to_sym] = nil if no_differences?(result[subject.to_sym])
@@ -44,8 +43,8 @@ module Publications
       result[status.to_sym][:tad_total] = tad_ids.count
       only_bat = (result[status.to_sym][:only_bat] || []) - (tad_ids || [])
       only_tad = (tad_ids || []) - (result[status.to_sym][:only_bat] || [])
-      result[status.to_sym][:only_bat] = only_bat.present? ? only_bat : nil
-      result[status.to_sym][:only_tad] = only_tad.present? ? only_tad : nil
+      result[status.to_sym][:only_bat] = only_bat.presence
+      result[status.to_sym][:only_tad] = only_tad.presence
       result
     end
   end

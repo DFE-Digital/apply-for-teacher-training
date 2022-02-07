@@ -54,7 +54,7 @@ module SupportInterface
 
       add_subject_report_totals(subject_report)
       File.write(
-        "subjects-#{Time.zone.now.to_s.gsub(/ \+[\d]+/, '').gsub(' ', '-').gsub(':', '')}.json",
+        "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
         subject_report.to_json(indent: 2),
       )
 
@@ -65,7 +65,7 @@ module SupportInterface
 
     def determine_states(applications)
       choice_statuses = applications.reduce([]) do |results, application|
-        results + application.application_choices.map(&:status).map(&:to_sym)
+        results + current_application_choices_for(application).map(&:status).map(&:to_sym)
       end
 
       # get the highest-ranking status according to the order of precedence
@@ -76,6 +76,12 @@ module SupportInterface
     end
 
   private
+
+    def current_application_choices_for(application_form)
+      application_form.application_choices.select do |application_choice|
+        application_choice.current_recruitment_cycle_year == RecruitmentCycle.current_year
+      end
+    end
 
     def candidate_has_a_viable_apply_2_application?(application)
       application != application.candidate.current_application \
@@ -100,13 +106,13 @@ module SupportInterface
       subject_report[dominant_subject][state] << candidate_id
 
       if MinisterialReport::STEM_SUBJECTS.include? dominant_subject
-        subject_report[:stem][state] << candidate_id 
+        subject_report[:stem][state] << candidate_id
       end
       if MinisterialReport::EBACC_SUBJECTS.include? dominant_subject
-        subject_report[:ebacc][state] << candidate_id 
+        subject_report[:ebacc][state] << candidate_id
       end
       if MinisterialReport::SECONDARY_SUBJECTS.include? dominant_subject
-        subject_report[:secondary][state] << candidate_id 
+        subject_report[:secondary][state] << candidate_id
       end
     end
 
@@ -122,7 +128,7 @@ module SupportInterface
     end
 
     def determine_subjects(application_form)
-      application_form.application_choices.map do |application_choice|
+      current_application_choices_for(application_form).map do |application_choice|
         MinisterialReport.determine_dominant_course_subject_for_report(
           application_choice.current_course,
         )

@@ -22,7 +22,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
       ]) do
         [[:art_and_design,           1, 1, 0, 1, 0, 0],
          [:biology,                  0, 0, 0, 0, 0, 0],
-         [:business_studies,         0, 0, 0, 0, 0, 0],
+         [:business_studies,         1, 1, 1, 0, 0, 0],
          [:chemistry,                1, 0, 0, 0, 1, 0],
          [:classics,                 0, 0, 0, 0, 0, 0],
          [:computing,                0, 0, 0, 0, 0, 0],
@@ -42,9 +42,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:stem,                     2, 0, 0, 0, 2, 0],
          [:ebacc,                    3, 0, 0, 0, 2, 1],
          [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                6, 2, 1, 1, 2, 1],
+         [:secondary,                7, 3, 2, 1, 2, 1],
          [:split,                    1, 1, 1, 0, 0, 0],
-         [:total,                    11, 6, 4, 1, 2, 1]]
+         [:total,                    12, 7, 5, 1, 2, 1]]
       end
     end
 

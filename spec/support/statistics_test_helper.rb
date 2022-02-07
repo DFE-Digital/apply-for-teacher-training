@@ -85,6 +85,17 @@ module StatisticsTestHelper
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
            application_form: form)
 
+    # split subjects
+    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 43), region_code: :london, phase: 'apply_1')
+    create(:application_choice,
+           :withdrawn,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('History')]),
+           application_form: form)
+    create(:application_choice,
+           :with_recruited,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('French'), secondary_subject('Economics')]),
+           application_form: form)
+
     # deferred app reinstated in this cycle
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1', recruitment_cycle_year: RecruitmentCycle.previous_year)
     create(:application_choice,
