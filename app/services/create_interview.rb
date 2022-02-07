@@ -25,7 +25,7 @@ class CreateInterview
                                        course_option: application_choice.current_course_option)
 
     if interview_validations.valid?
-      audit(@auth.actor) do
+      audit(auth.actor) do
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).interview!
 

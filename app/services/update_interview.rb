@@ -32,7 +32,7 @@ class UpdateInterview
     return unless interview.changed?
 
     if interview_validations.valid?
-      audit(@auth.actor) do
+      audit(auth.actor) do
         interview.save!
 
         CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later

@@ -1,31 +1,24 @@
 class InterviewValidations
   include ActiveModel::Model
 
-  APPLICATION_STATES_ALLOWING_CHANGES = %w[awaiting_provider_decision interviewing].freeze
+  APPLICATION_STATES_ALLOWING_CHANGES = ApplicationStateChange::INTERVIEWABLE_STATES.map(&:to_s).freeze
 
   attr_reader :interview, :today
 
-  delegate :provider, to: :interview
-  delegate :application_choice, to: :interview
   delegate :current_course, to: :application_choice
-  delegate :date_and_time, to: :interview
-  delegate :location, to: :interview
-  delegate :additional_details, to: :interview
-  delegate :cancellation_reason, to: :interview
+  delegate :application_choice, :provider, :date_and_time, :location,
+           :additional_details, :cancellation_reason, to: :interview
 
-  validates :date_and_time, presence: true
-  validates :application_choice, presence: true
-  validates :provider, presence: true
-  validates :location, presence: true, length: { maximum: 10240 }
-  validates :additional_details, length: { maximum: 10240 }
-  validates :cancellation_reason, length: { maximum: 10240 }
+  validates :date_and_time, :application_choice, :provider, :location, presence: true
+  validates :location, :additional_details, :cancellation_reason, length: { maximum: 10240 }
 
   validate :require_training_or_ratifying_provider, if: -> { application_choice && interview.changed? }
-  validate :stop_changes_if_interview_already_passed, if: -> { interview.changed? }
+  validate :stop_new_interviews_in_the_past, if: -> { interview.changed? }
+  validate :stop_changes_if_interview_in_the_past, if: -> { interview.changed? }
   validate :stop_changes_if_interview_already_cancelled, if: -> { interview.changed? }
   validate :stop_changes_if_application_past_interviews_stage, if: -> { application_choice && interview.changed? }
   validate :stop_cancellations_without_a_reason, if: -> { interview.changed? }
-  validate :updates_to_date_and_time, if: -> { interview.date_and_time_change }
+  validate :check_updates_to_date_and_time, if: -> { interview.date_and_time_change }
   validate :keep_date_and_time_before_rbd, if: -> { interview.date_and_time_change }
 
   def initialize(interview:)
@@ -41,22 +34,34 @@ class InterviewValidations
     ratifying = current_course.accredited_provider
     ratifying_provider_check = ratifying ? provider == ratifying : false
 
-    unless provider == current_course.provider || ratifying_provider_check
+    unless provider == current_course.provider || ratifying_provider_check || provider.blank?
       errors.add :provider, :training_or_ratifying_only
     end
   end
 
-  def stop_changes_if_interview_already_passed
-    if date_and_time && date_and_time < today
+  def stop_new_interviews_in_the_past
+    if !interview.date_and_time_was && date_and_time && date_and_time < today
+      errors.add :date_and_time, :in_the_past
+    end
+  end
+
+  def stop_changes_if_interview_in_the_past
+    old_date = interview.date_and_time_was
+
+    if old_date.present? && old_date < today
       errors.add :base, :changing_a_past_interview
     end
   end
 
   def stop_changes_if_interview_already_cancelled
-    old_cancelled_at = interview.cancelled_at_change&.first
+    old_cancelled_at = interview.cancelled_at_was
 
     if old_cancelled_at.present?
-      errors.add :base, :changing_a_cancelled_interview
+      if interview.cancelled_at == old_cancelled_at
+        errors.add :base, :changing_a_cancelled_interview
+      else
+        errors.add :base, :cancelling_a_cancelled_interview
+      end
     end
   end
 
@@ -72,15 +77,15 @@ class InterviewValidations
     end
   end
 
-  def updates_to_date_and_time
+  def check_updates_to_date_and_time
     old_date = interview.date_and_time_change&.first
     new_date = interview.date_and_time_change&.second
 
     if old_date.present? && new_date.present?
-      if old_date < today
-        errors.add :base, :changing_a_past_interview
-      elsif new_date < today
+      if new_date < today && old_date >= today
         errors.add :date_and_time, :moving_interview_to_the_past
+      elsif new_date < today
+        errors.add :date_and_time, :in_the_past
       end
     end
   end

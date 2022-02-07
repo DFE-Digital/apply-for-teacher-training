@@ -3,11 +3,21 @@ require 'rails_helper'
 RSpec.describe InterviewValidations do
   subject(:interview_validations) { described_class.new(interview: interview) }
 
+  delegate :errors, to: :interview_validations
+
   let(:interview) { application_choice.interviews.first }
   let(:application_choice) { create(:application_choice, :with_scheduled_interview, course_option: course_option) }
   let(:course) { create(:course, :with_accredited_provider) }
   let(:provider) { course.provider }
   let(:course_option) { create(:course_option, course: course) }
+
+  def errors
+    interview_validations.errors.map(&:message)
+  end
+
+  def error_message(error)
+    I18n.t("activemodel.errors.models.interview_validations.attributes.#{error}")
+  end
 
   context 'existing interview with no changes' do
     let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
@@ -33,6 +43,7 @@ RSpec.describe InterviewValidations do
 
       it 'is not valid' do
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('application_choice.status_past_interviewing_stage')])
       end
     end
 
@@ -43,6 +54,7 @@ RSpec.describe InterviewValidations do
         interview.additional_details = 'New additional details'
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('application_choice.status_past_interviewing_stage')])
       end
     end
 
@@ -54,6 +66,7 @@ RSpec.describe InterviewValidations do
         interview.cancellation_reason = 'A cancellation reason'
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('application_choice.status_past_interviewing_stage')])
       end
     end
   end
@@ -69,12 +82,15 @@ RSpec.describe InterviewValidations do
 
     it 'needs a date_and_time' do
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('date_and_time.blank')])
     end
 
     it 'needs an application_choice' do
+      interview.date_and_time = 3.days.from_now
       interview.application_choice = nil
 
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('application_choice.blank')])
     end
 
     it 'needs a provider' do
@@ -82,6 +98,7 @@ RSpec.describe InterviewValidations do
       interview.provider = nil
 
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('provider.blank')])
     end
 
     it 'needs an appropriate provider' do
@@ -92,18 +109,22 @@ RSpec.describe InterviewValidations do
 
       interview.provider = create(:provider)
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('provider.training_or_ratifying_only')])
     end
 
     it 'needs a location' do
+      interview.date_and_time = 3.days.from_now
       interview.location = nil
 
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('location.blank')])
     end
 
     it 'with a date_and_time in the past is not valid' do
       interview.date_and_time = 3.days.ago
 
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('date_and_time.in_the_past')])
     end
 
     it 'with a date_and_time in the future is valid' do
@@ -117,6 +138,7 @@ RSpec.describe InterviewValidations do
       interview.date_and_time = rbd_date + 1.second
 
       expect(interview_validations).not_to be_valid
+      expect(errors).to match_array([error_message('date_and_time.past_rbd_date')])
     end
   end
 
@@ -128,6 +150,18 @@ RSpec.describe InterviewValidations do
         interview.additional_details = 'Changed value'
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('base.changing_a_past_interview')])
+      end
+    end
+
+    context 'any change to a cancelled interview' do
+      let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+
+      it 'is not valid' do
+        interview.additional_details = 'Changed value'
+
+        expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('base.changing_a_cancelled_interview')])
       end
     end
 
@@ -137,6 +171,7 @@ RSpec.describe InterviewValidations do
           interview.provider = nil
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('provider.blank')])
         end
       end
 
@@ -145,6 +180,7 @@ RSpec.describe InterviewValidations do
           interview.location = nil
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('location.blank')])
         end
       end
 
@@ -153,6 +189,7 @@ RSpec.describe InterviewValidations do
           interview.location = 'A' * 10241
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('location.too_long')])
         end
       end
 
@@ -169,6 +206,7 @@ RSpec.describe InterviewValidations do
           interview.additional_details = 'A' * 10241
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('additional_details.too_long')])
         end
       end
     end
@@ -197,6 +235,7 @@ RSpec.describe InterviewValidations do
           interview.provider = create(:provider)
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('provider.training_or_ratifying_only')])
         end
       end
     end
@@ -207,6 +246,7 @@ RSpec.describe InterviewValidations do
           interview.date_and_time = 5.days.ago
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('date_and_time.moving_interview_to_the_past')])
         end
       end
 
@@ -217,6 +257,7 @@ RSpec.describe InterviewValidations do
           interview.date_and_time = 2.days.from_now
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('base.changing_a_past_interview')])
         end
       end
 
@@ -227,6 +268,10 @@ RSpec.describe InterviewValidations do
           interview.date_and_time -= 1.day
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([
+            error_message('base.changing_a_past_interview'),
+            error_message('date_and_time.in_the_past'),
+          ])
         end
       end
 
@@ -244,6 +289,7 @@ RSpec.describe InterviewValidations do
           interview.date_and_time = rbd_date + 1.second
 
           expect(interview_validations).not_to be_valid
+          expect(errors).to match_array([error_message('date_and_time.past_rbd_date')])
         end
       end
     end
@@ -255,6 +301,7 @@ RSpec.describe InterviewValidations do
         interview.cancelled_at = Time.zone.now
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('cancellation_reason.blank')])
       end
     end
 
@@ -264,6 +311,7 @@ RSpec.describe InterviewValidations do
         interview.cancellation_reason = 'A' * 10241
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('cancellation_reason.too_long')])
       end
     end
 
@@ -284,6 +332,7 @@ RSpec.describe InterviewValidations do
         interview.cancellation_reason = 'A cancellation reason'
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('base.changing_a_past_interview')])
       end
     end
 
@@ -295,6 +344,7 @@ RSpec.describe InterviewValidations do
         interview.cancellation_reason = 'A cancellation reason'
 
         expect(interview_validations).not_to be_valid
+        expect(errors).to match_array([error_message('base.cancelling_a_cancelled_interview')])
       end
     end
   end

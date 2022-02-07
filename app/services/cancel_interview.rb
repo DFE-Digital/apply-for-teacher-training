@@ -25,7 +25,7 @@ class CancelInterview
     interview.cancelled_at = Time.zone.now
 
     if interview_validations.valid?
-      audit(@auth.actor) do
+      audit(auth.actor) do
         ActiveRecord::Base.transaction do
           interview.save!
 
