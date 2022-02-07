@@ -465,7 +465,7 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
-    rails_semantic_logger (4.9.0)
+    rails_semantic_logger (4.10.0)
       rack
       railties (>= 5.1)
       semantic_logger (~> 4.9)
@@ -563,7 +563,7 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    semantic_logger (4.9.0)
+    semantic_logger (4.10.0)
       concurrent-ruby (~> 1.0)
     semantic_range (3.0.0)
     sentry-rails (5.0.2)
