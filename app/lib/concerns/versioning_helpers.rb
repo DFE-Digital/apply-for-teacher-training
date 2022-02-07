@@ -33,6 +33,13 @@ module VersioningHelpers
     ordered_versions.keys.reverse.find { |version| !prerelease?(version_number(version)) }
   end
 
+  def released_version
+    production_version if HostingEnvironment.production?
+    VendorAPI::VERSION if HostingEnvironment.sandbox_mode?
+
+    ordered_versions.keys.last
+  end
+
 private
 
   def ordered_versions

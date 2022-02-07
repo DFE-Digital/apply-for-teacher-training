@@ -16,6 +16,8 @@ class ValidVendorApiRoute
   end
 
   class VersionMatcher
+    include VersioningHelpers
+
     attr_reader :request
 
     def initialize(request)
@@ -25,6 +27,7 @@ class ValidVendorApiRoute
     def match?
       return false if locked_version_lower_than_current_version? && (HostingEnvironment.production? || HostingEnvironment.sandbox_mode?)
       return false if prerelease?(version) && HostingEnvironment.production?
+      return false if requested_version_unavailable?
 
       versions_up_to_current.each do |inner_version|
         return false if HostingEnvironment.production? && prerelease?(inner_version)
@@ -40,6 +43,11 @@ class ValidVendorApiRoute
   private
 
     delegate :controller_class, to: :request
+
+    def requested_version_unavailable?
+      major_version_number(released_version) == major_version_number(version) &&
+        minor_version_number(released_version) < minor_version_number(version)
+    end
 
     def locked_version_lower_than_current_version?
       major_version_number(VendorAPI::VERSION) == major_version_number(version) &&

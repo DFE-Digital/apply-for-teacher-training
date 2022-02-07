@@ -184,5 +184,19 @@ RSpec.describe 'Versioning', type: :request do
         end
       end
     end
+
+    context 'a version that has not been defined' do
+      before do
+        stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
+                                            '1.2pre' => [VendorAPI::Changes::RetrieveSingleApplication] })
+        stub_const('VendorAPI::VERSION', '1.1')
+      end
+
+      it 'is not available regardless the environment' do
+        get_api_request "/api/v1.3/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end
