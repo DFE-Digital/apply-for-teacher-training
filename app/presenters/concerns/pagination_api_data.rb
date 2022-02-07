@@ -5,19 +5,29 @@ module PaginationAPIData
   MAX_PER_PAGE = 50
 
   def serialized_applications_data
-    %({"data":[#{serialized_applications.join(',')}], "links": #{links.to_json}, "meta": #{VendorAPI::MetaPresenter.new(active_version, @pagy.count).as_json}})
+    %({"data":[#{serialized_applications.join(',')}], "links": #{links.to_json}, "meta": #{VendorAPI::MetaPresenter.new(active_version, @pagy&.count).as_json}})
   end
 
   def links
     url = options[:url]
-    link_options = options.except(:url, :api_version)
-    links_hash = {
-      first: pagination_link(url, link_options, 1),
-      last: pagination_link(url, link_options, @pagy.last),
-      self: pagination_link(url, link_options, @pagy.page),
-    }
-    links_hash[:prev] = pagination_link(url, link_options, @pagy.prev) if @pagy.prev
-    links_hash[:next] = pagination_link(url, link_options, @pagy.next) if @pagy.next
+    if no_pagination?
+      links_hash = {
+        first: url,
+        last: url,
+        self: url,
+        prev: url,
+        next: url,
+      }
+    else
+      link_options = options.except(:url, :api_version)
+      links_hash = {
+        first: pagination_link(url, link_options, 1),
+        last: pagination_link(url, link_options, @pagy.last),
+        self: pagination_link(url, link_options, @pagy.page),
+      }
+      links_hash[:prev] = pagination_link(url, link_options, @pagy.prev) if @pagy.prev
+      links_hash[:next] = pagination_link(url, link_options, @pagy.next) if @pagy.next
+    end
 
     links_hash
   end
@@ -30,8 +40,16 @@ module PaginationAPIData
     }
   end
 
+  def no_pagination?
+    options[:per_page].nil? && options[:page].nil?
+  end
+
   def applications_scope
-    paginate(applications.order('application_choices.updated_at DESC'))
+    if no_pagination?
+      applications.order('application_choices.updated_at DESC')
+    else
+      paginate(applications.order('application_choices.updated_at DESC'))
+    end
   end
 
   def pagination_link(url, options, page)
