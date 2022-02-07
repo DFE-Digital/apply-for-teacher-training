@@ -16,7 +16,7 @@ module VendorAPI
   private
 
     def serialized_application_choices_data
-      MultipleApplicationsPresenter.new(version_number, get_application_choices_for_provider_since(since: since_param), pagination_params).serialized_applications_data
+      MultipleApplicationsPresenter.new(version_number, get_application_choices_for_provider_since(since: since_param), request, pagination_params).serialized_applications_data
     end
 
     def get_application_choices_for_provider_since(since:)
@@ -29,13 +29,7 @@ module VendorAPI
         since: since_param.iso8601,
         page: params[:page],
         per_page: params[:per_page],
-        api_version: params[:api_version],
-        url: url_for(
-          controller: params[:controller],
-          action: params[:action],
-          host: request.host,
-          api_version: params[:api_version],
-        ),
+        url: request.original_url,
       }
     end
 

@@ -5,38 +5,16 @@ module PaginationAPIData
   MAX_PER_PAGE = 50
 
   def serialized_applications_data
-    %({"data":[#{serialized_applications.join(',')}], "links": #{links.to_json}, "meta": #{VendorAPI::MetaPresenter.new(active_version, @pagy&.count).as_json}})
+    %({"data":[#{serialized_applications.join(',')}], "links": #{links.to_json}, "meta": #{VendorAPI::MetaPresenter.new(active_version, total_count).as_json}})
   end
 
   def links
-    url = options[:url]
-    if no_pagination?
-      links_hash = {
-        first: url,
-        last: url,
-        self: url,
-        prev: url,
-        next: url,
-      }
-    else
-      link_options = options.except(:url, :api_version)
-      links_hash = {
-        first: pagination_link(url, link_options, 1),
-        last: pagination_link(url, link_options, @pagy.last),
-        self: pagination_link(url, link_options, @pagy.page),
-      }
-      links_hash[:prev] = pagination_link(url, link_options, @pagy.prev) if @pagy.prev
-      links_hash[:next] = pagination_link(url, link_options, @pagy.next) if @pagy.next
-    end
-
-    links_hash
-  end
-
-  def meta
     {
-      api_version: options[:api_version],
-      timestamp: Time.zone.now.iso8601,
-      total_count: @pagy.count,
+      first: @pagy_meta[:first_url] || options[:url],
+      last: @pagy_meta[:last_url] || options[:url],
+      self: @pagy_meta[:page_url] || options[:url],
+      prev: @pagy_meta[:prev_url] || options[:url],
+      next: @pagy_meta[:next_url] || options[:url],
     }
   end
 
@@ -45,19 +23,23 @@ module PaginationAPIData
   end
 
   def applications_scope
+    @pagy_meta = {}
     if no_pagination?
-      applications.order('application_choices.updated_at DESC')
+      applications.find_each(batch_size: 500)
+                  .sort_by(&:updated_at)
+                  .reverse
     else
       paginate(applications.order('application_choices.updated_at DESC'))
     end
   end
 
-  def pagination_link(url, options, page)
-    "#{url}?#{build_query(options.merge(page: page.to_s))}"
+  def total_count
+    @pagy&.count || applications.size
   end
 
   def paginate(scope)
     @pagy, paginated_records = pagy(scope, items: per_page, page: page)
+    @pagy_meta = pagy_metadata(@pagy, absolute: true) || {}
 
     paginated_records
   end
@@ -69,16 +51,6 @@ module PaginationAPIData
   end
 
   def page
-    (options[:page] || 1).to_i
-  end
-
-  def build_query(params)
-    params.stringify_keys.map do |k, v|
-      if v.instance_of?(Array)
-        build_query(v.map { |x| [k, x] })
-      else
-        "#{k}=#{v}"
-      end
-    end.join('&')
+    (options[:page].presence || 1).to_i
   end
 end

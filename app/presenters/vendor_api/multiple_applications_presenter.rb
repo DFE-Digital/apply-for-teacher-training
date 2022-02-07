@@ -1,10 +1,11 @@
 module VendorAPI
   class MultipleApplicationsPresenter < Base
-    attr_reader :applications, :options
+    attr_reader :applications, :options, :request
 
-    def initialize(version, applications, options = {})
+    def initialize(version, applications, request = {}, options = {})
       super(version)
       @applications = applications
+      @request = request
       @options = options
     end
 
