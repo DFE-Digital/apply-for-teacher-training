@@ -10,9 +10,12 @@ RSpec.feature 'Apply again' do
     end
   end
 
+  # To be deleted when removing the apply_again_with_three_choices feature flag. All of this is now tested
+  # in candidate_applies_again_and_reviews_rejection_reasons_from_previous_applications_spec
+
   scenario 'Candidate applies again and reviews rejection reason from previous cycle' do
     given_i_am_signed_in_as_a_candidate
-    and_apply_again_with_three_choices_feature_flag_is_activated
+    and_apply_again_with_three_choices_are_inactive
     and_i_have_an_unsuccessful_application_with_rejection_reasons
     when_i_apply_again
     then_subject_knowledge_needs_review
@@ -60,17 +63,11 @@ RSpec.feature 'Apply again' do
     click_on 'Apply again'
 
     click_link 'Choose your course'
-    candidate_fills_in_apply_again_with_three_course_choices
-    candidate_completes_the_section
+    candidate_fills_in_apply_again_course_choice
 
     click_link 'Select 2 references'
     choose 'Yes, I have completed this section'
     click_button t('save_and_continue')
-  end
-
-  def candidate_completes_the_section
-    choose 'Yes, I have completed this section'
-    click_button 'Continue'
   end
 
   def then_subject_knowledge_needs_review
@@ -171,8 +168,8 @@ RSpec.feature 'Apply again' do
     expect(page).to have_content 'Application successfully submitted'
   end
 
-  def and_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_apply_again_with_three_choices_are_inactive
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
 private

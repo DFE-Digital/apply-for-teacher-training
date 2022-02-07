@@ -1,10 +1,13 @@
 require 'rails_helper'
 
+# To be deleted when removing the apply_again_with_three_choices feature flag. All of this is now tested
+# in candidate_signed_in_user_with_course_params_spec.rb
+
 RSpec.feature 'An existing candidate arriving from Find with a course and provider code' do
   include CourseOptionHelpers
   scenario 'candidate is signed in' do
     given_the_pilot_is_open
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_apply_again_with_three_choices_is_inactive
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -49,9 +52,8 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     and_i_have_1_application_choice
 
     when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
-    and_i_choose_not_to_apply_to_the_course
     then_i_should_see_the_courses_review_page
-    and_i_should_be_informed_i_can_choose_two_more_courses
+    and_i_should_be_informed_i_can_only_have_1_course_choice
   end
 
   def given_the_pilot_is_open
@@ -84,11 +86,6 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
 
   def when_i_arrive_at_the_apply_from_find_page_with_course_params_with_one_site
     visit candidate_interface_apply_from_find_path providerCode: @course.provider.code, courseCode: @course.code
-  end
-
-  def and_i_choose_not_to_apply_to_the_course
-    choose 'No'
-    click_button 'Continue'
   end
 
   def when_i_arrive_at_the_apply_from_find_page_with_course_params_with_multiple_sites
@@ -197,12 +194,12 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     create(:application_choice, application_form: @candidate.current_application)
   end
 
-  def and_i_should_be_informed_i_can_choose_two_more_courses
-    expect(page).to have_content 'You can add 2 more courses'
+  def and_i_should_be_informed_i_can_only_have_1_course_choice
+    expect(page).to have_content t('errors.messages.apply_again_course_already_chosen', course_name_and_code: @course.name_and_code)
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_apply_again_with_three_choices_is_inactive
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
 private

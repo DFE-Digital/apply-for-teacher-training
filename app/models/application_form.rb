@@ -31,6 +31,7 @@ class ApplicationForm < ApplicationRecord
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
   MAXIMUM_PHASE_ONE_COURSE_CHOICES = 3
   MAXIMUM_PHASE_TWO_COURSE_CHOICES = 1
+  MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
 
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
@@ -208,6 +209,8 @@ class ApplicationForm < ApplicationRecord
   end
 
   def candidate_can_choose_single_course?
+    return false if FeatureFlag.active?(:apply_again_with_three_choices)
+
     apply_2?
   end
 
@@ -228,7 +231,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def number_of_choices_candidate_can_make
-    candidate_can_choose_single_course? ? 1 : 3
+    candidate_can_choose_single_course? ? MAXIMUM_PHASE_TWO_COURSE_CHOICES : MAXIMUM_PHASE_ONE_COURSE_CHOICES
   end
 
   def can_add_more_choices?
@@ -314,7 +317,9 @@ class ApplicationForm < ApplicationRecord
   end
 
   def maximum_number_of_course_choices
-    if apply_1?
+    if FeatureFlag.active?(:apply_again_with_three_choices)
+      MAXIMUM_NUMBER_OF_COURSE_CHOICES
+    elsif apply_1?
       MAXIMUM_PHASE_ONE_COURSE_CHOICES
     else
       MAXIMUM_PHASE_TWO_COURSE_CHOICES
