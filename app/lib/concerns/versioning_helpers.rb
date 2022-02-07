@@ -34,8 +34,8 @@ module VersioningHelpers
   end
 
   def released_version
-    production_version if HostingEnvironment.production?
-    VendorAPI::VERSION if HostingEnvironment.sandbox_mode?
+    return production_version if HostingEnvironment.production?
+    return VendorAPI::VERSION if HostingEnvironment.sandbox_mode?
 
     ordered_versions.keys.last
   end
