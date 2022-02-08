@@ -1,51 +1,52 @@
-<p class="govuk-body-l">This is our current roadmap, which takes us through to the end of the 2021 recruitment cycle.</p>
+<p class="govuk-body-l">Find out about recent and upcoming service changes.</p>
 
-<p class="govuk-hint">Last updated: 26 May 2021</p>
-
-***
-
-## For candidates
-
-### Recent changes
-
-* Encouraged candidates to showcase their skills and achievements by [adding a full work history](https://bat-design-history.netlify.app/apply-for-teacher-training/work-history-iteration/)
-
-* Improved guidance around qualification requirements to encourage candidates to add A levels to their application
-
-* Improved the information candidates see about the progress of their application after submitting their application
-
-* Showing candidates where they can improve their application based on feedback from providers on previous applications, for example if they need to improve their personal statement
-
-* Signposting the teacher training adviser service more effectively so that unsuccessful candidates can access the support they need to be successful in future
-
-### Working on now
-
-* Improving how location-based search works on Find postgraduate teacher training to help candidates find courses near them
+<p class="govuk-hint">Last updated: 26 January 2022</p>
 
 ***
 
-## For providers
+### Changes to services for providers
 
-### Recent changes
+Recent changes include:
 
-* Collection of structured reasons when withdrawing an offer or when an application is rejected by default
+* introducing a [report to enable providers to view the status of active applications](https://bat-design-history.netlify.app/manage-teacher-training-applications/helping-users-check-how-quickly-courses-are-filling-up/)
 
-* Enabled filtering a list of applications by subject
+* making it easier for providers to [check what qualifications candidates have](https://bat-design-history.netlify.app/manage-teacher-training-applications/improving-the-qualifications-section-of-the-application-details-page/) by improving how applications are laid out
 
-* Allow providers to make unconditional offers at stage 1, with support in the API
+* trialling online chat to enable providers to contact Department for Education (DfE) support agents quickly
 
-### Working on now
+* publishing a [report giving statistics for teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/publications/monthly-statistics), which will be updated monthly
 
-* Enable providers to receive appropriate and useful email notifications
+Upcoming changes include:
 
-* Enable providers to [customise which email notifications they receive](https://bat-design-history.netlify.app/manage-teacher-training-applications/managing-individual-email-notifications/)
+* introducing a [report to help providers understand the sex, ethnicity, disability and age of their candidates](https://bat-design-history.netlify.app/manage-teacher-training-applications/simplifying-how-we-help-users-spot-bias-in-their-recruitment-processes/)
 
-* Withdrawing applications that candidates have decided to withdraw instead of rejecting them or leaving them to be rejected by default
+* [making it easier for providers to find and track applications](https://bat-design-history.netlify.app/manage-teacher-training-applications/finding-out-the-effect-of-removing-the-reference-number/) by improving the use of reference numbers
 
-* [Withdrawing applications at candidates’ request](https://bat-design-history.netlify.app/manage-teacher-training-applications/withdrawing-an-application-iteration-2/)
+* letting providers [turn off the email reminder to make a decision about an application](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-users-turn-off-the-email-reminder-to-make-a-decision/)
 
-* Offering PE with EBacc to exceptional candidates instead of opening a new course on Publish
+* making it easier for [providers to give candidates feedback](https://bat-design-history.netlify.app/manage-teacher-training-applications/reasons-for-rejection-iteration-6/) when their application was unsuccessful
 
-* Management information (MI) - Allow providers to view their collated application information so that they can analyse trends and gain insight into their own recruitment processes
+* letting providers [change the course that the candidate applied for before making an offer](https://bat-design-history.netlify.app/manage-teacher-training-applications/letting-providers-change-course-before-making-an-offer/)
 
-* Permissions - Enable providers to have increased flexibility when setting up permissions within their organisation and with their partner organisation
+* releasing [version 1.1 of the API](https://www.apply-for-teacher-training.service.gov.uk/api-docs/draft), which lets users manage applications in their own student record systems - the new version will let users schedule interviews, make notes, defer applications and withdraw applications at a candidate‘s request
+
+***
+### Changes to services for candidates
+
+Recent changes include:
+
+* improving the search function on ‘Find postgraduate teacher training‘, making it easier for candidates to find courses that suit them
+
+* preventing candidates from submitting applications from more than one account
+
+Upcoming changes include:
+
+* understanding the need for improved functionality in ‘Find postgraduate teacher training‘, such as letting candidates save courses
+
+* tailoring content for candidates who already have a teacher training adviser
+
+* enabling candidates to apply again with 3 course choices, rather than one
+
+* producing email content for candidates who are struggling with aspects of their application, for example getting references
+
+* informing international candidates when visa sponsorship is not available for the courses they choose
