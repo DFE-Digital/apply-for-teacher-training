@@ -25,6 +25,8 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
 
         get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=2"
 
+        expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse', '1.1')
+
         response_data = parsed_response['data']
         links_object = parsed_response['links']
 
@@ -39,6 +41,8 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
         expect(response).to have_http_status(:ok)
 
         get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=2&per_page=2"
+
+        expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse', '1.1')
 
         links_object = parsed_response['links']
 
@@ -63,6 +67,8 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
         )
 
         get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=&per_page=2"
+
+        expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse', '1.1')
 
         links_object = parsed_response['links']
 
@@ -123,6 +129,8 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
         )
 
         get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+        expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse', '1.1')
 
         expect(response).to have_http_status(:ok)
         expect(parsed_response['meta']['api_version']).to eq 'v1.1'
