@@ -282,7 +282,7 @@ en:
       terms_of_use: Terms of use
       privacy_policy: Privacy policy
       privacy: Privacy
-      roadmap: Roadmap
+      roadmap: Changes to this service
   activemodel:
     attributes:
       vendor_api/metadata:
