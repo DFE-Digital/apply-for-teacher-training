@@ -1,3 +1,9 @@
+## 17th February 2022
+
+Business rule change: Candidates can now apply to up to three courses when applying again in "Apply 2", similar to "Apply 1". Previously, candidates could only apply to 1 course in "Apply 2".
+
+This means a provider can now expect to receive up to 3 applications when the application `phase` is set to `apply_2` from a candidate.
+
 ## 19th October 2021
 
 Documentation:
