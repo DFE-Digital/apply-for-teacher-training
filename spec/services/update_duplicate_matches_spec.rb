@@ -8,7 +8,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
     <<~MSG
       \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
       :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
-      :gavel: 1 match has been marked as duplicate :gavel:
+      :gavel: 1 match has been marked as a duplicate :gavel:
       :female-detective: In total there are 2 matches :male-detective:
     MSG
   end
