@@ -4,10 +4,6 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications/:application_id', type: 
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
-  before do
-    stub_const('VendorAPI::VERSION', '1.1')
-  end
-
   it 'returns a response that is valid according to the OpenAPI schema' do
     skip 'Depends on validation versions spike'
 

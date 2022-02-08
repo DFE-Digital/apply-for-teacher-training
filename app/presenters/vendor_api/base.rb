@@ -10,8 +10,10 @@ module VendorAPI
     def initialize(active_version)
       @active_version = active_version
 
+      raise ActiveVersionNotAvailableInEnvironment if active_version_not_available
+
       VendorAPI::VERSIONS.each_pair do |version, changes|
-        next unless active_version_in_retrieved_version?(version)
+        next unless active_version_in_retrieved_version?(version) && version_available_in_environment?(version)
 
         changes.each do |change_module|
           resources_for_class(change_module).each do |resource|
@@ -36,8 +38,18 @@ module VendorAPI
       @available_in_active_version = true
     end
 
+    def active_version_not_available
+      (Gem::Version.new(version_number(released_version)) <=> Gem::Version.new(active_version)).negative?
+    end
+
     def active_version_in_retrieved_version?(version)
       minor_version_number(active_version) >= minor_version_number(version)
+    end
+
+    def version_available_in_environment?(version)
+      return true unless HostingEnvironment.production?
+
+      !prerelease_suffix?(version)
     end
 
     def cache_key(model, api_version, method = '')
@@ -47,3 +59,4 @@ module VendorAPI
 end
 
 class PresenterNotVersioned < StandardError; end
+class ActiveVersionNotAvailableInEnvironment < StandardError; end

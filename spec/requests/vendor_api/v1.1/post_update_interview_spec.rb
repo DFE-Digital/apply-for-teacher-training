@@ -9,10 +9,6 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
   let(:interview) { application_choice.interviews.first }
 
-  before do
-    stub_const('VendorAPI::VERSION', '1.1')
-  end
-
   def post_interview!(params:)
     request_body = { data: params }
     expect(request_body[:data]).to be_valid_against_openapi_schema('UpdateInterview', '1.1')

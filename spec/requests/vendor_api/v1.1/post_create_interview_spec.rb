@@ -7,10 +7,6 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
     create_application_choice_for_currently_authenticated_provider(status: 'awaiting_provider_decision')
   end
 
-  before do
-    stub_const('VendorAPI::VERSION', '1.1')
-  end
-
   def post_interview!(params:)
     request_body = { data: params }
     expect(request_body[:data]).to be_valid_against_openapi_schema('CreateInterview', '1.1')

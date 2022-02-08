@@ -7,7 +7,7 @@ module APIDocs
 
     def initialize(spec, version: nil, draft: false)
       @document = Openapi3Parser.load(spec)
-      @version = version || AllowedCrossNamespaceUsage::VENDOR_API_VERSION
+      @version = version || AllowedCrossNamespaceUsage::VendorAPIInfo.production_version
       @draft = draft
     end
 
@@ -47,13 +47,13 @@ module APIDocs
     end
 
     def self.current_schema
-      path = "#{VendorAPISpecification::SPEC_FILE_DIR}/v#{AllowedCrossNamespaceUsage::VENDOR_API_VERSION}.yml"
+      path = "#{VendorAPISpecification::SPEC_FILE_DIR}/v#{AllowedCrossNamespaceUsage::VendorAPIInfo.production_version}.yml"
       @current_schema ||= YAML.load_file(path)
     end
 
     def api_docs_version_navigation_items
-      AllowedCrossNamespaceUsage::VENDOR_API_VERSIONS.keys.select { |v| v <= AllowedCrossNamespaceUsage::VENDOR_API_VERSION }.sort.map do |v|
-        { name: v, url: api_docs_versioned_reference_path(api_version: "v#{v}") }
+      AllowedCrossNamespaceUsage::VendorAPIInfo.released_versions.keys.map do |version|
+        { name: version.to_s, url: api_docs_versioned_reference_path(api_version: "v#{version}") }
       end
     end
 

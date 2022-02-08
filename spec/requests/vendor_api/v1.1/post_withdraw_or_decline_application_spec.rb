@@ -4,8 +4,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
-  before { stub_const('VendorAPI::VERSION', '1.1') }
-
   it_behaves_like 'an endpoint that requires metadata', '/withdraw', '1.1'
 
   it 'withdraws an application' do

@@ -23,16 +23,6 @@ RSpec.describe 'Versioning', type: :request do
     end
   end
 
-  context 'accessing the API with a version that is greater than the current locked version' do
-    it 'returns a not found error' do
-      stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
-                                          '1.101' => [VendorAPI::Changes::RetrieveSingleApplication] })
-
-      get_api_request "/api/v1.101/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
   context 'accessing a route with a version that is prior to the version that it was introduced in' do
     it 'returns a not found error' do
       stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications] })
@@ -100,6 +90,112 @@ RSpec.describe 'Versioning', type: :request do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: note_payload
 
         expect(response.status).to eq(200)
+      end
+    end
+
+    context 'a prerelease version' do
+      before do
+        stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
+                                            '1.2pre' => [VendorAPI::Changes::RetrieveSingleApplication] })
+      end
+
+      context 'when it doesnt match the VERSION constant' do
+        before do
+          stub_const('VendorAPI::VERSION', '1.1')
+        end
+
+        it 'is not available in sandbox' do
+          allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(true)
+
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'is not available in production' do
+          allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'is available in all other environments' do
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'when it matches the VERSION constant' do
+        before do
+          stub_const('VendorAPI::VERSION', '1.2')
+        end
+
+        it 'is available in sandbox' do
+          allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(true)
+
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'is not available in production' do
+          allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:not_found)
+        end
+
+        it 'is available in all other environments' do
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+
+    context 'a released version' do
+      before do
+        stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
+                                            '1.2' => [VendorAPI::Changes::RetrieveSingleApplication] })
+      end
+
+      context 'when it matches the VERSION constant' do
+        before do
+          stub_const('VendorAPI::VERSION', '1.2')
+        end
+
+        it 'is available in sandbox' do
+          allow(HostingEnvironment).to receive(:sandbox_mode?).and_return(true)
+
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'is available in production' do
+          allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+          get_api_request "/api/v1.2/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+          expect(response).to have_http_status(:ok)
+        end
+      end
+    end
+
+    context 'a version that has not been defined' do
+      before do
+        stub_const('VendorAPI::VERSIONS', { '1.1' => [VendorAPI::Changes::RetrieveApplications],
+                                            '1.2pre' => [VendorAPI::Changes::RetrieveSingleApplication] })
+        stub_const('VendorAPI::VERSION', '1.1')
+      end
+
+      it 'is not available regardless the environment' do
+        get_api_request "/api/v1.3/applications?since=#{CGI.escape(1.day.ago.iso8601)}"
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

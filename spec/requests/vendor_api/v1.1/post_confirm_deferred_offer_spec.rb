@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm-deferred-offer', type: :request do
   include VendorAPISpecHelpers
 
-  before do
-    stub_const('VendorAPI::VERSION', '1.1')
-  end
-
   let(:application_trait) { :with_deferred_offer }
   let(:request_body) { { data: { conditions_met: false } } }
   let!(:application_choice) do
