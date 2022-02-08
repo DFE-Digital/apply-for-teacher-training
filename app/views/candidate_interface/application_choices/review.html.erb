@@ -15,7 +15,11 @@
       </h1>
 
       <% if @application_form.can_add_more_choices? %>
-        <%= govuk_button_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, secondary: true %>
+        <% if FeatureFlag.active?(:apply_again_with_three_choices) %>
+          <%= render CandidateInterface::ApplyAgainAddAnotherCourseComponent.new(application_form: @application_form) %>
+        <% else %>
+          <%= govuk_button_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, secondary: true %>
+       <% end %>
       <% end %>
     </div>
   </div>
