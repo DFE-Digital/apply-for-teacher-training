@@ -5,13 +5,15 @@ module VendorAPI
 
     rescue_from InterviewWorkflowConstraints::WorkflowError, with: :render_workflow_error
     rescue_from NotModifiedError, with: :render_not_modified
+    rescue_from InvalidProviderCode, with: :render_invalid_provider_code
+    rescue_from InvalidDateError, with: :render_invalid_date
 
     def create
       CreateInterview.new(
         actor: audit_user,
         application_choice: application_choice,
         provider: provider_for_interview(interview_params[:provider_code]),
-        date_and_time: interview_params[:date_and_time],
+        date_and_time: date_and_time(interview_params[:date_and_time]),
         location: interview_params[:location],
         additional_details: interview_params[:additional_details],
       ).save!
@@ -24,7 +26,7 @@ module VendorAPI
         actor: audit_user,
         interview: existing_interview,
         provider: provider_for_interview(update_interview_params[:provider_code]),
-        date_and_time: update_interview_params[:date_and_time],
+        date_and_time: date_and_time(update_interview_params[:date_and_time]),
         location: update_interview_params[:location],
         additional_details: update_interview_params[:additional_details],
       ).save!
@@ -67,8 +69,38 @@ module VendorAPI
       }
     end
 
+    def render_invalid_provider_code(e)
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'InvalidProviderCode',
+            message: e.message,
+          },
+        ],
+      }
+    end
+
+    def render_invalid_date(e)
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'InvalidDateError',
+            message: e.message,
+          },
+        ],
+      }
+    end
+
     def provider_for_interview(code)
-      Provider.find_by(code: code)
+      if code.present? # supporting partial updates
+        Provider.find_by(code: code) || raise(InvalidProviderCode, 'Provider code is not valid')
+      end
+    end
+
+    def date_and_time(date_time_string)
+      DateTime.parse(date_time_string) if date_time_string.present? # supporting partial updates
+    rescue Date::Error
+      raise InvalidDateError, 'Date string provided is not a valid date'
     end
 
     def existing_interview
