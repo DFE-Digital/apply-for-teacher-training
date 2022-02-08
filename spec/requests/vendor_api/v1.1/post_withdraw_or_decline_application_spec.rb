@@ -14,6 +14,8 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
 
       post_api_request "/api/v1.1/applications/#{application_choice.id}/withdraw"
 
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
+
       expect(response).to have_http_status(:ok)
       application = parsed_response['data']['attributes']
       expect(application['status']).to eq 'withdrawn'

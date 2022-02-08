@@ -122,7 +122,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
     end
 
     describe 'when successful' do
-      xit 'renders a SingleApplicationResponse' do
+      it 'renders a SingleApplicationResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
 
         expect(response).to have_http_status(:ok)

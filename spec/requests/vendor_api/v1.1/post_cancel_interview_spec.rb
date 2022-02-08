@@ -27,7 +27,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         expect(response).to have_http_status(:ok)
         expect(parsed_response['data']['attributes']['interviews'].first['cancelled_at']).not_to be_nil
         expect(parsed_response['data']['attributes']['interviews'].first['cancellation_reason']).to eq('A reason')
-        # expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
+        expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
       end
     end
 

@@ -36,7 +36,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
       end
     end
 
-    xdescribe 'when successful' do
+    describe 'when successful' do
       let(:course) { build(:course, provider: currently_authenticated_provider, recruitment_cycle_year: RecruitmentCycle.current_year) }
       let(:course_option) { build(:course_option, course: course) }
       let!(:application_choice) do
