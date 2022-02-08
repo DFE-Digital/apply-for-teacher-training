@@ -9,7 +9,7 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
 
   it "returns table data for 'applications by provider area'" do
     expect_report_rows(column_headings: ['Area', 'Recruited', 'Conditions pending', 'Deferred', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
-      [['East',                     1, 0, 0, 0, 0, 0, 1],
+      [['East of England',          1, 0, 0, 0, 0, 0, 1],
        ['East Midlands',            0, 1, 0, 0, 0, 0, 1],
        ['London',                   0, 0, 0, 1, 0, 0, 1],
        ['North East',               0, 0, 0, 0, 1, 0, 1],

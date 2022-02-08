@@ -150,7 +150,7 @@ area:
   description: The region or country the candidates are from
   enum:
     - Channel Islands
-    - East
+    - East of England
     - East Midlands
     - Isle of Man
     - London
