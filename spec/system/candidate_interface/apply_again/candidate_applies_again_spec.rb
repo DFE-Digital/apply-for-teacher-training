@@ -21,6 +21,7 @@ RSpec.feature 'Apply again with three choices' do
     then_i_should_see_text_suggesting_that_i_can_apply_to_three_courses
     then_i_can_select_a_course
     then_i_should_see_text_suggesting_that_i_can_add_two_more_courses
+    and_i_should_be_on_the_review_page
     and_i_add_two_more_courses
     then_i_can_see_my_application_with_three_courses
     and_i_complete_the_section
@@ -159,12 +160,19 @@ RSpec.feature 'Apply again with three choices' do
   end
 
   def then_i_should_see_text_suggesting_that_i_can_add_two_more_courses
-    expect(page).to have_content('You can choose 2 more courses')
+    expect(page).to have_content('You can add 2 more courses')
+  end
+
+  def and_i_should_be_on_the_review_page
+    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
+  end
+
+  def and_i_should_be_on_the_review_page
+    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
 
   def and_i_add_two_more_courses
-    choose 'Yes, add another course'
-    click_button t('continue')
+    click_link 'Add another course'
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
     select 'Gorse SCITT (1N1)'
@@ -172,8 +180,7 @@ RSpec.feature 'Apply again with three choices' do
     choose 'Drama (2397)'
     click_button t('continue')
 
-    choose 'Yes, add another course'
-    click_button t('continue')
+    click_link 'Add another course'
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
     select 'Gorse SCITT (1N1)'

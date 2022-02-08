@@ -7,30 +7,37 @@ RSpec.feature 'Add additional courses flow' do
   scenario 'Candidate is signed in' do
     given_there_are_course_options
     and_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
 
     when_i_visit_my_application_page
-    and_i_click_choose_your_course
+    and_i_click_on_course_choices
 
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_my_first_course_choice
-    then_i_should_be_on_the_course_review_page
+    then_i_should_be_on_the_add_additional_courses_page
     and_i_should_receive_a_message_that_ive_added_the_first_course
     and_i_should_be_told_i_can_add_2_more_courses
     and_i_should_be_prompted_to_add_an_additional_course
+
+    when_i_choose_no
     then_i_should_be_on_the_course_choice_review_page
 
-    given_i_am_on_the_course_review_page
-    and_i_click_on_add_another_course
+    given_i_am_on_the_additional_courses_page
+    when_i_choose_yes
+    then_i_should_see_the_have_you_chosen_a_course_page
+
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_my_second_course_choice
-    then_i_should_be_on_the_course_review_page
+    then_i_should_be_on_the_add_additional_courses_page
     and_i_should_receive_a_message_that_ive_added_the_second_course
     and_i_should_be_told_i_can_add_1_more_courses
     and_i_should_be_prompted_to_add_an_additional_course
-    and_i_click_on_add_another_course
+
+    when_i_choose_yes
+    then_i_should_see_the_have_you_chosen_a_course_page
+
     when_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_my_third_course_choice
@@ -50,20 +57,16 @@ RSpec.feature 'Add additional courses flow' do
     create_and_sign_in_candidate
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def when_i_visit_my_application_page
     visit candidate_interface_application_form_path
   end
 
-  def and_i_click_choose_your_course
+  def and_i_click_on_course_choices
     click_link 'Choose your courses'
-  end
-
-  def and_i_click_on_add_another_course
-    click_link 'Add another course'
   end
 
   def when_i_choose_that_i_know_where_i_want_to_apply
@@ -81,8 +84,8 @@ RSpec.feature 'Add additional courses flow' do
     click_button t('continue')
   end
 
-  def then_i_should_be_on_the_course_review_page
-    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
+  def then_i_should_be_on_the_add_additional_courses_page
+    expect(page).to have_current_path candidate_interface_course_choices_add_another_course_path
   end
 
   def and_i_should_receive_a_message_that_ive_added_the_first_course
@@ -90,15 +93,29 @@ RSpec.feature 'Add additional courses flow' do
   end
 
   def and_i_should_be_told_i_can_add_2_more_courses
-    expect(page).to have_content('You can add 2 more courses')
+    expect(page).to have_content('You can choose 2 more courses')
   end
 
   def and_i_should_be_prompted_to_add_an_additional_course
-    expect(page).to have_content('Add another course')
+    expect(page).to have_content('Do you want to add another course?')
   end
 
-  def given_i_am_on_the_course_review_page
-    visit candidate_interface_course_choices_review_path
+  def when_i_choose_no
+    choose 'No, not at the moment'
+    click_on t('continue')
+  end
+
+  def then_i_should_see_the_have_you_chosen_a_course_page
+    expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
+  end
+
+  def given_i_am_on_the_additional_courses_page
+    visit candidate_interface_course_choices_add_another_course_path
+  end
+
+  def when_i_choose_yes
+    choose 'Yes, add another course'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_add_another_course_page
@@ -115,7 +132,7 @@ RSpec.feature 'Add additional courses flow' do
   end
 
   def and_i_should_be_told_i_can_add_1_more_courses
-    expect(page).to have_content('You can add 1 more course')
+    expect(page).to have_content('You can choose 1 more course')
   end
 
   def and_i_choose_my_third_course_choice

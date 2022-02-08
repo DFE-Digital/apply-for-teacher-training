@@ -5,7 +5,7 @@ RSpec.feature 'Candidate edits their choice section' do
 
   scenario 'Candidate deletes and adds additional courses' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     and_i_have_completed_the_course_choice_section
 
     when_i_visit_the_course_choices_page
@@ -22,6 +22,9 @@ RSpec.feature 'Candidate edits their choice section' do
     and_i_choose_that_i_know_where_i_want_to_apply
     and_i_choose_a_provider
     and_i_choose_a_course_with_a_single_site
+
+    when_i_choose_not_to_add_another_course
+    and_i_click_continue
     then_i_should_see_the_course_choices_review_page
 
     when_i_click_continue
@@ -37,8 +40,8 @@ RSpec.feature 'Candidate edits their choice section' do
     login_as(@candidate)
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def and_i_have_completed_the_course_choice_section
@@ -109,6 +112,10 @@ RSpec.feature 'Candidate edits their choice section' do
 
   def then_i_should_see_a_section_complete_error
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/section_complete_form.attributes.completed.blank')
+  end
+
+  def when_i_choose_not_to_add_another_course
+    choose 'No, not at the moment'
   end
 
   def when_i_mark_the_section_as_complete

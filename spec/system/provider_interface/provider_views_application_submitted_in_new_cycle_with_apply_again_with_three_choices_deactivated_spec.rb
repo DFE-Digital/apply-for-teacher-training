@@ -14,7 +14,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
   scenario 'but started in the previous one' do
     given_i_am_signed_in_as_a_candidate
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_new_recruitment_cycle_begins
 
@@ -52,8 +52,8 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     login_as(@candidate)
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def when_i_have_an_unsubmitted_application_without_a_course
@@ -143,10 +143,12 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     choose 'Primary (2XT2)'
     click_button t('continue')
     expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
-    expect(page).to have_content 'You can add 2 more courses'
+    expect(page).to have_content 'You can choose 2 more courses'
   end
 
   def and_i_complete_the_section
+    choose 'No, not at the moment'
+    click_button t('continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
   end

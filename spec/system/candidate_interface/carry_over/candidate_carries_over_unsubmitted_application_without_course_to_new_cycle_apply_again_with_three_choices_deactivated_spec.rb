@@ -1,22 +1,20 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider views application submitted in new cycle' do
+RSpec.feature 'Carry over' do
   include CandidateHelper
   include CycleTimetableHelper
-  include CourseOptionHelpers
-  include DfESignInHelpers
 
   around do |example|
-    Timecop.freeze(CycleTimetable.apply_1_deadline(2021) + 1.day) do
+    Timecop.freeze(mid_cycle) do
       example.run
     end
   end
 
-  scenario 'but started in the previous one' do
+  scenario 'Candidate carries over unsubmitted application without course to new cycle' do
     given_i_am_signed_in_as_a_candidate
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     when_i_have_an_unsubmitted_application_without_a_course
-    and_the_new_recruitment_cycle_begins
+    and_the_recruitment_cycle_ends
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
@@ -31,20 +29,13 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
     when_i_view_courses
     then_i_can_see_that_i_need_to_select_courses
+    then_i_can_see_that_i_need_to_select_courses
 
     and_i_select_a_course
     and_i_complete_the_section
     and_i_receive_references
     and_i_submit_my_application
     and_my_application_is_awaiting_provider_decision
-
-    given_i_am_a_provider_user_with_dfe_sign_in
-    and_i_am_permitted_to_see_the_candidates_application
-    and_i_sign_in_to_the_provider_interface
-
-    when_i_visit_the_provider_page
-    then_i_can_see_a_filter_for_the_current_recruitment_cycle_year
-    then_i_can_see_and_load_the_candidates_application
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -52,8 +43,8 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     login_as(@candidate)
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def when_i_have_an_unsubmitted_application_without_a_course
@@ -77,9 +68,9 @@ RSpec.feature 'Provider views application submitted in new cycle' do
     )
   end
 
-  def and_the_new_recruitment_cycle_begins
+  def and_the_recruitment_cycle_ends
     Timecop.safe_mode = false
-    Timecop.travel(CycleTimetable.apply_opens(2022) + 1.day)
+    Timecop.travel(after_apply_reopens)
   ensure
     Timecop.safe_mode = true
   end
@@ -142,11 +133,14 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
     choose 'Primary (2XT2)'
     click_button t('continue')
+
     expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
-    expect(page).to have_content 'You can add 2 more courses'
+    expect(page).to have_content 'You can choose 2 more courses'
   end
 
   def and_i_complete_the_section
+    choose 'No, not at the moment'
+    click_button t('continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
   end
@@ -163,28 +157,5 @@ RSpec.feature 'Provider views application submitted in new cycle' do
   def and_my_application_is_awaiting_provider_decision
     application_choice = @new_application_form.application_choices.first
     expect(application_choice.status).to eq 'awaiting_provider_decision'
-  end
-
-  def given_i_am_a_provider_user_with_dfe_sign_in
-    provider_exists_in_dfe_sign_in
-  end
-
-  def and_i_am_permitted_to_see_the_candidates_application
-    @provider_user = provider_user_exists_in_apply_database
-    @provider_user.providers << @provider
-    create(:provider_agreement, provider: @provider, provider_user: @provider_user)
-  end
-
-  def when_i_visit_the_provider_page
-    visit provider_interface_path
-  end
-
-  def then_i_can_see_a_filter_for_the_current_recruitment_cycle_year
-    find(:css, "#recruitment_cycle_year-#{RecruitmentCycle.current_year}").set(true)
-    expect(page).not_to have_css("#recruitment_cycle_year-#{RecruitmentCycle.current_year - 2}")
-  end
-
-  def then_i_can_see_and_load_the_candidates_application
-    click_on @application_form.full_name
   end
 end
