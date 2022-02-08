@@ -7,7 +7,7 @@ module SupportInterface
         name: 'Weekly export of the tad applications by demographic domicile and degree class',
         export_type: :applications_by_demographic_domicile_and_degree_class,
       )
-      DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport, data_export.id)
+      DataExporter.perform_async(SupportInterface::ApplicationsByDemographicDomicileAndDegreeClassExport.to_s, data_export.id)
     end
 
     def call(*)

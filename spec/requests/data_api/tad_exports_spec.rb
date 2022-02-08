@@ -24,7 +24,7 @@ RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true d
       create(:submitted_application_choice, :with_completed_application_form)
 
       data_export = DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
-      DataExporter.perform_async(DataAPI::TADExport, data_export.id)
+      DataExporter.perform_async(DataAPI::TADExport.to_s, data_export.id)
     end
 
     it 'returns data exports response JSON values as expected' do
@@ -45,7 +45,7 @@ RSpec.describe 'GET /data-api/tad-data-exports', type: :request, sidekiq: true d
       Timecop.travel(2.days.ago) do
         create(:submitted_application_choice, :with_completed_application_form)
         data_export = DataExport.create!(name: 'Daily export of applications for TAD', export_type: :tad_applications)
-        DataExporter.perform_async(DataAPI::TADExport, data_export.id)
+        DataExporter.perform_async(DataAPI::TADExport.to_s, data_export.id)
       end
 
       get_api_request "/data-api/tad-data-exports?updated_since=#{CGI.escape(1.day.ago.iso8601)}", token: tad_api_token

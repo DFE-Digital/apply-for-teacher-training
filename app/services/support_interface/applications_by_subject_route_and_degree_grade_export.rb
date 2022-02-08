@@ -14,7 +14,7 @@ module SupportInterface
         name: 'Weekly export of the applications export grouped by subject, route and degree grade',
         export_type: :applications_by_subject_route_and_degree_grade,
       )
-      DataExporter.perform_async(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport, data_export.id)
+      DataExporter.perform_async(SupportInterface::ApplicationsBySubjectRouteAndDegreeGradeExport.to_s, data_export.id)
     end
 
     def call(*)

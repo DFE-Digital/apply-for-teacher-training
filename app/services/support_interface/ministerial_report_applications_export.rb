@@ -5,7 +5,7 @@ module SupportInterface
         name: 'Daily export of the applications ministerial report',
         export_type: :ministerial_report_applications_export,
       )
-      DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport, data_export.id)
+      DataExporter.perform_async(SupportInterface::MinisterialReportApplicationsExport.to_s, data_export.id)
     end
 
     def call(*)

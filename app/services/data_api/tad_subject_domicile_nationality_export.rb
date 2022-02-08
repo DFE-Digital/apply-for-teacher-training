@@ -5,7 +5,7 @@ module DataAPI
         name: 'Weekly export of subjects, candidate nationality, domicile and application status for TAD',
         export_type: :tad_subject_domicile_nationality,
       )
-      DataExporter.perform_async(DataAPI::TADSubjectDomicileNationalityExport, data_export.id)
+      DataExporter.perform_async(DataAPI::TADSubjectDomicileNationalityExport.to_s, data_export.id)
     end
 
     def self.all
