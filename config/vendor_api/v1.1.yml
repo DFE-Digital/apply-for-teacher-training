@@ -412,17 +412,23 @@ components:
             An optional string describing where or how the interview will take place.
           example: 'Zoom call'
         additional_details:
-          type: string
+          type:
+            - 'null'
+            - string
           description: |
             Optional string for additional notes.
           example: 'Candidate requires a parking space'
         cancelled_at:
-          type: string
+          type:
+            - 'null'
+            - string
           format: date-time
           description: Date and time of cancellation, if cancelled.
           example: 2019-09-18T16:33:49.216Z
         cancellation_reason:
-          type: string
+          type:
+            - 'null'
+            - string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           example: 'Candidate has accepted an alternative offer'
         created_at:
