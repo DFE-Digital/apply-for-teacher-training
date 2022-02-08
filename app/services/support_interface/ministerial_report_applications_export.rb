@@ -10,30 +10,55 @@ module SupportInterface
 
     def call(*)
       report = initialize_empty_report
+      subject_ids_report = {}
 
       report = choices_with_courses_and_subjects.each_with_object(report) do |choice, report_in_progress|
-        add_choice_to_report(choice, report_in_progress)
+        add_choice_to_report(choice, report_in_progress, subject_ids_report)
       end
 
       report = assign_totals_to_report(report)
-      File.write("ministerial-report-applications-#{Time.zone.now}.txt", report.inspect)
+
+      File.write(
+        "ministerial-report-applications-#{Time.zone.now}.txt",
+        report.inspect,
+      )
+      File.write(
+        "subjects-applications-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
+        subject_ids_report.to_json(indent: 2),
+      )
 
       report
     end
 
-    def add_choice_to_report(choice, report)
+    def add_choice_to_report(choice, report, subject_ids_report)
       subject_names_and_codes = choice.subject_names.zip(choice.subject_codes)
       subject = MinisterialReport.determine_dominant_subject_for_report(choice.course_name, choice.course_level, subject_names_and_codes.to_h)
       mapped = MinisterialReport::TAD_STATUS_PRECEDENCE[choice.status.to_sym].presence || []
 
       (mapped + [:applications]).each do |mapped_status|
-        report[:stem][mapped_status] += 1 if MinisterialReport::STEM_SUBJECTS.include? subject
-        report[:ebacc][mapped_status] += 1 if MinisterialReport::EBACC_SUBJECTS.include? subject
-        report[:secondary][mapped_status] += 1 if MinisterialReport::SECONDARY_SUBJECTS.include? subject
+        if MinisterialReport::STEM_SUBJECTS.include? subject
+          report[:stem][mapped_status] += 1 
+          add_choice_to_ids_report(subject_ids_report, :stem, mapped_status, choice)
+        end
+        if MinisterialReport::EBACC_SUBJECTS.include? subject
+          report[:ebacc][mapped_status] += 1
+          add_choice_to_ids_report(subject_ids_report, :ebacc, mapped_status, choice)
+        end
+        if MinisterialReport::SECONDARY_SUBJECTS.include? subject
+          report[:secondary][mapped_status] += 1
+          add_choice_to_ids_report(subject_ids_report, :secondary, mapped_status, choice)
+        end
         report[subject][mapped_status] += 1
+        add_choice_to_ids_report(subject_ids_report, subject, mapped_status, choice)
       end
 
       report
+    end
+
+    def add_choice_to_ids_report(subject_ids_report, subject, mapped_status, choice)
+      subject_ids_report[subject] ||= {}
+      subject_ids_report[subject][mapped_status] ||= []
+      subject_ids_report[subject][mapped_status] << choice.id
     end
 
     def assign_totals_to_report(report)
