@@ -5,7 +5,6 @@ RSpec.feature 'Editing account status' do
 
   scenario 'Support user edits account status' do
     given_i_am_a_support_user
-    and_the_duplicate_matching_feature_flag_is_activated
     and_there_are_candidates_with_duplicate_applications_in_the_system
     and_the_update_duplicate_matches_worker_has_run
 
@@ -33,10 +32,6 @@ RSpec.feature 'Editing account status' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
-  end
-
-  def and_the_duplicate_matching_feature_flag_is_activated
-    FeatureFlag.activate(:duplicate_matching)
   end
 
   def and_there_are_candidates_with_duplicate_applications_in_the_system

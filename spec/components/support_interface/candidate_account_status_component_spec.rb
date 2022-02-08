@@ -15,37 +15,19 @@ RSpec.describe SupportInterface::CandidateAccountStatusComponent do
     )
   end
 
-  context 'when duplicate matching feature flag is active' do
-    before do
-      FeatureFlag.activate(:duplicate_matching)
-    end
+  context 'when candidate is unblocked' do
+    let(:candidate) { create(:candidate, submission_blocked: false, account_locked: false) }
 
-    context 'when candidate is unblocked' do
-      let(:candidate) { create(:candidate, submission_blocked: false, account_locked: false) }
-
-      it 'renders block account link' do
-        expect(result.text).to include('Block account')
-      end
-    end
-
-    context 'when candidate account access is locked' do
-      let(:candidate) { create(:candidate, submission_blocked: false, account_locked: true) }
-
-      it 'renders change status link' do
-        expect(result.text).to include('Account access locked')
-      end
+    it 'renders block account link' do
+      expect(result.text).to include('Block account')
     end
   end
 
-  context 'when duplicate matching feature flag is inactive' do
-    let(:candidate) { build(:candidate) }
+  context 'when candidate account access is locked' do
+    let(:candidate) { create(:candidate, submission_blocked: false, account_locked: true) }
 
-    before do
-      FeatureFlag.deactivate(:duplicate_matching)
-    end
-
-    it 'does not render' do
-      expect(result.text).to eq('')
+    it 'renders change status link' do
+      expect(result.text).to include('Account access locked')
     end
   end
 end
