@@ -16,7 +16,7 @@ default: &default
 
 development:
   <<: *default
-  database: 'bat_apply_development'
+  database: <%= ENV.fetch('DB_DATABASE', 'bat_apply_development') %>
 
 test:
   <<: *default
