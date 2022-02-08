@@ -29,7 +29,7 @@ class CancelInterview
         ActiveRecord::Base.transaction do
           interview.save!
 
-          ApplicationStateChange.new(application_choice).cancel_interview! if @application_choice.interviews.kept.none?
+          ApplicationStateChange.new(application_choice).cancel_interview! if application_choice.interviews.kept.none?
         end
 
         CandidateMailer.interview_cancelled(application_choice, interview, cancellation_reason).deliver_later
@@ -41,7 +41,7 @@ class CancelInterview
 
   def raise_error_if_state_transition_not_allowed!
     unless ApplicationStateChange.new(application_choice).can_cancel_interview?
-      raise "Interview cannot be cancelled when the application_choice is in #{application_choice.status} state"
+      raise Workflow::NoTransitionAllowed, I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition')
     end
   end
 
