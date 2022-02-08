@@ -89,8 +89,9 @@ paths:
       summary: Defer an offer
       description: |
         Defers an offer to the next cycle.
-        The application will transition to the `offer_deferred` status
-        and the fields `offer_deferred_at` and `status_before_deferral` will be populated.
+
+        This will transition the application to the [offer\_deferred state](/api-docs/lifecycle#offer_deferred).
+        The fields `offer_deferred_at` and `status_before_deferral` will be populated.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -160,6 +161,8 @@ paths:
       summary: Withdraw an application
       description: |
         Withdraws an application or declines an offer at the candidate’s request.
+
+        This will transition the application to the [withdrawn state](/api-docs/lifecycle#withdrawn) or the [declined state](/api-docs/lifecycle#declined).
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -192,6 +195,8 @@ paths:
       summary: Create interview
       description: |
         Creates a new interview for this application.
+
+        This will transition the application to the [interviewing state](/api-docs/lifecycle#interviewing) if it is not already in this state.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -265,6 +270,8 @@ paths:
       summary: Cancel interview
       description: |
         Cancels an existing interview for this application.
+
+        This will transition the application to the [awaiting\_provider\_decision state](/api-docs/lifecycle#interviewing) if there are no other scheduled interviews for the application.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       - "$ref": "#/components/parameters/interview_id"
