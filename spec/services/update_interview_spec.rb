@@ -31,25 +31,6 @@ RSpec.describe UpdateInterview do
       expect(interview.additional_details).to eq('Business casual')
     end
 
-    context 'if the interview is not changed' do
-      let(:service_params) do
-        {
-          actor: provider_user,
-          provider: interview.provider,
-          interview: interview,
-          date_and_time: interview.date_and_time,
-          location: interview.location,
-          additional_details: interview.additional_details,
-        }
-      end
-
-      it 'an email is not sent', sidekiq: true do
-        described_class.new(service_params).save!
-
-        expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
-      end
-    end
-
     it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
       described_class.new(service_params).save!
 
@@ -91,7 +72,7 @@ RSpec.describe UpdateInterview do
     end
   end
 
-  context 'if interview validations fail' do
+  context 'if interview validations fail', sidekiq: true do
     let(:new_date_and_time_in_the_past) { 5.days.ago }
     let(:service_params) do
       {
@@ -107,6 +88,47 @@ RSpec.describe UpdateInterview do
     it 'raises a ValidationException, does not send emails' do
       expect { described_class.new(service_params).save! }.to \
         raise_error(ValidationException)
+
+      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
+    end
+  end
+
+  context 'if interview workflow constraints fail', sidekiq: true do
+    let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+    let(:service_params) do
+      {
+        actor: provider_user,
+        provider: provider,
+        interview: interview,
+        date_and_time: 3.days.from_now,
+        location: 'Zoom call',
+        additional_details: 'Business casual',
+      }
+    end
+
+    it 'raises an InterviewWorkflowConstraints::WorkflowError, does not send emails' do
+      expect { described_class.new(service_params).save! }.to \
+        raise_error(InterviewWorkflowConstraints::WorkflowError)
+
+      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
+    end
+  end
+
+  context 'if the update changes no fields', sidekiq: true do
+    let(:service_params) do
+      {
+        actor: provider_user,
+        provider: provider,
+        interview: interview,
+        date_and_time: interview.date_and_time,
+        location: interview.location,
+        additional_details: interview.additional_details,
+      }
+    end
+
+    it 'raises a NotModifiedError, does not send emails' do
+      expect { described_class.new(service_params).save! }.to \
+        raise_error(NotModifiedError)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
     end

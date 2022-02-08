@@ -19,12 +19,13 @@ class CancelInterview
     auth.assert_can_set_up_interviews!(application_choice: application_choice,
                                        course_option: application_choice.current_course_option)
 
+    InterviewWorkflowConstraints.new(interview: interview).cancel!
     raise_error_if_state_transition_not_allowed!
 
     interview.cancellation_reason = cancellation_reason
     interview.cancelled_at = Time.zone.now
 
-    if interview_validations.valid?
+    if interview_validations.valid?(:cancel)
       audit(auth.actor) do
         ActiveRecord::Base.transaction do
           interview.save!

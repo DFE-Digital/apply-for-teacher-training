@@ -23,51 +23,7 @@ RSpec.describe InterviewValidations do
     let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
 
     it 'is valid even if date_and_time in the past' do
-      expect(interview_validations).to be_valid
-    end
-  end
-
-  context 'application_choice past interviewing stage' do
-    let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
-
-    context 'if there are no changes to be made' do
-      let(:interview) { create(:interview, application_choice: application_choice) }
-
-      it 'is still valid' do
-        expect(interview_validations).to be_valid
-      end
-    end
-
-    context 'new interview' do
-      let(:interview) { build(:interview, application_choice: application_choice, skip_application_choice_status_update: true) }
-
-      it 'is not valid' do
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('application_choice.status_past_interviewing_stage')])
-      end
-    end
-
-    context 'interview update' do
-      let(:interview) { create(:interview, application_choice: application_choice, skip_application_choice_status_update: true) }
-
-      it 'is not valid' do
-        interview.additional_details = 'New additional details'
-
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('application_choice.status_past_interviewing_stage')])
-      end
-    end
-
-    context 'interview cancellation' do
-      let(:interview) { create(:interview, application_choice: application_choice, skip_application_choice_status_update: true) }
-
-      it 'makes interview cancellations not valid' do
-        interview.cancelled_at = Time.zone.now
-        interview.cancellation_reason = 'A cancellation reason'
-
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('application_choice.status_past_interviewing_stage')])
-      end
+      expect(interview_validations).to be_valid(:update)
     end
   end
 
@@ -81,7 +37,7 @@ RSpec.describe InterviewValidations do
     end
 
     it 'needs a date_and_time' do
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('date_and_time.blank')])
     end
 
@@ -89,7 +45,7 @@ RSpec.describe InterviewValidations do
       interview.date_and_time = 3.days.from_now
       interview.application_choice = nil
 
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('application_choice.blank')])
     end
 
@@ -97,7 +53,7 @@ RSpec.describe InterviewValidations do
       interview.date_and_time = 3.days.from_now
       interview.provider = nil
 
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('provider.blank')])
     end
 
@@ -108,7 +64,7 @@ RSpec.describe InterviewValidations do
       expect(interview_validations).to be_valid
 
       interview.provider = create(:provider)
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('provider.training_or_ratifying_only')])
     end
 
@@ -116,61 +72,39 @@ RSpec.describe InterviewValidations do
       interview.date_and_time = 3.days.from_now
       interview.location = nil
 
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('location.blank')])
     end
 
     it 'with a date_and_time in the past is not valid' do
       interview.date_and_time = 3.days.ago
 
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('date_and_time.in_the_past')])
     end
 
     it 'with a date_and_time in the future is valid' do
       interview.date_and_time = 3.days.from_now
 
-      expect(interview_validations).to be_valid
+      expect(interview_validations).to be_valid(:create)
     end
 
     it 'with a date_and_time past the RBD date is not valid' do
       rbd_date = application_choice.reject_by_default_at
       interview.date_and_time = rbd_date + 1.second
 
-      expect(interview_validations).not_to be_valid
+      expect(interview_validations).not_to be_valid(:create)
       expect(errors).to match_array([error_message('date_and_time.past_rbd_date')])
     end
   end
 
   context 'update interview' do
-    context 'any change to an interview that has passed' do
-      let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
-
-      it 'is not valid' do
-        interview.additional_details = 'Changed value'
-
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('base.changing_a_past_interview')])
-      end
-    end
-
-    context 'any change to a cancelled interview' do
-      let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
-
-      it 'is not valid' do
-        interview.additional_details = 'Changed value'
-
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('base.changing_a_cancelled_interview')])
-      end
-    end
-
     context 'setting required fields to nil' do
       context 'setting provider to nil' do
         it 'is not valid' do
           interview.provider = nil
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('provider.blank')])
         end
       end
@@ -179,7 +113,7 @@ RSpec.describe InterviewValidations do
         it 'is not valid' do
           interview.location = nil
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('location.blank')])
         end
       end
@@ -188,7 +122,7 @@ RSpec.describe InterviewValidations do
         it 'is not valid' do
           interview.location = 'A' * 10241
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('location.too_long')])
         end
       end
@@ -197,7 +131,7 @@ RSpec.describe InterviewValidations do
         it 'is valid' do
           interview.additional_details = nil
 
-          expect(interview_validations).to be_valid
+          expect(interview_validations).to be_valid(:update)
         end
       end
 
@@ -205,7 +139,7 @@ RSpec.describe InterviewValidations do
         it 'is not valid' do
           interview.additional_details = 'A' * 10241
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('additional_details.too_long')])
         end
       end
@@ -218,7 +152,7 @@ RSpec.describe InterviewValidations do
         it 'is valid' do
           interview.provider = course.provider
 
-          expect(interview_validations).to be_valid
+          expect(interview_validations).to be_valid(:update)
         end
       end
 
@@ -226,7 +160,7 @@ RSpec.describe InterviewValidations do
         it 'is valid' do
           interview.provider = course.accredited_provider
 
-          expect(interview_validations).to be_valid
+          expect(interview_validations).to be_valid(:update)
         end
       end
 
@@ -234,7 +168,7 @@ RSpec.describe InterviewValidations do
         it 'is not valid' do
           interview.provider = create(:provider)
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('provider.training_or_ratifying_only')])
         end
       end
@@ -245,19 +179,8 @@ RSpec.describe InterviewValidations do
         it 'is not valid' do
           interview.date_and_time = 5.days.ago
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('date_and_time.moving_interview_to_the_past')])
-        end
-      end
-
-      context 'changes from past to future' do
-        let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
-
-        it 'is not valid' do
-          interview.date_and_time = 2.days.from_now
-
-          expect(interview_validations).not_to be_valid
-          expect(errors).to match_array([error_message('base.changing_a_past_interview')])
         end
       end
 
@@ -267,11 +190,8 @@ RSpec.describe InterviewValidations do
         it 'is not valid' do
           interview.date_and_time -= 1.day
 
-          expect(interview_validations).not_to be_valid
-          expect(errors).to match_array([
-            error_message('base.changing_a_past_interview'),
-            error_message('date_and_time.in_the_past'),
-          ])
+          expect(interview_validations).not_to be_valid(:update)
+          expect(errors).to match_array([error_message('date_and_time.in_the_past')])
         end
       end
 
@@ -279,7 +199,7 @@ RSpec.describe InterviewValidations do
         it 'is valid' do
           interview.date_and_time += 1.day
 
-          expect(interview_validations).to be_valid
+          expect(interview_validations).to be_valid(:update)
         end
       end
 
@@ -288,7 +208,7 @@ RSpec.describe InterviewValidations do
           rbd_date = application_choice.reject_by_default_at
           interview.date_and_time = rbd_date + 1.second
 
-          expect(interview_validations).not_to be_valid
+          expect(interview_validations).not_to be_valid(:update)
           expect(errors).to match_array([error_message('date_and_time.past_rbd_date')])
         end
       end
@@ -300,7 +220,7 @@ RSpec.describe InterviewValidations do
       it 'is not valid' do
         interview.cancelled_at = Time.zone.now
 
-        expect(interview_validations).not_to be_valid
+        expect(interview_validations).not_to be_valid(:cancel)
         expect(errors).to match_array([error_message('cancellation_reason.blank')])
       end
     end
@@ -310,7 +230,7 @@ RSpec.describe InterviewValidations do
         interview.cancelled_at = Time.zone.now
         interview.cancellation_reason = 'A' * 10241
 
-        expect(interview_validations).not_to be_valid
+        expect(interview_validations).not_to be_valid(:cancel)
         expect(errors).to match_array([error_message('cancellation_reason.too_long')])
       end
     end
@@ -320,31 +240,7 @@ RSpec.describe InterviewValidations do
         interview.cancelled_at = Time.zone.now
         interview.cancellation_reason = 'A cancellation reason'
 
-        expect(interview_validations).to be_valid
-      end
-    end
-
-    context 'when interview has passed' do
-      let(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
-
-      it 'is not valid' do
-        interview.cancelled_at = Time.zone.now
-        interview.cancellation_reason = 'A cancellation reason'
-
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('base.changing_a_past_interview')])
-      end
-    end
-
-    context 'when interview is already cancelled' do
-      let(:interview) { create(:interview, :cancelled, date_and_time: 5.days.from_now) }
-
-      it 'is not valid' do
-        interview.cancelled_at = Time.zone.now
-        interview.cancellation_reason = 'A cancellation reason'
-
-        expect(interview_validations).not_to be_valid
-        expect(errors).to match_array([error_message('base.cancelling_a_cancelled_interview')])
+        expect(interview_validations).to be_valid(:cancel)
       end
     end
   end

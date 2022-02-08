@@ -3,6 +3,9 @@ module VendorAPI
     include ApplicationDataConcerns
     include APIValidationsAndErrorHandling
 
+    rescue_from InterviewWorkflowConstraints::WorkflowError, with: :render_workflow_error
+    rescue_from NotModifiedError, with: :render_not_modified
+
     def create
       CreateInterview.new(
         actor: audit_user,
@@ -41,6 +44,28 @@ module VendorAPI
     end
 
   private
+
+    def render_workflow_error(e)
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'WorkflowError',
+            message: e.message,
+          },
+        ],
+      }
+    end
+
+    def render_not_modified(e)
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'NotModifiedError',
+            message: e.message,
+          },
+        ],
+      }
+    end
 
     def provider_for_interview(code)
       Provider.find_by(code: code)

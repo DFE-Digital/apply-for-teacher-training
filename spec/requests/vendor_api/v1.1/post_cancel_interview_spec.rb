@@ -33,21 +33,17 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
     context 'reason too long' do
       it 'fails and renders an Unprocessable Entity error' do
-        skip 'Depends on interview validations work'
-
-        post_cancellation! reason: 'A' * 2001, skip_schema_check: true
+        post_cancellation! reason: 'A' * 10241, skip_schema_check: true
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Too long.')
+          .to contain_exactly('Cancellation reason must be 10240 characters or fewer')
       end
     end
 
     context 'in the past' do
       it 'fails and renders an Unprocessable Entity error' do
-        skip 'Depends on interview validations work'
-
         application_choice.interviews.first.update_columns(date_and_time: 1.day.ago)
 
         post_cancellation! reason: 'A reason'
@@ -55,24 +51,22 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly("It's not possible to cancel an interview in the past.")
+          .to contain_exactly('The interview cannot be changed as it is in the past')
       end
     end
 
     context 'already cancelled' do
       let(:application_choice) do
-        create_application_choice_for_currently_authenticated_provider({}, :with_cancellation_interview)
+        create_application_choice_for_currently_authenticated_provider({}, :with_cancelled_interview)
       end
 
       it 'fails and renders an Unprocessable Entity error' do
-        skip 'Depends on interview validations work'
-
         post_cancellation! reason: 'A reason'
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly("It's not possible to cancel an interview already cancelled.")
+          .to contain_exactly('The interview cannot be changed as it has already been cancelled')
       end
     end
 

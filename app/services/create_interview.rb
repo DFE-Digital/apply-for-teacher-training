@@ -24,7 +24,9 @@ class CreateInterview
     auth.assert_can_set_up_interviews!(application_choice: application_choice,
                                        course_option: application_choice.current_course_option)
 
-    if interview_validations.valid?
+    InterviewWorkflowConstraints.new(interview: interview).create!
+
+    if interview_validations.valid?(:create)
       audit(auth.actor) do
         ActiveRecord::Base.transaction do
           ApplicationStateChange.new(application_choice).interview!

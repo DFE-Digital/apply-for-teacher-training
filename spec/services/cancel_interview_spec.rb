@@ -69,7 +69,7 @@ RSpec.describe CancelInterview do
     end
   end
 
-  context 'if interview validations fail' do
+  context 'if interview validations fail', sidekiq: true do
     let(:service_params) do
       {
         actor: provider_user,
@@ -82,6 +82,25 @@ RSpec.describe CancelInterview do
     it 'raises a ValidationException, does not send emails' do
       expect { described_class.new(service_params).save! }.to \
         raise_error(ValidationException)
+
+      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_cancelled')
+    end
+  end
+
+  context 'if interview workflow constraints fail', sidekiq: true do
+    let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
+    let(:service_params) do
+      {
+        actor: provider_user,
+        application_choice: application_choice,
+        interview: interview,
+        cancellation_reason: nil,
+      }
+    end
+
+    it 'raises a ValidationException, does not send emails' do
+      expect { described_class.new(service_params).save! }.to \
+        raise_error(InterviewWorkflowConstraints::WorkflowError)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_cancelled')
     end

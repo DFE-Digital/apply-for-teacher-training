@@ -69,7 +69,7 @@ RSpec.describe CreateInterview do
     end
   end
 
-  context 'if interview validations fail' do
+  context 'if interview validations fail', sidekiq: true do
     let(:date_and_time_in_the_past) { 5.days.ago }
     let(:service_params) do
       {
@@ -85,6 +85,27 @@ RSpec.describe CreateInterview do
     it 'raises a ValidationException, does not send emails' do
       expect { described_class.new(service_params).save! }.to \
         raise_error(ValidationException)
+
+      expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('new_interview')
+    end
+  end
+
+  context 'if interview workflow constraints fail', sidekiq: true do
+    let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
+    let(:service_params) do
+      {
+        actor: provider_user,
+        application_choice: application_choice,
+        provider: provider,
+        date_and_time: 3.days.from_now,
+        location: 'Zoom call',
+        additional_details: 'Business casual',
+      }
+    end
+
+    it 'raises an InterviewWorkflowConstraints::WorkflowError, does not send emails' do
+      expect { described_class.new(service_params).save! }.to \
+        raise_error(InterviewWorkflowConstraints::WorkflowError)
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('new_interview')
     end
