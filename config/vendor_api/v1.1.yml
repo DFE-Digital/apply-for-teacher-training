@@ -283,6 +283,18 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Note"
+        status:
+          type: string
+          enum:
+          - awaiting_provider_decision
+          - conditions_not_met
+          - declined
+          - offer
+          - offer_deferred
+          - pending_conditions
+          - recruited
+          - rejected
+          - withdrawn
         withdrawn_or_declined_for_candidate:
           type: boolean
           nullable: true
@@ -498,6 +510,17 @@ components:
           format: date-time
           description: Date and time the offer was made
           example: 2019-09-18T15:33:49.216Z
+          nullable: true
+        offer_deferred_at:
+          type: string
+          format: date-time
+          description: Date and time the offer was deferred
+          example: 2019-09-18T15:33:49.216Z
+          nullable: true
+        status_before_deferral:
+          type: string
+          description: The status of the application before deferral
+          example: pending_conditions
           nullable: true
   parameters:
     interview_id:
