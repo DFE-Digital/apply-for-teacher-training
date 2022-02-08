@@ -1,30 +1,28 @@
-## How accessible this website is
+Apply for teacher training run by the Department for Education.
 
-Apply for teacher training is a new service run by the Department for Education.
+To make this service accessible, we:
 
-We have taken steps to make this service accessible:
-
-* we designed it using the [GOV.UK accessible design principles](https://design-system.service.gov.uk/accessibility/)
-* we did an audit to see if there were any accessibility issues
-* we tested the design with users with accessibility needs
+* designed it using GOV.UK accessible design principles
+* carried out an accessibility audit
+* tested the service with users who have access needs
 
 ## What to do if you cannot access parts of this website
 
-If you need information on this website in a different format, such as accessible PDF, large print, easy read, audio recording or braille, please email us on <%= bat_contact_mail_to %>.
+If you need information on this website in a different format, such as accessible PDF, large print, easy read, audio recording or braille, email <%= bat_contact_mail_to %>.
 
-We’ll consider your request and respond to you within 5 working days.
+We’ll respond within 5 working days.
 
-[AbilityNet](https://mcmw.abilitynet.org.uk/) also has advice on making your device easier to use if you’re disabled.
+[AbilityNet](https://mcmw.abilitynet.org.uk/) has advice on making your device easier to use if you’re disabled.
 
 ## Reporting accessibility problems with this website
 
-If you have any problems accessing the service or want to give us feedback, please email us on <%= bat_contact_mail_to %>.
+If you have any problems accessing the service or want to give feedback, email <%= bat_contact_mail_to %>.
 
 ## Enforcement procedure
 
 The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’).
 
-If you’re not happy with how we respond to your complaint, please [contact the quality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
+If you’re not happy with how we respond to your complaint, you can contact the [Equality Advisory and Support Service (EASS)](https://www.equalityadvisoryservice.com/).
 
 ## Technical information about this website’s accessibility
 

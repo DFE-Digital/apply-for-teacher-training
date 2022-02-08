@@ -8,13 +8,15 @@
 
       <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { text: t('page_titles.add_undergraduate_degree'), size: 'xl', tag: 'h1' } do %>
         <p class="govuk-body">
-          Your undergraduate degree confirms your eligibility to teach.
-          Enter the details of your degree as they appear on your certificate,
-          translating them into English if necessary.
+          You need an undergraduate degree to be eligible for primary or secondary postgraduate teacher training.
         </p>
 
         <p class="govuk-body">
-          If you have further postgraduate degrees, you’ll be able to add them next.
+          Enter the details of your degree as they appear on your certificate, translating them into English if necessary.
+        </p>
+
+        <p class="govuk-body">
+          You can add any other degrees after.
         </p>
 
         <%= render 'form_fields', f: f %>

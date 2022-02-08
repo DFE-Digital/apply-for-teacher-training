@@ -56,7 +56,7 @@ RSpec.describe 'Apply again' do
   end
 
   def then_i_should_see_the_apply_again_banner
-    expect(page).to have_content 'If now’s the right time, you can still apply for courses that start this academic year.'
+    expect(page).to have_content 'If now’s the right time for you, you can still apply for courses that start this academic year.'
   end
 
   def and_i_should_see_the_deadline_banner

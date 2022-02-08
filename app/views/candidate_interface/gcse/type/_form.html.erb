@@ -2,7 +2,7 @@
 
 <%= f.govuk_radio_buttons_fieldset :qualification_type,
   legend: { text: t("gcse_edit_type.page_titles.#{@subject}"), size: 'l' },
-  hint: { text: @subject == 'english' ? 'This should be different from an English as a foreign language qualification.' : '' } do %>
+  hint: { text: @subject == 'english' ? 'This should not be a qualification showing you speak English as a foreign language.' : '' } do %>
 
   <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
     <%= f.govuk_radio_divider if i == select_gcse_qualification_type_options.count - 1 %>

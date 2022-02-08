@@ -10,12 +10,12 @@
     <%= render(SummaryListComponent.new(rows: course_choice_rows)) %>
 
     <% if single_application_choice? %>
-      <p class="govuk-body">If you withdraw this course choice you can still apply for more courses this year.</p>
+      <p class="govuk-body">If you withdraw this course choice you can still apply again.</p>
     <% else %>
-      <p class="govuk-body">If you withdraw this course choice (and all your other course choices) you can still apply for more courses this year.</p>
+      <p class="govuk-body">If you withdraw all your course choices you can still apply again.</p>
     <% end %>
 
-    <p class="govuk-body">Any upcoming interviews will be cancelled when you withdraw.</p>
+    <p class="govuk-body">Any upcoming interviews will be cancelled.</p>
 
     <%= govuk_button_to t('decisions.withdraw.confirm'), candidate_interface_withdraw_path, warning: true %>
   </div>
