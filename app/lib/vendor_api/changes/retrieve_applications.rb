@@ -9,6 +9,7 @@ module VendorAPI
 
       action ApplicationsController, :index
 
+      resource MultipleApplicationsPresenter
       resource ApplicationPresenter
     end
   end
