@@ -44,5 +44,12 @@ RSpec.describe MinisterialReport do
 
       it { is_expected.to eq(:physical_education) }
     end
+
+    context 'when the course is classics with latin' do
+      let(:course_name) { 'Classics with Latin' }
+      let(:subject_names_and_codes) { { 'Latin' => 'A0', 'Classics' => 'Q8' } }
+
+      it { is_expected.to eq(:classics) }
+    end
   end
 end
