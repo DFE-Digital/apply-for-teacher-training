@@ -4,7 +4,6 @@ module VendorAPI
     include APIValidationsAndErrorHandling
 
     rescue_from InterviewWorkflowConstraints::WorkflowError, with: :render_error_as_json
-    rescue_from NotModifiedError, with: :render_error_as_json
     rescue_from InvalidProviderCode, with: :render_error_as_json
     rescue_from InvalidDateError, with: :render_error_as_json
 

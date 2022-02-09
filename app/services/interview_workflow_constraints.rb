@@ -14,8 +14,6 @@ class InterviewWorkflowConstraints
   end
 
   def update!
-    raise_error_if_interview_has_no_changes
-
     interview_in_the_past?
     interview_already_cancelled?
     application_not_in_interviewing_states?
@@ -25,10 +23,6 @@ class InterviewWorkflowConstraints
     interview_in_the_past?
     interview_already_cancelled?
     application_not_in_interviewing_states?
-  end
-
-  def raise_error_if_interview_has_no_changes
-    raise NotModifiedError, error_message(:no_changes_to_interview) unless interview.changed?
   end
 
   def interview_in_the_past?

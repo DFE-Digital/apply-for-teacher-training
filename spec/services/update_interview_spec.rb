@@ -126,9 +126,8 @@ RSpec.describe UpdateInterview do
       }
     end
 
-    it 'raises a NotModifiedError, does not send emails' do
-      expect { described_class.new(service_params).save! }.to \
-        raise_error(NotModifiedError)
+    it 'does not send emails' do
+      described_class.new(service_params).save!
 
       expect(ActionMailer::Base.deliveries.map { |d| d['rails-mail-template'].value }).not_to include('interview_updated')
     end

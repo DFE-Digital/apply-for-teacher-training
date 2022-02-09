@@ -4,7 +4,6 @@ en:
       models:
         interview_workflow_constraints:
           attributes:
-            no_changes_to_interview: The interview will not be changed with these values
             changing_a_past_interview: The interview cannot be changed as it is in the past
             changing_a_cancelled_interview: The interview cannot be changed as it has already been cancelled
             changing_interviews_for_application_not_in_interviewing_states: Application is not in an interviewing state

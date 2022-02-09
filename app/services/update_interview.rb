@@ -29,6 +29,8 @@ class UpdateInterview
     interview.location = location || interview.location
     interview.additional_details = additional_details || interview.additional_details
 
+    return unless interview.changed? # avoids sending of emails
+
     InterviewWorkflowConstraints.new(interview: interview).update!
 
     if interview_validations.valid?(:update)

@@ -99,31 +99,6 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       end
     end
 
-    context 'no changes to interview (NotModifiedError)' do
-      let(:update_interview_params) do
-        {
-          provider_code: interview.provider.code,
-          date_and_time: interview.date_and_time.iso8601,
-          location: interview.location,
-          additional_details: interview.additional_details,
-        }
-      end
-
-      it 'fails and renders an Unprocessable Entity error' do
-        interview.update(
-          date_and_time: interview.date_and_time.change(usec: 0),
-          additional_details: 'Extra details',
-        )
-
-        post_interview! params: update_interview_params
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('The interview will not be changed with these values')
-      end
-    end
-
     context 'partial update' do
       let(:update_interview_params) do
         {
