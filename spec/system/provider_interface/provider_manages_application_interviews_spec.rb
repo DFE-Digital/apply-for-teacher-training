@@ -39,6 +39,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     then_i_see_a_success_message
     and_an_interview_has_been_created(1.day.from_now.to_s(:govuk_date))
 
+    when_i_navigate_to_notes_tab
+    and_i_do_not_see_the_set_up_interview_button
+    then_i_navigate_back_to_the_interviews_tab
+
     when_i_set_up_another_interview(days_in_future: 2)
     then_another_interview_has_been_created(2.days.from_now.to_s(:govuk_date))
 
@@ -144,6 +148,18 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   alias_method :then_another_interview_has_been_created, :and_an_interview_has_been_created
+
+  def when_i_navigate_to_notes_tab
+    click_on 'Notes'
+  end
+
+  def and_i_do_not_see_the_set_up_interview_button
+    expect(page).not_to have_button 'Set up interview'
+  end
+
+  def then_i_navigate_back_to_the_interviews_tab
+    click_on 'Interviews'
+  end
 
   def when_i_change_the_interview_details
     click_on 'Change details', match: :first
