@@ -44,7 +44,7 @@ jobs:
 
       - name: Download backup
         run: |
-          az storage blob download --container-name prod-db-backup --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME} \
+          az storage blob download --container-name ${{ github.event.inputs.environment }}-db-backup --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME} \
           --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
 
       - name: Extract backup
