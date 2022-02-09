@@ -7,7 +7,7 @@ RSpec.feature 'Entering subject knowledge' do
     given_courses_exist
 
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     and_i_visit_the_site
     and_i_have_chosen_a_course
 
@@ -40,8 +40,8 @@ RSpec.feature 'Entering subject knowledge' do
     create_and_sign_in_candidate
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def and_i_visit_the_site
@@ -50,7 +50,7 @@ RSpec.feature 'Entering subject knowledge' do
 
   def and_i_have_chosen_a_course
     click_link 'Choose your course'
-    candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
+    candidate_fills_in_course_choices
   end
 
   def when_i_click_on_subject_knowledge

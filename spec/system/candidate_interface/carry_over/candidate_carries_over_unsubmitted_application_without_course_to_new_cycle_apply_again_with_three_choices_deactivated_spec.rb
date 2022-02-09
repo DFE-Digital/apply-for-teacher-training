@@ -10,16 +10,16 @@ RSpec.feature 'Carry over' do
     end
   end
 
-  scenario 'Candidate carries over unsubmitted application with a course to new cycle' do
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+  scenario 'Candidate carries over unsubmitted application without course to new cycle' do
     given_i_am_signed_in_as_a_candidate
-    when_i_have_an_unsubmitted_application
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    when_i_have_an_unsubmitted_application_without_a_course
     and_the_recruitment_cycle_ends
-    and_the_cancel_unsubmitted_applications_worker_runs
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
-    then_i_am_redirected_to_the_carry_over_interstitial
+    then_i_cannot_submit_my_application
+    and_i_am_redirected_to_the_carry_over_interstitial
 
     when_i_click_on_continue
     then_i_see_a_copy_of_my_application
@@ -29,17 +29,13 @@ RSpec.feature 'Carry over' do
 
     when_i_view_courses
     then_i_can_see_that_i_need_to_select_courses
+    then_i_can_see_that_i_need_to_select_courses
 
-    when_i_add_a_course
-    and_i_complete_the_section
-    and_i_visit_the_course_choices_section
-    then_i_see_the_course_choice_review_page
-
-    when_i_add_another_course
+    and_i_select_a_course
     and_i_complete_the_section
     and_i_receive_references
     and_i_submit_my_application
-    then_my_application_is_awaiting_provider_decision
+    and_my_application_is_awaiting_provider_decision
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -47,11 +43,11 @@ RSpec.feature 'Carry over' do
     login_as(@candidate)
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
-  def when_i_have_an_unsubmitted_application
+  def when_i_have_an_unsubmitted_application_without_a_course
     @application_form = create(
       :completed_application_form,
       :with_gcses,
@@ -59,11 +55,6 @@ RSpec.feature 'Carry over' do
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       references_count: 0,
-    )
-    @application_choice = create(
-      :application_choice,
-      status: :unsubmitted,
-      application_form: @application_form,
     )
     @first_reference = create(
       :reference,
@@ -84,10 +75,6 @@ RSpec.feature 'Carry over' do
     Timecop.safe_mode = true
   end
 
-  def and_the_cancel_unsubmitted_applications_worker_runs
-    CancelUnsubmittedApplicationsWorker.new.perform
-  end
-
   def when_i_sign_in_again
     logout
     login_as(@candidate)
@@ -97,12 +84,20 @@ RSpec.feature 'Carry over' do
     visit candidate_interface_application_complete_path
   end
 
-  def then_i_am_redirected_to_the_carry_over_interstitial
+  def then_i_cannot_submit_my_application
+    expect(page).not_to have_link('Check and submit your application')
+  end
+
+  def and_i_am_redirected_to_the_carry_over_interstitial
     expect(page).to have_current_path candidate_interface_start_carry_over_path
   end
 
   def when_i_click_on_continue
     click_button 'Continue'
+  end
+
+  def and_i_click_go_to_my_application_form
+    click_link 'Go to your application form'
   end
 
   def then_i_see_a_copy_of_my_application
@@ -126,7 +121,7 @@ RSpec.feature 'Carry over' do
     expect(page).to have_content 'You can apply for up to 3 courses'
   end
 
-  def when_i_add_a_course
+  def and_i_select_a_course
     given_courses_exist
     click_link 'Choose your course'
 
@@ -140,34 +135,12 @@ RSpec.feature 'Carry over' do
     click_button t('continue')
 
     expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
-    expect(page).to have_content 'You can add 2 more courses'
-  end
-
-  def and_i_visit_the_course_choices_section
-    click_link 'Choose your courses'
-  end
-
-  def then_i_see_the_course_choice_review_page
-    expect(page).to have_current_path candidate_interface_course_choices_review_path
-  end
-
-  def when_i_add_another_course
-    click_link 'Add another course'
-
-    choose 'Yes, I know where I want to apply'
-    click_button t('continue')
-
-    select 'Gorse SCITT (1N1)'
-    click_button t('continue')
-
-    choose 'Drama (2397)'
-    click_button t('continue')
-
-    expect(page).to have_content 'You’ve added Drama (2397) to your application'
-    expect(page).to have_content 'You can add 1 more course'
+    expect(page).to have_content 'You can choose 2 more courses'
   end
 
   def and_i_complete_the_section
+    choose 'No, not at the moment'
+    click_button t('continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
   end
@@ -181,7 +154,7 @@ RSpec.feature 'Carry over' do
     @new_application_form = candidate_submits_application
   end
 
-  def then_my_application_is_awaiting_provider_decision
+  def and_my_application_is_awaiting_provider_decision
     application_choice = @new_application_form.application_choices.first
     expect(application_choice.status).to eq 'awaiting_provider_decision'
   end

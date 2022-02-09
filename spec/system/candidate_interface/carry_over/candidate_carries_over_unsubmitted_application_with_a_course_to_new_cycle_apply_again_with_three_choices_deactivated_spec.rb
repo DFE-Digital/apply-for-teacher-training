@@ -11,7 +11,7 @@ RSpec.feature 'Carry over' do
   end
 
   scenario 'Candidate carries over unsubmitted application with a course to new cycle' do
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     given_i_am_signed_in_as_a_candidate
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
@@ -47,8 +47,8 @@ RSpec.feature 'Carry over' do
     login_as(@candidate)
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def when_i_have_an_unsubmitted_application
@@ -140,7 +140,7 @@ RSpec.feature 'Carry over' do
     click_button t('continue')
 
     expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
-    expect(page).to have_content 'You can add 2 more courses'
+    expect(page).to have_content 'You can choose 2 more courses'
   end
 
   def and_i_visit_the_course_choices_section
@@ -164,10 +164,12 @@ RSpec.feature 'Carry over' do
     click_button t('continue')
 
     expect(page).to have_content 'You’ve added Drama (2397) to your application'
-    expect(page).to have_content 'You can add 1 more course'
+    expect(page).to have_content 'You can choose 1 more course'
   end
 
   def and_i_complete_the_section
+    choose 'No, not at the moment'
+    click_button t('continue')
     choose t('application_form.completed_radio')
     click_button t('continue')
   end

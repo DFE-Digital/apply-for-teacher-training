@@ -6,7 +6,7 @@ RSpec.feature 'Candidate edits course choices' do
 
   scenario 'Candidate is signed in' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options
     and_there_is_a_course_with_both_study_modes_but_one_site
@@ -18,8 +18,9 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_a_provider
     and_i_choose_the_third_course_as_my_first_course_choice
     and_i_choose_the_full_time_study_mode
-    then_i_should_see_the_review_page
+    then_i_should_see_the_add_another_course_page
 
+    when_i_choose_no_not_at_the_moment
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_see_a_change_course_link
 
@@ -36,8 +37,9 @@ RSpec.feature 'Candidate edits course choices' do
     and_i_choose_the_multi_site_course_as_my_second_course_choice
     and_i_choose_the_full_time_study_mode
     and_i_choose_the_first_site
-    then_i_should_see_the_review_page
+    then_i_should_see_the_add_another_course_page
 
+    when_i_choose_no_not_at_the_moment
     then_i_should_be_on_the_course_choice_review_page
     and_i_should_see_the_first_site
     and_i_should_see_a_change_location_link
@@ -78,8 +80,8 @@ RSpec.feature 'Candidate edits course choices' do
     create_and_sign_in_candidate
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def and_there_is_a_course_with_one_course_option
@@ -232,8 +234,13 @@ RSpec.feature 'Candidate edits course choices' do
     click_button t('continue')
   end
 
-  def then_i_should_see_the_review_page
-    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
+  def then_i_should_see_the_add_another_course_page
+    expect(page).to have_current_path(candidate_interface_course_choices_add_another_course_path)
+  end
+
+  def when_i_choose_no_not_at_the_moment
+    choose 'No, not at the moment'
+    click_button t('continue')
   end
 
   def and_i_am_asked_to_select_site

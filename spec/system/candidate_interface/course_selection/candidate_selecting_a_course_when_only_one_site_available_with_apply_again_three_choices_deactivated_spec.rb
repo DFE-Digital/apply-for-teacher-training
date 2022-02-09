@@ -5,7 +5,7 @@ RSpec.feature 'Selecting a course when only a single site is available' do
 
   scenario 'Candidate selects a course choice' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
     and_there_are_course_options
 
     when_i_visit_the_site
@@ -15,6 +15,7 @@ RSpec.feature 'Selecting a course when only a single site is available' do
     then_i_should_see_a_course_and_its_description
 
     and_i_choose_a_course
+    and_i_choose_not_to_add_another_course
     then_i_am_on_the_course_choices_page
     and_i_see_my_completed_course_choice
   end
@@ -23,8 +24,8 @@ RSpec.feature 'Selecting a course when only a single site is available' do
     create_and_sign_in_candidate
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def and_there_are_course_options
@@ -118,6 +119,11 @@ RSpec.feature 'Selecting a course when only a single site is available' do
 
   def and_i_choose_a_course
     choose 'Primary (2XT2)'
+    click_button t('continue')
+  end
+
+  def and_i_choose_not_to_add_another_course
+    choose 'No, not at the moment'
     click_button t('continue')
   end
 
