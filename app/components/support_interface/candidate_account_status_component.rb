@@ -8,10 +8,6 @@ module SupportInterface
       @candidate_account_status = candidate_account_status
     end
 
-    def render?
-      FeatureFlag.active?(:duplicate_matching)
-    end
-
     def current_candidate_account_status
       content_tag :div, class: 'govuk-body' do
         if @candidate_account_status.unblocked?

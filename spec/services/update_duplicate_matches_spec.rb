@@ -6,15 +6,15 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
 
   let(:expected_slack_message) do
     <<~MSG
-      \n#{Rails.application.routes.url_helpers.support_interface_fraud_auditing_matches_url}
+      \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
       :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
-      :gavel: 1 match has been marked as fraudulent :gavel:
+      :gavel: 1 match has been marked as a duplicate :gavel:
       :female-detective: In total there are 2 matches :male-detective:
     MSG
   end
 
   before do
-    Timecop.freeze(Time.zone.local(2020, 8, 23, 12, 0o0, 0o0)) do
+    Timecop.freeze(Time.zone.local(2020, 8, 23, 12)) do
       create(:application_form, :duplicate_candidates, candidate: candidate1, submitted_at: Time.zone.now)
       create(:application_form, :duplicate_candidates, candidate: candidate2)
       allow(SlackNotificationWorker).to receive(:perform_async)
