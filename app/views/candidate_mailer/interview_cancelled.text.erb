@@ -1,8 +1,6 @@
 Dear <%= @application_form.first_name %>
 
-# Interview cancelled
-
-<%= @provider_name %> has cancelled the interview on <%= @interview.date_and_time.to_s(:govuk_date_and_time) %> about your application to study <%= @course_name %>.
+<%= @provider_name %> has cancelled your interview on <%= @interview.date_and_time.to_s(:govuk_date_and_time) %> for <%= @course_name %>.
 
 They’ve given the following reason for cancelling the interview:
 
