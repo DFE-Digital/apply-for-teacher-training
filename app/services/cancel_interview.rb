@@ -1,4 +1,6 @@
 class CancelInterview
+  include ImpersonationAuditHelper
+
   attr_reader :auth, :application_choice, :interview, :cancellation_reason
 
   def initialize(
@@ -17,17 +19,36 @@ class CancelInterview
     auth.assert_can_set_up_interviews!(application_choice: application_choice,
                                        course_option: application_choice.current_course_option)
 
-    if ApplicationStateChange.new(application_choice).can_cancel_interview?
-      ActiveRecord::Base.transaction do
-        interview.update!(cancellation_reason: cancellation_reason,
-                          cancelled_at: Time.zone.now)
+    InterviewWorkflowConstraints.new(interview: interview).cancel!
+    raise_error_if_state_transition_not_allowed!
 
-        ApplicationStateChange.new(application_choice).cancel_interview! if @application_choice.interviews.kept.none?
+    interview.cancellation_reason = cancellation_reason
+    interview.cancelled_at = Time.zone.now
+
+    if interview_validations.valid?(:cancel)
+      audit(auth.actor) do
+        ActiveRecord::Base.transaction do
+          interview.save!
+
+          ApplicationStateChange.new(application_choice).cancel_interview! if application_choice.interviews.kept.none?
+        end
+
+        CandidateMailer.interview_cancelled(application_choice, interview, cancellation_reason).deliver_later
       end
-
-      CandidateMailer.interview_cancelled(application_choice, interview, cancellation_reason).deliver_later
     else
-      raise "Interview cannot be cancelled when the application_choice is in #{application_choice.status} state"
+      raise ValidationException, interview_validations.errors.map(&:message)
     end
+  end
+
+  def raise_error_if_state_transition_not_allowed!
+    unless ApplicationStateChange.new(application_choice).can_cancel_interview?
+      raise Workflow::NoTransitionAllowed, I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition')
+    end
+  end
+
+private
+
+  def interview_validations
+    @interview_validations ||= InterviewValidations.new(interview: interview)
   end
 end

@@ -1,0 +1,24 @@
+en:
+  activemodel:
+    errors:
+      models:
+        interview_validations:
+          attributes:
+            date_and_time:
+              blank: Date and time of interview must be supplied
+              in_the_past: Cannot schedule interview in the past
+              moving_interview_to_the_past: Cannot re-schedule interview in the past
+              past_rbd_date: The interview date must be no later than the automatic rejection of the application
+            application_choice:
+              blank: Application choice must be supplied
+            provider:
+              blank: Provider hosting the interview must be supplied
+              training_or_ratifying_only: Provider must be training or ratifying provider
+            location:
+              blank: Location of interview must be specified
+              too_long: Location must be 10240 characters or fewer
+            additional_details:
+              too_long: Additional details must be 10240 characters or fewer
+            cancellation_reason:
+              blank: Cancellation reason is required when cancelling an interview
+              too_long: Cancellation reason must be 10240 characters or fewer

@@ -346,11 +346,13 @@ components:
           type: string
           description: |
             An optional string describing where or how the interview will take place.
+          maxLength: 10240
           example: 'Zoom call'
         additional_details:
           type: string
           description: |
             Optional string for additional notes.
+          maxLength: 10240
           example: 'Candidate requires a parking space'
     CancelInterview:
       type: object
@@ -361,7 +363,7 @@ components:
         reason:
           type: string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
-          maxLength: 2000
+          maxLength: 10240
           example: The candidate has accepted an alternative offer
     ConfirmDeferredOffer:
       type: object
@@ -438,6 +440,7 @@ components:
         cancellation_reason:
           type: string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
+          maxLength: 10240
           example: 'Candidate has accepted an alternative offer'
           nullable: true
         created_at:

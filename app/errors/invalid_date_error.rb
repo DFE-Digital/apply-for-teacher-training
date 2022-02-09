@@ -1,0 +1,1 @@
+class InvalidDateError < StandardError; end

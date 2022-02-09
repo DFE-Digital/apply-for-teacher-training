@@ -47,14 +47,12 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       end
 
       it 'fails and renders an Unprocessable Entity error' do
-        skip 'Depends on interview validations work'
-
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly("It's not possible to schedule an interview in the past.")
+          .to contain_exactly('Cannot schedule interview in the past')
       end
     end
 
@@ -69,14 +67,36 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       end
 
       it 'fails and renders an Unprocessable Entity error' do
-        skip 'Depends on interview validations work'
-
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Provider code must correspond to training or ratifying provider for the course.')
+          .to contain_exactly('Provider must be training or ratifying provider')
+      end
+    end
+
+    context 'application not in an interviewing state' do
+      let(:application_choice) do
+        create_application_choice_for_currently_authenticated_provider(status: 'offer')
+      end
+
+      let(:create_interview_params) do
+        {
+          provider_code: currently_authenticated_provider.code,
+          date_and_time: 1.day.from_now.iso8601,
+          location: 'Zoom call',
+          additional_details: 'This should fail because of the application',
+        }
+      end
+
+      it 'fails and renders an Unprocessable Entity error' do
+        post_interview! params: create_interview_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
+        expect(parsed_response['errors'].map { |error| error['message'] })
+          .to contain_exactly('Application is not in an interviewing state')
       end
     end
 

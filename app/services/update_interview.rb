@@ -1,4 +1,6 @@
 class UpdateInterview
+  include ImpersonationAuditHelper
+
   attr_reader :auth, :interview, :provider, :date_and_time, :location, :additional_details, :application_choice
 
   def initialize(
@@ -22,15 +24,29 @@ class UpdateInterview
     auth.assert_can_set_up_interviews!(application_choice: application_choice,
                                        course_option: application_choice.current_course_option)
 
-    interview.provider = provider
-    interview.date_and_time = date_and_time
-    interview.location = location
-    interview.additional_details = additional_details
+    interview.provider = provider || interview.provider
+    interview.date_and_time = date_and_time || interview.date_and_time
+    interview.location = location || interview.location
+    interview.additional_details = additional_details || interview.additional_details
 
-    return unless interview.changed?
+    return unless interview.changed? # avoids sending of emails
 
-    interview.save!
+    InterviewWorkflowConstraints.new(interview: interview).update!
 
-    CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later
+    if interview_validations.valid?(:update)
+      audit(auth.actor) do
+        interview.save!
+
+        CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later
+      end
+    else
+      raise ValidationException, interview_validations.errors.map(&:message)
+    end
+  end
+
+private
+
+  def interview_validations
+    @interview_validations ||= InterviewValidations.new(interview: interview)
   end
 end

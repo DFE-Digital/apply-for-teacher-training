@@ -6,8 +6,12 @@ FactoryBot.define do
     location { [Faker::Address.full_address, 'Link to video conference'].sample }
     additional_details { [nil, 'Use staff entrance', 'Ask for John at the reception'].sample }
 
-    after(:build) do |interview|
-      interview.application_choice.status = 'interviewing'
+    transient do
+      skip_application_choice_status_update { false }
+    end
+
+    after(:build) do |interview, evaluator|
+      interview.application_choice.status = 'interviewing' unless evaluator.skip_application_choice_status_update
       interview.provider ||= interview.application_choice.current_provider
     end
 
