@@ -17,7 +17,7 @@ on:
 
 jobs:
   backup:
-    name: Restore Snapshot Database (production)
+    name: Restore Snapshot Database (${{ github.event.inputs.environment }})
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event.inputs.environment }}
