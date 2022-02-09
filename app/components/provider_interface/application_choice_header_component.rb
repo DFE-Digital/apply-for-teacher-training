@@ -68,7 +68,7 @@ module ProviderInterface
     end
 
     def set_up_interview?
-      application_choice.decision_pending? && provider_can_set_up_interviews
+      application_choice.decision_pending? && provider_can_set_up_interviews && !application_choice.interviewing?
     end
 
     def inset_text_title
