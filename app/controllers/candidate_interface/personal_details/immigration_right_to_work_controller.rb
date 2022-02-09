@@ -13,8 +13,10 @@ module CandidateInterface
         if @form.save(current_application)
           if @form.right_to_work_or_study?
             redirect_to candidate_interface_immigration_status_path
-          else
+          elsif FeatureFlag.active?(:restructured_immigration_status)
             redirect_to candidate_interface_immigration_route_path
+          else
+            redirect_to candidate_interface_personal_details_show_path
           end
         else
           track_validation_error(@form)
