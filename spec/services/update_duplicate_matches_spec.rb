@@ -8,6 +8,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
     <<~MSG
       \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
       :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
+      :gavel: 1 match has been marked as a duplicate :gavel:
       :female-detective: In total there are 2 matches :male-detective:
     MSG
   end
@@ -83,10 +84,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
                last_name: 'Thompsun',
                date_of_birth: '1998-08-08',
                postcode: 'W6 9BH',
-<<<<<<< HEAD
                blocked: true,
-=======
->>>>>>> 70e5a09ef (Remove the usage of fraudulent column)
                created_at: 2.days.ago)
 
         described_class.new.save!
