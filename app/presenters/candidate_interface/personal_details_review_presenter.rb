@@ -3,11 +3,11 @@ module CandidateInterface
     include ActionView::Helpers::TagHelper
     include Rails.application.routes.url_helpers
 
-    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
+    def initialize(personal_details_form:, nationalities_form:, languages_form:, immigration_right_to_work_form:, application_form:, editable: true, return_to_application_review: false)
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @languages_form = languages_form
-      @right_to_work_or_study_form = right_to_work_form
+      @immigration_right_work_form = immigration_right_to_work_form
       @application_form = application_form
       @editable = editable
       @return_to_application_review = return_to_application_review
@@ -151,99 +151,78 @@ module CandidateInterface
     def right_to_work_rows
       return nil if british_or_irish?
 
-      if @application_form.restructured_immigration_status?
-
-        rows = [
-          {
-            key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
-            value: formatted_immigration_right_to_work,
-            action: (if @editable && !@application_form.immigration_right_to_work.nil?
-                       {
-                         href: candidate_interface_immigration_right_to_work_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_right_to_work',
-              },
+      rows = [
+        {
+          key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
+          value: formatted_immigration_right_to_work,
+          action: (if @editable && !@application_form.immigration_right_to_work.nil?
+                     {
+                       href: candidate_interface_immigration_right_to_work_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_right_to_work',
             },
           },
-        ]
-        if @application_form.immigration_route
-          rows << {
-            key: I18n.t('application_form.personal_details.immigration_route.label'),
-            value: formatted_immigration_route,
-            action: (if @editable
-                       {
-                         href: candidate_interface_immigration_route_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_route.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_route',
-              },
-            },
-          }
-        end
-
-        if @application_form.immigration_status
-          rows << {
-            key: I18n.t('application_form.personal_details.immigration_status.label'),
-            value: formatted_immigration_status,
-            action: (if @editable
-                       {
-                         href: candidate_interface_edit_immigration_status_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_status',
-              },
-            },
-          }
-        end
-
-        if @application_form.immigration_entry_date && FeatureFlag.active?(:immigration_entry_date)
-          rows << {
-            key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
-            value: formatted_immigration_entry_date,
-            action: (if @editable
-                       {
-                         href: candidate_interface_immigration_entry_date_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_entry_date.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_entry_date',
-              },
-            },
-          }
-        end
-
-        rows
-      else
-        [
-          {
-            key: I18n.t('application_form.personal_details.right_to_work.label'),
-            value: formatted_right_to_work_or_study,
-            action: (if @editable
-                       {
-                         href: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.right_to_work.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_right_to_work_or_study',
-              },
+        },
+      ]
+      if @application_form.immigration_route && @application_form.restructured_immigration_status?
+        rows << {
+          key: I18n.t('application_form.personal_details.immigration_route.label'),
+          value: formatted_immigration_route,
+          action: (if @editable
+                     {
+                       href: candidate_interface_immigration_route_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_route.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_route',
             },
           },
-        ]
+        }
       end
+
+      if @application_form.immigration_status
+        rows << {
+          key: I18n.t('application_form.personal_details.immigration_status.label'),
+          value: formatted_immigration_status,
+          action: (if @editable
+                     {
+                       href: candidate_interface_edit_immigration_status_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_status',
+            },
+          },
+        }
+      end
+
+      if @application_form.immigration_entry_date && FeatureFlag.active?(:immigration_entry_date)
+        rows << {
+          key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
+          value: formatted_immigration_entry_date,
+          action: (if @editable
+                     {
+                       href: candidate_interface_immigration_entry_date_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_entry_date.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_entry_date',
+            },
+          },
+        }
+      end
+
+      rows
     end
 
     def british_or_irish?
@@ -268,7 +247,7 @@ module CandidateInterface
       elsif immigration_right_to_work_form.right_to_work_or_study?
         'Yes'
       else
-        'Not yet'
+        'No'
       end
     end
 
@@ -291,17 +270,6 @@ module CandidateInterface
 
     def formatted_immigration_entry_date
       @application_form.immigration_entry_date.to_s(:govuk_date)
-    end
-
-    def formatted_right_to_work_or_study
-      case @right_to_work_or_study_form.right_to_work_or_study
-      when 'yes'
-        "I have the right to work or study in the UK<br> #{tag.p(@right_to_work_or_study_form.right_to_work_or_study_details)}".html_safe
-      when 'no'
-        'I will need to apply for permission to work or study in the UK'
-      else
-        'I do not know'
-      end
     end
 
     def return_to_params
