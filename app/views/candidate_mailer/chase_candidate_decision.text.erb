@@ -6,7 +6,7 @@ Dear <%= @application_form.first_name %>
 
 You have until <%= @dbd_date %> to respond to your offers.
 
-If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
+If you do not respond by <%= @dbd_date %>, your offers will be declined automatically.
 
   <%= render "offer_list" %>
 
@@ -14,7 +14,7 @@ If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
 
 You have until <%= @dbd_date %> to respond to your offer to study <%= @application_choices.first.course_option.course.name %> at <%= @application_choices.first.course_option.course.provider.name %>.
 
-If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
+If you do not respond by <%= @dbd_date %>, your offer will be declined automatically.
 
 <% end %>
 

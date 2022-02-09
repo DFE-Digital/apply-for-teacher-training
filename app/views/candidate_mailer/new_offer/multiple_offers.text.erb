@@ -14,7 +14,7 @@ Contact <%= @provider_name %> if you have any questions about this.
 
 # Make a decision by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>
 
-If you do not reply by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your application will be withdrawn.
+If you do not reply by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your offers will be declined automatically.
 
 <%= render "offer_list" %>
 
