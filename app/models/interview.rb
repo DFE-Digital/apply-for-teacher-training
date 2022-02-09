@@ -6,7 +6,7 @@ class Interview < ApplicationRecord
 
   audited associated_with: :application_choice
 
-  belongs_to :application_choice
+  belongs_to :application_choice, touch: true
   belongs_to :provider
 
   validates :date_and_time, presence: true
