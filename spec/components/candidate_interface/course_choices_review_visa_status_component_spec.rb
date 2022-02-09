@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewVisaStatusComponent do
         )
         result = render_inline(described_class.new(application_choice: application_choice))
 
-        expect(result.css('.app-inset-text__title').text).to include('This provider cannot sponsor Skilled Worker visas')
+        expect(result.css('.app-inset-text__title').text).to include('Visa sponsorship is not available for this course')
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewVisaStatusComponent do
         )
         result = render_inline(described_class.new(application_choice: application_choice))
 
-        expect(result.css('.app-inset-text__title').text).to include('This provider cannot sponsor Student visas')
+        expect(result.css('.app-inset-text__title').text).to include('Visa sponsorship is not available for this course')
       end
     end
 

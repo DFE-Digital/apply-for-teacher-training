@@ -21,10 +21,8 @@ module CandidateInterface
     def title
       if can_sponsor_visa?
         'Visas can be sponsored'
-      elsif @application_choice.course.salary?
-        'This provider cannot sponsor Skilled Worker visas'
       else
-        'This provider cannot sponsor Student visas'
+        'Visa sponsorship is not available for this course'
       end
     end
   end
