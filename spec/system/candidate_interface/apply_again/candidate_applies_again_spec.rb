@@ -167,10 +167,6 @@ RSpec.feature 'Apply again with three choices' do
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
 
-  def and_i_should_be_on_the_review_page
-    expect(page).to have_current_path(candidate_interface_course_choices_review_path)
-  end
-
   def and_i_add_two_more_courses
     click_link 'Add another course'
     choose 'Yes, I know where I want to apply'
