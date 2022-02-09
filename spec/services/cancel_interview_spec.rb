@@ -46,5 +46,11 @@ RSpec.describe CancelInterview do
 
       expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
     end
+
+    it 'touches the application choice' do
+      expect {
+        described_class.new(service_params).save!
+      }.to change(application_choice, :updated_at)
+    end
   end
 end
