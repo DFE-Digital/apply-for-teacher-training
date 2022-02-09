@@ -72,7 +72,9 @@ RSpec.feature 'Provider edits organisation permissions' do
   end
 
   def and_i_click_to_change_one_of_its_relationships
-    click_on 'Change'
+    within(all('.app-summary-card__header')[0]) do
+      click_on 'Change'
+    end
   end
 
   def and_i_give_my_organisation_permission_to_make_decisions
