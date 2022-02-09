@@ -10,6 +10,7 @@ RSpec.describe Publications::MonthlyStatistics::BySecondarySubject do
   it 'correctly generates table data' do
     expect_report_rows(column_headings: ['Subject', 'Recruited', 'Conditions pending', 'Deferred', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
       [['Art and design',           0, 0, 0, 0, 0, 1, 1],
+       ['Biology',                  0, 0, 0, 0, 0, 2, 2],
        ['Business studies',         1, 0, 0, 0, 0, 0, 1],
        ['Chemistry',                0, 0, 0, 0, 0, 1, 1],
        ['English',                  0, 0, 0, 0, 0, 1, 1],
@@ -20,6 +21,6 @@ RSpec.describe Publications::MonthlyStatistics::BySecondarySubject do
        ['Other',                    0, 0, 1, 0, 0, 1, 2]]
     end
 
-    expect_column_totals(3, 0, 1, 0, 0, 8, 12)
+    expect_column_totals(3, 0, 1, 0, 0, 10, 14)
   end
 end

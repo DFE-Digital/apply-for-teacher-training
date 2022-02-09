@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         application_withdrawn
       ]) do
         [[:art_and_design,           1, 1, 0, 1, 0, 0],
-         [:biology,                  0, 0, 0, 0, 0, 0],
+         [:biology,                  1, 0, 0, 0, 1, 0],
          [:business_studies,         1, 1, 1, 0, 0, 0],
          [:chemistry,                1, 0, 0, 0, 1, 0],
          [:classics,                 0, 0, 0, 0, 0, 0],
@@ -39,12 +39,12 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  0, 0, 0, 0, 0, 0],
          [:religious_education,      0, 0, 0, 0, 0, 0],
-         [:stem,                     2, 0, 0, 0, 2, 0],
-         [:ebacc,                    3, 0, 0, 0, 2, 1],
+         [:stem,                     3, 0, 0, 0, 3, 0],
+         [:ebacc,                    4, 0, 0, 0, 3, 1],
          [:primary,                  4, 3, 2, 0, 0, 0],
-         [:secondary,                7, 3, 2, 1, 2, 1],
+         [:secondary,                8, 3, 2, 1, 3, 1],
          [:split,                    1, 1, 1, 0, 0, 0],
-         [:total,                    12, 7, 5, 1, 2, 1]]
+         [:total,                    13, 7, 5, 1, 3, 1]]
       end
     end
 
@@ -585,18 +585,6 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
         create(:application_choice, :with_rejection, application_form: application_form)
 
         expect(described_class.new.determine_states([application_form])).to match_array(%i[candidates])
-      end
-    end
-
-    context 'when there are two forms one withdrawn and one rejected' do
-      it 'returns the awaiting provider decision mapping' do
-        application_form = create(:completed_application_form)
-        create(:application_choice, :withdrawn, application_form: application_form)
-
-        apply_again_application_form = create(:completed_application_form, phase: :apply_2, previous_application_form: application_form)
-        create(:application_choice, :with_rejection, application_form: apply_again_application_form)
-
-        expect(described_class.new.determine_states([apply_again_application_form, application_form])).to match_array(%i[candidates application_rejected])
       end
     end
   end

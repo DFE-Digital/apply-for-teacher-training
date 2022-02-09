@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         application_withdrawn
       ]) do
         [[:art_and_design,           1, 1, 0, 1, 0, 0],
-         [:biology,                  0, 0, 0, 0, 0, 0],
+         [:biology,                  2, 0, 0, 0, 1, 1],
          [:business_studies,         1, 1, 1, 0, 0, 0],
          [:chemistry,                1, 0, 0, 0, 1, 0],
          [:classics,                 0, 0, 0, 0, 0, 0],
@@ -39,11 +39,11 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  1, 0, 0, 0, 0, 1],
          [:religious_education,      0, 0, 0, 0, 0, 0],
-         [:stem,                     4, 0, 0, 0, 3, 1],
-         [:ebacc,                    8, 2, 2, 0, 3, 3],
+         [:stem,                     6, 0, 0, 0, 4, 2],
+         [:ebacc,                    10, 2, 2, 0, 4, 4],
          [:primary,                  7, 3, 2, 0, 0, 0],
-         [:secondary,                12, 5, 4, 1, 3, 3],
-         [:total,                    19, 8, 6, 1, 3, 3]]
+         [:secondary,                14, 5, 4, 1, 4, 4],
+         [:total,                    21, 8, 6, 1, 4, 4]]
       end
     end
   end

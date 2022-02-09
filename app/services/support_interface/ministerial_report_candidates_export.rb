@@ -22,10 +22,7 @@ module SupportInterface
       initialize_subject_report_subject(subject_report, :total)
 
       application_forms.find_each do |application|
-        latest_apply_again_application =
-          if candidate_has_a_viable_apply_2_application?(application)
-            application.candidate.current_application
-          end
+        latest_apply_again_application = viable_apply_2_applications(application).last
 
         # We use original application to select determine subjects and
         # combination of original application and latest apply again
@@ -83,11 +80,11 @@ module SupportInterface
       end
     end
 
-    def candidate_has_a_viable_apply_2_application?(application)
-      application != application.candidate.current_application \
-        && application.candidate.current_application.phase == 'apply_2' \
-        && application.candidate.current_application.submitted_at.present? \
-        && ApplicationStateChange::UNSUCCESSFUL_END_STATES.exclude?(application.candidate.current_application.application_choices.first.status)
+    def viable_apply_2_applications(application)
+      application.candidate.application_forms
+        .select { |application_form| application_form != application }
+        .select { |application_form| application_form.apply_2? && application_form.submitted? }
+        .sort_by(&:id)
     end
 
     def add_row_values(hash, subject, state)

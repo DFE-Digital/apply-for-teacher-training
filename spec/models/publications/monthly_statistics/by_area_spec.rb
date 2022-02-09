@@ -22,12 +22,12 @@ RSpec.describe Publications::MonthlyStatistics::ByArea do
        ['South East',               0, 0, 0, 0, 0, 0, 0],
        ['South West',               0, 0, 0, 0, 0, 1, 1],
        ['Wales',                    0, 0, 0, 0, 0, 0, 0],
-       ['West Midlands',            0, 0, 0, 0, 0, 1, 1],
+       ['West Midlands',            0, 0, 0, 0, 0, 2, 2],
        ['Yorkshire and the Humber', 0, 0, 0, 1, 0, 0, 1],
        ['European Economic Area',   0, 0, 0, 0, 0, 0, 0],
        ['Rest of the World',        0, 0, 0, 0, 0, 0, 0]]
     end
 
-    expect_column_totals(4, 1, 1, 1, 1, 5, 13)
+    expect_column_totals(4, 1, 1, 1, 1, 6, 14)
   end
 end

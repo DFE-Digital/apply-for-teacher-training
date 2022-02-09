@@ -50,6 +50,12 @@ module StatisticsTestHelper
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_west', subjects: [secondary_subject('Art and design'), secondary_subject('History')]),
            application_form: declined_form)
 
+    withdrawn_form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 80), region_code: :west_midlands, phase: 'apply_1')
+    create(:application_choice,
+           :withdrawn,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
+           application_form: withdrawn_form)
+
     # keep the country code nil so that this application falls into the "No region" bucket in the MonthlyStatisticsReport
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, country: nil, sex: 'intersex', date_of_birth: date_of_birth(years_ago: 35), phase: 'apply_1')
     create(:application_choice,
@@ -115,6 +121,18 @@ module StatisticsTestHelper
            application_form: form)
 
     # Apply again
+    form = DuplicateApplication.new(withdrawn_form, target_phase: 'apply_2').duplicate
+    create(:application_choice,
+           :with_rejection,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'north_east', subjects: [secondary_subject('Biology')]),
+           application_form: form)
+    form.update(submitted_at: Time.zone.now)
+    form = DuplicateApplication.new(withdrawn_form, target_phase: 'apply_2').duplicate
+    create(:application_choice,
+           :unsubmitted,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Biology')]),
+           application_form: form)
+
     form = DuplicateApplication.new(declined_form, target_phase: 'apply_2').duplicate
     create(:application_choice,
            :unsubmitted,
