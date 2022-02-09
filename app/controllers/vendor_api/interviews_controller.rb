@@ -3,10 +3,10 @@ module VendorAPI
     include ApplicationDataConcerns
     include APIValidationsAndErrorHandling
 
-    rescue_from InterviewWorkflowConstraints::WorkflowError, with: :render_workflow_error
-    rescue_from NotModifiedError, with: :render_not_modified
-    rescue_from InvalidProviderCode, with: :render_invalid_provider_code
-    rescue_from InvalidDateError, with: :render_invalid_date
+    rescue_from InterviewWorkflowConstraints::WorkflowError, with: :render_error_as_json
+    rescue_from NotModifiedError, with: :render_error_as_json
+    rescue_from InvalidProviderCode, with: :render_error_as_json
+    rescue_from InvalidDateError, with: :render_error_as_json
 
     def create
       CreateInterview.new(
@@ -47,44 +47,11 @@ module VendorAPI
 
   private
 
-    def render_workflow_error(e)
+    def render_error_as_json(e)
       render status: :unprocessable_entity, json: {
         errors: [
           {
-            error: 'WorkflowError',
-            message: e.message,
-          },
-        ],
-      }
-    end
-
-    def render_not_modified(e)
-      render status: :unprocessable_entity, json: {
-        errors: [
-          {
-            error: 'NotModifiedError',
-            message: e.message,
-          },
-        ],
-      }
-    end
-
-    def render_invalid_provider_code(e)
-      render status: :unprocessable_entity, json: {
-        errors: [
-          {
-            error: 'InvalidProviderCode',
-            message: e.message,
-          },
-        ],
-      }
-    end
-
-    def render_invalid_date(e)
-      render status: :unprocessable_entity, json: {
-        errors: [
-          {
-            error: 'InvalidDateError',
+            error: e.class.to_s,
             message: e.message,
           },
         ],
