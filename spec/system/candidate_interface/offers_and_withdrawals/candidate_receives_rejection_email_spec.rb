@@ -98,6 +98,6 @@ RSpec.feature 'Receives rejection email' do
     expect(current_email.text).to include(@offer.course.name)
     expect(current_email.text).to include(@offer2.provider.name)
     expect(current_email.text).to include(@offer2.course.name)
-    expect(current_email.text).to include("The offers will automatically be withdrawn if you do not respond by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.text).to include("The offers will be declined automatically if you do not respond by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 end

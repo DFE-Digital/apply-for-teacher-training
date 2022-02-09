@@ -259,7 +259,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'rejection reasons' => 'Do not refer to yourself in the third person',
         'other application details' => 'You’re not waiting for any other decisions.',
         'first application details' => 'Brighthurst Technical College to study Applied Science (Psychology)',
-        'respond by date' => "The offers will automatically be withdrawn if you do not respond by #{10.business_days.from_now.to_s(:govuk_date)}",
+        'respond by date' => "The offers will be declined automatically if you do not respond by #{10.business_days.from_now.to_s(:govuk_date)}",
       )
     end
   end
