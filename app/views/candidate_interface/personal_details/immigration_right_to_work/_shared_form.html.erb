@@ -1,12 +1,23 @@
 <%= f.govuk_error_summary %>
 
+<h1 class="govuk-heading-l">
+  <%= t('page_titles.right_to_work') %>
+</h1>
+
+<p class="govuk-body">
+  You’ll need the right to work or study in the UK for the duration of your course.
+</p>
+
+<p class="govuk-body">
+  <%= govuk_link_to 'Check if you\'ve already got the right to work or study in the UK, or whether you’ll need to apply for a visa', t('train_to_teach_in_england.url') %>.
+</p>
+
 <%= f.govuk_radio_buttons_fieldset(
   :immigration_right_to_work,
-  legend: { text: t('page_titles.immigration_right_to_work'), size: 'l' },
-  hint: { text: "To get help with student visas and your immigration status, speak to a #{govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser')}.".html_safe },
+  legend: { text: t('page_titles.immigration_right_to_work'), size: 'm' }
 ) do %>
   <%= f.govuk_radio_button :immigration_right_to_work, true, label: { text: 'Yes' }, link_errors: true %>
-  <%= f.govuk_radio_button :immigration_right_to_work, false, label: { text: 'Not yet' } %>
+  <%= f.govuk_radio_button :immigration_right_to_work, false, label: { text: 'No' } %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

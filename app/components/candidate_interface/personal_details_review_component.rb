@@ -11,7 +11,7 @@ module CandidateInterface
       @languages_form = CandidateInterface::LanguagesForm.build_from_application(
         application_form,
       )
-      @right_to_work_or_study_form = CandidateInterface::RightToWorkOrStudyForm.build_from_application(
+      @immigration_right_to_work_form = CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
         application_form,
       )
       @editable = editable
@@ -25,7 +25,7 @@ module CandidateInterface
         nationalities_form: @nationalities_form,
         languages_form: @languages_form,
         application_form: @application_form,
-        right_to_work_form: @right_to_work_or_study_form,
+        immigration_right_to_work_form: @immigration_right_to_work_form,
         return_to_application_review: @return_to_application_review,
       ).rows
     end
