@@ -86,8 +86,6 @@ Rails.application.routes.draw do
         get '/nationalities/edit', to: redirect('/candidate/application/personal-information/nationality/edit'), as: :personal_details_edit_nationalities
         get '/languages', to: redirect('/candidate/application/personal-information/languages'), as: :personal_details_languages
         get '/languages/edit', to: redirect('/candidate/application/personal-information/languages/edit'), as: :personal_details_edit_languages
-        get '/right-to-work-or-study', to: redirect('/candidate/application/personal-information/right-to-work-or-study'), as: :personal_details_right_to_work_or_study
-        get '/right-to-work-or-study/edit', to: redirect('/candidate/application/personal-information/right-to-work-or-study/edit'), as: :personal_details_edit_right_to_work_or_study
         get 'review', to: redirect('/candidate/application/personal-information/review')
       end
 
