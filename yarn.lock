@@ -5155,10 +5155,10 @@ gonzales-pe@^4.3.0:
   dependencies:
     minimist "^1.2.5"
 
-"govuk-frontend@^3.0.0 || ^4.0.0", govuk-frontend@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/govuk-frontend/-/govuk-frontend-4.0.0.tgz"
-  integrity sha512-liaJildULUNSSvEgDm36SQTivqBHiZLdrm+O7bBxnW4Q1g64asi+mJIMzW8QeOqlG4Yn8s0gSklsIyaFOuCisQ==
+"govuk-frontend@^3.0.0 || ^4.0.0", govuk-frontend@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.0.1.tgz#bceff58ecb399272cba32bd2b357fe16198e3249"
+  integrity sha512-X+B88mqYHoxAz0ID87Uxo3oHqdKBRnNHd3Cz8+u8nvQUAsrEzROFLK+t7sAu7e+fKqCCrJyIgx6Cmr6dIGnohQ==
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   version "4.2.3"
