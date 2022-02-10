@@ -36,16 +36,18 @@ jobs:
       - name: Validate date-to-restore-from input
         run: if [[ ${{ github.event.inputs.date-to-restore-from }} =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then echo "BACKUP_DATE=${BASH_REMATCH[0]}" >> $GITHUB_ENV; else exit 1; fi
 
-      - name: Set backup container name
-        run: | 
-          if [[ ${{ github.event.inputs.environment }} == 'production' ]]; then echo "BACKUP_CONTAINER=prod-db-backup" >> $GITHUB_ENV; \
-          else echo "BACKUP_CONTAINER=${{ github.event.inputs.environment }}-db-backup" >> $GITHUB_ENV; fi
+      - name: Set Azure prefix and backup container name
+        run: |
+          if [[ ${{ github.event.inputs.environment }} == 'production' ]]; then BACKUP_AZURE_PREFIX=prod; \
+            else BACKUP_AZURE_PREFIX=${{ github.event.inputs.environment }}; fi;
+          echo "BACKUP_AZURE_PREFIX=${BACKUP_AZURE_PREFIX}" >> $GITHUB_ENV;
+          echo "BACKUP_CONTAINER=${BACKUP_AZURE_PREFIX}-db-backup" >> $GITHUB_ENV;
 
       - name: Get backup file name
         run: | 
           az storage blob list --container ${BACKUP_CONTAINER} \
           --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}' \
-          --query "[? contains(name, 'apply_${{ github.event.inputs.environment }}_${BACKUP_DATE}') && ends_with(name,'tar.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
+          --query "[? contains(name, 'apply_${BACKUP_AZURE_PREFIX}_${BACKUP_DATE}') && ends_with(name,'tar.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
 
       - name: Download backup
         run: |
