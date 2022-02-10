@@ -41,5 +41,9 @@ module ProviderInterface
     def additional_details
       interview.additional_details.presence || 'None'
     end
+
+    def interview_in_the_past?
+      interview.date_and_time < Time.zone.now.beginning_of_day
+    end
   end
 end

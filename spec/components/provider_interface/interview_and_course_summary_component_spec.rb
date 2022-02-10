@@ -59,4 +59,14 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
       expect(component).not_to include('Cancel interview')
     end
   end
+
+  context 'interview date_and_time has passed' do
+    let(:interview) { create(:interview, :past_date_and_time) }
+
+    it 'both change and cancel links are hidden' do
+      component = render_inline(described_class.new(interview: interview, user_can_change_interview: true))
+      expect(component).not_to include('Change details')
+      expect(component).not_to include('Cancel interview')
+    end
+  end
 end
