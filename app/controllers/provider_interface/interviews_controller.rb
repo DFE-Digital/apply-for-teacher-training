@@ -5,6 +5,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_set_up_interviews_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
+    before_action :confirm_interview_is_not_in_the_past, only: %i[edit update destroy]
     before_action :redirect_to_index_if_store_cleared, only: %i[create]
     before_action :redirect_to_index_if_edit_store_cleared, only: %i[update]
     before_action :redirect_to_index_if_cancel_store_cleared, only: %i[destroy]
@@ -35,9 +36,7 @@ module ProviderInterface
     def edit
       clear_wizard_if_new_entry(InterviewWizard.new(edit_interview_store(interview_id), {}))
 
-      @interview = @application_choice.interviews.find(interview_id)
-
-      @wizard = InterviewWizard.from_model(edit_interview_store(interview_id), @interview, 'edit', action)
+      @wizard = InterviewWizard.from_model(edit_interview_store(interview_id), interview, 'edit', action)
       @wizard.referer ||= request.referer
       @wizard.save_state!
     end
@@ -90,13 +89,12 @@ module ProviderInterface
     end
 
     def destroy
-      @interview = @application_choice.interviews.find(interview_id)
       @wizard = CancelInterviewWizard.new(cancel_interview_store(interview_id))
 
       CancelInterview.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        interview: @interview,
+        interview: interview,
         cancellation_reason: @wizard.cancellation_reason,
       ).save!
 
@@ -123,6 +121,10 @@ module ProviderInterface
         .merge(interview_form_context_params)
     end
 
+    def interview
+      @interview ||= @application_choice.interviews.find(interview_id)
+    end
+
     def interview_store
       key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
@@ -142,6 +144,13 @@ module ProviderInterface
       return if @application_choice.decision_pending?
 
       redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
+    end
+
+    def confirm_interview_is_not_in_the_past
+      return if interview.date_and_time >= Time.zone.now.beginning_of_day
+
+      flash[:warning] = t('activemodel.errors.models.interview_workflow_constraints.attributes.changing_a_past_interview')
+      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
     end
 
     def redirect_to_index_if_store_cleared

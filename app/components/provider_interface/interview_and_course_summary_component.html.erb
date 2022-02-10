@@ -5,15 +5,19 @@
         <div class="app-summary-card__actions">
           <ul class="app-summary-card__actions-list">
             <li class="app-summary-card__actions-list-item">
-              <%= govuk_link_to edit_provider_interface_application_choice_interview_path(application_choice, interview), no_visited_state: true, class: 'app-summary-card__actions-list-item' do %>
-                Change details
-                <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
+              <% unless interview_in_the_past? %>
+                <%= govuk_link_to edit_provider_interface_application_choice_interview_path(application_choice, interview), no_visited_state: true, class: 'app-summary-card__actions-list-item' do %>
+                  Change details
+                  <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
+                <% end %>
               <% end %>
             </li>
             <li class="app-summary-card__actions-list-item">
-              <%= govuk_link_to new_provider_interface_application_choice_interview_cancel_path(application_choice, interview), no_visited_state: true, class: 'app-summary-card__actions-list-item' do %>
-                Cancel interview
-                <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
+              <% unless interview_in_the_past? %>
+                <%= govuk_link_to new_provider_interface_application_choice_interview_cancel_path(application_choice, interview), no_visited_state: true, class: 'app-summary-card__actions-list-item' do %>
+                  Cancel interview
+                  <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
+                <% end %>
               <% end %>
             </li>
           </ul>

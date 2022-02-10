@@ -56,6 +56,37 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
     end
   end
 
+  describe 'if interview date_and_time has passed' do
+    let(:application_choice) do
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form, course_option: course_option)
+    end
+    let!(:interview) { create(:interview, :past_date_and_time, application_choice: application_choice) }
+
+    context 'GET edit' do
+      it 'responds with 302' do
+        get edit_provider_interface_application_choice_interview_path(application_choice, interview)
+
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context 'POST create' do
+      it 'responds with 302' do
+        post provider_interface_application_choice_interviews_path(application_choice)
+
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context 'DELETE destroy' do
+      it 'responds with 302' do
+        delete provider_interface_application_choice_interview_path(application_choice, interview)
+
+        expect(response.status).to eq(302)
+      end
+    end
+  end
+
   describe 'going back when the interview store has been cleared' do
     let!(:application_choice) do
       create(:application_choice, :awaiting_provider_decision, application_form: application_form, course_option: course_option)
