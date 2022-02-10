@@ -14,16 +14,18 @@ This document describes the on-boardng steps for new Developers when they join t
 
 - [Sentry access](https://sentry.io/auth/login/dfe-teacher-services/)
 
-## PaaS/DevOps steps
 
-### Get a PaaS account
-You can get an account by requesting one in the `#digital-tools-support` Slack channel. Request an account with a SpaceDeveloper role for your @digital.education.gov.uk email address with access to the `dfe` organisation and `bat-prod`, `bat-staging` and `bat-qa` spaces.
+- [GOV.UK Platform as a Service (PaaS)](https://admin.london.cloud.service.gov.uk/organisations). Request an account with a SpaceDeveloper role for your `@digital.education.gov.uk` email address with access to the `dfe` organisation and `bat-prod`, `bat-staging` and `bat-qa` spaces.
+
+## PaaS/DevOps steps
 
 ### Install the CloudFoundary CLI
 PaaS is built on CloudFoundary and we use the CloudFoundary CLI to interact with PaaS. You can install version 7 of the CLI [here](https://github.com/cloudfoundry/cli#downloads).
 
 ### Getting familiar with PaaS
-See [PaaS cheatsheet](/docs/paas-cheatsheet.md).
+
+You will need to request space developer access every day in order to gain access to production.
+See the [PaaS cheatsheet](/docs/paas-cheatsheet.md) to learn how to do this, and for other helpful tips.
 
 ### Azure CIP
 
