@@ -9,11 +9,11 @@ RSpec.describe DuplicateMatchSendEmail, sidekiq: true do
 
   before do
     Timecop.freeze(Time.zone.local(2022, 1, 28)) do
-      create(:fraud_match, candidates: [candidate1, candidate2])
+      create(:duplicate_match, candidates: [candidate1, candidate2])
     end
 
     Timecop.freeze(Time.zone.local(2022, 1, 1)) do
-      create(:fraud_match, candidates: [candidate3])
+      create(:duplicate_match, candidates: [candidate3])
     end
 
     send_email

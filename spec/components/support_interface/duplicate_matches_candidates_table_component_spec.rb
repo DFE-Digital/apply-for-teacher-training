@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::DuplicateMatchesCandidatesTableComponent do
   before do
-    @fraud_match1 = build(
-      :fraud_match,
+    @duplicate_match1 = build(
+      :duplicate_match,
       id: 123,
       last_name: 'Thompson',
       date_of_birth: '2000-03-07',
@@ -22,10 +22,10 @@ RSpec.describe SupportInterface::DuplicateMatchesCandidatesTableComponent do
 
   it 'renders the correct match descriptions' do
     result = render_inline(
-      described_class.new(@fraud_match1),
+      described_class.new(@duplicate_match1),
     )
 
-    @fraud_match1.candidates.each_with_index do |candidate, index|
+    @duplicate_match1.candidates.each_with_index do |candidate, index|
       expect(result.css('a[href]')[index].attributes['href'].value).to eq(Rails.application.routes.url_helpers.support_interface_candidate_path(candidate))
       expect(result.css('a')[index].text).to eq(candidate.email_address)
       expect(result.text).to include(candidate.created_at.to_s(:govuk_date_and_time))

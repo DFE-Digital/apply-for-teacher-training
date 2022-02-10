@@ -21,41 +21,41 @@ private
 
   def save_match(match)
     ActiveRecord::Base.transaction do
-      create_or_update_fraud_match(match)
+      create_or_update_duplicate_match(match)
     end
   end
 
-  def create_or_update_fraud_match(match)
-    existing_fraud_match = DuplicateMatch.match_for(
+  def create_or_update_duplicate_match(match)
+    existing_duplicate_match = DuplicateMatch.match_for(
       last_name: match['last_name'],
       postcode: match['postcode'],
       date_of_birth: match['date_of_birth'],
     )
     candidate = Candidate.find(match['candidate_id'])
 
-    if existing_fraud_match.present?
-      unless existing_fraud_match.candidates.include?(candidate)
-        existing_fraud_match.candidates << candidate
-        unresolve_match(existing_fraud_match)
-        process_match(candidate, existing_fraud_match)
+    if existing_duplicate_match.present?
+      unless existing_duplicate_match.candidates.include?(candidate)
+        existing_duplicate_match.candidates << candidate
+        unresolve_match(existing_duplicate_match)
+        process_match(candidate, existing_duplicate_match)
       end
     else
-      new_fraud_match = DuplicateMatch.create!(
+      new_duplicate_match = DuplicateMatch.create!(
         recruitment_cycle_year: RecruitmentCycle.current_year,
         last_name: match['last_name'],
         postcode: match['postcode'],
         date_of_birth: match['date_of_birth'],
         candidates: [candidate],
       )
-      process_match(candidate, new_fraud_match)
+      process_match(candidate, new_duplicate_match)
     end
 
     candidate
   end
 
-  def notify_candidate(candidate, fraud_match)
+  def notify_candidate(candidate, duplicate_match)
     SupportInterface::SendDuplicateMatchEmail.new(candidate).call
-    fraud_match.update!(candidate_last_contacted_at: Time.zone.now)
+    duplicate_match.update!(candidate_last_contacted_at: Time.zone.now)
   end
 
   def new_match_count
@@ -66,8 +66,8 @@ private
     @total_match_count ||= DuplicateMatch.where(recruitment_cycle_year: CycleTimetable.current_year).count
   end
 
-  def process_match(candidate, fraud_match)
-    notify_candidate(candidate, fraud_match)
+  def process_match(candidate, duplicate_match)
+    notify_candidate(candidate, duplicate_match)
     block_submission(candidate)
   end
 
@@ -75,7 +75,7 @@ private
     candidate.update!(submission_blocked: true)
   end
 
-  def unresolve_match(fraud_match)
-    fraud_match.update!(resolved: false)
+  def unresolve_match(duplicate_match)
+    duplicate_match.update!(resolved: false)
   end
 end

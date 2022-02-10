@@ -28,7 +28,7 @@ task setup_local_dev_data: %i[environment copy_feature_flags_from_production syn
 
   Rake::Task['generate_test_applications'].invoke
 
-  puts 'Finding fraudulent applications'
+  puts 'Finding duplicate applications'
   UpdateDuplicateMatchesWorker.new.perform
 end
 

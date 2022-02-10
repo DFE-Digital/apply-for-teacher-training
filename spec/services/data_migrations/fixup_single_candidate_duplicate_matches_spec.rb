@@ -9,7 +9,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: alice,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: alices_application_form.last_name,
       postcode: alices_application_form.postcode,
       date_of_birth: alices_application_form.date_of_birth,
@@ -25,7 +25,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: bob,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: bobs_application_form.last_name,
       postcode: bobs_application_form.postcode,
       date_of_birth: bobs_application_form.date_of_birth,
@@ -34,8 +34,8 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
 
     described_class.new.change
 
-    expect(FraudMatch.count).to be(1)
-    expect(FraudMatch.first.candidates).to match_array([bob, alice])
+    expect(DuplicateMatch.count).to be(1)
+    expect(DuplicateMatch.first.candidates).to match_array([bob, alice])
   end
 
   it 'fixes three single candidate fraud matches that should have been one' do
@@ -46,7 +46,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: alice,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: alices_application_form.last_name,
       postcode: alices_application_form.postcode,
       date_of_birth: alices_application_form.date_of_birth,
@@ -62,7 +62,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: bob,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: bobs_application_form.last_name,
       postcode: bobs_application_form.postcode,
       date_of_birth: bobs_application_form.date_of_birth,
@@ -78,7 +78,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: jim,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: jims_application_form.last_name,
       postcode: jims_application_form.postcode,
       date_of_birth: jims_application_form.date_of_birth,
@@ -87,8 +87,8 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
 
     described_class.new.change
 
-    expect(FraudMatch.count).to be(1)
-    expect(FraudMatch.first.candidates).to match_array([jim, bob, alice])
+    expect(DuplicateMatch.count).to be(1)
+    expect(DuplicateMatch.first.candidates).to match_array([jim, bob, alice])
   end
 
   it 'fixes one single candidate and one double candidate fraud match that should have been one' do
@@ -107,7 +107,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: bob,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: bobs_application_form.last_name,
       postcode: bobs_application_form.postcode,
       date_of_birth: bobs_application_form.date_of_birth,
@@ -123,7 +123,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       candidate: jim,
     )
     create(
-      :fraud_match,
+      :duplicate_match,
       last_name: jims_application_form.last_name,
       postcode: jims_application_form.postcode,
       date_of_birth: jims_application_form.date_of_birth,
@@ -132,8 +132,8 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
 
     described_class.new.change
 
-    expect(FraudMatch.count).to be(1)
-    expect(FraudMatch.first.candidates).to match_array([jim, bob, alice])
+    expect(DuplicateMatch.count).to be(1)
+    expect(DuplicateMatch.first.candidates).to match_array([jim, bob, alice])
   end
 
   it 'ignores fraud matches with two candidates' do
@@ -151,8 +151,8 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
       postcode: "#{ApplicationForm.last.postcode.downcase} ",
       candidate: bob,
     )
-    fraud_match = create(
-      :fraud_match,
+    duplicate_match = create(
+      :duplicate_match,
       last_name: bobs_application_form.last_name,
       postcode: bobs_application_form.postcode,
       date_of_birth: bobs_application_form.date_of_birth,
@@ -161,7 +161,7 @@ RSpec.describe DataMigrations::FixupSingleCandidateDuplicateMatches do
 
     described_class.new.change
 
-    expect(FraudMatch.count).to be(1)
-    expect(fraud_match.reload.candidates).to match_array([bob, alice])
+    expect(DuplicateMatch.count).to be(1)
+    expect(duplicate_match.reload.candidates).to match_array([bob, alice])
   end
 end
