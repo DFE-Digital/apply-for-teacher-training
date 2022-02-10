@@ -9,13 +9,13 @@ RSpec.describe Publications::MonthlyStatistics::ByCourseType do
 
   it "returns table data for 'by course type'" do
     expect_report_rows(column_headings: ['Course type', 'Recruited', 'Conditions pending', 'Deferred', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
-      [['Higher education',                                3, 0, 1, 0, 0, 11, 15],
+      [['Higher education',                                3, 0, 1, 0, 0, 13, 17],
        ['Postgraduate teaching apprenticeship',            0, 0, 0, 1, 1, 0, 2],
        ['School-centred initial teacher training (SCITT)', 0, 0, 0, 0, 3, 0, 3],
        ['School Direct (fee-paying)',                      1, 0, 0, 0, 0, 0, 1],
        ['School Direct (salaried)',                        0, 1, 0, 0, 0, 0, 1]]
     end
 
-    expect_column_totals(4, 1, 1, 1, 4, 11, 22)
+    expect_column_totals(4, 1, 1, 1, 4, 13, 24)
   end
 end

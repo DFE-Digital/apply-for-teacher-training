@@ -33,17 +33,17 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
          [:geography,                0, 0, 0, 0, 0, 0],
          [:history,                  1, 0, 0, 0, 0, 1],
          [:mathematics,              2, 0, 0, 0, 2, 0],
-         [:modern_foreign_languages, 2, 2, 2, 0, 0, 0],
+         [:modern_foreign_languages, 4, 2, 2, 0, 1, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
          [:other,                    2, 1, 1, 0, 0, 0],
          [:physical_education,       0, 0, 0, 0, 0, 0],
          [:physics,                  1, 0, 0, 0, 0, 1],
          [:religious_education,      0, 0, 0, 0, 0, 0],
          [:stem,                     6, 0, 0, 0, 4, 2],
-         [:ebacc,                    10, 2, 2, 0, 4, 4],
+         [:ebacc,                    12, 2, 2, 0, 5, 4],
          [:primary,                  7, 3, 2, 0, 0, 0],
-         [:secondary,                14, 5, 4, 1, 4, 4],
-         [:total,                    21, 8, 6, 1, 4, 4]]
+         [:secondary,                16, 5, 4, 1, 5, 4],
+         [:total,                    23, 8, 6, 1, 5, 4]]
       end
     end
   end

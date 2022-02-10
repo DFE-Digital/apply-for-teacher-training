@@ -13,7 +13,7 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
     expect_report_rows(column_headings: ['Age group', 'Recruited', 'Conditions pending', 'Deferrals', 'Received an offer', 'Awaiting provider decisions', 'Unsuccessful', 'Total']) do
       [['21 and under', 1, 0, 0, 0, 0, 0, 1],
        ['22',           0, 0, 0, 0, 0, 0, 0],
-       ['23',           0, 1, 0, 0, 0, 0, 1],
+       ['23',           0, 1, 0, 0, 0, 1, 2],
        ['24',           0, 0, 0, 1, 0, 0, 1],
        ['25 to 29',     0, 0, 0, 0, 1, 2, 3],
        ['30 to 34',     0, 0, 0, 0, 0, 1, 1],
@@ -26,6 +26,6 @@ RSpec.describe Publications::MonthlyStatistics::ByAgeGroup do
        ['65 and over',  1, 0, 1, 0, 0, 2, 4]]
     end
 
-    expect_column_totals(4, 1, 1, 1, 1, 6, 14)
+    expect_column_totals(4, 1, 1, 1, 1, 7, 15)
   end
 end

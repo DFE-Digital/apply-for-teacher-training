@@ -162,10 +162,10 @@ module MinisterialReport
     interviewing: nil,
     awaiting_provider_decision: nil,
     declined: %i[offer_received application_declined],
-    offer_withdrawn: nil,
     conditions_not_met: %i[application_rejected],
     rejected: %i[application_rejected],
     withdrawn: %i[application_withdrawn],
+    offer_withdrawn: nil,
   }.freeze
 
   APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING = {

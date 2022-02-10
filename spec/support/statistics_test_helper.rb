@@ -85,6 +85,16 @@ module StatisticsTestHelper
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'west_midlands', subjects: [secondary_subject('Psychology')]),
            application_form: form)
 
+    form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'male', date_of_birth: date_of_birth(years_ago: 23), region_code: :london, phase: 'apply_1')
+    create(:application_choice,
+           :with_withdrawn_offer,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Spanish')]),
+           application_form: form)
+    create(:application_choice,
+           :with_rejection,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'east_midlands', subjects: [secondary_subject('Spanish')]),
+           application_form: form)
+
     form = create(:application_form, :minimum_info, :with_equality_and_diversity_data, sex: 'female', date_of_birth: date_of_birth(years_ago: 66), region_code: :london, phase: 'apply_1')
     create(:application_choice,
            :with_deferred_offer,
