@@ -13,7 +13,7 @@ on:
         default: qa
         options:
           - qa
-          - prod
+          - production
 
 jobs:
   backup:
@@ -36,15 +36,20 @@ jobs:
       - name: Validate date-to-restore-from input
         run: if [[ ${{ github.event.inputs.date-to-restore-from }} =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then echo "BACKUP_DATE=${BASH_REMATCH[0]}" >> $GITHUB_ENV; else exit 1; fi
 
+      - name: Set backup container name
+        run: | 
+          if [[ ${{ github.event.inputs.environment }} == 'production' ]]; then echo "BACKUP_CONTAINER=prod-db-backup" >> $GITHUB_ENV; \
+          else echo "BACKUP_CONTAINER=${{ github.event.inputs.environment }}-db-backup" >> $GITHUB_ENV; fi
+
       - name: Get backup file name
         run: | 
-          az storage blob list --container ${{ github.event.inputs.environment }}-db-backup \
+          az storage blob list --container ${BACKUP_CONTAINER} \
           --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}' \
           --query "[? contains(name, 'apply_${{ github.event.inputs.environment }}_${BACKUP_DATE}') && ends_with(name,'tar.gz')].name" | echo "BACKUP_ARCHIVE_NAME=$(jq -r .[0])" >> $GITHUB_ENV
 
       - name: Download backup
         run: |
-          az storage blob download --container-name ${{ github.event.inputs.environment }}-db-backup --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME} \
+          az storage blob download --container-name ${BACKUP_CONTAINER} --name ${BACKUP_ARCHIVE_NAME} --file ${BACKUP_ARCHIVE_NAME} \
           --connection-string '${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}'
 
       - name: Extract backup
