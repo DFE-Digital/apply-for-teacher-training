@@ -11,7 +11,7 @@ module SupportInterface
 
       return false unless valid?
 
-      FraudMatch.find(fraud_match_id).candidates.all? do |candidate|
+      DuplicateMatch.find(fraud_match_id).candidates.all? do |candidate|
         candidate.update(submission_blocked: false)
       end
     end

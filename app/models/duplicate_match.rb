@@ -1,10 +1,11 @@
-class FraudMatch < ApplicationRecord
+class DuplicateMatch < ApplicationRecord
+  self.table_name = 'fraud_matches'
   audited
 
-  has_many :candidates
+  has_many :candidates, foreign_key: 'fraud_match_id'
 
   def self.match_for(last_name:, postcode:, date_of_birth:)
-    FraudMatch.where(
+    DuplicateMatch.where(
       'TRIM(UPPER(last_name)) = ?',
       last_name.upcase.strip,
     ).where(

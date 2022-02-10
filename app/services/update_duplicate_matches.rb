@@ -26,7 +26,7 @@ private
   end
 
   def create_or_update_fraud_match(match)
-    existing_fraud_match = FraudMatch.match_for(
+    existing_fraud_match = DuplicateMatch.match_for(
       last_name: match['last_name'],
       postcode: match['postcode'],
       date_of_birth: match['date_of_birth'],
@@ -40,7 +40,7 @@ private
         process_match(candidate, existing_fraud_match)
       end
     else
-      new_fraud_match = FraudMatch.create!(
+      new_fraud_match = DuplicateMatch.create!(
         recruitment_cycle_year: RecruitmentCycle.current_year,
         last_name: match['last_name'],
         postcode: match['postcode'],
@@ -59,11 +59,11 @@ private
   end
 
   def new_match_count
-    @new_match_count ||= FraudMatch.where('created_at > ?', 1.day.ago).count
+    @new_match_count ||= DuplicateMatch.where('created_at > ?', 1.day.ago).count
   end
 
   def total_match_count
-    @total_match_count ||= FraudMatch.where(recruitment_cycle_year: CycleTimetable.current_year).count
+    @total_match_count ||= DuplicateMatch.where(recruitment_cycle_year: CycleTimetable.current_year).count
   end
 
   def process_match(candidate, fraud_match)

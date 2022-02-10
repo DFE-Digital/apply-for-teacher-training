@@ -4,7 +4,7 @@ module DataMigrations
     MANUAL_RUN = false
 
     def change
-      FraudMatch.all.each do |fraud_match|
+      DuplicateMatch.all.each do |fraud_match|
         fraud_match.candidates.each do |candidate|
           candidate.update(submission_blocked: false) unless fraud_match.blocked?
         end

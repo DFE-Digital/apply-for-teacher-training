@@ -13,7 +13,7 @@ module DataMigrations
       results = ActiveRecord::Base.connection.execute(FIND_DUPLICATE_FRAUD_MATCHES)
       results.type_map = PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection)
       results.each do |result|
-        fraud_matches = FraudMatch.where(id: result['fraud_match_ids'])
+        fraud_matches = DuplicateMatch.where(id: result['fraud_match_ids'])
         first_fraud_match = fraud_matches.first
         all_candidates = fraud_matches.inject([]) { |candidates, fraud_match| candidates + fraud_match.candidates }
         first_fraud_match.update(candidates: all_candidates)
@@ -27,7 +27,7 @@ module DataMigrations
       results = ActiveRecord::Base.connection.execute(FIND_DUPLICATE_FRAUD_MATCHES)
       results.type_map = PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection)
       results.each do |result|
-        fraud_matches = FraudMatch.where(id: result['fraud_match_ids'])
+        fraud_matches = DuplicateMatch.where(id: result['fraud_match_ids'])
         first_fraud_match = fraud_matches.first
         all_candidates = fraud_matches.inject([]) { |candidates, fraud_match| candidates + fraud_match.candidates }
         Rails.logger.debug { "Adding candidates #{all_candidates.map(&:id)} to fraud match #{first_fraud_match.id}" }
