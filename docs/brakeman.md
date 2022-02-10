@@ -6,7 +6,7 @@ It is run as part of our CI process and will fail if new vulnerabilities have be
 
 To run it locally use: `bundle exec brakeman`
 
-This looks at the `config/brakeman.yml` config file which can be used to include/skip checks and files/directories.
+This looks at the [`config/brakeman.yml`](config/brakeman.yml) config file which can be used to include/skip checks and files/directories.
 
 We are also using a `brakeman.ignore` file which lives in `/config` and is checked in to Git. This file is used to ignore false positive results.
 
