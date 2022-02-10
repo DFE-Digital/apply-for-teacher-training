@@ -70,6 +70,12 @@ RSpec.feature 'International candidate submits the application' do
     choose 'No'
     click_button t('save_and_continue')
 
+    application_form = ApplicationForm.last
+    if application_form.restructured_immigration_status? || FeatureFlag.active?(:restructured_immigration_status)
+      choose 'A visa sponsored by a course provider'
+      click_button t('save_and_continue')
+    end
+
     # Mark Personal Details complete
     choose t('application_form.completed_radio')
     click_button t('continue')

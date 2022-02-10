@@ -7,6 +7,10 @@ RSpec.feature 'Entering personal details' do
     Timecop.freeze(RecruitmentCycle.current_year, 7, 6, 12) { example.run }
   end
 
+  before do
+    FeatureFlag.deactivate(:restructured_immigration_status)
+  end
+
   scenario 'I can specify that I need to apply for right to work or study in the UK' do
     and_i_am_signed_in
     and_i_can_complete_personal_information_with_non_british_or_irish_nationality
