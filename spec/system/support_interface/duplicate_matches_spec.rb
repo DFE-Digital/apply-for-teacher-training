@@ -66,7 +66,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def and_the_update_fraud_matches_worker_has_run
-    UpdateFraudMatchesWorker.perform_async
+    UpdateDuplicateMatchesWorker.perform_async
   end
 
   def and_the_second_fraud_match_is_resolved

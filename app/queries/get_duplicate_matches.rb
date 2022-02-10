@@ -1,4 +1,4 @@
-class GetFraudMatches
+class GetDuplicateMatches
   def self.call
     ActiveRecord::Base.connection.exec_query(
       "SELECT DISTINCT application_details.candidate_id,
