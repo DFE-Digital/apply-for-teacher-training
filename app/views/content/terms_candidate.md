@@ -34,9 +34,9 @@ You can apply again to one course at a time as many times as you like.
 
 Once you submit your application it’s sent to your teacher training providers straight away.
 
-Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to change something.
+Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to change something. You can ask us to add courses if you have not used all your course choices.
 
-You can ask us to add courses if you have not used all your course choices, or change your personal details.
+If you need to update your personal or contact details, you can ask us to do this any time. 
 
 ### Withdrawing your application
 
