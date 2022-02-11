@@ -17,9 +17,9 @@ RSpec.describe Publications::MonthlyStatistics::ByProviderArea do
        ['South East',               0, 0, 0, 0, 1, 1, 2],
        ['South West',               0, 0, 0, 0, 0, 1, 1],
        ['West Midlands',            2, 0, 1, 0, 0, 3, 6],
-       ['Yorkshire and The Humber', 1, 0, 0, 0, 1, 2, 4]]
+       ['Yorkshire and The Humber', 1, 0, 0, 0, 1, 4, 6]]
     end
 
-    expect_column_totals(4, 1, 1, 1, 4, 13, 24)
+    expect_column_totals(4, 1, 1, 1, 4, 15, 26)
   end
 end

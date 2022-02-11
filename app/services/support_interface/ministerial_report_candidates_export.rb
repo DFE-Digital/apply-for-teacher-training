@@ -82,7 +82,7 @@ module SupportInterface
 
     def viable_apply_2_applications(application)
       application.candidate.application_forms
-        .select { |application_form| application_form != application }
+        .reject { |application_form| application_form == application }
         .select { |application_form| application_form.apply_2? && application_form.submitted? }
         .sort_by(&:id)
     end

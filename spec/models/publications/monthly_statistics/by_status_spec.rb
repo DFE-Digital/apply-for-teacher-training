@@ -17,10 +17,10 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
          ['Awaiting provider decisions',         4, 0, 4],
          ['Declined an offer',                   1, 0, 1],
          ['Withdrew an application',             3, 1, 4],
-         ['Application rejected',                7, 1, 8]]
+         ['Application rejected',                7, 3, 10]]
       end
 
-      expect_column_totals(21, 3, 24)
+      expect_column_totals(21, 5, 26)
     end
   end
 
@@ -34,12 +34,12 @@ RSpec.describe Publications::MonthlyStatistics::ByStatus do
          ['Deferred',                            1, 0, 1],
          ['Received an offer but not responded', 1, 0, 1],
          ['Awaiting provider decisions',         1, 0, 1],
-         ['Declined an offer',                   1, 0, 1],
+         ['Declined an offer',                   0, 0, 0],
          ['Withdrew an application',             1, 1, 2],
-         ['Application rejected',                3, 1, 4]]
+         ['Application rejected',                3, 2, 5]]
       end
 
-      expect_column_totals(12, 3, 15)
+      expect_column_totals(11, 4, 15)
     end
   end
 end

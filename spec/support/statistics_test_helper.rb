@@ -144,6 +144,18 @@ module StatisticsTestHelper
            application_form: form)
 
     form = DuplicateApplication.new(declined_form, target_phase: 'apply_2').duplicate
+    form.update(submitted_at: Time.zone.now)
+    create(:application_choice,
+           :with_rejection,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
+           application_form: form)
+    form = DuplicateApplication.new(form, target_phase: 'apply_2').duplicate
+    form.update(submitted_at: Time.zone.now)
+    create(:application_choice,
+           :with_rejection,
+           course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
+           application_form: form)
+    form = DuplicateApplication.new(form, target_phase: 'apply_2').duplicate
     create(:application_choice,
            :unsubmitted,
            course_option: course_option_with(level: 'secondary', program_type: 'higher_education_programme', region: 'yorkshire_and_the_humber', subjects: [secondary_subject('Drama')]),
