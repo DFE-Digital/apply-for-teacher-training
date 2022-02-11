@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::OffersCallToActionComponent do
     )
     result = render_inline(described_class.new(application_form: application_form))
     expect(result.text).to include('Congratulations on your offer')
-    expect(result.text).to include('You have 10 days (until 3 April 2021) to respond. If you do not respond, your offer will automatically be declined.')
+    expect(result.text).to include('You have 10 days (until 3 April 2021) to respond. If you do not respond, your offer will be automatically declined.')
   end
 
   it 'displays correct title and message when there are multiple offers' do
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::OffersCallToActionComponent do
     )
     result = render_inline(described_class.new(application_form: application_form))
     expect(result.text).to include('Congratulations on your offers')
-    expect(result.text).to include('You have 10 days (until 3 April 2021) to respond. If you do not respond, your offers will automatically be declined.')
+    expect(result.text).to include('You have 10 days (until 3 April 2021) to respond. If you do not respond, your offers will be automatically declined.')
   end
 
   def create_application_form_with_course_choices(statuses:, apply_again: false)
