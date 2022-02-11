@@ -16,7 +16,7 @@ RSpec.feature 'Add additional courses flow' do
     and_i_choose_a_provider
     and_i_choose_my_first_course_choice
     then_i_should_be_on_the_course_review_page
-    and_i_should_receive_a_message_that_ive_added_the_first_course
+    and_i_should_see_the_first_course_i_added
     and_i_should_be_told_i_can_add_2_more_courses
     and_i_should_be_prompted_to_add_an_additional_course
     then_i_should_be_on_the_course_choice_review_page
@@ -27,7 +27,7 @@ RSpec.feature 'Add additional courses flow' do
     and_i_choose_a_provider
     and_i_choose_my_second_course_choice
     then_i_should_be_on_the_course_review_page
-    and_i_should_receive_a_message_that_ive_added_the_second_course
+    and_i_should_see_the_second_course_i_added
     and_i_should_be_told_i_can_add_1_more_courses
     and_i_should_be_prompted_to_add_an_additional_course
     and_i_click_on_add_another_course
@@ -35,7 +35,7 @@ RSpec.feature 'Add additional courses flow' do
     and_i_choose_a_provider
     and_i_choose_my_third_course_choice
     then_i_should_be_on_the_course_choice_review_page
-    and_i_should_receive_a_message_that_ive_added_the_third_course
+    and_i_should_see_the_third_course_i_added
   end
 
   def given_there_are_course_options
@@ -85,8 +85,16 @@ RSpec.feature 'Add additional courses flow' do
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
   end
 
-  def and_i_should_receive_a_message_that_ive_added_the_first_course
-    expect(page).to have_content("You’ve added #{@provider.courses.first.name_and_code} to your application")
+  def and_i_should_see_the_first_course_i_added
+    expect(page).to have_content(@provider.courses.first.name_and_code)
+  end
+
+  def and_i_should_see_the_second_course_i_added
+    expect(page).to have_content(@provider.courses.second.name_and_code)
+  end
+
+  def and_i_should_see_the_third_course_i_added
+    expect(page).to have_content(@provider.courses.third.name_and_code)
   end
 
   def and_i_should_be_told_i_can_add_2_more_courses
@@ -105,10 +113,6 @@ RSpec.feature 'Add additional courses flow' do
     expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
   end
 
-  def and_i_should_receive_a_message_that_ive_added_the_second_course
-    expect(page).to have_content("You’ve added #{@provider.courses.second.name_and_code} to your application")
-  end
-
   def and_i_choose_my_second_course_choice
     choose @provider.courses.second.name_and_code
     click_button t('continue')
@@ -125,9 +129,5 @@ RSpec.feature 'Add additional courses flow' do
 
   def then_i_should_be_on_the_course_choice_review_page
     expect(page).to have_current_path(candidate_interface_course_choices_review_path)
-  end
-
-  def and_i_should_receive_a_message_that_ive_added_the_third_course
-    expect(page).to have_content("You’ve added #{@provider.courses.third.name_and_code} to your application")
   end
 end

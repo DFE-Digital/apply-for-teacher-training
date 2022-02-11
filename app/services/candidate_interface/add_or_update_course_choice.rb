@@ -58,8 +58,10 @@ module CandidateInterface
       )
 
       if pick_site_form.save
-        course_choices = application_form.application_choices
-        flash[:success] = "You’ve added #{course_choices.last.course.name_and_code} to your application"
+        unless FeatureFlag.active?(:apply_again_with_three_choices)
+          course_choices = application_form.application_choices
+          flash[:success] = "You’ve added #{course_choices.last.course.name_and_code} to your application"
+        end
 
         if application_form.can_add_more_choices? && !FeatureFlag.active?(:apply_again_with_three_choices)
           redirect_to candidate_interface_course_choices_add_another_course_path
