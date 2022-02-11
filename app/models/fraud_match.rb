@@ -1,6 +1,4 @@
 class FraudMatch < ApplicationRecord
-  self.ignored_columns = %w[fraudulent]
-
   audited
 
   has_many :candidates

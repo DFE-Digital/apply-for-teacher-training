@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2022_01_25_164558) do
-
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -475,7 +474,6 @@ ActiveRecord::Schema.define(version: 2022_01_25_164558) do
     t.string "last_name"
     t.date "date_of_birth"
     t.string "postcode"
-    t.boolean "fraudulent", default: false
     t.boolean "blocked", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
