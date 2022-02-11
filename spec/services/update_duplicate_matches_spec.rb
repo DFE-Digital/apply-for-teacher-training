@@ -84,7 +84,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
                last_name: 'Thompsun',
                date_of_birth: '1998-08-08',
                postcode: 'W6 9BH',
-               fraudulent: true,
+               blocked: true,
                created_at: 2.days.ago)
 
         described_class.new.save!
