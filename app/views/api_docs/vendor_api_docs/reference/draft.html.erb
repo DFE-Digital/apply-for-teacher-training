@@ -102,7 +102,7 @@ We will also support requesting a specific minor version via the URL. For exampl
 
 <p class="govuk-body">If an applicant has an interview, the <code>interviews</code> array in the application response will be populated and can be used to determine the presence of any interviews, including cancelled ones. The status of the application will remain as <code>awaiting_provider_decision</code>.</p>
 
-<p class="govuk-body">When an applicant accepts an offer, all upcoming interviews on all of their applications are automatically cancelled.</p>
+<p class="govuk-body">When an applicant withdraws or declines an application, or if the application is made an offer or rejected, all upcoming interviews on that application are automatically cancelled.</p>
 
 <p class="govuk-heading-s">Notes</p>
 <p class="govuk-body">
@@ -135,25 +135,13 @@ We will also support requesting a specific minor version via the URL. For exampl
 <p class="govuk-body">Only applications in the <code>offer</code> state will transition to the <code>declined</code> state.</p>
 
 <p class="govuk-body">Applications in the following states will transition to the <code>withdrawn</code> state:</p>
-<ul class="govuk-list">
-  <li><code>awaiting_provider_decision</code></li>
-  <li><code>interviewing</code></li>
-  <li><code>pending_conditions</code></li>
-  <li><code>offer_deferred</code></li>
-  <li><code>recruited</code></li>
+<ul class="govuk-list govuk-list--bullet">
+  <% (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state| %>
+    <li><code><%= state %></code></li>
+  <% end %>
 </ul>
 
-<p class="govuk-body">Applications cannot be withdrawn if they are in any of the following states:</p>
-<ul class="govuk-list">
-  <li><code>withdrawn</code></li>
-  <li><code>unsubmitted</code></li>
-  <li><code>rejected</code></li>
-  <li><code>application_not_sent</code></li>
-  <li><code>offer_withdrawn</code></li>
-  <li><code>declined</code></li>
-  <li><code>conditions_not_met</code></li>
-  <li><code>cancelled</code></li>
-</ul>
+<p class="govuk-body">Please refer to the <%= govuk_link_to 'Application lifecycle', api_docs_lifecycle_path %> for details of application state transitions.</p>
 
 <p class="govuk-heading-s">Pagination</p>
 <p class="govuk-body">
