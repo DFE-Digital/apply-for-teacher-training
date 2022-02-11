@@ -21,7 +21,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
   end
 
   describe '#save!' do
-    context 'when existing fraud match' do
+    context 'when existing duplicate match' do
       before do
         described_class.new.save!
       end
