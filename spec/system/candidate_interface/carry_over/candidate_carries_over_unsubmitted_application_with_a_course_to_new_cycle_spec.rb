@@ -139,7 +139,7 @@ RSpec.feature 'Carry over' do
     choose 'Primary (2XT2)'
     click_button t('continue')
 
-    expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
+    expect(page).to have_content 'Primary (2XT2)'
     expect(page).to have_content 'You can add 2 more courses'
   end
 
@@ -163,7 +163,7 @@ RSpec.feature 'Carry over' do
     choose 'Drama (2397)'
     click_button t('continue')
 
-    expect(page).to have_content 'You’ve added Drama (2397) to your application'
+    expect(page).to have_content 'Drama (2397)'
     expect(page).to have_content 'You can add 1 more course'
   end
 

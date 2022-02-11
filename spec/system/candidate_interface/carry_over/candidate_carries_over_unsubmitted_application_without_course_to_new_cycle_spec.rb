@@ -134,7 +134,6 @@ RSpec.feature 'Carry over' do
     choose 'Primary (2XT2)'
     click_button t('continue')
 
-    expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
     expect(page).to have_content 'You can add 2 more courses'
   end
 

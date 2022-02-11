@@ -142,7 +142,7 @@ RSpec.feature 'Provider views application submitted in new cycle' do
 
     choose 'Primary (2XT2)'
     click_button t('continue')
-    expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
+    expect(page).to have_content 'Primary (2XT2)'
     expect(page).to have_content 'You can add 2 more courses'
   end
 
