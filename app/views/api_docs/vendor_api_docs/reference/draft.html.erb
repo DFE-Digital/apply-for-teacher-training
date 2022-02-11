@@ -102,13 +102,17 @@ We will also support requesting a specific minor version via the URL. For exampl
 
 <p class="govuk-body">If an applicant has an interview, the <code>interviews</code> array in the application response will be populated and can be used to determine the presence of any interviews, including cancelled ones. The status of the application will remain as <code>awaiting_provider_decision</code>.</p>
 
+<p class="govuk-body">When an applicant withdraws or declines an application, or if the application is made an offer or rejected, all upcoming interviews on that application are automatically cancelled.</p>
+
 <p class="govuk-heading-s">Notes</p>
 <p class="govuk-body">
   We now support <%= govuk_link_to 'creating', '#post-applications-application_id-notes-create' %> notes.
 </p>
 <p class="govuk-body">To create a note the <%= govuk_link_to 'create endpoint', '#post-applications-application_id-notes-create' %> can be invoked with the message of the note.</p>
 
-<p class="govuk-body">If an applicant has any notes attached to the appication, the <code>notes</code> array in the application response will be populated and can be used to determine the presence of any notes. The author of the note will be determined from the <code>full_name</code> provided in the <%= govuk_link_to 'Attribution Object', '#attribution-object' %> when making the API call.</p>
+<p class="govuk-body">If an applicant has any notes attached to the application, the <code>notes</code> array in the application response will be populated and can be used to determine the presence of any notes. The author of the note will be determined from the <code>full_name</code> provided in the <%= govuk_link_to 'Attribution Object', '#attribution-object' %> when making the API call.</p>
+
+<p class="govuk-body">It is not possible to update or delete existing notes.</p>
 
 <p class="govuk-heading-s">Deferring applications</p>
 <p class="govuk-body">
@@ -127,6 +131,17 @@ We will also support requesting a specific minor version via the URL. For exampl
 <p class="govuk-body">
   If an application is withdrawn at a candidate's request the field <code>withdrawn_or_declined_for_candidate</code> will be set to true to determine the difference between a normal withdrawal and one at a candidate's request. Also either the <code>offer_declined_at</code> field or the <code>date</code> field, inside the existing <%= govuk_link_to 'Withdrawal Object', '#withdrawal-object' %>, will be populated with the timestamp the application was withdrawn or declined.
 </p>
+
+<p class="govuk-body">Only applications in the <code>offer</code> state will transition to the <code>declined</code> state.</p>
+
+<p class="govuk-body">Applications in the following states will transition to the <code>withdrawn</code> state:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <% (ApplicationStateChange::SUCCESSFUL_STATES + ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state| %>
+    <li><code><%= state %></code></li>
+  <% end %>
+</ul>
+
+<p class="govuk-body">Please refer to the <%= govuk_link_to 'Application lifecycle', api_docs_lifecycle_path %> for details of application state transitions.</p>
 
 <p class="govuk-heading-s">Pagination</p>
 <p class="govuk-body">
