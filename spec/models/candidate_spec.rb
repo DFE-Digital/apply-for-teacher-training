@@ -173,6 +173,41 @@ RSpec.describe Candidate, type: :model do
     end
   end
 
+  describe '#current_application_choices' do
+    let(:candidate) { create(:candidate) }
+
+    context 'with a single application choice' do
+      let!(:application_choice) { create(:application_choice, candidate: candidate) }
+
+      it 'returns the application choice' do
+        expect(candidate.current_application_choices).to contain_exactly(application_choice)
+      end
+    end
+
+    context 'with multiple application choices' do
+      let(:application_choice_2) { create(:application_choice, candidate: candidate, created_at: 1.day.ago) }
+      let(:application_choice_1) { create(:application_choice, candidate: candidate, created_at: 1.week.ago) }
+      let(:application_choice_3) { create(:application_choice, candidate: candidate) }
+      let!(:application_form) { create(:application_form, candidate: candidate, application_choices: [application_choice_2, application_choice_1, application_choice_3]) }
+
+      it 'returns all the application choices ordered by `created_at`' do
+        expect(candidate.current_application_choices).to eq([application_choice_1, application_choice_2, application_choice_3])
+      end
+    end
+
+    context 'with applications in different phases' do
+      let(:application_choice_1) { create(:application_choice, candidate: candidate) }
+      let(:application_choice_2) { create(:application_choice, candidate: candidate) }
+      let(:application_choice_3) { create(:application_choice, candidate: candidate) }
+      let!(:application_form_apply_1) { create(:application_form, candidate: candidate, application_choices: [application_choice_1], created_at: 1.week.ago) }
+      let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', candidate: candidate, application_choices: [application_choice_2, application_choice_3]) }
+
+      it 'returns the most recent application choices' do
+        expect(candidate.current_application_choices).to contain_exactly(application_choice_2, application_choice_3)
+      end
+    end
+  end
+
   describe 'find_from_course' do
     it 'returns the correct course' do
       course = create(:course)
