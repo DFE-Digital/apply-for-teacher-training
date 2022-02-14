@@ -4,7 +4,7 @@ module VendorAPI
       description 'Includes notes associated with the application'
 
       resource NotePresenter
-      resource ApplicationPresenter, [NotesAPIData]
+      resource ApplicationPresenter, [ApplicationPresenter::Notes]
     end
   end
 end

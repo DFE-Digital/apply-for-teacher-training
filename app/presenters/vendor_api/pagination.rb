@@ -1,4 +1,4 @@
-module PaginationAPIData
+module VendorAPI::Pagination
   include Pagy::Backend
 
   DEFAULT_PER_PAGE = 50

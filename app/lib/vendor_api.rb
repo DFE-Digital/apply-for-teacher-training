@@ -30,7 +30,7 @@ module VendorAPI
       Changes::CreateNote,
       Changes::NotesForApplication,
       Changes::WithdrawOrDeclineApplication,
-      Changes::AddInterviewsToApplication,
+      Changes::InterviewsForApplication,
       Changes::CreateInterview,
       Changes::UpdateInterview,
       Changes::CancelInterview,

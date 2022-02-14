@@ -7,7 +7,7 @@ module VendorAPI
 
       action DeferredOffersController, :create
 
-      resource ApplicationPresenter, [DeferredOfferAPIData]
+      resource ApplicationPresenter, [ApplicationPresenter::DeferredOffer]
     end
   end
 end

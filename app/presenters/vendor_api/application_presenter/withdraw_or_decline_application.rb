@@ -1,4 +1,4 @@
-module WithdrawOrDeclineApplicationAPIData
+module VendorAPI::ApplicationPresenter::WithdrawOrDeclineApplication
   def schema
     super.deep_merge!({
       attributes: {

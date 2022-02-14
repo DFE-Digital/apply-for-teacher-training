@@ -4,7 +4,7 @@ module VendorAPI
       description 'Includes top level meta object'
 
       resource MetaPresenter
-      resource SingleApplicationPresenter, [APIMeta]
+      resource SingleApplicationPresenter, [VendorAPI::MetaPresenter::APIMeta]
     end
   end
 end

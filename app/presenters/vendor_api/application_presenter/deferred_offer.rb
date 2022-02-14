@@ -1,4 +1,4 @@
-module DeferredOfferAPIData
+module VendorAPI::ApplicationPresenter::DeferredOffer
   def schema
     return super if application_choice.offer.nil?
 

@@ -163,11 +163,11 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
         status: :awaiting_provider_decision,
       )
 
-      max_value = PaginationAPIData::MAX_PER_PAGE
+      max_value = VendorAPI::Pagination::MAX_PER_PAGE
       get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=#{max_value + 1}"
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(error_response['message']).to eql("the 'per_page' parameter cannot exceed #{max_value} results per page")
+      expect(error_response['message']).to eql("The 'per_page' parameter cannot exceed #{max_value} results per page")
     end
   end
 end
