@@ -47,12 +47,8 @@ class Candidate < ApplicationRecord
                         end
   end
 
-  def current_application_choice
-    current_application_choices.last
-  end
-
   def current_application_choices
-    current_application.application_choices.order(:created_at)
+    current_application.application_choices
   end
 
   def last_updated_application
