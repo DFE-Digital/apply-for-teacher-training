@@ -36,7 +36,7 @@ Once you submit your application it’s sent to your teacher training providers 
 
 Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to change something.
 
-You can ask us to add courses if you have not used all your course choices, or change your personal details.
+You can ask us to update your personal or contact details any time.
 
 ### Withdrawing your application
 
