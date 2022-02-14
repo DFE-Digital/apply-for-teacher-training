@@ -3,8 +3,8 @@ module SupportInterface
     DUPLICATE_MATCHES_PER_PAGE = 100
 
     def index
-      @matches = fraud_matches(resolved: resolved?).page(params[:page]).per(DUPLICATE_MATCHES_PER_PAGE)
-      @under_review_count = fraud_matches(resolved: false).count
+      @matches = duplicate_matches(resolved: resolved?).page(params[:page]).per(DUPLICATE_MATCHES_PER_PAGE)
+      @under_review_count = duplicate_matches(resolved: false).count
 
       @filter = SupportInterface::DuplicateMatchesFilter.new(params: params)
 
@@ -14,11 +14,11 @@ module SupportInterface
     end
 
     def show
-      @match = FraudMatch.find(params[:id])
+      @match = DuplicateMatch.find(params[:id])
     end
 
     def update
-      @match = FraudMatch.find(params[:id])
+      @match = DuplicateMatch.find(params[:id])
       @match.update(resolved: resolved_params)
       redirect_to support_interface_duplicate_match_path(@match)
     end
@@ -34,8 +34,8 @@ module SupportInterface
       ActiveModel::Type::Boolean.new.cast(params[:resolved])
     end
 
-    def fraud_matches(resolved: false)
-      FraudMatch.where(
+    def duplicate_matches(resolved: false)
+      DuplicateMatch.where(
         recruitment_cycle_year: RecruitmentCycle.current_year,
         resolved: resolved,
       ).order(created_at: :desc)

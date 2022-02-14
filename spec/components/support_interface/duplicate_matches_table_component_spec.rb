@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
   before do
-    @fraud_match1 = build(
-      :fraud_match,
+    @duplicate_match1 = build(
+      :duplicate_match,
       id: 123,
       last_name: 'Thompson',
       date_of_birth: '1998-08-08',
@@ -11,8 +11,8 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
       candidates: build_list(:candidate, 3),
       created_at: Time.zone.local(2022, 1, 4, 12),
     )
-    @fraud_match2 = build(
-      :fraud_match,
+    @duplicate_match2 = build(
+      :duplicate_match,
       id: 456,
       last_name: 'Roberts',
       date_of_birth: '1973-02-15',
@@ -25,7 +25,7 @@ RSpec.describe SupportInterface::DuplicateMatchesTableComponent do
   it 'renders the correct match descriptions' do
     result = render_inline(
       described_class.new(
-        matches: Kaminari.paginate_array([@fraud_match1, @fraud_match2])
+        matches: Kaminari.paginate_array([@duplicate_match1, @duplicate_match2])
                          .page(1)
                          .per(SupportInterface::DuplicateMatchesController::DUPLICATE_MATCHES_PER_PAGE),
       ),

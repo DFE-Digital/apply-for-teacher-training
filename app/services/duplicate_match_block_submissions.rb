@@ -2,7 +2,7 @@ class DuplicateMatchBlockSubmissions
   attr_reader :duplicate_matches
 
   def initialize(start_date: Date.new(2022, 1, 25), end_date: Date.new(2022, 2, 2))
-    @duplicate_matches = FraudMatch.where(
+    @duplicate_matches = DuplicateMatch.where(
       'created_at between ? AND ?', start_date, end_date
     )
   end

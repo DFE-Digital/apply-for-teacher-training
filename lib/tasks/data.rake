@@ -1,7 +1,5 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
-  'DataMigrations::RemoveDuplicateMatchingFeatureFlag',
-  'DataMigrations::FixupCandidatesSubmissionBlocked',
   'DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider',
   'DataMigrations::BackfillUserColumnsOnNotes',
   'DataMigrations::RemoveDuplicateProvider',

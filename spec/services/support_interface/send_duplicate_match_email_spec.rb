@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::SendDuplicateMatchEmail do
-  let(:duplicate_match) { create(:fraud_match) }
+  let(:duplicate_match) { create(:duplicate_match) }
   let(:candidate) { duplicate_match.candidates.first }
 
   describe '#call' do

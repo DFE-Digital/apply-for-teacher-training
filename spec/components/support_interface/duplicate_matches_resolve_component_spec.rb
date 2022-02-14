@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe SupportInterface::DuplicateMatchesResolveComponent do
   subject(:result) do
     render_inline(
-      described_class.new(@fraud_match1),
+      described_class.new(@duplicate_match1),
     )
   end
 
   before do
-    @fraud_match1 = create(
-      :fraud_match,
+    @duplicate_match1 = create(
+      :duplicate_match,
       resolved: resolved,
     )
   end

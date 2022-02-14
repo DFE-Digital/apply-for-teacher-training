@@ -8,7 +8,6 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
     <<~MSG
       \n#{Rails.application.routes.url_helpers.support_interface_duplicate_matches_url}
       :face_with_monocle: There is 1 new duplicate candidate match today :face_with_monocle:
-      :gavel: 1 match has been marked as a duplicate :gavel:
       :female-detective: In total there are 2 matches :male-detective:
     MSG
   end
@@ -22,7 +21,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
   end
 
   describe '#save!' do
-    context 'when existing fraud match' do
+    context 'when existing duplicate match' do
       before do
         described_class.new.save!
       end
@@ -44,13 +43,13 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         let(:candidate3) { create(:candidate, email_address: 'exemplar3@example.com') }
 
         before do
-          FraudMatch.first.update(resolved: true)
+          DuplicateMatch.first.update(resolved: true)
           create(:application_form, :duplicate_candidates, candidate: candidate3)
           described_class.new.save!
         end
 
         it 'marks the match as unresolved' do
-          expect(FraudMatch.first).not_to be_resolved
+          expect(DuplicateMatch.first).not_to be_resolved
         end
       end
     end
@@ -59,7 +58,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
       it 'creates a duplicate match with associated candidates' do
         described_class.new.save!
 
-        match = FraudMatch.first
+        match = DuplicateMatch.first
 
         expect(match.postcode).to eq('W6 9BH')
         expect(match.date_of_birth).to eq(candidate1.application_forms.first.date_of_birth)
@@ -79,12 +78,11 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         application_form1 = create(:application_form, :duplicate_candidates, submitted_at: Time.zone.now)
         application_form2 = create(:application_form, :duplicate_candidates)
 
-        create(:fraud_match,
+        create(:duplicate_match,
                candidates: [application_form1.candidate, application_form2.candidate],
                last_name: 'Thompsun',
                date_of_birth: '1998-08-08',
                postcode: 'W6 9BH',
-               blocked: true,
                created_at: 2.days.ago)
 
         described_class.new.save!
@@ -97,13 +95,13 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
       it 'updates an existing duplicate match with new candidate' do
         described_class.new.save!
 
-        match = FraudMatch.first
+        match = DuplicateMatch.first
         expect(match.candidates.third).to eq(nil)
 
         create(:application_form, :duplicate_candidates, candidate: create(:candidate, email_address: 'exemplar3@example.com'))
         described_class.new.save!
 
-        match = FraudMatch.first
+        match = DuplicateMatch.first
 
         expect(match.candidates.count).to be(3)
         expect(match.candidates.third.email_address).to eq('exemplar3@example.com')
@@ -135,7 +133,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
       it 'updates an existing duplicate match with new candidate' do
         described_class.new.save!
 
-        match = FraudMatch.first
+        match = DuplicateMatch.first
         expect(match.candidates.third).to eq(nil)
 
         create(
@@ -147,7 +145,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         )
         described_class.new.save!
 
-        match = FraudMatch.first
+        match = DuplicateMatch.first
 
         expect(match.candidates.count).to be(3)
         expect(match.candidates.third.email_address).to eq('exemplar3@example.com')

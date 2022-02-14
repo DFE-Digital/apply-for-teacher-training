@@ -13,7 +13,7 @@ class Candidate < ApplicationRecord
   has_many :application_choices, through: :application_forms
   has_many :application_references, through: :application_forms
   belongs_to :course_from_find, class_name: 'Course', optional: true
-  belongs_to :fraud_match, optional: true
+  belongs_to :duplicate_match, foreign_key: 'fraud_match_id', optional: true
 
   PUBLISHED_FIELDS = %w[email_address].freeze
 

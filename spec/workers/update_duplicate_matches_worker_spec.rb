@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateFraudMatchesWorker do
+RSpec.describe UpdateDuplicateMatchesWorker do
   describe '#perform' do
     let(:worker) { described_class.new }
 

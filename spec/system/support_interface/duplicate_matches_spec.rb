@@ -18,8 +18,8 @@ RSpec.feature 'See Duplicate candidate matches' do
     then_i_should_see_a_message_that_there_are_no_matches
 
     when_there_are_candidates_with_duplicate_applications_in_the_system
-    and_the_update_fraud_matches_worker_has_run
-    and_the_second_fraud_match_is_resolved
+    and_the_update_duplicate_matches_worker_has_run
+    and_the_second_duplicate_match_is_resolved
     and_i_click_the_duplicate_matches_tab
     then_i_should_see_list_of_under_review_duplicates
     and_i_should_see_a_counter_for_under_review_duplicates
@@ -65,12 +65,12 @@ RSpec.feature 'See Duplicate candidate matches' do
     @alis_application_form = create(:application_form, candidate: @ali, first_name: 'Ali', last_name: 'Roberts', date_of_birth: '1999-10-12', postcode: 'W3 6ET')
   end
 
-  def and_the_update_fraud_matches_worker_has_run
-    UpdateFraudMatchesWorker.perform_async
+  def and_the_update_duplicate_matches_worker_has_run
+    UpdateDuplicateMatchesWorker.perform_async
   end
 
-  def and_the_second_fraud_match_is_resolved
-    @ali.reload.fraud_match.update!(resolved: true)
+  def and_the_second_duplicate_match_is_resolved
+    @ali.reload.duplicate_match.update!(resolved: true)
   end
 
   def and_i_go_to_duplicate_matches_page
@@ -96,7 +96,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def i_should_be_taken_to_the_under_review_view
-    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @bob.reload.fraud_match.resolved))
+    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @bob.reload.duplicate_match.resolved))
   end
 
   def and_click_on_a_match_that_is_resolved
@@ -104,7 +104,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def i_should_be_taken_to_the_resolved_view
-    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @ali.reload.fraud_match.resolved))
+    expect(page).to have_current_path(support_interface_duplicate_matches_path(resolved: @ali.reload.duplicate_match.resolved))
   end
 
   def and_i_should_see_a_counter_for_under_review_duplicates
@@ -138,7 +138,7 @@ RSpec.feature 'See Duplicate candidate matches' do
   end
 
   def then_the_duplicate_match_is_resolved
-    expect(@bob.reload.fraud_match.resolved).to be(true)
+    expect(@bob.reload.duplicate_match.resolved).to be(true)
     expect(page).to have_button('Mark as unresolved')
   end
 
