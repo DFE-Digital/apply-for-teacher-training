@@ -151,6 +151,31 @@ RSpec.describe OfferValidations, type: :model do
           expect(offer).to be_valid
         end
       end
+
+      context 'when a provider attempts to revert an apply_2 rejection and there are multiple applications in apply 2' do
+        let(:candidate) { create(:candidate) }
+        let(:apply_1_application_choice) { build(:application_choice, :rejected, created_at: 1.week.ago) }
+        let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }
+        let(:other_application_choice) { build(:application_choice, :rejected) }
+
+        let!(:application_form_apply_1) { create(:application_form, application_choices: [apply_1_application_choice], candidate: candidate, created_at: 1.week.ago) }
+        let!(:application_form_apply_2) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice], candidate: candidate) }
+
+        it 'is valid' do
+          expect(offer).to be_valid
+        end
+      end
+
+      context 'when a provider attempts to revert an apply_2 rejection but other offers have already been accepted' do
+        let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option) }
+        let(:other_application_choice) { build(:application_choice, :recruited) }
+        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice]) }
+
+        it 'adds an :other_offer_already_accepted error' do
+          expect(offer).to be_invalid
+          expect(offer.errors[:base]).to contain_exactly('You cannot make an offer because the candidate has already accepted one')
+        end
+      end
     end
   end
 end

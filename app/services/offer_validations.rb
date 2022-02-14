@@ -50,11 +50,11 @@ class OfferValidations
       errors.add(:base, :application_rejected_by_default)
     end
 
-    if !candidate_in_apply_2? && application_choice.application_form.apply_1? && any_accepted_offers?
+    if any_accepted_offers?
       errors.add(:base, :other_offer_already_accepted)
     end
 
-    if candidate_in_apply_2? && !application_choice.candidate.current_application_choice.eql?(application_choice)
+    if candidate_in_apply_2? && application_choice.candidate.current_application_choices.exclude?(application_choice)
       errors.add(:base, :only_latest_application_rejection_can_be_reverted_on_apply_2)
     end
   end
