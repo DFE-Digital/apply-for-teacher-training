@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe DetectInvariantsDailyCheck do
   before do
-    allow(Sentry).to receive(:capture_exception)
-
     # or unwanted exceptions will be thrown by this check
     TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)
   end
 
   describe '#perform' do
     it 'detects outstanding references on submitted applications' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::OutstandingReferencesOnSubmittedApplication))
+
       weird_application_form = create(:completed_application_form)
       create(:submitted_application_choice, application_form: weird_application_form)
       create(:reference, :feedback_requested, application_form: weird_application_form)
@@ -37,6 +37,10 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'detects application choices for courses in the last cycle' do
+      # Both of these are captured for this scenario
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationHasCourseChoiceInPreviousCycle))
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationWithADifferentCyclesCourse))
+
       this_year_course = create(:course_option)
       last_year_course = create(:course_option, :previous_year)
 
@@ -62,12 +66,16 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'doesn’t alert when the course sync has succeeded recently' do
+      allow(Sentry).to receive(:capture_exception)
+
       described_class.new.perform
 
       expect(Sentry).not_to have_received(:capture_exception)
     end
 
     it 'detects applications submitted with the same course' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationSubmittedWithTheSameCourse))
+
       course = create(:course)
       course_option1 = create(:course_option, course: course)
       course_option2 = create(:course_option, course: course)
@@ -90,6 +98,8 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'detects when a submitted application has more than 2 selected references' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationSubmittedWithMoreThanTwoSelectedReferences))
+
       application_form_with_three_selected_references = create(:completed_application_form, :with_completed_references)
       create(:submitted_application_choice, application_form: application_form_with_three_selected_references)
       create(:reference, :feedback_provided, selected: true, application_form: application_form_with_three_selected_references)
@@ -111,6 +121,8 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'detects non-deferred application choices with a course from a different recruitment cycle' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationWithADifferentCyclesCourse))
+
       application_form_with_invalid_course = create(:application_form)
       application_form_with_valid_course = create(:application_form)
 
@@ -138,6 +150,8 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'detects submitted applications with more than three course choices' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::SubmittedApplicationHasMoreThanThreeChoices))
+
       create(:completed_application_form, submitted_application_choices_count: 3)
       bad_application_form = create(:completed_application_form, submitted_application_choices_count: 2)
       bad_application_form.application_choices << build_list(:submitted_application_choice, 2, status: :offer)
@@ -158,6 +172,8 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'detects application choices with out-of-date provider_ids' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ApplicationChoicesWithOutOfDateProviderIds))
+
       choices = create_list(:application_choice, 3)
       empty_ids = choices.second
       empty_ids.update(provider_ids: [])
@@ -177,6 +193,8 @@ RSpec.describe DetectInvariantsDailyCheck do
     end
 
     it 'detects obsolete feature flags' do
+      allow(Sentry).to receive(:capture_exception).with(an_instance_of(described_class::ObsoleteFeatureFlags))
+
       obsolete_features = create_list(:feature, 5)
       FeatureFlag::FEATURES.map { |feature| Feature.find_or_create_by(name: feature.first) }
 
