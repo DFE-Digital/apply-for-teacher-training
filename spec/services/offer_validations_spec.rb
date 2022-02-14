@@ -113,9 +113,11 @@ RSpec.describe OfferValidations, type: :model do
       end
 
       context 'when a provider attempts to revert a rejection on an application that is not the last one on apply_2' do
-        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice, other_application_choice]) }
-        let(:application_choice) { build(:application_choice, :with_offer, current_course_option: course_option) }
-        let!(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
+        let(:candidate) { create(:candidate) }
+        let(:application_choice) { build(:application_choice, :rejected, current_course_option: course_option, created_at: 1.day.ago) }
+        let(:other_application_choice) { build(:application_choice, :awaiting_provider_decision) }
+        let!(:application_form) { create(:application_form, phase: 'apply_2', application_choices: [application_choice], created_at: 1.day.ago, candidate: candidate) }
+        let!(:other_application_form) { create(:application_form, phase: 'apply_2', application_choices: [other_application_choice], candidate: candidate) }
 
         it 'adds an :only_latest_application_rejection_can_be_reverted_on_apply_2 error' do
           expect(offer).to be_invalid
