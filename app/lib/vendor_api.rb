@@ -8,7 +8,7 @@ module VendorAPI
     '1.0' => [
       Changes::RetrieveApplications,
       Changes::RetrieveSingleApplication,
-      Changes::MakeAnOffer,
+      Changes::MakeOffer,
       Changes::ConfirmEnrolment,
       Changes::ConfirmConditionsMet,
       Changes::ConditionsNotMet,
@@ -25,17 +25,17 @@ module VendorAPI
       Changes::ExperimentalGenerateTestData,
     ],
     '1.1pre' => [
-      Changes::DeferAnOffer,
-      Changes::ConfirmADeferredOffer,
+      Changes::DeferOffer,
+      Changes::ConfirmDeferredOffer,
       Changes::CreateNote,
-      Changes::NotesForApplication,
+      Changes::AddNotesToApplication,
       Changes::WithdrawOrDeclineApplication,
-      Changes::InterviewsForApplication,
+      Changes::AddInterviewsToApplication,
       Changes::CreateInterview,
       Changes::UpdateInterview,
       Changes::CancelInterview,
       Changes::Pagination,
-      Changes::ApplicationMeta,
+      Changes::AddMetaToResponse,
     ],
   }.freeze
 end

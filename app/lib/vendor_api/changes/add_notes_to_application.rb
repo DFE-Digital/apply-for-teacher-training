@@ -1,6 +1,6 @@
 module VendorAPI
   module Changes
-    class NotesForApplication < VersionChange
+    class AddNotesToApplication < VersionChange
       description 'Includes notes associated with the application'
 
       resource NotePresenter

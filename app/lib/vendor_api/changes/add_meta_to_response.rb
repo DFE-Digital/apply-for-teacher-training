@@ -1,10 +1,10 @@
 module VendorAPI
   module Changes
-    class ApplicationMeta < VersionChange
+    class AddMetaToResponse < VersionChange
       description 'Includes top level meta object'
 
       resource MetaPresenter
-      resource SingleApplicationPresenter, [VendorAPI::MetaPresenter::APIMeta]
+      resource SingleApplicationPresenter, [VendorAPI::ResponseMeta]
     end
   end
 end
