@@ -1,11 +1,14 @@
 <% if @reason == :email_bounced %>
 Your referee request did not reach <%= @reference.name %>.
 
-Check you gave the correct email address and request the reference again.
+Check you gave the correct email address and request the reference again:
+
+<%= candidate_magic_link(@candidate) %>
+
 <% elsif @reason == :refused %>
-# <%= @reference.name %> has declined your reference request
+<%= @reference.name %> has declined your reference request.
 <% else %>
-# <%= @reference.name %> has not responded yet
+<%= @reference.name %> has not responded yet.
 <% end %>
 
 You can add as many referees as you like to increase the chances of getting 2 references quickly.
