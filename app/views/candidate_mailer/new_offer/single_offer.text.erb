@@ -1,6 +1,4 @@
-Dear <%= @application_form.first_name %>,
-
-# You have an offer
+Dear <%= @application_form.first_name %>
 
 You have an offer from <%= @provider_name %> to study <%= @course_name %>.
 
@@ -12,9 +10,9 @@ You have an offer from <%= @provider_name %> to study <%= @course_name %>.
 
 Contact <%= @provider_name %> if you have any questions about this.
 
-# Make a decision by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>
+# Respond by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>
 
-If you do not reply by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your application will be withdrawn.
+If you do not respond by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your offer will be declined automatically.
 
 Sign in to your account to respond:
 

@@ -12,7 +12,7 @@ module CandidateInterface
     end
 
     def message
-      "You have #{pluralize(days_left_to_respond, 'day')} (until #{decline_by_default_date.to_s(:govuk_date)}) to respond. If you do not respond, your #{'offer'.pluralize(offer_count)} will automatically be declined."
+      "You have #{pluralize(days_left_to_respond, 'day')} (until #{decline_by_default_date.to_s(:govuk_date)}) to respond. If you do not respond, your #{'offer'.pluralize(offer_count)} will be automatically declined."
     end
 
     def render?

@@ -48,7 +48,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
-      'decline by default date' => "Make a decision by #{10.business_days.from_now.to_s(:govuk_date)}",
+      'decline by default date' => "Respond by #{10.business_days.from_now.to_s(:govuk_date)}",
       'first_condition' => 'Be cool',
       'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
     )
@@ -63,7 +63,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Make a decision: successful application for Falconholt Technical College',
         'heading' => 'Dear Bob',
         'course and provider' => 'offer from Falconholt Technical College to study Computer Science (X0FO)',
-        'decline by default date' => "Make a decision by #{10.business_days.from_now.to_s(:govuk_date)}",
+        'decline by default date' => "Respond by #{10.business_days.from_now.to_s(:govuk_date)}",
         'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
       )
     end
@@ -78,7 +78,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
-      'decline by default date' => "Make a decision by #{10.business_days.from_now.to_s(:govuk_date)}",
+      'decline by default date' => "Respond by #{10.business_days.from_now.to_s(:govuk_date)}",
       'first_condition' => 'Be cool',
       'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
       'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College',
@@ -259,7 +259,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'rejection reasons' => 'Do not refer to yourself in the third person',
         'other application details' => 'You’re not waiting for any other decisions.',
         'first application details' => 'Brighthurst Technical College to study Applied Science (Psychology)',
-        'respond by date' => "The offers will automatically be withdrawn if you do not respond by #{10.business_days.from_now.to_s(:govuk_date)}",
+        'respond by date' => "will be automatically declined if you do not respond by #{10.business_days.from_now.to_s(:govuk_date)}",
       )
     end
   end
@@ -339,10 +339,10 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Your deferred offer has been confirmed',
       'heading' => 'Dear Bob',
-      'provider name' => 'You have an offer from Falconholt Technical College',
+      'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
       'name and code for course' => 'Forensic Science (E0FO)',
       'start date of new course' => 'June 2020',
-      'date offer was deferred' => 'This was deferred from last year (October 2019)',
+      'date offer was deferred' => 'This was deferred from (October 2019)',
     )
 
     describe 'with pending conditions' do
@@ -350,10 +350,10 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         'Your deferred offer has been confirmed',
         'heading' => 'Dear Bob',
-        'provider name' => 'You have an offer from Falconholt Technical College',
+        'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
         'name and code for course' => 'Forensic Science (E0FO)',
         'start date of new course' => 'June 2020',
-        'date offer was deferred' => 'This was deferred from last year (October 2019)',
+        'date offer was deferred' => 'This was deferred from (October 2019)',
         'conditions of offer' => 'Be cool',
       )
     end

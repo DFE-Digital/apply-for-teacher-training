@@ -47,7 +47,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       I18n.t('authentication.sign_in_without_account.email.subject'),
-      'heading' => I18n.t('authentication.sign_in_without_account.email.subject'),
+      'heading' => 'You tried to sign in to apply for teacher training',
       'sign up link' => 'http://localhost:3000/candidate/sign-up',
     )
   end

@@ -306,7 +306,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       'Offer withdrawn by Arachnid College',
-      'greeting' => 'Dear Fred,',
+      'greeting' => 'Dear Fred',
       'offer details' => 'Arachnid College has withdrawn their offer for you to study Mathematics (M101)',
       'withdrawal reason' => 'You lied to us about secretly being Spiderman',
     )
@@ -326,7 +326,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'greeting' => 'Dear Fred,',
+      'greeting' => 'Dear Fred',
       'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
       'course start' => 'September 2021',
     )
@@ -375,7 +375,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      'greeting' => 'Dear Fred,',
+      'greeting' => 'Dear Fred',
       'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
       'course start' => 'September 2021',
     )
@@ -405,7 +405,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'Interview arranged - Hogwards',
-        'greeting' => 'Dear Fred,',
+        'greeting' => 'Dear Fred',
         'details' => 'You have an interview with Hogwards',
         'interview date and time' => '15 January 2021 at 9:30am',
         'interview location' => 'Hogwarts Castle',
@@ -419,8 +419,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'Interview details updated - Hogwards',
-        'greeting' => 'Dear Fred,',
-        'details' => 'Hogwards has updated the details of the interview',
+        'greeting' => 'Dear Fred',
+        'details' => 'Hogwards has updated the details of your interview',
         'interview date and time' => '15 January 2021 at 9:30am',
         'interview location' => 'Hogwarts Castle',
         'additional interview details' => 'Bring your magic wand for the spells test',
@@ -433,8 +433,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'Interview cancelled - Hogwards',
-        'greeting' => 'Dear Fred,',
-        'details' => 'Hogwards has cancelled the interview on 15 January 2021 at 9:30am',
+        'greeting' => 'Dear Fred',
+        'details' => 'Hogwards has cancelled your interview on 15 January 2021 at 9:30am',
         'cancellation reason' => 'We recruited someone else',
       )
     end
@@ -490,9 +490,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'Teacher training applications are open - apply for the 2022 to 2023 academic year',
-        'greeting' => 'Dear Fred,',
+        'greeting' => 'Dear Fred',
         'academic_year' => '2022 to 2023',
-        'details' => 'Applications are open - submit your teacher training application',
+        'details' => 'Applications are now open',
       )
     end
 
@@ -504,9 +504,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'Teacher training applications are open - apply for the 2022 to 2023 academic year',
-        'greeting' => 'Dear Fred,',
+        'greeting' => 'Dear Fred',
         'academic_year' => '2022 to 2023',
-        'details' => 'Applications are open - apply for teacher training again',
+        'details' => 'Applications are now open - apply for teacher training again.',
       )
     end
 
@@ -533,9 +533,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         'Find your teacher training course now',
-        'greeting' => 'Dear Fred,',
+        'greeting' => 'Dear Fred',
         'academic_year' => '2022 to 2023',
-        'details' => 'Find your course and get your application ready:',
+        'details' => 'Find your courses:',
       )
     end
 
