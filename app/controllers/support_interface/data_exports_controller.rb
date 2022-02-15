@@ -16,6 +16,7 @@ module SupportInterface
         .order(created_at: :desc)
         .page(params[:page] || 1)
         .per(PAGE_SIZE)
+        .select(DataExport.column_names - %w[data])
     end
 
     def view_export_information
@@ -23,7 +24,13 @@ module SupportInterface
     end
 
     def view_history
-      @data_exports = DataExport.includes(:initiator).send(params[:data_export_type]).order(created_at: :desc).page(params[:page] || 1).per(PAGE_SIZE)
+      @data_exports = DataExport
+        .includes(:initiator)
+        .send(params[:data_export_type])
+        .order(created_at: :desc)
+        .page(params[:page] || 1)
+        .per(PAGE_SIZE)
+        .select(DataExport.column_names - %w[data])
     end
 
     def create
