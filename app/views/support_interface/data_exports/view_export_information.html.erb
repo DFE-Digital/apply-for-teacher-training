@@ -3,11 +3,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third">
     <p class="govuk-body"><%= @data_export.fetch(:description) %></p>
-    <% if DataExport::MONTHLY_STATISTICS_EXPORTS.include?(@data_export.fetch(:export_type)) && !DataExport.can_generate_export?(@data_export.fetch(:export_type)) %>
-      <p class="govuk-body">This export has already been generated for this months report. Please use the latest copy in the history tab.</p>
-    <% else %>
-      <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
-    <% end %>
+    <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_type]) %>
   </div>
 
   <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>

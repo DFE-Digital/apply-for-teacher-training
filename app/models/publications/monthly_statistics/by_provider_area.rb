@@ -27,7 +27,7 @@ module Publications
 
       def formatted_group_query
         counts = {
-          'East' => {},
+          'East of England' => {},
           'East Midlands' => {},
           'London' => {},
           'North East' => {},
@@ -49,7 +49,7 @@ module Publications
 
       def region_code_lookup(region_code)
         {
-          'eastern' => 'East',
+          'eastern' => 'East of England',
           'east_midlands' => 'East Midlands',
           'london' => 'London',
           'north_east' => 'North East',

@@ -33,10 +33,6 @@ module Publications
       "#{start.to_s(:govuk_date)} to #{finish.to_s(:govuk_date)}"
     end
 
-    def exports
-      MonthlyStatisticsTimetable.current_exports
-    end
-
     def deferred_applications_count
       report.statistics['deferred_applications_count'] || 0
     end

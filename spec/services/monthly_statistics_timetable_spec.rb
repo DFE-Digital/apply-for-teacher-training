@@ -85,34 +85,4 @@ RSpec.describe MonthlyStatisticsTimetable do
       end
     end
   end
-
-  describe '#current_exports' do
-    context 'when it is not between the generation and publish date' do
-      it 'returns the latest set of MonthlyStatistics exports' do
-        allow(described_class).to receive(:in_qa_period?).and_return false
-        expected_exports = []
-
-        DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
-          create(:data_export, export_type: export_type)
-          expected_exports << create(:data_export, export_type: export_type)
-        end
-
-        expect(described_class.current_exports).to eq expected_exports
-      end
-    end
-
-    context 'when it is between the generation and publish date for the current month' do
-      it 'returns the latest set of MonthlyStatistics exports' do
-        allow(described_class).to receive(:in_qa_period?).and_return true
-        expected_exports = []
-
-        DataExport::MONTHLY_STATISTICS_EXPORTS.each do |export_type|
-          expected_exports << create(:data_export, export_type: export_type)
-          create(:data_export, export_type: export_type)
-        end
-
-        expect(described_class.current_exports).to eq expected_exports
-      end
-    end
-  end
 end

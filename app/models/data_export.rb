@@ -103,66 +103,6 @@ class DataExport < ApplicationRecord
       description: 'A report of candidates counted against specific states and subjects.',
       class: SupportInterface::MinisterialReportCandidatesExport,
     },
-    monthly_statistics_applications_by_course_age_group: {
-      name: 'Monthly statistics applications by course age group',
-      export_type: 'monthly_statistics_applications_by_course_age_group',
-      description: 'A CSV version of the applications by course age group table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::ApplicationsByCourseAgeGroupExport,
-    },
-    monthly_statistics_applications_by_course_type: {
-      name: 'Monthly statistics applications by course type',
-      export_type: 'monthly_statistics_applications_by_course_type',
-      description: 'A CSV version of the applications by course type table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::ApplicationsByCourseTypeExport,
-    },
-    monthly_statistics_applications_by_primary_specialist_subject: {
-      name: 'Monthly statistics applications by primary specialist subject',
-      export_type: 'monthly_statistics_applications_by_primary_specialist_subject',
-      description: 'A CSV version of the applications by primary specialist subject table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::ApplicationsByPrimarySpecialistSubjectExport,
-    },
-    monthly_statistics_applications_by_provider_area: {
-      name: 'Monthly statistics applications by provider area subject',
-      export_type: 'monthly_statistics_applications_by_provider_area',
-      description: 'A CSV version of the applications by provider area table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::ApplicationsByProviderAreaExport,
-    },
-    monthly_statistics_applications_by_secondary_subject: {
-      name: 'Monthly statistics applications by secondary subject',
-      export_type: 'monthly_statistics_applications_by_secondary_subject',
-      description: 'A CSV version of the applications by secondary subject table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::ApplicationsBySecondarySubjectExport,
-    },
-    monthly_statistics_applications_by_status: {
-      name: 'Monthly statistics applications by status',
-      export_type: 'monthly_statistics_applications_by_status',
-      description: 'A CSV version of the applications by status table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::ApplicationsByStatusExport,
-    },
-    monthly_statistics_candidates_by_age_group: {
-      name: 'Monthly statistics candidates by age group',
-      export_type: 'monthly_statistics_candidates_by_age_group',
-      description: 'A CSV version of the candidates by age group table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::CandidatesByAgeGroupExport,
-    },
-    monthly_statistics_candidates_by_area: {
-      name: 'Monthly statistics candidates by area',
-      export_type: 'monthly_statistics_candidates_by_area',
-      description: 'A CSV version of the candidates by area table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::CandidatesByAreaExport,
-    },
-    monthly_statistics_candidates_by_sex: {
-      name: 'Monthly statistics candidates by sex',
-      export_type: 'monthly_statistics_candidates_by_sex',
-      description: 'A CSV version of the candidates by sex table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::CandidatesBySexExport,
-    },
-    monthly_statistics_candidates_by_status: {
-      name: 'Monthly statistics candidates by status',
-      export_type: 'monthly_statistics_candidates_by_status',
-      description: 'A CSV version of the candidates by status table for the monthly report',
-      class: SupportInterface::MonthlyStatisticsExports::CandidatesByStatusExport,
-    },
     notes_export: {
       name: 'Notes',
       export_type: 'notes_export',
@@ -292,21 +232,6 @@ class DataExport < ApplicationRecord
     },
   }.freeze
 
-  MONTHLY_STATISTICS_EXPORTS = %w[
-    monthly_statistics_candidates_by_status
-    monthly_statistics_applications_by_status
-    monthly_statistics_candidates_by_age_group
-    monthly_statistics_candidates_by_sex
-    monthly_statistics_candidates_by_area
-    monthly_statistics_applications_by_course_age_group
-    monthly_statistics_applications_by_course_type
-    monthly_statistics_applications_by_primary_specialist_subject
-    monthly_statistics_applications_by_secondary_subject
-    monthly_statistics_applications_by_provider_area
-    external_report_candidates
-    external_report_applications
-  ].freeze
-
   belongs_to :initiator, polymorphic: true, optional: true
   audited except: [:data]
 
@@ -328,16 +253,6 @@ class DataExport < ApplicationRecord
 
   def export_type_value
     name.parameterize.underscore
-  end
-
-  def self.can_generate_export?(export_type)
-    return true unless MONTHLY_STATISTICS_EXPORTS.include?(export_type)
-
-    DataExport
-    .where(export_type: export_type)
-    .where('created_at > ?', MonthlyStatisticsTimetable.current_reports_generation_date)
-    .count
-    .zero?
   end
 
   enum export_type: {
