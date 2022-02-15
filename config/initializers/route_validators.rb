@@ -16,8 +16,6 @@ class ValidVendorApiRoute
   end
 
   class VersionMatcher
-    include VersioningHelpers
-
     attr_reader :request
 
     def initialize(request)

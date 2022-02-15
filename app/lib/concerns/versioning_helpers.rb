@@ -37,10 +37,12 @@ module VersioningHelpers
     return production_version if HostingEnvironment.production?
     return VendorAPI::VERSION if HostingEnvironment.sandbox_mode?
 
-    ordered_versions.keys.last
+    development_version
   end
 
-private
+  def development_version
+    version_number(ordered_versions.keys.last)
+  end
 
   def ordered_versions
     VendorAPI::VERSIONS.sort_by { |version| Gem::Version.new(version[0]) }.to_h

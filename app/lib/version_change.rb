@@ -29,4 +29,8 @@ class VersionChange
       resources
     end
   end
+
+  def summary
+    actions.merge(resources)
+  end
 end
