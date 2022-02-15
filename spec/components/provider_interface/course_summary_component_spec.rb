@@ -23,6 +23,8 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
       name: 'Geograpghy',
       code: 'H234',
       provider: provider,
+      qualifications: %w[qts pgce],
+      funding_type: 'fee',
     )
   end
 
@@ -38,13 +40,26 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
   let(:render) { render_inline(described_class.new(course_option: course_option)) }
 
   def row_text_selector(row_name, render)
-    rows = {
-      provider: 0,
-      course: 1,
-      full_or_part_time: 2,
-      location: 3,
-      accredited_body: 4,
-    }
+    rows = if course.accredited_provider_id.nil?
+             {
+               provider: 0,
+               course: 1,
+               full_or_part_time: 2,
+               location: 3,
+               qualification: 4,
+               funding_type: 5,
+             }
+           else
+             {
+               provider: 0,
+               course: 1,
+               full_or_part_time: 2,
+               location: 3,
+               accredited_body: 4,
+               qualification: 5,
+               funding_type: 6,
+             }
+           end
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
@@ -86,5 +101,19 @@ RSpec.describe ProviderInterface::CourseSummaryComponent do
       expect(render_text).to include('Accredited body')
       expect(render_text).to include(course.accredited_provider.name_and_code)
     end
+  end
+
+  it 'renders the qualification' do
+    render_text = row_text_selector(:qualification, render)
+
+    expect(render_text).to include('Qualification')
+    expect(render_text).to include('PGCE with QTS')
+  end
+
+  it 'renders the funding type' do
+    render_text = row_text_selector(:funding_type, render)
+
+    expect(render_text).to include('Funding type')
+    expect(render_text).to include('Fee')
   end
 end

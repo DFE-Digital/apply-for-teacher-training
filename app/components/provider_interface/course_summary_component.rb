@@ -1,7 +1,10 @@
 module ProviderInterface
   class CourseSummaryComponent < ViewComponent::Base
+    include QualificationValueHelper
+
     attr_reader :course_option, :provider_name, :course_name_and_code,
-                :location_name_and_address, :study_mode
+                :location_name_and_address, :study_mode, :qualification,
+                :funding_type
 
     def initialize(course_option:)
       @course_option = course_option
@@ -9,6 +12,7 @@ module ProviderInterface
       @course_name_and_code = course_option.course.name_and_code
       @location_name_and_address = course_option.site.name_and_address
       @study_mode = course_option.study_mode.humanize
+      @funding_type = course_option.course.funding_type.humanize
     end
 
     def rows
@@ -29,10 +33,18 @@ module ProviderInterface
           key: 'Location',
           value: location_name_and_address,
         },
+        {
+          key: 'Qualification',
+          value: qualification_text(course_option),
+        },
+        {
+          key: 'Funding type',
+          value: funding_type,
+        },
       ]
       return rows if course_option.course.accredited_provider.blank?
 
-      rows << accredited_body_details(course_option)
+      rows.insert(4, accredited_body_details(course_option))
     end
 
   private
