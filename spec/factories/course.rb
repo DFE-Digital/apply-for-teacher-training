@@ -7,6 +7,7 @@ FactoryBot.define do
     level { 'primary' }
     recruitment_cycle_year { RecruitmentCycle.current_year }
     description { 'PGCE with QTS full time' }
+    qualifications { %w[qts pgce] }
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
     applications_open_from { CycleTimetable.apply_opens }
