@@ -1,8 +1,8 @@
 module VendorAPI
   extend VersioningHelpers
 
-  PRELIMINARY_VERSION = '1.0'.freeze
-  VERSION = PRELIMINARY_VERSION
+  VERSION_1_0 = '1.0'.freeze
+  VERSION = '1.0'.freeze
 
   VERSIONS = {
     '1.0' => [
