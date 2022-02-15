@@ -15,7 +15,7 @@ gem 'railties', '~> 6.1'
 gem 'sprockets-rails'
 
 gem 'puma', '~> 5.6'
-gem 'pg', '~> 1.3.1'
+gem 'pg', '~> 1.3.2'
 gem 'blazer'
 
 # do not rely on host’s timezone data, which can be inconsistent
