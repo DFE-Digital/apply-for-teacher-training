@@ -1,6 +1,7 @@
 module ProviderInterface
   class CompletedOfferSummaryComponent < OfferSummaryComponent
     include ViewHelper
+    include QualificationValueHelper
 
     def rows
       rows = [
@@ -33,10 +34,18 @@ module ProviderInterface
             href: change_location_path,
           },
         },
+        {
+          key: 'Qualification',
+          value: qualification_text(course_option),
+        },
+        {
+          key: 'Funding type',
+          value: course.funding_type.humanize,
+        },
       ]
       return rows if course_option.course.accredited_provider.blank?
 
-      rows << accredited_body_details(course_option)
+      rows.insert(4, accredited_body_details(course_option))
     end
 
     def change_provider_path
