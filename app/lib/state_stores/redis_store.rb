@@ -3,7 +3,7 @@ require 'redis'
 module StateStores
   class RedisStore
     def initialize(key:)
-      @redis = Redis.current
+      @redis = Redis.new
       @key = key
     end
 

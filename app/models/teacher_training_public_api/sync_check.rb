@@ -3,15 +3,15 @@ module TeacherTrainingPublicAPI
     LAST_SUCCESSFUL_SYNC = 'last-successful-sync-with-teacher-training-api'.freeze
 
     def self.set_last_sync(time)
-      Redis.current.set(LAST_SUCCESSFUL_SYNC, time)
+      Redis.new.set(LAST_SUCCESSFUL_SYNC, time)
     end
 
     def self.clear_last_sync
-      Redis.current.del(LAST_SUCCESSFUL_SYNC)
+      Redis.new.del(LAST_SUCCESSFUL_SYNC)
     end
 
     def self.last_sync
-      Redis.current.get(LAST_SUCCESSFUL_SYNC)
+      Redis.new.get(LAST_SUCCESSFUL_SYNC)
     end
 
     def self.updated_since

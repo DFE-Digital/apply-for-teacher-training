@@ -6,7 +6,7 @@ RSpec.describe WizardStateStores::RedisStore do
 
     store.write('value')
 
-    redis = Redis.current
+    redis = Redis.new
     expect(redis.ttl('any_old_key')).to be_within(5).of(4.hours.to_i)
   end
 end
