@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SubmitApplication do
   before do
-    FeatureFlag.activate(:apply_again_with_three_choices)
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   describe '#call' do
@@ -60,13 +60,13 @@ RSpec.describe SubmitApplication do
     context 'when the application is apply_2' do
       let(:application_form) { create(:application_form, phase: :apply_2) }
 
-      it 'also sends the candidate email' do
+      it 'sends the candidate an apply_2 email' do
         action_mailer_double = instance_double('ActionMailer::MessageDelivery', deliver_later: true)
-        candidate_mailer_double = class_double('CandidateMailer', application_submitted: action_mailer_double).as_stubbed_const
+        candidate_mailer_double = class_double('CandidateMailer', application_submitted_apply_again: action_mailer_double).as_stubbed_const
 
         described_class.new(application_form).call
 
-        expect(candidate_mailer_double).to have_received(:application_submitted).with(application_form)
+        expect(candidate_mailer_double).to have_received(:application_submitted_apply_again).with(application_form)
         expect(action_mailer_double).to have_received(:deliver_later)
       end
     end
