@@ -1,11 +1,12 @@
 module ProviderInterface
   class CourseDetailsComponent < ViewComponent::Base
     include ViewHelper
+    include QualificationValueHelper
 
     FUNDING_TYPES = { apprenticeship: :apprenticeship, salary: :salaried, fee: :fee_paying }.freeze
 
     attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
-                :cycle, :preferred_location, :study_mode
+                :cycle, :preferred_location, :study_mode, :qualification
 
     def initialize(application_choice:)
       @application_choice = application_choice
@@ -14,6 +15,7 @@ module ProviderInterface
       @cycle = application_choice.course.recruitment_cycle_year
       @preferred_location = preferred_location_text
       @study_mode = application_choice.course_option.study_mode.humanize
+      @qualification = qualification_text(application_choice.course_option)
     end
 
     def preferred_location_text
