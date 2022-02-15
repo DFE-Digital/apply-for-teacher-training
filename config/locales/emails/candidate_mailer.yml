@@ -49,8 +49,8 @@ en:
         other: Applications withdrawn automatically
     decline_by_default_last_course_choice:
       subject:
-        one: "You did not respond to your offer: next steps"
-        other: "You did not respond to your offers: next steps"
+        one: "You did not respond to your offer, but you can apply again"
+        other: "You did not respond to your offers, but you can apply again"
     application_rejected_all_applications_rejected:
       subject: Update on your application - all decisions now made
     application_rejected_one_offer_one_awaiting_decision:
