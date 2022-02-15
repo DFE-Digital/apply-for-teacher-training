@@ -69,8 +69,8 @@ en:
       subject: Update on your application - respond by %{date}
     application_withdrawn:
       subject:
-        one: "You’ve withdrawn your application: next steps"
-        other: "You’ve withdrawn your applications: next steps"
+        one: "You’ve withdrawn your application: are you still interested in teaching?"
+        other: "You’ve withdrawn your applications: are you still interested in teaching?"
     application_declined:
       subject: "You’ve declined an offer: next steps"
     conditions_statuses_changed:
