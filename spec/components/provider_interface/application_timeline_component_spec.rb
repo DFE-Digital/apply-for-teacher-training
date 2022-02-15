@@ -81,8 +81,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   end
 
   context 'for an application with a note' do
+    let(:application_choice) { create(:application_choice) }
+
     it 'renders note event' do
-      application_choice = create(:application_choice)
       note = Note.new(
         message: 'Notes are a new feature',
         user: provider_user,
@@ -95,6 +96,26 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.css('a').text).to include 'View note'
       expect(rendered.css('.govuk-visually-hidden').text).to eq Time.zone.now.to_s(:govuk_date_and_time)
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/notes/#{note.id}"
+    end
+
+    it 'renders note events by API users' do
+      note = Note.new(
+        message: 'Notes are a new feature',
+        user: create(:vendor_api_user, full_name: 'Jane Smith'),
+      )
+      application_choice.notes << note
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Jane Smith (Vendor API)'
+    end
+
+    it 'renders note events by support users' do
+      note = Note.new(
+        message: 'Notes are a new feature',
+        user: create(:support_user),
+      )
+      application_choice.notes << note
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
     end
   end
 

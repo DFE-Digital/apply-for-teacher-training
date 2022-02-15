@@ -53,7 +53,7 @@ module ProviderInterface
         application_choice.notes.order('created_at').map do |note|
           Event.new(
             'Note added',
-            note.user.full_name,
+            actor_for(note),
             note.created_at,
             'View note',
             provider_interface_application_choice_note_path(application_choice, note),
@@ -118,10 +118,10 @@ module ProviderInterface
         'Candidate'
       elsif change.user.is_a?(ProviderUser)
         change.user.full_name
-      elsif change_by_support?(change.audit)
-        'Apply support'
       elsif change.user.is_a?(VendorApiUser)
         "#{change.user.full_name} (Vendor API)"
+      elsif note_by_support?(change) || change_by_support?(change.audit)
+        'Apply support'
       else
         'System'
       end
@@ -143,6 +143,10 @@ module ProviderInterface
       return [nil, nil] if interview.discarded?
 
       ['View interview', provider_interface_application_choice_interviews_path(application_choice, anchor: "interview-#{interview.id}")]
+    end
+
+    def note_by_support?(change)
+      change.is_a?(Note) && change.user.is_a?(SupportUser)
     end
   end
 end
