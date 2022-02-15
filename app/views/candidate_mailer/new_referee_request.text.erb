@@ -1,5 +1,5 @@
 <% if @reason == :email_bounced %>
-# Referee request did not reach <%= @reference.name %>
+Referee request did not reach <%= @reference.name %>.
 
 Check you gave the correct email address and request the reference again.
 <% elsif @reason == :refused %>
