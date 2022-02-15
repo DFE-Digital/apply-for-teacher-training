@@ -4,6 +4,7 @@ RSpec.describe StateChangeNotifier do
   let(:helpers) { Rails.application.routes.url_helpers }
 
   before do
+    RequestStore.store[:disable_state_change_notifications] = false
     allow(SlackNotificationWorker).to receive(:perform_async)
   end
 
