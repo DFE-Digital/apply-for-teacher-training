@@ -27,7 +27,7 @@ module VendorAPI
     end
 
     def exclude_deferrals
-      full_api_version_number.eql?(VendorAPI::PRELIMINARY_VERSION)
+      full_api_version_number.eql?(VendorAPI::VERSION_1_0)
     end
 
     def include_properties
