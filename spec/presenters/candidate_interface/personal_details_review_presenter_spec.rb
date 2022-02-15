@@ -215,7 +215,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
         :application_form,
         immigration_right_to_work: true,
         immigration_status: 'other',
-        immigration_status_details: 'I have permanent residence',
+        immigration_status_details: 'I have indefinite leave to remain',
       )
 
       rows = rows(nationalities_form: nationalities_form, application_form: application_form)
@@ -231,7 +231,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
       expect(rows).to include(
         row_for(
           :immigration_status,
-          'I have permanent residence',
+          'I have indefinite leave to remain',
           candidate_interface_edit_immigration_status_path('return-to' => 'application-review'),
           'personal_details_immigration_status',
         ),

@@ -13,7 +13,7 @@ module CandidateInterface
     DEFAULT_IMMIGRATION_STATUS = 'other'.freeze
 
     def set_default_status
-      self.immigration_status ||= DEFAULT_IMMIGRATION_STATUS
+      self.immigration_status ||= DEFAULT_IMMIGRATION_STATUS if !eu_nationality?
     end
 
     def self.build_from_application(application_form)
