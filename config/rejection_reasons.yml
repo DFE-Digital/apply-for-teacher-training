@@ -34,6 +34,64 @@ questions:
         text: Other
         details:
           text: Details
+  teaching_knowledge:
+    text: Teaching knowledge and ability
+    reasons:
+      subject_knowledge:
+        text: Subject knowledge
+        details:
+          text: Details
+      safeguarding_knowledge:
+        text: Safeguarding knowledge
+        details:
+          text: Details
+      teaching_method_knowledge:
+        text: Teaching method knowledge
+        details:
+          text: Details
+      teaching_role_knowledge:
+        text: Teaching role knowledge
+        details:
+          text: Details
+      teaching_demonstration:
+        text: Teaching demonstration
+        details:
+          text: Details
+      other:
+        text: Other
+        details:
+          text: Details
+  communication_and_scheduling:
+    text: Communication, attendance and scheduling
+    reasons:
+      did_not_reply:
+        text: Did not reply to messages
+        details:
+          text: Details
+      did_not_attend_interview:
+        text: Did not attend interview
+        details:
+          text: Details
+      could_not_arrange_interview:
+        text: Could not arrange interview
+        details:
+          text: Details
+      other:
+        text: Other
+        details:
+          text: Details
+  references:
+    text: References
+    details:
+      text: Details
+  safeguarding:
+    text: Safeguarding
+    details:
+      text: Details
+  visa_sponsorship:
+    text: Visa sponsorship
+    details:
+      text: Details
   course_full:
     text: Course full
   other:
