@@ -26,10 +26,13 @@ This might be because you:
 * decline any offers
 * withdraw your application
 
+<% if FeatureFlag.active?(:apply_again_with_three_choices) %>
 You can apply again as many times as you like.
 
 Each time you submit an application you can apply for up to 3 courses.
-
+<% else %>
+You can apply again to one course at a time as many times as you like.
+<% end %>
 
 [Chat online for help applying again](<%= t('get_into_teaching.url_online_chat') %>).
 
