@@ -15,23 +15,29 @@ module SupportInterface
 
       export_rows[:split] = column_names
 
+      subject_report = initialize_subject_report
+
       application_forms.find_each do |application|
-        next if application.phase == 'apply_2'
+        latest_apply_again_application = viable_apply_2_applications(application).last
 
+        # We use original application to select determine subjects and
+        # combination of original application and latest apply again
+        # application (if there is one).
         subjects = determine_subjects(application)
-
-        states = if candidate_has_a_successful_apply_2_application?(application)
-                   determine_states(application.candidate.current_application)
-                 else
-                   determine_states(application)
-                 end
+        states = determine_states([application, latest_apply_again_application].compact)
 
         if candidate_has_no_dominant_subject?(subjects)
-          states.each { |state| export_rows[:split][state] += 1 }
+          states.each do |state|
+            export_rows[:split][state] += 1
+            add_subject_report_split_value(subject_report, state, application.candidate.id)
+          end
         else
           dominant_subject = dominant_subject(subjects)
 
-          states&.each { |state| add_row_values(export_rows, dominant_subject, state) }
+          states&.each do |state|
+            add_row_values(export_rows, dominant_subject, state)
+            add_subject_report_values(subject_report, dominant_subject, state, application.candidate.id)
+          end
         end
       end
 
@@ -39,35 +45,38 @@ module SupportInterface
 
       export_rows[:total] = export_rows[:total].merge(export_rows[:split]) { |_k, total_value, split_value| total_value + split_value }
 
+      write_subject_report(subject_report)
+
       export_rows.map { |subject, value| { subject: subject }.merge!(value) }
     end
 
     alias data_for_export call
 
-    def determine_states(application)
-      choice_statuses = application.application_choices.map(&:status)
-
-      if choice_statuses.any? { |choice_status| %w[pending_conditions offer_deferred recruited].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:pending_conditions]
-      elsif choice_statuses.any? { |choice_status| %w[offer conditions_not_met].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:offer]
-      elsif choice_statuses.any? { |choice_status| %w[awaiting_provider_decision interviewing].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:awaiting_provider_decision]
-      elsif choice_statuses.any? { |choice_status| %w[offer_withdrawn].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:offer_withdrawn]
-      elsif choice_statuses.any? { |choice_status| %w[cancelled declined].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:declined]
-      elsif choice_statuses.any? { |choice_status| %w[rejected].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:rejected]
-      elsif choice_statuses.any? { |choice_status| %w[withdrawn].include? choice_status }
-        MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:withdrawn]
+    def determine_states(applications)
+      choice_statuses = applications.reduce([]) do |results, application|
+        results + current_application_choices_for(application).map(&:status).map(&:to_sym)
       end
+
+      # get the highest-ranking status according to the order of precedence
+      overall_status = (choice_statuses & MinisterialReport::TAD_STATUS_PRECEDENCE.keys).min_by { |el| MinisterialReport::TAD_STATUS_PRECEDENCE.keys.index(el) }
+
+      mapped = MinisterialReport::TAD_STATUS_PRECEDENCE[overall_status].presence || []
+      mapped + [:candidates] # every form is counted as a candidate
     end
 
   private
 
-    def candidate_has_a_successful_apply_2_application?(application)
-      application != application.candidate.current_application && application.candidate.current_application.phase == 'apply_2' && determine_states(application.candidate.current_application) == MinisterialReport::CANDIDATES_REPORT_STATUS_MAPPING[:recruited]
+    def current_application_choices_for(application_form)
+      application_form.application_choices.select do |application_choice|
+        application_choice.current_recruitment_cycle_year == RecruitmentCycle.current_year
+      end
+    end
+
+    def viable_apply_2_applications(application)
+      application.candidate.application_forms
+        .reject { |application_form| application_form == application }
+        .select { |application_form| application_form.apply_2? && application_form.submitted? }
+        .sort_by(&:id)
     end
 
     def add_row_values(hash, subject, state)
@@ -77,10 +86,48 @@ module SupportInterface
       hash[subject][state] += 1
     end
 
+    def add_subject_report_values(
+      subject_report,
+      dominant_subject,
+      state,
+      candidate_id
+    )
+      if generate_diagnostic_report?
+        subject_report[dominant_subject][state] << candidate_id
+
+        if MinisterialReport::STEM_SUBJECTS.include? dominant_subject
+          subject_report[:stem][state] << candidate_id
+        end
+        if MinisterialReport::EBACC_SUBJECTS.include? dominant_subject
+          subject_report[:ebacc][state] << candidate_id
+        end
+        if MinisterialReport::SECONDARY_SUBJECTS.include? dominant_subject
+          subject_report[:secondary][state] << candidate_id
+        end
+      end
+    end
+
+    def add_subject_report_split_value(subject_report, state, candidate_id)
+      if generate_diagnostic_report?
+        subject_report[:split][state] << candidate_id
+      end
+    end
+
+    def initialize_subject_report_subject(subject_report, subject)
+      if subject_report[subject].blank?
+        subject_report[subject] = column_names.keys.index_with { [] }
+      end
+    end
+
+    def add_subject_report_totals(subject_report)
+      subject_report[:total] = subject_report[:primary].merge(subject_report[:secondary]) { |_k, primary_value, secondary_value| primary_value + secondary_value }
+      subject_report[:total] = subject_report[:total].merge(subject_report[:split]) { |_k, total_value, split_value| total_value + split_value }
+    end
+
     def determine_subjects(application_form)
-      application_form.application_choices.map do |application_choice|
+      current_application_choices_for(application_form).map do |application_choice|
         MinisterialReport.determine_dominant_course_subject_for_report(
-          application_choice.course,
+          application_choice.current_course,
         )
       end
     end
@@ -88,7 +135,7 @@ module SupportInterface
     def candidate_has_no_dominant_subject?(mapped_subjects)
       return false if mapped_subjects.count == 1 || mapped_subjects.uniq.size == 1
 
-      return true if count_of_subject_choices(mapped_subjects).values.uniq.size == 1
+      count_of_subject_choices(mapped_subjects).values.max <= (mapped_subjects.count / 2)
     end
 
     def count_of_subject_choices(subjects)
@@ -102,22 +149,56 @@ module SupportInterface
     def column_names
       {
         candidates: 0,
-        candidates_holding_offers: 0,
-        candidates_that_have_accepted_offers: 0,
-        declined_candidates: 0,
-        rejected_candidates: 0,
-        candidates_that_have_withdrawn_offers: 0,
+        offer_received: 0,
+        accepted: 0,
+        application_declined: 0,
+        application_rejected: 0,
+        application_withdrawn: 0,
       }
     end
 
     def application_forms
       ApplicationForm
-        .joins(application_choices: { course: :subjects })
+        .joins(application_choices: { current_course: :subjects })
         .joins(:candidate)
+        .includes(:candidate, application_choices: { current_course: :subjects })
         .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycle.current_year })
-        .where.not(submitted_at: nil)
+        .where(phase: 'apply_1')
+        .or(
+          ApplicationForm
+            .joins(application_choices: { current_course: :subjects })
+            .joins(:candidate)
+            .where('application_forms.recruitment_cycle_year < ?', RecruitmentCycle.current_year)
+            .where('application_choices.current_recruitment_cycle_year' => RecruitmentCycle.current_year),
+        ).where.not(submitted_at: nil)
         .where.not(candidates: { hide_in_reporting: true })
         .distinct
+    end
+
+    def generate_diagnostic_report?
+      ENV['GENERATE_MINISTERIAL_REPORTS_DIAGNOSTICS'] == 'true'
+    end
+
+    def initialize_subject_report
+      subject_report = {}
+
+      if generate_diagnostic_report?
+        MinisterialReport::SUBJECTS.each { |subject| initialize_subject_report_subject(subject_report, subject) }
+        initialize_subject_report_subject(subject_report, :split)
+        initialize_subject_report_subject(subject_report, :total)
+      end
+
+      subject_report
+    end
+
+    def write_subject_report(subject_report)
+      if generate_diagnostic_report?
+        add_subject_report_totals(subject_report)
+        File.write(
+          "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
+          subject_report.to_json(indent: 2),
+        )
+      end
     end
   end
 end

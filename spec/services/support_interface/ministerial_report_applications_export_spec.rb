@@ -20,29 +20,30 @@ RSpec.describe SupportInterface::MinisterialReportApplicationsExport do
         application_rejected
         application_withdrawn
       ]) do
-        [[:art_and_design,           1, 0, 0, 1, 0, 0],
-         [:biology,                  0, 0, 0, 0, 0, 0],
-         [:business_studies,         0, 0, 0, 0, 0, 0],
-         [:chemistry,                0, 0, 0, 0, 0, 0],
+        [[:art_and_design,           1, 1, 0, 1, 0, 0],
+         [:biology,                  2, 0, 0, 0, 1, 1],
+         [:business_studies,         1, 1, 1, 0, 0, 0],
+         [:chemistry,                1, 0, 0, 0, 1, 0],
          [:classics,                 0, 0, 0, 0, 0, 0],
          [:computing,                0, 0, 0, 0, 0, 0],
          [:design_and_technology,    0, 0, 0, 0, 0, 0],
-         [:drama,                    0, 0, 0, 0, 0, 0],
+         [:drama,                    1, 0, 0, 0, 1, 0],
          [:english,                  1, 0, 0, 0, 0, 1],
-         [:geography,                1, 1, 1, 0, 0, 0],
-         [:history,                  0, 0, 0, 0, 0, 0],
-         [:mathematics,              0, 0, 0, 0, 0, 0],
-         [:modern_foreign_languages, 1, 1, 1, 0, 0, 0],
+         [:further_education,        1, 0, 0, 0, 1, 0],
+         [:geography,                0, 0, 0, 0, 0, 0],
+         [:history,                  1, 0, 0, 0, 0, 1],
+         [:mathematics,              2, 0, 0, 0, 2, 0],
+         [:modern_foreign_languages, 4, 2, 2, 0, 1, 0],
          [:music,                    0, 0, 0, 0, 0, 0],
-         [:other,                    1, 1, 1, 0, 0, 0],
+         [:other,                    2, 1, 1, 0, 0, 0],
          [:physical_education,       0, 0, 0, 0, 0, 0],
-         [:physics,                  0, 0, 0, 0, 0, 0],
+         [:physics,                  1, 0, 0, 0, 0, 1],
          [:religious_education,      0, 0, 0, 0, 0, 0],
-         [:stem,                     0, 0, 0, 0, 0, 0],
-         [:ebacc,                    3, 2, 2, 0, 0, 1],
+         [:stem,                     6, 0, 0, 0, 4, 2],
+         [:ebacc,                    12, 2, 2, 0, 5, 4],
          [:primary,                  7, 3, 2, 0, 0, 0],
-         [:secondary,                6, 3, 3, 1, 1, 1],
-         [:total,                    13, 6, 5, 1, 1, 1]]
+         [:secondary,                17, 5, 4, 1, 6, 4],
+         [:total,                    24, 8, 6, 1, 6, 4]]
       end
     end
   end

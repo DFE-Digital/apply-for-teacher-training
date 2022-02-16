@@ -9,6 +9,7 @@ module MinisterialReport
     design_and_technology
     drama
     english
+    further_education
     geography
     history
     mathematics
@@ -146,28 +147,25 @@ module MinisterialReport
     cancelled: %i[applications application_declined],
     offer_deferred: %i[applications offer_received accepted],
     interviewing: %i[applications],
-    offer_withdrawn: %i[applications application_withdrawn],
-    conditions_not_met: %i[applications offer_received],
-    declined: %i[applications application_declined],
+    offer_withdrawn: %i[applications], # TAD do not count these as rejections or offer_received
+    conditions_not_met: %i[applications application_rejected],
+    declined: %i[applications offer_received application_declined],
     recruited: %i[applications offer_received accepted],
     withdrawn: %i[applications application_withdrawn],
   }.freeze
 
-  CANDIDATES_REPORT_STATUS_MAPPING = {
-    unsubmitted: %i[candidates],
-    application_not_sent: %i[candidates],
-    awaiting_provider_decision: %i[candidates],
-    offer: %i[candidates candidates_holding_offers],
-    pending_conditions: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-    rejected: %i[candidates rejected_candidates],
-    cancelled: %i[candidates declined_candidates],
-    offer_deferred: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-    interviewing: %i[candidates],
-    offer_withdrawn: %i[candidates candidates_that_have_withdrawn_offers],
-    conditions_not_met: %i[candidates candidates_holding_offers],
-    declined: %i[candidates declined_candidates],
-    recruited: %i[candidates candidates_holding_offers candidates_that_have_accepted_offers],
-    withdrawn: %i[candidates],
+  TAD_STATUS_PRECEDENCE = {
+    recruited: %i[offer_received accepted],
+    pending_conditions: %i[offer_received accepted],
+    offer_deferred: %i[offer_received accepted],
+    offer: %i[offer_received],
+    interviewing: nil,
+    awaiting_provider_decision: nil,
+    declined: %i[offer_received application_declined],
+    conditions_not_met: %i[application_rejected],
+    rejected: %i[application_rejected],
+    withdrawn: %i[application_withdrawn],
+    offer_withdrawn: nil,
   }.freeze
 
   APPLICATIONS_BY_SUBJECT_ROUTE_AND_DEGREE_GRADE_REPORT_STATUS_MAPPING = {
@@ -187,10 +185,15 @@ module MinisterialReport
     withdrawn: %i[applications],
   }.freeze
 
+  FURTHER_EDUCATION_COURSE_LEVELS = [
+    'Further education',
+    'further_education',
+  ].freeze
+
   def self.determine_dominant_course_subject_for_report(course)
     course_name = course.name
     course_level = course.level
-    subjects = course.subjects.order('id ASC')
+    subjects = course.subjects.sort_by(&:id)
     subject_names_and_codes = subjects.to_h { |subject| [subject.name, subject.code] }
 
     determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
@@ -199,7 +202,7 @@ module MinisterialReport
   def self.determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
     subject_names = subject_names_and_codes.keys
 
-    return :secondary if ['Further education', 'further_education'].include?(course_level)
+    return :further_education if FURTHER_EDUCATION_COURSE_LEVELS.include?(course_level)
 
     # is there only one subject?
     subject = subject_names.first if subject_names.size == 1
@@ -211,17 +214,17 @@ module MinisterialReport
       end
     end
 
+    # is it a PE course
+    if !subject
+      subject = subject_names.find do |subject_name|
+        subject_name.to_s.downcase == 'physical education' && (course_name.downcase.include?('pe') || course_name.downcase.include?('p.e'))
+      end
+    end
+
     # is subject in the course name at all?
     if !subject
       subject = subject_names.find do |subject_name|
         subject_name.to_s.downcase.in?(course_name.downcase)
-      end
-    end
-
-    # is it a PE course
-    if !subject
-      subject = subject_names.find do |subject_name|
-        subject_name.to_s.downcase == 'physical education' && course_name.downcase.include?('pe')
       end
     end
 
