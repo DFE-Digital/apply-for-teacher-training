@@ -1,6 +1,7 @@
 ---
 questions:
   qualifications:
+    text: Qualifications
     reasons:
       no_maths_gcse:
           text: No maths GCSE at minimum grade 4 or C, or equivalent
@@ -23,6 +24,7 @@ questions:
         details:
           text: Details
   personal_statement:
+    text: Personal statement
     reasons:
       quality_of_writing:
         text: Quality of writing

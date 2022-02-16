@@ -1,12 +1,16 @@
 module DynamicRejectionReasons
-  def configure
-    @configuration ||= YAML.load_file('config/rejection_reasons.yml')
+  CONFIG_FILE_PATH = 'config/rejection_reasons.yml'.freeze
 
-    init_attrs(@configuration)
+  def initialize_dynamic_rejection_reasons
+    init_attrs
   end
 
-  def init_attrs(configuration)
-    configuration['questions'].each do |question_key, question_config|
+  def configuration
+    @configuration ||= YAML.load_file(CONFIG_FILE_PATH)
+  end
+
+  def init_attrs
+    questions.each do |question_key, question_config|
       attr_accessor question_key
 
       next unless question_config.key?('reasons')
@@ -34,5 +38,9 @@ module DynamicRejectionReasons
         attr_accessor :"#{reason_key}_details"
       end
     end
+  end
+
+  def questions
+    configuration['questions']
   end
 end
