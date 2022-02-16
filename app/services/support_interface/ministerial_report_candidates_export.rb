@@ -15,11 +15,7 @@ module SupportInterface
 
       export_rows[:split] = column_names
 
-      subject_report = {}
-
-      MinisterialReport::SUBJECTS.each { |subject| initialize_subject_report_subject(subject_report, subject) }
-      initialize_subject_report_subject(subject_report, :split)
-      initialize_subject_report_subject(subject_report, :total)
+      subject_report = initialize_subject_report
 
       application_forms.find_each do |application|
         latest_apply_again_application = viable_apply_2_applications(application).last
@@ -33,7 +29,7 @@ module SupportInterface
         if candidate_has_no_dominant_subject?(subjects)
           states.each do |state|
             export_rows[:split][state] += 1
-            subject_report[:split][state] << application.candidate.id
+            add_subject_report_split_value(subject_report, state, application.candidate.id)
           end
         else
           dominant_subject = dominant_subject(subjects)
@@ -49,11 +45,7 @@ module SupportInterface
 
       export_rows[:total] = export_rows[:total].merge(export_rows[:split]) { |_k, total_value, split_value| total_value + split_value }
 
-      add_subject_report_totals(subject_report)
-      File.write(
-        "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
-        subject_report.to_json(indent: 2),
-      )
+      write_subject_report(subject_report)
 
       export_rows.map { |subject, value| { subject: subject }.merge!(value) }
     end
@@ -100,16 +92,24 @@ module SupportInterface
       state,
       candidate_id
     )
-      subject_report[dominant_subject][state] << candidate_id
+      if generate_diagnostic_report?
+        subject_report[dominant_subject][state] << candidate_id
 
-      if MinisterialReport::STEM_SUBJECTS.include? dominant_subject
-        subject_report[:stem][state] << candidate_id
+        if MinisterialReport::STEM_SUBJECTS.include? dominant_subject
+          subject_report[:stem][state] << candidate_id
+        end
+        if MinisterialReport::EBACC_SUBJECTS.include? dominant_subject
+          subject_report[:ebacc][state] << candidate_id
+        end
+        if MinisterialReport::SECONDARY_SUBJECTS.include? dominant_subject
+          subject_report[:secondary][state] << candidate_id
+        end
       end
-      if MinisterialReport::EBACC_SUBJECTS.include? dominant_subject
-        subject_report[:ebacc][state] << candidate_id
-      end
-      if MinisterialReport::SECONDARY_SUBJECTS.include? dominant_subject
-        subject_report[:secondary][state] << candidate_id
+    end
+
+    def add_subject_report_split_value(subject_report, state, candidate_id)
+      if generate_diagnostic_report?
+        subject_report[:split][state] << candidate_id
       end
     end
 
@@ -161,6 +161,7 @@ module SupportInterface
       ApplicationForm
         .joins(application_choices: { current_course: :subjects })
         .joins(:candidate)
+        .includes(:candidate, application_choices: { current_course: :subjects })
         .where(application_choices: { current_recruitment_cycle_year: RecruitmentCycle.current_year })
         .where(phase: 'apply_1')
         .or(
@@ -172,6 +173,32 @@ module SupportInterface
         ).where.not(submitted_at: nil)
         .where.not(candidates: { hide_in_reporting: true })
         .distinct
+    end
+
+    def generate_diagnostic_report?
+      ENV['GENERATE_MINISTERIAL_REPORTS_DIAGNOSTICS'] == 'true'
+    end
+
+    def initialize_subject_report
+      subject_report = {}
+
+      if generate_diagnostic_report?
+        MinisterialReport::SUBJECTS.each { |subject| initialize_subject_report_subject(subject_report, subject) }
+        initialize_subject_report_subject(subject_report, :split)
+        initialize_subject_report_subject(subject_report, :total)
+      end
+
+      subject_report
+    end
+
+    def write_subject_report(subject_report)
+      if generate_diagnostic_report?
+        add_subject_report_totals(subject_report)
+        File.write(
+          "subjects-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
+          subject_report.to_json(indent: 2),
+        )
+      end
     end
   end
 end

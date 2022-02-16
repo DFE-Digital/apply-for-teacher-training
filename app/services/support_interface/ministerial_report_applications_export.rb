@@ -22,10 +22,13 @@ module SupportInterface
         "ministerial-report-applications-#{Time.zone.now}.txt",
         report.inspect,
       )
-      File.write(
-        "subjects-applications-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
-        subject_ids_report.to_json(indent: 2),
-      )
+
+      if generate_diagnostic_report?
+        File.write(
+          "subjects-applications-#{Time.zone.now.to_s.gsub(/ \+\d+/, '').gsub(' ', '-').gsub(':', '')}.json",
+          subject_ids_report.to_json(indent: 2),
+        )
+      end
 
       report
     end
@@ -58,9 +61,11 @@ module SupportInterface
     end
 
     def add_choice_to_ids_report(subject_ids_report, subject, mapped_status, choice)
-      subject_ids_report[subject] ||= {}
-      subject_ids_report[subject][mapped_status] ||= []
-      subject_ids_report[subject][mapped_status] << choice.id
+      if generate_diagnostic_report?
+        subject_ids_report[subject] ||= {}
+        subject_ids_report[subject][mapped_status] ||= []
+        subject_ids_report[subject][mapped_status] << choice.id
+      end
     end
 
     def assign_totals_to_report(report)
@@ -87,6 +92,10 @@ module SupportInterface
       MinisterialReport::SUBJECTS.each { |subject| report_rows[subject] = report_columns.dup }
 
       report_rows
+    end
+
+    def generate_diagnostic_report?
+      ENV['GENERATE_MINISTERIAL_REPORTS_DIAGNOSTICS'] == 'true'
     end
 
     def choices_with_courses_and_subjects

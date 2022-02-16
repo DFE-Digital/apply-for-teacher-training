@@ -193,7 +193,7 @@ module MinisterialReport
   def self.determine_dominant_course_subject_for_report(course)
     course_name = course.name
     course_level = course.level
-    subjects = course.subjects.order('id ASC')
+    subjects = course.subjects.sort_by(&:id)
     subject_names_and_codes = subjects.to_h { |subject| [subject.name, subject.code] }
 
     determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
