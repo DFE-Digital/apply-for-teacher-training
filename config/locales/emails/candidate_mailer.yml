@@ -87,8 +87,6 @@ en:
       subject: "Reminder of your deferred offer"
     reinstated_offer:
       subject: "Your deferred offer has been confirmed"
-    apply_again_call_to_action:
-      subject: You can still apply for teacher training
     course_unavailable_notification:
       subject:
         course_full: "There are no more places for %{course_name} at %{provider_name}: update your course choice now"

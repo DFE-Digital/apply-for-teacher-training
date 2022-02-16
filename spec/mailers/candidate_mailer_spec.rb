@@ -254,17 +254,6 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
-  describe '#apply_again_call_to_action' do
-    let(:email) { described_class.apply_again_call_to_action(application_form) }
-    let(:application_choices) { [build_stubbed(:application_choice, status: :rejected)] }
-
-    it_behaves_like(
-      'a mail with subject and content',
-      'You can still apply for teacher training',
-      'content' => 'You can apply for teacher training again if you have not got a place yet',
-    )
-  end
-
   describe '.chase_reference_again' do
     let(:email) { described_class.chase_reference_again(referee) }
     let(:referee) { build_stubbed(:reference, name: 'Jolyne Doe', application_form: application_form) }

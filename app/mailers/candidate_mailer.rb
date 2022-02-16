@@ -367,13 +367,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def apply_again_call_to_action(application_form)
-    email_for_candidate(
-      application_form,
-      subject: I18n.t!('candidate_mailer.apply_again_call_to_action.subject'),
-    )
-  end
-
   def course_unavailable_notification(application_choice, reason)
     @application_choice = application_choice
     email_for_candidate(
