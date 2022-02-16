@@ -185,6 +185,11 @@ module MinisterialReport
     withdrawn: %i[applications],
   }.freeze
 
+  FURTHER_EDUCATION_COURSE_LEVELS = [
+    'Further education',
+    'further_education',
+  ].freeze
+
   def self.determine_dominant_course_subject_for_report(course)
     course_name = course.name
     course_level = course.level
@@ -197,7 +202,7 @@ module MinisterialReport
   def self.determine_dominant_subject_for_report(course_name, course_level, subject_names_and_codes)
     subject_names = subject_names_and_codes.keys
 
-    return :further_education if ['Further education', 'further_education'].include?(course_level)
+    return :further_education if FURTHER_EDUCATION_COURSE_LEVELS.include?(course_level)
 
     # is there only one subject?
     subject = subject_names.first if subject_names.size == 1
