@@ -23,6 +23,32 @@ module ProviderInterface
       @wizard = wizard_class.new(store, current_step: 'check')
     end
 
+    # TODO: Refactor this into a smaller service call.
+    def commit
+      @wizard = wizard_class.new(store)
+
+      if rbd_application_with_no_feedback?
+        service = RejectByDefaultFeedback.new(actor: current_provider_user, application_choice: @application_choice, structured_rejection_reasons: @wizard.to_model)
+        success_message = 'Feedback sent'
+      else
+        service = RejectApplication.new(actor: current_provider_user, application_choice: @application_choice, structured_rejection_reasons: @wizard.to_model)
+        success_message = 'Application rejected'
+      end
+
+      if service.save
+        @wizard.clear_state!
+        OfferWizard.new(offer_store).clear_state!
+
+        flash[:success] = success_message
+        redirect_to provider_interface_application_choice_feedback_path(@application_choice)
+      else
+        @interview_cancellation_presenter = InterviewCancellationExplanationPresenter.new(@application_choice)
+        @wizard.errors.merge!(service.errors)
+        track_validation_error(@wizard)
+        render :check
+      end
+    end
+
     def store
       key = "rejection_reasons_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
