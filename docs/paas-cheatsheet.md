@@ -41,6 +41,14 @@ org:            dfe
 space:          bat-staging
 ```
 
+## Accessing a production console
+
+Check you are a space developer by running `cf space-users dfe bat-prod`
+
+If you are not but you are a space manager, you can assign yourself to the role by running: `cf set-space-role {{email_address}} dfe bat-prod spacedeveloper`
+
+If you are not a space developer, ask to be added in the `#twd_apply_tech` slack channel
+
 ## Applications
 To see the list of applications or backing services for the current
 space:
@@ -75,7 +83,7 @@ $ cf ssh <APP_NAME>-clock
 Then you can run a rails console as follows:
 ```
 $ cd /app
-$ /usr/local/bin/bundle exec rails console 
+$ /usr/local/bin/bundle exec rails console
 ```
 
 A shortcut for a rails console is:
