@@ -1,0 +1,40 @@
+---
+questions:
+  qualifications:
+    reasons:
+      no_maths_gcse:
+          text: No maths GCSE at minimum grade 4 or C, or equivalent
+      no_english_gcse:
+          text: No English GCSE at minimum grade 4 or C, or equivalent
+      no_science_gcse:
+          text: No science GCSE at minimum grade 4 or C, or equivalent
+      no_degree:
+          text: No bachelor’s degree or equivalent
+      unsuitable_degree:
+        text: Degree does not meet course requirements
+        details:
+          text: Details
+      unverified_qualifications:
+        text: Could not verify qualifications
+        details:
+          text: Details
+      other:
+        text: Other
+        details:
+          text: Details
+  personal_statement:
+    reasons:
+      quality_of_writing:
+        text: Quality of writing
+        details:
+          text: Details
+      other:
+        text: Other
+        details:
+          text: Details
+  course_full:
+    text: Course full
+  other:
+    text: Other
+    details:
+      text: Details
