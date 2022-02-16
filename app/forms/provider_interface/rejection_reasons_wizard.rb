@@ -12,5 +12,9 @@ module ProviderInterface
     def to_model
       RejectionReasons.new(last_saved_state.except('current_step', 'checking_answers'))
     end
+
+    def next_step
+      'check'
+    end
   end
 end

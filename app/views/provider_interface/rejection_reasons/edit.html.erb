@@ -4,12 +4,13 @@
 
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l">Reasons for rejecting this application</h1>
-      <p class="govuk-body">The candidate will see this feedback.</p>
+      <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
+        Tell the candidate why you’re rejecting their application
+      </h1>
 
       <% @wizard.class.questions.each do |question_key, question_config| %>
-        <%= f.govuk_check_boxes_fieldset(question_key, legend: { text: question_config['text'], size: 'm' }) do %>
+        <%= f.govuk_check_boxes_fieldset question_key, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
           <%= f.govuk_check_box question_key, 'Yes', label: { text: question_config['text'] }, link_errors: true do %>
             <% if question_config.key?('reasons') %>
               <% collection_attr = :"#{question_key}_reasons" %>
@@ -20,16 +21,20 @@
                     label: { text: reason_config['text'] },
                     link_errors: true do %>
                     <% if reason_config.key?('details') %>
-                      <% reason_attr = :"#{reason_key}_details" %>
-                      <%= f.govuk_text_area reason_attr, label: { text: reason_config.dig('details', 'text') }, max_words: 100 %>
+                      <%= f.govuk_text_area :"#{reason_key}_details", label: { text: reason_config.dig('details', 'text') }, max_words: 100 %>
                     <% end %>
                   <% end %>
                 <% end %>
               <% end %>
             <% end %>
+            <% if question_config.key?('details') %>
+              <%= f.govuk_text_area :"#{question_key}_details", label: { text: question_config.dig('details', 'text') }, max_words: 100 %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
+
+      <%= f.govuk_submit t('continue') %>
     <% end %>
   </div>
 </div>
