@@ -22,7 +22,7 @@ And not:
 
 ## Weekly handover
 
-We do a handover on Mondays at 10:30.
+We do a 15 minute handover on Mondays at 12:00.
 
 Agenda:
 
@@ -33,7 +33,7 @@ Agenda:
 
 ## Before going on support
 
-- Make sure you have Zendesk access. You can ask #digital-tools-support to be added as an agent to https://becomingateacher.zendesk.com
+- Make sure you have [Zendesk](https://becomingateacher.zendesk.com/agent/dashboard) access. You can ask one of the support leads in `#twd_bat_support` for a seat.
 
 ## Good practice when editing production data
 
