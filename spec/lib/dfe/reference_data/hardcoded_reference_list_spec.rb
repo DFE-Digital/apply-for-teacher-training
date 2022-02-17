@@ -12,6 +12,15 @@ RSpec.describe DfE::ReferenceData::HardcodedReferenceList do
     )
   end
 
+  context 'when accessing the attributes of each record' do
+    let(:records) { hardcoded_reference_list.all }
+
+    it 'returns the values for each attribute' do
+      expect(records.first.name).to eq('Alaric')
+      expect(records.first.child).to be(false)
+    end
+  end
+
   # NB: These particular tests also make a potentially fragile assumption that
   # the implementation of some preserves the order of entries, it would be
   # better if we sorted the results by :id or used an order-insensitive array
