@@ -12,12 +12,21 @@ RSpec.describe DfE::ReferenceData::HardcodedReferenceList do
     )
   end
 
-  context 'when accessing the attributes of each record' do
+  describe '#all' do
     let(:records) { hardcoded_reference_list.all }
 
     it 'returns the values for each attribute' do
       expect(records.first.name).to eq('Alaric')
       expect(records.first.child).to be(false)
+    end
+  end
+
+  describe '#one' do
+    let(:record) { hardcoded_reference_list.one('4') }
+
+    it 'returns the values for each attribute' do
+      expect(record.first.name).to eq('Mary')
+      expect(record.first.child).to be(true)
     end
   end
 
