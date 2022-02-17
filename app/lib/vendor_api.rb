@@ -35,7 +35,7 @@ module VendorAPI
       Changes::UpdateInterview,
       Changes::CancelInterview,
       Changes::Pagination,
-      Changes::AddMetaToResponse,
+      Changes::AddMetaToApplication,
     ],
   }.freeze
 end
