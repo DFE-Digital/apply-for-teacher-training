@@ -4,7 +4,7 @@ module VendorAPI
       description 'Includes pagination'
 
       resource MetaPresenter
-      resource MultipleApplicationsPresenter, [VendorAPI::Pagination]
+      resource MultipleApplicationsPresenter, [MultipleApplicationsPresenter::Pagination]
     end
   end
 end

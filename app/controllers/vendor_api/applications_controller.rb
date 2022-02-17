@@ -57,7 +57,7 @@ module VendorAPI
         errors: [
           {
             error: 'PerPageParameterInvalid',
-            message: "The 'per_page' parameter cannot exceed #{VendorAPI::Pagination::MAX_PER_PAGE} results per page",
+            message: "The 'per_page' parameter cannot exceed #{VendorAPI::MultipleApplicationsPresenter::Pagination::MAX_PER_PAGE} results per page",
           },
         ],
       }, status: :unprocessable_entity

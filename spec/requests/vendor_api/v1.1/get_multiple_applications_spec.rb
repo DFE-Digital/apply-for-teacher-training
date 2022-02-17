@@ -163,7 +163,7 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
         status: :awaiting_provider_decision,
       )
 
-      max_value = VendorAPI::Pagination::MAX_PER_PAGE
+      max_value = VendorAPI::MultipleApplicationsPresenter::Pagination::MAX_PER_PAGE
       get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=#{max_value + 1}"
 
       expect(response).to have_http_status(:unprocessable_entity)
