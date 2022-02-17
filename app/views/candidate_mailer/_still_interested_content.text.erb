@@ -2,14 +2,29 @@
 
 You can apply again for courses starting in the <%= "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}" %> academic year.
 
+<% if FeatureFlag.active?(:apply_again_with_three_choices) %>
+Your last application is saved. All you need to do is:
+
+- make any changes
+- choose up to 3 courses
+- submit from <%= CycleTimetable.apply_reopens.to_s(:govuk_time) %> on <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>
+<% else %>
 Your last application has been saved. Make any changes and re-submit from <%= CycleTimetable.apply_reopens.to_s(:govuk_time) %> on <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+<% end %>
 
 <% else %>
 
 If now’s the right time for you, you can still apply for teacher training again this year.
 
-Your last application has been saved. You can make changes and choose a different course before you submit a new application.
+<% if FeatureFlag.active?(:apply_again_with_three_choices) %>
+Your last application is saved. All you need to do is:
 
+  - make any changes
+  - choose up to 3 courses
+  - submit
+<% else %>
+Your last application has been saved. Make any changes and re-submit from <%= CycleTimetable.apply_reopens.to_s(:govuk_time) %> on <%= CycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+<% end %>
 <% end %>
 
 Sign in to apply again:

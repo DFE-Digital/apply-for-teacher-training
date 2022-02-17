@@ -6,7 +6,7 @@ RSpec.feature 'Decline by default' do
 
   scenario 'An application is declined by default' do
     given_the_pilot_is_open
-    and_the_apply_again_with_three_choices_feature_flag_is_active
+    and_the_apply_again_with_three_choices_feature_flag_is_deactivated
 
     when_i_have_an_offer_waiting_for_my_decision
     and_the_time_limit_before_decline_by_default_date_has_been_exceeded
@@ -32,8 +32,8 @@ RSpec.feature 'Decline by default' do
     FeatureFlag.activate('pilot_open')
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_active
-    FeatureFlag.activate(:apply_again_with_three_choices)
+  def and_the_apply_again_with_three_choices_feature_flag_is_deactivated
+    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def when_i_have_an_offer_waiting_for_my_decision
@@ -83,7 +83,7 @@ RSpec.feature 'Decline by default' do
     open_email(@application_form.candidate.email_address)
 
     expect(current_email.subject).to include('You did not respond to your offer: next steps')
-    expect(current_email.text).to include('Your last application is saved. All you need to do is:')
+    expect(current_email.text).to include('Your last application has been saved. Make any changes and re-submit from')
   end
 
   def and_i_have_a_rejection
