@@ -18,7 +18,11 @@ You can apply for up to 3 courses.
 
 ### Apply again if your application does not lead to a place
 
+<% if FeatureFlag.active?(:apply_again_with_three_choices) %>
+You can apply again if your initial application does not lead to a place.
+<% else %>
 You can apply for another course if your initial application does not lead to a place.
+<% end %>
 
 This might be because you:
 
