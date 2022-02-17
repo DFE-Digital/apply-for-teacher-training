@@ -1,6 +1,6 @@
 module VendorAPI
   module Changes
-    class MakeAnOffer < VersionChange
+    class MakeOffer < VersionChange
       description \
         "Make an offer to the candidate.\n" \
         "This will transition the application to the offer state.\n" \

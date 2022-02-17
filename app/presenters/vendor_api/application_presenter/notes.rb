@@ -1,4 +1,4 @@
-module NotesAPIData
+module VendorAPI::ApplicationPresenter::Notes
   def schema
     super.deep_merge!({
       attributes: {

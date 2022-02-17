@@ -7,7 +7,7 @@ module VendorAPI
 
       action WithdrawOrDeclineOfferController, :create
 
-      resource ApplicationPresenter, [WithdrawOrDeclineApplicationAPIData]
+      resource ApplicationPresenter, [ApplicationPresenter::WithdrawOrDeclineApplication]
     end
   end
 end

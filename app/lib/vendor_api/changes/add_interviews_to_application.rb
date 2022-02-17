@@ -4,7 +4,7 @@ module VendorAPI
       description 'Include interviews in application json responses.'
 
       resource InterviewPresenter
-      resource ApplicationPresenter, [AddInterviewsToApplicationAPIData]
+      resource ApplicationPresenter, [ApplicationPresenter::Interviews]
     end
   end
 end
