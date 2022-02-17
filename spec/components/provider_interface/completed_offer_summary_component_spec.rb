@@ -32,6 +32,8 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
       full_or_part_time: 2,
       location: 3,
       accredited_provider: 4,
+      qualification: 5,
+      funding_type: 6,
     }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
@@ -115,6 +117,8 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     expect(row_text_selector(:location, render)).to include(course_option.site.name_and_address)
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
     expect(row_text_selector(:accredited_provider, render)).to include(course_option.course.accredited_provider.name_and_code)
+    expect(row_text_selector(:qualification, render)).to include('PGCE with QTS')
+    expect(row_text_selector(:funding_type, render)).to include(course_option.course.funding_type.humanize)
   end
 
   it 'renders conditions' do

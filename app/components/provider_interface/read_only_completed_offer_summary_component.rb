@@ -12,10 +12,14 @@ module ProviderInterface
           value: course_option.study_mode.humanize },
         { key: 'Location',
           value: course_option.site.name_and_address },
+        { key: 'Qualification',
+          value: qualification_text(course_option) },
+        { key: 'Funding type',
+          value: course_option.course.funding_type.humanize },
       ]
       return rows if course_option.course.accredited_provider.blank?
 
-      rows << accredited_body_details(course_option)
+      rows.insert(4, accredited_body_details(course_option))
     end
   end
 end

@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe ProviderInterface::CourseDetailsComponent do
   let(:course_option) do
     instance_double(CourseOption,
-                    study_mode: 'Full time')
+                    study_mode: 'Full time',
+                    course: course)
   end
 
   let(:site) do
@@ -30,6 +31,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
                     name_and_code: 'Geograpghy (H234)',
                     recruitment_cycle_year: 2020,
                     accredited_provider: nil,
+                    qualifications: %w[qts pgce],
                     funding_type: 'fee')
   end
 
@@ -38,6 +40,7 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
                     name_and_code: 'Geograpghy (H234)',
                     recruitment_cycle_year: 2020,
                     accredited_provider: accredited_provider,
+                    qualifications: ['qts'],
                     funding_type: 'fee')
   end
 
@@ -66,7 +69,8 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
              full_or_part_time: 3,
              location: 4,
              accredited_body: 5,
-             funding_type: 6 }
+             qualification: 6,
+             funding_type: 7 }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
@@ -126,6 +130,13 @@ RSpec.describe ProviderInterface::CourseDetailsComponent do
 
     expect(render_text).to include('Full or part time')
     expect(render_text).to include('Full time')
+  end
+
+  it 'renders the qualification' do
+    render_text = row_text_selector(:qualification, render)
+
+    expect(render_text).to include('Qualification')
+    expect(render_text).to include('PGCE with QTS')
   end
 
   it 'renders financing funding type of a course' do

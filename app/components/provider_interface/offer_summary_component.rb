@@ -1,6 +1,7 @@
 module ProviderInterface
   class OfferSummaryComponent < ViewComponent::Base
     include ViewHelper
+    include QualificationValueHelper
 
     attr_accessor :application_choice, :course, :course_option, :conditions, :available_providers, :available_courses, :available_course_options, :border, :editable, :show_conditions_link
 
@@ -48,10 +49,18 @@ module ProviderInterface
             href: change_location_path,
           },
         },
+        {
+          key: 'Qualification',
+          value: qualification_text(course_option),
+        },
+        {
+          key: 'Funding type',
+          value: course.funding_type.humanize,
+        },
       ]
       return rows if course_option.course.accredited_provider.blank?
 
-      rows << accredited_body_details(course_option)
+      rows.insert(4, accredited_body_details(course_option))
     end
 
     def change_provider_path

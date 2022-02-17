@@ -27,13 +27,26 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
   end
 
   def row_text_selector(row_name, render)
-    rows = {
-      provider: 0,
-      course: 1,
-      full_or_part_time: 2,
-      location: 3,
-      accredited_provider: 4,
-    }
+    rows = if course.accredited_provider.nil?
+             {
+               provider: 0,
+               course: 1,
+               full_or_part_time: 2,
+               location: 3,
+               qualification: 4,
+               funding_type: 5,
+             }
+           else
+             {
+               provider: 0,
+               course: 1,
+               full_or_part_time: 2,
+               location: 3,
+               accredited_provider: 4,
+               qualification: 5,
+               funding_type: 6,
+             }
+           end
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
   end
@@ -43,6 +56,8 @@ RSpec.describe ProviderInterface::ReadOnlyCompletedOfferSummaryComponent do
     expect(row_text_selector(:course, render)).to include(course_option.course.name_and_code)
     expect(row_text_selector(:location, render)).to include(course_option.site.name_and_address)
     expect(row_text_selector(:full_or_part_time, render)).to include(course_option.study_mode.humanize)
+    expect(row_text_selector(:qualification, render)).to include('PGCE with QTS')
+    expect(row_text_selector(:funding_type, render)).to include(course_option.course.funding_type.humanize)
   end
 
   context 'when the accredited provider is not the same as the training provider' do
