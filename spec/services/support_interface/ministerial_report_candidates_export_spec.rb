@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
   include StatisticsTestHelper
 
+  before { stub_const('CourseChoice', Struct.new(:name, :subjects, :status)) }
+
   describe '#call' do
     let(:statistics) do
       generate_statistics_test_data
@@ -50,7 +52,10 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the two subject choices are different' do
       it 'splits the candidate' do
-        create_double_choice_application(:with_accepted_offer, '06', :with_declined_offer, 'C8')
+        create_application(
+          CourseChoice.new('Primary', '06', :with_accepted_offer),
+          CourseChoice.new('Magical studies', 'C8', :with_declined_offer),
+        )
 
         data = described_class.new.call
 
@@ -82,7 +87,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the three subject choices are different' do
       it 'splits the candidate' do
-        create_triple_choice_application(:with_accepted_offer, 'F0', :with_declined_offer, '11', :with_withdrawn_offer, '13')
+        create_application(
+          CourseChoice.new('Fizziks', 'F0', :with_accepted_offer),
+          CourseChoice.new('Computering', '11', :with_declined_offer),
+          CourseChoice.new('Acting and singing', '13', :with_withdrawn_offer),
+        )
 
         data = described_class.new.call
 
@@ -102,7 +111,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has a single dominant subject' do
       it 'correctly allocates the candidate' do
-        create_single_choice_application(:with_declined_offer, '13')
+        create_application(
+          CourseChoice.new('Drama', '13', :with_declined_offer),
+        )
 
         data = described_class.new.call
 
@@ -122,7 +133,10 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has two matching subject choices' do
       it 'correctly allocates the candidate' do
-        create_double_choice_application(:with_accepted_offer, '08', :with_declined_offer, 'L1')
+        create_application(
+          CourseChoice.new('Business', '08', :with_accepted_offer),
+          CourseChoice.new('Business studies', 'L1', :with_declined_offer),
+        )
 
         data = described_class.new.call
 
@@ -142,13 +156,10 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has three choices with two matching subjects' do
       it 'correctly allocates the candidate' do
-        create_triple_choice_application(
-          :with_accepted_offer,
-          'F0',
-          :with_declined_offer,
-          'F3',
-          :with_withdrawn_offer,
-          'V6',
+        create_application(
+          CourseChoice.new('Special relativity', 'F0', :with_accepted_offer),
+          CourseChoice.new('Laws of the universe', 'F3', :with_declined_offer),
+          CourseChoice.new('Theology', 'V6', :with_withdrawn_offer),
         )
 
         data = described_class.new.call
@@ -193,15 +204,11 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has four choices with two pairs of subjects' do
       it 'correctly allocates the candidate' do
-        create_quadruple_choice_application(
-          :with_accepted_offer,
-          'F0',
-          :with_declined_offer,
-          'F3',
-          :with_withdrawn_offer,
-          '08',
-          :with_declined_offer,
-          'L1',
+        create_application(
+          CourseChoice.new('Physics', 'F0', :with_accepted_offer),
+          CourseChoice.new('Physics', 'F3', :with_declined_offer),
+          CourseChoice.new('Business', '08', :with_withdrawn_offer),
+          CourseChoice.new('Business', 'L1', :with_declined_offer),
         )
 
         data = described_class.new.call
@@ -246,11 +253,9 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
 
     context 'when the candidate has two choices with 2 pairs of matching subjects' do
       it 'correctly allocates the candidate' do
-        create_double_choice_application(
-          :with_accepted_offer,
-          %w[F0 08],
-          :with_declined_offer,
-          %w[F3 L1],
+        create_application(
+          CourseChoice.new('Thermodynamics', %w[F0 08], :with_accepted_offer),
+          CourseChoice.new('General relativity', %w[F3 L1], :with_declined_offer),
         )
 
         data = described_class.new.call
@@ -589,26 +594,23 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     end
   end
 
-  def create_single_choice_application(status, subject_code)
+  def create_application(*course_choices)
     application_form = create(:completed_application_form)
 
-    course = create(:course, subjects: [create(:subject, code: subject_code)])
-    course_option = create(:course_option, course: course)
-
-    create(:application_choice, status, course_option: course_option, application_form: application_form)
-  end
-
-  def create_double_choice_application(first_status, first_subject_code, second_status, second_subject_code)
-    application_form = create(:completed_application_form)
-
-    first_course = create(:course, subjects: subjects_for(first_subject_code))
-    first_course_option = create(:course_option, course: first_course)
-
-    second_course = create(:course, subjects: subjects_for(second_subject_code))
-    second_course_option = create(:course_option, course: second_course)
-
-    create(:application_choice, first_status, course_option: first_course_option, application_form: application_form)
-    create(:application_choice, second_status, course_option: second_course_option, application_form: application_form)
+    course_choices.each do |course_choice|
+      course = create(
+        :course,
+        name: course_choice.name,
+        subjects: subjects_for(course_choice.subjects),
+      )
+      course_option = create(:course_option, course: course)
+      create(
+        :application_choice,
+        course_choice.status,
+        course_option: course_option,
+        application_form: application_form,
+      )
+    end
   end
 
   def subjects_for(subject_code_or_codes)
@@ -617,48 +619,5 @@ RSpec.describe SupportInterface::MinisterialReportCandidatesExport do
     else
       [create(:subject, name: MinisterialReport::SUBJECT_CODE_MAPPINGS[subject_code_or_codes].to_s, code: subject_code_or_codes)]
     end
-  end
-
-  def create_triple_choice_application(first_status, first_subject_code, second_status, second_subject_code, third_status, third_subject_code)
-    application_form = create(:completed_application_form)
-
-    first_course = create(:course, subjects: subjects_for(first_subject_code))
-    first_course_option = create(:course_option, course: first_course)
-
-    second_course = create(:course, subjects: subjects_for(second_subject_code))
-    second_course_option = create(:course_option, course: second_course)
-
-    third_course = create(:course, subjects: subjects_for(third_subject_code))
-    third_course_option = create(:course_option, course: third_course)
-
-    create(:application_choice, first_status, course_option: first_course_option, application_form: application_form)
-    create(:application_choice, second_status, course_option: second_course_option, application_form: application_form)
-    create(:application_choice, third_status, course_option: third_course_option, application_form: application_form)
-
-    application_form
-  end
-
-  def create_quadruple_choice_application(
-    first_status,
-    first_subject_code,
-    second_status,
-    second_subject_code,
-    third_status,
-    third_subject_code,
-    fourth_status,
-    fourth_subject_code
-  )
-    application_form = create_triple_choice_application(
-      first_status,
-      first_subject_code,
-      second_status,
-      second_subject_code,
-      third_status,
-      third_subject_code,
-    )
-    fourth_course = create(:course, subjects: subjects_for(fourth_subject_code))
-    fourth_course_option = create(:course_option, course: fourth_course)
-
-    create(:application_choice, fourth_status, course_option: fourth_course_option, application_form: application_form)
   end
 end
