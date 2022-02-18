@@ -33,6 +33,9 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_search_for_candidate_name_with_odd_casing
     then_only_applications_of_that_name_should_be_visible
 
+    when_i_search_for_candidate_name_with_extra_spaces
+    then_only_applications_of_that_name_should_be_visible
+
     when_i_clear_the_filters
     then_i_filter_for_withdrawn_and_offered_applications
     then_only_withdrawn_and_offered_applications_should_be_visible
@@ -145,6 +148,11 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def when_i_search_for_candidate_name_with_odd_casing
     fill_in 'Search by candidate name or reference', with: 'jiM JAmeS'
+    click_button('Search')
+  end
+
+  def when_i_search_for_candidate_name_with_extra_spaces
+    fill_in 'Search by candidate name or reference', with: '  Jim  James  '
     click_button('Search')
   end
 

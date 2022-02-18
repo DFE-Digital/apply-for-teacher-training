@@ -27,7 +27,7 @@ class FilterApplicationChoicesForProviders
       if candidate_ref_match
         application_choices.joins(:application_form).where('support_reference ILIKE ?', "#{candidate_ref_match[0]}%")
       else
-        application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name_or_reference}%")
+        application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name_or_reference.squish}%")
       end
     end
 
