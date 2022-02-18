@@ -6,9 +6,9 @@ module ProviderInterface
     FUNDING_TYPES = { apprenticeship: :apprenticeship, salary: :salaried, fee: :fee_paying }.freeze
 
     attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
-                :cycle, :preferred_location, :study_mode, :qualification
+                :cycle, :preferred_location, :study_mode, :qualification, :available_providers
 
-    def initialize(application_choice:)
+    def initialize(application_choice:, available_providers: [])
       @application_choice = application_choice
       @provider_name_and_code = application_choice.provider.name_and_code
       @course_name_and_code = application_choice.course.name_and_code
@@ -16,6 +16,7 @@ module ProviderInterface
       @preferred_location = preferred_location_text
       @study_mode = application_choice.course_option.study_mode.humanize
       @qualification = qualification_text(application_choice.course_option)
+      @available_providers = available_providers
     end
 
     def preferred_location_text
