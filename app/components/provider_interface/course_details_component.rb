@@ -42,5 +42,12 @@ module ProviderInterface
         "#{site.address_line3}\n" \
         "#{site.postcode}"
     end
+
+    def change_provider_path
+      # available_providers.length > 1 ? edit_provider_interface_application_choice_change_course_providers_path(application_choice) : nil
+      return nil if !FeatureFlag.active?(:change_course_details_before_offer)
+
+      edit_provider_interface_application_choice_course_providers_path(application_choice)
+    end
   end
 end
