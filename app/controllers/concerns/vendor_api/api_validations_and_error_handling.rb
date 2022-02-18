@@ -1,6 +1,9 @@
 module VendorAPI
   module APIValidationsAndErrorHandling
     extend ActiveSupport::Concern
+    NOT_FOUND_MODEL_MAPPINGS = {
+      'ApplicationChoice' => 'Application',
+    }.freeze
 
     included do
       before_action :validate_metadata!
@@ -31,12 +34,14 @@ module VendorAPI
       }
     end
 
-    def render_not_found_error(_)
+    def render_not_found_error(e)
+      model_name = NOT_FOUND_MODEL_MAPPINGS[e.model] || e.model
+
       render status: :not_found, json: {
         errors: [
           {
             error: 'NotFound',
-            message: 'Unable to find Application(s)',
+            message: "Unable to find #{model_name}(s)",
           },
         ],
       }
