@@ -8,12 +8,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
   end
 
   let(:interview) { application_choice.interviews.first }
+  let(:interview_id) { interview.id }
 
   def post_interview!(params:, skip_validation: nil)
     request_body = { data: params }
     expect(request_body[:data]).to be_valid_against_openapi_schema('UpdateInterview', '1.1') unless skip_validation
 
-    post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview.id}/update", params: request_body
+    post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/#{interview_id}/update", params: request_body
   end
 
   it_behaves_like 'an endpoint that requires metadata', '/interviews/1/update', '1.1'
@@ -146,6 +147,24 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
         expect(parsed_response['errors'].map { |error| error['message'] })
           .to contain_exactly('Date string provided is not a valid date')
+      end
+    end
+
+    context 'non existent interview id' do
+      let(:interview_id) { 'non-existent' }
+      let(:update_interview_params) do
+        {
+          date_and_time: 1.day.from_now.iso8601,
+        }
+      end
+
+      it 'fails and renders a NotFoundResponse error' do
+        post_interview! params: update_interview_params, skip_validation: true
+
+        expect(response).to have_http_status(:not_found)
+        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
+        expect(parsed_response['errors'].map { |error| error['message'] })
+          .to contain_exactly('Unable to find Interview(s)')
       end
     end
 
