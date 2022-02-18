@@ -49,6 +49,10 @@ en:
         success: Offer sent
       update:
         success: New offer sent
+    courses:
+      providers:
+        edit:
+          title: Training provider
   helpers:
     label:
       provider_interface_offer_wizard:
