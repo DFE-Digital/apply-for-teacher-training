@@ -131,7 +131,10 @@ module CandidateInterface
       [].tap do |errors|
         # A defensive check, in case the candidate somehow ends up in this state
         if application_form.references_completed? && application_form.selected_incorrect_number_of_references?
-          errors << ErrorMessage.new(I18n.t('application_form.references.review.incorrect_number_selected'), '#references')
+          errors << ErrorMessage.new(
+            I18n.t('application_form.references.review.incorrect_number_selected'),
+            '#references',
+          )
         end
       end
     end
@@ -139,7 +142,8 @@ module CandidateInterface
     def ready_to_submit?
       sections_with_completion.map(&:second).all? &&
         application_choice_errors.empty? &&
-        reference_section_errors.empty?
+        reference_section_errors.empty? &&
+        contact_details_section_errors.empty?
     end
 
     def application_choices_added?
@@ -152,9 +156,14 @@ module CandidateInterface
       application_form.contact_details_completed
     end
 
-    def contact_details_valid?
+    def contact_details_section_errors
       form = ContactDetailsForm.build_from_application(application_form)
-      form.valid?(:base) && form.valid?(:address) && form.valid?(:address_type)
+      form.validate([:base, :address, :address_type])
+      form.errors
+    end
+
+    def contact_details_valid?
+      contact_details_section_errors.empty?
     end
 
     def work_experience_completed?
