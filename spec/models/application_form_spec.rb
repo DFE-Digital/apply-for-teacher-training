@@ -49,6 +49,8 @@ RSpec.describe ApplicationForm do
     end
 
     context 'when the form belongs to a previous recruitment cycle' do
+      before { RequestStore.store[:allow_unsafe_application_choice_touches] = false }
+
       it 'throws an exception rather than touch an application choice' do
         application_form = create(
           :completed_application_form,
