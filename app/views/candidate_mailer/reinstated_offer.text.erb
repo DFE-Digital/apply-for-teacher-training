@@ -7,7 +7,7 @@ The course starts <%= @course_option.course.start_date.to_s(:month_and_year) %>.
 <% if @conditions.any? %>
   <%= render "candidate_mailer/offer_conditions" %>
 <% else %>
-  They'll let you know if they need further information before you start training.
+  They’ll let you know if they need further information before you start training.
 <% end %>
 
 Sign in to your account to see your offer details:
