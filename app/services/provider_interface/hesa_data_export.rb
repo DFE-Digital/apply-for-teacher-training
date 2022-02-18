@@ -108,11 +108,13 @@ module Hesa
   class SubjectCode
     PRIMARY_CODES = %w[00 01 02 03 04 05 06 07].freeze
     LANGUAGE_CODES = %w[15 17 22 24].freeze
+    CHINESE_LANGUAGE_CODES = ['20'].freeze
 
     def self.find_by_code(code)
       return if code.blank?
       return '100511' if PRIMARY_CODES.include?(code)
       return '100329' if LANGUAGE_CODES.include?(code)
+      return '101165' if CHINESE_LANGUAGE_CODES.include?(code)
 
       mappings[code.ljust(4, '0')]
     end
