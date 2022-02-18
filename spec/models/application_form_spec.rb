@@ -33,14 +33,14 @@ RSpec.describe ApplicationForm do
     end
 
     it 'updates the candidates `candidate_api_updated_at` on the first update' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, first_name: 'Bob')
 
       expect { application_form.update(first_name: 'David') }
         .to(change { application_form.candidate.candidate_api_updated_at })
     end
 
     it 'does not update the candidates `candidate_api_updated_at` on subsequent updates' do
-      application_form = create(:application_form)
+      application_form = create(:application_form, first_name: 'Bob')
 
       application_form.update(first_name: 'Divad')
 
@@ -54,6 +54,7 @@ RSpec.describe ApplicationForm do
           :completed_application_form,
           recruitment_cycle_year: RecruitmentCycle.previous_year,
           application_choices_count: 1,
+          first_name: 'Mary',
         )
 
         expect { application_form.update(first_name: 'Maria') }
@@ -87,7 +88,12 @@ RSpec.describe ApplicationForm do
       end
 
       it 'does nothing when there are no application choices' do
-        application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 0)
+        application_form = create(
+          :completed_application_form,
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+          application_choices_count: 0,
+          first_name: 'Mary',
+        )
 
         expect { application_form.update(first_name: 'Maria') }
           .not_to raise_error

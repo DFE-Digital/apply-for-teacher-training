@@ -19,7 +19,7 @@ module DataAPI
     end
 
     def data_for_export(*)
-      relevant_applications.flat_map do |application_form|
+      relevant_applications.find_each.flat_map do |application_form|
         # if a form belongs to previous year, we only want to consider the choice that was deferred
         # for non-deferred apps this set will be equivalent to all choices
         application_form.application_choices.select { |ac| ac.current_recruitment_cycle_year == RecruitmentCycle.current_year }.map do |application_choice|
@@ -43,7 +43,7 @@ module DataAPI
           :candidate,
         ).preload(
           :application_qualifications,
-          application_choices: [{ current_course: :subjects }, :provider, :accredited_provider, :audits],
+          application_choices: [{ current_course: :subjects }, :provider, :current_accredited_provider, :audits],
         )
         .where('candidates.hide_in_reporting' => false)
         .where.not(submitted_at: nil)
