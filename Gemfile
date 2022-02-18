@@ -5,14 +5,7 @@ ruby '2.7.5'
 
 gem 'timeliness'
 
-gem 'activesupport', '~> 6.1'
-gem 'actionpack', '~> 6.1'
-gem 'actionview', '~> 6.1'
-gem 'activemodel', '~> 6.1'
-gem 'activerecord', '~> 6.1'
-gem 'actionmailer', '~> 6.1'
-gem 'railties', '~> 6.1'
-gem 'sprockets-rails'
+gem 'rails', '~> 6.1'
 
 gem 'puma', '~> 5.6'
 gem 'pg', '~> 1.3.2'
