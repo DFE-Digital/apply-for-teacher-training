@@ -1,0 +1,7 @@
+en:
+  provider_interface:
+    courses:
+      providers:
+        edit:
+          title: Training provider
+          caption: Update course - %{name}
