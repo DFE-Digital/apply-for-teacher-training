@@ -42,7 +42,7 @@ RSpec.feature 'International candidate submits the application' do
     visit candidate_interface_application_form_path
 
     click_link 'Choose your courses'
-    candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
+    candidate_fills_in_apply_again_course_choice
 
     # Basic personal details
     click_link t('page_titles.personal_information')

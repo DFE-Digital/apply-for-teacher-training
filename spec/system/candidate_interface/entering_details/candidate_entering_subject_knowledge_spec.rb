@@ -45,7 +45,7 @@ RSpec.feature 'Entering subject knowledge' do
 
   def and_i_have_chosen_a_course
     click_link 'Choose your course'
-    candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
+    candidate_fills_in_apply_again_course_choice
   end
 
   def when_i_click_on_subject_knowledge

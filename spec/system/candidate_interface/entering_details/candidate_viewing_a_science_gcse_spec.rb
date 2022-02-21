@@ -72,7 +72,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
 
   def when_i_add_a_primary_course
     click_link 'Choose your courses'
-    candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
+    candidate_fills_in_apply_again_course_choice
   end
 
   def then_i_see_science_gcse_is_incomplete_below_the_section
