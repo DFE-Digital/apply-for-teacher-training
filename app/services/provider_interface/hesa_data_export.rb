@@ -1,5 +1,6 @@
 module ProviderInterface
   class HesaDataExport
+    class MissingSubjectCodeHECOSMapping < StandardError; end
     NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
     BATCH_SIZE = 300
 
@@ -79,7 +80,14 @@ module ProviderInterface
     end
 
     def subject_codes(application)
-      application.course.subject_codes.compact.map { |code| Hesa::SubjectCode.find_by_code(code) }.uniq.sort.join(' ')
+      hecos_subject_codes = application.course.subject_codes.compact.map do |code|
+        mapping = Hesa::SubjectCode.find_by_code(code)
+        Sentry.capture_exception(MissingSubjectCodeHECOSMapping.new("Could not map Subject code: '#{code}' to HECOS code")) if mapping.nil?
+
+        mapping
+      end
+
+      hecos_subject_codes.compact.uniq.sort.join(' ')
     end
 
     def qualification_aim(application)
@@ -108,11 +116,13 @@ module Hesa
   class SubjectCode
     PRIMARY_CODES = %w[00 01 02 03 04 05 06 07].freeze
     LANGUAGE_CODES = %w[15 17 22 24].freeze
+    CHINESE_LANGUAGE_CODES = ['20'].freeze
 
     def self.find_by_code(code)
       return if code.blank?
       return '100511' if PRIMARY_CODES.include?(code)
       return '100329' if LANGUAGE_CODES.include?(code)
+      return '101165' if CHINESE_LANGUAGE_CODES.include?(code)
 
       mappings[code.ljust(4, '0')]
     end
