@@ -11,15 +11,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def application_submitted_apply_again(application_form)
-    @application_choice = application_form.application_choices.first
-    @reject_by_default_date = @application_choice.reject_by_default_at.to_s(:govuk_date)
-
-    email_for_candidate(
-      application_form,
-    )
-  end
-
   def chase_reference(reference)
     @reference = reference
 

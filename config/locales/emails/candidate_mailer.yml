@@ -4,8 +4,6 @@ en:
       subject: "You have a reference from %{referee_name}"
     application_submitted:
       subject: "You’ve submitted your teacher training application"
-    application_submitted_apply_again:
-      subject: "You’ve submitted your teacher training application"
     candidate_offer:
       single_offer:
         subject: "Make a decision: successful application for %{provider_name}"
