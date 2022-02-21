@@ -358,6 +358,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'provider name' => 'Falconholt Technical College has confirmed your deferred offer to study',
       'name and code for course' => 'Forensic Science (E0FO)',
       'start date of new course' => 'June 2020',
+      'course starts text' => 'The course starts',
     )
 
     describe 'with pending conditions' do
@@ -369,6 +370,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'name and code for course' => 'Forensic Science (E0FO)',
         'start date of new course' => 'June 2020',
         'conditions of offer' => 'Be cool',
+        'course starts text' => 'The course starts',
       )
     end
   end
