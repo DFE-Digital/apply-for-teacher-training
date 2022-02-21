@@ -698,6 +698,33 @@ module DfE
             'topic' => 'Ed',
             'dqt_id' => nil,
             'hesa_itt_code' => nil } },
+          '0584565a-1c98-4c1d-ae64-c241542c0879' =>
+          { 'priority' => 1,
+            'name' => 'First Degree',
+            'abbreviation' => nil,
+            'synonyms' => [],
+            'level' => nil,
+            'topic' => nil,
+            'dqt_id' => nil,
+            'hesa_itt_code' => '400' },
+          'fdafdcd7-5f21-4363-b7d5-c1f44a852af1' =>
+          { 'priority' => 1,
+            'name' => 'Higher Degree',
+            'abbreviation' => nil,
+            'synonyms' => [],
+            'level' => nil,
+            'topic' => nil,
+            'dqt_id' => nil,
+            'hesa_itt_code' => '401' },
+          '03c4fa67-345e-4d09-8e9b-68c36a450947' =>
+          { 'priority' => 1,
+            'name' => 'Degree equivalent',
+            'abbreviation' => nil,
+            'synonyms' => [],
+            'level' => nil,
+            'topic' => nil,
+            'dqt_id' => nil,
+            'hesa_itt_code' => '402' },
       )
 
       INSTITUTIONS = DfE::ReferenceData::HardcodedReferenceList.new(
