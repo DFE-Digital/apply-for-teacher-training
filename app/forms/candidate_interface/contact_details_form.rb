@@ -95,7 +95,7 @@ module CandidateInterface
     end
 
     def all_errors
-      validate([:base, :address, :address_type])
+      validate(%i[base address address_type])
       errors
     end
 
