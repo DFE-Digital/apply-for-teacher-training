@@ -49,24 +49,10 @@
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form_presenter.previous_application_form)) %>
       <% end %>
 
-      <% if FeatureFlag.active?(:apply_again_with_three_choices) %>
-        <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-              number_of_choices: @application_form_presenter.application_form.application_choices.count,
-              completed: @application_form_presenter.course_choices_completed?,
-            )) %>
-      <% else %>
-        <% if @application_form_presenter.candidate_has_previously_applied? && @application_form_presenter.apply_2? %>
-          <%= render(CandidateInterface::ApplicationFormCourseChoiceComponent.new(
-                choices_are_present: @application_form_presenter.application_choices_added?,
-                completed: @application_form_presenter.course_choices_completed?,
-              )) %>
-        <% else %>
-          <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-                completed: @application_form_presenter.course_choices_completed?,
-                number_of_choices: @application_form_presenter.application_form.application_choices.count,
-              )) %>
-        <% end %>
-      <% end %>
+      <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
+            number_of_choices: @application_form_presenter.application_form.application_choices.count,
+            completed: @application_form_presenter.course_choices_completed?,
+          )) %>
     <% end %>
 
     <% cache(@application_cache_key, expires_in: 5.minutes) do %>

@@ -209,9 +209,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def candidate_can_choose_single_course?
-    return false if FeatureFlag.active?(:apply_again_with_three_choices)
-
-    apply_2?
+    false
   end
 
   def carry_over?
