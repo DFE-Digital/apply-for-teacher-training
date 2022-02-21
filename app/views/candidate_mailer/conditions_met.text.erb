@@ -1,9 +1,7 @@
 Dear <%= @application_form.first_name %>
 
-# You’ve met your conditions
-
 Congratulations, <%= @application_choice.current_course_option.course.provider.name %> has confirmed that you’ve met your conditions for <%= @application_choice.current_course_option.course.name_and_code %>.
 
-# Next steps
+If they have not already, <%= @application_choice.current_course_option.course.provider.name %> should be in contact about enrolling on the course.
 
-If they have not already, <%= @application_choice.current_course_option.course.provider.name %> should be in contact about enrolling on the course. Contact them directly if you have any questions about this process.
+Contact them directly if you have any questions about this process.
