@@ -10,9 +10,9 @@
       </h1>
 
       <% @wizard.class.configuration.questions.each do |question| %>
-        <%= f.govuk_check_boxes_fieldset question.id, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+        <%= f.govuk_check_boxes_fieldset question.id.to_sym, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
           <%= f.govuk_check_box question.id, 'Yes', label: { text: question.label }, link_errors: true do %>
-            <%= f.govuk_check_boxes_fieldset question.reasons_id, legend: { text: 'Reasons', size: 's' } do %>
+            <%= f.govuk_check_boxes_fieldset question.reasons_id.to_sym, legend: { text: 'Reasons', size: 's' } do %>
               <% question.reasons.each do |reason| %>
                 <%= f.govuk_check_box question.reasons_id,
                   reason.id,

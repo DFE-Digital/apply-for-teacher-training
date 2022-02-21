@@ -1,38 +1,12 @@
 class RejectionReasonsValidator < ActiveModel::Validator
-  # TODO: I18n errors
   def validate(record)
-#    top_level_answers = []
-#
-#    record.class.configuration.questions.each do |question|
-#      top_level_answer = record.send(question.id)
-#      next if top_level_answer.blank? || top_level_answer.compact_blank.empty?
-#
-#      top_level_answers << top_level_answer
-#
-#      validate_details(record, question.details) if question.details.present?
-#
-#      next if question.reasons.blank? || question.reasons.empty?
-#
-#      question.reasons.each do |reason|
-#        reasons_answers = record.send(question.reasons_id)
-#
-#        if reasons_answers.blank? || reasons_answers.compact_blank.empty?
-#          record.errors.add(question.reasons_id.to_sym, 'Choose at least one reason')
-#        end
-#
-#        next if reason.details.blank?
-#
-#        validate_details(record, reason.details) if reasons_answers.include?(reason.id)
-#      end
-#    end
-#    record.errors.add(:base, 'Choose at least one reason') if top_level_answers.empty?
-
-    DynamicRejectionReasons::Questionnaire.from_model(record)
+    questionnaire = DynamicRejectionReasons::Questionnaire.from_model(record)
+    record.errors.merge!(questionnaire.errors) unless questionnaire.valid?
   end
 
   def validate_details(record, details)
     details.text = record.send(details.id)
-    details.valid?(record)
+    details.valid?
   end
 end
 
@@ -40,10 +14,6 @@ module DynamicRejectionReasons
   CONFIG_FILE_PATH = 'config/rejection_reasons.yml'.freeze
 
   attr_accessor :attribute_names, :array_attribute_names
-
-  # TODO: A few things to tidy up:
-  # - I18n FTW
-  # - Conditional reasons (de-scope pls)
 
   def initialize_dynamic_rejection_reasons
     @attribute_names = []
@@ -124,11 +94,23 @@ module DynamicRejectionReasons
     end
 
     def questions_selected
-      errors.add(question.id, 'Please select a reason') if selected_questions.present? && selected_questions.empty?
+      errors.add(:base, 'Please select a reason') if selected_questions && selected_questions.empty?
+    end
+
+    def valid?
+      super && valid_children?
+    end
+
+    def valid_children?
+      selected_questions.map(&:valid?).all?(true)
     end
 
     def errors
-      super.merge!(selected_questions&.map(&:errors))
+      return super if selected_questions.blank?
+
+      selected_questions.map(&:errors).each { |errors| super.merge!(errors) if errors.respond_to?(:errors) }
+
+      super
     end
   end
 
@@ -139,11 +121,33 @@ module DynamicRejectionReasons
     validate :reasons_selected
 
     def reasons_selected
-      errors.add(question.reasons_id, 'Please select a reason') if selected_reasons.present? && selected_reasons.empty?
+      errors.add(reasons_id, 'Please select a reason') if selected_reasons && selected_reasons.empty?
+    end
+
+    def valid?
+      super && valid_children?
+    end
+
+    def valid_children?
+      return true unless details || reasons
+
+      if details
+        details.valid?
+      else
+        selected_reasons.map(&:valid?).all?(true)
+      end
     end
 
     def errors
-      super.merge!(selected_reasons&.map(&:errors)).merge!(details&.errors)
+      return super unless details || reasons
+
+      if details
+        super.merge!(details.errors)
+      else
+        selected_reasons.map(&:errors).each { |errors| super.merge!(errors) if errors.respond_to?(:errors) }
+      end
+
+      super
     end
   end
 
@@ -151,8 +155,19 @@ module DynamicRejectionReasons
     include ActiveModel::Model
     attr_accessor :id, :details, :label
 
+    def valid?
+      super && valid_children?
+    end
+
+    def valid_children?
+      return true unless details
+
+      details.valid?
+    end
+
     def errors
       super.merge!(details&.errors)
+      super
     end
   end
 
