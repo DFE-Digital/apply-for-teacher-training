@@ -24,7 +24,6 @@ module CandidateInterface
         @incomplete_sections = @application_form_presenter.incomplete_sections
         @application_choice_errors = @application_form_presenter.application_choice_errors
         @reference_section_errors = @application_form_presenter.reference_section_errors
-        @contact_details_section_errors = @application_form_presenter.contact_details_section_errors
 
         render 'candidate_interface/unsubmitted_application_form/review' and return
       end
