@@ -21,9 +21,17 @@ RSpec.describe FilterApplicationChoicesForProviders do
     end
 
     it 'filters by candidate name' do
-      result = described_class.call(application_choices: application_choices, filters: { candidate_name: application_choices.last.application_form.last_name })
+      application_choice = application_choices.last
+      result = described_class.call(application_choices: application_choices, filters: { candidate_name: application_choice.application_form.last_name })
 
-      expect(result).to eq([application_choices.last])
+      expect(result).to eq([application_choice])
+    end
+
+    it 'filters by candidate name with superfluous spaces' do
+      application_choice = application_choices.last
+      result = described_class.call(application_choices: application_choices, filters: { candidate_name: " #{application_choice.application_form.last_name} " })
+
+      expect(result).to eq([application_choice])
     end
 
     it 'filters by recruitment cycle year' do

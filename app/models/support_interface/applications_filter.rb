@@ -22,7 +22,7 @@ module SupportInterface
         .page(applied_filters[:page] || 1).per(30)
 
       if applied_filters[:q].present?
-        application_forms = application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q]}%")
+        application_forms = application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q].squish}%")
       end
 
       if applied_filters[:application_choice_id].present?
