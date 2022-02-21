@@ -18,7 +18,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_choices: [FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision, course_option: course_option)],
     )
 
-    CandidateMailer.application_submitted_apply_again(application_form)
+    CandidateMailer.application_submitted(application_form)
   end
 
   def changed_offer
