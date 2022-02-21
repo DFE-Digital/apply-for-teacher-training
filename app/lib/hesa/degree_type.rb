@@ -1,6 +1,10 @@
 module Hesa
   class DegreeType
-    DegreeTypeStruct = Struct.new(:hesa_code, :abbreviation, :name, :level) do
+    class DegreeTypeStruct
+      include ActiveModel::Model
+      attr_accessor :id, :priority, :synonyms, :dqt_id, :hesa_code, :abbreviation, :name, :level
+      alias hesa_itt_code= hesa_code=
+
       def shortest_display_name
         abbreviation || name
       end
@@ -9,18 +13,18 @@ module Hesa
         level == :bachelor
       end
     end
+
     UNDERGRADUATE_LEVELS = %i[bachelor master].freeze
 
     class << self
       def all
-        HESA_DEGREE_TYPES.map { |type_data| DegreeTypeStruct.new(*type_data) }
+        DfE::ReferenceData::Degrees::TYPES.all.map { |type_record| DegreeTypeStruct.new(type_record.to_h) }
       end
 
       def abbreviations_and_names(level: :all)
         case level
         when :all
-          all
-            .map { |type| "#{type.abbreviation}|#{type.name}" }
+          all.map { |type| "#{type.abbreviation}|#{type.name}" }
         when :undergraduate
           all
             .select { |type| type.level.in? UNDERGRADUATE_LEVELS }
