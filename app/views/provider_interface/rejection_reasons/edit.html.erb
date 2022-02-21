@@ -9,26 +9,23 @@
         Tell the candidate why you’re rejecting their application
       </h1>
 
-      <% @wizard.class.questions.each do |question_key, question_config| %>
-        <%= f.govuk_check_boxes_fieldset question_key, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
-          <%= f.govuk_check_box question_key, 'Yes', label: { text: question_config['text'] }, link_errors: true do %>
-            <% if question_config.key?('reasons') %>
-              <% collection_attr = :"#{question_key}_reasons" %>
-              <%= f.govuk_check_boxes_fieldset collection_attr, legend: { text: 'Reasons', size: 's' } do %>
-                <% question_config['reasons'].each do |reason_key, reason_config| %>
-                  <%= f.govuk_check_box collection_attr,
-                    reason_key,
-                    label: { text: reason_config['text'] },
-                    link_errors: true do %>
-                    <% if reason_config.key?('details') %>
-                      <%= f.govuk_text_area :"#{reason_key}_details", label: { text: reason_config.dig('details', 'text') }, max_words: 100 %>
-                    <% end %>
+      <% @wizard.class.configuration.questions.each do |question| %>
+        <%= f.govuk_check_boxes_fieldset question.id, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+          <%= f.govuk_check_box question.id, 'Yes', label: { text: question.label }, link_errors: true do %>
+            <%= f.govuk_check_boxes_fieldset question.reasons_id, legend: { text: 'Reasons', size: 's' } do %>
+              <% question.reasons.each do |reason| %>
+                <%= f.govuk_check_box question.reasons_id,
+                  reason.id,
+                  label: { text: reason.label },
+                  link_errors: true do %>
+                  <% if reason.details.present? %>
+                    <%= f.govuk_text_area reason.details.id.to_sym, label: { text: reason.details.label }, max_words: 100 %>
                   <% end %>
                 <% end %>
               <% end %>
-            <% end %>
-            <% if question_config.key?('details') %>
-              <%= f.govuk_text_area :"#{question_key}_details", label: { text: question_config.dig('details', 'text') }, max_words: 100 %>
+            <% end if question.reasons.present? %>
+            <% if question.details.present? %>
+              <%= f.govuk_text_area question.details.id.to_sym, label: { text: question.details.label }, max_words: 100 %>
             <% end %>
           <% end %>
         <% end %>

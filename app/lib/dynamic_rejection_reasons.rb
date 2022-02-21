@@ -1,41 +1,38 @@
-class NestedAnswerValidator < ActiveModel::Validator
-  # TODO: I18n this
+class RejectionReasonsValidator < ActiveModel::Validator
+  # TODO: I18n errors
   def validate(record)
-    top_level_answers = []
+#    top_level_answers = []
+#
+#    record.class.configuration.questions.each do |question|
+#      top_level_answer = record.send(question.id)
+#      next if top_level_answer.blank? || top_level_answer.compact_blank.empty?
+#
+#      top_level_answers << top_level_answer
+#
+#      validate_details(record, question.details) if question.details.present?
+#
+#      next if question.reasons.blank? || question.reasons.empty?
+#
+#      question.reasons.each do |reason|
+#        reasons_answers = record.send(question.reasons_id)
+#
+#        if reasons_answers.blank? || reasons_answers.compact_blank.empty?
+#          record.errors.add(question.reasons_id.to_sym, 'Choose at least one reason')
+#        end
+#
+#        next if reason.details.blank?
+#
+#        validate_details(record, reason.details) if reasons_answers.include?(reason.id)
+#      end
+#    end
+#    record.errors.add(:base, 'Choose at least one reason') if top_level_answers.empty?
 
-    record.class.questions.each do |question_key, question_config|
-      top_level_answer = record.send(question_key)
-      next if top_level_answer.blank? || top_level_answer.compact_blank.empty?
-
-      top_level_answers << top_level_answer
-
-      if question_config.key?('reasons')
-        question_config['reasons'].each do |reason_key, reason_config|
-          reasons_answers = record.send(:"#{question_key}_reasons")
-
-          if reasons_answers.blank? || reasons_answers.compact_blank.empty?
-            record.errors.add(:"#{question_key}_reasons", 'Choose at least one reason')
-          end
-
-          next unless reason_config.key?('details')
-
-          validate_details(record, reason_key) if reasons_answers.include?(reason_key)
-        end
-
-      end
-
-      next unless question_config.key?('details')
-
-      validate_details(record, question_key)
-    end
-
-    record.errors.add(:base, 'Choose at least one reason') if top_level_answers.empty?
+    DynamicRejectionReasons::Questionnaire.from_model(record)
   end
 
-  def validate_details(record, key)
-    details_attr_name = :"#{key}_details"
-    details_answer = record.send(details_attr_name)
-    record.errors.add(details_attr_name, 'Please give details') if details_answer.blank?
+  def validate_details(record, details)
+    details.text = record.send(details.id)
+    details.valid?(record)
   end
 end
 
@@ -45,7 +42,6 @@ module DynamicRejectionReasons
   attr_accessor :attribute_names, :array_attribute_names
 
   # TODO: A few things to tidy up:
-  # - YAML could produce POROs instead of doing Hash lookups
   # - I18n FTW
   # - Conditional reasons (de-scope pls)
 
@@ -62,57 +58,119 @@ module DynamicRejectionReasons
   end
 
   def init_attrs
-    questions.each do |question_key, question_config|
-      define_attr(question_key.to_sym, details: question_config.key?('details'))
+    configuration.questions.each do |question|
+      define_attr(question.id.to_sym, question.details)
 
-      next unless question_config.key?('reasons')
+      next if question.reasons.blank? || question.reasons.empty?
 
-      define_reasons_collection_methods(question_key)
+      define_reasons_collection_methods(question)
 
-      define_reasons_attr_accessors(question_config['reasons'])
+      define_reasons_attr_accessors(question.reasons)
     end
   end
 
-  def define_attr(attr_name, details: false)
+  def define_attr(attr_name, details)
     attr_accessor attr_name
     @array_attribute_names << attr_name
 
     if details
-      details_attr_name = :"#{attr_name}_details"
-      attr_accessor details_attr_name
-      @attribute_names << details_attr_name
+      attr_accessor details.id.to_sym
+      @attribute_names << details.id.to_sym
     end
   end
 
-  def define_reasons_collection_methods(question_key)
-    reasons_collection_attr = :"#{question_key}_reasons"
+  def define_reasons_collection_methods(question)
+    attr_writer question.reasons_id.to_sym
+    @array_attribute_names << question.reasons_id.to_sym
 
-    attr_writer reasons_collection_attr
-    @array_attribute_names << reasons_collection_attr
-
-    define_method reasons_collection_attr do
-      instance_variable_get("@#{reasons_collection_attr}") || []
+    define_method question.reasons_id do
+      instance_variable_get("@#{question.reasons_id}") || []
     end
   end
 
   def define_reasons_attr_accessors(reasons)
-    reasons.each do |reason_key, reason_config|
-      attr_accessor reason_key.to_sym
-      @attribute_names << reason_key.to_sym
+    reasons.each do |reason|
+      attr_accessor reason.id.to_sym
+      @attribute_names << reason.id.to_sym
 
-      next unless reason_config.key?('details')
+      next if reason.details.blank?
 
-      details_attr_name = :"#{reason_key}_details"
-      attr_accessor details_attr_name
-      @attribute_names << details_attr_name
+      attr_accessor reason.details.id.to_sym
+      @attribute_names << reason.details.id.to_sym
     end
   end
 
   def init_validations
-    validates_with NestedAnswerValidator
+    validates_with RejectionReasonsValidator
   end
 
-  def questions
-    configuration['questions']
+  class Questionnaire
+    include ActiveModel::Model
+    attr_accessor :questions, :selected_questions
+
+    validate :questions_selected
+
+    def self.from_model(model)
+      instance = new
+      instance.selected_questions = model.class.configuration.questions.select { |q| model.send(q.id).include?('Yes') }
+      instance.selected_questions.each do |question|
+        question.details.text = model.send(question.details.id) if question.details
+        question.selected_reasons = question.reasons&.select { |r| model.send(question.reasons_id).include?(r.id) }
+        question.selected_reasons&.each do |reason|
+          reason.details.text = model.send(reason.details.id)
+        end
+      end
+      instance
+    end
+
+    def questions_selected
+      errors.add(question.id, 'Please select a reason') if selected_questions.present? && selected_questions.empty?
+    end
+
+    def errors
+      super.merge!(selected_questions&.map(&:errors))
+    end
+  end
+
+  class Question
+    include ActiveModel::Model
+    attr_accessor :id, :details, :label, :reasons_id, :reasons, :selected_reasons
+
+    validate :reasons_selected
+
+    def reasons_selected
+      errors.add(question.reasons_id, 'Please select a reason') if selected_reasons.present? && selected_reasons.empty?
+    end
+
+    def errors
+      super.merge!(selected_reasons&.map(&:errors)).merge!(details&.errors)
+    end
+  end
+
+  class Reason
+    include ActiveModel::Model
+    attr_accessor :id, :details, :label
+
+    def errors
+      super.merge!(details&.errors)
+    end
+  end
+
+  class Details
+    include ActiveModel::Model
+    WORD_COUNT = 100
+
+    attr_accessor :id, :label, :text, :record
+    validate :text_present, :word_count
+
+    def text_present
+      errors.add(id, 'Please give details') if text.blank?
+    end
+
+    def word_count
+      if text.present? && text.scan(/\S+/).size > WORD_COUNT
+        errors.add(id, 'Details are too long')
+      end
+    end
   end
 end

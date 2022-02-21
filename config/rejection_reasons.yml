@@ -1,100 +1,151 @@
----
+--- !ruby/object:DynamicRejectionReasons::Questionnaire
 questions:
-  qualifications:
-    text: Qualifications
-    reasons:
-      no_maths_gcse:
-          text: No maths GCSE at minimum grade 4 or C, or equivalent
-      no_english_gcse:
-          text: No English GCSE at minimum grade 4 or C, or equivalent
-      no_science_gcse:
-          text: No science GCSE at minimum grade 4 or C, or equivalent
-      no_degree:
-          text: No bachelor’s degree or equivalent
-      unsuitable_degree:
-        text: Degree does not meet course requirements
-        details:
-          text: Details
-      unverified_qualifications:
-        text: Could not verify qualifications
-        details:
-          text: Details
-      other:
-        text: Other
-        details:
-          text: Details
-  personal_statement:
-    text: Personal statement
-    reasons:
-      quality_of_writing:
-        text: Quality of writing
-        details:
-          text: Details
-      other:
-        text: Other
-        details:
-          text: Details
-  teaching_knowledge:
-    text: Teaching knowledge and ability
-    reasons:
-      subject_knowledge:
-        text: Subject knowledge
-        details:
-          text: Details
-      safeguarding_knowledge:
-        text: Safeguarding knowledge
-        details:
-          text: Details
-      teaching_method_knowledge:
-        text: Teaching method knowledge
-        details:
-          text: Details
-      teaching_role_knowledge:
-        text: Teaching role knowledge
-        details:
-          text: Details
-      teaching_demonstration:
-        text: Teaching demonstration
-        details:
-          text: Details
-      other:
-        text: Other
-        details:
-          text: Details
-  communication_and_scheduling:
-    text: Communication, attendance and scheduling
-    reasons:
-      did_not_reply:
-        text: Did not reply to messages
-        details:
-          text: Details
-      did_not_attend_interview:
-        text: Did not attend interview
-        details:
-          text: Details
-      could_not_arrange_interview:
-        text: Could not arrange interview
-        details:
-          text: Details
-      other:
-        text: Other
-        details:
-          text: Details
-  references:
-    text: References
-    details:
-      text: Details
-  safeguarding:
-    text: Safeguarding
-    details:
-      text: Details
-  visa_sponsorship:
-    text: Visa sponsorship
-    details:
-      text: Details
-  course_full:
-    text: Course full
-  other:
-    text: Other
-    details:
-      text: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: qualifications
+  label: Qualifications
+  reasons_id: qualifications_reasons
+  reasons:
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: no_maths_gcse
+    label: No maths GCSE at minimum grade 4 or C, or equivalent
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: no_english_gcse
+    label: No English GCSE at minimum grade 4 or C, or equivalent
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: no_science_gcse
+    label: No science GCSE at minimum grade 4 or C, or equivalent
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: no_degree
+    label: No bachelor’s or equivalent
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: unsuitable_degree
+    label: No bachelor’s degree or equivalent
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: unsuitable_degree_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: unverified_qualifications
+    label: Could not verify qualifications
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: unsuitable_degree_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: qualifications_other
+    label: Other
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: qualifications_other_details
+      label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: personal_statement
+  label: Personal statement
+  reasons_id: personal_statement_reasons
+  reasons:
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: quality_of_writing
+    label: Quality of writing
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: quality_of_writing_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: personal_statement_other
+    label: Other
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: personal_statement_other_details
+      label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: teaching_knowledge
+  label: Teaching knowledge and ability
+  reasons_id: teaching_knowledge_reasons
+  reasons:
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: subject_knowledge
+    label: Subject knowledge
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: subject_knowledge_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: safeguarding_knowledge
+    label: Safeguarding knowledge
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: safeguarding_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: teaching_method_knowledge
+    label: Teaching method knowledge
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: teaching_method_knowledge_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: teaching_role_knowledge
+    label: Teaching role knowledge
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: teaching_role_knowledge_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: teaching_demonstration_knowledge
+    label: Teaching demonstration knowledge
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: teaching_demonstration_knowledge_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: teaching_knowledge_other
+    label: Other
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: teaching_knowledge_other_details
+      label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: communication_and_scheduling
+  label: Communication, attendance and scheduling
+  reasons_id: communication_and_scheduling_reasons
+  reasons:
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: did_not_reply
+    label: Did not reply to messages
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: did_not_reply_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: did_not_attend_interview
+    label: Did not attend interview
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: did_not_attend_interview_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: could_not_arrange_interview
+    label: Could not arrange interview
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: could_not_arrange_interview_details
+      label: Details
+  - !ruby/object:DynamicRejectionReasons::Reason
+    id: communication_and_scheduling_other
+    label: Other
+    details: !ruby/object:DynamicRejectionReasons::Details
+      id: communication_and_scheduling_other_details
+      label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: references
+  label: References
+  details: !ruby/object:DynamicRejectionReasons::Details
+    id: references_details
+    label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: safeguarding
+  label: Safeguarding
+  details: !ruby/object:DynamicRejectionReasons::Details
+    id: safeguarding_details
+    label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: visa_sponsorship
+  label: Visa sponsorship
+  details: !ruby/object:DynamicRejectionReasons::Details
+    id: visa_sponsorship_details
+    label: Details
+- !ruby/object:DynamicRejectionReasons::Question
+  id: course_full
+  label: Course full
+- !ruby/object:DynamicRejectionReasons::Question
+  id: other
+  label: Other
+  details: !ruby/object:DynamicRejectionReasons::Details
+    id: other_details
+    label: Details
