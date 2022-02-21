@@ -1,4 +1,4 @@
-## 17th February 2022
+## 21st February 2022
 
 Business rule change: Candidates can now apply to up to three courses when applying again in "Apply 2", similar to "Apply 1". Previously, candidates could only apply to 1 course in "Apply 2".
 
