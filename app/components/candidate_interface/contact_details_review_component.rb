@@ -19,6 +19,12 @@ module CandidateInterface
       !@application_form.contact_details_completed && @editable if @submitting_application
     end
 
+    def show_invalid_banner?
+      @editable &&
+        @submitting_application &&
+        !ContactDetailsForm.build_from_application(@application_form).valid_for_submission?
+    end
+
   private
 
     attr_reader :application_form

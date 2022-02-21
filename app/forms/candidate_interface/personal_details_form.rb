@@ -40,5 +40,14 @@ module CandidateInterface
         Struct.new(:day, :month, :year).new(day, month, year)
       end
     end
+
+    def all_errors
+      validate
+      errors
+    end
+
+    def valid_for_submission?
+      all_errors.blank?
+    end
   end
 end

@@ -34,6 +34,11 @@ module CandidateInterface
       @editable && !@application_form.personal_details_completed
     end
 
+    def show_invalid_banner?
+      @editable &&
+        !PersonalDetailsForm.build_from_application(@application_form).valid_for_submission?
+    end
+
   private
 
     attr_reader :application_form

@@ -1,8 +1,19 @@
 <% if show_missing_banner? %>
-  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :personal_details, section_path: candidate_interface_edit_name_and_dob_path, error: @missing_error)) %>
+  <%= render(
+    CandidateInterface::IncompleteSectionComponent.new(
+      section: :personal_details,
+      section_path: candidate_interface_edit_name_and_dob_path,
+      error: @missing_error,
+    ),
+  ) %>
 <% else %>
   <% if show_invalid_banner? %>
-    <%= render(CandidateInterface::InvalidSectionComponent.new(section: :personal_details, section_path: candidate_interface_edit_name_and_dob_path)) %>
+    <%= render(
+      CandidateInterface::InvalidSectionComponent.new(
+        section: :personal_details,
+        section_path: candidate_interface_personal_details_show_path,
+      ),
+    ) %>
   <% end %>
   <%= render(SummaryCardComponent.new(rows: rows, editable: @editable)) %>
 <% end %>
