@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplyAgainAddAnotherCourseComponent do
-
   subject(:result) { render_inline(described_class.new(application_form: application_form)) }
 
   let(:application_form) { create(:application_form, phase: 'apply_2') }
