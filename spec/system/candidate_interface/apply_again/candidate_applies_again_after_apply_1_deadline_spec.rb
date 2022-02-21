@@ -11,7 +11,6 @@ RSpec.describe 'Apply again' do
 
   scenario 'Candidate applies again after apply 1 deadline' do
     given_i_am_signed_in
-    and_apply_again_with_three_choices_is_inactive
     and_i_have_an_application_with_a_rejection
 
     when_the_apply1_deadline_passes
@@ -27,10 +26,6 @@ RSpec.describe 'Apply again' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
-  end
-
-  def and_apply_again_with_three_choices_is_inactive
-    FeatureFlag.deactivate(:apply_again_with_three_choices)
   end
 
   def and_i_have_an_application_with_a_rejection
@@ -75,7 +70,7 @@ RSpec.describe 'Apply again' do
   end
 
   def and_i_can_add_course_choices
-    expect(page).to have_content('Choose your course Incomplete')
-    expect(page).to have_content 'You can only apply to 1 course at a time at this stage of your application.'
+    expect(page).to have_content('Choose your courses Incomplete')
+    expect(page).to have_content 'You can apply for up to 3 courses.'
   end
 end
