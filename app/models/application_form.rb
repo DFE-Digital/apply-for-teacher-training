@@ -315,13 +315,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def maximum_number_of_course_choices
-    if FeatureFlag.active?(:apply_again_with_three_choices)
-      MAXIMUM_NUMBER_OF_COURSE_CHOICES
-    elsif apply_1?
-      MAXIMUM_PHASE_ONE_COURSE_CHOICES
-    else
-      MAXIMUM_PHASE_TWO_COURSE_CHOICES
-    end
+    MAXIMUM_NUMBER_OF_COURSE_CHOICES
   end
 
   def editable?
