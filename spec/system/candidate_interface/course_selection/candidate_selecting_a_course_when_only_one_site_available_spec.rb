@@ -5,7 +5,6 @@ RSpec.feature 'Selecting a course when only a single site is available' do
 
   scenario 'Candidate selects a course choice' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
     and_there_are_course_options
 
     when_i_visit_the_site
@@ -21,10 +20,6 @@ RSpec.feature 'Selecting a course when only a single site is available' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def and_there_are_course_options

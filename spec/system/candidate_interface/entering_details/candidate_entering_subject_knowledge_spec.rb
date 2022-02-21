@@ -7,7 +7,6 @@ RSpec.feature 'Entering subject knowledge' do
     given_courses_exist
 
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
     and_i_visit_the_site
     and_i_have_chosen_a_course
 
@@ -38,10 +37,6 @@ RSpec.feature 'Entering subject knowledge' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def and_i_visit_the_site

@@ -12,7 +12,6 @@ RSpec.feature 'Apply again' do
 
   scenario 'Candidate applies again and reviews rejection reason from previous cycle' do
     given_i_am_signed_in_as_a_candidate
-    and_apply_again_with_three_choices_feature_flag_is_activated
     and_i_have_an_unsuccessful_application_with_rejection_reasons
     when_i_apply_again
     then_subject_knowledge_needs_review
@@ -169,10 +168,6 @@ RSpec.feature 'Apply again' do
     click_on t('continue')
 
     expect(page).to have_content 'Application successfully submitted'
-  end
-
-  def and_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
 private

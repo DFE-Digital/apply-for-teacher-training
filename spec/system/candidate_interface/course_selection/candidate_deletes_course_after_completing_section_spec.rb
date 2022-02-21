@@ -5,7 +5,6 @@ RSpec.feature 'Candidate edits their choice section' do
 
   scenario 'Candidate deletes and adds additional courses' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
     and_i_have_completed_the_course_choice_section
 
     when_i_visit_the_course_choices_page
@@ -35,10 +34,6 @@ RSpec.feature 'Candidate edits their choice section' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def and_i_have_completed_the_course_choice_section

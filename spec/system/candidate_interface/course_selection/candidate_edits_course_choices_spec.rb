@@ -6,7 +6,6 @@ RSpec.feature 'Candidate edits course choices' do
 
   scenario 'Candidate is signed in' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
     and_there_is_a_course_with_one_course_option
     and_there_is_a_course_with_multiple_course_options
     and_there_is_a_course_with_both_study_modes_but_one_site
@@ -76,10 +75,6 @@ RSpec.feature 'Candidate edits course choices' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def and_there_is_a_course_with_one_course_option

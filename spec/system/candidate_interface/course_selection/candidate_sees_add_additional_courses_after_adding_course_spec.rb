@@ -7,7 +7,6 @@ RSpec.feature 'Add additional courses flow' do
   scenario 'Candidate is signed in' do
     given_there_are_course_options
     and_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
 
     when_i_visit_my_application_page
     and_i_click_choose_your_course
@@ -48,10 +47,6 @@ RSpec.feature 'Add additional courses flow' do
 
   def and_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def when_i_visit_my_application_page

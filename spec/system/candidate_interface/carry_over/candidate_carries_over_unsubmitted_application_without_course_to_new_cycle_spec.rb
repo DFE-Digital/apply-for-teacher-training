@@ -12,7 +12,6 @@ RSpec.feature 'Carry over' do
 
   scenario 'Candidate carries over unsubmitted application without course to new cycle' do
     given_i_am_signed_in_as_a_candidate
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
     when_i_have_an_unsubmitted_application_without_a_course
     and_the_recruitment_cycle_ends
 
@@ -41,10 +40,6 @@ RSpec.feature 'Carry over' do
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def when_i_have_an_unsubmitted_application_without_a_course

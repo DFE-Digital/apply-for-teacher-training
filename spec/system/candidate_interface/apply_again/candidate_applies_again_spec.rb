@@ -4,7 +4,6 @@ RSpec.feature 'Apply again with three choices' do
   include CandidateHelper
 
   scenario 'Candidate applies again with three choices' do
-    given_the_apply_again_with_three_courses_feature_flag_is_active
     and_i_am_signed_in_as_a_candidate
     when_i_have_an_unsuccessful_application
     and_i_visit_the_application_dashboard
@@ -31,10 +30,6 @@ RSpec.feature 'Apply again with three choices' do
     then_my_application_is_submitted_and_sent_to_the_provider
     and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
-  end
-
-  def given_the_apply_again_with_three_courses_feature_flag_is_active
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def and_i_am_signed_in_as_a_candidate
