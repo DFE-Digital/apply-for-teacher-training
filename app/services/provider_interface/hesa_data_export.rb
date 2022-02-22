@@ -49,6 +49,7 @@ module ProviderInterface
     def export_data
       GetApplicationChoicesForProviders.call(providers: actor.providers, recruitment_cycle_year: recruitment_cycle_year)
         .where('candidates.hide_in_reporting' => false, 'status' => ApplicationStateChange::ACCEPTED_STATES)
+        .joins(application_form: :candidate)
         .find_each(batch_size: BATCH_SIZE)
     end
 
