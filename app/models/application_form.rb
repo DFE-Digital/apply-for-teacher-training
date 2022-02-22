@@ -206,10 +206,6 @@ class ApplicationForm < ApplicationRecord
     previous_application_form_id.present?
   end
 
-  def candidate_can_choose_single_course?
-    false
-  end
-
   def carry_over?
     previous_recruitment_cycle? && (not_submitted_and_deadline_has_passed? || unsuccessful_and_apply_2_deadline_has_passed?)
   end
