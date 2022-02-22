@@ -29,8 +29,6 @@ class ApplicationForm < ApplicationRecord
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
-  MAXIMUM_PHASE_ONE_COURSE_CHOICES = 3
-  MAXIMUM_PHASE_TWO_COURSE_CHOICES = 1
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
 
   def equality_and_diversity_answers_provided?
@@ -229,7 +227,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def number_of_choices_candidate_can_make
-    candidate_can_choose_single_course? ? MAXIMUM_PHASE_TWO_COURSE_CHOICES : MAXIMUM_PHASE_ONE_COURSE_CHOICES
+    MAXIMUM_NUMBER_OF_COURSE_CHOICES
   end
 
   def can_add_more_choices?
