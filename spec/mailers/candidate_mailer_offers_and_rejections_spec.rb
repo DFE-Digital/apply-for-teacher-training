@@ -384,6 +384,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'You have not met your conditions for Forensic Science (E0FO) at Falconholt Technical College: next steps',
       'heading' => 'Dear Bob',
+
       'name and code for course' => 'Forensic Science (E0FO)',
       'provider name' => 'Falconholt Technical College',
     )
