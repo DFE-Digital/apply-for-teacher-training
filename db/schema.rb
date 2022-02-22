@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_164558) do
+ActiveRecord::Schema.define(version: 2022_02_22_130124) do
+
   create_sequence "qualifications_public_id_seq", start: 120000
 
   # These are extensions that must be enabled in order to support this database
@@ -579,6 +580,7 @@ ActiveRecord::Schema.define(version: 2022_01_25_164558) do
     t.boolean "offer_declined", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "chase_provider_decision", default: true, null: false
     t.index ["provider_user_id"], name: "index_provider_user_notifications_on_provider_user_id"
   end
 
