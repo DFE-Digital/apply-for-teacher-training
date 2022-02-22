@@ -16,6 +16,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       I18n.t('authentication.sign_up.email.subject'),
+      'heading' => I18n.t('authentication.sign_up.email.subject'),
       'magic_link' => 'http://localhost:3000/candidate/sign-in/confirm?token=blub',
     )
 
