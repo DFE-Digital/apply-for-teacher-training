@@ -1,0 +1,102 @@
+en:
+  provider_interface:
+    rejection_reasons:
+      questions:
+        qualifications:
+          label: Qualifications
+          reasons:
+            no_maths_gcse:
+                label: No maths GCSE at minimum grade 4 or C, or equivalent
+            no_english_gcse:
+                label: No English GCSE at minimum grade 4 or C, or equivalent
+            no_science_gcse:
+                label: No science GCSE at minimum grade 4 or C, or equivalent
+            no_degree:
+                label: No bachelor’s degree or equivalent
+            unsuitable_degree:
+              label: Degree does not meet course requirements
+              details:
+                label: Details
+            unverified_qualifications:
+              label: Could not verify qualifications
+              details:
+                label: Details
+            other:
+              label: Other
+              details:
+                label: Details
+        personal_statement:
+          label: Personal statement
+          reasons:
+            quality_of_writing:
+              label: Quality of writing
+              details:
+                label: Details
+            other:
+              label: Other
+              details:
+                label: Details
+        teaching_knowledge:
+          label: Teaching knowledge and ability
+          reasons:
+            subject_knowledge:
+              label: Subject knowledge
+              details:
+                label: Details
+            safeguarding_knowledge:
+              label: Safeguarding knowledge
+              details:
+                label: Details
+            teaching_method_knowledge:
+              label: Teaching method knowledge
+              details:
+                label: Details
+            teaching_role_knowledge:
+              label: Teaching role knowledge
+              details:
+                label: Details
+            teaching_demonstration:
+              label: Teaching demonstration
+              details:
+                label: Details
+            other:
+              label: Other
+              details:
+                label: Details
+        communication_and_scheduling:
+          label: Communication, attendance and scheduling
+          reasons:
+            did_not_reply:
+              label: Did not reply to messages
+              details:
+                label: Details
+            did_not_attend_interview:
+              label: Did not attend interview
+              details:
+                label: Details
+            could_not_arrange_interview:
+              label: Could not arrange interview
+              details:
+                label: Details
+            other:
+              label: Other
+              details:
+                label: Details
+        references:
+          label: References
+          details:
+            label: Details
+        safeguarding:
+          label: Safeguarding
+          details:
+            label: Details
+        visa_sponsorship:
+          label: Visa sponsorship
+          details:
+            label: Details
+        course_full:
+          label: Course full
+        other:
+          label: Other
+          details:
+            label: Details

@@ -1,12 +1,7 @@
 class RejectionReasonsValidator < ActiveModel::Validator
   def validate(record)
-    questionnaire = DynamicRejectionReasons::Questionnaire.from_model(record)
-    record.errors.merge!(questionnaire.errors) unless questionnaire.valid?
-  end
-
-  def validate_details(record, details)
-    details.text = record.send(details.id)
-    details.valid?
+    questions = DynamicRejectionReasons::Questions.from_model(record)
+    record.errors.merge!(questions.errors) unless questions.valid?
   end
 end
 
@@ -28,14 +23,14 @@ module DynamicRejectionReasons
   end
 
   def init_attrs
-    configuration.questions.each do |question|
-      define_attr(question.id.to_sym, question.details)
+    configuration.sections.each do |section|
+      define_attr(section.id.to_sym, section.details)
 
-      next if question.reasons.blank? || question.reasons.empty?
+      next if section.reasons.blank? || section.reasons.empty?
 
-      define_reasons_collection_methods(question)
+      define_reasons_collection_methods(section)
 
-      define_reasons_attr_accessors(question.reasons)
+      define_reasons_attr_accessors(section.reasons)
     end
   end
 
@@ -49,12 +44,12 @@ module DynamicRejectionReasons
     end
   end
 
-  def define_reasons_collection_methods(question)
-    attr_writer question.reasons_id.to_sym
-    @array_attribute_names << question.reasons_id.to_sym
+  def define_reasons_collection_methods(section)
+    attr_writer section.reasons_id.to_sym
+    @array_attribute_names << section.reasons_id.to_sym
 
-    define_method question.reasons_id do
-      instance_variable_get("@#{question.reasons_id}") || []
+    define_method section.reasons_id do
+      instance_variable_get("@#{section.reasons_id}") || []
     end
   end
 
@@ -74,27 +69,27 @@ module DynamicRejectionReasons
     validates_with RejectionReasonsValidator
   end
 
-  class Questionnaire
+  class Questions
     include ActiveModel::Model
-    attr_accessor :questions, :selected_questions
+    attr_accessor :sections, :selected_sections
 
-    validate :questions_selected
+    validate :sections_selected
 
     def self.from_model(model)
       instance = new
-      instance.selected_questions = model.class.configuration.questions.select { |q| model.send(q.id).include?('Yes') }
-      instance.selected_questions.each do |question|
-        question.details.text = model.send(question.details.id) if question.details
-        question.selected_reasons = question.reasons&.select { |r| model.send(question.reasons_id).include?(r.id) }
-        question.selected_reasons&.each do |reason|
+      instance.selected_sections = model.class.configuration.sections.select { |q| model.send(q.id).include?('Yes') }
+      instance.selected_sections.each do |section|
+        section.details.text = model.send(section.details.id) if section.details
+        section.selected_reasons = section.reasons&.select { |r| model.send(section.reasons_id).include?(r.id) }
+        section.selected_reasons&.each do |reason|
           reason.details.text = model.send(reason.details.id)
         end
       end
       instance
     end
 
-    def questions_selected
-      errors.add(:base, 'Please select a reason') if selected_questions && selected_questions.empty?
+    def sections_selected
+      errors.add(:base, 'Please select a reason') if selected_sections && selected_sections.empty?
     end
 
     def valid?
@@ -102,13 +97,13 @@ module DynamicRejectionReasons
     end
 
     def valid_children?
-      selected_questions.map(&:valid?).all?(true)
+      selected_sections.map(&:valid?).all?(true)
     end
 
     def errors
-      return super if selected_questions.blank?
+      return super if selected_sections.blank?
 
-      selected_questions.map(&:errors).each { |errors| super.merge!(errors) if errors.respond_to?(:errors) }
+      selected_sections.map(&:errors).each { |errors| super.merge!(errors) if errors.respond_to?(:errors) }
 
       super
     end

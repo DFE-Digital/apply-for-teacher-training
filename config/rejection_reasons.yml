@@ -1,5 +1,5 @@
---- !ruby/object:DynamicRejectionReasons::Questionnaire
-questions:
+--- !ruby/object:DynamicRejectionReasons::Questions
+sections:
 - !ruby/object:DynamicRejectionReasons::Question
   id: qualifications
   label: Qualifications

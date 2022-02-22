@@ -9,12 +9,12 @@
         Tell the candidate why you’re rejecting their application
       </h1>
 
-      <% @wizard.class.configuration.questions.each do |question| %>
-        <%= f.govuk_check_boxes_fieldset question.id.to_sym, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
-          <%= f.govuk_check_box question.id, 'Yes', label: { text: question.label }, link_errors: true do %>
-            <%= f.govuk_check_boxes_fieldset question.reasons_id.to_sym, legend: { text: 'Reasons', size: 's' } do %>
-              <% question.reasons.each do |reason| %>
-                <%= f.govuk_check_box question.reasons_id,
+      <% @wizard.class.configuration.sections.each do |section| %>
+        <%= f.govuk_check_boxes_fieldset section.id.to_sym, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+          <%= f.govuk_check_box section.id, 'Yes', label: { text: section.label }, link_errors: true do %>
+            <%= f.govuk_check_boxes_fieldset section.reasons_id.to_sym, legend: { text: 'Reasons', size: 's' } do %>
+              <% section.reasons.each do |reason| %>
+                <%= f.govuk_check_box section.reasons_id,
                   reason.id,
                   label: { text: reason.label },
                   link_errors: true do %>
@@ -23,9 +23,9 @@
                   <% end %>
                 <% end %>
               <% end %>
-            <% end if question.reasons.present? %>
-            <% if question.details.present? %>
-              <%= f.govuk_text_area question.details.id.to_sym, label: { text: question.details.label }, max_words: 100 %>
+            <% end if section.reasons.present? %>
+            <% if section.details.present? %>
+              <%= f.govuk_text_area section.details.id.to_sym, label: { text: section.details.label }, max_words: 100 %>
             <% end %>
           <% end %>
         <% end %>
