@@ -42,6 +42,7 @@ class FeatureFlag
     [:immigration_entry_date, 'Extends the restructured_immigration_status feature to include the "Date of entry into the UK" question', 'Steve Hook'],
     [:apply_again_with_three_choices, 'Replaces the current apply again logic which only allows one choice', 'Avin & Tomas'],
     [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
+    [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
