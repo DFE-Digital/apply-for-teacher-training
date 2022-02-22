@@ -9,14 +9,14 @@ module CandidateInterface
     validate :correct_number_chosen?
 
     def available_references
-      application_form.application_references.feedback_provided
+      application_form.application_references.includes([:application_form]).feedback_provided
     end
 
     def save!
       return false unless valid?
 
-      available_references.where.not(id: selected).update_all(selected: false)
-      available_references.where(id: selected).update_all(selected: true)
+      available_references.where.not(id: selected).update(selected: false)
+      available_references.where(id: selected).update(selected: true)
       application_form.update!(references_completed: true)
     end
 
