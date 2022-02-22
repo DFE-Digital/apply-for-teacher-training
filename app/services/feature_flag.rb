@@ -43,6 +43,7 @@ class FeatureFlag
     [:apply_again_with_three_choices, 'Replaces the current apply again logic which only allows one choice', 'Avin & Tomas'],
     [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
     [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
+    [:make_decision_reminder_notification_setting, 'Adds a notification setting to turn off make decision email reminders', 'Sam Culley'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
