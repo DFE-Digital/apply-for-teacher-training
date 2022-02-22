@@ -44,7 +44,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       reference.application_form,
-      subject: I18n.t!("candidate_mailer.new_referee_request.{@reason}.subject", referee_name: @reference.name),
+      subject: I18n.t!("candidate_mailer.new_referee_request.#{@reason}.subject", referee_name: @reference.name),
     )
   end
 
