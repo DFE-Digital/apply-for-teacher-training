@@ -36,7 +36,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'),
-        'heading' => 'Scott Knowles has declined your reference request',
+        'Scott Knowles has declined your reference request',
       )
     end
 
