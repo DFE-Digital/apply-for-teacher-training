@@ -1,15 +1,20 @@
 class RejectionReasons
+  include ActiveModel::Model
   CONFIG_PATH = 'config/rejection_reasons.yml'.freeze
 
-  attr_reader :reasons
+  attr_accessor :reasons, :selected_reasons
 
-  def initialize(config: configuration)
-    @reasons = config[:reasons].map { |hash| Reason.new(hash) }
+  def self.from_config(config: YAML.load_file(CONFIG_PATH))
+    instance = new
+    instance.reasons = config[:reasons].map { |rattrs| Reason.new(rattrs) }
+    instance
   end
 
-private
+  def single_attribute_names
+    reasons.map(&:single_attribute_names).flatten.sort
+  end
 
-  def configuration
-    @configuration ||= YAML.load_file(CONFIG_PATH)
+  def collection_attribute_names
+    reasons.map(&:collection_attribute_names).flatten.sort
   end
 end
