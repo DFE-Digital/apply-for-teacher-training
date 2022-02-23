@@ -4,12 +4,13 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
   context 'completed: true' do
     let(:completed) { true }
 
-    context 'choices present' do
+    context 'one choice present' do
       let(:result) do
         render_inline(
           described_class.new(
             choices_are_present: true,
             completed: completed,
+            number_of_choices: 1,
           ),
         )
       end
@@ -19,7 +20,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
         expect(link_text(result)).to eq 'Choose your courses'
         expect(href(result)).to eq '/candidate/application/courses/review'
         expect(status_text(result)).to eq 'Completed'
-        expect(first_paragraph(result)).not_to be_present
+        expect(first_paragraph(result).text).to eq 'You can apply for up to 3 courses.'
       end
     end
 
@@ -29,6 +30,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
           described_class.new(
             choices_are_present: true,
             completed: completed,
+            number_of_choices: 0,
           ),
         )
       end
@@ -36,6 +38,10 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       it 'renders without error' do
         # should render without errors but is not an expected state
         expect { result }.not_to raise_error
+      end
+
+      it 'renders expected content' do
+        expect(first_paragraph(result).text).to eq 'You can apply for up to 3 courses.'
       end
     end
   end
@@ -48,6 +54,7 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
         render_inline(
           described_class.new(
             choices_are_present: false,
+            number_of_choices: 0,
             completed: completed,
           ),
         )
@@ -62,12 +69,13 @@ RSpec.describe CandidateInterface::ApplicationFormCourseChoicesComponent do
       end
     end
 
-    context 'choices present' do
+    context 'three choices present' do
       let(:result) do
         render_inline(
           described_class.new(
             choices_are_present: true,
             completed: completed,
+            number_of_choices: 3,
           ),
         )
       end
