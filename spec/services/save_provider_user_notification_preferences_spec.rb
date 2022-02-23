@@ -54,5 +54,30 @@ RSpec.describe SaveProviderUserNotificationPreferences do
         )
       end
     end
+
+    context 'when the :make_decision_reminder_notification_setting feature flag is off' do
+      before do
+        FeatureFlag.deactivate(:make_decision_reminder_notification_setting)
+      end
+
+      let(:notification_preferences_params) do
+        {
+          application_received: false,
+          application_withdrawn: false,
+          application_rejected_by_default: false,
+          offer_accepted: false,
+          offer_declined: false,
+        }
+      end
+
+      it 'updates the chase_provider_decision alongside the application_received' do
+        service.update_all_notification_preferences!(notification_preferences_params: notification_preferences_params)
+
+        expect(provider_user.reload.notification_preferences.attributes).to include(
+          'application_received' => false,
+          'chase_provider_decision' => false,
+        )
+      end
+    end
   end
 end
