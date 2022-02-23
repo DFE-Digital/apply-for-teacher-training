@@ -28,7 +28,6 @@ resource "cloudfoundry_app" "web_app" {
   enable_ssh                 = true
   timeout                    = 180
   environment                = local.web_app_env_variables
-  docker_credentials         = var.docker_credentials
   dynamic "routes" {
     for_each = local.web_app_routes
     content {
@@ -51,7 +50,6 @@ resource "cloudfoundry_app" "clock" {
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.clock_app_env_variables
-  docker_credentials   = var.docker_credentials
   service_binding {
     service_instance = cloudfoundry_user_provided_service.logging.id
   }
@@ -69,7 +67,6 @@ resource "cloudfoundry_app" "worker" {
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.worker_app_env_variables
-  docker_credentials   = var.docker_credentials
   service_binding {
     service_instance = cloudfoundry_user_provided_service.logging.id
   }
@@ -90,7 +87,6 @@ resource "cloudfoundry_app" "worker_secondary" {
   space                = data.cloudfoundry_space.space.id
   timeout              = 180
   environment          = local.worker_app_env_variables
-  docker_credentials   = var.docker_credentials
   service_binding {
     service_instance = cloudfoundry_user_provided_service.logging.id
   }

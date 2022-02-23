@@ -86,9 +86,4 @@ locals {
     local.app_secrets, # Values in app secrets can override anything before it
     local.app_env_values # Utilimately app_env_values can override anything in the merged map
   )
-
-  docker_credentials = {
-    username = local.infra_secrets.GHCR_USERNAME
-    password = local.infra_secrets.GHCR_PASSWORD
-  }
 }

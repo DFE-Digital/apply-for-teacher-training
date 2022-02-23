@@ -12,8 +12,6 @@ variable "web_app_instances" {}
 
 variable "web_app_memory" {}
 
-variable "docker_credentials" {}
-
 variable "app_docker_image" {}
 
 variable "app_environment" {}
