@@ -31,7 +31,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_all_applications_withdrawn.subject', provider_name: 'Arithmetic College'),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
+      'link to support' => I18n.t('get_into_teaching.url_online_chat'),
       'apply again' => 'You can apply again',
     )
   end
@@ -45,7 +45,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_awaiting_decision_only.subject', provider_name: 'Arithmetic College'),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
+      'link to support' => I18n.t('get_into_teaching.url_online_chat'),
       'awaiting decision content' => 'You’re waiting for Arithmetic College to make a decision about your application to study Mathematics.',
     )
   end
@@ -59,7 +59,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_offers_only.subject', provider_name: 'Arithmetic College', date: Time.zone.local(2021, 6, 22).to_s(:govuk_date)),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
+      'link to support' => I18n.t('get_into_teaching.url_online_chat'),
       'offer content' => 'You’ve received an offer from Arithmetic College to study Mathematics',
     )
   end
@@ -78,7 +78,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_withdrawn_on_request_one_offer_one_awaiting_decision.subject', provider_name: 'Arithmetic College'),
       'heading' => 'Dear Fred',
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
-      'link to support' => 'https://getintoteaching.education.gov.uk/#talk-to-us',
+      'link to support' => I18n.t('get_into_teaching.url_online_chat'),
       'offer content' => 'You have an offer from Arithmetic College to study Mathematics.',
       'awaiting decision content' => 'Falconholt Technical College has until 1 July 2021 to make a decision about your application to study Forensic Science.',
     )
