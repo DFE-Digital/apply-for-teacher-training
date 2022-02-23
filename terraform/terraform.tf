@@ -37,7 +37,6 @@ module "paas" {
   cf_sso_passcode                = var.paas_sso_code
   cf_space                       = var.paas_cf_space
   prometheus_app                 = var.prometheus_app
-  docker_credentials             = local.docker_credentials
   web_app_instances              = var.paas_web_app_instances
   web_app_memory                 = var.paas_web_app_memory
   app_docker_image               = var.paas_docker_image
