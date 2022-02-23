@@ -73,7 +73,7 @@
         </li>
       <% end %>
         <% if @render_link_to_find_when_rejected_on_qualifications %>
-          View the course requirements on <%= govuk_link_to 'Find postgraduate teacher training courses', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry" %>.
+          View the course requirements on <%= govuk_link_to 'Find postgraduate teacher training courses', "#{I18n.t('find_postgraduate_teacher_training.production_url')}course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry" %>.
         <% end %>
     </ul>
     <% if editable? %>
