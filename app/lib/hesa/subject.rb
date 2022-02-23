@@ -1,9 +1,13 @@
 module Hesa
   class Subject
-    SubjectStruct = Struct.new(:hesa_code, :name)
+    include ActiveModel::Model
+    attr_accessor :id, :hesa_code, :name, :synonyms, :dttp_id
+    alias hesa_itt_code= hesa_code=
 
     def self.all
-      HESA_DEGREE_SUBJECTS.map { |subject_data| SubjectStruct.new(*subject_data) }
+      DfE::ReferenceData::Degrees::SUBJECTS.all.map do |subject_data|
+        new(subject_data.to_h)
+      end
     end
 
     def self.names
