@@ -1,24 +1,26 @@
 module Hesa
   class DegreeType
-    class DegreeTypeStruct
-      include ActiveModel::Model
-      attr_accessor :id, :priority, :topic, :synonyms, :dqt_id, :hesa_code, :abbreviation, :name, :level
-      alias hesa_itt_code= hesa_code=
+    include ActiveModel::Model
+    attr_accessor :id, :priority, :qualification, :topic, :synonyms, :dqt_id, :hesa_code, :abbreviation, :name
+    alias hesa_itt_code= hesa_code=
 
-      def shortest_display_name
-        abbreviation || name
-      end
-
-      def bachelor?
-        level == :bachelor
-      end
+    def shortest_display_name
+      abbreviation || name
     end
 
-    UNDERGRADUATE_LEVELS = %w[Bachelor Master].freeze
+    def bachelor?
+      level == :bachelor
+    end
+
+    def level
+      DfE::ReferenceData::Qualifications::QUALIFICATIONS.one(qualification)&.degree
+    end
+
+    UNDERGRADUATE_LEVELS = %i[bachelor master].freeze
 
     class << self
       def all
-        DfE::ReferenceData::Degrees::TYPES.all.map { |type_record| DegreeTypeStruct.new(type_record.to_h) }
+        DfE::ReferenceData::Degrees::TYPES_INCLUDING_GENERICS.all.map { |type_record| new(type_record.to_h) }
       end
 
       def abbreviations_and_names(level: :all)
@@ -27,7 +29,7 @@ module Hesa
           all.map { |type| "#{type.abbreviation}|#{type.name}" }
         when :undergraduate
           all
-            .select { |type| DfE::ReferenceData::Degrees::LEVELS.one(type.level).name.in? UNDERGRADUATE_LEVELS }
+            .select { |type| DfE::ReferenceData::Qualifications::QUALIFICATIONS.one(type.qualification)&.degree.in?(UNDERGRADUATE_LEVELS) }
             .map { |type| "#{type.abbreviation}|#{type.name}" }
         end
       end

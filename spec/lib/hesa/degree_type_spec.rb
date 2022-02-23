@@ -19,7 +19,7 @@ RSpec.describe Hesa::DegreeType do
       abbreviations_and_names = described_class.abbreviations_and_names
 
       expect(abbreviations_and_names).to include('BA|Bachelor of Arts')
-      expect(abbreviations_and_names[60]).to eq 'MTheol|Master of Theology'
+      expect(abbreviations_and_names[59]).to eq 'MTheol|Master of Theology'
     end
 
     context 'when specifying undergraduate level' do
