@@ -51,7 +51,7 @@
 
       <% if FeatureFlag.active?(:apply_again_with_three_choices) %>
         <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-              choices_are_present: @application_form_presenter.application_choices_added?,
+              number_of_choices: @application_form_presenter.application_form.application_choices.count,
               completed: @application_form_presenter.course_choices_completed?,
             )) %>
       <% else %>
@@ -62,8 +62,8 @@
               )) %>
         <% else %>
           <%= render(CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-                choices_are_present: @application_form_presenter.application_choices_added?,
                 completed: @application_form_presenter.course_choices_completed?,
+                number_of_choices: @application_form_presenter.application_form.application_choices.count,
               )) %>
         <% end %>
       <% end %>
