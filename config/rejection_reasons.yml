@@ -1,0 +1,119 @@
+---
+:reasons:
+- :id: qualifications
+  :label: Qualifications
+  :reasons:
+  - :id: no_maths_gcse
+    :label: No maths GCSE at minimum grade 4 or C, or equivalent
+  - :id: no_english_gcse
+    :label: No English GCSE at minimum grade 4 or C, or equivalent
+  - :id: no_science_gcse
+    :label: No science GCSE at minimum grade 4 or C, or equivalent
+  - :id: no_degree
+    :label: No bachelor’s or equivalent
+  - :id: unsuitable_degree
+    :label: No bachelor’s degree or equivalent
+    :details:
+      :id: unsuitable_degree_details
+      :label: Details
+  - :id: unverified_qualifications
+    :label: Could not verify qualifications
+    :details:
+      :id: unverified_qualifications_details
+      :label: Details
+  - :id: qualifications_other
+    :label: Other
+    :details:
+      :id: qualifications_other_details
+      :label: Details
+- :id: personal_statement
+  :label: Personal statement
+  :reasons:
+  - :id: quality_of_writing
+    :label: Quality of writing
+    :details:
+      :id: quality_of_writing_details
+      :label: Details
+  - :id: personal_statement_other
+    :label: Other
+    :details:
+      :id: personal_statement_other_details
+      :label: Details
+- :id: teaching_knowledge
+  :label: Teaching knowledge and ability
+  :reasons:
+  - :id: subject_knowledge
+    :label: Subject knowledge
+    :details:
+      :id: subject_knowledge_details
+      :label: Details
+  - :id: safeguarding_knowledge
+    :label: Safeguarding knowledge
+    :details:
+      :id: safeguarding_details
+      :label: Details
+  - :id: teaching_method_knowledge
+    :label: Teaching method knowledge
+    :details:
+      :id: teaching_method_knowledge_details
+      :label: Details
+  - :id: teaching_role_knowledge
+    :label: Teaching role knowledge
+    :details:
+      :id: teaching_role_knowledge_details
+      :label: Details
+  - :id: teaching_demonstration_knowledge
+    :label: Teaching demonstration knowledge
+    :details:
+      :id: teaching_demonstration_knowledge_details
+      :label: Details
+  - :id: teaching_knowledge_other
+    :label: Other
+    :details:
+      :id: teaching_knowledge_other_details
+      :label: Details
+- :id: communication_and_scheduling
+  :label: Communication, attendance and scheduling
+  :reasons:
+  - :id: did_not_reply
+    :label: Did not reply to messages
+    :details:
+      :id: did_not_reply_details
+      :label: Details
+  - :id: did_not_attend_interview
+    :label: Did not attend interview
+    :details:
+      :id: did_not_attend_interview_details
+      :label: Details
+  - :id: could_not_arrange_interview
+    :label: Could not arrange interview
+    :details:
+      :id: could_not_arrange_interview_details
+      :label: Details
+  - :id: communication_and_scheduling_other
+    :label: Other
+    :details:
+      :id: communication_and_scheduling_other_details
+      :label: Details
+- :id: references
+  :label: References
+  :details:
+    :id: references_details
+    :label: Details
+- :id: safeguarding
+  :label: Safeguarding
+  :details:
+    :id: safeguarding_details
+    :label: Details
+- :id: visa_sponsorship
+  :label: Visa sponsorship
+  :details:
+    :id: visa_sponsorship_details
+    :label: Details
+- :id: course_full
+  :label: Course full
+- :id: other
+  :label: Other
+  :details:
+    :id: other_details
+    :label: Details
