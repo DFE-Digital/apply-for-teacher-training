@@ -1,14 +1,5 @@
 <section class="app-section govuk-!-width-two-thirds">
   <h2 class="govuk-heading-m govuk-!-font-size-27" id="course-details">Course applied for</h2>
 
-  <%= render SummaryListComponent.new(rows: [
-    { key: 'Training provider', value: provider_name_and_code, action: { href: change_provider_path } },
-    { key: 'Course', value: course_name_and_code },
-    { key: 'Cycle', value: cycle },
-    { key: 'Full or part time', value: study_mode },
-    { key: 'Location', value: preferred_location },
-    { key: 'Accredited body', value: accredited_body },
-    { key: 'Qualification', value: qualification },
-    { key: 'Funding type', value: funding_type },
-  ]) %>
+  <%= render SummaryListComponent.new(rows: rows) %>
 </section>
