@@ -265,6 +265,7 @@ EU_COUNTRY_CODES = [
   'SI',
   'ES',
   'SE',
+  'XA',
 ].freeze
 
 PROVISIONALLY_ELIGIBLE_FOR_GOV_FUNDING_COUNTRY_CODES = %w[GB IE IM].freeze
