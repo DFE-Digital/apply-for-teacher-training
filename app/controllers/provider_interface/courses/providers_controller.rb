@@ -14,7 +14,7 @@ module ProviderInterface
         if @wizard.valid_for_current_step?
           @wizard.save_state!
 
-          redirect_to [:edit, :provider_interface, @application_choice, :offer, @wizard.next_step]
+          redirect_to [:edit, :provider_interface, @application_choice, :course, @wizard.next_step]
         else
           track_validation_error(@wizard)
           @providers = available_providers
