@@ -16,6 +16,12 @@ RSpec.describe ProviderInterface::CourseWizard do
   let(:application_choice_id) { create(:application_choice).id }
   let(:current_step) { nil }
 
+  before { allow(store).to receive(:read) }
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
+  end
+
   context 'when changing an offer' do
     let(:decision) { :change_offer }
     let(:query_service) { instance_double(GetChangeOfferOptions) }
@@ -28,7 +34,6 @@ RSpec.describe ProviderInterface::CourseWizard do
       allow(provider_user).to receive(:id).and_return(1)
       allow(GetChangeOfferOptions).to receive(:new).and_return(query_service)
       allow(store).to receive(:write)
-      allow(store).to receive(:read)
     end
 
     context 'when current_step is :select_option' do
