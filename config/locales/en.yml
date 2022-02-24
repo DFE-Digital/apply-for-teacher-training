@@ -42,6 +42,8 @@ en:
     url_choose_your_referees: https://getintoteaching.education.gov.uk/tips-on-applying-for-teacher-training/#choose-your-referees
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
+  register_of_sponsor_licences:
+    url: https://www.gov.uk/government/publications/register-of-licensed-sponsors-students
   page_titles:
     application_form: Your application
     application_dashboard: Your application
