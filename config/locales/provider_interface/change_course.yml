@@ -5,3 +5,7 @@ en:
         edit:
           title: Training provider
           caption: Update course - %{name}
+      courses:
+        edit:
+          title: Course
+          caption: Update course - %{name}
