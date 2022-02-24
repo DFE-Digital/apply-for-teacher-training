@@ -738,6 +738,10 @@ Rails.application.routes.draw do
         resource :check, only: %i[new edit]
       end
 
+      namespace :courses, as: :application_choice_course do
+        resource :providers, only: %i[edit update]
+      end
+
       get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions
       post '/rejection-reasons' => 'reasons_for_rejection#update_initial_questions', as: :reasons_for_rejection_update_initial_questions
       get '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#edit_other_reasons', as: :reasons_for_rejection_other_reasons

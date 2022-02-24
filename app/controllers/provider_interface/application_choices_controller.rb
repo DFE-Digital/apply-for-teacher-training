@@ -38,6 +38,8 @@ module ProviderInterface
         .application_form
         .english_main_language(fetch_database_value: true)
         .present?
+
+      @available_training_providers = available_training_providers
     end
 
     def timeline; end
@@ -64,6 +66,17 @@ module ProviderInterface
 
     def available_providers
       current_provider_user.providers
+    end
+
+    def available_training_providers
+      query_service.available_providers
+    end
+
+    def query_service
+      @query_service ||= GetChangeOfferOptions.new(
+        user: current_provider_user,
+        current_course: @application_choice.current_course,
+      )
     end
 
     def set_workflow_flags
