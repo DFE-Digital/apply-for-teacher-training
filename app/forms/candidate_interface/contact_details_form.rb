@@ -93,5 +93,14 @@ module CandidateInterface
 
       errors.add(:address_line1, :international_blank)
     end
+
+    def all_errors
+      validate(%i[base address address_type])
+      errors
+    end
+
+    def valid_for_submission?
+      all_errors.blank?
+    end
   end
 end

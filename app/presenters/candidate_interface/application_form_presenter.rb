@@ -23,6 +23,14 @@ module CandidateInterface
       "Last saved on #{application_form.updated_at.to_s(:govuk_date_and_time)}"
     end
 
+    def sections_with_validations
+      [
+        # "About you" section
+        [:personal_details, personal_details_section_errors.blank?],
+        [:contact_details, contact_details_section_errors.blank?],
+      ]
+    end
+
     def sections_with_completion
       [
         # "Courses" section
@@ -131,13 +139,17 @@ module CandidateInterface
       [].tap do |errors|
         # A defensive check, in case the candidate somehow ends up in this state
         if application_form.references_completed? && application_form.selected_incorrect_number_of_references?
-          errors << ErrorMessage.new(I18n.t('application_form.references.review.incorrect_number_selected'), '#references')
+          errors << ErrorMessage.new(
+            I18n.t('application_form.references.review.incorrect_number_selected'),
+            '#references',
+          )
         end
       end
     end
 
     def ready_to_submit?
       sections_with_completion.map(&:second).all? &&
+        sections_with_validations.map(&:second).all? &&
         application_choice_errors.empty? &&
         reference_section_errors.empty?
     end
@@ -152,9 +164,24 @@ module CandidateInterface
       application_form.contact_details_completed
     end
 
+    def personal_details_valid?
+      personal_details_section_errors.blank?
+    end
+
     def contact_details_valid?
-      form = ContactDetailsForm.build_from_application(application_form)
-      form.valid?(:base) && form.valid?(:address) && form.valid?(:address_type)
+      contact_details_section_errors.blank?
+    end
+
+    def personal_details_section_errors
+      PersonalDetailsForm.build_from_application(application_form).all_errors.map do |error|
+        ErrorMessage.new(error.message, '#personal_details')
+      end
+    end
+
+    def contact_details_section_errors
+      ContactDetailsForm.build_from_application(application_form).all_errors.map do |error|
+        ErrorMessage.new(error.message, '#contact_details')
+      end
     end
 
     def work_experience_completed?

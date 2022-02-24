@@ -7,11 +7,13 @@ en:
       complete_section: Complete your course choices
     personal_details:
       incomplete: Personal details not marked as complete
+      invalid: Personal details not complete
       not_marked_complete: Personal details not marked as completed
       complete_section: Complete your personal details
       mark_as_complete: Mark as complete
     contact_details:
       incomplete: Contact details not marked as complete
+      invalid: Contact details not complete
       complete_section: Complete your contact details
     training_with_a_disability:
       incomplete: Any disability or other needs not marked as complete
@@ -27,6 +29,7 @@ en:
       complete_section: Do you have any experience working with children and young people?
     degrees:
       incomplete: Degree section not marked as complete
+      invalid: Degree not complete
       complete_section: Complete degrees section
     maths_gcse:
       incomplete: Maths GCSE or equivalent not marked as complete

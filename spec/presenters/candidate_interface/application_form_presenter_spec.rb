@@ -55,19 +55,43 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
-  describe '#contact_details_valid?' do
-    it 'returns true if contact details section is completed' do
-      application_form = build(:completed_application_form, contact_details_completed: true)
-      presenter = described_class.new(application_form)
+  describe '#personal_details_valid?' do
+    subject(:presenter) { described_class.new(application_form) }
 
-      expect(presenter).to be_contact_details_valid
+    context 'when personal details are valid' do
+      let(:application_form) { build(:completed_application_form) }
+
+      it 'returns true' do
+        expect(presenter).to be_personal_details_valid
+      end
     end
 
-    it 'returns false if contact details section is invalid' do
-      application_form = build(:completed_application_form, phone_number: '')
-      presenter = described_class.new(application_form)
+    context 'when personal details are invalid' do
+      let(:application_form) { build(:completed_application_form, first_name: '') }
 
-      expect(presenter).not_to be_contact_details_valid
+      it 'returns false' do
+        expect(presenter).not_to be_personal_details_valid
+      end
+    end
+  end
+
+  describe '#contact_details_valid?' do
+    subject(:presenter) { described_class.new(application_form) }
+
+    context 'when contact details are valid' do
+      let(:application_form) { build(:completed_application_form, contact_details_completed: true) }
+
+      it 'returns true' do
+        expect(presenter).to be_contact_details_valid
+      end
+    end
+
+    context 'when contact details are invalid' do
+      let(:application_form) { build(:completed_application_form, phone_number: '') }
+
+      it 'returns false' do
+        expect(presenter).not_to be_contact_details_valid
+      end
     end
   end
 
