@@ -280,4 +280,6 @@ COUNTRIES_AND_TERRITORIES = {
   'ZM' => 'Zambia',
   'ZW' => 'Zimbabwe',
   'AX' => 'Åland Islands',
+  'XA' => 'Cyprus (European Union)',
+  'XB' => 'Cyprus (non European Union)',
 }.freeze
