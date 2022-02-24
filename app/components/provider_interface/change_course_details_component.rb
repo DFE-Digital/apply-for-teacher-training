@@ -6,9 +6,10 @@ module ProviderInterface
     FUNDING_TYPES = { apprenticeship: :apprenticeship, salary: :salaried, fee: :fee_paying }.freeze
 
     attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
-                :cycle, :preferred_location, :study_mode, :qualification, :available_providers
+                :cycle, :preferred_location, :study_mode, :qualification, :available_providers,
+                :available_courses
 
-    def initialize(application_choice:, available_providers: [])
+    def initialize(application_choice:, available_providers: [], available_courses: [])
       @application_choice = application_choice
       @provider_name_and_code = application_choice.provider.name_and_code
       @course_name_and_code = application_choice.course.name_and_code
@@ -17,12 +18,13 @@ module ProviderInterface
       @study_mode = application_choice.course_option.study_mode.humanize
       @qualification = qualification_text(application_choice.course_option)
       @available_providers = available_providers
+      @available_courses = available_courses
     end
 
     def rows
       [
         { key: 'Training provider', value: provider_name_and_code, action: { href: change_provider_path } },
-        { key: 'Course', value: course_name_and_code },
+        { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
         { key: 'Cycle', value: cycle },
         { key: 'Full or part time', value: study_mode },
         { key: 'Location', value: preferred_location },
@@ -59,6 +61,10 @@ module ProviderInterface
 
     def change_provider_path
       available_providers.length > 1 ? edit_provider_interface_application_choice_course_providers_path(application_choice) : nil
+    end
+
+    def change_course_path
+      available_courses.length > 1 ? edit_provider_interface_application_choice_course_courses_path(application_choice) : nil
     end
   end
 end

@@ -28,7 +28,16 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
 
   let(:course) do
     instance_double(Course,
-                    name_and_code: 'Geograpghy (H234)',
+                    name_and_code: 'Geography (H234)',
+                    recruitment_cycle_year: 2020,
+                    accredited_provider: nil,
+                    qualifications: %w[qts pgce],
+                    funding_type: 'fee')
+  end
+
+  let(:course2) do
+    instance_double(Course,
+                    name_and_code: 'Geography (H234)',
                     recruitment_cycle_year: 2020,
                     accredited_provider: nil,
                     qualifications: %w[qts pgce],
@@ -43,6 +52,8 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                     site: site)
   end
 
+  let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
+
   def row_text_selector(row_name, render)
     rows = { provider: 0,
              course: 1,
@@ -54,6 +65,10 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
              funding_type: 7 }
 
     render.css('.govuk-summary-list__row')[rows[row_name]].text
+  end
+
+  def row_link_selector(row_number)
+    render.css('.govuk-summary-list__row')[row_number].css('a')&.first&.attr('href')
   end
 
   context 'when there are multiple available providers' do
@@ -69,13 +84,33 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when there are not multiple available providers' do
-    let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
-
     it 'does not renders the change link' do
       render_text = row_text_selector(:provider, render)
 
       expect(render_text).to include('Training provider')
       expect(render_text).to include('Best Training (B54)')
+      expect(render_text).not_to include('Change')
+    end
+  end
+
+  context 'when multiple courses' do
+    let(:render) { render_inline(described_class.new(application_choice: application_choice, available_courses: [course, course2])) }
+
+    it 'renders a change link' do
+      render_text = row_text_selector(:course, render)
+
+      expect(render_text).to include('Course')
+      expect(render_text).to include('Geography (H234)')
+      expect(render_text).to include('Change')
+    end
+  end
+
+  context 'when only one course' do
+    it 'does not render a change link' do
+      render_text = row_text_selector(:course, render)
+
+      expect(render_text).to include('Course')
+      expect(render_text).to include('Geography (H234)')
       expect(render_text).not_to include('Change')
     end
   end
