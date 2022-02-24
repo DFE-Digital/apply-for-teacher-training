@@ -30,6 +30,10 @@ RSpec.feature 'Provider changes a course' do
     and_i_click_an_application_choice_that_is_interviewing
     and_i_click_on_change_the_training_provider
     then_i_see_a_list_of_training_providers_to_select_from
+
+    when_i_select_a_different_provider
+    and_i_click_continue
+    then_i_see_a_list_of_courses_to_select_from
   end
 
   def given_i_am_a_provider_user
@@ -104,5 +108,18 @@ RSpec.feature 'Provider changes a course' do
   def then_i_see_a_list_of_training_providers_to_select_from
     expect(page).to have_content "Update course - #{application_form.full_name}"
     expect(page).to have_content 'Training provider'
+  end
+
+  def when_i_select_a_different_provider
+    choose @selected_provider.name_and_code
+  end
+
+  def and_i_click_continue
+    click_on t('continue')
+  end
+
+  def then_i_see_a_list_of_courses_to_select_from
+    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content 'Course'
   end
 end
