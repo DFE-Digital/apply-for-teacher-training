@@ -26,9 +26,7 @@ RSpec.describe ValidForNotifyValidator do
         'email@domain.superlongtld',
         'email@domain.co.jp',
         'firstname-lastname@domain.com',
-        'info@german-financial-services.vermögensberatung',
         'info@german-financial-services.reallylongarbitrarytldthatiswaytoohugejustincase',
-        'japanese-info@例え.テスト',
       ]
     end
 
@@ -71,6 +69,9 @@ RSpec.describe ValidForNotifyValidator do
         'local-with-”-quotes@domain.com',
         'domain-starts-with-a-dot@.domain.com',
         'brackets(in)local@domain.com',
+        'infö@german-financial-services.de',
+        'info@german-financial-services.vermögensberatung',
+        'japanese-info@例え.テスト',
       ]
     end
 
