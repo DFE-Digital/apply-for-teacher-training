@@ -34,12 +34,24 @@ module ProviderInterface
     end
 
     def show
+      if FeatureFlag.active?(:change_course_details_before_offer)
+        @wizard = CourseWizard.build_from_application_choice(
+          change_course_store,
+          @application_choice,
+          provider_user_id: current_provider_user.id,
+          current_step: 'select_option',
+        )
+
+        @wizard.save_state!
+      end
+
       @show_language_details = @application_choice
         .application_form
         .english_main_language(fetch_database_value: true)
         .present?
 
       @available_training_providers = available_training_providers
+      @available_courses = available_courses
     end
 
     def timeline; end
@@ -72,6 +84,10 @@ module ProviderInterface
       query_service.available_providers
     end
 
+    def available_courses
+      query_service.available_courses(provider: @application_choice.current_provider)
+    end
+
     def query_service
       @query_service ||= GetChangeOfferOptions.new(
         user: current_provider_user,
@@ -97,6 +113,11 @@ module ProviderInterface
 
     def state_store_key
       CacheKey.generate("#{ProviderApplicationsFilter::STATE_STORE_KEY}_#{current_provider_user.id}")
+    end
+
+    def change_course_store
+      key = "change_course_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
     end
   end
 end
