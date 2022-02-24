@@ -32,12 +32,18 @@ en:
     url: https://getintoteaching.education.gov.uk
     url_applying: https://getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5
     url_get_an_adviser: https://adviser-getintoteaching.education.gov.uk
+    url_get_an_adviser_start: https://getintoteaching.education.gov.uk/teacher-training-advisers
     url_international_candidates: https://getintoteaching.education.gov.uk/international-candidates
     url_training_with_a_disability: https://getintoteaching.education.gov.uk/guidance/become-a-teacher-in-england#training-to-teach-if-you-have-a-disability
+    url_support_if_you_are_disabled: https://getintoteaching.education.gov.uk/get-support-training-to-teach-if-you-are-disabled
     url_online_chat: https://getintoteaching.education.gov.uk/#talk-to-us
     url_get_school_experience: https://getintoteaching.education.gov.uk/get-school-experience
+    url_ways_to_train: https://getintoteaching.education.gov.uk/ways-to-train
+    url_choose_your_referees: https://getintoteaching.education.gov.uk/tips-on-applying-for-teacher-training/#choose-your-referees
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
+  register_of_sponsor_licences:
+    url: https://www.gov.uk/government/publications/register-of-licensed-sponsors-students
   page_titles:
     application_form: Your application
     application_dashboard: Your application
