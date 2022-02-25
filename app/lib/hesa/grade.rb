@@ -1,7 +1,7 @@
 module Hesa
   class Grade
     include ActiveModel::Model
-    attr_accessor :id, :name, :hesa_code, :visual_grouping
+    attr_accessor :id, :name, :synonyms, :hesa_code, :visual_grouping
     alias group= visual_grouping=
     alias description= name=
     alias description name
@@ -12,7 +12,7 @@ module Hesa
       end
 
       def find_by_description(description)
-        all.find { |g| g.description == description }
+        all.find { |g| g.description == description || description.in?(g.synonyms) }
       end
 
       def find_by_hesa_code(hesa_code)

@@ -12,6 +12,35 @@ RSpec.describe Hesa::Grade do
     end
   end
 
+  describe '.find_by_description' do
+    subject(:result) { described_class.find_by_description(description) }
+
+    context 'when search by description' do
+      let(:description) { 'Lower second-class honours (2:2)' }
+
+      it 'returns the result' do
+        expect(result.description).to eq(description)
+      end
+    end
+
+    context 'when search by a synonym' do
+      let(:description) { 'First class honours' }
+
+      it 'returns the result' do
+        expect(result).not_to be_nil
+        expect(result.description).to eq('First-class honours')
+      end
+    end
+
+    context 'when there is no data' do
+      let(:description) { 'This does not exist' }
+
+      it 'returns nil' do
+        expect(result).to be_nil
+      end
+    end
+  end
+
   describe '.main_grouping' do
     it 'returns undergrad and postgrad grades with the "main" visual grouping' do
       main_grades = described_class.main_grouping
@@ -19,7 +48,7 @@ RSpec.describe Hesa::Grade do
       expect(main_grades.size).to eq 9
       first = main_grades.first
       merit = main_grades.find { |g| g.hesa_code == '13' }
-      expect(first.description).to eq 'First class honours'
+      expect(first.description).to eq 'First-class honours'
       expect(merit.description).to eq 'Merit'
       expect(first.visual_grouping).to eq :main_undergrad
       expect(merit.visual_grouping).to eq :main_postgrad
@@ -33,7 +62,7 @@ RSpec.describe Hesa::Grade do
       expect(main_grades.size).to eq 5
       first = main_grades.first
       merit = main_grades.find { |g| g.hesa_code == '13' }
-      expect(first.description).to eq 'First class honours'
+      expect(first.description).to eq 'First-class honours'
       expect(merit).to be_nil
     end
   end
