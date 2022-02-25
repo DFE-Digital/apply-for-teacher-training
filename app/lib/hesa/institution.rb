@@ -14,7 +14,7 @@ module Hesa
       end
 
       def find_by_name(name)
-        all.find { |institution| institution.name == name }
+        all.find { |institution| institution.name == name || name.in?(institution.match_synonyms) }
       end
     end
   end
