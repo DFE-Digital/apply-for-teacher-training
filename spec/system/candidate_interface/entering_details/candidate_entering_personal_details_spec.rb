@@ -21,6 +21,7 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_see_the_review_page
     and_i_can_check_my_answers
+    and_invisible_whitespace_has_been_removed
 
     when_i_click_to_change_my_answer
     and_i_fill_in_a_different_answer
@@ -71,6 +72,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_fill_in_the_rest_of_my_details
+    fill_in t('first_name.label', scope: @scope), with: "La\u200Bndo"
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
@@ -104,6 +106,10 @@ RSpec.feature 'Entering their personal details' do
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'British and American'
+  end
+
+  def and_invisible_whitespace_has_been_removed
+    expect(ApplicationForm.last.first_name).to eq('Lando')
   end
 
   def when_i_click_to_change_my_answer
