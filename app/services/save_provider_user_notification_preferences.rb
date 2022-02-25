@@ -8,6 +8,10 @@ class SaveProviderUserNotificationPreferences
   def update_all_notification_preferences!(notification_preferences_params: {})
     return false if notification_preferences_params.empty?
 
+    unless FeatureFlag.active?(:make_decision_reminder_notification_setting)
+      notification_preferences_params.merge!(chase_provider_decision: notification_preferences_params[:application_received])
+    end
+
     provider_user_notification_preferences.update!(notification_preferences_params)
   end
 
