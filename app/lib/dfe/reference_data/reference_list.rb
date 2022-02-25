@@ -28,7 +28,7 @@ module DfE
       # Get a single record from the list, given the value of its +id+ field. The
       # record is returned as a hash mapping field name symbols to values. If there
       # is no record with that +id+, returns +nil+.
-      def one(id)
+      def one(record_id)
         raise NotImplementedError
       end
 

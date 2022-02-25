@@ -7,19 +7,19 @@ RSpec.describe DfE::ReferenceData::TweakedReferenceList do
         '1' => { name: 'Alaric', child: false },
         '2' => { name: 'Sarah', child: false },
         '3' => { name: 'Jean', child: true },
-        '4' => { name: 'Mary', child: true }
-      }
+        '4' => { name: 'Mary', child: true },
+      },
     )
   end
 
   let(:tweaked_reference_list) do
-    DfE::ReferenceData::TweakedReferenceList.new(
+    described_class.new(
       hardcoded_reference_list,
       {
         '1' => nil,
         '2' => { favourite_pokemon: 'Eevee' },
-        '5' => { name: 'Helium', cat: true }
-      }
+        '5' => { name: 'Helium', cat: true },
+      },
     )
   end
 
@@ -30,19 +30,19 @@ RSpec.describe DfE::ReferenceData::TweakedReferenceList do
 
   it 'returns correct data from low-level methods' do
     expect(tweaked_reference_list.all).to eq([
-                            { id: '2', name: 'Sarah', child: false, favourite_pokemon: 'Eevee' },
-                            { id: '3', name: 'Jean', child: true },
-                            { id: '4', name: 'Mary', child: true },
-                            { id: '5', name: 'Helium', cat: true }
-                          ])
+      { id: '2', name: 'Sarah', child: false, favourite_pokemon: 'Eevee' },
+      { id: '3', name: 'Jean', child: true },
+      { id: '4', name: 'Mary', child: true },
+      { id: '5', name: 'Helium', cat: true },
+    ])
 
     expect(tweaked_reference_list.all_as_hash).to eq({
-                                    '2' => { id: '2', name: 'Sarah', child: false,
-                                             favourite_pokemon: 'Eevee' },
-                                    '3' => { id: '3', name: 'Jean', child: true },
-                                    '4' => { id: '4', name: 'Mary', child: true },
-                                    '5' => { id: '5', name: 'Helium', cat: true }
-                                  })
+      '2' => { id: '2', name: 'Sarah', child: false,
+               favourite_pokemon: 'Eevee' },
+      '3' => { id: '3', name: 'Jean', child: true },
+      '4' => { id: '4', name: 'Mary', child: true },
+      '5' => { id: '5', name: 'Helium', cat: true },
+    })
 
     expect(tweaked_reference_list.one('1')).to eq(nil)
     expect(tweaked_reference_list.one('2')).to eq({ id: '2', name: 'Sarah', child: false, favourite_pokemon: 'Eevee' })

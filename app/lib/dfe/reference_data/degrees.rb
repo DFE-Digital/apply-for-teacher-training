@@ -596,12 +596,12 @@ module DfE
           'e2fe18d4-8655-47cf-ab1a-8c3e0b0f078f' =>
           { hesa_code: '2',
             name: 'Upper second-class honours (2:1)',
-            synonyms: ['Upper second class honours','2:1'],
+            synonyms: ['Upper second class honours', '2:1'],
             group: :main_undergrad },
           '377a46ea-d6c6-4e87-9728-c1f0dd0ef109' =>
           { hesa_code: '3',
             name: 'Lower second-class honours (2:2)',
-            synonyms: ['Lower second class honours','2:2'],
+            synonyms: ['Lower second class honours', '2:2'],
             group: :main_undergrad },
           '7f08cd7c-96d2-4706-9148-32468a6d67f9' =>
           { hesa_code: '4',

@@ -44,21 +44,21 @@ module DfE
         @overridden_all
       end
 
-      def one(id)
-        if @overrides.key?(id)
-          override = @overrides[id]
+      def one(record_id)
+        if @overrides.key?(record_id)
+          override = @overrides[record_id]
           if override.nil? # Hidden record
             nil
           else
-            old_record = @base.one(id)
+            old_record = @base.one(record_id)
             if old_record.nil? # Added record
-              override.merge({ id: id })
+              override.merge({ id: record_id })
             else # Modified record
               old_record.merge(override)
             end
           end
         else # Un-overridden record
-          @base.one(id)
+          @base.one(record_id)
         end
       end
     end

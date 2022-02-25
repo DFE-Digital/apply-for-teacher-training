@@ -11,11 +11,11 @@ module DfE
       end
 
       def ==(other)
-        if other.is_a?(Hash)
-          data == other
-        else
-          data == other.data
-        end
+        data == if other.is_a?(Hash)
+                  other
+                else
+                  other.data
+                end
       end
     end
   end

@@ -27,10 +27,10 @@ module DfE
         all
       end
 
-      def one(id)
+      def one(record_id)
         final_result = nil
         @lists.find do |list|
-          result = list.one(id)
+          result = list.one(record_id)
           if result.nil?
             false
           else

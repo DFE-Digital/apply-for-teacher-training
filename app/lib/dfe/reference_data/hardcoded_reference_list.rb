@@ -26,8 +26,8 @@ module DfE
         @data
       end
 
-      def one(id)
-        @data[id]
+      def one(record_id)
+        @data[record_id]
       end
     end
   end

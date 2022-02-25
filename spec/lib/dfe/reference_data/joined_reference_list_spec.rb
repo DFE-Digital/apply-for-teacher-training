@@ -5,8 +5,8 @@ RSpec.describe DfE::ReferenceData::JoinedReferenceList do
     DfE::ReferenceData::HardcodedReferenceList.new(
       {
         '1' => { name: 'Alaric', child: false },
-        '2' => { name: 'Sarah', child: false }
-      }
+        '2' => { name: 'Sarah', child: false },
+      },
     )
   end
 
@@ -14,13 +14,13 @@ RSpec.describe DfE::ReferenceData::JoinedReferenceList do
     DfE::ReferenceData::HardcodedReferenceList.new(
       {
         '3' => { name: 'Jean', child: true },
-        '4' => { name: 'Mary', child: true }
-      }
+        '4' => { name: 'Mary', child: true },
+      },
     )
   end
 
   let(:joined_reference_list) do
-    DfE::ReferenceData::JoinedReferenceList.new([hardcoded_reference_list1, hardcoded_reference_list2])
+    described_class.new([hardcoded_reference_list1, hardcoded_reference_list2])
   end
 
   # NB: These particular tests also make a potentially fragile assumption that
@@ -30,11 +30,11 @@ RSpec.describe DfE::ReferenceData::JoinedReferenceList do
 
   it 'returns correct data from low-level methods' do
     expect(joined_reference_list.all).to eq([
-                            { id: '1', name: 'Alaric', child: false },
-                            { id: '2', name: 'Sarah', child: false },
-                            { id: '3', name: 'Jean', child: true },
-                            { id: '4', name: 'Mary', child: true }
-                          ])
+      { id: '1', name: 'Alaric', child: false },
+      { id: '2', name: 'Sarah', child: false },
+      { id: '3', name: 'Jean', child: true },
+      { id: '4', name: 'Mary', child: true },
+    ])
 
     expect(joined_reference_list.one('1')).to eq({ id: '1', name: 'Alaric', child: false })
     expect(joined_reference_list.one('3')).to eq({ id: '3', name: 'Jean', child: true })
