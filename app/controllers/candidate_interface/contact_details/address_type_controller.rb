@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def new
-      @contact_details_form = ContactDetailsForm.new
+      @contact_details_form = load_contact_form
     end
 
     def create
@@ -18,14 +18,12 @@ module CandidateInterface
     end
 
     def edit
-      @contact_details_form = ContactDetailsForm.build_from_application(
-        current_application,
-      )
+      @contact_details_form = load_contact_form
       @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
     end
 
     def update
-      @contact_details_form = ContactDetailsForm.new(address_type_params)
+      @contact_details_form = form_from_params
       @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
 
       if @contact_details_form.save_address_type(current_application)
@@ -39,6 +37,14 @@ module CandidateInterface
     end
 
   private
+
+    def load_contact_form
+      ContactDetailsForm.build_from_application(current_application)
+    end
+
+    def form_from_params
+      ContactDetailsForm.new(address_type_params)
+    end
 
     def address_type_params
       strip_whitespace params.require(:candidate_interface_contact_details_form).permit(
