@@ -1,5 +1,6 @@
 module DfE
   module ReferenceData
+    # rubocop:disable Style/OpenStructUse
     class Record < OpenStruct
       attr_reader :data
       delegate :[], :[]=, :merge, :key?, :values, :keys, to: :data
@@ -18,5 +19,6 @@ module DfE
                 end
       end
     end
+    # rubocop:enable Style/OpenStructUse
   end
 end
