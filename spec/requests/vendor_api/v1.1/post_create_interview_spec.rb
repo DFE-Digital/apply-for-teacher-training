@@ -46,13 +46,12 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Cannot schedule interview in the past')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Cannot schedule interview in the past')
       end
     end
 
@@ -66,13 +65,12 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Provider must be training or ratifying provider')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Provider must be training or ratifying provider')
       end
     end
 
@@ -90,13 +88,12 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Application is not in an interviewing state')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Application is not in an interviewing state')
       end
     end
 
@@ -112,7 +109,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       let(:provider) { create(:provider) }
       let(:api_token) { VendorAPIToken.create_with_random_token!(provider: provider) }
 
-      it 'fails and renders an Not Found response' do
+      it 'fails and renders a NotFound response' do
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:not_found)
