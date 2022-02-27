@@ -1,7 +1,6 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
     include ApplicationDataConcerns
-    include APIValidationsAndErrorHandling
 
     def make_offer
       validate_course_is_in_current_recruitment_cycle!

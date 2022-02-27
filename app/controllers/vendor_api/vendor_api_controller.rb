@@ -4,6 +4,7 @@ module VendorAPI
     include RequestQueryParams
     include RemoveBrowserOnlyHeaders
     include Versioning
+    include APIValidationsAndErrorHandling
 
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid

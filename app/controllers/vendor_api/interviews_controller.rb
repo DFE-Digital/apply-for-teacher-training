@@ -1,7 +1,6 @@
 module VendorAPI
   class InterviewsController < VendorAPIController
     include ApplicationDataConcerns
-    include APIValidationsAndErrorHandling
 
     rescue_from InterviewWorkflowConstraints::WorkflowError, with: :handle_as_validation_error
 

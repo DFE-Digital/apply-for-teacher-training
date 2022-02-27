@@ -1,7 +1,6 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
     include ApplicationDataConcerns
-    include APIValidationsAndErrorHandling
 
     skip_before_action :validate_metadata!
 

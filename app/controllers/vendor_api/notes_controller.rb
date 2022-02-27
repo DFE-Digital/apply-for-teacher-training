@@ -1,7 +1,6 @@
 module VendorAPI
   class NotesController < VendorAPIController
     include ApplicationDataConcerns
-    include APIValidationsAndErrorHandling
 
     def create
       CreateNote.new(user: audit_user,
