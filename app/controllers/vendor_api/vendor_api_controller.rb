@@ -7,7 +7,6 @@ module VendorAPI
     include APIValidationsAndErrorHandling
 
     before_action :set_cors_headers
-    before_action :require_valid_api_token!
     before_action :set_user_context
 
     def audit_user
@@ -31,18 +30,6 @@ module VendorAPI
 
     def set_cors_headers
       headers['Access-Control-Allow-Origin'] = '*'
-    end
-
-    def require_valid_api_token!
-      return @current_vendor_api_token.update!(last_used_at: Time.zone.now) if valid_api_token?
-
-      raise ProviderAuthorisation::NotAuthorisedError, 'Please provide a valid authentication token'
-    end
-
-    def valid_api_token?
-      authenticate_with_http_token do |unhashed_token|
-        @current_vendor_api_token = VendorAPIToken.find_by_unhashed_token(unhashed_token)
-      end
     end
 
     def current_provider

@@ -6,6 +6,7 @@ module VendorAPI
     }.freeze
 
     included do
+      before_action :require_valid_api_token!
       before_action :validate_metadata!
 
       rescue_from ValidationException, with: :render_validation_error
@@ -19,6 +20,18 @@ module VendorAPI
       # against the controller action that triggered them
       # instead of bundling them with every other ErrorsController#internal_server_error
       rescue_from ActiveRecord::QueryCanceled, with: :statement_timeout
+    end
+
+    def require_valid_api_token!
+      return @current_vendor_api_token.update!(last_used_at: Time.zone.now) if valid_api_token?
+
+      raise ProviderAuthorisation::NotAuthorisedError, 'Please provide a valid authentication token'
+    end
+
+    def valid_api_token?
+      authenticate_with_http_token do |unhashed_token|
+        @current_vendor_api_token = VendorAPIToken.find_by_unhashed_token(unhashed_token)
+      end
     end
 
     def validate_metadata!
