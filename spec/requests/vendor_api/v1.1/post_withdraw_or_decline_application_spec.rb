@@ -41,7 +41,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
     end
   end
 
-  it 'returns an error when trying to transition to an invalid state' do
+  it 'returns an UnprocessableEntityResponse when trying to transition to an invalid state' do
     application_choice = create_application_choice_for_currently_authenticated_provider(
       status: 'withdrawn',
       withdrawn_at: Time.zone.now,
@@ -50,15 +50,16 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
     post_api_request "/api/v1.1/applications/#{application_choice.id}/withdraw"
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-    expect(error_response['message']).to eq "It's not possible to perform this action while the application is in its current state"
+    expect(parsed_response)
+      .to contain_schema_with_error('UnprocessableEntityResponse',
+                                    "It's not possible to perform this action while the application is in its current state",
+                                    '1.1')
   end
 
-  it 'returns not found error when the application was not found' do
+  it 'returns a NotFoundResponse when the application was not found' do
     post_api_request '/api/v1.1/applications/non-existent-id/withdraw'
 
     expect(response).to have_http_status(:not_found)
-    expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-    expect(error_response['message']).to eql('Unable to find Application(s)')
+    expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)', '1.1')
   end
 end

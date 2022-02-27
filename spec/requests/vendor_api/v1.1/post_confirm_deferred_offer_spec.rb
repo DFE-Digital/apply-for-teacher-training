@@ -40,18 +40,18 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: { data: {} }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('param is missing or the value is empty: data')
+        expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                             'param is missing or the value is empty: data',
+                                                             '1.1')
       end
 
       it 'when `conditions_met` is missing from the request_body it renders an error' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: { data: { any_param: '' } }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('param is missing or the value is empty: conditions_met')
+        expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                             'param is missing or the value is empty: conditions_met',
+                                                             '1.1')
       end
     end
   end
@@ -60,26 +60,26 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
     context 'when the application is not in a state that allows offer deferal' do
       let(:application_trait) { :with_offer }
 
-      it 'renders an Unprocessable Entity error' do
+      it 'renders an UnprocessableEntityResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly("It's not possible to perform this action while the application is in its current state")
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             "It's not possible to perform this action while the application is in its current state",
+                                                             '1.1')
       end
     end
 
     context 'when the offered course does not exist in the new cycle' do
       let(:original_course_option) { create(:course_option, course: original_course) }
 
-      it 'renders an Unprocessable Entity error' do
+      it 'renders an UnprocessableEntityResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('The offered course does not exist in this recruitment cycle')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'The offered course does not exist in this recruitment cycle',
+                                                             '1.1')
       end
     end
 
@@ -96,13 +96,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
                course: original_course)
       end
 
-      it 'renders an Unprocessable Entity error' do
+      it 'renders an UnprocessableEntityResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Only applications deferred in the previous recruitment cycle can be confirmed')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Only applications deferred in the previous recruitment cycle can be confirmed',
+                                                             '1.1')
       end
     end
 
@@ -111,13 +111,11 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/confirm
         create(:application_choice, :awaiting_provider_decision)
       end
 
-      it 'renders a NotFound error' do
+      it 'renders a NotFoundResponse' do
         post_api_request "/api/v1.1/applications/#{application_choice.id}/confirm-deferred-offer", params: request_body
 
         expect(response).to have_http_status(:not_found)
-        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-        expect(parsed_response['errors'].map { |error| error['error'] })
-          .to contain_exactly('NotFound')
+        expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)', '1.1')
       end
     end
 

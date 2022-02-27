@@ -51,7 +51,8 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                             'Cannot schedule interview in the past')
+                                                             'Cannot schedule interview in the past',
+                                                             '1.1')
       end
     end
 
@@ -70,7 +71,8 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                             'Provider must be training or ratifying provider')
+                                                             'Provider must be training or ratifying provider',
+                                                             '1.1')
       end
     end
 
@@ -93,7 +95,8 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                             'Application is not in an interviewing state')
+                                                             'Application is not in an interviewing state',
+                                                             '1.1')
       end
     end
 
@@ -109,25 +112,25 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
       let(:provider) { create(:provider) }
       let(:api_token) { VendorAPIToken.create_with_random_token!(provider: provider) }
 
-      it 'fails and renders a NotFound response' do
+      it 'fails and renders a NotFoundResponse' do
         post_interview! params: create_interview_params
 
         expect(response).to have_http_status(:not_found)
-        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Unable to find Application(s)')
+        expect(parsed_response).to contain_schema_with_error('NotFoundResponse',
+                                                             'Unable to find Application(s)',
+                                                             '1.1')
       end
     end
 
     context 'when missing parameters' do
       context 'data' do
-        it 'fails and renders a MissingParameterResponse' do
+        it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: {}
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
-          expect(parsed_response['errors'].map { |error| error['message'] })
-            .to contain_exactly('param is missing or the value is empty: data')
+          expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                               'param is missing or the value is empty: data',
+                                                               '1.1')
         end
       end
 
@@ -140,13 +143,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
           }
         end
 
-        it 'fails and renders a MissingParameterResponse' do
+        it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: { data: interview_params }
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
-          expect(parsed_response['errors'].map { |error| error['message'] })
-            .to contain_exactly('param is missing or the value is empty: date_and_time')
+          expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                               'param is missing or the value is empty: date_and_time',
+                                                               '1.1')
         end
       end
 
@@ -159,13 +162,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
           }
         end
 
-        it 'fails and renders a MissingParameterResponse' do
+        it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: { data: interview_params }
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
-          expect(parsed_response['errors'].map { |error| error['message'] })
-            .to contain_exactly('param is missing or the value is empty: provider_code')
+          expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                               'param is missing or the value is empty: provider_code',
+                                                               '1.1')
         end
       end
 
@@ -178,13 +181,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
           }
         end
 
-        it 'fails and renders a MissingParameterResponse' do
+        it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: { data: interview_params }
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
-          expect(parsed_response['errors'].map { |error| error['message'] })
-            .to contain_exactly('param is missing or the value is empty: location')
+          expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                               'param is missing or the value is empty: location',
+                                                               '1.1')
         end
       end
 

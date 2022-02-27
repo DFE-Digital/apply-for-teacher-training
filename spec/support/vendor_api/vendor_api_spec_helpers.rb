@@ -70,9 +70,11 @@ module VendorAPISpecHelpers
   end
 
   RSpec::Matchers.define :contain_schema_with_error do |schema, message, version = nil, draft = false|
-    ValidAgainstOpenAPISchemaMatcher.new(schema, VendorAPISpecification.new(version: version, draft: draft).as_hash)
     match do |actual|
-      actual['errors'].first['message'].eql?(message)
+      ValidAgainstOpenAPISchemaMatcher.new(schema,
+                                           VendorAPISpecification.new(version: version,
+                                                                      draft: draft).as_hash).matches?(actual)
+      (actual['errors'].map { |error| error['message'] } - [message]).empty?
     end
   end
 end
