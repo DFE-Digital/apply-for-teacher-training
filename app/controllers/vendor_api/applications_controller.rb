@@ -1,6 +1,9 @@
 module VendorAPI
   class ApplicationsController < VendorAPIController
     include ApplicationDataConcerns
+    include APIValidationsAndErrorHandling
+
+    skip_before_action :validate_metadata!
 
     rescue_from Pagy::OverflowError, with: :page_parameter_invalid
     rescue_from PerPageParameterInvalid, with: :per_page_parameter_invalid

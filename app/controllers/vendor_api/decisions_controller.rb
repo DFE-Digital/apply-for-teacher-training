@@ -1,6 +1,7 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
     include ApplicationDataConcerns
+    include APIValidationsAndErrorHandling
 
     before_action :validate_metadata!
     rescue_from ValidationException, with: :render_validation_error

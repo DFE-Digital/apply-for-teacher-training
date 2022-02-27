@@ -5,7 +5,6 @@ module VendorAPI
     include RemoveBrowserOnlyHeaders
     include Versioning
 
-    rescue_from ActiveRecord::RecordNotFound, with: :application_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
     rescue_from ParameterInvalid, with: :parameter_invalid
 
@@ -35,12 +34,6 @@ module VendorAPI
       vendor_api_user.full_name = @metadata.attribution.full_name
       vendor_api_user.save!
       vendor_api_user
-    end
-
-    def application_not_found(_e)
-      render json: {
-        errors: [{ error: 'NotFound', message: "Could not find an application with ID #{params[:application_id]}" }],
-      }, status: :not_found
     end
 
     def parameter_missing(e)

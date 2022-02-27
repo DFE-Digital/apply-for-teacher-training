@@ -90,7 +90,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     expect(response).to have_http_status(:not_found)
     expect(parsed_response)
       .to contain_schema_with_error('NotFoundResponse',
-                                    'Could not find an application with ID non-existent-id',
+                                    'Unable to find Application(s)',
                                     '1.0')
   end
 end
