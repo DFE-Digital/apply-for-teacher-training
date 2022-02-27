@@ -39,8 +39,8 @@ module Publications
     def current_report
       if params[:month].present?
         MonthlyStatisticsTimetable.report_for(params[:month])
-      elsif FeatureFlag.active? :lock_external_report_to_december_2021
-        MonthlyStatisticsTimetable.report_for('2021-12')
+      elsif FeatureFlag.active? :lock_external_report_to_january_2022
+        MonthlyStatisticsTimetable.report_for('2022-01')
       else
         MonthlyStatisticsTimetable.report_for_current_period
       end
