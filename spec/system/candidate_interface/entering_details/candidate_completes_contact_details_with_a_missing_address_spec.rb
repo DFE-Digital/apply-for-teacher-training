@@ -5,7 +5,7 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
 
   scenario 'The candidate has completed their contact details without entering an address' do
     given_i_complete_my_application
-    and_my_address_details_are_blank
+    and_my_address_details_are_incomplete
 
     when_i_click_contact_details_link_from_dashboard
     then_i_see_populated_telephone_number_form
@@ -27,13 +27,9 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
     candidate_completes_application_form
   end
 
-  def and_my_address_details_are_blank
+  def and_my_address_details_are_incomplete
     current_candidate.current_application.update(
       address_line1: nil,
-      address_line2: nil,
-      address_line3: nil,
-      address_line4: nil,
-      postcode: nil,
     )
   end
 
@@ -63,5 +59,9 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
 
   def then_i_see_address_details_form
     expect(page).to have_content('What is your address?')
+    expect(page).to have_field(
+      'Postcode',
+      with: current_candidate.current_application.postcode,
+    )
   end
 end
