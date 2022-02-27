@@ -3,9 +3,6 @@ module VendorAPI
     include ApplicationDataConcerns
     include APIValidationsAndErrorHandling
 
-    before_action :validate_metadata!
-    rescue_from ValidationException, with: :render_validation_error
-
     def make_offer
       validate_course_is_in_current_recruitment_cycle!
 
@@ -70,13 +67,6 @@ module VendorAPI
       end
     rescue IdenticalOfferError
       render_application
-    rescue Workflow::NoTransitionAllowed
-      render status: :unprocessable_entity, json: {
-        errors: [
-          error: 'StateTransitionError',
-          message: I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
-        ],
-      }
     rescue ProviderAuthorisation::NotAuthorisedError => e
       render status: :unprocessable_entity, json: {
         errors: [
@@ -86,12 +76,6 @@ module VendorAPI
           },
         ],
       }
-    end
-
-    # Takes errors from ActiveModel::Validations and render them in the API response
-    def render_validation_errors(errors)
-      error_responses = errors.full_messages.map { |message| { error: 'UnprocessableEntity', message: message } }
-      render status: :unprocessable_entity, json: { errors: error_responses }
     end
 
     def offer_params(application_choice, course_option)
@@ -131,10 +115,6 @@ module VendorAPI
         else
           application_choice.current_course_option
         end
-    end
-
-    def render_validation_error(e)
-      render status: :unprocessable_entity, json: e.as_json
     end
 
     def offer_service_for(application_choice, course_option)
