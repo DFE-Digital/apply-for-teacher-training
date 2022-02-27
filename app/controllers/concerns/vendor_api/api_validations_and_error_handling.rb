@@ -42,7 +42,7 @@ module VendorAPI
       render status: :unauthorized, json: {
         errors: [
           {
-            error: 'NotAuthorisedError',
+            error: 'Unauthorized',
             message: e.message,
           },
         ],
@@ -64,27 +64,45 @@ module VendorAPI
 
     def render_validation_errors(errors)
       error_responses = errors.full_messages.map { |message| { error: 'UnprocessableEntity', message: message } }
-      render status: :unprocessable_entity, json: { errors: error_responses }
+
+      render status: :unprocessable_entity, json: {
+        errors: error_responses,
+      }
     end
 
     def parameter_missing(e)
       error_message = e.message.split("\n").first
-      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
+
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'ParameterMissing',
+            message: error_message,
+          },
+        ],
+      }
     end
 
     def parameter_invalid(e)
-      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+      render status: :unprocessable_entity, json: {
+        errors: [
+          {
+            error: 'ParameterInvalid',
+            message: e,
+          },
+        ],
+      }
     end
 
     def statement_timeout
-      render json: {
+      render status: :internal_server_error, json: {
         errors: [
           {
             error: 'InternalServerError',
             message: 'The server encountered an unexpected condition that prevented it from fulfilling the request',
           },
         ],
-      }, status: :internal_server_error
+      }
     end
 
     def render_validation_error(e)
