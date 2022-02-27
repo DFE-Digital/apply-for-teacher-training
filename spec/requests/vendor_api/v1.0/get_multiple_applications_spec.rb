@@ -52,34 +52,31 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     expect(parsed_response).to be_valid_against_openapi_schema('MultipleApplicationsResponse')
   end
 
-  it 'returns an error if the `since` parameter is missing' do
+  it 'returns a ParameterMissingResponse if the `since` parameter is missing' do
     get_api_request '/api/v1/applications'
 
     expect(response).to have_http_status(:unprocessable_entity)
-
-    expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse')
-
-    expect(error_response['message']).to eql('param is missing or the value is empty: since')
+    expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                         'param is missing or the value is empty: since',
+                                                         '1.0')
   end
 
   it 'returns HTTP status 422 given an unparseable `since` date value' do
     get_api_request '/api/v1/applications?since=17/07/2020T12:00:42Z'
 
     expect(response).to have_http_status(:unprocessable_entity)
-
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-
-    expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): since')
+    expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                         'Parameter is invalid (should be ISO8601): since',
+                                                         '1.0')
   end
 
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
     get_api_request '/api/v1/applications?since=12936'
 
     expect(response).to have_http_status(:unprocessable_entity)
-
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-
-    expect(error_response['message']).to eql('Parameter is invalid (should be ISO8601): since')
+    expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                         'Parameter is invalid (should be ISO8601): since',
+                                                         '1.0')
   end
 
   it 'returns HTTP status 422 given a parseable but nonsensensical `since` date value' do
@@ -87,9 +84,9 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     expect(response).to have_http_status(:unprocessable_entity)
 
-    expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-
-    expect(error_response['message']).to eql('Parameter is invalid (date is nonsense): since')
+    expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                         'Parameter is invalid (date is nonsense): since',
+                                                         '1.0')
   end
 
   it 'returns applications that are in a viewable state' do
