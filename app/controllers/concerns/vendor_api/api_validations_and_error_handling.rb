@@ -12,6 +12,21 @@ module VendorAPI
       rescue_from Workflow::NoTransitionAllowed, with: :render_workflow_transition_error
       rescue_from ProviderAuthorisation::NotAuthorisedError, with: :render_unauthorised_error
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_error
+      rescue_from ActionController::ParameterMissing, with: :parameter_missing
+      rescue_from ParameterInvalid, with: :parameter_invalid
+
+      # Makes PG::QueryCanceled statement timeout errors appear in Skylight
+      # against the controller action that triggered them
+      # instead of bundling them with every other ErrorsController#internal_server_error
+      rescue_from ActiveRecord::QueryCanceled, with: :statement_timeout
+    end
+
+    def validate_metadata!
+      @metadata = Metadata.new(params[:meta])
+
+      if @metadata.invalid?
+        render_validation_errors(@metadata.errors)
+      end
     end
 
     def render_workflow_transition_error(_)
@@ -50,6 +65,26 @@ module VendorAPI
     def render_validation_errors(errors)
       error_responses = errors.full_messages.map { |message| { error: 'UnprocessableEntity', message: message } }
       render status: :unprocessable_entity, json: { errors: error_responses }
+    end
+
+    def parameter_missing(e)
+      error_message = e.message.split("\n").first
+      render json: { errors: [{ error: 'ParameterMissing', message: error_message }] }, status: :unprocessable_entity
+    end
+
+    def parameter_invalid(e)
+      render json: { errors: [{ error: 'ParameterInvalid', message: e }] }, status: :unprocessable_entity
+    end
+
+    def statement_timeout
+      render json: {
+        errors: [
+          {
+            error: 'InternalServerError',
+            message: 'The server encountered an unexpected condition that prevented it from fulfilling the request',
+          },
+        ],
+      }, status: :internal_server_error
     end
 
     def render_validation_error(e)
