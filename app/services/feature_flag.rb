@@ -15,7 +15,6 @@ class FeatureFlag
   PERMANENT_SETTINGS = [
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Apply team'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Apply team'],
-    [:pilot_open, 'Enables the Apply for Teacher Training service', 'Apply team'],
     [:service_information_banner, 'Displays an information banner for both providers and candidates. Text configured in service_information_banner.yml', 'Apply team'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
     [:service_unavailable_page, 'Displays a maintenance page on the whole application', 'Apply team'],
