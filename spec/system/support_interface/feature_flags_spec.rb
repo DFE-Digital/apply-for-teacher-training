@@ -26,7 +26,7 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def and_there_is_a_feature_flag_set_up
-    FeatureFlag.deactivate('pilot_open')
+    FeatureFlag.deactivate('dfe_sign_in_fallback')
   end
 
   def when_i_visit_the_features_page
@@ -34,25 +34,25 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def then_i_should_see_the_existing_feature_flags
-    within('.app-summary-card', text: 'Pilot open') do
-      expect(page).to have_content('Pilot open')
-      expect(page).to have_content(pilot_open_feature.owner)
-      expect(page).to have_content(pilot_open_feature.description)
+    within('.app-summary-card', text: 'DfE sign in fallback') do
+      expect(page).to have_content('DfE sign in fallback')
+      expect(page).to have_content(dfe_sign_in_fallback_feature.owner)
+      expect(page).to have_content(dfe_sign_in_fallback_feature.description)
       expect(page).to have_content('Invariant')
     end
   end
 
   def when_i_activate_the_feature
-    within(pilot_open_summary_card) { click_link 'Confirm environment to make changes' }
+    within(dfe_sign_in_fallback_summary_card) { click_link 'Confirm environment to make changes' }
     fill_in 'Type ‘test’ to confirm that you want to proceed', with: 'test'
     click_button 'Continue'
 
-    within(pilot_open_summary_card) { click_button 'Activate' }
+    within(dfe_sign_in_fallback_summary_card) { click_button 'Activate' }
   end
 
   def then_the_feature_is_activated
     expect(page).to have_content('Active')
-    expect(FeatureFlag.active?('pilot_open')).to be true
+    expect(FeatureFlag.active?('dfe_sign_in_fallback')).to be true
   end
 
   def and_i_can_see_the_activation_in_the_audit_trail
@@ -60,16 +60,16 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def and_a_slack_notification_about_the_activation_is_sent
-    expect_slack_message_with_text(':flags: Feature ‘Pilot open‘ was activated')
+    expect_slack_message_with_text(':flags: Feature ‘DfE sign in fallback‘ was activated')
   end
 
   def when_i_deactivate_the_feature
-    within(pilot_open_summary_card) { click_button 'Deactivate' }
+    within(dfe_sign_in_fallback_summary_card) { click_button 'Deactivate' }
   end
 
   def then_the_feature_is_deactivated
     expect(page).to have_content('Inactive')
-    expect(FeatureFlag.active?('pilot_open')).to be false
+    expect(FeatureFlag.active?('dfe_sign_in_fallback')).to be false
   end
 
   def and_i_can_see_the_deactivation_in_the_audit_trail
@@ -77,14 +77,14 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def and_a_slack_notification_about_the_deactivation_is_sent
-    expect_slack_message_with_text(':flags: Feature ‘Pilot open‘ was deactivated')
+    expect_slack_message_with_text(':flags: Feature ‘DfE sign in fallback‘ was deactivated')
   end
 
-  def pilot_open_summary_card
-    find('.app-summary-card', text: 'Pilot open')
+  def dfe_sign_in_fallback_summary_card
+    find('.app-summary-card', text: 'DfE sign in fallback')
   end
 
-  def pilot_open_feature
-    @pilot_open_feature ||= FeatureFlag::FEATURES[:pilot_open]
+  def dfe_sign_in_fallback_feature
+    @dfe_sign_in_fallback_feature ||= FeatureFlag::FEATURES[:dfe_sign_in_fallback]
   end
 end
