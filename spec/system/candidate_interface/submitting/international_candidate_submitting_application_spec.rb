@@ -6,7 +6,6 @@ RSpec.feature 'International candidate submits the application' do
 
   scenario 'International candidate completes and submits an application' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
 
     when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
     when_i_review_my_application
@@ -36,10 +35,6 @@ RSpec.feature 'International candidate submits the application' do
     create_and_sign_in_candidate
   end
 
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
-  end
-
   def when_i_have_completed_everything_except_the_efl_and_other_qualifications_section
     # Consider moving some of this into CandidateHelper once International
     # feature flags have been removed, especially the efl_section.
@@ -47,7 +42,7 @@ RSpec.feature 'International candidate submits the application' do
     visit candidate_interface_application_form_path
 
     click_link 'Choose your courses'
-    candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
+    candidate_fills_in_apply_again_course_choice
 
     # Basic personal details
     click_link t('page_titles.personal_information')

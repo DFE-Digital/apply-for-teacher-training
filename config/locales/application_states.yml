@@ -195,7 +195,6 @@ en:
       description: The candidate can submit the form once all required fields are completed.
       emails:
         - candidate_mailer-application_submitted
-        - candidate_mailer-application_submitted_apply_again
         - referee_mailer-reference_request_email
         - provider_mailer-application_submitted
         - provider_mailer-application_submitted_with_safeguarding_issues

@@ -7,19 +7,11 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">
-        <% if @application_form.candidate_can_choose_single_course? %>
-          <%= t('page_titles.course_choice') %>
-        <% else %>
-          <%= t('page_titles.course_choices') %>
-        <% end %>
+        <%= t('page_titles.course_choices') %>
       </h1>
 
       <% if @application_form.can_add_more_choices? %>
-        <% if FeatureFlag.active?(:apply_again_with_three_choices) %>
-          <%= render CandidateInterface::ApplyAgainAddAnotherCourseComponent.new(application_form: @application_form) %>
-        <% else %>
-          <%= govuk_button_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, secondary: true %>
-       <% end %>
+        <%= render CandidateInterface::ApplyAgainAddAnotherCourseComponent.new(application_form: @application_form) %>
       <% end %>
     </div>
   </div>

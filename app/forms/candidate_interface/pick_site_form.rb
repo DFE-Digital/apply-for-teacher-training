@@ -36,11 +36,7 @@ module CandidateInterface
     def number_of_choices
       return if application_form.can_add_more_choices?
 
-      error_key = if application_form.candidate_can_choose_single_course?
-                    'errors.messages.apply_again_course_already_chosen'
-                  else
-                    'errors.messages.too_many_course_choices'
-                  end
+      error_key = 'errors.messages.too_many_course_choices'
 
       errors.add(:base, I18n.t!(error_key, course_name_and_code: course_option.course.name_and_code))
     end

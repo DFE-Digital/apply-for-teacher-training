@@ -17,11 +17,6 @@ class SubmitApplication
     application_form.application_references.feedback_requested.each do |reference|
       CancelReferee.new.call(reference: reference)
     end
-
-    if application_form.apply_2? && !FeatureFlag.active?(:apply_again_with_three_choices)
-      CandidateMailer.application_submitted_apply_again(application_form).deliver_later
-    else
-      CandidateMailer.application_submitted(application_form).deliver_later
-    end
+    CandidateMailer.application_submitted(application_form).deliver_later
   end
 end

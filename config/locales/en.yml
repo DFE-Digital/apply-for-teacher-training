@@ -126,7 +126,6 @@ en:
     choose_course: Choose your course
     courses: Courses
     course_choices: Course choices
-    course_choice: Course choice
     full_course: You cannot apply to this course because it has no vacancies
     destroy_course_choice: Are you sure you want to delete this choice?
     do_you_know: Do you know which course you want to apply to?
@@ -462,7 +461,6 @@ en:
       too_long: "%{attribute} must be %{count} characters or fewer"
       too_many_words: Must be %{count} words or fewer
       too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to %{course_name_and_code}.
-      apply_again_course_already_chosen: You cannot choose more than 1 course when you apply again. You must delete your existing choice if you want to apply to %{course_name_and_code}
       invalid_year: Enter a real %{attribute}
       multiple_year: Enter a single %{attribute}
       invalid_date: Enter a real %{attribute}

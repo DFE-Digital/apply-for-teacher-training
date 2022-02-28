@@ -6,7 +6,6 @@ RSpec.feature 'Decline by default' do
 
   scenario 'An application is declined by default' do
     given_the_pilot_is_open
-    and_the_apply_again_with_three_choices_feature_flag_is_active
 
     when_i_have_an_offer_waiting_for_my_decision
     and_the_time_limit_before_decline_by_default_date_has_been_exceeded
@@ -30,10 +29,6 @@ RSpec.feature 'Decline by default' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_active
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def when_i_have_an_offer_waiting_for_my_decision

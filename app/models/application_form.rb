@@ -29,8 +29,6 @@ class ApplicationForm < ApplicationRecord
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   BRITISH_OR_IRISH_NATIONALITIES = %w[GB IE].freeze
-  MAXIMUM_PHASE_ONE_COURSE_CHOICES = 3
-  MAXIMUM_PHASE_TWO_COURSE_CHOICES = 1
   MAXIMUM_NUMBER_OF_COURSE_CHOICES = 3
 
   def equality_and_diversity_answers_provided?
@@ -208,12 +206,6 @@ class ApplicationForm < ApplicationRecord
     previous_application_form_id.present?
   end
 
-  def candidate_can_choose_single_course?
-    return false if FeatureFlag.active?(:apply_again_with_three_choices)
-
-    apply_2?
-  end
-
   def carry_over?
     previous_recruitment_cycle? && (not_submitted_and_deadline_has_passed? || unsuccessful_and_apply_2_deadline_has_passed?)
   end
@@ -231,7 +223,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def number_of_choices_candidate_can_make
-    candidate_can_choose_single_course? ? MAXIMUM_PHASE_TWO_COURSE_CHOICES : MAXIMUM_PHASE_ONE_COURSE_CHOICES
+    MAXIMUM_NUMBER_OF_COURSE_CHOICES
   end
 
   def can_add_more_choices?
@@ -317,13 +309,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def maximum_number_of_course_choices
-    if FeatureFlag.active?(:apply_again_with_three_choices)
-      MAXIMUM_NUMBER_OF_COURSE_CHOICES
-    elsif apply_1?
-      MAXIMUM_PHASE_ONE_COURSE_CHOICES
-    else
-      MAXIMUM_PHASE_TWO_COURSE_CHOICES
-    end
+    MAXIMUM_NUMBER_OF_COURSE_CHOICES
   end
 
   def editable?

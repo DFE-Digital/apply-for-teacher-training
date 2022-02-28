@@ -13,8 +13,7 @@ module CandidateInterface
         flash[:warning] = "You have already selected #{course_from_find.name_and_code}."
         redirect_to candidate_interface_course_choices_review_path
       elsif current_application.maximum_number_of_course_choices?
-        error_message_key = current_application.apply_1? ? 'errors.messages.too_many_course_choices' : 'errors.messages.apply_again_course_already_chosen'
-        flash[:warning] = I18n.t(error_message_key, course_name_and_code: course_from_find.name_and_code)
+        flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course_from_find.name_and_code)
 
         redirect_to candidate_interface_course_choices_review_path
       else

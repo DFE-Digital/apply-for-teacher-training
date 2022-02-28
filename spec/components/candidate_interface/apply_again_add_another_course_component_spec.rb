@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::ApplyAgainAddAnotherCourseComponent do
-  before do
-    FeatureFlag.activate(:apply_again_with_three_choices)
-  end
-
   subject(:result) { render_inline(described_class.new(application_form: application_form)) }
 
   let(:application_form) { create(:application_form, phase: 'apply_2') }

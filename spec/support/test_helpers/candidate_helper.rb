@@ -33,11 +33,7 @@ module CandidateHelper
 
     click_link 'Choose your courses'
 
-    if FeatureFlag.active?(:apply_again_with_three_choices)
-      candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
-    else
-      candidate_fills_in_course_choices
-    end
+    candidate_fills_in_apply_again_course_choice
 
     click_link t('page_titles.personal_information')
     candidate_fills_in_personal_details(international: international)
@@ -190,39 +186,6 @@ module CandidateHelper
     create(:course_option, site: site, course: course3) unless CourseOption.find_by(site: site, course: course3, study_mode: :full_time)
   end
 
-  # delete this method when the apply_again_with_three_choices feature flag is deleted
-  def candidate_fills_in_course_choices
-    choose 'Yes, I know where I want to apply'
-    click_button t('continue')
-
-    select 'Gorse SCITT (1N1)'
-    click_button t('continue')
-
-    choose 'Primary (2XT2)'
-    click_button t('continue')
-
-    choose 'No, not at the moment'
-    click_button t('continue')
-
-    choose t('application_form.completed_radio')
-    click_button t('continue')
-  end
-
-  def candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
-    choose 'Yes, I know where I want to apply'
-    click_button t('continue')
-
-    select 'Gorse SCITT (1N1)'
-    click_button t('continue')
-
-    choose 'Primary (2XT2)'
-    click_button t('continue')
-
-    choose t('application_form.completed_radio')
-    click_button t('continue')
-  end
-
-  # delete this method when the apply_again_with_three_choices feature flag is deleted
   def candidate_fills_in_apply_again_course_choice
     choose 'Yes, I know where I want to apply'
     click_button t('continue')

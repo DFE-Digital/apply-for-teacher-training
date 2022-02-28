@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SubmitApplication do
-  before do
-    FeatureFlag.activate(:apply_again_with_three_choices)
-  end
-
   describe '#call' do
     it 'updates timestamps relevant to submitting an application' do
       Timecop.freeze(Time.zone.local(0)) do

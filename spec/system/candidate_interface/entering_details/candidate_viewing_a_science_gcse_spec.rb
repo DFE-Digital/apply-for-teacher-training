@@ -5,7 +5,6 @@ RSpec.feature 'Candidate viewing Science GCSE' do
 
   scenario 'Candidate views a Science GCSE only when a primary course is chosen' do
     given_i_am_signed_in
-    and_the_apply_again_with_three_choices_feature_flag_is_activated
     when_i_visit_the_site
     then_i_dont_see_science_gcse
 
@@ -29,10 +28,6 @@ RSpec.feature 'Candidate viewing Science GCSE' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_apply_again_with_three_choices_feature_flag_is_activated
-    FeatureFlag.activate(:apply_again_with_three_choices)
   end
 
   def when_i_visit_the_site
@@ -77,7 +72,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
 
   def when_i_add_a_primary_course
     click_link 'Choose your courses'
-    candidate_fills_in_course_choices_and_apply_again_with_three_choices_feature_flag_is_active
+    candidate_fills_in_apply_again_course_choice
   end
 
   def then_i_see_science_gcse_is_incomplete_below_the_section
