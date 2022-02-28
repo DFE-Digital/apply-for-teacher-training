@@ -4,7 +4,6 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
   include TeacherTrainingPublicAPIHelper
 
   before do
-    FeatureFlag.activate(:pilot_open)
     create(:course, :open_on_apply, code: 'ABC1', provider: create(:provider, code: 'ABC'))
   end
 
