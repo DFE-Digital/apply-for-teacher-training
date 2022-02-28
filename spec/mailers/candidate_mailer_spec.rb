@@ -45,7 +45,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       I18n.t!('candidate_mailer.application_submitted.subject'),
-      'intro' => 'You have submitted an application for',
+      'intro' => 'You’ve submitted an application for',
       'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
       'dynamic paragraph' => 'If your training provider decides to progress your application',
       'reject_by_default date' => 5.days.from_now.to_s(:govuk_date),
