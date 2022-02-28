@@ -20,6 +20,7 @@ RSpec.describe ProviderInterface::CourseWizard do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
+    it { is_expected.to validate_presence_of(:study_mode).on(:study_modes).on(:save) }
   end
 
   describe '#initialize' do
