@@ -7,7 +7,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/candidate_interface/after_sign_in_controller.rb",
-      "line": 28,
+      "line": 27,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(params[:path])",
       "render_path": null,
@@ -63,26 +63,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "38104ade37d5c61659409d037de157949b23a917a7f5b504534ac0a46fa5cf8f",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 17,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
-      },
-      "user_input": "{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first",
-      "confidence": "Weak",
-      "note": "not a user input"
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "471859383ef3e9fba03933907e1bb043a8a57520241d275846126e6a2425f2e1",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -98,6 +78,26 @@
       },
       "user_input": "start_time",
       "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "51aae2b6b9548a033b8832f0f9481aa76d039c54266505d4e24aa78111519467",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/notifications_list.rb",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"#{feature_flag_preference_names.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NotificationsList",
+        "method": "s(:self).for"
+      },
+      "user_input": "feature_flag_preference_names.select do\n k if event.in?(v)\n end.keys.first",
+      "confidence": "Weak",
       "note": ""
     },
     {
@@ -119,26 +119,6 @@
       "user_input": "deferred_offers_pending_reconfirmation",
       "confidence": "Weak",
       "note": ""
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
-      "fingerprint": "8b9afd450cdaed47a32fe72f50753a5a92d16a04993c636d8eac438f9f4079a1",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 14,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
-      },
-      "user_input": "{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first",
-      "confidence": "Weak",
-      "note": "not a user input"
     },
     {
       "warning_type": "SQL Injection",
@@ -223,6 +203,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "c7a49e24443f2f349019426ecc069e1d6db928bccefdecfdfcdfbb8319a924ec",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/notifications_list.rb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"#{feature_flag_preference_names.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NotificationsList",
+        "method": "s(:self).for"
+      },
+      "user_input": "feature_flag_preference_names.select do\n k if event.in?(v)\n end.keys.first",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "dee8e3d32c167d6090d7a67d1bc9add167f8ef7b154fcc1d1311fc7aad779a84",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -261,6 +261,6 @@
       "note": ""
     }
   ],
-  "updated": "2022-02-09 13:54:32 +0000",
+  "updated": "2022-03-02 16:53:07 +0000",
   "brakeman_version": "5.2.1"
 }

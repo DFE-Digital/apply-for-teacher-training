@@ -17,6 +17,19 @@ RSpec.describe NotificationsList do
       expect(described_class.for(application_choice, event: :offer_accepted).to_a).to eql([provider_user])
     end
 
+    context 'when the make_decision_reminder_notification_setting feature flag is on' do
+      before { FeatureFlag.activate(:make_decision_reminder_notification_setting) }
+
+      it 'does not return training provider users for a disabled chase_provider_decision preference' do
+        application_choice = create(:application_choice)
+        provider_user = create(:provider_user, :with_notifications_enabled, providers: [application_choice.course.provider])
+
+        create(:provider_user_notification_preferences, chase_provider_decision: false, provider_user: create(:provider_user, providers: [application_choice.course.provider]))
+
+        expect(described_class.for(application_choice, event: :chase_provider_decision).to_a).to eql([provider_user])
+      end
+    end
+
     it 'returns training and ratifying provider users for the application choice for a given type of event' do
       ratifying_provider = create(:provider)
       ratifying_provider_user = create(:provider_user, :with_notifications_enabled, providers: [ratifying_provider])

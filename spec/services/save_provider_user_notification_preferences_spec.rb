@@ -19,13 +19,14 @@ RSpec.describe SaveProviderUserNotificationPreferences do
           application_rejected_by_default: false,
           offer_accepted: false,
           offer_declined: false,
+          chase_provider_decision: false,
         }
       end
 
       it 'sets the correct value for the #notification_preferences for a provider user' do
         service.update_all_notification_preferences!(notification_preferences_params: notification_preferences_params)
 
-        ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |preference|
+        ProviderUserNotificationPreferences.notification_preferences.each do |preference|
           expect(provider_user.reload.notification_preferences.send(preference)).to be(false)
         end
       end
@@ -56,9 +57,7 @@ RSpec.describe SaveProviderUserNotificationPreferences do
     end
 
     context 'when the :make_decision_reminder_notification_setting feature flag is off' do
-      before do
-        FeatureFlag.deactivate(:make_decision_reminder_notification_setting)
-      end
+      before { FeatureFlag.deactivate(:make_decision_reminder_notification_setting) }
 
       let(:notification_preferences_params) do
         {
