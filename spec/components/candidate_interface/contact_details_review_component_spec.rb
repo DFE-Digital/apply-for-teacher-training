@@ -51,6 +51,22 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
       end
     end
 
+    context 'when contact details are incomplete' do
+      it 'renders an Enter phone number and Enter address link' do
+        application_form = build_stubbed(
+          :application_form,
+          phone_number: nil,
+          address_type: 'international',
+          address_line1: '',
+          country: 'IN',
+        )
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter phone number')
+        expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter address')
+      end
+    end
+
     it 'renders the address fields that are not empty strings' do
       application_form = build(
         :application_form,
