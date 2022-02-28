@@ -5,7 +5,6 @@ RSpec.feature 'Candidate account' do
   include SignInHelper
 
   scenario 'Candidate tries to sign in more than once with same magic link' do
-    given_the_pilot_is_open
     and_i_am_an_existing_candidate
 
     when_i_sign_in_and_out
@@ -14,10 +13,6 @@ RSpec.feature 'Candidate account' do
 
     when_i_get_a_new_magic_link
     then_i_can_sign_in_again
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_i_am_an_existing_candidate

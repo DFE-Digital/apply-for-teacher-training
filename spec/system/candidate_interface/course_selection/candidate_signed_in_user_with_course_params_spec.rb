@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'An existing candidate arriving from Find with a course and provider code' do
   include CourseOptionHelpers
   scenario 'candidate is signed in' do
-    given_the_pilot_is_open
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
     and_the_course_i_selected_only_has_one_site
@@ -51,10 +50,6 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     and_i_choose_not_to_apply_to_the_course
     then_i_should_see_the_courses_review_page
     and_i_should_be_informed_i_can_choose_two_more_courses
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_the_course_i_selected_only_has_one_site

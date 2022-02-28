@@ -5,7 +5,6 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
   include CandidateHelper
 
   scenario 'Candidate is redirected to the appropriate page' do
-    given_the_pilot_is_open
     and_i_am_a_candidate_with_an_account
     and_i_have_received_a_token_associated_with_the_personal_statement_path
 
@@ -37,10 +36,6 @@ RSpec.feature 'Candidates authentication token has the path attribute populated'
     when_i_sign_in_using_the_token
     and_i_confirm_the_sign_in
     then_i_see_the_references_start_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_i_am_a_candidate_with_an_account

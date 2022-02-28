@@ -4,7 +4,6 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
   include SignInHelper
 
   scenario 'can prefill their application with their chosen course' do
-    given_the_pilot_is_open
     and_i_do_not_have_an_account
     and_a_course_and_course_option_exists
 
@@ -18,10 +17,6 @@ RSpec.feature 'A sandbox user arriving from Find with a course and provider code
 
     when_i_select_prefill_application
     then_i_see_the_course_choice_has_been_added_to_my_application
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_i_do_not_have_an_account

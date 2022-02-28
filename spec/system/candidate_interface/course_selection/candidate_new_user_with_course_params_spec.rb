@@ -4,7 +4,6 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
   include SignInHelper
 
   scenario 'retaining their course selection through the sign up process' do
-    given_the_pilot_is_open
     and_the_course_i_selected_only_has_one_site
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
@@ -29,10 +28,6 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
     and_my_last_signed_in_at_should_be_now
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_the_course_i_selected_only_has_one_site

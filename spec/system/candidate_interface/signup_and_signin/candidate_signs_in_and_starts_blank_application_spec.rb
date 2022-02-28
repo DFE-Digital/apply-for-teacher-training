@@ -4,7 +4,6 @@ RSpec.feature 'Candidate signs in and starts blank application in Sandbox', sand
   include SignInHelper
 
   scenario 'User is directed to prefill option page and chooses to start a blank application' do
-    given_the_pilot_is_open
     and_a_course_is_available
     and_i_am_a_candidate_with_a_blank_application
 
@@ -14,10 +13,6 @@ RSpec.feature 'Candidate signs in and starts blank application in Sandbox', sand
 
     when_i_select_blank_application_and_submit_the_form
     then_i_am_taken_to_the_blank_application_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_a_course_is_available

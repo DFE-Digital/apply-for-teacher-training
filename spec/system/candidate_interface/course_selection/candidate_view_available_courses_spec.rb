@@ -2,15 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'A candidate can view all providers and courses on Apply' do
   scenario 'seeing the list of courses grouped by provider and region' do
-    given_the_pilot_is_open
     and_there_are_providers_with_courses_on_apply
 
     when_i_visit_the_available_courses_page
     then_i_should_see_the_available_providers_grouped_by_region
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_there_are_providers_with_courses_on_apply

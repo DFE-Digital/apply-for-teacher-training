@@ -4,8 +4,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up and is prompted to select the course' do
-    given_the_pilot_is_open
-
     given_i_am_a_candidate_without_an_account
     and_there_is_a_course_with_multiple_sites
 
@@ -19,10 +17,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
     when_i_say_no
     then_i_see_empty_course_review_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_a_candidate_without_an_account

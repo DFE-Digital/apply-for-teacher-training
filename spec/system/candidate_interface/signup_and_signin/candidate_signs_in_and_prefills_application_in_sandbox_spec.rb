@@ -4,7 +4,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
   include SignInHelper
 
   scenario 'User is directed to prefill option page and chooses to prefill the application' do
-    given_the_pilot_is_open
     and_a_course_is_available
     and_i_am_a_candidate_with_a_blank_application
 
@@ -20,10 +19,6 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     when_i_click_submit_and_continue_and_send
     and_i_skip_feedback
     then_my_application_is_submitted_successfully
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_a_course_is_available

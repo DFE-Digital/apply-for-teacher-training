@@ -4,8 +4,6 @@ RSpec.feature 'Candidate account' do
   include SignInHelper
 
   scenario 'Candidate signs up, out, and in again' do
-    given_the_pilot_is_open
-
     given_i_am_a_candidate_without_an_account
 
     when_i_visit_the_signup_page
@@ -56,10 +54,6 @@ RSpec.feature 'Candidate account' do
     when_i_visit_the_signup_page
     and_i_submit_my_email_address_in_uppercase
     then_i_receive_an_email_with_a_signin_link
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_a_candidate_without_an_account
