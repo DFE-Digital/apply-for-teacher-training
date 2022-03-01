@@ -7,8 +7,15 @@ module VendorAPI::ApplicationPresenter::DeferredOffer
         offer: {
           status_before_deferral: application_choice.status_before_deferral,
           offer_deferred_at: application_choice.offer_deferred_at&.iso8601,
+          confirm_deferral_recruitment_cycle_year: confirm_deferral_recruitment_cycle_year,
         },
       },
     })
+  end
+
+  def confirm_deferral_recruitment_cycle_year
+    return unless application_choice.offer_deferred?
+
+    application_choice.current_recruitment_cycle_year + 1
   end
 end

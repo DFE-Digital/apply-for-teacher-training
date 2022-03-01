@@ -9,7 +9,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
   describe 'deferred offer' do
     context 'when the offer has been deferred' do
       let(:application_choice) do
-        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer)
+        build_stubbed(:application_choice, :with_completed_application_form, :with_deferred_offer, current_recruitment_cycle_year: 2020)
       end
 
       it 'returns the fields related to deferring an offer' do
@@ -17,6 +17,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           {
             status_before_deferral: application_choice.status_before_deferral,
             offer_deferred_at: application_choice.offer_deferred_at.iso8601,
+            confirm_deferral_recruitment_cycle_year: 2021,
           },
         )
       end
@@ -42,6 +43,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           {
             status_before_deferral: nil,
             offer_deferred_at: nil,
+            confirm_deferral_recruitment_cycle_year: nil,
           },
         )
       end
