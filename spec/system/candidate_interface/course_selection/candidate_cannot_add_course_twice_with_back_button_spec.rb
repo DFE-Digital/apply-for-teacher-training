@@ -4,7 +4,6 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
   include CandidateHelper
 
   scenario 'The candidate cannot add course twice with back button' do
-    given_the_pilot_is_open
     given_i_am_signed_in
 
     # Single site course
@@ -21,10 +20,6 @@ RSpec.feature 'Candidate arrives from Find with provider and course params' do
     when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_expect_to_have_one_application_choice_for_this_course
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_signed_in

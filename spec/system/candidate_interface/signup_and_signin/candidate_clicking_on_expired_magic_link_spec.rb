@@ -4,7 +4,6 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
   include SignInHelper
 
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do
-    given_the_pilot_is_open
     and_i_am_a_candidate_with_an_application
     and_i_received_the_submitted_application_email
 
@@ -17,10 +16,6 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
     when_i_fill_in_the_sign_in_form
     when_i_click_on_an_expired_magic_link
     then_i_am_redirected_to_the_expired_link_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_i_am_a_candidate_with_an_application

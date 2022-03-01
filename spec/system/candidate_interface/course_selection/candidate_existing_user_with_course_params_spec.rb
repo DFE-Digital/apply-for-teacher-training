@@ -5,8 +5,6 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
   include SignInHelper
 
   scenario 'candidate is not signed in and retains their course selection through the sign in process' do
-    given_the_pilot_is_open
-
     # Single site course
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
@@ -49,10 +47,6 @@ RSpec.feature 'An existing candidate arriving from Find with a course and provid
     then_i_should_see_the_courses_review_page
     and_my_course_from_find_id_should_be_set_to_nil
     and_i_should_be_informed_i_already_have_3_courses
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_signed_out

@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate tries to sign up' do
   scenario 'Candidate attempts to sign up without filling in an email address' do
-    given_the_pilot_is_open
-
     given_i_am_a_candidate_without_an_account
 
     when_i_go_to_sign_up
@@ -11,10 +9,6 @@ RSpec.feature 'Candidate tries to sign up' do
 
     then_i_see_a_validation_error
     and_the_validation_error_is_logged
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_a_candidate_without_an_account

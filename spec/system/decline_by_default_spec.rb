@@ -5,8 +5,6 @@ RSpec.feature 'Decline by default' do
   include CandidateHelper
 
   scenario 'An application is declined by default' do
-    given_the_pilot_is_open
-
     when_i_have_an_offer_waiting_for_my_decision
     and_the_time_limit_before_decline_by_default_date_has_been_exceeded
     then_i_receive_an_email_to_make_a_decision
@@ -25,10 +23,6 @@ RSpec.feature 'Decline by default' do
     then_the_application_choice_is_declined
     and_the_candidate_receives_a_decline_by_default_email
     and_the_provider_receives_an_email
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def when_i_have_an_offer_waiting_for_my_decision

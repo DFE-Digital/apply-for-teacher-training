@@ -10,8 +10,6 @@ RSpec.feature 'Receives rejection email' do
   end
 
   scenario 'Receives rejection email' do
-    given_the_pilot_is_open
-
     when_all_but_one_of_my_application_choices_have_been_rejected
     and_a_provider_rejects_my_application
     then_i_receive_the_all_applications_rejected_email
@@ -29,10 +27,6 @@ RSpec.feature 'Receives rejection email' do
     and_a_provider_rejects_my_application
     then_i_receive_the_application_rejected_offers_made_email
     and_it_includes_details_of_my_offers
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def when_all_but_one_of_my_application_choices_have_been_rejected

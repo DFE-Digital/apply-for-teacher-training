@@ -4,7 +4,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   include SignInHelper
 
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
-    given_the_pilot_is_open
     given_i_am_a_candidate_without_an_account
 
     when_i_go_to_sign_up
@@ -23,10 +22,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
     when_click_on_the_apply_for_teacher_training_link_in_the_header
     then_i_should_see_the_application_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_a_candidate_without_an_account

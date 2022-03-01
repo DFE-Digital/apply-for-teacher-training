@@ -21,8 +21,7 @@ module CandidateInterface
     end
 
     def course_available_on_apply?
-      course_in_apply_database? &&
-        FeatureFlag.active?('pilot_open')
+      course_in_apply_database?
     end
 
     def course

@@ -4,7 +4,6 @@ RSpec.feature 'An existing candidate arriving from Find with course params selec
   include CourseOptionHelpers
 
   scenario 'Signed in user with Find course params selects a part time course' do
-    given_the_pilot_is_open
     and_i_am_an_existing_candidate_on_apply
     and_the_course_i_selected_has_a_choice_of_study_modes
     and_i_am_signed_in
@@ -18,10 +17,6 @@ RSpec.feature 'An existing candidate arriving from Find with course params selec
     when_i_choose_the_part_time_course
     and_i_visit_my_course_choices_page
     then_i_should_see_it_on_my_review_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_i_am_an_existing_candidate_on_apply

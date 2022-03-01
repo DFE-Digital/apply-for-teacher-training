@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe 'GET /integrations/feature-flags', type: :request do
   it 'returns the feature flags' do
-    FeatureFlag.activate('pilot_open')
+    FeatureFlag.activate('dfe_sign_in_fallback')
 
     get '/integrations/feature-flags'
 
-    expect(parsed_response['feature_flags']['pilot_open']['name']).to eql('Pilot open')
-    expect(parsed_response['feature_flags']['pilot_open']['active']).to be(true)
-    expect(parsed_response['feature_flags']['pilot_open']['type']).to eq('invariant') # deprecated
-    expect(parsed_response['feature_flags']['pilot_open']['variant']).to be(false)
+    expect(parsed_response['feature_flags']['dfe_sign_in_fallback']['name']).to eql('DfE sign in fallback')
+    expect(parsed_response['feature_flags']['dfe_sign_in_fallback']['active']).to be(true)
+    expect(parsed_response['feature_flags']['dfe_sign_in_fallback']['type']).to eq('invariant') # deprecated
+    expect(parsed_response['feature_flags']['dfe_sign_in_fallback']['variant']).to be(false)
   end
 
   it 'returns variant feature flags' do

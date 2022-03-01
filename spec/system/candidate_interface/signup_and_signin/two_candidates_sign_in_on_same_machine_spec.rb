@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate account' do
   include SignInHelper
   scenario 'Two candidates on the same machine sign in one after the other' do
-    given_the_pilot_is_open
-
     given_i_am_the_first_candidate
     then_i_can_sign_up_and_sign_out(@first_email)
 
@@ -37,10 +35,6 @@ RSpec.feature 'Candidate account' do
   def when_i_sign_out
     when_i_click_the_sign_out_button
     then_i_should_be_signed_out
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_the_first_candidate

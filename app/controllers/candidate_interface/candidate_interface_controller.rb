@@ -54,12 +54,6 @@ module CandidateInterface
       params['return-to'] == 'application-review' || params[:return_to] == 'application-review'
     end
 
-    def show_pilot_holding_page_if_not_open
-      return if FeatureFlag.active?('pilot_open')
-
-      render 'candidate_interface/shared/pilot_holding_page'
-    end
-
     def current_application
       @current_application ||= current_candidate.current_application
     end

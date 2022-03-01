@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Candidate tries to sign in without an account' do
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
-    given_the_pilot_is_open
-
     given_i_am_a_candidate_without_an_account
 
     when_i_visit_the_signin_page
@@ -12,10 +10,6 @@ RSpec.feature 'Candidate tries to sign in without an account' do
 
     when_i_click_on_the_link_in_my_email
     then_i_am_taken_to_the_sign_up_page
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def given_i_am_a_candidate_without_an_account

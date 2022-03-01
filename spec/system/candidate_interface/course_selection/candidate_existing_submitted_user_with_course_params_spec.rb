@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'An existing candidate arriving from Find with a course and provider code' do
   include CourseOptionHelpers
   scenario 'retaining their course selection through the sign up process' do
-    given_the_pilot_is_open
     and_i_am_an_existing_candidate_on_apply
     and_my_application_has_been_submitted
 
@@ -11,10 +10,6 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_not_have_more_course_choices_added
-  end
-
-  def given_the_pilot_is_open
-    FeatureFlag.activate('pilot_open')
   end
 
   def and_i_am_an_existing_candidate_on_apply
