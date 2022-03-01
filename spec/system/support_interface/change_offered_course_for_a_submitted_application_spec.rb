@@ -5,7 +5,6 @@ RSpec.feature 'Add course to submitted application' do
 
   scenario 'Support user adds course to submitted application' do
     given_i_am_a_support_user
-    and_the_change_offered_course_flag_is_active
     and_there_is_a_submitted_application_in_the_system_with_an_accepted_offer
     and_i_visit_the_support_page
 
@@ -42,10 +41,6 @@ RSpec.feature 'Add course to submitted application' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
-  end
-
-  def and_the_change_offered_course_flag_is_active
-    FeatureFlag.activate(:support_user_change_offered_course)
   end
 
   def and_there_is_a_submitted_application_in_the_system_with_an_accepted_offer
