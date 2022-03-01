@@ -225,7 +225,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
     describe '#save' do
       it 'return false if not valid' do
-        expect(form.save).to eq(false)
+        expect(form.save).to be(false)
       end
 
       it 'updates qualification details if valid' do
@@ -391,7 +391,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           details_form.save
           qualification.reload
 
-          expect(qualification.grade).to eq(nil)
+          expect(qualification.grade).to be_nil
           expect(qualification.constituent_grades).to eq({ 'biology' => { 'grade' => 'B' }, 'physics' => { 'grade' => 'B' }, 'chemistry' => { 'grade' => 'B' } })
         end
       end
@@ -415,7 +415,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           qualification.reload
 
           expect(qualification.grade).to eq('A')
-          expect(qualification.constituent_grades).to eq(nil)
+          expect(qualification.constituent_grades).to be_nil
         end
       end
     end
@@ -427,7 +427,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'not_applicable'
-          expect(gcse_details_form.other_grade).to eq nil
+          expect(gcse_details_form.other_grade).to be_nil
         end
       end
 
@@ -437,7 +437,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'unknown'
-          expect(gcse_details_form.other_grade).to eq nil
+          expect(gcse_details_form.other_grade).to be_nil
         end
       end
 

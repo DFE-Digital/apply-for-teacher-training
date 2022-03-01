@@ -22,14 +22,14 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
       form = described_class.build_from_application(application_form)
 
       expect(form.disabilities).to eq(%w[Blind Deaf Other])
-      expect(form.other_disability).to eq(nil)
+      expect(form.other_disability).to be_nil
     end
 
     it 'returns nil if equality and diversity is nil' do
       application_form = build_stubbed(:application_form, equality_and_diversity: nil)
       form = described_class.build_from_application(application_form)
 
-      expect(form.disabilities).to eq(nil)
+      expect(form.disabilities).to be_nil
     end
   end
 

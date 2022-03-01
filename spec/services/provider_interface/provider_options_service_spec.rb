@@ -73,7 +73,7 @@ RSpec.describe ProviderInterface::ProviderOptionsService do
 
       providers = described_class.new(@provider_user).providers_with_sites(provider_ids: @provider_user.providers.first.id)
 
-      expect(providers.first.association(:sites).loaded?).to eq(true)
+      expect(providers.first.association(:sites).loaded?).to be(true)
       expect(providers.first.sites).to match_array(@sites)
     end
   end

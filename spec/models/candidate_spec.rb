@@ -187,7 +187,7 @@ RSpec.describe Candidate, type: :model do
     it 'returns nil if there is no course_from_find_id' do
       candidate = create(:candidate)
 
-      expect(candidate.course_from_find).to eq(nil)
+      expect(candidate.course_from_find).to be_nil
     end
   end
 

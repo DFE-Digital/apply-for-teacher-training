@@ -224,7 +224,7 @@ RSpec.describe CycleTimetable do
       context 'when the date is after the apply1 submission deadline' do
         it 'returns false' do
           Timecop.travel(one_hour_after_apply1_deadline) do
-            expect(execute_service).to eq false
+            expect(execute_service).to be false
           end
         end
       end
@@ -232,7 +232,7 @@ RSpec.describe CycleTimetable do
       context 'when the date is before the apply1 submission deadline' do
         it 'returns true' do
           Timecop.travel(one_hour_before_apply1_deadline) do
-            expect(execute_service).to eq true
+            expect(execute_service).to be true
           end
         end
       end
@@ -244,7 +244,7 @@ RSpec.describe CycleTimetable do
       context 'when the date is after the apply again submission deadline' do
         it 'returns false' do
           Timecop.travel(one_hour_after_apply2_deadline) do
-            expect(execute_service).to eq false
+            expect(execute_service).to be false
           end
         end
       end
@@ -252,7 +252,7 @@ RSpec.describe CycleTimetable do
       context 'when the date is before the apply again submission deadline' do
         it 'returns true' do
           Timecop.travel(one_hour_before_apply2_deadline) do
-            expect(execute_service).to eq true
+            expect(execute_service).to be true
           end
         end
       end
@@ -263,7 +263,7 @@ RSpec.describe CycleTimetable do
 
       it 'returns false' do
         Timecop.travel(described_class.apply_opens) do
-          expect(execute_service).to eq false
+          expect(execute_service).to be false
         end
       end
     end
@@ -284,7 +284,7 @@ RSpec.describe CycleTimetable do
   describe '.need_to_send_deadline_reminder?' do
     it 'does not return for a non deadline date' do
       Timecop.travel(described_class.apply_1_deadline_first_reminder - 1.day) do
-        expect(described_class.need_to_send_deadline_reminder?).to be nil
+        expect(described_class.need_to_send_deadline_reminder?).to be_nil
       end
     end
 

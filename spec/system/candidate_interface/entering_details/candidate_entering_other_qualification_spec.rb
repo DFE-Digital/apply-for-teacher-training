@@ -163,7 +163,7 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
     expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to eq('2015')
 
     # Test that the wizard data is cleared when starting a new qualification
-    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to eq(nil)
+    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to be_nil
   end
 
   def when_i_fill_out_the_remainder_of_the_form
@@ -184,7 +184,7 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
   end
 
   def then_the_year_field_is_not_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to eq(nil)
+    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to be_nil
   end
 
   def when_i_fill_in_my_other_qualifications_details
@@ -239,8 +239,8 @@ RSpec.feature 'Entering their other qualifications', mid_cycle: false do
 
   def then_the_form_is_empty
     # Fix for bug that caused data to be persisted between qualifications
-    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to eq(nil)
-    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to eq(nil)
+    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to be_nil
+    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to be_nil
   end
 
   def and_i_visit_the_other_qualification_review_page

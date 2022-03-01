@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
 
       form = described_class.build_from_application(application_form)
 
-      expect(form.ethnic_group).to eq(nil)
+      expect(form.ethnic_group).to be_nil
     end
 
     it 'returns nil if ethnic group field is missing in equality and diversity' do
@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
 
       form = described_class.build_from_application(application_form)
 
-      expect(form.ethnic_group).to eq(nil)
+      expect(form.ethnic_group).to be_nil
     end
   end
 

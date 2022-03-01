@@ -20,8 +20,8 @@ RSpec.describe BackfillApplicationFormHesaSexAndEthnicityCode do
                                   hesa_ethnicity: nil,
                                 })
       described_class.call(application_form)
-      expect(application_form.equality_and_diversity['hesa_sex']).to eq(nil)
-      expect(application_form.equality_and_diversity['hesa_ethnicity']).to eq(nil)
+      expect(application_form.equality_and_diversity['hesa_sex']).to be_nil
+      expect(application_form.equality_and_diversity['hesa_ethnicity']).to be_nil
     end
 
     it 'doesnt alter the application forms updated at time' do

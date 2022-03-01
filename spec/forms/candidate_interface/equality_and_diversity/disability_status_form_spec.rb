@@ -33,14 +33,14 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       application_form = build_stubbed(:application_form, equality_and_diversity: nil)
       form = described_class.build_from_application(application_form)
 
-      expect(form.disability_status).to eq(nil)
+      expect(form.disability_status).to be_nil
     end
 
     it 'returns nil if disabilities field is missing in equality and diversity' do
       application_form = build_stubbed(:application_form, equality_and_diversity: { 'sex' => 'male' })
       form = described_class.build_from_application(application_form)
 
-      expect(form.disability_status).to eq(nil)
+      expect(form.disability_status).to be_nil
     end
   end
 

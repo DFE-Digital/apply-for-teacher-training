@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it 'returns false if not valid' do
       work_experience = described_class.new
 
-      expect(work_experience.save(ApplicationForm.new)).to eq(false)
+      expect(work_experience.save(ApplicationForm.new)).to be(false)
     end
 
     it 'creates a new work experience if valid' do
@@ -86,7 +86,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it 'returns false if not valid' do
       work_experience = described_class.new
 
-      expect(work_experience.update(ApplicationWorkExperience.new)).to eq(false)
+      expect(work_experience.update(ApplicationWorkExperience.new)).to be(false)
     end
 
     it 'updates an existing work experience if valid' do

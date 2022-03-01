@@ -101,7 +101,7 @@ RSpec.describe ProviderSetup do
         let!(:course) { create(:course, accredited_provider: other_provider, provider: provider_for_user, open_on_apply: false) }
 
         it 'returns nil' do
-          expect(provider_setup.next_relationship_pending).to eq(nil)
+          expect(provider_setup.next_relationship_pending).to be_nil
         end
       end
     end

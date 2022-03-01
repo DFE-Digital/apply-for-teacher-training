@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     it 'returns false if not valid' do
       volunteering_role = described_class.new
 
-      expect(volunteering_role.save(ApplicationForm.new)).to eq(false)
+      expect(volunteering_role.save(ApplicationForm.new)).to be(false)
     end
 
     context 'when a valid volunteering role' do
@@ -92,7 +92,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       let(:volunteering_role) { described_class.build_from_experience(application_experience) }
 
       it 'creates a new work experience if valid' do
-        expect(volunteering_role.save(application_form)).to eq(true)
+        expect(volunteering_role.save(application_form)).to be(true)
         expect(application_form.application_volunteering_experiences.first)
             .to have_attributes(data)
       end
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       it 'updates volunteering experience if valid' do
         volunteering_role.save(application_form)
 
-        expect(application_form.volunteering_experience).to eq(true)
+        expect(application_form.volunteering_experience).to be(true)
       end
     end
   end
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     let(:volunteering_role) { described_class.new(id: existing_volunteering.id) }
 
     it 'returns false if not valid' do
-      expect(volunteering_role.update(ApplicationForm.new)).to eq(false)
+      expect(volunteering_role.update(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
@@ -120,7 +120,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       form_data[:organisation] = 'Some Other School'
       volunteering_role.assign_attributes(form_data)
 
-      expect(volunteering_role.update(application_form)).to eq(true)
+      expect(volunteering_role.update(application_form)).to be(true)
       expect(application_form.application_volunteering_experiences.first)
           .to have_attributes(
             role: 'Classroom Volunteer',
@@ -186,7 +186,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
         it 'end_date is not validated' do
           model.valid?
 
-          expect(model.errors.added?(:end_date)).to eq(false)
+          expect(model.errors.added?(:end_date)).to be(false)
         end
       end
     end

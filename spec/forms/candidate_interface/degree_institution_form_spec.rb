@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
       it 'returns false and has errors' do
         form = described_class.new
 
-        expect(form.save).to eq false
+        expect(form.save).to be false
         expect(form.errors.full_messages).to eq ['Institution name Enter the institution where you studied']
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
         form.save
 
         expect(form.degree.institution_name).to eq 'Non-HESA institution'
-        expect(form.degree.institution_hesa_code).to eq nil
+        expect(form.degree.institution_hesa_code).to be_nil
       end
     end
 

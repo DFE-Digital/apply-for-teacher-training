@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
     it 'returns false if not valid' do
       languages_form = described_class.new
 
-      expect(languages_form.save(ApplicationForm.new)).to eq(false)
+      expect(languages_form.save(ApplicationForm.new)).to be(false)
     end
 
     it 'saves the English language details only if English is not the main language' do
@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
       languages_form.save(application_form)
 
       expect(application_form.english_language_details).to eq 'I have English qualifications'
-      expect(application_form.other_language_details).to eq nil
+      expect(application_form.other_language_details).to be_nil
     end
 
     it 'saves the other language details only if English is the main language' do
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
       languages_form.save(application_form)
 
       expect(application_form.other_language_details).to eq 'I also speak French'
-      expect(application_form.english_language_details).to eq nil
+      expect(application_form.english_language_details).to be_nil
     end
   end
 

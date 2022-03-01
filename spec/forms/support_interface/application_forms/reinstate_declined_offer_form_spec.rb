@@ -23,7 +23,7 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
       course_choice = create(:application_choice, status: :offer)
       declined_offer_form = described_class.new
 
-      expect(declined_offer_form.save(course_choice)).to eq(false)
+      expect(declined_offer_form.save(course_choice)).to be(false)
     end
 
     it 'updates the provided ApplicationChoice with the "offer made" status if valid' do
@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::ApplicationForms::ReinstateDeclinedOfferForm, t
             accept_guidance: true },
         )
 
-        expect(declined_offer_form.save(course_choice)).to eq(true)
+        expect(declined_offer_form.save(course_choice)).to be(true)
 
         expect(course_choice).to have_attributes({
           status: 'offer',

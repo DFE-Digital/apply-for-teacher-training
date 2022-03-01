@@ -90,6 +90,6 @@ RSpec.describe 'Reject an application with interviews' do
   end
 
   def and_the_interview_is_cancelled
-    expect(@interview.reload.cancelled_at).not_to be nil
+    expect(@interview.reload.cancelled_at).not_to be_nil
   end
 end

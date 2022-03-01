@@ -32,7 +32,7 @@ RSpec.describe RefereeInterface::ReferenceRelationshipForm, type: :model do
         reference = build_stubbed(:reference)
         form = described_class.build_from_reference(reference: reference)
 
-        expect(form.relationship_confirmation).to eq(nil)
+        expect(form.relationship_confirmation).to be_nil
       end
     end
   end

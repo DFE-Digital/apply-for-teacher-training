@@ -35,7 +35,7 @@ RSpec.describe Hesa::Institution do
       it 'returns nil' do
         result = described_class.find_by_name('An unrecognised name')
 
-        expect(result).to eq nil
+        expect(result).to be_nil
       end
     end
   end

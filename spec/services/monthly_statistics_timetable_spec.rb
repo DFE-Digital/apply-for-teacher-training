@@ -5,7 +5,7 @@ RSpec.describe MonthlyStatisticsTimetable do
     it 'returns true if the monthly report is scheduled to run on the current date' do
       MonthlyStatisticsTimetable::GENERATION_DATES.each_value do |date|
         Timecop.travel(date) do
-          expect(described_class.generate_monthly_statistics?).to eq true
+          expect(described_class.generate_monthly_statistics?).to be true
         end
       end
     end
@@ -15,7 +15,7 @@ RSpec.describe MonthlyStatisticsTimetable do
         date = [date - 1.day, date + 1.day].sample
 
         Timecop.travel(date) do
-          expect(described_class.generate_monthly_statistics?).to eq false
+          expect(described_class.generate_monthly_statistics?).to be false
         end
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe MonthlyStatisticsTimetable do
     context 'when it is before the generation date for the current month' do
       it 'returns false' do
         Timecop.travel(described_class::GENERATION_DATES.values.third - 1.day) do
-          expect(described_class.in_qa_period?).to eq false
+          expect(described_class.in_qa_period?).to be false
         end
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe MonthlyStatisticsTimetable do
     context 'when it is after the publish date for the current month' do
       it 'returns false' do
         Timecop.travel(described_class::PUBLISHING_DATES.values.third + 1.day) do
-          expect(described_class.in_qa_period?).to eq false
+          expect(described_class.in_qa_period?).to be false
         end
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe MonthlyStatisticsTimetable do
     context 'when it is between the generation and publish dates for the current month' do
       it 'returns true' do
         Timecop.travel(described_class::GENERATION_DATES.values.third + 1.day) do
-          expect(described_class.in_qa_period?).to eq true
+          expect(described_class.in_qa_period?).to be true
         end
       end
     end

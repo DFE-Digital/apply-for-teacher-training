@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
           have_enic_reference: 'yes',
         )
 
-        expect(form.save).to eq false
+        expect(form.save).to be false
         expect(form.errors.full_messages).to match_array([
           'Enic reference Enter the UK ENIC reference number',
           'Comparable uk degree Select the comparable UK degree',
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
           comparable_uk_degree: 'bachelor_ordinary_degree',
         )
 
-        expect(form.save).to eq true
+        expect(form.save).to be true
         expect(degree.reload.enic_reference).to eq '0123456789'
         expect(degree.comparable_uk_degree).to eq 'bachelor_ordinary_degree'
       end
@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
           comparable_uk_degree: 'bachelor_ordinary_degree',
         )
 
-        expect(form.save).to eq true
+        expect(form.save).to be true
         expect(degree.reload.enic_reference).to be_nil
         expect(degree.comparable_uk_degree).to be_nil
       end
@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
       let(:number_of_characters) { SecureRandom.alphanumeric(101) }
 
       it 'DegreeForm is invalid' do
-        expect(form.save).to eq false
+        expect(form.save).to be false
         expect(form.errors.full_messages).to match_array(['Enic reference Your UK ENIC reference number must be 100 characters or fewer'])
       end
     end
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::DegreeEnicForm do
       let(:number_of_characters) { SecureRandom.alphanumeric(99) }
 
       it 'DegreeForm is valid' do
-        expect(form.save).to eq true
+        expect(form.save).to be true
         expect(degree.reload.enic_reference).to eq(number_of_characters)
       end
     end

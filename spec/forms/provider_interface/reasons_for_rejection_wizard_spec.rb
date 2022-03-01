@@ -340,33 +340,33 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
 
     it 'ignores existing nested answers when top level answer is No' do
       expect(wizard.candidate_behaviour_what_did_the_candidate_do).to eq([])
-      expect(wizard.candidate_behaviour_other).to be nil
-      expect(wizard.candidate_behaviour_what_to_improve).to be nil
+      expect(wizard.candidate_behaviour_other).to be_nil
+      expect(wizard.candidate_behaviour_what_to_improve).to be_nil
 
       expect(wizard.quality_of_application_which_parts_needed_improvement).to eq([])
-      expect(wizard.quality_of_application_personal_statement_what_to_improve).to be nil
-      expect(wizard.quality_of_application_subject_knowledge_what_to_improve).to be nil
-      expect(wizard.quality_of_application_other_details).to be nil
-      expect(wizard.quality_of_application_other_what_to_improve).to be nil
+      expect(wizard.quality_of_application_personal_statement_what_to_improve).to be_nil
+      expect(wizard.quality_of_application_subject_knowledge_what_to_improve).to be_nil
+      expect(wizard.quality_of_application_other_details).to be_nil
+      expect(wizard.quality_of_application_other_what_to_improve).to be_nil
 
       expect(wizard.qualifications_which_qualifications).to eq([])
-      expect(wizard.qualifications_other_details).to be nil
+      expect(wizard.qualifications_other_details).to be_nil
 
-      expect(wizard.performance_at_interview_what_to_improve).to be nil
-      expect(wizard.offered_on_another_course_details).to be nil
+      expect(wizard.performance_at_interview_what_to_improve).to be_nil
+      expect(wizard.offered_on_another_course_details).to be_nil
 
       expect(wizard.honesty_and_professionalism_concerns).to eq([])
-      expect(wizard.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).to be nil
-      expect(wizard.honesty_and_professionalism_concerns_plagiarism_details).to be nil
-      expect(wizard.honesty_and_professionalism_concerns_references_details).to be nil
-      expect(wizard.honesty_and_professionalism_concerns_other_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).to be_nil
+      expect(wizard.honesty_and_professionalism_concerns_plagiarism_details).to be_nil
+      expect(wizard.honesty_and_professionalism_concerns_references_details).to be_nil
+      expect(wizard.honesty_and_professionalism_concerns_other_details).to be_nil
 
       expect(wizard.safeguarding_concerns).to eq([])
-      expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be nil
-      expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be nil
-      expect(wizard.safeguarding_concerns_other_details).to be nil
+      expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be_nil
+      expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be_nil
+      expect(wizard.safeguarding_concerns_other_details).to be_nil
 
-      expect(wizard.cannot_sponsor_visa_details).to be nil
+      expect(wizard.cannot_sponsor_visa_details).to be_nil
     end
 
     # eg.
@@ -382,27 +382,27 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       attrs_with_nested_answers[:honesty_and_professionalism_concerns] = %w[information_false_or_inaccurate]
       attrs_with_nested_answers[:safeguarding_concerns] = %w[other]
 
-      expect(wizard.candidate_behaviour_other).to be nil
-      expect(wizard.candidate_behaviour_what_to_improve).to be nil
+      expect(wizard.candidate_behaviour_other).to be_nil
+      expect(wizard.candidate_behaviour_what_to_improve).to be_nil
 
       expect(wizard.quality_of_application_personal_statement_what_to_improve).to eq(
         attrs_with_nested_answers[:quality_of_application_personal_statement_what_to_improve],
       )
-      expect(wizard.quality_of_application_subject_knowledge_what_to_improve).to be nil
-      expect(wizard.quality_of_application_other_details).to be nil
-      expect(wizard.quality_of_application_other_what_to_improve).to be nil
+      expect(wizard.quality_of_application_subject_knowledge_what_to_improve).to be_nil
+      expect(wizard.quality_of_application_other_details).to be_nil
+      expect(wizard.quality_of_application_other_what_to_improve).to be_nil
 
-      expect(wizard.qualifications_other_details).to be nil
+      expect(wizard.qualifications_other_details).to be_nil
 
       expect(wizard.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).to eq(
         attrs_with_nested_answers[:honesty_and_professionalism_concerns_information_false_or_inaccurate_details],
       )
-      expect(wizard.honesty_and_professionalism_concerns_plagiarism_details).to be nil
-      expect(wizard.honesty_and_professionalism_concerns_references_details).to be nil
-      expect(wizard.honesty_and_professionalism_concerns_other_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_plagiarism_details).to be_nil
+      expect(wizard.honesty_and_professionalism_concerns_references_details).to be_nil
+      expect(wizard.honesty_and_professionalism_concerns_other_details).to be_nil
 
-      expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be nil
-      expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be nil
+      expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be_nil
+      expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be_nil
       expect(wizard.safeguarding_concerns_other_details).to eq(attrs_with_nested_answers[:safeguarding_concerns_other_details])
     end
   end
@@ -434,7 +434,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       last_state[:course_full_y_n] = 'Yes'
       allow(store).to receive(:read).and_return(last_state.to_json)
 
-      expect(wizard.why_are_you_rejecting_this_application).to be nil
+      expect(wizard.why_are_you_rejecting_this_application).to be_nil
     end
   end
 
@@ -460,9 +460,9 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     it 'are reset to nil unless they are necessary' do
       allow(store).to receive(:read).and_return(last_state.to_json)
 
-      expect(wizard.why_are_you_rejecting_this_application).to be nil
-      expect(wizard.other_advice_or_feedback_y_n).to be nil
-      expect(wizard.other_advice_or_feedback_details).to be nil
+      expect(wizard.why_are_you_rejecting_this_application).to be_nil
+      expect(wizard.other_advice_or_feedback_y_n).to be_nil
+      expect(wizard.other_advice_or_feedback_details).to be_nil
     end
   end
 end

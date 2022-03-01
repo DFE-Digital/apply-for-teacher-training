@@ -124,10 +124,10 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
         application_form.application_references = [reference_1, reference_2, reference_3]
         reference_2.update!(feedback_provided_at: nil)
 
-        expect(described_class.new(application_choice).completed_reference_1_requested_at).to eq(nil)
-        expect(described_class.new(application_choice).completed_reference_2_requested_at).to eq(nil)
-        expect(described_class.new(application_choice).completed_reference_1_received_at).to eq(nil)
-        expect(described_class.new(application_choice).completed_reference_2_received_at).to eq(nil)
+        expect(described_class.new(application_choice).completed_reference_1_requested_at).to be_nil
+        expect(described_class.new(application_choice).completed_reference_2_requested_at).to be_nil
+        expect(described_class.new(application_choice).completed_reference_1_received_at).to be_nil
+        expect(described_class.new(application_choice).completed_reference_2_received_at).to be_nil
       end
     end
 

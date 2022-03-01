@@ -24,7 +24,7 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
 
   it 'resets the state to unsubmitted' do
     expect(duplicate_application_form.submitted_at).to be_nil
-    expect(duplicate_application_form.course_choices_completed).to be nil
+    expect(duplicate_application_form.course_choices_completed).to be_nil
   end
 
   it "sets the phase to `#{expected_phase}`" do
@@ -38,8 +38,8 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
   it 'copies application references and marks them as duplicates' do
     expect(duplicate_application_form.application_references.count).to eq 2
     expect(duplicate_application_form.application_references).to all(be_feedback_provided.or(be_not_requested_yet))
-    expect(duplicate_application_form.application_references.first.duplicate).to eq true
-    expect(duplicate_application_form.application_references.second.duplicate).to eq true
+    expect(duplicate_application_form.application_references.first.duplicate).to be true
+    expect(duplicate_application_form.application_references.second.duplicate).to be true
   end
 
   it 'copies work and volunteering experiences' do
@@ -63,7 +63,7 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
     end
 
     it 'sets the degrees_completed field of the duplicate application to false' do
-      expect(duplicate_application_form.reload.degrees_completed).to eq false
+      expect(duplicate_application_form.reload.degrees_completed).to be false
     end
   end
 

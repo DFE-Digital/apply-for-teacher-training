@@ -45,7 +45,7 @@ RSpec.describe ApplicationChoice, type: :model do
     it 'returns false for choices in states not requiring provider action' do
       (ApplicationStateChange.valid_states - ApplicationStateChange::DECISION_PENDING_STATUSES).each do |state|
         application_choice = build_stubbed(:application_choice, status: state)
-        expect(application_choice.decision_pending?).to eq(false)
+        expect(application_choice.decision_pending?).to be(false)
       end
     end
 
@@ -53,8 +53,8 @@ RSpec.describe ApplicationChoice, type: :model do
       choice_awaiting_decision = build_stubbed(:application_choice, :awaiting_provider_decision)
       interviewing_choice = build_stubbed(:application_choice, :with_scheduled_interview)
 
-      expect(choice_awaiting_decision.decision_pending?).to eq(true)
-      expect(interviewing_choice.decision_pending?).to eq(true)
+      expect(choice_awaiting_decision.decision_pending?).to be(true)
+      expect(interviewing_choice.decision_pending?).to be(true)
     end
   end
 
@@ -241,7 +241,7 @@ RSpec.describe ApplicationChoice, type: :model do
     context 'recruited with conditions' do
       it 'returns false' do
         application_choice = build_stubbed(:application_choice, :with_recruited)
-        expect(application_choice.unconditional_offer_pending_recruitment?).to eq false
+        expect(application_choice.unconditional_offer_pending_recruitment?).to be false
       end
     end
 
@@ -249,7 +249,7 @@ RSpec.describe ApplicationChoice, type: :model do
       it 'returns true' do
         application_choice = build_stubbed(:application_choice, :with_recruited, offer: create(:unconditional_offer))
 
-        expect(application_choice.unconditional_offer_pending_recruitment?).to eq true
+        expect(application_choice.unconditional_offer_pending_recruitment?).to be true
       end
     end
 
@@ -259,7 +259,7 @@ RSpec.describe ApplicationChoice, type: :model do
 
         statuses.each do |status|
           application_choice = build_stubbed(:application_choice, status: status)
-          expect(application_choice.unconditional_offer_pending_recruitment?).to eq false
+          expect(application_choice.unconditional_offer_pending_recruitment?).to be false
         end
       end
     end

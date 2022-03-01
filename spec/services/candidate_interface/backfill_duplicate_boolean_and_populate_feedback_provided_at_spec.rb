@@ -45,9 +45,9 @@ RSpec.describe CandidateInterface::BackfillDuplicateBooleanAndPopulateFeedbackPr
 
       expect(reference.reload.feedback_provided_at).to eq feedback_provided_at
       expect(duplicate_reference.reload.feedback_provided_at).to eq feedback_provided_at
-      expect(duplicate_reference.reload.duplicate).to eq true
+      expect(duplicate_reference.reload.duplicate).to be true
       expect(duplicate_reference_with_different_candidate.feedback_provided_at).to eq feedback_provided_at - 1.day
-      expect(duplicate_reference_with_different_candidate.reload.duplicate).to eq false
+      expect(duplicate_reference_with_different_candidate.reload.duplicate).to be false
     end
   end
 end

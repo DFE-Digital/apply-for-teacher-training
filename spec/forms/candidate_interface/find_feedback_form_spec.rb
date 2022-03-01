@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::FindFeedbackForm, type: :model do
 
   describe '#save' do
     it 'returns false if not valid' do
-      expect(described_class.new.save).to eq(false)
+      expect(described_class.new.save).to be(false)
     end
 
     it 'creates a new FindFeedback object if valid' do

@@ -96,7 +96,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         described_class.new.save!
 
         match = DuplicateMatch.first
-        expect(match.candidates.third).to eq(nil)
+        expect(match.candidates.third).to be_nil
 
         create(:application_form, :duplicate_candidates, candidate: create(:candidate, email_address: 'exemplar3@example.com'))
         described_class.new.save!
@@ -134,7 +134,7 @@ RSpec.describe UpdateDuplicateMatches, sidekiq: true do
         described_class.new.save!
 
         match = DuplicateMatch.first
-        expect(match.candidates.third).to eq(nil)
+        expect(match.candidates.third).to be_nil
 
         create(
           :application_form,

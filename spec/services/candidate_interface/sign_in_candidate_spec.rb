@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::SignInCandidate do
 
       described_class.new(candidate.email_address, controller_double).call
 
-      expect(candidate.reload.course_from_find_id).to eq nil
+      expect(candidate.reload.course_from_find_id).to be_nil
     end
   end
 end

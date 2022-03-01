@@ -162,7 +162,7 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
         expect(
           described_class.new(state_store: store, index: 0).no_more_users_to_process?,
         )
-        .to eq(true)
+        .to be(true)
       end
     end
 
@@ -187,7 +187,7 @@ RSpec.describe SupportInterface::MultipleProviderUsersWizard do
 
         expect(
           described_class.new(state_store: store, index: 0).no_more_users_to_process?,
-        ).to eq(false)
+        ).to be(false)
       end
     end
   end

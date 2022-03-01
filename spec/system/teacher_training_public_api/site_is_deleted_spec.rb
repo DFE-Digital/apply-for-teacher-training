@@ -98,6 +98,6 @@ RSpec.feature 'Sync sites' do
 
   def then_the_affected_course_option_indicates_that_the_site_is_no_longer_valid
     expect(@provider.courses.first.course_options.count).to eq 2
-    expect(@course_option.reload.site_still_valid).to eq false
+    expect(@course_option.reload.site_still_valid).to be false
   end
 end

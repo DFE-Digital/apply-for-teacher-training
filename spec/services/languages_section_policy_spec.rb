@@ -6,7 +6,7 @@ RSpec.describe LanguagesSectionPolicy do
       let(:application_form) { application_form_where_english_main_language_is_nil }
 
       it 'returns true' do
-        expect(described_class.hide?(application_form)).to eq true
+        expect(described_class.hide?(application_form)).to be true
       end
     end
 
@@ -14,7 +14,7 @@ RSpec.describe LanguagesSectionPolicy do
       let(:application_form) { build(:application_form, english_main_language: true) }
 
       it 'returns false' do
-        expect(described_class.hide?(application_form)).to eq false
+        expect(described_class.hide?(application_form)).to be false
       end
     end
 

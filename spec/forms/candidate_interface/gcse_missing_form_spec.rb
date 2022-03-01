@@ -49,10 +49,10 @@ RSpec.describe CandidateInterface::GcseMissingForm, type: :model do
         expect(qualification.level).to eq('gcse')
         expect(qualification.qualification_type).to eq('missing')
         expect(qualification.missing_explanation).to eq('Never finished')
-        expect(qualification.grade).to eq nil
-        expect(qualification.award_year).to eq nil
-        expect(qualification.institution_name).to eq nil
-        expect(qualification.institution_country).to eq nil
+        expect(qualification.grade).to be_nil
+        expect(qualification.award_year).to be_nil
+        expect(qualification.institution_name).to be_nil
+        expect(qualification.institution_country).to be_nil
       end
     end
 

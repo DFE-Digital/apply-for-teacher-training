@@ -53,14 +53,14 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_condition_2) { Faker::Lorem.paragraph_by_chars(number: 300) }
 
       it 'adds the correct validation error messages to the wizard' do
-        expect(wizard.valid?(:conditions)).to eq(false)
+        expect(wizard.valid?(:conditions)).to be(false)
         expect(wizard.errors[:'further_conditions[0][text]']).to contain_exactly('Condition 1 must be 255 characters or fewer')
         expect(wizard.errors[:'further_conditions[1][text]']).to contain_exactly('Condition 2 must be 255 characters or fewer')
         expect(wizard.errors[:'further_conditions[2][text]']).to be_blank
       end
 
       it 'creates custom methods with the field name that contain the error value' do
-        expect(wizard.valid?(:conditions)).to eq(false)
+        expect(wizard.valid?(:conditions)).to be(false)
 
         expect(wizard.public_send('further_conditions[0][text]')).to eq('Condition 1 must be 255 characters or fewer')
       end
@@ -70,7 +70,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_conditions) { 22.times.map { Faker::Lorem.paragraph } }
 
       it 'adds the correct validation error messages to the wizard' do
-        expect(wizard.valid?(:conditions)).to eq(false)
+        expect(wizard.valid?(:conditions)).to be(false)
 
         expect(wizard.errors[:base]).to contain_exactly("The offer must have #{OfferValidations::MAX_CONDITIONS_COUNT} conditions or fewer")
       end
@@ -84,7 +84,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:study_mode) { course_option.study_mode }
 
       it 'throws an error' do
-        expect(wizard.valid?(:save)).to eq(false)
+        expect(wizard.valid?(:save)).to be(false)
       end
     end
   end
@@ -103,8 +103,8 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
 
         it 'resets the study mode and course_option_id' do
-          expect(wizard.study_mode).to eq(nil)
-          expect(wizard.course_option_id).to eq(nil)
+          expect(wizard.study_mode).to be_nil
+          expect(wizard.course_option_id).to be_nil
           expect(wizard.course_id).to eq(course_id)
           expect(wizard.provider_id).to eq(10)
         end
@@ -190,7 +190,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
 
         it 'returns false' do
-          expect(wizard.available_changes?).to eq(false)
+          expect(wizard.available_changes?).to be(false)
         end
       end
 
@@ -200,7 +200,7 @@ RSpec.describe ProviderInterface::OfferWizard do
         end
 
         it 'returns true' do
-          expect(wizard.available_changes?).to eq(true)
+          expect(wizard.available_changes?).to be(true)
         end
       end
     end
@@ -367,7 +367,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_conditions) { Array.new(17, 'be cool') }
 
       it 'returns false' do
-        expect(wizard.max_number_of_further_conditions?).to eq(false)
+        expect(wizard.max_number_of_further_conditions?).to be(false)
       end
     end
 
@@ -375,7 +375,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_conditions) { Array.new(18, 'be cool') }
 
       it 'returns true' do
-        expect(wizard.max_number_of_further_conditions?).to eq(true)
+        expect(wizard.max_number_of_further_conditions?).to be(true)
       end
     end
 
@@ -383,7 +383,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       let(:further_conditions) { Array.new(19, 'be cool') }
 
       it 'returns true' do
-        expect(wizard.max_number_of_further_conditions?).to eq(true)
+        expect(wizard.max_number_of_further_conditions?).to be(true)
       end
     end
   end

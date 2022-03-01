@@ -37,7 +37,7 @@ RSpec.describe DeleteReference do
 
       described_class.new.call(reference: application_form.application_references.first)
 
-      expect(application_form.reload.references_completed).to eq false
+      expect(application_form.reload.references_completed).to be false
     end
   end
 end

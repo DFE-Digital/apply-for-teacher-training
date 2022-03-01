@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::WithdrawalFeedbackForm, type: :model do
     it 'returns false if not valid' do
       withdrawal_feedback = described_class.new
 
-      expect(withdrawal_feedback.save(ApplicationChoice.new)).to eq(false)
+      expect(withdrawal_feedback.save(ApplicationChoice.new)).to be(false)
     end
 
     it 'updates the withdrawl feedback column if valid' do
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::WithdrawalFeedbackForm, type: :model do
         contact_details: 'Anytime. 012345 678900',
       )
 
-      expect(withdrawal_feedback.save(application_choice)).to eq(true)
+      expect(withdrawal_feedback.save(application_choice)).to be(true)
       expect(application_choice.withdrawal_feedback).to eq(
         {
           CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',

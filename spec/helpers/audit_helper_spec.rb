@@ -17,19 +17,19 @@ RSpec.describe AuditHelper, type: :helper do
     context 'user is a SupportUser' do
       let(:user) { build_stubbed(:support_user) }
 
-      it { is_expected.to eq(true) }
+      it { is_expected.to be(true) }
     end
 
     context 'change was made in the rails console' do
       let(:username) { 'Developer via the Rails console' }
 
-      it { is_expected.to eq(true) }
+      it { is_expected.to be(true) }
     end
 
     context 'change was made by a different user' do
       let(:username) { 'Ghost man' }
 
-      it { is_expected.to eq(false) }
+      it { is_expected.to be(false) }
     end
   end
 end

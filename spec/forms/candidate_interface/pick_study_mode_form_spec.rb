@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::PickStudyModeForm, type: :model do
 
       form = described_class.new(course_id: course.id, study_mode: :full_time)
 
-      expect(form.single_site_course?).to eq true
+      expect(form.single_site_course?).to be true
     end
 
     it 'returns false when there is more than one available site' do
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::PickStudyModeForm, type: :model do
 
       form = described_class.new(course_id: course.id, study_mode: :full_time)
 
-      expect(form.single_site_course?).to eq false
+      expect(form.single_site_course?).to be false
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::PickStudyModeForm, type: :model do
       it 'returns nil' do
         form = described_class.new(course_id: course.id, study_mode: :full_time)
 
-        expect(form.first_site_id).to eq nil
+        expect(form.first_site_id).to be_nil
       end
     end
   end

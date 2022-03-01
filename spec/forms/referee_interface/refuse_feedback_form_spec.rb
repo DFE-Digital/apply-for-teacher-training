@@ -20,7 +20,7 @@ RSpec.describe RefereeInterface::RefuseFeedbackForm do
           form = described_class.new(refused: 'yes')
           form.save(application_reference)
 
-          expect(application_reference.refused).to eq(true)
+          expect(application_reference.refused).to be(true)
         end
       end
 
@@ -29,7 +29,7 @@ RSpec.describe RefereeInterface::RefuseFeedbackForm do
           form = described_class.new(refused: 'no')
           form.save(application_reference)
 
-          expect(application_reference.refused).to eq(false)
+          expect(application_reference.refused).to be(false)
         end
       end
     end

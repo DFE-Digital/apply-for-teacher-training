@@ -28,14 +28,14 @@ RSpec.describe CandidateInterface::BecomingATeacherForm, type: :model do
     it 'returns false if not valid' do
       becoming_a_teacher = described_class.new
 
-      expect(becoming_a_teacher.save(ApplicationForm.new)).to eq(false)
+      expect(becoming_a_teacher.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = create(:application_form)
       becoming_a_teacher = described_class.new(form_data)
 
-      expect(becoming_a_teacher.save(application_form)).to eq(true)
+      expect(becoming_a_teacher.save(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
   end

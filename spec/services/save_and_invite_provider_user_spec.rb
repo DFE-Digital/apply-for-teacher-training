@@ -43,7 +43,7 @@ RSpec.describe SaveAndInviteProviderUser do
       it 'returns false' do
         allow(form).to receive(:valid?).and_return(false)
 
-        expect(service.call).to eq(false)
+        expect(service.call).to be(false)
       end
     end
 

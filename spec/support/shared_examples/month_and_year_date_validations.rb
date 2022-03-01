@@ -14,7 +14,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
       expect(model.errors.added?(date_field,
                                  :future,
                                  article: article(date_field),
-                                 attribute: humanize(date_field))).to eq(true)
+                                 attribute: humanize(date_field))).to be(true)
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
       expect(model.errors.added?(date_field,
                                  :blank_date,
                                  article: article(date_field),
-                                 attribute: humanize(date_field))).to eq(true)
+                                 attribute: humanize(date_field))).to be(true)
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
       expect(model.errors.added?(date_field,
                                  :invalid_date_month_and_year,
                                  article: article(date_field),
-                                 attribute: humanize(date_field))).to eq(true)
+                                 attribute: humanize(date_field))).to be(true)
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
       expect(model.errors.added?(date_field,
                                  :blank_date_fields,
                                  attribute: humanize(date_field),
-                                 fields: 'year')).to eq(true)
+                                 fields: 'year')).to be(true)
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
                                  :before,
                                  article: article(date_field),
                                  attribute: humanize(date_field),
-                                 compared_attribute: humanize(compared_attribute))).to eq(true)
+                                 compared_attribute: humanize(compared_attribute))).to be(true)
     end
   end
 end

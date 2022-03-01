@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
     it 'returns false if not valid' do
       further_information = described_class.new
 
-      expect(further_information.save(ApplicationForm.new)).to eq(false)
+      expect(further_information.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::FurtherInformationForm, type: :model do
       application_form = build(:application_form)
       further_information = described_class.new(form_data)
 
-      expect(further_information.save(application_form)).to eq(true)
+      expect(further_information.save(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
 

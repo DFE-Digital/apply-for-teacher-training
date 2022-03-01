@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditSubjectKnowledgeForm, typ
       application_form = double
       form = described_class.new
 
-      expect(form.save(application_form)).to eq(false)
+      expect(form.save(application_form)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do

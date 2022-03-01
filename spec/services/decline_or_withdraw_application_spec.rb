@@ -12,7 +12,7 @@ RSpec.describe DeclineOrWithdrawApplication do
       it 'returns true' do
         expect(described_class.new(application_choice: application_choice, actor: user).save!).to be true
 
-        expect(application_choice.reload.declined_at).not_to be nil
+        expect(application_choice.reload.declined_at).not_to be_nil
         expect(application_choice).to be_declined
         expect(application_choice).not_to be_withdrawn
         expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true
@@ -23,7 +23,7 @@ RSpec.describe DeclineOrWithdrawApplication do
       it 'returns true' do
         expect(described_class.new(application_choice: application_choice, actor: user).save!).to be true
 
-        expect(application_choice.reload.withdrawn_at).not_to be nil
+        expect(application_choice.reload.withdrawn_at).not_to be_nil
         expect(application_choice).to be_withdrawn
         expect(application_choice).not_to be_declined
         expect(application_choice.withdrawn_or_declined_for_candidate_by_provider).to be true

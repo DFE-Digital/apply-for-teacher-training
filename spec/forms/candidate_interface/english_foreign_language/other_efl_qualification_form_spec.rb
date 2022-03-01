@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
     it 'returns false if not valid' do
       form = described_class.new
 
-      expect(form.save).to eq false
+      expect(form.save).to be false
     end
 
     it 'raises an error if no application_form present' do

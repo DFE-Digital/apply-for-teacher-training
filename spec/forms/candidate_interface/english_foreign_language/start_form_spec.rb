@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::StartForm, type: :mod
     it 'returns false if not valid' do
       valid_form.qualification_status = nil
 
-      expect(valid_form.save).to eq false
+      expect(valid_form.save).to be false
     end
 
     it 'raises an error if no application_form present' do
@@ -21,7 +21,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::StartForm, type: :mod
     context 'when qualification_status is "has_qualification"' do
       it 'returns true' do
         valid_form.application_form = build(:application_form)
-        expect(valid_form.save).to eq true
+        expect(valid_form.save).to be true
       end
     end
 

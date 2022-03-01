@@ -82,7 +82,7 @@ RSpec.describe 'A Provider user' do
 
   def then_i_see_the_upcoming_interviews
     within '.app-interviews' do
-      expect(page.assert_selector('.app-interview-card', count: @interviews.count)).to eq(true)
+      expect(page.assert_selector('.app-interview-card', count: @interviews.count)).to be(true)
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe 'A Provider user' do
 
   def then_i_see_the_past_interviews
     within '.app-interviews' do
-      expect(page.assert_selector('.app-interview-card', count: @past_interviews.count)).to eq(true)
+      expect(page.assert_selector('.app-interview-card', count: @past_interviews.count)).to be(true)
     end
   end
 

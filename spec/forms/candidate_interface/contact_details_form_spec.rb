@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     it 'returns false if not valid' do
       contact_details = described_class.new
 
-      expect(contact_details.save_base(ApplicationForm.new)).to eq(false)
+      expect(contact_details.save_base(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       application_form = build(:application_form)
       contact_details = described_class.new(form_data)
 
-      expect(contact_details.save_base(application_form)).to eq(true)
+      expect(contact_details.save_base(application_form)).to be(true)
       expect(application_form).to have_attributes(form_data)
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     it 'returns false if not valid' do
       contact_details = described_class.new
 
-      expect(contact_details.save_address(ApplicationForm.new)).to eq(false)
+      expect(contact_details.save_address(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm with the address fields if valid' do
@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
       form_data[:postcode] = 'BN1 1AA'
 
-      expect(contact_details.save_address(application_form)).to eq(true)
+      expect(contact_details.save_address(application_form)).to be(true)
       expect(application_form).to have_attributes(form_data)
     end
 
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       application_form = build(:application_form)
       contact_details = described_class.new(form_data)
 
-      expect(contact_details.save_address(application_form)).to eq(true)
+      expect(contact_details.save_address(application_form)).to be(true)
       expect(application_form).to have_attributes(form_data)
       expect(application_form.address_line2).to be_nil
       expect(application_form.address_line4).to eq '110006'
@@ -85,7 +85,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       application_form = build(:application_form)
       contact_details = described_class.new(form_data)
 
-      expect(contact_details.save_address_type(application_form)).to eq(true)
+      expect(contact_details.save_address_type(application_form)).to be(true)
       expect(application_form).to have_attributes(form_data)
     end
 
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       application_form = build(:application_form)
       contact_details = described_class.new(form_data)
 
-      expect(contact_details.save_address_type(application_form)).to eq(true)
+      expect(contact_details.save_address_type(application_form)).to be(true)
       expect(application_form).to have_attributes(form_data)
     end
 
@@ -108,7 +108,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       application_form = build(:application_form)
       contact_details = described_class.new(form_data)
 
-      expect(contact_details.save_address_type(application_form)).to eq(false)
+      expect(contact_details.save_address_type(application_form)).to be(false)
     end
   end
 
@@ -151,7 +151,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       it 'is invalid' do
         contact_details = described_class.new(address_type: 'international', address_line1: '')
 
-        expect(contact_details.save_address(application_form)).to eq(false)
+        expect(contact_details.save_address(application_form)).to be(false)
         expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_blank"))
       end
     end
@@ -161,7 +161,7 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
         contact_details = described_class.new(address_type: 'international', address_line1: SecureRandom.alphanumeric(51),
                                               address_line2: '', address_line3: '', address_line4: '')
 
-        expect(contact_details.save_address(application_form)).to eq(false)
+        expect(contact_details.save_address(application_form)).to be(false)
         expect(contact_details.errors[:address_line1]).to include(I18n.t("#{error_attr}.address_line1.international_too_long", count: described_class::MAX_LENGTH))
       end
     end

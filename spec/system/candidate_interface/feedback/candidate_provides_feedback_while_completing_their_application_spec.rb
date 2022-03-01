@@ -57,6 +57,6 @@ RSpec.feature 'Candidate provides feedback during the application process' do
     expect(@application.application_feedback.last.path).to eq '/candidate/application/references/start'
     expect(@application.application_feedback.last.page_title).to eq t('page_titles.references_start')
     expect(@application.application_feedback.last.feedback).to eq 'Me no understand.'
-    expect(@application.application_feedback.last.consent_to_be_contacted).to eq true
+    expect(@application.application_feedback.last.consent_to_be_contacted).to be true
   end
 end

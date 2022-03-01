@@ -87,7 +87,7 @@ RSpec.describe APIDocs::APIOperation do
     end
 
     it 'returns an anonymous schema for an inline schema' do
-      expect(api_operation.responses['200'].schema.name).to be nil
+      expect(api_operation.responses['200'].schema.name).to be_nil
     end
 
     it 'returns an application/json mime type' do

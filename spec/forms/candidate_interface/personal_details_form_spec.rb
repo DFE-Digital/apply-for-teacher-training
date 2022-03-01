@@ -42,14 +42,14 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
     it 'returns false if not valid' do
       personal_details = described_class.new
 
-      expect(personal_details.save(ApplicationForm.new)).to eq(false)
+      expect(personal_details.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = create(:application_form)
       personal_details = described_class.new(form_data)
 
-      expect(personal_details.save(application_form)).to eq(true)
+      expect(personal_details.save(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
   end

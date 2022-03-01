@@ -119,7 +119,7 @@ RSpec.feature 'A new candidate arriving from Find with a course and provider cod
 
   def and_my_course_from_find_id_should_be_set_to_nil
     @candidate = Candidate.find_by!(email_address: @email)
-    expect(@candidate.course_from_find_id).to eq(nil)
+    expect(@candidate.course_from_find_id).to be_nil
   end
 
   def then_i_should_see_the_course_choices_site_page

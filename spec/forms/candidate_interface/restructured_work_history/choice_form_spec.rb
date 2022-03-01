@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::ChoiceForm, type: :m
     it 'returns false if not valid' do
       choice_form = described_class.new
 
-      expect(choice_form.save(ApplicationForm.new)).to eq(false)
+      expect(choice_form.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the work_history_status and work_history_explanation values' do
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::ChoiceForm, type: :m
         explanation: 'I have been a full time parent',
       )
 
-      expect(choice_form.save(application_form)).to eq(true)
+      expect(choice_form.save(application_form)).to be(true)
       expect(application_form.work_history_status).to eq 'can_not_complete'
       expect(application_form.work_history_explanation).to eq 'I have been a full time parent'
     end

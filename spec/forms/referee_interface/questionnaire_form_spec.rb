@@ -38,7 +38,7 @@ RSpec.describe RefereeInterface::QuestionnaireForm do
 
     it 'updates the consent to be contacted for a reference' do
       described_class.new(params).save(reference)
-      expect(reference.consent_to_be_contacted).to eq(true)
+      expect(reference.consent_to_be_contacted).to be(true)
     end
   end
 end

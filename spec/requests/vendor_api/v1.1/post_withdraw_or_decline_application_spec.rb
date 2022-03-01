@@ -20,7 +20,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
       application = parsed_response['data']['attributes']
       expect(application['status']).to eq 'withdrawn'
       expect(application['withdrawal']['date'].to_time).to eq Time.zone.now.to_s
-      expect(application['withdrawn_or_declined_for_candidate']).to eq true
+      expect(application['withdrawn_or_declined_for_candidate']).to be true
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/withdraw', type:
       application = parsed_response['data']['attributes']
       expect(application['status']).to eq 'declined'
       expect(application['offer']['offer_declined_at'].to_time.to_s).to eq Time.zone.now.to_s
-      expect(application['withdrawn_or_declined_for_candidate']).to eq true
+      expect(application['withdrawn_or_declined_for_candidate']).to be true
     end
   end
 

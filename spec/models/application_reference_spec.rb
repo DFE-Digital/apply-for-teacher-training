@@ -49,7 +49,7 @@ RSpec.describe ApplicationReference, type: :model do
       it 'returns nil' do
         reference = described_class.find_by_unhashed_token('unhashed_token')
 
-        expect(reference).to eq(nil)
+        expect(reference).to be_nil
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe ApplicationReference, type: :model do
     context 'requested_at is nil' do
       it 'returns nil' do
         reference = build(:reference, requested_at: nil)
-        expect(reference.next_automated_chase_at).to eq nil
+        expect(reference.next_automated_chase_at).to be_nil
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe ApplicationReference, type: :model do
     context 'current time is after second chase due date' do
       it 'returns nil' do
         reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days)
-        expect(reference.next_automated_chase_at).to eq nil
+        expect(reference.next_automated_chase_at).to be_nil
       end
     end
   end

@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
 
       form.save(degree)
 
-      expect(degree.reload.predicted_grade).to eq true
+      expect(degree.reload.predicted_grade).to be true
     end
 
     it 'sets degree.predicted_grade to false if the degree_completed attr is "yes"' do
@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
 
       form.save(degree)
 
-      expect(degree.reload.predicted_grade).to eq false
+      expect(degree.reload.predicted_grade).to be false
     end
   end
 
@@ -34,8 +34,8 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
 
       form.update(degree)
 
-      expect(degree.reload.predicted_grade).to eq false
-      expect(degree.award_year).to eq nil
+      expect(degree.reload.predicted_grade).to be false
+      expect(degree.award_year).to be_nil
     end
 
     it 'sets degree.predicted_grade to true when previously false and sets award year to nil' do
@@ -44,8 +44,8 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
 
       form.update(degree)
 
-      expect(degree.reload.predicted_grade).to eq true
-      expect(degree.award_year).to eq nil
+      expect(degree.reload.predicted_grade).to be true
+      expect(degree.award_year).to be_nil
     end
   end
 

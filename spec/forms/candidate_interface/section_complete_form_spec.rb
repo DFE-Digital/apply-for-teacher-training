@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::SectionCompleteForm, type: :model do
     it "sets the 'completed' attribute" do
       section_complete_form = described_class.new(completed: true)
 
-      expect(section_complete_form.completed).to eq(true)
+      expect(section_complete_form.completed).to be(true)
     end
   end
 
@@ -32,14 +32,14 @@ RSpec.describe CandidateInterface::SectionCompleteForm, type: :model do
     it 'returns false if not valid' do
       section_complete_form = described_class.new(completed: nil)
 
-      expect(section_complete_form.save(application_form, :personal_details_completed)).to eq(false)
+      expect(section_complete_form.save(application_form, :personal_details_completed)).to be(false)
     end
 
     it "updates 'section completed' if valid" do
       section_complete_form = described_class.new(completed: 'true')
 
-      expect(section_complete_form.save(application_form, :personal_details_completed)).to eq(true)
-      expect(application_form.personal_details_completed).to eq(true)
+      expect(section_complete_form.save(application_form, :personal_details_completed)).to be(true)
+      expect(application_form.personal_details_completed).to be(true)
     end
   end
 end

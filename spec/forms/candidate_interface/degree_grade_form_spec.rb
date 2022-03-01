@@ -68,8 +68,8 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
 
         degree_form.assign_form_values
 
-        expect(degree_form.grade).to eq nil
-        expect(degree_form.other_grade).to eq nil
+        expect(degree_form.grade).to be_nil
+        expect(degree_form.other_grade).to be_nil
       end
     end
   end

@@ -27,13 +27,13 @@ RSpec.describe ProviderInterface::InterviewCancellationExplanationPresenter do
       let!(:interview) { create(:interview, date_and_time: 1.day.from_now, application_choice: application_choice) }
 
       it 'returns true' do
-        expect(described_class.new(application_choice).render?).to eq(true)
+        expect(described_class.new(application_choice).render?).to be(true)
       end
     end
 
     context 'when there are no future interviews' do
       it 'returns false' do
-        expect(described_class.new(application_choice).render?).to eq(false)
+        expect(described_class.new(application_choice).render?).to be(false)
       end
     end
   end

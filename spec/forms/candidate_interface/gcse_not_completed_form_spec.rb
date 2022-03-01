@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::GcseNotCompletedForm, type: :model do
       application_qualification = create(:application_qualification)
 
       form = described_class.new
-      expect(form.save(application_qualification)).to eq(false)
+      expect(form.save(application_qualification)).to be(false)
     end
 
     it 'updates the existing qualification' do
@@ -56,10 +56,10 @@ RSpec.describe CandidateInterface::GcseNotCompletedForm, type: :model do
       expect(qualification.level).to eq('gcse')
       expect(qualification.qualification_type).to eq('missing')
       expect(qualification.not_completed_explanation).to eq('Still in progress')
-      expect(qualification.grade).to eq nil
-      expect(qualification.award_year).to eq nil
-      expect(qualification.institution_name).to eq nil
-      expect(qualification.institution_country).to eq nil
+      expect(qualification.grade).to be_nil
+      expect(qualification.award_year).to be_nil
+      expect(qualification.institution_name).to be_nil
+      expect(qualification.institution_country).to be_nil
     end
   end
 end

@@ -10,8 +10,8 @@ RSpec.describe DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider
 
     described_class.new.change
 
-    expect(withdrawn_application.reload.withdrawn_or_declined_for_candidate_by_provider).to eq(true)
-    expect(declined_application.reload.withdrawn_or_declined_for_candidate_by_provider).to eq(true)
+    expect(withdrawn_application.reload.withdrawn_or_declined_for_candidate_by_provider).to be(true)
+    expect(declined_application.reload.withdrawn_or_declined_for_candidate_by_provider).to be(true)
   end
 
   it 'backfills withdrawn_or_declined_for_candidate_by_provider to false with non-provider actors' do
@@ -20,7 +20,7 @@ RSpec.describe DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider
 
     described_class.new.change
 
-    expect(withdrawn_application.reload.withdrawn_or_declined_for_candidate_by_provider).to eq(false)
-    expect(declined_application.reload.withdrawn_or_declined_for_candidate_by_provider).to eq(false)
+    expect(withdrawn_application.reload.withdrawn_or_declined_for_candidate_by_provider).to be(false)
+    expect(declined_application.reload.withdrawn_or_declined_for_candidate_by_provider).to be(false)
   end
 end

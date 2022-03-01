@@ -50,14 +50,14 @@ RSpec.describe FilterComponent do
     result = render_inline described_class.new(filter: filter)
 
     expect(result.css('#status-awaiting_provider_decision').attr('checked').value).to eq('checked')
-    expect(result.css('#status-offer').attr('checked')).to eq(nil)
+    expect(result.css('#status-offer').attr('checked')).to be_nil
     expect(result.css('#status-pending_conditions').attr('checked').value).to eq('checked')
     expect(result.css('#status-recruited').attr('checked').value).to eq('checked')
-    expect(result.css('#status-rejected').attr('checked')).to eq(nil)
+    expect(result.css('#status-rejected').attr('checked')).to be_nil
     expect(result.css('#status-declined').attr('checked').value).to eq('checked')
-    expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
-    expect(result.css('#status-conditions_not_met').attr('checked')).to eq(nil)
-    expect(result.css('#status-offer_withdrawn').attr('checked')).to eq(nil)
+    expect(result.css('#status-withdrawn').attr('checked')).to be_nil
+    expect(result.css('#status-conditions_not_met').attr('checked')).to be_nil
+    expect(result.css('#status-offer_withdrawn').attr('checked')).to be_nil
   end
 
   it 'on initial load all of the checkboxes are unchecked' do
@@ -68,15 +68,15 @@ RSpec.describe FilterComponent do
     )
     result = render_inline described_class.new(filter: filter)
 
-    expect(result.css('#status-awaiting_provider_decision').attr('checked')).to eq(nil)
-    expect(result.css('#status-offer').attr('checked')).to eq(nil)
-    expect(result.css('#status-pending_conditions').attr('checked')).to eq(nil)
-    expect(result.css('#status-recruited').attr('checked')).to eq(nil)
-    expect(result.css('#status-rejected').attr('checked')).to eq(nil)
-    expect(result.css('#status-declined').attr('checked')).to eq(nil)
-    expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
-    expect(result.css('#status-conditions_not_met').attr('checked')).to eq(nil)
-    expect(result.css('#status-offer_withdrawn').attr('checked')).to eq(nil)
+    expect(result.css('#status-awaiting_provider_decision').attr('checked')).to be_nil
+    expect(result.css('#status-offer').attr('checked')).to be_nil
+    expect(result.css('#status-pending_conditions').attr('checked')).to be_nil
+    expect(result.css('#status-recruited').attr('checked')).to be_nil
+    expect(result.css('#status-rejected').attr('checked')).to be_nil
+    expect(result.css('#status-declined').attr('checked')).to be_nil
+    expect(result.css('#status-withdrawn').attr('checked')).to be_nil
+    expect(result.css('#status-conditions_not_met').attr('checked')).to be_nil
+    expect(result.css('#status-offer_withdrawn').attr('checked')).to be_nil
   end
 
   it 'when filters have been selected hidden text is displayed' do

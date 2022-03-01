@@ -280,7 +280,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
           submitting_application: true,
         )
 
-        expect(result.show_values_missing_banner?).to eq true
+        expect(result.show_values_missing_banner?).to be true
       end
     end
   end

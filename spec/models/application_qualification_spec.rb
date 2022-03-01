@@ -52,20 +52,20 @@ RSpec.describe ApplicationQualification, type: :model do
     it 'returns false if not a degree' do
       qualification = build_stubbed(:gcse_qualification)
 
-      expect(qualification.incomplete_degree_information?).to eq false
+      expect(qualification.incomplete_degree_information?).to be false
     end
 
     it 'returns false if all expected information is present' do
       qualification = build_stubbed(:degree_qualification)
 
-      expect(qualification.incomplete_degree_information?).to eq false
+      expect(qualification.incomplete_degree_information?).to be false
     end
 
     it 'returns true if the predicted_grade boolean is not present' do
       qualification = build_stubbed(:degree_qualification)
       qualification.predicted_grade = nil
 
-      expect(qualification.incomplete_degree_information?).to eq true
+      expect(qualification.incomplete_degree_information?).to be true
     end
 
     it 'returns true if any expected information is missing' do
@@ -73,9 +73,9 @@ RSpec.describe ApplicationQualification, type: :model do
 
       ApplicationQualification::EXPECTED_DEGREE_DATA.each do |field|
         qualification.send("#{field}=", nil)
-        expect(qualification.incomplete_degree_information?).to eq true
+        expect(qualification.incomplete_degree_information?).to be true
         qualification.send("#{field}=", '')
-        expect(qualification.incomplete_degree_information?).to eq true
+        expect(qualification.incomplete_degree_information?).to be true
       end
     end
   end
@@ -84,28 +84,28 @@ RSpec.describe ApplicationQualification, type: :model do
     context "a GCSE qualification that does not meet grade requirements and 'currently_completing_qualification' is nil" do
       it 'returns true' do
         qualification = build(:gcse_qualification, grade: 'D', currently_completing_qualification: nil)
-        expect(qualification.incomplete_gcse_information?).to eq true
+        expect(qualification.incomplete_gcse_information?).to be true
       end
     end
 
     context "a GCSE qualification with 'grade' and 'constituent_grades' equal to 'nil'" do
       it 'returns true' do
         qualification = build(:gcse_qualification, grade: nil, constituent_grades: nil)
-        expect(qualification.incomplete_gcse_information?).to eq true
+        expect(qualification.incomplete_gcse_information?).to be true
       end
     end
 
     context 'a GCSE qualification with missing data' do
       it 'returns true' do
         qualification = build(:gcse_qualification, subject: nil)
-        expect(qualification.incomplete_gcse_information?).to eq true
+        expect(qualification.incomplete_gcse_information?).to be true
       end
     end
 
     context "a qualification with a 'type' equal to 'missing' and 'currently_completing_qualification' is not nil" do
       it 'returns false' do
         qualification = build(:gcse_qualification, qualification_type: 'missing', currently_completing_qualification: true)
-        expect(qualification.incomplete_gcse_information?).to eq false
+        expect(qualification.incomplete_gcse_information?).to be false
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe ApplicationQualification, type: :model do
       it 'returns false' do
         qualification = build(:gcse_qualification)
 
-        expect(qualification.incomplete_gcse_information?).to eq false
+        expect(qualification.incomplete_gcse_information?).to be false
       end
     end
   end
@@ -123,13 +123,13 @@ RSpec.describe ApplicationQualification, type: :model do
       it 'returns false if not an other_qualification' do
         qualification = build_stubbed(:gcse_qualification)
 
-        expect(qualification.incomplete_other_qualification?).to eq false
+        expect(qualification.incomplete_other_qualification?).to be false
       end
 
       it 'returns false if all expected information is present' do
         qualification = build_stubbed(:other_qualification, :non_uk, grade: nil, subject: nil)
 
-        expect(qualification.incomplete_other_qualification?).to eq false
+        expect(qualification.incomplete_other_qualification?).to be false
       end
 
       it 'returns true if any expected information is missing' do
@@ -137,9 +137,9 @@ RSpec.describe ApplicationQualification, type: :model do
 
         ApplicationQualification::EXPECTED_OTHER_QUALIFICATION_DATA.each do |field|
           qualification.send("#{field}=", nil)
-          expect(qualification.incomplete_other_qualification?).to eq true
+          expect(qualification.incomplete_other_qualification?).to be true
           qualification.send("#{field}=", '')
-          expect(qualification.incomplete_other_qualification?).to eq true
+          expect(qualification.incomplete_other_qualification?).to be true
         end
       end
     end
@@ -148,13 +148,13 @@ RSpec.describe ApplicationQualification, type: :model do
       it 'returns false if not an other_qualification' do
         qualification = build_stubbed(:gcse_qualification)
 
-        expect(qualification.incomplete_other_qualification?).to eq false
+        expect(qualification.incomplete_other_qualification?).to be false
       end
 
       it 'returns false if all expected information is present' do
         qualification = build_stubbed(:other_qualification)
 
-        expect(qualification.incomplete_other_qualification?).to eq false
+        expect(qualification.incomplete_other_qualification?).to be false
       end
 
       it 'returns true if any expected information is missing' do
@@ -162,9 +162,9 @@ RSpec.describe ApplicationQualification, type: :model do
 
         ApplicationQualification::EXPECTED_OTHER_QUALIFICATION_DATA.each do |field|
           qualification.send("#{field}=", nil)
-          expect(qualification.incomplete_other_qualification?).to eq true
+          expect(qualification.incomplete_other_qualification?).to be true
           qualification.send("#{field}=", '')
-          expect(qualification.incomplete_other_qualification?).to eq true
+          expect(qualification.incomplete_other_qualification?).to be true
         end
       end
     end
@@ -183,7 +183,7 @@ RSpec.describe ApplicationQualification, type: :model do
 
     it 'returns nil when field not submitted' do
       qualification = build_stubbed(:application_qualification, enic_reference: nil, grade: nil)
-      expect(qualification.enic_reference?).to eq(nil)
+      expect(qualification.enic_reference?).to be_nil
     end
   end
 
@@ -207,12 +207,12 @@ RSpec.describe ApplicationQualification, type: :model do
   describe '#set_other_grade' do
     it 'returns nil when grade is not_applicable' do
       qualification = build_stubbed(:gcse_qualification, grade: 'n/a')
-      expect(qualification.set_other_grade).to eq nil
+      expect(qualification.set_other_grade).to be_nil
     end
 
     it 'returns nil when grade is unknown' do
       qualification = build_stubbed(:gcse_qualification, grade: 'unknown')
-      expect(qualification.set_other_grade).to eq nil
+      expect(qualification.set_other_grade).to be_nil
     end
 
     it 'returns grade when grade is another value' do

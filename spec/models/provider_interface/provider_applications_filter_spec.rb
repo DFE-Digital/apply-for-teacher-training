@@ -177,7 +177,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       end
 
       it 'returns true' do
-        expect(filter.filtered?).to eq(true)
+        expect(filter.filtered?).to be(true)
       end
     end
 
@@ -186,7 +186,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
       it 'returns false' do
         filter = described_class.new(params: params, provider_user: provider_user, state_store: state_store)
-        expect(filter.filtered?).to eq(false)
+        expect(filter.filtered?).to be(false)
       end
     end
 

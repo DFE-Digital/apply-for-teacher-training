@@ -32,7 +32,7 @@ RSpec.describe RefereeInterface::ReferenceSafeguardingForm, type: :model do
         reference = build_stubbed(:reference, safeguarding_concerns: nil)
         form = described_class.build_from_reference(reference: reference)
 
-        expect(form.any_safeguarding_concerns).to eq(nil)
+        expect(form.any_safeguarding_concerns).to be_nil
       end
     end
   end

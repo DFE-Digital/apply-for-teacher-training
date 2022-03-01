@@ -12,8 +12,8 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
 
         form = described_class.build_from_application(application_form)
 
-        expect(form.share_safeguarding_issues).to eq(nil)
-        expect(form.safeguarding_issues).to eq(nil)
+        expect(form.share_safeguarding_issues).to be_nil
+        expect(form.safeguarding_issues).to be_nil
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
         form = described_class.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq('Yes')
-        expect(form.safeguarding_issues).to eq(nil)
+        expect(form.safeguarding_issues).to be_nil
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
         form = described_class.build_from_application(application_form)
 
         expect(form.share_safeguarding_issues).to eq('No')
-        expect(form.safeguarding_issues).to eq(nil)
+        expect(form.safeguarding_issues).to be_nil
       end
     end
 
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
         form.save(application_form)
 
         expect(application_form.safeguarding_issues_status.to_sym).to eq :not_answered_yet
-        expect(application_form.safeguarding_issues).to eq nil
+        expect(application_form.safeguarding_issues).to be_nil
       end
 
       it 'does not update safeguarding issues of the application form if nil' do
@@ -122,7 +122,7 @@ RSpec.describe CandidateInterface::SafeguardingIssuesDeclarationForm, type: :mod
         form.save(application_form)
 
         expect(application_form.safeguarding_issues_status.to_sym).to eq :not_answered_yet
-        expect(application_form.safeguarding_issues).to eq nil
+        expect(application_form.safeguarding_issues).to be_nil
       end
     end
 

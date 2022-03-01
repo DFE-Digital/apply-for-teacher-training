@@ -35,7 +35,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
 
         degree = form.application_form.application_qualifications.degree.first
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
-        expect(degree.qualification_type_hesa_code).to eq nil
+        expect(degree.qualification_type_hesa_code).to be_nil
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       let(:form) { described_class.new(application_form: build(:application_form), uk_degree: 'yes') }
 
       it 'returns false and has errors' do
-        expect(form.save).to eq false
+        expect(form.save).to be false
         expect(form.errors.full_messages).to eq ['Type description Enter your degree type']
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       let(:form) { described_class.new(type_description: 'BSc', uk_degree: 'yes') }
 
       it 'returns false and has errors' do
-        expect(form.save).to eq false
+        expect(form.save).to be false
         expect(form.errors.full_messages).to eq ['Application form is missing']
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         form.update
 
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
-        expect(degree.qualification_type_hesa_code).to eq nil
+        expect(degree.qualification_type_hesa_code).to be_nil
       end
     end
 
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       let(:form) { described_class.new(degree: build(:degree_qualification), uk_degree: 'yes') }
 
       it 'returns false and has errors' do
-        expect(form.update).to eq false
+        expect(form.update).to be false
         expect(form.errors.full_messages).to eq ['Type description Enter your degree type']
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       let(:form) { described_class.new(type_description: 'Doctor of Rap Battles', uk_degree: 'yes') }
 
       it 'returns false and has errors' do
-        expect(form.update).to eq false
+        expect(form.update).to be false
         expect(form.errors.full_messages).to eq ['Degree is missing']
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         form.update
 
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
-        expect(degree.qualification_type_hesa_code).to eq nil
+        expect(degree.qualification_type_hesa_code).to be_nil
         expect(degree.international).to be false
       end
     end
@@ -156,7 +156,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         form.update
 
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
-        expect(degree.qualification_type_hesa_code).to eq nil
+        expect(degree.qualification_type_hesa_code).to be_nil
         expect(degree.international).to be true
       end
     end
@@ -178,7 +178,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         form.update
 
         expect(degree.qualification_type).to eq 'Bachelor of Arts'
-        expect(degree.grade).to eq nil
+        expect(degree.grade).to be_nil
       end
     end
 

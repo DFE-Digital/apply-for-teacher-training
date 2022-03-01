@@ -16,8 +16,8 @@ RSpec.describe SubmitReference do
         expect(reference_one.feedback_provided_at).to eq Time.zone.now
         expect(reference_two).to be_feedback_provided
         expect(reference_two.feedback_provided_at).to eq Time.zone.now
-        expect(reference_one.selected).to eq false
-        expect(reference_two.selected).to eq false
+        expect(reference_one.selected).to be false
+        expect(reference_two.selected).to be false
         expect(application_form.reload.application_choices).to all(be_unsubmitted)
       end
     end

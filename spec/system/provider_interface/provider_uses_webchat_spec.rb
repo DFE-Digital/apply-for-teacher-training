@@ -54,7 +54,7 @@ RSpec.feature 'Provider uses webchat' do
   def and_when_i_click_the_link_i_see_a_popup
     click_link 'Speak to an adviser now'
 
-    expect(page.evaluate_script('window.zendeskPopupOpen')).to eq true
+    expect(page.evaluate_script('window.zendeskPopupOpen')).to be true
   end
 
   def when_the_support_agent_goes_offline

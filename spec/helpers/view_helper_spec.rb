@@ -80,7 +80,7 @@ RSpec.describe ViewHelper, type: :helper do
         )
         allow(ApplicationDates).to receive(:new).and_return(@application_dates)
 
-        expect(helper.submitted_at_date).to eq(nil)
+        expect(helper.submitted_at_date).to be_nil
       end
     end
   end

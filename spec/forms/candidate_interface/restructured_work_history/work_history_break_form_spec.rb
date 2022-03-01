@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
         it 'end_date is not validated' do
           model.valid?
 
-          expect(model.errors.added?(:end_date)).to eq(false)
+          expect(model.errors.added?(:end_date)).to be(false)
         end
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
     it 'returns false if not valid' do
       work_break = described_class.new
 
-      expect(work_break.save(ApplicationForm.new)).to eq(false)
+      expect(work_break.save(ApplicationForm.new)).to be(false)
     end
 
     it 'creates a new work experience if valid' do
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
     it 'returns false if not valid' do
       work_break = described_class.new
 
-      expect(work_break.save(ApplicationForm.new)).to eq(false)
+      expect(work_break.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates work history break if valid' do

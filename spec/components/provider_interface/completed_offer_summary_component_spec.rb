@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     let(:providers) { [build_stubbed(:provider)] }
 
     it 'renders no change link' do
-      expect(row_link_selector(0)).to eq(nil)
+      expect(row_link_selector(0)).to be_nil
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     let(:courses) { [build_stubbed(:course)] }
 
     it 'renders no change link' do
-      expect(row_link_selector(1)).to eq(nil)
+      expect(row_link_selector(1)).to be_nil
     end
   end
 
@@ -90,7 +90,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     let(:course) { build_stubbed(:course, study_mode: :full_time) }
 
     it 'renders no change link' do
-      expect(row_link_selector(2)).to eq(nil)
+      expect(row_link_selector(2)).to be_nil
     end
   end
 
@@ -107,7 +107,7 @@ RSpec.describe ProviderInterface::CompletedOfferSummaryComponent do
     let(:course_options) { [build_stubbed(:course_option)] }
 
     it 'renders no change link' do
-      expect(row_link_selector(3)).to eq(nil)
+      expect(row_link_selector(3)).to be_nil
     end
   end
 

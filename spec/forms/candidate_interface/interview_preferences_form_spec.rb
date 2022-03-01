@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
         application_form,
       )
 
-      expect(interview_preferences.any_preferences).to eq(nil)
+      expect(interview_preferences.any_preferences).to be_nil
     end
   end
 
@@ -49,14 +49,14 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
     it 'returns false if not valid' do
       interview_preferences = described_class.new
 
-      expect(interview_preferences.save(ApplicationForm.new)).to eq(false)
+      expect(interview_preferences.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = build(:application_form)
       interview_preferences = described_class.new(form_data)
 
-      expect(interview_preferences.save(application_form)).to eq(true)
+      expect(interview_preferences.save(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
 
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
         interview_preferences: '',
       )
 
-      expect(interview_preferences.save(application_form)).to eq(true)
+      expect(interview_preferences.save(application_form)).to be(true)
       expect(application_form).to have_attributes(
         interview_preferences: '',
       )

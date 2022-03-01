@@ -34,6 +34,6 @@ RSpec.feature 'Handle applications with too many selected references' do
   end
 
   def and_my_application_is_not_submitted
-    expect(@application.submitted?).to eq false
+    expect(@application.submitted?).to be false
   end
 end

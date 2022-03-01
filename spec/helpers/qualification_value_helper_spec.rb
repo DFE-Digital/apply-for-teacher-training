@@ -24,7 +24,7 @@ RSpec.describe QualificationValueHelper, type: :helper do
       it 'returns nil' do
         @course = build_stubbed(:course, qualifications: nil)
 
-        expect(qualification_text(course_option)).to eq nil
+        expect(qualification_text(course_option)).to be_nil
       end
     end
   end

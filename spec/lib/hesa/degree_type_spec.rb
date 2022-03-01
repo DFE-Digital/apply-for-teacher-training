@@ -59,7 +59,7 @@ RSpec.describe Hesa::DegreeType do
       it 'returns nil' do
         result = described_class.find_by_name('Master of Conjuration')
 
-        expect(result).to eq nil
+        expect(result).to be_nil
       end
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe Hesa::DegreeType do
       it 'returns nil' do
         result = described_class.find_by_hesa_code(99999999)
 
-        expect(result).to eq nil
+        expect(result).to be_nil
       end
     end
   end
