@@ -70,6 +70,24 @@ module CandidateInterface
             },
           },
         }
+      elsif address_only_missing_postcode?
+        {
+          key: t('application_form.contact_details.full_address.label'),
+          value: full_address +
+            [govuk_link_to(
+              'Enter postcode',
+              candidate_interface_edit_address_path(return_to_params)
+            )],
+          action: {
+            href: candidate_interface_edit_address_type_path(return_to_params),
+            visually_hidden_text: t('application_form.contact_details.full_address.change_action'),
+          },
+          html_attributes: {
+            data: {
+              qa: 'contact-details-address',
+            },
+          },
+        }
       else
         {
           key: t('application_form.contact_details.full_address.label'),
@@ -100,8 +118,12 @@ module CandidateInterface
     end
 
     def address_complete?
-      @contact_details_form.valid?(:address_type) &&
-        @contact_details_form.valid?(:address)
+      @contact_details_form.valid?(:address_type) && @contact_details_form.valid?(:address)
+    end
+
+    def address_only_missing_postcode?
+      @contact_details_form.validate(:address)
+      @contact_details_form.errors.attribute_names == %i[postcode]
     end
 
     def return_to_params

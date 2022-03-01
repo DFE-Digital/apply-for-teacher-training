@@ -65,6 +65,23 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
         expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter phone number')
         expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter address')
       end
+
+      it 'renders an Enter postcode link if only the postcode is missing' do
+        application_form = build_stubbed(
+          :application_form,
+          phone_number: '0123456789',
+          address_type: 'uk',
+          address_line1: '1 Nothrew Road',
+          address_line3: 'Knowtown',
+          postcode: nil,
+          country: 'GB',
+        )
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__value .govuk-link').to_html).not_to include('Enter phone number')
+        expect(result.css('.govuk-summary-list__value .govuk-link').to_html).not_to include('Enter address')
+        expect(result.css('.govuk-summary-list__value .govuk-link').to_html).to include('Enter postcode')
+      end
     end
 
     it 'renders the address fields that are not empty strings' do
