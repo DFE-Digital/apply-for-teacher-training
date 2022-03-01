@@ -89,15 +89,6 @@ jobs:
           build-args: |
             SHA=${{ env.IMAGE_TAG }}
 
-      - name: Trigger Review App Deployment
-        if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy') }}
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: Deploy
-          ref:    ${{ github.head_ref }}
-          token:  ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          inputs: '{"review": "${{ github.event.pull_request.number }}", "sha": "${{ env.IMAGE_TAG }}"}'
-
       - name: Notify Slack channel on job failure
         if: failure() && github.event_name == 'push'
         uses: rtCamp/action-slack-notify@v2
@@ -379,30 +370,51 @@ jobs:
             integration_provider-coverage
             integration_candidate-coverage
 
-  trigger-deployment:
-    name: Trigger Deployment
+  deploy-review-app:
+    name: Deployment To Review
+    concurrency: deploy_review_${{ github.event.pull_request.number }}
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy') }}
+    environment:
+      name: review
     needs: [build, lint, test]
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Deployment
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: benc-uk/workflow-dispatch@v1.1
-        with:
-          workflow: Deploy
-          token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
-          inputs: '{"qa": "true", "staging": "true", "production": "true", "sandbox": "true", "sha": "${{ needs.build.outputs.IMAGE_TAG }}"}'
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Wait for review app deployment
-        id: wait_for_review_app_deployment
-        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy')
-        uses: fountainhead/action-wait-for-check@v1.0.0
+      - name: Deploy App to Review
+        uses: ./.github/actions/deploy/
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.head_ref }}
-          checkName: review-${{ github.event.pull_request.number }} Deployment
-          timeoutSeconds:  1800
-          intervalSeconds: 10
+          actions-api-access-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: review
+          pr: ${{ github.event.pull_request.number }}
+          sha: ${{ needs.build.outputs.IMAGE_TAG }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Exit if review app deployment failed
-        if: ${{ steps.wait_for_review_app_deployment.outputs.conclusion != '' && steps.wait_for_review_app_deployment.outputs.conclusion != 'success' }}
-        run: exit 1
+  deploy-all:
+    name: Deployment To All
+    concurrency: deploy_all
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: ${{ matrix.environment }}
+    needs: [build, lint, test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        environment: [qa,staging,production,sandbox]
+      max-parallel: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy App to ${{ matrix.environment }}
+        uses: ./.github/actions/deploy/
+        with:
+          actions-api-access-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: ${{ matrix.environment }}
+          sha: ${{ needs.build.outputs.IMAGE_TAG }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

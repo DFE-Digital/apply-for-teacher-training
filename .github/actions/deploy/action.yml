@@ -1,0 +1,176 @@
+name: deploy
+description: deploys application
+
+inputs:
+  actions-api-access-token:
+    required: true
+  arm-access-key:
+    required: true
+  azure-credentials:
+    required: true
+  environment:
+    description: Environment to deploy to
+    required: true
+  pr:
+    description: PR number for the review app
+    required: false
+  sha:
+    description: Commit sha to be deployed
+    required: true
+  slack-webhook:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set Environment variables
+      shell: bash
+      run: |
+        tf_vars_file=terraform/workspace_variables/${{ inputs.environment }}.tfvars.json
+
+        if [ -n "${{ inputs.pr }}" ]; then
+          PR_NUMBER=${{ inputs.pr }}
+          echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+          echo "DEPLOY_URL=https://apply-review-$PR_NUMBER.london.cloudapps.digital" >> $GITHUB_ENV
+        else
+          echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
+
+          hostname=$(jq -r '.service_gov_uk_host_names[0]' ${tf_vars_file})
+          if [[ $hostname != null ]]; then
+            echo "DEPLOY_URL=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_URL=https://apply-${{ inputs.environment }}.london.cloudapps.digital" >> $GITHUB_ENV
+          fi
+        fi;
+        echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
+
+        echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "KEY_VAULT_CYPRESS_SECRET_NAME=$(jq -r '.key_vault_cypress_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "PAAS_CF_SPACE=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
+        echo "PAAS_APP_ENVIRONMENT=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
+      env:
+        DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
+
+    - name: Start ${{ env.DEPLOY_ENV }} Deployment
+      if: ${{ always() }}
+      uses: bobheadxi/deployments@v1
+      id: deployment
+      with:
+        env:   ${{ env.DEPLOY_ENV }}
+        step:  start
+        token: ${{ inputs.actions-api-access-token }}
+
+    - name: Use Terraform v0.14.9
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.9
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ inputs.azure-credentials }}
+
+    - uses: DFE-Digital/keyvault-yaml-secret@v1
+      id: get-secrets
+      with:
+        keyvault: ${{ env.KEY_VAULT_NAME }}
+        secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+        key: CF_USER, CF_PASSWORD
+
+    - uses: DFE-Digital/keyvault-yaml-secret@v1
+      id: get-cypress-secrets
+      with:
+        keyvault: ${{ env.KEY_VAULT_NAME }}
+        secret: ${{ env.KEY_VAULT_CYPRESS_SECRET_NAME }}
+        key: CANDIDATE_TEST_EMAIL, GOVUK_NOTIFY_API_KEY
+
+    - name: Setup cf cli
+      uses: DFE-Digital/github-actions/setup-cf-cli@master
+      with:
+        CF_USERNAME:   ${{ steps.get-secrets.outputs.cf_user }}
+        CF_PASSWORD:   ${{ steps.get-secrets.outputs.cf_password }}
+        CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
+        INSTALL_CONDUIT: true
+
+    - name: Validate Azure Key Vault secrets
+      uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
+      with:
+        KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
+        SECRETS: |
+          ${{ env.KEY_VAULT_APP_SECRET_NAME }}
+          ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
+
+    - name: Delete clock to force its recreation
+      shell: bash
+      run: |
+        make ${{ inputs.environment }} ci delete-clock
+      env:
+        PR_NUMBER: ${{ env.PR_NUMBER }}
+        CONFIRM_PRODUCTION: true
+
+    - name: Terraform init, plan & apply
+      shell: bash
+      run: make ${{ inputs.environment }} ci deploy
+      env:
+        ARM_ACCESS_KEY:           ${{ inputs.arm-access-key }}
+        IMAGE_TAG:                ${{ inputs.sha }}
+        PR_NUMBER:                ${{ env.PR_NUMBER }}
+        TF_VAR_azure_credentials: ${{ inputs.azure-credentials }}
+        CONFIRM_PRODUCTION: true
+
+    - name: Seed Review App
+      shell: bash
+      if: inputs.pr != ''
+      run: |
+        cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
+
+    - name: Set CYPRESS_BASE_URL
+      shell: bash
+      run: |
+        echo "CYPRESS_BASE_URL=${DEPLOY_URL}" >> $GITHUB_ENV
+
+    - name: Cypress run
+      uses: cypress-io/github-action@v2.3.10
+      with:
+        spec: cypress/integration/candidate.spec.js
+      env:
+        CYPRESS_ENVIRONMENT: ${{ inputs.environment }}
+        CYPRESS_CANDIDATE_TEST_EMAIL: ${{ steps.get-cypress-secrets.outputs.candidate_test_email }}
+        CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ steps.get-cypress-secrets.outputs.govuk_notify_api_key }}
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Upload Cypress screenshot and videos
+      if:   always()
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: smoke-test-${{ inputs.environment }}
+        path: |
+          cypress/videos
+          cypress/screenshots
+        if-no-files-found: ignore
+        retention-days: 7
+
+    - name: Update ${{ env.DEPLOY_ENV }} status
+      if: ${{ always() }}
+      uses: bobheadxi/deployments@v1
+      with:
+        env:  ${{ env.DEPLOY_ENV }}
+        step: finish
+        token:  ${{ inputs.actions-api-access-token }}
+        status: ${{ job.status }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+        env_url: ${{ env.DEPLOY_URL }}
+
+    - name: Notify Slack channel on job failure
+      if: failure() && inputs.pr == ''
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_USERNAME: CI Deployment
+        SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
+        SLACK_MESSAGE: |
+          Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
+        SLACK_WEBHOOK: ${{ inputs.slack-webhook }}
+        SLACK_COLOR: failure
+        SLACK_FOOTER: Sent from deploy job in deploy workflow

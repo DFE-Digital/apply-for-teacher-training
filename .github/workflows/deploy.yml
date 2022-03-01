@@ -3,229 +3,36 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      qa:
-        description: Deploy to qa?
-        default: 'false'
+      environment:
+        description: Environment to deploy to
         required: true
-      staging:
-        description: Deploy to staging?
-        default: 'false'
-        required: true
-      production:
-        description: Deploy to production?
-        default: 'false'
-        required: true
-      sandbox:
-        description: Deploy to sandbox?
-        default: 'false'
-        required: true
-      review:
-        description: PR number for the review app
-        required: false
+        type: choice
+        options:
+        - qa
+        - staging
+        - production
+        - sandbox
       sha:
         description: Commit sha to be deployed
         required: true
 
 jobs:
-  prepare-matrix:
-    name: Prepare Environment Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      environments: ${{ steps.select-environments.outputs.environments || steps.set-pr-environment.outputs.environments }}
-      deploy_job_name: ${{ steps.set-pr-deploy-job-name.outputs.deploy_job_name }}
-    steps:
-      - id:   select-environments
-        if:   github.event.inputs.review == ''
-        uses: DFE-Digital/bat-infrastructure/actions/prepare-environment-matrix@main
-
-      - id:  set-pr-environment
-        if:  github.event.inputs.review != ''
-        run: echo "::set-output name=environments::$ENVIRONMENT"
-        env:
-          ENVIRONMENT: '{"environment": ["review"]}'
-
-      - id:  set-pr-deploy-job-name
-        if : github.event.inputs.review != ''
-        run: echo "::set-output name=deploy_job_name::review-${{ github.event.inputs.review }}"
-
-      - uses: DFE-Digital/github-actions/turnstyle@master
-        name: Wait for other inprogress deployment runs
-        with:
-          initial-wait-seconds: 12
-          poll-interval-seconds: 20
-          abort-after-seconds: 3600
-          same-branch-only: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify Slack channel on job failure
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Deployment timeout failure
-          SLACK_MESSAGE: Deployment timeout failure for commit ${{ github.event.inputs.sha }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from prepare-matrix job in deploy workflow
-
   deploy:
+    name: ${{ github.event.inputs.environment }} deployment
+    concurrency: deploy_all # ensures that the job waits for any deployments triggered by the build workflow to finish
     runs-on: ubuntu-latest
-    name: ${{ needs.prepare-matrix.outputs.deploy_job_name || matrix.environment }} Deployment
-    needs: [prepare-matrix]
     environment:
-      name: ${{ matrix.environment }}
-    strategy:
-      max-parallel: 1
-      matrix: ${{ fromJson(needs.prepare-matrix.outputs.environments) }}
+      name: ${{ github.event.inputs.environment }}
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set Environment variables
-        run: |
-          tf_vars_file=terraform/workspace_variables/${{ matrix.environment }}.tfvars.json
-
-          if [ -n "${{ github.event.inputs.review }}" ]; then
-            PR_NUMBER=${{ github.event.inputs.review }}
-            echo "DEPLOY_ENV=review-$PR_NUMBER" >> $GITHUB_ENV
-            echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
-            echo "DEPLOY_URL=https://apply-review-$PR_NUMBER.london.cloudapps.digital" >> $GITHUB_ENV
-          else
-            echo "DEPLOY_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
-
-            hostname=$(jq -r '.service_gov_uk_host_names[0]' ${tf_vars_file})
-            if [[ $hostname != null ]]; then
-              echo "DEPLOY_URL=https://${hostname}.apply-for-teacher-training.service.gov.uk" >> $GITHUB_ENV
-            else
-              echo "DEPLOY_URL=https://apply-${{ matrix.environment }}.london.cloudapps.digital" >> $GITHUB_ENV
-            fi
-          fi;
-          echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
-
-          echo "KEY_VAULT_NAME=$(jq -r '.key_vault_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_APP_SECRET_NAME=$(jq -r '.key_vault_app_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_INFRA_SECRET_NAME=$(jq -r '.key_vault_infra_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "KEY_VAULT_CYPRESS_SECRET_NAME=$(jq -r '.key_vault_cypress_secret_name' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "PAAS_CF_SPACE=$(jq -r '.paas_cf_space' ${tf_vars_file})" >> $GITHUB_ENV
-          echo "PAAS_APP_ENVIRONMENT=$(jq -r '.paas_app_environment' ${tf_vars_file})" >> $GITHUB_ENV
-        env:
-          DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', github.event.inputs.sha) }}
-
-      - name: Start ${{ env.DEPLOY_ENV }} Deployment
-        if: ${{ always() }}
-        uses: bobheadxi/deployments@v0.6.2
-        id: deployment
+      - name: Deploy App to Review
+        uses: ./.github/actions/deploy/
         with:
-          env:   ${{ env.DEPLOY_ENV }}
-          step:  start
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Use Terraform v0.14.9
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.14.9
-
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - uses: DFE-Digital/keyvault-yaml-secret@v1
-        id: get-secrets
-        with:
-          keyvault: ${{ env.KEY_VAULT_NAME }}
-          secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-          key: CF_USER, CF_PASSWORD
-
-      - uses: DFE-Digital/keyvault-yaml-secret@v1
-        id: get-cypress-secrets
-        with:
-          keyvault: ${{ env.KEY_VAULT_NAME }}
-          secret: ${{ env.KEY_VAULT_CYPRESS_SECRET_NAME }}
-          key: CANDIDATE_TEST_EMAIL, GOVUK_NOTIFY_API_KEY
-
-      - name: Setup cf cli
-        uses: DFE-Digital/github-actions/setup-cf-cli@master
-        with:
-          CF_USERNAME:   ${{ steps.get-secrets.outputs.cf_user }}
-          CF_PASSWORD:   ${{ steps.get-secrets.outputs.cf_password }}
-          CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
-          INSTALL_CONDUIT: true
-
-      - name: Validate Azure Key Vault secrets
-        uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
-        with:
-          KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
-          SECRETS: |
-            ${{ env.KEY_VAULT_APP_SECRET_NAME }}
-            ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
-
-      - name: Delete clock to force its recreation
-        run: |
-          make ${{ matrix.environment }} ci delete-clock
-        env:
-          PR_NUMBER:                ${{ env.PR_NUMBER }}
-          CONFIRM_PRODUCTION: true
-
-      - name: Terraform init, plan & apply
-        run: make ${{ matrix.environment }} ci deploy
-        env:
-          ARM_ACCESS_KEY:           ${{ secrets.ARM_ACCESS_KEY }}
-          IMAGE_TAG:                ${{ github.event.inputs.sha }}
-          PR_NUMBER:                ${{ env.PR_NUMBER }}
-          TF_VAR_azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-          CONFIRM_PRODUCTION: true
-
-      - name: Seed Review App
-        if: github.event.inputs.review != ''
-        run: |
-          cf ssh apply-review-${PR_NUMBER} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
-
-      - name: Set CYPRESS_BASE_URL
-        run: |
-          echo "CYPRESS_BASE_URL=${DEPLOY_URL}" >> $GITHUB_ENV
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v2.3.10
-        with:
-          spec: cypress/integration/candidate.spec.js
-        env:
-          CYPRESS_ENVIRONMENT: ${{ matrix.environment }}
-          CYPRESS_CANDIDATE_TEST_EMAIL: ${{ steps.get-cypress-secrets.outputs.candidate_test_email }}
-          CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ steps.get-cypress-secrets.outputs.govuk_notify_api_key }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Cypress screenshot and videos
-        if:   always()
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: smoke-test-${{ matrix.environment }}
-          path: |
-            cypress/videos
-            cypress/screenshots
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: Update ${{ env.DEPLOY_ENV }} status
-        if: ${{ always() }}
-        uses: bobheadxi/deployments@v0.6.2
-        with:
-          env:  ${{ env.DEPLOY_ENV }}
-          step: finish
-          token:  ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ env.DEPLOY_URL }}
-
-      - name: Notify Slack channel on job failure
-        if: failure() && github.event.inputs.review == ''
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_USERNAME: CI Deployment
-          SLACK_TITLE: Deployment to ${{ env.DEPLOY_ENV }} failed
-          SLACK_MESSAGE: |
-            Deployment of docker image ${{ env.DOCKER_IMAGE }} to ${{ env.DEPLOY_ENV }} environment failed
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: failure
-          SLACK_FOOTER: Sent from deploy job in deploy workflow
+          actions-api-access-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
+          arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: ${{ github.event.inputs.environment }}
+          sha: ${{ github.event.inputs.sha }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
