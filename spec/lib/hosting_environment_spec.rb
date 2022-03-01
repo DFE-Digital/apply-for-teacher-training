@@ -5,7 +5,7 @@ RSpec.describe HostingEnvironment do
     %w[qa review staging].each do |environment|
       it "returns true for `#{environment}`" do
         ClimateControl.modify HOSTING_ENVIRONMENT_NAME: environment do
-          expect(described_class.dfe_signup_only?).to eq(true)
+          expect(described_class.dfe_signup_only?).to be(true)
         end
       end
     end
@@ -13,7 +13,7 @@ RSpec.describe HostingEnvironment do
     %w[development test sandbox production].each do |environment|
       it "returns false for `#{environment}`" do
         ClimateControl.modify HOSTING_ENVIRONMENT_NAME: environment do
-          expect(described_class.dfe_signup_only?).to eq(false)
+          expect(described_class.dfe_signup_only?).to be(false)
         end
       end
     end

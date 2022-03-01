@@ -56,7 +56,7 @@ RSpec.describe Hesa::Grade do
       it 'returns the undergrad grouping only' do
         expect(grouping.size).to eq 5
         expect(grouping.first.visual_grouping).to eq :main_undergrad
-        expect(grouping.find { |grade| grade.visual_grouping == :main_postgrad }).to eq nil
+        expect(grouping.find { |grade| grade.visual_grouping == :main_postgrad }).to be_nil
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe Hesa::Grade do
       it 'returns the entire main grouping' do
         expect(grouping.size).to eq 9
         expect(grouping.first.visual_grouping).to eq :main_undergrad
-        expect(grouping.find { |grade| grade.visual_grouping == :main_postgrad }).not_to eq nil
+        expect(grouping.find { |grade| grade.visual_grouping == :main_postgrad }).not_to be_nil
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Hesa::Grade do
       it 'returns the entire main grouping' do
         expect(grouping.size).to eq 9
         expect(grouping.first.visual_grouping).to eq :main_undergrad
-        expect(grouping.find { |grade| grade.visual_grouping == :main_postgrad }).not_to eq nil
+        expect(grouping.find { |grade| grade.visual_grouping == :main_postgrad }).not_to be_nil
       end
     end
   end

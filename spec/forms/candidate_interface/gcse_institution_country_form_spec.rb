@@ -33,14 +33,14 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
     it 'returns false if not valid' do
       institution_country_form = described_class.new
 
-      expect(institution_country_form.save(ApplicationQualification.new)).to eq(false)
+      expect(institution_country_form.save(ApplicationQualification.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_qualification = build(:application_qualification)
       institution_country_form = described_class.new(form_data)
 
-      expect(institution_country_form.save(application_qualification)).to eq(true)
+      expect(institution_country_form.save(application_qualification)).to be(true)
       expect(application_qualification.institution_country).to eq form_data[:institution_country]
     end
   end

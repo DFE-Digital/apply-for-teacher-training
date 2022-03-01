@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::DegreeAwardYearForm, type: :model do
 
         degree_award_year_form = described_class.new(degree: degree, award_year: RecruitmentCycle.next_year)
 
-        expect(degree_award_year_form.valid?).to eq true
+        expect(degree_award_year_form.valid?).to be true
       end
     end
   end

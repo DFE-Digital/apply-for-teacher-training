@@ -57,7 +57,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
         it 'only modifies the statuses of the conditions in the offer' do
           modified_conditions = wizard.conditions
 
-          expect(modified_conditions.first.status).to eq(nil)
+          expect(modified_conditions.first.status).to be_nil
           expect(modified_conditions.last.status).to eq('met')
         end
       end
@@ -73,7 +73,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
       end
 
       it 'returns true' do
-        expect(wizard.all_conditions_met?).to eq(true)
+        expect(wizard.all_conditions_met?).to be(true)
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
       end
 
       it 'returns false' do
-        expect(wizard.all_conditions_met?).to eq(false)
+        expect(wizard.all_conditions_met?).to be(false)
       end
     end
   end
@@ -101,7 +101,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
       end
 
       it 'returns true' do
-        expect(wizard.any_condition_not_met?).to eq(true)
+        expect(wizard.any_condition_not_met?).to be(true)
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe ProviderInterface::ConfirmConditionsWizard do
       end
 
       it 'returns false' do
-        expect(wizard.any_condition_not_met?).to eq(false)
+        expect(wizard.any_condition_not_met?).to be(false)
       end
     end
   end

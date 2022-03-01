@@ -66,7 +66,7 @@ RSpec.describe ProcessNotifyCallback do
 
         process_notify_callback.call
 
-        expect(candidate.reload.sign_up_email_bounced).to eq(true)
+        expect(candidate.reload.sign_up_email_bounced).to be(true)
       end
 
       it 'updates hide in reporting to true for candidate' do
@@ -74,7 +74,7 @@ RSpec.describe ProcessNotifyCallback do
 
         process_notify_callback.call
 
-        expect(candidate.reload.hide_in_reporting).to eq(true)
+        expect(candidate.reload.hide_in_reporting).to be(true)
       end
 
       it 'sets not found to true if candidate cannot be found' do
@@ -111,8 +111,8 @@ RSpec.describe ProcessNotifyCallback do
 
         process_notify_callback.call
 
-        expect(candidate.reload.sign_up_email_bounced).to eq(false)
-        expect(candidate.reload.hide_in_reporting).to eq(false)
+        expect(candidate.reload.sign_up_email_bounced).to be(false)
+        expect(candidate.reload.hide_in_reporting).to be(false)
       end
     end
   end

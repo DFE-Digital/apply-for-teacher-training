@@ -51,12 +51,12 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupWizard do
         current_relationship = wizard.current_relationship
         expect(current_relationship).to be_changed
 
-        expect(current_relationship.training_provider_can_make_decisions).to eq(false)
-        expect(current_relationship.ratifying_provider_can_make_decisions).to eq(true)
-        expect(current_relationship.training_provider_can_view_safeguarding_information).to eq(true)
-        expect(current_relationship.ratifying_provider_can_view_safeguarding_information).to eq(true)
-        expect(current_relationship.training_provider_can_view_diversity_information).to eq(true)
-        expect(current_relationship.ratifying_provider_can_view_diversity_information).to eq(false)
+        expect(current_relationship.training_provider_can_make_decisions).to be(false)
+        expect(current_relationship.ratifying_provider_can_make_decisions).to be(true)
+        expect(current_relationship.training_provider_can_view_safeguarding_information).to be(true)
+        expect(current_relationship.ratifying_provider_can_view_safeguarding_information).to be(true)
+        expect(current_relationship.training_provider_can_view_diversity_information).to be(true)
+        expect(current_relationship.ratifying_provider_can_view_diversity_information).to be(false)
       end
     end
   end

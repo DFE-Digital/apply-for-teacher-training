@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
       application_form = build_stubbed(:application_form, equality_and_diversity: nil)
       form = described_class.build_from_application(application_form)
 
-      expect(form.sex).to eq(nil)
+      expect(form.sex).to be_nil
     end
   end
 

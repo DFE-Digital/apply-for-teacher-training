@@ -29,7 +29,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
 
       it 'returns true' do
         submitted = described_class.new(candidate).submitted
-        expect(submitted).to eq(true)
+        expect(submitted).to be(true)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::SendDuplicateMatchEmail do
 
       it 'returns false' do
         submitted = described_class.new(candidate).submitted
-        expect(submitted).to eq(false)
+        expect(submitted).to be(false)
       end
     end
   end

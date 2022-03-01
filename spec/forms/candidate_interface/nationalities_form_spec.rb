@@ -79,7 +79,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     it 'returns false if not valid' do
       nationalities = described_class.new
 
-      expect(nationalities.save(ApplicationForm.new)).to eq(false)
+      expect(nationalities.save(ApplicationForm.new)).to be(false)
     end
 
     context 'when the candidate is British or Irish' do
@@ -98,14 +98,14 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         application_form = build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
         nationalities = described_class.new(form_data)
 
-        expect(nationalities.save(application_form)).to eq(true)
+        expect(nationalities.save(application_form)).to be(true)
         expect(application_form.first_nationality).to eq 'British'
         expect(application_form.second_nationality).to eq 'Irish'
         expect(application_form.third_nationality).to eq 'Belgian'
         expect(application_form.fourth_nationality).to eq 'German'
         expect(application_form.fifth_nationality).to eq 'Swedish'
-        expect(application_form.right_to_work_or_study).to eq nil
-        expect(application_form.right_to_work_or_study_details).to eq nil
+        expect(application_form.right_to_work_or_study).to be_nil
+        expect(application_form.right_to_work_or_study_details).to be_nil
       end
     end
 
@@ -123,7 +123,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         application_form = build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
         nationalities = described_class.new(form_data)
 
-        expect(nationalities.save(application_form)).to eq(true)
+        expect(nationalities.save(application_form)).to be(true)
         expect(application_form.first_nationality).to eq 'Belgian'
         expect(application_form.second_nationality).to eq 'German'
         expect(application_form.third_nationality).to eq 'Swedish'

@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::UndoReferenceRefusal do
       described_class.new(reference).call
 
       expect(reference).to be_feedback_requested
-      expect(reference.feedback_refused_at).to eq nil
+      expect(reference.feedback_refused_at).to be_nil
     end
   end
 end

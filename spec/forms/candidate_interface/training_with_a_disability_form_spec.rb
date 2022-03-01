@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
       end
 
       it 'returns false' do
-        expect(disability_form.save(ApplicationForm.new)).to eq(false)
+        expect(disability_form.save(ApplicationForm.new)).to be(false)
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
       end
 
       it 'updates the provided ApplicationForm' do
-        expect(disability_form.save(application_form)).to eq(true)
+        expect(disability_form.save(application_form)).to be(true)
         expect(application_form).to have_attributes(
           disclose_disability: true,
           disability_disclosure: 'I have a hearing impairment',
@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityForm, type: :model do
       end
 
       it 'does not update the provided ApplicationForm' do
-        expect(disability_form.save(application_form)).to eq(false)
+        expect(disability_form.save(application_form)).to be(false)
         expect(application_form).to have_attributes(
           disclose_disability: nil,
           disability_disclosure: nil,

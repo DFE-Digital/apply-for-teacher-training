@@ -132,7 +132,7 @@ RSpec.describe SupportInterface::ApplicationForms::ChangeCourseChoiceForm, type:
           accept_guidance: true,
         )
 
-        expect(form.save(application_choice.id)).to eq(true)
+        expect(form.save(application_choice.id)).to be(true)
 
         expect(application_choice.reload.course.name).to eq course_option.course.name
         expect(application_choice.course.id).not_to eq original_course_option.course.id

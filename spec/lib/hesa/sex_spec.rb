@@ -28,7 +28,7 @@ RSpec.describe Hesa::Sex do
       it 'returns nil' do
         result = described_class.find('An unrecognised type')
 
-        expect(result).to eq nil
+        expect(result).to be_nil
       end
     end
   end

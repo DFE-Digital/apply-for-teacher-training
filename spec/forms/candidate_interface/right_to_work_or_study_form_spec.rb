@@ -45,16 +45,16 @@ RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
       it 'returns false if not valid' do
         right_to_work_form = described_class.new
 
-        expect(right_to_work_form.save(ApplicationForm.new)).to eq(false)
+        expect(right_to_work_form.save(ApplicationForm.new)).to be(false)
       end
 
       it 'updates the provided ApplicationForm if valid' do
         application_form = create(:application_form)
         right_to_work_form = described_class.new(form_data)
 
-        expect(right_to_work_form.save(application_form)).to eq(true)
+        expect(right_to_work_form.save(application_form)).to be(true)
         expect(application_form.right_to_work_or_study).to eq 'no'
-        expect(application_form.right_to_work_or_study_details).to eq nil
+        expect(application_form.right_to_work_or_study_details).to be_nil
       end
     end
   end

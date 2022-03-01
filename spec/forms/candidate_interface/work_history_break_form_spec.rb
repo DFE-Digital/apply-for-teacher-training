@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
     it 'returns false if not valid' do
       work_break = described_class.new
 
-      expect(work_break.save(ApplicationForm.new)).to eq(false)
+      expect(work_break.save(ApplicationForm.new)).to be(false)
     end
 
     it 'creates a new work experience if valid' do
@@ -81,7 +81,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
     it 'returns false if not valid' do
       work_break = described_class.new
 
-      expect(work_break.save(ApplicationForm.new)).to eq(false)
+      expect(work_break.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates work history break if valid' do

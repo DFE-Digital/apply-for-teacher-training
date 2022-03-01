@@ -567,7 +567,7 @@ module CandidateHelper
 
   def expect_validation_error(message)
     errors = all('.govuk-error-message')
-    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
+    expect(errors.map(&:text).one? { |e| e.include? message }).to be true
   end
 
   def current_candidate

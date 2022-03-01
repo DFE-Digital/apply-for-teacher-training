@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::WorkExplanationForm, type: :model do
     it 'returns false if not valid' do
       work_explanation_form = described_class.new
 
-      expect(work_explanation_form.save(ApplicationForm.new)).to eq(false)
+      expect(work_explanation_form.save(ApplicationForm.new)).to be(false)
     end
 
     it 'creates a new work experience if valid' do

@@ -50,14 +50,14 @@ RSpec.describe CandidateInterface::GcseEnicForm do
       it 'returns false if not valid' do
         enic_form = described_class.new
 
-        expect(enic_form.save(ApplicationQualification.new)).to eq(false)
+        expect(enic_form.save(ApplicationQualification.new)).to be(false)
       end
 
       it 'updates the provided ApplicationQualification if valid' do
         qualification = build(:gcse_qualification)
         enic_form = described_class.new(form_data)
 
-        expect(enic_form.save(qualification)).to eq(true)
+        expect(enic_form.save(qualification)).to be(true)
         expect(qualification.enic_reference).to eq form_data[:enic_reference]
         expect(qualification.comparable_uk_qualification).to eq form_data[:comparable_uk_qualification]
       end
@@ -70,9 +70,9 @@ RSpec.describe CandidateInterface::GcseEnicForm do
           comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
         )
 
-        expect(enic_form.save(qualification)).to eq(true)
-        expect(qualification.enic_reference).to eq nil
-        expect(qualification.comparable_uk_qualification).to eq nil
+        expect(enic_form.save(qualification)).to be(true)
+        expect(qualification.enic_reference).to be_nil
+        expect(qualification.comparable_uk_qualification).to be_nil
       end
     end
   end

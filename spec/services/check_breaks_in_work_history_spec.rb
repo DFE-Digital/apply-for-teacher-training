@@ -26,7 +26,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(false)
+        expect(breaks_in_work_history).to be(false)
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(false)
+        expect(breaks_in_work_history).to be(false)
       end
 
       it 'returns false if the job ends at current date' do
@@ -57,7 +57,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           breaks_in_work_history = described_class.call(application_form)
 
-          expect(breaks_in_work_history).to eq(false)
+          expect(breaks_in_work_history).to be(false)
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           breaks_in_work_history = described_class.call(application_form)
 
-          expect(breaks_in_work_history).to eq(true)
+          expect(breaks_in_work_history).to be(true)
         end
       end
 
@@ -91,7 +91,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
           breaks_in_work_history = described_class.call(application_form)
 
-          expect(breaks_in_work_history).to eq(true)
+          expect(breaks_in_work_history).to be(true)
         end
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(true)
+        expect(breaks_in_work_history).to be(true)
       end
 
       it 'returns true if there is more than a month break between the jobs' do
@@ -130,7 +130,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(true)
+        expect(breaks_in_work_history).to be(true)
       end
 
       it 'returns true if the second job ended more than a month ago' do
@@ -148,7 +148,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(true)
+        expect(breaks_in_work_history).to be(true)
       end
 
       it 'returns false if the second job ended more than a month ago but the first job is current' do
@@ -166,7 +166,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(false)
+        expect(breaks_in_work_history).to be(false)
       end
 
       it 'returns true if there is a break regardless of creation order' do
@@ -184,7 +184,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(true)
+        expect(breaks_in_work_history).to be(true)
       end
     end
 
@@ -209,7 +209,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(false)
+        expect(breaks_in_work_history).to be(false)
       end
 
       it 'returns true if there are breaks in work history' do
@@ -242,7 +242,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(true)
+        expect(breaks_in_work_history).to be(true)
       end
 
       it 'returns false if there are breaks in work history covered by current job' do
@@ -270,7 +270,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(false)
+        expect(breaks_in_work_history).to be(false)
       end
 
       it 'returns false if there are breaks in work history overlapped by an earlier job' do
@@ -298,7 +298,7 @@ RSpec.describe CheckBreaksInWorkHistory do
 
         breaks_in_work_history = described_class.call(application_form)
 
-        expect(breaks_in_work_history).to eq(false)
+        expect(breaks_in_work_history).to be(false)
       end
     end
   end

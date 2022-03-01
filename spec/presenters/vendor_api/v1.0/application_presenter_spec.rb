@@ -172,7 +172,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
 
     context 'if the status is no_safeguarding_issues_to_declare' do
       it 'returns nil' do
-        expect(attributes[:safeguarding_issues_details_url]).to eq(nil)
+        expect(attributes[:safeguarding_issues_details_url]).to be_nil
       end
     end
 
@@ -180,7 +180,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       let(:application_form) { create(:application_form, :minimum_info, :with_safeguarding_issues_never_asked) }
 
       it 'returns nil' do
-        expect(attributes[:safeguarding_issues_details_url]).to eq(nil)
+        expect(attributes[:safeguarding_issues_details_url]).to be_nil
       end
     end
   end

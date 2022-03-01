@@ -16,7 +16,7 @@ RSpec.describe VendorAPIRequestWorker do
       headers = { 'HTTP_AUTHORIZATION' => "Bearer #{unhashed_token}" }
       described_class.new.perform({ 'headers' => headers }, {}.to_json, 500, Time.zone.now)
 
-      expect(VendorAPIRequest.find_by(provider_id: provider.id)).not_to be nil
+      expect(VendorAPIRequest.find_by(provider_id: provider.id)).not_to be_nil
     end
   end
 

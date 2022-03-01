@@ -87,7 +87,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it 'returns false if not valid' do
       job = described_class.new
 
-      expect(job.save(ApplicationForm.new)).to eq(false)
+      expect(job.save(ApplicationForm.new)).to be(false)
     end
 
     it 'creates a new job if valid' do
@@ -104,7 +104,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it 'returns false if not valid' do
       job = described_class.new
 
-      expect(job.update(ApplicationWorkExperience.new)).to eq(false)
+      expect(job.update(ApplicationWorkExperience.new)).to be(false)
     end
 
     it 'updates an existing job if valid' do

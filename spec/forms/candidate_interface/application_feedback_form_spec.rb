@@ -37,7 +37,7 @@ RSpec.describe CandidateInterface::ApplicationFeedbackForm, type: :model do
 
     it 'returns false if not valid' do
       application_form = double
-      expect(described_class.new.save(application_form)).to eq(false)
+      expect(described_class.new.save(application_form)).to be(false)
     end
 
     it 'adds a new ApplicationFeedback object to the ApplicationForm if valid' do
@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::ApplicationFeedbackForm, type: :model do
       expect(feedback.path).to eq form.path
       expect(feedback.page_title).to eq form.page_title
       expect(feedback.feedback).to eq 'This would be easier if i could read.'
-      expect(feedback.consent_to_be_contacted).to eq false
+      expect(feedback.consent_to_be_contacted).to be false
     end
   end
 end

@@ -100,6 +100,6 @@ RSpec.feature 'Provider makes an offer on an application with interviews in the 
   end
 
   def and_future_interviews_are_cancelled
-    expect(interview.reload.cancelled_at).not_to be(nil)
+    expect(interview.reload.cancelled_at).not_to be_nil
   end
 end

@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
       it 'returns false and has errors' do
         form = described_class.new
 
-        expect(form.save).to eq false
+        expect(form.save).to be false
         expect(form.errors.full_messages).to eq ['Subject Enter your degree subject']
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
         form.save
 
         expect(form.degree.subject).to eq 'Non-HESA subject'
-        expect(form.degree.subject_hesa_code).to eq nil
+        expect(form.degree.subject_hesa_code).to be_nil
       end
     end
   end

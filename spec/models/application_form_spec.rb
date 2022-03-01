@@ -325,7 +325,7 @@ RSpec.describe ApplicationForm do
       it 'returns false' do
         application_form = build(:application_form)
 
-        expect(application_form.science_gcse_needed?).to eq(false)
+        expect(application_form.science_gcse_needed?).to be(false)
       end
     end
 
@@ -333,7 +333,7 @@ RSpec.describe ApplicationForm do
       it 'returns true' do
         application_form = application_form_with_course_option_for_provider_with(level: 'primary')
 
-        expect(application_form.science_gcse_needed?).to eq(true)
+        expect(application_form.science_gcse_needed?).to be(true)
       end
     end
 
@@ -341,7 +341,7 @@ RSpec.describe ApplicationForm do
       it 'returns false' do
         application_form = application_form_with_course_option_for_provider_with(level: 'secondary')
 
-        expect(application_form.science_gcse_needed?).to eq(false)
+        expect(application_form.science_gcse_needed?).to be(false)
       end
     end
 
@@ -349,7 +349,7 @@ RSpec.describe ApplicationForm do
       it 'returns false' do
         application_form = application_form_with_course_option_for_provider_with(level: 'further_education')
 
-        expect(application_form.science_gcse_needed?).to eq(false)
+        expect(application_form.science_gcse_needed?).to be(false)
       end
     end
 
@@ -428,7 +428,7 @@ RSpec.describe ApplicationForm do
       application_form = create(:application_form)
       create(:selected_reference, application_form: application_form)
 
-      expect(application_form.selected_incorrect_number_of_references?).to eq true
+      expect(application_form.selected_incorrect_number_of_references?).to be true
     end
 
     it 'is true when > 2 selections' do
@@ -437,7 +437,7 @@ RSpec.describe ApplicationForm do
       create(:selected_reference, application_form: application_form)
       create(:selected_reference, application_form: application_form)
 
-      expect(application_form.selected_incorrect_number_of_references?).to eq true
+      expect(application_form.selected_incorrect_number_of_references?).to be true
     end
 
     it 'is false when 2 selections' do
@@ -445,7 +445,7 @@ RSpec.describe ApplicationForm do
       create(:selected_reference, application_form: application_form)
       create(:selected_reference, application_form: application_form)
 
-      expect(application_form.selected_incorrect_number_of_references?).to eq false
+      expect(application_form.selected_incorrect_number_of_references?).to be false
     end
   end
 
@@ -493,7 +493,7 @@ RSpec.describe ApplicationForm do
       it 'returns true' do
         nationality_permutations.each do |permutation|
           application_form = build(:application_form, permutation)
-          expect(application_form.british_or_irish?).to eq true
+          expect(application_form.british_or_irish?).to be true
         end
       end
     end
@@ -510,7 +510,7 @@ RSpec.describe ApplicationForm do
       it 'return false' do
         nationality_permutations.each do |permutation|
           application_form = build(:application_form, permutation)
-          expect(application_form.british_or_irish?).to eq false
+          expect(application_form.british_or_irish?).to be false
         end
       end
     end
@@ -545,14 +545,14 @@ RSpec.describe ApplicationForm do
       let(:application_form) { build(:application_form, english_main_language: nil) }
 
       it 'returns false by default' do
-        expect(application_form.english_main_language).to eq false
+        expect(application_form.english_main_language).to be false
       end
 
       context 'when british_or_irish? is true' do
         it 'returns true' do
           application_form.first_nationality = 'British'
 
-          expect(application_form.english_main_language).to eq true
+          expect(application_form.english_main_language).to be true
         end
       end
 
@@ -561,7 +561,7 @@ RSpec.describe ApplicationForm do
           english_proficiency = build(:english_proficiency, :qualification_not_needed)
           application_form.english_proficiency = english_proficiency
 
-          expect(application_form.english_main_language).to eq true
+          expect(application_form.english_main_language).to be true
         end
       end
     end
@@ -570,7 +570,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { build(:application_form, english_main_language: true) }
 
       it 'returns true' do
-        expect(application_form.english_main_language).to eq true
+        expect(application_form.english_main_language).to be true
       end
     end
 
@@ -578,7 +578,7 @@ RSpec.describe ApplicationForm do
       let(:application_form) { build(:application_form, english_main_language: false) }
 
       it 'returns false' do
-        expect(application_form.english_main_language).to eq false
+        expect(application_form.english_main_language).to be false
       end
     end
   end
@@ -675,14 +675,14 @@ RSpec.describe ApplicationForm do
       offer_choice = create(:application_choice, :with_offer)
       other_choice = create(:application_choice, :withdrawn)
       application_form = create(:completed_application_form, application_choices: [offer_choice, other_choice])
-      expect(application_form.any_offer_accepted?).to eq(false)
+      expect(application_form.any_offer_accepted?).to be(false)
     end
 
     it 'returns true if there is an application choice with an accepted offer' do
       accepted_offer_choice = create(:application_choice, :with_accepted_offer)
       other_choice = create(:application_choice, :with_rejection)
       application_form = create(:completed_application_form, application_choices: [accepted_offer_choice, other_choice])
-      expect(application_form.any_offer_accepted?).to eq(true)
+      expect(application_form.any_offer_accepted?).to be(true)
     end
   end
 
@@ -690,13 +690,13 @@ RSpec.describe ApplicationForm do
     it 'returns false if the application choices are in awaiting provider decision state' do
       application_choice = create :submitted_application_choice
       application_form = create(:completed_application_form, application_choices: [application_choice])
-      expect(application_form.all_provider_decisions_made?).to eq(false)
+      expect(application_form.all_provider_decisions_made?).to be(false)
     end
 
     it 'returns true if the application choices are not in awaiting provider decision state' do
       application_choice = create(:application_choice, :with_offer)
       application_form = create(:completed_application_form, application_choices: [application_choice])
-      expect(application_form.all_provider_decisions_made?).to eq(true)
+      expect(application_form.all_provider_decisions_made?).to be(true)
     end
   end
 

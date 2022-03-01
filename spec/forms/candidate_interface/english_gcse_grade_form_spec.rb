@@ -134,7 +134,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
         form.save
 
         expect(qualification.reload.constituent_grades).to eq({ 'english_double_award' => { 'grade' => 'CD', 'public_id' => next_available_public_id }, 'english_language' => { 'grade' => 'D', 'public_id' => next_available_public_id + 1 }, 'english_literature' => { 'grade' => 'D', 'public_id' => next_available_public_id + 2 } })
-        expect(qualification.grade).to eq nil
+        expect(qualification.grade).to be_nil
       end
     end
   end

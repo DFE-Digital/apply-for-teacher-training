@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::ApplicationForms::RevertRejectionForm, type: :m
           accept_guidance: true,
         )
 
-        expect(form.save(application_choice)).to eq(true)
+        expect(form.save(application_choice)).to be(true)
 
         expect(application_choice).to have_attributes({
           status: 'awaiting_provider_decision',

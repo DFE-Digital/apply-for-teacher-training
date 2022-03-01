@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
     it 'returns false if not valid' do
       details_form = described_class.new
 
-      expect(details_form.save_address(ApplicationForm.new)).to eq(false)
+      expect(details_form.save_address(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm with the address fields if valid' do
@@ -39,7 +39,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       data[:postcode] = 'BN1 1AA'
       data.except!(:audit_comment)
 
-      expect(details_form.save_address(application_form)).to eq(true)
+      expect(details_form.save_address(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
       expect(application_form.international_address).to be_nil
     end
@@ -55,7 +55,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       details_form = described_class.new(data.merge(address_type: 'international'))
       data.except!(:audit_comment)
 
-      expect(details_form.save_address(application_form)).to eq(true)
+      expect(details_form.save_address(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
       expect(application_form.address_line2).to be_nil
       expect(application_form.international_address).to be_nil
@@ -70,7 +70,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       application_form = build(:application_form)
       details_form = described_class.new(data)
 
-      expect(details_form.save_address_type(application_form)).to eq(true)
+      expect(details_form.save_address_type(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
 
@@ -82,7 +82,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       application_form = build(:application_form)
       details_form = described_class.new(data)
 
-      expect(details_form.save_address_type(application_form)).to eq(true)
+      expect(details_form.save_address_type(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
 
@@ -93,7 +93,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       application_form = build(:application_form)
       details_form = described_class.new(data)
 
-      expect(details_form.save_address_type(application_form)).to eq(false)
+      expect(details_form.save_address_type(application_form)).to be(false)
     end
   end
 

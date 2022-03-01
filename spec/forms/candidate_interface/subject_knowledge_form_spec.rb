@@ -28,14 +28,14 @@ RSpec.describe CandidateInterface::SubjectKnowledgeForm, type: :model do
     it 'returns false if not valid' do
       subject_knowledge = described_class.new
 
-      expect(subject_knowledge.save(ApplicationForm.new)).to eq(false)
+      expect(subject_knowledge.save(ApplicationForm.new)).to be(false)
     end
 
     it 'updates the provided ApplicationForm if valid' do
       application_form = create(:application_form)
       subject_knowledge = described_class.new(form_data)
 
-      expect(subject_knowledge.save(application_form)).to eq(true)
+      expect(subject_knowledge.save(application_form)).to be(true)
       expect(application_form).to have_attributes(data)
     end
   end

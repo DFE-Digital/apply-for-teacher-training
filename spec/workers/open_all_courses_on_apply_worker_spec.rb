@@ -9,9 +9,9 @@ RSpec.describe OpenAllCoursesOnApplyWorker do
 
       described_class.new.perform
 
-      expect(open_course.reload.open_on_apply).to eq true
-      expect(course_in_the_previous_cycle.reload.open_on_apply).to eq false
-      expect(closed_course.reload.open_on_apply).to eq true
+      expect(open_course.reload.open_on_apply).to be true
+      expect(course_in_the_previous_cycle.reload.open_on_apply).to be false
+      expect(closed_course.reload.open_on_apply).to be true
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe OpenAllCoursesOnApplyWorker do
 
     Timecop.freeze(CycleTimetable.find_opens(2022) - 1.day) do
       described_class.new.perform
-      expect(course.reload.open_on_apply).to eq false
+      expect(course.reload.open_on_apply).to be false
     end
   end
 end

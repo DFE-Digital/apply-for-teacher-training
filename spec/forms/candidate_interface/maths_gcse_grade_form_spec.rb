@@ -99,7 +99,7 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
       it 'return false if not valid' do
         gcse = double
         form = described_class.new
-        expect(form.save(gcse)).to eq(false)
+        expect(form.save(gcse)).to be(false)
       end
 
       it 'sanitises the grade and updates the gcse grade if valid' do
@@ -138,7 +138,7 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
           gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'not_applicable'
-          expect(gcse_details_form.other_grade).to eq nil
+          expect(gcse_details_form.other_grade).to be_nil
           expect(gcse_details_form.qualification_type).to eq 'non_uk'
         end
       end
@@ -149,7 +149,7 @@ RSpec.describe CandidateInterface::MathsGcseGradeForm, type: :model do
           gcse_details_form = described_class.build_from_qualification(qualification)
 
           expect(gcse_details_form.grade).to eq 'unknown'
-          expect(gcse_details_form.other_grade).to eq nil
+          expect(gcse_details_form.other_grade).to be_nil
           expect(gcse_details_form.qualification_type).to eq 'non_uk'
         end
       end

@@ -215,7 +215,7 @@ RSpec.describe TestApplications do
 
     it 'assigns the correct hesa code for sex' do
       if equality_and_diversity['sex'] == 'Prefer not to say'
-        expect(equality_and_diversity['hesa_sex']).to be nil
+        expect(equality_and_diversity['hesa_sex']).to be_nil
       else
         expect(equality_and_diversity['hesa_sex']).to eq(Hesa::Sex.find(equality_and_diversity['sex'])['hesa_code'])
       end

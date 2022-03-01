@@ -9,7 +9,7 @@ RSpec.describe ProviderUserNotificationPreferences do
       notification_preferences.update_all_preferences(false)
 
       described_class::NOTIFICATION_PREFERENCES.each do |type|
-        expect(notification_preferences.send(type)).to eq(false)
+        expect(notification_preferences.send(type)).to be(false)
       end
     end
   end
@@ -19,12 +19,12 @@ RSpec.describe ProviderUserNotificationPreferences do
 
     it 'returns true for defined notification preferences types' do
       described_class::NOTIFICATION_PREFERENCES.each do |type|
-        expect(described_class.notification_preference_exists?(type)).to eq(true)
+        expect(described_class.notification_preference_exists?(type)).to be(true)
       end
     end
 
     it 'returns false if the notification type is not defined' do
-      expect(described_class.notification_preference_exists?(:application_exploded)).to eq(false)
+      expect(described_class.notification_preference_exists?(:application_exploded)).to be(false)
     end
   end
 

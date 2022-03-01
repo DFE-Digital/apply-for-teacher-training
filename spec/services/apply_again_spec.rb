@@ -43,7 +43,7 @@ RSpec.describe ApplyAgain do
       it 'returns false' do
         application = instance_double(ApplicationForm, ended_without_success?: false)
 
-        expect(described_class.new(application).call).to eq false
+        expect(described_class.new(application).call).to be false
       end
     end
 

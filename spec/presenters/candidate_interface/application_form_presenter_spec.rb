@@ -269,14 +269,14 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
       presenter = described_class.new(application_form)
 
-      expect(presenter.other_qualifications_added?).to eq(true)
+      expect(presenter.other_qualifications_added?).to be(true)
     end
 
     it 'returns false if no other qualifications are added' do
       application_form = create(:application_form)
       presenter = described_class.new(application_form)
 
-      expect(presenter.other_qualifications_added?).to eq(false)
+      expect(presenter.other_qualifications_added?).to be(false)
     end
   end
 

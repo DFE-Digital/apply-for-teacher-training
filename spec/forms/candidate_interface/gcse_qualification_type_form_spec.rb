@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       application_form = double
 
       form = described_class.new({})
-      expect(form.save(application_form)).to eq(false)
+      expect(form.save(application_form)).to be(false)
     end
 
     it 'creates a new qualification if valid' do
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       application_form = double
 
       form = described_class.new({})
-      expect(form.update(application_form)).to eq(false)
+      expect(form.update(application_form)).to be(false)
     end
 
     it 'updates the qualification type and sets the appropriate values to nil' do
@@ -82,10 +82,10 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       ).update(qualification)
 
       expect(qualification.reload.qualification_type).to eq 'gcse'
-      expect(qualification.non_uk_qualification_type).to eq nil
-      expect(qualification.currently_completing_qualification).to eq nil
-      expect(qualification.not_completed_explanation).to eq nil
-      expect(qualification.missing_explanation).to eq nil
+      expect(qualification.non_uk_qualification_type).to be_nil
+      expect(qualification.currently_completing_qualification).to be_nil
+      expect(qualification.not_completed_explanation).to be_nil
+      expect(qualification.missing_explanation).to be_nil
     end
 
     context 'when the qualification_type is updated from non_uk' do
@@ -99,9 +99,9 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         ).update(qualification)
 
         expect(qualification.reload.qualification_type).to eq 'gcse'
-        expect(qualification.non_uk_qualification_type).to eq nil
-        expect(qualification.enic_reference).to eq nil
-        expect(qualification.comparable_uk_qualification).to eq nil
+        expect(qualification.non_uk_qualification_type).to be_nil
+        expect(qualification.enic_reference).to be_nil
+        expect(qualification.comparable_uk_qualification).to be_nil
       end
     end
 
@@ -116,7 +116,7 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         ).update(qualification)
 
         expect(qualification.reload.qualification_type).to eq 'gcse'
-        expect(qualification.other_uk_qualification_type).to eq nil
+        expect(qualification.other_uk_qualification_type).to be_nil
       end
     end
 
@@ -137,16 +137,16 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
         ).update(qualification)
 
         expect(qualification.reload.qualification_type).to eq 'missing'
-        expect(qualification.grade).to eq nil
-        expect(qualification.constituent_grades).to eq nil
-        expect(qualification.award_year).to eq nil
-        expect(qualification.institution_name).to eq nil
-        expect(qualification.institution_country).to eq nil
-        expect(qualification.other_uk_qualification_type).to eq nil
-        expect(qualification.non_uk_qualification_type).to eq nil
-        expect(qualification.currently_completing_qualification).to eq nil
-        expect(qualification.not_completed_explanation).to eq nil
-        expect(qualification.missing_explanation).to eq nil
+        expect(qualification.grade).to be_nil
+        expect(qualification.constituent_grades).to be_nil
+        expect(qualification.award_year).to be_nil
+        expect(qualification.institution_name).to be_nil
+        expect(qualification.institution_country).to be_nil
+        expect(qualification.other_uk_qualification_type).to be_nil
+        expect(qualification.non_uk_qualification_type).to be_nil
+        expect(qualification.currently_completing_qualification).to be_nil
+        expect(qualification.not_completed_explanation).to be_nil
+        expect(qualification.missing_explanation).to be_nil
       end
     end
   end

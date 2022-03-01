@@ -128,7 +128,7 @@ RSpec.describe RevertRejectedByDefault do
       new_rbd_date: new_rbd_date,
     ).call
 
-    expect(rr_choice.reload.rejection_reason).to be nil
-    expect(sr4r_choice.reload.structured_rejection_reasons).to be nil
+    expect(rr_choice.reload.rejection_reason).to be_nil
+    expect(sr4r_choice.reload.structured_rejection_reasons).to be_nil
   end
 end

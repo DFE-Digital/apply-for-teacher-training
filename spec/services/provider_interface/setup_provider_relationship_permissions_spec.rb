@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
       it 'returns false and rolls back updates to other permissions in the call' do
         expect { described_class.call(permissions_data) }.to(raise_error(ActiveRecord::RecordInvalid))
 
-        expect(permission_1.reload.setup_at).to be nil
+        expect(permission_1.reload.setup_at).to be_nil
       end
     end
 

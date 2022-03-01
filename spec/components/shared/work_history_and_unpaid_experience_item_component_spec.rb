@@ -26,7 +26,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceItemComponent do
       let(:item) { build(:application_work_history_break) }
 
       it 'returns true' do
-        expect(experience_item.break?).to eq(true)
+        expect(experience_item.break?).to be(true)
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe WorkHistoryAndUnpaidExperienceItemComponent do
       let(:item) { build(:application_volunteering_experience) }
 
       it 'returns false' do
-        expect(experience_item.break?).to eq(false)
+        expect(experience_item.break?).to be(false)
       end
     end
   end

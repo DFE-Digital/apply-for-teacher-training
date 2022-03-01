@@ -97,7 +97,7 @@ RSpec.describe Wizard do
     let(:attrs) { { current_step: :step_1 } }
 
     it 'checks the wizard validity for the current step' do
-      expect(model.valid_for_current_step?).to eq(false)
+      expect(model.valid_for_current_step?).to be(false)
 
       expect(model.errors[:referer]).to contain_exactly("can't be blank")
       expect(model.errors[:action]).to be_empty

@@ -28,7 +28,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
       end
 
       it 'returns nil' do
-        expect(attributes[:offer]).to eq(nil)
+        expect(attributes[:offer]).to be_nil
       end
     end
 

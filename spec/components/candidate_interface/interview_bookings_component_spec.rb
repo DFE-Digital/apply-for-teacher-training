@@ -63,7 +63,7 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
       render_inline(described_class.new(interview.application_choice))
 
       expect(page).to have_content "javascript:alert('hi')"
-      expect(page.has_link?('javascript')).to eq false
+      expect(page.has_link?('javascript')).to be false
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::InterviewBookingsComponent, type: :component 
       render_inline(described_class.new(interview.application_choice))
 
       expect(page).to have_content "javascript:alert('hi')"
-      expect(page.has_link?('javascript')).to eq false
+      expect(page.has_link?('javascript')).to be false
     end
   end
 

@@ -26,7 +26,7 @@ RSpec.describe 'Entering personal details' do
     # detail.
     expect(
       current_candidate.current_application.english_main_language(fetch_database_value: true),
-    ).to eq nil
+    ).to be_nil
   end
 
   def then_i_can_complete_personal_information_without_seeing_the_languages_page

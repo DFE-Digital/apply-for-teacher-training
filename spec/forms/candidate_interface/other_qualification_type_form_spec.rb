@@ -34,14 +34,14 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
                    described_class.new(nil, nil, 'qualification_type' => valid_qualification_type)
                  end
 
-          expect(form.valid?).to eq true
+          expect(form.valid?).to be true
         end
       end
 
       it 'returns false when the qualification_type is not in the `ALL_VALID_TYPES` constant' do
         form = described_class.new(nil, nil, 'qualification_type' => 'Invalid qual')
 
-        expect(form.valid?).to eq false
+        expect(form.valid?).to be false
       end
 
       it 'validates presence of `other_uk_qualification_type` when the candidate has selected other uk qualificaiton' do
@@ -49,16 +49,16 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
 
         valid_form = described_class.new(nil, nil, 'qualification_type' => 'Other', 'other_uk_qualification_type' => 'BTEC')
 
-        expect(invalid_form.valid?).to eq false
-        expect(valid_form.valid?).to eq true
+        expect(invalid_form.valid?).to be false
+        expect(valid_form.valid?).to be true
       end
 
       it 'validates presence of `non_uk_qualification_type` when the candidate has selected non uk qualificaiton' do
         invalid_form = described_class.new(nil, nil, 'qualification_type' => 'non_uk')
 
         valid_form = described_class.new(nil, nil, 'qualification_type' => 'non_uk', 'non_uk_qualification_type' => 'ZTEC')
-        expect(invalid_form.valid?).to eq false
-        expect(valid_form.valid?).to eq true
+        expect(invalid_form.valid?).to be false
+        expect(valid_form.valid?).to be true
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
       it 'does not validate that qualification_type is in the `ALL_VALID_TYPES`' do
         form = described_class.new(nil, nil, 'qualification_type' => 'no_other_qualifications')
 
-        expect(form.valid?).to eq true
+        expect(form.valid?).to be true
       end
     end
   end
@@ -91,8 +91,8 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
   describe '#save_no_other_qualifications' do
     it 'does not update no_other_qualifications when invalid' do
       form = described_class.new
-      expect(form.save_no_other_qualifications).to eq false
-      expect(current_application.reload.no_other_qualifications).to eq false
+      expect(form.save_no_other_qualifications).to be false
+      expect(current_application.reload.no_other_qualifications).to be false
     end
 
     it 'updates the application forms no_other_qualifications to true' do
@@ -102,8 +102,8 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
         'qualification_type' => 'no_other_qualifications',
       )
 
-      expect(form.save_no_other_qualifications).to eq true
-      expect(current_application.reload.no_other_qualifications).to eq true
+      expect(form.save_no_other_qualifications).to be true
+      expect(current_application.reload.no_other_qualifications).to be true
     end
   end
 end

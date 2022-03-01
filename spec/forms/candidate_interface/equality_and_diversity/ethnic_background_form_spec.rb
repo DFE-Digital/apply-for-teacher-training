@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         form = described_class.build_from_application(application_form)
 
         expect(form.ethnic_background).to eq('Chinese')
-        expect(form.other_background).to eq(nil)
+        expect(form.other_background).to be_nil
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         form = described_class.build_from_application(application_form)
 
         expect(form.ethnic_background).to eq('Another Asian background')
-        expect(form.other_background).to eq(nil)
+        expect(form.other_background).to be_nil
       end
     end
 
@@ -43,8 +43,8 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
 
         form = described_class.build_from_application(application_form)
 
-        expect(form.ethnic_background).to eq(nil)
-        expect(form.other_background).to eq(nil)
+        expect(form.ethnic_background).to be_nil
+        expect(form.other_background).to be_nil
       end
     end
   end

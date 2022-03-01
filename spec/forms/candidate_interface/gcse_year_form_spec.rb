@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::GcseYearForm, type: :model do
     it 'return false if not valid' do
       gcse = double
       form = described_class.new
-      expect(form.save(gcse)).to eq(false)
+      expect(form.save(gcse)).to be(false)
     end
 
     it 'updates qualification details if valid' do
