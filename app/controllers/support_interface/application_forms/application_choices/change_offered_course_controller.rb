@@ -2,7 +2,7 @@ module SupportInterface
   module ApplicationForms
     module ApplicationChoices
       class ChangeOfferedCourseController < BaseController
-        before_action :build_application_form, :build_application_choice, :redirect_to_application_form_unless_accepted_and_change_offered_course_course_flag_active
+        before_action :build_application_form, :build_application_choice, :redirect_to_application_form_unless_accepted
 
         def change_offered_course_search
           @course_search = CourseSearchForm.new
@@ -80,8 +80,8 @@ module SupportInterface
           params.require(:support_interface_application_forms_update_offered_course_option_form).permit(:course_option_id, :audit_comment, :accept_guidance)
         end
 
-        def redirect_to_application_form_unless_accepted_and_change_offered_course_course_flag_active
-          return if FeatureFlag.active?(:support_user_change_offered_course) && application_choice_pending_recruitment?
+        def redirect_to_application_form_unless_accepted
+          return if application_choice_pending_recruitment?
 
           redirect_to support_interface_application_form_path(@application_form.id)
         end
