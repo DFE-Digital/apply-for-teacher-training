@@ -248,7 +248,7 @@ jobs:
 
   report-flakey-specs:
     name: Report on flakey specs in pull request
-    needs: [build, test]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: Echo flakey test output
@@ -271,7 +271,7 @@ jobs:
 
   collate-and-compare-coverage:
     name: Collate test coverage reports
-    needs: [build, test]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -376,7 +376,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy') }}
     environment:
       name: review
-    needs: [build, lint, test]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -399,7 +399,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: ${{ matrix.environment }}
-    needs: [build, lint, test]
+    needs: [lint, test]
     runs-on: ubuntu-latest
     strategy:
       matrix: 
