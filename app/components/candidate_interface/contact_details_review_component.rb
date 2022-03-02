@@ -30,7 +30,7 @@ module CandidateInterface
     attr_reader :application_form
 
     def phone_number_row
-      if (@contact_details_form.phone_number.present?)
+      if @contact_details_form.phone_number.present?
         {
           key: t('application_form.contact_details.phone_number.label'),
           value: @contact_details_form.phone_number,
@@ -51,6 +51,11 @@ module CandidateInterface
             'Enter phone number',
             candidate_interface_edit_phone_number_path(return_to_params),
           ),
+          html_attributes: {
+            data: {
+              qa: 'contact-details-phone-number',
+            },
+          },
         }
       end
     end
@@ -76,7 +81,7 @@ module CandidateInterface
           value: full_address +
             [govuk_link_to(
               'Enter postcode',
-              candidate_interface_edit_address_path(return_to_params)
+              candidate_interface_edit_address_path(return_to_params),
             )],
           action: {
             href: candidate_interface_edit_address_type_path(return_to_params),
@@ -95,6 +100,11 @@ module CandidateInterface
             'Enter address',
             candidate_interface_edit_address_type_path(return_to_params),
           ),
+          html_attributes: {
+            data: {
+              qa: 'contact-details-address',
+            },
+          },
         }
       end
     end

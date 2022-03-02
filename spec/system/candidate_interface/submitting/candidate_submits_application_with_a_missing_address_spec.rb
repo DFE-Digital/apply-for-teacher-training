@@ -38,7 +38,7 @@ RSpec.feature 'Candidate attempts to submit their application without a valid ad
 
   def when_i_complete_my_contact_details
     click_link 'Complete your contact details'
-    click_link 'Change address'
+    click_link 'Enter address'
 
     choose 'In the UK'
     click_button t('save_and_continue')
