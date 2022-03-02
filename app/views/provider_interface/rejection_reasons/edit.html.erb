@@ -1,0 +1,37 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_update_rejection_reasons_path do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l">Reject application - <%= @application_choice.application_form.full_name %></span>
+        Tell the candidate why you’re rejecting their application
+      </h1>
+
+      <% @wizard.class.reasons.each do |reason| %>
+        <%= f.govuk_check_boxes_fieldset reason.id.to_sym, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
+          <%= f.govuk_check_box reason.id, 'Yes', label: { text: reason.label }, link_errors: true do %>
+            <%= f.govuk_check_boxes_fieldset reason.reasons_id.to_sym, legend: { text: 'Reasons', size: 's' } do %>
+              <% reason.reasons.each do |nested_reason| %>
+                <%= f.govuk_check_box reason.reasons_id,
+                  nested_reason.id,
+                  label: { text: nested_reason.label },
+                  link_errors: true do %>
+                  <% if nested_reason.details.present? %>
+                    <%= f.govuk_text_area nested_reason.details.id.to_sym, label: { text: nested_reason.details.label }, max_words: 100 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end if reason.reasons.present? %>
+            <% if reason.details.present? %>
+              <%= f.govuk_text_area reason.details.id.to_sym, label: { text: reason.details.label }, max_words: 100 %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_commit_rejection_reasons_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <div>
+        <%= @wizard.inspect %>
+      </div>
+
+      <% if @application_choice.rejected_by_default? %>
+        <%= f.govuk_submit 'Send feedback' %>
+      <% else %>
+        <%= f.govuk_submit 'Send feedback and reject application' %>
+      <% end %>
+    <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %></p>
+  </div>
+</div>
