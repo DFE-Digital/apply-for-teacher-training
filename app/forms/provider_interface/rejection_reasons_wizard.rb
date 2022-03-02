@@ -7,11 +7,7 @@ module ProviderInterface
         @rejection_reasons ||= RejectionReasons.from_config
       end
 
-      delegate :collection_attribute_names, :single_attribute_names, :reasons, to: :rejection_reasons
-
-      def attribute_names
-        (single_attribute_names + collection_attribute_names).sort
-      end
+      delegate :attribute_names, :collection_attribute_names, :single_attribute_names, :reasons, to: :rejection_reasons
     end
 
     attr_accessor(*attribute_names)

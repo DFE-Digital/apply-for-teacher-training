@@ -17,4 +17,8 @@ class RejectionReasons
   def collection_attribute_names
     reasons.map(&:collection_attribute_names).flatten.sort
   end
+
+  def attribute_names
+    (single_attribute_names + collection_attribute_names).sort
+  end
 end
