@@ -11,6 +11,10 @@ RSpec.feature 'Candidate content' do
 
     when_i_click_on_the_cookies_page
     then_i_can_see_the_cookies_page
+    and_i_click_back
+    then_i_can_see_the_accessibility_statement
+
+    when_i_click_on_the_cookies_page
     and_i_can_no_longer_see_the_cookie_banner
     and_i_can_opt_in_to_tracking_website_usage
 
@@ -81,5 +85,9 @@ RSpec.feature 'Candidate content' do
 
   def then_i_can_see_the_terms_candidate
     expect(page).to have_content(t('page_titles.terms_candidate'))
+  end
+
+  def and_i_click_back
+    click_link 'Back'
   end
 end
