@@ -3,6 +3,7 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::DropContentSecurityPolicyFeatureFlag',
   'DataMigrations::DropSupportUserChangeOfferedCourseFeatureFlag',
   'DataMigrations::DropRegionFromPostcodeFeatureFlag',
+  'DataMigrations::DropPublishMonthlyStatisticsFeatureFlag',
   'DataMigrations::DropApplyAgainWithThreeChoicesFeatureFlag',
   'DataMigrations::DropPilotOpenFeatureFlag',
   'DataMigrations::BackfillChaseProviderDecisionSetting',
