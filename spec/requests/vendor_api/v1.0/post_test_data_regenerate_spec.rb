@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1/test-data/regenerate', type: :request, sidekiq: true do
   include VendorAPISpecHelpers
 
-  before { FeatureFlag.activate(:region_from_postcode) }
-
   it 'returns an error' do
     post_api_request '/api/v1/test-data/regenerate'
 
