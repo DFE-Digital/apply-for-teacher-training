@@ -33,7 +33,6 @@ class FeatureFlag
     [:summer_recruitment_banner, 'Show a banner to indicate a shorter recruitment timeframe during summer', 'Richard Pattinson'],
     [:restructured_immigration_status, 'New model for right to work and study in the UK to be released from 2022 cycle', 'Steve Hook'],
     [:support_user_revert_withdrawn_offer, 'Allows a support user to revert an application withdrawn by the candidate', 'James Glenn'],
-    [:region_from_postcode, 'Uses an external service to find the region code for each candidate using their postcode', 'Steve Hook'],
     [:publish_monthly_statistics, 'Publish monthly statistics at publications/monthly-statistics', 'Duncan Brown'],
     [:draft_vendor_api_specification, 'The specification for Draft Vendor API v1.1', 'Abeer Salameh'],
     [:immigration_entry_date, 'Extends the restructured_immigration_status feature to include the "Date of entry into the UK" question', 'Steve Hook'],
