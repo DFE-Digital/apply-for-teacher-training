@@ -12,6 +12,9 @@
   </h1>
 
   <%= render CandidateInterface::ContactDetailsReviewComponent.new(application_form: @application_form) %>
-  <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
-  <%= f.govuk_submit t('continue') %>
+
+  <% if @can_complete %>
+    <%= render CandidateInterface::CompleteSectionComponent.new(form: f) %>
+    <%= f.govuk_submit t('continue') %>
+  <% end %>
 <% end %>

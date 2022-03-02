@@ -13,7 +13,7 @@ RSpec.feature 'Candidate updates their contact information from an international
 
     when_i_change_to_an_international_address
     and_i_click_the_back_button
-    then_i_see_my_contact_details_are_incomplete
+    then_i_do_not_have_the_option_to_complete
   end
 
   def given_i_am_signed_in
@@ -54,7 +54,8 @@ RSpec.feature 'Candidate updates their contact information from an international
     click_link 'Back'
   end
 
-  def then_i_see_my_contact_details_are_incomplete
-    expect(find_field('Yes, I have completed this section')).not_to be_checked
+  def then_i_do_not_have_the_option_to_complete
+    expect(page).not_to have_field('Yes, I have completed this section')
+    expect(page).not_to have_button('Continue')
   end
 end
