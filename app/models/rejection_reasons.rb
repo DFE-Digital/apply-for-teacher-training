@@ -11,14 +11,22 @@ class RejectionReasons
   end
 
   def single_attribute_names
-    reasons.map(&:single_attribute_names).flatten.sort
+    (nested_reasons + details).map(&:id).map(&:to_sym)
   end
 
   def collection_attribute_names
-    reasons.map(&:collection_attribute_names).flatten.sort
+    reasons.map { |r| [r.id, r.reasons_id].compact }.flatten.map(&:to_sym)
   end
 
   def attribute_names
-    (single_attribute_names + collection_attribute_names).sort
+    single_attribute_names + collection_attribute_names
+  end
+
+  def nested_reasons
+    reasons.map(&:reasons).flatten.compact
+  end
+
+  def details
+    (reasons + nested_reasons).map(&:details).compact
   end
 end
