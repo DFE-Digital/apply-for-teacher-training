@@ -10,7 +10,6 @@ RSpec.describe 'Monthly Statistics', type: :request do
   end
 
   before do
-    FeatureFlag.activate(:publish_monthly_statistics)
     generate_statistics_test_data
 
     report = Publications::MonthlyStatistics::MonthlyStatisticsReport.new(month: '2021-11')

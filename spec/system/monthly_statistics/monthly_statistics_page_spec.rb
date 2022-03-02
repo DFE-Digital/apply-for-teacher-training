@@ -11,7 +11,6 @@ RSpec.feature 'Monthly statistics page', mid_cycle: false do
 
   before do
     allow(MonthlyStatisticsTimetable).to receive(:generate_monthly_statistics?).and_return true
-    FeatureFlag.activate('publish_monthly_statistics')
     generate_statistics_test_data
     create_monthly_stats_report
   end
