@@ -26,9 +26,5 @@ module ProviderInterface
         'Update status'
       end
     end
-
-    def confirm_button_class
-      'govuk-button--warning' if form_object.any_condition_not_met?
-    end
   end
 end
