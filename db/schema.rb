@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_22_130124) do
+ActiveRecord::Schema.define(version: 2022_02_28_164343) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_130124) do
     t.boolean "interview_preferences_completed"
     t.boolean "science_gcse_completed"
     t.datetime "edit_by"
-    t.string "address_type", default: "uk", null: false
+    t.string "address_type"
     t.string "international_address"
     t.string "right_to_work_or_study"
     t.string "right_to_work_or_study_details"
