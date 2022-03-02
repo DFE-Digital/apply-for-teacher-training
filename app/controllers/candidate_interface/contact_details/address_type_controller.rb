@@ -7,7 +7,10 @@ module CandidateInterface
     end
 
     def create
-      @contact_details_form = ContactDetailsForm.new(address_type_params)
+      @contact_details_form = ContactDetailsForm.build_from_application(
+        current_application,
+      )
+      @contact_details_form.assign_attributes(address_type_params)
 
       if @contact_details_form.save_address_type(current_application)
         redirect_to candidate_interface_new_address_path
@@ -23,7 +26,10 @@ module CandidateInterface
     end
 
     def update
-      @contact_details_form = form_from_params
+      @contact_details_form = ContactDetailsForm.build_from_application(
+        current_application,
+      )
+      @contact_details_form.assign_attributes(address_type_params)
       @return_to = return_to_after_edit(default: candidate_interface_personal_details_complete_path)
 
       if @contact_details_form.save_address_type(current_application)
@@ -40,10 +46,6 @@ module CandidateInterface
 
     def load_contact_form
       ContactDetailsForm.build_from_application(current_application)
-    end
-
-    def form_from_params
-      ContactDetailsForm.new(address_type_params)
     end
 
     def address_type_params

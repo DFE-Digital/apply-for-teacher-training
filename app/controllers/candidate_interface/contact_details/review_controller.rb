@@ -31,7 +31,7 @@ module CandidateInterface
     end
 
     def details_complete?
-      contact_details_form.valid?(:address) && contact_details_form.valid?(:base)
+      contact_details_form.valid_for_submission?
     end
 
     def contact_details_form
