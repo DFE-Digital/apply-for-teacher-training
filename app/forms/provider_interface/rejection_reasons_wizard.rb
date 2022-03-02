@@ -2,6 +2,8 @@ module ProviderInterface
   class RejectionReasonsWizard
     include Wizard
 
+    validate :valid_rejection_reasons
+
     class << self
       def rejection_reasons
         @rejection_reasons ||= RejectionReasons.from_config
@@ -18,6 +20,11 @@ module ProviderInterface
 
     def next_step
       'check'
+    end
+
+    def valid_rejection_reasons
+      rejection_reasons = RejectionReasons.inflate(self)
+      errors.merge!(rejection_reasons.errors) unless rejection_reasons.valid?
     end
   end
 end

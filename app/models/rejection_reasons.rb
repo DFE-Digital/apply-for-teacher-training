@@ -4,9 +4,18 @@ class RejectionReasons
 
   attr_accessor :reasons, :selected_reasons
 
+  validate :reasons_selected
+
   def self.from_config(config: YAML.load_file(CONFIG_PATH))
     instance = new
     instance.reasons = config[:reasons].map { |rattrs| Reason.new(rattrs) }
+    instance
+  end
+
+  def self.inflate(model)
+    instance = new
+    instance.selected_reasons = from_config.reasons.dup.select { |r| model.send(r.id)&.include?('Yes') }
+    instance.selected_reasons.each { |reason| reason.inflate(model) }
     instance
   end
 
@@ -20,6 +29,26 @@ class RejectionReasons
 
   def attribute_names
     single_attribute_names + collection_attribute_names
+  end
+
+  def reasons_selected
+    errors.add(:base, 'Please select a reason') if selected_reasons && selected_reasons.empty?
+  end
+
+  def valid?
+    super && valid_children?
+  end
+
+  def valid_children?
+    selected_reasons.map(&:valid?).all?(true)
+  end
+
+  def errors
+    return super if selected_reasons.blank?
+
+    selected_reasons.map(&:errors).each { |errors| super.merge!(errors) }
+
+    super
   end
 
   def nested_reasons

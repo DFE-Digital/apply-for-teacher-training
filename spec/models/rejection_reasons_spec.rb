@@ -74,4 +74,19 @@ RSpec.describe RejectionReasons do
       expect(instance.attribute_names.sort).to eq(%i[a a_reasons aa ab ad b bd c])
     end
   end
+
+  describe 'validations' do
+    it 'validates that a reason has been selected' do
+      rejection_reasons = described_class.new(
+        reasons: [{ id: 'bbb' }],
+        selected_reasons: [],
+      )
+      expect(rejection_reasons.valid?).to be false
+      expect(rejection_reasons.errors.attribute_names).to eq([:base])
+
+      rejection_reasons.selected_reasons << RejectionReasons::Reason.new(id: 'bbb')
+
+      expect(rejection_reasons.valid?).to be true
+    end
+  end
 end
