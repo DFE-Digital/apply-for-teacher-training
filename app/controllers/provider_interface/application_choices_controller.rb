@@ -52,6 +52,7 @@ module ProviderInterface
 
       @available_training_providers = available_training_providers
       @available_courses = available_courses
+      @available_course_options = available_course_options
     end
 
     def timeline; end
@@ -86,6 +87,10 @@ module ProviderInterface
 
     def available_courses
       query_service.available_courses(provider: @application_choice.current_provider)
+    end
+
+    def available_course_options
+      query_service.available_course_options(course: @application_choice.course, study_mode: @application_choice.course.study_mode)
     end
 
     def query_service

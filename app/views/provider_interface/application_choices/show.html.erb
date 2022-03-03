@@ -51,6 +51,7 @@
     available_providers: @available_training_providers,
     available_courses: @available_courses,
     course: @application_choice.current_course_option.course,
+    available_course_options: @available_course_options,
   ) %>
 <% else %>
   <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice) %>

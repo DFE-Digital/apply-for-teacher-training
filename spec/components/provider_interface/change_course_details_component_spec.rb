@@ -7,6 +7,12 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                     course: course)
   end
 
+  let(:course_option2) do
+    instance_double(CourseOption,
+                    study_mode: 'Full time',
+                    course: course)
+  end
+
   let(:site) do
     instance_double(Site,
                     name_and_code: 'First Road (F34)',
@@ -138,6 +144,32 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
       expect(render_text).to include('Full or part time')
       expect(render_text).to include('Full time')
       expect(render_text).not_to include('Change')
+    end
+  end
+
+  context 'when there is only one location' do
+    it 'does not render the change link' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).to include('Location')
+      expect(render_text).to include('First Road (F34)')
+      expect(render_text).to include('Fountain Street, Morley, Leeds')
+      expect(render_text).to include('LS27 OPD')
+      expect(render_text).not_to include('Change')
+    end
+  end
+
+  context 'when there are multiple locations' do
+    let(:render) { render_inline(described_class.new(application_choice: application_choice, course: course, available_course_options: [course_option, course_option2])) }
+
+    it 'renders the change link' do
+      render_text = row_text_selector(:location, render)
+
+      expect(render_text).to include('Location')
+      expect(render_text).to include('First Road (F34)')
+      expect(render_text).to include('Fountain Street, Morley, Leeds')
+      expect(render_text).to include('LS27 OPD')
+      expect(render_text).to include('Change')
     end
   end
 end
