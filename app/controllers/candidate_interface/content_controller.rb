@@ -5,7 +5,7 @@ module CandidateInterface
     skip_before_action :set_user_context
 
     def accessibility
-      render_content_page :accessibility
+      render 'content/accessibility'
     end
 
     def privacy_policy

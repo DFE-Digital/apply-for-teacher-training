@@ -7,8 +7,11 @@ RSpec.feature 'Candidate content' do
     given_i_am_on_the_start_page
     when_i_click_on_accessibility
     then_i_can_see_the_accessibility_statement
-    and_i_can_see_the_cookie_banner
+    and_i_click_back
+    i_should_be_on_the_start_page
 
+    when_i_click_on_accessibility
+    and_i_can_see_the_cookie_banner
     when_i_click_on_the_cookies_page
     then_i_can_see_the_cookies_page
     and_i_click_back
@@ -91,5 +94,9 @@ RSpec.feature 'Candidate content' do
 
   def and_i_click_back
     click_link 'Back'
+  end
+
+  def i_should_be_on_the_start_page
+    expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 end
