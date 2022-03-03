@@ -84,7 +84,7 @@ gem 'yabeda-prometheus'
 # Logging
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
-gem 'rails_semantic_logger', group: %w[development production]
+gem 'rails_semantic_logger', group: %w[production]
 
 # Background processing
 gem 'sidekiq'
