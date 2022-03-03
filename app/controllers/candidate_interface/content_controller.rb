@@ -23,7 +23,7 @@ module CandidateInterface
     end
 
     def terms_candidate
-      render_content_page :terms_candidate
+      render 'content/terms_candidate'
     end
 
     def complaints

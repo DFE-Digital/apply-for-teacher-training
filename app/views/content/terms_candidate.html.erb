@@ -1,0 +1,90 @@
+<% content_for :before_content, govuk_back_link_to(:back, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= t('page_titles.terms_candidate') %></h1>
+
+    <p class="govuk-body">Applying for teacher training using this service means you agree to these terms.</p>
+
+    <p class="govuk-body">If you do not follow them your application might be withdrawn.</p>
+
+    <p class="govuk-body">Everything you include in your application form must be truthful and accurate.</p>
+
+    <p class="govuk-body">You must not:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>use our website for illegal or fraudulent reasons</li>
+      <li>gather or use data from our website</li>
+      <li>use abusive language or act abusively towards anyone you come into contact with</li>
+    </ul>
+
+    <h2 class="govuk-heading-l">Applying for courses</h2>
+
+    <h3 class="govuk-heading-m">Submitting your initial application</h3>
+
+    <p class="govuk-body">You can apply for up to 3 courses.</p>
+
+    <h3 class="govuk-heading-m">Apply again if your application does not lead to a place</h3>
+
+    <p class="govuk-body">You can apply again if your initial application does not lead to a place.</p>
+
+    <p class="govuk-body">This might be because you:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>do not get an offer</li>
+      <li>decline any offers</li>
+      <li>withdraw your application</li>
+    </ul>
+
+    <p class="govuk-body">You can apply again as many times as you like.</p>
+
+    <p class="govuk-body">Each time you submit an application you can apply for up to 3 courses.</p>
+
+    <p class="govuk-body"><%= govuk_link_to('Chat online for help applying again', t('get_into_teaching.url_online_chat')) %>.</p>
+
+    <h3 class="govuk-heading-m">Making changes to your application</h3>
+
+    <p class="govuk-body">Once you submit your application it’s sent to your teacher training providers straight away.</p>
+
+    <p class="govuk-body">Contact us within 5 working days at <%= bat_contact_mail_to %> if you need to
+      change something.</p>
+
+    <p class="govuk-body">You can ask us to update your personal or contact details any time.</p>
+
+    <h3 class="govuk-heading-m">Withdrawing your application</h3>
+
+    <p class="govuk-body">You can withdraw your application at any point, even after you’ve accepted an offer.</p>
+
+    <p class="govuk-body">
+      <%= govuk_link_to('Sign in to your account to withdraw an application', candidate_interface_sign_in_path) %>.</p>
+
+    <h3 class="govuk-heading-m">Application outcome</h3>
+
+    <p class="govuk-body">If your teacher training provider does not make a decision about your application by their
+      deadline, your application to their course cannot progress. Providers normally have 40 working days to make a
+      decision.</p>
+
+    <p class="govuk-body">Once you receive decisions from all of your providers, you have 10 working days to accept or
+      decline any offers. If you do not respond to your offers within this timeframe, they’ll be automatically declined.
+    </p>
+
+    <h3 class="govuk-heading-m">Criminal convictions</h3>
+
+    <p class="govuk-body">You'll need to have an enhanced DBS check if you accept a place on a course. This will show
+      up any spent or unspent criminal convictions.</p>
+
+    <p class="govuk-body">Not all convictions will stop you from teaching. Talk to your provider about their policy on
+      <%= govuk_link_to('criminal convictions', t('tell_employee_about_criminal_record.url')) %>.</p>
+
+    <p class="govuk-body">Your name will also be checked against a DBS list of people who’ve been barred from working
+      with children.</p>
+
+    <h3 class="govuk-heading-m">Your account</h3>
+
+    <p class="govuk-body">When you start your application an account will be created for you. Refer to our
+      <%= govuk_link_to('privacy policy', candidate_interface_privacy_policy_path) %> to find out how we keep your data
+      safe.</p>
+
+    <p class="govuk-body">You do not need a password to sign in to your account. You'll get a unique and secure link via email instead.</p>
+  </div>
+</div>
