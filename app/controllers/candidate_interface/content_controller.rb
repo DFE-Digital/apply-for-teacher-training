@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def privacy_policy
-      render_content_page :service_privacy_notice
+      render 'content/service_privacy_notice'
     end
 
     def cookies_page

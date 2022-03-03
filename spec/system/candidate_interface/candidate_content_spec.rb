@@ -28,6 +28,8 @@ RSpec.feature 'Candidate content' do
 
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
+    and_i_click_back
+    then_i_can_see_the_cookies_page
 
     when_i_click_on_the_terms_of_use
     then_i_can_see_the_terms_candidate
