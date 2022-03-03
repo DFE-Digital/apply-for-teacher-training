@@ -166,5 +166,4 @@ group :development, :test do
   gem 'pry-rails'
   gem 'bullet'
   gem 'parallel_tests'
-  gem 'amazing_print'
 end
