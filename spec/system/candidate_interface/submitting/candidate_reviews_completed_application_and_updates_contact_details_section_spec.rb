@@ -16,8 +16,7 @@ RSpec.feature 'Candidate is redirected correctly' do
     when_i_enter_a_phone_number_and_submit
     then_i_should_see_the_contact_information_review_page
 
-    when_i_select_section_complete_and_submit
-    then_i_should_see_a_message_saying_that_details_are_incomplete
+    then_i_should_not_see_the_complete_form
 
     when_i_set_my_address
     and_i_select_section_complete_and_submit
@@ -84,15 +83,14 @@ RSpec.feature 'Candidate is redirected correctly' do
     expect(page).to have_current_path(candidate_interface_contact_information_review_path)
   end
 
-  def when_i_select_section_complete_and_submit
+  def and_i_select_section_complete_and_submit
     choose t('application_form.completed_radio')
     click_button t('continue')
   end
-  alias_method :and_i_select_section_complete_and_submit, :when_i_select_section_complete_and_submit
 
-  def then_i_should_see_a_message_saying_that_details_are_incomplete
-    expect(page).to have_current_path(candidate_interface_contact_information_review_path)
-    expect(page).to have_content('You cannot mark this section complete with incomplete contact details.')
+  def then_i_should_not_see_the_complete_form
+    expect(page).not_to have_field(t('application_form.completed_radio'))
+    expect(page).not_to have_button(t('save_and_continue'))
   end
 
   def when_i_set_my_address

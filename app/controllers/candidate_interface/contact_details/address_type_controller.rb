@@ -7,9 +7,7 @@ module CandidateInterface
     end
 
     def create
-      @contact_details_form = ContactDetailsForm.build_from_application(
-        current_application,
-      )
+      @contact_details_form = ContactDetailsForm.build_from_application(current_application)
       @contact_details_form.assign_attributes(address_type_params)
 
       if @contact_details_form.save_address_type(current_application)

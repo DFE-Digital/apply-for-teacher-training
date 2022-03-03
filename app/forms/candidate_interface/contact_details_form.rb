@@ -59,7 +59,7 @@ module CandidateInterface
       return false unless valid?(:address_type)
 
       save(
-        application_form, 
+        application_form,
         address_type: address_type,
         country: country,
       )
