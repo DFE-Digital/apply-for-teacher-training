@@ -18,8 +18,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
       expect(render.css('h1').text).to eq('Check and update status of conditions')
     end
 
-    it 'shows the correct button text without the warning class' do
-      expect(render.css('input .govuk-button--warning')).to be_empty
+    it 'shows the correct button text' do
       expect(render.css('input[type="submit"]').first['value']).to eq('Update status')
     end
   end
@@ -31,8 +30,7 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
       expect(render.css('h1').text).to eq('Check your changes and mark conditions as met')
     end
 
-    it 'shows the correct button text without the warning class' do
-      expect(render.css('input .govuk-button--warning')).to be_empty
+    it 'shows the correct button text' do
       expect(render.css('input[type="submit"]').first['value']).to eq('Mark conditions as met and tell candidate')
     end
   end
@@ -44,8 +42,8 @@ RSpec.describe ProviderInterface::IndividualConditionStatusReviewComponent do
       expect(render.css('h1').text).to eq('Check your changes and mark conditions as not met')
     end
 
-    it 'shows the correct button text with the warning class' do
-      expect(render.css('.govuk-button--warning').css('input[type="submit"]').first['value']).to eq('Mark conditions as not met')
+    it 'shows the correct button text' do
+      expect(render.css('.govuk-button').css('input[type="submit"]').first['value']).to eq('Mark conditions as not met')
     end
 
     it 'shows the information text about the status of the application' do
