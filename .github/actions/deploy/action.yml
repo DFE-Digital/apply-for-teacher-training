@@ -129,6 +129,7 @@ runs:
         echo "CYPRESS_BASE_URL=${DEPLOY_URL}" >> $GITHUB_ENV
 
     - name: Cypress run
+      id: cypress_run
       uses: cypress-io/github-action@v2.3.10
       with:
         spec: cypress/integration/candidate.spec.js
@@ -139,7 +140,7 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Upload Cypress screenshot and videos
-      if:   always()
+      if: steps.cypress_run.outcome == 'success' || steps.cypress_run.outcome == 'failure' || steps.cypress_run.outcome == 'cancelled'
       uses: actions/upload-artifact@v2.2.4
       with:
         name: smoke-test-${{ inputs.environment }}
