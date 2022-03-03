@@ -2,6 +2,7 @@
 :reasons:
 - :id: qualifications
   :label: Qualifications
+  :reasons_id: qualifications_reasons
   :reasons:
   - :id: no_maths_gcse
     :label: No maths GCSE at minimum grade 4 or C, or equivalent
@@ -27,6 +28,7 @@
       :id: qualifications_other_details
       :label: Details
 - :id: personal_statement
+  :reasons_id: personal_statement_reasons
   :label: Personal statement
   :reasons:
   - :id: quality_of_writing
@@ -40,6 +42,7 @@
       :id: personal_statement_other_details
       :label: Details
 - :id: teaching_knowledge
+  :reasons_id: teaching_knowledge_reasons
   :label: Teaching knowledge and ability
   :reasons:
   - :id: subject_knowledge
@@ -73,6 +76,7 @@
       :id: teaching_knowledge_other_details
       :label: Details
 - :id: communication_and_scheduling
+  :reasons_id: communication_and_scheduling_reasons
   :label: Communication, attendance and scheduling
   :reasons:
   - :id: did_not_reply
