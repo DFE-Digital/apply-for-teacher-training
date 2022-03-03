@@ -6,17 +6,24 @@ class RejectionReasons
 
   validate :reasons_selected
 
-  def self.from_config(config: YAML.load_file(CONFIG_PATH))
-    instance = new
-    instance.reasons = config[:reasons].map { |rattrs| Reason.new(rattrs) }
-    instance
-  end
+  class << self
+    def from_config(config: configuration)
+      instance = new
+      instance.reasons = config[:reasons].map { |rattrs| Reason.new(rattrs) }
+      instance
+    end
 
-  def self.inflate(model)
-    instance = new
-    instance.selected_reasons = from_config.reasons.dup.select { |r| model.send(r.id)&.include?('Yes') }
-    instance.selected_reasons.each { |reason| reason.inflate(model) }
-    instance
+    def inflate(model)
+      instance = new
+      instance.selected_reasons = from_config.reasons.dup
+        .select { |r| model.send(r.id)&.include?('Yes') }
+        .map { |reason| reason.inflate(model) }
+      instance
+    end
+
+    def configuration
+      @configuration ||= YAML.load_file(CONFIG_PATH)
+    end
   end
 
   def single_attribute_names

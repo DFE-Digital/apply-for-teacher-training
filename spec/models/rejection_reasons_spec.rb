@@ -18,17 +18,18 @@ RSpec.describe RejectionReasons do
   subject(:instance) { described_class.from_config }
 
   before do
+    described_class.instance_variable_set(:@configuration, nil)
     allow(YAML).to receive(:load_file).with(described_class::CONFIG_PATH).and_return(test_config)
   end
 
+  it 'memoizes configuration' do
+    described_class.from_config
+    described_class.from_config
+
+    expect(YAML).to have_received(:load_file).with(described_class::CONFIG_PATH).once
+  end
+
   describe '#reasons' do
-    it 'memoizes reasons' do
-      instance.reasons
-      instance.reasons
-
-      expect(YAML).to have_received(:load_file).with(described_class::CONFIG_PATH).once
-    end
-
     it 'builds top level rejection reasons' do
       expect(instance.reasons).to be_a(Array)
       expect(instance.reasons.first).to be_a(RejectionReasons::Reason)
