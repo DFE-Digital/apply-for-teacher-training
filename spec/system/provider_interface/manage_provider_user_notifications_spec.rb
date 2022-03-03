@@ -29,13 +29,13 @@ RSpec.feature 'Managing notifications' do
   end
 
   def then_i_can_see_all_notifications_are_on_by_default
-    ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
+    ProviderUserNotificationPreferences.notification_preferences.each do |type|
       expect(find(:css, "#provider-user-notification-preferences-#{type.to_s.dasherize}-true-field")).to be_checked
     end
   end
 
   def when_i_choose_not_to_receive_notifications
-    ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
+    ProviderUserNotificationPreferences.notification_preferences.each do |type|
       choose "provider-user-notification-preferences-#{type.to_s.dasherize}-false-field"
     end
     click_on 'Save settings'
@@ -44,7 +44,7 @@ RSpec.feature 'Managing notifications' do
   def then_my_notification_preferences_are_updated
     expect(page).to have_content 'Email notification settings saved'
 
-    ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
+    ProviderUserNotificationPreferences.notification_preferences.each do |type|
       expect(find(:css, "#provider-user-notification-preferences-#{type.to_s.dasherize}-false-field")).to be_checked
     end
   end

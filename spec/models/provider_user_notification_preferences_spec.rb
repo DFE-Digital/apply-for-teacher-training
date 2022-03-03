@@ -8,7 +8,7 @@ RSpec.describe ProviderUserNotificationPreferences do
       notification_preferences = create(:provider_user_notification_preferences)
       notification_preferences.update_all_preferences(false)
 
-      described_class::NOTIFICATION_PREFERENCES.each do |type|
+      described_class.notification_preferences.each do |type|
         expect(notification_preferences.send(type)).to be(false)
       end
     end
@@ -18,7 +18,7 @@ RSpec.describe ProviderUserNotificationPreferences do
     let(:notification_preferences) { build(:provider_user_notification_preferences) }
 
     it 'returns true for defined notification preferences types' do
-      described_class::NOTIFICATION_PREFERENCES.each do |type|
+      described_class.notification_preferences.each do |type|
         expect(described_class.notification_preference_exists?(type)).to be(true)
       end
     end

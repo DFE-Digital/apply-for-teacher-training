@@ -17,7 +17,7 @@ module ProviderInterface
       return ActionController::Parameters.new unless params.key?(:provider_user_notification_preferences)
 
       params.require(:provider_user_notification_preferences)
-        .permit(ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES)
+        .permit(ProviderUserNotificationPreferences.notification_preferences)
     end
   end
 end
