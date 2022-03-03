@@ -12,13 +12,17 @@ Dear <%= @application_form.first_name %>
 
 <% end %>
 
-# Your application status
+# Application status
 
 You have an offer from <%= @offer.course_option.course.provider.name %> to study <%= @offer.course_option.course.name %>.
 
-You're waiting for <%= @awaiting_decision.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.course_option.course.name %>. Their deadline is <%= @awaiting_decision_by %>.
+You're waiting for <%= @awaiting_decision.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.course_option.course.name %>.
 
-You can wait until you’ve received all decisions, plus 10 working days, before you accept or decline any offers. You should not feel pressured to repond sooner than this.
+Their deadline is <%= @awaiting_decision_by %>.
+
+You can wait until you’ve received their decision, plus 10 working days, before you accept or decline any offers.
+
+You should not feel pressured to repond sooner than this.
 
 However, if you are ready to respond to your existing offer you can do so through your account:
 
