@@ -3,13 +3,14 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    STEPS = %i[select_option providers courses study_modes].freeze
+    STEPS = %i[select_option providers courses study_modes locations].freeze
 
     attr_accessor :path_history, :provider_id, :decision, :application_choice_id,
                   :course_option_id, :course_id, :provider_user_id, :study_mode
 
     validates :course_id, presence: true, on: %i[courses save]
     validates :study_mode, presence: true, on: %i[study_mode save]
+    validates :course_option_id, presence: true, on: %i[locations save]
 
     def self.build_from_application_choice(state_store, application_choice, options = {})
       course_option = application_choice.current_course_option
