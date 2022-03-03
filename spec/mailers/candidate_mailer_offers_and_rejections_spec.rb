@@ -224,7 +224,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'course name and code' => 'Applied Science (Psychology)',
           'qualifications rejection heading' => 'Qualifications',
           'qualifications rejection content' => 'Bad qualifications',
-          'other application details' => 'You have an offer and are waiting for a decision about another course',
+          'other application details' => 'Application status',
           'application with offer' => 'You have an offer from Brighthurst Technical College to study Applied Science (Psychology)',
           'application awaiting decision' => 'to make a decision about your application to study Forensic Science',
           'decision day' => "has until #{40.business_days.from_now.to_s(:govuk_date)} to make a decision",
