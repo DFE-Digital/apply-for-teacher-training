@@ -24,6 +24,8 @@ RSpec.describe ProviderInterface::RejectionReasonsController, type: :request do
           last_name: provider_user.last_name,
         ),
       )
+
+    FeatureFlag.activate(:structured_reasons_for_rejection_redesign)
   end
 
   describe 'GET edit' do
@@ -41,6 +43,18 @@ RSpec.describe ProviderInterface::RejectionReasonsController, type: :request do
       let(:status) { 'rejected' }
 
       it 'responds with 404' do
+        get provider_interface_edit_rejection_reasons_path(application_choice)
+
+        expect(response.status).to eq(404)
+      end
+    end
+
+    context 'if feature flag is not active' do
+      let(:status) { 'awaiting_provider_decision' }
+
+      it 'responds with 404' do
+        FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
+
         get provider_interface_edit_rejection_reasons_path(application_choice)
 
         expect(response.status).to eq(404)

@@ -1,5 +1,6 @@
 module ProviderInterface
   class RejectionReasonsController < ProviderInterfaceController
+    before_action :check_feature_flag
     before_action :set_application_choice
     before_action :check_application_is_rejectable
 
@@ -48,6 +49,10 @@ module ProviderInterface
       return if @application_choice.rejected_by_default?
 
       render_404
+    end
+
+    def check_feature_flag
+      render_404 unless FeatureFlag.active?(:structured_reasons_for_rejection_redesign)
     end
   end
 end
