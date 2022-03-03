@@ -9,7 +9,7 @@ module ProviderInterface
     helper_method :current_provider_user
 
     def accessibility
-      render_content_page :accessibility
+      render 'content/accessibility'
     end
 
     def privacy; end
