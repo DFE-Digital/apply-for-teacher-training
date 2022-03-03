@@ -23,7 +23,9 @@ inputs:
 runs:
   using: composite
   steps:
+    # all steps prior to the "Evaluate job status" step require an id to ensure that we correctly report the deployment outcome
     - name: Set Environment variables
+      id: set_env_var
       shell: bash
       run: |
         tf_vars_file=terraform/workspace_variables/${{ inputs.environment }}.tfvars.json
@@ -61,37 +63,41 @@ runs:
         token: ${{ inputs.actions-api-access-token }}
 
     - name: Use Terraform v0.14.9
+      id: use_terraform
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.14.9
 
     - uses: azure/login@v1
+      id: login_azure
       with:
         creds: ${{ inputs.azure-credentials }}
 
     - uses: DFE-Digital/keyvault-yaml-secret@v1
-      id: get-secrets
+      id: get_secrets
       with:
         keyvault: ${{ env.KEY_VAULT_NAME }}
         secret: ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
         key: CF_USER, CF_PASSWORD
 
     - uses: DFE-Digital/keyvault-yaml-secret@v1
-      id: get-cypress-secrets
+      id: get_cypress_secrets
       with:
         keyvault: ${{ env.KEY_VAULT_NAME }}
         secret: ${{ env.KEY_VAULT_CYPRESS_SECRET_NAME }}
         key: CANDIDATE_TEST_EMAIL, GOVUK_NOTIFY_API_KEY
 
     - name: Setup cf cli
+      id: setup_cf_cli
       uses: DFE-Digital/github-actions/setup-cf-cli@master
       with:
-        CF_USERNAME:   ${{ steps.get-secrets.outputs.cf_user }}
-        CF_PASSWORD:   ${{ steps.get-secrets.outputs.cf_password }}
+        CF_USERNAME:   ${{ steps.get_secrets.outputs.cf_user }}
+        CF_PASSWORD:   ${{ steps.get_secrets.outputs.cf_password }}
         CF_SPACE_NAME: ${{ env.PAAS_CF_SPACE }}
         INSTALL_CONDUIT: true
 
     - name: Validate Azure Key Vault secrets
+      id: validate_key_vault_secrets
       uses: DFE-Digital/github-actions/validate-key-vault-secrets@master
       with:
         KEY_VAULT: ${{ env.KEY_VAULT_NAME }}
@@ -100,6 +106,7 @@ runs:
           ${{ env.KEY_VAULT_INFRA_SECRET_NAME }}
 
     - name: Delete clock to force its recreation
+      id: delete_clock
       shell: bash
       run: |
         make ${{ inputs.environment }} ci delete-clock
@@ -108,6 +115,7 @@ runs:
         CONFIRM_PRODUCTION: true
 
     - name: Terraform init, plan & apply
+      id: apply_terraform
       shell: bash
       run: make ${{ inputs.environment }} ci deploy
       env:
@@ -118,29 +126,32 @@ runs:
         CONFIRM_PRODUCTION: true
 
     - name: Seed Review App
+      id: seed_review_app
       shell: bash
       if: inputs.pr != ''
       run: |
         cf ssh apply-review-${{ inputs.pr }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
 
     - name: Set CYPRESS_BASE_URL
+      id: set_cypress_env_var
       shell: bash
       run: |
         echo "CYPRESS_BASE_URL=${DEPLOY_URL}" >> $GITHUB_ENV
 
     - name: Cypress run
-      id: cypress_run
+      id: run_cypress
       uses: cypress-io/github-action@v2.3.10
       with:
         spec: cypress/integration/candidate.spec.js
       env:
         CYPRESS_ENVIRONMENT: ${{ inputs.environment }}
-        CYPRESS_CANDIDATE_TEST_EMAIL: ${{ steps.get-cypress-secrets.outputs.candidate_test_email }}
-        CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ steps.get-cypress-secrets.outputs.govuk_notify_api_key }}
+        CYPRESS_CANDIDATE_TEST_EMAIL: ${{ steps.get_cypress_secrets.outputs.candidate_test_email }}
+        CYPRESS_GOVUK_NOTIFY_API_KEY: ${{ steps.get_cypress_secrets.outputs.govuk_notify_api_key }}
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Upload Cypress screenshot and videos
-      if: steps.cypress_run.outcome == 'success' || steps.cypress_run.outcome == 'failure' || steps.cypress_run.outcome == 'cancelled'
+      id: upload_cypress
+      if: steps.run_cypress.outcome == 'success' || steps.run_cypress.outcome == 'failure' || steps.run_cypress.outcome == 'cancelled'
       uses: actions/upload-artifact@v2.2.4
       with:
         name: smoke-test-${{ inputs.environment }}
@@ -150,14 +161,24 @@ runs:
         if-no-files-found: ignore
         retention-days: 7
 
+    - name: Evaluate job status
+      if: always()
+      shell: bash
+      run: |
+        if [[ ${{ join(steps.*.outcome, ',') }} =~ "failure" ]]; then
+          echo JOB_STATUS="failure" >> $GITHUB_ENV
+        else
+          echo JOB_STATUS="success" >> $GITHUB_ENV
+        fi;
+
     - name: Update ${{ env.DEPLOY_ENV }} status
-      if: ${{ always() }}
+      if: always()
       uses: bobheadxi/deployments@v1
       with:
         env:  ${{ env.DEPLOY_ENV }}
         step: finish
         token:  ${{ inputs.actions-api-access-token }}
-        status: ${{ job.status }}
+        status: ${{ env.JOB_STATUS }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_url: ${{ env.DEPLOY_URL }}
 
