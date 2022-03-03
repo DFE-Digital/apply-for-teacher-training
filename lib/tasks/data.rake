@@ -6,7 +6,6 @@ DATA_MIGRATION_SERVICES = [
   'DataMigrations::BackfillWithdrawnOrDeclinedForCandidateByProvider',
   'DataMigrations::BackfillUserColumnsOnNotes',
   'DataMigrations::RemoveDuplicateProvider',
-  'DataMigrations::FixLatLongFlipFlops',
 ].freeze
 
 def data_migrations
