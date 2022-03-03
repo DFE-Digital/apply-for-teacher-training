@@ -89,4 +89,20 @@ RSpec.describe RejectionReasons do
       expect(rejection_reasons.valid?).to be true
     end
   end
+
+  describe '#inflate' do
+    it 'populates reasons and details with values from the model' do
+      model_struct = Struct.new(:a, :a_reasons, :aa, :ab, :ad, :b, :bd, :c)
+      model = model_struct.new('Yes', %w[aa], nil, nil, 'Some details')
+
+      inflated_reasons = described_class.inflate(model)
+
+      selected_reasons = inflated_reasons.selected_reasons
+      nested_selected_reasons = selected_reasons.first.selected_reasons
+
+      expect(selected_reasons.first.id).to eq('a')
+      expect(nested_selected_reasons.first.id).to eq('aa')
+      expect(nested_selected_reasons.first.details.text).to eq('Some details')
+    end
+  end
 end
