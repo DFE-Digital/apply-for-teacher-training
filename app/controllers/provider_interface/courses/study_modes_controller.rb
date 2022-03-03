@@ -16,7 +16,11 @@ module ProviderInterface
         if @wizard.valid_for_current_step?
           @wizard.save_state!
 
-          redirect_to provider_interface_application_choice_path(@application_choice)
+          if @wizard.next_step.nil?
+            redirect_to provider_interface_application_choice_path(@application_choice)
+          else
+            redirect_to [:edit, :provider_interface, @application_choice, :course, @wizard.next_step]
+          end
         else
           @course = Course.find(@wizard.course_id)
           @study_modes = available_study_modes(@course)
