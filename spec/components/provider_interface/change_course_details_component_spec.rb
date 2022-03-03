@@ -27,21 +27,25 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   let(:course) do
-    instance_double(Course,
-                    name_and_code: 'Geography (H234)',
-                    recruitment_cycle_year: 2020,
-                    accredited_provider: nil,
-                    qualifications: %w[qts pgce],
-                    funding_type: 'fee')
+    build_stubbed(:course,
+                  :with_both_study_modes,
+                  name: 'Geography',
+                  code: 'H234',
+                  recruitment_cycle_year: 2020,
+                  accredited_provider: nil,
+                  qualifications: %w[qts pgce],
+                  funding_type: 'fee')
   end
 
   let(:course2) do
-    instance_double(Course,
-                    name_and_code: 'Geography (H234)',
-                    recruitment_cycle_year: 2020,
-                    accredited_provider: nil,
-                    qualifications: %w[qts pgce],
-                    funding_type: 'fee')
+    build_stubbed(:course,
+                  :part_time,
+                  name: 'Geography',
+                  code: 'H234',
+                  recruitment_cycle_year: 2020,
+                  accredited_provider: nil,
+                  qualifications: %w[qts pgce],
+                  funding_type: 'fee')
   end
 
   let(:application_choice) do
@@ -52,7 +56,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
                     site: site)
   end
 
-  let(:render) { render_inline(described_class.new(application_choice: application_choice)) }
+  let(:render) { render_inline(described_class.new(application_choice: application_choice, course: course)) }
 
   def row_text_selector(row_name, render)
     rows = { provider: 0,
@@ -72,7 +76,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when there are multiple available providers' do
-    let(:render) { render_inline(described_class.new(application_choice: application_choice, available_providers: [provider, accredited_provider])) }
+    let(:render) { render_inline(described_class.new(application_choice: application_choice, course: course, available_providers: [provider, accredited_provider])) }
 
     it 'renders a link to change' do
       render_text = row_text_selector(:provider, render)
@@ -94,7 +98,7 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
   end
 
   context 'when multiple courses' do
-    let(:render) { render_inline(described_class.new(application_choice: application_choice, available_courses: [course, course2])) }
+    let(:render) { render_inline(described_class.new(application_choice: application_choice, course: course, available_courses: [course, course2])) }
 
     it 'renders a change link' do
       render_text = row_text_selector(:course, render)
@@ -111,6 +115,28 @@ RSpec.describe ProviderInterface::ChangeCourseDetailsComponent do
 
       expect(render_text).to include('Course')
       expect(render_text).to include('Geography (H234)')
+      expect(render_text).not_to include('Change')
+    end
+  end
+
+  context 'when there are multiple study modes' do
+    it 'renders the study mode' do
+      render_text = row_text_selector(:full_or_part_time, render)
+
+      expect(render_text).to include('Full or part time')
+      expect(render_text).to include('Full time')
+      expect(render_text).to include('Change')
+    end
+  end
+
+  context 'when there is only one study mode' do
+    let(:render) { render_inline(described_class.new(application_choice: application_choice, course: course2, available_providers: [provider, accredited_provider])) }
+
+    it 'renders the study mode' do
+      render_text = row_text_selector(:full_or_part_time, render)
+
+      expect(render_text).to include('Full or part time')
+      expect(render_text).to include('Full time')
       expect(render_text).not_to include('Change')
     end
   end

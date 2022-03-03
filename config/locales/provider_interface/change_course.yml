@@ -9,3 +9,7 @@ en:
         edit:
           title: Course
           caption: Update course - %{name}
+      study_modes:
+        edit:
+          title: Full time or part time
+          caption: Update course - %{name}

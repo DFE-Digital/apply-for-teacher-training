@@ -7,9 +7,9 @@ module ProviderInterface
 
     attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
                 :cycle, :preferred_location, :study_mode, :qualification, :available_providers,
-                :available_courses
+                :available_courses, :course
 
-    def initialize(application_choice:, available_providers: [], available_courses: [])
+    def initialize(application_choice:, course: nil, available_providers: [], available_courses: [])
       @application_choice = application_choice
       @provider_name_and_code = application_choice.provider.name_and_code
       @course_name_and_code = application_choice.course.name_and_code
@@ -19,6 +19,7 @@ module ProviderInterface
       @qualification = qualification_text(application_choice.course_option)
       @available_providers = available_providers
       @available_courses = available_courses
+      @course = course
     end
 
     def rows
@@ -26,7 +27,7 @@ module ProviderInterface
         { key: 'Training provider', value: provider_name_and_code, action: { href: change_provider_path } },
         { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
         { key: 'Cycle', value: cycle },
-        { key: 'Full or part time', value: study_mode },
+        { key: 'Full or part time', value: study_mode, action: { href: change_study_mode_path } },
         { key: 'Location', value: preferred_location },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },
@@ -65,6 +66,10 @@ module ProviderInterface
 
     def change_course_path
       available_courses.length > 1 ? edit_provider_interface_application_choice_course_courses_path(application_choice) : nil
+    end
+
+    def change_study_mode_path
+      course.full_time_or_part_time? ? edit_provider_interface_application_choice_course_study_modes_path(application_choice) : nil
     end
   end
 end

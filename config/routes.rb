@@ -741,6 +741,7 @@ Rails.application.routes.draw do
       namespace :courses, as: :application_choice_course do
         resource :providers, only: %i[edit update]
         resource :courses, only: %i[edit update]
+        resource :study_modes, only: %i[edit update], path: 'study-modes'
       end
 
       get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions

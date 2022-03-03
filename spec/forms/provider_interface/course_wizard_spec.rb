@@ -20,6 +20,49 @@ RSpec.describe ProviderInterface::CourseWizard do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
+    it { is_expected.to validate_presence_of(:study_mode).on(:study_modes).on(:save) }
+  end
+
+  describe '#initialize' do
+    context 'is responsible for sanitising the attributes' do
+      context 'when the provided course_id does not match the stored value' do
+        let(:wizard) do
+          described_class.new(store, course_id: course_id)
+        end
+        let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
+        let(:course_id) { 4 }
+
+        before do
+          allow(store).to receive(:read).and_return(stored_data)
+        end
+
+        it 'resets the study mode and course_option_id' do
+          expect(wizard.study_mode).to be_nil
+          expect(wizard.course_option_id).to be_nil
+          expect(wizard.course_id).to eq(course_id)
+          expect(wizard.provider_id).to eq(10)
+        end
+      end
+
+      context 'when the provided course_id does match the stored value' do
+        let(:wizard) do
+          described_class.new(store, course_id: course_id)
+        end
+        let(:stored_data) { { course_id: 5, course_option_id: 3, study_mode: :full_time, provider_id: 10 }.to_json }
+        let(:course_id) { 5 }
+
+        before do
+          allow(store).to receive(:read).and_return(stored_data)
+        end
+
+        it 'does not reset the study mode and course_option_id' do
+          expect(wizard.study_mode).to eq('full_time')
+          expect(wizard.course_option_id).to eq(3)
+          expect(wizard.course_id).to eq(course_id)
+          expect(wizard.provider_id).to eq(10)
+        end
+      end
+    end
   end
 
   context 'when changing an offer' do
@@ -105,7 +148,23 @@ RSpec.describe ProviderInterface::CourseWizard do
           allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
         end
 
-        it 'returns :study_modes' do
+        # TODO: Remove pending on next PR
+        xit 'returns :locations' do
+          expect(wizard.next_step).to eq(:locations)
+        end
+      end
+    end
+
+    context 'when current_step is :study_modes' do
+      let(:current_step) { :study_modes }
+
+      context 'when there are multiple locations available' do
+        before do
+          allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
+        end
+
+        # TODO: Remove pending on next PR
+        xit 'returns :locations' do
           expect(wizard.next_step).to eq(:locations)
         end
       end
