@@ -2,6 +2,8 @@ name: deploy
 description: deploys application
 
 inputs:
+  actions-api-access-token:
+    required: true
   arm-access-key:
     required: true
   azure-credentials:
@@ -58,7 +60,7 @@ runs:
       with:
         env:   ${{ env.DEPLOY_ENV }}
         step:  start
-        token: ${{ github.token }}
+        token: ${{ inputs.actions-api-access-token }}
 
     - name: Use Terraform v0.14.9
       id: use_terraform
@@ -175,7 +177,7 @@ runs:
       with:
         env:  ${{ env.DEPLOY_ENV }}
         step: finish
-        token:  ${{ github.token }}
+        token:  ${{ inputs.actions-api-access-token }}
         status: ${{ env.JOB_STATUS }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_url: ${{ env.DEPLOY_URL }}
