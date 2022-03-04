@@ -51,7 +51,7 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/defer-o
         expect(parsed_response['data']['attributes']['offer'])
           .to include('status_before_deferral' => original_status,
                       'offer_deferred_at' => application_choice.reload.offer_deferred_at.iso8601,
-                      'confirm_deferral_recruitment_cycle_year' => RecruitmentCycle.current_year + 1)
+                      'deferred_to_recruitment_cycle_year' => RecruitmentCycle.current_year + 1)
 
         expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse', '1.1')
       end

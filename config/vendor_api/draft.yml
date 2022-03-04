@@ -91,7 +91,7 @@ paths:
         Defers an offer to the next cycle.
 
         This will transition the application to the [offer\_deferred state](/api-docs/lifecycle#offer_deferred).
-        The fields `offer_deferred_at`, `status_before_deferral` and `confirm_deferral_recruitment_cycle_year` will be populated.
+        The fields `offer_deferred_at`, `status_before_deferral` and `deferred_to_recruitment_cycle_year` will be populated.
       parameters:
       - "$ref": "#/components/parameters/application_id"
       requestBody:
@@ -612,7 +612,7 @@ components:
           - recruited
           maxLength: 30
           example: pending_conditions
-        confirm_deferral_recruitment_cycle_year:
+        deferred_to_recruitment_cycle_year:
           type: integer
           nullable: true
           description: The recruitment cycle year a deferred application can be confirmed

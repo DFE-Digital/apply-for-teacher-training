@@ -17,7 +17,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           {
             status_before_deferral: application_choice.status_before_deferral,
             offer_deferred_at: application_choice.offer_deferred_at.iso8601,
-            confirm_deferral_recruitment_cycle_year: 2021,
+            deferred_to_recruitment_cycle_year: 2021,
           },
         )
       end
@@ -43,7 +43,7 @@ RSpec.describe VendorAPI::ApplicationPresenter do
           {
             status_before_deferral: nil,
             offer_deferred_at: nil,
-            confirm_deferral_recruitment_cycle_year: nil,
+            deferred_to_recruitment_cycle_year: nil,
           },
         )
       end
