@@ -160,7 +160,7 @@ RSpec.describe ApplicationForm do
         expect(application_form.reload.european_economic_area?).to be(true)
       end
 
-      context 'region from postcode' do
+      describe 'region from postcode' do
         it 'queues an LookupAreaByPostcodeWorker job for Westminster postcode' do
           application_form = create(:application_form)
 

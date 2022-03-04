@@ -10,7 +10,7 @@ RSpec.describe LookupAreaByPostcodeWorker do
     allow(api).to receive(:lookup).and_return(result)
   end
 
-  context 'region from postcode' do
+  describe 'region from postcode' do
     context 'when the API returns an English region' do
       before do
         allow(result).to receive(:region).and_return('South West')
