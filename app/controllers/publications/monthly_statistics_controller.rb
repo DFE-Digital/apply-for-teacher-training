@@ -1,6 +1,5 @@
 module Publications
   class MonthlyStatisticsController < ApplicationController
-    before_action :redirect_unless_published
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
     def show
@@ -18,10 +17,6 @@ module Publications
       header_row = raw_data['rows'].first.keys
       data = SafeCSV.generate(raw_data['rows'].map(&:values), header_row)
       send_data data, filename: export_filename, disposition: :attachment
-    end
-
-    def redirect_unless_published
-      redirect_to root_path unless FeatureFlag.active?(:publish_monthly_statistics)
     end
 
     def calculate_download_sizes(report)
