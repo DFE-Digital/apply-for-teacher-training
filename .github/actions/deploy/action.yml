@@ -170,17 +170,30 @@ runs:
           echo JOB_STATUS="success" >> $GITHUB_ENV
         fi;
 
+    # - name: Update ${{ env.DEPLOY_ENV }} status
+    #   if: always()
+    #   uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
+    #   with:
+    #     env:  ${{ env.DEPLOY_ENV }}
+    #     step: finish
+    #     token:  ${{ github.token }}
+    #     status: ${{ env.JOB_STATUS }}
+    #     deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+    #     env_url: ${{ env.DEPLOY_URL }}
+    #     debug: true ##TO DO: remove this
+
     - name: Update ${{ env.DEPLOY_ENV }} status
-      if: always()
-      uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
+      uses: octokit/request-action@v2.x
+      id: update_deployment_status
       with:
-        env:  ${{ env.DEPLOY_ENV }}
-        step: finish
-        token:  ${{ github.token }}
-        status: ${{ env.JOB_STATUS }}
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        env_url: ${{ env.DEPLOY_URL }}
-        debug: true ##TO DO: remove this
+        route: POST /repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.deployment_id }}/statuses
+        owner: ${{ github.repository_owner }}
+        repo: apply-for-teacher-training
+        environment: ${{ env.DEPLOY_ENV }}
+        state: ${{ env.JOB_STATUS }}
+        environment_url: ${{ env.DEPLOY_URL }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
 
     - name: Notify Slack channel on job failure
       if: failure() && inputs.pr == ''
