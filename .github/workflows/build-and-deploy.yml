@@ -12,6 +12,8 @@ on:
     types: [opened, reopened, synchronize, labeled]
 
 permissions:
+  actions: write
+  checks: write
   contents: write
   deployments: write
   packages: write
