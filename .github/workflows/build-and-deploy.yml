@@ -383,7 +383,7 @@ jobs:
     concurrency: deploy_review_${{ github.event.pull_request.number }}
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy') }}
     environment:
-      name: review-${{ github.event.pull_request.number }}
+      name: review
     needs: [build]
     runs-on: ubuntu-latest
     steps:
