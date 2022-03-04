@@ -433,9 +433,7 @@ private
       )
     else
       GeocodeApplicationAddressWorker.perform_in(5.seconds, id)
-      if FeatureFlag.active?(:region_from_postcode)
-        LookupAreaByPostcodeWorker.perform_in(10.seconds, id)
-      end
+      LookupAreaByPostcodeWorker.perform_in(10.seconds, id)
     end
   end
 

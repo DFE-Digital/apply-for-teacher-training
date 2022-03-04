@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request, sidekiq: true do
   include VendorAPISpecHelpers
 
-  before { FeatureFlag.activate(:region_from_postcode) }
-
   it 'generates test data' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 

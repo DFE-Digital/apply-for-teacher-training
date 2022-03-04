@@ -160,11 +160,7 @@ RSpec.describe ApplicationForm do
         expect(application_form.reload.european_economic_area?).to be(true)
       end
 
-      context 'with `region_from_postcode` feature flag active' do
-        before do
-          FeatureFlag.activate(:region_from_postcode)
-        end
-
+      describe 'region from postcode' do
         it 'queues an LookupAreaByPostcodeWorker job for Westminster postcode' do
           application_form = create(:application_form)
 
@@ -185,23 +181,6 @@ RSpec.describe ApplicationForm do
           )
 
           expect(LookupAreaByPostcodeWorker).to have_received(:perform_in).with(anything, application_form.id)
-        end
-      end
-
-      context 'with `region_from_postcode` feature flag inactive' do
-        before do
-          FeatureFlag.deactivate(:region_from_postcode)
-        end
-
-        it 'does not queue an LookupAreaByPostcodeWorker job for Westminster postcode' do
-          application_form = create(:application_form)
-
-          application_form.update!(
-            address_type: :uk,
-            postcode: 'SW1P 3BT',
-          )
-
-          expect(LookupAreaByPostcodeWorker).not_to have_received(:perform_in).with(application_form.id)
         end
       end
     end

@@ -10,25 +10,7 @@ RSpec.describe LookupAreaByPostcodeWorker do
     allow(api).to receive(:lookup).and_return(result)
   end
 
-  context 'with `region_from_postcode` feature flag inactive' do
-    before do
-      FeatureFlag.deactivate(:region_from_postcode)
-    end
-
-    context 'when the API returns an English region' do
-      it 'updates the region code' do
-        described_class.new.perform(application_form.id)
-        expect(application_form.reload.region_code).to be_nil
-        expect(api).not_to have_received(:lookup)
-      end
-    end
-  end
-
-  context 'with `region_from_postcode` feature flag active' do
-    before do
-      FeatureFlag.activate(:region_from_postcode)
-    end
-
+  describe 'region from postcode' do
     context 'when the API returns an English region' do
       before do
         allow(result).to receive(:region).and_return('South West')
