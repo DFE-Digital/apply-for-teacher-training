@@ -533,7 +533,7 @@ components:
           type: string
           description: The reason for the cancellation. If none are yet provided for an application rejected by default, the value `Not entered` is returned
           example: 'Candidate has accepted an alternative offer'
-          maxLength: 10240
+          maxLength: 2000
         created_at:
           type: string
           format: date-time
