@@ -80,7 +80,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'withdrawn sentence' => 'At your request, Arithmetic College has withdrawn your application to study Mathematics (M101)',
       'link to support' => I18n.t('get_into_teaching.url_online_chat'),
       'offer content' => 'You have an offer from Arithmetic College to study Mathematics.',
-      'awaiting decision content' => 'Falconholt Technical College has until 1 July 2021 to make a decision about your application to study Forensic Science.',
+      'awaiting decision content' => 'You’re waiting for Falconholt Technical College to make a decision about your application to study Forensic Science.',
     )
   end
 end

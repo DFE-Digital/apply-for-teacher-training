@@ -6,12 +6,18 @@ Get in touch if you did not ask them to do this:
 
 <%= I18n.t('get_into_teaching.url_online_chat') %>
 
-# You have an offer and are waiting for a decision about another course
+# Application status
 
 You have an offer from <%= @offer.course_option.course.provider.name %> to study <%= @offer.course_option.course.name %>.
 
-<%= @awaiting_decision.course_option.course.provider.name %> has until <%= @awaiting_decision_by %> to make a decision about your application to study <%= @awaiting_decision.course_option.course.name %>.
+You’re waiting for <%= @awaiting_decision.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.course_option.course.name %>.
 
-You can wait until you’ve received both decisions before you respond. Alternatively, you can sign in to your account and accept your existing offer:
+Their deadline is <%= @awaiting_decision_by %>.
+
+You can wait until you’ve received their decision, plus 10 working days, before you accept or decline any offers.
+
+You should not feel pressured to respond sooner than this.
+
+However, if you are ready to respond to your existing offer you can do so through your account:
 
 <%= @candidate_magic_link %>
