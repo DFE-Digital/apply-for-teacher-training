@@ -42,6 +42,7 @@ en:
     url_choose_your_referees: https://getintoteaching.education.gov.uk/tips-on-applying-for-teacher-training#choose-your-referees
   train_to_teach_in_england:
     url: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-non-uk-applicants#visas-and-immigration
+    url_citizen_visa: https://www.gov.uk/government/publications/train-to-teach-in-england-non-uk-applicants/train-to-teach-in-england-if-youre-a-non-uk-citizen#visa
   register_of_sponsor_licences:
     url: https://www.gov.uk/government/publications/register-of-licensed-sponsors-students
   page_titles:
@@ -79,7 +80,7 @@ en:
     nationalities: What is your nationality?
     languages: Is English your main language?
     right_to_work: Your right to work or study in the UK
-    immigration_right_to_work: Do you have the right to work or study in the UK for the length of the teacher training course?
+    immigration_right_to_work: Right to work or study in the UK
     immigration_route: How will you get the right to work or study in the UK?
     immigration_status: What is your immigration status?
     immigration_entry_date: When did you enter the UK?

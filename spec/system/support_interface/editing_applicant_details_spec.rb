@@ -43,7 +43,7 @@ RSpec.feature 'Editing application details' do
     within('[data-qa="personal-details"]') do
       expect(page).to have_content 'Armenian'
       expect(page).to have_content 'Has the right to work or study in the UK?'
-      expect(page).to have_content 'Not yet'
+      expect(page).to have_content 'No'
     end
 
     click_on 'History'
