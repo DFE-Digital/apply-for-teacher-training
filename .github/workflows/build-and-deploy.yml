@@ -386,7 +386,6 @@ jobs:
       - name: Deploy App to Review
         uses: ./.github/actions/deploy/
         with:
-          actions-api-access-token: ${{ secrets.GITHUB_TOKEN }}
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: review
@@ -413,7 +412,6 @@ jobs:
       - name: Deploy App to ${{ matrix.environment }}
         uses: ./.github/actions/deploy/
         with:
-          actions-api-access-token: ${{ secrets.GITHUB_TOKEN }}
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ matrix.environment }}
