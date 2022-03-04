@@ -30,7 +30,6 @@ jobs:
       - name: Deploy App to Review
         uses: ./.github/actions/deploy/
         with:
-          actions-api-access-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ github.event.inputs.environment }}
