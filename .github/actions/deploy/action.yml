@@ -53,7 +53,7 @@ runs:
 
     - name: Start ${{ env.DEPLOY_ENV }} Deployment
       if: ${{ always() }}
-      uses: bobheadxi/deployments@v1
+      uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
       id: deployment
       with:
         env:   ${{ env.DEPLOY_ENV }}
@@ -172,7 +172,7 @@ runs:
 
     - name: Update ${{ env.DEPLOY_ENV }} status
       if: always()
-      uses: bobheadxi/deployments@v1
+      uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
       with:
         env:  ${{ env.DEPLOY_ENV }}
         step: finish
