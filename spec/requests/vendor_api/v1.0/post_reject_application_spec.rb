@@ -62,8 +62,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
-                                    "It's not possible to perform this action while the application is in its current state",
-                                    '1.0')
+                                    "It's not possible to perform this action while the application is in its current state")
   end
 
   it 'returns an error when a proper reason is not provided' do
@@ -80,8 +79,7 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
-                                    'Rejection reason Explain why you’re rejecting the application',
-                                    '1.0')
+                                    'Rejection reason Explain why you’re rejecting the application')
   end
 
   it 'returns not found error when the application was not found' do
@@ -89,8 +87,6 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/reject', type: :
 
     expect(response).to have_http_status(:not_found)
     expect(parsed_response)
-      .to contain_schema_with_error('NotFoundResponse',
-                                    'Unable to find Application(s)',
-                                    '1.0')
+      .to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
   end
 end

@@ -26,17 +26,13 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/confirm-conditio
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response)
       .to contain_schema_with_error('UnprocessableEntityResponse',
-                                    "It's not possible to perform this action while the application is in its current state",
-                                    '1.0')
+                                    "It's not possible to perform this action while the application is in its current state")
   end
 
   it 'returns a NotFoundResponse when the application was not found' do
     post_api_request '/api/v1/applications/non-existent-id/confirm-conditions-met'
 
     expect(response).to have_http_status(:not_found)
-    expect(parsed_response)
-      .to contain_schema_with_error('NotFoundResponse',
-                                    'Unable to find Application(s)',
-                                    '1.0')
+    expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
   end
 end

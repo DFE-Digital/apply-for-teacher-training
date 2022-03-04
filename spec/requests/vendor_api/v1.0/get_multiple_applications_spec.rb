@@ -57,8 +57,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
-                                                         'param is missing or the value is empty: since',
-                                                         '1.0')
+                                                         'param is missing or the value is empty: since')
   end
 
   it 'returns HTTP status 422 given an unparseable `since` date value' do
@@ -66,8 +65,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                         'Parameter is invalid (should be ISO8601): since',
-                                                         '1.0')
+                                                         'Parameter is invalid (should be ISO8601): since')
   end
 
   it 'returns HTTP status 422 when encountering a KeyError from ActiveSupport::TimeZone' do
@@ -75,8 +73,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     expect(response).to have_http_status(:unprocessable_entity)
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                         'Parameter is invalid (should be ISO8601): since',
-                                                         '1.0')
+                                                         'Parameter is invalid (should be ISO8601): since')
   end
 
   it 'returns HTTP status 422 given a parseable but nonsensensical `since` date value' do
@@ -85,8 +82,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     expect(response).to have_http_status(:unprocessable_entity)
 
     expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                         'Parameter is invalid (date is nonsense): since',
-                                                         '1.0')
+                                                         'Parameter is invalid (date is nonsense): since')
   end
 
   it 'returns applications that are in a viewable state' do

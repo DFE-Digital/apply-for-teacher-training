@@ -161,8 +161,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
-                                      'The specified course is not associated with any of your organisations.',
-                                      '1.0')
+                                      'The specified course is not associated with any of your organisations.')
     end
 
     it 'logs the actual error in a VendorAPIRequest when a 422 is returned', sidekiq: true do
@@ -207,9 +206,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       }
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
-                                                           'Provider ABC does not exist',
-                                                           '1.0')
+      expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse', 'Provider ABC does not exist')
     end
 
     it 'returns an error when specifying ambiguous course parameters' do
@@ -236,8 +233,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
-                                      "Found multiple full_time options for course #{course_payload['course_code']}",
-                                      '1.0')
+                                      "Found multiple full_time options for course #{course_payload['course_code']}")
     end
 
     it 'returns an error when trying to transition to an invalid state' do
@@ -250,8 +246,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(response).to have_http_status(:unprocessable_entity)
       expect(parsed_response)
         .to contain_schema_with_error('UnprocessableEntityResponse',
-                                      "It's not possible to perform this action while the application is in its current state",
-                                      '1.0')
+                                      "It's not possible to perform this action while the application is in its current state")
     end
 
     it 'returns a NotFoundResponse if the application cannot be found' do
@@ -267,7 +262,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       post_api_request '/api/v1/applications/non-existent-id/offer', params: request_body
 
       expect(response).to have_http_status(:not_found)
-      expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)', '1.0')
+      expect(parsed_response).to contain_schema_with_error('NotFoundResponse', 'Unable to find Application(s)')
     end
 
     it 'does not process the conditions if they are not provided correctly' do
