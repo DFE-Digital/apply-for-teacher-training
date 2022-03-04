@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true do
+RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true, type: :component do
   context 'when course choices are editable' do
     let(:application_form) do
       create_application_form_with_course_choices(statuses: %w[unsubmitted])
@@ -17,6 +17,12 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.to_s(:month_and_year))
       expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+    end
+
+    it 'does not show the application number' do
+      render_inline(described_class.new(application_form: application_form))
+
+      expect(rendered_component).not_to include 'Application number'
     end
 
     context 'when Find is down' do
@@ -220,6 +226,14 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       result = render_inline(described_class.new(application_form: application_form, editable: false))
 
       expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.courses.delete'))
+    end
+
+    it 'shows the application number' do
+      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
+      render_inline(described_class.new(application_form: application_form, editable: false))
+
+      expect(rendered_component).to include 'Application number'
+      expect(rendered_component).to include application_form.application_choices.first.id.to_s
     end
 
     context 'When multiple courses available at a provider' do

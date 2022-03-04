@@ -30,6 +30,7 @@ module CandidateInterface
     def course_choice_rows(application_choice)
       [
         course_row(application_choice),
+        application_number_row(application_choice),
         study_mode_row(application_choice),
         location_row(application_choice),
         type_row(application_choice),
@@ -123,6 +124,15 @@ module CandidateInterface
       }
     end
 
+    def application_number_row(application_choice)
+      return if application_choice.unsubmitted?
+
+      {
+        key: 'Application number',
+        value: application_choice.id,
+      }
+    end
+
     def course_row_value(application_choice)
       if CycleTimetable.find_down?
         "#{application_choice.current_course.name} (#{application_choice.current_course.code})"
@@ -195,7 +205,7 @@ module CandidateInterface
     end
 
     def degree_required_row(application_choice)
-      return nil unless application_choice.current_course.degree_grade?
+      return unless application_choice.current_course.degree_grade?
 
       {
         key: 'Degree requirements',
@@ -204,9 +214,9 @@ module CandidateInterface
     end
 
     def gcse_required_row(application_choice)
-      return nil unless candidate_has_pending_or_missing_gcses?(application_choice) &&
-                        !application_choice.current_course.accept_pending_gcse.nil? &&
-                        !application_choice.current_course.accept_gcse_equivalency.nil?
+      return unless candidate_has_pending_or_missing_gcses?(application_choice) &&
+                    !application_choice.current_course.accept_pending_gcse.nil? &&
+                    !application_choice.current_course.accept_gcse_equivalency.nil?
 
       {
         key: 'GCSE requirements',
@@ -224,9 +234,9 @@ module CandidateInterface
     end
 
     def visa_details_row(application_choice)
-      return nil if immigration_right_to_work?(application_choice) ||
-                    application_predates_visa_sponsorship_information?(application_choice) ||
-                    !FeatureFlag.active?(:restructured_immigration_status)
+      return if immigration_right_to_work?(application_choice) ||
+                application_predates_visa_sponsorship_information?(application_choice) ||
+                !FeatureFlag.active?(:restructured_immigration_status)
 
       {
         key: 'Visa sponsorship',
@@ -253,7 +263,7 @@ module CandidateInterface
     end
 
     def offer_withdrawal_reason_row(application_choice)
-      return nil unless application_choice.offer_withdrawn?
+      return unless application_choice.offer_withdrawn?
 
       if application_choice.offer_withdrawal_reason.present?
         {
@@ -264,7 +274,7 @@ module CandidateInterface
     end
 
     def rejection_reasons_row(application_choice)
-      return nil unless application_choice.rejected?
+      return unless application_choice.rejected?
 
       if application_choice.structured_rejection_reasons.present?
         {
