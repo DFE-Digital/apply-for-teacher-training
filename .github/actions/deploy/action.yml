@@ -2,8 +2,6 @@ name: deploy
 description: deploys application
 
 inputs:
-  actions-api-access-token:
-    required: true
   arm-access-key:
     required: true
   azure-credentials:
@@ -11,7 +9,7 @@ inputs:
   environment:
     description: Environment to deploy to
     required: true
-  pr:
+  pr-number:
     description: PR number for the review app
     required: false
   sha:
@@ -30,9 +28,10 @@ runs:
       run: |
         tf_vars_file=terraform/workspace_variables/${{ inputs.environment }}.tfvars.json
 
-        if [ -n "${{ inputs.pr }}" ]; then
-          echo "DEPLOY_ENV=review-${{ inputs.pr }}" >> $GITHUB_ENV
-          echo "DEPLOY_URL=https://apply-review-${{ inputs.pr }}.london.cloudapps.digital" >> $GITHUB_ENV
+        if [ -n "${{ inputs.pr-number }}" ]; then
+          echo "DEPLOY_ENV=review-${{ inputs.pr-number }}" >> $GITHUB_ENV
+          echo "DEPLOY_URL=https://apply-review-${{ inputs.pr-number }}.london.cloudapps.digital" >> $GITHUB_ENV
+          echo "DEPLOY_REF=${{ github.head_ref }}" >> $GITHUB_ENV
         else
           echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
 
@@ -42,6 +41,7 @@ runs:
           else
             echo "DEPLOY_URL=https://apply-${{ inputs.environment }}.london.cloudapps.digital" >> $GITHUB_ENV
           fi
+          echo "DEPLOY_REF=${{ github.ref }}" >> $GITHUB_ENV
         fi;
         echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
@@ -54,13 +54,14 @@ runs:
         DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
 
     - name: Start ${{ env.DEPLOY_ENV }} Deployment
-      if: ${{ always() }}
+      if: always()
       uses: bobheadxi/deployments@v1
       id: deployment
       with:
         env:   ${{ env.DEPLOY_ENV }}
+        ref: ${{ env.DEPLOY_REF }}
         step:  start
-        token: ${{ inputs.actions-api-access-token }}
+        token: ${{ github.token }}
 
     - name: Use Terraform v0.14.9
       id: use_terraform
@@ -111,7 +112,7 @@ runs:
       run: |
         make ${{ inputs.environment }} ci delete-clock
       env:
-        PR_NUMBER: ${{ inputs.pr }}
+        PR_NUMBER: ${{ inputs.pr-number }}
         CONFIRM_PRODUCTION: true
 
     - name: Terraform init, plan & apply
@@ -121,16 +122,16 @@ runs:
       env:
         ARM_ACCESS_KEY:           ${{ inputs.arm-access-key }}
         IMAGE_TAG:                ${{ inputs.sha }}
-        PR_NUMBER:                ${{ inputs.pr }}
+        PR_NUMBER:                ${{ inputs.pr-number }}
         TF_VAR_azure_credentials: ${{ inputs.azure-credentials }}
         CONFIRM_PRODUCTION: true
 
     - name: Seed Review App
       id: seed_review_app
       shell: bash
-      if: inputs.pr != ''
+      if: inputs.pr-number != ''
       run: |
-        cf ssh apply-review-${{ inputs.pr }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
+        cf ssh apply-review-${{ inputs.pr-number }} -c "export DISABLE_DATABASE_ENVIRONMENT_CHECK=1 && cd /app && /usr/local/bin/bundle exec rake setup_review_app_data"
 
     - name: Set CYPRESS_BASE_URL
       id: set_cypress_env_var
@@ -173,17 +174,18 @@ runs:
 
     - name: Update ${{ env.DEPLOY_ENV }} status
       if: always()
-      uses: bobheadxi/deployments@v1
+      uses: bobheadxi/deployments@v1 
       with:
         env:  ${{ env.DEPLOY_ENV }}
         step: finish
-        token:  ${{ inputs.actions-api-access-token }}
+        ref: ${{ env.DEPLOY_REF }}
+        token:  ${{ github.token }}
         status: ${{ env.JOB_STATUS }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         env_url: ${{ env.DEPLOY_URL }}
 
     - name: Notify Slack channel on job failure
-      if: failure() && inputs.pr == ''
+      if: failure() && inputs.pr-number == ''
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_USERNAME: CI Deployment

@@ -12,8 +12,9 @@ on:
     types: [opened, reopened, synchronize, labeled]
 
 permissions:
-  packages: write
   contents: write
+  deployments: write
+  packages: write
   pull-requests: write
 
 jobs:
@@ -385,11 +386,10 @@ jobs:
       - name: Deploy App to Review
         uses: ./.github/actions/deploy/
         with:
-          actions-api-access-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
-          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          azure-credentials:  ${{ secrets.AZURE_CREDENTIALS }}
           environment: review
-          pr: ${{ github.event.pull_request.number }}
+          pr-number: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
 
@@ -412,7 +412,6 @@ jobs:
       - name: Deploy App to ${{ matrix.environment }}
         uses: ./.github/actions/deploy/
         with:
-          actions-api-access-token: ${{ secrets.ACTIONS_API_ACCESS_TOKEN }}
           arm-access-key: ${{ secrets.ARM_ACCESS_KEY }}
           azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
           environment: ${{ matrix.environment }}
