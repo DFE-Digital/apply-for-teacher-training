@@ -49,17 +49,17 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Cannot re-schedule interview in the past')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Cannot re-schedule interview in the past',
+                                                             '1.1')
       end
     end
 
-    context 'a cancelled interview (WorkflowError)' do
+    context 'a cancelled interview' do
       let(:interview) { create(:interview, :cancelled, application_choice: application_choice) }
       let(:update_interview_params) do
         {
@@ -70,17 +70,18 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('The interview cannot be changed as it has already been cancelled')
+        expect(parsed_response)
+          .to contain_schema_with_error('UnprocessableEntityResponse',
+                                        'The interview cannot be changed as it has already been cancelled',
+                                        '1.1')
       end
     end
 
-    context 'wrong provider code (ValidationError)' do
+    context 'wrong provider code' do
       let(:update_interview_params) do
         {
           provider_code: create(:provider).code,
@@ -90,13 +91,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Provider must be training or ratifying provider')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Provider must be training or ratifying provider',
+                                                             '1.1')
       end
     end
 
@@ -123,13 +124,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params, skip_validation: true
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Provider code is not valid')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Provider code is not valid',
+                                                             '1.1')
       end
     end
 
@@ -140,13 +141,13 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders an Unprocessable Entity error' do
+      it 'fails and renders an UnprocessableEntityResponse' do
         post_interview! params: update_interview_params, skip_validation: true
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Date string provided is not a valid date')
+        expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                             'Date string provided is not a valid date',
+                                                             '1.1')
       end
     end
 
@@ -158,25 +159,25 @@ RSpec.describe 'Vendor API - POST /api/v1.1/applications/:application_id/intervi
         }
       end
 
-      it 'fails and renders a NotFoundResponse error' do
+      it 'fails and renders a NotFoundResponse' do
         post_interview! params: update_interview_params, skip_validation: true
 
         expect(response).to have_http_status(:not_found)
-        expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
-        expect(parsed_response['errors'].map { |error| error['message'] })
-          .to contain_exactly('Unable to find Interview(s)')
+        expect(parsed_response).to contain_schema_with_error('NotFoundResponse',
+                                                             'Unable to find Interview(s)',
+                                                             '1.1')
       end
     end
 
     context 'when missing parameters' do
       context 'data' do
-        it 'fails and renders a MissingParameterResponse' do
+        it 'fails and renders a ParameterMissingResponse' do
           post_api_request "/api/v1.1/applications/#{application_choice.id}/interviews/create", params: {}
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
-          expect(parsed_response['errors'].map { |error| error['message'] })
-            .to contain_exactly('param is missing or the value is empty: data')
+          expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                               'param is missing or the value is empty: data',
+                                                               '1.1')
         end
       end
     end

@@ -1,1 +1,0 @@
-class InvalidProviderCode < StandardError; end

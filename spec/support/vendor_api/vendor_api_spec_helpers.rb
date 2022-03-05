@@ -68,4 +68,13 @@ module VendorAPISpecHelpers
   def be_valid_against_draft_openapi_schema(expected, version = nil)
     be_valid_against_openapi_schema(expected, version, draft: true)
   end
+
+  RSpec::Matchers.define :contain_schema_with_error do |schema, message, version = nil, draft = false|
+    match do |actual|
+      ValidAgainstOpenAPISchemaMatcher.new(schema,
+                                           VendorAPISpecification.new(version: version,
+                                                                      draft: draft).as_hash).matches?(actual)
+      (actual['errors'].map { |error| error['message'] } - [message]).empty?
+    end
+  end
 end

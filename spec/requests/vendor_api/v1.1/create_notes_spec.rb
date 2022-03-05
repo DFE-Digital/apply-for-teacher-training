@@ -27,15 +27,17 @@ RSpec.describe 'Vendor API - POST /applications/:application_id/notes/create', t
     post_api_request "/api/v1.1/applications/#{application_choice.id}/notes/create", params: { data: { wrong_param: '' } }
 
     expect(response).to have_http_status(:unprocessable_entity)
-    expect(parsed_response).to be_valid_against_openapi_schema('ParameterMissingResponse', '1.1')
-    expect(parsed_response['errors'].map { |error| error['message'] })
-      .to contain_exactly('param is missing or the value is empty: message')
+    expect(parsed_response).to contain_schema_with_error('ParameterMissingResponse',
+                                                         'param is missing or the value is empty: message',
+                                                         '1.1')
   end
 
   it 'responds with 404 when the application is not valid for the request' do
     post_api_request "/api/v1.1/applications/#{build_stubbed(:application_choice).id}/notes/create", params: note_payload
 
     expect(response).to have_http_status(:not_found)
-    expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse', '1.1')
+    expect(parsed_response).to contain_schema_with_error('NotFoundResponse',
+                                                         'Unable to find Application(s)',
+                                                         '1.1')
   end
 end

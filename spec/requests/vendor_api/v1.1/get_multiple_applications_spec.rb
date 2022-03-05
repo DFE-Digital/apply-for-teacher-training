@@ -151,7 +151,9 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
       get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=3&per_page=2"
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(error_response['message']).to eql("expected 'page' parameter to be between 1 and 2, got 3")
+      expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                           "expected 'page' parameter to be between 1 and 2, got 3",
+                                                           '1.1')
     end
 
     it 'returns HTTP status 422 when given a parseable per_page value that exceeds the max value' do
@@ -167,7 +169,9 @@ RSpec.describe 'Vendor API - GET /api/v1.1/applications', type: :request do
       get_api_request "/api/v1.1/applications?since=#{CGI.escape(1.day.ago.iso8601)}&page=1&per_page=#{max_value + 1}"
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(error_response['message']).to eql("The 'per_page' parameter cannot exceed #{max_value} results per page")
+      expect(parsed_response).to contain_schema_with_error('UnprocessableEntityResponse',
+                                                           "The 'per_page' parameter cannot exceed #{max_value} results per page",
+                                                           '1.1')
     end
   end
 end

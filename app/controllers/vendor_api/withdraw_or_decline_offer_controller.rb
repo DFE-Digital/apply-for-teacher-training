@@ -1,7 +1,6 @@
 module VendorAPI
   class WithdrawOrDeclineOfferController < VendorAPIController
     include ApplicationDataConcerns
-    include APIValidationsAndErrorHandling
 
     def create
       DeclineOrWithdrawApplication.new(actor: audit_user,

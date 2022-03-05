@@ -1,6 +1,7 @@
 module VendorAPI
   class TestDataController < VendorAPIController
     before_action :check_this_is_a_test_environment
+    skip_before_action :validate_metadata!
 
     MAX_COUNT = 100
     DEFAULT_COUNT = 100

@@ -1,6 +1,5 @@
 module VendorAPI
   class ConfirmDeferredOffersController < VendorAPIController
-    include APIValidationsAndErrorHandling
     include ApplicationDataConcerns
 
     def create

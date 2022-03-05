@@ -1,5 +1,7 @@
 module VendorAPI
   class ReferenceDataController < VendorAPIController
+    skip_before_action :validate_metadata!
+
     def gcse_subjects
       render json: { data: GCSE_SUBJECTS }
     end

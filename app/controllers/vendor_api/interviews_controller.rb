@@ -1,11 +1,8 @@
 module VendorAPI
   class InterviewsController < VendorAPIController
     include ApplicationDataConcerns
-    include APIValidationsAndErrorHandling
 
-    rescue_from InterviewWorkflowConstraints::WorkflowError, with: :render_error_as_json
-    rescue_from InvalidProviderCode, with: :render_error_as_json
-    rescue_from InvalidDateError, with: :render_error_as_json
+    rescue_from InterviewWorkflowConstraints::WorkflowError, with: :handle_as_validation_error
 
     def create
       CreateInterview.new(
@@ -46,27 +43,21 @@ module VendorAPI
 
   private
 
-    def render_error_as_json(e)
-      render status: :unprocessable_entity, json: {
-        errors: [
-          {
-            error: e.class.to_s,
-            message: e.message,
-          },
-        ],
-      }
+    def handle_as_validation_error(e)
+      render status: :unprocessable_entity,
+             json: { errors: [{ error: 'UnprocessableEntityResponse', message: e.message }] }
     end
 
     def provider_for_interview(code)
       if code.present? # supporting partial updates
-        Provider.find_by(code: code) || raise(InvalidProviderCode, 'Provider code is not valid')
+        Provider.find_by(code: code) || raise(ValidationException, ['Provider code is not valid'])
       end
     end
 
     def date_and_time(date_time_string)
       DateTime.parse(date_time_string) if date_time_string.present? # supporting partial updates
     rescue Date::Error
-      raise InvalidDateError, 'Date string provided is not a valid date'
+      raise ValidationException, ['Date string provided is not a valid date']
     end
 
     def existing_interview
