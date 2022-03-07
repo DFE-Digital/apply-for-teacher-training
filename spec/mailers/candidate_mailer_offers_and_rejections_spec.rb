@@ -95,7 +95,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'Successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'first_condition' => 'Be cool',
-      'instructions' => 'You can wait to hear back about your other application(s) before making a decision',
+      'instructions' => 'You can wait until you’ve received decisions about your other application(s)',
       'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.',
     )
   end
