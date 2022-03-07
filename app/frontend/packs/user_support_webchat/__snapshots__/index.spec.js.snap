@@ -29,7 +29,7 @@ exports[`userSupportWebchat should instantiate a user support webchat 1`] = `
     <span
       class="app-web-chat__offline moj-hidden"
     >
-      Available Monday to Friday, 10am to midday (except public holidays).
+      Available Monday to Friday, 10am to midday and 1pm to 4pm (except public holidays).
     </span>
   </div>
   

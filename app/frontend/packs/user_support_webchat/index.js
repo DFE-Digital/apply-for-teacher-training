@@ -31,7 +31,7 @@ UserSupportWebchat.prototype.setupElements = function () {
 
   this.disabledContainer = document.createElement('span')
   this.disabledContainer.className = 'app-web-chat__offline moj-hidden'
-  this.disabledContainer.innerHTML = 'Available Monday to Friday, 10am to midday (except public holidays).'
+  this.disabledContainer.innerHTML = 'Available Monday to Friday, 10am to midday and 1pm to 4pm (except public holidays).'
 
   this.container.append(this.enabledContainer)
   this.container.append(this.disabledContainer)
