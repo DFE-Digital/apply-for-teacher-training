@@ -5,11 +5,11 @@ module CandidateInterface
     skip_before_action :set_user_context
 
     def accessibility
-      render 'content/accessibility'
+      render 'content/accessibility_candidate'
     end
 
     def privacy_policy
-      render 'content/service_privacy_notice'
+      render 'content/service_privacy_notice_candidate'
     end
 
     def cookies_page
