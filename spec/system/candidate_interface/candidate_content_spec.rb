@@ -7,33 +7,19 @@ RSpec.feature 'Candidate content' do
     given_i_am_on_the_start_page
     when_i_click_on_accessibility
     then_i_can_see_the_accessibility_statement
-    and_i_click_back
-    i_should_be_on_the_start_page
-
-    when_i_click_on_accessibility
     and_i_can_see_the_cookie_banner
+
     when_i_click_on_the_cookies_page
     then_i_can_see_the_cookies_page
-    and_i_click_back
-    then_i_can_see_the_accessibility_statement
-
-    when_i_click_on_the_cookies_page
     and_i_can_no_longer_see_the_cookie_banner
     and_i_can_opt_in_to_tracking_website_usage
 
     when_i_click_on_complaints
     then_i_can_see_the_complaints_page
-    and_i_click_back
-    then_i_can_see_the_cookies_page
 
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
-    and_i_click_back
-    then_i_can_see_the_cookies_page
 
-    when_i_click_on_the_terms_of_use
-    and_i_click_back
-    then_i_can_see_the_cookies_page
     when_i_click_on_the_terms_of_use
     then_i_can_see_the_terms_candidate
   end
@@ -95,13 +81,5 @@ RSpec.feature 'Candidate content' do
 
   def then_i_can_see_the_terms_candidate
     expect(page).to have_content(t('page_titles.terms_candidate'))
-  end
-
-  def and_i_click_back
-    click_link 'Back'
-  end
-
-  def i_should_be_on_the_start_page
-    expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 end
