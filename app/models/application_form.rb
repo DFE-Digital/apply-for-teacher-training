@@ -69,7 +69,7 @@ class ApplicationForm < ApplicationRecord
     uk: 'uk',
     international: 'international',
   }, _suffix: :address
-  attribute :address_type, :string, default: 'uk'
+  attribute :address_type, :string
 
   enum feedback_satisfaction_level: {
     very_satisfied: 'very_satisfied',

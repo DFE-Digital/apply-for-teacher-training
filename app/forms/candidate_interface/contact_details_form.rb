@@ -30,7 +30,7 @@ module CandidateInterface
         address_line3: application_form.address_line3,
         address_line4: application_form.address_line4,
         postcode: application_form.postcode,
-        address_type: application_form.address_type || 'GB',
+        address_type: application_form.address_type,
         country: application_form.country,
       )
     end
