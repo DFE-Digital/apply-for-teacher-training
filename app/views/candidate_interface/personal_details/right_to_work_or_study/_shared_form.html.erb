@@ -16,7 +16,7 @@
   <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true do %>
     <%= f.govuk_text_area :right_to_work_or_study_details, label: { text: 'What is your immigration status?' }, hint: { text: 'For example, “I have settled status” or “I have permanent residence”' } %>
   <% end %>
-  <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet, or not sure' } %>
+  <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet' } %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>

@@ -268,7 +268,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
       expect(rows).to include(
         row_for(
           :immigration_right_to_work,
-          'No',
+          'Not yet',
           candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
         ),
