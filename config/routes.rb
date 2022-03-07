@@ -753,7 +753,6 @@ Rails.application.routes.draw do
       get '/reject' => 'rejection_reasons#edit', as: :edit_rejection_reasons
       post '/reject' => 'rejection_reasons#update', as: :update_rejection_reasons
       get '/reject/check' => 'rejection_reasons#check', as: :check_rejection_reasons
-      post '/reject/commit' => 'rejection_reasons#commit', as: :commit_rejection_reasons
 
       get '/decline-or-withdraw' => 'decline_or_withdraw#edit', as: :decline_or_withdraw_edit
       put '/decline-or-withdraw' => 'decline_or_withdraw#update', as: :decline_or_withdraw_update
