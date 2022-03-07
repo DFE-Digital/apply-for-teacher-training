@@ -8,13 +8,13 @@ Get in touch if you did not ask them to do this:
 
 <% if @awaiting_decision.length == 1 %>
 
-# You’re waiting for a decision
+# Application status
 
 You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.first.course_option.course.name %>. They should do this by <%= @awaiting_decision.first.reject_by_default_at.to_s(:govuk_date) %>.
 
 <% else %>
 
-# You’re waiting for decisions
+# Application status
 
 You're waiting for decisions about your applications to:
 
