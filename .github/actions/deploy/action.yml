@@ -51,15 +51,15 @@ runs:
       env:
         DOCKER_IMAGE: ${{ format('ghcr.io/dfe-digital/apply-teacher-training:{0}', inputs.sha) }}
 
-    - name: Start ${{ env.DEPLOY_ENV }} Deployment
-      if: ${{ always() }}
-      uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
-      id: deployment
-      with:
-        env:   ${{ env.DEPLOY_ENV }}
-        step:  start
-        token: ${{ github.token }}
-        debug: true ##TO DO: remove this
+    # - name: Start ${{ env.DEPLOY_ENV }} Deployment
+    #   if: ${{ always() }}
+    #   uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
+    #   id: deployment
+    #   with:
+    #     env:   ${{ env.DEPLOY_ENV }}
+    #     step:  start
+    #     token: ${{ github.token }}
+    #     debug: true ##TO DO: remove this
 
     - name: Use Terraform v0.14.9
       id: use_terraform
@@ -182,18 +182,18 @@ runs:
     #     env_url: ${{ env.DEPLOY_URL }}
     #     debug: true ##TO DO: remove this
 
-    - name: Update ${{ env.DEPLOY_ENV }} status
-      uses: octokit/request-action@v2.x
-      id: update_deployment_status
-      with:
-        route: POST /repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.deployment_id }}/statuses
-        owner: ${{ github.repository_owner }}
-        repo: apply-for-teacher-training
-        environment: ${{ env.DEPLOY_ENV }}
-        state: ${{ env.JOB_STATUS }}
-        environment_url: ${{ env.DEPLOY_URL }}
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    # - name: Update ${{ env.DEPLOY_ENV }} status
+    #   uses: octokit/request-action@v2.x
+    #   id: update_deployment_status
+    #   with:
+    #     route: POST /repos/${{ github.repository }}/deployments/${{ steps.deployment.outputs.deployment_id }}/statuses
+    #     owner: ${{ github.repository_owner }}
+    #     repo: apply-for-teacher-training
+    #     environment: ${{ env.DEPLOY_ENV }}
+    #     state: ${{ env.JOB_STATUS }}
+    #     environment_url: ${{ env.DEPLOY_URL }}
+    #   env:
+    #     GITHUB_TOKEN: ${{ github.token }}
 
     - name: Notify Slack channel on job failure
       if: failure() && inputs.pr == ''

@@ -390,6 +390,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+    - name: Start review Deployment
+      if: ${{ always() }}
+      uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
+      id: deployment
+      with:
+        env:   review
+        step:  start
+        token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy App to Review
         uses: ./.github/actions/deploy/
         with:
@@ -399,6 +408,17 @@ jobs:
           pr: ${{ github.event.pull_request.number }}
           sha: ${{ needs.build.outputs.IMAGE_TAG }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+
+    - name: Update ${{ env.DEPLOY_ENV }} status
+      if: always()
+      uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
+      with:
+        env:  review
+        step: finish
+        token:  ${{ secrets.GITHUB_TOKEN }}
+        status: success
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+        env_url: https://apply-review-6608.london.cloudapps.digital
 
   deploy-all:
     name: Deployment To All
