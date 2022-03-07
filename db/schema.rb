@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_164343) do
+ActiveRecord::Schema.define(version: 2022_03_04_141012) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -198,6 +198,10 @@ ActiveRecord::Schema.define(version: 2022_02_28_164343) do
     t.string "enic_reference"
     t.text "not_completed_explanation"
     t.boolean "currently_completing_qualification"
+    t.uuid "degree_type_uuid"
+    t.uuid "degree_subject_uuid"
+    t.uuid "degree_institution_uuid"
+    t.uuid "degree_grade_uuid"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
     t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
@@ -599,8 +603,8 @@ ActiveRecord::Schema.define(version: 2022_02_28_164343) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false
