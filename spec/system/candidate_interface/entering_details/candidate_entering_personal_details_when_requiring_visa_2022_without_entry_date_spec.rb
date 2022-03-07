@@ -48,7 +48,7 @@ RSpec.describe 'Entering personal details' do
     click_button t('save_and_continue')
 
     # Right to work or study
-    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
+    expect(page).to have_content 'Do you already have the right to work or study in the UK?'
     choose 'Not yet'
     click_button t('save_and_continue')
 
@@ -67,7 +67,7 @@ RSpec.describe 'Entering personal details' do
 
   def and_i_can_change_state_that_i_have_permanent_residence
     click_change_link('if you have the right to work or study in the UK')
-    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
+    expect(page).to have_content 'Do you already have the right to work or study in the UK?'
     choose 'Yes'
     click_button t('save_and_continue')
 
@@ -95,7 +95,7 @@ RSpec.describe 'Entering personal details' do
     end
     click_button t('save_and_continue')
 
-    expect(page).to have_content 'Do you have the right to work or study in the UK for the length of the teacher training course?'
+    expect(page).to have_content 'Do you already have the right to work or study in the UK?'
     choose 'Yes'
     click_button t('save_and_continue')
 

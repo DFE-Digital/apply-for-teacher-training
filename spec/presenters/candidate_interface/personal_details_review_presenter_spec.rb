@@ -245,7 +245,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
     end
   end
 
-  context 'when the candidate has selected they do not yet have the right to work or study in 2022' do
+  context 'when the candidate has selected they do not have the right to work or study in 2022' do
     before { FeatureFlag.activate(:restructured_immigration_status) }
 
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
