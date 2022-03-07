@@ -1,32 +1,15 @@
 <%= f.govuk_error_summary %>
 
 <h1 class="govuk-heading-xl">
-  <%= t('page_titles.right_to_work') %>
+  <%= t('page_titles.immigration_right_to_work') %>
 </h1>
 
 <p class="govuk-body">
-  To get help with student visas and your immigration status, speak to a
-  <%= govuk_link_to 'teacher training adviser', t('get_into_teaching.url_get_an_adviser') %>.
+  You’ll need the right to work or study in the UK for the duration of your course.
 </p>
 
-<h2 class="govuk-heading-m">Getting a visa through your training provider</h2>
-
-<p class="govuk-body">You may be able to get a visa through your teacher training provider. This is called sponsoring a student visa.</p>
-
-<p class="govuk-body">It depends on what type of training provider they are and if they have a student visa sponsor licence.</p>
-
-<p class="govuk-body">Universities providing initial teacher training can usually sponsor student visas for courses without a salary.</p>
-
-<p class="govuk-body">State funded schools, including School Centred Initial Teacher Training (SCITT) providers, cannot sponsor student visas for courses without a salary.</p>
-
-<p class="govuk-body">Contact your chosen training provider if you're not sure if they are university or a SCITT.</p>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'Check if a provider has a student visa sponsor licence', I18n.t('register_of_sponsor_licences.url') %>.
-</p>
-
-<p class="govuk-body">
-  Find out more about <%= govuk_link_to 'visa options for international trainees.', t('get_into_teaching.url_international_candidates') %>.
+<p class="govuk-body"> <%= govuk_link_to('Check if you’ve already got the right to work or study in the UK, or whether you’ll need to apply for a visa',
+                                         t('train_to_teach_in_england.url_citizen_visa')) %>.
 </p>
 
 <%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
