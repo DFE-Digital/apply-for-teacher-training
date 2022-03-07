@@ -2,7 +2,7 @@ class RejectionReasons
   class Reason
     include ActiveModel::Model
 
-    attr_accessor :id, :details, :label, :reasons_id, :reasons, :selected_reasons
+    attr_accessor :id, :details, :label, :reasons, :selected_reasons
 
     validate :reasons_selected
 
@@ -11,7 +11,7 @@ class RejectionReasons
 
       if reasons
         @selected_reasons = reasons
-          .select { |r| model.send(reasons_id).include?(r.id) }
+          .select { |r| model.send(selected_reasons_attr_name).include?(r.id) }
           .map { |r| r.inflate(model) }
       end
 
@@ -25,7 +25,11 @@ class RejectionReasons
     end
 
     def reasons_selected
-      errors.add((reasons_id || :base), 'Please select a reason') if selected_reasons && selected_reasons.empty?
+      errors.add((selected_reasons_attr_name || :base), 'Please select a reason') if selected_reasons && selected_reasons.empty?
+    end
+
+    def selected_reasons_attr_name
+      :"#{id}_selected_reasons"
     end
 
     def valid?

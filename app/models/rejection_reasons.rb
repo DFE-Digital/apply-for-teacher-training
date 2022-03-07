@@ -31,7 +31,9 @@ class RejectionReasons
   end
 
   def collection_attribute_names
-    reasons.map(&:reasons_id).compact.flatten.map(&:to_sym) << :selected_reasons
+    [:selected_reasons] + reasons
+      .select { |r| r.reasons.present? }
+      .map(&:selected_reasons_attr_name)
   end
 
   def attribute_names

@@ -5,12 +5,11 @@ RSpec.describe RejectionReasons::Reason do
     it 'validates that a reason has been selected' do
       reason = described_class.new(
         id: 'aaa',
-        reasons_id: 'aaa_reasons',
         reasons: [{ id: 'bbb' }],
         selected_reasons: [],
       )
       expect(reason.valid?).to be false
-      expect(reason.errors.attribute_names).to eq([:aaa_reasons])
+      expect(reason.errors.attribute_names).to eq([:aaa_selected_reasons])
 
       reason.selected_reasons << described_class.new(id: 'ccc')
 
