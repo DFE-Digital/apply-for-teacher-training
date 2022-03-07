@@ -66,13 +66,13 @@ RSpec.describe RejectionReasons do
 
   describe '#collection_attribute_names' do
     it 'returns an array of all collection attribute names' do
-      expect(instance.collection_attribute_names.sort).to eq(%i[a a_reasons b c])
+      expect(instance.collection_attribute_names.sort).to eq(%i[a_reasons selected_reasons])
     end
   end
 
   describe '#attribute_names' do
     it 'returns an array of all attribute names' do
-      expect(instance.attribute_names.sort).to eq(%i[a a_reasons aa ab ad b bd c])
+      expect(instance.attribute_names.sort).to eq(%i[a_reasons aa ab ad bd selected_reasons])
     end
   end
 
@@ -93,8 +93,8 @@ RSpec.describe RejectionReasons do
 
   describe '#inflate' do
     it 'populates reasons and details with values from the model' do
-      model_struct = Struct.new(:a, :a_reasons, :aa, :ab, :ad, :b, :bd, :c)
-      model = model_struct.new('Yes', %w[aa], nil, nil, 'Some details')
+      model_struct = Struct.new(:selected_reasons, :a_reasons, :aa, :ab, :ad, :b, :bd, :c)
+      model = model_struct.new(['a'], %w[aa], nil, nil, 'Some details')
 
       inflated_reasons = described_class.inflate(model)
 

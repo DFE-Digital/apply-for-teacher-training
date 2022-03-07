@@ -16,7 +16,7 @@ class RejectionReasons
     def inflate(model)
       instance = new
       instance.selected_reasons = from_config.reasons.dup
-        .select { |r| model.send(r.id)&.include?('Yes') }
+        .select { |r| model.send(:selected_reasons)&.include?(r.id) }
         .map { |reason| reason.inflate(model) }
       instance
     end
@@ -31,7 +31,7 @@ class RejectionReasons
   end
 
   def collection_attribute_names
-    reasons.map { |r| [r.id, r.reasons_id].compact }.flatten.map(&:to_sym)
+    reasons.map(&:reasons_id).compact.flatten.map(&:to_sym) << :selected_reasons
   end
 
   def attribute_names

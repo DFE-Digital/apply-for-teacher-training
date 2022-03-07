@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::RejectionReasonsWizard do
   describe 'validations' do
     it 'checks that rejection reasons are valid' do
       wizard = described_class.new(store, {
-        qualifications: 'Yes',
+        selected_reasons: %w[qualifications],
         qualifications_reasons: %w[no_maths_gcse qualifications_other],
         qualifications_other_details: '',
       })
