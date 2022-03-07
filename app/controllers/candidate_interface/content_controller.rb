@@ -5,11 +5,11 @@ module CandidateInterface
     skip_before_action :set_user_context
 
     def accessibility
-      render_content_page :accessibility
+      render 'content/accessibility'
     end
 
     def privacy_policy
-      render_content_page :service_privacy_notice
+      render 'content/service_privacy_notice'
     end
 
     def cookies_page
@@ -23,7 +23,7 @@ module CandidateInterface
     end
 
     def terms_candidate
-      render_content_page :terms_candidate
+      render 'content/terms_candidate'
     end
 
     def complaints
