@@ -395,7 +395,7 @@ jobs:
         uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
         id: deployment
         with:
-          env:   review
+          env:   review-6608
           step:  start
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -413,7 +413,7 @@ jobs:
         if: always()
         uses: bobheadxi/deployments@v0.6.2 ##TO DO:upgrade to v1
         with:
-          env:  review
+          env:  review-6608
           step: finish
           token:  ${{ secrets.GITHUB_TOKEN }}
           status: success
