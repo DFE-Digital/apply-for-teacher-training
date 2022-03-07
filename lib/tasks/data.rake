@@ -1,6 +1,7 @@
 DATA_MIGRATION_SERVICES = [
   # do not delete or edit this line - services added below by generator
   'DataMigrations::MakeDecisionReminderNotificationSettingFeatureFlag',
+  'DataMigrations::BackfillDegreesNewData',
   'DataMigrations::DropContentSecurityPolicyFeatureFlag',
   'DataMigrations::DropSupportUserChangeOfferedCourseFeatureFlag',
   'DataMigrations::DropRegionFromPostcodeFeatureFlag',
