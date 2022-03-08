@@ -21,6 +21,7 @@ RSpec.describe ProviderInterface::CourseWizard do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:course_id).on(:courses).on(:save) }
     it { is_expected.to validate_presence_of(:study_mode).on(:study_modes).on(:save) }
+    it { is_expected.to validate_presence_of(:course_option_id).on(:locations).on(:save) }
   end
 
   describe '#initialize' do
@@ -148,8 +149,7 @@ RSpec.describe ProviderInterface::CourseWizard do
           allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
         end
 
-        # TODO: Remove pending on next PR
-        xit 'returns :locations' do
+        it 'returns :locations' do
           expect(wizard.next_step).to eq(:locations)
         end
       end
@@ -163,8 +163,7 @@ RSpec.describe ProviderInterface::CourseWizard do
           allow(query_service).to receive(:available_course_options).and_return(create_list(:course_option, 2))
         end
 
-        # TODO: Remove pending on next PR
-        xit 'returns :locations' do
+        it 'returns :locations' do
           expect(wizard.next_step).to eq(:locations)
         end
       end

@@ -37,7 +37,7 @@ RSpec.feature 'Provider changes a course' do
 
     when_i_select_a_course_with_one_study_mode
     and_i_click_continue
-    then_i_dont_see_the_study_mode_page
+    then_i_am_taken_to_the_change_location_page
   end
 
   scenario 'Changing a course choice before point of offer' do
@@ -60,6 +60,10 @@ RSpec.feature 'Provider changes a course' do
     when_i_select_a_different_course
     and_i_click_continue
     then_no_study_mode_is_pre_selected
+
+    when_i_select_a_study_mode
+    and_i_click_continue
+    then_i_am_taken_to_the_change_location_page
   end
 
   def given_i_am_a_provider_user
@@ -96,7 +100,8 @@ RSpec.feature 'Provider changes a course' do
     @selected_course = courses.sample
 
     @one_mode_course = create(:course, :open_on_apply, study_mode: :full_time, provider: @selected_provider, accredited_provider: ratifying_provider)
-    create(:course_option, :full_time, course: @one_mode_course)
+    create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
+    create(:course_option, :full_time, site: create(:site, provider: @one_mode_course.provider), course: @one_mode_course)
 
     course_options = [create(:course_option, :part_time, course: @selected_course),
                       create(:course_option, :full_time, course: @selected_course),
@@ -169,5 +174,14 @@ RSpec.feature 'Provider changes a course' do
     expect(page).to have_content 'Full time or part time'
     expect(find_field('Full time')).not_to be_checked
     expect(find_field('Part time')).not_to be_checked
+  end
+
+  def when_i_select_a_study_mode
+    choose @selected_course_option.study_mode.humanize
+  end
+
+  def then_i_am_taken_to_the_change_location_page
+    expect(page).to have_content "Update course - #{application_form.full_name}"
+    expect(page).to have_content 'Location'
   end
 end

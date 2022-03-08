@@ -13,3 +13,7 @@ en:
         edit:
           title: Full time or part time
           caption: Update course - %{name}
+      locations:
+        edit:
+          title: Location
+          caption: Update course - %{name}

@@ -26,6 +26,10 @@ module ProviderInterface
       query_service.available_courses(provider: Provider.find(provider_id))
     end
 
+    def available_course_options(course_id, study_mode)
+      query_service.available_course_options(course: Course.find(course_id), study_mode: study_mode)
+    end
+
     def query_service
       @query_service ||= GetChangeOfferOptions.new(
         user: current_provider_user,
