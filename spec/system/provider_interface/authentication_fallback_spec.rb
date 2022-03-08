@@ -19,7 +19,14 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
     when_i_provide_my_email_address
     then_i_receive_an_email_with_a_signin_link
+
+    when_i_click_an_incorrect_sign_in_link
+    then_i_see_a_404
+
     when_i_visit_the_link_in_my_email
+    then_i_see_a_confirm_sign_in_page
+
+    when_i_click_on_continue
     then_i_am_signed_in
     and_i_am_on_the_interviews_schedule_page
 
@@ -28,7 +35,8 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
     given_the_feature_flag_is_switched_off
     when_i_visit_the_link_in_my_email
-    then_i_am_not_signed_in
+    then_i_do_not_see_a_confirm_sign_in_page
+    and_i_am_asked_to_sign_in_the_normal_way
   end
 
   def given_i_am_registered_as_a_provider_user_without_a_dsi_uid
@@ -71,9 +79,25 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     expect(current_email.subject).to have_content 'Sign in - manage teacher training applications'
   end
 
+  def when_i_click_an_incorrect_sign_in_link
+    visit provider_interface_authenticate_with_token_path(token: 'NOT_A_REAL_TOKEN')
+  end
+
+  def then_i_see_a_404
+    expect(page).to have_content 'Page not found'
+  end
+
   def when_i_visit_the_link_in_my_email
     uri = URI(current_email.find_css('a').first.text)
     visit "#{uri.path}?#{uri.query}"
+  end
+
+  def then_i_see_a_confirm_sign_in_page
+    expect(page).to have_content 'Confirm sign in'
+  end
+
+  def when_i_click_on_continue
+    click_on 'Continue'
   end
 
   def then_i_am_signed_in
@@ -94,5 +118,13 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     within 'header' do
       expect(page).not_to have_content @email
     end
+  end
+
+  def then_i_do_not_see_a_confirm_sign_in_page
+    expect(page).not_to have_content 'Confirm sign in'
+  end
+
+  def and_i_am_asked_to_sign_in_the_normal_way
+    expect(page).to have_current_path(provider_interface_sign_in_path)
   end
 end

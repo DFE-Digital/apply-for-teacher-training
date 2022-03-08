@@ -35,6 +35,19 @@ module SupportInterface
       redirect_to support_interface_check_your_email_path
     end
 
+    def confirm_authentication_with_token
+      if FeatureFlag.active?('dfe_sign_in_fallback')
+        authentication_token = AuthenticationToken.find_by_hashed_token(
+          user_type: 'SupportUser',
+          raw_token: params.fetch(:token),
+        )
+
+        render_404 unless authentication_token&.still_valid?
+      else
+        redirect_to support_interface_sign_in_path
+      end
+    end
+
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 

@@ -13,6 +13,9 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     when_i_provide_my_email_address
     then_i_receive_an_email_with_a_signin_link
     when_i_click_on_the_link_in_my_email
+    then_i_see_a_confirm_sign_in_page
+
+    when_i_click_on_continue
     then_i_am_signed_in
 
     when_i_sign_out
@@ -23,7 +26,8 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
     given_the_feature_flag_is_switched_off
     when_i_click_on_the_link_in_my_email
-    then_i_am_not_signed_in
+    then_i_do_not_see_a_confirm_sign_in_page
+    and_i_am_asked_to_sign_in_the_normal_way
   end
 
   def given_i_am_registered_as_a_support_user
@@ -53,6 +57,14 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     current_email.find_css('a').first.click
   end
 
+  def then_i_see_a_confirm_sign_in_page
+    expect(page).to have_content 'Confirm sign in'
+  end
+
+  def when_i_click_on_continue
+    click_on 'Continue'
+  end
+
   def then_i_am_signed_in
     within 'header' do
       expect(page).to have_content 'Sign out'
@@ -79,5 +91,13 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
   def then_i_see_a_404
     expect(page).to have_content 'Page not found'
+  end
+
+  def then_i_do_not_see_a_confirm_sign_in_page
+    expect(page).not_to have_content 'Confirm sign in'
+  end
+
+  def and_i_am_asked_to_sign_in_the_normal_way
+    expect(page).to have_current_path(support_interface_sign_in_path)
   end
 end

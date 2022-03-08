@@ -778,7 +778,8 @@ Rails.application.routes.draw do
 
     post '/request-sign-in-by-email' => 'sessions#sign_in_by_email', as: :sign_in_by_email
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
-    get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
+    get '/sign-in-by-email' => 'sessions#confirm_authentication_with_token', as: :confirm_authentication_with_token
+    post '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
 
     get '/account' => 'account#show'
 
@@ -1127,8 +1128,10 @@ Rails.application.routes.draw do
     post '/confirm-environment' => 'sessions#confirmed_environment'
 
     post '/request-sign-in-by-email' => 'sessions#sign_in_by_email', as: :sign_in_by_email
+
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
-    get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
+    get '/sign-in-by-email' => 'sessions#confirm_authentication_with_token', as: :confirm_authentication_with_token
+    post '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
 
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
