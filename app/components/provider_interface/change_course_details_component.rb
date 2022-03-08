@@ -28,8 +28,7 @@ module ProviderInterface
       [
         { key: 'Training provider', value: provider_name_and_code, action: { href: change_provider_path } },
         { key: 'Course', value: course_name_and_code, action: { href: change_course_path } },
-        { key: 'Cycle', value: cycle },
-        { key: 'Full or part time', value: study_mode, action: { href: change_study_mode_path } },
+        { key: 'Full time or part time', value: study_mode, action: { href: change_study_mode_path } },
         { key: 'Location', value: preferred_location, action: { href: change_location_path } },
         { key: 'Accredited body', value: accredited_body },
         { key: 'Qualification', value: qualification },
