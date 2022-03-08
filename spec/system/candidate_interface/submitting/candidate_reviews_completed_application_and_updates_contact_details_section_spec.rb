@@ -108,7 +108,7 @@ RSpec.feature 'Candidate is redirected correctly' do
 
   def when_i_click_change_address
     within('[data-qa="contact-details-address"]') do
-      click_link 'Change'
+      click_link 'Enter address'
     end
   end
 
