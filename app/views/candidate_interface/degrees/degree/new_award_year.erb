@@ -1,0 +1,11 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <% content_for :title, title_with_error_prefix(t("application_form.degree.award_year.new_label", did_or_will: "#{@wizard.completed == 'Yes' ? 'did' : 'will' }"), @wizard.errors.any?) %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_start_year_path) %>
+  <%= form_with model: @wizard, url: candidate_interface_degrees_award_year_path do |f| %>
+    <%= f.govuk_error_summary %>
+    <%= f.govuk_text_field :award_year, label: { text: t("application_form.degree.award_year.new_label", did_or_will: "#{@wizard.completed == 'Yes' ? 'did' : 'will' }"), size: 'l'}, hint: { text: t("application_form.degree.award_year.new_hint") }, width: 4  %>
+    <%= f.govuk_submit t('save_and_continue') %>
+  <% end %>
+  </div>
+</div>

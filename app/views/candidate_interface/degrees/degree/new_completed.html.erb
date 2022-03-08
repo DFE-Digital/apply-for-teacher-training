@@ -1,0 +1,14 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <% content_for :title, title_with_error_prefix(t('page_titles.degree_completion_status'), @wizard.errors.any?) %>
+  <% content_for :before_content, govuk_back_link_to(candidate_interface_degrees_university_path) %>
+  <%= form_with model: @wizard, url: candidate_interface_degrees_completed_path do |f| %>
+    <%= f.govuk_radio_buttons_fieldset :completed, legend: { text: t('page_titles.degree_completion_status'), size: 'l' } do %>
+      <%= f.hidden_field(:completed) %>
+      <%= f.govuk_radio_button :completed, 'Yes', label: { text: 'Yes' } %>
+      <%= f.govuk_radio_button :completed, 'No, I am studying for my degree', label: { text: 'No, I am studying for my degree' } %>
+    <% end %>
+    <%= f.govuk_submit t('save_and_continue') %>
+  <% end %>
+  </div>
+</div>
