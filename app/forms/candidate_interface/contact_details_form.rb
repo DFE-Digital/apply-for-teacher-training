@@ -107,6 +107,8 @@ module CandidateInterface
   private
 
     def save(application_form, attributes)
+      attributes[:postcode] = nil if international?
+
       unless valid_for_submission?
         attributes = attributes.merge(contact_details_completed: false)
       end
