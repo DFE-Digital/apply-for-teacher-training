@@ -16,6 +16,9 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
   let(:first_class_honours) do
     DfE::ReferenceData::Degrees::GRADES.some(name: 'First-class honours').first
   end
+  let(:unclassified) do
+    DfE::ReferenceData::Degrees::GRADES.some(name: 'Unclassified').first
+  end
 
   context 'when degrees exists in the new data' do
     it 'updates degrees UUIDs' do
@@ -24,7 +27,7 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
         qualification_type: 'BA',
         subject: 'Animation',
         institution_name: 'Falmouth University',
-        grade: 'First class honours',
+        grade: 'Unclassified',
       )
 
       described_class.new.change
@@ -34,7 +37,7 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
           'degree_type_uuid' => bachelor_of_arts.id,
           'degree_institution_uuid' => falmouth_university.id,
           'degree_subject_uuid' => animation.id,
-          'degree_grade_uuid' => first_class_honours.id,
+          'degree_grade_uuid' => unclassified.id,
         },
       )
     end
@@ -63,14 +66,14 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
     end
   end
 
-  context 'when institution was saved by a match synonym' do
+  context 'when institution and grade both match a match synonym' do
     it 'updates degrees UUIDs' do
       degree_qualification = create(
         :degree_qualification,
         qualification_type: 'Some qualification',
         subject: 'Some subject',
         institution_name: 'The Royal Academy of Music',
-        grade: 'A grade that does not exist',
+        grade: 'First class honours',
       )
 
       described_class.new.change
@@ -80,7 +83,7 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
           'degree_type_uuid' => nil,
           'degree_institution_uuid' => royal_academy_of_music.id,
           'degree_subject_uuid' => nil,
-          'degree_grade_uuid' => nil,
+          'degree_grade_uuid' => first_class_honours.id,
         },
       )
     end
