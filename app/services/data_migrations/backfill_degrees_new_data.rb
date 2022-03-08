@@ -36,11 +36,13 @@ module DataMigrations
         }
       end
 
+      # rubocop:disable Rails/Output
       puts "Number of Degrees: #{ApplicationQualification.degree.count}"
       puts "Degree types found: #{results.select { |result| result[:degree_type_uuid].present? }.size}"
       puts "Degree institutions found: #{results.select { |result| result[:degree_institution_uuid].present? }.size}"
       puts "Degree subject found: #{results.select { |result| result[:degree_subject_uuid].present? }.size}"
       puts "Degree grades found: #{results.select { |result| result[:degree_grade_uuid].present? }.size}"
+      # rubocop:enable Rails/Output
     end
 
     def degree_type_for(qualification)
