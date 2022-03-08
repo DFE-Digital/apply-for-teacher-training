@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_degree_flow)
+  end
+
   scenario 'Candidate enters a degree with a predicted grade' do
     given_i_am_signed_in
     when_i_add_a_degree_that_is_not_finished_yet

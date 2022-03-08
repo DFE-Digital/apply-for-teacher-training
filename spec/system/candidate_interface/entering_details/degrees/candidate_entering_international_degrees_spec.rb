@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_degree_flow)
+  end
+
   scenario 'Candidate submits their international degree' do
     given_i_am_signed_in
     and_i_visit_the_site

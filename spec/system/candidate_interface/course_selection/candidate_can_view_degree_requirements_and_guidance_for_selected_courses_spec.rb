@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Viewing course choices' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_degree_flow)
+  end
+
   scenario 'candidate can view degree requirements and guidance for selected courses' do
     given_i_am_signed_in
     and_i_have_three_chosen_courses_with_different_requirements

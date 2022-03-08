@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Deleting and replacing a degree' do
   include CandidateHelper
 
+  before do
+    FeatureFlag.deactivate(:new_degree_flow)
+  end
+
   scenario 'Candidate deletes and replaces their degree' do
     given_i_am_signed_in
     and_i_have_completed_the_degree_section
