@@ -729,6 +729,8 @@ Rails.application.routes.draw do
       resource :offers, only: %i[new edit create show update], as: :application_choice_offer
       resource :offers, only: %i[new edit], as: :application_choice_offer_referer
 
+      resource :courses, only: %i[update], as: :application_choice_course
+
       namespace :offer, as: :application_choice_offer do
         resource :providers, only: %i[new create edit update]
         resource :courses, only: %i[new create edit update]
@@ -743,6 +745,7 @@ Rails.application.routes.draw do
         resource :courses, only: %i[edit update]
         resource :study_modes, only: %i[edit update], path: 'study-modes'
         resource :locations, only: %i[edit update]
+        resource :check, only: %i[edit update]
       end
 
       get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions

@@ -7,6 +7,25 @@ module ProviderInterface
       redirect_to provider_interface_application_choice_course_path(@application_choice)
     end
 
+    def update
+      @wizard = CourseWizard.new(change_course_store)
+      if @wizard.valid?(:save)
+        begin
+          @wizard.clear_state!
+          flash[:success] = t('.success')
+        rescue IdenticalOfferError
+          @wizard.clear_state!
+          flash[:success] = t('.success')
+        end
+      else
+        @wizard.clear_state!
+        track_validation_error(@wizard)
+
+        flash[:warning] = t('.failure')
+      end
+      redirect_to provider_interface_application_choice_offer_path(@application_choice)
+    end
+
   private
 
     def change_course_store
