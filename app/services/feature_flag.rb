@@ -37,7 +37,6 @@ class FeatureFlag
     [:immigration_entry_date, 'Extends the restructured_immigration_status feature to include the "Date of entry into the UK" question', 'Steve Hook'],
     [:change_course_details_before_offer, 'Allows providers to change course choice details before the point of offer', 'James Glenn'],
     [:structured_reasons_for_rejection_redesign, 'Latest iteration of structured reasons for rejection', 'Steve Laing'],
-    [:make_decision_reminder_notification_setting, 'Adds a notification setting to turn off make decision email reminders', 'Sam Culley'],
   ].freeze
 
   CACHE_EXPIRES_IN = 1.day
