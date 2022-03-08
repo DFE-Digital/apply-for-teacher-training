@@ -88,4 +88,21 @@ RSpec.describe DataMigrations::BackfillDegreesNewData do
       )
     end
   end
+
+  context 'when degrees types is saved by name' do
+    it 'updates degrees UUIDs' do
+      degree_qualification = create(
+        :degree_qualification,
+        qualification_type: 'Bachelor of Arts',
+      )
+
+      described_class.new.change
+
+      expect(degree_qualification.reload.attributes).to include(
+        {
+          'degree_type_uuid' => bachelor_of_arts.id,
+        },
+      )
+    end
+  end
 end
