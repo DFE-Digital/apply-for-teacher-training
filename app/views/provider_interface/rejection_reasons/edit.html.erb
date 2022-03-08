@@ -12,20 +12,23 @@
       <% @wizard.class.reasons.each do |reason| %>
         <%= f.govuk_check_boxes_fieldset :selected_reasons, legend: nil, form_group: { classes: 'govuk-!-margin-bottom-2' } do %>
           <%= f.govuk_check_box :selected_reasons, reason.id, label: { text: reason.label }, link_errors: true do %>
-            <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: 'Reasons', size: 's' } do %>
-              <% reason.reasons.each do |nested_reason| %>
-                <%= f.govuk_check_box reason.selected_reasons_attr_name,
-                  nested_reason.id,
-                  label: { text: nested_reason.label },
-                  link_errors: true do %>
-                  <% if nested_reason.details.present? %>
-                    <%= f.govuk_text_area nested_reason.details.id.to_sym, label: { text: nested_reason.details.label }, max_words: 100 %>
+            <% if reason.details.present? %>
+              <%= f.govuk_text_area reason.details.id.to_sym,
+                  label: { text: reason.details.label, class: 'govuk-label govuk-label--s' }, max_words: 100 %>
+            <% else %>
+              <%= f.govuk_check_boxes_fieldset reason.selected_reasons_attr_name, legend: { text: 'Reasons', size: 's' } do %>
+                <% reason.reasons&.each do |nested_reason| %>
+                  <%= f.govuk_check_box reason.selected_reasons_attr_name,
+                    nested_reason.id,
+                    label: { text: nested_reason.label },
+                    link_errors: true do %>
+                    <% if nested_reason.details.present? %>
+                      <%= f.govuk_text_area nested_reason.details.id.to_sym,
+                          label: { text: nested_reason.details.label, class: 'govuk-label govuk-label--s' }, max_words: 100 %>
+                    <% end %>
                   <% end %>
                 <% end %>
               <% end %>
-            <% end if reason.reasons.present? %>
-            <% if reason.details.present? %>
-              <%= f.govuk_text_area reason.details.id.to_sym, label: { text: reason.details.label }, max_words: 100 %>
             <% end %>
           <% end %>
         <% end %>
