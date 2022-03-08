@@ -24,7 +24,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       it 'the Make decision and Set up interview buttons are available and RDB info is presented' do
         expect(result.css('h2.govuk-heading-m').first.text.strip).to eq('Set up an interview or make a decision')
         expect(result.css('.govuk-button').first.text).to eq('Set up interview')
-        expect(result.css('.govuk-button').last.text).to eq('Make decision')
+        expect(result.css('.govuk-button--secondary').last.text).to eq('Make decision')
         expect(result.css('.govuk-inset-text').text).to include(
           "This application will be automatically rejected if a decision has not been made by the end of tomorrow (#{reject_by_default_at.to_s(:govuk_date_and_time)}).",
         )

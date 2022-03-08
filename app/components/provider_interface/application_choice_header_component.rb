@@ -96,6 +96,10 @@ module ProviderInterface
       end
     end
 
+    def make_decision_button_class
+      "govuk-!-margin-bottom-0#{' govuk-button--secondary' if set_up_interview?}"
+    end
+
   private
 
     def application_navigation_item
