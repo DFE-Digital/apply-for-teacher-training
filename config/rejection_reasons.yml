@@ -10,9 +10,9 @@
   - :id: no_science_gcse
     :label: No science GCSE at minimum grade 4 or C, or equivalent
   - :id: no_degree
-    :label: No bachelor’s or equivalent
-  - :id: unsuitable_degree
     :label: No bachelor’s degree or equivalent
+  - :id: unsuitable_degree
+    :label: Degree does not meet course requirements
     :details:
       :id: unsuitable_degree_details
       :label: Details
