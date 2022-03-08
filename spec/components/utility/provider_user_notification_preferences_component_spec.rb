@@ -4,33 +4,15 @@ RSpec.describe ProviderUserNotificationPreferencesComponent do
   let(:provider_user) { create(:provider_user) }
   let(:notification_preferences) { provider_user.notification_preferences }
 
-  context 'when the :make_decision_reminder_notification_setting feature flag is on' do
-    before { FeatureFlag.activate(:make_decision_reminder_notification_setting) }
+  it 'renders correct labels for notification preferences' do
+    result = render_inline(described_class.new(notification_preferences, form_path: '/provider/account/notification-settings'))
 
-    it 'renders correct labels for notification preferences' do
-      result = render_inline(described_class.new(notification_preferences, form_path: '/provider/account/notification-settings'))
-
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[0].text).to include('Application received')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[1].text).to include('Application withdrawn by candidate')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[2].text).to include('Reminder to make a decision 20 working days before automatic rejection')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[3].text).to include('Application automatically rejected')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[4].text).to include('Offer accepted')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[5].text).to include('Offer declined')
-    end
-  end
-
-  context 'when the :make_decision_reminder_notification_setting feature flag is off' do
-    before { FeatureFlag.deactivate(:make_decision_reminder_notification_setting) }
-
-    it 'renders correct labels for notification preferences' do
-      result = render_inline(described_class.new(notification_preferences, form_path: '/provider/account/notification-settings'))
-
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[0].text).to include('Application received')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[1].text).to include('Application withdrawn by candidate')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[2].text).to include('Application automatically rejected')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[3].text).to include('Offer accepted')
-      expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[4].text).to include('Offer declined')
-    end
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[0].text).to include('Application received')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[1].text).to include('Application withdrawn by candidate')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[2].text).to include('Reminder to make a decision 20 working days before automatic rejection')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[3].text).to include('Application automatically rejected')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[4].text).to include('Offer accepted')
+    expect(result.css(:legend, '#govuk-fieldset__legend govuk-fieldset__legend--m')[5].text).to include('Offer declined')
   end
 
   it 'renders on and off radio buttons' do

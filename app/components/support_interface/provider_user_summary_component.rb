@@ -38,7 +38,7 @@ module SupportInterface
     end
 
     def notification_preferences_rows
-      ProviderUserNotificationPreferences.notification_preferences.map do |type|
+      ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.map do |type|
         { preference: t("provider_user_notification_preferences.#{type}.legend"), active: provider_user.notification_preferences.send(type) ? 'Yes' : 'No' }
       end
     end

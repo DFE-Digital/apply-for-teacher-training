@@ -50,13 +50,13 @@ RSpec.feature 'Managing provider user notification preferences' do
   end
 
   def then_i_can_see_all_notifications_are_on_by_default
-    ProviderUserNotificationPreferences.notification_preferences.each do |type|
+    ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
       expect(find(:css, "#provider-user-notification-preferences-#{type.to_s.dasherize}-true-field")).to be_checked
     end
   end
 
   def when_i_update_all_notifications_to_be_off
-    ProviderUserNotificationPreferences.notification_preferences.each do |type|
+    ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |type|
       choose "provider-user-notification-preferences-#{type.to_s.dasherize}-false-field"
     end
     click_on 'Save settings'
