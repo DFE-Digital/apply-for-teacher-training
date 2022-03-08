@@ -28,7 +28,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupListComponent do
 
   context 'when there is a single main provider' do
     it 'renders the correct intro text' do
-      expect(render.css('p').first.text.squish).to eq('Candidates can now apply through GOV.UK for courses Main provider works on with:')
+      expect(render.css('p').first.text.squish).to eq('Candidates can now apply for courses Main provider works on with:')
     end
 
     it 'renders the providers in order' do
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::OrganisationPermissionsSetupListComponent do
     end
 
     it 'renders the correct intro text' do
-      expect(render.css('p')[0].text.squish).to eq('Candidates can now apply through GOV.UK for courses you work on with partner organisations.')
+      expect(render.css('p')[0].text.squish).to eq('Candidates can now apply for courses you work on with partner organisations.')
     end
 
     it 'renders the text about managing applications' do

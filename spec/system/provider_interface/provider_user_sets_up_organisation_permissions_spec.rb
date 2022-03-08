@@ -81,7 +81,7 @@ RSpec.feature 'Setting up organisation permissions' do
 
   def then_i_can_see_the_organisations_needing_permissions_setup
     expect(page).to have_content('Set up organisation permissions')
-    expect(page).to have_content('Candidates can now apply through GOV.UK for courses you work on with partner organisations')
+    expect(page).to have_content('Candidates can now apply for courses you work on with partner organisations')
     expect(page).to have_content("For #{@training_provider.name}, you need to set up permissions for courses you work on with:")
     expect(page).to have_content(@another_ratifying_provider.name)
     expect(page).to have_content("For #{@ratifying_provider.name}, you need to set up permissions for courses you work on with:")
