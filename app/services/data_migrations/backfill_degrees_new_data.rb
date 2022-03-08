@@ -1,7 +1,7 @@
 module DataMigrations
   class BackfillDegreesNewData
     TIMESTAMP = 20220307165548
-    MANUAL_RUN = false
+    MANUAL_RUN = true
 
     def change
       ApplicationQualification.degree.find_each do |qualification|
