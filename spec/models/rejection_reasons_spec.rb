@@ -60,7 +60,7 @@ RSpec.describe RejectionReasons do
 
   describe '#single_attribute_names' do
     it 'returns an array of all single attribute names' do
-      expect(instance.single_attribute_names.sort).to eq(%i[aa ab ad bd])
+      expect(instance.single_attribute_names.sort).to eq(%i[ad bd])
     end
   end
 
@@ -72,7 +72,7 @@ RSpec.describe RejectionReasons do
 
   describe '#attribute_names' do
     it 'returns an array of all attribute names' do
-      expect(instance.attribute_names.sort).to eq(%i[a_selected_reasons aa ab ad bd selected_reasons])
+      expect(instance.attribute_names.sort).to eq(%i[a_selected_reasons ad bd selected_reasons])
     end
   end
 

@@ -27,7 +27,7 @@ class RejectionReasons
   end
 
   def single_attribute_names
-    (nested_reasons + details).map(&:id).map(&:to_sym)
+    details.map(&:id).map(&:to_sym)
   end
 
   def collection_attribute_names
