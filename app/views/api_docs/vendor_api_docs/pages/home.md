@@ -31,7 +31,7 @@ We are exploring the addition of those features, and may support them in later A
 
 ### Course data
 
-The source of course data such as provider codes, course codes, training locations, vacancy status and study modes for both Apply and UCAS Teacher Training is the DfE [Teacher Training Courses API](https://api.publish-teacher-training-courses.service.gov.uk/docs/). This data is managed via [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/sign-in).
+The source of course data such as provider codes, course codes, training locations, vacancy status and study modes for both Apply and UCAS Teacher Training is the DfE [Teacher Training Courses API](https://api.publish-teacher-training-courses.service.gov.uk/). This data is managed via [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/sign-in).
 
 ### Application data
 
