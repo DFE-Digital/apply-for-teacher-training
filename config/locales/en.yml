@@ -116,13 +116,18 @@ en:
     destroy_work_history_break: Are you sure you want to delete this entry?
     add_job: Add job
     degree: Degree
+    degree_country: Which country was the degree from?
     degree_completion_status: Have you completed your degree?
     degree_grade: What grade is your degree?
     degree_grade_predicted: What grade do you think you’ll get?
     degree_grade_international: Did your degree give a grade?
     degree_grade_international_predicted: Will your degree give a grade?
     degree_institution: Which institution did you study at?
+    degree_level: What type of degree is it?
+    degree_university: Which university awarded your degree?
     degree_subject: What subject is your degree?
+    degree_type_uk: What type of %{type} is it?
+    degree_type_international: What type of degree is it?
     degree_enic: How your degree compares to a UK degree
     add_undergraduate_degree: Add undergraduate degree
     what_year_did_you_start_your_degree: What year did you start your degree?

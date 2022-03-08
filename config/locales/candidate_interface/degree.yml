@@ -14,6 +14,8 @@ en:
           undergraduate: For example, BA, BSc or other
           another: For example, Masters, PhD, or other
           all: For example, BA, BSc, Masters, PhD, or other
+      type_of_degree:
+        review_label: Type of %{degree}
       international_qualification_type:
         label: Type of qualification
         review_label: Degree type
@@ -23,17 +25,28 @@ en:
         review_label: Subject
         hint_text: For example, History with French, Maths, Film studies
         change_action: subject
+        hint: Type your own or select from the suggestions. For example, ‘French and History’ or ‘Mathematics’.
       international_institution_name:
         label: Institution name
       institution_name:
         label: Which institution did you study at?
         review_label: Institution
         change_action: institution
+      university:
+        hint: Type your own or select from the suggestions. For example, ’Open University’
       institution_country:
         label: In which country or territory is this institution based?
         review_label: Institution
         change_action: institution
       grade:
+        legend:
+          uk: What grade %{complete}?
+          non_uk: "%{complete} your degree give a grade?"
+        label:
+          completed: What grade did you get?
+          not_completed: What grade do you expect to get?
+        hint:
+          not_completed: Your expected grade should be confirmed by an academic referee.
         review_label: Grade
         review_label_predicted: Predicted grade
         change_action: grade
@@ -58,13 +71,16 @@ en:
         label: Graduation year
         hint_text: "For example, %{example_year}"
         review_label: Graduation year
-        change_action: year
-
+        change_action: year 
+        new_label: What year %{did_or_will} you graduate?
+        new_hint: For example, 2019
       review:
         complete_hint_text: Check the entry requirements for your chosen course. Providers usually ask for a degree at 2:2 or above. Contact the training provider if you do not have the right degree level.
         not_specified: Not entered
       another:
         button: Add another degree
+      add: 
+        button: Add a degree
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
       enic_statement:
@@ -88,7 +104,8 @@ en:
           masters_degree: Master’s degree / Integrated Master’s degree
           doctor_of_philosophy: Doctor of Philosophy degree
           post_doctoral_award: Post Doctoral award
-
+      level:
+        bachelor_degree: Sometimes referred to as an ‘undergraduate’ or ‘first’ degree, this is the minimum level required to be eligible for teacher training.
   activemodel:
     errors:
       models:
@@ -151,3 +168,46 @@ en:
               invalid_year: Enter a real graduation year
               in_the_future: Enter a year that is the current year or a year in the future
               in_time_for_training: The date you graduate must be before the start of your teacher training
+        candidate_interface/degree_wizard:
+          attributes:
+            uk_or_non_uk:
+              blank: Select if the degree was from the United Kingdom or another country
+            country:
+              blank: Select which country the degree was from
+            level:
+              blank: Select your degree type
+            equivalent_level:
+              blank: Enter your equivalent degree qualification type
+              too_long: Your qualification must be %{count} characters or fewer
+            subject:
+              blank: Enter your degree subject
+              subject: Your degree subject must be %{count} characters or fewer
+            type:
+              blank: Select your degree type
+            international_type:
+              blank: Enter your degree type 
+              too_long: Your degree type must be %{count} characters or fewer
+            other_type:
+              blank: Enter another degree type
+              too_long: Your degree type must be %{count} characters or fewer
+            completed:
+              blank: Select whether you have completed your degree
+            university:
+              blank: Enter the institution where you studied
+            grade:
+              blank: Select your degree grade
+            other_grade:
+              blank: Enter your degree grade
+              too_long: Your degree grade must be %{count} characters or fewer
+            start_year:
+              blank: Enter your start year
+              after_the_award_year: Enter a start year before your graduation year
+            award_year:
+              blank: Enter your graduation year
+              before_the_start_year: Enter a graduation year after your start year
+            have_enic_reference:
+              blank: Select whether you have a UK ENIC reference number or not
+            enic_reference:
+              blank: Enter the UK ENIC reference number
+            comparable_uk_degree:
+              blank: Select the comparable UK degree
