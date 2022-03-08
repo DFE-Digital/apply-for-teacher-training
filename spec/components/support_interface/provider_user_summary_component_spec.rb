@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::ProviderUserSummaryComponent do
   end
 
   it "renders the provider user's notifications" do
-    ProviderUserNotificationPreferences.notification_preferences.each do |notification_preference|
+    ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |notification_preference|
       expect(rendered_component.squish).to include(t("provider_user_notification_preferences.#{notification_preference}.legend"))
     end
   end
