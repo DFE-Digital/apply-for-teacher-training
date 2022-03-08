@@ -329,6 +329,36 @@ Rails.application.routes.draw do
       end
 
       scope '/degrees' do
+        get '/country' => 'degrees/degree#new_country', as: :degrees_country
+        post '/country' => 'degrees/degree#update_country'
+
+        get '/level' => 'degrees/degree#new_level', as: :degrees_level
+        post '/level' => 'degrees/degree#update_level'
+
+        get '/subject' => 'degrees/degree#new_subject', as: :degrees_subject
+        post '/subject' => 'degrees/degree#update_subject'
+
+        get '/grade' => 'degrees/degree#new_grade', as: :degrees_grade
+        post '/grade' => 'degrees/degree#update_grade'
+
+        get '/start-year' => 'degrees/degree#new_start_year', as: :degrees_start_year
+        post '/start-year' => 'degrees/degree#update_start_year'
+
+        get '/graduation-year' => 'degrees/degree#new_award_year', as: :degrees_award_year
+        post '/graduation-year' => 'degrees/degree#update_award_year'
+
+        get '/enic' => 'degrees/degree#new_enic', as: :degrees_enic
+        post '/enic' => 'degrees/degree#update_enic'
+
+        get '/types' => 'degrees/degree#new_type', as: :degrees_type
+        post '/types' => 'degrees/degree#update_type'
+
+        get '/university' => 'degrees/degree#new_university', as: :degrees_university
+        post '/university' => 'degrees/degree#update_university'
+
+        get  '/completed' => 'degrees/degree#new_completed', as: :degrees_completed
+        post '/completed' => 'degrees/degree#update_completed'
+
         get '/type/(:id)' => 'degrees/type#new', as: :new_degree
         post '/type/(:id)' => 'degrees/type#create'
         get '/:id/type/edit' => 'degrees/type#edit', as: :edit_degree_type
