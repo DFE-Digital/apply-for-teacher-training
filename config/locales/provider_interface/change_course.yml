@@ -17,3 +17,11 @@ en:
         edit:
           title: Location
           caption: Update course - %{name}
+      checks:
+        edit:
+          title: Check details and update course
+          caption: Update course - %{name}
+          submit: Update course
+      update:
+        success: Course updated
+        failure: Unable to update course
