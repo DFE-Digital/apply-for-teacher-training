@@ -7,10 +7,11 @@ module ProviderInterface
 
     attr_reader :application_choice, :provider_name_and_code, :course_name_and_code,
                 :cycle, :preferred_location, :study_mode, :qualification, :available_providers,
-                :available_courses, :course, :available_course_options
+                :available_courses, :course, :available_course_options, :course_option
 
-    def initialize(application_choice:, course: nil, available_providers: [], available_courses: [], available_course_options: [])
+    def initialize(application_choice:, course_option: nil, course: nil, available_providers: [], available_courses: [], available_course_options: [])
       @application_choice = application_choice
+      @course_option = course_option
       @provider_name_and_code = application_choice.provider.name_and_code
       @course_name_and_code = application_choice.course.name_and_code
       @cycle = application_choice.course.recruitment_cycle_year
