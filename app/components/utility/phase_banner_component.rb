@@ -18,7 +18,7 @@ class PhaseBannerComponent < ViewComponent::Base
       if current_namespace == 'candidate_interface'
         govuk_link_to(t('layout.support_links.candidate_complaints'), candidate_interface_complaints_path, class: 'govuk-link--no-visited-state')
       else
-        "This is a new service – #{govuk_link_to('your feedback will help us improve it', @feedback_link, class: 'govuk-link--no-visited-state')}".html_safe
+        "This is a new service – your #{govuk_link_to('feedback', @feedback_link, class: 'govuk-link--no-visited-state')} will help us improve it".html_safe
       end
     when 'staging'
       'This is an internal environment used by DfE to test deploys'
