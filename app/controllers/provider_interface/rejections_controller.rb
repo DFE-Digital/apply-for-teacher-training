@@ -1,23 +1,23 @@
 module ProviderInterface
-  class RejectionReasonsController < ProviderInterfaceController
+  class RejectionsController < ProviderInterfaceController
     before_action :check_feature_flag
     before_action :set_application_choice
     before_action :check_application_is_rejectable
 
-    def edit
-      @wizard = wizard_class.new(store, current_step: 'edit')
+    def new
+      @wizard = wizard_class.new(store, current_step: 'new')
       @wizard.save_state!
     end
 
-    def update
-      @wizard = wizard_class.new(store, rejection_reasons_params.merge(current_step: 'edit'))
+    def create
+      @wizard = wizard_class.new(store, rejection_reasons_params.merge(current_step: 'new'))
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
         redirect_to action: @wizard.next_step
       else
         track_validation_error(@wizard)
-        render :edit
+        render :new
       end
     end
 

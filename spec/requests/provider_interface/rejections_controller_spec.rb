@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::RejectionReasonsController, type: :request do
+RSpec.describe ProviderInterface::RejectionsController, type: :request do
   include DfESignInHelpers
   include ModelWithErrorsStubHelper
 
@@ -33,7 +33,7 @@ RSpec.describe ProviderInterface::RejectionReasonsController, type: :request do
       let(:status) { 'awaiting_provider_decision' }
 
       it 'responds with 200' do
-        get provider_interface_edit_rejection_reasons_path(application_choice)
+        get new_provider_interface_rejection_path(application_choice)
 
         expect(response.status).to eq(200)
       end
@@ -43,7 +43,7 @@ RSpec.describe ProviderInterface::RejectionReasonsController, type: :request do
       let(:status) { 'rejected' }
 
       it 'responds with 404' do
-        get provider_interface_edit_rejection_reasons_path(application_choice)
+        get new_provider_interface_rejection_path(application_choice)
 
         expect(response.status).to eq(404)
       end
@@ -55,7 +55,7 @@ RSpec.describe ProviderInterface::RejectionReasonsController, type: :request do
       it 'responds with 404' do
         FeatureFlag.deactivate(:structured_reasons_for_rejection_redesign)
 
-        get provider_interface_edit_rejection_reasons_path(application_choice)
+        get new_provider_interface_rejection_path(application_choice)
 
         expect(response.status).to eq(404)
       end
