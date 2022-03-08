@@ -3,7 +3,7 @@ module ProviderInterface
     include Wizard
     include Wizard::PathHistory
 
-    STEPS = %i[select_option providers courses study_modes locations].freeze
+    STEPS = %i[select_option providers courses study_modes locations check].freeze
 
     attr_accessor :path_history, :provider_id, :decision, :application_choice_id,
                   :course_option_id, :course_id, :provider_user_id, :study_mode
