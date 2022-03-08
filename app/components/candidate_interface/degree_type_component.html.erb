@@ -1,0 +1,23 @@
+<% content_for :title, title_with_error_prefix(@wizard.uk_or_non_uk == 'uk' ? t('page_titles.degree_type_uk', type: degree_level.downcase) : t('page_titles.degree_type_international'), @wizard.errors.any?) %>
+<%= form_with model: @wizard, url: candidate_interface_degrees_type_path do |form| %>
+  <%= form.govuk_error_summary %>
+  <% if @wizard.uk_or_non_uk == 'uk' %>
+    <%= form.govuk_radio_buttons_fieldset :type, legend: { text: "What type of #{degree_level.downcase} is it?", size: 'l' } do %>
+
+      <% find_degree_type_options.each do |type| %>
+        <%= form.govuk_radio_button :type, type, label: { text: type } %>
+      <% end %>
+
+      <%= form.govuk_radio_divider %>
+
+      <%= form.govuk_radio_button :type, "Another #{degree_level.downcase} degree type", label: { text: "Another #{degree_level.downcase} degree type" } do %>
+        <%= form.govuk_text_field :other_type, label: { text: 'Degree type', size: 'm' }, hint: { text: "For example, #{map_hint}" } %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= form.govuk_fieldset legend: { text: t('page_titles.degree_type_international'), size: 'l' } do %>
+      <%= form.govuk_text_field :international_type, hint: { text: t('application_form.degree.international_qualification_type.hint_text') }, label: -> {} %>
+    <% end %>
+  <% end %>
+    <%= form.govuk_submit t('save_and_continue') %>
+<% end %>
