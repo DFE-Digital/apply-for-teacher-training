@@ -178,35 +178,12 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
 
       row_data = rows(languages_form: languages_form)
       keys = row_data.map { |row| row[:key] }
-      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Immigration status']
+      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Do you have the right to work or study in the UK?']
     end
   end
 
-  context 'when the candidate has selected they have the right to work' do
-    it 'renders the right to work row' do
-      nationalities_form = build(
-        :nationalities_form,
-        first_nationality: 'German',
-      )
-      right_to_work_form = build(
-        :right_to_work_form,
-        right_to_work_or_study: 'yes',
-        right_to_work_or_study_details: 'I have the right.',
-      )
-
-      expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
-        row_for(
-          :right_to_work,
-          'I have the right to work or study in the UK<br> <p>I have the right.</p>',
-          candidate_interface_edit_right_to_work_or_study_path('return-to' => 'application-review'),
-          'personal_details_right_to_work_or_study',
-        ),
-      )
-    end
-  end
-
-  context 'when the candidate has selected they have the right to work or study in 2022' do
-    let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
+  context 'when the candidate has selected they have the right to work or study' do
+    let(:default_application_form) { build(:application_form) }
 
     it 'renders the right to work row' do
       nationalities_form = build(
@@ -216,7 +193,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
 
       application_form = build(
         :application_form,
-        recruitment_cycle_year: 2022,
         immigration_right_to_work: true,
         immigration_status: 'other',
         immigration_status_details: 'I have permanent residence',

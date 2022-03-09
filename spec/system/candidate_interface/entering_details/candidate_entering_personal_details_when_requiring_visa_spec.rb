@@ -53,7 +53,7 @@ RSpec.feature 'Entering personal details' do
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'Pakistani'
-    expect(page).to have_content 'I will need to apply for permission to work or study in the UK'
+    expect(page).to have_content 'Do you have the right to work or study in the UK?'
   end
 
   def and_i_can_mark_the_section_complete

@@ -250,7 +250,7 @@ module CandidateHelper
       )
 
       application_form = ApplicationForm.last
-      if application_form.restructured_immigration_status?
+      if application_form.restructured_immigration_status? || FeatureFlag.active?(:immigration_entry_date)
         click_button t('save_and_continue')
         fill_in 'Day', with: '24'
         fill_in 'Month', with: '6'
@@ -264,7 +264,6 @@ module CandidateHelper
       end
     end
     click_button t('save_and_continue')
-
     choose t('application_form.completed_radio')
     click_button t('continue')
   end
