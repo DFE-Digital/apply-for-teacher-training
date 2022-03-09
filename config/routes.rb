@@ -780,6 +780,7 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#confirm_authentication_with_token', as: :confirm_authentication_with_token
     post '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
+    post '/request-new-token' => 'sessions#request_new_token', as: :request_new_token
 
     get '/account' => 'account#show'
 
@@ -1132,6 +1133,7 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#confirm_authentication_with_token', as: :confirm_authentication_with_token
     post '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
+    post '/request-new-token' => 'sessions#request_new_token', as: :request_new_token
 
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
