@@ -12,12 +12,12 @@ class RejectionReasons
     end
 
     def text_present
-      errors.add(id, 'Please give details') if text.blank?
+      errors.add(id, RejectionReasons.translated_error(id, :blank)) if text.blank?
     end
 
     def word_count
       if text.present? && text.scan(/\S+/).size > WORD_COUNT
-        errors.add(id, 'Details are too long')
+        errors.add(id, RejectionReasons.translated_error(id, :size))
       end
     end
   end

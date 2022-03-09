@@ -4,7 +4,65 @@ en:
       models:
         provider_interface/rejections_wizard:
           attributes:
-            qualifications_selected_reasons: Select at least one reason related to qualifications
-            personal_statement_selected_reasons: Select at least one reason related to the personal statement
-            teaching_knowledge_selected_reasons: Select at least one reason related to teaching knowledge
-            communication_and_scheduling_selected_reasons: Select at least one reason related to communication and scheduling
+            selected_reasons: Select reasons for rejecting the application
+            qualifications_selected_reasons: Select reasons related to qualifications
+            personal_statement_selected_reasons: Select reasons related to personal statement
+            teaching_knowledge_selected_reasons: Select reasons related to teaching knowledge and ability
+            communication_and_scheduling_selected_reasons: Select reasons related to communication, attendance and scheduling
+            unsuitable_degree_details:
+              blank: Enter details about how the degree does not meet course requirements
+              size: Details about how the degree does not meet course requirements must be 100 words or fewer
+            unverified_qualifications_details:
+              blank: Enter details about qualifications which could not be verified
+              size: Details about unverified qualifications must be 100 words or fewer
+            qualifications_other_details:
+              blank: Enter details about reasons related to qualifications
+              size: Details about reasons related to qualifications must be 100 words or fewer
+            quality_of_writing_details:
+              blank: Enter details about quality of writing
+              size: Details about quality of writing must be 100 words or fewer
+            personal_statement_other_details:
+              blank: Enter details about reasons related to personal statement
+              size: Details about reasons related to personal statement must be 100 words or fewer
+            subject_knowledge_details:
+              blank: Enter details about subject knowledge
+              size: Details about subject knowledge must be 100 words or fewer
+            safeguarding_knowledge_details:
+              blank: Enter details about safeguarding knowledge
+              size: Details about safeguarding knowledge must be 100 words or fewer
+            teaching_method_knowledge_details:
+              blank: Enter details about teaching method knowledge
+              size: Details about teaching method knowledge must be 100 words or fewer
+            teaching_role_knowledge_details:
+              blank: Enter details about teaching role knowledge
+              size: Details about teaching role knowledge must be 100 words or fewer
+            teaching_demonstration_knowledge_details:
+              blank: Enter details about teaching demonstration knowledge
+              size: Details about teaching demonstration knowledge must be 100 words or fewer
+            teaching_knowledge_other_details:
+              blank: Enter details about teaching knowledge and ability
+              size: Details about teaching knowledge and ability must be 100 words or fewer
+            did_not_reply_details:
+              blank: Enter details about the candidate not replying to messages
+              size: Details about the candidate not replying to messages must be 100 words or fewer
+            did_not_attend_interview_details:
+              blank: Enter details about the candidate not attending interview
+              size: Details about the candidate not attending interview must be 100 words or fewer
+            could_not_arrange_interview_details:
+              blank: Enter details about not being able to arrange interview
+              size: Details about not being able to arrange interview must be 100 words or fewer
+            communication_and_scheduling_other_details:
+              blank: Enter details about communication, attendance and scheduling
+              size: Details about communication, attendance and scheduling must be 100 words or fewer
+            references_details:
+              blank: Enter details about references
+              size: Details about references must be 100 words or fewer
+            safeguarding_details:
+              blank: Enter details about safeguarding
+              size: Details about safeguarding must be 100 words or fewer
+            visa_sponsorship_details:
+              blank: Enter details about visa sponsorship
+              size: Details about visa sponsorship must be 100 words or fewer
+            other_details:
+              blank: Enter details about reasons for rejecting the application
+              size: Details about reasons for rejecting the application must be 100 words or fewer

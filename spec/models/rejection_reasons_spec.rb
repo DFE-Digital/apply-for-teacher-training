@@ -106,4 +106,16 @@ RSpec.describe RejectionReasons do
       expect(nested_selected_reasons.first.details.text).to eq('Some details')
     end
   end
+
+  describe '.translated_error' do
+    it 'provides the error message for the given key' do
+      expect(described_class.translated_error(:qualifications_selected_reasons)).to eq('Select reasons related to qualifications')
+    end
+
+    it 'provides the error message for the given key and error type' do
+      expect(described_class.translated_error(:unsuitable_degree_details, :size)).to eq(
+        'Details about how the degree does not meet course requirements must be 100 words or fewer',
+      )
+    end
+  end
 end

@@ -27,8 +27,10 @@ class RejectionReasons
     end
 
     def reasons_selected
-      key = (selected_reasons_attr_name || :base)
-      errors.add(key, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{selected_reasons_attr_name}")) if selected_reasons && selected_reasons.empty?
+      if selected_reasons && selected_reasons.empty?
+        key = (selected_reasons_attr_name || :base)
+        errors.add(key, RejectionReasons.translated_error(selected_reasons_attr_name))
+      end
     end
 
     def selected_reasons_attr_name
