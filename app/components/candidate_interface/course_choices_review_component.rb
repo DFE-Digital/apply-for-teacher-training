@@ -246,7 +246,7 @@ module CandidateInterface
 
     def immigration_right_to_work?(application_choice)
       application_choice.application_form.british_or_irish? ||
-        application_form.right_to_work_or_study == 'yes'
+        application_form.right_to_work_or_study_yes?
     end
 
     def application_predates_visa_sponsorship_information?(application_choice)
