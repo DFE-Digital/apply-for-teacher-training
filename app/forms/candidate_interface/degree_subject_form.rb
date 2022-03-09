@@ -12,7 +12,7 @@ module CandidateInterface
     def save
       return false unless valid?
 
-      degree.update!(subject: subject, subject_hesa_code: hesa_code)
+      degree.update!(subject: subject, subject_hesa_code: hesa_code, degree_subject_uuid: degree_subject_uuid)
     end
 
     def assign_form_values
@@ -23,7 +23,15 @@ module CandidateInterface
   private
 
     def hesa_code
-      Hesa::Subject.find_by_name(subject)&.hesa_code
+      degree_subject&.hesa_code
+    end
+
+    def degree_subject_uuid
+      degree_subject&.id
+    end
+
+    def degree_subject
+      Hesa::Subject.find_by_name(subject)
     end
   end
 end

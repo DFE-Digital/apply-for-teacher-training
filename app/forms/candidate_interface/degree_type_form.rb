@@ -18,6 +18,7 @@ module CandidateInterface
         international: international?,
         qualification_type: international? ? international_type_description : type_description,
         qualification_type_hesa_code: international? ? nil : hesa_code,
+        degree_type_uuid: degree_type_uuid,
       )
     end
 
@@ -37,6 +38,7 @@ module CandidateInterface
           international: international?,
           qualification_type: international? ? international_type_description : type_description,
           qualification_type_hesa_code: international? ? nil : hesa_code,
+          degree_type_uuid: degree_type_uuid,
         )
       end
     end
@@ -53,7 +55,7 @@ module CandidateInterface
     def type_description_is_for_bachelor_degree?
       return false if international?
 
-      HESA_DEGREE_TYPES.select { |dt| dt[3] == :bachelor }.collect(&:third).include?(type_description)
+      Hesa::DegreeType.all.select(&:bachelor?).map(&:name).include?(type_description)
     end
 
     def current_grade_is_invalid_for_bachelor_degree?
@@ -88,6 +90,10 @@ module CandidateInterface
 
     def uk?
       uk_degree == 'yes'
+    end
+
+    def degree_type_uuid
+      Hesa::DegreeType.find_by_name(type_description)&.id
     end
   end
 end

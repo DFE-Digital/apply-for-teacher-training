@@ -18,6 +18,7 @@ module CandidateInterface
         institution_name: institution_name,
         institution_country: institution_country,
         institution_hesa_code: hesa_code,
+        degree_institution_uuid: degree_institution_uuid,
       )
     end
 
@@ -30,7 +31,15 @@ module CandidateInterface
   private
 
     def hesa_code
-      Hesa::Institution.find_by_name(institution_name)&.hesa_code
+      institution&.hesa_code
+    end
+
+    def degree_institution_uuid
+      institution&.id
+    end
+
+    def institution
+      Hesa::Institution.find_by_name(institution_name)
     end
   end
 end
