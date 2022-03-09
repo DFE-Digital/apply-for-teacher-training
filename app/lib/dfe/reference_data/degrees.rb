@@ -4006,7 +4006,7 @@ module DfE
             dttp_id: 'bf8170f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '100456' },
           '9f8070f0-5dce-e911-a985-000d3ab79618' =>
-          { name: "children's nursing",
+          { name: "Children's nursing",
             synonyms: [],
             dttp_id: '9f8070f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '100280' },
@@ -6436,7 +6436,7 @@ module DfE
             dttp_id: '058770f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '101421' },
           '8f8270f0-5dce-e911-a985-000d3ab79618' =>
-          { name: "men's studies",
+          { name: "Men's studies",
             synonyms: [],
             dttp_id: '8f8270f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '100623' },
@@ -8206,7 +8206,7 @@ module DfE
             dttp_id: '1d8670f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '101258' },
           '358770f0-5dce-e911-a985-000d3ab79618' =>
-          { name: "the Qur'an and Islamic texts",
+          { name: "The Qur'an and Islamic texts",
             synonyms: [],
             dttp_id: '358770f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '101445' },
@@ -8561,7 +8561,7 @@ module DfE
             dttp_id: '7b8770f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '101482' },
           '8d8270f0-5dce-e911-a985-000d3ab79618' =>
-          { name: "women's studies",
+          { name: "Women's studies",
             synonyms: [],
             dttp_id: '8d8270f0-5dce-e911-a985-000d3ab79618',
             hesa_itt_code: '100622' },
