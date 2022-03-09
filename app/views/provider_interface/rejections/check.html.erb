@@ -1,0 +1,9 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+    <div>
+      <%= @wizard.inspect %>
+    </div>
+    <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice) %></p>
+  </div>
+</div>

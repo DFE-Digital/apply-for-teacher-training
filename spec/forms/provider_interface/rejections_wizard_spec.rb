@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::RejectionReasonsWizard do
+RSpec.describe ProviderInterface::RejectionsWizard do
   let(:attrs) { { current_step: 'edit' } }
   let(:store) { instance_double(WizardStateStores::RedisStore) }
 
@@ -24,6 +24,19 @@ RSpec.describe ProviderInterface::RejectionReasonsWizard do
         expect(instance.respond_to?(attr_name)).to be(true)
         expect(instance.respond_to?("#{attr_name}=")).to be(true)
       end
+    end
+  end
+
+  describe 'validations' do
+    it 'checks that rejection reasons are valid' do
+      wizard = described_class.new(store, {
+        selected_reasons: %w[qualifications],
+        qualifications_selected_reasons: %w[no_maths_gcse qualifications_other],
+        qualifications_other_details: '',
+      })
+
+      expect(wizard.valid?).to be false
+      expect(wizard.errors.attribute_names).to eq([:qualifications_other_details])
     end
   end
 end

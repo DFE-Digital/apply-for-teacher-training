@@ -2,7 +2,6 @@
 :reasons:
 - :id: qualifications
   :label: Qualifications
-  :reasons_id: qualifications_reasons
   :reasons:
   - :id: no_maths_gcse
     :label: No maths GCSE at minimum grade 4 or C, or equivalent
@@ -11,9 +10,9 @@
   - :id: no_science_gcse
     :label: No science GCSE at minimum grade 4 or C, or equivalent
   - :id: no_degree
-    :label: No bachelor’s or equivalent
-  - :id: unsuitable_degree
     :label: No bachelor’s degree or equivalent
+  - :id: unsuitable_degree
+    :label: Degree does not meet course requirements
     :details:
       :id: unsuitable_degree_details
       :label: Details
@@ -28,7 +27,6 @@
       :id: qualifications_other_details
       :label: Details
 - :id: personal_statement
-  :reasons_id: personal_statement_reasons
   :label: Personal statement
   :reasons:
   - :id: quality_of_writing
@@ -42,7 +40,6 @@
       :id: personal_statement_other_details
       :label: Details
 - :id: teaching_knowledge
-  :reasons_id: teaching_knowledge_reasons
   :label: Teaching knowledge and ability
   :reasons:
   - :id: subject_knowledge
@@ -53,7 +50,7 @@
   - :id: safeguarding_knowledge
     :label: Safeguarding knowledge
     :details:
-      :id: safeguarding_details
+      :id: safeguarding_knowledge_details
       :label: Details
   - :id: teaching_method_knowledge
     :label: Teaching method knowledge
@@ -76,7 +73,6 @@
       :id: teaching_knowledge_other_details
       :label: Details
 - :id: communication_and_scheduling
-  :reasons_id: communication_and_scheduling_reasons
   :label: Communication, attendance and scheduling
   :reasons:
   - :id: did_not_reply
