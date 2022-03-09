@@ -11,7 +11,7 @@ module CandidateInterface
       @languages_form = CandidateInterface::LanguagesForm.build_from_application(
         application_form,
       )
-      @right_to_work_or_study_form = CandidateInterface::RightToWorkOrStudyForm.build_from_application(
+      @right_to_work_or_study_form = CandidateInterface::ImmigrationRightToWorkForm.build_from_application(
         application_form,
       )
       @editable = editable
