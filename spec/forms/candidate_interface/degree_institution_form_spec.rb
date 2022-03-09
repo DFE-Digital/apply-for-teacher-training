@@ -31,6 +31,21 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
       end
     end
 
+    context 'when institutions match a synonym' do
+      let(:form) do
+        described_class.new(
+          degree: create(:degree_qualification), institution_name: 'The Royal Central School of Speech and Drama'
+        )
+      end
+      before do
+        form.save
+      end
+
+      it 'saves the degree institution uuid' do
+        expect(form.degree.degree_institution_uuid).to eq 'd90a4e73-a141-e811-80ff-3863bb351d40'
+      end
+    end
+
     context 'when institution does not match a HESA entry' do
       let(:form) do
         described_class.new(
