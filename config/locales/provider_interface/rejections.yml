@@ -1,0 +1,10 @@
+en:
+  activemodel:
+    errors:
+      models:
+        provider_interface/rejections_wizard:
+          attributes:
+            qualifications_selected_reasons: Select at least one reason related to qualifications
+            personal_statement_selected_reasons: Select at least one reason related to the personal statement
+            teaching_knowledge_selected_reasons: Select at least one reason related to teaching knowledge
+            communication_and_scheduling_selected_reasons: Select at least one reason related to communication and scheduling

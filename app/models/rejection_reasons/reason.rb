@@ -2,6 +2,8 @@ class RejectionReasons
   class Reason
     include ActiveModel::Model
 
+    TRANSLATION_KEY_PREFIX = 'activemodel.errors.models.provider_interface/rejections_wizard.attributes'.freeze
+
     attr_accessor :id, :details, :label, :reasons, :selected_reasons
 
     validate :reasons_selected
@@ -25,7 +27,8 @@ class RejectionReasons
     end
 
     def reasons_selected
-      errors.add((selected_reasons_attr_name || :base), 'Please select a reason') if selected_reasons && selected_reasons.empty?
+      key = (selected_reasons_attr_name || :base)
+      errors.add(key, I18n.t("#{TRANSLATION_KEY_PREFIX}.#{selected_reasons_attr_name}")) if selected_reasons && selected_reasons.empty?
     end
 
     def selected_reasons_attr_name
