@@ -272,10 +272,6 @@ class ApplicationForm < ApplicationRecord
       FeatureFlag.active?(:restructured_immigration_status)
   end
 
-  def recruitment_cycle_on_or_after_restructured_immigration_starts
-    recruitment_cycle_year >= RESTRUCTURED_IMMIGRATION_STATUS_STARTS
-  end
-
   def build_nationalities_hash
     CandidateInterface::GetNationalitiesFormHash.new(application_form: self).call
   end

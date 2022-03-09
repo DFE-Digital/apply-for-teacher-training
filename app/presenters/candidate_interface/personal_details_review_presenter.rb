@@ -151,82 +151,61 @@ module CandidateInterface
     def right_to_work_rows
       return nil if british_or_irish?
 
-      if @application_form.recruitment_cycle_on_or_after_restructured_immigration_starts
-
-        rows = [
-          {
-            key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
-            value: formatted_immigration_right_to_work,
-            action: (if @editable && !@application_form.immigration_right_to_work.nil?
-                       {
-                         href: candidate_interface_immigration_right_to_work_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_right_to_work',
-              },
+      rows = [
+        {
+          key: I18n.t('application_form.personal_details.immigration_right_to_work.label'),
+          value: formatted_immigration_right_to_work,
+          action: (if @editable && !@application_form.immigration_right_to_work.nil?
+                     {
+                       href: candidate_interface_immigration_right_to_work_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_right_to_work.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_right_to_work',
             },
           },
-        ]
+        },
+      ]
 
-        if @application_form.immigration_status
-          rows << {
-            key: I18n.t('application_form.personal_details.immigration_status.label'),
-            value: formatted_immigration_status,
-            action: (if @editable
-                       {
-                         href: candidate_interface_edit_immigration_status_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_status',
-              },
-            },
-          }
-        end
-
-        if @application_form.immigration_entry_date && FeatureFlag.active?(:immigration_entry_date)
-          rows << {
-            key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
-            value: formatted_immigration_entry_date,
-            action: (if @editable
-                       {
-                         href: candidate_interface_immigration_entry_date_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_entry_date.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_entry_date',
-              },
-            },
-          }
-        end
-
-        rows
-      else
-        [
-          {
-            key: I18n.t('application_form.personal_details.right_to_work.label'),
-            value: formatted_right_to_work_or_study,
-            action: (if @editable
-                       {
-                         href: candidate_interface_edit_right_to_work_or_study_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.right_to_work.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_right_to_work_or_study',
-              },
+      if @application_form.immigration_status
+        rows << {
+          key: I18n.t('application_form.personal_details.immigration_status.label'),
+          value: formatted_immigration_status,
+          action: (if @editable
+                     {
+                       href: candidate_interface_edit_immigration_status_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_status.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_status',
             },
           },
-        ]
+        }
       end
+
+      if @application_form.immigration_entry_date && FeatureFlag.active?(:immigration_entry_date)
+        rows << {
+          key: I18n.t('application_form.personal_details.immigration_entry_date.label'),
+          value: formatted_immigration_entry_date,
+          action: (if @editable
+                     {
+                       href: candidate_interface_immigration_entry_date_path(return_to_params),
+                       visually_hidden_text: I18n.t('application_form.personal_details.immigration_entry_date.change_action'),
+                     }
+                   end),
+          html_attributes: {
+            data: {
+              qa: 'personal_details_immigration_entry_date',
+            },
+          },
+        }
+      end
+
+      rows
     end
 
     def british_or_irish?
