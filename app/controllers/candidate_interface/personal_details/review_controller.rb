@@ -39,7 +39,8 @@ module CandidateInterface
 
       def right_to_work_valid?
         return true if current_application.british_or_irish?
-          @immigration_right_to_work_form.valid?
+
+        @immigration_right_to_work_form.valid?
       end
 
       def hiding_languages?
