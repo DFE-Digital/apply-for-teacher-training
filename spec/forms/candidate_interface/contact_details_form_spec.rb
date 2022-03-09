@@ -110,6 +110,70 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
 
       expect(contact_details.save_address_type(application_form)).to be(false)
     end
+
+    it 'resets the `contact_details_completed` flag if data is incomplete' do
+      form_data = {
+        address_type: 'uk',
+        phone_number: '0123456789',
+        address_line1: '123 Long Road',
+      }
+      application_form = create(
+        :application_form,
+        phone_number: '0123456789',
+        address_type: 'international',
+        address_line1: '123 Long Road',
+        contact_details_completed: true,
+      )
+      contact_details = described_class.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to be(true)
+      expect(application_form.reload.contact_details_completed).to be(false)
+    end
+
+    it 'preserves the `contact_details_completed` flag if data is complete' do
+      form_data = {
+        address_type: 'uk',
+        phone_number: '0123456789',
+        address_line1: '123 Long Road',
+        address_line3: 'Bigtown',
+        postcode: 'BN1 1BN',
+      }
+      application_form = create(
+        :application_form,
+        phone_number: '0123456789',
+        address_type: 'international',
+        address_line1: '123 Long Road',
+        address_line3: 'Bigtown',
+        postcode: 'BN1 1BN',
+        contact_details_completed: true,
+      )
+      contact_details = described_class.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to be(true)
+      expect(application_form.reload.contact_details_completed).to be(true)
+    end
+
+    it 'resets the postcode to nil if changing a UK address to international' do
+      form_data = {
+        address_type: 'international',
+        country: 'FR',
+      }
+      application_form = create(
+        :application_form,
+        phone_number: '0123456789',
+        address_type: 'international',
+        address_line1: '123 Long Road',
+        address_line3: 'Bigtown',
+        postcode: 'BN1 1BN',
+      )
+      contact_details = described_class.new(form_data)
+
+      expect(contact_details.save_address_type(application_form)).to be(true)
+      expect(application_form.reload.address_type).to eq('international')
+      expect(application_form.country).to eq('FR')
+      expect(application_form.address_line1).to eq('123 Long Road')
+      expect(application_form.postcode).to be_nil
+    end
   end
 
   describe 'validations' do

@@ -38,7 +38,7 @@ module CandidateInterface
     def save_base(application_form)
       return false unless valid?(:base)
 
-      application_form.update(phone_number: phone_number)
+      save(application_form, phone_number: phone_number)
     end
 
     def save_address(application_form)
@@ -52,13 +52,14 @@ module CandidateInterface
         postcode: postcode&.upcase,
       }
       attrs[:country] = 'GB' if uk?
-      application_form.update(attrs)
+      save(application_form, attrs)
     end
 
     def save_address_type(application_form)
       return false unless valid?(:address_type)
 
-      application_form.update(
+      save(
+        application_form,
         address_type: address_type,
         country: country,
       )
@@ -101,6 +102,17 @@ module CandidateInterface
 
     def valid_for_submission?
       all_errors.blank?
+    end
+
+  private
+
+    def save(application_form, attributes)
+      attributes[:postcode] = nil if international?
+
+      unless valid_for_submission?
+        attributes = attributes.merge(contact_details_completed: false)
+      end
+      application_form.update(attributes)
     end
   end
 end

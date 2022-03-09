@@ -4,6 +4,7 @@ module CandidateInterface
 
     def show
       @application_form = current_application
+      @can_complete = ContactDetailsForm.build_from_application(current_application).valid_for_submission?
       @section_complete_form = SectionCompleteForm.new(
         completed: current_application.contact_details_completed,
       )
@@ -31,7 +32,7 @@ module CandidateInterface
     end
 
     def details_complete?
-      contact_details_form.valid?(:address) && contact_details_form.valid?(:base)
+      contact_details_form.valid_for_submission?
     end
 
     def contact_details_form
