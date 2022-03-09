@@ -27,7 +27,10 @@ module CandidateInterface
     end
 
     def degree_subject_uuid
-      degree_subject&.id
+      new_data_degree_subject = DfE::ReferenceData::Degrees::SUBJECTS.all.find do |new_data_subject|
+        new_data_subject.name == subject
+      end
+      new_data_degree_subject&.id
     end
 
     def degree_subject
