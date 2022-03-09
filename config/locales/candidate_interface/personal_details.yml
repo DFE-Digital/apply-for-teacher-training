@@ -37,9 +37,6 @@ en:
       immigration_right_to_work:
         label: Do you have the right to work or study in the UK?
         change_action: if you have the right to work or study in the UK
-      immigration_route:
-        label: How will you get the right to work or study in the UK?
-        change_action: how you will get the right to work or study in the UK
       immigration_status:
         label: Immigration status
         change_action: immigration status

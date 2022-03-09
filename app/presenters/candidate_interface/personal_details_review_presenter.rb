@@ -170,23 +170,6 @@ module CandidateInterface
             },
           },
         ]
-        if @application_form.immigration_route
-          rows << {
-            key: I18n.t('application_form.personal_details.immigration_route.label'),
-            value: formatted_immigration_route,
-            action: (if @editable
-                       {
-                         href: candidate_interface_immigration_route_path(return_to_params),
-                         visually_hidden_text: I18n.t('application_form.personal_details.immigration_route.change_action'),
-                       }
-                     end),
-            html_attributes: {
-              data: {
-                qa: 'personal_details_immigration_route',
-              },
-            },
-          }
-        end
 
         if @application_form.immigration_status
           rows << {

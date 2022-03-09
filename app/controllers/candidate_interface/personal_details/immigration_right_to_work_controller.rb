@@ -14,7 +14,7 @@ module CandidateInterface
           if @form.right_to_work_or_study?
             redirect_to candidate_interface_immigration_status_path
           else
-            redirect_to candidate_interface_immigration_route_path
+            redirect_to candidate_interface_personal_details_show_path
           end
         else
           track_validation_error(@form)
