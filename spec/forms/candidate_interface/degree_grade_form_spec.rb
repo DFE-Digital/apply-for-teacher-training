@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
       degree_form = described_class.new(degree: degree, grade: 'Upper second-class honours (2:1)')
 
       degree_form.save
-      expect(degree_form.degree.degree_grade_uuid).to eq(Hesa::Grade.all.second.id)
+      expect(degree_form.degree.degree_grade_uuid).to eq('e2fe18d4-8655-47cf-ab1a-8c3e0b0f078f')
     end
   end
 
