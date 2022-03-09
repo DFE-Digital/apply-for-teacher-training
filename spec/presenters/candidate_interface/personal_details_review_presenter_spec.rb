@@ -208,8 +208,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
   context 'when the candidate has selected they have the right to work or study in 2022' do
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
 
-    before { FeatureFlag.activate(:restructured_immigration_status) }
-
     it 'renders the right to work row' do
       nationalities_form = build(
         :nationalities_form,
@@ -246,8 +244,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
   end
 
   context 'when the candidate has selected they do not have the right to work or study in 2022' do
-    before { FeatureFlag.activate(:restructured_immigration_status) }
-
     let(:default_application_form) { build(:application_form, recruitment_cycle_year: 2022) }
 
     it 'renders the right to work row' do
@@ -271,14 +267,6 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
           'Not yet',
           candidate_interface_immigration_right_to_work_path('return-to' => 'application-review'),
           'personal_details_immigration_right_to_work',
-        ),
-      )
-      expect(rows).to include(
-        row_for(
-          :immigration_route,
-          'A visa sponsored by a course provider.',
-          candidate_interface_immigration_route_path('return-to' => 'application-review'),
-          'personal_details_immigration_route',
         ),
       )
     end
@@ -305,7 +293,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter, mid_cycle: tr
       expect(rows(application_form: application_form, nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
         row_for(
           :right_to_work,
-          "I have the right to work or study in the UK \b<br> <p>I have the right.</p>",
+          'Yes',
           candidate_interface_edit_right_to_work_or_study_path('return-to' => 'applicaton-review'),
           'personal_details_right_to_work_or_study',
         ),
