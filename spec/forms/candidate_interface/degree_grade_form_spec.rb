@@ -12,6 +12,22 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     )
   end
 
+  describe '#save' do
+    let(:degree) do
+      build(
+        :degree_qualification,
+        grade_hesa_code: 2,
+      )
+    end
+
+    it 'sets the grade uuid using the HESA grade description' do
+      degree_form = described_class.new(degree: degree, grade: 'Upper second-class honours (2:1)')
+
+      degree_form.save
+      expect(degree_form.degree.degree_grade_uuid).to eq(Hesa::Grade.all.second.id)
+    end
+  end
+
   describe '#assign_form_values' do
     context 'when the database degree has a grade_hesa_code, for a HESA grade with visual_grouping "main"' do
       let(:degree) do
