@@ -1,5 +1,5 @@
 module ProviderInterface
-  class RejectionReasonsWizard
+  class RejectionsWizard
     include Wizard
 
     validate :valid_rejection_reasons

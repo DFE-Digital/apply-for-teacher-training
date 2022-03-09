@@ -26,12 +26,12 @@ module ProviderInterface
     end
 
     def store
-      key = "rejection_reasons_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      key = "rejections_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
     end
 
     def rejection_reasons_params
-      params.require(:provider_interface_rejection_reasons_wizard).permit(*wizard_class.single_attribute_names, collection_attributes)
+      params.require(:provider_interface_rejections_wizard).permit(*wizard_class.single_attribute_names, collection_attributes)
     end
 
     def collection_attributes
@@ -39,7 +39,7 @@ module ProviderInterface
     end
 
     def wizard_class
-      ::ProviderInterface::RejectionReasonsWizard
+      ::ProviderInterface::RejectionsWizard
     end
 
   private
