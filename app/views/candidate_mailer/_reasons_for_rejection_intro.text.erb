@@ -1,5 +1,9 @@
 <% unless @application_choice.rejected_by_default? %>
 
-  <%= @course.provider.name %> has decided not to make you an offer to study <%= @course.name_and_code %>. They've given feedback to explain this decision.
+  <%= @course.provider.name %> has reviewed your application for <%= @course.name_and_code %>.
+
+  On this occasion, they've decided not to make an offer.
+
+  They've given the following feedback:
 
 <% end %>
