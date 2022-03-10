@@ -234,9 +234,9 @@ module CandidateInterface
     end
 
     def visa_details_row(application_choice)
-      return if immigration_right_to_work?(application_choice) ||
-                application_predates_visa_sponsorship_information?(application_choice) ||
-                !FeatureFlag.active?(:restructured_immigration_status)
+      return if (immigration_right_to_work?(application_choice) ||
+                application_predates_visa_sponsorship_information?(application_choice)) ||
+                provider_can_sponsor_visa?(application_choice)
 
       {
         key: 'Visa sponsorship',
@@ -246,11 +246,21 @@ module CandidateInterface
 
     def immigration_right_to_work?(application_choice)
       application_choice.application_form.british_or_irish? ||
-        application_choice.application_form.immigration_right_to_work?
+        application_form.right_to_work_or_study_yes?
     end
 
     def application_predates_visa_sponsorship_information?(application_choice)
       application_choice.application_form.recruitment_cycle_year < 2022
+    end
+
+    def provider_can_sponsor_visa?(application_choice)
+      (
+        application_choice.course.salary? &&
+          application_choice.provider.can_sponsor_skilled_worker_visa?
+      ) || (
+        !application_choice.course.salary? &&
+          application_choice.provider.can_sponsor_student_visa?
+      )
     end
 
     def status_row(application_choice)

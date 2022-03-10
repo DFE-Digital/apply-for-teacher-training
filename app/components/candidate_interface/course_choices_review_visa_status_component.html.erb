@@ -1,18 +1,12 @@
-<% if can_sponsor_visa? %>
-  <%= title %>
-<% else %>
-  <%= govuk_inset_text(classes: 'app-inset-text--narrow-border app-inset-text--important') do %>
-    <p class="govuk-heading-s app-inset-text__title"><%= title %></p>
+<%= govuk_inset_text(classes: 'app-inset-text--narrow-border app-inset-text--important') do %>
+  <p class="govuk-heading-s app-inset-text__title">Visa sponsorship is not available for this course</p>
 
-    <p class="govuk-body">
-      You said that you do not yet have the right to work or study in the UK.
-    </p>
+  <p class="govuk-body">
+    If you need a Student or Skilled Worker visa to get the right to work or study in the UK, you should
+    <%= govuk_link_to('find a course', t('find_postgraduate_teacher_training.production_url')) %> where sponsorship is available.
+  </p>
 
-    <p class="govuk-body">You can:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>find a course that can sponsor student visas</li>
-      <li>find out about <%= govuk_link_to('other visas that allow you to study in the UK', t('train_to_teach_in_england.url')) %></li>
-    </ul>
-  <% end %>
+  <p class="govuk-body">
+    Check your eligibility for different <%= govuk_link_to('visa types and immigration statuses', t('train_to_teach_in_england.url')) %>.
+  </p>
 <% end %>

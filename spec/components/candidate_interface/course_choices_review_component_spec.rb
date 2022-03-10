@@ -462,10 +462,13 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
   end
 
   describe 'Visa sponsorship details' do
-    context 'in 2022 cycle when the candidate does not need a visa' do
+    context 'when the british candidate does not have the right to work' do
       it 'does NOT render a Visa sponsorship row' do
         application_form = create(
           :completed_application_form,
+          first_nationality: 'British',
+          second_nationality: nil,
+          right_to_work_or_study: 'no',
           recruitment_cycle_year: 2022,
         )
         create(:application_choice, application_form: application_form)
@@ -475,13 +478,13 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
     end
 
-    context 'in 2022 cycle when the candidate needs a visa' do
-      it 'does render a Visa sponsorship row' do
+    context 'when the candidate has the right to work' do
+      it 'does NOT render a Visa sponsorship row' do
         application_form = create(
           :completed_application_form,
           first_nationality: 'Indian',
           second_nationality: nil,
-          immigration_right_to_work: true,
+          right_to_work_or_study: 'yes',
           recruitment_cycle_year: 2022,
         )
         create(:application_choice, application_form: application_form)
@@ -491,30 +494,13 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
     end
 
-    context 'in 2021 cycle when the candidate needs a visa' do
-      it 'does NOT render a Visa sponsorship row' do
+    context 'when the candidate does not have the right to work' do
+      it 'renders a Visa sponsorship row' do
         application_form = create(
           :completed_application_form,
           first_nationality: 'Indian',
           second_nationality: nil,
-          immigration_right_to_work: true,
-          recruitment_cycle_year: 2021,
-        )
-        create(:application_choice, application_form: application_form)
-
-        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
-      end
-    end
-
-    context 'when candidate does not have right to work Feature flag on' do
-      it 'does render a Visa sponsorship row' do
-        FeatureFlag.activate(:restructured_immigration_status)
-        application_form = create(
-          :completed_application_form,
-          first_nationality: 'Indian',
-          second_nationality: nil,
-          immigration_right_to_work: false,
+          right_to_work_or_study: 'no',
           recruitment_cycle_year: 2022,
         )
         create(:application_choice, application_form: application_form)
@@ -524,36 +510,165 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent, mid_cycle: true
       end
     end
 
-    context 'when candidate does not have right to work Feature flag off' do
-      it 'does render a Visa sponsorship row' do
-        FeatureFlag.deactivate(:restructured_immigration_status)
+    context 'when the candidate does not have the right to work and the provider can sponsor a student visa' do
+      it 'does NOT render a Visa sponsorship row' do
+        provider = create(
+          :provider,
+          can_sponsor_student_visa: true,
+        )
+
+        course_option = create(
+          :course_option,
+          course: create(
+            :course,
+            funding_type: 'fee',
+            provider: provider,
+          ),
+        )
+
         application_form = create(
           :completed_application_form,
           first_nationality: 'Indian',
-          second_nationality: nil,
-          immigration_right_to_work: false,
+          right_to_work_or_study: 'no',
           recruitment_cycle_year: 2022,
+          application_choices: [create(
+            :application_choice,
+            course_option: course_option,
+          )],
         )
-        create(:application_choice, application_form: application_form)
 
-        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+        result = render_inline(described_class.new(application_form: application_form))
         expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
       end
     end
 
-    context 'when candidate does have right to work' do
-      it 'does NOT render a Visa sponsorship row' do
+    context 'when the candidate does not have the right to work and the provider can NOT sponsor a student visa' do
+      it 'renders a Visa sponsorship row' do
+        provider = create(
+          :provider,
+          can_sponsor_student_visa: false,
+        )
+
+        course_option = create(
+          :course_option,
+          course: create(
+            :course,
+            funding_type: 'fee',
+            provider: provider,
+          ),
+        )
+
         application_form = create(
           :completed_application_form,
           first_nationality: 'Indian',
-          second_nationality: nil,
-          immigration_right_to_work: true,
+          right_to_work_or_study: 'no',
           recruitment_cycle_year: 2022,
+          application_choices: [create(
+            :application_choice,
+            course_option: course_option,
+          )],
         )
-        create(:application_choice, application_form: application_form)
 
-        result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-        expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
+        result = render_inline(described_class.new(application_form: application_form))
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
+      end
+    end
+
+    context 'when the candidate does not have the right to work and the provider can NOT sponsor a skilled worker visa on a salaried course' do
+      it 'renders a Visa sponsorship row' do
+        provider = create(
+          :provider,
+          can_sponsor_skilled_worker_visa: false,
+        )
+
+        course_option = create(
+          :course_option,
+          course: create(
+            :course,
+            funding_type: 'salary',
+            provider: provider,
+          ),
+        )
+
+        application_form = create(
+          :completed_application_form,
+          first_nationality: 'Indian',
+          right_to_work_or_study: 'no',
+          recruitment_cycle_year: 2022,
+          application_choices: [create(
+            :application_choice,
+            course_option: course_option,
+          )],
+        )
+
+        result = render_inline(described_class.new(application_form: application_form))
+        expect(result.css('.govuk-summary-list__key').text).to include('Visa sponsorship')
+      end
+
+      context 'when the candidate does not have the right to work and the provider can sponsor a skilled worker visa on a salaried course' do
+        it 'renders a Visa sponsorship row' do
+          provider = create(
+            :provider,
+            can_sponsor_skilled_worker_visa: true,
+          )
+
+          course_option = create(
+            :course_option,
+            course: create(
+              :course,
+              funding_type: 'salary',
+              provider: provider,
+            ),
+          )
+
+          application_form = create(
+            :completed_application_form,
+            first_nationality: 'Indian',
+            right_to_work_or_study: 'no',
+            recruitment_cycle_year: 2022,
+            application_choices: [create(
+              :application_choice,
+              course_option: course_option,
+            )],
+          )
+
+          result = render_inline(described_class.new(application_form: application_form))
+          expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
+        end
+      end
+    end
+
+    context '2021 recruitment cycle' do
+      context 'when the candidate does not have the right to work' do
+        it 'does NOT render a Visa sponsorship row' do
+          application_form = create(
+            :completed_application_form,
+            first_nationality: 'Indian',
+            second_nationality: nil,
+            right_to_work_or_study: 'no',
+            recruitment_cycle_year: 2021,
+          )
+          create(:application_choice, application_form: application_form)
+
+          result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+          expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
+        end
+      end
+
+      context 'when the candidate has the right to work' do
+        it 'does NOT render a Visa sponsorship row' do
+          application_form = create(
+            :completed_application_form,
+            first_nationality: 'Indian',
+            second_nationality: nil,
+            right_to_work_or_study: 'yes',
+            recruitment_cycle_year: 2021,
+          )
+          create(:application_choice, application_form: application_form)
+
+          result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+          expect(result.css('.govuk-summary-list__key').text).not_to include('Visa sponsorship')
+        end
       end
     end
   end
