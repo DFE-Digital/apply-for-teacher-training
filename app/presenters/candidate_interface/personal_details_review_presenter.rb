@@ -225,9 +225,7 @@ module CandidateInterface
     end
 
     def formatted_immigration_right_to_work
-      if immigration_right_to_work_form.immigration_right_to_work.nil?
-        ApplicationController.render(CandidateInterface::MissingRightToWorkInsetComponent.new(application_form: @application_form), layout: nil)
-      elsif immigration_right_to_work_form.right_to_work_or_study?
+      if immigration_right_to_work_form.right_to_work_or_study?
         'Yes'
       else
         'Not yet'

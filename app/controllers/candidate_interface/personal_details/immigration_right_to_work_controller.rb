@@ -25,12 +25,9 @@ module CandidateInterface
     private
 
       def right_to_work_params
-        {
-          immigration_right_to_work: params.dig(
-            :candidate_interface_immigration_right_to_work_form,
-            :immigration_right_to_work,
-          ),
-        }
+        strip_whitespace params.require(:candidate_interface_immigration_right_to_work_form).permit(
+          :right_to_work_or_study
+        )
       end
     end
   end
