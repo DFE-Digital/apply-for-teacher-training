@@ -1,51 +1,41 @@
 require 'rails_helper'
 
-RSpec.describe 'A provider authenticates via the fallback mechanism' do
+RSpec.describe 'A provider with an expired DSI fallback link' do
   include DfESignInHelpers
 
-  scenario 'signing in successfully' do
+  scenario 'signs in by requesting a new token' do
     FeatureFlag.activate('dfe_sign_in_fallback')
 
-    given_i_am_registered_as_a_provider_user_without_a_dsi_uid
-    when_i_visit_the_interviews_schedule_path
-    then_i_am_redirected_to_the_provider_sign_in_path
-
-    when_i_provide_my_email_address
-    then_i_do_not_receive_an_email_with_a_signin_link
-
-    when_i_get_a_dsi_uid
+    given_i_am_registered_as_a_provider_user
     when_i_visit_the_interviews_schedule_path
     then_i_am_redirected_to_the_provider_sign_in_path
 
     when_i_provide_my_email_address
     then_i_receive_an_email_with_a_signin_link
+    when_i_visit_the_link_in_my_email
+    then_i_see_a_confirm_sign_in_page
+    when_i_click_on_continue
+    then_i_am_signed_in
 
-    when_i_click_an_incorrect_sign_in_link
-    then_i_see_a_404
+    when_i_sign_out
+    then_i_am_not_signed_in
+
+    when_i_visit_the_link_in_my_email
+    then_i_see_the_expired_token_page
+
+    when_i_request_a_new_token
+    then_i_receive_an_email_with_a_signin_link
 
     when_i_visit_the_link_in_my_email
     then_i_see_a_confirm_sign_in_page
 
     when_i_click_on_continue
     then_i_am_signed_in
-    and_i_am_on_the_interviews_schedule_page
-
-    when_i_sign_out
-    then_i_am_not_signed_in
-
-    given_the_feature_flag_is_switched_off
-    when_i_visit_the_link_in_my_email
-    then_i_do_not_see_a_confirm_sign_in_page
-    and_i_am_asked_to_sign_in_the_normal_way
   end
 
-  def given_i_am_registered_as_a_provider_user_without_a_dsi_uid
+  def given_i_am_registered_as_a_provider_user
     @email = 'provider@example.com'
-    @provider_user = create(:provider_user, email_address: @email, dfe_sign_in_uid: nil, first_name: 'Michael')
-  end
-
-  def when_i_get_a_dsi_uid
-    @provider_user.update(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    @provider_user = create(:provider_user, email_address: @email, dfe_sign_in_uid: 'DFE_SIGN_IN_UID', first_name: 'Michael')
   end
 
   def when_i_visit_the_provider_interface_applications_path
@@ -54,10 +44,6 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
 
   def when_i_visit_the_interviews_schedule_path
     visit provider_interface_interview_schedule_path
-  end
-
-  def and_i_am_on_the_interviews_schedule_page
-    expect(page).to have_current_path(provider_interface_interview_schedule_path)
   end
 
   def then_i_am_redirected_to_the_provider_sign_in_path
@@ -79,17 +65,17 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     expect(current_email.subject).to have_content 'Sign in - manage teacher training applications'
   end
 
-  def when_i_click_an_incorrect_sign_in_link
-    visit provider_interface_authenticate_with_token_path(token: 'NOT_A_REAL_TOKEN')
-  end
-
-  def then_i_see_a_404
-    expect(page).to have_content 'Page not found'
-  end
-
   def when_i_visit_the_link_in_my_email
     uri = URI(current_email.find_css('a').first.text)
     visit "#{uri.path}?#{uri.query}"
+  end
+
+  def then_i_see_the_expired_token_page
+    expect(page).to have_content 'The link you clicked has expired'
+  end
+
+  def when_i_request_a_new_token
+    click_on 'Email me a new link'
   end
 
   def then_i_see_a_confirm_sign_in_page
@@ -110,21 +96,9 @@ RSpec.describe 'A provider authenticates via the fallback mechanism' do
     click_on 'Sign out'
   end
 
-  def given_the_feature_flag_is_switched_off
-    FeatureFlag.deactivate('dfe_sign_in_fallback')
-  end
-
   def then_i_am_not_signed_in
     within 'header' do
       expect(page).not_to have_content @email
     end
-  end
-
-  def then_i_do_not_see_a_confirm_sign_in_page
-    expect(page).not_to have_content 'Confirm sign in'
-  end
-
-  def and_i_am_asked_to_sign_in_the_normal_way
-    expect(page).to have_current_path(provider_interface_sign_in_path)
   end
 end

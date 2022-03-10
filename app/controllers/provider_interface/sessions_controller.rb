@@ -27,15 +27,30 @@ module ProviderInterface
 
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
-      if provider_user && provider_user.dfe_sign_in_uid.present?
-        magic_link_token = provider_user.create_magic_link_token!
-        ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token).deliver_later
-      end
-
-      redirect_to provider_interface_check_your_email_path
+      send_new_authentication_token! provider_user
     end
 
     def check_your_email; end
+
+    def confirm_authentication_with_token
+      if FeatureFlag.active?('dfe_sign_in_fallback')
+        authentication_token = look_up_token params.fetch(:token)
+
+        if authentication_token
+          render :expired_token unless authentication_token.still_valid?
+        else
+          render_404
+        end
+      else
+        redirect_to provider_interface_sign_in_path
+      end
+    end
+
+    def request_new_token
+      authentication_token = look_up_token params.fetch(:token)
+
+      send_new_authentication_token! authentication_token.user
+    end
 
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
@@ -59,6 +74,22 @@ module ProviderInterface
     end
 
   private
+
+    def look_up_token(token)
+      AuthenticationToken.find_by_hashed_token(
+        user_type: 'ProviderUser',
+        raw_token: token,
+      )
+    end
+
+    def send_new_authentication_token!(user)
+      if user && user.dfe_sign_in_uid.present?
+        magic_link_token = user.create_magic_link_token!
+        ProviderMailer.fallback_sign_in_email(user, magic_link_token).deliver_later
+      end
+
+      redirect_to provider_interface_check_your_email_path
+    end
 
     def impersonation?
       ProviderImpersonation.load_from_session(session)
