@@ -243,7 +243,7 @@ module CandidateInterface
 
     def formatted_immigration_status
       if @application_form.immigration_status == 'other'
-        @application_form.immigration_status_details
+        @application_form.right_to_work_or_study_details
       else
         I18n.t("application_form.personal_details.immigration_status.values.#{@application_form.immigration_status}")
       end

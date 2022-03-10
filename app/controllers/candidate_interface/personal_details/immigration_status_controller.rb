@@ -50,7 +50,7 @@ module CandidateInterface
           :candidate_interface_immigration_status_form,
         ).permit(
           :immigration_status,
-          :immigration_status_details,
+          :right_to_work_or_study_details,
         )
       end
     end
