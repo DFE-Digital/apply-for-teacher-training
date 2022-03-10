@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_04_141012) do
+ActiveRecord::Schema.define(version: 2022_03_10_110609) do
 
   create_sequence "qualifications_public_id_seq", start: 120000
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2022_03_04_141012) do
     t.bigint "provider_ids", default: [], array: true
     t.integer "current_recruitment_cycle_year"
     t.boolean "withdrawn_or_declined_for_candidate_by_provider"
+    t.string "rejection_reasons_type", default: "reasons_for_rejection", null: false
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
