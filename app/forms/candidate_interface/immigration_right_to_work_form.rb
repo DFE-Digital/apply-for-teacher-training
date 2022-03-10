@@ -16,14 +16,14 @@ module CandidateInterface
       return false unless valid?
 
       if right_to_work_or_study?
-      application_form.update(
-        right_to_work_or_study: right_to_work_or_study,
-      )
+        application_form.update(
+          right_to_work_or_study: right_to_work_or_study,
+        )
       else
         application_form.update(
-        right_to_work_or_study: right_to_work_or_study,
-        right_to_work_or_study_details: nil,
-        immigration_status: nil,
+          right_to_work_or_study: right_to_work_or_study,
+          right_to_work_or_study_details: nil,
+          immigration_status: nil,
         )
       end
     end

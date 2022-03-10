@@ -26,7 +26,7 @@ module CandidateInterface
 
       def right_to_work_params
         strip_whitespace params.require(:candidate_interface_immigration_right_to_work_form).permit(
-          :right_to_work_or_study
+          :right_to_work_or_study,
         )
       end
     end
