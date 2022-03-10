@@ -8,19 +8,11 @@ on:
 jobs:
   delete-review-app:
     name: Delete Review App ${{ github.event.pull_request.number }}
+    concurrency: deploy_review_${{ github.event.pull_request.number }}
     if: contains(github.event.pull_request.labels.*.name, 'deploy')
     runs-on: ubuntu-latest
     environment: review
     steps:
-      - name: Wait for Deploy App Workflow for review
-        id: wait_for_deployment
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: review-${{ github.event.pull_request.number }} Deployment
-          ref: ${{ github.event.pull_request.head.sha }}
-          timeoutSeconds: 1800
-
       - name: Exit whole workflow if wait was not successful
         if: ${{ steps.wait_for_deployment.outputs.conclusion != '' && steps.wait_for_deployment.outputs.conclusion != 'success' }}
         run: exit 1
